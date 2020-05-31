@@ -1,0 +1,20 @@
+name: hotsos
+version: '1.0'
+summary: Tool create a summary of a sosreport.
+description:
+  Sosreports contain tons of system information and sometimes it is
+  nice to start with a summary of contents that we would typically
+  spend time search for.
+confinement: strict 
+grade: stable
+base: core18
+
+apps:
+  hotsos:
+    command: hotsos.sh
+    plugs: [home, removable-media]
+parts:
+  hotsos:
+    source: .
+    plugin: dump
+    stage-packages: [coreutils, bsdmainutils, jq]
