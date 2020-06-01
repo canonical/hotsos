@@ -1,40 +1,68 @@
 #!/bin/bash -eu
+# Copyright 2020 opentastic@gmail.com
 #
-# Generate a high-level summary of a sosreport.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-declare -a roots=()
-ctg_selected=true
-ctg_brief=true
-ctg_versions=false
-ctg_openstack=false
-ctg_storage=false
-ctg_juju=false
-ctg_kernel=false
-ctg_system=false
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Origin: https://github.com/dosaboy/hotsos
+#
+# Description:
+#  Generate a high-level summary of a sosreport.
+#
+# Authors:
+#  - edward.hope-morley@canonical.com
+#  - opentastic@gmail.com
+
+declare -a sos_paths=()
 write_to_file=false
+
+declare -A PLUGINS=(
+    [versions]=false
+    [openstack]=false
+    [storage]=false
+    [juju]=false
+    [kernel]=false
+    [system]=false
+    [all]=false
+)
 
 usage ()
 {
 cat << EOF
-USAGE: xseg OPTIONS
+USAGE: hotsos [OPTIONS] SOSPATH
 
 OPTIONS
     -h|--help
-        This message
+        This message.
     --juju
-        Include Juju info
+        Include Juju info.
     --openstack
-        Include Openstack services info
+        Include Openstack services info.
     --kernel
-        Include Kernel info
+        Include Kernel info.
     --storage
-        Include storage info including Ceph
+        Include storage info including Ceph.
     --system
-        Include system info
+        Include system info.
     --versions
-        Include software version info
+        Include software version info.
     -s|--save
+        Save output to a file.
     -a|--all
+        Enable all plugins.
+
+SOSPATH
+    Path to a sosreport. Can be provided multiple times.
+
 EOF
 }
 
@@ -45,59 +73,51 @@ while (($#)); do
               exit 0
               ;;
           --versions)
-              ctg_selected=true
-              ctg_versions=true
+              PLUGINS[versions]=true
               ;;
           --juju)
-              ctg_selected=true
-              ctg_juju=true
+              PLUGINS[juju]=true
               ;;
           --openstack)
-              ctg_selected=true
-              ctg_openstack=true
+              PLUGINS[openstack]=true
               ;;
           --storage)
-              ctg_selected=true
-              ctg_storage=true
+              PLUGINS[storage]=true
               ;;
           --kernel)
-              ctg_selected=true
-              ctg_kernel=true
+              PLUGINS[kernel]=true
               ;;
           --system)
-              ctg_selected=true
-              ctg_system=true
+              PLUGINS[system]=true
               ;;
           -s|--save)
               write_to_file=true
               ;;
           -a|--all)
-            ctg_selected=false
+              PLUGINS[all]=true
               ;;
           *)
-              roots+=( $1 )
+              sos_paths+=( $1 )
               ;;
     esac
     shift
 done
 
-if ! $ctg_selected; then
-    ctg_versions=true
-    ctg_openstack=true
-    ctg_storage=true
-    ctg_juju=true
-    ctg_kernel=true
-    ctg_system=true
+((${#sos_paths[@]})) || { usage; exit 1; }
+((${#sos_paths[@]})) || sos_paths=( . )
+
+if ${PLUGINS[all]}; then
+    PLUGINS[versions]=true
+    PLUGINS[openstack]=true
+    PLUGINS[storage]=true
+    PLUGINS[juju]=true
+    PLUGINS[kernel]=true
+    PLUGINS[system]=true
 fi
 
 f_output=`mktemp`
 
-((${#roots[@]})) || roots=( . )
-
-for root in ${roots[@]}; do
-
-sosreport_name=`basename $root`
-
+for root in ${sos_paths[@]}; do
 (
 
 # TODO
@@ -119,7 +139,7 @@ sosreport_name=`basename $root`
 echo -e "## sosreport-summary ##\n" > $f_output
 
 echo -e "hostname:\n  - `cat hostname`" >> $f_output
-if $ctg_versions; then
+if ${PLUGINS[versions]}; then
     echo -e "versions:" >> $f_output
     echo -n "  - ubuntu: " >> $f_output
     sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' etc/lsb-release >> $f_output
@@ -136,7 +156,7 @@ if $ctg_versions; then
     fi
 fi
 
-if $ctg_openstack; then
+if ${PLUGINS[openstack]}; then
     echo -e "openstack:" >> $f_output
 
     # TODO: keep this list up-to-date with services we care about in the context of openstack
@@ -188,7 +208,7 @@ if $ctg_openstack; then
     fi
 fi
 
-if $ctg_storage; then
+if ${PLUGINS[storage]}; then
     echo -e "ceph:" >> $f_output
 
     services=(
@@ -204,10 +224,14 @@ if $ctg_storage; then
             id="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\" ps| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
             [ -z "$out" ] && continue
             for osd_id in `echo $id| tr ',' ' '`;do
-                offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
-                osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "osd fsid"| head -n 1| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
-                osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "devices"| head -n 1| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
-                echo "  - ceph-osd (id=$osd_id) (fsid=$osd_fsid) (device=$osd_device)"
+                echo -n "  - ceph-osd (id=$osd_id)"
+                if [ -e "sos_commands/ceph/ceph-volume_lvm_list" ]; then
+                    offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
+                    osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "osd fsid"| head -n 1| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
+                    osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "devices"| head -n 1| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
+                    echo -n " (fsid=$osd_fsid) (device=$osd_device)"
+                fi
+                echo ""
             done
         done ) >> $f_output
         [ "$hash" = "`md5sum $f_output`" ] && echo "  - null" >> $f_output
@@ -220,6 +244,7 @@ if $ctg_storage; then
     ((${#bcacheinfo[@]})) && [ -n "${bcacheinfo[0]}" ] || bcacheinfo=( "null" )
     block_root=sos_commands/block/udevadm_info_.dev.
     for bcache_name in ${bcacheinfo[@]}; do
+        [[ $bcache_name = "null" ]] && echo $bcache_name && break
         backing_dev_fs_uuid=`sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d' sos_commands/block/udevadm_info_.dev.$bcache_name`
         f=`grep -l ID_FS_UUID=$backing_dev_fs_uuid ./sos_commands/block/udevadm_info_.dev.*`
         backing_dev=${f##*.}
@@ -248,7 +273,7 @@ unit_in_array ()
     echo $@| egrep -q "\s?${unit}\s?"
 }
 
-if $ctg_juju; then
+if ${PLUGINS[juju]}; then
     if [ -d "var/log/juju" ]; then
         echo -e "juju:" >> $f_output
 
@@ -318,13 +343,13 @@ if $ctg_juju; then
     fi
 fi
 
-if $ctg_system; then
+if ${PLUGINS[system]}; then
 echo -e "system:" >> $f_output
 sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo "  {}" >> $f_output
 echo "  - rootfs: `egrep ' /$' df`" >> $f_output
 fi
 
-if $ctg_kernel; then
+if ${PLUGINS[kernel]}; then
     echo -e "kernel:" >> $f_output
     path=proc/cmdline
     if [ -e "$path" ]; then
@@ -349,6 +374,7 @@ fi
 )
 
 if $write_to_file; then
+    sosreport_name=`basename $root`
     out=${sosreport_name}.summary
     mv $f_output $out
     echo "Summary written to $out"
