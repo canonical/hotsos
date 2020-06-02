@@ -1,20 +1,22 @@
-echo -e "kernel:" >> $f_output
+#!/bin/bash
+echo -e "kernel:" >> $F_OUT
+
 path=proc/cmdline
 if [ -e "$path" ]; then
-    cat $path|xargs -l -I{} echo "${indent_str}{}" >> $f_output
+    cat $path|xargs -l -I{} echo "${INDENT_STR}{}" >> $F_OUT
 else
-    echo "${indent_str}$path not found" >> $f_output
+    echo "${INDENT_STR}$path not found" >> $F_OUT
 fi
 
-echo -e "systemd:" >> $f_output
+echo -e "systemd:" >> $F_OUT
 path=sos_commands/systemd/systemctl_show_service_--all
 if [ -e "$path" ]; then
     if `egrep -q "CPUAffinity=.+" $path`; then
-        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${indent_str}{}"  >> $f_output
+        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${INDENT_STR}{}"  >> $F_OUT
     else
-        echo "${indent_str}CPUAffinity not set"  >> $f_output
+        echo "${INDENT_STR}CPUAffinity not set"  >> $F_OUT
     fi
 else
-    echo "${indent_str}null" >> $f_output
+    echo "${INDENT_STR}null" >> $F_OUT
 fi
 

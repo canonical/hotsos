@@ -1,20 +1,20 @@
 #!/bin/bash
-echo -e "ceph:" >> $f_output
+echo -e "ceph:" >> $F_OUT
 
 services=(
-ceph-osd
-ceph-mon
-ceph-mgr
-radosgw
+    ceph-osd
+    ceph-mon
+    ceph-mgr
+    radosgw
 )
 if [ -r "ps" ]; then
-    hash=`md5sum $f_output`
+    hash=`md5sum $F_OUT`
     ( for svc in ${services[@]}; do
         out="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\" ps| sort| uniq| sed -r 's/^\s+/  /g'`"
         id="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\" ps| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
         [ -z "$out" ] && continue
         for osd_id in `echo $id| tr ',' ' '`;do
-            echo -n "${indent_str}ceph-osd (id=$osd_id)"
+            echo -n "${INDENT_STR}ceph-osd (id=$osd_id)"
             if [ -e "sos_commands/ceph/ceph-volume_lvm_list" ]; then
                 offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
                 osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "osd fsid"| head -n 1| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
@@ -23,13 +23,13 @@ if [ -r "ps" ]; then
             fi
             echo ""
         done
-    done ) >> $f_output
-    [ "$hash" = "`md5sum $f_output`" ] && echo "${indent_str}null" >> $f_output
+    done ) >> $F_OUT
+    [ "$hash" = "`md5sum $F_OUT`" ] && echo "${INDENT_STR}null" >> $F_OUT
 else
-    echo "  ps not found - skipping ceph service detection" >> $f_output
+    echo "  ps not found - skipping ceph service detection" >> $F_OUT
 fi
 
-echo "bcache-info:" >> $f_output
+echo "bcache-info:" >> $F_OUT
 readarray -t bcacheinfo<<<"`grep . sos_commands/block/ls_-lanR_.sys.block| egrep 'bcache|nvme'| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 ((${#bcacheinfo[@]})) && [ -n "${bcacheinfo[0]}" ] || bcacheinfo=( "null" )
 block_root=sos_commands/block/udevadm_info_.dev.
@@ -53,5 +53,5 @@ for bcache_name in ${bcacheinfo[@]}; do
     fi
 
     echo $entry
-done| xargs -l -I{} echo "${indent_str}{}" >> $f_output
+done| xargs -l -I{} echo "${INDENT_STR}{}" >> $F_OUT
 

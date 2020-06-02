@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -u
 # Copyright 2020 opentastic@gmail.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,13 +19,17 @@
 #  Generate a high-level summary of a sosreport.
 #
 # Authors:
-#${indent_str}edward.hope-morley@canonical.com
-#${indent_str}opentastic@gmail.com
+#  - edward.hope-morley@canonical.com
+#  - opentastic@gmail.com
 
-indent_str="  - "
+export SOS_ROOT=
+export INDENT_STR="  - "
 declare -a sos_paths=()
 write_to_file=false
 
+# ordered
+declare -a PLUG_KEYS=( versions openstack storage juju kernel system )
+# unordered
 declare -A PLUGINS=(
     [versions]=false
     [openstack]=false
@@ -123,45 +127,43 @@ if ${PLUGINS[all]}; then
     PLUGINS[system]=true
 fi
 
-f_output=`mktemp`
+export F_OUT=`mktemp`
 CWD=`dirname $0`
-for root in ${sos_paths[@]}; do
+for SOS_ROOT in ${sos_paths[@]}; do
 (
+    # TODO
+    #if false && [ "`file -b $SOS_ROOT`" = "XZ compressed data" ]; then
+    #    dtmp=`mktemp -d`
+    #    tar --exclude='*/*' -tf $SOS_ROOT
+    #    sosroot=`tar --exclude='*/*' -tf $SOS_ROOT| sed -r 's,([[:alnum:]\-]+)/*.*,\1,g'| sort -u`
+    #    tar -tf $SOS_ROOT $sosroot/var/log/juju 2>/dev/null > $dtmp/juju
+    #    if (($?==0)); then
+    #        mkdir -p $dtmp/var/log/juju
+    #        mv $dtmp/juju $dtmp/var/log/
+    #    fi
+    #    tree $dtmp
+    #    root=$dtmp
+    #fi
 
-# TODO
-#if false && [ "`file -b $root`" = "XZ compressed data" ]; then
-#    dtmp=`mktemp -d`
-#    tar --exclude='*/*' -tf $root
-#    sosroot=`tar --exclude='*/*' -tf $root| sed -r 's,([[:alnum:]\-]+)/*.*,\1,g'| sort -u`
-#    tar -tf $root $sosroot/var/log/juju 2>/dev/null > $dtmp/juju
-#    if (($?==0)); then
-#        mkdir -p $dtmp/var/log/juju
-#        mv $dtmp/juju $dtmp/var/log/
-#    fi
-#    tree $dtmp
-#    root=$dtmp
-#fi
+    [ -z "$SOS_ROOT" ] || cd $SOS_ROOT
 
-[ -z "$root" ] || cd $root
-
-echo -e "hostname:\n${indent_str}`cat hostname`" > $f_output
-for plugin in ${!PLUGINS[@]}; do
-    [ "$plugin" = "all" ] && continue
-    ${PLUGINS[$plugin]} && . $CWD/plugins/$plugin
-done
+    echo -e "hostname:\n${INDENT_STR}`cat hostname`" > $F_OUT
+    for plugin in ${PLUG_KEYS[@]}; do
+        [ "$plugin" = "all" ] && continue
+        ${PLUGINS[$plugin]} && . $CWD/plugins/$plugin
+    done
 )
 
 if $write_to_file; then
-    sosreport_name=`basename $root`
+    sosreport_name=`basename $SOS_ROOT`
     out=${sosreport_name}.summary
-    mv $f_output $out
+    mv $F_OUT $out
     echo "Summary written to $out"
 else
-    cat $f_output
+    cat $F_OUT
     echo ""
-    rm $f_output
+    rm $F_OUT
 fi
 
 echo "INFO: see --help for more display options"
-
 done

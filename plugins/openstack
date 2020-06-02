@@ -1,5 +1,5 @@
 #!/bin/bash
-echo -e "openstack:" >> $f_output
+echo -e "openstack:" >> $F_OUT
 
 # TODO: keep this list up-to-date with services we care about in the context of openstack
 default_pfix_match='[[:alnum:]\-]+'
@@ -40,12 +40,12 @@ if [ -r "ps" ]; then
     done
     if ((${#openstack_info[@]})); then
         for e in ${!openstack_info[@]}; do
-            echo "${indent_str}$e (${openstack_info[$e]})"
-        done| sort -k 2 >> $f_output
+            echo "${INDENT_STR}$e (${openstack_info[$e]})"
+        done| sort -k 2 >> $F_OUT
     else
-        echo "${indent_str}null" >> $f_output
+        echo "${INDENT_STR}null" >> $F_OUT
     fi
 else
-    echo "  ps not found - skipping openstack service detection" >> $f_output
+    echo "  ps not found - skipping openstack service detection" >> $F_OUT
 fi
 
