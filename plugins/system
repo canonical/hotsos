@@ -1,0 +1,4 @@
+echo -e "system:" >> $f_output
+sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo "  {}" >> $f_output
+echo "${indent_str}rootfs: `egrep ' /$' df`" >> $f_output
+

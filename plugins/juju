@@ -1,0 +1,69 @@
+#!/bin/bash -eu
+if [ -d "var/log/juju" ]; then
+    echo -e "juju:" >> $f_output
+
+    readarray -t ps_units<<<"`egrep unit-\* ps| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*,\1,g;t;d'| sort -u`"
+    readarray -t log_units<<<"`find var/log/juju -name unit-\*| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
+    combined_units=( `echo ${ps_units[@]} ${log_units[@]}| tr -s ' ' '\n'| sort -u` )
+
+    readarray -t ps_machines<<<"`egrep machine-\* ps| sed -r 's,.+machine-([[:digit:]]+).*,\1,g;t;d'| sort -u`"
+    readarray -t log_machines<<<"`find var/log/juju -name machine-\*| sed -r 's,.+machine-([[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
+
+    declare -a juju_machine_running=()
+    declare -a juju_machine_stopped=()
+    
+    for machine in ${log_machines[@]}; do
+        agent_conf=var/lib/juju/agents/machine-${machine}/agent.conf
+        version=unknown
+        if [ -r "$agent_conf" ]; then
+            version=`sed -r 's/upgradedToVersion:\s+(.+)/\1/g;t;d' $agent_conf`
+        fi
+        if unit_in_array $machine ${ps_machines[@]}; then
+            juju_machine_running+=( "${machine} (version=$version)\n" )
+        else
+            juju_machine_stopped+=( "${machine}\n" )
+        fi
+    done
+
+    declare -a juju_unit_local=()
+    declare -a juju_unit_local_not_running=()
+    declare -a juju_unit_nonlocal=()
+    
+    for unit in ${combined_units[@]}; do
+        if unit_in_array $unit ${log_units[@]}; then
+            if unit_in_array $unit ${ps_units[@]}; then
+                juju_unit_local+=( "${unit}\n" )
+            else
+                juju_unit_local_not_running+=( "${unit}\n" )
+            fi
+        else
+            juju_unit_nonlocal+=( "${unit}\n" )
+        fi
+    done
+
+    (("${#ps_machines[@]}")) && [ -n "${ps_machines[0]}" ] || ps_machines+=( null )
+    echo -e "  machines:" >> $f_output
+    echo -e "    running:" >> $f_output
+    echo -e ${juju_machine_running[@]}| sort -u| xargs -l -I{} echo "    ${indent_str}{}" >> $f_output
+    if ((${#juju_machine_stopped[@]})) && [ -n "${juju_machine_stopped[0]}" ]; then
+        echo -e "    stopped:" >> $f_output
+        echo -e ${juju_machine_stopped[@]}| sort -u| xargs -l -I{} echo "    ${indent_str}{}" >> $f_output
+    fi
+
+    echo -e "  units:" >> $f_output
+    if (("${#ps_units[@]}"==0)) || [ -z "${ps_units[0]}" ]; then
+        echo -e "    any:" >> $f_output
+        echo "      ${indent_str}null" >> $f_output
+    else
+        echo -e "    running:" >> $f_output
+        echo -e ${juju_unit_local[@]}| sort -u| xargs -l -I{} echo "    ${indent_str}{}" >> $f_output
+        echo -e "    stopped:" >> $f_output
+        echo -e ${juju_unit_local_not_running[@]}| sort -u| xargs -l -I{} echo "    ${indent_str}{}" >> $f_output
+        echo -e "    non-local (e.g. lxd):" >> $f_output
+        if (("${#juju_unit_nonlocal[@]}"==0)) || [ -z "${juju_unit_nonlocal[0]}" ]; then
+            juju_unit_nonlocal=( null )
+        fi
+        echo -e ${juju_unit_nonlocal[@]}| sort -u| xargs -l -I{} echo "    ${indent_str}{}" >> $f_output
+    fi
+fi
+

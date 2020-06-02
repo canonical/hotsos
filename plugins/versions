@@ -1,0 +1,16 @@
+#!/bin/bash
+echo -e "versions:" >> $f_output
+echo -n "${indent_str}ubuntu: " >> $f_output
+sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' etc/lsb-release >> $f_output
+
+echo -n "${indent_str}openstack: " >> $f_output
+apts='etc/apt/sources.list.d/*.list'
+if [ -d "`dirname \"$apts\"`" ] && `grep -qr ubuntu-cloud.archive $apts 2>/dev/null`; then
+    ost_rel="`grep -r ubuntu-cloud.archive $apts| grep -v deb-src |\
+        sed -r 's/.+-updates\/(.+)\s+.+/\1/g;t;d'`"
+    [ -n "$ost_rel" ] || ost_rel=unknown
+    echo "$ost_rel" >> $f_output
+else
+    echo "distro" >> $f_output
+fi
+
