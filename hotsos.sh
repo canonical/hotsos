@@ -50,10 +50,12 @@ OPTIONS
         This message.
     --juju
         Include Juju info.
-    --openstack
-        Include Openstack services info.
     --kernel
         Include Kernel info.
+    --list-plugins
+        Show available plugins.
+    --openstack
+        Include Openstack services info.
     --storage
         Include storage info including Ceph.
     --system
@@ -73,37 +75,42 @@ EOF
 
 while (($#)); do 
     case $1 in
-          -h|--help)
-              usage
-              exit 0
-              ;;
-          --versions)
-              PLUGINS[versions]=true
-              ;;
-          --juju)
-              PLUGINS[juju]=true
-              ;;
-          --openstack)
-              PLUGINS[openstack]=true
-              ;;
-          --storage)
-              PLUGINS[storage]=true
-              ;;
-          --kernel)
-              PLUGINS[kernel]=true
-              ;;
-          --system)
-              PLUGINS[system]=true
-              ;;
-          -s|--save)
-              write_to_file=true
-              ;;
-          -a|--all)
-              PLUGINS[all]=true
-              ;;
-          *)
-              sos_paths+=( $1 )
-              ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        --versions)
+            PLUGINS[versions]=true
+            ;;
+        --juju)
+            PLUGINS[juju]=true
+            ;;
+        --openstack)
+            PLUGINS[openstack]=true
+            ;;
+        --storage)
+            PLUGINS[storage]=true
+            ;;
+        --kernel)
+            PLUGINS[kernel]=true
+            ;;
+        --list-plugins)
+            echo "Available plugins:"
+            echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| xargs -l -I{} echo " - {}"
+            exit
+            ;;
+        --system)
+            PLUGINS[system]=true
+            ;;
+        -s|--save)
+            write_to_file=true
+            ;;
+        -a|--all)
+            PLUGINS[all]=true
+            ;;
+        *)
+            sos_paths+=( $1 )
+            ;;
     esac
     shift
 done
