@@ -34,25 +34,30 @@ readarray -t bcacheinfo<<<"`grep . sos_commands/block/ls_-lanR_.sys.block| egrep
 ((${#bcacheinfo[@]})) && [ -n "${bcacheinfo[0]}" ] || bcacheinfo=( "null" )
 block_root=sos_commands/block/udevadm_info_.dev.
 for bcache_name in ${bcacheinfo[@]}; do
-    udev_info=sos_commands/block/udevadm_info_.dev.$bcache_name
-    if ! [ -e "$udev_info" ] || [[ $bcache_name = "null" ]]; then
+    udev_info=${block_root}$bcache_name
+    if [[ $bcache_name = "null" ]]; then
         echo $bcache_name && break
     fi
-    backing_dev_fs_uuid=`sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d' $udev_info`
-    f=`grep -l ID_FS_UUID=$backing_dev_fs_uuid ./sos_commands/block/udevadm_info_.dev.*`
-    backing_dev=${f##*.}
+    backing_dev=
+    if [ -e "$udev_info" ]; then
+        backing_dev_fs_uuid=`sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d' $udev_info`
+        f=`grep -l ID_FS_UUID=$backing_dev_fs_uuid ${block_root}*`
+        backing_dev=${f##*.}
+    fi
 
-    dname=`grep ' disk/by-dname' ${block_root}$bcache_name| sed -r 's,.+/(.+),\1,g'`
     entry=$bcache_name
     if [ -e "${block_root}$bcache_name" ]; then
         entry="/dev/$bcache_name"
     fi
 
-    if [ -n "$dname" ]; then
-        entry="$entry (dname=$dname)"
-        if [ -n "$backing_dev" ]; then
-            entry="$entry (backing=/dev/$backing_dev)"
+    if [ -e "${block_root}$bcache_name" ]; then
+        dname=`grep ' disk/by-dname' ${block_root}$bcache_name| sed -r 's,.+/(.+),\1,g'`
+        if [ -n "$dname" ]; then
+            entry="$entry (dname=$dname)"
         fi
+    fi
+    if [ -n "$backing_dev" ]; then
+        entry="$entry (backing=/dev/$backing_dev)"
     fi
 
     echo $entry
