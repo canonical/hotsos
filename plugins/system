@@ -1,6 +1,12 @@
 #!/bin/bash
 echo -e "system:" >> $F_OUT
 
-sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo "  {}" >> $F_OUT
-echo "${INDENT_STR}rootfs: `egrep ' /$' df`" >> $F_OUT
+# load average
+sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo -n "  {}" >> $F_OUT
 
+# number of CPU(s)
+NUM_CPUS=$(grep -P '^CPU\(s\):' sos_commands/processor/lscpu | awk -F' ' '{print $2}')
+echo " ($NUM_CPUS CPU(s))" >> $F_OUT
+
+# rootfs
+echo "${INDENT_STR}rootfs: `egrep ' /$' df`" >> $F_OUT
