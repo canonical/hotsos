@@ -25,7 +25,7 @@
 export SOS_ROOT=
 export INDENT_STR="  - "
 declare -a sos_paths=()
-write_to_file=false
+SAVE_OUTPUT=false
 
 # ordered
 declare -a PLUG_KEYS=( versions openstack storage juju kernel system )
@@ -103,7 +103,7 @@ while (($#)); do
             PLUGINS[system]=true
             ;;
         -s|--save)
-            write_to_file=true
+            SAVE_OUTPUT=true
             ;;
         -a|--all)
             PLUGINS[all]=true
@@ -138,30 +138,16 @@ export F_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
 for SOS_ROOT in ${sos_paths[@]}; do
 (
-    # TODO
-    #if false && [ "`file -b $SOS_ROOT`" = "XZ compressed data" ]; then
-    #    dtmp=`mktemp -d`
-    #    tar --exclude='*/*' -tf $SOS_ROOT
-    #    sosroot=`tar --exclude='*/*' -tf $SOS_ROOT| sed -r 's,([[:alnum:]\-]+)/*.*,\1,g'| sort -u`
-    #    tar -tf $SOS_ROOT $sosroot/var/log/juju 2>/dev/null > $dtmp/juju
-    #    if (($?==0)); then
-    #        mkdir -p $dtmp/var/log/juju
-    #        mv $dtmp/juju $dtmp/var/log/
-    #    fi
-    #    tree $dtmp
-    #    root=$dtmp
-    #fi
-
-    [ -z "$SOS_ROOT" ] || cd $SOS_ROOT
-
+    cd $SOS_ROOT
     echo -e "hostname:\n${INDENT_STR}`cat hostname`" > $F_OUT
     for plugin in ${PLUG_KEYS[@]}; do
         [ "$plugin" = "all" ] && continue
-        ${PLUGINS[$plugin]} && . $CWD/plugins/$plugin
+        ${PLUGINS[$plugin]} || continue
+        for plug in `find $CWD/plugins/$plugin/ -type f`; do . $plug; done
     done
 )
 
-if $write_to_file; then
+if $SAVE_OUTPUT; then
     sosreport_name=`basename $SOS_ROOT`
     out=${sosreport_name}.summary
     mv $F_OUT $out

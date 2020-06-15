@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/bin/bash -u
+# This plugin displays system-specific information. Note that this is not
+# intended to supersceded information from tools like xsos.
+
 echo -e "system:" >> $F_OUT
 
 # load average

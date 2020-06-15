@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/bin/bash -u
+# This plugin displays version information about things like the OS and
+# applications running e.g. Openstack.
+
 echo -e "versions:" >> $F_OUT
 
 echo -n "${INDENT_STR}ubuntu: " >> $F_OUT

@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -u
+# This plugin displays information about the kernel.
+
 echo -e "kernel:" >> $F_OUT
 
 path=proc/cmdline

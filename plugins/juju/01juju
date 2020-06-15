@@ -1,8 +1,10 @@
-#!/bin/bash -eu
+#!/bin/bash -u
+# This plugin displays information about Juju.
+
 if [ -d "var/log/juju" ]; then
     echo -e "juju:" >> $F_OUT
 
-    readarray -t ps_units<<<"`egrep unit-\* ps| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*,\1,g;t;d'| sort -u`"
+    readarray -t ps_units<<<"`grep unit- ps| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*,\1,g;t;d'| sort -u`"
     readarray -t log_units<<<"`find var/log/juju -name unit-\*.log| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
     combined_units=( `echo ${ps_units[@]} ${log_units[@]}| tr -s ' ' '\n'| sort -u` )
 

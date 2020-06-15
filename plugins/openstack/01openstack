@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -u
+# This plugin displays information specific to Openstack.
+
 echo -e "openstack:" >> $F_OUT
 
 # TODO: keep this list up-to-date with services we care about in the context of openstack
