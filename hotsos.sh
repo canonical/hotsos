@@ -135,7 +135,7 @@ if ${PLUGINS[all]}; then
 fi
 
 export F_OUT=`mktemp`
-CWD=`dirname $0`
+CWD=$(dirname `realpath $0`)
 for SOS_ROOT in ${sos_paths[@]}; do
 (
     # TODO
