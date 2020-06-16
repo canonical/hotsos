@@ -1,7 +1,7 @@
 #!/bin/bash -u
 # This plugin displays information about Ceph.
 
-echo -e "ceph:" >> $F_OUT
+echo -e "ceph:"
 
 services=(
     ceph-osd
@@ -25,9 +25,9 @@ if [ -r "ps" ]; then
             fi
             echo ""
         done
-    done ) >> $F_OUT
-    [ "$hash" = "`md5sum $F_OUT`" ] && echo "${INDENT_STR}null" >> $F_OUT
+    done )
+    [ "$hash" = "`md5sum $F_OUT`" ] && echo "${INDENT_STR}null"
 else
-    echo "  ps not found - skipping ceph service detection" >> $F_OUT
+    echo "  ps not found - skipping ceph service detection"
 fi
 

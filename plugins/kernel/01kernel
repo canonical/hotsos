@@ -1,24 +1,24 @@
 #!/bin/bash -u
 # This plugin displays information about the kernel.
 
-echo -e "kernel:" >> $F_OUT
+echo -e "kernel:"
 
 path=proc/cmdline
 if [ -e "$path" ]; then
-    cat $path|xargs -l -I{} echo "${INDENT_STR}{}" >> $F_OUT
+    cat $path|xargs -l -I{} echo "${INDENT_STR}{}"
 else
-    echo "${INDENT_STR}$path not found" >> $F_OUT
+    echo "${INDENT_STR}$path not found"
 fi
 
-echo -e "systemd:" >> $F_OUT
+echo -e "systemd:"
 path=sos_commands/systemd/systemctl_show_service_--all
 if [ -e "$path" ]; then
     if `egrep -q "CPUAffinity=.+" $path`; then
-        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${INDENT_STR}{}"  >> $F_OUT
+        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${INDENT_STR}{}" 
     else
-        echo "${INDENT_STR}CPUAffinity not set"  >> $F_OUT
+        echo "${INDENT_STR}CPUAffinity not set" 
     fi
 else
-    echo "${INDENT_STR}null" >> $F_OUT
+    echo "${INDENT_STR}null"
 fi
 

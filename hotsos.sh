@@ -22,10 +22,12 @@
 #  - edward.hope-morley@canonical.com
 #  - opentastic@gmail.com
 
-export SOS_ROOT=
-export INDENT_STR="  - "
+SOS_ROOT=
 declare -a sos_paths=()
 SAVE_OUTPUT=false
+
+# standard indentation to be used by all plugins
+export INDENT_STR="  - "
 
 # ordered
 declare -a PLUG_KEYS=( versions openstack storage juju kernel system )
@@ -134,7 +136,7 @@ if ${PLUGINS[all]}; then
     PLUGINS[system]=true
 fi
 
-export F_OUT=`mktemp`
+F_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
 for SOS_ROOT in ${sos_paths[@]}; do
 (
@@ -143,7 +145,9 @@ for SOS_ROOT in ${sos_paths[@]}; do
     for plugin in ${PLUG_KEYS[@]}; do
         [ "$plugin" = "all" ] && continue
         ${PLUGINS[$plugin]} || continue
-        for plug in `find $CWD/plugins/$plugin/ -type f`; do . $plug; done
+        for plug in `find $CWD/plugins/$plugin/ -type f`; do
+            . $plug >> $F_OUT
+        done
     done
 )
 

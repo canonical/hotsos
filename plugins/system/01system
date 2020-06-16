@@ -2,14 +2,14 @@
 # This plugin displays system-specific information. Note that this is not
 # intended to supersceded information from tools like xsos.
 
-echo -e "system:" >> $F_OUT
+echo -e "system:"
 
 # load average
-sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo -n "  {}" >> $F_OUT
+sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo -n "  {}"
 
 # number of CPU(s)
 NUM_CPUS=$(grep -P '^CPU\(s\):' sos_commands/processor/lscpu | awk -F' ' '{print $2}')
-echo " ($NUM_CPUS CPU(s))" >> $F_OUT
+echo " ($NUM_CPUS CPU(s))"
 
 # rootfs
-echo "${INDENT_STR}rootfs: `egrep ' /$' df`" >> $F_OUT
+echo "${INDENT_STR}rootfs: `egrep ' /$' df`"

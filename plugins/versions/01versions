@@ -2,19 +2,19 @@
 # This plugin displays version information about things like the OS and
 # applications running e.g. Openstack.
 
-echo -e "versions:" >> $F_OUT
+echo -e "versions:"
 
-echo -n "${INDENT_STR}ubuntu: " >> $F_OUT
-sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' etc/lsb-release >> $F_OUT
+echo -n "${INDENT_STR}ubuntu: "
+sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' etc/lsb-release
 
-echo -n "${INDENT_STR}openstack: " >> $F_OUT
+echo -n "${INDENT_STR}openstack: "
 apts='etc/apt/sources.list.d/*.list'
 if [ -d "`dirname \"$apts\"`" ] && `grep -qr ubuntu-cloud.archive $apts 2>/dev/null`; then
     ost_rel="`grep -r ubuntu-cloud.archive $apts| grep -v deb-src |\
         sed -r 's/.+-updates\/(.+)\s+.+/\1/g;t;d'`"
     [ -n "$ost_rel" ] || ost_rel=unknown
-    echo "$ost_rel" >> $F_OUT
+    echo "$ost_rel"
 else
-    echo "distro" >> $F_OUT
+    echo "distro"
 fi
 

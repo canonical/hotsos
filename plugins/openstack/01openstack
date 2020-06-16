@@ -1,7 +1,7 @@
 #!/bin/bash -u
 # This plugin displays information specific to Openstack.
 
-echo -e "openstack:" >> $F_OUT
+echo -e "openstack:"
 
 # TODO: keep this list up-to-date with services we care about in the context of openstack
 default_pfix_match='[[:alnum:]\-]+'
@@ -43,11 +43,11 @@ if [ -r "ps" ]; then
     if ((${#openstack_info[@]})); then
         for e in ${!openstack_info[@]}; do
             echo "${INDENT_STR}$e (${openstack_info[$e]})"
-        done| sort -k 2 >> $F_OUT
+        done| sort -k 2
     else
-        echo "${INDENT_STR}null" >> $F_OUT
+        echo "${INDENT_STR}null"
     fi
 else
-    echo "  ps not found - skipping openstack service detection" >> $F_OUT
+    echo "  ps not found - skipping openstack service detection"
 fi
 

@@ -2,7 +2,7 @@
 # This plugin displays information about Juju.
 
 if [ -d "var/log/juju" ]; then
-    echo -e "juju:" >> $F_OUT
+    echo -e "juju:"
 
     readarray -t ps_units<<<"`grep unit- ps| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*,\1,g;t;d'| sort -u`"
     readarray -t log_units<<<"`find var/log/juju -name unit-\*.log| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
@@ -44,28 +44,28 @@ if [ -d "var/log/juju" ]; then
     done
 
     (("${#ps_machines[@]}")) && [ -n "${ps_machines[0]}" ] || ps_machines+=( null )
-    echo -e "  machines:" >> $F_OUT
-    echo -e "    running:" >> $F_OUT
-    echo -e ${juju_machine_running[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}" >> $F_OUT
+    echo -e "  machines:"
+    echo -e "    running:"
+    echo -e ${juju_machine_running[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     if ((${#juju_machine_stopped[@]})) && [ -n "${juju_machine_stopped[0]}" ]; then
-        echo -e "    stopped:" >> $F_OUT
-        echo -e ${juju_machine_stopped[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}" >> $F_OUT
+        echo -e "    stopped:"
+        echo -e ${juju_machine_stopped[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     fi
 
-    echo -e "  units:" >> $F_OUT
+    echo -e "  units:"
     if (("${#ps_units[@]}"==0)) || [ -z "${ps_units[0]}" ]; then
-        echo -e "    any:" >> $F_OUT
-        echo "      ${INDENT_STR}null" >> $F_OUT
+        echo -e "    any:"
+        echo "      ${INDENT_STR}null"
     else
-        echo -e "    running:" >> $F_OUT
-        echo -e ${juju_unit_local[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}" >> $F_OUT
-        echo -e "    stopped:" >> $F_OUT
-        echo -e ${juju_unit_local_not_running[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}" >> $F_OUT
-        echo -e "    non-local (e.g. lxd):" >> $F_OUT
+        echo -e "    running:"
+        echo -e ${juju_unit_local[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
+        echo -e "    stopped:"
+        echo -e ${juju_unit_local_not_running[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
+        echo -e "    non-local (e.g. lxd):"
         if (("${#juju_unit_nonlocal[@]}"==0)) || [ -z "${juju_unit_nonlocal[0]}" ]; then
             juju_unit_nonlocal=( null )
         fi
-        echo -e ${juju_unit_nonlocal[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}" >> $F_OUT
+        echo -e ${juju_unit_nonlocal[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     fi
 fi
 

@@ -1,7 +1,7 @@
 #!/bin/bash -u
 # This plugin module displays information about bcache.
 
-echo "bcache-info:" >> $F_OUT
+echo "bcache-info:"
 readarray -t bcacheinfo<<<"`grep . sos_commands/block/ls_-lanR_.sys.block| egrep 'bcache|nvme'| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 ((${#bcacheinfo[@]})) && [ -n "${bcacheinfo[0]}" ] || bcacheinfo=( "null" )
 block_root=sos_commands/block/udevadm_info_.dev.
@@ -33,5 +33,5 @@ for bcache_name in ${bcacheinfo[@]}; do
     fi
 
     echo $entry
-done| xargs -l -I{} echo "${INDENT_STR}{}" >> $F_OUT
+done| xargs -l -I{} echo "${INDENT_STR}{}"
 
