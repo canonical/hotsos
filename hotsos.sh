@@ -117,13 +117,6 @@ while (($#)); do
     shift
 done
 
-unit_in_array ()
-{
-    unit="$1"
-    shift
-    echo $@| egrep -q "\s?${unit}\s?"
-}
-
 ((${#sos_paths[@]})) || { usage; exit 1; }
 ((${#sos_paths[@]})) || sos_paths=( . )
 
@@ -146,7 +139,7 @@ for SOS_ROOT in ${sos_paths[@]}; do
         [ "$plugin" = "all" ] && continue
         ${PLUGINS[$plugin]} || continue
         for plug in `find $CWD/plugins/$plugin/ -type f`; do
-            . $plug >> $F_OUT
+            $plug >> $F_OUT
         done
     done
 )

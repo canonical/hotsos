@@ -1,33 +1,46 @@
 #!/bin/bash -u
 # This plugin displays information about Ceph.
 
-echo -e "ceph:"
-
+declare -a output=()
 services=(
     ceph-osd
     ceph-mon
     ceph-mgr
     radosgw
 )
-if [ -r "ps" ]; then
-    hash=`md5sum $F_OUT`
-    ( for svc in ${services[@]}; do
-        out="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\" ps| sort| uniq| sed -r 's/^\s+/  /g'`"
-        id="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\" ps| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
-        [ -z "$out" ] && continue
-        for osd_id in `echo $id| tr ',' ' '`;do
-            echo -n "${INDENT_STR}ceph-osd (id=$osd_id)"
-            if [ -e "sos_commands/ceph/ceph-volume_lvm_list" ]; then
-                offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
+
+data_source=ps
+if ! [ -r "$data_source" ]; then
+    echo "  $data_source not found - skipping ceph service detection"
+    exit 0
+fi
+
+echo "ceph:"
+
+for svc in ${services[@]}; do
+    exists="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\" $data_source| sort| uniq| sed -r 's/^\s+/  /g'`"
+    [ -z "$exists" ] && continue
+
+    ids="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\" $data_source| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
+    for osd_id in `echo $ids| tr ',' ' '`;do
+        out_str="ceph-osd (id=$osd_id)"
+        if [ -s "sos_commands/ceph/ceph-volume_lvm_list" ]; then
+            offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
+            if [ -n "$offset" ]; then
                 osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "osd fsid"| head -n 1| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
                 osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "devices"| head -n 1| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
-                echo -n " (fsid=$osd_fsid) (device=$osd_device)"
+                out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
             fi
-            echo ""
-        done
-    done )
-    [ "$hash" = "`md5sum $F_OUT`" ] && echo "${INDENT_STR}null"
+        fi
+        output+=( "$out_str" )
+    done
+done
+
+if ((${#output[@]})); then
+    for line in "${output[@]}"; do
+        echo "${INDENT_STR}$line"
+    done
 else
-    echo "  ps not found - skipping ceph service detection"
+    echo "${INDENT_STR}null"
 fi
 

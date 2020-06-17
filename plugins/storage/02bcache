@@ -1,14 +1,23 @@
 #!/bin/bash -u
 # This plugin module displays information about bcache.
 
+declare -a output=()
+
+data_source=sos_commands/block/ls_-lanR_.sys.block
+if ! [ -r "$data_source" ]; then
+    echo "  $data_source not found - skipping bcache detection"
+    exit 0
+fi
+
 echo "bcache-info:"
-readarray -t bcacheinfo<<<"`grep . sos_commands/block/ls_-lanR_.sys.block| egrep 'bcache|nvme'| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
-((${#bcacheinfo[@]})) && [ -n "${bcacheinfo[0]}" ] || bcacheinfo=( "null" )
+
+readarray -t bcacheinfo<<<"`grep . $data_source| egrep 'bcache|nvme'| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 block_root=sos_commands/block/udevadm_info_.dev.
 for bcache_name in ${bcacheinfo[@]}; do
     udev_info=${block_root}$bcache_name
+    out_str="$bcache_name"
     if [[ $bcache_name = "null" ]]; then
-        echo $bcache_name && break
+        break
     fi
     backing_dev=
     if [ -e "$udev_info" ]; then
@@ -17,21 +26,28 @@ for bcache_name in ${bcacheinfo[@]}; do
         backing_dev=${f##*.}
     fi
 
-    entry=$bcache_name
-    if [ -e "${block_root}$bcache_name" ]; then
-        entry="/dev/$bcache_name"
+     if [ -e "${block_root}$bcache_name" ]; then
+        out_str="$out_str /dev/$bcache_name"
     fi
 
     if [ -e "${block_root}$bcache_name" ]; then
         dname=`grep ' disk/by-dname' ${block_root}$bcache_name| sed -r 's,.+/(.+),\1,g'`
         if [ -n "$dname" ]; then
-            entry="$entry (dname=$dname)"
+            out_str="$out_str (dname=$dname)"
         fi
     fi
     if [ -n "$backing_dev" ]; then
-        entry="$entry (backing=/dev/$backing_dev)"
+        out_str="$out_str (backing=/dev/$backing_dev)"
     fi
 
-    echo $entry
-done| xargs -l -I{} echo "${INDENT_STR}{}"
+    output+=( "$out_str" )
+done
+
+if ((${#output[@]})); then
+    for line in "${output[@]}"; do
+        echo "${INDENT_STR}$line"
+    done
+else
+    echo "${INDENT_STR}null"
+fi
 
