@@ -2,14 +2,27 @@
 # This plugin displays system-specific information. Note that this is not
 # intended to supersceded information from tools like xsos.
 
-echo -e "system:"
+echo "system:"
 
-# load average
-sed -r 's/.+(load average:.+)/- \1/g' uptime|xargs -l -I{} echo -n "  {}"
+data_source=uptime
+if [ -r "$data_source" ]; then
+    sed -r 's/.+(load average:.+)/- \1/g' $data_source|xargs -l -I{} echo -n "  {}"
+else
+    echo "  $data_source not found"
+fi
 
-# number of CPU(s)
-NUM_CPUS=$(grep -P '^CPU\(s\):' sos_commands/processor/lscpu | awk -F' ' '{print $2}')
-echo " ($NUM_CPUS CPU(s))"
+data_source=sos_commands/processor/lscpu
+if [ -r "$data_source" ]; then
+    NUM_CPUS=$(grep -P '^CPU\(s\):' sos_commands/processor/lscpu | awk -F' ' '{print $2}')
+    echo " ($NUM_CPUS CPU(s))"
+else
+    echo "  $data_source not found"
+fi
 
-# rootfs
-echo "${INDENT_STR}rootfs: `egrep ' /$' df`"
+data_source=df
+if [ -r "$data_source" ]; then
+    echo "${INDENT_STR}rootfs: `egrep ' /$' $data_source`"
+else
+    echo "  $data_source not found"
+fi
+

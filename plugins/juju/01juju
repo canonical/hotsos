@@ -8,13 +8,13 @@ unit_in_array ()
     echo $@| egrep -q "\s?${unit}\s?"
 }
 
+echo "juju:"
+
 data_source_dir=var/log/juju
 if ! [ -d "$data_source_dir" ]; then
-    echo "$data_source_dir not found - skipping juju info"
+    echo "  $data_source_dir not found - skipping juju info"
     exit 0
 fi
-
-echo "juju:"
 
 readarray -t ps_units<<<"`grep unit- ps| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*,\1,g;t;d'| sort -u`"
 readarray -t log_units<<<"`find var/log/juju -name unit-\*.log| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
