@@ -1,0 +1,32 @@
+#!/bin/bash -u
+
+declare -a output=()
+
+((VERBOSITY_LEVEL>=1)) || exit 0
+
+data_source=ps
+if ! [ -r "$data_source" ]; then
+    echo "  $data_source not found - skipping openstack vm"
+    exit 0
+fi
+
+echo "  vms:"
+echo "    running:"
+
+vm_indent="    ${INDENT_STR}"
+
+if `grep -q "product=OpenStack Nova" $data_source`; then
+    readarray -t uuids<<<`grep "product=OpenStack Nova" $data_source| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
+    for uuid in ${uuids[@]}; do
+        output+=( "$uuid" )
+    done
+fi
+
+if ((${#output[@]})); then
+    for line in "${output[@]}"; do
+        echo "${vm_indent}$line"
+    done
+else
+    echo "${vm_indent}null"
+fi
+

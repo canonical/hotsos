@@ -25,6 +25,7 @@
 SOS_ROOT=
 declare -a sos_paths=()
 SAVE_OUTPUT=false
+export VERBOSITY_LEVEL=0
 
 # standard indentation to be used by all plugins
 export INDENT_STR="  - "
@@ -68,6 +69,8 @@ OPTIONS
         Save output to a file.
     -a|--all
         Enable all plugins.
+    -v
+        Increase amount of information displayed.
 
 SOSPATH
     Path to a sosreport. Can be provided multiple times.
@@ -110,6 +113,12 @@ while (($#)); do
         -a|--all)
             PLUGINS[all]=true
             ;;
+        -v)
+            VERBOSITY_LEVEL=1
+            ;;
+        -vv*)
+            VERBOSITY_LEVEL=2
+            ;;
         *)
             sos_paths+=( $1 )
             ;;
@@ -138,7 +147,7 @@ for SOS_ROOT in ${sos_paths[@]}; do
     for plugin in ${PLUG_KEYS[@]}; do
         [ "$plugin" = "all" ] && continue
         ${PLUGINS[$plugin]} || continue
-        for plug in `find $CWD/plugins/$plugin/ -type f`; do
+        for plug in `find $CWD/plugins/$plugin/ -type f| sort -n`; do
             $plug >> $F_OUT
         done
     done
