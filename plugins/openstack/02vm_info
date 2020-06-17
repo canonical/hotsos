@@ -11,9 +11,8 @@ if ! [ -r "$data_source" ]; then
 fi
 
 echo "  vms:"
-echo "    running:"
 
-vm_indent="    ${INDENT_STR}"
+vm_indent="  ${INDENT_STR}"
 
 if `grep -q "product=OpenStack Nova" $data_source`; then
     readarray -t uuids<<<`grep "product=OpenStack Nova" $data_source| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
