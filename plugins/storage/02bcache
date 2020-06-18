@@ -11,22 +11,17 @@ fi
 
 echo "bcache-info:"
 
-readarray -t bcacheinfo<<<"`grep . $data_source| egrep 'bcache|nvme'| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 block_root=sos_commands/block/udevadm_info_.dev.
+
+readarray -t bcacheinfo<<<"`grep . $data_source| egrep bcache| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 for bcache_name in ${bcacheinfo[@]}; do
     udev_info=${block_root}$bcache_name
     out_str="$bcache_name"
     if [[ $bcache_name = "null" ]]; then
         break
     fi
-    backing_dev=
-    if [ -e "$udev_info" ]; then
-        backing_dev_fs_uuid=`sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d' $udev_info`
-        f=`grep -l ID_FS_UUID=$backing_dev_fs_uuid ${block_root}*`
-        backing_dev=${f##*.}
-    fi
 
-     if [ -e "${block_root}$bcache_name" ]; then
+    if [ -e "${block_root}$bcache_name" ]; then
         out_str="$out_str /dev/$bcache_name"
     fi
 
@@ -36,8 +31,37 @@ for bcache_name in ${bcacheinfo[@]}; do
             out_str="$out_str (dname=$dname)"
         fi
     fi
+
+    backing_dev=
+    if [ -e "$udev_info" ]; then
+        backing_dev_fs_uuid=`sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d' $udev_info`
+        f=`grep -l ID_FS_UUID=$backing_dev_fs_uuid ${block_root}*`
+        backing_dev=${f##*.}
+    fi
     if [ -n "$backing_dev" ]; then
         out_str="$out_str (backing=/dev/$backing_dev)"
+    fi
+
+    output+=( "$out_str" )
+done
+
+readarray -t nvmeinfo<<<"`grep . $data_source| egrep nvme| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
+for dev in ${nvmeinfo[@]}; do
+    udev_info=${block_root}$dev
+    out_str="$dev"
+    if [[ $dev = "null" ]]; then
+        break
+    fi
+
+    if [ -e "${block_root}$dev" ]; then
+        out_str="$out_str /dev/$dev"
+    fi
+
+    if [ -e "${block_root}$dev" ]; then
+        dname=`grep ' disk/by-dname' ${block_root}$dev| sed -r 's,.+/(.+),\1,g'`
+        if [ -n "$dname" ]; then
+            out_str="$out_str (dname=$dname)"
+        fi
     fi
 
     output+=( "$out_str" )
