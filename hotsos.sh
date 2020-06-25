@@ -116,8 +116,11 @@ while (($#)); do
         -v)
             VERBOSITY_LEVEL=1
             ;;
-        -vv*)
+        -vv)
             VERBOSITY_LEVEL=2
+            ;;
+        -vv*)
+            VERBOSITY_LEVEL=3
             ;;
         *)
             sos_paths+=( $1 )
