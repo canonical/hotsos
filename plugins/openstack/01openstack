@@ -1,10 +1,24 @@
 #!/bin/bash -u
 # This plugin displays information specific to Openstack.
 
-echo "openstack:"
-echo "  services:"
-
 svc_indent="  $INDENT_STR"
+
+echo "openstack:"
+
+data_source=`ls -rt etc/apt/sources.list.d/*.list| xargs -l grep -l ubuntu-cloud.archive.canonical.com| tail -n 1`
+if [ -s "$data_source" ]; then
+    echo -n "  release: "
+    if [ -d "`dirname \"$data_source\"`" ] && `grep -qr ubuntu-cloud.archive $data_source 2>/dev/null`; then
+        ost_rel="`grep -r ubuntu-cloud.archive $data_source| grep -v deb-src |\
+            sed -r 's/.+-updates\/(.+)\s+.+/\1/g;t;d'`"
+        [ -n "$ost_rel" ] || ost_rel=unknown
+        echo "$ost_rel (uca)"
+    else
+        echo "distro"
+    fi
+fi
+
+echo "  services:"
 
 # TODO: keep this list up-to-date with services we care about in the context of openstack
 default_pfix_match='[[:alnum:]\-]+'

@@ -1,6 +1,7 @@
 #!/bin/bash -u
 
 declare -a succeeded=()
+declare -a failed=()
 declare -a output=()
 event_indent="      ${INDENT_STR}"
 
