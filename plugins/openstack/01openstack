@@ -2,6 +2,22 @@
 # This plugin displays information specific to Openstack.
 
 svc_indent="  $INDENT_STR"
+declare -a ost_projects=(
+    aodh
+    barbican
+    ceilometer
+    cinder  
+    designate
+    glance
+    gnocchi
+    heat
+    horizon 
+    keystone
+    neutron
+    nova
+    octavia
+    swift
+)
 
 echo "openstack:"
 
@@ -16,6 +32,22 @@ if [ -s "$data_source" ]; then
     else
         echo "distro"
     fi
+fi
+
+if ((VERBOSITY_LEVEL>=2)); then
+    declare -A ost_etc_overrides=(
+        [glance]=glance-api.conf
+        [swift]=proxy.conf
+    )
+    echo "  debug-logging-enabled:"
+    for proj in ${ost_projects[@]}; do
+        path=etc/$proj/$proj.conf
+        [ -z ${ost_etc_overrides[$proj]:-""} ] || \
+            path=etc/$proj/${ost_etc_overrides[$proj]}
+        [ -e "$path" ] || continue
+        debug=`sed -rn 's/debug\s*=\s*(.+)\s*/\1/p' $path`
+        echo "$svc_indent$proj: $debug"
+    done
 fi
 
 echo "  services:"
