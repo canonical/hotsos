@@ -78,7 +78,7 @@ SOSPATH
 EOF
 }
 
-while (($#)); do 
+while (($#)); do
     case $1 in
         -h|--help)
             usage
@@ -141,7 +141,7 @@ fi
 F_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
 for SOS_ROOT in ${sos_paths[@]}; do
-(
+    (
     cd $SOS_ROOT
     echo -e "hostname:\n${INDENT_STR}`cat hostname`" > $F_OUT
     for plugin in ${PLUG_KEYS[@]}; do
@@ -151,18 +151,18 @@ for SOS_ROOT in ${sos_paths[@]}; do
             $plug >> $F_OUT
         done
     done
-)
+    )
 
-if $SAVE_OUTPUT; then
-    sosreport_name=`basename $SOS_ROOT`
-    out=${sosreport_name}.summary
-    mv $F_OUT $out
-    echo "Summary written to $out"
-else
-    cat $F_OUT
-    echo ""
-    rm $F_OUT
-fi
+    if $SAVE_OUTPUT; then
+        sosreport_name=`basename $SOS_ROOT`
+        out=${sosreport_name}.summary
+        mv $F_OUT $out
+        echo "Summary written to $out"
+    else
+        cat $F_OUT
+        echo ""
+        rm $F_OUT
+    fi
 
-echo "INFO: see --help for more display options"
+    echo "INFO: see --help for more display options"
 done
