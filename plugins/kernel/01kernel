@@ -10,6 +10,21 @@ else
     echo "${INDENT_STR}$path not found"
 fi
 
+# TODO: consider available zones in /proc/pagetypeinfo
+#path=proc/pagetypeinfo
+#if [ -e "$path" ]; then
+#    cat proc/pagetypeinfo | egrep "zone\s+Normal,"| sed -r 's/\s+/ /g'
+#fi
+
+fail_count=`awk '$1=="compact_fail" {print $2}' proc/vmstat`
+success_count=`awk '$1=="compact_success" {print $2}' proc/vmstat`
+if ((success_count)); then
+    pcent=$((fail_count/(success_count/100)))
+    if ((pcent>10)); then
+        echo "${INDENT_STR}WARNING: memory compaction failures > 10% of successes ($pcent%)"
+    fi
+fi
+
 echo -e "systemd:"
 path=sos_commands/systemd/systemctl_show_service_--all
 if [ -e "$path" ]; then
