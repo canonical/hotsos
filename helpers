@@ -1,0 +1,71 @@
+#!/bin/bash
+
+get_ps ()
+{
+    local sos_path=${DATA_ROOT}ps
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    else
+        ps
+    fi
+}
+export -f get_ps
+
+get_uptime ()
+{
+    local sos_path=${DATA_ROOT}uptime
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        cat /proc/uptime
+    fi
+}
+export -f get_uptime
+
+export bin_df=`which df`
+df ()
+{
+    local sos_path=${DATA_ROOT}df
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        $bin_df
+    fi
+}
+export -f df
+
+export bin_lscpu=`which lscpu`
+lscpu ()
+{
+    local sos_path=${DATA_ROOT}sos_commands/processor/lscpu
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        $bin_lscpu
+    fi
+}
+export -f lscpu
+
+get_ls_lanR_sys_block ()
+{
+    local sos_path=${DATA_ROOT}sos_commands/block/ls_-lanR_.sys.block
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        ls -lanR /sys/block/
+    fi
+}
+export -f get_ls_lanR_sys_block
+
+get_udevadm_info_dev ()
+{   
+    local dev="$1"
+    local sos_path=${DATA_ROOT}sos_commands/block/udevadm_info_.dev.$dev
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        udevadm info /dev/$dev
+    fi
+}
+export -f get_udevadm_info_dev
+

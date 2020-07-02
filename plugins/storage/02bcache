@@ -3,41 +3,28 @@
 
 declare -a output=()
 
-data_source=sos_commands/block/ls_-lanR_.sys.block
-if ! [ -r "$data_source" ]; then
-    echo "  $data_source not found - skipping bcache detection"
-    exit 0
-fi
-
 echo "bcache-info:"
 
-block_root=sos_commands/block/udevadm_info_.dev.
-
-readarray -t bcacheinfo<<<"`grep . $data_source| egrep bcache| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
+readarray -t bcacheinfo<<<"`get_ls_lanR_sys_block| egrep bcache| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 for bcache_name in ${bcacheinfo[@]}; do
-    udev_info=${block_root}$bcache_name
     out_str="$bcache_name"
     if [[ $bcache_name = "null" ]]; then
         break
     fi
 
-    if [ -e "${block_root}$bcache_name" ]; then
+    info="`get_udevadm_info_dev $bcache_name`"
+    if [ -n "$info" ]; then
         out_str="$out_str /dev/$bcache_name"
-    fi
-
-    if [ -e "${block_root}$bcache_name" ]; then
-        dname=`grep ' disk/by-dname' ${block_root}$bcache_name| sed -r 's,.+/(.+),\1,g'`
+        dname=`get_udevadm_info_dev $bcache_name| grep ' disk/by-dname'| sed -r 's,.+/(.+),\1,g'`
         if [ -n "$dname" ]; then
             out_str="$out_str (dname=$dname)"
         fi
     fi
 
-    backing_dev=
-    if [ -e "$udev_info" ]; then
-        backing_dev_fs_uuid=`sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d' $udev_info`
-        f=`grep -l ID_FS_UUID=$backing_dev_fs_uuid ${block_root}*`
-        backing_dev=${f##*.}
-    fi
+    backing_dev_fs_uuid=`get_udevadm_info_dev $bcache_name| sed -r 's,^S: bcache/by-uuid/([[:alnum:]\-]+).*,\1,g;t;d'`
+    f=`get_udevadm_info_dev $bcache_name| grep -l ID_FS_UUID=$backing_dev_fs_uuid`
+    backing_dev=${f##*.}
+
     if [ -n "$backing_dev" ]; then
         out_str="$out_str (backing=/dev/$backing_dev)"
     fi
@@ -45,20 +32,17 @@ for bcache_name in ${bcacheinfo[@]}; do
     output+=( "$out_str" )
 done
 
-readarray -t nvmeinfo<<<"`grep . $data_source| egrep nvme| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
+readarray -t nvmeinfo<<<"`get_ls_lanR_sys_block| egrep nvme| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 for dev in ${nvmeinfo[@]}; do
-    udev_info=${block_root}$dev
     out_str="$dev"
     if [[ $dev = "null" ]]; then
         break
     fi
 
-    if [ -e "${block_root}$dev" ]; then
+    info=`get_udevadm_info_dev $dev`
+    if [ -n "$info" ]; then
         out_str="$out_str /dev/$dev"
-    fi
-
-    if [ -e "${block_root}$dev" ]; then
-        dname=`grep ' disk/by-dname' ${block_root}$dev| sed -r 's,.+/(.+),\1,g'`
+        dname=`get_udevadm_info_dev $dev| grep ' disk/by-dname'| sed -r 's,.+/(.+),\1,g'`
         if [ -n "$dname" ]; then
             out_str="$out_str (dname=$dname)"
         fi

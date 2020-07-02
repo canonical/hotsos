@@ -22,13 +22,14 @@
 #  - edward.hope-morley@canonical.com
 #  - opentastic@gmail.com
 
-SOS_ROOT=
 declare -a sos_paths=()
 SAVE_OUTPUT=false
 export VERBOSITY_LEVEL=0
-
 # standard indentation to be used by all plugins
 export INDENT_STR="  - "
+
+# import helpers functions
+. `dirname $0`/helpers
 
 # ordered
 declare -a PLUG_KEYS=( openstack storage juju kernel system )
@@ -123,8 +124,7 @@ while (($#)); do
     shift
 done
 
-((${#sos_paths[@]})) || { usage; exit 1; }
-((${#sos_paths[@]})) || sos_paths=( . )
+((${#sos_paths[@]})) || sos_paths=( / )
 
 if ${PLUGINS[all]}; then
     PLUGINS[openstack]=true
@@ -136,11 +136,19 @@ fi
 
 F_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
-for SOS_ROOT in ${sos_paths[@]}; do
+for data_root in ${sos_paths[@]}; do
     (
-    cd $SOS_ROOT
-    echo "host: `cat hostname`" > $F_OUT
-    data_source=etc/lsb-release
+    if [ "$data_root" = "/" ]; then
+        echo -e "INFO: running against localhost since no sosreport path provided\n" 1>&2
+        export DATA_ROOT=/
+    else
+        cd $data_root
+        export DATA_ROOT=./
+    fi
+
+    echo -n "host: " > $F_OUT
+    [ -r "$DATA_ROOT/hostname" ] && cat $DATA_ROOT/hostname >> $F_OUT || hostname >> $F_OUT
+    data_source=$DATA_ROOT/etc/lsb-release
     if [ -s $data_source ]; then
        series=`sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' $data_source`
        echo "series: $series" >> $F_OUT
@@ -156,7 +164,7 @@ for SOS_ROOT in ${sos_paths[@]}; do
     )
 
     if $SAVE_OUTPUT; then
-        sosreport_name=`basename $SOS_ROOT`
+        sosreport_name=`basename $data_root`
         out=${sosreport_name}.summary
         mv $F_OUT $out
         echo "Summary written to $out"

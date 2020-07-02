@@ -16,7 +16,7 @@ all_stages_complete ()
 
 ((VERBOSITY_LEVEL>=2)) || exit 0
 
-data_source=var/log/nova/nova-compute.log
+data_source=${DATA_ROOT}var/log/nova/nova-compute.log
 if ! [ -r "$data_source" ]; then
     echo "  $data_source not found - skipping nova vif-plug-events info"
     exit 0

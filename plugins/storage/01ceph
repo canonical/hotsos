@@ -9,19 +9,13 @@ services=(
     radosgw
 )
 
-data_source=ps
-if ! [ -r "$data_source" ]; then
-    echo "  $data_source not found - skipping ceph service detection"
-    exit 0
-fi
-
 echo "ceph:"
 
 for svc in ${services[@]}; do
-    exists="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\" $data_source| sort| uniq| sed -r 's/^\s+/  /g'`"
+    exists="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\"| sort -u| sed -r 's/^\s+/  /g'`"
     [ -z "$exists" ] && continue
 
-    ids="`sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\" $data_source| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
+    ids="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\"| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
     for osd_id in `echo $ids| tr ',' ' '`;do
         out_str="ceph-osd (id=$osd_id)"
         if [ -s "sos_commands/ceph/ceph-volume_lvm_list" ]; then

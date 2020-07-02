@@ -3,7 +3,7 @@
 
 echo -e "kernel:"
 
-path=proc/cmdline
+path=${DATA_ROOT}proc/cmdline
 if [ -e "$path" ]; then
     cat $path|xargs -l -I{} echo "${INDENT_STR}{}"
 else
@@ -11,13 +11,13 @@ else
 fi
 
 # TODO: consider available zones in /proc/pagetypeinfo
-#path=proc/pagetypeinfo
-#if [ -e "$path" ]; then
-#    cat proc/pagetypeinfo | egrep "zone\s+Normal,"| sed -r 's/\s+/ /g'
+#path=${DATA_ROOT}proc/pagetypeinfo
+#if [ -e "$data_source" ]; then
+#    cat $data_source | egrep "zone\s+Normal,"| sed -r 's/\s+/ /g'
 #fi
 
-fail_count=`awk '$1=="compact_fail" {print $2}' proc/vmstat`
-success_count=`awk '$1=="compact_success" {print $2}' proc/vmstat`
+fail_count=`awk '$1=="compact_fail" {print $2}' ${DATA_ROOT}proc/vmstat`
+success_count=`awk '$1=="compact_success" {print $2}' ${DATA_ROOT}proc/vmstat`
 if ((success_count)); then
     pcent=$((fail_count/(success_count/100)))
     if ((pcent>10)); then
@@ -26,7 +26,7 @@ if ((success_count)); then
 fi
 
 echo -e "systemd:"
-path=sos_commands/systemd/systemctl_show_service_--all
+path=${DATA_ROOT}sos_commands/systemd/systemctl_show_service_--all
 if [ -e "$path" ]; then
     if `egrep -q "CPUAffinity=.+" $path`; then
         egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${INDENT_STR}{}" 

@@ -3,23 +3,6 @@
 # intended to supersceded information from tools like xsos.
 
 echo "system:"
-
-data_source=uptime
-if [ -r "$data_source" ]; then
-    data_source2=sos_commands/processor/lscpu
-    if [ -r "$data_source2" ]; then
-        NUM_CPUS=$(grep -P '^CPU\(s\):' sos_commands/processor/lscpu | awk -F' ' '{print $2}')
-    fi
-
-    sed -r "s/.+(load average)(:.+)/- \1 ($NUM_CPUS cpus)\2/g" $data_source|xargs -l -I{} echo "  {}"
-else
-    echo "  $data_source not found"
-fi
-
-data_source=df
-if [ -r "$data_source" ]; then
-    echo "${INDENT_STR}rootfs: `egrep ' /$' $data_source`"
-else
-    echo "  $data_source not found"
-fi
-
+NUM_CPUS=`lscpu| grep -P '^CPU\(s\):' | awk -F' ' '{print $2}'`
+uptime| sed -r "s/.+(load average)(:.+)/- \1 ($NUM_CPUS cpus)\2/g"|xargs -l -I{} echo "  {}"
+echo "${INDENT_STR}rootfs: `df| egrep ' /$'`"

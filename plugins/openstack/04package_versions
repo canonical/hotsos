@@ -21,7 +21,7 @@ declare -a ost_projects=(
 
 echo -e "  dpkg:"
 
-data_source=sos_commands/dpkg/dpkg_-l
+data_source=${DATA_ROOT}sos_commands/dpkg/dpkg_-l
 [ -e "$data_source" ] || { echo "data source not found: $data_source"; exit 0; }
 
 for proj in ${ost_projects[@]}; do

@@ -4,18 +4,12 @@ declare -a output=()
 
 ((VERBOSITY_LEVEL>=1)) || exit 0
 
-data_source=ps
-if ! [ -r "$data_source" ]; then
-    echo "  $data_source not found - skipping openstack vm"
-    exit 0
-fi
-
 echo "  vms:"
 
 vm_indent="  ${INDENT_STR}"
 
-if `grep -q "product=OpenStack Nova" $data_source`; then
-    readarray -t uuids<<<`grep "product=OpenStack Nova" $data_source| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
+if `get_ps| grep -q "product=OpenStack Nova"`; then
+    readarray -t uuids<<<`get_ps| grep "product=OpenStack Nova"| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
     for uuid in ${uuids[@]}; do
         output+=( "$uuid" )
     done
