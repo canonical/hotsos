@@ -31,10 +31,9 @@ export VERBOSITY_LEVEL=0
 export INDENT_STR="  - "
 
 # ordered
-declare -a PLUG_KEYS=( versions openstack storage juju kernel system )
+declare -a PLUG_KEYS=( openstack storage juju kernel system )
 # unordered
 declare -A PLUGINS=(
-    [versions]=false
     [openstack]=false
     [storage]=false
     [juju]=false
@@ -63,8 +62,6 @@ OPTIONS
         Include storage info including Ceph.
     --system
         Include system info.
-    --versions
-        Include software version info.
     -s|--save
         Save output to a file.
     -a|--all
@@ -83,9 +80,6 @@ while (($#)); do
         -h|--help)
             usage
             exit 0
-            ;;
-        --versions)
-            PLUGINS[versions]=true
             ;;
         --juju)
             PLUGINS[juju]=true
@@ -133,7 +127,6 @@ done
 ((${#sos_paths[@]})) || sos_paths=( . )
 
 if ${PLUGINS[all]}; then
-    PLUGINS[versions]=true
     PLUGINS[openstack]=true
     PLUGINS[storage]=true
     PLUGINS[juju]=true
@@ -146,7 +139,13 @@ CWD=$(dirname `realpath $0`)
 for SOS_ROOT in ${sos_paths[@]}; do
     (
     cd $SOS_ROOT
-    echo -e "hostname:\n${INDENT_STR}`cat hostname`" > $F_OUT
+    echo "host: `cat hostname`" > $F_OUT
+    data_source=etc/lsb-release
+    if [ -s $data_source ]; then
+       series=`sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' $data_source`
+       echo "series: $series" >> $F_OUT
+    fi
+
     for plugin in ${PLUG_KEYS[@]}; do
         [ "$plugin" = "all" ] && continue
         ${PLUGINS[$plugin]} || continue
@@ -163,9 +162,9 @@ for SOS_ROOT in ${sos_paths[@]}; do
         echo "Summary written to $out"
     else
         cat $F_OUT
-        echo ""
+        echo "" 1>&2
         rm $F_OUT
     fi
 
-    echo "INFO: see --help for more display options"
+    echo "INFO: see --help for more display options" 1>&2
 done
