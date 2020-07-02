@@ -146,12 +146,14 @@ for data_root in ${sos_paths[@]}; do
         export DATA_ROOT=./
     fi
 
-    echo -n "host: " > $F_OUT
-    [ -r "$DATA_ROOT/hostname" ] && cat $DATA_ROOT/hostname >> $F_OUT || hostname >> $F_OUT
+    echo "general: " > $F_OUT
+    _hostname=
+    [ -r "$DATA_ROOT/hostname" ] && _hostname=`cat $DATA_ROOT/hostname` || _hostname=`hostname`
+    echo -e "  hostname: $_hostname" >> $F_OUT
     data_source=$DATA_ROOT/etc/lsb-release
     if [ -s $data_source ]; then
        series=`sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' $data_source`
-       echo "series: $series" >> $F_OUT
+       echo -e "  os: Ubuntu $series" >> $F_OUT
     fi
 
     for plugin in ${PLUG_KEYS[@]}; do
