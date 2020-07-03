@@ -28,7 +28,7 @@ for proj in ${ost_projects[@]}; do
     readarray -t packages<<<`egrep "^ii\s+$proj" $data_source| awk '{print $2}'`
     for pkg in ${packages[@]}; do
         ver=`egrep "^ii\s+$pkg " $data_source| awk '{print $3}'`
-        echo "  $INDENT_STR $pkg $ver"
+        echo "  $INDENT_STR$pkg $ver"
     done | sort -k2 
 done
 

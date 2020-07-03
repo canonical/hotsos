@@ -3,7 +3,10 @@
 declare -a succeeded=()
 declare -a failed=()
 declare -a output=()
-event_indent="      ${INDENT_STR}"
+sub_indent_str="  ${INDENT_STR}"
+subsub_indent_str="    ${INDENT_STR}"
+subsubsub_indent_str="    ${INDENT_STR}"
+subsubsubsub_indent_str="      ${INDENT_STR}"
 
 all_stages_complete ()
 {
@@ -16,9 +19,11 @@ all_stages_complete ()
 
 ((VERBOSITY_LEVEL>=2)) || exit 0
 
+echo "  os-server-external-events:"
+
 data_source=${DATA_ROOT}var/log/nova/nova-compute.log
 if ! [ -r "$data_source" ]; then
-    echo "  $data_source not found - skipping nova vif-plug-events info"
+    echo "${sub_indent_str}$data_source not found - skipping nova vif-plug-events info"
     exit 0
 fi
 
@@ -48,22 +53,21 @@ get_events ()
     echo "      successful:"
     if ((${#succeeded[@]})); then
         for line in "${succeeded[@]}"; do
-            echo "${event_indent}$line"
+            echo "${subsubsubsub_indent_str}$line"
         done
     else
-        echo "${event_indent}null"
+        echo "${subsubsubsub_indent_str}null"
     fi
     echo "      failed:"
     if ((${#failed[@]})); then
         for line in "${failed[@]}"; do
-            echo "${event_indent}$line"
+            echo "${subsubsubsub_indent_str}$line"
         done
     else
-        echo "${event_indent}null"
+        echo "${subsubsubsub_indent_str}null"
     fi
 }
 
-echo "  os-server-external-events:"
 # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events
 get_events "network-vif-plugged"
 

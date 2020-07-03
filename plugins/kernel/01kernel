@@ -1,6 +1,11 @@
 #!/bin/bash -u
 # This plugin displays information about the kernel.
 
+sub_indent_str="  $INDENT_STR"
+subsub_indent_str="    $INDENT_STR"
+subsubsub_indent_str="      $INDENT_STR"
+zone_issue_found=false
+
 echo "kernel:"
 
 path=${DATA_ROOT}proc/cmdline
@@ -18,42 +23,56 @@ fi
 
 echo "${INDENT_STR}memory:"
 
-
-INDENT_STR="    $INDENT_STR"
-
 check_mallocinfo ()
 {
-    local node="$1"
-    local verbose=${2:-0}
-    local tally=0
+    local node=$1
+    local zones_type=$2  # e.g. Normal, DMA etc
+    local show_zones=${3:-0}
+    local empty_zone_tally=0
     local high_order_seq=0
-    local stop=false
+    local contiguous_empty_zones=true
 
-    ((verbose)) && echo "${sub_indent_str}zones:"
+    ((show_zones)) && echo "${subsubsub_indent_str}zones:"
     for zone in {10..0}; do
-        free=`awk '$4=="Normal"' ${DATA_ROOT}proc/buddyinfo| grep "Node $node,"| sed -r 's/\s+/ /g'| cut -d ' ' -f $((5+$zone))`
-        ((verbose)) && echo "  ${sub_indent_str}$zone: $free"
-        ((free)) || ((tally+=$zone))
-        ((free)) && stop=true
-        $stop || ((high_order_seq++))
+        awk "\$4==\"$zones_type\"" ${DATA_ROOT}proc/buddyinfo|  grep -q "Node $node," || break
+        free=`awk "\\$4==\"$zones_type\"" ${DATA_ROOT}proc/buddyinfo| grep "Node $node,"| sed -r 's/\s+/ /g'| cut -d ' ' -f $((5+$zone))`
+        ((show_zones)) && echo "  ${subsubsub_indent_str}$zone: $free"
+        ((free)) || ((empty_zone_tally+=$zone))
+        ((free)) && contiguous_empty_zones=false
+        $contiguous_empty_zones && ((high_order_seq++))
     done
-    ((tally>50)) && ((high_order_seq>1)) && return 1
+    # 0+1+...10 is 55 so threshold is this minus the max order
+    ((empty_zone_tally>=45)) && ((high_order_seq)) && return 1
+    # this implies that top 5 orders are unavailable
     ((high_order_seq>5)) && return 1
     return 0
 }
-readarray -t nodes<<<"`sed -rn 's/Node\s+([0-9]+).+/\1/p' ${DATA_ROOT}proc/buddyinfo| sort -u`"
-zone_issue_found=false
 
-sub_indent_str="  $INDENT_STR"
-for node in ${nodes[@]}; do
-    check_mallocinfo $node
-    if (($?)); then
-        echo "      node$node:"
-        zone_issue_found=true
-        echo "${sub_indent_str}WARNING: node $node has limited high order memory - check ${DATA_ROOT}proc/buddyinfo"
-        check_mallocinfo $node 1
-    fi
-done
+check_nodes_memory () {
+    local zones_type=$1
+    local zone_issue_found=false
+
+    readarray -t nodes<<<"`sed -rn 's/Node\s+([0-9]+).+/\1/p' ${DATA_ROOT}proc/buddyinfo| sort -u`"
+    for node in ${nodes[@]}; do
+        check_mallocinfo $node $zones_type
+        if (($?)); then
+            echo "      node$node-${zones_type,,}:"
+            zone_issue_found=true
+            msg_suffix=""
+            ((VERBOSITY_LEVEL>=1)) || msg_suffix=" (use -v to show zones)"
+            echo "${subsubsub_indent_str}may have limited high order memory - check ${DATA_ROOT}proc/buddyinfo$msg_suffix"
+            # if verbosity is requested, show the zones
+            ((VERBOSITY_LEVEL>=1)) && check_mallocinfo $node $zones_type 1
+        fi
+    done
+
+    $zone_issue_found && return 1
+    return 0
+}
+zone_issue_found=false
+check_nodes_memory Normal || zone_issue_found=true
+# only check other types of no issue detected on Normal
+$zone_issue_found || check_nodes_memory DMA32 || zone_issue_found=true
 
 # We only report on compaction errors if there is a shortage of high-order zones
 if $zone_issue_found; then
@@ -65,22 +84,22 @@ if $zone_issue_found; then
     if ((success_count>10000)); then
         pcent=$((fail_count/(success_count/100)))
         if ((pcent>10)); then
-            echo "${INDENT_STR}WARNING: compaction failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
+            echo -e "      compaction:\n${subsubsub_indent_str}compaction failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
         fi
     fi
 else
-    echo "${INDENT_STR}zones checked, no issues found"
+    echo "${sub_indent_str}null"
 fi
 
-echo -e "systemd:"
+echo -e "${INDENT_STR}systemd:"
 path=${DATA_ROOT}sos_commands/systemd/systemctl_show_service_--all
 if [ -e "$path" ]; then
     if `egrep -q "CPUAffinity=.+" $path`; then
-        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${INDENT_STR}{}" 
+        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}" 
     else
-        echo "${INDENT_STR}CPUAffinity not set" 
+        echo "${sub_indent_str}CPUAffinity not set" 
     fi
 else
-    echo "${INDENT_STR}null"
+    echo "${sub_indent_str}null"
 fi
 
