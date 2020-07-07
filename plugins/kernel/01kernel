@@ -48,32 +48,23 @@ check_mallocinfo ()
     return 0
 }
 
-
 get_slab_major_consumers ()
 {
-    declare -A top5=(
-        [0]=0
-        [1]=0
-        [2]=0
-        [3]=0
-        [4]=0
-    )
-    declare -A top5_names=(
-        [0]=
-        [1]=
-        [2]=
-        [3]=
-        [4]=
-    )
+    declare -A top5_name=( [0]= [1]= [2]= [3]= [4]= )
+    declare -A top5_num_objs=( [0]=0 [1]=0 [2]=0 [3]=0 [4]=0 )
+    declare -A top5_objsize=( [0]= [1]= [2]= [3]= [4]= )
     ftmp=`mktemp`
-    cat ${DATA_ROOT}proc/slabinfo| tail -n+3| awk '{print $1, $2}'| grep -v kmalloc > $ftmp
+    # name, num_objs, objsize
+    cat ${DATA_ROOT}proc/slabinfo| tail -n+3| awk '{print $1, $3, $4}'| grep -v kmalloc > $ftmp
     while read line; do
-        val=${line##* }
-        name=${line%% *}
+        name=`echo $line| cut -d ' ' -f 1`
+        num_objs=`echo $line| cut -d ' ' -f 2`
+        objsize=`echo $line| cut -d ' ' -f 3`
         for ((i=0;i<5;i++)); do
-            if ((val>${top5[$i]})); then
-                top5[$i]=$val
-                top5_names[$i]=$name
+            if ((num_objs>${top5_num_objs[$i]})); then
+                top5_num_objs[$i]=$num_objs
+                top5_name[$i]=$name
+                top5_objsize[$i]=$objsize
                 break
             fi
         done
@@ -81,7 +72,7 @@ get_slab_major_consumers ()
     rm $ftmp
     echo "      slab (top 5):"
     for ((i=0;i<5;i++)); do
-        echo "${subsubsub_indent_str}${top5_names[$i]} (active=${top5[$i]})"
+        echo "${subsubsub_indent_str}${top5_name[$i]} ($((${top5_num_objs[$i]}*${top5_objsize[$i]}/1024))k)"
     done
 }
 
