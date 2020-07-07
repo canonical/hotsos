@@ -48,6 +48,43 @@ check_mallocinfo ()
     return 0
 }
 
+
+get_slab_major_consumers ()
+{
+    declare -A top5=(
+        [0]=0
+        [1]=0
+        [2]=0
+        [3]=0
+        [4]=0
+    )
+    declare -A top5_names=(
+        [0]=
+        [1]=
+        [2]=
+        [3]=
+        [4]=
+    )
+    ftmp=`mktemp`
+    cat ${DATA_ROOT}proc/slabinfo| tail -n+3| awk '{print $1, $2}'| grep -v kmalloc > $ftmp
+    while read line; do
+        val=${line##* }
+        name=${line%% *}
+        for ((i=0;i<5;i++)); do
+            if ((val>${top5[$i]})); then
+                top5[$i]=$val
+                top5_names[$i]=$name
+                break
+            fi
+        done
+    done < $ftmp
+    rm $ftmp
+    echo "      slab (top 5):"
+    for ((i=0;i<5;i++)); do
+        echo "${subsubsub_indent_str}${top5_names[$i]} (active=${top5[$i]})"
+    done
+}
+
 check_nodes_memory () {
     local zones_type=$1
     local zone_issue_found=false
@@ -84,9 +121,10 @@ if $zone_issue_found; then
     if ((success_count>10000)); then
         pcent=$((fail_count/(success_count/100)))
         if ((pcent>10)); then
-            echo -e "      compaction:\n${subsubsub_indent_str}compaction failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
+            echo -e "      compaction:\n${subsubsub_indent_str}failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
         fi
     fi
+    ((VERBOSITY_LEVEL>=1)) && get_slab_major_consumers
 else
     echo "${sub_indent_str}null"
 fi
