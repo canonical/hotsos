@@ -153,7 +153,8 @@ for data_root in ${sos_paths[@]}; do
     data_source=$DATA_ROOT/etc/lsb-release
     if [ -s $data_source ]; then
        series=`sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' $data_source`
-       echo -e "  os: Ubuntu $series" >> $F_OUT
+        s_0=${series:0:1}  # capitalise first char
+       echo -e "  os: Ubuntu ${s_0^^}${series:1}" >> $F_OUT
     fi
 
     for plugin in ${PLUG_KEYS[@]}; do
