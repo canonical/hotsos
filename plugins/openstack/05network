@@ -1,0 +1,42 @@
+#!/bin/bash -u
+
+((VERBOSITY_LEVEL>=3)) || exit 0
+
+echo "  config:"
+found=false
+
+data_source=${DATA_ROOT}etc/nova/nova.conf
+if [ -e "$data_source" ]; then
+    found=true
+    my_ip=`sed -rn 's/^\s*my_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
+
+    data_source2=${DATA_ROOT}sos_commands/networking/ip_-d_address
+    iface="<interface unknown>"
+    if [ -e $data_source2 ]; then
+        iface=`egrep "$my_ip|^[0-9]+:\s+" $data_source2| grep -B 1 $my_ip|\
+                head -n 1| sed -rn 's/^[[:digit:]]+:\s+([[:alnum:]\@\.]+):\s+.+/\1/p'`
+    fi
+
+    echo "    nova:"
+    echo "    ${INDENT_STR}my_ip: $my_ip ($iface)"
+fi
+
+data_source=${DATA_ROOT}etc/neutron/plugins/ml2/openvswitch_agent.ini
+if [ -e "$data_source" ]; then
+    found=true
+    local_ip=`sed -rn 's/^\s*local_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
+
+    data_source2=${DATA_ROOT}sos_commands/networking/ip_-d_address
+    iface="<interface unknown>"
+    if [ -e $data_source2 ]; then
+        iface=`egrep "$my_ip|^[0-9]+:\s+" $data_source2| grep -B 1 $local_ip|\
+                head -n 1| sed -rn 's/^[[:digit:]]+:\s+([[:alnum:]\@\.]+):\s+.+/\1/p'`
+    fi
+
+    echo "    neutron:"
+    echo "    ${INDENT_STR}local_ip: $local_ip ($iface)"
+fi
+
+if ! $found; then
+    echo "  ${INDENT_STR}null"
+fi
