@@ -79,7 +79,7 @@ if $zone_issue_found; then
     fail_count=`awk '$1=="compact_fail" {print $2}' ${DATA_ROOT}proc/vmstat`
     success_count=`awk '$1=="compact_success" {print $2}' ${DATA_ROOT}proc/vmstat`
     # we use an arbitrary threshold of 10k to suggest that a lot of compaction has
-    # occured but noting that this is a rolling counter and is not necessarily
+    # occurred but noting that this is a rolling counter and is not necessarily
     # representative of current state.
     if ((success_count>10000)); then
         pcent=$((fail_count/(success_count/100)))
@@ -95,9 +95,9 @@ echo -e "${INDENT_STR}systemd:"
 path=${DATA_ROOT}sos_commands/systemd/systemctl_show_service_--all
 if [ -e "$path" ]; then
     if `egrep -q "CPUAffinity=.+" $path`; then
-        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}" 
+        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}"
     else
-        echo "${sub_indent_str}CPUAffinity not set" 
+        echo "${sub_indent_str}CPUAffinity not set"
     fi
 else
     echo "${sub_indent_str}null"
