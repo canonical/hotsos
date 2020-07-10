@@ -21,8 +21,8 @@ for svc in ${services[@]}; do
         if [ -s "sos_commands/ceph/ceph-volume_lvm_list" ]; then
             offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
             if [ -n "$offset" ]; then
-                osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "osd fsid"| head -n 1| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
-                osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep "devices"| head -n 1| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
+                osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep -m1 "osd fsid"| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
+                osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep -m1 "devices"| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
                 out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
             fi
         fi
