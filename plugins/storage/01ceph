@@ -30,6 +30,10 @@ for svc in ${services[@]}; do
                 osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep -m1 "devices"| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
                 out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
             fi
+        else
+            declare -a arr=($(get_lvm2_lvs | awk -v id="osd_id=$osd_id" \
+                                             '/osd_fsid=/ && $0 ~ id {match($0, /osd_fsid=([^,]+)/,a); split($NF,b,"("); print a[1],b[1]}'))
+            [[ ${#arr[@]} == 2 ]] && out_str="$out_str (fsid=${arr[0]}) (device=${arr[1]})"
         fi
         output+=( "$out_str" )
     done

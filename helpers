@@ -69,3 +69,13 @@ get_udevadm_info_dev ()
 }
 export -f get_udevadm_info_dev
 
+get_lvm2_lvs ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/lvm2/lvs_-a_-o_lv_tags_devices*"
+    if [ -e $sos_path ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ] && which lvs >/dev/null; then
+        lvs -a -o lv_tags,devices,lv_kernel_read_ahead,lv_read_ahead,stripes,stripesize
+    fi
+}
+export -f get_lvm2_lvs
