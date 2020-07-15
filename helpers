@@ -58,7 +58,7 @@ get_ls_lanR_sys_block ()
 export -f get_ls_lanR_sys_block
 
 get_udevadm_info_dev ()
-{   
+{
     local dev="$1"
     local sos_path=${DATA_ROOT}sos_commands/block/udevadm_info_.dev.$dev
     if [ -e "$sos_path" ]; then
@@ -69,3 +69,13 @@ get_udevadm_info_dev ()
 }
 export -f get_udevadm_info_dev
 
+get_ceph_osd_tree ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/ceph/ceph_osd_tree"
+   if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
+        ceph osd tree
+    fi
+}
+export -f get_ceph_osd_tree
