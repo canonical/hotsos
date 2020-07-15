@@ -58,7 +58,7 @@ get_ls_lanR_sys_block ()
 export -f get_ls_lanR_sys_block
 
 get_udevadm_info_dev ()
-{   
+{
     local dev="$1"
     local sos_path=${DATA_ROOT}sos_commands/block/udevadm_info_.dev.$dev
     if [ -e "$sos_path" ]; then
@@ -69,3 +69,16 @@ get_udevadm_info_dev ()
 }
 export -f get_udevadm_info_dev
 
+# Converts the given seconds ($1) to DDd:HHh:MMh:SSs format
+seconds_to_date ()
+{
+    local seconds="$1"
+    local days=$((seconds/86400))
+    local hours=$((seconds/3600%24))
+    local mins=$((seconds/60%60))
+    local secs=$((seconds%60))
+
+    printf '%02dd:%02dh:%02dm:%02ds' $days $hours $mins $secs
+}
+
+export -f seconds_to_date
