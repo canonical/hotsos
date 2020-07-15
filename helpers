@@ -6,7 +6,7 @@ get_ps ()
     if [ -e "$sos_path" ]; then
         cat $sos_path
     else
-        ps
+        ps auxwww
     fi
 }
 export -f get_ps
