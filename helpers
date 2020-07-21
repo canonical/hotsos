@@ -5,7 +5,7 @@ get_ps ()
     local sos_path=${DATA_ROOT}ps
     if [ -e "$sos_path" ]; then
         cat $sos_path
-    else
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
         ps auxwww
     fi
 }
