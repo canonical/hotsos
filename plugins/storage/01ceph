@@ -18,6 +18,11 @@ for svc in ${services[@]}; do
     ids="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\"| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
     for osd_id in `echo $ids| tr ',' ' '`;do
         out_str="ceph-osd (id=$osd_id)"
+        if ((VERBOSITY_LEVEL>=1)); then
+            osd_RSS=$(awk -v id="--id $osd_id" '/ceph-osd/ && $0 ~ id {print int($8/1024)}' sos_commands/process/ps_alxwww)
+            out_str="$out_str (RSS=${osd_RSS}M)"
+        fi
+
         if [ -s "sos_commands/ceph/ceph-volume_lvm_list" ]; then
             offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
             if [ -n "$offset" ]; then
