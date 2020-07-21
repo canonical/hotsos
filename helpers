@@ -11,6 +11,18 @@ get_ps ()
 }
 export -f get_ps
 
+get_ps_axo_flags ()
+{
+    # Older sosrepot uses 'wchan' option while newer ones use 'wchan:20' - thus the glob is to cover both
+    local sos_path="${DATA_ROOT}/sos_commands/process/ps_axo_flags_state_uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_tty_time_cmd"
+    if [ -e $sos_path ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd
+    fi
+}
+export -f get_ps_axo_flags
+
 get_uptime ()
 {
     local sos_path=${DATA_ROOT}uptime
@@ -80,5 +92,26 @@ seconds_to_date ()
 
     printf '%02dd:%02dh:%02dm:%02ds' $days $hours $mins $secs
 }
-
 export -f seconds_to_date
+
+get_sosreport_time ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/date/date"
+    if [ -s "$sos_path" ]; then
+        date --date="$(cat $sos_path)" +%s
+    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
+        date +%s
+    fi
+}
+export -f get_sosreport_time
+
+get_ceph_volume ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/ceph/ceph-volume_lvm_list"
+    if [ -s "$sos_path" ]; then
+        cat "$sos_path"
+    elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph-volume >/dev/null; then
+        ceph-volume lvm list
+    fi
+}
+export -f get_ceph_volume
