@@ -8,12 +8,10 @@ echo "  vms:"
 
 vm_indent="  ${INDENT_STR}"
 
-if `get_ps| grep -q "product=OpenStack Nova"`; then
-    readarray -t uuids<<<`get_ps| grep "product=OpenStack Nova"| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
-    for uuid in ${uuids[@]}; do
-        output+=( "$uuid" )
-    done
-fi
+readarray -t uuids<<<`get_ps| grep "product=OpenStack Nova"| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
+for uuid in ${uuids[@]}; do
+    output+=( "$uuid" )
+done
 
 if ((${#output[@]})); then
     for line in "${output[@]}"; do
