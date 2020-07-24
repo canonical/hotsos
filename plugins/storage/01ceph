@@ -11,26 +11,38 @@ services=(
 
 echo "ceph:"
 
+sos_time_secs=$(get_sosreport_time)
+
 for svc in ${services[@]}; do
     exists="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\"| sort -u| sed -r 's/^\s+/  /g'`"
     [ -z "$exists" ] && continue
 
     ids="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\"| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
     for osd_id in `echo $ids| tr ',' ' '`;do
-        out_str="ceph-osd (id=$osd_id)"
-        if ((VERBOSITY_LEVEL>=1)); then
-            osd_RSS=$(awk -v id="--id $osd_id" '/ceph-osd/ && $0 ~ id {print int($8/1024)}' sos_commands/process/ps_alxwww)
-            out_str="$out_str (RSS=${osd_RSS}M)"
+        out_str="ceph-osd.$osd_id"
+
+        offset=`get_ceph_volume | egrep -n "osd id\s+$osd_id\$" | cut -f1 -d:`
+        if [ -n "$offset" ]; then
+            osd_fsid=`get_ceph_volume | tail -n+$offset | grep -m1 "osd fsid" | sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
+            osd_device=`get_ceph_volume | tail -n+$offset | grep -m1 "devices" | sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
+            out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
         fi
 
-        if [ -s "sos_commands/ceph/ceph-volume_lvm_list" ]; then
-            offset=`egrep -n "osd id\s+$osd_id\$" sos_commands/ceph/ceph-volume_lvm_list| cut -f1 -d:`
-            if [ -n "$offset" ]; then
-                osd_fsid=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep -m1 "osd fsid"| sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
-                osd_device=`tail -n+$offset sos_commands/ceph/ceph-volume_lvm_list| grep -m1 "devices"| sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
-                out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
+        if ((VERBOSITY_LEVEL>=1)); then
+            # OSD's Resident memory size
+            osd_RSS=$(get_ps | awk -v id="--id $osd_id" '/ceph-osd/ && $0 ~ id {print int($6/1024)}')
+            out_str="$out_str (RSS=${osd_RSS}M)"
+
+            # OSD's uptime (time since it was started)
+            osd_start="$(get_ps_axo_flags | awk -v id="--id $osd_id" '/ceph-osd/ && $0 ~ id {print $13, $14, $15, $16, $17; exit}')"
+            if [[ $sos_time_secs -gt 0 && -n "$osd_start" ]]; then
+                osd_start_secs=$(date --date="${osd_start}" +%s)
+                osd_uptime_secs=$((sos_time_secs - osd_start_secs))
+                osd_uptime_str="$(seconds_to_date $osd_uptime_secs)"
+                out_str="$out_str (etime=$osd_uptime_str)"
             fi
         fi
+
         output+=( "$out_str" )
     done
 done
