@@ -8,7 +8,7 @@ found=false
 data_source=${DATA_ROOT}etc/nova/nova.conf
 if [ -e "$data_source" ]; then
     found=true
-    my_ip=`sed -rn 's/^\s*my_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
+    my_ip=`sed -rn '/^\s*#/!s/^\s*my_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
     if [ -n "$my_ip" ]; then
         data_source2=${DATA_ROOT}sos_commands/networking/ip_-d_address
         iface="<interface unknown>"
@@ -25,7 +25,7 @@ fi
 data_source=${DATA_ROOT}etc/neutron/plugins/ml2/openvswitch_agent.ini
 if [ -e "$data_source" ]; then
     found=true
-    local_ip=`sed -rn 's/^\s*local_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
+    local_ip=`sed -rn '/^\s*#/!s/^\s*local_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
     if [ -n "$local_ip" ]; then
         data_source2=${DATA_ROOT}sos_commands/networking/ip_-d_address
         iface="<interface unknown>"
