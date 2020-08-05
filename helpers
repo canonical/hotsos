@@ -115,3 +115,15 @@ get_ceph_volume_lvm_list ()
     fi
 }
 export -f get_ceph_volume_lvm_list
+
+get_lvm2_lvs ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/lvm2/lvs_-a_-o_lv_tags_devices*"
+    if [ -e $sos_path ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ] && which lvs >/dev/null; then
+        lvs -a -o lv_tags,devices
+    fi
+}
+export -f get_lvm2_lvs
+
