@@ -26,6 +26,11 @@ for svc in ${services[@]}; do
             osd_fsid=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "osd fsid" | sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
             osd_device=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "devices" | sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
             out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
+        else
+            declare -a arr=($(get_lvm2_lvs |
+                              awk -v id="osd_id=$osd_id" '/osd_fsid=/ && $0 ~ id {
+                              match($0, /osd_fsid=([^,]+)/,a); split($NF,b,"("); print a[1],b[1]; exit }'))
+            [[ ${#arr[@]} == 2 ]] && out_str="$out_str (fsid=${arr[0]}) (device=${arr[1]})"
         fi
 
         if ((VERBOSITY_LEVEL>=1)); then
