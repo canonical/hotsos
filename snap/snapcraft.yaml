@@ -2,9 +2,14 @@ name: hotsos
 version: '1.0'
 summary: Tool create a summary of a sosreport.
 description:
-  Sosreports contain tons of system information and sometimes it is
-  nice to start with a summary of contents that we would typically
-  spend time search for.
+  Sosreports contain a very large amount of information and we
+  sometimes find ourselves repeatedly searching for the same
+  information and sometimes that information requires extra logic
+  to obtain which is time consuming. This tool aims save time by
+  providing an instant summary of information with optional
+  levels of extra verbosity. The areas reported on are mostly
+  application-specific so as to set it apart from more
+  system-oriented summary tools.
 confinement: strict
 grade: stable
 base: core18
