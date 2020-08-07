@@ -29,7 +29,8 @@ for svc in ${services[@]}; do
         else
             declare -a arr=($(get_lvm2_lvs |
                               awk -v id="osd_id=$osd_id" '/osd_fsid=/ && $0 ~ id {
-                              match($0, /osd_fsid=([^,]+)/,a); split($NF,b,"("); print a[1],b[1]; exit }'))
+                              match($0, /osd_fsid=([^,]+)/); a=substr($0, RSTART+1, RLENGTH-1);
+                              split($NF, b, "("); print a, b[1]; exit }'))
             [[ ${#arr[@]} == 2 ]] && out_str="$out_str (fsid=${arr[0]}) (device=${arr[1]})"
         fi
 
