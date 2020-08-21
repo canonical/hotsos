@@ -6,7 +6,7 @@ declare -a output=()
 
 vm_indent="  ${INDENT_STR}"
 
-readarray -t uuids<<<`get_ps| grep "product=OpenStack Nova"| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
+readarray -t uuids<<<`get_ps| grep "[p]roduct=OpenStack Nova"| sed -r 's/.+uuid=([[:alnum:]\-]+)[\s,]+.+/\1/g'`
 for uuid in ${uuids[@]}; do
     output+=( "$uuid" )
 done
