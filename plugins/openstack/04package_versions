@@ -6,12 +6,12 @@ declare -a ost_projects=(
     aodh
     barbican
     ceilometer
-    cinder  
+    cinder
     designate
     glance
     gnocchi
     heat
-    horizon 
+    horizon
     keystone
     neutron
     nova
@@ -29,6 +29,6 @@ for proj in ${ost_projects[@]}; do
     for pkg in ${packages[@]}; do
         ver=`egrep "^ii\s+$pkg " $data_source| awk '{print $3}'`
         echo "  $INDENT_STR$pkg $ver"
-    done | sort -k2 
+    done | sort -k2
 done
 

@@ -6,12 +6,12 @@ declare -a ost_projects=(
     aodh
     barbican
     ceilometer
-    cinder  
+    cinder
     designate
     glance
     gnocchi
     heat
-    horizon 
+    horizon
     keystone
     neutron
     nova
@@ -26,7 +26,7 @@ data_source=`ls -rt ${DATA_ROOT}etc/apt/sources.list.d/*.list| xargs -l grep -l 
 if [ -s "$data_source" ]; then
     if [ -d "`dirname \"$data_source\"`" ] && `grep -qr ubuntu-cloud.archive $data_source 2>/dev/null`; then
         ost_rel="`grep -r ubuntu-cloud.archive $data_source| grep -v deb-src |\
-            sed -r 's/.+-updates\/(.+)\s+.+/\1/g;t;d'`"
+            sed -r '/^\s*#/!s/.+-updates\/(.+)\s+.+/\1/g;t;d'`"
         [ -n "$ost_rel" ] || ost_rel=unknown
         echo "$ost_rel (uca)"
     else
@@ -47,7 +47,7 @@ if ((VERBOSITY_LEVEL>=2)); then
         [ -z ${ost_etc_overrides[$proj]:-""} ] || \
             path=etc/$proj/${ost_etc_overrides[$proj]}
         [ -e "$path" ] || continue
-        debug=`sed -rn 's/debug\s*=\s*(.+)\s*/\1/p' $path`
+        debug=`sed -rn '/^\s*#/!s/debug\s*=\s*(.+)\s*/\1/p' $path`
         echo "$svc_indent$proj: $debug"
     done
 fi
