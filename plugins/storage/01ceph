@@ -49,6 +49,11 @@ for svc in ${services[@]}; do
             fi
         fi
 
+        if ((VERBOSITY_LEVEL>=3)); then
+            osd_devtype=$(get_ceph_osd_tree | awk -v id="$osd_id" '$4=="osd."id{print $2; exit}')
+            [[ -n $osd_devtype ]] && out_str="$out_str (type=$osd_devtype)"
+        fi
+
         output+=( "$out_str" )
     done
 done
