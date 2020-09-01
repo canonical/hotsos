@@ -2,6 +2,8 @@
 
 ((VERBOSITY_LEVEL>=3)) || exit 0
 
+svc_indent="  $INDENT_STR"
+
 declare -a ost_projects=(
     aodh
     barbican
@@ -21,14 +23,21 @@ declare -a ost_projects=(
 
 echo -e "  dpkg:"
 
-data_source=${DATA_ROOT}sos_commands/dpkg/dpkg_-l
-[ -e "$data_source" ] || { echo "data source not found: $data_source"; exit 0; }
 
+if [ -z "`get_dpkg_l`" ]; then
+    echo "${svc_indent}data source not found"
+    exit 0
+fi
+
+found=`mktemp`
+echo 0 > $found
 for proj in ${ost_projects[@]}; do
-    readarray -t packages<<<`egrep "^ii\s+$proj" $data_source| awk '{print $2}'`
+    readarray -t packages<<<`get_dpkg_l| egrep "^ii\s+$proj"| awk '{print $2}'`
     for pkg in ${packages[@]}; do
-        ver=`egrep "^ii\s+$pkg " $data_source| awk '{print $3}'`
+        ver=`get_dpkg_l| egrep "^ii\s+$pkg "| awk '{print $3}'`
         echo "  $INDENT_STR$pkg $ver"
+        echo 1 > $found
     done | sort -k2
 done
-
+((`cat $found`)) || echo "  ${INDENT_STR}null"
+rm $found
