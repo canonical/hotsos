@@ -22,7 +22,7 @@ declare -a ost_projects=(
 echo "openstack:"
 
 echo -n "  release: "
-data_source=`ls -rt ${DATA_ROOT}etc/apt/sources.list.d/*.list| xargs -l grep -l ubuntu-cloud.archive.canonical.com| tail -n 1`
+data_source=`ls -rt ${DATA_ROOT}etc/apt/sources.list.d/*.list 2>/dev/null| xargs -l grep -l ubuntu-cloud.archive.canonical.com| tail -n 1`
 if [ -s "$data_source" ]; then
     if [ -d "`dirname \"$data_source\"`" ] && `grep -qr ubuntu-cloud.archive $data_source 2>/dev/null`; then
         ost_rel="`grep -r ubuntu-cloud.archive $data_source| grep -v deb-src |\
