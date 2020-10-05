@@ -55,6 +55,18 @@ for unit in ${combined_units[@]}; do
     fi
 done
 
+# remove units from juju_unit_local_not_running that are just old versions of the one currently running
+juju_unit_local_not_running_filtered=()
+for unit in ${juju_unit_local_not_running[@]}; do
+    app=${unit%-*}
+    echo -e "${juju_unit_local[@]}"| egrep -q "${app}-[0-9]+" && continue
+    echo -e "${juju_unit_local_not_running_filtered[@]}"| egrep -q "${app}" && continue
+    readarray -t apps<<<`echo -e "${juju_unit_local_not_running[@]}"| egrep -o "${app}-[0-9]+"` 
+    for app in ${apps[@]}; do
+        juju_unit_local_not_running_filtered+=( "${app[@]}\n" )
+    done
+done
+
 (("${#ps_machines[@]}")) && [ -n "${ps_machines[0]}" ] || ps_machines+=( null )
 echo -e "  machines:"
 echo -e "    running:"
@@ -72,7 +84,7 @@ else
     echo -e "    running:"
     echo -e ${juju_unit_local[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     echo -e "    stopped:"
-    echo -e ${juju_unit_local_not_running[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
+    echo -e ${juju_unit_local_not_running_filtered[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     echo -e "    non-local (e.g. lxd):"
     if (("${#juju_unit_nonlocal[@]}"==0)) || [ -z "${juju_unit_nonlocal[0]}" ]; then
         juju_unit_nonlocal=( null )
