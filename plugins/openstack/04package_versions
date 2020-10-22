@@ -8,6 +8,7 @@ declare -a ost_projects=(
     aodh
     barbican
     ceilometer
+    ceph
     cinder
     designate
     glance
@@ -20,6 +21,12 @@ declare -a ost_projects=(
     octavia
     swift
 )
+declare -a ost_deps=(
+    dnsmasq
+    keepalived
+    openvswitch-switch
+    ovn
+)
 
 echo -e "  dpkg:"
 
@@ -31,7 +38,7 @@ fi
 
 found=`mktemp`
 echo 0 > $found
-for proj in ${ost_projects[@]}; do
+for proj in ${ost_projects[@]} ${ost_deps[@]}; do
     readarray -t packages<<<`get_dpkg_l| egrep "^ii\s+$proj"| awk '{print $2}'`
     for pkg in ${packages[@]}; do
         ver=`get_dpkg_l| egrep "^ii\s+$pkg "| awk '{print $3}'`
