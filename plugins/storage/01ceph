@@ -21,7 +21,7 @@ for svc in ${services[@]}; do
     for osd_id in `echo $ids| tr ',' ' '`;do
         out_str="ceph-osd.$osd_id"
 
-        offset=`get_ceph_volume_lvm_list | egrep -n "osd id\s+$osd_id\$" | cut -f1 -d:`
+        offset=`get_ceph_volume_lvm_list | egrep -n "==== osd.$osd_id ====" | cut -f1 -d:`
         if [ -n "$offset" ]; then
             osd_fsid=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "osd fsid" | sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
             osd_device=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "devices" | sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
