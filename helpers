@@ -149,6 +149,17 @@ get_ceph_osd_df_tree ()
 }
 export -f get_ceph_osd_df_tree
 
+get_ceph_versions ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/ceph/ceph_versions"
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
+        ceph versions
+    fi  
+}
+export -f get_ceph_versions
+
 get_dpkg_l ()
 {
     local sos_path=${DATA_ROOT}sos_commands/dpkg/dpkg_-l
