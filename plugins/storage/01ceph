@@ -1,6 +1,17 @@
 #!/bin/bash -u
 # This plugin displays information about Ceph.
 
+ceph_pg_imbalance ()
+{
+    # upstream recommends 50-100 OSDs ideally.
+    local bad_pgs=$(get_ceph_osd_df_tree | awk '$NF ~ "^osd."{ pg=$(NF-1); if (pg > 0 && (pg < 50 || pg > 120)) printf "%s ", pg }')
+
+    if [[ -n $bad_pgs ]]; then
+        echo "ceph-pgs: Found OSDs with pg counts [$bad_pgs]. Recommended range is 50 - 100."
+    fi
+}
+
+
 declare -a output=()
 services=(
     ceph-osd
@@ -57,6 +68,9 @@ for svc in ${services[@]}; do
         output+=( "$out_str" )
     done
 done
+
+pgs_imbalanced="$(ceph_pg_imbalance)"
+[[ -n $pgs_imbalanced ]] && output+=( "$pgs_imbalanced" )
 
 if ((${#output[@]})); then
     for line in "${output[@]}"; do
