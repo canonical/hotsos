@@ -25,6 +25,8 @@ declare -a ost_deps=(
     dnsmasq
     keepalived
     openvswitch-switch
+    libvirt-{daemon,bin}
+    qemu-kvm
     ovn
 )
 
