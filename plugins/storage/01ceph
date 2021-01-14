@@ -14,7 +14,7 @@ ceph_pg_imbalance ()
 ceph_versions_mismatch ()
 {
     # Check versions of all running daemons are the same.
-    local count=$(get_ceph_versions | awk -F' ' '/ceph version/{arr[$3]=1}END{ print length(arr)}')
+    local count=$(get_ceph_versions | awk -F' ' '/ceph version/{arr[$3]=1}END{ c=0; for (i in arr) c++; print c}')
     if [[ $count > 1 ]]; then
         echo "ceph-versions: WARNING! Found multiple ($count different) versions of daemons running."
     fi
