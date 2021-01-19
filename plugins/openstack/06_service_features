@@ -1,0 +1,80 @@
+#!/bin/bash -u
+
+((VERBOSITY_LEVEL>=3)) || exit 0
+
+declare -A config_files=(
+    # neutron
+    [neutron.neutron]=etc/neutron/neutron.conf
+    [neutron.openvswitch_agent]=etc/neutron/plugins/ml2/openvswitch_agent.ini
+    [neutron.l3_agent]=etc/neutron/l3_agent.ini
+    [neutron.dhcp_agent]=etc/neutron/dhcp_agent.ini
+
+    # nova
+    [nova.nova]=etc/nova/nova.conf
+)
+
+declare -A features=(
+    # neutron
+    [neutron.neutron]=availability_zone
+    [neutron.openvswitch_agent]=l2_population
+    [neutron.l3_agent.1]=agent_mode
+    [neutron.l3_agent.2]=ovs_use_veth
+    [neutron.dhcp_agent.1]=enable_metadata_network
+    [neutron.dhcp_agent.2]=enable_isolated_metadata
+    [neutron.dhcp_agent.3]=ovs_use_veth
+
+    # nova
+    [nova.nova.1]=vcpu_pin_set
+    [nova.nova.2]=cpu_shared_set
+    [nova.nova.3]=cpu_dedicated_set
+)
+
+get_features ()
+{
+    local service=""
+
+    for module in ${!features[@]}; do
+        service=${module%%.*}
+        if ! [ -r $SCRATCH_AREA/$service ]; then
+            mkdir -p $SCRATCH_AREA/services/$service/modules
+        fi
+        key=${features[$module]}
+        module=${module#*.}
+        module=${module%%.*}
+
+        cp ${DATA_ROOT}${config_files[$service.$module]} $SCRATCH_AREA/config.tmp
+        # ensure newline
+        echo "" >> $SCRATCH_AREA/config.tmp
+        while read line; do
+            if `echo "$line"|egrep -q "^$key\s*"`; then
+                value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*/\1/p\"`"
+                if [[ -n "$value" ]]; then
+                    echo "$key: $value" >> $SCRATCH_AREA/services/$service/modules/$module
+                else
+                    echo "$key: unknown" >> $SCRATCH_AREA/services/$service/modules/$module
+                fi
+            fi
+        done < $SCRATCH_AREA/config.tmp
+    done
+}
+
+SCRATCH_AREA=`mktemp -d`
+
+echo "features:" > $SCRATCH_AREA/yaml
+
+get_features
+
+for service in `ls -d $SCRATCH_AREA/services/*`; do
+    echo "  `basename $service`:" >> $SCRATCH_AREA/yaml
+    for module in `find $service -type f`; do
+        while read line; do
+            echo "    - $line" >> $SCRATCH_AREA/yaml
+        done < $module
+    done
+done
+
+IFS=''
+while read line; do
+    echo "  $line"
+done < $SCRATCH_AREA/yaml
+
