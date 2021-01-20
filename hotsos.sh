@@ -43,6 +43,9 @@ declare -A PLUGINS=(
     [all]=false
 )
 
+# plugin args - prefix must be plugin name
+export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
+
 usage ()
 {
 cat << EOF
@@ -59,6 +62,10 @@ OPTIONS
         Show available plugins.
     --openstack
         Include Openstack services info.
+    --openstack-show-cpu-pinning-results
+        The Openstack plugin will check for cpu pinning configurations and
+        perform checks. By default only brief messgaes will be displayed when
+        issues are found. Use this flag to get more detailed results.
     --storage
         Include storage info including Ceph.
     --system
@@ -87,6 +94,9 @@ while (($#)); do
             ;;
         --openstack)
             PLUGINS[openstack]=true
+            ;;
+        --openstack-show-cpu-pinning-results)
+            OPENSTACK_SHOW_CPU_PINNING_RESULTS=true
             ;;
         --storage)
             PLUGINS[storage]=true

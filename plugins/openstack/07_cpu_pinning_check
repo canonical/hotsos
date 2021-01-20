@@ -1,0 +1,265 @@
+#!/bin/bash -u
+
+SCRATCH_AREA=`mktemp -d`
+
+cleanup ()
+{
+    rm -rf $SCRATCH_AREA
+}
+trap cleanup KILL INT EXIT
+
+get_cores ()
+{
+    local line="$1"
+    local key="$2"
+    local module=$3
+    local value="$4"
+
+    mkdir -p $SCRATCH_AREA/config/$module/$key
+    for core in `echo $value| tr -s ',' ' '`; do
+        # expand ranges
+        range="`echo \"$core\"| sed -rn 's/([[:digit:]]+)-([[:digit:]]+)/\1 \2/p'`"
+        if [[ -n "$range" ]]; then
+            core1=`echo $range| cut -d ' ' -f 1`
+            core2=`echo $range| cut -d ' ' -f 2`
+            for ((i=core1; i<=core2; i++)); do
+                mkdir $SCRATCH_AREA/config/$module/$key/$i
+            done
+        else
+            mkdir $SCRATCH_AREA/config/$module/$key/$core
+        fi
+    done
+}
+
+# Get all values/settings and store expanded
+
+get_numactl_hardware > $SCRATCH_AREA/numactl_--hardware
+echo "" >> $SCRATCH_AREA/numactl_--hardware
+
+for file in ${DATA_ROOT}proc/cmdline ${DATA_ROOT}etc/systemd/system.conf ${DATA_ROOT}etc/nova/nova.conf; do
+    [[ -r $file ]] || continue
+    cfg=`basename $file`
+    cat $file > $SCRATCH_AREA/$cfg
+    # ensure newline
+    echo "" >> $SCRATCH_AREA/$cfg
+done
+
+# get nova settings
+[[ -r $SCRATCH_AREA/nova.conf ]] && \
+for key in vcpu_pin_set cpu_shared_set cpu_dedicated_set; do
+    while read line; do
+        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*/\1/p\"`"
+        [[ -n "$value" ]] || continue
+        get_cores "$line" "$key" nova "$value"
+    done < $SCRATCH_AREA/nova.conf
+done
+
+# get systemd settings
+[[ -r $SCRATCH_AREA/system.conf ]] && \
+for key in CPUAffinity; do
+    while read line; do
+        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*/\1/p\"`"
+        [[ -n "$value" ]] || continue
+        get_cores "$line" "$key" systemd "$value"
+    done < $SCRATCH_AREA/system.conf
+done
+
+# get kernel cmdline args
+key=isolcpus
+[[ -r $SCRATCH_AREA/cmdline ]] && \
+while read line; do
+    value="`echo \"$line\"| sed -rn \"s/.+\s+$key=(.+)\s*/\1/p\"`"
+    [[ -n "$value" ]] || continue
+    get_cores "$line" "$key" kernel "$value"
+done < $SCRATCH_AREA/cmdline
+
+# get numactl node info
+[[ -r $SCRATCH_AREA/numactl_--hardware ]] && \
+if [[ -r $SCRATCH_AREA/numactl_--hardware ]]; then
+    nodes=`sed -rn 's/available:\s+([[:digit:]]+)\s+nodes\s+\(([[:digit:]\-]+)\).*/\1/p' $SCRATCH_AREA/numactl_--hardware`
+    for node in `egrep -o "node ([[:digit:]]+) cpus:" $SCRATCH_AREA/numactl_--hardware| cut -d ' ' -f 2`; do
+        mkdir -p $SCRATCH_AREA/config/numactl/nodes/$node/cpus
+        for core in `grep "node $node cpus:" $SCRATCH_AREA/numactl_--hardware| cut -d ' ' -f4-`; do
+            mkdir -p $SCRATCH_AREA/config/numactl/nodes/$node/cpus/$core
+        done
+    done
+fi
+
+# Perform checks
+
+mkdir -p $SCRATCH_AREA/errors
+
+# these two sets of cores must not overlap
+a=$SCRATCH_AREA/config/kernel/isolcpus
+b=$SCRATCH_AREA/config/systemd/CPUAffinity
+if [[ -r $a ]] && [[ -r $b ]]; then
+    ls $a > $SCRATCH_AREA/union
+    ls $b >> $SCRATCH_AREA/union
+    for error in `sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'`; do
+        echo "$error" >> $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body
+    done
+    if [[ -r $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body ]]; then
+        echo -n "ERROR: systemd CPUAffinity contains cores that are also in isolcpus" > \
+            $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.header
+        cat $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body >> $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.header
+        # no details
+        echo "" > $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body
+    fi
+fi
+
+# these two sets of cores must not overlap
+a=$SCRATCH_AREA/config/kernel/isolcpus
+b=$SCRATCH_AREA/config/nova/cpu_shared_set
+if [[ -r $a ]] && [[ -r $b ]]; then
+    ls $a > $SCRATCH_AREA/union
+    ls $b >> $SCRATCH_AREA/union
+    for error in `sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'`; do
+        echo "$error" >> $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body
+    done
+    if [[ -r $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body ]]; then
+        echo -n "ERROR: Openstack Nova cpu_shared_set contains cores that are also in isolcpus: " > \
+            $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.header
+        cat $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body >> $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.header
+        echo "" > $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body
+    fi
+fi
+
+
+# cpu_dedicated_set must be subset or equal to isolcpus
+a=$SCRATCH_AREA/config/kernel/isolcpus
+b=$SCRATCH_AREA/config/nova/cpu_dedicated_set
+if [[ -r $a ]] && [[ -r $b ]]; then
+    ls $a > $SCRATCH_AREA/union
+    ls $b >> $SCRATCH_AREA/union
+    # add dedicated in again so that outliers errors are now "2"
+    ls $b >> $SCRATCH_AREA/union
+
+    num_dedicated=`ls $b| wc -l`
+    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="2" {print}'| wc -l`
+    if ! ((num_dedicated_matched==num_dedicated)); then
+        echo -n "ERROR: Openstack Nova cpu_dedicated_set contains cores that are not in isolcpus: " > \
+            $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_dedicated_set.header
+
+        sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
+            $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_dedicated_set.header
+        # no detail
+        touch $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_dedicated_set.body
+    fi
+fi
+
+# cpu_dedicated_set and cpu_shared_set must not overlap
+a=$SCRATCH_AREA/config/nova/cpu_shared_set
+b=$SCRATCH_AREA/config/nova/cpu_dedicated_set
+if [[ -r $a ]] && [[ -r $b ]]; then
+    ls $a > $SCRATCH_AREA/union
+    ls $b >> $SCRATCH_AREA/union
+
+    outliers=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| tr '\n' ','| sed -r 's/,$//g'`
+    if [[ -n $outliers ]]; then
+        echo -n "ERROR: Openstack Nova cpu_dedicated_set overlaps with cpu_shared_set: $outliers" > \
+            $SCRATCH_AREA/errors/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.header
+        # no detail
+        touch $SCRATCH_AREA/errors/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.body
+    fi
+fi
+
+# cpu_dedicated_set must all be on the same numa node
+a=$SCRATCH_AREA/config/nova/cpu_dedicated_set
+if [[ -r $a ]] && [[ -r $b ]]; then
+    # get tally of results using all nodes
+    ls $a > $SCRATCH_AREA/union
+    for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+        ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
+    done
+    global_tally=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
+
+    # now get per node tally
+    declare -A node_tally=()
+    for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+        ls $a > $SCRATCH_AREA/union
+        ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
+        node_tally[$node]=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
+    done
+
+    # not check for mismatches
+    error_found=false
+    for node in ${!node_tally[@]}; do
+        [[ -n ${node_tally[$node]} ]] || continue
+        ((${node_tally[$node]}==global_tally)) && break
+        error_found=true
+        break
+    done
+
+    if $error_found; then
+        echo -e "WARNING: Openstack Nova cpu_dedicated_set contains cores from more than one numa node\n" > $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.header
+
+        for node in ${!node_tally[@]}; do
+            echo "Node$node matched ${node_tally[$node]} cores" >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+        done        
+
+        echo -n "nova cpu_dedicated_set: " >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+        ls $a| sort -n| tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+
+        for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+            echo -ne "\nnode $node: " >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus| sort -n|tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+        done
+        echo "" >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+    fi
+fi
+
+# Display config used to perform checks
+echo "  cpu-pinning-checks:"
+echo "    config-checked:"
+echo "      nova:"
+if [[ -r $SCRATCH_AREA/config/nova ]]; then
+    for config in `ls $SCRATCH_AREA/config/nova`; do
+        echo "        - $config: `ls $SCRATCH_AREA/config/nova/$config|sort -n| tr '\n' ','| sed -r 's/,$//g'`"
+    done
+else
+        echo "        -"
+fi
+
+echo "      systemd:"
+if [[ -r $SCRATCH_AREA/config/systemd ]]; then
+    for config in `ls $SCRATCH_AREA/config/systemd`; do
+        echo "        - $config: `ls $SCRATCH_AREA/config/systemd/$config|sort -n| tr '\n' ','| sed -r 's/,$//g'`"
+    done
+else
+        echo "        -"
+fi
+
+echo "      kernel:"
+if [[ -r $SCRATCH_AREA/config/kernel ]]; then
+    for config in `ls $SCRATCH_AREA/config/kernel`; do
+        echo "        - $config: `ls $SCRATCH_AREA/config/kernel/$config|sort -n| tr '\n' ','| sed -r 's/,$//g'`"
+    done
+else
+        echo "        -"
+fi
+
+echo "      numactl:"
+if [[ -d $SCRATCH_AREA/config/numactl/nodes ]]; then
+    echo "        nodes:"
+    for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+        echo "          - $node:"
+        echo "            cpus: `ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus |sort -n| tr '\n' ','| sed -r 's/,$//g'`"
+    done
+else
+        echo "        -"
+fi
+
+# Display test results
+echo "    test-results:"
+if [ -d $SCRATCH_AREA/errors ] && ((`ls $SCRATCH_AREA/errors/| wc -l`)); then
+    for error in `find $SCRATCH_AREA/errors -name \*.header`; do
+        echo "      - `cat $error`"
+        if $OPENSTACK_SHOW_CPU_PINNING_RESULTS && [[ -s ${error%.header}.body ]]; then
+            while read line; do
+                echo "        $line"
+            done < ${error%.header}.body
+        fi
+    done
+else
+    echo "      - no issues found"
+fi
