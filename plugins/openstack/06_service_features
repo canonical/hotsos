@@ -61,6 +61,12 @@ get_features ()
 
 SCRATCH_AREA=`mktemp -d`
 
+cleanup ()
+{
+    rm -rf $SCRATCH_AREA
+}
+trap cleanup KILL INT EXIT
+
 echo "features:" > $SCRATCH_AREA/yaml
 
 get_features
