@@ -22,11 +22,13 @@ combined_units=( `echo ${ps_units[@]} ${log_units[@]}| tr -s ' ' '\n'| sort -u` 
 
 readarray -t ps_machines<<<"`get_ps| egrep [m]achine-\*| sed -r 's,.+machine-([[:digit:]]+).*,\1,g;t;d'| sort -u`"
 readarray -t log_machines<<<"`find ${DATA_ROOT}var/log/juju -name machine-\*| sed -r 's,.+machine-([[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
+# dedup
+declare -a all_machines=( `echo "${log_machines[@]} ${ps_machines[@]}"| tr -s ' ' '\n'| sort -u| tr -s '\n' ' '` )
 
 declare -a juju_machine_running=()
 declare -a juju_machine_stopped=()
 
-for machine in ${log_machines[@]}; do
+for machine in ${all_machines[@]}; do
     agent_conf=${DATA_ROOT}var/lib/juju/agents/machine-${machine}/agent.conf
     version=unknown
     if [ -r "$agent_conf" ]; then
