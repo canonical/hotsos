@@ -42,6 +42,7 @@ get_features ()
         module=${module#*.}
         module=${module%%.*}
 
+        [[ -r ${DATA_ROOT}${config_files[$service.$module]} ]] || continue
         cp ${DATA_ROOT}${config_files[$service.$module]} $SCRATCH_AREA/config.tmp
         # ensure newline
         echo "" >> $SCRATCH_AREA/config.tmp
