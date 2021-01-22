@@ -177,8 +177,12 @@ for data_root in ${sos_paths[@]}; do
     )
 
     if $SAVE_OUTPUT; then
-        sosreport_name=`basename $data_root`
-        out=${sosreport_name}.summary
+        if [[ $data_root != "/" ]]; then
+            archive_name=`basename $data_root`
+        else
+            archive_name="hotsos-`hostname`"
+        fi
+        out=${archive_name}.summary
         mv $F_OUT $out
         echo "Summary written to $out"
     else
