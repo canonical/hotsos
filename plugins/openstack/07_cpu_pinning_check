@@ -127,49 +127,39 @@ if [[ -r $a ]] && [[ -r $b ]]; then
 fi
 
 
-# cpu_dedicated_set must be subset or equal to isolcpus
-a=$SCRATCH_AREA/config/kernel/isolcpus
-b=$SCRATCH_AREA/config/nova/cpu_dedicated_set
-if [[ -r $a ]] && [[ -r $b ]]; then
-    ls $a > $SCRATCH_AREA/union
-    ls $b >> $SCRATCH_AREA/union
-    # add dedicated in again so that outliers errors are now "2"
-    ls $b >> $SCRATCH_AREA/union
+for key in vcpu_pin_set cpu_dedicated_set; do
+    # must be subset or equal to isolcpus OR CPUAffinity but not both
+    a=$SCRATCH_AREA/config/kernel/isolcpus
+    b=$SCRATCH_AREA/config/nova/$key
+    c=$SCRATCH_AREA/config/systemd/CPUAffinity
+    if [[ -r $a ]] && [[ -r $b ]]; then
+        ls $a > $SCRATCH_AREA/union
+        ls $b >> $SCRATCH_AREA/union
+        # add key value in again so that outliers are now "2"
+        ls $b >> $SCRATCH_AREA/union
 
-    num_dedicated=`ls $b| wc -l`
-    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
-    if ! ((num_dedicated_matched==num_dedicated)); then
-        echo -n "ERROR: Openstack Nova cpu_dedicated_set contains cores that are not in isolcpus: " > \
-            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.header
+        num_dedicated=`ls $b| wc -l`
+        num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
+        if ((num_dedicated_matched==0)); then
+            # retry with cpuaffinity
+            ls $c > $SCRATCH_AREA/union
+            ls $b >> $SCRATCH_AREA/union
+            # add key value in again so that outliers are now "2"
+            ls $b >> $SCRATCH_AREA/union
+            num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
+        fi
 
-        sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
-            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.header
-        # no detail
-        touch $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.body
+        if ! ((num_dedicated_matched==num_dedicated)); then
+            echo -n "ERROR: Openstack Nova $key contains cores that are not unique to isolcpus/cpuaffinity: " > \
+                $SCRATCH_AREA/test_results/isolcpus_vs_nova_${key}.header
+
+            sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
+                $SCRATCH_AREA/test_results/isolcpus_vs_nova_${key}.header
+            # no detail
+            touch $SCRATCH_AREA/test_results/isolcpus_vs_nova_${key}.body
+        fi
     fi
-fi
-
-# vcpu_pin_set must be subset or equal to isolcpus
-a=$SCRATCH_AREA/config/kernel/isolcpus
-b=$SCRATCH_AREA/config/nova/vcpu_pin_set
-if [[ -r $a ]] && [[ -r $b ]]; then
-    ls $a > $SCRATCH_AREA/union
-    ls $b >> $SCRATCH_AREA/union
-    # add vcpu_pin_set in again so that outliers are now "2"
-    ls $b >> $SCRATCH_AREA/union
-
-    num_dedicated=`ls $b| wc -l`
-    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
-    if ! ((num_dedicated_matched==num_dedicated)); then
-        echo -n "ERROR: Openstack Nova vcpu_pin_set contains cores that are not in isolcpus: " > \
-            $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.header
-
-        sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
-            $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.header
-        # no detail
-        touch $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.body
-    fi
-fi
+done
 
 # cpu_dedicated_set and cpu_shared_set must not overlap
 a=$SCRATCH_AREA/config/nova/cpu_shared_set
@@ -187,50 +177,53 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     fi
 fi
 
-# cpu_dedicated_set must all be on the same numa node
-a=$SCRATCH_AREA/config/nova/cpu_dedicated_set
-if [[ -r $a ]] && [[ -r $b ]]; then
-    # get tally of results using all nodes
-    ls $a > $SCRATCH_AREA/union
-    for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-        ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
-    done
-    global_tally=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
-
-    # now get per node tally
-    declare -A node_tally=()
-    for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+# cpu_dedicated_set/vcpu_pin_set should generally be on the same numa node, if
+# they are not we show this as INFO.
+for key in vcpu_pin_set cpu_dedicated_set; do
+    a=$SCRATCH_AREA/config/nova/$key
+    if [[ -r $a ]] && [[ -d $SCRATCH_AREA/config/numactl/nodes ]]; then
+        # get tally of results using all nodes
         ls $a > $SCRATCH_AREA/union
-        ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
-        node_tally[$node]=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
-    done
-
-    # not check for mismatches
-    error_found=false
-    for node in ${!node_tally[@]}; do
-        [[ -n ${node_tally[$node]} ]] || continue
-        ((${node_tally[$node]}==global_tally)) && break
-        error_found=true
-        break
-    done
-
-    if $error_found; then
-        echo -e "INFO: Openstack Nova cpu_dedicated_set contains cores from more than one numa node\n" > $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.header
-
-        for node in ${!node_tally[@]}; do
-            echo "Node$node matched ${node_tally[$node]} cores" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
-        done        
-
-        echo -n "nova cpu_dedicated_set: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
-        ls $a| sort -n| tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
-
         for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-            echo -ne "\nnode $node: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
-            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus| sort -n|tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
+            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
         done
-        echo "" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
+        global_tally=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
+
+        # now get per node tally
+        declare -A node_tally=()
+        for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+            ls $a > $SCRATCH_AREA/union
+            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
+            node_tally[$node]=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
+        done
+
+        # not check for mismatches
+        error_found=false
+        for node in ${!node_tally[@]}; do
+            [[ -n ${node_tally[$node]} ]] || continue
+            ((${node_tally[$node]}==global_tally)) && break
+            error_found=true
+            break
+        done
+
+        if $error_found; then
+            echo -e "INFO: Openstack Nova ${key} contains cores from more than one numa node\n" > $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.header
+
+            for node in ${!node_tally[@]}; do
+                echo "Node$node matched ${node_tally[$node]} cores" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+            done        
+
+            echo -n "nova ${key}: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+            ls $a| sort -n| tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+
+            for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
+                echo -ne "\nnode $node: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+                ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus| sort -n|tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+            done
+            echo "" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+        fi
     fi
-fi
+done
 
 # Display config used to perform checks
 echo "  cpu-pinning-checks:"
