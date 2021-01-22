@@ -87,7 +87,7 @@ fi
 
 # Perform checks
 
-mkdir -p $SCRATCH_AREA/errors
+mkdir -p $SCRATCH_AREA/test_results
 
 # these two sets of cores must not overlap
 a=$SCRATCH_AREA/config/kernel/isolcpus
@@ -96,14 +96,14 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     ls $a > $SCRATCH_AREA/union
     ls $b >> $SCRATCH_AREA/union
     for error in `sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'`; do
-        echo "$error" >> $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body
+        echo "$error" >> $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body
     done
-    if [[ -r $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body ]]; then
-        echo -n "ERROR: systemd CPUAffinity contains cores that are also in isolcpus" > \
-            $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.header
-        cat $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body >> $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.header
+    if [[ -r $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body ]]; then
+        echo -n "ERROR: systemd CPUAffinity contains cores that are also in isolcpus: " > \
+            $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
+        cat $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body >> $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
         # no details
-        echo "" > $SCRATCH_AREA/errors/isolcpus_vs_cpu_affinity.body
+        echo "" > $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body
     fi
 fi
 
@@ -114,13 +114,13 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     ls $a > $SCRATCH_AREA/union
     ls $b >> $SCRATCH_AREA/union
     for error in `sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'`; do
-        echo "$error" >> $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body
+        echo "$error" >> $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body
     done
-    if [[ -r $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body ]]; then
+    if [[ -r $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body ]]; then
         echo -n "ERROR: Openstack Nova cpu_shared_set contains cores that are also in isolcpus: " > \
-            $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.header
-        cat $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body >> $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.header
-        echo "" > $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_shared_set.body
+            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
+        cat $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body >> $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
+        echo "" > $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body
     fi
 fi
 
@@ -138,12 +138,12 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="2" {print}'| wc -l`
     if ! ((num_dedicated_matched==num_dedicated)); then
         echo -n "ERROR: Openstack Nova cpu_dedicated_set contains cores that are not in isolcpus: " > \
-            $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_dedicated_set.header
+            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.header
 
         sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
-            $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_dedicated_set.header
+            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.header
         # no detail
-        touch $SCRATCH_AREA/errors/isolcpus_vs_nova_cpu_dedicated_set.body
+        touch $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.body
     fi
 fi
 
@@ -157,9 +157,9 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     outliers=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| tr '\n' ','| sed -r 's/,$//g'`
     if [[ -n $outliers ]]; then
         echo -n "ERROR: Openstack Nova cpu_dedicated_set overlaps with cpu_shared_set: $outliers" > \
-            $SCRATCH_AREA/errors/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.header
+            $SCRATCH_AREA/test_results/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.header
         # no detail
-        touch $SCRATCH_AREA/errors/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.body
+        touch $SCRATCH_AREA/test_results/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.body
     fi
 fi
 
@@ -191,20 +191,20 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     done
 
     if $error_found; then
-        echo -e "WARNING: Openstack Nova cpu_dedicated_set contains cores from more than one numa node\n" > $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.header
+        echo -e "INFO: Openstack Nova cpu_dedicated_set contains cores from more than one numa node\n" > $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.header
 
         for node in ${!node_tally[@]}; do
-            echo "Node$node matched ${node_tally[$node]} cores" >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+            echo "Node$node matched ${node_tally[$node]} cores" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
         done        
 
-        echo -n "nova cpu_dedicated_set: " >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
-        ls $a| sort -n| tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+        echo -n "nova cpu_dedicated_set: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
+        ls $a| sort -n| tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
 
         for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-            echo -ne "\nnode $node: " >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
-            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus| sort -n|tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+            echo -ne "\nnode $node: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
+            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus| sort -n|tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
         done
-        echo "" >> $SCRATCH_AREA/errors/numa_nodes_vs_nova_cpu_dedicated_set.body
+        echo "" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_cpu_dedicated_set.body
     fi
 fi
 
@@ -251,8 +251,8 @@ fi
 
 # Display test results
 echo "    test-results:"
-if [ -d $SCRATCH_AREA/errors ] && ((`ls $SCRATCH_AREA/errors/| wc -l`)); then
-    for error in `find $SCRATCH_AREA/errors -name \*.header`; do
+if [ -d $SCRATCH_AREA/test_results ] && ((`ls $SCRATCH_AREA/test_results/| wc -l`)); then
+    for error in `find $SCRATCH_AREA/test_results -name \*.header`; do
         echo "      - `cat $error`"
         if $OPENSTACK_SHOW_CPU_PINNING_RESULTS && [[ -s ${error%.header}.body ]]; then
             while read line; do
