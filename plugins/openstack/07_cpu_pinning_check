@@ -48,7 +48,7 @@ done
 [[ -r $SCRATCH_AREA/nova.conf ]] && \
 for key in vcpu_pin_set cpu_shared_set cpu_dedicated_set; do
     while read line; do
-        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*/\1/p\"`"
+        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*.*/\1/p\"`"
         [[ -n "$value" ]] || continue
         get_cores "$line" "$key" nova "$value"
     done < $SCRATCH_AREA/nova.conf
@@ -58,7 +58,7 @@ done
 [[ -r $SCRATCH_AREA/system.conf ]] && \
 for key in CPUAffinity; do
     while read line; do
-        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*/\1/p\"`"
+        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*.*/\1/p\"`"
         [[ -n "$value" ]] || continue
         get_cores "$line" "$key" systemd "$value"
     done < $SCRATCH_AREA/system.conf
@@ -68,7 +68,7 @@ done
 key=isolcpus
 [[ -r $SCRATCH_AREA/cmdline ]] && \
 while read line; do
-    value="`echo \"$line\"| sed -rn \"s/.+\s+$key=(.+)\s*/\1/p\"`"
+    value="`echo \"$line\"| sed -rn \"s/.+\s+$key=([[:alnum:],\-]+)\s*.*/\1/p\"`"
     [[ -n "$value" ]] || continue
     get_cores "$line" "$key" kernel "$value"
 done < $SCRATCH_AREA/cmdline
