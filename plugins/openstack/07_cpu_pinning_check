@@ -101,9 +101,10 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     if [[ -r $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body ]]; then
         echo -n "ERROR: systemd CPUAffinity contains cores that are also in isolcpus: " > \
             $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
-        cat $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body >> $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
+        cat $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body| tr '\n' ','| sed -r 's/,$//g' >> \
+            $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
         # no details
-        echo "" > $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body
+        echo -n "" > $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body
     fi
 fi
 
@@ -119,8 +120,9 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     if [[ -r $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body ]]; then
         echo -n "ERROR: Openstack Nova cpu_shared_set contains cores that are also in isolcpus: " > \
             $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
-        cat $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body >> $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
-        echo "" > $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body
+        cat $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body| tr '\n' ','| sed -r 's/,$//g' >> \
+            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
+        echo -n "" > $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body
     fi
 fi
 
@@ -135,7 +137,7 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     ls $b >> $SCRATCH_AREA/union
 
     num_dedicated=`ls $b| wc -l`
-    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="2" {print}'| wc -l`
+    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
     if ! ((num_dedicated_matched==num_dedicated)); then
         echo -n "ERROR: Openstack Nova cpu_dedicated_set contains cores that are not in isolcpus: " > \
             $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_dedicated_set.header
@@ -153,11 +155,11 @@ b=$SCRATCH_AREA/config/nova/vcpu_pin_set
 if [[ -r $a ]] && [[ -r $b ]]; then
     ls $a > $SCRATCH_AREA/union
     ls $b >> $SCRATCH_AREA/union
-    # add dedicated in again so that outliers errors are now "2"
+    # add vcpu_pin_set in again so that outliers are now "2"
     ls $b >> $SCRATCH_AREA/union
 
     num_dedicated=`ls $b| wc -l`
-    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="2" {print}'| wc -l`
+    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
     if ! ((num_dedicated_matched==num_dedicated)); then
         echo -n "ERROR: Openstack Nova vcpu_pin_set contains cores that are not in isolcpus: " > \
             $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.header
