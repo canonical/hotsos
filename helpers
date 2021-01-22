@@ -111,7 +111,7 @@ get_ceph_volume_lvm_list ()
     if [ -s "$sos_path" ]; then
         cat "$sos_path"
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph-volume >/dev/null; then
-        ceph-volume lvm list
+        ceph-volume lvm list 2>/dev/null
     fi
 }
 export -f get_ceph_volume_lvm_list
@@ -122,7 +122,7 @@ get_lvm2_lvs ()
     if [ -e $sos_path ]; then
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which lvs >/dev/null; then
-        lvs -a -o lv_tags,devices
+        lvs -a -o lv_tags,devices 2>/dev/null
     fi
 }
 export -f get_lvm2_lvs
@@ -133,7 +133,7 @@ get_ceph_osd_tree ()
     if [ -e "$sos_path" ]; then
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
-        ceph osd tree
+        ceph osd tree 2>/dev/null
     fi
 }
 export -f get_ceph_osd_tree
@@ -144,7 +144,7 @@ get_ceph_osd_df_tree ()
     if [ -e "$sos_path" ]; then
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
-        ceph osd df tree
+        ceph osd df tree 2>/dev/null
     fi
 }
 export -f get_ceph_osd_df_tree
@@ -155,7 +155,7 @@ get_ceph_versions ()
     if [ -e "$sos_path" ]; then
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
-        ceph versions
+        ceph versions 2>/dev/null
     fi  
 }
 export -f get_ceph_versions
@@ -177,7 +177,7 @@ get_numactl_hardware ()
     if [ -e "$sos_path" ]; then
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
-        numactl --hardware
+        numactl --hardware 2>/dev/null
     fi
 }
 export -f get_numactl_hardware
