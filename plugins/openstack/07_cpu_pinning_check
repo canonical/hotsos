@@ -147,6 +147,28 @@ if [[ -r $a ]] && [[ -r $b ]]; then
     fi
 fi
 
+# vcpu_pin_set must be subset or equal to isolcpus
+a=$SCRATCH_AREA/config/kernel/isolcpus
+b=$SCRATCH_AREA/config/nova/vcpu_pin_set
+if [[ -r $a ]] && [[ -r $b ]]; then
+    ls $a > $SCRATCH_AREA/union
+    ls $b >> $SCRATCH_AREA/union
+    # add dedicated in again so that outliers errors are now "2"
+    ls $b >> $SCRATCH_AREA/union
+
+    num_dedicated=`ls $b| wc -l`
+    num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="2" {print}'| wc -l`
+    if ! ((num_dedicated_matched==num_dedicated)); then
+        echo -n "ERROR: Openstack Nova vcpu_pin_set contains cores that are not in isolcpus: " > \
+            $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.header
+
+        sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
+            $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.header
+        # no detail
+        touch $SCRATCH_AREA/test_results/isolcpus_vs_nova_vcpu_pin_set.body
+    fi
+fi
+
 # cpu_dedicated_set and cpu_shared_set must not overlap
 a=$SCRATCH_AREA/config/nova/cpu_shared_set
 b=$SCRATCH_AREA/config/nova/cpu_dedicated_set
