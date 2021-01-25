@@ -1,282 +1,391 @@
-#!/bin/bash -u
+#!/usr/bin/python3
+import re
+import os
+import subprocess
 
-SCRATCH_AREA=`mktemp -d`
+from uuid import uuid4
 
-cleanup ()
-{
-    rm -rf $SCRATCH_AREA
-}
-trap cleanup KILL INT EXIT
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
+    os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', None)
 
-get_cores ()
-{
-    local line="$1"
-    local key="$2"
-    local module=$3
-    local value="$4"
 
-    mkdir -p $SCRATCH_AREA/config/$module/$key
-    for core in `echo $value| tr -s ',' ' '`; do
+def get_cores(cores):
+    """Parse comma-seperated list of core ids into an array. Ranges are
+    expanded.
+    """
+    total = []
+    cores = cores.split(',')
+    for subcores in cores:
         # expand ranges
-        range="`echo \"$core\"| sed -rn 's/([[:digit:]]+)-([[:digit:]]+)/\1 \2/p'`"
-        if [[ -n "$range" ]]; then
-            core1=`echo $range| cut -d ' ' -f 1`
-            core2=`echo $range| cut -d ' ' -f 2`
-            for ((i=core1; i<=core2; i++)); do
-                mkdir $SCRATCH_AREA/config/$module/$key/$i
-            done
-        else
-            mkdir $SCRATCH_AREA/config/$module/$key/$core
-        fi
-    done
-}
+        subcores = subcores.partition('-')
+        if subcores[1] == '-':
+            total += range(int(subcores[0]), int(subcores[2]) + 1)
+        else:
+            total.append(int(subcores[0]))
 
-# Get all values/settings and store expanded
-
-get_numactl_hardware > $SCRATCH_AREA/numactl_--hardware
-echo "" >> $SCRATCH_AREA/numactl_--hardware
-
-for file in ${DATA_ROOT}proc/cmdline ${DATA_ROOT}etc/systemd/system.conf ${DATA_ROOT}etc/nova/nova.conf; do
-    [[ -r $file ]] || continue
-    cfg=`basename $file`
-    cat $file > $SCRATCH_AREA/$cfg
-    # ensure newline
-    echo "" >> $SCRATCH_AREA/$cfg
-done
-
-# get nova settings
-[[ -r $SCRATCH_AREA/nova.conf ]] && \
-for key in vcpu_pin_set cpu_shared_set cpu_dedicated_set; do
-    while read line; do
-        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*.*/\1/p\"`"
-        [[ -n "$value" ]] || continue
-        get_cores "$line" "$key" nova "$value"
-    done < $SCRATCH_AREA/nova.conf
-done
-
-# get systemd settings
-[[ -r $SCRATCH_AREA/system.conf ]] && \
-for key in CPUAffinity; do
-    while read line; do
-        value="`echo \"$line\"| sed -rn \"s/^$key\s*=\s*(.+)\s*.*/\1/p\"`"
-        [[ -n "$value" ]] || continue
-        get_cores "$line" "$key" systemd "$value"
-    done < $SCRATCH_AREA/system.conf
-done
-
-# get kernel cmdline args
-key=isolcpus
-[[ -r $SCRATCH_AREA/cmdline ]] && \
-while read line; do
-    value="`echo \"$line\"| sed -rn \"s/.+\s+$key=([[:alnum:],\-]+)\s*.*/\1/p\"`"
-    [[ -n "$value" ]] || continue
-    get_cores "$line" "$key" kernel "$value"
-done < $SCRATCH_AREA/cmdline
-
-# get numactl node info
-[[ -r $SCRATCH_AREA/numactl_--hardware ]] && \
-if [[ -r $SCRATCH_AREA/numactl_--hardware ]]; then
-    nodes=`sed -rn 's/available:\s+([[:digit:]]+)\s+nodes\s+\(([[:digit:]\-]+)\).*/\1/p' $SCRATCH_AREA/numactl_--hardware`
-    for node in `egrep -o "node ([[:digit:]]+) cpus:" $SCRATCH_AREA/numactl_--hardware| cut -d ' ' -f 2`; do
-        mkdir -p $SCRATCH_AREA/config/numactl/nodes/$node/cpus
-        for core in `grep "node $node cpus:" $SCRATCH_AREA/numactl_--hardware| cut -d ' ' -f4-`; do
-            mkdir -p $SCRATCH_AREA/config/numactl/nodes/$node/cpus/$core
-        done
-    done
-fi
-
-# Perform checks
-
-mkdir -p $SCRATCH_AREA/test_results
-
-# these two sets of cores must not overlap
-a=$SCRATCH_AREA/config/kernel/isolcpus
-b=$SCRATCH_AREA/config/systemd/CPUAffinity
-if [[ -r $a ]] && [[ -r $b ]]; then
-    ls $a > $SCRATCH_AREA/union
-    ls $b >> $SCRATCH_AREA/union
-    for error in `sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'`; do
-        echo "$error" >> $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body
-    done
-    if [[ -r $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body ]]; then
-        echo -n "ERROR: systemd CPUAffinity contains cores that are also in isolcpus: " > \
-            $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
-        cat $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body| tr '\n' ','| sed -r 's/,$//g' >> \
-            $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.header
-        # no details
-        echo -n "" > $SCRATCH_AREA/test_results/isolcpus_vs_cpu_affinity.body
-    fi
-fi
-
-# these two sets of cores must not overlap
-a=$SCRATCH_AREA/config/kernel/isolcpus
-b=$SCRATCH_AREA/config/nova/cpu_shared_set
-if [[ -r $a ]] && [[ -r $b ]]; then
-    ls $a > $SCRATCH_AREA/union
-    ls $b >> $SCRATCH_AREA/union
-    for error in `sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'`; do
-        echo "$error" >> $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body
-    done
-    if [[ -r $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body ]]; then
-        echo -n "ERROR: Openstack Nova cpu_shared_set contains cores that are also in isolcpus: " > \
-            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
-        cat $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body| tr '\n' ','| sed -r 's/,$//g' >> \
-            $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.header
-        echo -n "" > $SCRATCH_AREA/test_results/isolcpus_vs_nova_cpu_shared_set.body
-    fi
-fi
+    return total
 
 
-for key in vcpu_pin_set cpu_dedicated_set; do
-    # must be subset or equal to isolcpus OR CPUAffinity but not both
-    a=$SCRATCH_AREA/config/kernel/isolcpus
-    b=$SCRATCH_AREA/config/nova/$key
-    c=$SCRATCH_AREA/config/systemd/CPUAffinity
-    if [[ -r $a ]] && [[ -r $b ]]; then
-        ls $a > $SCRATCH_AREA/union
-        ls $b >> $SCRATCH_AREA/union
-        # add key value in again so that outliers are now "2"
-        ls $b >> $SCRATCH_AREA/union
+def list_to_str(l, seperator=None):
+    """Convert list of any type to string seperated by seperator."""
+    if not seperator:
+        seperator = ','
 
-        num_dedicated=`ls $b| wc -l`
-        num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
-        if ((num_dedicated_matched==0)); then
-            # retry with cpuaffinity
-            ls $c > $SCRATCH_AREA/union
-            ls $b >> $SCRATCH_AREA/union
-            # add key value in again so that outliers are now "2"
-            ls $b >> $SCRATCH_AREA/union
-            num_dedicated_matched=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="3" {print}'| wc -l`
-        fi
+    if not l:
+        return ""
 
-        if ! ((num_dedicated_matched==num_dedicated)); then
-            echo -n "ERROR: Openstack Nova $key contains cores that are not unique to isolcpus/cpuaffinity: " > \
-                $SCRATCH_AREA/test_results/isolcpus_vs_nova_${key}.header
+    return seperator.join([str(e) for e in l])
 
-            sort -n $SCRATCH_AREA/union| uniq -c| awk '$1=="2" {print $2}'| tr '\n' ','| sed -r 's/,$//g' >> \
-                $SCRATCH_AREA/test_results/isolcpus_vs_nova_${key}.header
-            # no detail
-            touch $SCRATCH_AREA/test_results/isolcpus_vs_nova_${key}.body
-        fi
-    fi
-done
 
-# cpu_dedicated_set and cpu_shared_set must not overlap
-a=$SCRATCH_AREA/config/nova/cpu_shared_set
-b=$SCRATCH_AREA/config/nova/cpu_dedicated_set
-if [[ -r $a ]] && [[ -r $b ]]; then
-    ls $a > $SCRATCH_AREA/union
-    ls $b >> $SCRATCH_AREA/union
+class OpenstackNovaConfig(object):
+    """Openstack Nova service configuration."""
 
-    outliers=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| tr '\n' ','| sed -r 's/,$//g'`
-    if [[ -n $outliers ]]; then
-        echo -n "ERROR: Openstack Nova cpu_dedicated_set overlaps with cpu_shared_set: $outliers" > \
-            $SCRATCH_AREA/test_results/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.header
-        # no detail
-        touch $SCRATCH_AREA/test_results/nova_cpu_shared_set_vs_nova_cpu_dedicated_set.body
-    fi
-fi
+    nova_config = []
 
-# cpu_dedicated_set/vcpu_pin_set should generally be on the same numa node, if
-# they are not we show this as INFO.
-for key in vcpu_pin_set cpu_dedicated_set; do
-    a=$SCRATCH_AREA/config/nova/$key
-    if [[ -r $a ]] && [[ -d $SCRATCH_AREA/config/numactl/nodes ]]; then
-        # get tally of results using all nodes
-        ls $a > $SCRATCH_AREA/union
-        for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
-        done
-        global_tally=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
+    def __init__(self):
+        path = os.path.join(DATA_ROOT, "etc/nova/nova.conf")
+        if os.path.exists(path):
+            self.nova_config = open(path, 'r').readlines()
 
-        # now get per node tally
-        declare -A node_tally=()
-        for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-            ls $a > $SCRATCH_AREA/union
-            ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus >> $SCRATCH_AREA/union
-            node_tally[$node]=`sort -n $SCRATCH_AREA/union| uniq -c| awk '$1!="1" {print $2}'| wc -l`
-        done
+        self._cpu_dedicated_set = []
+        self._cpu_shared_set = []
+        self._vcpu_pin_set = []
 
-        # not check for mismatches
-        error_found=false
-        for node in ${!node_tally[@]}; do
-            [[ -n ${node_tally[$node]} ]] && ((${node_tally[$node]})) || continue
-            ((${node_tally[$node]}==global_tally)) && break
-            error_found=true
-            break
-        done
+    @property
+    def cpu_dedicated_set(self):
+        if self._cpu_dedicated_set:
+            return self._cpu_dedicated_set
 
-        if $error_found; then
-            echo -e "INFO: Openstack Nova ${key} contains cores from more than one numa node\n" > $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.header
+        for line in self.nova_config:
+            expr = r'^cpu_dedicated_set\s*=\s*([0-9\-,]+)'
+            ret = re.compile(expr).match(line)
+            if ret:
+                self._cpu_dedicated_set = get_cores(ret[1])
+                break
 
-            for node in ${!node_tally[@]}; do
-                echo "Node$node matched ${node_tally[$node]} cores" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
-            done        
+        return self._cpu_dedicated_set
 
-            echo -n "nova ${key}: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
-            ls $a| sort -n| tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
+    @property
+    def cpu_shared_set(self):
+        if self._cpu_shared_set:
+            return self._cpu_shared_set
 
-            for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-                echo -ne "\nnode $node: " >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
-                ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus| sort -n|tr '\n' ','| sed -r 's/,$//g' >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
-            done
-            echo "" >> $SCRATCH_AREA/test_results/numa_nodes_vs_nova_${key}.body
-        fi
-    fi
-done
+        for line in self.nova_config:
+            expr = r'^cpu_shared_set\s*=\s*([0-9\-,]+)'
+            ret = re.compile(expr).match(line)
+            if ret:
+                self._cpu_shared_set = get_cores(ret[1])
+                break
 
-# Display config used to perform checks
-echo "  cpu-pinning-checks:"
-echo "    config-checked:"
-echo "      nova:"
-if [[ -r $SCRATCH_AREA/config/nova ]]; then
-    for config in `ls $SCRATCH_AREA/config/nova`; do
-        echo "        - $config: `ls $SCRATCH_AREA/config/nova/$config|sort -n| tr '\n' ','| sed -r 's/,$//g'`"
-    done
-else
-        echo "        -"
-fi
+        return self._cpu_shared_set
 
-echo "      systemd:"
-if [[ -r $SCRATCH_AREA/config/systemd ]]; then
-    for config in `ls $SCRATCH_AREA/config/systemd`; do
-        echo "        - $config: `ls $SCRATCH_AREA/config/systemd/$config|sort -n| tr '\n' ','| sed -r 's/,$//g'`"
-    done
-else
-        echo "        -"
-fi
+    @property
+    def vcpu_pin_set(self):
+        if self._vcpu_pin_set:
+            return self._vcpu_pin_set
 
-echo "      kernel:"
-if [[ -r $SCRATCH_AREA/config/kernel ]]; then
-    for config in `ls $SCRATCH_AREA/config/kernel`; do
-        echo "        - $config: `ls $SCRATCH_AREA/config/kernel/$config|sort -n| tr '\n' ','| sed -r 's/,$//g'`"
-    done
-else
-        echo "        -"
-fi
+        for line in self.nova_config:
+            expr = r'^vcpu_pin_set\s*=\s*([0-9\-,]+)'
+            ret = re.compile(expr).match(line)
+            if ret:
+                self._vcpu_pin_set = get_cores(ret[1])
+                break
 
-echo "      numactl:"
-if [[ -d $SCRATCH_AREA/config/numactl/nodes ]]; then
-    echo "        nodes:"
-    for node in `ls $SCRATCH_AREA/config/numactl/nodes`; do
-        echo "          - $node:"
-        echo "            cpus: `ls $SCRATCH_AREA/config/numactl/nodes/$node/cpus |sort -n| tr '\n' ','| sed -r 's/,$//g'`"
-    done
-else
-        echo "        -"
-fi
+        return self._vcpu_pin_set
 
-# Display test results
-echo "    test-results:"
-if [ -d $SCRATCH_AREA/test_results ] && ((`ls $SCRATCH_AREA/test_results/| wc -l`)); then
-    for error in `find $SCRATCH_AREA/test_results -name \*.header`; do
-        echo "      - `cat $error`"
-        if $OPENSTACK_SHOW_CPU_PINNING_RESULTS && [[ -s ${error%.header}.body ]]; then
-            while read line; do
-                echo "        $line"
-            done < ${error%.header}.body
-        fi
-    done
-else
-    echo "      - no issues found"
-fi
+
+class KernelConfig(object):
+    """ Kernel configuration. """
+
+    kernel_config = []
+
+    def __init__(self):
+        path = os.path.join(DATA_ROOT, "proc/cmdline")
+        if os.path.exists(path):
+            self.kernel_config = open(path, 'r').readlines()
+
+        self._isolcpus = []
+
+    @property
+    def isolcpus(self):
+        if self._isolcpus:
+            return self._isolcpus
+
+        for line in self.kernel_config:
+            expr = r'.*\s+isolcpus=([0-9\-,]+)\s*.*'
+            ret = re.compile(expr).match(line)
+            if ret:
+                self._isolcpus = get_cores(ret[1])
+                break
+
+        return self._isolcpus
+
+
+class SystemdConfig(object):
+    """Systemd configuration."""
+
+    systemd_config = []
+
+    def __init__(self):
+        path = os.path.join(DATA_ROOT, "etc/systemd/system.conf")
+        if os.path.exists(path):
+            self.systemd_config = open(path, 'r').readlines()
+
+        self._cpuaffinity = []
+
+    @property
+    def cpuaffinity(self):
+        if self._cpuaffinity:
+            return self._cpuaffinity
+
+        for line in self.systemd_config:
+            expr = r'^CPUAffinity\s*=\s*([0-9\-,]+)\s*.*'
+            ret = re.compile(expr).match(line)
+            if ret:
+                self._cpuaffinity = get_cores(ret[1])
+                break
+
+        return self._cpuaffinity
+
+
+class NUMAInfo(object):
+
+    numactl = ""
+
+    def __init__(self):
+        if DATA_ROOT == '/':
+            self.numactl = subprocess.check_output(['numactl', '--hardware'])
+            self.numactl = self.numactl.decode('UTF-8').splitlines()
+        else:
+            path = os.path.join(DATA_ROOT,
+                                "sos_commands/numa/numactl_--hardware")
+            if os.path.exists(path):
+                self.numactl = open(path, 'r').readlines()
+
+        self._nodes = {}
+
+    @property
+    def nodes(self):
+        """Returns dictionary of numa nodes and their associated list of cpu
+           cores.
+        """
+        if self._nodes:
+            return self._nodes
+
+        node_ids = []
+        for line in self.numactl:
+            expr = r'^available:\s+[0-9]+\s+nodes\s+\(([0-9\-]+)\)'
+            ret = re.compile(expr).match(line)
+            if ret:
+                p = ret[1].partition('-')
+                if p[1] == '-':
+                    node_ids = range(int(p[0]), int(p[2]) + 1)
+                else:
+                    node_ids = [int(p[0])]
+
+                break
+
+        for node in node_ids:
+            for line in self.numactl:
+                expr = r'^node\s+{}\s+cpus:\s([0-9\s]+)'.format(node)
+                ret = re.compile(expr).match(line)
+                if ret:
+                    self._nodes[node] = [int(e) for e in ret[1].split()]
+                    break
+
+        return self._nodes
+
+    def cores(self, node=None):
+        """Returns list of cores for a given numa node.
+
+        If no node id is provided, all cores from all numa nodes are returned.
+        """
+        return self.nodes.get(node)
+
+
+class Results(object):
+    def __init__(self):
+        self.errors = {}
+        self.errors_extras = {}
+        self.info = {}
+        self.info_extras = {}
+        self.config = {}
+
+    def add_config(self, application, key, value):
+        """Save service/application config. This servces as a record of what
+        we have used as a data source to cross-reference settings.
+        """
+        if not value:
+            return
+
+        if application in self.config:
+            self.config[application][key] = value
+        else:
+            self.config[application] = {key: value}
+
+    def add_info(self, msg, extra=None):
+        """Add message to be displayed as INFO"""
+        key = uuid4()
+        self.info[key] = msg
+        if extra:
+            self.info_extras[key] = extra
+
+    def add_error(self, msg, extra=None):
+        """Add message to be displayed as ERROR"""
+        key = uuid4()
+        self.errors[key] = msg
+        if extra:
+            self.errors_extras[key] = extra
+
+    def display(self):
+        print("  cpu-pinning-checks:")
+        print("    input:")
+        for app in self.config:
+            print("      {}:".format(app))
+            for key in self.config[app]:
+                print("        - {}: {}".format(key, self.config[app][key]))
+
+        print("    results:")
+        if not self.info and not self.errors:
+            print("      - no issues found")
+            return
+
+        for key in self.info:
+            msg = self.info[key]
+            print("      - INFO: {}".format(msg))
+            if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
+                for msg in self.info_extras[key].split('\n'):
+                    print("        - {}".format(msg))
+
+        for key in self.errors:
+            msg = self.errors[key]
+            print("      - ERROR: {}".format(msg))
+            if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
+                for msg in self.errors_extras[key].split('\n'):
+                    print("        - {}".format(msg))
+
+
+class CPUPinningChecker(object):
+
+    def __init__(self):
+        self.numa = NUMAInfo()
+        self.systemd = SystemdConfig()
+        self.kernel = KernelConfig()
+        self.openstack = OpenstackNovaConfig()
+        self.results = Results()
+
+        # >= Train
+        if self.openstack.cpu_dedicated_set:
+            self.cpu_dedicated_set = set(self.openstack.cpu_dedicated_set)
+            self.cpu_dedicated_set_name = "cpu_dedicated_set"
+        elif self.openstack.vcpu_pin_set:
+            self.cpu_dedicated_set = set(self.openstack.vcpu_pin_set)
+            self.cpu_dedicated_set_name = "vcpu_pin_set"
+
+        self.cpu_shared_set = set(self.openstack.cpu_shared_set)
+        self.isolcpus = set(self.kernel.isolcpus)
+        self.cpuaffinity = set(self.systemd.cpuaffinity)
+
+        self.results.add_config("nova", "cpu_dedicated_set",
+                                list_to_str(self.openstack.cpu_dedicated_set))
+
+        self.results.add_config("nova", "vcpu_pin_set",
+                                list_to_str(self.openstack.vcpu_pin_set))
+
+        self.results.add_config("nova", "cpu_shared_set",
+                                list_to_str(self.openstack.cpu_shared_set))
+
+        self.results.add_config("kernel", "isolcpus",
+                                list_to_str(self.isolcpus))
+        self.results.add_config("systemd", "cpuaffinity",
+                                list_to_str(self.cpuaffinity))
+
+        for node in self.numa.nodes:
+            self.results.add_config("numa", "node{}".format(node),
+                                    list_to_str(self.numa.cores(node)))
+
+    def run_cpu_pinning_checks(self):
+        """Perform a set of checks on Nova cpu pinning configuration to ensure
+        it is setup as expected.
+        """
+
+        if self.cpu_dedicated_set:
+            intersect1 = self.cpu_dedicated_set.intersection(self.isolcpus)
+            intersect2 = self.cpu_dedicated_set.intersection(self.cpuaffinity)
+            if intersect1:
+                if intersect2:
+                    extra = ("intersection with isolcpus: {}\nintersection "
+                             "with cpuaffinity: {}".format(intersect1,
+                                                           intersect2))
+                    msg = ("{} is a subset of both isolcpus AND "
+                           "cpuaffinity".format(self.cpu_dedicated_set_name))
+                    self.results.add_error(msg, extra)
+            elif intersect2:
+                if intersect1:
+                    extra = ("intersection with isolcpus: {}\nintersection "
+                             "with cpuaffinity: {}".format(intersect1,
+                                                           intersect2))
+                    msg = ("{} is a subset of both isolcpus AND "
+                           "cpuaffinity".format(self.cpu_dedicated_set_name))
+                    self.results.add_error(msg, extra)
+            else:
+                msg = ("{} is neither a subset of isolcpus nor cpuaffinity".
+                       format(self.cpu_dedicated_set_name))
+                self.results.add_error(msg)
+
+        intersect = self.cpu_shared_set.intersection(self.kernel.isolcpus)
+        if intersect:
+            extra = "intersection: {}".format(list_to_str(intersect))
+            self.results.add_error("cpu_shared_set contains cores from "
+                                   "isolcpus", extra)
+
+        intersect = self.cpu_dedicated_set.intersection(self.cpu_shared_set)
+        if intersect:
+            extra = "intersection: {}".format(list_to_str(intersect))
+            self.results.add_error("cpu_shared_set and cpu_dedicated_set "
+                                   "overlap", extra)
+
+        intersect = self.isolcpus.intersection(self.cpuaffinity)
+        if intersect:
+            extra = "intersection: {}".format(list_to_str(intersect))
+            self.results.add_error("isolcpus and cpuaffinity overlap", extra)
+
+        node_count = 0
+        for node in self.numa.nodes:
+            if self.cpu_dedicated_set.intersection(set(self.numa.cores(node))):
+                node_count += 1
+
+        if node_count > 1:
+            extra = ""
+            for node in self.numa.nodes:
+                if extra:
+                    extra += "\n"
+
+                extra += "node{}: {}".format(node,
+                                             list_to_str(
+                                                 self.numa.cores(node)))
+
+            extra += "\n{}: {}".format(self.cpu_dedicated_set_name,
+                                       list_to_str(self.cpu_dedicated_set))
+
+            self.results.add_info("{} has cores from > 1 numa node".
+                                  format(self.cpu_dedicated_set_name), extra)
+
+        total_isolated = self.isolcpus.union(self.cpuaffinity)
+        nonisolated = set(total_isolated).intersection()
+        if len(nonisolated) <= 4:
+            self.results.add_error("Host has only {} cores unpinned. This "
+                                   "might cause unintended performance "
+                                   "problems".format(len(nonisolated)))
+
+    def show_results(self):
+        self.results.display()
+
+
+if __name__ == "__main__":
+    checker = CPUPinningChecker()
+    checker.run_cpu_pinning_checks()
+    checker.show_results()

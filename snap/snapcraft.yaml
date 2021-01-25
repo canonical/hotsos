@@ -23,3 +23,7 @@ parts:
     source: .
     plugin: dump
     stage-packages: [coreutils, bsdmainutils, jq]
+  hotsos-python:
+    source: .
+    plugin: python
+
