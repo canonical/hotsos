@@ -200,7 +200,7 @@ for key in vcpu_pin_set cpu_dedicated_set; do
         # not check for mismatches
         error_found=false
         for node in ${!node_tally[@]}; do
-            [[ -n ${node_tally[$node]} ]] || continue
+            [[ -n ${node_tally[$node]} ]] && ((${node_tally[$node]})) || continue
             ((${node_tally[$node]}==global_tally)) && break
             error_found=true
             break
