@@ -212,6 +212,8 @@ class Results(object):
         self.errors_extras = {}
         self.info = {}
         self.info_extras = {}
+        self.warn = {}
+        self.warn_extras = {}
         self.config = {}
 
     def add_config(self, application, key, value):
@@ -232,6 +234,13 @@ class Results(object):
         self.info[key] = msg
         if extra:
             self.info_extras[key] = extra
+
+    def add_warn(self, msg, extra=None):
+        """Add message to be displayed as WARNING"""
+        key = uuid4()
+        self.warn[key] = msg
+        if extra:
+            self.warn_extras[key] = extra
 
     def add_error(self, msg, extra=None):
         """Add message to be displayed as ERROR"""
@@ -257,14 +266,21 @@ class Results(object):
             msg = self.info[key]
             print("      - INFO: {}".format(msg))
             if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
-                for msg in self.info_extras[key].split('\n'):
+                for msg in self.info_extras.get(key, "").split('\n'):
+                    print("        - {}".format(msg))
+
+        for key in self.warn:
+            msg = self.warn[key]
+            print("      - WARNING: {}".format(msg))
+            if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
+                for msg in self.warn_extras.get(key, "").split('\n'):
                     print("        - {}".format(msg))
 
         for key in self.errors:
             msg = self.errors[key]
             print("      - ERROR: {}".format(msg))
             if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
-                for msg in self.errors_extras[key].split('\n'):
+                for msg in self.errors_extras.get(key, "").split('\n'):
                     print("        - {}".format(msg))
 
 
@@ -377,9 +393,9 @@ class CPUPinningChecker(object):
         total_isolated = self.isolcpus.union(self.cpuaffinity)
         nonisolated = set(total_isolated).intersection()
         if len(nonisolated) <= 4:
-            self.results.add_error("Host has only {} cores unpinned. This "
-                                   "might cause unintended performance "
-                                   "problems".format(len(nonisolated)))
+            self.results.add_warn("Host has only {} cores unpinned. This "
+                                  "might cause unintended performance "
+                                  "problems".format(len(nonisolated)))
 
     def show_results(self):
         self.results.display()
