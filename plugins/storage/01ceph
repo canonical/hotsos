@@ -29,7 +29,8 @@ services=(
     radosgw
 )
 
-echo "ceph:"
+echo "storage:"
+echo "  ceph:"
 
 sos_time_secs=$(get_sosreport_time)
 
@@ -38,26 +39,29 @@ for svc in ${services[@]}; do
     [ -z "$exists" ] && continue
 
     ids="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\"| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
+
+    [[ -n $ids ]] && output+=( "    osds:" )
+
     for osd_id in `echo $ids| tr ',' ' '`;do
-        out_str="ceph-osd.$osd_id"
+        out_str="      $osd_id:"
 
         offset=`get_ceph_volume_lvm_list | egrep -n "==== osd.$osd_id ====" | cut -f1 -d:`
         if [ -n "$offset" ]; then
             osd_fsid=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "osd fsid" | sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
             osd_device=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "devices" | sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
-            out_str="$out_str (fsid=$osd_fsid) (device=$osd_device)"
+            out_str="$out_str\n        dev: $osd_device\n        fsid: $osd_fsid"
         else
             declare -a arr=($(get_lvm2_lvs |
                               awk -v id="osd_id=$osd_id" '/osd_fsid=/ && $0 ~ id {
                               match($0, /osd_fsid=([^,]+)/); a=substr($0, RSTART+1, RLENGTH-1);
                               split($NF, b, "("); print a, b[1]; exit }'))
-            [[ ${#arr[@]} == 2 ]] && out_str="$out_str (fsid=${arr[0]}) (device=${arr[1]})"
+            [[ ${#arr[@]} == 2 ]] && out_str="$out_str\n        dev: ${arr[1]}\n        fsid: ${arr[0]}"
         fi
 
         if ((VERBOSITY_LEVEL>=1)); then
             # OSD's Resident memory size
             osd_RSS=$(get_ps | awk -v id="--id $osd_id " '/ceph-osd/ && $0 ~ id {print int($6/1024); exit}')
-            out_str="$out_str (RSS=${osd_RSS}M)"
+            out_str="$out_str\n        RSS: ${osd_RSS}M"
 
             # OSD's uptime (time since it was started)
             osd_start="$(get_ps_axo_flags | awk -v id="--id $osd_id" '/ceph-osd/ && $0 ~ id {print $13, $14, $15, $16, $17; exit}')"
@@ -65,13 +69,13 @@ for svc in ${services[@]}; do
                 osd_start_secs=$(date --date="${osd_start}" +%s)
                 osd_uptime_secs=$((sos_time_secs - osd_start_secs))
                 osd_uptime_str="$(seconds_to_date $osd_uptime_secs)"
-                out_str="$out_str (etime=$osd_uptime_str)"
+                out_str="$out_str\n        etime: $osd_uptime_str"
             fi
         fi
 
         if ((VERBOSITY_LEVEL>=3)); then
             osd_devtype=$(get_ceph_osd_tree | awk -v id="$osd_id" '$4=="osd."id{print $2; exit}')
-            [[ -n $osd_devtype ]] && out_str="$out_str (type=$osd_devtype)"
+            [[ -n $osd_devtype ]] && out_str="$out_str\n        type: $osd_devtype"
         fi
 
         output+=( "$out_str" )
@@ -86,7 +90,7 @@ vers="$(ceph_versions_mismatch)"
 
 if ((${#output[@]})); then
     for line in "${output[@]}"; do
-        echo "${INDENT_STR}$line"
+        echo -e "$line"
     done
 else
     echo "${INDENT_STR}null"

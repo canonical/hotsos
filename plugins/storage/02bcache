@@ -3,21 +3,21 @@
 
 declare -a output=()
 
-echo "bcache-info:"
+echo "  bcache:"
 
 readarray -t bcacheinfo<<<"`get_ls_lanR_sys_block| egrep bcache| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 for bcache_name in ${bcacheinfo[@]}; do
-    out_str="$bcache_name"
+    out_str="    $bcache_name:"
     if [[ $bcache_name = "null" ]]; then
         break
     fi
 
     info="`get_udevadm_info_dev $bcache_name`"
     if [ -n "$info" ]; then
-        out_str="$out_str /dev/$bcache_name"
+        out_str="$out_str\n      dev: /dev/$bcache_name"
         dname=`get_udevadm_info_dev $bcache_name| grep ' disk/by-dname'| sed -r 's,.+/(.+),\1,g'`
         if [ -n "$dname" ]; then
-            out_str="$out_str (dname=$dname)"
+            out_str="$out_str\n      dname: $dname"
         fi
     fi
 
@@ -26,7 +26,7 @@ for bcache_name in ${bcacheinfo[@]}; do
     backing_dev=${f##*.}
 
     if [ -n "$backing_dev" ]; then
-        out_str="$out_str (backing=/dev/$backing_dev)"
+        out_str="$out_str\n      backing: /dev/$backing_dev"
     fi
 
     output+=( "$out_str" )
@@ -34,17 +34,17 @@ done
 
 readarray -t nvmeinfo<<<"`get_ls_lanR_sys_block| egrep nvme| sed -r 's/.+[[:digit:]\:]+\s+([[:alnum:]]+)\s+.+/\1/g'`"
 for dev in ${nvmeinfo[@]}; do
-    out_str="$dev"
+    out_str="    $dev"
     if [[ $dev = "null" ]]; then
         break
     fi
 
     info=`get_udevadm_info_dev $dev`
     if [ -n "$info" ]; then
-        out_str="$out_str /dev/$dev"
+        out_str="$out_str\n      /dev/$dev"
         dname=`get_udevadm_info_dev $dev| grep ' disk/by-dname'| sed -r 's,.+/(.+),\1,g'`
         if [ -n "$dname" ]; then
-            out_str="$out_str (dname=$dname)"
+            out_str="$out_str\n      dname: $dname"
         fi
     fi
 
@@ -53,7 +53,7 @@ done
 
 if ((${#output[@]})); then
     for line in "${output[@]}"; do
-        echo "${INDENT_STR}$line"
+        echo -e "$line"
     done
 else
     echo "${INDENT_STR}null"
