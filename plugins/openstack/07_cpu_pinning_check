@@ -295,6 +295,8 @@ class CPUPinningChecker(object):
         self.kernel = KernelConfig()
         self.openstack = OpenstackNovaConfig()
         self.results = Results()
+        self.cpu_dedicated_set = set()
+        self.cpu_dedicated_set_name = ""
 
         # >= Train
         if self.openstack.cpu_dedicated_set:
