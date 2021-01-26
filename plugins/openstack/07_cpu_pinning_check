@@ -265,22 +265,25 @@ class Results(object):
         for key in self.info:
             msg = self.info[key]
             print("      - INFO: {}".format(msg))
-            if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
-                for msg in self.info_extras.get(key, "").split('\n'):
+            extras = self.info_extras.get(key)
+            if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
+                for msg in extras.split('\n'):
                     print("        - {}".format(msg))
 
         for key in self.warn:
             msg = self.warn[key]
             print("      - WARNING: {}".format(msg))
-            if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
-                for msg in self.warn_extras.get(key, "").split('\n'):
+            extras = self.warn_extras.get(key)
+            if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
+                for msg in extras.split('\n'):
                     print("        - {}".format(msg))
 
         for key in self.errors:
             msg = self.errors[key]
             print("      - ERROR: {}".format(msg))
-            if OPENSTACK_SHOW_CPU_PINNING_RESULTS:
-                for msg in self.errors_extras.get(key, "").split('\n'):
+            extras = self.errors_extras.get(key)
+            if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
+                for msg in extras.split('\n'):
                     print("        - {}".format(msg))
 
 
@@ -361,8 +364,9 @@ class CPUPinningChecker(object):
         intersect = self.cpu_dedicated_set.intersection(self.cpu_shared_set)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
-            self.results.add_error("cpu_shared_set and cpu_dedicated_set "
-                                   "overlap", extra)
+            self.results.add_error("cpu_shared_set and {} overlap".
+                                   format(self.cpu_dedicated_set_name),
+                                   extra)
 
         intersect = self.isolcpus.intersection(self.cpuaffinity)
         if intersect:
