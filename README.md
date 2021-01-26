@@ -1,19 +1,12 @@
 # hotsos
 
-This tool is intended to be used to extract information out of
-sos reports that are commonly looked at when debugging problems.
-It has a number of *plugins* that deal with extracting application
-specific information.
+Tool to extract application-specific information from a [sosreport](https://github.com/sosreport/sos) which are commonly used as a source of debugging information.
 
-It's designed to be able to run on both live systems as well as
-sos reports.
+When running hotsos you can choose from a selection of plugins and can run it against either a sosreport or live host.
 
-It has multiple *verbosity* levels (`-v` flag) to get more fine-grained
-information about one or more applications.
+There are multiple *verbosity* levels (`-v` flag) to choose from, each providing more fine-grained information from each plugin.
 
-NOTE: hotsos is not intended to replace the functionality of
-[xsos](https://github.com/ryran/xsos); rather this is directed towards extracting application specific
-information that's not covered by xsos.
+NOTE: hotsos is not intended to replace the functionality of [xsos](https://github.com/ryran/xsos) but rather to provide extra application-specific information to get a useful view of applications running on a host.
 
 ### Usage
 
@@ -29,3 +22,10 @@ information that's not covered by xsos.
 - And even more details:
 > hotsos /path/to/sos/report --openstack -vvv
 
+## Install
+
+You can either run from this repository directly or install Ubuntu snap e.g.
+
+sudo snap install hotsos
+
+See https://snapcraft.io/hotsos for more info on usage.
