@@ -125,7 +125,7 @@ else
 fi
 
 echo -e "${INDENT_STR}systemd:"
-path=${DATA_ROOT}sos_commands/systemd/systemctl_show_service_--all
+path=${DATA_ROOT}etc/systemd/system.conf
 if [ -e "$path" ]; then
     if `egrep -q "CPUAffinity=.+" $path`; then
         egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}"

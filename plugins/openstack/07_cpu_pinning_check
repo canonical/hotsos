@@ -396,12 +396,13 @@ class CPUPinningChecker(object):
             self.results.add_info("{} has cores from > 1 numa node".
                                   format(self.cpu_dedicated_set_name), extra)
 
-        total_isolated = self.isolcpus.union(self.cpuaffinity)
-        nonisolated = set(total_isolated).intersection()
-        if len(nonisolated) <= 4:
-            self.results.add_warn("Host has only {} cores unpinned. This "
-                                  "might cause unintended performance "
-                                  "problems".format(len(nonisolated)))
+        if self.isolcpus or self.cpuaffinity:
+            total_isolated = self.isolcpus.union(self.cpuaffinity)
+            nonisolated = set(total_isolated).intersection()
+            if len(nonisolated) <= 4:
+                self.results.add_warn("Host has only {} cores unpinned. This "
+                                      "might cause unintended performance "
+                                      "problems".format(len(nonisolated)))
 
     def show_results(self):
         self.results.display()
