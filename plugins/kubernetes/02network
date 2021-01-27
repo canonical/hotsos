@@ -1,0 +1,58 @@
+#!/usr/bin/python3
+import re
+import os
+import subprocess
+
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+
+
+def ip_addr():
+    if DATA_ROOT == '/':
+        ip_addr_show = subprocess.check_output(['ip', '-d', 'address'])
+        return ip_addr_show.decode('UTF-8').splitlines()
+    else:
+        path = os.path.join(DATA_ROOT,
+                            "sos_commands/networking/ip_-d_address")
+        if os.path.exists(path):
+            return open(path, 'r').readlines()
+
+
+print("  network:")
+
+network_info = {}
+ip_addr_output = ip_addr()
+iface = None
+for i, line in enumerate(ip_addr_output):
+    if "flannel" in line:
+        if "flannel" not in network_info:
+            network_info["flannel"] = {}
+
+        ret = re.compile(r".+(flannel\.[0-9]+):").match(line)
+        if ret:
+            iface = ret[1]
+            network_info["flannel"][iface] = {}
+            continue
+
+    ret = re.compile(r".+\s+([0-9\.]+/[0-9]+).+\s+{}$".
+                     format(iface)).match(line)
+    if iface:
+        if iface in ip_addr_output[i-3] and ret:
+            network_info["flannel"][iface]["addr"] = ret[1]
+            iface = None
+
+    ret = re.compile(r"^\s+vxlan id .+\s+([0-9\.]+)\s+dev\s+([0-9a-z]+).+"
+                     ).match(line)
+    if ret:
+        network_info["flannel"][iface]["vxlan"] = "{}@{}".format(ret[1],
+                                                                 ret[2])
+
+
+for net in network_info:
+    print("    {}:".format(net))
+    for iface in network_info[net]:
+        print("      {}:".format(iface))
+        for property in network_info[net][iface]:
+            value = network_info[net][iface][property]
+            print("        {}: {}".format(property, value))

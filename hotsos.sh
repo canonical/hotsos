@@ -32,10 +32,11 @@ export INDENT_STR="  - "
 . `dirname $0`/helpers
 
 # ordered
-declare -a PLUG_KEYS=( openstack storage juju kernel system )
+declare -a PLUG_KEYS=( openstack kubernetes storage juju kernel system )
 # unordered
 declare -A PLUGINS=(
     [openstack]=false
+    [kubernetes]=false
     [storage]=false
     [juju]=false
     [kernel]=false
@@ -66,6 +67,8 @@ OPTIONS
         The Openstack plugin will check for cpu pinning configurations and
         perform checks. By default only brief messgaes will be displayed when
         issues are found. Use this flag to get more detailed results.
+    --kubernetes
+        Include info about Kubernetes
     --storage
         Include storage info including Ceph.
     --system
@@ -104,6 +107,9 @@ while (($#)); do
         --kernel)
             PLUGINS[kernel]=true
             ;;
+        --kubernetes)
+            PLUGINS[kubernetes]=true
+            ;;
         --list-plugins)
             echo "Available plugins:"
             echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| xargs -l -I{} echo " - {}"
@@ -128,6 +134,7 @@ while (($#)); do
             VERBOSITY_LEVEL=3
             ;;
         *)
+            [[ -d $1 ]] || { echo "ERROR: invalid path '$1'"; exit 1; }
             sos_paths+=( $1 )
             ;;
     esac
@@ -141,6 +148,7 @@ if ${PLUGINS[all]}; then
     PLUGINS[storage]=true
     PLUGINS[juju]=true
     PLUGINS[kernel]=true
+    PLUGINS[kubernetes]=true
     PLUGINS[system]=true
 fi
 
