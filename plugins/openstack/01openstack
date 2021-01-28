@@ -94,7 +94,5 @@ if ((${#openstack_info[@]})); then
     for e in ${!openstack_info[@]}; do
         echo "${svc_indent}$e (${openstack_info[$e]})"
     done| sort -k 2
-else
-    echo "${svc_indent}null"
 fi
 

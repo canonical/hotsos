@@ -30,7 +30,6 @@ services=(
 )
 
 echo "storage:"
-echo "  ceph:"
 
 sos_time_secs=$(get_sosreport_time)
 
@@ -89,10 +88,9 @@ vers="$(ceph_versions_mismatch)"
 [[ -n $vers ]] && output+=( "$vers" )
 
 if ((${#output[@]})); then
+    echo "  ceph:"
     for line in "${output[@]}"; do
         echo -e "$line"
     done
-else
-    echo "${INDENT_STR}null"
 fi
 

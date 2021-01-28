@@ -38,15 +38,10 @@ if [ -z "`get_dpkg_l`" ]; then
     exit 0
 fi
 
-found=`mktemp`
-echo 0 > $found
 for proj in ${ost_projects[@]} ${ost_deps[@]}; do
     readarray -t packages<<<`get_dpkg_l| egrep "^ii\s+$proj"| awk '{print $2}'`
     for pkg in ${packages[@]}; do
         ver=`get_dpkg_l| egrep "^ii\s+$pkg "| awk '{print $3}'`
         echo "  $INDENT_STR$pkg $ver"
-        echo 1 > $found
     done | sort -k2
 done
-((`cat $found`)) || echo "  ${INDENT_STR}null"
-rm $found

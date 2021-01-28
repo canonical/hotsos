@@ -72,6 +72,7 @@ echo "features:" > $SCRATCH_AREA/yaml
 get_features
 
 for service in `ls -d $SCRATCH_AREA/services/*`; do
+    ((`find $service -type f| wc -l`)) || continue
     echo "  `basename $service`:" >> $SCRATCH_AREA/yaml
     for module in `find $service -type f`; do
         while read line; do

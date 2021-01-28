@@ -4,5 +4,6 @@
 
 echo "system:"
 NUM_CPUS=`lscpu| grep -P '^CPU\(s\):' | awk -F' ' '{print $2}'`
-uptime| sed -r "s/.+(load average)(:.+)/- \1 ($NUM_CPUS cpus)\2/g"|xargs -l -I{} echo "  {}"
-echo "${INDENT_STR}rootfs: `df| egrep ' /$'`"
+echo "  num-cpus: $NUM_CPUS"
+uptime| sed -r "s/.+(load) average(:.+)/ \1\2/g"|xargs -l -I{} echo "  {}"
+echo "  rootfs: `df| egrep ' /$'`"

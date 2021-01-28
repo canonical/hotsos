@@ -10,9 +10,7 @@ echo "kernel:"
 
 path=${DATA_ROOT}proc/cmdline
 if [ -e "$path" ]; then
-    cat $path|xargs -l -I{} echo "${INDENT_STR}{}"
-else
-    echo "${INDENT_STR}$path not found"
+    echo "  boot: `cat $path`"
 fi
 
 # TODO: consider available zones in /proc/pagetypeinfo
@@ -20,8 +18,6 @@ fi
 #if [ -e "$data_source" ]; then
 #    cat $data_source | egrep "zone\s+Normal,"| sed -r 's/\s+/ /g'
 #fi
-
-echo "${INDENT_STR}memory:"
 
 check_mallocinfo ()
 {
@@ -108,6 +104,7 @@ $zone_issue_found || check_nodes_memory DMA32 || zone_issue_found=true
 
 # We only report on compaction errors if there is a shortage of high-order zones
 if $zone_issue_found; then
+    echo "  memory-checks:"
     fail_count=`awk '$1=="compact_fail" {print $2}' ${DATA_ROOT}proc/vmstat`
     success_count=`awk '$1=="compact_success" {print $2}' ${DATA_ROOT}proc/vmstat`
     # we use an arbitrary threshold of 10k to suggest that a lot of compaction has
@@ -121,10 +118,10 @@ if $zone_issue_found; then
     fi
     ((VERBOSITY_LEVEL>=1)) && get_slab_major_consumers
 else
-    echo "${sub_indent_str}null"
+    echo "  memory-checks: no issues found"
 fi
 
-echo -e "${INDENT_STR}systemd:"
+echo -e "  systemd:"
 path=${DATA_ROOT}etc/systemd/system.conf
 if [ -e "$path" ]; then
     if `egrep -q "^CPUAffinity=.+" $path`; then
@@ -132,7 +129,5 @@ if [ -e "$path" ]; then
     else
         echo "${sub_indent_str}CPUAffinity not set"
     fi
-else
-    echo "${sub_indent_str}null"
 fi
 

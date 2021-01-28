@@ -55,16 +55,12 @@ get_events ()
         for line in "${succeeded[@]}"; do
             echo "${subsubsubsub_indent_str}$line"
         done
-    else
-        echo "${subsubsubsub_indent_str}null"
     fi
     echo "      failed:"
     if ((${#failed[@]})); then
         for line in "${failed[@]}"; do
             echo "${subsubsubsub_indent_str}$line"
         done
-    else
-        echo "${subsubsubsub_indent_str}null"
     fi
 }
 

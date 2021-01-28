@@ -39,6 +39,3 @@ if [ -e "$data_source" ]; then
     fi
 fi
 
-if ! $found; then
-    echo "  ${INDENT_STR}null"
-fi

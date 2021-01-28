@@ -81,16 +81,14 @@ fi
 echo -e "  units:"
 if (("${#ps_units[@]}"==0)) || [ -z "${ps_units[0]}" ]; then
     echo -e "    any:"
-    echo "      ${INDENT_STR}null"
 else
     echo -e "    running:"
     echo -e ${juju_unit_local[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     echo -e "    stopped:"
     echo -e ${juju_unit_local_not_running_filtered[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     echo -e "    non-local (e.g. lxd):"
-    if (("${#juju_unit_nonlocal[@]}"==0)) || [ -z "${juju_unit_nonlocal[0]}" ]; then
-        juju_unit_nonlocal=( null )
+    if (("${#juju_unit_nonlocal[@]}")) && [ -n "${juju_unit_nonlocal[0]}" ]; then
+        echo -e ${juju_unit_nonlocal[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
     fi
-    echo -e ${juju_unit_nonlocal[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
 fi
 

@@ -17,7 +17,6 @@ if ((${#output[@]})); then
         echo "${vm_indent}$line"
     done
 else
-    echo "  vms:"
-    echo "${vm_indent}null"
+    echo "  instances:"
 fi
 
