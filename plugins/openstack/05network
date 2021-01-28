@@ -18,7 +18,7 @@ if [ -e "$data_source" ]; then
         fi
 
         echo "    nova:"
-        echo "    ${INDENT_STR}my_ip: $my_ip ($iface)"
+        echo "      my_ip: $my_ip ($iface)"
     fi
 fi
 
@@ -35,7 +35,7 @@ if [ -e "$data_source" ]; then
         fi
 
         echo "    neutron:"
-        echo "    ${INDENT_STR}local_ip: $local_ip ($iface)"
+        echo "      local_ip: $local_ip ($iface)"
     fi
 fi
 

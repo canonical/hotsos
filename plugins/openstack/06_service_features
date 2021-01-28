@@ -76,7 +76,7 @@ for service in `ls -d $SCRATCH_AREA/services/*`; do
     echo "  `basename $service`:" >> $SCRATCH_AREA/yaml
     for module in `find $service -type f`; do
         while read line; do
-            echo "    - $line" >> $SCRATCH_AREA/yaml
+            echo "    $line" >> $SCRATCH_AREA/yaml
         done < $module
     done
 done

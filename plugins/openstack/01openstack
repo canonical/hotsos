@@ -48,7 +48,7 @@ if ((VERBOSITY_LEVEL>=2)); then
             path=etc/$proj/${ost_etc_overrides[$proj]}
         [ -e "$path" ] || continue
         debug=`sed -rn '/^\s*#/!s/debug\s*=\s*(.+)\s*/\1/p' $path`
-        echo "$svc_indent$proj: $debug"
+        echo "    $proj: $debug"
     done
 fi
 
