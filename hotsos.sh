@@ -152,18 +152,8 @@ if ${PLUGINS[all]}; then
     PLUGINS[system]=true
 fi
 
-F_OUT=`mktemp`
-CWD=$(dirname `realpath $0`)
-for data_root in ${sos_paths[@]}; do
-    (
-    if [ "$data_root" = "/" ]; then
-        echo -e "INFO: running against localhost since no sosreport path provided\n" 1>&2
-        export DATA_ROOT=/
-    else
-        cd $data_root
-        export DATA_ROOT=./
-    fi
-
+get_general_info ()
+{
     echo "general: " > $F_OUT
     _hostname=
     [ -r "$DATA_ROOT/hostname" ] && _hostname=`cat $DATA_ROOT/hostname` || _hostname=`hostname`
@@ -174,15 +164,32 @@ for data_root in ${sos_paths[@]}; do
         s_0=${series:0:1}  # capitalise first char
        echo -e "  os: Ubuntu ${s_0^^}${series:1}" >> $F_OUT
     fi
+}
+
+F_OUT=`mktemp`
+CWD=$(dirname `realpath $0`)
+for data_root in ${sos_paths[@]}; do
+    if [ "$data_root" = "/" ]; then
+        echo -e "INFO: running against localhost since no sosreport path provided\n" 1>&2
+        export DATA_ROOT=/
+    else
+        export DATA_ROOT=$data_root
+    fi
+
+    get_general_info
 
     for plugin in ${PLUG_KEYS[@]}; do
+        # skip this since not a real plugin
         [ "$plugin" = "all" ] && continue
+        # is plugin enabled?
         ${PLUGINS[$plugin]} || continue
-        for plug in `find $CWD/plugins/$plugin/ -type f| sort -n`; do
-            $plug >> $F_OUT
+
+        for priority in {00..99}; do
+            for plug in `find $CWD/plugins/$plugin -name $priority\*`; do
+                $plug >> $F_OUT
+            done
         done
     done
-    )
 
     if $SAVE_OUTPUT; then
         if [[ $data_root != "/" ]]; then

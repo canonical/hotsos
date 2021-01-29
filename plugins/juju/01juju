@@ -1,94 +1,145 @@
-#!/bin/bash -u
-# This plugin displays information about Juju.
+#!/usr/bin/python3
+import re
+import os
+import sys
 
-unit_in_array ()
-{
-    unit="$1"
-    shift
-    echo $@| egrep -q "\s?${unit}\s?"
-}
+import helpers
 
-echo "juju:"
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-data_source_dir=${DATA_ROOT}var/log/juju
-if ! [ -d "$data_source_dir" ]; then
-    echo "  - $data_source_dir not found - skipping juju info"
-    exit 0
-fi
+JUJU_LOG_PATH = os.path.join(DATA_ROOT, "var/log/juju")
 
-readarray -t ps_units<<<"`get_ps| grep [u]nit-| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*,\1,g;t;d'| sort -u`"
-readarray -t log_units<<<"`find ${DATA_ROOT}var/log/juju -name unit-\*.log| sed -r 's,.+unit-([[:alnum:]\-]+-[[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
-combined_units=( `echo ${ps_units[@]} ${log_units[@]}| tr -s ' ' '\n'| sort -u` )
+machine_running = set()
+machine_stopped = set()
+app_local = set()
+unit_local = set()
+unit_local_not_running = set()
+unit_nonlocal = set()
+app_nonlocal = {}
+unit_local_not_running_filtered = set()
+ps_units = set()
+log_units = set()
+ps_machines = set()
+log_machines = set()
 
-readarray -t ps_machines<<<"`get_ps| egrep [m]achine-\*| sed -r 's,.+machine-([[:digit:]]+).*,\1,g;t;d'| sort -u`"
-readarray -t log_machines<<<"`find ${DATA_ROOT}var/log/juju -name machine-\*| sed -r 's,.+machine-([[:digit:]]+).*.log.*,\1,g;t;d'| sort -u`"
-# dedup
-declare -a all_machines=( `echo "${log_machines[@]} ${ps_machines[@]}"| tr -s ' ' '\n'| sort -u| tr -s '\n' ' '` )
 
-declare -a juju_machine_running=()
-declare -a juju_machine_stopped=()
+def get_app_from_unit(unit):
+    ret = re.compile(r"([0-9a-z\-]+)-[0-9]+.*").match(unit)
+    if ret:
+        return ret[1]
 
-for machine in ${all_machines[@]}; do
-    agent_conf=${DATA_ROOT}var/lib/juju/agents/machine-${machine}/agent.conf
-    version=unknown
-    if [ -r "$agent_conf" ]; then
-        version=`sed -r 's/upgradedToVersion:\s+(.+)/\1/g;t;d' $agent_conf`
-    fi
-    if unit_in_array $machine ${ps_machines[@]}; then
-        juju_machine_running+=( "${machine} (version=$version)\n" )
-    else
-        juju_machine_stopped+=( "${machine}\n" )
-    fi
-done
 
-declare -a juju_unit_local=()
-declare -a juju_unit_local_not_running=()
-declare -a juju_unit_nonlocal=()
+def get_unit_version(unit):
+    ret = re.compile(r"[0-9a-z\-]+-([0-9]+).*").match(unit)
+    if ret:
+        return int(ret[1])
 
-for unit in ${combined_units[@]}; do
-    if unit_in_array $unit ${log_units[@]}; then
-        if unit_in_array $unit ${ps_units[@]}; then
-            juju_unit_local+=( "${unit}\n" )
-        else
-            juju_unit_local_not_running+=( "${unit}\n" )
-        fi
-    else
-        juju_unit_nonlocal+=( "${unit}\n" )
-    fi
-done
 
-# remove units from juju_unit_local_not_running that are just old versions of the one currently running
-juju_unit_local_not_running_filtered=()
-for unit in ${juju_unit_local_not_running[@]}; do
-    app=${unit%-*}
-    echo -e "${juju_unit_local[@]}"| egrep -q "${app}-[0-9]+" && continue
-    echo -e "${juju_unit_local_not_running_filtered[@]}"| egrep -q "${app}" && continue
-    readarray -t apps<<<`echo -e "${juju_unit_local_not_running[@]}"| egrep -o "${app}-[0-9]+"` 
-    for app in ${apps[@]}; do
-        juju_unit_local_not_running_filtered+=( "${app[@]}\n" )
-    done
-done
+print("juju:")
+if not os.path.exists(JUJU_LOG_PATH):
+    print("  - $data_source_dir not found - skipping juju info")
+    sys.exit(0)
 
-(("${#ps_machines[@]}")) && [ -n "${ps_machines[0]}" ] || ps_machines+=( null )
-echo -e "  machines:"
-echo -e "    running:"
-echo -e ${juju_machine_running[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
-if ((${#juju_machine_stopped[@]})) && [ -n "${juju_machine_stopped[0]}" ]; then
-    echo -e "    stopped:"
-    echo -e ${juju_machine_stopped[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
-fi
+for line in helpers.get_ps():
+    if "unit-" in line:
+        ret = re.compile(r".+unit-([0-9a-z\-]+-[0-9]+).*").match(line)
+        if ret:
+            ps_units.add(ret[1])
 
-echo -e "  units:"
-if (("${#ps_units[@]}"==0)) || [ -z "${ps_units[0]}" ]; then
-    echo -e "    any:"
-else
-    echo -e "    running:"
-    echo -e ${juju_unit_local[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
-    echo -e "    stopped:"
-    echo -e ${juju_unit_local_not_running_filtered[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
-    echo -e "    non-local (e.g. lxd):"
-    if (("${#juju_unit_nonlocal[@]}")) && [ -n "${juju_unit_nonlocal[0]}" ]; then
-        echo -e ${juju_unit_nonlocal[@]}| sort -u| xargs -l -I{} echo "    ${INDENT_STR}{}"
-    fi
-fi
+for f in os.listdir(JUJU_LOG_PATH):
+    ret = re.compile(r"unit-(.+)\.log.*").match(f)
+    if ret:
+        log_units.add(ret[1])
 
+combined_units = ps_units.union(log_units)
+
+for line in helpers.get_ps():
+    if "machine-" in line:
+        ret = re.compile(r".+machine-([0-9]+).*").match(line)
+        if ret:
+            ps_machines.add(ret[1])
+
+for f in os.listdir(JUJU_LOG_PATH):
+    ret = re.compile(r"machine-([0-9]+)\.log.*").match(f)
+    if ret:
+        log_machines.add(ret[1])
+
+combined_machines = ps_machines.union(log_machines)
+
+for machine in combined_machines:
+    agent_conf = os.path.join(DATA_ROOT,
+                              "var/lib/juju/agents/machine-{}/agent.conf".
+                              format(machine))
+    version = "unknown"
+    if os.path.exists(agent_conf):
+        for line in open(agent_conf).readlines():
+            ret = re.compile(r"upgradedToVersion:\s+(.+)").match(line)
+            if ret:
+                version = ret[1]
+
+    if machine in ps_machines:
+        machine_running.add("{} (version={})".format(machine, version))
+    else:
+        machine_stopped.add(machine)
+
+for unit in combined_units:
+    if unit in log_units:
+        if unit in ps_units:
+            app_local.add(unit.partition('-')[2])
+            unit_local.add(unit)
+        else:
+            unit_local_not_running.add(unit)
+    else:
+        # i.e. it is running but there is no log file in /var/log/juju so
+        # it is likely running in a container
+        app = get_app_from_unit(unit)
+        if app:
+            version = get_unit_version(unit)
+            if version is not None:
+                if app in app_nonlocal:
+                    if version > app_nonlocal[app]:
+                        app_nonlocal[app] = version
+                else:
+                    app_nonlocal[app] = version
+
+        unit_nonlocal.add(unit)
+
+# remove units from unit_local_not_running that are just old versions of
+# the one currently running
+for unit in unit_local_not_running:
+    app = get_app_from_unit(unit)
+    if not app or app not in app_local:
+        unit_local_not_running_filtered.add(unit)
+
+# dedup unit_nonlocal
+unit_nonlocal_dedup = set()
+for unit in unit_nonlocal:
+    app = get_app_from_unit(unit)
+    version = app_nonlocal[app]
+    if version == get_unit_version(unit):
+        unit_nonlocal_dedup.add(unit)
+
+print("  machines:")
+if machine_running:
+    print("    running:")
+    for m in machine_running:
+        print("      - {}".format(m))
+
+if machine_stopped:
+    print("    stopped:")
+    for m in machine_stopped:
+        print("      - {}".format(m))
+
+
+print("  units:")
+print("    running:")
+for unit in sorted(unit_local):
+    print("      - {}".format(unit))
+print("    stopped:")
+for unit in sorted(unit_local_not_running_filtered):
+    print("      - {}".format(unit))
+print("    non-local (e.g. lxd):")
+for unit in sorted(unit_nonlocal_dedup):
+    print("      - {}".format(unit))

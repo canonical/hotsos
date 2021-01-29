@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import re
 import os
-import subprocess
+
+import helpers
 
 from uuid import uuid4
 
@@ -156,15 +157,7 @@ class NUMAInfo(object):
     numactl = ""
 
     def __init__(self):
-        if DATA_ROOT == '/':
-            self.numactl = subprocess.check_output(['numactl', '--hardware'])
-            self.numactl = self.numactl.decode('UTF-8').splitlines()
-        else:
-            path = os.path.join(DATA_ROOT,
-                                "sos_commands/numa/numactl_--hardware")
-            if os.path.exists(path):
-                self.numactl = open(path, 'r').readlines()
-
+        self.numactl = helpers.get_numactl()
         self._nodes = {}
 
     @property

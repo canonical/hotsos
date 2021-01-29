@@ -1,28 +1,18 @@
 #!/usr/bin/python3
 import re
 import os
-import subprocess
+
+import helpers
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 
-def ip_addr():
-    if DATA_ROOT == '/':
-        ip_addr_show = subprocess.check_output(['ip', '-d', 'address'])
-        return ip_addr_show.decode('UTF-8').splitlines()
-    else:
-        path = os.path.join(DATA_ROOT,
-                            "sos_commands/networking/ip_-d_address")
-        if os.path.exists(path):
-            return open(path, 'r').readlines()
-
-
 print("  network:")
 
 network_info = {}
-ip_addr_output = ip_addr()
+ip_addr_output = helpers.get_ip_addr()
 iface = None
 for i, line in enumerate(ip_addr_output):
     if "flannel" in line:
