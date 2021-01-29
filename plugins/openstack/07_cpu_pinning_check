@@ -157,7 +157,7 @@ class NUMAInfo(object):
     numactl = ""
 
     def __init__(self):
-        self.numactl = helpers.get_numactl()
+        self.numactl = helpers.get_numactl() or ""
         self._nodes = {}
 
     @property
