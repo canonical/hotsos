@@ -79,8 +79,12 @@ get_slab_major_consumers ()
 check_nodes_memory () {
     local zones_type=$1
     local zone_issue_found=false
+    local proc_buddyinfo="${DATA_ROOT}proc/buddyinfo"
 
-    readarray -t nodes<<<"`sed -rn 's/Node\s+([0-9]+).+/\1/p' ${DATA_ROOT}proc/buddyinfo| sort -u`"
+    # /proc/buddyinfo may not exist in containers/VMs
+    [[ ! -e "$proc_buddyinfo" ]] && return
+
+    readarray -t nodes<<<"`sed -rn 's/Node\s+([0-9]+).+/\1/p' ${proc_buddyinfo}| sort -u`"
     for node in ${nodes[@]}; do
         check_mallocinfo $node $zones_type
         if (($?)); then
