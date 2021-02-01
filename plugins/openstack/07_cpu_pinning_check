@@ -13,7 +13,7 @@ OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
     os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', None)
 
 
-def get_cores(cores):
+def cores_to_list(cores):
     """Parse comma-seperated list of core ids into an array. Ranges are
     expanded.
     """
@@ -30,15 +30,53 @@ def get_cores(cores):
     return total
 
 
-def list_to_str(l, seperator=None):
+def squash_int_range(ilist):
+    """Takes a list of integers and squashes consecutive values into a string
+    range. Returned list contains mix of strings and ints.
+    """
+    irange = []
+    rstart = None
+    rprev = None
+
+    sorted(ilist)
+    for i, value in enumerate(ilist):
+        if rstart is None:
+            if i == (len(ilist) - 1):
+                irange.append(value)
+                break
+            else:
+                rstart = value
+
+        if rprev is not None:
+            if rprev != (value - 1):
+                if rstart == rprev:
+                    irange.append(rstart)
+                else:
+                    irange.append("{}-{}".format(rstart, rprev))
+                    if i == (len(ilist) - 1):
+                        irange.append(value)
+
+                rstart = value
+            elif i == (len(ilist) - 1):
+                irange.append("{}-{}".format(rstart, value))
+                break
+
+        rprev = value
+
+    return irange
+
+
+def list_to_str(slist, seperator=None):
     """Convert list of any type to string seperated by seperator."""
     if not seperator:
         seperator = ','
 
-    if not l:
+    if not slist:
         return ""
 
-    return seperator.join([str(e) for e in l])
+    slist = squash_int_range(slist)
+
+    return seperator.join([str(e) for e in slist])
 
 
 class OpenstackNovaConfig(object):
@@ -64,7 +102,7 @@ class OpenstackNovaConfig(object):
             expr = r'^cpu_dedicated_set\s*=\s*([0-9\-,]+)'
             ret = re.compile(expr).match(line)
             if ret:
-                self._cpu_dedicated_set = get_cores(ret[1])
+                self._cpu_dedicated_set = cores_to_list(ret[1])
                 break
 
         return self._cpu_dedicated_set
@@ -78,7 +116,7 @@ class OpenstackNovaConfig(object):
             expr = r'^cpu_shared_set\s*=\s*([0-9\-,]+)'
             ret = re.compile(expr).match(line)
             if ret:
-                self._cpu_shared_set = get_cores(ret[1])
+                self._cpu_shared_set = cores_to_list(ret[1])
                 break
 
         return self._cpu_shared_set
@@ -92,7 +130,7 @@ class OpenstackNovaConfig(object):
             expr = r'^vcpu_pin_set\s*=\s*([0-9\-,]+)'
             ret = re.compile(expr).match(line)
             if ret:
-                self._vcpu_pin_set = get_cores(ret[1])
+                self._vcpu_pin_set = cores_to_list(ret[1])
                 break
 
         return self._vcpu_pin_set
@@ -119,7 +157,7 @@ class KernelConfig(object):
             expr = r'.*\s+isolcpus=([0-9\-,]+)\s*.*'
             ret = re.compile(expr).match(line)
             if ret:
-                self._isolcpus = get_cores(ret[1])
+                self._isolcpus = cores_to_list(ret[1])
                 break
 
         return self._isolcpus
@@ -146,7 +184,7 @@ class SystemdConfig(object):
             expr = r'^CPUAffinity\s*=\s*([0-9\-,]+)\s*.*'
             ret = re.compile(expr).match(line)
             if ret:
-                self._cpuaffinity = get_cores(ret[1])
+                self._cpuaffinity = cores_to_list(ret[1])
                 break
 
         return self._cpuaffinity
@@ -248,7 +286,8 @@ class Results(object):
         for app in self.config:
             print("      {}:".format(app))
             for key in self.config[app]:
-                print("        - {}: {}".format(key, self.config[app][key]))
+                value = self.config[app][key]
+                print("        - {}: {}".format(key, value))
 
         print("    results:")
         if not self.info and not self.errors:
