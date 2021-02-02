@@ -39,7 +39,7 @@ for service in features:
         if service not in config_values:
             config_values[service] = {module: {}}
         for key in features[service][module]:
-            for line in open(os.path.join(DATA_ROOT, cfg)).readlines():
+            for line in open(cfg).readlines():
                 ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)).match(line)
                 if ret:
                     if module in config_values[service]:
