@@ -6,7 +6,7 @@ import sys
 import helpers
 
 # HOTSOS GLOBALS
-VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 JUJU_LOG_PATH = os.path.join(DATA_ROOT, "var/log/juju")

@@ -7,7 +7,7 @@ import helpers
 from uuid import uuid4
 
 # HOTSOS GLOBALS
-VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
     os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', None)

@@ -5,10 +5,10 @@ import sys
 
 
 # HOTSOS GLOBALS
-VERBOSITY_LEVEL = os.environ.get('VERBOSITY_LEVEL', '/')
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-if int(VERBOSITY_LEVEL) < 3:
+if VERBOSITY_LEVEL < 3:
     sys.exit(0)
 
 config_files = {"neutron": {"main": "etc/neutron/neutron.conf",
