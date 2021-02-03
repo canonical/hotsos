@@ -17,13 +17,22 @@ def get_ip_addr():
         return open(path, 'r').readlines()
 
 
-def get_ps():
+def get_dpkg_l():
     if DATA_ROOT == '/':
-        ps = subprocess.check_output(['ps'])
+        ps = subprocess.check_output(['dpkg', '-l'])
         return ps.decode('UTF-8').splitlines()
 
-    path = os.path.join(DATA_ROOT,
-                        "ps")
+    path = os.path.join(DATA_ROOT, "sos_commands/dpkg/dpkg_-l")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_ps():
+    if DATA_ROOT == '/':
+        ps = subprocess.check_output(['ps', 'auxwww'])
+        return ps.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "ps")
     if os.path.exists(path):
         return open(path, 'r').readlines()
 

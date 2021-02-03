@@ -125,7 +125,7 @@ echo -e "  systemd:"
 path=${DATA_ROOT}etc/systemd/system.conf
 if [ -e "$path" ]; then
     if `egrep -q "^CPUAffinity=.+" $path`; then
-        egrep "CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}"
+        egrep "^CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}"
     else
         echo "${sub_indent_str}CPUAffinity not set"
     fi

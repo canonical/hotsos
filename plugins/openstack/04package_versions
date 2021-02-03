@@ -1,47 +1,34 @@
-#!/bin/bash -u
+#!/usr/bin/python3
+import re
+import os
+import sys
 
-((VERBOSITY_LEVEL>=3)) || exit 0
+import helpers
 
-svc_indent="  $INDENT_STR"
+from openstack_common import OST_PROJECTS
 
-declare -a ost_projects=(
-    aodh
-    barbican
-    ceilometer
-    ceph
-    cinder
-    designate
-    glance
-    gnocchi
-    heat
-    horizon
-    keystone
-    neutron
-    nova
-    octavia
-    swift
-)
-declare -a ost_deps=(
-    dnsmasq
-    keepalived
-    openvswitch-switch
-    libvirt-{daemon,bin}
-    qemu-kvm
-    ovn
-)
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-echo -e "  dpkg:"
+if VERBOSITY_LEVEL < 3:
+    sys.exit(0)
 
+OST_DEPS = [
+    "dnsmasq",
+    "keepalived",
+    "openvswitch-switch",
+    "libvirt-daemon",
+    "libvirt-bin",
+    "qemu-kvm",
+    "ovn",
+]
 
-if [ -z "`get_dpkg_l`" ]; then
-    echo "${svc_indent}data source not found"
-    exit 0
-fi
-
-for proj in ${ost_projects[@]} ${ost_deps[@]}; do
-    readarray -t packages<<<`get_dpkg_l| egrep "^ii\s+$proj"| awk '{print $2}'`
-    for pkg in ${packages[@]}; do
-        ver=`get_dpkg_l| egrep "^ii\s+$pkg "| awk '{print $3}'`
-        echo "  $INDENT_STR$pkg $ver"
-    done | sort -k2
-done
+print("  dpkg:")
+if helpers.get_dpkg_l():
+    for line in helpers.get_dpkg_l():
+        for dep in OST_PROJECTS + OST_DEPS:
+            ret = re.compile(r"^ii\s+{}\s+([0-9A-Za-z:\-.~]+)\s+.+".
+                             format(dep)).match(line)
+            if ret:
+                print("    - {} {}".format(dep, ret[1]))

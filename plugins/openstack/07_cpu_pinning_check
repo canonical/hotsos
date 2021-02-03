@@ -195,7 +195,11 @@ class NUMAInfo(object):
     numactl = ""
 
     def __init__(self):
-        self.numactl = helpers.get_numactl() or ""
+        try:
+            self.numactl = helpers.get_numactl() or ""
+        except FileNotFoundError:
+            self.numactl = ""
+
         self._nodes = {}
 
     @property

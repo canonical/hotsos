@@ -1,98 +1,99 @@
-#!/bin/bash -u
-# This plugin displays information specific to Openstack.
+#!/usr/bin/python3
+import re
+import os
 
-svc_indent="  $INDENT_STR"
-declare -a ost_projects=(
-    aodh
-    barbican
-    ceilometer
-    cinder
-    designate
-    glance
-    gnocchi
-    heat
-    horizon
-    keystone
-    neutron
-    nova
-    octavia
-    swift
-)
+from collections import OrderedDict
 
-echo "openstack:"
+import helpers
 
-echo -n "  release: "
-data_source=`ls -rt ${DATA_ROOT}etc/apt/sources.list.d/*.list 2>/dev/null| xargs -l grep -l ubuntu-cloud.archive.canonical.com| tail -n 1`
-if [ -s "$data_source" ]; then
-    if [ -d "`dirname \"$data_source\"`" ] && `grep -qr ubuntu-cloud.archive $data_source 2>/dev/null`; then
-        ost_rel="`grep -r ubuntu-cloud.archive $data_source| grep -v deb-src |\
-            sed -r '/^\s*#/!s/.+-updates\/(.+)\s+.+/\1/g;t;d'`"
-        [ -n "$ost_rel" ] || ost_rel=unknown
-        echo "$ost_rel (uca)"
-    else
-        echo "distro"
-    fi
-else
-    echo "distro"
-fi
+from openstack_common import OST_PROJECTS
 
-if ((VERBOSITY_LEVEL>=2)); then
-    declare -A ost_etc_overrides=(
-        [glance]=glance-api.conf
-        [swift]=proxy.conf
-    )
-    echo "  debug-logging-enabled:"
-    for proj in ${ost_projects[@]}; do
-        path=etc/$proj/$proj.conf
-        [ -z ${ost_etc_overrides[$proj]:-""} ] || \
-            path=etc/$proj/${ost_etc_overrides[$proj]}
-        [ -e "$path" ] || continue
-        debug=`sed -rn '/^\s*#/!s/debug\s*=\s*(.+)\s*/\1/p' $path`
-        echo "    $proj: $debug"
-    done
-fi
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-echo "  services:"
 
-# TODO: keep this list up-to-date with services we care about in the context of openstack
-default_pfix_match='[[:alnum:]\-]+'
-declare -a services=(
-aodh$default_pfix_match
-apache$default_pfix_match
-barbican$default_pfix_match
-beam.smp
-ceilometer$default_pfix_match
-ceph-[[:alpha:]]+
-cinder$default_pfix_match
-designate$default_pfix_match
-glance$default_pfix_match
-gnocchi$default_pfix_match
-heat$default_pfix_match
-horizon
-keystone$default_pfix_match
-mysqld
-neutron$default_pfix_match
-nova$default_pfix_match
-octavia$default_pfix_match
-openstack-dashboard
-rabbitmq-server
-rados$default_pfix_match
-swift$default_pfix_match
-vault$default_pfix_match
-qemu-system-[[:alnum:]\\-\\_]+
-)
-declare -A openstack_info=()
-for svc in ${services[@]}; do
-    readarray -t out<<<"`get_ps| sed -r -e \"s/.+($svc)\s+.+/\1/g;t;d\"`"
-    ((${#out[@]}==0)) || [ -z "${out[0]}" ] && continue
-    for e in ${out[@]}; do
-        n=${openstack_info[$e]:-0}
-        openstack_info[$e]=$((n+1))
-    done
-done
-if ((${#openstack_info[@]})); then
-    for e in ${!openstack_info[@]}; do
-        echo "${svc_indent}$e (${openstack_info[$e]})"
-    done| sort -k 2
-fi
+default_pfix_match = r"[A-Z0-9a-z\-\\]+"
 
+# TODO: keep this list up-to-date with SERVICES we care about in the context of
+#       openstack.
+SERVICES = [r"aodh{}".format(default_pfix_match),
+            r"apache{}".format(default_pfix_match),
+            r"barbican{}".format(default_pfix_match),
+            r"beam.smp",
+            r"ceilometer{}".format(default_pfix_match),
+            r"ceph-[[A-Za-z]]+",
+            r"cinder{}".format(default_pfix_match),
+            r"designate{}".format(default_pfix_match),
+            r"glance{}".format(default_pfix_match),
+            r"gnocchi{}".format(default_pfix_match),
+            r"heat{}".format(default_pfix_match),
+            r"horizon",
+            r"keystone{}".format(default_pfix_match),
+            r"mysqld",
+            r"neutron{}".format(default_pfix_match),
+            r"nova{}".format(default_pfix_match),
+            r"ocatvia{}".format(default_pfix_match),
+            r"openstack-dashboard",
+            r"ovs{}".format(default_pfix_match),
+            r"ovn{}".format(default_pfix_match),
+            r"rabbitmq-server",
+            r"rados{}".format(default_pfix_match),
+            r"swift{}".format(default_pfix_match),
+            r"vault{}".format(default_pfix_match),
+            r"qemu-system-[A-Z0-9a-z\-_]+"]
+
+# configs that dont use standard /etc/<project>/<project>.conf
+OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
+                     "swift": "proxy.conf"}
+
+
+print("openstack:")
+
+releases = {"default": "distro",
+            "uca": set(["queens"])}
+apt_source_path = os.path.join(DATA_ROOT, "etc/apt/sources.list.d")
+if os.path.exists(apt_source_path):
+    for source in os.listdir(apt_source_path):
+        for line in open(os.path.join(apt_source_path, source)).readlines():
+            ret = re.compile(r"(.+cloud.+)").match(line)
+            if ret:
+                ret = re.compile(r".+-updates/([a-z]+)\s.*").match(line)
+                if ret:
+                    releases["uca"].add(ret[1])
+
+if releases["uca"]:
+    print("  release: {}".format(sorted(releases["uca"], reverse=True)[0]))
+else:
+    print("  release: {}".format(releases["default"]))
+
+
+if VERBOSITY_LEVEL >= 2:
+    print("  debug-logging-enabled:")
+    for proj in OST_PROJECTS:
+        if proj in OST_ETC_OVERRIDES:
+            path = OST_ETC_OVERRIDES[proj]
+        else:
+            path = os.path.join(DATA_ROOT, "etc", proj, "{}.conf".format(proj))
+
+        if os.path.exists(path):
+            for line in open(path).readlines():
+                ret = re.compile(r"^debug\s*=\s*([A-Za-z]+).*").match(line)
+                if ret:
+                    print("    {}: {}".format(proj, ret[1]))
+
+print("  services:")
+
+openstack_info = {}
+for line in helpers.get_ps():
+    for svc in SERVICES:
+        ret = re.compile(r".+({})\s+.+".format(svc)).match(line)
+        if ret:
+            if ret[1] in openstack_info:
+                openstack_info[ret[1]] += 1
+            else:
+                openstack_info[ret[1]] = 1
+
+openstack_info_sorted = OrderedDict(sorted(openstack_info.items()))
+for svc in openstack_info_sorted:
+    print("    - {} ({})".format(svc, openstack_info_sorted[svc]))

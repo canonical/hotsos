@@ -25,16 +25,17 @@ for i, line in enumerate(ip_addr_output):
             network_info["flannel"][iface] = {}
             continue
 
-    ret = re.compile(r".+\s+([0-9\.]+/[0-9]+).+\s+{}$".
-                     format(iface)).match(line)
     if iface:
-        if iface in ip_addr_output[i-3] and ret:
+        ret = re.compile(r".+\s+([0-9\.]+/[0-9]+).+\s+{}$".
+                         format(iface)).match(line)
+        if iface in ip_addr_output[i - 3] and ret:
             network_info["flannel"][iface]["addr"] = ret[1]
             iface = None
 
     ret = re.compile(r"^\s+vxlan id .+\s+([0-9\.]+)\s+dev\s+([0-9a-z]+).+"
                      ).match(line)
-    if ret:
+
+    if "flannel" in network_info and ret:
         network_info["flannel"][iface]["vxlan"] = "{}@{}".format(ret[1],
                                                                  ret[2])
 

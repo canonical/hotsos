@@ -27,6 +27,10 @@ features = {"neutron": {"main": "availability_zone",
             "nova": {"main": ["vcpu_pin_set", "cpu_shared_set",
                               "cpu_dedicated_set"]}}
 
+# checked against neutron
+defaults = {"neutron": {"dhcp_agent": {"enable_metadata_network": False,
+                                       "enable_isolated_metadata": False}}}
+
 print("  features:")
 
 config_values = {}
@@ -36,18 +40,23 @@ for service in features:
         if not os.path.exists(cfg):
             continue
 
-        if service not in config_values:
+        if service not in config_values or \
+                module not in config_values[service]:
             config_values[service] = {module: {}}
+
         for key in features[service][module]:
             for line in open(cfg).readlines():
                 ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)).match(line)
                 if ret:
                     if module in config_values[service]:
                         config_values[service][module][key] = ret[1]
-                    else:
-                        config_values[service][module] = {key: ret[1]}
 
                     break
+
+            if key not in config_values[service][module]:
+                if key in defaults.get(service, {}).get(module, {}):
+                    default = defaults[service][module][key]
+                    config_values[service][module][key] = default
 
 for service in config_values:
     print("    {}:".format(service))

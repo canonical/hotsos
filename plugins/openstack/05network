@@ -1,41 +1,59 @@
-#!/bin/bash -u
+#!/usr/bin/python3
+import re
+import os
+import sys
 
-((VERBOSITY_LEVEL>=3)) || exit 0
+import helpers
 
-echo "  config:"
-found=false
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-data_source=${DATA_ROOT}etc/nova/nova.conf
-if [ -e "$data_source" ]; then
-    found=true
-    my_ip=`sed -rn '/^\s*#/!s/^\s*my_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
-    if [ -n "$my_ip" ]; then
-        data_source2=${DATA_ROOT}sos_commands/networking/ip_-d_address
-        iface="<interface unknown>"
-        if [ -e $data_source2 ]; then
-            iface=`egrep "$my_ip|^[0-9]+:\s+" $data_source2| grep -B 1 $my_ip|\
-                    head -n 1| sed -rn 's/^[[:digit:]]+:\s+([[:alnum:]\@\.\-]+):\s+.+/\1/p'`
-        fi
+if VERBOSITY_LEVEL < 3:
+    sys.exit(0)
 
-        echo "    nova:"
-        echo "      my_ip: $my_ip ($iface)"
-    fi
-fi
 
-data_source=${DATA_ROOT}etc/neutron/plugins/ml2/openvswitch_agent.ini
-if [ -e "$data_source" ]; then
-    found=true
-    local_ip=`sed -rn '/^\s*#/!s/^\s*local_ip\s*=\s*([[:digit:]\.]+).*/\1/p' $data_source`
-    if [ -n "$local_ip" ]; then
-        data_source2=${DATA_ROOT}sos_commands/networking/ip_-d_address
-        iface="<interface unknown>"
-        if [ -e $data_source2 ]; then
-            iface=`egrep "$local_ip|^[0-9]+:\s+" $data_source2| grep -B 1 $local_ip|\
-                    head -n 1| sed -rn 's/^[[:digit:]]+:\s+([[:alnum:]\@\.\-]+):\s+.+/\1/p'`
-        fi
+def find_line(key, lines):
+    for i, line in enumerate(lines):
+        if re.compile(key).match(line):
+            return i
 
-        echo "    neutron:"
-        echo "      local_ip: $local_ip ($iface)"
-    fi
-fi
+    return None
 
+
+config = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
+                    "key": "my_ip"}],
+          "neutron": [{"path":
+                       os.path.join(DATA_ROOT, "etc/neutron/plugins/ml2/"
+                                    "openvswitch_agent.ini"),
+                       "key": "local_ip"}]}
+
+print("  config:")
+for svc in config:
+    for info in config[svc]:
+        data_source = info["path"]
+        key = info["key"]
+        if os.path.exists(data_source):
+            for line in open(data_source).readlines():
+                ret = re.compile("^\s*{}\s*=\s*([0-9\.]+).*".
+                                 format(key)).match(line)
+                if ret:
+                    value = ret[1]
+                    lines = helpers.get_ip_addr()
+                    iface = None
+                    a = find_line(r".+{}.+".format(value), lines)
+                    while True:
+                        ret = re.compile(r"^([0-9]+):\s+([a-z0-9"
+                                         "\-@\.]+):.+").match(lines[a])
+                        if ret:
+                            iface = ret[2]
+                            break
+
+                        a = a-1
+
+                    if iface:
+                        break
+
+            if value:
+                print("    {}:".format(svc))
+                print("       {}: {} ({})".format(key, value, iface))

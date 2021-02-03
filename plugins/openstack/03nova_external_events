@@ -1,69 +1,63 @@
-#!/bin/bash -u
+#!/usr/bin/python3
+import re
+import os
+import sys
 
-declare -a succeeded=()
-declare -a failed=()
-declare -a output=()
-sub_indent_str="  ${INDENT_STR}"
-subsub_indent_str="    ${INDENT_STR}"
-subsubsub_indent_str="    ${INDENT_STR}"
-subsubsubsub_indent_str="      ${INDENT_STR}"
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-all_stages_complete ()
-{
-    while (($#)); do
-        $1 || return 1
-        shift
-    done
-    return 0
-}
+succeeded = set()
+failed = set()
+output = set()
 
-((VERBOSITY_LEVEL>=2)) || exit 0
+if VERBOSITY_LEVEL < 2:
+    sys.exit(0)
 
-echo "  os-server-external-events:"
+data_source = os.path.join(DATA_ROOT, "var/log/nova/nova-compute.log")
+if not os.path.exists(data_source):
+    sys.exit(0)
 
-data_source=${DATA_ROOT}var/log/nova/nova-compute.log
-if ! [ -r "$data_source" ]; then
-    echo "${sub_indent_str}$data_source not found - skipping nova vif-plug-events info"
-    exit 0
-fi
 
-get_events ()
-{
-    event_name=$1
-    key="Preparing to wait for external event $event_name"
-    if `grep -q "$key" $data_source`; then
-        readarray -t events<<<`grep "$key" $data_source`
-        for event in "${events[@]}"; do
-            instance_id=`echo "$event"| sed -r 's/.+\[instance:\s+([[:alnum:]\-]+)\].+/\1/g'`
-            readarray -t sequence<<<`egrep "instance: $instance_id.+ event $event_name" $data_source`
-            declare -A stages=( [Preparing]=false [Received]=false [Processing]=false )
-            for stage in ${!stages[@]}; do
-                echo "${sequence[@]}"| grep -q "$stage" || break
-                stages[$stage]=true
-            done
-            if all_stages_complete ${stages[@]}; then
-                succeeded+=( "$instance_id" )
-            else
-                failed+=( "$instance_id" )
-            fi
-        done
-    fi
+def get_events(event_name):
+    key = (r".+\[instance: ([0-9a-z\-]+)\].+Preparing to wait for external "
+           "event ({}-[0-9a-z\-]+)\s+.+".format(event_name))
+    lines = open(data_source).readlines()
 
-    echo "    $event_name:"
-    echo "      successful:"
-    if ((${#succeeded[@]})); then
-        for line in "${succeeded[@]}"; do
-            echo "${subsubsubsub_indent_str}$line"
-        done
-    fi
-    echo "      failed:"
-    if ((${#failed[@]})); then
-        for line in "${failed[@]}"; do
-            echo "${subsubsubsub_indent_str}$line"
-        done
-    fi
-}
+    events = {}
+    for line in lines:
+        ret = re.compile(key).match(line)
+        if ret:
+            events[ret[2]] = ret[1]
 
-# Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events
-get_events "network-vif-plugged"
+    for event in events:
+        stages = {"Preparing": False, "Received": False, "Processing": False}
+        for line in lines:
+            ret = re.compile(".+\[instance: {}\] .+ event {} .+"
+                             .format(events[event], event)).match(line)
+            if ret:
+                sequence = ret[0]
+                for stage in stages:
+                    ret = re.compile(stage).search(sequence)
+                    if ret:
+                        stages[stage] = True
 
+        if all([stages[key] for key in stages]):
+            succeeded.add(events[event])
+        else:
+            failed.add(events[event])
+
+    print("    {}:".format(event_name))
+    print("      successful:")
+    for line in succeeded:
+        print("        - {}".format(line))
+
+    print("      failed:")
+    for line in failed:
+        print("        - {}".format(line))
+
+
+print("  os-server-external-events:")
+
+# Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
+get_events("network-vif-plugged")
