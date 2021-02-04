@@ -34,14 +34,15 @@ for svc in config:
         data_source = info["path"]
         key = info["key"]
         if os.path.exists(data_source):
+            ip_address = None
             for line in open(data_source).readlines():
                 ret = re.compile("^\s*{}\s*=\s*([0-9\.]+).*".
                                  format(key)).match(line)
                 if ret:
-                    value = ret[1]
+                    ip_address = ret[1]
                     lines = helpers.get_ip_addr()
                     iface = None
-                    a = find_line(r".+{}.+".format(value), lines)
+                    a = find_line(r".+{}.+".format(ip_address), lines)
                     while True:
                         ret = re.compile(r"^([0-9]+):\s+([a-z0-9"
                                          "\-@\.]+):.+").match(lines[a])
@@ -54,6 +55,9 @@ for svc in config:
                     if iface:
                         break
 
-            if value:
+            if ip_address:
                 print("    {}:".format(svc))
-                print("       {}: {} ({})".format(key, value, iface))
+                print("       {}: {} ({})".format(key, ip_address, iface))
+            else:
+                print("    {}:".format(svc))
+                print("       {}: {}".format(key, "no value"))
