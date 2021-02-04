@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import re
 import os
-import sys
 
 import helpers
 
@@ -20,9 +19,10 @@ SERVICES = ["etcdctl",
 
 print("kubernetes:")
 
+print("  services:")
 ps_output = helpers.get_ps()
 if not ps_output:
-    print("  - no k8s process output found")
+    print("    - process info unavailable")
 else:
     service_info = {}
 
@@ -35,7 +35,6 @@ else:
                 else:
                     service_info[svc] = 1
 
-    print("  services:")
     for svc in service_info:
         print("    - {} ({})".format(svc, service_info[svc]))
 

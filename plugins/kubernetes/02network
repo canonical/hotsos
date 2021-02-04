@@ -13,7 +13,6 @@ print("  network:")
 
 ip_addr_output = helpers.get_ip_addr()
 if not ip_addr_output:
-    print("  - []")
     sys.exit(0)
 
 iface = None
