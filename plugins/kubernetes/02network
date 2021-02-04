@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import re
 import os
+import sys
 
 import helpers
 
@@ -8,12 +9,16 @@ import helpers
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-
 print("  network:")
 
-network_info = {}
 ip_addr_output = helpers.get_ip_addr()
+if not ip_addr_output:
+    print("  - []")
+    sys.exit(0)
+
 iface = None
+network_info = {}
+
 for i, line in enumerate(ip_addr_output):
     if "flannel" in line:
         if "flannel" not in network_info:

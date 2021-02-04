@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import re
 import os
+import sys
 
 import helpers
 
@@ -16,21 +17,27 @@ SERVICES = ["etcdctl",
             "containerd",
             "dockerd"]
 
+
 print("kubernetes:")
 
-service_info = {}
-for svc in SERVICES:
-    for line in helpers.get_ps():
-        ret = re.compile(r".+({})\s+.+".format(svc)).match(line)
-        if ret:
-            if svc in service_info:
-                service_info[svc] += 1
-            else:
-                service_info[svc] = 1
+ps_output = helpers.get_ps()
+if not ps_output:
+    print("  - no k8s process output found")
+else:
+    service_info = {}
 
-print("  services:")
-for svc in service_info:
-    print("    - {} ({})".format(svc, service_info[svc]))
+    for svc in SERVICES:
+        for line in ps_output:
+            ret = re.compile(r".+({})\s+.+".format(svc)).match(line)
+            if ret:
+                if svc in service_info:
+                    service_info[svc] += 1
+                else:
+                    service_info[svc] = 1
+
+    print("  services:")
+    for svc in service_info:
+        print("    - {} ({})".format(svc, service_info[svc]))
 
 
 print("  pods:")
