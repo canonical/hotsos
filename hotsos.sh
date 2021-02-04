@@ -154,7 +154,7 @@ fi
 
 get_general_info ()
 {
-    echo "general: " > $F_OUT
+    echo "general: " >> $F_OUT
     _hostname=
     [ -r "$DATA_ROOT/hostname" ] && _hostname=`cat $DATA_ROOT/hostname` || _hostname=`hostname`
     echo -e "  hostname: $_hostname" >> $F_OUT
@@ -177,7 +177,7 @@ for data_root in ${sos_paths[@]}; do
     fi
 
     repo_info="unknown"
-    if [[ -n $REPO_INFO_PATH ]] && [[ -r $REPO_INFO_PATH ]]; then
+    if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
         repo_info=`cat $REPO_INFO_PATH`
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $F_OUT
