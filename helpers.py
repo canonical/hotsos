@@ -24,7 +24,9 @@ def get_dpkg_l():
 
     path = os.path.join(DATA_ROOT, "sos_commands/dpkg/dpkg_-l")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        # I have observed UnicodeDecodeError with this file so switching to
+        # surrogateescape.
+        return open(path, 'r', errors="surrogateescape").readlines()
 
 
 def get_ps():
