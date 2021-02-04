@@ -13,6 +13,8 @@ description:
 confinement: strict
 grade: stable
 base: core18
+environment:
+  REPO_INFO_PATH: $SNAP/repo-info
 
 apps:
   hotsos:
@@ -23,6 +25,9 @@ parts:
     source: .
     plugin: dump
     stage-packages: [coreutils, bsdmainutils, jq]
+    override-build: |
+      git rev-parse --short HEAD > repo-info
+      snapcraftctl build
   hotsos-python:
     source: .
     plugin: python

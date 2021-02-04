@@ -176,6 +176,12 @@ for data_root in ${sos_paths[@]}; do
         export DATA_ROOT=$data_root
     fi
 
+    repo_info="unknown"
+    if [[ -n $REPO_INFO_PATH ]] && [[ -r $REPO_INFO_PATH ]]; then
+        repo_info=`cat $REPO_INFO_PATH`
+    fi
+    echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $F_OUT
+
     if ! [ "${DATA_ROOT:(-1)}" = "/" ]; then
         # Ensure trailing slash
         export DATA_ROOT="${DATA_ROOT}/"
