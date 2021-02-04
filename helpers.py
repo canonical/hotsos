@@ -24,10 +24,7 @@ def get_dpkg_l():
 
     path = os.path.join(DATA_ROOT, "sos_commands/dpkg/dpkg_-l")
     if os.path.exists(path):
-        try:
-            return open(path, 'r').readlines()
-        except UnicodeDecodeError:
-            return open(path, 'rb').readlines()
+        return open(path, 'r').readlines()
 
 
 def get_ps():
