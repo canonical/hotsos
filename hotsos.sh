@@ -176,6 +176,11 @@ for data_root in ${sos_paths[@]}; do
         export DATA_ROOT=$data_root
     fi
 
+    if ! [ "${DATA_ROOT:(-1)}" = "/" ]; then
+        # Ensure trailing slash
+        export DATA_ROOT="${DATA_ROOT}/"
+    fi
+
     get_general_info
 
     for plugin in ${PLUG_KEYS[@]}; do
