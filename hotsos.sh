@@ -176,9 +176,10 @@ for data_root in ${sos_paths[@]}; do
         export DATA_ROOT=$data_root
     fi
 
-    repo_info="unknown"
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
         repo_info=`cat $REPO_INFO_PATH`
+    else
+        repo_info=`git rev-parse --short HEAD 2>/dev/null` || repo_info="unknown" 
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $F_OUT
 
