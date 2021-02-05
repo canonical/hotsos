@@ -11,8 +11,7 @@ def get_ip_addr():
         ip_addr_show = subprocess.check_output(['ip', '-d', 'address'])
         return ip_addr_show.decode('UTF-8').splitlines()
 
-    path = os.path.join(DATA_ROOT,
-                        "sos_commands/networking/ip_-d_address")
+    path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-d_address")
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
@@ -44,7 +43,46 @@ def get_numactl():
         numactl = subprocess.check_output(['numactl', '--hardware'])
         return numactl.decode('UTF-8').splitlines()
 
-    path = os.path.join(DATA_ROOT,
-                        "sos_commands/numa/numactl_--hardware")
+    path = os.path.join(DATA_ROOT, "sos_commands/numa/numactl_--hardware")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_lscpu():
+    if DATA_ROOT == '/':
+        numactl = subprocess.check_output(['lscpu'])
+        return numactl.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/processor/lscpu")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_uptime():
+    if DATA_ROOT == '/':
+        numactl = subprocess.check_output(['uptime'])
+        return numactl.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "uptime")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_df():
+    if DATA_ROOT == '/':
+        numactl = subprocess.check_output(['df'])
+        return numactl.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "df")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_apt_config_dump():
+    if DATA_ROOT == '/':
+        numactl = subprocess.check_output(['apt-config', 'dump'])
+        return numactl.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/apt/apt-config_dump")
     if os.path.exists(path):
         return open(path, 'r').readlines()
