@@ -2,8 +2,9 @@
 root=`dirname $0`
 num_files_checked=0
 num_errors_found=0
+cwd=`dirname $0`
 
-for f in `find plugins/ -type f`; do
+for f in `find plugins/ -type f` ${cwd}/../helpers.py; do
     if `file $f| grep -q "Python script"`; then
         flake8 $f
         (($?)) && ((num_errors_found+=1))
