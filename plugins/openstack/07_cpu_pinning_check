@@ -2,7 +2,7 @@
 import re
 import os
 
-import helpers
+from common import helpers
 
 from uuid import uuid4
 
@@ -197,7 +197,7 @@ class NUMAInfo(object):
     def __init__(self):
         try:
             self.numactl = helpers.get_numactl() or ""
-        except FileNotFoundError:
+        except OSError:
             self.numactl = ""
 
         self._nodes = {}

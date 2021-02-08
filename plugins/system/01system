@@ -2,7 +2,7 @@
 import re
 import os
 
-import helpers
+from common import helpers
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))

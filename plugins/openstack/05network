@@ -3,7 +3,7 @@ import re
 import os
 import sys
 
-import helpers
+from common import helpers
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
@@ -36,7 +36,7 @@ for svc in config:
         if os.path.exists(data_source):
             ip_address = None
             for line in open(data_source).readlines():
-                ret = re.compile("^\s*{}\s*=\s*([0-9\.]+).*".
+                ret = re.compile(r"^\s*{}\s*=\s*([0-9\.]+).*".
                                  format(key)).match(line)
                 if ret:
                     ip_address = ret[1]
@@ -44,8 +44,8 @@ for svc in config:
                     iface = None
                     a = find_line(r".+{}.+".format(ip_address), lines)
                     while True:
-                        ret = re.compile(r"^([0-9]+):\s+([a-z0-9"
-                                         "\-@\.]+):.+").match(lines[a])
+                        ret = re.compile(r"^([0-9]+):\s+([a-z0-9\-@.]+):.+"
+                                         ).match(lines[a])
                         if ret:
                             iface = ret[2]
                             break

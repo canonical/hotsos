@@ -4,8 +4,7 @@ import os
 
 from collections import OrderedDict
 
-import helpers
-
+from common import helpers
 from openstack_common import OST_PROJECTS
 
 # HOTSOS GLOBALS

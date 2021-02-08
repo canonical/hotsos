@@ -21,7 +21,7 @@ if not os.path.exists(data_source):
 
 def get_events(event_name):
     key = (r".+\[instance: ([0-9a-z\-]+)\].+Preparing to wait for external "
-           "event ({}-[0-9a-z\-]+)\s+.+".format(event_name))
+           "event ({}-[0-9a-z\-]+)\s+.+".format(event_name))  # noqa W605
     lines = open(data_source).readlines()
 
     events = {}
@@ -33,7 +33,7 @@ def get_events(event_name):
     for event in events:
         stages = {"Preparing": False, "Received": False, "Processing": False}
         for line in lines:
-            ret = re.compile(".+\[instance: {}\] .+ event {} .+"
+            ret = re.compile(r".+\[instance: {}\] .+ event {} .+"
                              .format(events[event], event)).match(line)
             if ret:
                 sequence = ret[0]
@@ -42,7 +42,7 @@ def get_events(event_name):
                     if ret:
                         stages[stage] = True
 
-        if all([stages[key] for key in stages]):
+        if all([stages[stage] for stage in stages]):
             succeeded.add(events[event])
         else:
             failed.add(events[event])

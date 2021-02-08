@@ -29,7 +29,7 @@ export VERBOSITY_LEVEL=0
 export INDENT_STR="  - "
 
 # import helpers functions
-. `dirname $0`/helpers
+. `dirname $0`/common/helpers.sh
 
 # ordered
 declare -a PLUG_KEYS=( openstack kubernetes storage juju kernel system )

@@ -3,7 +3,7 @@ import re
 import os
 import sys
 
-import helpers
+from common import helpers
 
 from openstack_common import OST_PROJECTS
 
@@ -28,7 +28,7 @@ print("  dpkg:")
 if helpers.get_dpkg_l():
     for line in helpers.get_dpkg_l():
         for dep in OST_PROJECTS + OST_DEPS:
-            ret = re.compile(r"^ii\s+({}[0-9a-z\-]+)\s+([0-9A-Za-z:\-.~]+)"
-                             "\s+.+".format(dep)).match(line)
+            ret = re.compile(r"^ii\s+({}[0-9a-z\-]+)\s+([0-9A-Za-z:\-.~]+)\s+"
+                             ".+".format(dep)).match(line)
             if ret:
                 print("    - {} {}".format(ret[1], ret[2]))
