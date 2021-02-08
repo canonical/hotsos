@@ -1,96 +1,139 @@
-#!/bin/bash -u
-# This plugin displays information about Ceph.
+#!/usr/bin/python3
+import re
+import os
+import subprocess
 
-ceph_pg_imbalance ()
-{
-    # upstream recommends 50-100 OSDs ideally.
-    local bad_pgs=$(get_ceph_osd_df_tree | awk '$NF ~ "^osd."{ pg=$(NF-1); if (pg > 0 && (pg < 50 || pg > 120)) printf "%s ", pg }')
+from common import helpers
 
-    if [[ -n $bad_pgs ]]; then
-        echo "ceph-pgs: WARNING! Found OSDs with pg counts [$bad_pgs]. Recommended range is 50 - 100."
-    fi
-}
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-ceph_versions_mismatch ()
-{
-    # Check versions of all running daemons are the same.
-    local count=$(get_ceph_versions | awk -F' ' '/ceph version/{arr[$3]=1}END{ c=0; for (i in arr) c++; print c}')
-    if [[ $count > 1 ]]; then
-        echo "ceph-versions: WARNING! Found multiple ($count different) versions of daemons running."
-    fi
-}
+SERVICES = ["ceph-osd",
+            "ceph-mon",
+            "ceph-mgr",
+            "radosgw"]
 
 
-declare -a output=()
-services=(
-    ceph-osd
-    ceph-mon
-    ceph-mgr
-    radosgw
-)
+# TODO: finish converting these
+def ceph_pg_imbalance():
+    """
+    ## upstream recommends 50-100 OSDs ideally.
+    #for line in helpers.get_ceph_osd_df_tree():
+    #    bad_pgs=$( | awk '$NF ~ "^osd."{ pg=$(NF-1); if (pg > 0 && (pg < 50
+    #    || pg > 120)) printf "%s ", pg }')
+    #    if bad_pgs:
+    #        print("ceph-pgs: WARNING! Found OSDs with pg counts [$bad_pgs].
+    #    Recommended range is 50 - 100.")
+    """
+    pass
 
-echo "storage:"
 
-sos_time_secs=$(get_sosreport_time)
+def ceph_versions_mismatch():
+    """
+    ## Check versions of all running daemons are the same.
+    #for line in helpers.get_ceph_versions():
+    #    local count=$( | awk -F' ' '/ceph version/{arr[$3]=1}END{ c=0; for
+    #    (i in arr) c++; print c}')
+    #    if count > 1:
+    #        print("ceph-versions: WARNING! Found multiple ($count different)
+    #    versions of daemons running.")
+    """
+    pass
 
-for svc in ${services[@]}; do
-    exists="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+/\1/g;t;d\"| sort -u| sed -r 's/^\s+/  /g'`"
-    [ -z "$exists" ] && continue
 
-    ids="`get_ps| sed -r \"s/.*(${svc}[[:alnum:]\-]*)\s+.+--id\s+([[:digit:]]+)\s+.+/\2/g;t;d\"| tr -s '\n' ','| sort| sed -r -e 's/^\s+/  /g' -e 's/,$//g'`"
+def svc_exists(svc):
+    for line in helpers.get_ps():
+        ret = re.compile(r".+({}\S*)\s+.+".format(svc)).match(line)
+        if ret:
+            return True
 
-    [[ -n $ids ]] && output+=( "    osds:" )
 
-    for osd_id in `echo $ids| tr ',' ' '`;do
-        out_str="      $osd_id:"
+def get_osd_ids():
+    osd_ids = []
+    for line in helpers.get_ps():
+        ret = re.compile(r".+({}\S*)\s+.*--id\s+([0-9]+)\s+.+"
+                         .format(svc)).match(line)
+        if ret:
+            osd_ids.append(ret[2])
 
-        offset=`get_ceph_volume_lvm_list | egrep -n "==== osd.$osd_id ====" | cut -f1 -d:`
-        if [ -n "$offset" ]; then
-            osd_fsid=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "osd fsid" | sed -r 's/.+\s+([[:alnum:]]+)/\1/g'`
-            osd_device=`get_ceph_volume_lvm_list | tail -n+$offset | grep -m1 "devices" | sed -r 's/.+\s+([[:alnum:]\/]+)/\1/g'`
-            out_str="$out_str\n        dev: $osd_device\n        fsid: $osd_fsid"
-        else
-            declare -a arr=($(get_lvm2_lvs |
-                              awk -v id="osd_id=$osd_id" '/osd_fsid=/ && $0 ~ id {
-                              match($0, /osd_fsid=([^,]+)/); a=substr($0, RSTART+1, RLENGTH-1);
-                              split($NF, b, "("); print a, b[1]; exit }'))
-            [[ ${#arr[@]} == 2 ]] && out_str="$out_str\n        dev: ${arr[1]}\n        fsid: ${arr[0]}"
-        fi
+    return osd_ids
 
-        if ((VERBOSITY_LEVEL>=1)); then
-            # OSD's Resident memory size
-            osd_RSS=$(get_ps | awk -v id="--id $osd_id " '/ceph-osd/ && $0 ~ id {print int($6/1024); exit}')
-            out_str="$out_str\n        RSS: ${osd_RSS}M"
 
-            # OSD's uptime (time since it was started)
-            osd_start="$(get_ps_axo_flags | awk -v id="--id $osd_id" '/ceph-osd/ && $0 ~ id {print $13, $14, $15, $16, $17; exit}')"
-            if [[ $sos_time_secs -gt 0 && -n "$osd_start" ]]; then
-                osd_start_secs=$(date --date="${osd_start}" +%s)
-                osd_uptime_secs=$((sos_time_secs - osd_start_secs))
-                osd_uptime_str="$(seconds_to_date $osd_uptime_secs)"
-                out_str="$out_str\n        etime: $osd_uptime_str"
-            fi
-        fi
+def seconds_to_date(secs):
+    days = secs / 86400
+    hours = secs / 3600 % 24
+    mins = secs / 60 % 60
+    secs = secs % 60
 
-        if ((VERBOSITY_LEVEL>=3)); then
-            osd_devtype=$(get_ceph_osd_tree | awk -v id="$osd_id" '$4=="osd."id{print $2; exit}')
-            [[ -n $osd_devtype ]] && out_str="$out_str\n        type: $osd_devtype"
-        fi
+    return '{}d:{}h:{}m:{}s'.format(int(days), int(hours),
+                                    int(mins), int(secs))
 
-        output+=( "$out_str" )
-    done
-done
 
-pgs_imbalanced="$(ceph_pg_imbalance)"
-[[ -n $pgs_imbalanced ]] && output+=( "$pgs_imbalanced" )
+print("storage:")
 
-vers="$(ceph_versions_mismatch)"
-[[ -n $vers ]] && output+=( "$vers" )
+sos_time_secs = helpers.get_sosreport_time()
 
-if ((${#output[@]})); then
-    echo "  ceph:"
-    for line in "${output[@]}"; do
-        echo -e "$line"
-    done
-fi
 
+osd_info = {}
+
+for svc in SERVICES:
+    if not svc_exists(svc):
+        continue
+
+    for osd_id in get_osd_ids():
+        for i, line in enumerate(helpers.get_ceph_volume_lvm_list()):
+            ret = re.compile(".*==== osd.{} ====.*".format(osd_id)).match(line)
+            if ret:
+                osd_info[osd_id] = {}
+
+            if osd_id not in osd_info:
+                continue
+
+            ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+").search(line)
+            if ret:
+                osd_info[osd_id]["fsid"] = ret[1]
+
+            ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
+            if ret:
+                osd_info[osd_id]["dev"] = ret[1]
+
+        if VERBOSITY_LEVEL >= 1:
+            for line in helpers.get_ps():
+                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(osd_id)
+                                 ).match(line)
+                if ret:
+                    rss = int(int(line.split()[5]) / 1024)
+                    osd_info[osd_id]["rss"] = "{}M".format(rss)
+                    break
+
+            for line in helpers.get_ps_axo_flags():
+                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(osd_id)
+                                 ).match(line)
+                if ret:
+                    osd_start = ' '.join(line.split()[13:17])
+                    if sos_time_secs and osd_start:
+                        cmd = ["date", "--date={}".format(osd_start), "+%s"]
+                        osd_start_secs = subprocess.check_output(cmd)
+                        osd_uptime_secs = (int(sos_time_secs) -
+                                           int(osd_start_secs))
+                        osd_uptime_str = seconds_to_date(osd_uptime_secs)
+                        osd_info[osd_id]["etime"] = osd_uptime_str
+                        break
+
+        if VERBOSITY_LEVEL >= 3:
+            for line in helpers.get_ceph_osd_tree():
+                if line.split()[3] == "osd.{}".format(osd_id):
+                    osd_info[osd_id]["devtype"] = line.split()[1]
+                    break
+
+if osd_info:
+    print("  ceph:")
+    print("    osds:")
+    for osd in osd_info:
+        print("      {}:".format(osd))
+        for key in osd_info[osd]:
+            print("        {}: {}".format(key, osd_info[osd][key]))
+
+    ceph_pg_imbalance()
+    ceph_versions_mismatch()

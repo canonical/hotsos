@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import glob
 import os
 import subprocess
 
@@ -35,6 +36,22 @@ def get_ps():
 
     path = os.path.join(DATA_ROOT, "ps")
     if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_ps_axo_flags():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ps', 'axo', 'flags,state,uid,pid,'
+                                          'ppid,pgid,sid,cls,pri,addr,sz,'
+                                          'wchan:20,lstart,tty,time,cmd'])
+        return output.decode('UTF-8').splitlines()
+
+    # Older sosrepot uses 'wchan' option while newer ones use 'wchan:20' -
+    # thus the glob is to cover both
+    path = os.path.join(DATA_ROOT, "sos_commands/process/ps_axo_flags_state_"
+                        "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
+                        "tty_time_cmd")
+    for path in glob.glob(path):
         return open(path, 'r').readlines()
 
 
@@ -94,5 +111,71 @@ def get_snap_list_all():
         return output.decode('UTF-8').splitlines()
 
     path = os.path.join(DATA_ROOT, "sos_commands/snappy/snap_list_--all")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_ceph_osd_tree():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ceph', 'osd', 'tree'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_tree")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_ceph_versions():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ceph', 'versions'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_versions")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_sosreport_time():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['date', '+%s'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/date/date")
+    if os.path.exists(path):
+        with open(path, 'r') as fd:
+            date = fd.read()
+            output = subprocess.check_output(["date", "--date={}".format(date),
+                                              "+%s"])
+            return output.decode('UTF-8').splitlines()[0]
+
+
+def get_ceph_volume_lvm_list():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ceph-volume', 'lvm', 'list'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph-volume_lvm_list")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_ls_lanR_sys_block():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ls', '-lanR', '/sys/block/'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/block/ls_-lanR_.sys.block")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
+def get_udevadm_info_dev(dev):
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['udevadm', 'info',
+                                          '/dev/{}'.format(dev)])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/block/udevadm_info_.dev.{}".
+                        format(dev))
     if os.path.exists(path):
         return open(path, 'r').readlines()
