@@ -86,3 +86,13 @@ def get_apt_config_dump():
     path = os.path.join(DATA_ROOT, "sos_commands/apt/apt-config_dump")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+
+def get_snap_list_all():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['snap', 'list', '--all'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/snappy/snap_list_--all")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()

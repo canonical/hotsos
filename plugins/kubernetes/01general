@@ -16,6 +16,22 @@ SERVICES = ["etcdctl",
             "containerd",
             "dockerd"]
 
+SNAPS = [r'charm[\S]+',
+         r'conjure-up',
+         r'core[0-9]*',
+         r'cdk-addons',
+         r'docker',
+         r'go',
+         r'helm',
+         r'kubernetes-[\S]+',
+         r'kubeproxy',
+         r'kubectl',
+         r'kubelet',
+         r'kubeadm',
+         r'kubefed',
+         r'vault',
+         ]
+
 
 print("kubernetes:")
 
@@ -38,6 +54,23 @@ else:
     for svc in service_info:
         print("    - {} ({})".format(svc, service_info[svc]))
 
+print("  snaps:")
+snap_list_all = helpers.get_snap_list_all()
+snap_info = {}
+if snap_list_all:
+    for line in snap_list_all:
+        for snap in SNAPS:
+            ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
+            if ret:
+                # only show latest version installed
+                if ret[1] in snap_info:
+                    if ret[2] > snap_info[ret[1]]:
+                        snap_info[ret[1]] = ret[2]
+                else:
+                    snap_info[ret[1]] = ret[2]
+
+    for snap in snap_info:
+        print("    - {} {}".format(snap, snap_info[snap]))
 
 print("  pods:")
 pods_path = os.path.join(DATA_ROOT, "var/log/pods")
