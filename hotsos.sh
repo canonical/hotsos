@@ -166,6 +166,13 @@ get_general_info ()
     fi
 }
 
+get_git_rev_info ()
+{
+    pushd `dirname $0` &>/dev/null
+    git rev-parse --short HEAD 2>/dev/null
+    popd &>/dev/null
+}
+
 F_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
 for data_root in ${sos_paths[@]}; do
@@ -179,7 +186,7 @@ for data_root in ${sos_paths[@]}; do
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
         repo_info=`cat $REPO_INFO_PATH`
     else
-        repo_info=`git rev-parse --short HEAD 2>/dev/null` || repo_info="unknown" 
+        repo_info=`get_git_rev_info` || repo_info="unknown" 
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $F_OUT
 
