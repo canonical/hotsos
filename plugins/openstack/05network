@@ -28,6 +28,20 @@ config = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
                                     "openvswitch_agent.ini"),
                        "key": "local_ip"}]}
 
+ns_info = {}
+print("  network:")
+for line in helpers.get_ip_netns():
+    ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
+    if ret:
+        if ret[1] in ns_info:
+            ns_info[ret[1]] += 1
+        else:
+            ns_info[ret[1]] = 1
+
+print("    namespaces:")
+for type in ns_info:
+    print("      {}: {}".format(type, ns_info[type]))
+
 print("  config:")
 for svc in config:
     for info in config[svc]:

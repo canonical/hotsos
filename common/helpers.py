@@ -179,3 +179,13 @@ def get_udevadm_info_dev(dev):
                         format(dev))
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+
+def get_ip_netns():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ip', 'netns'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_netns")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
