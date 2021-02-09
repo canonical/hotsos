@@ -18,7 +18,7 @@ config_files = {"neutron": {"main": "etc/neutron/neutron.conf",
                             "dhcp_agent": "etc/neutron/dhcp_agent.ini"},
                 "nova": {"main": "etc/nova/nova.conf"}}
 
-features = {"neutron": {"main": "availability_zone",
+features = {"neutron": {"main": ["availability_zone"],
                         "openvswitch_agent": ["l2_population"],
                         "l3_agent": ["agent_mode", "ovs_use_veth"],
                         "dhcp_agent": ["enable_metadata_network",
@@ -40,9 +40,11 @@ for service in features:
         if not os.path.exists(cfg):
             continue
 
-        if service not in config_values or \
-                module not in config_values[service]:
+        if service not in config_values:
             config_values[service] = {module: {}}
+
+        if module not in config_values[service]:
+            config_values[service][module] = {}
 
         for key in features[service][module]:
             for line in open(cfg).readlines():
