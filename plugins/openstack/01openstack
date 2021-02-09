@@ -28,6 +28,7 @@ SERVICES = [r"aodh{}".format(default_pfix_match),
             r"gnocchi{}".format(default_pfix_match),
             r"heat{}".format(default_pfix_match),
             r"horizon",
+            r"keepalived{}".format(default_pfix_match),
             r"keystone{}".format(default_pfix_match),
             r"mysqld",
             r"neutron{}".format(default_pfix_match),
@@ -86,7 +87,7 @@ print("  services:")
 openstack_info = {}
 for line in helpers.get_ps():
     for svc in SERVICES:
-        ret = re.compile(r".+({})\s+.+".format(svc)).match(line)
+        ret = re.compile(r".+/({})\s+.+".format(svc)).match(line)
         if ret:
             if ret[1] in openstack_info:
                 openstack_info[ret[1]] += 1
