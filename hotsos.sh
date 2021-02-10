@@ -133,13 +133,13 @@ while (($#)); do
             ;;
         *)
             [[ -d $1 ]] || { echo "ERROR: invalid path '$1'"; exit 1; }
-            sos_paths+=( $1 )
+            SOS_PATHS+=( $1 )
             ;;
     esac
     shift
 done
 
-((${#sos_paths[@]})) || sos_paths=( / )
+((${#SOS_PATHS[@]})) || SOS_PATHS=( / )
 
 if ${PLUGINS[all]}; then
     PLUGINS[openstack]=true
@@ -159,7 +159,7 @@ get_git_rev_info ()
 
 F_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
-for data_root in ${sos_paths[@]}; do
+for data_root in ${SOS_PATHS[@]}; do
     if [ "$data_root" = "/" ]; then
         echo -e "INFO: running against localhost since no sosreport path provided\n" 1>&2
         DATA_ROOT=/
