@@ -15,31 +15,48 @@ SERVICES = ["ceph-osd",
             "radosgw"]
 
 
-# TODO: finish converting these
 def ceph_pg_imbalance():
     """
-    ## upstream recommends 50-100 OSDs ideally.
-    #for line in helpers.get_ceph_osd_df_tree():
-    #    bad_pgs=$( | awk '$NF ~ "^osd."{ pg=$(NF-1); if (pg > 0 && (pg < 50
-    #    || pg > 120)) printf "%s ", pg }')
-    #    if bad_pgs:
-    #        print("ceph-pgs: WARNING! Found OSDs with pg counts [$bad_pgs].
-    #    Recommended range is 50 - 100.")
+    Validate PG range.
+    Upstream recommends 50-200 OSDs ideally. Higher than 200 is
+    also valid if the OSD disks are of different sizes.
     """
-    pass
+    bad_pgs = ""
+    for line in helpers.get_ceph_osd_df_tree():
+        try:
+            if line:
+                last = line.split()[-1]
+            if re.compile(r"^osd\.[0-9]+").match(last):
+                pg = int(line.split()[-2])
+                if pg > 0 and (pg < 50 or pg > 200):
+                    bad_pgs += str(pg) + " "
+        except IndexError:
+            pass
+
+    if bad_pgs:
+        print("    pgs: WARNING! Found OSDs with pg counts {}."
+              .format(bad_pgs.strip()) +
+              " Recommended range is 50 - 200.")
 
 
 def ceph_versions_mismatch():
     """
-    ## Check versions of all running daemons are the same.
-    #for line in helpers.get_ceph_versions():
-    #    local count=$( | awk -F' ' '/ceph version/{arr[$3]=1}END{ c=0; for
-    #    (i in arr) c++; print c}')
-    #    if count > 1:
-    #        print("ceph-versions: WARNING! Found multiple ($count different)
-    #    versions of daemons running.")
+    Check versions of all running daemons are the same.
     """
-    pass
+    vers = dict()
+    for line in helpers.get_ceph_versions():
+        try:
+            if re.compile(r".+ceph version.+").match(line):
+                d_ver = line.split()[2]
+                if d_ver in vers:
+                    vers[d_ver] += 1
+                else:
+                    vers[d_ver] = 1
+        except (IndexError, KeyError):
+            pass
+    if len(vers) > 1:
+        print("    ceph-versions: WARNING! Found multiple ({} different)"
+              " versions of daemons running.".format(len(vers)))
 
 
 def svc_exists(svc):
@@ -100,8 +117,8 @@ for svc in SERVICES:
 
         if VERBOSITY_LEVEL >= 1:
             for line in helpers.get_ps():
-                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(osd_id)
-                                 ).match(line)
+                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+"
+                                 .format(osd_id)).match(line)
                 if ret:
                     rss = int(int(line.split()[5]) / 1024)
                     osd_info[osd_id]["rss"] = "{}M".format(rss)
