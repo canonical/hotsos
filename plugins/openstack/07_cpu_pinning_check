@@ -12,6 +12,12 @@ DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
     os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', False)
 
+if type(OPENSTACK_SHOW_CPU_PINNING_RESULTS) == str:
+    if OPENSTACK_SHOW_CPU_PINNING_RESULTS.lower() == "true":
+        OPENSTACK_SHOW_CPU_PINNING_RESULTS = True
+    else:
+        OPENSTACK_SHOW_CPU_PINNING_RESULTS = False
+
 
 def cores_to_list(cores):
     """Parse comma-seperated list of core ids into an array. Ranges are
@@ -243,13 +249,12 @@ class NUMAInfo(object):
 
 class Results(object):
     def __init__(self):
-        self.errors = {}
-        self.errors_extras = {}
-        self.info = {}
-        self.info_extras = {}
-        self.warn = {}
-        self.warn_extras = {}
         self.config = {}
+        self._results = {"INFO": {"label": "info", "main": {}, "extras": {}},
+                         "WARNING": {"label": "warnings", "main": {},
+                                     "extras": {}},
+                         "ERROR": {"label": "errors", "main": {},
+                                   "extras": {}}}
 
     def add_config(self, application, key, value):
         """Save service/application config. This servces as a record of what
@@ -263,26 +268,24 @@ class Results(object):
         else:
             self.config[application] = {key: value}
 
+    def _add_msg(self, level, msg, extra=None):
+        """Add message to be displayed"""
+        key = uuid4()
+        self._results[level]["main"][key] = msg
+        if extra:
+            self._results[level]["extras"][key] = extra
+
     def add_info(self, msg, extra=None):
         """Add message to be displayed as INFO"""
-        key = uuid4()
-        self.info[key] = msg
-        if extra:
-            self.info_extras[key] = extra
+        self._add_msg("INFO", msg, extra)
 
     def add_warn(self, msg, extra=None):
         """Add message to be displayed as WARNING"""
-        key = uuid4()
-        self.warn[key] = msg
-        if extra:
-            self.warn_extras[key] = extra
+        self._add_msg("WARNING", msg, extra)
 
     def add_error(self, msg, extra=None):
         """Add message to be displayed as ERROR"""
-        key = uuid4()
-        self.errors[key] = msg
-        if extra:
-            self.errors_extras[key] = extra
+        self._add_msg("ERROR", msg, extra)
 
     def display(self):
         print("  cpu-pinning-checks:")
@@ -294,33 +297,19 @@ class Results(object):
                 print("        - {}: {}".format(key, value))
 
         print("    results:")
-        if not self.info and not self.errors:
-            print("      - no issues found")
-            return
+        for level in self._results:
+            if not self._results[level]["main"]:
+                continue
 
-        for key in self.info:
-            msg = self.info[key]
-            print("      - INFO: {}".format(msg))
-            extras = self.info_extras.get(key)
-            if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
-                for msg in extras.split('\n'):
-                    print("        - {}".format(msg))
-
-        for key in self.warn:
-            msg = self.warn[key]
-            print("      - WARNING: {}".format(msg))
-            extras = self.warn_extras.get(key)
-            if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
-                for msg in extras.split('\n'):
-                    print("        - {}".format(msg))
-
-        for key in self.errors:
-            msg = self.errors[key]
-            print("      - ERROR: {}".format(msg))
-            extras = self.errors_extras.get(key)
-            if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
-                for msg in extras.split('\n'):
-                    print("        - {}".format(msg))
+            print("      {}:".format(self._results[level]["label"]))
+            for key in self._results[level]["main"]:
+                msg = self._results[level]["main"][key]
+                print("        - {}".format(msg))
+                extras = self._results[level]["extras"].get(key)
+                if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
+                    print("        - extra-info:")
+                    for msg in extras.split('\n'):
+                        print("            {}".format(msg))
 
 
 class CPUPinningChecker(object):
