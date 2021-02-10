@@ -71,9 +71,8 @@ else:
 if VERBOSITY_LEVEL >= 2:
     print("  debug-logging-enabled:")
     for proj in OST_PROJECTS:
-        if proj in OST_ETC_OVERRIDES:
-            path = OST_ETC_OVERRIDES[proj]
-        else:
+        path = OST_ETC_OVERRIDES.get(proj)
+        if path is None:
             path = os.path.join(DATA_ROOT, "etc", proj, "{}.conf".format(proj))
 
         if os.path.exists(path):

@@ -50,8 +50,8 @@ def squash_int_range(ilist):
             if i == (len(ilist) - 1):
                 irange.append(value)
                 break
-            else:
-                rstart = value
+
+            rstart = value
 
         if rprev is not None:
             if rprev != (value - 1):

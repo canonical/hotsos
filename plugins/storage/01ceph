@@ -26,7 +26,6 @@ def ceph_pg_imbalance():
     #        print("ceph-pgs: WARNING! Found OSDs with pg counts [$bad_pgs].
     #    Recommended range is 50 - 100.")
     """
-    pass
 
 
 def ceph_versions_mismatch():
@@ -39,7 +38,6 @@ def ceph_versions_mismatch():
     #        print("ceph-versions: WARNING! Found multiple ($count different)
     #    versions of daemons running.")
     """
-    pass
 
 
 def svc_exists(svc):

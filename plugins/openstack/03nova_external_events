@@ -21,7 +21,7 @@ if not os.path.exists(data_source):
 
 def get_events(event_name):
     key = (r".+\[instance: ([0-9a-z\-]+)\].+Preparing to wait for external "
-           "event ({}-[0-9a-z\-]+)\s+.+".format(event_name))  # noqa W605
+           r"event ({}-[0-9a-z\-]+)\s+.+".format(event_name))  # noqa W605
     lines = open(data_source).readlines()
 
     events = {}
