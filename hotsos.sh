@@ -42,7 +42,7 @@ declare -A PLUGINS=(
     [all]=false
 )
 # output ordering
-declare -a PLUGIN_NAMES=( openstack kubernetes storage juju kernel system )
+declare -a PLUGIN_NAMES=( system openstack kubernetes storage juju kernel )
 
 
 usage ()
