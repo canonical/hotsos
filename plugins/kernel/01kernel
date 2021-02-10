@@ -1,9 +1,9 @@
 #!/bin/bash -u
 # This plugin displays information about the kernel.
 
-sub_indent_str="  $INDENT_STR"
-subsub_indent_str="    $INDENT_STR"
-subsubsub_indent_str="      $INDENT_STR"
+sub_indent_str="    - "
+subsub_indent_str="      - "
+subsubsub_indent_str="        - "
 zone_issue_found=false
 
 echo "kernel:"

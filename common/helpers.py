@@ -189,3 +189,13 @@ def get_ip_netns():
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_netns")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+
+def get_hostname():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['hostname'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "hostname")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()

@@ -15,24 +15,22 @@
 #
 # Origin: https://github.com/dosaboy/hotsos
 #
-# Description:
-#  Generate a high-level summary of a sosreport.
-#
 # Authors:
 #  - edward.hope-morley@canonical.com
 #  - opentastic@gmail.com
 
-declare -a sos_paths=()
-SAVE_OUTPUT=false
+
+# These globals are made available to all plugins
 export VERBOSITY_LEVEL=0
-# standard indentation to be used by all plugins
-export INDENT_STR="  - "
+export DATA_ROOT
+# plugin args - prefix must be plugin name
+export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
 
 # import helpers functions
 . `dirname $0`/common/helpers.sh
 
-# ordered
-declare -a PLUG_KEYS=( openstack kubernetes storage juju kernel system )
+SAVE_OUTPUT=false
+declare -a SOS_PATHS=()
 # unordered
 declare -A PLUGINS=(
     [openstack]=false
@@ -40,12 +38,12 @@ declare -A PLUGINS=(
     [storage]=false
     [juju]=false
     [kernel]=false
-    [system]=false
+    [system]=true  # always do system by default
     [all]=false
 )
+# output ordering
+declare -a PLUGIN_NAMES=( openstack kubernetes storage juju kernel system )
 
-# plugin args - prefix must be plugin name
-export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
 
 usage ()
 {
@@ -152,20 +150,6 @@ if ${PLUGINS[all]}; then
     PLUGINS[system]=true
 fi
 
-get_general_info ()
-{
-    echo "general: " >> $F_OUT
-    _hostname=
-    [ -r "$DATA_ROOT/hostname" ] && _hostname=`cat $DATA_ROOT/hostname` || _hostname=`hostname`
-    echo -e "  hostname: $_hostname" >> $F_OUT
-    data_source=$DATA_ROOT/etc/lsb-release
-    if [ -s $data_source ]; then
-       series=`sed -r 's/DISTRIB_CODENAME=(.+)/\1/g;t;d' $data_source`
-        s_0=${series:0:1}  # capitalise first char
-       echo -e "  os: Ubuntu ${s_0^^}${series:1}" >> $F_OUT
-    fi
-}
-
 get_git_rev_info ()
 {
     pushd `dirname $0` &>/dev/null
@@ -178,9 +162,14 @@ CWD=$(dirname `realpath $0`)
 for data_root in ${sos_paths[@]}; do
     if [ "$data_root" = "/" ]; then
         echo -e "INFO: running against localhost since no sosreport path provided\n" 1>&2
-        export DATA_ROOT=/
+        DATA_ROOT=/
     else
-        export DATA_ROOT=$data_root
+        DATA_ROOT=$data_root
+    fi
+
+    if ! [ "${DATA_ROOT:(-1)}" = "/" ]; then
+        # Ensure trailing slash
+        export DATA_ROOT="${DATA_ROOT}/"
     fi
 
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
@@ -190,14 +179,7 @@ for data_root in ${sos_paths[@]}; do
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $F_OUT
 
-    if ! [ "${DATA_ROOT:(-1)}" = "/" ]; then
-        # Ensure trailing slash
-        export DATA_ROOT="${DATA_ROOT}/"
-    fi
-
-    get_general_info
-
-    for plugin in ${PLUG_KEYS[@]}; do
+    for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
         [ "$plugin" = "all" ] && continue
         # is plugin enabled?

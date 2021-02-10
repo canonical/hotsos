@@ -10,7 +10,7 @@ from uuid import uuid4
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
-    os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', None)
+    os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', False)
 
 
 def cores_to_list(cores):
