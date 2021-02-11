@@ -294,7 +294,7 @@ class Results(object):
             print("      {}:".format(app))
             for key in self.config[app]:
                 value = self.config[app][key]
-                print("        - {}: {}".format(key, value))
+                print("        {}: {}".format(key, value))
 
         print("    results:")
         for level in self._results:
