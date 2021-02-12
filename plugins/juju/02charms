@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+import glob
+import re
+import os
+import sys
+
+# HOTSOS GLOBALS
+VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
+DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+
+JUJU_LIB_PATH = os.path.join(DATA_ROOT, "var/lib/juju")
+CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
+
+if not os.path.exists(JUJU_LIB_PATH):
+    sys.exit(0)
+
+print("  charms:")
+
+charm_versions = []
+for entry in glob.glob(os.path.join(JUJU_LIB_PATH, CHARM_MANIFEST_GLOB)):
+    for manifest in os.listdir(entry):
+        base = os.path.basename(manifest)
+        ret = re.compile(r".+_(\S+)-([0-9]+)$").match(base)
+        if ret:
+            charm_versions.append("{}-{}".format(ret[1], ret[2]))
+
+for charm in sorted(charm_versions):
+    print("    - {}".format(charm))
