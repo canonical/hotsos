@@ -22,6 +22,7 @@ OST_DEPS = [
     "libvirt-bin",
     "qemu-kvm",
     "ovn",
+    "libc-bin",
 ]
 
 print("  dpkg:")
