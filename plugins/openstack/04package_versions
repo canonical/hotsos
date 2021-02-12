@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import re
 import os
-import sys
 
 from common import helpers
 
@@ -11,25 +10,26 @@ from openstack_common import OST_PROJECTS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-if VERBOSITY_LEVEL < 3:
-    sys.exit(0)
-
 OST_DEPS = [
-    "dnsmasq",
-    "keepalived",
-    "openvswitch-switch",
-    "libvirt-daemon",
-    "libvirt-bin",
-    "qemu-kvm",
-    "ovn",
-    "libc-bin",
+    r"conntrack",
+    r"dnsmasq",
+    r"haproxy",
+    r"keepalived",
+    r"libc-bin",
+    r"libvirt-daemon",
+    r"libvirt-bin",
+    r"python3?-oslo[.-]",
+    r"openvswitch-switch",
+    r"ovn",
+    r"qemu-kvm",
 ]
 
-print("  dpkg:")
+dep_list = OST_PROJECTS + OST_DEPS
 if helpers.get_dpkg_l():
+    print("  dpkg:")
     for line in helpers.get_dpkg_l():
-        for dep in OST_PROJECTS + OST_DEPS:
-            ret = re.compile(r"^ii\s+({}[0-9a-z\-]*)\s+([0-9A-Za-z:\-.~]+)\s+"
-                             ".+".format(dep)).match(line)
+        for dep in dep_list:
+            ret = re.compile(r"^ii\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+                             .format(dep)).match(line)
             if ret:
                 print("    - {} {}".format(ret[1], ret[2]))
