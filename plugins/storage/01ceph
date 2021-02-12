@@ -74,27 +74,34 @@ sos_time_secs = helpers.get_sosreport_time()
 
 
 osd_info = {}
+ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
 
 for svc in SERVICES:
     if not svc_exists(svc):
         continue
 
     for osd_id in get_osd_ids():
-        for i, line in enumerate(helpers.get_ceph_volume_lvm_list()):
-            ret = re.compile(".*==== osd.{} ====.*".format(osd_id)).match(line)
-            if ret:
-                osd_info[osd_id] = {}
+        osd_info[osd_id] = {}
+        if ceph_volume_lvm_list:
+            for i, line in enumerate(ceph_volume_lvm_list):
+                ret = re.compile(".*==== osd.{} ====.*".format(osd_id)
+                                 ).match(line)
+                if ret:
+                    osd_info[osd_id]['mark'] = 1
 
-            if osd_id not in osd_info:
-                continue
+                if osd_info[osd_id].get('mark') is None:
+                    continue
 
-            ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+").search(line)
-            if ret:
-                osd_info[osd_id]["fsid"] = ret[1]
+                ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+").search(line)
+                if ret:
+                    osd_info[osd_id]["fsid"] = ret[1]
 
-            ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
-            if ret:
-                osd_info[osd_id]["dev"] = ret[1]
+                ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
+                if ret:
+                    osd_info[osd_id]["dev"] = ret[1]
+
+        if 'mark' in osd_info[osd_id]:
+            del osd_info[osd_id]['mark']
 
         if VERBOSITY_LEVEL >= 1:
             for line in helpers.get_ps():
