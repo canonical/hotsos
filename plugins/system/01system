@@ -42,7 +42,7 @@ def get_system_info():
             break
 
     for line in helpers.get_uptime():
-        ret = re.compile(r".+(load) average:\s+(.+)").match(line)
+        ret = re.compile(r".+load average:\s+(.+)").match(line)
         if ret:
             SYSTEM_INFO["load"] = ret[1]
             break
