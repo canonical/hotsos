@@ -287,29 +287,38 @@ class Results(object):
         """Add message to be displayed as ERROR"""
         self._add_msg("ERROR", msg, extra)
 
+    @property
+    def has_results(self):
+        return any([e[1]["main"] for e in self._results.items()])
+
     def display(self):
+        if not (self.config or self.has_results):
+            return
+
         print("  cpu-pinning-checks:")
-        print("    input:")
-        for app in self.config:
-            print("      {}:".format(app))
-            for key in self.config[app]:
-                value = self.config[app][key]
-                print("        {}: {}".format(key, value))
+        if self.config:
+            print("    input:")
+            for app in self.config:
+                print("      {}:".format(app))
+                for key in self.config[app]:
+                    value = self.config[app][key]
+                    print("        {}: {}".format(key, value))
 
-        print("    results:")
-        for level in self._results:
-            if not self._results[level]["main"]:
-                continue
+        if self.has_results:
+            print("    results:")
+            for level in self._results:
+                if not self._results[level]["main"]:
+                    continue
 
-            print("      {}:".format(self._results[level]["label"]))
-            for key in self._results[level]["main"]:
-                msg = self._results[level]["main"][key]
-                print("        - {}".format(msg))
-                extras = self._results[level]["extras"].get(key)
-                if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
-                    print("        - extra-info:")
-                    for msg in extras.split('\n'):
-                        print("            {}".format(msg))
+                print("      {}:".format(self._results[level]["label"]))
+                for key in self._results[level]["main"]:
+                    msg = self._results[level]["main"][key]
+                    print("        - {}".format(msg))
+                    extras = self._results[level]["extras"].get(key)
+                    if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
+                        print("        - extra-info:")
+                        for msg in extras.split('\n'):
+                            print("            {}".format(msg))
 
 
 class CPUPinningChecker(object):

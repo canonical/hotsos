@@ -31,55 +31,81 @@ SNAPS = [r'charm[\S]+',
          r'kubefed',
          r'vault',
          ]
+SERVICE_INFO = {}
+SNAP_INFO = {}
+CONTAINER_INFO = []
+POD_INFO = []
 
 
-print("kubernetes:")
-
-print("  services:")
-ps_output = helpers.get_ps()
-if not ps_output:
-    print("    - process info unavailable")
-else:
-    service_info = {}
+def get_service_info():
+    ps_output = helpers.get_ps()
+    if not ps_output:
+        return
 
     for svc in SERVICES:
         for line in ps_output:
             ret = re.compile(r".+({})\s+.+".format(svc)).match(line)
             if ret:
-                if svc in service_info:
-                    service_info[svc] += 1
+                if svc in SERVICE_INFO:
+                    SERVICE_INFO[svc] += 1
                 else:
-                    service_info[svc] = 1
+                    SERVICE_INFO[svc] = 1
 
-    for svc in service_info:
-        print("    - {} ({})".format(svc, service_info[svc]))
 
-print("  snaps:")
-snap_list_all = helpers.get_snap_list_all()
-snap_info = {}
-if snap_list_all:
+def get_snap_info():
+    snap_list_all = helpers.get_snap_list_all()
+    if not snap_list_all:
+        return
+
     for line in snap_list_all:
         for snap in SNAPS:
             ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
             if ret:
                 # only show latest version installed
-                if ret[1] in snap_info:
-                    if ret[2] > snap_info[ret[1]]:
-                        snap_info[ret[1]] = ret[2]
+                if ret[1] in SNAP_INFO:
+                    if ret[2] > SNAP_INFO[ret[1]]:
+                        SNAP_INFO[ret[1]] = ret[2]
                 else:
-                    snap_info[ret[1]] = ret[2]
+                    SNAP_INFO[ret[1]] = ret[2]
 
-    for snap in snap_info:
-        print("    - {} {}".format(snap, snap_info[snap]))
 
-print("  pods:")
-pods_path = os.path.join(DATA_ROOT, "var/log/pods")
-if os.path.exists(pods_path):
-    for pod in os.listdir(pods_path):
-        print("    - {}".format(pod))
+def get_pod_info():
+    pods_path = os.path.join(DATA_ROOT, "var/log/pods")
+    if os.path.exists(pods_path):
+        for pod in os.listdir(pods_path):
+            POD_INFO.append(pod)
 
-print("  containers:")
-containers_path = os.path.join(DATA_ROOT, "var/log/containers")
-if os.path.exists(containers_path):
-    for container in os.listdir(containers_path):
-        print("    - {}".format(container))
+
+def get_container_info():
+    containers_path = os.path.join(DATA_ROOT, "var/log/containers")
+    if os.path.exists(containers_path):
+        for container in os.listdir(containers_path):
+            CONTAINER_INFO.append(container)
+
+
+if __name__ == "__main__":
+    get_service_info()
+    get_snap_info()
+    get_pod_info()
+    get_container_info()
+
+    print("kubernetes:")
+    if SERVICE_INFO:
+        print("  services:")
+        for svc in SERVICE_INFO:
+            print("    - {} ({})".format(svc, SERVICE_INFO[svc]))
+
+    if POD_INFO:
+        print("  pods:")
+        for pod in POD_INFO:
+            print("    - {}".format(pod))
+
+    if CONTAINER_INFO:
+        print("  containers:")
+        for container in CONTAINER_INFO:
+            print("    - {}".format(container))
+
+    if SNAP_INFO:
+        print("  snaps:")
+        for snap in SNAP_INFO:
+            print("    - {} {}".format(snap, SNAP_INFO[snap]))

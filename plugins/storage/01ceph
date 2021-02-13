@@ -14,6 +14,8 @@ SERVICES = ["ceph-osd",
             "ceph-mgr",
             "radosgw"]
 
+OSD_INFO = {}
+
 
 # TODO: finish converting these
 def ceph_pg_imbalance():
@@ -47,7 +49,7 @@ def svc_exists(svc):
             return True
 
 
-def get_osd_ids():
+def get_osd_ids(svc):
     osd_ids = []
     for line in helpers.get_ps():
         ret = re.compile(r".+({}\S*)\s+.*--id\s+([0-9]+)\s+.+"
@@ -68,77 +70,81 @@ def seconds_to_date(secs):
                                     int(mins), int(secs))
 
 
-print("storage:")
+def get_osd_info():
+    sos_time_secs = helpers.get_sosreport_time()
+    ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
 
-sos_time_secs = helpers.get_sosreport_time()
+    for svc in SERVICES:
+        if not svc_exists(svc):
+            continue
 
+        for osd_id in get_osd_ids(svc):
+            OSD_INFO[osd_id] = {}
+            if ceph_volume_lvm_list:
+                for i, line in enumerate(ceph_volume_lvm_list):
+                    ret = re.compile(".*==== osd.{} ====.*".format(osd_id)
+                                     ).match(line)
+                    if ret:
+                        OSD_INFO[osd_id]['mark'] = 1
 
-osd_info = {}
-ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
+                    if OSD_INFO[osd_id].get('mark') is None:
+                        continue
 
-for svc in SERVICES:
-    if not svc_exists(svc):
-        continue
+                    ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+"
+                                     ).search(line)
+                    if ret:
+                        OSD_INFO[osd_id]["fsid"] = ret[1]
 
-    for osd_id in get_osd_ids():
-        osd_info[osd_id] = {}
-        if ceph_volume_lvm_list:
-            for i, line in enumerate(ceph_volume_lvm_list):
-                ret = re.compile(".*==== osd.{} ====.*".format(osd_id)
-                                 ).match(line)
-                if ret:
-                    osd_info[osd_id]['mark'] = 1
-
-                if osd_info[osd_id].get('mark') is None:
-                    continue
-
-                ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+").search(line)
-                if ret:
-                    osd_info[osd_id]["fsid"] = ret[1]
-
-                ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
-                if ret:
-                    osd_info[osd_id]["dev"] = ret[1]
-
-        if 'mark' in osd_info[osd_id]:
-            del osd_info[osd_id]['mark']
-
-        if VERBOSITY_LEVEL >= 1:
-            for line in helpers.get_ps():
-                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(osd_id)
-                                 ).match(line)
-                if ret:
-                    rss = int(int(line.split()[5]) / 1024)
-                    osd_info[osd_id]["rss"] = "{}M".format(rss)
-                    break
-
-            for line in helpers.get_ps_axo_flags():
-                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(osd_id)
-                                 ).match(line)
-                if ret:
-                    osd_start = ' '.join(line.split()[13:17])
-                    if sos_time_secs and osd_start:
-                        cmd = ["date", "--date={}".format(osd_start), "+%s"]
-                        osd_start_secs = subprocess.check_output(cmd)
-                        osd_uptime_secs = (int(sos_time_secs) -
-                                           int(osd_start_secs))
-                        osd_uptime_str = seconds_to_date(osd_uptime_secs)
-                        osd_info[osd_id]["etime"] = osd_uptime_str
+                    ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
+                    if ret:
+                        OSD_INFO[osd_id]["dev"] = ret[1]
                         break
 
-        if VERBOSITY_LEVEL >= 3:
-            for line in helpers.get_ceph_osd_tree():
-                if line.split()[3] == "osd.{}".format(osd_id):
-                    osd_info[osd_id]["devtype"] = line.split()[1]
-                    break
+            if 'mark' in OSD_INFO[osd_id]:
+                del OSD_INFO[osd_id]['mark']
 
-if osd_info:
-    print("  ceph:")
-    print("    osds:")
-    for osd in osd_info:
-        print("      {}:".format(osd))
-        for key in osd_info[osd]:
-            print("        {}: {}".format(key, osd_info[osd][key]))
+            if VERBOSITY_LEVEL >= 1:
+                for line in helpers.get_ps():
+                    ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
+                                     osd_id)).match(line)
+                    if ret:
+                        rss = int(int(line.split()[5]) / 1024)
+                        OSD_INFO[osd_id]["rss"] = "{}M".format(rss)
+                        break
 
-    ceph_pg_imbalance()
-    ceph_versions_mismatch()
+                for line in helpers.get_ps_axo_flags():
+                    ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
+                                     osd_id)).match(line)
+                    if ret:
+                        osd_start = ' '.join(line.split()[13:17])
+                        if sos_time_secs and osd_start:
+                            cmd = ["date", "--date={}".format(osd_start),
+                                   "+%s"]
+                            osd_start_secs = subprocess.check_output(cmd)
+                            osd_uptime_secs = (int(sos_time_secs) -
+                                               int(osd_start_secs))
+                            osd_uptime_str = seconds_to_date(osd_uptime_secs)
+                            OSD_INFO[osd_id]["etime"] = osd_uptime_str
+                            break
+
+            if VERBOSITY_LEVEL >= 3:
+                for line in helpers.get_ceph_osd_tree():
+                    if line.split()[3] == "osd.{}".format(osd_id):
+                        OSD_INFO[osd_id]["devtype"] = line.split()[1]
+                        break
+
+
+if __name__ == "__main__":
+    print("storage:")
+
+    get_osd_info()
+    if OSD_INFO:
+        print("  ceph:")
+        print("    osds:")
+        for osd in OSD_INFO:
+            print("      {}:".format(osd))
+            for key in OSD_INFO[osd]:
+                print("        {}: {}".format(key, OSD_INFO[osd][key]))
+
+        ceph_pg_imbalance()
+        ceph_versions_mismatch()

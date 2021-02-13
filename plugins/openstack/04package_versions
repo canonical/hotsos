@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import re
 import os
+import sys
 
 from common import helpers
 
@@ -23,13 +24,24 @@ OST_DEPS = [
     r"ovn",
     r"qemu-kvm",
 ]
+DEP_LIST = OST_PROJECTS + OST_DEPS
+PKG_INFO = {}
 
-dep_list = OST_PROJECTS + OST_DEPS
-if helpers.get_dpkg_l():
-    print("  dpkg:")
+
+def get_pkg_info():
     for line in helpers.get_dpkg_l():
-        for dep in dep_list:
+        for dep in DEP_LIST:
             ret = re.compile(r"^ii\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
                              .format(dep)).match(line)
             if ret:
-                print("    - {} {}".format(ret[1], ret[2]))
+                PKG_INFO[ret[1]] = ret[2]
+
+
+if __name__ == "__main__":
+    if not helpers.get_dpkg_l():
+        sys.exit(0)
+
+    print("  dpkg:")
+    get_pkg_info()
+    for pkg in PKG_INFO:
+        print("    - {} {}".format(pkg, PKG_INFO[pkg]))

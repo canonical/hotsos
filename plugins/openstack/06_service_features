@@ -1,24 +1,20 @@
 #!/usr/bin/python3
 import re
 import os
-import sys
 
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-if VERBOSITY_LEVEL < 3:
-    sys.exit(0)
-
-config_files = {"neutron": {"main": "etc/neutron/neutron.conf",
+CONFIG_FILES = {"neutron": {"main": "etc/neutron/neutron.conf",
                             "openvswitch_agent":
                             "etc/neutron/plugins/ml2/openvswitch_agent.ini",
                             "l3_agent": "etc/neutron/l3_agent.ini",
                             "dhcp_agent": "etc/neutron/dhcp_agent.ini"},
                 "nova": {"main": "etc/nova/nova.conf"}}
 
-features = {"neutron": {"main": ["availability_zone"],
+FEATURES = {"neutron": {"main": ["availability_zone"],
                         "openvswitch_agent": ["l2_population"],
                         "l3_agent": ["agent_mode", "ovs_use_veth"],
                         "dhcp_agent": ["enable_metadata_network",
@@ -28,41 +24,53 @@ features = {"neutron": {"main": ["availability_zone"],
                               "cpu_dedicated_set"]}}
 
 # checked against neutron
-defaults = {"neutron": {"dhcp_agent": {"enable_metadata_network": False,
+DEFAULTS = {"neutron": {"dhcp_agent": {"enable_metadata_network": False,
                                        "enable_isolated_metadata": False}}}
 
-print("  features:")
+SERVICE_FEATURES = {}
 
-config_values = {}
-for service in features:
-    for module in features[service]:
-        cfg = os.path.join(DATA_ROOT, config_files[service][module])
-        if not os.path.exists(cfg):
-            continue
 
-        if service not in config_values:
-            config_values[service] = {module: {}}
+def get_service_features():
+    for service in FEATURES:
+        for module in FEATURES[service]:
+            cfg = os.path.join(DATA_ROOT, CONFIG_FILES[service][module])
+            if not os.path.exists(cfg):
+                continue
 
-        if module not in config_values[service]:
-            config_values[service][module] = {}
+            if service not in SERVICE_FEATURES:
+                SERVICE_FEATURES[service] = {}
 
-        for key in features[service][module]:
-            for line in open(cfg).readlines():
-                ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)).match(line)
-                if ret:
-                    if module in config_values[service]:
-                        config_values[service][module][key] = ret[1]
+            for key in FEATURES[service][module]:
+                for line in open(cfg).readlines():
+                    ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)
+                                     ).match(line)
+                    if ret:
+                        if module not in SERVICE_FEATURES[service]:
+                            SERVICE_FEATURES[service][module] = {}
 
-                    break
+                        if module in SERVICE_FEATURES[service]:
+                            SERVICE_FEATURES[service][module][key] = ret[1]
 
-            if key not in config_values[service][module]:
-                if key in defaults.get(service, {}).get(module, {}):
-                    default = defaults[service][module][key]
-                    config_values[service][module][key] = default
+                        break
 
-for service in config_values:
-    print("    {}:".format(service))
-    for module in config_values[service]:
-        for key in config_values[service][module]:
-            value = config_values[service][module][key]
-            print("      {}: {}".format(key, value))
+                if key not in SERVICE_FEATURES[service].get(module, {}):
+                    if key in DEFAULTS.get(service, {}).get(module, {}):
+                        default = DEFAULTS[service][module][key]
+                        if module not in SERVICE_FEATURES[service]:
+                            SERVICE_FEATURES[service][module] = {key: default}
+                        else:
+                            SERVICE_FEATURES[service][module][key] = default
+
+
+if __name__ == "__main__":
+    get_service_features()
+    if SERVICE_FEATURES:
+        print("  features:")
+        for service in SERVICE_FEATURES:
+            if not SERVICE_FEATURES[service]:
+                continue
+            print("    {}:".format(service))
+            for module in SERVICE_FEATURES[service]:
+                for key in SERVICE_FEATURES[service][module]:
+                    value = SERVICE_FEATURES[service][module][key]
+                    print("      {}: {}".format(key, value))

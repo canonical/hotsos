@@ -8,31 +8,34 @@ from common import helpers
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-info = {}
+BLOCK_INFO = {}
 
 
-for type in ["bcache", "nvme"]:
-    info[type] = {}
-    for line in helpers.get_ls_lanR_sys_block():
-        ret = re.compile(r".+[0-9:]+\s+({}[0-9a-z]+)\s+.+".format(type)
-                         ).match(line)
-        if ret:
-            devname = ret[1]
-            info[type][devname] = {}
+def get_bcache_info():
+    for type in ["bcache", "nvme"]:
+        BLOCK_INFO[type] = {}
+        for line in helpers.get_ls_lanR_sys_block():
+            ret = re.compile(r".+[0-9:]+\s+({}[0-9a-z]+)\s+.+".format(type)
+                             ).match(line)
+            if ret:
+                devname = ret[1]
+                BLOCK_INFO[type][devname] = {}
 
-            for line in helpers.get_udevadm_info_dev(devname):
-                ret = re.compile(r".+\s+disk/by-dname/(.+)").match(line)
-                if ret:
-                    info[type][devname]["dname"] = ret[1]
-                else:
-                    # TODO: get backing dev
-                    pass
+                for line in helpers.get_udevadm_info_dev(devname):
+                    ret = re.compile(r".+\s+disk/by-dname/(.+)").match(line)
+                    if ret:
+                        BLOCK_INFO[type][devname]["dname"] = ret[1]
+                    else:
+                        # TODO: get backing dev
+                        pass
 
 
-if info:
-    for type in info:
-        print("  {}:".format(type))
-        for dev in info[type]:
-            print("    {}:".format(dev))
-            for key in info[type][dev]:
-                print("      {}: {}".format(key, info[type][dev][key]))
+if __name__ == "__main__":
+    if BLOCK_INFO:
+        for type in BLOCK_INFO:
+            print("  {}:".format(type))
+            for dev in BLOCK_INFO[type]:
+                print("    {}:".format(dev))
+                for key in BLOCK_INFO[type][dev]:
+                    print("      {}: {}".format(key,
+                                                BLOCK_INFO[type][dev][key]))

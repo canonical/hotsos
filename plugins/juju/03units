@@ -11,14 +11,10 @@ DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 JUJU_LOG_PATH = os.path.join(DATA_ROOT, "var/log/juju")
 
-app_local = set()
-unit_local = set()
-unit_local_not_running = set()
-unit_nonlocal = set()
-app_nonlocal = {}
-unit_local_not_running_filtered = set()
-ps_units = set()
-log_units = set()
+UNITS_LOCAL = set()
+UNITS_LOCAL_NOT_RUNNING = set()
+UNITS_LOCAL_NOT_RUNNING_FILTERED = set()
+UNITS_NONLOCAL_DEDUP = set()
 
 
 def get_app_from_unit(unit):
@@ -33,69 +29,79 @@ def get_unit_version(unit):
         return int(ret[1])
 
 
-if not os.path.exists(JUJU_LOG_PATH):
-    print("  - $data_source_dir not found - skipping juju info")
-    sys.exit(0)
+def get_unit_info():
+    unit_nonlocal = set()
+    app_nonlocal = {}
+    ps_units = set()
+    log_units = set()
+    app_local = set()
 
-for line in helpers.get_ps():
-    if "unit-" in line:
-        ret = re.compile(r".+unit-([0-9a-z\-]+-[0-9]+).*").match(line)
+    for line in helpers.get_ps():
+        if "unit-" in line:
+            ret = re.compile(r".+unit-([0-9a-z\-]+-[0-9]+).*").match(line)
+            if ret:
+                ps_units.add(ret[1])
+
+    for f in os.listdir(JUJU_LOG_PATH):
+        ret = re.compile(r"unit-(.+)\.log.*").match(f)
         if ret:
-            ps_units.add(ret[1])
+            log_units.add(ret[1])
 
-for f in os.listdir(JUJU_LOG_PATH):
-    ret = re.compile(r"unit-(.+)\.log.*").match(f)
-    if ret:
-        log_units.add(ret[1])
+    combined_units = ps_units.union(log_units)
 
-combined_units = ps_units.union(log_units)
-
-
-for unit in combined_units:
-    if unit in log_units:
-        if unit in ps_units:
-            app_local.add(unit.partition('-')[2])
-            unit_local.add(unit)
+    for unit in combined_units:
+        if unit in log_units:
+            if unit in ps_units:
+                app_local.add(unit.partition('-')[2])
+                UNITS_LOCAL.add(unit)
+            else:
+                UNITS_LOCAL_NOT_RUNNING.add(unit)
         else:
-            unit_local_not_running.add(unit)
-    else:
-        # i.e. it is running but there is no log file in /var/log/juju so
-        # it is likely running in a container
-        app = get_app_from_unit(unit)
-        if app:
-            version = get_unit_version(unit)
-            if version is not None:
-                if app in app_nonlocal:
-                    if version > app_nonlocal[app]:
+            # i.e. it is running but there is no log file in /var/log/juju so
+            # it is likely running in a container
+            app = get_app_from_unit(unit)
+            if app:
+                version = get_unit_version(unit)
+                if version is not None:
+                    if app in app_nonlocal:
+                        if version > app_nonlocal[app]:
+                            app_nonlocal[app] = version
+                    else:
                         app_nonlocal[app] = version
-                else:
-                    app_nonlocal[app] = version
 
-        unit_nonlocal.add(unit)
+            unit_nonlocal.add(unit)
 
-# remove units from unit_local_not_running that are just old versions of
-# the one currently running
-for unit in unit_local_not_running:
-    app = get_app_from_unit(unit)
-    if not app or app not in app_local:
-        unit_local_not_running_filtered.add(unit)
+    # remove units from UNITS_LOCAL_NOT_RUNNING that are just old versions of
+    # the one currently running
+    for unit in UNITS_LOCAL_NOT_RUNNING:
+        app = get_app_from_unit(unit)
+        if not app or app not in app_local:
+            UNITS_LOCAL_NOT_RUNNING_FILTERED.add(unit)
 
-# dedup unit_nonlocal
-unit_nonlocal_dedup = set()
-for unit in unit_nonlocal:
-    app = get_app_from_unit(unit)
-    version = app_nonlocal[app]
-    if version == get_unit_version(unit):
-        unit_nonlocal_dedup.add(unit)
+    # dedup unit_nonlocal
+    for unit in unit_nonlocal:
+        app = get_app_from_unit(unit)
+        version = app_nonlocal[app]
+        if version == get_unit_version(unit):
+            UNITS_NONLOCAL_DEDUP.add(unit)
 
 
-print("  units:")
-print("    running:")
-for unit in sorted(unit_local):
-    print("      - {}".format(unit))
-print("    stopped:")
-for unit in sorted(unit_local_not_running_filtered):
-    print("      - {}".format(unit))
-print("    non-local (e.g. lxd):")
-for unit in sorted(unit_nonlocal_dedup):
-    print("      - {}".format(unit))
+if __name__ == "__main__":
+    if not os.path.exists(JUJU_LOG_PATH):
+        sys.exit(0)
+
+    get_unit_info()
+    if not (UNITS_LOCAL or UNITS_LOCAL_NOT_RUNNING_FILTERED or
+            UNITS_NONLOCAL_DEDUP):
+        sys.exit(0)
+
+    print("  units:")
+    print("    running:")
+    for unit in sorted(UNITS_LOCAL):
+        print("      - {}".format(unit))
+    print("    stopped:")
+    for unit in sorted(UNITS_LOCAL_NOT_RUNNING_FILTERED):
+        print("      - {}".format(unit))
+    print("    non-local (e.g. lxd):")
+    for unit in sorted(UNITS_NONLOCAL_DEDUP):
+        print("      - {}".format(unit))

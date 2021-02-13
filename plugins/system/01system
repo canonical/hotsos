@@ -8,46 +8,60 @@ from common import helpers
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-print("system:")
+SYSTEM_INFO = {}
 
-print("  hostname: {}".format(helpers.get_hostname()[0].split()[0]))
-data_source = os.path.join(DATA_ROOT, "etc/lsb-release")
-if os.path.exists(data_source):
-    for line in open(data_source).read().split():
-        ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
+
+def unattended_upgrades_enabled():
+    for line in helpers.get_apt_config_dump():
+        ret = re.compile(r"^APT::Periodic::Unattended-Upgrade\s+"
+                         "\"([0-9]+)\";").match(line)
         if ret:
-            print("  os: ubuntu {}".format(ret[1]))
+            if int(ret[1]) == 0:
+                return False
+            else:
+                return True
+
+    return False
+
+
+def get_system_info():
+    SYSTEM_INFO["hostname"] = helpers.get_hostname()[0].split()[0]
+
+    data_source = os.path.join(DATA_ROOT, "etc/lsb-release")
+    if os.path.exists(data_source):
+        for line in open(data_source).read().split():
+            ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
+            if ret:
+                SYSTEM_INFO["os"] = "ubuntu {}".format(ret[1])
+                break
+
+    for line in helpers.get_lscpu():
+        ret = re.compile(r"^CPU\(s\):\s+([0-9]+)\s*.*").match(line)
+        if ret:
+            SYSTEM_INFO["num-cpus"] = ret[1]
             break
 
-for line in helpers.get_lscpu():
-    ret = re.compile(r"^CPU\(s\):\s+([0-9]+)\s*.*").match(line)
-    if ret:
-        print("  num-cpus: {}".format(ret[1]))
-        break
+    for line in helpers.get_uptime():
+        ret = re.compile(r".+(load) average:\s+(.+)").match(line)
+        if ret:
+            SYSTEM_INFO["load"] = ret[1]
+            break
 
-for line in helpers.get_uptime():
-    ret = re.compile(r".+(load) average:\s+(.+)").match(line)
-    if ret:
-        print("  load: {}".format(ret[2]))
-        break
+    for line in helpers.get_df():
+        ret = re.compile(r"(.+\/$)").match(line)
+        if ret:
+            SYSTEM_INFO["rootfs"] = ret[1]
+            break
 
-for line in helpers.get_df():
-    ret = re.compile(r"(.+\/$)").match(line)
-    if ret:
-        print("  rootfs: {}".format(ret[1]))
-        break
+    if unattended_upgrades_enabled():
+        SYSTEM_INFO['unattended-upgrades'] = "ENABLED"
+    else:
+        SYSTEM_INFO['unattended-upgrades'] = "disabled"
 
-unattended_upgrades = False
-for line in helpers.get_apt_config_dump():
-    ret = re.compile(r"^APT::Periodic::Unattended-Upgrade\s+"
-                     "\"([0-9]+)\";").match(line)
-    if ret:
-        if int(ret[1]) == 0:
-            unattended_upgrades = False
-        else:
-            unattended_upgrades = True
 
-if unattended_upgrades:
-    print("  unattended-upgrades: ENABLED")
-else:
-    print("  unattended-upgrades: disabled")
+if __name__ == "__main__":
+    print("system:")
+    get_system_info()
+    if SYSTEM_INFO:
+        for key in SYSTEM_INFO:
+            print("  {}: {}".format(key, SYSTEM_INFO[key]))

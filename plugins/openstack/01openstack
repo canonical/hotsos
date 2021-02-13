@@ -11,65 +11,73 @@ from openstack_common import OST_PROJECTS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
+SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]+[^:/]?"
 
-default_pfix_match = r"[A-Z0-9a-z\-\\]+"
-
-# TODO: keep this list up-to-date with SERVICES we care about in the context of
+# TODO: keep this list up-to-date with services we care about in the context of
 #       openstack.
-SERVICES = [r"aodh{}".format(default_pfix_match),
-            r"apache{}".format(default_pfix_match),
-            r"barbican{}".format(default_pfix_match),
+SERVICES = [r"aodh{}".format(SVC_VALID_SUFFIX),
+            r"apache{}".format(SVC_VALID_SUFFIX),
+            r"barbican{}".format(SVC_VALID_SUFFIX),
             r"beam.smp",
-            r"ceilometer{}".format(default_pfix_match),
+            r"ceilometer{}".format(SVC_VALID_SUFFIX),
             r"ceph-[A-Za-z]+",
-            r"cinder{}".format(default_pfix_match),
-            r"designate{}".format(default_pfix_match),
-            r"glance{}".format(default_pfix_match),
-            r"gnocchi{}".format(default_pfix_match),
-            r"heat{}".format(default_pfix_match),
+            r"cinder{}".format(SVC_VALID_SUFFIX),
+            r"designate{}".format(SVC_VALID_SUFFIX),
+            r"glance{}".format(SVC_VALID_SUFFIX),
+            r"gnocchi{}".format(SVC_VALID_SUFFIX),
+            r"heat{}".format(SVC_VALID_SUFFIX),
             r"horizon",
-            r"keepalived{}".format(default_pfix_match),
-            r"keystone{}".format(default_pfix_match),
+            r"keepalived{}".format(SVC_VALID_SUFFIX),
+            r"keystone{}".format(SVC_VALID_SUFFIX),
             r"mysqld",
-            r"neutron{}".format(default_pfix_match),
-            r"nova{}".format(default_pfix_match),
-            r"ocatvia{}".format(default_pfix_match),
+            r"neutron{}".format(SVC_VALID_SUFFIX),
+            r"nova{}".format(SVC_VALID_SUFFIX),
+            r"ocatvia{}".format(SVC_VALID_SUFFIX),
             r"openstack-dashboard",
-            r"ovs{}".format(default_pfix_match),
-            r"ovn{}".format(default_pfix_match),
+            r"ovs{}".format(SVC_VALID_SUFFIX),
+            r"ovn{}".format(SVC_VALID_SUFFIX),
             r"rabbitmq-server",
-            r"rados{}".format(default_pfix_match),
-            r"swift{}".format(default_pfix_match),
-            r"vault{}".format(default_pfix_match),
-            r"qemu-system-[A-Z0-9a-z\-_]+"]
+            r"rados{}".format(SVC_VALID_SUFFIX),
+            r"swift{}".format(SVC_VALID_SUFFIX),
+            r"vault{}".format(SVC_VALID_SUFFIX),
+            r"qemu-system-\S+"]
 
 # configs that dont use standard /etc/<project>/<project>.conf
 OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
                      "swift": "proxy.conf"}
 
+RELEASE_INFO = {"default": "distro",
+                "uca": set(["queens"])}
+OPENSTACK_INFO = {}
+DEBUG_LOG_INFO = {}
+APT_SOURCE_PATH = os.path.join(DATA_ROOT, "etc/apt/sources.list.d")
 
-print("openstack:")
 
-releases = {"default": "distro",
-            "uca": set(["queens"])}
-apt_source_path = os.path.join(DATA_ROOT, "etc/apt/sources.list.d")
-if os.path.exists(apt_source_path):
-    for source in os.listdir(apt_source_path):
-        for line in open(os.path.join(apt_source_path, source)).readlines():
+def get_service_info():
+    for line in helpers.get_ps():
+        for svc in SERVICES:
+            ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
+            if ret:
+                if ret[1] in OPENSTACK_INFO:
+                    OPENSTACK_INFO[ret[1]] += 1
+                else:
+                    OPENSTACK_INFO[ret[1]] = 1
+
+
+def get_release_info():
+    if not os.path.exists(APT_SOURCE_PATH):
+        return
+
+    for source in os.listdir(APT_SOURCE_PATH):
+        for line in open(os.path.join(APT_SOURCE_PATH, source)).readlines():
             ret = re.compile(r"(.+cloud.+)").match(line)
             if ret:
                 ret = re.compile(r".+-updates/([a-z]+)\s.*").match(line)
                 if ret:
-                    releases["uca"].add(ret[1])
-
-if releases["uca"]:
-    print("  release: {}".format(sorted(releases["uca"], reverse=True)[0]))
-else:
-    print("  release: {}".format(releases["default"]))
+                    RELEASE_INFO["uca"].add(ret[1])
 
 
-if VERBOSITY_LEVEL >= 2:
-    print("  debug-logging-enabled:")
+def get_debug_log_info():
     for proj in OST_PROJECTS:
         path = OST_ETC_OVERRIDES.get(proj)
         if path is None:
@@ -79,20 +87,29 @@ if VERBOSITY_LEVEL >= 2:
             for line in open(path).readlines():
                 ret = re.compile(r"^debug\s*=\s*([A-Za-z]+).*").match(line)
                 if ret:
-                    print("    {}: {}".format(proj, ret[1]))
+                    DEBUG_LOG_INFO[proj] = ret[1]
 
-print("  services:")
 
-openstack_info = {}
-for line in helpers.get_ps():
-    for svc in SERVICES:
-        ret = re.compile(r".+/({})\s+.+".format(svc)).match(line)
-        if ret:
-            if ret[1] in openstack_info:
-                openstack_info[ret[1]] += 1
-            else:
-                openstack_info[ret[1]] = 1
+if __name__ == "__main__":
+    print("openstack:")
 
-openstack_info_sorted = OrderedDict(sorted(openstack_info.items()))
-for svc in openstack_info_sorted:
-    print("    - {} ({})".format(svc, openstack_info_sorted[svc]))
+    get_release_info()
+    if RELEASE_INFO["uca"]:
+        release = sorted(RELEASE_INFO["uca"], reverse=True)[0]
+    else:
+        release = RELEASE_INFO["default"]
+
+    print("  release: {}".format(release))
+
+    get_service_info()
+    if OPENSTACK_INFO:
+        print("  services:")
+        openstack_info_sorted = OrderedDict(sorted(OPENSTACK_INFO.items()))
+        for svc in openstack_info_sorted:
+            print("    - {} ({})".format(svc, openstack_info_sorted[svc]))
+
+    get_debug_log_info()
+    if VERBOSITY_LEVEL >= 2 and DEBUG_LOG_INFO:
+        print("  debug-logging-enabled:")
+        for proj in DEBUG_LOG_INFO:
+            print("    {}: {}".format(proj, DEBUG_LOG_INFO[proj]))

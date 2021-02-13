@@ -7,16 +7,7 @@ import sys
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-succeeded = set()
-failed = set()
-output = set()
-
-if VERBOSITY_LEVEL < 2:
-    sys.exit(0)
-
-data_source = os.path.join(DATA_ROOT, "var/log/nova/nova-compute.log")
-if not os.path.exists(data_source):
-    sys.exit(0)
+EXT_EVENT_INFO = {}
 
 
 def get_events(event_name):
@@ -31,6 +22,10 @@ def get_events(event_name):
             events[ret[2]] = ret[1]
 
     for event in events:
+        if event_name not in EXT_EVENT_INFO:
+            EXT_EVENT_INFO[event_name] = {"succeeded": [],
+                                          "failed": []}
+
         stages = {"Preparing": False, "Received": False, "Processing": False}
         for line in lines:
             ret = re.compile(r".+\[instance: {}\] .+ event {} .+"
@@ -43,21 +38,30 @@ def get_events(event_name):
                         stages[stage] = True
 
         if all([stages[stage] for stage in stages]):
-            succeeded.add(events[event])
+            EXT_EVENT_INFO[event_name]["succeeded"].add(events[event])
         else:
-            failed.add(events[event])
-
-    print("    {}:".format(event_name))
-    print("      successful:")
-    for line in succeeded:
-        print("        - {}".format(line))
-
-    print("      failed:")
-    for line in failed:
-        print("        - {}".format(line))
+            EXT_EVENT_INFO[event_name]["failed"].add(events[event])
 
 
-print("  os-server-external-events:")
+if __name__ == "__main__":
+    data_source = os.path.join(DATA_ROOT, "var/log/nova/nova-compute.log")
+    if not os.path.exists(data_source):
+        sys.exit(0)
 
-# Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
-get_events("network-vif-plugged")
+    # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
+    get_events("network-vif-plugged")
+    if EXT_EVENT_INFO:
+        print("  os-server-external-events:")
+        for event_name in EXT_EVENT_INFO:
+            succeeded = EXT_EVENT_INFO[event_name]["succeeded"]
+            print("    {}:".format(event_name))
+            if succeeded:
+                print("      successful:")
+                for line in succeeded:
+                    print("        - {}".format(line))
+
+            failed = EXT_EVENT_INFO[event_name]["failed"]
+            if failed:
+                print("      failed:")
+                for line in failed:
+                    print("        - {}".format(line))

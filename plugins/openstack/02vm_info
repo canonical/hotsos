@@ -9,18 +9,24 @@ from common import helpers
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-if VERBOSITY_LEVEL < 1:
-    sys.exit(0)
+VM_INFO = []
 
-vms = []
-for line in helpers.get_ps():
-    ret = re.compile(".+product=OpenStack Nova.+").match(line)
-    if ret:
-        ret = re.compile(r".+uuid\s+([a-z0-9\-]+)[\s,]+.+").match(ret[0])
+
+def get_vm_info():
+    for line in helpers.get_ps():
+        ret = re.compile(".+product=OpenStack Nova.+").match(line)
         if ret:
-            vms.append(ret[1])
+            ret = re.compile(r".+uuid\s+([a-z0-9\-]+)[\s,]+.+").match(ret[0])
+            if ret:
+                VM_INFO.append(ret[1])
 
-if vms:
-    print("  instances ({}):".format(len(vms)))
-    for vm in vms:
-        print("    - {}".format(vm))
+
+if __name__ == "__main__":
+    if VERBOSITY_LEVEL < 1:
+        sys.exit(0)
+
+    get_vm_info()
+    if VM_INFO:
+        print("  instances:")
+        for vm in VM_INFO:
+            print("    - {}".format(vm))

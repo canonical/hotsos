@@ -9,9 +9,6 @@ from common import helpers
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-if VERBOSITY_LEVEL < 3:
-    sys.exit(0)
-
 
 def find_line(key, lines):
     for i, line in enumerate(lines):
@@ -21,33 +18,24 @@ def find_line(key, lines):
     return None
 
 
-config = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
+CONFIG = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
                     "key": "my_ip"}],
           "neutron": [{"path":
                        os.path.join(DATA_ROOT, "etc/neutron/plugins/ml2/"
                                     "openvswitch_agent.ini"),
                        "key": "local_ip"}]}
+CONFIG_INFO = {}
+NET_NS_INFO = {}
 
-ns_info = {}
-print("  network:")
-for line in helpers.get_ip_netns():
-    ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
-    if ret:
-        if ret[1] in ns_info:
-            ns_info[ret[1]] += 1
-        else:
-            ns_info[ret[1]] = 1
 
-print("    namespaces:")
-for type in ns_info:
-    print("      {}: {}".format(type, ns_info[type]))
+def get_config_info():
+    for svc in CONFIG:
+        for info in CONFIG[svc]:
+            data_source = info["path"]
+            key = info["key"]
+            if not os.path.exists(data_source):
+                continue
 
-print("  config:")
-for svc in config:
-    for info in config[svc]:
-        data_source = info["path"]
-        key = info["key"]
-        if os.path.exists(data_source):
             ip_address = None
             for line in open(data_source).readlines():
                 ret = re.compile(r"^\s*{}\s*=\s*([0-9\.]+).*".
@@ -69,9 +57,46 @@ for svc in config:
                     if iface:
                         break
 
+            if svc not in CONFIG_INFO:
+                CONFIG_INFO[svc] = {}
+
             if ip_address:
-                print("    {}:".format(svc))
-                print("       {}: {} ({})".format(key, ip_address, iface))
+                CONFIG_INFO[svc][key] = (ip_address, iface)
             else:
-                print("    {}:".format(svc))
-                print("       {}: {}".format(key, "no value"))
+                CONFIG_INFO[svc][key] = None
+
+
+def get_ns_info():
+    for line in helpers.get_ip_netns():
+        ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
+        if ret:
+            if ret[1] in NET_NS_INFO:
+                NET_NS_INFO[ret[1]] += 1
+            else:
+                NET_NS_INFO[ret[1]] = 1
+
+
+if __name__ == "__main__":
+    if VERBOSITY_LEVEL < 2:
+        sys.exit(0)
+
+    print("  network:")
+
+    get_ns_info()
+    if NET_NS_INFO:
+        print("    namespaces:")
+        for label in NET_NS_INFO:
+            print("      {}: {}".format(label, NET_NS_INFO[label]))
+
+    get_config_info()
+    if CONFIG_INFO:
+        print("  config:")
+        for svc in CONFIG_INFO:
+            svc_info = CONFIG_INFO[svc]
+            print("    {}:".format(svc))
+            for key in svc_info:
+                if svc_info[key] is not None:
+                    print("       {}: {} ({})".format(key, svc_info[key][0],
+                                                      svc_info[key][1]))
+                else:
+                    print("       {}: {}".format(key, "<unset>"))
