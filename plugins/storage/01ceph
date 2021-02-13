@@ -128,10 +128,12 @@ def get_osd_info():
                             break
 
             if VERBOSITY_LEVEL >= 3:
-                for line in helpers.get_ceph_osd_tree():
-                    if line.split()[3] == "osd.{}".format(osd_id):
-                        OSD_INFO[osd_id]["devtype"] = line.split()[1]
-                        break
+                ceph_osd_tree = helpers.get_ceph_osd_tree()
+                if ceph_osd_tree:
+                    for line in helpers.get_ceph_osd_tree():
+                        if line.split()[3] == "osd.{}".format(osd_id):
+                            OSD_INFO[osd_id]["devtype"] = line.split()[1]
+                            break
 
 
 if __name__ == "__main__":
