@@ -25,6 +25,7 @@ parts:
     source: .
     plugin: dump
     stage-packages: [coreutils, bsdmainutils, jq]
+    build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info
       snapcraftctl build
