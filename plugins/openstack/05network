@@ -2,21 +2,14 @@
 import re
 import os
 import sys
+import yaml
 
 from common import helpers
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
-
-
-def find_line(key, lines):
-    for i, line in enumerate(lines):
-        if re.compile(key).match(line):
-            return i
-
-    return None
-
+MASTER_YAML_OUT = os.environ.get('MASTER_YAML_OUT')
 
 CONFIG = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
                     "key": "my_ip"}],
@@ -26,6 +19,15 @@ CONFIG = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
                        "key": "local_ip"}]}
 CONFIG_INFO = {}
 NET_NS_INFO = {}
+VM_PORT_HEALTH = {}
+
+
+def find_line(key, lines):
+    for i, line in enumerate(lines):
+        if re.compile(key).match(line):
+            return i
+
+    return None
 
 
 def get_config_info():
@@ -76,19 +78,108 @@ def get_ns_info():
                 NET_NS_INFO[ret[1]] = 1
 
 
+def get_instances_info():
+    openstack = yaml.safe_load(open(MASTER_YAML_OUT)).get("openstack", {})
+    instances = openstack.get("instances")
+    if instances is None:
+        return
+
+    guest_info = {}
+    ps_output = helpers.get_ps()
+    for uuid in instances:
+        for line in ps_output:
+            ret = re.compile(r".+guest=(\S+),.+product=OpenStack Nova.+uuid={}"
+                             r".+".format(uuid)).match(line)
+            if ret:
+                guest = ret[1]
+                if guest not in guest_info:
+                    guest_info[uuid] = {"ports": []}
+
+                ret = re.compile(r"mac=([a-z0-9:]+)").findall(line)
+                if ret:
+                    if "ports" not in guest_info[uuid]:
+                        guest_info[uuid]["ports"] = []
+
+                    for port in ret:
+                        guest_info[uuid]["ports"].append({"mac": port,
+                                                          "health": {}})
+
+    return guest_info
+
+
+def get_port_stats(mac):
+    ip_link_show = helpers.get_ip_link_show()
+    mark = -1
+    stats_raw = ""
+    for i, line in enumerate(ip_link_show):
+        if mark < 0:
+            libvirt_mac = "fe" + mac[2:]
+            for _mac in [mac, libvirt_mac]:
+                ret = re.compile(r"^\s+link/ether\s+{}\s+.+".format(_mac)
+                                 ).match(line)
+                if ret:
+                    mark = i
+                    break
+        else:
+            ret = re.compile(r"^[0-9]+:\s+.+").match(line)
+            if ret:
+                for n in range(mark, i):
+                    stats_raw += ip_link_show[n]
+
+                break
+
+    stats = {}
+    if stats_raw:
+        stats_raw = stats_raw.split("\n")
+        for i, line in enumerate(stats_raw):
+            ret = re.compile(r"\s+[RT]X:\s+.+").findall(line)
+            if ret:
+                ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
+                if ret:
+                    for j, column in enumerate(ret):
+                        for key in ["dropped", "errors"]:
+                            if column == key:
+                                packets = stats_raw[i + 1].split()[j]
+                                if key in stats:
+                                    stats[key] += packets
+                                else:
+                                    stats[key] = packets
+
+    return stats
+
+
+def get_instance_port_health():
+    instances = get_instances_info()
+    if not instances:
+        return
+
+    for uuid in instances:
+        for port in instances[uuid]['ports']:
+            stats = get_port_stats(port["mac"])
+            if stats:
+                port["health"].update(stats)
+
+    return instances
+
+
 if __name__ == "__main__":
     if VERBOSITY_LEVEL < 2:
         sys.exit(0)
 
+    get_ns_info()
+    get_config_info()
+    instance_health = get_instance_port_health()
+
+    if not (NET_NS_INFO or CONFIG_INFO or instance_health):
+        sys.exit(0)
+
     print("  network:")
 
-    get_ns_info()
     if NET_NS_INFO:
         print("    namespaces:")
         for label in NET_NS_INFO:
             print("      {}: {}".format(label, NET_NS_INFO[label]))
 
-    get_config_info()
     if CONFIG_INFO:
         print("  config:")
         for svc in CONFIG_INFO:
@@ -100,3 +191,18 @@ if __name__ == "__main__":
                                                       svc_info[key][1]))
                 else:
                     print("       {}: {}".format(key, "<unset>"))
+
+    if instance_health:
+        print("  port-health:")
+        for uuid in instance_health:
+            for port in instance_health[uuid]["ports"]:
+                mac = port["mac"]
+                errors = int(port.get("health", {}).get("errors", -1))
+                if errors > 0:
+                    print("    vm {} has {} errors on port {}".format(uuid,
+                                                                      errors,
+                                                                      mac))
+                dropped = int(port.get("health", {}).get("dropped", -1))
+                if dropped > 0:
+                    print("    vm {} has {} dropped packets on port {}"
+                          "".format(uuid, dropped, mac))

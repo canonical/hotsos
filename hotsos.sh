@@ -25,6 +25,8 @@ export VERBOSITY_LEVEL=0
 export DATA_ROOT
 # plugin args - prefix must be plugin name
 export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
+# This is the path to the end product that plugins can see along the way.
+export MASTER_YAML_OUT
 
 # import helpers functions
 . `dirname $0`/common/helpers.sh
@@ -157,7 +159,7 @@ get_git_rev_info ()
     popd &>/dev/null
 }
 
-F_OUT=`mktemp`
+MASTER_YAML_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
 for data_root in ${SOS_PATHS[@]}; do
     if [ "$data_root" = "/" ]; then
@@ -177,7 +179,7 @@ for data_root in ${SOS_PATHS[@]}; do
     else
         repo_info=`get_git_rev_info` || repo_info="unknown" 
     fi
-    echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $F_OUT
+    echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $MASTER_YAML_OUT
 
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
@@ -187,7 +189,7 @@ for data_root in ${SOS_PATHS[@]}; do
 
         for priority in {00..99}; do
             for plug in `find $CWD/plugins/$plugin -name $priority\*`; do
-                $plug >> $F_OUT
+                $plug >> $MASTER_YAML_OUT
             done
         done
     done
@@ -199,12 +201,12 @@ for data_root in ${SOS_PATHS[@]}; do
             archive_name="hotsos-`hostname`"
         fi
         out=${archive_name}.summary
-        mv $F_OUT $out
+        mv $MASTER_YAML_OUT $out
         echo "Summary written to $out"
     else
-        cat $F_OUT
+        cat $MASTER_YAML_OUT
         echo "" 1>&2
-        rm $F_OUT
+        rm $MASTER_YAML_OUT
     fi
 
     echo "INFO: see --help for more display options" 1>&2

@@ -17,6 +17,16 @@ def get_ip_addr():
         return open(path, 'r').readlines()
 
 
+def get_ip_link_show():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ip', '-s', '-d', 'link'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-s_-d_link")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
 def get_dpkg_l():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['dpkg', '-l'])
