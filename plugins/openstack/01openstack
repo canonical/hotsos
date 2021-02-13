@@ -5,42 +5,11 @@ import os
 from collections import OrderedDict
 
 from common import helpers
-from openstack_common import OST_PROJECTS
+from openstack_common import OST_PROJECTS, OST_SERVICES, OST_SERVICES_DEPS
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
-
-SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]+[^:/]?"
-
-# TODO: keep this list up-to-date with services we care about in the context of
-#       openstack.
-SERVICES = [r"aodh{}".format(SVC_VALID_SUFFIX),
-            r"apache{}".format(SVC_VALID_SUFFIX),
-            r"barbican{}".format(SVC_VALID_SUFFIX),
-            r"beam.smp",
-            r"ceilometer{}".format(SVC_VALID_SUFFIX),
-            r"ceph-[A-Za-z]+",
-            r"cinder{}".format(SVC_VALID_SUFFIX),
-            r"designate{}".format(SVC_VALID_SUFFIX),
-            r"glance{}".format(SVC_VALID_SUFFIX),
-            r"gnocchi{}".format(SVC_VALID_SUFFIX),
-            r"heat{}".format(SVC_VALID_SUFFIX),
-            r"horizon",
-            r"keepalived{}".format(SVC_VALID_SUFFIX),
-            r"keystone{}".format(SVC_VALID_SUFFIX),
-            r"mysqld",
-            r"neutron{}".format(SVC_VALID_SUFFIX),
-            r"nova{}".format(SVC_VALID_SUFFIX),
-            r"ocatvia{}".format(SVC_VALID_SUFFIX),
-            r"openstack-dashboard",
-            r"ovs{}".format(SVC_VALID_SUFFIX),
-            r"ovn{}".format(SVC_VALID_SUFFIX),
-            r"rabbitmq-server",
-            r"rados{}".format(SVC_VALID_SUFFIX),
-            r"swift{}".format(SVC_VALID_SUFFIX),
-            r"vault{}".format(SVC_VALID_SUFFIX),
-            r"qemu-system-\S+"]
 
 # configs that dont use standard /etc/<project>/<project>.conf
 OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
@@ -55,7 +24,7 @@ APT_SOURCE_PATH = os.path.join(DATA_ROOT, "etc/apt/sources.list.d")
 
 def get_service_info():
     for line in helpers.get_ps():
-        for svc in SERVICES:
+        for svc in OST_SERVICES + OST_SERVICES_DEPS:
             ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
             if ret:
                 if ret[1] in OPENSTACK_INFO:

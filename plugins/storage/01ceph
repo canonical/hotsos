@@ -3,6 +3,8 @@ import re
 import os
 import subprocess
 
+from collections import OrderedDict
+
 from common import helpers
 
 # HOTSOS GLOBALS
@@ -15,6 +17,11 @@ SERVICES = ["ceph-osd",
             "radosgw"]
 
 OSD_INFO = {}
+SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*[^:/]?"
+CEPH_SERVICES = [r"ceph-[A-Za-z]+",
+                 r"rados{}".format(SVC_VALID_SUFFIX),
+                 ]
+SERVICE_INFO = {}
 
 
 # TODO: finish converting these
@@ -136,8 +143,26 @@ def get_osd_info():
                             break
 
 
+def get_service_info():
+    for line in helpers.get_ps():
+        for svc in CEPH_SERVICES:
+            ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
+            if ret:
+                if ret[1] in SERVICE_INFO:
+                    SERVICE_INFO[ret[1]] += 1
+                else:
+                    SERVICE_INFO[ret[1]] = 1
+
+
 if __name__ == "__main__":
     print("storage:")
+
+    get_service_info()
+    if SERVICE_INFO:
+        print("  services:")
+        service_info_sorted = OrderedDict(sorted(SERVICE_INFO.items()))
+        for svc in service_info_sorted:
+            print("    - {} ({})".format(svc, service_info_sorted[svc]))
 
     get_osd_info()
     if OSD_INFO:

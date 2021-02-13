@@ -5,26 +5,13 @@ import sys
 
 from common import helpers
 
-from openstack_common import OST_PROJECTS
+from openstack_common import OST_PROJECTS, OST_DEP_PKGS
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-OST_DEPS = [
-    r"conntrack",
-    r"dnsmasq",
-    r"haproxy",
-    r"keepalived",
-    r"libc-bin",
-    r"libvirt-daemon",
-    r"libvirt-bin",
-    r"python3?-oslo[.-]",
-    r"openvswitch-switch",
-    r"ovn",
-    r"qemu-kvm",
-]
-DEP_LIST = OST_PROJECTS + OST_DEPS
+DEP_LIST = OST_PROJECTS + OST_DEP_PKGS
 PKG_INFO = {}
 
 
