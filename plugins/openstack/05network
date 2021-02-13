@@ -140,6 +140,9 @@ def get_port_stats(mac):
                         for key in ["dropped", "errors"]:
                             if column == key:
                                 packets = stats_raw[i + 1].split()[j]
+                                if not int(packets):
+                                    continue
+
                                 if key in stats:
                                     stats[key] += packets
                                 else:
@@ -194,15 +197,18 @@ if __name__ == "__main__":
 
     if instance_health:
         print("  port-health:")
+        print("    num-vms-checked: {}".format(len(instance_health)))
+        print("    stats:")
         for uuid in instance_health:
             for port in instance_health[uuid]["ports"]:
                 mac = port["mac"]
-                errors = int(port.get("health", {}).get("errors", -1))
-                if errors > 0:
-                    print("    vm {} has {} errors on port {}".format(uuid,
-                                                                      errors,
-                                                                      mac))
-                dropped = int(port.get("health", {}).get("dropped", -1))
-                if dropped > 0:
-                    print("    vm {} has {} dropped packets on port {}"
-                          "".format(uuid, dropped, mac))
+                health = port.get("health", {})
+                if not health:
+                    continue
+
+                print("      {}:".format(uuid))
+                print("        {}:".format(mac))
+                for key in health:
+                    data = int(health.get(key, -1))
+                    if data > 0:
+                        print("          {}: {}".format(key, data))
