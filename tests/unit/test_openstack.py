@@ -1,0 +1,69 @@
+import mock
+
+from importlib.util import spec_from_loader, module_from_spec
+from importlib.machinery import SourceFileLoader
+
+import utils
+
+# need this for non-standard import
+spec = spec_from_loader("openstack_05network",
+                        SourceFileLoader("openstack_05network",
+                                         "plugins/openstack/05network"))
+openstack_05network = module_from_spec(spec)
+spec.loader.exec_module(openstack_05network)
+
+
+IP_LINK_SHOW = """
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo            
+       valid_lft forever preferred_lft forever                                                                                                                                                                             
+    inet6 ::1/128 scope host                                                                                 
+       valid_lft forever preferred_lft forever
+6: enp59s0f0: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 9000 qdisc mq master bond1 state UP mode DEFAULT group default qlen 1000
+    link/ether ac:1f:6b:9e:d8:44 brd ff:ff:ff:ff:ff:ff promiscuity 0
+    bond_slave state ACTIVE mii_status UP link_failure_count 0 perm_hwaddr ac:1f:6b:9e:d8:44 queue_id 0 ad_aggregator_id 1 ad_actor_oper_port_state 63 ad_partner_oper_port_state 63 addrgenmode none numtxqueues 480 numrxqueues 60 gso_max_size 65536 gso_max_segs 65535
+    RX: bytes  packets  errors  dropped overrun mcast
+    566216505914 198725012 1000       0       0       10354794
+    TX: bytes  packets  errors  dropped carrier collsns
+    784224322216 226755877 0       0       0       0 
+11: bond1: <BROADCAST,MULTICAST,MASTER,UP,LOWER_UP> mtu 9000 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether ac:1f:6b:9e:d8:44 brd ff:ff:ff:ff:ff:ff promiscuity 0
+    bond mode 802.3ad miimon 100 updelay 0 downdelay 0 use_carrier 1 arp_interval 0 arp_validate none arp_all_targets any primary_reselect always fail_over_mac none xmit_hash_policy layer2 resend_igmp 1 num_grat_arp 1 all_slaves_active 0 min_links 0 lp_interval 1 packets_per_slave 1 lacp_rate fast ad_select stable ad_aggregator 1 ad_num_ports 2 ad_actor_key 21 ad_partner_key 17 ad_partner_mac 44:39:39:ff:40:09 ad_actor_sys_prio 65535 ad_user_port_key 0 ad_actor_system 00:00:00:00:00:00 tlb_dynamic_lb 1 addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535
+    RX: bytes  packets  errors  dropped overrun mcast
+    3726156143468 1168699571 0       1000       0       22418946
+    TX: bytes  packets  errors  dropped carrier collsns
+    4547600932334 1238029513 0       0       0       0
+13: bond1.4003@bond1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether ac:1f:6b:9e:d8:44 brd ff:ff:ff:ff:ff:ff promiscuity 0
+    vlan protocol 802.1Q id 4003 <REORDER_HDR> addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535
+    RX: bytes  packets  errors  dropped overrun mcast
+    3672302080166 840215658 0       0       0       36333
+    TX: bytes  packets  errors  dropped carrier collsns
+    4509045041821 831579034 0       0       0       0
+""" # noqa
+
+
+def fake_ip_link_show():
+    return [line + '\n' for line in IP_LINK_SHOW.split('\n')]
+
+
+class TestOpenstack(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(openstack_05network.helpers, 'get_ip_link_show',
+                       fake_ip_link_show)
+    def test_get_port_stat_by_name(self):
+        stats = openstack_05network.get_port_stats(name="bond1")
+        self.assertEqual(stats, {"dropped": 1000})
+
+    @mock.patch.object(openstack_05network.helpers, 'get_ip_link_show',
+                       fake_ip_link_show)
+    def test_get_port_stat_by_mac(self):
+        stats = openstack_05network.get_port_stats(mac="ac:1f:6b:9e:d8:44")
+        self.assertEqual(stats, {"errors": 1000})

@@ -30,7 +30,7 @@ def find_line(key, lines):
     return None
 
 
-def get_config_info():
+def get_config_network_info():
     for svc in CONFIG:
         for info in CONFIG[svc]:
             data_source = info["path"]
@@ -63,7 +63,8 @@ def get_config_info():
                 CONFIG_INFO[svc] = {}
 
             if ip_address:
-                CONFIG_INFO[svc][key] = (ip_address, iface)
+                CONFIG_INFO[svc][key] = {"address": ip_address,
+                                         "interface": iface}
             else:
                 CONFIG_INFO[svc][key] = None
 
@@ -107,19 +108,28 @@ def get_instances_info():
     return guest_info
 
 
-def get_port_stats(mac):
+def get_port_stats(name=None, mac=None):
     ip_link_show = helpers.get_ip_link_show()
     mark = -1
     stats_raw = ""
+
+    if mac:
+        libvirt_mac = "fe" + mac[2:]
+
     for i, line in enumerate(ip_link_show):
         if mark < 0:
-            libvirt_mac = "fe" + mac[2:]
-            for _mac in [mac, libvirt_mac]:
-                ret = re.compile(r"^\s+link/ether\s+{}\s+.+".format(_mac)
+            if mac:
+                for _mac in [mac, libvirt_mac]:
+                    ret = re.compile(r"^\s+link/ether\s+{}\s+.+".format(_mac)
+                                     ).match(line)
+                    if ret:
+                        mark = i
+                        break
+            else:
+                ret = re.compile(r"^[0-9]+:\s+{}:\s+.+".format(name)
                                  ).match(line)
                 if ret:
                     mark = i
-                    break
         else:
             ret = re.compile(r"^[0-9]+:\s+.+").match(line)
             if ret:
@@ -139,8 +149,8 @@ def get_port_stats(mac):
                     for j, column in enumerate(ret):
                         for key in ["dropped", "errors"]:
                             if column == key:
-                                packets = stats_raw[i + 1].split()[j]
-                                if not int(packets):
+                                packets = int(stats_raw[i + 1].split()[j])
+                                if not packets:
                                     continue
 
                                 if key in stats:
@@ -151,14 +161,14 @@ def get_port_stats(mac):
     return stats
 
 
-def get_instance_port_health():
+def get_instances_port_health():
     instances = get_instances_info()
     if not instances:
         return
 
     for uuid in instances:
         for port in instances[uuid]['ports']:
-            stats = get_port_stats(port["mac"])
+            stats = get_port_stats(mac=port["mac"])
             if stats:
                 port["health"].update(stats)
 
@@ -170,8 +180,8 @@ if __name__ == "__main__":
         sys.exit(0)
 
     get_ns_info()
-    get_config_info()
-    instance_health = get_instance_port_health()
+    get_config_network_info()
+    instance_health = get_instances_port_health()
 
     if not (NET_NS_INFO or CONFIG_INFO or instance_health):
         sys.exit(0)
@@ -184,16 +194,30 @@ if __name__ == "__main__":
             print("      {}: {}".format(label, NET_NS_INFO[label]))
 
     if CONFIG_INFO:
-        print("  config:")
+        config_port_stats = {}
+        print("    config:")
         for svc in CONFIG_INFO:
             svc_info = CONFIG_INFO[svc]
-            print("    {}:".format(svc))
+            print("      {}:".format(svc))
             for key in svc_info:
                 if svc_info[key] is not None:
-                    print("       {}: {} ({})".format(key, svc_info[key][0],
-                                                      svc_info[key][1]))
+                    port = svc_info[key].get("interface")
+                    addr = svc_info[key].get("address")
+                    print("        {}: {}".format(key, addr))
+                    stats = get_port_stats(name=port)
+                    if stats:
+                        config_port_stats[port] = stats
                 else:
                     print("       {}: {}".format(key, "<unset>"))
+
+        if config_port_stats:
+            print("    stats:")
+            for port in config_port_stats:
+                print("      {}:".format(port))
+                for key in config_port_stats[port]:
+                    data = config_port_stats[port].get(key, -1)
+                    if data > 0:
+                        print("        {}: {}".format(key, data))
 
     if instance_health:
         print("  port-health:")
@@ -209,6 +233,6 @@ if __name__ == "__main__":
                 print("      {}:".format(uuid))
                 print("        {}:".format(mac))
                 for key in health:
-                    data = int(health.get(key, -1))
+                    data = health.get(key, -1)
                     if data > 0:
                         print("          {}: {}".format(key, data))
