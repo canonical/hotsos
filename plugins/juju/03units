@@ -36,6 +36,9 @@ def get_unit_info():
     log_units = set()
     app_local = set()
 
+    if not os.path.exists(JUJU_LOG_PATH):
+        return
+
     for line in helpers.get_ps():
         if "unit-" in line:
             ret = re.compile(r".+unit-([0-9a-z\-]+-[0-9]+).*").match(line)
@@ -87,9 +90,6 @@ def get_unit_info():
 
 
 if __name__ == "__main__":
-    if not os.path.exists(JUJU_LOG_PATH):
-        sys.exit(0)
-
     get_unit_info()
     if not (UNITS_LOCAL or UNITS_LOCAL_NOT_RUNNING_FILTERED or
             UNITS_NONLOCAL_DEDUP):

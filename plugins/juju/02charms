@@ -14,6 +14,9 @@ CHARM_VERSIONS = []
 
 
 def get_charm_versions():
+    if not os.path.exists(JUJU_LIB_PATH):
+        return
+
     for entry in glob.glob(os.path.join(JUJU_LIB_PATH, CHARM_MANIFEST_GLOB)):
         for manifest in os.listdir(entry):
             base = os.path.basename(manifest)
@@ -23,9 +26,6 @@ def get_charm_versions():
 
 
 if __name__ == "__main__":
-    if not os.path.exists(JUJU_LIB_PATH):
-        sys.exit(0)
-
     get_charm_versions()
     if CHARM_VERSIONS:
         print("  charms:")
