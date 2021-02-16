@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import re
 import os
-import sys
 
 from common import helpers
 
@@ -10,11 +9,7 @@ VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 JUJU_LOG_PATH = os.path.join(DATA_ROOT, "var/log/juju")
-
-UNITS_LOCAL = set()
-UNITS_LOCAL_NOT_RUNNING = set()
-UNITS_LOCAL_NOT_RUNNING_FILTERED = set()
-UNITS_NONLOCAL_DEDUP = set()
+JUJU_UNIT_INFO = {"units": {}}
 
 
 def get_app_from_unit(unit):
@@ -35,6 +30,10 @@ def get_unit_info():
     ps_units = set()
     log_units = set()
     app_local = set()
+    units_local = set()
+    units_local_not_running = set()
+    units_local_not_running_filtered = set()
+    units_nonlocal_dedup = set()
 
     if not os.path.exists(JUJU_LOG_PATH):
         return
@@ -56,9 +55,9 @@ def get_unit_info():
         if unit in log_units:
             if unit in ps_units:
                 app_local.add(unit.partition('-')[2])
-                UNITS_LOCAL.add(unit)
+                units_local.add(unit)
             else:
-                UNITS_LOCAL_NOT_RUNNING.add(unit)
+                units_local_not_running.add(unit)
         else:
             # i.e. it is running but there is no log file in /var/log/juju so
             # it is likely running in a container
@@ -74,34 +73,32 @@ def get_unit_info():
 
             unit_nonlocal.add(unit)
 
-    # remove units from UNITS_LOCAL_NOT_RUNNING that are just old versions of
+    # remove units from units_local_not_running that are just old versions of
     # the one currently running
-    for unit in UNITS_LOCAL_NOT_RUNNING:
+    for unit in units_local_not_running:
         app = get_app_from_unit(unit)
         if not app or app not in app_local:
-            UNITS_LOCAL_NOT_RUNNING_FILTERED.add(unit)
+            units_local_not_running_filtered.add(unit)
 
     # dedup unit_nonlocal
     for unit in unit_nonlocal:
         app = get_app_from_unit(unit)
         version = app_nonlocal[app]
         if version == get_unit_version(unit):
-            UNITS_NONLOCAL_DEDUP.add(unit)
+            units_nonlocal_dedup.add(unit)
+
+    if units_local:
+        JUJU_UNIT_INFO["units"]["local"] = list(sorted(units_local))
+
+    if units_local_not_running_filtered:
+        JUJU_UNIT_INFO["units"]["stopped"] = \
+            list(sorted(units_local_not_running_filtered))
+
+    if units_nonlocal_dedup:
+        JUJU_UNIT_INFO["units"]["lxd"] = \
+            list(sorted(units_nonlocal_dedup))
 
 
 if __name__ == "__main__":
     get_unit_info()
-    if not (UNITS_LOCAL or UNITS_LOCAL_NOT_RUNNING_FILTERED or
-            UNITS_NONLOCAL_DEDUP):
-        sys.exit(0)
-
-    print("  units:")
-    print("    running:")
-    for unit in sorted(UNITS_LOCAL):
-        print("      - {}".format(unit))
-    print("    stopped:")
-    for unit in sorted(UNITS_LOCAL_NOT_RUNNING_FILTERED):
-        print("      - {}".format(unit))
-    print("    non-local (e.g. lxd):")
-    for unit in sorted(UNITS_NONLOCAL_DEDUP):
-        print("      - {}".format(unit))
+    helpers.HOTSOSYaml.dump(JUJU_UNIT_INFO, 2)

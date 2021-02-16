@@ -3,8 +3,6 @@ import re
 import os
 import subprocess
 
-from collections import OrderedDict
-
 from common import helpers
 
 # HOTSOS GLOBALS
@@ -16,16 +14,15 @@ SERVICES = ["ceph-osd",
             "ceph-mgr",
             "radosgw"]
 
-OSD_INFO = {}
 SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*[^:/]?"
 CEPH_SERVICES = [r"ceph-[A-Za-z]+",
                  r"rados{}".format(SVC_VALID_SUFFIX),
                  ]
-SERVICE_INFO = {}
+CEPH_INFO = {}
 
 
 # TODO: finish converting these
-def ceph_pg_imbalance():
+def get_ceph_pg_imbalance():
     """
     ## upstream recommends 50-100 OSDs ideally.
     #for line in helpers.get_ceph_osd_df_tree():
@@ -37,7 +34,7 @@ def ceph_pg_imbalance():
     """
 
 
-def ceph_versions_mismatch():
+def get_ceph_versions_mismatch():
     """
     ## Check versions of all running daemons are the same.
     #for line in helpers.get_ceph_versions():
@@ -62,7 +59,7 @@ def get_osd_ids(svc):
         ret = re.compile(r".+({}\S*)\s+.*--id\s+([0-9]+)\s+.+"
                          .format(svc)).match(line)
         if ret:
-            osd_ids.append(ret[2])
+            osd_ids.append(int(ret[2]))
 
     return osd_ids
 
@@ -81,34 +78,35 @@ def get_osd_info():
     sos_time_secs = helpers.get_sosreport_time()
     ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
 
+    osd_info = {}
     for svc in SERVICES:
         if not svc_exists(svc):
             continue
 
         for osd_id in get_osd_ids(svc):
-            OSD_INFO[osd_id] = {}
+            osd_info[osd_id] = {}
             if ceph_volume_lvm_list:
                 for i, line in enumerate(ceph_volume_lvm_list):
                     ret = re.compile(".*==== osd.{} ====.*".format(osd_id)
                                      ).match(line)
                     if ret:
-                        OSD_INFO[osd_id]['mark'] = 1
+                        osd_info[osd_id]['mark'] = 1
 
-                    if OSD_INFO[osd_id].get('mark') is None:
+                    if osd_info[osd_id].get('mark') is None:
                         continue
 
                     ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+"
                                      ).search(line)
                     if ret:
-                        OSD_INFO[osd_id]["fsid"] = ret[1]
+                        osd_info[osd_id]["fsid"] = ret[1]
 
                     ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
                     if ret:
-                        OSD_INFO[osd_id]["dev"] = ret[1]
+                        osd_info[osd_id]["dev"] = ret[1]
                         break
 
-            if 'mark' in OSD_INFO[osd_id]:
-                del OSD_INFO[osd_id]['mark']
+            if 'mark' in osd_info[osd_id]:
+                del osd_info[osd_id]['mark']
 
             if VERBOSITY_LEVEL >= 1:
                 for line in helpers.get_ps():
@@ -116,7 +114,7 @@ def get_osd_info():
                                      osd_id)).match(line)
                     if ret:
                         rss = int(int(line.split()[5]) / 1024)
-                        OSD_INFO[osd_id]["rss"] = "{}M".format(rss)
+                        osd_info[osd_id]["rss"] = "{}M".format(rss)
                         break
 
                 for line in helpers.get_ps_axo_flags():
@@ -131,7 +129,7 @@ def get_osd_info():
                             osd_uptime_secs = (int(sos_time_secs) -
                                                int(osd_start_secs))
                             osd_uptime_str = seconds_to_date(osd_uptime_secs)
-                            OSD_INFO[osd_id]["etime"] = osd_uptime_str
+                            osd_info[osd_id]["etime"] = osd_uptime_str
                             break
 
             if VERBOSITY_LEVEL >= 3:
@@ -139,39 +137,33 @@ def get_osd_info():
                 if ceph_osd_tree:
                     for line in helpers.get_ceph_osd_tree():
                         if line.split()[3] == "osd.{}".format(osd_id):
-                            OSD_INFO[osd_id]["devtype"] = line.split()[1]
+                            osd_info[osd_id]["devtype"] = line.split()[1]
                             break
+
+    if osd_info:
+        CEPH_INFO["osds"] = osd_info
 
 
 def get_service_info():
+    service_info = {}
     for line in helpers.get_ps():
         for svc in CEPH_SERVICES:
             ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
             if ret:
-                if ret[1] in SERVICE_INFO:
-                    SERVICE_INFO[ret[1]] += 1
+                if ret[1] in service_info:
+                    service_info[ret[1]] += 1
                 else:
-                    SERVICE_INFO[ret[1]] = 1
+                    service_info[ret[1]] = 1
+
+    if service_info:
+        CEPH_INFO["services"] = ["{} ({})".format(s, service_info[s])
+                                 for s in service_info]
 
 
 if __name__ == "__main__":
-    print("storage:")
-
     get_service_info()
-    if SERVICE_INFO:
-        print("  services:")
-        service_info_sorted = OrderedDict(sorted(SERVICE_INFO.items()))
-        for svc in service_info_sorted:
-            print("    - {} ({})".format(svc, service_info_sorted[svc]))
-
     get_osd_info()
-    if OSD_INFO:
-        print("  ceph:")
-        print("    osds:")
-        for osd in OSD_INFO:
-            print("      {}:".format(osd))
-            for key in OSD_INFO[osd]:
-                print("        {}: {}".format(key, OSD_INFO[osd][key]))
-
-        ceph_pg_imbalance()
-        ceph_versions_mismatch()
+    get_ceph_pg_imbalance()
+    get_ceph_versions_mismatch()
+    if CEPH_INFO:
+        helpers.HOTSOSYaml.dump({"storage": {"ceph": CEPH_INFO}})

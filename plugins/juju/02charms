@@ -3,30 +3,34 @@ import glob
 import re
 import os
 
+from common import helpers
+
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 JUJU_LIB_PATH = os.path.join(DATA_ROOT, "var/lib/juju")
 CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
-CHARM_VERSIONS = []
+CHARM_VERSIONS = {"charm-versions": []}
 
 
 def get_charm_versions():
     if not os.path.exists(JUJU_LIB_PATH):
         return
 
+    versions = []
     for entry in glob.glob(os.path.join(JUJU_LIB_PATH, CHARM_MANIFEST_GLOB)):
         for manifest in os.listdir(entry):
             base = os.path.basename(manifest)
             ret = re.compile(r".+_(\S+)-([0-9]+)$").match(base)
             if ret:
-                CHARM_VERSIONS.append("{}-{}".format(ret[1], ret[2]))
+                versions.append("{}-{}".format(ret[1], ret[2]))
+
+    if versions:
+        CHARM_VERSIONS["charm-versions"] = sorted(versions)
 
 
 if __name__ == "__main__":
     get_charm_versions()
     if CHARM_VERSIONS:
-        print("  charms:")
-        for charm in sorted(CHARM_VERSIONS):
-            print("    - {}".format(charm))
+        helpers.HOTSOSYaml.dump(CHARM_VERSIONS, 2)

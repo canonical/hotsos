@@ -2,29 +2,30 @@
 import re
 import os
 
+from common import helpers
 
 # HOTSOS GLOBALS
 VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
-CONFIG_FILES = {"neutron": {"main": "etc/neutron/neutron.conf",
-                            "openvswitch_agent":
+CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
+                            "openvswitch-agent":
                             "etc/neutron/plugins/ml2/openvswitch_agent.ini",
-                            "l3_agent": "etc/neutron/l3_agent.ini",
-                            "dhcp_agent": "etc/neutron/dhcp_agent.ini"},
-                "nova": {"main": "etc/nova/nova.conf"}}
+                            "l3-agent": "etc/neutron/l3_agent.ini",
+                            "dhcp-agent": "etc/neutron/dhcp_agent.ini"},
+                "nova": {"nova": "etc/nova/nova.conf"}}
 
-FEATURES = {"neutron": {"main": ["availability_zone"],
-                        "openvswitch_agent": ["l2_population"],
-                        "l3_agent": ["agent_mode", "ovs_use_veth"],
-                        "dhcp_agent": ["enable_metadata_network",
+FEATURES = {"neutron": {"neutron": ["availability_zone"],
+                        "openvswitch-agent": ["l2_population"],
+                        "l3-agent": ["agent_mode", "ovs_use_veth"],
+                        "dhcp-agent": ["enable_metadata_network",
                                        "enable_isolated_metadata",
                                        "ovs_use_veth"]},
-            "nova": {"main": ["vcpu_pin_set", "cpu_shared_set",
+            "nova": {"nova": ["vcpu_pin_set", "cpu_shared_set",
                               "cpu_dedicated_set"]}}
 
 # checked against neutron
-DEFAULTS = {"neutron": {"dhcp_agent": {"enable_metadata_network": False,
+DEFAULTS = {"neutron": {"dhcp-agent": {"enable_metadata_network": False,
                                        "enable_isolated_metadata": False}}}
 
 SERVICE_FEATURES = {}
@@ -37,23 +38,25 @@ def get_service_features():
             if not os.path.exists(cfg):
                 continue
 
-            if service not in SERVICE_FEATURES:
-                SERVICE_FEATURES[service] = {}
-
             for key in FEATURES[service][module]:
                 for line in open(cfg).readlines():
                     ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)
                                      ).match(line)
                     if ret:
+                        if service not in SERVICE_FEATURES:
+                            SERVICE_FEATURES[service] = {}
+
                         if module not in SERVICE_FEATURES[service]:
                             SERVICE_FEATURES[service][module] = {}
 
                         if module in SERVICE_FEATURES[service]:
-                            SERVICE_FEATURES[service][module][key] = ret[1]
+                            SERVICE_FEATURES[service][module][key] = \
+                                helpers.bool_str(ret[1])
 
                         break
 
-                if key not in SERVICE_FEATURES[service].get(module, {}):
+                if key not in SERVICE_FEATURES.get(service, {}).get(module,
+                                                                    {}):
                     if key in DEFAULTS.get(service, {}).get(module, {}):
                         default = DEFAULTS[service][module][key]
                         if module not in SERVICE_FEATURES[service]:
@@ -65,12 +68,4 @@ def get_service_features():
 if __name__ == "__main__":
     get_service_features()
     if SERVICE_FEATURES:
-        print("  features:")
-        for service in SERVICE_FEATURES:
-            if not SERVICE_FEATURES[service]:
-                continue
-            print("    {}:".format(service))
-            for module in SERVICE_FEATURES[service]:
-                for key in SERVICE_FEATURES[service][module]:
-                    value = SERVICE_FEATURES[service][module][key]
-                    print("      {}: {}".format(key, value))
+        helpers.HOTSOSYaml.dump({"features": SERVICE_FEATURES}, indent=2)

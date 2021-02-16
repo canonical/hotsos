@@ -2,9 +2,43 @@
 import glob
 import os
 import subprocess
+import yaml
 
 # HOTSOS GLOBALS
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+
+
+class HOTSOSDumper(yaml.Dumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+    def represent_dict_preserve_order(self, data):
+        return self.represent_dict(data.items())
+
+
+class HOTSOSYaml(object):
+
+    @staticmethod
+    def dump(data, indent=0):
+        indented = []
+        HOTSOSDumper.add_representer(
+            dict,
+            HOTSOSDumper.represent_dict_preserve_order)
+        out = yaml.dump(data, Dumper=HOTSOSDumper,
+                        default_flow_style=False).rstrip("\n")
+        for line in out.split("\n"):
+            indented.append("{}{}".format(" " * indent, line))
+
+        print('\n'.join(indented))
+
+
+def bool_str(val):
+    if val.lower() == "true":
+        return True
+    elif val.lower() == "false":
+        return False
+
+    return val
 
 
 def get_ip_addr():

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import re
 import os
-import sys
 import yaml
 
 from common import helpers
@@ -17,9 +16,7 @@ CONFIG = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
                        os.path.join(DATA_ROOT, "etc/neutron/plugins/ml2/"
                                     "openvswitch_agent.ini"),
                        "key": "local_ip"}]}
-CONFIG_INFO = {}
-NET_NS_INFO = {}
-VM_PORT_HEALTH = {}
+NETWORK_INFO = {}
 
 
 def find_line(key, lines):
@@ -53,6 +50,8 @@ def get_config_network_info():
     tunnels (vxlan, gre etc) and nova my_ip is interface used by-default for
     vm migration.
     """
+    config_info = {}
+    port_stats_info = {}
     for svc in CONFIG:
         for info in CONFIG[svc]:
             data_source = info["path"]
@@ -71,25 +70,37 @@ def get_config_network_info():
                     if iface:
                         break
 
-            if svc not in CONFIG_INFO:
-                CONFIG_INFO[svc] = {}
+            if svc not in config_info:
+                config_info[svc] = {}
 
             if ip_address:
-                CONFIG_INFO[svc][key] = {"address": ip_address,
-                                         "interface": iface}
+                config_info[svc][key] = "{} ({})".format(ip_address, iface)
+                stats = get_port_stats(name=iface)
+                if stats:
+                    port_stats_info[iface] = stats
             else:
-                CONFIG_INFO[svc][key] = None
+                config_info[svc][key] = None
+
+    if config_info:
+        NETWORK_INFO["config"] = config_info
+
+    if port_stats_info:
+        NETWORK_INFO["stats"] = port_stats_info
 
 
 def get_ns_info():
     """Populate namespace information dict."""
+    ns_info = {}
     for line in helpers.get_ip_netns():
         ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
         if ret:
-            if ret[1] in NET_NS_INFO:
-                NET_NS_INFO[ret[1]] += 1
+            if ret[1] in ns_info:
+                ns_info[ret[1]] += 1
             else:
-                NET_NS_INFO[ret[1]] = 1
+                ns_info[ret[1]] = 1
+
+    if ns_info:
+        NETWORK_INFO["namespaces"] = ns_info
 
 
 def get_instances_info():
@@ -154,6 +165,7 @@ def get_port_stats(name=None, mac=None):
                 break
 
     stats = {}
+    total_packets = float(0)
     if stats_raw:
         stats_raw = stats_raw.split("\n")
         for i, line in enumerate(stats_raw):
@@ -162,16 +174,21 @@ def get_port_stats(name=None, mac=None):
                 ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
                 if ret:
                     for j, column in enumerate(ret):
+                        value = int(stats_raw[i + 1].split()[j])
+                        if column == "packets":
+                            total_packets = float(value)
+                            continue
+
                         for key in ["dropped", "errors"]:
                             if column == key:
-                                packets = int(stats_raw[i + 1].split()[j])
-                                if not packets:
+                                if not value:
                                     continue
 
-                                if key in stats:
-                                    stats[key] += packets
-                                else:
-                                    stats[key] = packets
+                                percentage = int((100/total_packets) * value)
+                                # only report if > 0% drops/errors
+                                if percentage > 0:
+                                    stats[key] = "{} ({}%)".format(value,
+                                                                   percentage)
 
     return stats
 
@@ -181,73 +198,23 @@ def get_instances_port_health():
     if not instances:
         return
 
+    port_health_info = {}
     for uuid in instances:
         for port in instances[uuid]['ports']:
             stats = get_port_stats(mac=port["mac"])
             if stats:
-                port["health"].update(stats)
+                if uuid not in port_health_info:
+                    port_health_info[uuid] = {}
+                port_health_info[uuid][port["mac"]] = stats
 
-    return instances
+    if port_health_info:
+        NETWORK_INFO["port-health"] = {"num-vms-checked": len(instances),
+                                       "stats": port_health_info}
 
 
 if __name__ == "__main__":
-    if VERBOSITY_LEVEL < 2:
-        sys.exit(0)
-
     get_ns_info()
     get_config_network_info()
-    instance_health = get_instances_port_health()
-
-    if not (NET_NS_INFO or CONFIG_INFO or instance_health):
-        sys.exit(0)
-
-    print("  network:")
-
-    if NET_NS_INFO:
-        print("    namespaces:")
-        for label in NET_NS_INFO:
-            print("      {}: {}".format(label, NET_NS_INFO[label]))
-
-    if CONFIG_INFO:
-        config_port_stats = {}
-        print("    config:")
-        for svc in CONFIG_INFO:
-            svc_info = CONFIG_INFO[svc]
-            print("      {}:".format(svc))
-            for key in svc_info:
-                if svc_info[key] is not None:
-                    port = svc_info[key].get("interface")
-                    addr = svc_info[key].get("address")
-                    print("        {}: {} ({})".format(key, addr, port))
-                    stats = get_port_stats(name=port)
-                    if stats:
-                        config_port_stats[port] = stats
-                else:
-                    print("       {}: {}".format(key, "<unset>"))
-
-        if config_port_stats:
-            print("    stats:")
-            for port in config_port_stats:
-                print("      {}:".format(port))
-                for key in config_port_stats[port]:
-                    data = config_port_stats[port].get(key, -1)
-                    if data > 0:
-                        print("        {}: {}".format(key, data))
-
-    if instance_health:
-        print("  port-health:")
-        print("    num-vms-checked: {}".format(len(instance_health)))
-        print("    stats:")
-        for uuid in instance_health:
-            for port in instance_health[uuid]["ports"]:
-                mac = port["mac"]
-                health = port.get("health", {})
-                if not health:
-                    continue
-
-                print("      {}:".format(uuid))
-                print("        {}:".format(mac))
-                for key in health:
-                    data = health.get(key, -1)
-                    if data > 0:
-                        print("          {}: {}".format(key, data))
+    get_instances_port_health()
+    if NETWORK_INFO:
+        helpers.HOTSOSYaml.dump({"network": NETWORK_INFO}, indent=2)

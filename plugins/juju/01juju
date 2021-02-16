@@ -9,14 +9,14 @@ VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 JUJU_LOG_PATH = os.path.join(DATA_ROOT, "var/log/juju")
-
-MACHINES_RUNNING = set()
-MACHINES_STOPPED = set()
+JUJU_MACHINE_INFO = {"machines": {}}
 
 
 def get_machine_info():
     ps_machines = set()
     log_machines = set()
+    machines_running = set()
+    machines_stopped = set()
 
     if not os.path.exists(JUJU_LOG_PATH):
         return
@@ -45,25 +45,17 @@ def get_machine_info():
                     version = ret[1]
 
         if machine in ps_machines:
-            MACHINES_RUNNING.add("{} (version={})".format(machine, version))
+            machines_running.add("{} (version={})".format(machine, version))
         else:
-            MACHINES_STOPPED.add(machine)
+            machines_stopped.add(machine)
+
+    if machines_running:
+        JUJU_MACHINE_INFO["machines"]["running"] = list(machines_running)
+
+    if machines_stopped:
+        JUJU_MACHINE_INFO["machines"]["stopped"] = list(machines_stopped)
 
 
 if __name__ == "__main__":
-    print("juju:")
-
     get_machine_info()
-
-    if MACHINES_RUNNING or MACHINES_STOPPED:
-        print("  machines:")
-
-    if MACHINES_RUNNING:
-        print("    running:")
-        for m in MACHINES_RUNNING:
-            print("      - {}".format(m))
-
-    if MACHINES_STOPPED:
-        print("    stopped:")
-        for m in MACHINES_STOPPED:
-            print("      - {}".format(m))
+    helpers.HOTSOSYaml.dump({"juju": JUJU_MACHINE_INFO})

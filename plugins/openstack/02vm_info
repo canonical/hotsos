@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import re
 import os
-import sys
 
 from common import helpers
 
@@ -22,11 +21,6 @@ def get_vm_info():
 
 
 if __name__ == "__main__":
-    if VERBOSITY_LEVEL < 1:
-        sys.exit(0)
-
     get_vm_info()
     if VM_INFO:
-        print("  instances:")
-        for vm in VM_INFO:
-            print("    - {}".format(vm))
+        helpers.HOTSOSYaml.dump({"instances": VM_INFO}, indent=2)

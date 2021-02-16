@@ -2,8 +2,6 @@
 import re
 import os
 
-from collections import OrderedDict
-
 from common import helpers
 from openstack_common import OST_PROJECTS, OST_SERVICES, OST_SERVICES_DEPS
 
@@ -15,38 +13,52 @@ DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
                      "swift": "proxy.conf"}
 
-RELEASE_INFO = {"default": "distro",
-                "uca": set(["queens"])}
-OPENSTACK_INFO = {}
-DEBUG_LOG_INFO = {}
 APT_SOURCE_PATH = os.path.join(DATA_ROOT, "etc/apt/sources.list.d")
+OPENSTACK_INFO = {}
 
 
 def get_service_info():
+    service_info = {}
     for line in helpers.get_ps():
         for svc in OST_SERVICES + OST_SERVICES_DEPS:
             ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
             if ret:
-                if ret[1] in OPENSTACK_INFO:
-                    OPENSTACK_INFO[ret[1]] += 1
+                if ret[1] in service_info:
+                    service_info[ret[1]] += 1
                 else:
-                    OPENSTACK_INFO[ret[1]] = 1
+                    service_info[ret[1]] = 1
+
+    if service_info:
+        OPENSTACK_INFO["services"] = ["{} ({})".format(s, service_info[s])
+                                      for s in sorted(service_info)]
 
 
 def get_release_info():
     if not os.path.exists(APT_SOURCE_PATH):
         return
 
+    release_info = {}
     for source in os.listdir(APT_SOURCE_PATH):
         for line in open(os.path.join(APT_SOURCE_PATH, source)).readlines():
             ret = re.compile(r"(.+cloud.+)").match(line)
             if ret:
                 ret = re.compile(r".+-updates/([a-z]+)\s.*").match(line)
                 if ret:
-                    RELEASE_INFO["uca"].add(ret[1])
+                    if "uca" not in release_info:
+                        release_info["uca"] = set()
+
+                    release_info["uca"].add(ret[1])
+
+    if release_info:
+        if release_info.get("uca"):
+            OPENSTACK_INFO["release"] = sorted(release_info["uca"],
+                                               reverse=True)[0]
+    else:
+        OPENSTACK_INFO["release"] = "distro"
 
 
 def get_debug_log_info():
+    debug_enabled = {}
     for proj in OST_PROJECTS:
         path = OST_ETC_OVERRIDES.get(proj)
         if path is None:
@@ -56,29 +68,14 @@ def get_debug_log_info():
             for line in open(path).readlines():
                 ret = re.compile(r"^debug\s*=\s*([A-Za-z]+).*").match(line)
                 if ret:
-                    DEBUG_LOG_INFO[proj] = ret[1]
+                    debug_enabled[proj] = helpers.bool_str(ret[1])
+
+    if debug_enabled:
+        OPENSTACK_INFO["debug-logging-enabled"] = debug_enabled
 
 
 if __name__ == "__main__":
-    print("openstack:")
-
     get_release_info()
-    if RELEASE_INFO["uca"]:
-        release = sorted(RELEASE_INFO["uca"], reverse=True)[0]
-    else:
-        release = RELEASE_INFO["default"]
-
-    print("  release: {}".format(release))
-
     get_service_info()
-    if OPENSTACK_INFO:
-        print("  services:")
-        openstack_info_sorted = OrderedDict(sorted(OPENSTACK_INFO.items()))
-        for svc in openstack_info_sorted:
-            print("    - {} ({})".format(svc, openstack_info_sorted[svc]))
-
     get_debug_log_info()
-    if VERBOSITY_LEVEL >= 2 and DEBUG_LOG_INFO:
-        print("  debug-logging-enabled:")
-        for proj in DEBUG_LOG_INFO:
-            print("    {}: {}".format(proj, DEBUG_LOG_INFO[proj]))
+    helpers.HOTSOSYaml.dump({"openstack": OPENSTACK_INFO})

@@ -13,8 +13,11 @@ NETWORK_INFO = {}
 
 
 def get_network_info():
-    iface = None
+    ip_addr_output = helpers.get_ip_addr()
+    if not ip_addr_output:
+        sys.exit(0)
 
+    iface = None
     for i, line in enumerate(ip_addr_output):
         if "flannel" in line:
             if "flannel" not in NETWORK_INFO:
@@ -42,18 +45,6 @@ def get_network_info():
 
 
 if __name__ == "__main__":
-    ip_addr_output = helpers.get_ip_addr()
-    if not ip_addr_output:
-        sys.exit(0)
-
     get_network_info()
-
     if NETWORK_INFO:
-        print("  network:")
-        for net in NETWORK_INFO:
-            print("    {}:".format(net))
-            for iface in NETWORK_INFO[net]:
-                print("      {}:".format(iface))
-                for property in NETWORK_INFO[net][iface]:
-                    value = NETWORK_INFO[net][iface][property]
-                    print("        {}: {}".format(property, value))
+        helpers.HOTSOSYaml.dump({"network": NETWORK_INFO}, indent=2)
