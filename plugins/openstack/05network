@@ -30,7 +30,29 @@ def find_line(key, lines):
     return None
 
 
+def find_interface_name_by_ip_address(ip_address):
+    """Lookup interface by name in ip addr show"""
+    iface = None
+    lines = helpers.get_ip_addr()
+    a = find_line(r".+{}.+".format(ip_address), lines)
+    while True:
+        ret = re.compile(r"^[0-9]+:\s+(\S+):\s+.+"
+                         ).match(lines[a])
+        if ret:
+            iface = ret[1]
+            break
+
+        a = a-1
+
+    return iface
+
+
 def get_config_network_info():
+    """For each service defined, check its config file and extract network
+    info e.g. neutron local_ip is address of interface used for creating
+    tunnels (vxlan, gre etc) and nova my_ip is interface used by-default for
+    vm migration.
+    """
     for svc in CONFIG:
         for info in CONFIG[svc]:
             data_source = info["path"]
@@ -38,24 +60,14 @@ def get_config_network_info():
             if not os.path.exists(data_source):
                 continue
 
+            iface = None
             ip_address = None
             for line in open(data_source).readlines():
                 ret = re.compile(r"^\s*{}\s*=\s*([0-9\.]+).*".
                                  format(key)).match(line)
                 if ret:
                     ip_address = ret[1]
-                    lines = helpers.get_ip_addr()
-                    iface = None
-                    a = find_line(r".+{}.+".format(ip_address), lines)
-                    while True:
-                        ret = re.compile(r"^([0-9]+):\s+([a-z0-9\-@.]+):.+"
-                                         ).match(lines[a])
-                        if ret:
-                            iface = ret[2]
-                            break
-
-                        a = a-1
-
+                    iface = find_interface_name_by_ip_address(ip_address)
                     if iface:
                         break
 
@@ -70,6 +82,7 @@ def get_config_network_info():
 
 
 def get_ns_info():
+    """Populate namespace information dict."""
     for line in helpers.get_ip_netns():
         ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
         if ret:
@@ -80,6 +93,7 @@ def get_ns_info():
 
 
 def get_instances_info():
+    """Get information e.g. ip link  stats for each port on a vm"""
     openstack = yaml.safe_load(open(MASTER_YAML_OUT)).get("openstack", {})
     instances = openstack.get("instances")
     if instances is None:
@@ -109,6 +123,7 @@ def get_instances_info():
 
 
 def get_port_stats(name=None, mac=None):
+    """Get ip link stats for the given port."""
     ip_link_show = helpers.get_ip_link_show()
     mark = -1
     stats_raw = ""
@@ -203,7 +218,7 @@ if __name__ == "__main__":
                 if svc_info[key] is not None:
                     port = svc_info[key].get("interface")
                     addr = svc_info[key].get("address")
-                    print("        {}: {}".format(key, addr))
+                    print("        {}: {} ({})".format(key, addr, port))
                     stats = get_port_stats(name=port)
                     if stats:
                         config_port_stats[port] = stats

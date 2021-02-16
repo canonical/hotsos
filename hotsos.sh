@@ -188,7 +188,7 @@ for data_root in ${SOS_PATHS[@]}; do
         ${PLUGINS[$plugin]} || continue
 
         for priority in {00..99}; do
-            for plug in `find $CWD/plugins/$plugin -name $priority\*`; do
+            for plug in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
                 $plug >> $MASTER_YAML_OUT
             done
         done
