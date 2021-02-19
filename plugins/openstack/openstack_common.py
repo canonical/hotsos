@@ -30,7 +30,7 @@ OST_SERVICES = [r"aodh{}".format(SVC_VALID_SUFFIX),
                 r"keystone{}".format(SVC_VALID_SUFFIX),
                 r"neutron{}".format(SVC_VALID_SUFFIX),
                 r"nova{}".format(SVC_VALID_SUFFIX),
-                r"ocatvia{}".format(SVC_VALID_SUFFIX),
+                r"octavia{}".format(SVC_VALID_SUFFIX),
                 r"swift{}".format(SVC_VALID_SUFFIX),
                 ]
 
