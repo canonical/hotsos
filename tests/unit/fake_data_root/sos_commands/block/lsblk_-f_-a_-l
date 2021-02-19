@@ -1,0 +1,60 @@
+NAME                                                                                                FSTYPE            LABEL         UUID                                   MOUNTPOINT
+loop1                                                                                               squashfs                                                               /snap/canonical-livepatch/95
+sdf                                                                                                                                                                        
+sdf3                                                                                                linux_raid_member WZP23350GRC:1 4189440f-b246-61ba-65b4-29807451cd5b   
+md1                                                                                                 ext4              root          68c5bd53-3c6c-46d9-b0c1-e8dd8789b170   /
+sdf1                                                                                                                                                                       
+sdf4                                                                                                linux_raid_member WZP23350GRC:2 b6cb3a90-2133-16a4-4ca6-4222ab2cfa37   
+md2                                                                                                 bcache                          a0ec7fd8-1ab7-480e-bd7f-1f5490063eab   
+bcache6                                                                                             ext4                            25c4fd24-aeb6-459c-99bf-c246ad641bee   /var/lib/virt/images
+sdf2                                                                                                linux_raid_member WZP23350GRC:0 02769b6d-9f55-9037-97fa-e47939f9b785   
+md0                                                                                                 ext4              boot          994a3a83-c1aa-47f4-960d-2704fb45cb1b   /boot
+nvme0n1                                                                                                                                                                    
+nvme0n1p1                                                                                                                                                                  
+nvme0n1p2                                                                                           bcache                          2ccea92c-362e-4ce7-8467-45e410cfd2c0   
+bcache4                                                                                             LVM2_member                     SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3 
+ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9                                                                        
+bcache2                                                                                             LVM2_member                     9Jyuu0-AtXR-4BEn-dgma-0Vmj-o3PF-IKAvlY 
+ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1                                                                        
+bcache0                                                                                             LVM2_member                     8IBGzW-fm7a-IPY0-mUPB-bN01-dDoU-bRteXY 
+ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29                                                                        
+bcache5                                                                                             LVM2_member                     6qfE2T-chFo-HvWi-1AvC-u2rX-UMlW-HJ7wV6 
+ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68 xfs_external_log                                                       
+bcache3                                                                                             LVM2_member                     VtCGFL-Z8zT-6r7W-fcBy-Yfme-eHb6-Spv1fE 
+ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc                                                                        
+bcache1                                                                                             LVM2_member                     l2Uqif-Fw6T-WVgA-l2jJ-7GSo-d4tx-klJt4Y 
+ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb                                                                        
+bcache6                                                                                             ext4                            25c4fd24-aeb6-459c-99bf-c246ad641bee   /var/lib/virt/images
+sdd                                                                                                 bcache                          d5f80223-f1b9-4f95-bf8e-ff80d71b592f   
+bcache1                                                                                             LVM2_member                     l2Uqif-Fw6T-WVgA-l2jJ-7GSo-d4tx-klJt4Y 
+ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb                                                                        
+sdb                                                                                                 bcache                          b955f522-9c68-49ac-b47e-17a6b31c7e78   
+bcache4                                                                                             LVM2_member                     SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3 
+ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9                                                                        
+loop6                                                                                                                                                                      
+loop4                                                                                               squashfs                                                               /snap/core/10583
+loop2                                                                                                                                                                      
+sdg                                                                                                 bcache                          d4e3417c-69e5-4ad1-8457-fca31f34dd63   
+bcache3                                                                                             LVM2_member                     VtCGFL-Z8zT-6r7W-fcBy-Yfme-eHb6-Spv1fE 
+ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc                                                                        
+loop0                                                                                               squashfs                                                               
+sde                                                                                                 bcache                          42322d3a-b543-486d-b3ef-62f1f42d123f   
+bcache2                                                                                             LVM2_member                     9Jyuu0-AtXR-4BEn-dgma-0Vmj-o3PF-IKAvlY 
+ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1                                                                        
+sdc                                                                                                 bcache                          d400ab68-b08a-460f-905f-ae722b848f1c   
+bcache0                                                                                             LVM2_member                     8IBGzW-fm7a-IPY0-mUPB-bN01-dDoU-bRteXY 
+ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29                                                                        
+loop7                                                                                                                                                                      
+sda                                                                                                                                                                        
+sda2                                                                                                linux_raid_member WZP23350GRC:1 4189440f-b246-61ba-65b4-29807451cd5b   
+md1                                                                                                 ext4              root          68c5bd53-3c6c-46d9-b0c1-e8dd8789b170   /
+sda3                                                                                                linux_raid_member WZP23350GRC:2 b6cb3a90-2133-16a4-4ca6-4222ab2cfa37   
+md2                                                                                                 bcache                          a0ec7fd8-1ab7-480e-bd7f-1f5490063eab   
+bcache6                                                                                             ext4                            25c4fd24-aeb6-459c-99bf-c246ad641bee   /var/lib/virt/images
+sda1                                                                                                linux_raid_member WZP23350GRC:0 02769b6d-9f55-9037-97fa-e47939f9b785   
+md0                                                                                                 ext4              boot          994a3a83-c1aa-47f4-960d-2704fb45cb1b   /boot
+loop5                                                                                                                                                                      
+loop3                                                                                               squashfs                                                               /snap/core/10577
+sdh                                                                                                 bcache                          27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea   
+bcache5                                                                                             LVM2_member                     6qfE2T-chFo-HvWi-1AvC-u2rX-UMlW-HJ7wV6 
+ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68 xfs_external_log                                                       

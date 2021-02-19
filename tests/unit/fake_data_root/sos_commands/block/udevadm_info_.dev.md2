@@ -1,0 +1,30 @@
+P: /devices/virtual/block/md2
+N: md2
+L: 100
+S: disk/by-dname/md2
+S: disk/by-id/md-name-WZP23350GRC:2
+S: disk/by-id/md-uuid-b6cb3a90:213316a4:4ca64222:ab2cfa37
+S: disk/by-uuid/a0ec7fd8-1ab7-480e-bd7f-1f5490063eab
+E: DEVLINKS=/dev/disk/by-id/md-uuid-b6cb3a90:213316a4:4ca64222:ab2cfa37 /dev/disk/by-uuid/a0ec7fd8-1ab7-480e-bd7f-1f5490063eab /dev/disk/by-id/md-name-WZP23350GRC:2 /dev/disk/by-dname/md2
+E: DEVNAME=/dev/md2
+E: DEVPATH=/devices/virtual/block/md2
+E: DEVTYPE=disk
+E: ID_FS_TYPE=bcache
+E: ID_FS_USAGE=other
+E: ID_FS_UUID=a0ec7fd8-1ab7-480e-bd7f-1f5490063eab
+E: ID_FS_UUID_ENC=a0ec7fd8-1ab7-480e-bd7f-1f5490063eab
+E: MAJOR=9
+E: MD_DEVICES=2
+E: MD_DEVICE_sda3_DEV=/dev/sda3
+E: MD_DEVICE_sda3_ROLE=0
+E: MD_DEVICE_sdf4_DEV=/dev/sdf4
+E: MD_DEVICE_sdf4_ROLE=1
+E: MD_LEVEL=raid1
+E: MD_METADATA=1.2
+E: MD_NAME=WZP23350GRC:2
+E: MD_UUID=b6cb3a90:213316a4:4ca64222:ab2cfa37
+E: MINOR=2
+E: SUBSYSTEM=block
+E: TAGS=:systemd:
+E: USEC_INITIALIZED=8690545
+

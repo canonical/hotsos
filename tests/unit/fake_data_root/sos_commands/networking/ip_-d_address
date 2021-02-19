@@ -1,0 +1,25 @@
+45: bond1: <BROADCAST,MULTICAST,MASTER,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-bond1 state UP group default qlen 1000
+    link/ether 45:1d:b2:89:bd:35 brd ff:ff:ff:ff:ff:ff promiscuity 1 
+    bond mode 802.3ad miimon 100 updelay 0 downdelay 0 use_carrier 1 arp_interval 0 arp_validate none arp_all_targets any primary_reselect always fail_over_mac none xmit_hash_policy layer3+4 resend_igmp 1 num_grat_arp 1 all_slaves_active 0 min_links 0 lp_interval 1 packets_per_slave 1 lacp_rate fast ad_select stable ad_aggregator 1 ad_num_ports 1 ad_actor_key 9 ad_partner_key 1 ad_partner_mac 00:00:00:00:00:00 ad_actor_sys_prio 65535 ad_user_port_key 0 ad_actor_system 00:00:00:00:00:00 tlb_dynamic_lb 1 
+    bridge_slave state forwarding priority 32 cost 4 hairpin off guard off root_block off fastleave off learning on flood on 
+    inet6 fe80::36ed:1bff:feb9:ad46/64 scope link 
+       valid_lft forever preferred_lft forever
+150: tap40f8453b-31: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc pfifo_fast master ovs-system state UNKNOWN group default qlen 1000
+    link/ether fe:16:3e:6d:8f:a7 brd ff:ff:ff:ff:ff:ff promiscuity 1 
+    tun 
+    openvswitch_slave 
+    inet6 fe80::fc16:3eff:fe6d:8fa7/64 scope link 
+       valid_lft forever preferred_lft forever
+46: br-bond1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 45:1d:b2:89:bd:35 brd ff:ff:ff:ff:ff:ff promiscuity 0 
+    bridge forward_delay 1500 hello_time 200 max_age 2000 ageing_time 30000 stp_state 0 priority 32768 vlan_filtering 0 vlan_protocol 802.1Q 
+    inet 10.10.101.33/26 brd 10.10.101.63 scope global br-bond1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::36ed:1bff:feb9:ad46/64 scope link 
+       valid_lft forever preferred_lft forever
+151: tap1fd66df1-42: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc pfifo_fast master ovs-system state UNKNOWN group default qlen 1000
+    link/ether fe:16:3e:0f:3e:9a brd ff:ff:ff:ff:ff:ff promiscuity 1 
+    tun 
+    openvswitch_slave 
+    inet6 fe80::fc16:3eff:fe0f:3e9a/64 scope link 
+       valid_lft forever preferred_lft forever

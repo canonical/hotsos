@@ -1,0 +1,23 @@
+
+Udevadm info starts with the device specified by the devpath and then
+walks up the chain of parent devices. It prints for every device
+found, all possible attributes in the udev rules key format.
+A rule to match, can be composed by the attributes of the device
+and the attributes from one single parent device.
+
+  looking at device '/devices/virtual/block/md1':
+    KERNEL=="md1"
+    SUBSYSTEM=="block"
+    DRIVER==""
+    ATTR{alignment_offset}=="0"
+    ATTR{capability}=="50"
+    ATTR{discard_alignment}=="0"
+    ATTR{ext_range}=="256"
+    ATTR{hidden}=="0"
+    ATTR{inflight}=="       0        0"
+    ATTR{range}=="1"
+    ATTR{removable}=="0"
+    ATTR{ro}=="0"
+    ATTR{size}=="995827712"
+    ATTR{stat}==" 4344814        0 247018810        0 727918146        0 9254679072        0        0        0        0"
+

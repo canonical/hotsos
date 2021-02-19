@@ -1,0 +1,34 @@
+P: /devices/virtual/block/md0
+N: md0
+L: 100
+S: disk/by-dname/md0
+S: disk/by-id/md-name-WZP23350GRC:0
+S: disk/by-id/md-uuid-02769b6d:9f559037:97fae479:39f9b785
+S: disk/by-label/boot
+S: disk/by-uuid/994a3a83-c1aa-47f4-960d-2704fb45cb1b
+E: DEVLINKS=/dev/disk/by-label/boot /dev/disk/by-id/md-uuid-02769b6d:9f559037:97fae479:39f9b785 /dev/disk/by-id/md-name-WZP23350GRC:0 /dev/disk/by-uuid/994a3a83-c1aa-47f4-960d-2704fb45cb1b /dev/disk/by-dname/md0
+E: DEVNAME=/dev/md0
+E: DEVPATH=/devices/virtual/block/md0
+E: DEVTYPE=disk
+E: ID_FS_LABEL=boot
+E: ID_FS_LABEL_ENC=boot
+E: ID_FS_TYPE=ext4
+E: ID_FS_USAGE=filesystem
+E: ID_FS_UUID=994a3a83-c1aa-47f4-960d-2704fb45cb1b
+E: ID_FS_UUID_ENC=994a3a83-c1aa-47f4-960d-2704fb45cb1b
+E: ID_FS_VERSION=1.0
+E: MAJOR=9
+E: MD_DEVICES=2
+E: MD_DEVICE_sda1_DEV=/dev/sda1
+E: MD_DEVICE_sda1_ROLE=0
+E: MD_DEVICE_sdf2_DEV=/dev/sdf2
+E: MD_DEVICE_sdf2_ROLE=1
+E: MD_LEVEL=raid1
+E: MD_METADATA=1.2
+E: MD_NAME=WZP23350GRC:0
+E: MD_UUID=02769b6d:9f559037:97fae479:39f9b785
+E: MINOR=0
+E: SUBSYSTEM=block
+E: TAGS=:systemd:
+E: USEC_INITIALIZED=8693703
+

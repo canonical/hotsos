@@ -1,0 +1,21 @@
+P: /devices/virtual/block/bcache4
+N: bcache4
+S: bcache/by-label/bcache2
+S: bcache/by-uuid/b955f522-9c68-49ac-b47e-17a6b31c7e78
+S: disk/by-dname/bcache2
+S: disk/by-id/lvm-pv-uuid-SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3
+E: DEVLINKS=/dev/disk/by-id/lvm-pv-uuid-SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3 /dev/bcache/by-label/bcache2 /dev/disk/by-dname/bcache2 /dev/bcache/by-uuid/b955f522-9c68-49ac-b47e-17a6b31c7e78
+E: DEVNAME=/dev/bcache4
+E: DEVPATH=/devices/virtual/block/bcache4
+E: DEVTYPE=disk
+E: ID_FS_TYPE=LVM2_member
+E: ID_FS_USAGE=raid
+E: ID_FS_UUID=SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3
+E: ID_FS_UUID_ENC=SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3
+E: ID_FS_VERSION=LVM2 001
+E: MAJOR=252
+E: MINOR=512
+E: SUBSYSTEM=block
+E: TAGS=:systemd:
+E: USEC_INITIALIZED=8919291
+

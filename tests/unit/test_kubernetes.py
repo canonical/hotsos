@@ -22,14 +22,6 @@ k8s_02network = module_from_spec(specs["02network"])
 specs["02network"].loader.exec_module(k8s_02network)
 
 
-PS = """
-"""  # noqa
-
-
-def fake_ps():
-    return [line + '\n' for line in PS.split('\n')]
-
-
 class TestKubernetesPlugin01general(utils.BaseTestCase):
 
     def setUp(self):
@@ -39,7 +31,6 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(k8s_01general, "KUBERNETES_INFO", {})
-    @mock.patch.object(k8s_01general.helpers, 'get_ps', fake_ps)
     def test_get_service_info(self):
         result = {}
         k8s_01general.get_service_info()

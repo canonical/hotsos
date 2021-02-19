@@ -1,0 +1,28 @@
+P: /devices/virtual/block/dm-4
+N: dm-4
+L: 50
+S: ceph-5f74e4b6-7e76-4c11-9533-c393fc9fdebc/osd-block-5f74e4b6-7e76-4c11-9533-c393fc9fdebc
+S: disk/by-id/dm-name-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc
+S: disk/by-id/dm-uuid-LVM-cIm9MC3e6W5t1eVbwcCAajqJ1rPnPnxO0vZndzbIE59Gd5u50feBsly3ZwBApoKV
+S: mapper/ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc
+E: DEVLINKS=/dev/ceph-5f74e4b6-7e76-4c11-9533-c393fc9fdebc/osd-block-5f74e4b6-7e76-4c11-9533-c393fc9fdebc /dev/disk/by-id/dm-name-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc /dev/mapper/ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc /dev/disk/by-id/dm-uuid-LVM-cIm9MC3e6W5t1eVbwcCAajqJ1rPnPnxO0vZndzbIE59Gd5u50feBsly3ZwBApoKV
+E: DEVNAME=/dev/dm-4
+E: DEVPATH=/devices/virtual/block/dm-4
+E: DEVTYPE=disk
+E: DM_LV_NAME=osd-block-5f74e4b6-7e76-4c11-9533-c393fc9fdebc
+E: DM_NAME=ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc
+E: DM_STATE=ACTIVE
+E: DM_SUSPENDED=0
+E: DM_TABLE_STATE=LIVE
+E: DM_TYPE=raid
+E: DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG=1
+E: DM_UDEV_PRIMARY_SOURCE_FLAG=1
+E: DM_UDEV_RULES=1
+E: DM_UUID=LVM-cIm9MC3e6W5t1eVbwcCAajqJ1rPnPnxO0vZndzbIE59Gd5u50feBsly3ZwBApoKV
+E: DM_VG_NAME=ceph-5f74e4b6-7e76-4c11-9533-c393fc9fdebc
+E: MAJOR=253
+E: MINOR=4
+E: SUBSYSTEM=block
+E: TAGS=:systemd:
+E: USEC_INITIALIZED=1043097196
+

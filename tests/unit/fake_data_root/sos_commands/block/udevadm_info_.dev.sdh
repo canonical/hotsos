@@ -1,0 +1,36 @@
+P: /devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:7/end_device-6:7/target6:0:7/6:0:7:0/block/sdh
+N: sdh
+S: disk/by-dname/sdh
+S: disk/by-id/scsi-35000cca273b16690
+S: disk/by-id/wwn-0x5000cca273b16690
+S: disk/by-path/pci-0000:18:00.0-sas-phy12-lun-0
+S: disk/by-uuid/27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea
+E: DEVLINKS=/dev/disk/by-uuid/27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea /dev/disk/by-dname/sdh /dev/disk/by-id/wwn-0x5000cca273b16690 /dev/disk/by-path/pci-0000:18:00.0-sas-phy12-lun-0 /dev/disk/by-id/scsi-35000cca273b16690
+E: DEVNAME=/dev/sdh
+E: DEVPATH=/devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:7/end_device-6:7/target6:0:7/6:0:7:0/block/sdh
+E: DEVTYPE=disk
+E: ID_BUS=scsi
+E: ID_FS_TYPE=bcache
+E: ID_FS_USAGE=other
+E: ID_FS_UUID=27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea
+E: ID_FS_UUID_ENC=27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea
+E: ID_MODEL=HUH721010AL52C0
+E: ID_MODEL_ENC=HUH721010AL52C0\x20
+E: ID_PATH=pci-0000:18:00.0-sas-phy12-lun-0
+E: ID_PATH_TAG=pci-0000_18_00_0-sas-phy12-lun-0
+E: ID_REVISION=A3Z4
+E: ID_SCSI=1
+E: ID_SCSI_SERIAL=2YK4KH3D
+E: ID_SERIAL=35000cca273b16690
+E: ID_SERIAL_SHORT=5000cca273b16690
+E: ID_TYPE=disk
+E: ID_VENDOR=HGST
+E: ID_VENDOR_ENC=HGST\x20\x20\x20\x20
+E: ID_WWN=0x5000cca273b16690
+E: ID_WWN_WITH_EXTENSION=0x5000cca273b16690
+E: MAJOR=8
+E: MINOR=112
+E: SUBSYSTEM=block
+E: TAGS=:systemd:
+E: USEC_INITIALIZED=8672833
+

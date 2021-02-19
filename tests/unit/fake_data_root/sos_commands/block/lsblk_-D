@@ -1,0 +1,56 @@
+NAME                                                                                                      DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+loop1                                                                                                            0        4K       4G         0
+sdf                                                                                                              0        0B       0B         0
+|-sdf3                                                                                                           0        0B       0B         0
+| `-md1                                                                                                          0        0B       0B         0
+|-sdf1                                                                                                           0        0B       0B         0
+|-sdf4                                                                                                           0        0B       0B         0
+| `-md2                                                                                                          0        0B       0B         0
+|   `-bcache6                                                                                                    0      512B       2T         0
+`-sdf2                                                                                                           0        0B       0B         0
+  `-md0                                                                                                          0        0B       0B         0
+nvme0n1                                                                                                          0      512B       2T         0
+|-nvme0n1p1                                                                                                      0      512B       2T         0
+`-nvme0n1p2                                                                                                      0      512B       2T         0
+  |-bcache4                                                                                                      0      512B       2T         0
+  | `-ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9        0      512B       2T         0
+  |-bcache2                                                                                                      0      512B       2T         0
+  | `-ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1        0      512B       2T         0
+  |-bcache0                                                                                                      0      512B       2T         0
+  | `-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29        0      512B       2T         0
+  |-bcache5                                                                                                      0      512B       2T         0
+  | `-ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68        0      512B       2T         0
+  |-bcache3                                                                                                      0      512B       2T         0
+  | `-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc        0      512B       2T         0
+  |-bcache1                                                                                                      0      512B       2T         0
+  | `-ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb        0      512B       2T         0
+  `-bcache6                                                                                                      0      512B       2T         0
+sdd                                                                                                              0        0B       0B         0
+`-bcache1                                                                                                        0      512B       2T         0
+  `-ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb          0      512B       2T         0
+sdb                                                                                                              0        0B       0B         0
+`-bcache4                                                                                                        0      512B       2T         0
+  `-ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9          0      512B       2T         0
+loop4                                                                                                            0        4K       4G         0
+sdg                                                                                                              0        0B       0B         0
+`-bcache3                                                                                                        0      512B       2T         0
+  `-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc          0      512B       2T         0
+loop0                                                                                                            0        4K       4G         0
+sde                                                                                                              0        0B       0B         0
+`-bcache2                                                                                                        0      512B       2T         0
+  `-ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1          0      512B       2T         0
+sdc                                                                                                              0        0B       0B         0
+`-bcache0                                                                                                        0      512B       2T         0
+  `-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29          0      512B       2T         0
+sda                                                                                                              0        0B       0B         0
+|-sda2                                                                                                           0        0B       0B         0
+| `-md1                                                                                                          0        0B       0B         0
+|-sda3                                                                                                           0        0B       0B         0
+| `-md2                                                                                                          0        0B       0B         0
+|   `-bcache6                                                                                                    0      512B       2T         0
+`-sda1                                                                                                           0        0B       0B         0
+  `-md0                                                                                                          0        0B       0B         0
+loop3                                                                                                            0        4K       4G         0
+sdh                                                                                                              0        0B       0B         0
+`-bcache5                                                                                                        0      512B       2T         0
+  `-ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68          0      512B       2T         0

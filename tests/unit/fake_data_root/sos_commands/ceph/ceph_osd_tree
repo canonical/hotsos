@@ -1,0 +1,4 @@
+2021-02-05 06:20:51.966831 7fc79b100700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
+2021-02-05 06:20:51.966846 7fc79b100700 -1 monclient: ERROR: missing keyring, cannot use cephx for authentication
+2021-02-05 06:20:51.966848 7fc79b100700  0 librados: client.admin initialization error (2) No such file or directory
+[errno 2] error connecting to the cluster
