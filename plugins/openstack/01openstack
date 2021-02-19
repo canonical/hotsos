@@ -78,4 +78,5 @@ if __name__ == "__main__":
     get_release_info()
     get_service_info()
     get_debug_log_info()
-    helpers.HOTSOSYaml.dump({"openstack": OPENSTACK_INFO})
+    if OPENSTACK_INFO:
+        helpers.HOTSOSYaml.dump({"openstack": OPENSTACK_INFO})

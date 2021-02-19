@@ -30,4 +30,11 @@ def get_pkg_info():
 if __name__ == "__main__":
     get_pkg_info()
     if PKG_INFO:
-        helpers.HOTSOSYaml.dump({"dpkg": PKG_INFO}, indent=2)
+        PKG_INFO = {"dpkg": PKG_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            PKG_INFO = {"openstack": PKG_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(PKG_INFO, indent=indent)

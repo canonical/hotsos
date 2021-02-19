@@ -19,6 +19,18 @@ class HOTSOSDumper(yaml.Dumper):
 class HOTSOSYaml(object):
 
     @staticmethod
+    def master_has_plugin(name):
+        """Returns True if the master yaml has a top-level enrtry (dict key)
+        with the given plugin name.
+        """
+        path = os.environ.get('MASTER_YAML_OUT')
+        if not os.path.exists(path):
+            raise Exception("Master yaml path not found '{}'".format(path))
+
+        master_yaml = yaml.safe_load(open(path))
+        return name in master_yaml
+
+    @staticmethod
     def dump(data, indent=0):
         indented = []
         HOTSOSDumper.add_representer(

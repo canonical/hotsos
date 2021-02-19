@@ -217,4 +217,11 @@ if __name__ == "__main__":
     get_config_network_info()
     get_instances_port_health()
     if NETWORK_INFO:
-        helpers.HOTSOSYaml.dump({"network": NETWORK_INFO}, indent=2)
+        NETWORK_INFO = {"network": NETWORK_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            NETWORK_INFO = {"openstack": NETWORK_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(NETWORK_INFO, indent=indent)

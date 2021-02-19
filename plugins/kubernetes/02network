@@ -47,4 +47,11 @@ def get_network_info():
 if __name__ == "__main__":
     get_network_info()
     if NETWORK_INFO:
-        helpers.HOTSOSYaml.dump({"network": NETWORK_INFO}, indent=2)
+        NETWORK_INFO = {"network": NETWORK_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("kubernetes"):
+            NETWORK_INFO = {"kubernetes": NETWORK_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(NETWORK_INFO, indent=indent)

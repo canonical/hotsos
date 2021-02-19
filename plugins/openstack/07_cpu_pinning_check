@@ -447,5 +447,11 @@ if __name__ == "__main__":
     checker.run_cpu_pinning_checks()
     checker.get_results()
     if CPU_PINNING_INFO:
-        helpers.HOTSOSYaml.dump({"cpu-pinning-checks": CPU_PINNING_INFO},
-                                indent=2)
+        CPU_PINNING_INFO = {"cpu-pinning-checks": CPU_PINNING_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            CPU_PINNING_INFO = {"openstack": CPU_PINNING_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(CPU_PINNING_INFO, indent=indent)

@@ -101,4 +101,5 @@ if __name__ == "__main__":
     get_snap_info()
     get_pod_info()
     get_container_info()
-    helpers.HOTSOSYaml.dump({"kubernetes": KUBERNETES_INFO})
+    if KUBERNETES_INFO:
+        helpers.HOTSOSYaml.dump({"kubernetes": KUBERNETES_INFO})

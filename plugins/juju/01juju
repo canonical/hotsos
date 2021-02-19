@@ -58,4 +58,5 @@ def get_machine_info():
 
 if __name__ == "__main__":
     get_machine_info()
-    helpers.HOTSOSYaml.dump({"juju": JUJU_MACHINE_INFO})
+    if JUJU_MACHINE_INFO:
+        helpers.HOTSOSYaml.dump({"juju": JUJU_MACHINE_INFO})

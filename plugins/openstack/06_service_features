@@ -68,4 +68,11 @@ def get_service_features():
 if __name__ == "__main__":
     get_service_features()
     if SERVICE_FEATURES:
-        helpers.HOTSOSYaml.dump({"features": SERVICE_FEATURES}, indent=2)
+        SERVICE_FEATURES = {"features": SERVICE_FEATURES}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            SERVICE_FEATURES = {"openstack": SERVICE_FEATURES}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(SERVICE_FEATURES, indent=indent)

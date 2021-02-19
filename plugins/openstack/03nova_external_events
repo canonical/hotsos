@@ -65,5 +65,11 @@ if __name__ == "__main__":
     # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
     get_events("network-vif-plugged")
     if EXT_EVENT_INFO:
-        helpers.HOTSOSYaml.dump({"os-server-external-events": EXT_EVENT_INFO},
-                                indent=2)
+        EXT_EVENT_INFO = {"os-server-external-events": EXT_EVENT_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            EXT_EVENT_INFO = {"openstack": EXT_EVENT_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(EXT_EVENT_INFO, indent=indent)

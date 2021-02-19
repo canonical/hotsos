@@ -23,4 +23,11 @@ def get_vm_info():
 if __name__ == "__main__":
     get_vm_info()
     if VM_INFO:
-        helpers.HOTSOSYaml.dump({"instances": VM_INFO}, indent=2)
+        VM_INFO = {"instances": VM_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            VM_INFO = {"openstack": VM_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(VM_INFO, indent=indent)
