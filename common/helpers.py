@@ -3,6 +3,7 @@ import glob
 import os
 import subprocess
 import yaml
+import json
 
 # HOTSOS GLOBALS
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
@@ -171,6 +172,16 @@ def get_snap_list_all():
         return open(path, 'r').readlines()
 
 
+def get_ceph_osd_df_tree():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ceph', 'osd', 'df', 'tree'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_df_tree")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
 def get_ceph_osd_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'tree'])
@@ -181,14 +192,18 @@ def get_ceph_osd_tree():
         return open(path, 'r').readlines()
 
 
-def get_ceph_versions():
+def get_ceph_versions(json_fmt=False):
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'versions'])
         return output.decode('UTF-8').splitlines()
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_versions")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        if json_fmt:
+            with open(path) as jfile:
+                return json.load(jfile)
+        else:
+            return open(path, 'r').readlines()
 
 
 def get_sosreport_time():

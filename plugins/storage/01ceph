@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import re
 import subprocess
 
 from common import (
@@ -19,29 +18,51 @@ CEPH_SERVICES = [r"ceph-[A-Za-z]+",
 CEPH_INFO = {}
 
 
-# TODO: finish converting these
 def get_ceph_pg_imbalance():
     """
-    ## upstream recommends 50-100 OSDs ideally.
-    #for line in helpers.get_ceph_osd_df_tree():
-    #    bad_pgs=$( | awk '$NF ~ "^osd."{ pg=$(NF-1); if (pg > 0 && (pg < 50
-    #    || pg > 120)) printf "%s ", pg }')
-    #    if bad_pgs:
-    #        print("ceph-pgs: WARNING! Found OSDs with pg counts [$bad_pgs].
-    #    Recommended range is 50 - 100.")
+    Validate PG range.
+    Upstream recommends 50-200 OSDs ideally. Higher than 200 is
+    also valid if the OSD disks are of different sizes but such
+    are generally outliers.
     """
+    bad_pgs = {}
+    for line in helpers.get_ceph_osd_df_tree() or []:
+        try:
+            if line:
+                last = line.split()[-1]
+            if re.compile(r"^osd\.[0-9]+").match(last):
+                osd = line.split()[-1]
+                pg = int(line.split()[-3])
+                if pg > 0 and (pg < 50 or pg > 200):
+                    bad_pgs.update({osd: pg})
+        except IndexError:
+            pass
+
+    CEPH_INFO["pgs-per-osd"] = bad_pgs
 
 
 def get_ceph_versions_mismatch():
     """
-    ## Check versions of all running daemons are the same.
-    #for line in helpers.get_ceph_versions():
-    #    local count=$( | awk -F' ' '/ceph version/{arr[$3]=1}END{ c=0; for
-    #    (i in arr) c++; print c}')
-    #    if count > 1:
-    #        print("ceph-versions: WARNING! Found multiple ($count different)
-    #    versions of daemons running.")
+    Get versions of all Ceph daemons.
     """
+
+    data = helpers.get_ceph_versions(json_fmt=True)
+    out = {}
+
+    if data:
+        for unit, versions in data.items():
+            if unit == "overall":
+                continue
+            vers = []
+            for key, val in data[unit].items():
+                if re.compile(r"ceph version.+").match(key):
+                    d_ver = key.split()[2]
+                    if d_ver not in vers:
+                        vers.append(d_ver)
+            if vers:
+                out[unit] = vers
+
+    CEPH_INFO["versions"] = out
 
 
 def svc_exists(svc):
