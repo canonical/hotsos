@@ -106,7 +106,8 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                 with open(os.path.join(dtmp, conf_path), 'w') as fd:
                     fd.write(SVC_CONF)
 
-            with mock.patch.object(ost_01openstack, "DATA_ROOT", dtmp):
+            with mock.patch.object(ost_01openstack.constants,
+                                   "DATA_ROOT", dtmp):
                 ost_01openstack.get_debug_log_info()
                 self.assertEqual(ost_01openstack.OPENSTACK_INFO, result)
 

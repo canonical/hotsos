@@ -2,11 +2,10 @@
 import re
 import os
 
-from common import helpers
-
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+from common import (
+    constants,
+    helpers
+)
 
 CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
                             "openvswitch-agent":
@@ -34,7 +33,8 @@ SERVICE_FEATURES = {}
 def get_service_features():
     for service in FEATURES:
         for module in FEATURES[service]:
-            cfg = os.path.join(DATA_ROOT, CONFIG_FILES[service][module])
+            cfg = os.path.join(constants.DATA_ROOT,
+                               CONFIG_FILES[service][module])
             if not os.path.exists(cfg):
                 continue
 

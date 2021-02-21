@@ -2,17 +2,17 @@
 import re
 import os
 
-from common import helpers
-
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+from common import (
+    constants,
+    helpers
+)
 
 EXT_EVENT_INFO = {}
 
 
 def get_events(event_name):
-    data_source = os.path.join(DATA_ROOT, "var/log/nova/nova-compute.log")
+    data_source = os.path.join(constants.DATA_ROOT,
+                               "var/log/nova/nova-compute.log")
     if not os.path.exists(data_source):
         return
 

@@ -1,14 +1,11 @@
 #!/usr/bin/python3
 import re
-import os
 
-from common import helpers
+from common import (
+    helpers
+)
 
 from openstack_common import OST_PROJECTS, OST_DEP_PKGS
-
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
 
 DEP_LIST = OST_PROJECTS + OST_DEP_PKGS
 PKG_INFO = []
