@@ -3,17 +3,17 @@ import re
 import os
 import yaml
 
-from common import helpers
+from common import (
+    constants,
+    helpers
+)
 
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
-MASTER_YAML_OUT = os.environ.get('MASTER_YAML_OUT')
-
-CONFIG = {"nova": [{"path": os.path.join(DATA_ROOT, "etc/nova/nova.conf"),
+CONFIG = {"nova": [{"path": os.path.join(constants.DATA_ROOT,
+                                         "etc/nova/nova.conf"),
                     "key": "my_ip"}],
           "neutron": [{"path":
-                       os.path.join(DATA_ROOT, "etc/neutron/plugins/ml2/"
+                       os.path.join(constants.DATA_ROOT,
+                                    "etc/neutron/plugins/ml2/"
                                     "openvswitch_agent.ini"),
                        "key": "local_ip"}]}
 NETWORK_INFO = {}
@@ -105,7 +105,8 @@ def get_ns_info():
 
 def get_instances_info():
     """Get information e.g. ip link  stats for each port on a vm"""
-    openstack = yaml.safe_load(open(MASTER_YAML_OUT)).get("openstack", {})
+    openstack = yaml.safe_load(open(constants.MASTER_YAML_OUT)
+                               ).get("openstack", {})
     instances = openstack.get("instances")
     if instances is None:
         return

@@ -2,13 +2,14 @@
 import re
 import os
 
-from common import helpers
+from common import (
+    constants,
+    helpers
+)
+from juju_common import (
+    JUJU_LOG_PATH
+)
 
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
-
-JUJU_LOG_PATH = os.path.join(DATA_ROOT, "var/log/juju")
 JUJU_MACHINE_INFO = {"machines": {}}
 
 
@@ -34,7 +35,7 @@ def get_machine_info():
 
     combined_machines = ps_machines.union(log_machines)
     for machine in combined_machines:
-        agent_conf = os.path.join(DATA_ROOT,
+        agent_conf = os.path.join(constants.DATA_ROOT,
                                   "var/lib/juju/agents/machine-{}/agent.conf".
                                   format(machine))
         version = "unknown"

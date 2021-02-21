@@ -2,18 +2,21 @@
 import re
 import os
 
-from common import helpers
-from openstack_common import OST_PROJECTS, OST_SERVICES, OST_SERVICES_DEPS
-
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+from common import (
+    constants,
+    helpers
+)
+from openstack_common import (
+    OST_PROJECTS,
+    OST_SERVICES,
+    OST_SERVICES_DEPS
+)
 
 # configs that dont use standard /etc/<project>/<project>.conf
 OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
                      "swift": "proxy.conf"}
 
-APT_SOURCE_PATH = os.path.join(DATA_ROOT, "etc/apt/sources.list.d")
+APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, "etc/apt/sources.list.d")
 OPENSTACK_INFO = {}
 
 
@@ -62,7 +65,8 @@ def get_debug_log_info():
     for proj in OST_PROJECTS:
         path = OST_ETC_OVERRIDES.get(proj)
         if path is None:
-            path = os.path.join(DATA_ROOT, "etc", proj, "{}.conf".format(proj))
+            path = os.path.join(constants.DATA_ROOT,
+                                "etc", proj, "{}.conf".format(proj))
 
         if os.path.exists(path):
             for line in open(path).readlines():

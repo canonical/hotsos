@@ -2,13 +2,13 @@
 import re
 import os
 
-from common import helpers
-
 from uuid import uuid4
 
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
+from common import (
+    constants,
+    helpers
+)
+
 OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
     os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', False)
 
@@ -93,7 +93,7 @@ class OpenstackNovaConfig(object):
     nova_config = []
 
     def __init__(self):
-        path = os.path.join(DATA_ROOT, "etc/nova/nova.conf")
+        path = os.path.join(constants.DATA_ROOT, "etc/nova/nova.conf")
         if os.path.exists(path):
             self.nova_config = open(path, 'r').readlines()
 
@@ -150,7 +150,7 @@ class KernelConfig(object):
     kernel_config = []
 
     def __init__(self):
-        path = os.path.join(DATA_ROOT, "proc/cmdline")
+        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
         if os.path.exists(path):
             self.kernel_config = open(path, 'r').readlines()
 
@@ -177,7 +177,7 @@ class SystemdConfig(object):
     systemd_config = []
 
     def __init__(self):
-        path = os.path.join(DATA_ROOT, "etc/systemd/system.conf")
+        path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
         if os.path.exists(path):
             self.systemd_config = open(path, 'r').readlines()
 

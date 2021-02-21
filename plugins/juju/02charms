@@ -3,14 +3,14 @@ import glob
 import re
 import os
 
-from common import helpers
+from common import (
+    helpers
+)
+from juju_common import (
+    CHARM_MANIFEST_GLOB,
+    JUJU_LIB_PATH,
+)
 
-# HOTSOS GLOBALS
-VERBOSITY_LEVEL = int(os.environ.get('VERBOSITY_LEVEL', 0))
-DATA_ROOT = os.environ.get('DATA_ROOT', '/')
-
-JUJU_LIB_PATH = os.path.join(DATA_ROOT, "var/lib/juju")
-CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
 CHARM_VERSIONS = {"charm-versions": []}
 
 
