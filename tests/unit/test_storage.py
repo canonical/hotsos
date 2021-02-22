@@ -1,5 +1,5 @@
-import os
 import mock
+import os
 
 from importlib.util import spec_from_loader, module_from_spec
 from importlib.machinery import SourceFileLoader
@@ -34,6 +34,32 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
     def test_get_service_info(self):
         result = {'services': ['ceph-osd (6)']}
         storage_01ceph.get_service_info()
+        self.assertEqual(storage_01ceph.CEPH_INFO, result)
+
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_ceph_versions_mismatch(self):
+        result = {'versions': {
+                  'mgr': ['14.2.11'],
+                  'mon': ['14.2.11'],
+                  'osd': ['14.2.11'],
+                  'rgw': ['14.2.11']
+                  }}
+        storage_01ceph.get_ceph_versions_mismatch()
+        self.assertEqual(storage_01ceph.CEPH_INFO, result)
+
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_ceph_pg_imbalance(self):
+        result = {'pgs-per-osd': {
+                   'osd.0': 295,
+                   'osd.3': 214,
+                   'osd.15': 49,
+                   'osd.16': 316,
+                   'osd.17': 370,
+                   'osd.34': 392,
+                   'osd.37': 406,
+                   'osd.56': 209,
+                   'osd.72': 206}}
+        storage_01ceph.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, result)
 
 
