@@ -171,6 +171,16 @@ def get_snap_list_all():
         return open(path, 'r').readlines()
 
 
+def get_ceph_osd_df_tree():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ceph', 'osd', 'df', 'tree'])
+        return output.decode('UTF-8').splitlines()
+
+    path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_df_tree")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+
 def get_ceph_osd_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'tree'])
