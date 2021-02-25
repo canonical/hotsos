@@ -48,7 +48,12 @@ def get_ceph_versions_mismatch():
     """
 
     lines = helpers.get_ceph_versions()
-    data = json.loads(''.join(lines))
+    try:
+        data = json.loads(''.join(lines))
+    except ValueError:
+        CEPH_INFO["versions"] = "Unavailable"
+        return
+
     out = {}
 
     if data:
