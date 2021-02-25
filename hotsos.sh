@@ -43,6 +43,7 @@ declare -A PLUGINS=(
     [system]=true  # always do system by default
     [all]=false
 )
+override_all_default=false
 # output ordering
 declare -a PLUGIN_NAMES=( system openstack kubernetes storage juju kernel )
 
@@ -50,38 +51,39 @@ declare -a PLUGIN_NAMES=( system openstack kubernetes storage juju kernel )
 usage ()
 {
 cat << EOF
-USAGE: hotsos [OPTIONS] SOSPATH
+USAGE: hotsos [OPTIONS] [SOSPATH]
 
 OPTIONS
     -h|--help
         This message.
     --juju
-        Include Juju info.
+        Use the Juju plugin.
     --kernel
-        Include Kernel info.
+        Use the Kernel plugin.
     --list-plugins
         Show available plugins.
     --openstack
-        Include Openstack services info.
+        Use the Openstack plugin.
     --openstack-show-cpu-pinning-results
         The Openstack plugin will check for cpu pinning configurations and
         perform checks. By default only brief messgaes will be displayed when
         issues are found. Use this flag to get more detailed results.
     --kubernetes
-        Include info about Kubernetes
+        Use the Kubernetes plugin.
     --storage
-        Include storage info including Ceph.
+        Use the Storage plugin.
     --system
-        Include system info.
+        Use the System plugin.
     -s|--save
-        Save output to a file.
+        Save yaml output to a file.
     -a|--all
-        Enable all plugins.
+        Enable all plugins. This is the default.
     -v
         Increase amount of information displayed.
 
 SOSPATH
-    Path to a sosreport. Can be provided multiple times.
+    Path to a sosreport. Can be provided multiple times. If none provided,
+    will run against local host.
 
 EOF
 }
@@ -92,31 +94,41 @@ while (($#)); do
             usage
             exit 0
             ;;
+## PLUGINS ############
         --juju)
+            override_all_default=true
             PLUGINS[juju]=true
             ;;
-        --openstack)
-            PLUGINS[openstack]=true
-            ;;
-        --openstack-show-cpu-pinning-results)
-            OPENSTACK_SHOW_CPU_PINNING_RESULTS=true
-            ;;
-        --storage)
-            PLUGINS[storage]=true
-            ;;
         --kernel)
+            override_all_default=true
             PLUGINS[kernel]=true
             ;;
         --kubernetes)
+            override_all_default=true
             PLUGINS[kubernetes]=true
             ;;
+        --openstack)
+            override_all_default=true
+            PLUGINS[openstack]=true
+            ;;
+        --system)
+            override_all_default=true
+            PLUGINS[system]=true
+            ;;
+        --storage)
+            override_all_default=true
+            PLUGINS[storage]=true
+            ;;
+#######################
+## PLUGIN OPTS ########
+        --openstack-show-cpu-pinning-results)
+            OPENSTACK_SHOW_CPU_PINNING_RESULTS=true
+            ;;
+#######################
         --list-plugins)
             echo "Available plugins:"
             echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| xargs -l -I{} echo " - {}"
             exit
-            ;;
-        --system)
-            PLUGINS[system]=true
             ;;
         -s|--save)
             SAVE_OUTPUT=true
@@ -142,6 +154,10 @@ while (($#)); do
 done
 
 ((${#SOS_PATHS[@]})) || SOS_PATHS=( / )
+
+if ! $override_all_default && ! ${PLUGINS[all]}; then
+    PLUGINS[all]=true
+fi
 
 if ${PLUGINS[all]}; then
     PLUGINS[openstack]=true

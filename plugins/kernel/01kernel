@@ -91,10 +91,9 @@ check_nodes_memory () {
             echo "      node$node-${zones_type,,}:"
             zone_issue_found=true
             msg_suffix=""
-            ((VERBOSITY_LEVEL>=1)) || msg_suffix=" (use -v to show zones)"
             echo "${subsubsub_indent_str}may have limited high order memory - check ${DATA_ROOT}proc/buddyinfo$msg_suffix"
             # if verbosity is requested, show the zones
-            ((VERBOSITY_LEVEL>=1)) && check_mallocinfo $node $zones_type 1
+            check_mallocinfo $node $zones_type 1
         fi
     done
 
@@ -120,7 +119,7 @@ if $zone_issue_found; then
             echo -e "      compaction:\n${subsubsub_indent_str}failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
         fi
     fi
-    ((VERBOSITY_LEVEL>=1)) && get_slab_major_consumers
+    get_slab_major_consumers
 else
     echo "  memory-checks: no issues found"
 fi
