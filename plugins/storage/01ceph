@@ -4,7 +4,6 @@ import re
 import subprocess
 
 from common import (
-    constants,
     helpers
 )
 
@@ -130,37 +129,35 @@ def get_osd_info():
             if 'mark' in osd_info[osd_id]:
                 del osd_info[osd_id]['mark']
 
-            if constants.VERBOSITY_LEVEL >= 1:
-                for line in helpers.get_ps():
-                    ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
-                                     osd_id)).match(line)
-                    if ret:
-                        rss = int(int(line.split()[5]) / 1024)
-                        osd_info[osd_id]["rss"] = "{}M".format(rss)
+            for line in helpers.get_ps():
+                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
+                                 osd_id)).match(line)
+                if ret:
+                    rss = int(int(line.split()[5]) / 1024)
+                    osd_info[osd_id]["rss"] = "{}M".format(rss)
+                    break
+
+            for line in helpers.get_ps_axo_flags():
+                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
+                                 osd_id)).match(line)
+                if ret:
+                    osd_start = ' '.join(line.split()[13:17])
+                    if sos_time_secs and osd_start:
+                        cmd = ["date", "--date={}".format(osd_start),
+                               "+%s"]
+                        osd_start_secs = subprocess.check_output(cmd)
+                        osd_uptime_secs = (int(sos_time_secs) -
+                                           int(osd_start_secs))
+                        osd_uptime_str = seconds_to_date(osd_uptime_secs)
+                        osd_info[osd_id]["etime"] = osd_uptime_str
                         break
 
-                for line in helpers.get_ps_axo_flags():
-                    ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
-                                     osd_id)).match(line)
-                    if ret:
-                        osd_start = ' '.join(line.split()[13:17])
-                        if sos_time_secs and osd_start:
-                            cmd = ["date", "--date={}".format(osd_start),
-                                   "+%s"]
-                            osd_start_secs = subprocess.check_output(cmd)
-                            osd_uptime_secs = (int(sos_time_secs) -
-                                               int(osd_start_secs))
-                            osd_uptime_str = seconds_to_date(osd_uptime_secs)
-                            osd_info[osd_id]["etime"] = osd_uptime_str
-                            break
-
-            if constants.VERBOSITY_LEVEL >= 3:
-                ceph_osd_tree = helpers.get_ceph_osd_tree()
-                if ceph_osd_tree:
-                    for line in helpers.get_ceph_osd_tree():
-                        if line.split()[3] == "osd.{}".format(osd_id):
-                            osd_info[osd_id]["devtype"] = line.split()[1]
-                            break
+            ceph_osd_tree = helpers.get_ceph_osd_tree()
+            if ceph_osd_tree:
+                for line in helpers.get_ceph_osd_tree():
+                    if line.split()[3] == "osd.{}".format(osd_id):
+                        osd_info[osd_id]["devtype"] = line.split()[1]
+                        break
 
     if osd_info:
         CEPH_INFO["osds"] = osd_info
