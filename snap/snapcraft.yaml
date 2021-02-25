@@ -32,5 +32,5 @@ parts:
   hotsos-python:
     source: .
     plugin: python
-    stage-packages: [python3-yaml]
+    stage-packages: [python3-yaml, python3-simplejson]
 
