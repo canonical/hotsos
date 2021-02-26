@@ -39,7 +39,8 @@ def get_ceph_pg_imbalance():
         except IndexError:
             pass
 
-    CEPH_INFO["pgs-per-osd"] = bad_pgs
+    if bad_pgs:
+        CEPH_INFO["pgs-per-osd"] = bad_pgs
 
 
 def get_ceph_versions_mismatch():
@@ -51,10 +52,9 @@ def get_ceph_versions_mismatch():
     try:
         data = json.loads(''.join(lines))
     except ValueError:
-        CEPH_INFO["versions"] = "Unavailable"
         return
 
-    out = {}
+    daemon_version_info = {}
 
     if data:
         for unit, versions in data.items():
@@ -67,9 +67,10 @@ def get_ceph_versions_mismatch():
                     if d_ver not in vers:
                         vers.append(d_ver)
             if vers:
-                out[unit] = vers
+                daemon_version_info[unit] = vers
 
-    CEPH_INFO["versions"] = out
+    if daemon_version_info:
+        CEPH_INFO["versions"] = daemon_version_info
 
 
 def svc_exists(svc):
