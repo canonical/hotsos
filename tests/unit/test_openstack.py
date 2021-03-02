@@ -11,8 +11,8 @@ import utils
 # need this for non-standard import
 specs = {}
 for plugin in ["01openstack", "02vm_info", "03nova_external_events",
-               "04package_versions", "05network", "06_service_features",
-               "07_cpu_pinning_check"]:
+               "04package_versions", "05network", "06service_features",
+               "07cpu_pinning_check"]:
     loader = SourceFileLoader("ost_{}".format(plugin),
                               "plugins/openstack/{}".format(plugin))
     specs[plugin] = spec_from_loader("ost_{}".format(plugin), loader)
@@ -33,11 +33,11 @@ specs["04package_versions"].loader.exec_module(ost_04package_versions)
 ost_05network = module_from_spec(specs["05network"])
 specs["05network"].loader.exec_module(ost_05network)
 
-ost_06_service_features = module_from_spec(specs["06_service_features"])
-specs["06_service_features"].loader.exec_module(ost_06_service_features)
+ost_06service_features = module_from_spec(specs["06service_features"])
+specs["06service_features"].loader.exec_module(ost_06service_features)
 
-ost_07_cpu_pinning_check = module_from_spec(specs["07_cpu_pinning_check"])
-specs["07_cpu_pinning_check"].loader.exec_module(ost_07_cpu_pinning_check)
+ost_07cpu_pinning_check = module_from_spec(specs["07cpu_pinning_check"])
+specs["07cpu_pinning_check"].loader.exec_module(ost_07cpu_pinning_check)
 
 
 APT_UCA = """
@@ -199,7 +199,7 @@ class TestOpenstackPlugin05network(utils.BaseTestCase):
         self.assertEqual(ns_info, None)
 
 
-class TestOpenstackPlugin06_service_features(utils.BaseTestCase):
+class TestOpenstackPlugin06service_features(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -208,7 +208,7 @@ class TestOpenstackPlugin06_service_features(utils.BaseTestCase):
         super().tearDown()
 
 
-class TestOpenstackPlugin07_cpu_pinning_check(utils.BaseTestCase):
+class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
