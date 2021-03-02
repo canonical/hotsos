@@ -38,9 +38,9 @@ class TestSearchTools(utils.BaseTestCase):
                           tag="T4")
 
         results = s.search()
-        self.assertEquals(set(results.all.keys()), set([filepath,
-                                                        globpath_file2,
-                                                        globpath_file1]))
+        self.assertEquals(set(results.files), set([filepath,
+                                                   globpath_file2,
+                                                   globpath_file1]))
 
         self.assertEquals(len(results.find_by_path(filepath)), 6)
 
@@ -81,7 +81,7 @@ class TestSearchTools(utils.BaseTestCase):
                           filepath2)
 
         results = s.search()
-        self.assertEquals(set(results.all.keys()), set([filepath, filepath2]))
+        self.assertEquals(set(results.files), set([filepath, filepath2]))
         self.assertEquals(len(results.find_by_path(filepath)), 1)
         self.assertEquals(len(results.find_by_path(filepath2)), 3)
 

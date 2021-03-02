@@ -62,3 +62,5 @@ OST_DEP_PKGS = [r"conntrack",
                 r"qemu-kvm",
                 r"rabbitmq-server",
                 ]
+
+NEUTRON_LOGS = "var/log/neutron"

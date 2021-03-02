@@ -1,4 +1,6 @@
 import os
+
+import datetime
 import mock
 import tempfile
 
@@ -12,7 +14,7 @@ import utils
 specs = {}
 for plugin in ["01openstack", "02vm_info", "03nova_external_events",
                "04package_versions", "05network", "06service_features",
-               "07cpu_pinning_check"]:
+               "07cpu_pinning_check", "08neutron_openvswitch"]:
     loader = SourceFileLoader("ost_{}".format(plugin),
                               "plugins/openstack/{}".format(plugin))
     specs[plugin] = spec_from_loader("ost_{}".format(plugin), loader)
@@ -38,6 +40,9 @@ specs["06service_features"].loader.exec_module(ost_06service_features)
 
 ost_07cpu_pinning_check = module_from_spec(specs["07cpu_pinning_check"])
 specs["07cpu_pinning_check"].loader.exec_module(ost_07cpu_pinning_check)
+
+ost_08neutron_openvswitch = module_from_spec(specs["08neutron_openvswitch"])
+specs["08neutron_openvswitch"].loader.exec_module(ost_08neutron_openvswitch)
 
 
 APT_UCA = """
@@ -215,3 +220,25 @@ class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
 
     def tearDown(self):
         super().tearDown()
+
+
+class TestOpenstackPlugin08neutron_openvswitch(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(ost_08neutron_openvswitch, "NEUTRON_OVS_AGENT_INFO", {})
+    def test_get_rpc_loop_too_long(self):
+        start0 = datetime.datetime(2021, 2, 25, 14, 22, 19, 587000)
+        end1 = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
+        start1 = datetime.datetime(2021, 3, 2, 14, 26, 29, 780000)
+        expected = {'rpc-loop-max': {0: {'start': start0},
+                                     1438: {'duration': 25.9,
+                                            'end': end1,
+                                            'start': start1}}}
+        ost_08neutron_openvswitch.get_rpc_loop_too_long()
+        self.assertEqual(ost_08neutron_openvswitch.NEUTRON_OVS_AGENT_INFO,
+                         expected)

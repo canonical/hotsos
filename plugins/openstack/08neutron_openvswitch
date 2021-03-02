@@ -1,0 +1,88 @@
+#!/usr/bin/python3
+import os
+
+from datetime import datetime
+
+from common import (
+    constants,
+    helpers,
+    searchtools,
+)
+from openstack_common import (
+    NEUTRON_LOGS,
+)
+
+NEUTRON_OVS_AGENT_INFO = {}
+
+
+def get_rpc_loop_too_long():
+    rpc_loops = {}
+
+    s = searchtools.FileSearcher()
+    data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                               'neutron-openvswitch-agent.log')
+    s.add_search_term(r"^(\S+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
+                      "started.*", [1, 2, 3], data_source,
+                      tag="rpc-loop-start")
+    s.add_search_term(r"^(\S+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
+                      "completed..+Elapsed:([0-9.]+).+",
+                      [1, 2, 3, 4], data_source, tag="rpc-loop-end")
+    results = s.search()
+    for path in results:
+        for result in results.find_by_tag(path, tag="rpc-loop-start"):
+            day = result.get(1)
+            secs = result.get(2)
+            iteration = int(result.get(3))
+            start = "{} {}".format(day, secs)
+            start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+            rpc_loops[iteration] = {"start": start}
+
+        for result in results.find_by_tag(path, tag="rpc-loop-end"):
+            day = result.get(1)
+            secs = result.get(2)
+            iteration = int(result.get(3))
+            duration = float(result.get(4))
+            if iteration in rpc_loops:
+                if duration > 2:
+                    end = "{} {}".format(day, secs)
+                    end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+                    rpc_loops[iteration]["end"] = end
+                    rpc_loops[iteration]["duration"] = duration
+                else:
+                    del rpc_loops[iteration]
+
+    if not rpc_loops:
+        return
+
+    limit = 5
+    count = 0
+    top_n = {}
+    top_n_sorted = {}
+
+    for k, v in sorted(rpc_loops.items(),
+                       key=lambda x: x[1].get("duration", 0),
+                       reverse=True):
+        if count >= limit:
+            break
+
+        count += 1
+        top_n[k] = v
+
+    for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
+                       reverse=True):
+        top_n_sorted[k] = v
+
+    NEUTRON_OVS_AGENT_INFO["rpc-loop-max"] = top_n_sorted
+
+
+if __name__ == "__main__":
+    get_rpc_loop_too_long()
+    if NEUTRON_OVS_AGENT_INFO:
+        NEUTRON_OVS_AGENT_INFO = {"neutron-ovs-agent": NEUTRON_OVS_AGENT_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            NEUTRON_OVS_AGENT_INFO = {"openstack": NEUTRON_OVS_AGENT_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(NEUTRON_OVS_AGENT_INFO, indent=indent)

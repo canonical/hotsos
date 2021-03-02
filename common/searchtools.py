@@ -38,6 +38,10 @@ class SearchResultsCollection(object):
         self._iter_idx = 0
         self._results = {}
 
+    @property
+    def files(self):
+        return list(self._results.keys())
+
     def add(self, path, results):
         self._results[path] = results
 
@@ -55,9 +59,8 @@ class SearchResultsCollection(object):
 
         return results
 
-    @property
-    def all(self):
-        return self._results
+    def __iter__(self):
+        return iter(self._results)
 
 
 class FileSearcher(object):

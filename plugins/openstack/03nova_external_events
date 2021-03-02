@@ -35,7 +35,7 @@ def get_events(event_name, data_source):
     # now start a fresh one
     s = searchtools.FileSearcher()
 
-    for file in master_results.all:
+    for file in master_results:
         results = master_results.find_by_path(file)
         for result in results:
             instance_id = result.get(1)
