@@ -36,6 +36,13 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
         storage_01ceph.get_service_info()
         self.assertEqual(storage_01ceph.CEPH_INFO, result)
 
+    @mock.patch.object(storage_01ceph.helpers, "get_ps",
+                       lambda: [])
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_service_info_unavailable(self):
+        storage_01ceph.get_service_info()
+        self.assertEqual(storage_01ceph.CEPH_INFO, {})
+
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch(self):
         result = {'versions': {
@@ -75,6 +82,17 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
     def test_get_ceph_pg_imbalance_unavailable(self):
         storage_01ceph.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, {})
+
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_osd_info(self):
+        expected = {'osds': {63: {'dev': '/dev/bcache0', 'rss': '3867M'},
+                             70: {'dev': '/dev/bcache4', 'rss': '4041M'},
+                             81: {'dev': '/dev/bcache1', 'rss': '4065M'},
+                             90: {'dev': '/dev/bcache2', 'rss': '4114M'},
+                             101: {'dev': '/dev/bcache3', 'rss': '3965M'},
+                             109: {'dev': '/dev/bcache5', 'rss': '3898M'}}}
+        storage_01ceph.get_osd_info()
+        self.assertEqual(storage_01ceph.CEPH_INFO, expected)
 
 
 class TestStoragePlugin02bcache(utils.BaseTestCase):

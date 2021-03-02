@@ -62,6 +62,8 @@ def get_ip_addr():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_ip_link_show():
     if DATA_ROOT == '/':
@@ -71,6 +73,8 @@ def get_ip_link_show():
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-s_-d_link")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_dpkg_l():
@@ -84,6 +88,8 @@ def get_dpkg_l():
         # surrogateescape.
         return open(path, 'r', errors="surrogateescape").readlines()
 
+    return []
+
 
 def get_ps():
     if DATA_ROOT == '/':
@@ -93,6 +99,8 @@ def get_ps():
     path = os.path.join(DATA_ROOT, "ps")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_ps_axo_flags():
@@ -110,6 +118,8 @@ def get_ps_axo_flags():
     for path in glob.glob(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_numactl():
     if DATA_ROOT == '/':
@@ -119,6 +129,8 @@ def get_numactl():
     path = os.path.join(DATA_ROOT, "sos_commands/numa/numactl_--hardware")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_lscpu():
@@ -130,6 +142,8 @@ def get_lscpu():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_uptime():
     if DATA_ROOT == '/':
@@ -139,6 +153,8 @@ def get_uptime():
     path = os.path.join(DATA_ROOT, "uptime")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_df():
@@ -150,6 +166,8 @@ def get_df():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_apt_config_dump():
     if DATA_ROOT == '/':
@@ -159,6 +177,8 @@ def get_apt_config_dump():
     path = os.path.join(DATA_ROOT, "sos_commands/apt/apt-config_dump")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_snap_list_all():
@@ -170,6 +190,8 @@ def get_snap_list_all():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_ceph_osd_df_tree():
     if DATA_ROOT == '/':
@@ -179,6 +201,8 @@ def get_ceph_osd_df_tree():
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_df_tree")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_ceph_osd_tree():
@@ -190,6 +214,8 @@ def get_ceph_osd_tree():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_ceph_versions():
     if DATA_ROOT == '/':
@@ -199,6 +225,8 @@ def get_ceph_versions():
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_versions")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_sosreport_time():
@@ -214,6 +242,8 @@ def get_sosreport_time():
                                               "+%s"])
             return output.decode('UTF-8').splitlines()[0]
 
+    return []
+
 
 def get_ceph_volume_lvm_list():
     if DATA_ROOT == '/':
@@ -224,6 +254,8 @@ def get_ceph_volume_lvm_list():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_ls_lanR_sys_block():
     if DATA_ROOT == '/':
@@ -233,6 +265,8 @@ def get_ls_lanR_sys_block():
     path = os.path.join(DATA_ROOT, "sos_commands/block/ls_-lanR_.sys.block")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
 
 
 def get_udevadm_info_dev(dev):
@@ -246,6 +280,8 @@ def get_udevadm_info_dev(dev):
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_ip_netns():
     if DATA_ROOT == '/':
@@ -256,6 +292,8 @@ def get_ip_netns():
     if os.path.exists(path):
         return open(path, 'r').readlines()
 
+    return []
+
 
 def get_hostname():
     if DATA_ROOT == '/':
@@ -265,3 +303,5 @@ def get_hostname():
     path = os.path.join(DATA_ROOT, "hostname")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+
+    return []
