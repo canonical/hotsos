@@ -47,6 +47,13 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
         storage_01ceph.get_ceph_versions_mismatch()
         self.assertEqual(storage_01ceph.CEPH_INFO, result)
 
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_versions",
+                       lambda: [])
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_ceph_versions_mismatch_unavailable(self):
+        storage_01ceph.get_ceph_versions_mismatch()
+        self.assertEqual(storage_01ceph.CEPH_INFO, {})
+
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance(self):
         result = {'pgs-per-osd': {
@@ -61,6 +68,13 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
                    'osd.72': 206}}
         storage_01ceph.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, result)
+
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree",
+                       lambda: [])
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_ceph_pg_imbalance_unavailable(self):
+        storage_01ceph.get_ceph_pg_imbalance()
+        self.assertEqual(storage_01ceph.CEPH_INFO, {})
 
 
 class TestStoragePlugin02bcache(utils.BaseTestCase):

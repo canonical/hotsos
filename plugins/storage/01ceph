@@ -26,8 +26,12 @@ def get_ceph_pg_imbalance():
     also valid if the OSD disks are of different sizes but such
     are generally outliers.
     """
+    ceph_osd_tree = helpers.get_ceph_osd_df_tree()
+    if not ceph_osd_tree:
+        return
+
     bad_pgs = {}
-    for line in helpers.get_ceph_osd_df_tree() or []:
+    for line in ceph_osd_tree:
         try:
             if line:
                 last = line.split()[-1]
@@ -48,9 +52,13 @@ def get_ceph_versions_mismatch():
     Get versions of all Ceph daemons.
     """
 
-    lines = helpers.get_ceph_versions()
+    ceph_versions = helpers.get_ceph_versions()
+    if not ceph_versions:
+        return
+
+    data = None
     try:
-        data = json.loads(''.join(lines))
+        data = json.loads(''.join(ceph_versions))
     except ValueError:
         return
 
