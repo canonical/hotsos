@@ -29,7 +29,13 @@ def unattended_upgrades_enabled():
 
 
 def get_system_info():
-    SYSTEM_INFO["hostname"] = helpers.get_hostname()[0].split()[0]
+    hostname = helpers.get_hostname()
+    if hostname:
+        hostname = hostname[0].split()[0]
+    else:
+        hostname = "unavailable"
+
+    SYSTEM_INFO["hostname"] = hostname
 
     data_source = os.path.join(constants.DATA_ROOT, "etc/lsb-release")
     if os.path.exists(data_source):
