@@ -20,6 +20,8 @@ apps:
   hotsos:
     command: hotsos.sh
     plugs: [home, removable-media]
+    environment:
+      LD_PRELOAD: "$SNAP/libpreload-semaphores.so"
 parts:
   hotsos:
     source: .
@@ -33,4 +35,7 @@ parts:
     source: .
     plugin: python
     stage-packages: [python3-yaml, python3-simplejson]
-
+  sem-open-preload:
+    source: https://github.com/snapcore/snapcraft-preloads.git
+    source-subdir: semaphores
+    plugin: make
