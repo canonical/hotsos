@@ -53,10 +53,23 @@ def bool_str(val):
     return val
 
 
+def catch_exception(exc_type):
+    def catch_exception_inner1(f):
+        def catch_exception_inner2(*args, **kwargs):
+            try:
+                return f(*args, **kwargs)
+            except exc_type:
+                return []
+
+        return catch_exception_inner2
+
+    return catch_exception_inner1
+
+
 def get_ip_addr():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ip', '-d', 'address'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-d_address")
     if os.path.exists(path):
@@ -65,10 +78,11 @@ def get_ip_addr():
     return []
 
 
+@catch_exception(OSError)
 def get_ip_link_show():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ip', '-s', '-d', 'link'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-s_-d_link")
     if os.path.exists(path):
@@ -77,10 +91,11 @@ def get_ip_link_show():
     return []
 
 
+@catch_exception(OSError)
 def get_dpkg_l():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['dpkg', '-l'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/dpkg/dpkg_-l")
     if os.path.exists(path):
@@ -91,10 +106,11 @@ def get_dpkg_l():
     return []
 
 
+@catch_exception(OSError)
 def get_ps():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ps', 'auxwww'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "ps")
     if os.path.exists(path):
@@ -103,12 +119,13 @@ def get_ps():
     return []
 
 
+@catch_exception(OSError)
 def get_ps_axo_flags():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ps', 'axo', 'flags,state,uid,pid,'
                                           'ppid,pgid,sid,cls,pri,addr,sz,'
                                           'wchan:20,lstart,tty,time,cmd'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     # Older sosrepot uses 'wchan' option while newer ones use 'wchan:20' -
     # thus the glob is to cover both
@@ -121,10 +138,11 @@ def get_ps_axo_flags():
     return []
 
 
+@catch_exception(OSError)
 def get_numactl():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['numactl', '--hardware'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/numa/numactl_--hardware")
     if os.path.exists(path):
@@ -133,10 +151,11 @@ def get_numactl():
     return []
 
 
+@catch_exception(OSError)
 def get_lscpu():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['lscpu'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/processor/lscpu")
     if os.path.exists(path):
@@ -145,10 +164,11 @@ def get_lscpu():
     return []
 
 
+@catch_exception(OSError)
 def get_uptime():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['uptime'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "uptime")
     if os.path.exists(path):
@@ -157,10 +177,11 @@ def get_uptime():
     return []
 
 
+@catch_exception(OSError)
 def get_df():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['df'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "df")
     if os.path.exists(path):
@@ -169,10 +190,11 @@ def get_df():
     return []
 
 
+@catch_exception(OSError)
 def get_apt_config_dump():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['apt-config', 'dump'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/apt/apt-config_dump")
     if os.path.exists(path):
@@ -181,10 +203,11 @@ def get_apt_config_dump():
     return []
 
 
+@catch_exception(OSError)
 def get_snap_list_all():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['snap', 'list', '--all'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/snappy/snap_list_--all")
     if os.path.exists(path):
@@ -193,10 +216,11 @@ def get_snap_list_all():
     return []
 
 
+@catch_exception(OSError)
 def get_ceph_osd_df_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'df', 'tree'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_df_tree")
     if os.path.exists(path):
@@ -205,10 +229,11 @@ def get_ceph_osd_df_tree():
     return []
 
 
+@catch_exception(OSError)
 def get_ceph_osd_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'tree'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_tree")
     if os.path.exists(path):
@@ -217,10 +242,11 @@ def get_ceph_osd_tree():
     return []
 
 
+@catch_exception(OSError)
 def get_ceph_versions():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'versions'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_versions")
     if os.path.exists(path):
@@ -229,10 +255,11 @@ def get_ceph_versions():
     return []
 
 
+@catch_exception(OSError)
 def get_sosreport_time():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['date', '+%s'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/date/date")
     if os.path.exists(path):
@@ -240,15 +267,16 @@ def get_sosreport_time():
             date = fd.read()
             output = subprocess.check_output(["date", "--date={}".format(date),
                                               "+%s"])
-            return output.decode('UTF-8').splitlines()[0]
+            return output.decode('UTF-8').splitlines(keepends=True)[0]
 
     return []
 
 
+@catch_exception(OSError)
 def get_ceph_volume_lvm_list():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph-volume', 'lvm', 'list'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph-volume_lvm_list")
     if os.path.exists(path):
@@ -257,10 +285,11 @@ def get_ceph_volume_lvm_list():
     return []
 
 
+@catch_exception(OSError)
 def get_ls_lanR_sys_block():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ls', '-lanR', '/sys/block/'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/block/ls_-lanR_.sys.block")
     if os.path.exists(path):
@@ -269,11 +298,12 @@ def get_ls_lanR_sys_block():
     return []
 
 
+@catch_exception(OSError)
 def get_udevadm_info_dev(dev):
     if DATA_ROOT == '/':
         output = subprocess.check_output(['udevadm', 'info',
                                           '/dev/{}'.format(dev)])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/block/udevadm_info_.dev.{}".
                         format(dev))
@@ -283,10 +313,11 @@ def get_udevadm_info_dev(dev):
     return []
 
 
+@catch_exception(OSError)
 def get_ip_netns():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ip', 'netns'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_netns")
     if os.path.exists(path):
@@ -295,10 +326,11 @@ def get_ip_netns():
     return []
 
 
+@catch_exception(OSError)
 def get_hostname():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['hostname'])
-        return output.decode('UTF-8').splitlines()
+        return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "hostname")
     if os.path.exists(path):
