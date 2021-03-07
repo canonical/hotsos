@@ -51,16 +51,26 @@ class SearchResultsCollection(object):
 
         return self._results[path]
 
-    def find_by_tag(self, path, tag):
+    def find_by_tag(self, tag, path=None):
+        """Return all result tagged with tag.
+
+        If no path is provided tagged results from all paths are returned.
+        """
         results = []
-        for result in self._results.get(path, []):
-            if result.tag == tag:
-                results.append(result)
+        if path:
+            paths = [path]
+        else:
+            paths = list(self._results.keys())
+
+        for path in paths:
+            for result in self._results.get(path, []):
+                if result.tag == tag:
+                    results.append(result)
 
         return results
 
     def __iter__(self):
-        return iter(self._results)
+        return iter(self._results.items())
 
 
 class FileSearcher(object):

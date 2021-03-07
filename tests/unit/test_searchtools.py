@@ -44,7 +44,14 @@ class TestSearchTools(utils.BaseTestCase):
 
         self.assertEquals(len(results.find_by_path(filepath)), 6)
 
-        tag_results = results.find_by_tag(filepath, "T1")
+        tag_results = results.find_by_tag("T1", path=filepath)
+        self.assertEquals(len(tag_results), 2)
+        for result in tag_results:
+            ln = result.linenumber
+            self.assertEquals(result.tag, "T1")
+            self.assertEquals(result.get(1), expected[ln])
+
+        tag_results = results.find_by_tag("T1")
         self.assertEquals(len(tag_results), 2)
         for result in tag_results:
             ln = result.linenumber

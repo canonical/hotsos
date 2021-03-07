@@ -28,28 +28,27 @@ def get_rpc_loop_too_long():
                       "completed..+Elapsed:([0-9.]+).+",
                       [1, 2, 3, 4], data_source, tag="rpc-loop-end")
     results = s.search()
-    for path in results:
-        for result in results.find_by_tag(path, tag="rpc-loop-start"):
-            day = result.get(1)
-            secs = result.get(2)
-            iteration = int(result.get(3))
-            start = "{} {}".format(day, secs)
-            start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
-            rpc_loops[iteration] = {"start": start}
+    for result in results.find_by_tag("rpc-loop-start"):
+        day = result.get(1)
+        secs = result.get(2)
+        iteration = int(result.get(3))
+        start = "{} {}".format(day, secs)
+        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+        rpc_loops[iteration] = {"start": start}
 
-        for result in results.find_by_tag(path, tag="rpc-loop-end"):
-            day = result.get(1)
-            secs = result.get(2)
-            iteration = int(result.get(3))
-            duration = float(result.get(4))
-            if iteration in rpc_loops:
-                if duration > 2:
-                    end = "{} {}".format(day, secs)
-                    end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-                    rpc_loops[iteration]["end"] = end
-                    rpc_loops[iteration]["duration"] = duration
-                else:
-                    del rpc_loops[iteration]
+    for result in results.find_by_tag("rpc-loop-end"):
+        day = result.get(1)
+        secs = result.get(2)
+        iteration = int(result.get(3))
+        duration = float(result.get(4))
+        if iteration in rpc_loops:
+            if duration > 2:
+                end = "{} {}".format(day, secs)
+                end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+                rpc_loops[iteration]["end"] = end
+                rpc_loops[iteration]["duration"] = duration
+            else:
+                del rpc_loops[iteration]
 
     if not rpc_loops:
         return
