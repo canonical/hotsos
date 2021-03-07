@@ -27,6 +27,7 @@ export DATA_ROOT
 export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
 # This is the path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT
+export USE_ALL_LOGS=false
 
 # import helpers functions
 . `dirname $0`/common/helpers.sh
@@ -76,6 +77,11 @@ OPTIONS
         Use the System plugin.
     -s|--save
         Save yaml output to a file.
+    --all-logs
+        Some plugins may choose to only analyse the most recent version of a
+        log file by default since parsing the full history could take a lot
+        longer. Setting this to true tells plugins that we wish to analyse
+        all available log history.
     -a|--all
         Enable all plugins. This is the default.
     -v
@@ -135,6 +141,9 @@ while (($#)); do
             ;;
         -a|--all)
             PLUGINS[all]=true
+            ;;
+        --all-logs)
+            USE_ALL_LOGS=true
             ;;
         -v)
             VERBOSITY_LEVEL=1
