@@ -1,0 +1,59 @@
+#!/usr/bin/python3
+import os
+
+from common import (
+    constants,
+    helpers,
+    searchtools,
+)
+from openstack_common import (
+    NEUTRON_LOGS,
+)
+
+NEUTRON_AGENT_ERROR_INFO = {}
+
+
+def get_rpc_message_timeout(agent):
+    s = searchtools.FileSearcher()
+    data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                               "{}.log*".format(agent))
+    if not constants.USE_ALL_LOGS:
+        data_source = os.path.join(data_source, '{}.log'.format(agent))
+
+    s.add_search_term(r"^(\S+) (\S+) .+MessagingTimeout.+", [1, 2],
+                      data_source)
+    results = s.search()
+
+    rpc_timeouts = {}
+    for path, _results in results:
+        for result in _results:
+            day = str(result.get(1))
+            if day not in rpc_timeouts:
+                rpc_timeouts[day] = 0
+
+            rpc_timeouts[day] += 1
+
+    if not rpc_timeouts:
+        return
+
+    rpc_timeouts_sorted = {}
+    for k, v in sorted(rpc_timeouts.items(), key=lambda x: x[0]):
+        rpc_timeouts_sorted[k] = v
+
+    NEUTRON_AGENT_ERROR_INFO[agent] = {"MessagingTimeout": rpc_timeouts_sorted}
+
+
+if __name__ == "__main__":
+    get_rpc_message_timeout("neutron-openvswitch-agent")
+    get_rpc_message_timeout("neutron-dhcp-agent")
+    get_rpc_message_timeout("neutron-l3-agent")
+    if NEUTRON_AGENT_ERROR_INFO:
+        NEUTRON_AGENT_ERROR_INFO = {"neutron-agent-errors":
+                                    NEUTRON_AGENT_ERROR_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            NEUTRON_AGENT_ERROR_INFO = {"openstack": NEUTRON_AGENT_ERROR_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(NEUTRON_AGENT_ERROR_INFO, indent=indent)

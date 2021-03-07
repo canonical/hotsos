@@ -14,7 +14,8 @@ import utils
 specs = {}
 for plugin in ["01openstack", "02vm_info", "03nova_external_events",
                "04package_versions", "05network", "06service_features",
-               "07cpu_pinning_check", "08neutron_openvswitch"]:
+               "07cpu_pinning_check", "08neutron_openvswitch",
+               "09neutron_agent_errors"]:
     loader = SourceFileLoader("ost_{}".format(plugin),
                               "plugins/openstack/{}".format(plugin))
     specs[plugin] = spec_from_loader("ost_{}".format(plugin), loader)
@@ -42,7 +43,10 @@ ost_07cpu_pinning_check = module_from_spec(specs["07cpu_pinning_check"])
 specs["07cpu_pinning_check"].loader.exec_module(ost_07cpu_pinning_check)
 
 ost_08neutron_openvswitch = module_from_spec(specs["08neutron_openvswitch"])
+
 specs["08neutron_openvswitch"].loader.exec_module(ost_08neutron_openvswitch)
+ost_09neutron_agent_errors = module_from_spec(specs["09neutron_agent_errors"])
+specs["09neutron_agent_errors"].loader.exec_module(ost_09neutron_agent_errors)
 
 
 APT_UCA = """
@@ -241,4 +245,23 @@ class TestOpenstackPlugin08neutron_openvswitch(utils.BaseTestCase):
                                             'start': start1}}}
         ost_08neutron_openvswitch.get_rpc_loop_too_long()
         self.assertEqual(ost_08neutron_openvswitch.NEUTRON_OVS_AGENT_INFO,
+                         expected)
+
+
+class TestOpenstackPlugin09neutron_agent_errors(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(ost_09neutron_agent_errors, "NEUTRON_AGENT_ERROR_INFO",
+                       {})
+    def test_get_rpc_message_timeout(self):
+        expected = {'neutron-openvswitch-agent': {'MessagingTimeout':
+                                                  {'2021-03-04': 2}}}
+        ost_09neutron_agent_errors.get_rpc_message_timeout(
+                                                   "neutron-openvswitch-agent")
+        self.assertEqual(ost_09neutron_agent_errors.NEUTRON_AGENT_ERROR_INFO,
                          expected)
