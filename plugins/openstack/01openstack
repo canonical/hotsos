@@ -42,7 +42,8 @@ def get_release_info():
 
     release_info = {}
     for source in os.listdir(APT_SOURCE_PATH):
-        for line in open(os.path.join(APT_SOURCE_PATH, source)).readlines():
+        apt_path = os.path.join(APT_SOURCE_PATH, source)
+        for line in helpers.safe_readlines(apt_path):
             ret = re.compile(r"(.+cloud.+)").match(line)
             if ret:
                 ret = re.compile(r".+-updates/([a-z]+)\s.*").match(line)
@@ -69,7 +70,7 @@ def get_debug_log_info():
                                 "etc", proj, "{}.conf".format(proj))
 
         if os.path.exists(path):
-            for line in open(path).readlines():
+            for line in helpers.safe_readlines(path):
                 ret = re.compile(r"^debug\s*=\s*([A-Za-z]+).*").match(line)
                 if ret:
                     debug_enabled[proj] = helpers.bool_str(ret[1])

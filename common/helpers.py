@@ -44,6 +44,10 @@ class HOTSOSYaml(object):
         print('\n'.join(indented))
 
 
+def safe_readlines(path):
+    return open(path, 'r', errors="surrogateescape").readlines()
+
+
 def bool_str(val):
     if val.lower() == "true":
         return True
@@ -101,7 +105,7 @@ def get_dpkg_l():
     if os.path.exists(path):
         # I have observed UnicodeDecodeError with this file so switching to
         # surrogateescape.
-        return open(path, 'r', errors="surrogateescape").readlines()
+        return safe_readlines(path)
 
     return []
 
