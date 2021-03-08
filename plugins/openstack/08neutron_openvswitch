@@ -19,9 +19,11 @@ def get_rpc_loop_too_long():
     rpc_loops = {}
 
     s = searchtools.FileSearcher()
-    data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS)
-    if not constants.USE_ALL_LOGS:
-        data_source = os.path.join(data_source,
+    if constants.USE_ALL_LOGS:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-openvswitch-agent.log*')
+    else:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
                                    'neutron-openvswitch-agent.log')
 
     s.add_search_term(r"^(\S+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "

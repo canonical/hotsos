@@ -64,3 +64,4 @@ OST_DEP_PKGS = [r"conntrack",
                 ]
 
 NEUTRON_LOGS = "var/log/neutron"
+NOVA_LOGS = "var/log/nova"

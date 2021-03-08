@@ -15,10 +15,12 @@ NEUTRON_AGENT_ERROR_INFO = {}
 
 def get_rpc_message_timeout(agent):
     s = searchtools.FileSearcher()
-    data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                               "{}.log*".format(agent))
-    if not constants.USE_ALL_LOGS:
-        data_source = os.path.join(data_source, '{}.log'.format(agent))
+    if constants.USE_ALL_LOGS:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   '{}.log*'.format(agent))
+    else:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   '{}.log'.format(agent))
 
     s.add_search_term(r"^(\S+) (\S+) .+MessagingTimeout.+", [1, 2],
                       data_source)

@@ -6,3 +6,35 @@
 2021-01-27 16:12:04.865 75470 DEBUG nova.compute.manager [req-1d46124e-6e84-4643-89b5-54da1310239e efe503c59aae4925bfc26898dc421480 836efddf6fe04ba8b37dcb4d8e177e97 - a683a58942244eb9b6032c7c427c7ad2 a683a58942244eb9b6032c7c427c7ad2] [instance: d2666e01-73c8-4a97-9c22-0c175659e6db] Processing event network-vif-plugged-1824336a-4bc3-46bb-9c08-bc86b1d24226 _process_instance_event /usr/lib/python2.7/dist-packages/nova/compute/manager.py:7774
 2021-01-27 16:14:59.022 75470 DEBUG nova.compute.manager [req-b1d6f4ff-0145-45b0-8167-24ff7ddbfe62 e8bca730d8254a95b821eab7efc42db8 8ff7647db0df4ab48021e14a481beba2 - f89e92a9620e4b34ba448ec71387e692 f89e92a9620e4b34ba448ec71387e692] [instance: 5b367a10-9e6a-4eb9-9c7d-891dab7e87fa] Preparing to wait for external event network-vif-plugged-9a3673bf-58ac-423a-869a-6c4ae801b57b prepare_for_instance_event /usr/lib/python2.7/dist-packages/nova/compute/manager.py:327
 
+2021-03-08 17:12:02.912 3292 DEBUG oslo_messaging._drivers.amqpdriver [-] CALL msg_id: 2dc48e9a5d7d47a39de0855291f39016 exchange 'nova' topic 'conductor' _send /usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py:635
+2021-03-08 17:12:02.924 3292 DEBUG oslo_messaging._drivers.amqpdriver [-] received reply msg_id: 2dc48e9a5d7d47a39de0855291f39016 __call__ /usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py:480
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db [-] Unexpected error while reporting service status: oslo_messaging.rpc.client.RemoteError: Remote error: DBConnectionError (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on '10.5.3.147' ([
+(Background on this error at: http://sqlalche.me/e/e3q8)
+['Traceback (most recent call last):\n', '  File "/usr/lib/python3/dist-packages/pymysql/connections.py", line 920, in connect\n    **kwargs)\n', '  File "/usr/lib/python3/dist-packages/eventlet/green/socket.py", line 63, in create_connection\n    raise err\n', '  File "/usr
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db Traceback (most recent call last):
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/nova/servicegroup/drivers/db.py", line 93, in _report_state
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     service.service_ref.save()
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/oslo_versionedobjects/base.py", line 210, in wrapper
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     ctxt, self, fn.__name__, args, kwargs)
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/nova/conductor/rpcapi.py", line 248, in object_action
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     objmethod=objmethod, args=args, kwargs=kwargs)
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/oslo_messaging/rpc/client.py", line 181, in call
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     transport_options=self.transport_options)
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/oslo_messaging/transport.py", line 129, in _send
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     transport_options=transport_options)
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py", line 654, in send
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     transport_options=transport_options)
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db   File "/usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py", line 644, in _send
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db     raise result
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db oslo_messaging.rpc.client.RemoteError: Remote error: DBConnectionError (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on '10.5.3.147' ([Errno 111] ECONNREFUSED)")
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db (Background on this error at: http://sqlalche.me/e/e3q8)
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db ['Traceback (most recent call last):\n', '  File "/usr/lib/python3/dist-packages/pymysql/connections.py", line 920, in connect\n    **kwargs)\n', '  File "/usr/lib/python3/dist-packages/eventlet/green/socket.py"
+2021-03-08 17:12:02.926 3292 ERROR nova.servicegroup.drivers.db 
+2021-03-08 17:12:08.881 3292 DEBUG oslo_service.periodic_task [req-89513072-6ffb-44f8-8d67-a06aa23d1819 - - - - -] Running periodic task ComputeManager._cleanup_expired_console_auth_tokens run_periodic_tasks /usr/lib/python3/dist-packages/oslo_service/periodic_task.py:217
+2021-03-08 17:12:08.882 3292 DEBUG oslo_messaging._drivers.amqpdriver [req-89513072-6ffb-44f8-8d67-a06aa23d1819 - - - - -] CALL msg_id: ebc1f9e05d224b03a73d7002fb139f13 exchange 'nova' topic 'conductor' _send /usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.
+2021-03-08 17:12:12.908 3292 DEBUG oslo_messaging._drivers.amqpdriver [-] CALL msg_id: 457e0ddf84164520999c29bbbbfdb56f exchange 'nova' topic 'conductor' _send /usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py:635
+2021-03-08 17:12:28.942 3292 DEBUG oslo_messaging._drivers.amqpdriver [-] received reply msg_id: ebc1f9e05d224b03a73d7002fb139f13 __call__ /usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py:480
+2021-03-08 17:12:29.880 3292 DEBUG oslo_messaging._drivers.amqpdriver [-] received reply msg_id: 457e0ddf84164520999c29bbbbfdb56f __call__ /usr/lib/python3/dist-packages/oslo_messaging/_drivers/amqpdriver.py:480
+2021-03-08 17:12:29.882 3292 INFO nova.servicegroup.drivers.db [-] Recovered from being unable to report status.
+2021-03-08 17:12:29.884 3292 WARNING oslo.service.loopingcall [-] Function 'nova.servicegroup.drivers.db.DbDriver._report_state' run outlasted interval by 6.98 sec
+
