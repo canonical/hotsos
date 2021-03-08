@@ -219,6 +219,12 @@ class TestOpenstackPlugin06service_features(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
+    @mock.patch.object(ost_06service_features, "SERVICE_FEATURES", {})
+    def test_get_service_features(self):
+        ost_06service_features.get_service_features()
+        expected = {'neutron': {'neutron': {'availability_zone': 'AZ1'}}}
+        self.assertEqual(ost_06service_features.SERVICE_FEATURES, expected)
+
 
 class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
 

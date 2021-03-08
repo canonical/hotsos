@@ -33,6 +33,7 @@ SERVICE_FEATURES = {}
 def get_service_features():
     for service in FEATURES:
         for module in FEATURES[service]:
+            module_features = {}
             cfg = os.path.join(constants.DATA_ROOT,
                                CONFIG_FILES[service][module])
             if not os.path.exists(cfg):
@@ -43,26 +44,21 @@ def get_service_features():
                     ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)
                                      ).match(line)
                     if ret:
-                        if service not in SERVICE_FEATURES:
-                            SERVICE_FEATURES[service] = {}
-
-                        if module not in SERVICE_FEATURES[service]:
-                            SERVICE_FEATURES[service][module] = {}
-
-                        if module in SERVICE_FEATURES[service]:
-                            SERVICE_FEATURES[service][module][key] = \
-                                helpers.bool_str(ret[1])
-
+                        module_features[key] = helpers.bool_str(ret[1])
                         break
 
-                if key not in SERVICE_FEATURES.get(service, {}).get(module,
-                                                                    {}):
+                if key not in module_features:
                     if key in DEFAULTS.get(service, {}).get(module, {}):
                         default = DEFAULTS[service][module][key]
-                        if module not in SERVICE_FEATURES[service]:
-                            SERVICE_FEATURES[service][module] = {key: default}
-                        else:
-                            SERVICE_FEATURES[service][module][key] = default
+                        module_features[key] = default
+
+            # TODO: only include modules for which there is an actual agent
+            #       installed since otherwise their config is irrelevant.
+            if module_features:
+                if service not in SERVICE_FEATURES:
+                    SERVICE_FEATURES[service] = {}
+
+                SERVICE_FEATURES[service][module] = module_features
 
 
 if __name__ == "__main__":
