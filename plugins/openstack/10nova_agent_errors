@@ -1,69 +1,29 @@
 #!/usr/bin/python3
-import os
-
 from common import (
-    constants,
     helpers,
-    searchtools,
 )
 from openstack_common import (
     NOVA_LOGS,
+)
+from openstack_utils import (
+    get_agent_exceptions,
 )
 
 NOVA_AGENT_ERROR_INFO = {}
 
 
-def _get_agent_exceptions(agent, exc_types):
-    s = searchtools.FileSearcher()
-    if constants.USE_ALL_LOGS:
-        data_source = os.path.join(constants.DATA_ROOT, NOVA_LOGS,
-                                   '{}.log*'.format(agent))
-    else:
-        data_source = os.path.join(constants.DATA_ROOT, NOVA_LOGS,
-                                   '{}.log'.format(agent))
-
-    for exc_type in exc_types:
-        s.add_search_term(r"^(\S+) (\S+) .+{}.+".format(exc_type), [1, 2],
-                          data_source, tag=exc_type)
-
-    results = s.search()
-
-    agent_exceptions = {}
-    for path, _results in results:
-        for result in _results:
-            if result.tag not in agent_exceptions:
-                agent_exceptions[result.tag] = {}
-
-            day = str(result.get(1))
-            if day not in agent_exceptions:
-                agent_exceptions[result.tag][day] = 0
-
-            agent_exceptions[result.tag][day] += 1
-
-    if not agent_exceptions:
-        return
-
-    for exc_type in agent_exceptions:
-        agent_exceptions_sorted = {}
-        for k, v in sorted(agent_exceptions[exc_type].items(),
-                           key=lambda x: x[0]):
-            agent_exceptions_sorted[k] = v
-
-        agent_exceptions[exc_type] = agent_exceptions_sorted
-
-    NOVA_AGENT_ERROR_INFO[agent] = agent_exceptions
-
-
-def get_agent_exceptions():
-    exc_types = ["DBConnectionError", "MessagingTimeout"]
-    _get_agent_exceptions("nova-compute", exc_types)
-    _get_agent_exceptions("nova-scheduler", exc_types)
-    _get_agent_exceptions("nova-conductor", exc_types)
-    _get_agent_exceptions("nova-api-os-compute", exc_types)
+def get_agents_exceptions():
+    exc_types = ["DBConnectionError", "MessagingTimeout",
+                 "AMQP server on .+ is unreachable"]
+    for agent in ["nova-compute", "nova-scheduler", "nova-conductor",
+                  "nova-api-os-compute"]:
+        e = get_agent_exceptions(agent, NOVA_LOGS, exc_types)
+        if e:
+            NOVA_AGENT_ERROR_INFO[agent] = e
 
 
 if __name__ == "__main__":
-    get_agent_exceptions()
+    get_agents_exceptions()
     if NOVA_AGENT_ERROR_INFO:
         NOVA_AGENT_ERROR_INFO = {"nova-agent-errors": NOVA_AGENT_ERROR_INFO}
         if not helpers.HOTSOSYaml.master_has_plugin("openstack"):

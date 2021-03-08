@@ -262,10 +262,11 @@ class TestOpenstackPlugin09neutron_agent_errors(utils.BaseTestCase):
     @mock.patch.object(ost_09neutron_agent_errors, "NEUTRON_AGENT_ERROR_INFO",
                        {})
     def test_get_rpc_message_timeout(self):
-        expected = {'neutron-openvswitch-agent': {'MessagingTimeout':
-                                                  {'2021-03-04': 2}}}
-        ost_09neutron_agent_errors.get_rpc_message_timeout(
-                                                   "neutron-openvswitch-agent")
+        expected = {'neutron-openvswitch-agent':
+                    {'MessagingTimeout': {'2021-03-04': 2},
+                     'AMQP server on 10.10.123.22:5672 is unreachable':
+                     {'2021-03-04': 3}}}
+        ost_09neutron_agent_errors.get_agents_exceptions()
         self.assertEqual(ost_09neutron_agent_errors.NEUTRON_AGENT_ERROR_INFO,
                          expected)
 
@@ -281,7 +282,7 @@ class TestOpenstackPlugin10nova_agent_errors(utils.BaseTestCase):
     @mock.patch.object(ost_10nova_agent_errors, "NOVA_AGENT_ERROR_INFO",
                        {})
     def test_get_rpc_message_timeout(self):
-        expected = {'nova-compute': {'DBConnectionError': {'2021-03-08': 1}}}
-        ost_10nova_agent_errors.get_agent_exceptions()
+        expected = {'nova-compute': {'DBConnectionError': {'2021-03-08': 2}}}
+        ost_10nova_agent_errors.get_agents_exceptions()
         self.assertEqual(ost_10nova_agent_errors.NOVA_AGENT_ERROR_INFO,
                          expected)

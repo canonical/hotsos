@@ -1,54 +1,29 @@
 #!/usr/bin/python3
-import os
-
 from common import (
-    constants,
     helpers,
-    searchtools,
 )
 from openstack_common import (
     NEUTRON_LOGS,
+)
+from openstack_utils import (
+    get_agent_exceptions,
 )
 
 NEUTRON_AGENT_ERROR_INFO = {}
 
 
-def get_rpc_message_timeout(agent):
-    s = searchtools.FileSearcher()
-    if constants.USE_ALL_LOGS:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   '{}.log*'.format(agent))
-    else:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   '{}.log'.format(agent))
-
-    s.add_search_term(r"^(\S+) (\S+) .+MessagingTimeout.+", [1, 2],
-                      data_source)
-    results = s.search()
-
-    rpc_timeouts = {}
-    for path, _results in results:
-        for result in _results:
-            day = str(result.get(1))
-            if day not in rpc_timeouts:
-                rpc_timeouts[day] = 0
-
-            rpc_timeouts[day] += 1
-
-    if not rpc_timeouts:
-        return
-
-    rpc_timeouts_sorted = {}
-    for k, v in sorted(rpc_timeouts.items(), key=lambda x: x[0]):
-        rpc_timeouts_sorted[k] = v
-
-    NEUTRON_AGENT_ERROR_INFO[agent] = {"MessagingTimeout": rpc_timeouts_sorted}
+def get_agents_exceptions():
+    exc_types = ["DBConnectionError", "MessagingTimeout",
+                 "AMQP server on .+ is unreachable"]
+    for agent in ["neutron-openvswitch-agent", "neutron-dhcp-agent",
+                  "neutron-l3-agent"]:
+        e = get_agent_exceptions(agent, NEUTRON_LOGS, exc_types)
+        if e:
+            NEUTRON_AGENT_ERROR_INFO[agent] = e
 
 
 if __name__ == "__main__":
-    get_rpc_message_timeout("neutron-openvswitch-agent")
-    get_rpc_message_timeout("neutron-dhcp-agent")
-    get_rpc_message_timeout("neutron-l3-agent")
+    get_agents_exceptions()
     if NEUTRON_AGENT_ERROR_INFO:
         NEUTRON_AGENT_ERROR_INFO = {"neutron-agent-errors":
                                     NEUTRON_AGENT_ERROR_INFO}
