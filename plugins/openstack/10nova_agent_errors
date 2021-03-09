@@ -16,7 +16,7 @@ def get_agents_exceptions():
     exc_types = ["DBConnectionError", "MessagingTimeout",
                  "AMQP server on .+ is unreachable"]
     for agent in ["nova-compute", "nova-scheduler", "nova-conductor",
-                  "nova-api-os-compute"]:
+                  "nova-api-os-compute", "nova-api-wsgi"]:
         e = get_agent_exceptions(agent, NOVA_LOGS, exc_types)
         if e:
             NOVA_AGENT_ERROR_INFO[agent] = e
