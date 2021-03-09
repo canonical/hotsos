@@ -16,7 +16,7 @@ def get_agents_exceptions():
     exc_types = ["DBConnectionError", "MessagingTimeout",
                  "AMQP server on .+ is unreachable"]
     for agent in ["neutron-openvswitch-agent", "neutron-dhcp-agent",
-                  "neutron-l3-agent"]:
+                  "neutron-l3-agent", "neutron-server"]:
         e = get_agent_exceptions(agent, NEUTRON_LOGS, exc_types)
         if e:
             NEUTRON_AGENT_ERROR_INFO[agent] = e
