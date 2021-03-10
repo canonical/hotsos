@@ -16,8 +16,9 @@ class SearchResultPart(object):
 
 class SearchResult(object):
 
-    def __init__(self, linenumber, search_term_tag=None):
+    def __init__(self, linenumber, source, search_term_tag=None):
         self.tag = search_term_tag
+        self.source = source
         self.linenumber = linenumber
         self._parts = {}
 
@@ -108,14 +109,14 @@ class FileSearcher(object):
                 # test if file is gzip
                 fd.read(1)
                 fd.seek(0)
-                return self._search_task(term_key, fd, decode=True)
+                return self._search_task(term_key, fd, path, decode=True)
             except OSError:
                 pass
 
         with open(path) as fd:
-            return self._search_task(term_key, fd)
+            return self._search_task(term_key, fd, path)
 
-    def _search_task(self, term_key, fd, decode=False):
+    def _search_task(self, term_key, fd, path, decode=False):
         results = []
         for ln, line in enumerate(fd):
             # line numbers are not zero-indexed
@@ -126,7 +127,7 @@ class FileSearcher(object):
 
                 ret = s_term["key"].match(line)
                 if ret:
-                    r = SearchResult(ln, s_term.get("tag"))
+                    r = SearchResult(ln, path, s_term.get("tag"))
                     for i in s_term["indices"]:
                         r.add(i, ret[i])
 

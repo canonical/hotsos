@@ -13,6 +13,7 @@ from openstack_common import (
 )
 
 NEUTRON_OVS_AGENT_INFO = {}
+MIN_DURATION = 5
 
 
 def get_rpc_loop_too_long():
@@ -33,27 +34,32 @@ def get_rpc_loop_too_long():
                       "iteration:([0-9]+) completed..+Elapsed:([0-9.]+).+",
                       [1, 2, 3, 4], data_source, tag="rpc-loop-end")
     results = s.search()
-    for result in results.find_by_tag("rpc-loop-start"):
-        day = result.get(1)
-        secs = result.get(2)
-        iteration = int(result.get(3))
-        start = "{} {}".format(day, secs)
-        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
-        rpc_loops[iteration] = {"start": start}
 
     for result in results.find_by_tag("rpc-loop-end"):
         day = result.get(1)
         secs = result.get(2)
         iteration = int(result.get(3))
         duration = float(result.get(4))
-        if iteration in rpc_loops:
-            if duration > 2:
-                end = "{} {}".format(day, secs)
-                end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-                rpc_loops[iteration]["end"] = end
-                rpc_loops[iteration]["duration"] = duration
-            else:
-                del rpc_loops[iteration]
+        # iteration ids get reset when agent is restarted so need to do
+        # this for it to be unique.
+        iteration_key = "{}_{}".format(os.path.basename(result.source),
+                                       iteration)
+        if duration > MIN_DURATION:
+            end = "{} {}".format(day, secs)
+            end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+            rpc_loops[iteration_key] = {"end": end,
+                                        "duration": duration}
+
+    for result in results.find_by_tag("rpc-loop-start"):
+        day = result.get(1)
+        secs = result.get(2)
+        iteration = int(result.get(3))
+        start = "{} {}".format(day, secs)
+        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+        iteration_key = "{}_{}".format(os.path.basename(result.source),
+                                       iteration)
+        if iteration_key in rpc_loops:
+            rpc_loops[iteration_key]["start"] = start
 
     if not rpc_loops:
         return
@@ -74,7 +80,8 @@ def get_rpc_loop_too_long():
 
     for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
                        reverse=True):
-        top_n_sorted[k] = v
+        iteration = int(k.partition('_')[2])
+        top_n_sorted[iteration] = v
 
     NEUTRON_OVS_AGENT_INFO["rpc-loop-max"] = top_n_sorted
 

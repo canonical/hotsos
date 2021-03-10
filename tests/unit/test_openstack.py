@@ -245,13 +245,11 @@ class TestOpenstackPlugin08neutron_openvswitch(utils.BaseTestCase):
 
     @mock.patch.object(ost_08neutron_openvswitch, "NEUTRON_OVS_AGENT_INFO", {})
     def test_get_rpc_loop_too_long(self):
-        start0 = datetime.datetime(2021, 2, 25, 14, 22, 19, 587000)
-        end1 = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
-        start1 = datetime.datetime(2021, 3, 2, 14, 26, 29, 780000)
-        expected = {'rpc-loop-max': {0: {'start': start0},
-                                     1438: {'duration': 25.9,
-                                            'end': end1,
-                                            'start': start1}}}
+        end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
+        start = datetime.datetime(2021, 3, 2, 14, 26, 29, 780000)
+        expected = {'rpc-loop-max': {1438: {'duration': 25.9,
+                                            'end': end,
+                                            'start': start}}}
         ost_08neutron_openvswitch.get_rpc_loop_too_long()
         self.assertEqual(ost_08neutron_openvswitch.NEUTRON_OVS_AGENT_INFO,
                          expected)
