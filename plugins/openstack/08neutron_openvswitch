@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import os
 
+import statistics
+
 from datetime import datetime
 
 from common import (
@@ -19,6 +21,11 @@ MAX_RPC_LOOP_RESULTS = 5
 
 def get_rpc_loop_too_long():
     rpc_loops = {}
+    stats = {"min": 0,
+             "max": 0,
+             "stdev": 0,
+             "avg": 0,
+             "samples": []}
 
     s = searchtools.FileSearcher()
     if constants.USE_ALL_LOGS:
@@ -60,6 +67,7 @@ def get_rpc_loop_too_long():
         iteration_key = "{}_{}".format(os.path.basename(result.source),
                                        iteration)
         if iteration_key in rpc_loops:
+            stats['samples'].append(rpc_loops[iteration_key]["duration"])
             rpc_loops[iteration_key]["start"] = start
 
     if not rpc_loops:
@@ -85,7 +93,15 @@ def get_rpc_loop_too_long():
                                    "end": v["end"],
                                    "duration": v["duration"]}
 
-    NEUTRON_OVS_AGENT_INFO["rpc-loop-max"] = top_n_sorted
+    stats['min'] = round(min(stats['samples']), 2)
+    stats['max'] = round(max(stats['samples']), 2)
+    stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
+    stats['avg'] = round(statistics.mean(stats['samples']), 2)
+    num_samples = len(stats['samples'])
+    stats['samples'] = num_samples
+
+    NEUTRON_OVS_AGENT_INFO["rpc-loop"] = {"top": top_n_sorted,
+                                          "stats": stats}
 
 
 if __name__ == "__main__":
