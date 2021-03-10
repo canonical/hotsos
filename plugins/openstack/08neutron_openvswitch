@@ -13,7 +13,8 @@ from openstack_common import (
 )
 
 NEUTRON_OVS_AGENT_INFO = {}
-MIN_DURATION = 5
+MIN_RPC_LOOP_DURATION = 5
+MAX_RPC_LOOP_RESULTS = 5
 
 
 def get_rpc_loop_too_long():
@@ -44,7 +45,7 @@ def get_rpc_loop_too_long():
         # this for it to be unique.
         iteration_key = "{}_{}".format(os.path.basename(result.source),
                                        iteration)
-        if duration > MIN_DURATION:
+        if duration > MIN_RPC_LOOP_DURATION:
             end = "{} {}".format(day, secs)
             end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
             rpc_loops[iteration_key] = {"end": end,
@@ -64,7 +65,6 @@ def get_rpc_loop_too_long():
     if not rpc_loops:
         return
 
-    limit = 5
     count = 0
     top_n = {}
     top_n_sorted = {}
@@ -72,7 +72,7 @@ def get_rpc_loop_too_long():
     for k, v in sorted(rpc_loops.items(),
                        key=lambda x: x[1].get("duration", 0),
                        reverse=True):
-        if count >= limit:
+        if count >= MAX_RPC_LOOP_RESULTS:
             break
 
         count += 1
@@ -81,7 +81,9 @@ def get_rpc_loop_too_long():
     for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
                        reverse=True):
         iteration = int(k.partition('_')[2])
-        top_n_sorted[iteration] = v
+        top_n_sorted[iteration] = {"start": v["start"],
+                                   "end": v["end"],
+                                   "duration": v["duration"]}
 
     NEUTRON_OVS_AGENT_INFO["rpc-loop-max"] = top_n_sorted
 
