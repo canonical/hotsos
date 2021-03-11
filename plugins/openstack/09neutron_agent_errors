@@ -17,7 +17,8 @@ def get_agents_exceptions():
                  "AMQP server on .+ is unreachable"]
     for agent in ["neutron-openvswitch-agent", "neutron-dhcp-agent",
                   "neutron-l3-agent", "neutron-server"]:
-        e = get_agent_exceptions(agent, NEUTRON_LOGS, exc_types)
+        e = get_agent_exceptions(agent, NEUTRON_LOGS, exc_types,
+                                 include_time_in_key=True)
         if e:
             NEUTRON_AGENT_ERROR_INFO[agent] = e
 

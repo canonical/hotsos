@@ -17,7 +17,8 @@ def get_agents_exceptions():
                  "AMQP server on .+ is unreachable"]
     for agent in ["nova-compute", "nova-scheduler", "nova-conductor",
                   "nova-api-os-compute", "nova-api-wsgi"]:
-        e = get_agent_exceptions(agent, NOVA_LOGS, exc_types)
+        e = get_agent_exceptions(agent, NOVA_LOGS, exc_types,
+                                 include_time_in_key=True)
         if e:
             NOVA_AGENT_ERROR_INFO[agent] = e
 

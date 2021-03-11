@@ -1,4 +1,5 @@
 import os
+import re
 
 from common import (
     constants,
@@ -6,9 +7,16 @@ from common import (
 )
 
 
-def get_agent_exceptions(agent, logs_path, exc_types):
+def get_agent_exceptions(agent, logs_path, exc_types,
+                         include_time_in_key=False):
     """Search agent logs and determine frequency of occurrences of the given
     exception types.
+
+    @param agent: (str) name of agent whose logs we want to search.
+    @param logs_path: (str) path to logs directory
+    @param exc_types: (list) list of exceptions we want to search for
+    @param include_time_in_key: (bool) whether to include time of exception in
+                                output. Default is to only show date.
     """
     s = searchtools.FileSearcher()
     if constants.USE_ALL_LOGS:
@@ -31,11 +39,17 @@ def get_agent_exceptions(agent, logs_path, exc_types):
             if exc_tag not in agent_exceptions:
                 agent_exceptions[exc_tag] = {}
 
-            day = str(result.get(1))
-            if day not in agent_exceptions[exc_tag]:
-                agent_exceptions[exc_tag][day] = 0
+            if include_time_in_key:
+                # use hours and minutes only
+                time = re.compile("([0-9]+:[0-9]+).+").search(result.get(2))[1]
+                key = "{}_{}".format(result.get(1), time)
+            else:
+                key = str(result.get(1))
 
-            agent_exceptions[exc_tag][day] += 1
+            if key not in agent_exceptions[exc_tag]:
+                agent_exceptions[exc_tag][key] = 0
+
+            agent_exceptions[exc_tag][key] += 1
 
     if not agent_exceptions:
         return
