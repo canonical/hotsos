@@ -77,7 +77,7 @@ def get_ip_addr():
 
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-d_address")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -90,7 +90,7 @@ def get_ip_link_show():
 
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-s_-d_link")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -118,7 +118,7 @@ def get_ps():
 
     path = os.path.join(DATA_ROOT, "ps")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -137,7 +137,7 @@ def get_ps_axo_flags():
                         "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
                         "tty_time_cmd")
     for path in glob.glob(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -150,7 +150,7 @@ def get_numactl():
 
     path = os.path.join(DATA_ROOT, "sos_commands/numa/numactl_--hardware")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -163,7 +163,7 @@ def get_lscpu():
 
     path = os.path.join(DATA_ROOT, "sos_commands/processor/lscpu")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -176,7 +176,7 @@ def get_uptime():
 
     path = os.path.join(DATA_ROOT, "uptime")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -189,7 +189,7 @@ def get_df():
 
     path = os.path.join(DATA_ROOT, "df")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -202,7 +202,7 @@ def get_apt_config_dump():
 
     path = os.path.join(DATA_ROOT, "sos_commands/apt/apt-config_dump")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -215,7 +215,7 @@ def get_snap_list_all():
 
     path = os.path.join(DATA_ROOT, "sos_commands/snappy/snap_list_--all")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -228,7 +228,7 @@ def get_ceph_osd_df_tree():
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_df_tree")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -241,7 +241,7 @@ def get_ceph_osd_tree():
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_tree")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -254,7 +254,7 @@ def get_ceph_versions():
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_versions")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -267,7 +267,7 @@ def get_sosreport_time():
 
     path = os.path.join(DATA_ROOT, "sos_commands/date/date")
     if os.path.exists(path):
-        with open(path, 'r') as fd:
+        with open(path, 'r', encoding='utf8') as fd:
             date = fd.read()
             output = subprocess.check_output(["date", "--date={}".format(date),
                                               "+%s"])
@@ -284,7 +284,7 @@ def get_ceph_volume_lvm_list():
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph-volume_lvm_list")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -297,7 +297,7 @@ def get_ls_lanR_sys_block():
 
     path = os.path.join(DATA_ROOT, "sos_commands/block/ls_-lanR_.sys.block")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -312,7 +312,7 @@ def get_udevadm_info_dev(dev):
     path = os.path.join(DATA_ROOT, "sos_commands/block/udevadm_info_.dev.{}".
                         format(dev))
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -325,7 +325,7 @@ def get_ip_netns():
 
     path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_netns")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
 
@@ -338,6 +338,6 @@ def get_hostname():
 
     path = os.path.join(DATA_ROOT, "hostname")
     if os.path.exists(path):
-        return open(path, 'r').readlines()
+        return open(path, 'r', encoding='utf8').readlines()
 
     return []
