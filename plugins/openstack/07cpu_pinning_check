@@ -8,15 +8,9 @@ from common import (
     constants,
     helpers
 )
-
-OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
-    os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS', False)
-
-if type(OPENSTACK_SHOW_CPU_PINNING_RESULTS) == str:
-    if OPENSTACK_SHOW_CPU_PINNING_RESULTS.lower() == "true":
-        OPENSTACK_SHOW_CPU_PINNING_RESULTS = True
-    else:
-        OPENSTACK_SHOW_CPU_PINNING_RESULTS = False
+from openstack_common import (
+    OPENSTACK_SHOW_CPU_PINNING_RESULTS,
+)
 
 CPU_PINNING_INFO = {}
 

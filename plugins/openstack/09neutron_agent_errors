@@ -3,6 +3,7 @@ from common import (
     helpers,
 )
 from openstack_common import (
+    OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     NEUTRON_LOGS,
 )
 from openstack_utils import (
@@ -14,11 +15,13 @@ NEUTRON_AGENT_ERROR_INFO = {}
 
 def get_agents_exceptions():
     exc_types = ["DBConnectionError", "MessagingTimeout",
-                 "AMQP server on .+ is unreachable"]
+                 "AMQP server on .+ is unreachable",
+                 ("amqp.exceptions.ConnectionForced: "
+                  "Too many heartbeats missed")]
     for agent in ["neutron-openvswitch-agent", "neutron-dhcp-agent",
                   "neutron-l3-agent", "neutron-server"]:
         e = get_agent_exceptions(agent, NEUTRON_LOGS, exc_types,
-                                 include_time_in_key=True)
+                                 include_time_in_key=AGENT_ERROR_KEY_BY_TIME)
         if e:
             NEUTRON_AGENT_ERROR_INFO[agent] = e
 

@@ -25,6 +25,7 @@ export VERBOSITY_LEVEL=0
 export DATA_ROOT
 # plugin args - prefix must be plugin name
 export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
+export OPENSTACK_AGENT_ERROR_KEY_BY_TIME=false
 # This is the path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT
 export USE_ALL_LOGS=false
@@ -69,6 +70,10 @@ OPTIONS
         The Openstack plugin will check for cpu pinning configurations and
         perform checks. By default only brief messgaes will be displayed when
         issues are found. Use this flag to get more detailed results.
+    --openstack-agent-error-key-by-time
+        When displaying agent error counts, they will be grouped by date. This
+        option will result in grouping by date_time which may be more useful
+        for cross-referencing with other logs.
     --kubernetes
         Use the Kubernetes plugin.
     --storage
@@ -129,6 +134,9 @@ while (($#)); do
 ## PLUGIN OPTS ########
         --openstack-show-cpu-pinning-results)
             OPENSTACK_SHOW_CPU_PINNING_RESULTS=true
+            ;;
+        --openstack-agent-error-key-by-time)
+            OPENSTACK_AGENT_ERROR_KEY_BY_TIME=true
             ;;
 #######################
         --list-plugins)

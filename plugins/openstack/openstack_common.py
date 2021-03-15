@@ -1,3 +1,10 @@
+import os
+
+from common import (
+    helpers,
+)
+
+
 OST_PROJECTS = ["aodh",
                 "barbican",
                 "ceilometer",
@@ -65,3 +72,10 @@ OST_DEP_PKGS = [r"conntrack",
 
 NEUTRON_LOGS = "var/log/neutron"
 NOVA_LOGS = "var/log/nova"
+
+OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
+    helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
+                                    "False"))
+OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
+    helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
+                                    "False"))
