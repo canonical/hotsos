@@ -27,7 +27,7 @@ def get_agent_exceptions(agent, logs_path, exc_types,
                                    '{}.log'.format(agent))
 
     for exc_type in exc_types:
-        s.add_search_term(r"^([0-9\-]+) (\S+) .+({}).+".format(exc_type),
+        s.add_search_term(r"^([0-9\-]+) (\S+) .+({}).*".format(exc_type),
                           [1, 2, 3], data_source)
 
     results = s.search()
