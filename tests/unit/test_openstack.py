@@ -291,7 +291,9 @@ class TestOpenstackPlugin10nova_agent_errors(utils.BaseTestCase):
     @mock.patch.object(ost_10nova_agent_errors, "NOVA_AGENT_ERROR_INFO",
                        {})
     def test_get_rpc_message_timeout(self):
-        expected = {'nova-api-wsgi': {'AMQP server on 10.5.1.98:5672 is '
+        expected = {'nova-api-wsgi': {'OSError: Server unexpectedly closed '
+                                      'connection': {'2021-03-15': 1},
+                                      'AMQP server on 10.5.1.98:5672 is '
                                       'unreachable': {'2021-03-15': 1},
                                       'amqp.exceptions.ConnectionForced: '
                                       'Too many heartbeats missed':
