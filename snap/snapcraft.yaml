@@ -18,7 +18,7 @@ environment:
 
 apps:
   hotsos:
-    command: hotsos.sh
+    command: env LC_ALL=C.UTF-8 hotsos.sh
     plugs: [home, removable-media]
     environment:
       LD_PRELOAD: "$SNAP/libpreload-semaphores.so"
