@@ -55,6 +55,11 @@ usage ()
 cat << EOF
 USAGE: hotsos [OPTIONS] [SOSPATH]
 
+Run this tool against a sosreport or live host to extract information that may
+be helpful for analysing or debugging applications like Openstack, Kubernetes,
+Ceph and more (see supported plugins). The standard output is yaml format to
+allow easy visual inspection and post-processing by other tools.
+
 OPTIONS
     -h|--help
         This message.
@@ -64,6 +69,10 @@ OPTIONS
         Use the Kernel plugin.
     --list-plugins
         Show available plugins.
+    --max-parallel-tasks [INT]
+        The searchtools module will execute searches across files in parallel.
+        By default the number of cores used is limited to a maximum of 8 and
+        you can override that value with this option.
     --openstack
         Use the Openstack plugin.
     --openstack-show-cpu-pinning-results
@@ -143,6 +152,10 @@ while (($#)); do
             echo "Available plugins:"
             echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| xargs -l -I{} echo " - {}"
             exit
+            ;;
+        --max-parallel-tasks)
+            export USER_MAX_PARALLEL_TASKS=$2
+            shift
             ;;
         -s|--save)
             SAVE_OUTPUT=true

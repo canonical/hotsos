@@ -6,6 +6,8 @@ import gzip
 import multiprocessing
 import re
 
+MAX_PARALLEL_TASKS_DEFAULT = 8
+
 
 class SearchResultPart(object):
 
@@ -79,6 +81,20 @@ class FileSearcher(object):
     def __init__(self):
         self.paths = {}
 
+    @property
+    def num_cpus(self):
+        USER_MAX_PARALLEL_TASKS = int(os.environ.get('USER_MAX_PARALLEL_TASKS',
+                                                     -1))
+        if USER_MAX_PARALLEL_TASKS >= 0:
+            if USER_MAX_PARALLEL_TASKS == 0:
+                cpus = 1  # i.e. no parallelism
+            else:
+                cpus = min(USER_MAX_PARALLEL_TASKS, os.cpu_count())
+        else:
+            cpus = min(MAX_PARALLEL_TASKS_DEFAULT, os.cpu_count())
+
+        return cpus
+
     def add_search_term(self, key, indices, path, tag=None):
         """Add a term to search for.
 
@@ -141,7 +157,7 @@ class FileSearcher(object):
 
         @return: search results
         """
-        with multiprocessing.Pool(processes=os.cpu_count()) as pool:
+        with multiprocessing.Pool(processes=self.num_cpus) as pool:
             jobs = {}
             for path in self.paths:
                 jobs[path] = {}

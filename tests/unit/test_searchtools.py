@@ -1,6 +1,8 @@
 import os
 import utils
 
+import mock
+
 from common import searchtools
 
 
@@ -11,6 +13,20 @@ class TestSearchTools(utils.BaseTestCase):
 
     def tearDown(self):
         super().tearDown()
+
+    @mock.patch.object(os, "environ", {})
+    @mock.patch.object(os, "cpu_count")
+    def test_filesearcher_num_cpus_no_override(self, mock_cpu_count):
+        mock_cpu_count.return_value = 3
+        s = searchtools.FileSearcher()
+        self.assertEquals(s.num_cpus, 3)
+
+    @mock.patch.object(os, "environ", {"USER_MAX_PARALLEL_TASKS": 2})
+    @mock.patch.object(os, "cpu_count")
+    def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
+        mock_cpu_count.return_value = 3
+        s = searchtools.FileSearcher()
+        self.assertEquals(s.num_cpus, 2)
 
     def test_filesearcher_logs(self):
         expected = {4: '2021-02-25 14:22:18.861',
