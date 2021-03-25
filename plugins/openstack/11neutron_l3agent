@@ -56,21 +56,18 @@ def get_router_update_stats():
         end = "{} {}".format(day, secs)
         end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
 
-        # update_id may have many updates over time across many files so we
-        # need to have a way to make them unique.
-        if update_id not in event_seq_ids:
-            event_seq_ids[update_id] = 0
+        # router may have many updates over time across many files so we need
+        # to have a way to make them unique.
+        key = "{}_{}".format(os.path.basename(result.source), update_id)
+        if key not in event_seq_ids:
+            event_seq_ids[key] = 0
         else:
-            event_seq_ids[update_id] += 1
+            event_seq_ids[key] += 1
 
-        event_key = "{}_{}_{}".format(os.path.basename(result.source),
-                                      update_id,
-                                      event_seq_ids[update_id])
+        event_key = "{}_{}".format(key, event_seq_ids[key])
         while event_key in router_updates:
-            event_seq_ids[update_id] += 1
-            event_key = "{}_{}_{}".format(os.path.basename(result.source),
-                                          update_id,
-                                          event_seq_ids[update_id])
+            event_seq_ids[key] += 1
+            event_key = "{}_{}".format(key, event_seq_ids[key])
 
         router_updates[event_key] = {"end": end, "router": router,
                                      "etime": etime}
@@ -84,18 +81,16 @@ def get_router_update_stats():
         start = "{} {}".format(day, secs)
         start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
 
-        if update_id not in event_seq_ids:
+        key = "{}_{}".format(os.path.basename(result.source), update_id)
+        if key not in event_seq_ids:
             continue
 
-        if update_id not in event_seq_ids2:
-            event_seq_ids2[update_id] = 0
+        if key not in event_seq_ids2:
+            event_seq_ids2[key] = 0
         else:
-            event_seq_ids2[update_id] += 1
+            event_seq_ids2[key] += 1
 
-        event_key = "{}_{}_{}".format(os.path.basename(result.source),
-                                      update_id,
-                                      event_seq_ids2[update_id])
-
+        event_key = "{}_{}".format(key, event_seq_ids2[key])
         if event_key in router_updates:
             etime = router_updates[event_key]["etime"]
             router_updates[event_key]["duration"] = etime
