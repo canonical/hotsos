@@ -125,14 +125,14 @@ class FileSearcher(object):
                 # test if file is gzip
                 fd.read(1)
                 fd.seek(0)
-                return self._search_task(term_key, fd, path, decode=True)
+                return self._search_task(term_key, fd, path)
             except OSError:
                 pass
 
         with open(path) as fd:
             return self._search_task(term_key, fd, path)
 
-    def _search_task(self, term_key, fd, path, decode=False):
+    def _search_task(self, term_key, fd, path):
         results = []
         for ln, line in enumerate(fd):
             # line numbers are not zero-indexed

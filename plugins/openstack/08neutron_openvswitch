@@ -15,7 +15,6 @@ from openstack_common import (
 )
 
 NEUTRON_OVS_AGENT_INFO = {}
-MIN_RPC_LOOP_DURATION = 5
 MAX_RPC_LOOP_RESULTS = 5
 
 
@@ -52,11 +51,10 @@ def get_rpc_loop_too_long():
         # this for it to be unique.
         iteration_key = "{}_{}".format(os.path.basename(result.source),
                                        iteration)
-        if duration > MIN_RPC_LOOP_DURATION:
-            end = "{} {}".format(day, secs)
-            end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-            rpc_loops[iteration_key] = {"end": end,
-                                        "duration": duration}
+        end = "{} {}".format(day, secs)
+        end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+        rpc_loops[iteration_key] = {"end": end,
+                                    "duration": duration}
 
     for result in results.find_by_tag("rpc-loop-start"):
         day = result.get(1)

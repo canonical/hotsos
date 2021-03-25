@@ -1,0 +1,265 @@
+#!/usr/bin/python3
+import os
+
+import statistics
+
+from datetime import datetime
+
+from common import (
+    constants,
+    helpers,
+    searchtools,
+)
+from openstack_common import (
+    NEUTRON_LOGS,
+)
+
+NEUTRON_L3AGENT_INFO = {}
+MAX_RESULTS = 5
+
+
+def get_router_update_stats():
+    router_updates = {}
+    stats = {"min": 0,
+             "max": 0,
+             "stdev": 0,
+             "avg": 0,
+             "samples": []}
+
+    s = searchtools.FileSearcher()
+    if constants.USE_ALL_LOGS:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-l3-agent.log*')
+    else:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-l3-agent.log')
+
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Starting router update for "
+                       "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+"),
+                      [1, 2, 3, 4], data_source, tag="router-update-start")
+
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Finished a router update for "
+                       "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
+                       "([0-9.]+)"),
+                      [1, 2, 3, 4, 5], data_source,
+                      tag="router-update-finish")
+
+    results = s.search()
+
+    event_seq_ids = {}
+    for result in results.find_by_tag("router-update-finish"):
+        day = result.get(1)
+        secs = result.get(2)
+        router = result.get(3)
+        update_id = result.get(4)
+        etime = float(result.get(5))
+        end = "{} {}".format(day, secs)
+        end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+
+        # update_id may have many updates over time across many files so we
+        # need to have a way to make them unique.
+        if update_id not in event_seq_ids:
+            event_seq_ids[update_id] = 0
+        else:
+            event_seq_ids[update_id] += 1
+
+        event_key = "{}_{}_{}".format(os.path.basename(result.source),
+                                      update_id,
+                                      event_seq_ids[update_id])
+        while event_key in router_updates:
+            event_seq_ids[update_id] += 1
+            event_key = "{}_{}_{}".format(os.path.basename(result.source),
+                                          update_id,
+                                          event_seq_ids[update_id])
+
+        router_updates[event_key] = {"end": end, "router": router,
+                                     "etime": etime}
+
+    event_seq_ids2 = {}
+    for result in results.find_by_tag("router-update-start"):
+        day = result.get(1)
+        secs = result.get(2)
+        router = result.get(3)
+        update_id = result.get(4)
+        start = "{} {}".format(day, secs)
+        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+
+        if update_id not in event_seq_ids:
+            continue
+
+        if update_id not in event_seq_ids2:
+            event_seq_ids2[update_id] = 0
+        else:
+            event_seq_ids2[update_id] += 1
+
+        event_key = "{}_{}_{}".format(os.path.basename(result.source),
+                                      update_id,
+                                      event_seq_ids2[update_id])
+
+        if event_key in router_updates:
+            etime = router_updates[event_key]["etime"]
+            router_updates[event_key]["duration"] = etime
+            stats['samples'].append(etime)
+            router_updates[event_key]["start"] = start
+
+    if not stats['samples']:
+        return
+
+    count = 0
+    top_n = {}
+    top_n_sorted = {}
+
+    for k, v in sorted(router_updates.items(),
+                       key=lambda x: x[1].get("duration", 0),
+                       reverse=True):
+        if count >= MAX_RESULTS:
+            break
+
+        count += 1
+        top_n[k] = v
+
+    for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
+                       reverse=True):
+        top_n_sorted[v["router"]] = {"start": v["start"],
+                                     "end": v["end"],
+                                     "duration": v["duration"]}
+
+    stats['min'] = round(min(stats['samples']), 2)
+    stats['max'] = round(max(stats['samples']), 2)
+    stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
+    stats['avg'] = round(statistics.mean(stats['samples']), 2)
+    num_samples = len(stats['samples'])
+    stats['samples'] = num_samples
+
+    NEUTRON_L3AGENT_INFO["router-updates"] = {"top": top_n_sorted,
+                                              "stats": stats}
+
+
+def get_router_spawn_stats():
+    spawn_events = {}
+    stats = {"min": 0,
+             "max": 0,
+             "stdev": 0,
+             "avg": 0,
+             "samples": []}
+
+    s = searchtools.FileSearcher()
+    if constants.USE_ALL_LOGS:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-l3-agent.log*')
+    else:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-l3-agent.log')
+
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
+                       "spawn_state_change_monitor"),
+                      [1, 2, 3], data_source, tag="router-spawn1")
+
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
+                       "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf"
+                       " .+"),
+                      [1, 2, 3], data_source,
+                      tag="router-spawn2")
+
+    results = s.search()
+
+    event_seq_ids = {}
+    for result in results.find_by_tag("router-spawn2"):
+        day = result.get(1)
+        secs = result.get(2)
+        router = result.get(3)
+        end = "{} {}".format(day, secs)
+        end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+
+        # router may have many updates over time across many files so we need
+        # to have a way to make them unique.
+        key = "{}_{}".format(os.path.basename(result.source), router)
+        if key not in event_seq_ids:
+            event_seq_ids[key] = 0
+        else:
+            event_seq_ids[key] += 1
+
+        event_key = "{}_{}".format(key, event_seq_ids[key])
+        while event_key in spawn_events:
+            event_seq_ids[key] += 1
+            event_key = "{}_{}".format(key, event_seq_ids[key])
+
+        spawn_events[event_key] = {"end": end}
+
+    event_seq_ids2 = {}
+    for result in results.find_by_tag("router-spawn1"):
+        day = result.get(1)
+        secs = result.get(2)
+        router = result.get(3)
+        start = "{} {}".format(day, secs)
+        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+
+        key = "{}_{}".format(os.path.basename(result.source), router)
+        if key not in event_seq_ids:
+            continue
+
+        if key not in event_seq_ids2:
+            event_seq_ids2[key] = 0
+        else:
+            event_seq_ids2[key] += 1
+
+        event_key = "{}_{}".format(key, event_seq_ids2[key])
+        if event_key in spawn_events:
+            etime = spawn_events[event_key]["end"] - start
+            if etime.total_seconds() < 0:
+                continue
+
+            spawn_events[event_key]["start"] = start
+            spawn_events[event_key]["duration"] = etime.total_seconds()
+            stats['samples'].append(etime.total_seconds())
+
+    if not stats['samples']:
+        return
+
+    count = 0
+    top_n = {}
+    top_n_sorted = {}
+
+    for k, v in sorted(spawn_events.items(),
+                       key=lambda x: x[1].get("duration", 0),
+                       reverse=True):
+        if "start" not in v:
+            continue
+
+        if count >= MAX_RESULTS:
+            break
+
+        count += 1
+        top_n[k] = v
+
+    for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
+                       reverse=True):
+        router = k.rpartition('_')[0]
+        router = router.partition('_')[2]
+        top_n_sorted[router] = {"start": v["start"],
+                                "end": v["end"],
+                                "duration": v["duration"]}
+
+    stats['min'] = round(min(stats['samples']), 2)
+    stats['max'] = round(max(stats['samples']), 2)
+    stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
+    stats['avg'] = round(statistics.mean(stats['samples']), 2)
+    num_samples = len(stats['samples'])
+    stats['samples'] = num_samples
+
+    NEUTRON_L3AGENT_INFO["router-spawn-events"] = {"top": top_n_sorted,
+                                                   "stats": stats}
+
+
+if __name__ == "__main__":
+    get_router_update_stats()
+    get_router_spawn_stats()
+    if NEUTRON_L3AGENT_INFO:
+        NEUTRON_L3AGENT_INFO = {"neutron-l3-agent": NEUTRON_L3AGENT_INFO}
+        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
+            NEUTRON_L3AGENT_INFO = {"openstack": NEUTRON_L3AGENT_INFO}
+            indent = 0
+        else:
+            indent = 2
+
+        helpers.HOTSOSYaml.dump(NEUTRON_L3AGENT_INFO, indent=indent)

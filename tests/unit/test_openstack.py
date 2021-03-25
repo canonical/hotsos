@@ -15,7 +15,8 @@ specs = {}
 for plugin in ["01openstack", "02vm_info", "03nova_external_events",
                "04package_versions", "05network", "06service_features",
                "07cpu_pinning_check", "08neutron_openvswitch",
-               "09neutron_agent_errors", "10nova_agent_errors"]:
+               "09neutron_agent_errors", "10nova_agent_errors",
+               "11neutron_l3agent"]:
     loader = SourceFileLoader("ost_{}".format(plugin),
                               "plugins/openstack/{}".format(plugin))
     specs[plugin] = spec_from_loader("ost_{}".format(plugin), loader)
@@ -50,6 +51,9 @@ specs["09neutron_agent_errors"].loader.exec_module(ost_09neutron_agent_errors)
 
 ost_10nova_agent_errors = module_from_spec(specs["10nova_agent_errors"])
 specs["10nova_agent_errors"].loader.exec_module(ost_10nova_agent_errors)
+
+ost_11neutron_l3agent = module_from_spec(specs["11neutron_l3agent"])
+specs["11neutron_l3agent"].loader.exec_module(ost_11neutron_l3agent)
 
 
 APT_UCA = """
@@ -301,4 +305,29 @@ class TestOpenstackPlugin10nova_agent_errors(utils.BaseTestCase):
                     'nova-compute': {'DBConnectionError': {'2021-03-08': 2}}}
         ost_10nova_agent_errors.get_agents_exceptions()
         self.assertEqual(ost_10nova_agent_errors.NOVA_AGENT_ERROR_INFO,
+                         expected)
+
+
+class TestOpenstackPlugin11neutron_l3agent(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(ost_11neutron_l3agent, "NEUTRON_L3AGENT_INFO", {})
+    def test_get_router_update_stats(self):
+        # TODO: write this test
+        expected = {}
+        ost_11neutron_l3agent.get_router_update_stats()
+        self.assertEqual(ost_11neutron_l3agent.NEUTRON_L3AGENT_INFO,
+                         expected)
+
+    @mock.patch.object(ost_11neutron_l3agent, "NEUTRON_L3AGENT_INFO", {})
+    def test_get_router_spawn_stats(self):
+        # TODO: write this test
+        expected = {}
+        ost_11neutron_l3agent.get_router_spawn_stats()
+        self.assertEqual(ost_11neutron_l3agent.NEUTRON_L3AGENT_INFO,
                          expected)
