@@ -47,8 +47,9 @@ class TestSearchTools(utils.BaseTestCase):
                           tag="T1")
         s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', [1], filepath,
                           tag="T2")
-        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+INFO.+', [1], globpath,
-                          tag="T3")
+        s.add_search_term((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router '
+                           '9b8efc4c-305b-48ce-a5bd-624bc5eeee67.+'), [1],
+                          globpath, tag="T3")
         # search for something that doesn't exist to test that code path
         s.add_search_term(r'non-existant-pattern', [1], globpath,
                           tag="T4")
@@ -75,10 +76,10 @@ class TestSearchTools(utils.BaseTestCase):
             self.assertEquals(result.get(1), expected[ln])
 
         self.assertEquals(len(results.find_by_path(globpath_file1)), 1)
-        self.assertEquals(len(results.find_by_path(globpath_file2)), 1)
+        self.assertEquals(len(results.find_by_path(globpath_file2)), 0)
 
         # these files have the same content so expect same result from both
-        expected = {12: '2021-02-26 14:10:29.729'}
+        expected = {81: '2021-03-25 18:10:15.179'}
         path_results = results.find_by_path(globpath_file1)
         for result in path_results:
             ln = result.linenumber

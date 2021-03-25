@@ -18,33 +18,13 @@ NEUTRON_L3AGENT_INFO = {}
 MAX_RESULTS = 5
 
 
-def get_router_update_stats():
+def get_router_update_stats(results):
     router_updates = {}
     stats = {"min": 0,
              "max": 0,
              "stdev": 0,
              "avg": 0,
              "samples": []}
-
-    s = searchtools.FileSearcher()
-    if constants.USE_ALL_LOGS:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-l3-agent.log*')
-    else:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-l3-agent.log')
-
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Starting router update for "
-                       "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+"),
-                      [1, 2, 3, 4], data_source, tag="router-update-start")
-
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Finished a router update for "
-                       "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
-                       "([0-9.]+)"),
-                      [1, 2, 3, 4, 5], data_source,
-                      tag="router-update-finish")
-
-    results = s.search()
 
     event_seq_ids = {}
     for result in results.find_by_tag("router-update-finish"):
@@ -130,33 +110,13 @@ def get_router_update_stats():
                                               "stats": stats}
 
 
-def get_router_spawn_stats():
+def get_router_spawn_stats(results):
     spawn_events = {}
     stats = {"min": 0,
              "max": 0,
              "stdev": 0,
              "avg": 0,
              "samples": []}
-
-    s = searchtools.FileSearcher()
-    if constants.USE_ALL_LOGS:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-l3-agent.log*')
-    else:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-l3-agent.log')
-
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
-                       "spawn_state_change_monitor"),
-                      [1, 2, 3], data_source, tag="router-spawn1")
-
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
-                       "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf"
-                       " .+"),
-                      [1, 2, 3], data_source,
-                      tag="router-spawn2")
-
-    results = s.search()
 
     event_seq_ids = {}
     for result in results.find_by_tag("router-spawn2"):
@@ -246,9 +206,44 @@ def get_router_spawn_stats():
                                                    "stats": stats}
 
 
+def get_router_event_stats():
+    s = searchtools.FileSearcher()
+    if constants.USE_ALL_LOGS:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-l3-agent.log*')
+    else:
+        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                   'neutron-l3-agent.log')
+
+    # router updates
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Starting router update for "
+                       "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+"),
+                      [1, 2, 3, 4], data_source, tag="router-update-start")
+
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Finished a router update for "
+                       "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
+                       "([0-9.]+)"),
+                      [1, 2, 3, 4, 5], data_source,
+                      tag="router-update-finish")
+
+    # router state_change_monitor + keepalived spawn
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
+                       "spawn_state_change_monitor"),
+                      [1, 2, 3], data_source, tag="router-spawn1")
+
+    s.add_search_term((r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
+                       "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf"
+                       " .+"),
+                      [1, 2, 3], data_source,
+                      tag="router-spawn2")
+
+    results = s.search()
+    get_router_spawn_stats(results)
+    get_router_update_stats(results)
+
+
 if __name__ == "__main__":
-    get_router_update_stats()
-    get_router_spawn_stats()
+    get_router_event_stats()
     if NEUTRON_L3AGENT_INFO:
         NEUTRON_L3AGENT_INFO = {"neutron-l3-agent": NEUTRON_L3AGENT_INFO}
         if not helpers.HOTSOSYaml.master_has_plugin("openstack"):

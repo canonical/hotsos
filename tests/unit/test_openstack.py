@@ -317,17 +317,31 @@ class TestOpenstackPlugin11neutron_l3agent(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(ost_11neutron_l3agent, "NEUTRON_L3AGENT_INFO", {})
-    def test_get_router_update_stats(self):
-        # TODO: write this test
-        expected = {}
-        ost_11neutron_l3agent.get_router_update_stats()
-        self.assertEqual(ost_11neutron_l3agent.NEUTRON_L3AGENT_INFO,
-                         expected)
+    def test_get_router_event_stats(self):
+        router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'
+        spawn_start = datetime.datetime(2021, 3, 25, 18, 10, 14, 747000)
+        spawn_end = datetime.datetime(2021, 3, 25, 18, 10, 50, 838000)
+        update_start = datetime.datetime(2021, 3, 25, 18, 9, 54, 720000)
+        update_end = datetime.datetime(2021, 3, 25, 18, 10, 36, 942000)
+        expected = {'router-spawn-events': {'stats': {'avg': 36.09,
+                                                      'max': 36.09,
+                                                      'min': 36.09,
+                                                      'samples': 1,
+                                                      'stdev': 0.0},
+                                            'top': {router:
+                                                    {'duration': 36.091,
+                                                     'end': spawn_end,
+                                                     'start': spawn_start}}},
+                    'router-updates': {'stats': {'avg': 28.14,
+                                                 'max': 42.22,
+                                                 'min': 14.07,
+                                                 'samples': 2,
+                                                 'stdev': 14.08},
+                                       'top': {router:
+                                               {'duration': 42.222,
+                                                'end': update_end,
+                                                'start': update_start}}}}
 
-    @mock.patch.object(ost_11neutron_l3agent, "NEUTRON_L3AGENT_INFO", {})
-    def test_get_router_spawn_stats(self):
-        # TODO: write this test
-        expected = {}
-        ost_11neutron_l3agent.get_router_spawn_stats()
+        ost_11neutron_l3agent.get_router_event_stats()
         self.assertEqual(ost_11neutron_l3agent.NEUTRON_L3AGENT_INFO,
                          expected)
