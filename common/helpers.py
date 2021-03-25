@@ -260,9 +260,12 @@ def get_ceph_versions():
 
 
 @catch_exception(OSError)
-def get_sosreport_time():
+def get_date(format=None):
+    if format is None:
+        format = '+%s'
+
     if DATA_ROOT == '/':
-        output = subprocess.check_output(['date', '+%s'])
+        output = subprocess.check_output(['date', format])
         return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT, "sos_commands/date/date")
@@ -270,7 +273,7 @@ def get_sosreport_time():
         with open(path, 'r') as fd:
             date = fd.read()
             output = subprocess.check_output(["date", "--date={}".format(date),
-                                              "+%s"])
+                                              format])
             return output.decode('UTF-8').splitlines(keepends=True)[0]
 
     return []

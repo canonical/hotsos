@@ -109,8 +109,21 @@ def seconds_to_date(secs):
                                     int(mins), int(secs))
 
 
+def get_date_secs(datestring=None):
+    if datestring:
+        cmd = ["date", "--date={}".format(datestring), "+%s"]
+        date_in_secs = subprocess.check_output(cmd)
+    else:
+        date_in_secs = helpers.get_date() or 0
+        if date_in_secs:
+            date_in_secs = date_in_secs[0].strip()
+
+    return int(date_in_secs)
+
+
 def get_osd_info():
-    sos_time_secs = helpers.get_sosreport_time()
+    date_in_secs = get_date_secs()
+
     ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
 
     osd_info = {}
@@ -156,12 +169,9 @@ def get_osd_info():
                                  osd_id)).match(line)
                 if ret:
                     osd_start = ' '.join(line.split()[13:17])
-                    if sos_time_secs and osd_start:
-                        cmd = ["date", "--date={}".format(osd_start),
-                               "+%s"]
-                        osd_start_secs = subprocess.check_output(cmd)
-                        osd_uptime_secs = (int(sos_time_secs) -
-                                           int(osd_start_secs))
+                    if date_in_secs and osd_start:
+                        osd_start_secs = get_date_secs(datestring=osd_start)
+                        osd_uptime_secs = (date_in_secs - osd_start_secs)
                         osd_uptime_str = seconds_to_date(osd_uptime_secs)
                         osd_info[osd_id]["etime"] = osd_uptime_str
                         break

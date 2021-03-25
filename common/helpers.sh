@@ -94,17 +94,6 @@ seconds_to_date ()
 }
 export -f seconds_to_date
 
-get_sosreport_time ()
-{
-    local sos_path="${DATA_ROOT}/sos_commands/date/date"
-    if [ -s "$sos_path" ]; then
-        date --date="$(cat $sos_path)" +%s
-    elif ! [ -d "${DATA_ROOT}sos_commands" ]; then
-        date +%s
-    fi
-}
-export -f get_sosreport_time
-
 get_ceph_volume_lvm_list ()
 {
     local sos_path="${DATA_ROOT}/sos_commands/ceph/ceph-volume_lvm_list"
