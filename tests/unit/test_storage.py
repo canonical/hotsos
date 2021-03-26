@@ -10,7 +10,7 @@ os.environ["VERBOSITY_LEVEL"] = "1000"
 
 # need this for non-standard import
 specs = {}
-for plugin in ["01ceph", "02bcache"]:
+for plugin in ["01ceph", "02bcache", "03ceph_daemon_logs"]:
     loader = SourceFileLoader("storage_{}".format(plugin),
                               "plugins/storage/{}".format(plugin))
     specs[plugin] = spec_from_loader("storage_{}".format(plugin), loader)
@@ -20,6 +20,9 @@ specs["01ceph"].loader.exec_module(storage_01ceph)
 
 storage_02bcache = module_from_spec(specs["02bcache"])
 specs["02bcache"].loader.exec_module(storage_02bcache)
+
+storage_03ceph_daemon_logs = module_from_spec(specs["03ceph_daemon_logs"])
+specs["03ceph_daemon_logs"].loader.exec_module(storage_03ceph_daemon_logs)
 
 
 class TestStoragePlugin01ceph(utils.BaseTestCase):
@@ -134,3 +137,19 @@ class TestStoragePlugin02bcache(utils.BaseTestCase):
                   'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}}
         storage_02bcache.get_bcache_info()
         self.assertEqual(storage_02bcache.BCACHE_INFO, result)
+
+
+class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(storage_03ceph_daemon_logs, "DAEMON_INFO", {})
+    def test_get_daemon_info(self):
+        result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
+                                          'osd.85': {'2021-02-13': 4}}}
+        storage_03ceph_daemon_logs.get_daemon_info()
+        self.assertEqual(storage_03ceph_daemon_logs.DAEMON_INFO, result)

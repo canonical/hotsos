@@ -1,0 +1,36 @@
+2021-02-13 06:25:01.495006 mgr.ceph1 (mgr.98659551) 160339 : cluster [DBG] pgmap v174731: 8768 pgs: 1 active+recovery_wait, 1 active+recovery_wait+undersized+remapped, 1 active+recovering+degraded+remapped, 2 active+recov
+ery_wait+remapped, 2 undersized+remapped+backfilling+peered, 2 incomplete, 3 active+recovery_wait+undersized+degraded, 10 active+clean+remapped, 76 active+undersized, 242 active+undersized+degraded, 3 active+remapped+back
+filling, 7 active+undersized+remapped+backfill_wait+backfilling, 34 active+undersized+remapped+backfilling, 33 remapped+incomplete, 18 active+undersized+degraded+remapped+backfilling, 14 active+recovery_wait+undersized+de
+graded+remapped, 27 active+recovery_wait+degraded+remapped, 33 active+recovery_wait+degraded, 274 active+remapped+backfill_wait, 59 active+undersized+remapped+backfill_wait, 7468 active+clean, 458 active+undersized+degrad
+ed+remapped+backfill_wait; 161 TiB data, 248 TiB used, 300 TiB / 548 TiB avail; 28 KiB/s rd, 169 KiB/s wr, 34 op/s; 93223161/2887723934 objects degraded (3.228%); 330740395/2887723934 objects misplaced (11.453%); 3.8 MiB/
+s, 9 objects/s recovering
+2021-02-13 06:25:01.980878 mon.ceph1 (mon.0) 187359 : cluster [DBG] osd.41 reported failed by osd.89
+2021-02-13 06:25:02.066523 mon.ceph1 (mon.0) 187360 : cluster [DBG] osd.41 reported failed by osd.54
+2021-02-13 06:25:02.244413 mon.ceph1 (mon.0) 187362 : cluster [DBG] osd.41 reported failed by osd.51
+2021-02-13 06:25:02.246218 mon.ceph1 (mon.0) 187363 : cluster [DBG] osd.41 reported failed by osd.17
+2021-02-13 06:25:02.313388 mon.ceph1 (mon.0) 187364 : cluster [DBG] osd.41 reported failed by osd.26
+2021-02-13 06:25:02.379462 mon.ceph1 (mon.0) 187365 : cluster [DBG] osd.41 reported failed by osd.59
+2021-02-13 06:25:02.488571 mon.ceph1 (mon.0) 187366 : cluster [DBG] osd.41 reported failed by osd.23
+2021-02-13 06:25:02.579735 mon.ceph1 (mon.0) 187367 : cluster [DBG] osd.41 reported failed by osd.95
+2021-02-13 06:25:02.580003 mon.ceph1 (mon.0) 187368 : cluster [DBG] osd.85 reported failed by osd.95
+2021-02-13 06:25:02.801670 mon.ceph1 (mon.0) 187369 : cluster [DBG] osd.41 reported failed by osd.25
+2021-02-13 06:25:02.801811 mon.ceph1 (mon.0) 187370 : cluster [DBG] osd.85 reported failed by osd.25
+2021-02-13 06:25:02.818558 mon.ceph1 (mon.0) 187371 : cluster [DBG] osd.41 reported failed by osd.91
+2021-02-13 06:25:02.940488 mon.ceph1 (mon.0) 187372 : cluster [DBG] osd.41 reported failed by osd.34
+2021-02-13 06:25:03.043594 mon.ceph1 (mon.0) 187373 : cluster [DBG] osd.41 reported failed by osd.82
+2021-02-13 06:25:03.195670 mon.ceph1 (mon.0) 187374 : cluster [DBG] osd.41 reported failed by osd.5
+2021-02-13 06:25:03.246756 mon.ceph1 (mon.0) 187375 : cluster [DBG] osd.41 reported failed by osd.76
+2021-02-13 06:25:03.246880 mon.ceph1 (mon.0) 187376 : cluster [DBG] osd.85 reported failed by osd.76
+2021-02-13 06:25:03.454766 mon.ceph1 (mon.0) 187377 : cluster [DBG] osd.41 reported failed by osd.8
+2021-02-13 06:25:03.461673 mon.ceph1 (mon.0) 187378 : cluster [DBG] osd.41 reported failed by osd.27
+2021-02-13 06:25:03.461842 mon.ceph1 (mon.0) 187379 : cluster [DBG] osd.85 reported failed by osd.27
+2021-02-13 06:25:03.468028 mon.ceph1 (mon.0) 187380 : cluster [DBG] osd.41 reported failed by osd.44
+2021-02-13 06:25:03.510127 mon.ceph1 (mon.0) 187381 : cluster [DBG] osd.41 reported failed by osd.104
+2021-02-13 06:25:03.681626 mon.ceph1 (mon.0) 187382 : cluster [DBG] osd.41 reported failed by osd.64
+2021-02-13 06:25:03.745843 mon.ceph1 (mon.0) 187383 : cluster [WRN] Health check update: Degraded data redundancy: 93223161/2887723934 objects degraded (3.228%), 796 pgs degraded, 914 pgs undersized (PG_DEGRADED)
+2021-02-13 06:25:03.745899 mon.ceph1 (mon.0) 187384 : cluster [WRN] Health check update: 36 slow ops, oldest one blocked for 29671 sec, daemons [osd.108,mon.ceph1,mon.ceph2,mon.ceph3] have slow ops. (SLOW_OPS)
+2021-02-13 06:25:03.754418 mon.ceph1 (mon.0) 187385 : cluster [DBG] osd.41 reported failed by osd.92
+2021-02-13 06:25:03.892938 mon.ceph1 (mon.0) 187386 : cluster [DBG] osd.41 reported failed by osd.97
+2021-02-13 06:25:03.914537 mon.ceph1 (mon.0) 187387 : cluster [DBG] osd.41 reported failed by osd.28
+2021-02-13 06:25:03.943606 mon.ceph1 (mon.0) 187388 : cluster [DBG] osd.41 reported failed by osd.105
+

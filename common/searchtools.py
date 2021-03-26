@@ -95,7 +95,7 @@ class FileSearcher(object):
 
         return cpus
 
-    def add_search_term(self, key, indices, path, tag=None):
+    def add_search_term(self, key, indices, path, tag=None, hint=None):
         """Add a term to search for.
 
         A search term is registered against a path which can be a file,
@@ -107,8 +107,12 @@ class FileSearcher(object):
                         to extract.
         @param path: path that we will be searching for this key
         @param tag: optional user-friendly identifier for this search term
+        @param hint: pre-search term to speed things up
         """
         entry = {"key": re.compile(key), "indices": indices, "tag": tag}
+        if hint:
+            entry["hint"] = re.compile(hint)
+
         if path in self.paths:
             self.paths[path].append(entry)
         else:
@@ -140,6 +144,11 @@ class FileSearcher(object):
             for s_term in self.paths[term_key]:
                 if type(line) == bytes:
                     line = line.decode("utf-8")
+
+                if s_term.get("hint"):
+                    ret = s_term["hint"].search(line)
+                    if not ret:
+                        continue
 
                 ret = s_term["key"].match(line)
                 if ret:
