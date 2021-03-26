@@ -1,6 +1,10 @@
 #!/usr/bin/python3
+import os
+
 from common import (
+    constants,
     helpers,
+    searchtools,
 )
 from openstack_common import (
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
@@ -14,15 +18,29 @@ NEUTRON_AGENT_ERROR_INFO = {}
 
 
 def get_agents_exceptions():
+    data_source_template = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
+                                        '{}.log')
+    if constants.USE_ALL_LOGS:
+        data_source_template = "{}*".format(data_source_template)
+
+    agents = ["neutron-openvswitch-agent", "neutron-dhcp-agent",
+              "neutron-l3-agent", "neutron-server"]
     exc_types = ["DBConnectionError", "MessagingTimeout",
                  "AMQP server on .+ is unreachable",
                  "amqp.exceptions.ConnectionForced: .+",
                  "OSError: Server unexpectedly closed connection",
                  "ConnectionResetError: .+"]
-    for agent in ["neutron-openvswitch-agent", "neutron-dhcp-agent",
-                  "neutron-l3-agent", "neutron-server"]:
-        e = get_agent_exceptions(agent, NEUTRON_LOGS, exc_types,
-                                 include_time_in_key=AGENT_ERROR_KEY_BY_TIME)
+    s = searchtools.FileSearcher()
+    for agent in agents:
+        data_source = data_source_template.format(agent)
+        for exc_type in exc_types:
+            s.add_search_term(r"^([0-9\-]+) (\S+) .+({}).*".format(exc_type),
+                              [1, 2, 3], data_source, tag=agent)
+
+    results = s.search()
+    for agent in agents:
+        e = get_agent_exceptions(results.find_by_tag(agent),
+                                 AGENT_ERROR_KEY_BY_TIME)
         if e:
             NEUTRON_AGENT_ERROR_INFO[agent] = e
 
