@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import glob
 import os
+import re
 import subprocess
+import sys
 import yaml
 
 # HOTSOS GLOBALS
@@ -272,11 +274,20 @@ def get_date(format=None):
     if os.path.exists(path):
         with open(path, 'r') as fd:
             date = fd.read()
-            output = subprocess.check_output(["date", "--date={}".format(date),
-                                              format])
-            return output.decode('UTF-8').splitlines(keepends=True)[0]
 
-    return []
+            # if date string contains timezone we need to remove it
+            ret = re.match(r"^(\S+ \S*\s*[0-9]+ [0-9:]+ )[A-Z]*\s*([0-9]+)$",
+                           date)
+            if ret is None:
+                sys.stderr.write("ERROR: {} has invalid date string '{}'".
+                                 format(path, date))
+            else:
+                date = "{}{}".format(ret[1], ret[2])
+                output = subprocess.check_output(["date", "--date={}".
+                                                  format(date), format])
+                return output.decode('UTF-8').splitlines(keepends=True)[0]
+
+    return ""
 
 
 @catch_exception(OSError)

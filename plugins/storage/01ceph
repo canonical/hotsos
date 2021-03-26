@@ -116,7 +116,7 @@ def get_date_secs(datestring=None):
     else:
         date_in_secs = helpers.get_date() or 0
         if date_in_secs:
-            date_in_secs = date_in_secs[0].strip()
+            date_in_secs = date_in_secs.strip()
 
     return int(date_in_secs)
 

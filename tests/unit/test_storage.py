@@ -32,13 +32,20 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
 
     @mock.patch.object(storage_01ceph.helpers, "get_date")
     def test_get_date_secs(self, mock_get_date):
-        mock_get_date.return_value = ["1234\n"]
+        mock_get_date.return_value = "1234\n"
         self.assertEquals(storage_01ceph.get_date_secs(), 1234)
 
     @mock.patch.object(storage_01ceph.helpers, "get_date")
     def test_get_date_secs_from_timestamp(self, mock_get_date):
-        mock_get_date.return_value = ["1234\n"]
+        mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 2021"
+        self.assertEquals(storage_01ceph.get_date_secs(date_string),
+                          1616669705)
+
+    @mock.patch.object(storage_01ceph.helpers, "get_date")
+    def test_get_date_secs_from_timestamp_w_tz(self, mock_get_date):
+        mock_get_date.return_value = "1234\n"
+        date_string = "Thu Mar 25 10:55:05 UTC 2021"
         self.assertEquals(storage_01ceph.get_date_secs(date_string),
                           1616669705)
 
