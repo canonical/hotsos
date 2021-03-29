@@ -15,8 +15,7 @@ specs = {}
 for plugin in ["01openstack", "02vm_info", "03nova_external_events",
                "04package_versions", "05network", "06service_features",
                "07cpu_pinning_check", "08neutron_openvswitch",
-               "09neutron_agent_errors", "10nova_agent_errors",
-               "11neutron_l3agent"]:
+               "09agent_errors", "10neutron_l3agent"]:
     loader = SourceFileLoader("ost_{}".format(plugin),
                               "plugins/openstack/{}".format(plugin))
     specs[plugin] = spec_from_loader("ost_{}".format(plugin), loader)
@@ -46,14 +45,11 @@ specs["07cpu_pinning_check"].loader.exec_module(ost_07cpu_pinning_check)
 ost_08neutron_openvswitch = module_from_spec(specs["08neutron_openvswitch"])
 specs["08neutron_openvswitch"].loader.exec_module(ost_08neutron_openvswitch)
 
-ost_09neutron_agent_errors = module_from_spec(specs["09neutron_agent_errors"])
-specs["09neutron_agent_errors"].loader.exec_module(ost_09neutron_agent_errors)
+ost_09agent_errors = module_from_spec(specs["09agent_errors"])
+specs["09agent_errors"].loader.exec_module(ost_09agent_errors)
 
-ost_10nova_agent_errors = module_from_spec(specs["10nova_agent_errors"])
-specs["10nova_agent_errors"].loader.exec_module(ost_10nova_agent_errors)
-
-ost_11neutron_l3agent = module_from_spec(specs["11neutron_l3agent"])
-specs["11neutron_l3agent"].loader.exec_module(ost_11neutron_l3agent)
+ost_10neutron_l3agent = module_from_spec(specs["10neutron_l3agent"])
+specs["10neutron_l3agent"].loader.exec_module(ost_10neutron_l3agent)
 
 
 APT_UCA = """
@@ -264,7 +260,7 @@ class TestOpenstackPlugin08neutron_openvswitch(utils.BaseTestCase):
                          expected)
 
 
-class TestOpenstackPlugin09neutron_agent_errors(utils.BaseTestCase):
+class TestOpenstackPlugin09agent_errors(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -272,43 +268,28 @@ class TestOpenstackPlugin09neutron_agent_errors(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_09neutron_agent_errors, "NEUTRON_AGENT_ERROR_INFO",
-                       {})
-    def test_get_rpc_message_timeout(self):
-        expected = {'neutron-openvswitch-agent':
-                    {'MessagingTimeout': {'2021-03-04': 2},
-                     'AMQP server on 10.10.123.22:5672 is unreachable':
-                     {'2021-03-04': 3}}}
-        ost_09neutron_agent_errors.get_agents_exceptions()
-        self.assertEqual(ost_09neutron_agent_errors.NEUTRON_AGENT_ERROR_INFO,
-                         expected)
+    @mock.patch.object(ost_09agent_errors, "AGENT_ERROR_INFO", {})
+    def test_get_nova_exceptions(self):
+        neutron_expected = {'neutron-openvswitch-agent':
+                            {'MessagingTimeout': {'2021-03-04': 2},
+                             'AMQP server on 10.10.123.22:5672 is unreachable':
+                             {'2021-03-04': 3}}}
+        nova_expected = {'nova-api-wsgi':
+                         {'OSError: Server unexpectedly closed connection':
+                          {'2021-03-15': 1},
+                          'AMQP server on 10.5.1.98:5672 is unreachable':
+                          {'2021-03-15': 1},
+                          'amqp.exceptions.ConnectionForced: '
+                          'Too many heartbeats missed':
+                          {'2021-03-15': 1}},
+                         'nova-compute':
+                         {'DBConnectionError': {'2021-03-08': 2}}}
+        ost_09agent_errors.get_agents_exceptions()
+        self.assertEqual(ost_09agent_errors.AGENT_ERROR_INFO,
+                         {"neutron": neutron_expected, "nova": nova_expected})
 
 
-class TestOpenstackPlugin10nova_agent_errors(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
-    @mock.patch.object(ost_10nova_agent_errors, "NOVA_AGENT_ERROR_INFO",
-                       {})
-    def test_get_rpc_message_timeout(self):
-        expected = {'nova-api-wsgi': {'OSError: Server unexpectedly closed '
-                                      'connection': {'2021-03-15': 1},
-                                      'AMQP server on 10.5.1.98:5672 is '
-                                      'unreachable': {'2021-03-15': 1},
-                                      'amqp.exceptions.ConnectionForced: '
-                                      'Too many heartbeats missed':
-                                      {'2021-03-15': 1}},
-                    'nova-compute': {'DBConnectionError': {'2021-03-08': 2}}}
-        ost_10nova_agent_errors.get_agents_exceptions()
-        self.assertEqual(ost_10nova_agent_errors.NOVA_AGENT_ERROR_INFO,
-                         expected)
-
-
-class TestOpenstackPlugin11neutron_l3agent(utils.BaseTestCase):
+class TestOpenstackPlugin10neutron_l3agent(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -316,7 +297,7 @@ class TestOpenstackPlugin11neutron_l3agent(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_11neutron_l3agent, "NEUTRON_L3AGENT_INFO", {})
+    @mock.patch.object(ost_10neutron_l3agent, "NEUTRON_L3AGENT_INFO", {})
     def test_get_router_event_stats(self):
         router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'
         spawn_start = datetime.datetime(2021, 3, 25, 18, 10, 14, 747000)
@@ -342,6 +323,6 @@ class TestOpenstackPlugin11neutron_l3agent(utils.BaseTestCase):
                                                 'end': update_end,
                                                 'start': update_start}}}}
 
-        ost_11neutron_l3agent.get_router_event_stats()
-        self.assertEqual(ost_11neutron_l3agent.NEUTRON_L3AGENT_INFO,
+        ost_10neutron_l3agent.get_router_event_stats()
+        self.assertEqual(ost_10neutron_l3agent.NEUTRON_L3AGENT_INFO,
                          expected)
