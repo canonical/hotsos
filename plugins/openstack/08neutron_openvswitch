@@ -78,6 +78,10 @@ def get_rpc_loop_too_long():
     for k, v in sorted(rpc_loops.items(),
                        key=lambda x: x[1].get("duration", 0),
                        reverse=True):
+        # skip unterminated entries (e.g. on file wraparound)
+        if "start" not in v:
+            continue
+
         if count >= MAX_RPC_LOOP_RESULTS:
             break
 

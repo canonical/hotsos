@@ -25,7 +25,7 @@ AGENT_LOGS = {"neutron": NEUTRON_LOGS,
               "nova": NOVA_LOGS}
 AGENT_EXCEPTIONS_COMMON = [r"(DBConnectionError)", r"(MessagingTimeout)",
                            r"(AMQP server on .+ is unreachable)",
-                           r"(amqp.exceptions.ConnectionForced: .+)",
+                           r"(amqp.exceptions.ConnectionForced):",
                            r"(OSError: Server unexpectedly closed connection)",
                            r"(ConnectionResetError: .+)"]
 AGENTS_EXCEPTIONS = {"nova": AGENT_EXCEPTIONS_COMMON + [

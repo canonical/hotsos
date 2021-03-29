@@ -34,6 +34,7 @@ export USE_ALL_LOGS=false
 # import helpers functions
 . `dirname $0`/common/helpers.sh
 
+MASTER_YAML_OUT=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
 # unordered
@@ -50,6 +51,13 @@ override_all_default=false
 # output ordering
 declare -a PLUGIN_NAMES=( system openstack kubernetes storage juju kernel )
 
+cleanup ()
+{
+    [[ -r $MASTER_YAML_OUT ]] && rm $MASTER_YAML_OUT
+    exit
+}
+
+trap cleanup KILL INT EXIT
 
 usage ()
 {
@@ -211,7 +219,6 @@ get_git_rev_info ()
     popd &>/dev/null
 }
 
-MASTER_YAML_OUT=`mktemp`
 CWD=$(dirname `realpath $0`)
 for data_root in ${SOS_PATHS[@]}; do
     if [ "$data_root" = "/" ]; then
@@ -251,7 +258,6 @@ for data_root in ${SOS_PATHS[@]}; do
         done
         $DEBUG_MODE && echo "" 1>&2
     done
-    $DEBUG_MODE && echo "" 1>&2
 
     if $SAVE_OUTPUT; then
         if [[ $data_root != "/" ]]; then

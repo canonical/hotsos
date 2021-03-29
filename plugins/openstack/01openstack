@@ -24,12 +24,14 @@ def get_service_info():
     service_info = {}
     for line in helpers.get_ps():
         for svc in OST_SERVICES + OST_SERVICES_DEPS:
-            ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
+            ret = re.compile(svc).search(line)
             if ret:
-                if ret[1] in service_info:
-                    service_info[ret[1]] += 1
-                else:
-                    service_info[ret[1]] = 1
+                ret = re.compile(r".+[\s/]+({})\s+".format(svc)).match(line)
+                if ret:
+                    if ret[1] in service_info:
+                        service_info[ret[1]] += 1
+                    else:
+                        service_info[ret[1]] = 1
 
     if service_info:
         OPENSTACK_INFO["services"] = ["{} ({})".format(s, service_info[s])
