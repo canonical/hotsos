@@ -20,6 +20,7 @@
 #  - opentastic@gmail.com
 
 
+DEBUG_MODE=false
 # These globals are made available to all plugins
 export VERBOSITY_LEVEL=0
 export DATA_ROOT
@@ -61,6 +62,8 @@ Ceph and more (see supported plugins). The standard output is yaml format to
 allow easy visual inspection and post-processing by other tools.
 
 OPTIONS
+    --debug)
+        Provide some debug output such as plugin execution times.
     -h|--help
         This message.
     --juju
@@ -110,6 +113,9 @@ EOF
 
 while (($#)); do
     case $1 in
+        --debug)
+            DEBUG_MODE=true
+            ;;
         -h|--help)
             usage
             exit 0
@@ -227,27 +233,25 @@ for data_root in ${SOS_PATHS[@]}; do
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $MASTER_YAML_OUT
 
-    # DEBUG
-    #echo -e "Running plugins:\n" 1>&2
+    $DEBUG_MODE && echo -e "Running plugins:\n" 1>&2
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
         [ "$plugin" = "all" ] && continue
         # is plugin enabled?
         ${PLUGINS[$plugin]} || continue
-        # DEBUG
-        #echo -e "$plugin:  " 1>&2
+        $DEBUG_MODE && echo -e "${plugin^^}:  " 1>&2
         for priority in {00..99}; do
-            for plug in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
-                # DEBUG
-                #echo -n "  `basename $plug`..." 1>&2
-                $plug >> $MASTER_YAML_OUT
-                # DEBUG
-                #echo "done." 1>&2
+            for part in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
+                t_start=`date +%s%3N`
+                $DEBUG_MODE && echo -n " `basename $part`" 1>&2
+                $part >> $MASTER_YAML_OUT
+                t_end=`date +%s%3N`
+                $DEBUG_MODE && echo " (`echo \"scale=3;($t_end-$t_start)/1000\"| bc`s)" 1>&2
             done
         done
+        $DEBUG_MODE && echo "" 1>&2
     done
-    # DEBUG
-    #echo "" 1>&2
+    $DEBUG_MODE && echo "" 1>&2
 
     if $SAVE_OUTPUT; then
         if [[ $data_root != "/" ]]; then
@@ -259,8 +263,7 @@ for data_root in ${SOS_PATHS[@]}; do
         mv $MASTER_YAML_OUT $out
         echo "Summary written to $out"
     else
-        # DEBUG
-        #echo "Results:" 1>&2
+        $DEBUG_MODE && echo "Results:" 1>&2
         cat $MASTER_YAML_OUT
         echo "" 1>&2
         rm $MASTER_YAML_OUT
