@@ -1,9 +1,17 @@
 #!/bin/bash -u
 # This plugin displays information about the kernel.
 
-sub_indent_str="    - "
-subsub_indent_str="      - "
-subsubsub_indent_str="        - "
+FTMP=`mktemp`
+cleanup ()
+{
+    rm $FTMP
+}
+
+trap cleanup KILL EXIT INT
+
+sub_indent_str="  - "
+subsub_indent_str="    - "
+subsubsub_indent_str="      - "
 zone_issue_found=false
 
 echo "kernel:"
@@ -53,7 +61,7 @@ get_slab_major_consumers ()
     # /proc/slabinfo may not exist in containers/VMs
     [[ ! -e "$proc_slabinfo" ]] && return
 
-    ftmp=`mktemp`
+    local ftmp=`mktemp`
     # name, num_objs, objsize
     cat "${proc_slabinfo}"| tail -n+3| awk '{print $1, $3, $4}'| grep -v kmalloc > $ftmp
     while read line; do
@@ -70,7 +78,7 @@ get_slab_major_consumers ()
         done
     done < $ftmp
     rm $ftmp
-    echo "      slab (top 5):"
+    echo "    slab (top 5):"
     for ((i=0;i<5;i++)); do
         echo "${subsubsub_indent_str}${top5_name[$i]} ($((${top5_num_objs[$i]}*${top5_objsize[$i]}/1024))k)"
     done
@@ -88,7 +96,7 @@ check_nodes_memory () {
     for node in ${nodes[@]}; do
         check_mallocinfo $node $zones_type
         if (($?)); then
-            echo "      node$node-${zones_type,,}:"
+            echo "    node$node-${zones_type,,}:"
             zone_issue_found=true
             msg_suffix=""
             echo "${subsubsub_indent_str}may have limited high order memory - check ${DATA_ROOT}proc/buddyinfo$msg_suffix"
@@ -100,14 +108,18 @@ check_nodes_memory () {
     $zone_issue_found && return 1
     return 0
 }
+
+(
 zone_issue_found=false
 check_nodes_memory Normal || zone_issue_found=true
 # only check other types of no issue detected on Normal
 $zone_issue_found || check_nodes_memory DMA32 || zone_issue_found=true
+) > $FTMP
 
 # We only report on compaction errors if there is a shortage of high-order zones
-if $zone_issue_found; then
+if [[ -s $FTMP ]]; then
     echo "  memory-checks:"
+    cat $FTMP
     fail_count=`awk '$1=="compact_fail" {print $2}' ${DATA_ROOT}proc/vmstat`
     success_count=`awk '$1=="compact_success" {print $2}' ${DATA_ROOT}proc/vmstat`
     # we use an arbitrary threshold of 10k to suggest that a lot of compaction has
@@ -116,7 +128,7 @@ if $zone_issue_found; then
     if ((success_count>10000)); then
         pcent=$((fail_count/(success_count/100)))
         if ((pcent>10)); then
-            echo -e "      compaction:\n${subsubsub_indent_str}failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
+            echo -e "    compaction:\n${subsubsub_indent_str}failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
         fi
     fi
     get_slab_major_consumers
@@ -128,7 +140,7 @@ echo -e "  systemd:"
 path=${DATA_ROOT}etc/systemd/system.conf
 if [ -e "$path" ]; then
     if `egrep -q "^CPUAffinity=.+" $path`; then
-        egrep "^CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${sub_indent_str}{}"
+        egrep "^CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${subsub_indent_str}{}"
     else
         echo "${sub_indent_str}CPUAffinity not set"
     fi
