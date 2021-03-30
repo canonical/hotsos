@@ -30,7 +30,8 @@ AGENT_EXCEPTIONS_COMMON = [r"(DBConnectionError)", r"(MessagingTimeout)",
                            r"(ConnectionResetError: .+)"]
 AGENTS_EXCEPTIONS = {"nova": AGENT_EXCEPTIONS_COMMON + [
                      r"(nova.exception.\S+):"],
-                     "neutron": AGENT_EXCEPTIONS_COMMON}
+                     "neutron": AGENT_EXCEPTIONS_COMMON + [
+                     r"(OVS is dead).", r"(RuntimeError):"]}
 
 
 def add_agent_terms(searcher, service):
