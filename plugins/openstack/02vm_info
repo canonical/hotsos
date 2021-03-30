@@ -2,7 +2,8 @@
 import re
 
 from common import (
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 
@@ -22,10 +23,4 @@ if __name__ == "__main__":
     get_vm_info()
     if VM_INFO:
         VM_INFO = {"instances": VM_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            VM_INFO = {"openstack": VM_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(VM_INFO, indent=indent)
+        plugin_yaml.dump(VM_INFO)

@@ -7,8 +7,8 @@ from datetime import datetime
 
 from common import (
     constants,
-    helpers,
     searchtools,
+    plugin_yaml,
 )
 from openstack_common import (
     NEUTRON_LOGS,
@@ -251,10 +251,4 @@ if __name__ == "__main__":
     get_router_event_stats()
     if NEUTRON_L3AGENT_INFO:
         NEUTRON_L3AGENT_INFO = {"neutron-l3-agent": NEUTRON_L3AGENT_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            NEUTRON_L3AGENT_INFO = {"openstack": NEUTRON_L3AGENT_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(NEUTRON_L3AGENT_INFO, indent=indent)
+        plugin_yaml.dump(NEUTRON_L3AGENT_INFO)

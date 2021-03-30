@@ -2,7 +2,8 @@
 import re
 
 from common import (
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 
@@ -31,10 +32,4 @@ def get_bcache_info():
 if __name__ == "__main__":
     get_bcache_info()
     if BCACHE_INFO:
-        if not helpers.HOTSOSYaml.master_has_plugin("storage"):
-            BCACHE_INFO = {"storage": BCACHE_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(BCACHE_INFO, indent=indent)
+        plugin_yaml.dump(BCACHE_INFO)

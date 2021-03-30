@@ -3,7 +3,8 @@ import re
 import os
 
 from common import (
-    helpers
+    helpers,
+    plugin_yaml,
 )
 from juju_common import (
     JUJU_LOG_PATH
@@ -102,10 +103,4 @@ def get_unit_info():
 if __name__ == "__main__":
     get_unit_info()
     if JUJU_UNIT_INFO:
-        if not helpers.HOTSOSYaml.master_has_plugin("juju"):
-            JUJU_UNIT_INFO = {"juju": JUJU_UNIT_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-    helpers.HOTSOSYaml.dump(JUJU_UNIT_INFO, indent=indent)
+        plugin_yaml.dump(JUJU_UNIT_INFO)

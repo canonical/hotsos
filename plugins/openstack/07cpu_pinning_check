@@ -6,8 +6,10 @@ from uuid import uuid4
 
 from common import (
     constants,
-    helpers
+    helpers,
+    plugin_yaml,
 )
+from common.known_bugs_utils import add_known_bug
 from openstack_common import (
     OPENSTACK_SHOW_CPU_PINNING_RESULTS,
 )
@@ -384,6 +386,7 @@ class CPUPinningChecker(object):
                 msg = ("{} is neither a subset of isolcpus nor cpuaffinity".
                        format(self.cpu_dedicated_set_name))
                 self.results.add_error(msg)
+                add_known_bug(1897275)
 
         intersect = self.cpu_shared_set.intersection(self.kernel.isolcpus)
         if intersect:
@@ -442,10 +445,4 @@ if __name__ == "__main__":
     checker.get_results()
     if CPU_PINNING_INFO:
         CPU_PINNING_INFO = {"cpu-pinning-checks": CPU_PINNING_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            CPU_PINNING_INFO = {"openstack": CPU_PINNING_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(CPU_PINNING_INFO, indent=indent)
+        plugin_yaml.dump(CPU_PINNING_INFO)

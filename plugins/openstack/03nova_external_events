@@ -3,8 +3,8 @@ import os
 
 from common import (
     constants,
-    helpers,
     searchtools,
+    plugin_yaml,
 )
 
 EXT_EVENT_META = {"network-vif-plugged": {"stages_keys":
@@ -88,10 +88,4 @@ if __name__ == "__main__":
     get_events("network-vif-plugged", data_source)
     if EXT_EVENT_INFO:
         EXT_EVENT_INFO = {"os-server-external-events": EXT_EVENT_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            EXT_EVENT_INFO = {"openstack": EXT_EVENT_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(EXT_EVENT_INFO, indent=indent)
+        plugin_yaml.dump(EXT_EVENT_INFO)

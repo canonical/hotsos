@@ -4,7 +4,8 @@ import os
 
 from common import (
     constants,
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
@@ -65,10 +66,4 @@ if __name__ == "__main__":
     get_service_features()
     if SERVICE_FEATURES:
         SERVICE_FEATURES = {"features": SERVICE_FEATURES}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            SERVICE_FEATURES = {"openstack": SERVICE_FEATURES}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(SERVICE_FEATURES, indent=indent)
+        plugin_yaml.dump(SERVICE_FEATURES)

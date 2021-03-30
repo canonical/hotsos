@@ -4,7 +4,8 @@ import re
 
 from common import (
     constants,
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 SERVICES = ["etcdctl",
@@ -101,4 +102,4 @@ if __name__ == "__main__":
     get_pod_info()
     get_container_info()
     if KUBERNETES_INFO:
-        helpers.HOTSOSYaml.dump({"kubernetes": KUBERNETES_INFO})
+        plugin_yaml.dump(KUBERNETES_INFO)

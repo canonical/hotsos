@@ -30,6 +30,12 @@ export OPENSTACK_AGENT_ERROR_KEY_BY_TIME=false
 # This is the path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT
 export USE_ALL_LOGS=false
+# this is set to the name of the current plugin being executed
+export PLUGIN_NAME
+# This is a scratch area for each plugin to use and a fresh one is created at
+# the start of each plugin execution then destroyed once all parts are
+# executed.
+export PLUGIN_TMP_DIR
 
 # import helpers functions
 . `dirname $0`/common/helpers.sh
@@ -53,7 +59,12 @@ declare -a PLUGIN_NAMES=( system openstack kubernetes storage juju kernel )
 
 cleanup ()
 {
-    [[ -r $MASTER_YAML_OUT ]] && rm $MASTER_YAML_OUT
+    if [[ -n $MASTER_YAML_OUT ]] && [[ -r $MASTER_YAML_OUT ]]; then
+        rm $MASTER_YAML_OUT
+    fi
+    if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
+        rm -rf $PLUGIN_TMP_DIR
+    fi
     exit
 }
 
@@ -247,6 +258,11 @@ for data_root in ${SOS_PATHS[@]}; do
         # is plugin enabled?
         ${PLUGINS[$plugin]} || continue
         $DEBUG_MODE && echo -e "${plugin^^}:  " 1>&2
+
+        PLUGIN_NAME=$plugin
+        # setup plugin temp area
+        PLUGIN_TMP_DIR=`mktemp -d`
+
         for priority in {00..99}; do
             for part in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
                 t_start=`date +%s%3N`
@@ -256,6 +272,12 @@ for data_root in ${SOS_PATHS[@]}; do
                 $DEBUG_MODE && echo " (`echo \"scale=3;($t_end-$t_start)/1000\"| bc`s)" 1>&2
             done
         done
+
+        # teardown plugin temp area
+        if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
+            rm -rf $PLUGIN_TMP_DIR
+        fi
+
         $DEBUG_MODE && echo "" 1>&2
     done
 

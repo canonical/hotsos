@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 import re
 import os
-import yaml
 
 from common import (
     constants,
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 CONFIG = {"nova": [{"path": os.path.join(constants.DATA_ROOT,
@@ -105,9 +105,9 @@ def get_ns_info():
 
 def get_instances_info():
     """Get information e.g. ip link  stats for each port on a vm"""
-    openstack = yaml.safe_load(open(constants.MASTER_YAML_OUT)
-                               ).get("openstack", {})
-    instances = openstack.get("instances")
+    master_plugin_plugin_yaml = plugin_yaml.get_master_plugin_yaml(
+                                                         constants.PLUGIN_NAME)
+    instances = master_plugin_plugin_yaml.get("instances")
     if instances is None:
         return
 
@@ -219,10 +219,4 @@ if __name__ == "__main__":
     get_instances_port_health()
     if NETWORK_INFO:
         NETWORK_INFO = {"network": NETWORK_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            NETWORK_INFO = {"openstack": NETWORK_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(NETWORK_INFO, indent=indent)
+        plugin_yaml.dump(NETWORK_INFO)

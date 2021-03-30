@@ -4,7 +4,8 @@ import os
 
 from common import (
     constants,
-    helpers
+    helpers,
+    plugin_yaml,
 )
 from openstack_common import (
     OST_PROJECTS,
@@ -86,4 +87,4 @@ if __name__ == "__main__":
     get_service_info()
     get_debug_log_info()
     if OPENSTACK_INFO:
-        helpers.HOTSOSYaml.dump({"openstack": OPENSTACK_INFO})
+        plugin_yaml.dump(OPENSTACK_INFO)

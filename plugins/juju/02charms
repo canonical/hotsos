@@ -4,7 +4,7 @@ import re
 import os
 
 from common import (
-    helpers
+    plugin_yaml,
 )
 from juju_common import (
     CHARM_MANIFEST_GLOB,
@@ -33,10 +33,4 @@ def get_charm_versions():
 if __name__ == "__main__":
     get_charm_versions()
     if CHARM_VERSIONS:
-        if not helpers.HOTSOSYaml.master_has_plugin("juju"):
-            CHARM_VERSIONS = {"juju": CHARM_VERSIONS}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(CHARM_VERSIONS, indent=indent)
+        plugin_yaml.dump(CHARM_VERSIONS)

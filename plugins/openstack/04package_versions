@@ -2,7 +2,8 @@
 import re
 
 from common import (
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 from openstack_common import OST_PROJECTS, OST_DEP_PKGS
@@ -28,10 +29,4 @@ if __name__ == "__main__":
     get_pkg_info()
     if PKG_INFO:
         PKG_INFO = {"dpkg": PKG_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            PKG_INFO = {"openstack": PKG_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(PKG_INFO, indent=indent)
+        plugin_yaml.dump(PKG_INFO)

@@ -3,8 +3,8 @@ import os
 
 from common import (
     constants,
-    helpers,
     searchtools,
+    plugin_yaml,
 )
 from openstack_common import (
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
@@ -71,10 +71,4 @@ if __name__ == "__main__":
     get_agents_exceptions()
     if AGENT_ERROR_INFO:
         AGENT_ERROR_INFO = {"agent-errors": AGENT_ERROR_INFO}
-        if not helpers.HOTSOSYaml.master_has_plugin("openstack"):
-            AGENT_ERROR_INFO = {"openstack": AGENT_ERROR_INFO}
-            indent = 0
-        else:
-            indent = 2
-
-        helpers.HOTSOSYaml.dump(AGENT_ERROR_INFO, indent=indent)
+        plugin_yaml.dump(AGENT_ERROR_INFO)

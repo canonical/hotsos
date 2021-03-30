@@ -4,7 +4,8 @@ import os
 
 from common import (
     constants,
-    helpers
+    helpers,
+    plugin_yaml,
 )
 from juju_common import (
     JUJU_LOG_PATH
@@ -60,4 +61,4 @@ def get_machine_info():
 if __name__ == "__main__":
     get_machine_info()
     if JUJU_MACHINE_INFO:
-        helpers.HOTSOSYaml.dump({"juju": JUJU_MACHINE_INFO})
+        plugin_yaml.dump(JUJU_MACHINE_INFO)

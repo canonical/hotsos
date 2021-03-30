@@ -4,7 +4,8 @@ import re
 import subprocess
 
 from common import (
-    helpers
+    helpers,
+    plugin_yaml,
 )
 
 SERVICES = ["ceph-osd",
@@ -65,11 +66,11 @@ def get_ceph_versions_mismatch():
     daemon_version_info = {}
 
     if data:
-        for unit, versions in data.items():
+        for unit, _ in data.items():
             if unit == "overall":
                 continue
             vers = []
-            for key, val in data[unit].items():
+            for key, _ in data[unit].items():
                 if re.compile(r"ceph version.+").match(key):
                     d_ver = key.split()[2]
                     if d_ver not in vers:
@@ -134,7 +135,7 @@ def get_osd_info():
         for osd_id in get_osd_ids(svc):
             osd_info[osd_id] = {}
             if ceph_volume_lvm_list:
-                for i, line in enumerate(ceph_volume_lvm_list):
+                for line in ceph_volume_lvm_list:
                     ret = re.compile(".*==== osd.{} ====.*".format(osd_id)
                                      ).match(line)
                     if ret:
@@ -209,4 +210,4 @@ if __name__ == "__main__":
     get_ceph_pg_imbalance()
     get_ceph_versions_mismatch()
     if CEPH_INFO:
-        helpers.HOTSOSYaml.dump({"storage": {"ceph": CEPH_INFO}})
+        plugin_yaml.dump({"ceph": CEPH_INFO})
