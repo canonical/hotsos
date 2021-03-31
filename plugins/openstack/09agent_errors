@@ -44,7 +44,8 @@ def add_agent_terms(searcher, service):
         data_source = data_source_template.format(agent)
         for exc_type in AGENTS_EXCEPTIONS[service]:
             rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_type)
-            searcher.add_search_term(rexpr, [1, 2, 3], data_source, tag=agent)
+            searcher.add_search_term(rexpr, [1, 2, 3], data_source, tag=agent,
+                                     hint=exc_type)
 
 
 def process_results(results, service):

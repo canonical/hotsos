@@ -223,24 +223,24 @@ def get_router_event_stats():
     # router updates
     s.add_search_term((r"^([0-9-]+) (\S+) .+ Starting router update for "
                        "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+"),
-                      [1, 2, 3, 4], data_source, tag="router-update-start")
+                      [1, 2, 3, 4], data_source, tag="router-update-start",
+                      hint="router update")
 
     s.add_search_term((r"^([0-9-]+) (\S+) .+ Finished a router update for "
                        "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
-                       "([0-9.]+)"),
-                      [1, 2, 3, 4, 5], data_source,
-                      tag="router-update-finish")
+                       "([0-9.]+)"), [1, 2, 3, 4, 5], data_source,
+                      tag="router-update-finish", hint="router update")
 
     # router state_change_monitor + keepalived spawn
     s.add_search_term((r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
                        "spawn_state_change_monitor"),
-                      [1, 2, 3], data_source, tag="router-spawn1")
+                      [1, 2, 3], data_source, tag="router-spawn1",
+                      hint="spawn_state_change_monitor")
 
     s.add_search_term((r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
                        "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf"
-                       " .+"),
-                      [1, 2, 3], data_source,
-                      tag="router-spawn2")
+                       " .+"), [1, 2, 3], data_source, tag="router-spawn2",
+                      hint="Keepalived")
 
     results = s.search()
     get_router_spawn_stats(results)

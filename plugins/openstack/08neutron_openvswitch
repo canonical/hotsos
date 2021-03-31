@@ -36,10 +36,11 @@ def get_rpc_loop_too_long():
 
     s.add_search_term(r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - "
                       "iteration:([0-9]+) started.*", [1, 2, 3], data_source,
-                      tag="rpc-loop-start")
+                      tag="rpc-loop-start", hint="Agent rpc_loop")
     s.add_search_term(r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - "
                       "iteration:([0-9]+) completed..+Elapsed:([0-9.]+).+",
-                      [1, 2, 3, 4], data_source, tag="rpc-loop-end")
+                      [1, 2, 3, 4], data_source, tag="rpc-loop-end",
+                      hint="Agent rpc_loop")
     results = s.search()
 
     for result in results.find_by_tag("rpc-loop-end"):
