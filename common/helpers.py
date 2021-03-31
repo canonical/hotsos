@@ -231,7 +231,7 @@ def get_date(format=None):
 
     if DATA_ROOT == '/':
         output = subprocess.check_output(['date', format])
-        return output.decode('UTF-8').splitlines(keepends=True)
+        return output.decode('UTF-8')
 
     path = os.path.join(DATA_ROOT, "sos_commands/date/date")
     if os.path.exists(path):

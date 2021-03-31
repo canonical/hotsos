@@ -10,6 +10,10 @@ from common import helpers
 class TestHelpers(utils.BaseTestCase):
 
     def setUp(self):
+        # NOTE: remember that data_root is configured so helpers will always
+        # use fake_data_root if possible. If you write a test that wants to
+        # test scenario where no data root is set (i.e. no sosreport) you need
+        # to unset it as part of the test.
         super().setUp()
 
     def tearDown(self):
@@ -35,6 +39,10 @@ class TestHelpers(utils.BaseTestCase):
         ret = helpers.get_ps()
         self.assertEquals(ret, out)
         self.assertFalse(mock_subprocess.called)
+
+    @mock.patch.object(helpers, "DATA_ROOT", '/')
+    def test_get_date_local(self):
+        self.assertEquals(type(helpers.get_date()), str)
 
     def test_get_date(self):
         self.assertEquals(helpers.get_date(), '1616669705\n')
