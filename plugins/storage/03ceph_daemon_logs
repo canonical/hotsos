@@ -69,9 +69,9 @@ def get_daemon_info():
         date = result.get(1)
         count = result.get(2)
         if date not in slow_requests:
-            slow_requests[date] = count
+            slow_requests[date] = int(count)
         else:
-            slow_requests[date] += count
+            slow_requests[date] += int(count)
 
     if slow_requests:
         DAEMON_INFO["slow-requests"] = slow_requests
