@@ -47,14 +47,16 @@ def get_release_info():
     for source in os.listdir(APT_SOURCE_PATH):
         apt_path = os.path.join(APT_SOURCE_PATH, source)
         for line in helpers.safe_readlines(apt_path):
-            ret = re.compile(r"(.+cloud.+)").match(line)
+            rexpr = r"deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+"
+            ret = re.compile(rexpr).match(line)
             if ret:
-                ret = re.compile(r".+-updates/([a-z]+)\s.*").match(line)
-                if ret:
-                    if "uca" not in release_info:
-                        release_info["uca"] = set()
+                if "uca" not in release_info:
+                    release_info["uca"] = set()
 
-                    release_info["uca"].add(ret[1])
+                if ret[1] != "updates":
+                    release_info["uca"].add("{}-{}".format(ret[2], ret[1]))
+                else:
+                    release_info["uca"].add(ret[2])
 
     if release_info:
         if release_info.get("uca"):
