@@ -22,17 +22,17 @@ def bool_str(val):
     return val
 
 
-def catch_exception(exc_type):
-    def catch_exception_inner1(f):
-        def catch_exception_inner2(*args, **kwargs):
+def catch_exceptions(*exc_types):
+    def catch_exceptions_inner1(f):
+        def catch_exceptions_inner2(*args, **kwargs):
             try:
                 return f(*args, **kwargs)
-            except exc_type:
+            except exc_types:
                 return []
 
-        return catch_exception_inner2
+        return catch_exceptions_inner2
 
-    return catch_exception_inner1
+    return catch_exceptions_inner1
 
 
 def get_ip_addr():
@@ -47,7 +47,7 @@ def get_ip_addr():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_ip_link_show():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ip', '-s', '-d', 'link'])
@@ -60,7 +60,7 @@ def get_ip_link_show():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_dpkg_l():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['dpkg', '-l'])
@@ -75,7 +75,7 @@ def get_dpkg_l():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_ps():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ps', 'auxwww'])
@@ -88,7 +88,7 @@ def get_ps():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_ps_axo_flags():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ps', 'axo', 'flags,state,uid,pid,'
@@ -107,7 +107,7 @@ def get_ps_axo_flags():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_numactl():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['numactl', '--hardware'])
@@ -120,7 +120,7 @@ def get_numactl():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_lscpu():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['lscpu'])
@@ -133,7 +133,7 @@ def get_lscpu():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_uptime():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['uptime'])
@@ -146,7 +146,7 @@ def get_uptime():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_df():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['df'])
@@ -159,7 +159,7 @@ def get_df():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_apt_config_dump():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['apt-config', 'dump'])
@@ -172,7 +172,7 @@ def get_apt_config_dump():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_snap_list_all():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['snap', 'list', '--all'])
@@ -185,7 +185,7 @@ def get_snap_list_all():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError, subprocess.CalledProcessError)
 def get_ceph_osd_df_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'df', 'tree'])
@@ -198,7 +198,7 @@ def get_ceph_osd_df_tree():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError, subprocess.CalledProcessError)
 def get_ceph_osd_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'tree'])
@@ -211,7 +211,7 @@ def get_ceph_osd_tree():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError, subprocess.CalledProcessError)
 def get_ceph_versions():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'versions'])
@@ -224,7 +224,7 @@ def get_ceph_versions():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_date(format=None):
     if format is None:
         format = '+%s'
@@ -253,7 +253,7 @@ def get_date(format=None):
     return ""
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError, subprocess.CalledProcessError)
 def get_ceph_volume_lvm_list():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph-volume', 'lvm', 'list'])
@@ -266,7 +266,7 @@ def get_ceph_volume_lvm_list():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_ls_lanR_sys_block():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ls', '-lanR', '/sys/block/'])
@@ -279,7 +279,7 @@ def get_ls_lanR_sys_block():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_udevadm_info_dev(dev):
     if DATA_ROOT == '/':
         output = subprocess.check_output(['udevadm', 'info',
@@ -294,7 +294,7 @@ def get_udevadm_info_dev(dev):
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_ip_netns():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ip', 'netns'])
@@ -307,7 +307,7 @@ def get_ip_netns():
     return []
 
 
-@catch_exception(OSError)
+@catch_exceptions(OSError)
 def get_hostname():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['hostname'])
