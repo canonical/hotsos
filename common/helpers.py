@@ -230,7 +230,7 @@ def get_date(format=None):
         format = '+%s'
 
     if DATA_ROOT == '/':
-        output = subprocess.check_output(['date', format])
+        output = subprocess.check_output(['date', '--utc', format])
         return output.decode('UTF-8')
 
     path = os.path.join(DATA_ROOT, "sos_commands/date/date")
@@ -246,7 +246,8 @@ def get_date(format=None):
                                  format(path, date))
             else:
                 date = "{}{}".format(ret[1], ret[2])
-                output = subprocess.check_output(["date", "--date={}".
+                output = subprocess.check_output(["date", "--utc",
+                                                  "--date={}".
                                                   format(date), format])
                 return output.decode('UTF-8').splitlines(keepends=True)[0]
 
