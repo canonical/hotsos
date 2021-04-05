@@ -27,22 +27,38 @@ def get_ceph_pg_imbalance():
     also valid if the OSD disks are of different sizes but such
     are generally outliers.
     """
-    ceph_osd_tree = helpers.get_ceph_osd_df_tree()
-    if not ceph_osd_tree:
-        return
-
     bad_pgs = {}
-    for line in ceph_osd_tree:
-        try:
-            if line:
-                last = line.split()[-1]
-            if re.compile(r"^osd\.[0-9]+").match(last):
-                osd = line.split()[-1]
-                pg = int(line.split()[-3])
+    ceph_osd_tree = json.loads(helpers.get_ceph_osd_df_tree_json())
+    if not ceph_osd_tree:
+        ceph_osd_tree = helpers.get_ceph_osd_df_tree()
+        if not ceph_osd_tree:
+            return
+
+        pgs_position = None
+        for line in ceph_osd_tree:
+            try:
+                if line:
+                    if pgs_position is None:
+                        if 'STATUS' in line.split():
+                            pgs_position = -3
+                        else:
+                            pgs_position = -2
+                    last = line.split()[-1]
+                if re.compile(r"^osd\.[0-9]+").match(last):
+                    osd = line.split()[-1]
+                    pg = int(line.split()[pgs_position])
+                    if pg > 0 and (pg < 50 or pg > 200):
+                        bad_pgs.update({osd: pg})
+            except IndexError:
+                pass
+
+    else:
+        for node in ceph_osd_tree['nodes']:
+            if re.compile(r"^osd\.[0-9]+").match(node['name']):
+                osd = node['name']
+                pg = int(node['pgs'])
                 if pg > 0 and (pg < 50 or pg > 200):
                     bad_pgs.update({osd: pg})
-        except IndexError:
-            pass
 
     if bad_pgs:
         CEPH_INFO["pgs-per-osd"] = bad_pgs

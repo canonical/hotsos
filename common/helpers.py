@@ -199,6 +199,22 @@ def get_ceph_osd_df_tree():
 
 
 @catch_exceptions(OSError, subprocess.CalledProcessError)
+def get_ceph_osd_df_tree_json():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ceph', 'osd', 'df', 'tree',
+                                          '--format', 'json-pretty'])
+        return output.decode('UTF-8')
+
+    path = os.path.join(
+        DATA_ROOT,
+        "sos_commands/ceph/json_output/ceph_osd_df_tree_--format_json-pretty")
+    if os.path.exists(path):
+        return "".join(open(path, 'r').readlines())
+
+    return "{}"
+
+
+@catch_exceptions(OSError, subprocess.CalledProcessError)
 def get_ceph_osd_tree():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ceph', 'osd', 'tree'])

@@ -86,33 +86,75 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance(self):
         result = {'pgs-per-osd': {
-                   'osd.0': 295,
-                   'osd.3': 214,
-                   'osd.15': 49,
-                   'osd.16': 316,
-                   'osd.17': 370,
-                   'osd.34': 392,
-                   'osd.37': 406,
-                   'osd.56': 209,
-                   'osd.72': 206}}
+            "osd.0": 399,
+            "osd.4": 32,
+        }}
         storage_01ceph.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, result)
 
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree_json",
+                       lambda: "{}")
     @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree",
-                       lambda: [])
+                       lambda: "")
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance_unavailable(self):
         storage_01ceph.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, {})
 
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree_json",
+                       lambda: "{}")
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree",
+                       lambda: """ID CLASS WEIGHT  REWEIGHT SIZE   USE     DATA    OMAP META  AVAIL   %USE  VAR   PGS TYPE NAME
+-1       0.02939        - 30 GiB 3.0 GiB 8.4 MiB  0 B 3 GiB  27 GiB 10.03 1.00    - root default
+-3       0.00980        - 10 GiB 1.0 GiB 2.8 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00    -      host juju-1157aa-ceph-1
+ 0   hdd 0.00980  1.00000 10 GiB 1.0 GiB 2.8 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00  267        osd.0
+-7       0.00980        - 10 GiB 1.0 GiB 2.8 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00    -      host juju-1157aa-ceph-2
+ 2   hdd 0.00980  1.00000 10 GiB 1.0 GiB 2.8 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00  269        osd.2
+-5       0.00980        - 10 GiB 1.0 GiB 2.8 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00    -      host juju-1157aa-ceph-3
+ 1   hdd 0.00980  1.00000 10 GiB 1.0 GiB 2.8 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00  268        osd.1
+                    TOTAL 30 GiB 3.0 GiB 8.4 MiB  0 B 3 GiB  27 GiB 10.03
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0""".split('\n'))
+    def test_get_ceph_pg_imbalance_bionic_stein_ceph_13_2_9(self):
+        result = {'pgs-per-osd': {
+            "osd.0": 267,
+            "osd.2": 269,
+            "osd.1": 268,
+        }}
+        storage_01ceph.get_ceph_pg_imbalance()
+        self.assertEqual(storage_01ceph.CEPH_INFO, result)
+
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree_json",
+                       lambda: "{}")
+    @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree",
+                       lambda: """ID CLASS WEIGHT  REWEIGHT SIZE   RAW USE DATA    OMAP META  AVAIL   %USE  VAR    PGS STATUS TYPE NAME
+-1       0.02939        - 30 GiB 3.0 GiB 7.5 MiB  0 B 3 GiB  27 GiB 10.03 1.00     -        root default
+-3       0.00980        - 10 GiB 1.0 GiB 2.5 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00     -             host juju-f32c8c-ceph-1
+ 0   hdd 0.00980  1.00000 10 GiB 1.0 GiB 2.5 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00   267   up          osd.0
+-5       0.00980        - 10 GiB 1.0 GiB 2.5 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00     -             host juju-f32c8c-ceph-2
+ 1   hdd 0.00980  1.00000 10 GiB 1.0 GiB 2.5 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00   268   up          osd.1
+-7       0.00980        - 10 GiB 1.0 GiB 2.5 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00     -             host juju-f32c8c-ceph-3
+ 2   hdd 0.00980  1.00000 10 GiB 1.0 GiB 2.5 MiB  0 B 1 GiB 9.0 GiB 10.03 1.00   269   up          osd.2
+                    TOTAL 30 GiB 3.0 GiB 7.5 MiB  0 B 3 GiB  27 GiB 10.03
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0""".split('\n'))
+    def test_get_ceph_pg_imbalance_bionic_train_ceph_14_2_11(self):
+        result = {'pgs-per-osd': {
+            "osd.0": 267,
+            "osd.1": 268,
+            "osd.2": 269,
+        }}
+        storage_01ceph.get_ceph_pg_imbalance()
+        self.assertEqual(storage_01ceph.CEPH_INFO, result)
+
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_osd_info(self):
-        expected = {'osds': {63: {'dev': '/dev/bcache0', 'rss': '3867M'},
-                             70: {'dev': '/dev/bcache4', 'rss': '4041M'},
-                             81: {'dev': '/dev/bcache1', 'rss': '4065M'},
-                             90: {'dev': '/dev/bcache2', 'rss': '4114M'},
-                             101: {'dev': '/dev/bcache3', 'rss': '3965M'},
-                             109: {'dev': '/dev/bcache5', 'rss': '3898M'}}}
+        expected = {'osds': {
+            63: {'dev': '/dev/bcache0', 'rss': '3867M'},
+            70: {'dev': '/dev/bcache4', 'rss': '4041M'},
+            81: {'dev': '/dev/bcache1', 'rss': '4065M'},
+            90: {'dev': '/dev/bcache2', 'rss': '4114M'},
+            101: {'dev': '/dev/bcache3', 'rss': '3965M'},
+            109: {'dev': '/dev/bcache5', 'rss': '3898M'},
+        }}
         storage_01ceph.get_osd_info()
         self.assertEqual(storage_01ceph.CEPH_INFO, expected)
 

@@ -1,21 +1,18 @@
-D  CLASS WEIGHT    REWEIGHT SIZE    RAW USE DATA     OMAP    META    AVAIL    %USE  VAR  PGS STATUS TYPE NAME
- -1       400.37894        - 569 TiB 248 TiB  324 TiB 637 GiB 108 GiB  322 TiB 43.52 1.00   -        root default
- -5        36.39999        -  36 TiB  23 TiB   11 TiB  31 GiB  13 GiB   13 TiB 64.29 1.48   -            host ceph4
-  0   hdd   3.64000  1.00000 3.6 TiB 2.5 TiB  1.2 TiB 3.4 GiB     0 B  1.2 TiB 68.07 1.56 295     up         osd.0
-  1   hdd   3.64000  1.00000 3.6 TiB 2.5 TiB  1.1 TiB 3.6 GiB     0 B  1.1 TiB 69.49 1.60 150     up         osd.1
-  2   hdd   3.64000  1.00000 3.6 TiB 2.4 TiB  1.3 TiB 3.5 GiB     0 B  1.3 TiB 64.68 1.49 127     up         osd.2
-  3   hdd   3.64000  1.00000 3.6 TiB 2.1 TiB  1.5 TiB 2.8 GiB     0 B  1.5 TiB 57.53 1.32 214     up         osd.3
- -3        40.03999        -  40 TiB  27 TiB   16 TiB  47 GiB  46 GiB   13 TiB 66.47 1.53   -            host ceph5
- 15   hdd   3.64000  1.00000 3.6 TiB 2.9 TiB  2.9 TiB 4.3 GiB  46 GiB  719 GiB 80.71 1.85  49     up         osd.15
- 16   hdd   3.64000  1.00000 3.6 TiB 1.9 TiB  1.7 TiB 3.3 GiB     0 B  1.7 TiB 51.91 1.19 316     up         osd.16
- 17   hdd   3.64000  1.00000 3.6 TiB 2.6 TiB 1017 GiB 4.3 GiB     0 B 1017 GiB 72.69 1.67 370     up         osd.17
- -4        43.67999        - 128 TiB  32 TiB   96 TiB 183 GiB     0 B   96 TiB 24.80 0.57   -            host ceph7
- 34   hdd   3.64000  1.00000  11 TiB 2.4 TiB  8.3 TiB  16 GiB     0 B  8.3 TiB 22.79 0.52 392     up         osd.34
- 36   hdd   3.64000  1.00000  11 TiB 2.9 TiB  7.8 TiB  16 GiB     0 B  7.8 TiB 27.20 0.63   0   down         osd.36 
- 37   hdd   3.64000  1.00000  11 TiB 2.5 TiB  8.2 TiB  14 GiB     0 B  8.2 TiB 23.50 0.54 406     up         osd.37 
--21        43.67999        - 128 TiB  12 TiB  116 TiB  93 GiB     0 B  116 TiB  9.46 0.22   -            host ceph8 
- 56   hdd   3.64000  1.00000  11 TiB 866 GiB  9.8 TiB 7.5 GiB     0 B  9.8 TiB  7.91 0.18 209     up         osd.56 
- 60   hdd   3.64000  1.00000  11 TiB 1.0 TiB  9.6 TiB 8.2 GiB     0 B  9.6 TiB  9.79 0.22 140     up         osd.60 
- 72   hdd   3.64000  1.00000  11 TiB 791 GiB  9.9 TiB 6.2 GiB     0 B  9.9 TiB  7.23 0.17 206     up         osd.72
-                       TOTAL 569 TiB 248 TiB  324 TiB 637 GiB 108 GiB  322 TiB 43.52                                  
-MIN/MAX VAR: 0.01/1.85  STDDEV: 24.93
+ID   CLASS  WEIGHT   REWEIGHT  SIZE    RAW USE  DATA     OMAP  META   AVAIL    %USE   VAR   PGS  STATUS  TYPE NAME
+ -1         0.06857         -  70 GiB  7.7 GiB  682 MiB   0 B  7 GiB   62 GiB  10.96  1.00    -          root default
+ -3         0.00980         -  10 GiB  1.1 GiB   98 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00    -              host juju-34645c-keystone-ldap-12
+  0    hdd  0.00980   1.00000  10 GiB  1.1 GiB   98 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00  399      up          osd.0
+ -7         0.00980         -  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.95  1.00    -              host juju-34645c-keystone-ldap-13
+  1    hdd  0.00980   1.00000  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.95  1.00  115      up          osd.1
+ -5         0.00980         -  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.95  1.00    -              host juju-34645c-keystone-ldap-14
+  2    hdd  0.00980   1.00000  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.95  1.00  119      up          osd.2
+-13         0.00980         -  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00    -              host juju-34645c-keystone-ldap-15
+  5    hdd  0.00980   1.00000  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00  112      up          osd.5
+-15         0.00980         -  10 GiB  1.1 GiB   98 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00    -              host juju-34645c-keystone-ldap-16
+  6    hdd  0.00980   1.00000  10 GiB  1.1 GiB   98 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00  107      up          osd.6
+ -9         0.00980         -  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.95  1.00    -              host juju-34645c-keystone-ldap-17
+  3    hdd  0.00980   1.00000  10 GiB  1.1 GiB   97 MiB   0 B  1 GiB  8.9 GiB  10.95  1.00  113      up          osd.3
+-11         0.00980         -  10 GiB  1.1 GiB   98 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00    -              host juju-34645c-keystone-ldap-18
+  4    hdd  0.00980   1.00000  10 GiB  1.1 GiB   98 MiB   0 B  1 GiB  8.9 GiB  10.96  1.00  32      up          osd.4
+                        TOTAL  70 GiB  7.7 GiB  682 MiB   0 B  7 GiB   62 GiB  10.96
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0.00

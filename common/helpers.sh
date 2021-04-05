@@ -138,6 +138,17 @@ get_ceph_osd_df_tree ()
 }
 export -f get_ceph_osd_df_tree
 
+get_ceph_osd_df_tree_json ()
+{
+    local sos_path="${DATA_ROOT}/sos_commands/ceph/json_output/ceph_osd_df_tree_--format_json-pretty"
+    if [ -e "$sos_path" ]; then
+        cat $sos_path
+    elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
+        ceph osd df tree --format json-pretty
+    fi
+}
+export -f get_ceph_osd_df_tree_json
+
 get_ceph_versions ()
 {
     local sos_path="${DATA_ROOT}/sos_commands/ceph/ceph_versions"
@@ -145,7 +156,7 @@ get_ceph_versions ()
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
         ceph versions
-    fi  
+    fi
 }
 export -f get_ceph_versions
 
@@ -170,4 +181,3 @@ get_numactl_hardware ()
     fi
 }
 export -f get_numactl_hardware
-
