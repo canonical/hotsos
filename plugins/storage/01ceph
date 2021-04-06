@@ -112,7 +112,7 @@ def seconds_to_date(secs):
 
 def get_date_secs(datestring=None):
     if datestring:
-        cmd = ["date", "--date={}".format(datestring), "+%s"]
+        cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
         date_in_secs = subprocess.check_output(cmd)
     else:
         date_in_secs = helpers.get_date() or 0
