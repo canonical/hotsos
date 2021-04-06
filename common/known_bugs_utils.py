@@ -18,7 +18,8 @@ def get_known_bugs():
     contents or None if it doesn't exist yet.
     """
     if not os.path.isdir(PLUGIN_TMP_DIR):
-        raise Exception("plugin tmp dir  '{}' not found")
+        raise Exception("plugin tmp dir  '{}' not found".
+                        format(PLUGIN_TMP_DIR))
 
     known_bugs_yaml = os.path.join(PLUGIN_TMP_DIR, "known_bugs.yaml")
     if not os.path.exists(known_bugs_yaml):
@@ -33,7 +34,8 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     description of the bug.
     """
     if not os.path.isdir(PLUGIN_TMP_DIR):
-        raise Exception("plugin tmp dir  '{}' not found")
+        raise Exception("plugin tmp dir  '{}' not found".
+                        format(PLUGIN_TMP_DIR))
 
     if type == LAUNCHPAD:
         new_bug = "https://pad.lv/{}".format(bug_id)
