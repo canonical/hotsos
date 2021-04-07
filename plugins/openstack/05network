@@ -39,7 +39,7 @@ def find_interface_name_by_ip_address(ip_address):
             iface = ret[1]
             break
 
-        a = a-1
+        a = a - 1
 
     return iface
 
@@ -106,7 +106,7 @@ def get_ns_info():
 def get_instances_info():
     """Get information e.g. ip link  stats for each port on a vm"""
     master_plugin_plugin_yaml = plugin_yaml.get_master_plugin_yaml(
-                                                         constants.PLUGIN_NAME)
+        constants.PLUGIN_NAME)
     instances = master_plugin_plugin_yaml.get("instances")
     if instances is None:
         return
@@ -185,7 +185,7 @@ def get_port_stats(name=None, mac=None):
                                 if not value:
                                     continue
 
-                                percentage = int((100/total_packets) * value)
+                                percentage = int((100 / total_packets) * value)
                                 # only report if > 0% drops/errors
                                 if percentage > 0:
                                     stats[key] = "{} ({}%)".format(value,

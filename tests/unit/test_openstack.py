@@ -28,7 +28,7 @@ specs["02vm_info"].loader.exec_module(ost_02vm_info)
 
 ost_03nova_external_events = module_from_spec(specs["03nova_external_events"])
 specs["03nova_external_events"].loader.exec_module(
-                                              ost_03nova_external_events)
+    ost_03nova_external_events)
 
 ost_04package_versions = module_from_spec(specs["04package_versions"])
 specs["04package_versions"].loader.exec_module(ost_04package_versions)

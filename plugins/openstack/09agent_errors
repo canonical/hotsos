@@ -54,9 +54,9 @@ AGENTS_EXCEPTIONS = {"cinder": AGENT_EXCEPTIONS_COMMON,
                      "heat": AGENT_EXCEPTIONS_COMMON,
                      "keystone": AGENT_EXCEPTIONS_COMMON,
                      "nova": AGENT_EXCEPTIONS_COMMON + [
-                             r"(nova.exception.\S+):"],
+                         r"(nova.exception.\S+):"],
                      "neutron": AGENT_EXCEPTIONS_COMMON + [
-                                r"(OVS is dead).", r"(RuntimeError):"],
+                         r"(OVS is dead).", r"(RuntimeError):"],
                      "octavia": AGENT_EXCEPTIONS_COMMON,
                      }
 
