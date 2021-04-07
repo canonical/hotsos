@@ -9,8 +9,13 @@ from common import (
 from common.known_bugs_utils import add_known_bug
 from openstack_common import (
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
+    CINDER_LOGS,
+    GLANCE_LOGS,
+    HEAT_LOGS,
+    KEYSTONE_LOGS,
     NEUTRON_LOGS,
     NOVA_LOGS,
+    OCTAVIA_LOGS,
 )
 from openstack_utils import (
     get_agent_exceptions,
@@ -18,22 +23,42 @@ from openstack_utils import (
 
 AGENT_ERROR_INFO = {}
 
-AGENT_NAMES = {"neutron": ["neutron-openvswitch-agent", "neutron-dhcp-agent",
+AGENT_NAMES = {"cinder": ["cinder-scheduler", "cinder-volume"],
+               "glance": ["glance-api"],
+               "heat": ["heat-engine", "heat-api", "heat-api-cfn"],
+               "keystone": ["keystone"],
+               "neutron": ["neutron-openvswitch-agent", "neutron-dhcp-agent",
                            "neutron-l3-agent", "neutron-server"],
                "nova": ["nova-compute", "nova-scheduler", "nova-conductor",
-                        "nova-api-os-compute", "nova-api-wsgi"]}
-AGENT_LOGS = {"neutron": NEUTRON_LOGS,
-              "nova": NOVA_LOGS}
+                        "nova-api-os-compute", "nova-api-wsgi"],
+               "octavia": ["octavia-api", "octavia-worker",
+                           "octavia-health-manager", "octavia-housekeeping"],
+               }
+
+AGENT_LOGS = {"cinder": CINDER_LOGS,
+              "glance": GLANCE_LOGS,
+              "heat": HEAT_LOGS,
+              "keystone": KEYSTONE_LOGS,
+              "neutron": NEUTRON_LOGS,
+              "nova": NOVA_LOGS,
+              "octavia": OCTAVIA_LOGS,
+              }
 
 AGENT_EXCEPTIONS_COMMON = [r"(DBConnectionError)", r"(MessagingTimeout)",
                            r"(AMQP server on .+ is unreachable)",
                            r"(amqp.exceptions.ConnectionForced):",
                            r"(OSError: Server unexpectedly closed connection)",
                            r"(ConnectionResetError: .+)"]
-AGENTS_EXCEPTIONS = {"nova": AGENT_EXCEPTIONS_COMMON + [
-                     r"(nova.exception.\S+):"],
+AGENTS_EXCEPTIONS = {"cinder": AGENT_EXCEPTIONS_COMMON,
+                     "glance": AGENT_EXCEPTIONS_COMMON,
+                     "heat": AGENT_EXCEPTIONS_COMMON,
+                     "keystone": AGENT_EXCEPTIONS_COMMON,
+                     "nova": AGENT_EXCEPTIONS_COMMON + [
+                             r"(nova.exception.\S+):"],
                      "neutron": AGENT_EXCEPTIONS_COMMON + [
-                     r"(OVS is dead).", r"(RuntimeError):"]}
+                                r"(OVS is dead).", r"(RuntimeError):"],
+                     "octavia": AGENT_EXCEPTIONS_COMMON,
+                     }
 
 # NOTE: only LP bugs supported for now
 BUG_SEARCH_TERMS = {"1896506": (".+Unknown configuration entry 'no_track' for "
@@ -89,16 +114,18 @@ def get_agents_issues():
     s = searchtools.FileSearcher()
 
     # Add search terms for everything at once
-    add_agent_terms(s, "neutron")
-    add_agent_terms(s, "nova")
+    for service in AGENT_NAMES:
+        add_agent_terms(s, service)
+
     add_bug_search_terms(s)
 
     # execute search
     results = s.search()
 
     # process the results
-    process_agent_results(results, "neutron")
-    process_agent_results(results, "nova")
+    for service in AGENT_NAMES:
+        process_agent_results(results, service)
+
     process_bug_results(results)
 
 

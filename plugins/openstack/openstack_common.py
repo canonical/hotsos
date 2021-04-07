@@ -70,8 +70,13 @@ OST_DEP_PKGS = [r"conntrack",
                 r"rabbitmq-server",
                 ]
 
+CINDER_LOGS = "var/log/cinder"
+GLANCE_LOGS = "var/log/glance"
+HEAT_LOGS = "var/log/heat"
+KEYSTONE_LOGS = "var/log/keystone"
 NEUTRON_LOGS = "var/log/neutron"
 NOVA_LOGS = "var/log/nova"
+OCTAVIA_LOGS = "var/log/octavia"
 
 OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
     helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
