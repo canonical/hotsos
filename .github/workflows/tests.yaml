@@ -24,6 +24,9 @@ jobs:
         pip install tox
     - name: Test with tox
       run: tox -e py3
-    - name: Run linters
-      run: tox -e pylint,pep8
+    - name: Run pylint
+      run: tox -e pylint
+      if: matrix.python-version == 3.9
+    - name: Run pep8
+      run: tox -e pep8
       if: matrix.python-version == 3.9
