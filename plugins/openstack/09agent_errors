@@ -6,6 +6,7 @@ from common import (
     searchtools,
     plugin_yaml,
 )
+from common.known_bugs_utils import add_known_bug
 from openstack_common import (
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     NEUTRON_LOGS,
@@ -23,6 +24,7 @@ AGENT_NAMES = {"neutron": ["neutron-openvswitch-agent", "neutron-dhcp-agent",
                         "nova-api-os-compute", "nova-api-wsgi"]}
 AGENT_LOGS = {"neutron": NEUTRON_LOGS,
               "nova": NOVA_LOGS}
+
 AGENT_EXCEPTIONS_COMMON = [r"(DBConnectionError)", r"(MessagingTimeout)",
                            r"(AMQP server on .+ is unreachable)",
                            r"(amqp.exceptions.ConnectionForced):",
@@ -32,6 +34,10 @@ AGENTS_EXCEPTIONS = {"nova": AGENT_EXCEPTIONS_COMMON + [
                      r"(nova.exception.\S+):"],
                      "neutron": AGENT_EXCEPTIONS_COMMON + [
                      r"(OVS is dead).", r"(RuntimeError):"]}
+
+# NOTE: only LP bugs supported for now
+BUG_SEARCH_TERMS = {"1896506": (".+Unknown configuration entry 'no_track' for "
+                                "ip address - ignoring.*")}
 
 
 def add_agent_terms(searcher, service):
@@ -48,7 +54,23 @@ def add_agent_terms(searcher, service):
                                      hint=exc_type)
 
 
-def process_results(results, service):
+def add_bug_search_terms(searcher):
+    data_source = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
+    if constants.USE_ALL_LOGS:
+        data_source = "{}*".format(data_source)
+
+    for tag in BUG_SEARCH_TERMS:
+        searcher.add_search_term(BUG_SEARCH_TERMS[tag], [0], data_source,
+                                 tag=tag)
+
+
+def process_bug_results(results):
+    for tag in BUG_SEARCH_TERMS:
+        if results.find_by_tag(tag):
+            add_known_bug(tag)
+
+
+def process_agent_results(results, service):
     for agent in AGENT_NAMES[service]:
         e = get_agent_exceptions(results.find_by_tag(agent),
                                  AGENT_ERROR_KEY_BY_TIME)
@@ -59,17 +81,29 @@ def process_results(results, service):
             AGENT_ERROR_INFO[service][agent] = e
 
 
-def get_agents_exceptions():
+def get_agents_issues():
+    """
+    Collect information about Openstack agents. This includes errors,
+    exceptions and known bugs.
+    """
     s = searchtools.FileSearcher()
+
+    # Add search terms for everything at once
     add_agent_terms(s, "neutron")
     add_agent_terms(s, "nova")
+    add_bug_search_terms(s)
+
+    # execute search
     results = s.search()
-    process_results(results, "neutron")
-    process_results(results, "nova")
+
+    # process the results
+    process_agent_results(results, "neutron")
+    process_agent_results(results, "nova")
+    process_bug_results(results)
 
 
 if __name__ == "__main__":
-    get_agents_exceptions()
+    get_agents_issues()
     if AGENT_ERROR_INFO:
         AGENT_ERROR_INFO = {"agent-errors": AGENT_ERROR_INFO}
         plugin_yaml.dump(AGENT_ERROR_INFO)

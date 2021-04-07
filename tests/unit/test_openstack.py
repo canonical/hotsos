@@ -268,8 +268,9 @@ class TestOpenstackPlugin09agent_errors(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
+    @mock.patch.object(ost_09agent_errors, "add_known_bug")
     @mock.patch.object(ost_09agent_errors, "AGENT_ERROR_INFO", {})
-    def test_get_nova_exceptions(self):
+    def test_get_nova_exceptions(self, mock_add_known_bug):
         neutron_expected = {'neutron-openvswitch-agent':
                             {'MessagingTimeout': {'2021-03-04': 2},
                              'AMQP server on 10.10.123.22:5672 is unreachable':
@@ -283,9 +284,10 @@ class TestOpenstackPlugin09agent_errors(utils.BaseTestCase):
                           {'2021-03-15': 1}},
                          'nova-compute':
                          {'DBConnectionError': {'2021-03-08': 2}}}
-        ost_09agent_errors.get_agents_exceptions()
+        ost_09agent_errors.get_agents_issues()
         self.assertEqual(ost_09agent_errors.AGENT_ERROR_INFO,
                          {"neutron": neutron_expected, "nova": nova_expected})
+        mock_add_known_bug.assert_has_calls([mock.call("1896506")])
 
 
 class TestOpenstackPlugin10neutron_l3agent(utils.BaseTestCase):

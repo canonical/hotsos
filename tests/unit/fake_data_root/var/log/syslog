@@ -1,0 +1,21 @@
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Registering Kernel netlink reflector
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Registering Kernel netlink command channel
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Registering gratuitous ARP shared channel
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Opening file '/var/lib/neutron/ha_confs/38f13aa8-e6da-435d-97dc-4b86a7fbcb7b/keepalived.conf'.
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unknown configuration entry 'no_track' for ip address - ignoring
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: message repeated 5 times: [ Unknown configuration entry 'no_track' for ip address - ignoring]
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Cannot specify scope for IPv6 addresses (fe80::f816:3eff:fe12:b60d/64) - ignoring scope
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unknown configuration entry 'no_track' for ip address - ignoring
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Cannot specify scope for IPv6 addresses (fe80::f816:3eff:fe78:a38d/64) - ignoring scope
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unknown configuration entry 'no_track' for ip address - ignoring
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Cannot specify scope for IPv6 addresses (fe80::f816:3eff:fee0:16ac/64) - ignoring scope
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unknown configuration entry 'no_track' for ip address - ignoring
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Cannot specify scope for IPv6 addresses (fe80::f816:3eff:fee2:b223/64) - ignoring scope
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: VRRP parsed invalid IP no_track. skipping IP...
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: unknown route keyword no_track
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: VRRP_Script(ha_health_check_1) considered successful on reload
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unsafe permissions found for script '/var/lib/neutron/ha_confs/38f13aa8-e6da-435d-97dc-4b86a7fbcb7b/ha_check_script_1.sh'.
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: SECURITY VIOLATION - scripts are being executed but script_security not enabled. There are insecure scripts.
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Using LinkWatch kernel netlink reflector...
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: VRRP_Instance(VR_1) Entering BACKUP STATE
+Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: VRRP sockpool: [ifindex(5), proto(112), unicast(0), fd(10,11)]
