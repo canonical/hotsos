@@ -154,8 +154,14 @@ class TestOpenstackPlugin03nova_external_events(utils.BaseTestCase):
         ost_03nova_external_events.get_events("network-vif-plugged",
                                               data_source)
         events = {'network-vif-plugged':
-                  {'succeeded': ['d2666e01-73c8-4a97-9c22-0c175659e6db'],
-                   'failed': ['5b367a10-9e6a-4eb9-9c7d-891dab7e87fa']}}
+                  {"succeeded":
+                   [{"instance": 'd2666e01-73c8-4a97-9c22-0c175659e6db',
+                     "port": "f6f5e6c5-2fdd-4719-9489-ca385d7fa7a7"},
+                    {"instance": 'd2666e01-73c8-4a97-9c22-0c175659e6db',
+                     "port": "1824336a-4bc3-46bb-9c08-bc86b1d24226"}],
+                   "failed": [
+                       {"instance": '5b367a10-9e6a-4eb9-9c7d-891dab7e87fa',
+                        "port": "9a3673bf-58ac-423a-869a-6c4ae801b57b"}]}}
         self.assertEquals(ost_03nova_external_events.EXT_EVENT_INFO, events)
 
 

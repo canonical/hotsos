@@ -43,6 +43,8 @@ export PLUGIN_TMP_DIR
 MASTER_YAML_OUT=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
+# optional part name to run
+declare -a RUN_PARTS=()
 # unordered
 declare -A PLUGINS=(
     [openstack]=false
@@ -107,6 +109,8 @@ OPTIONS
         for cross-referencing with other logs.
     --kubernetes
         Use the Kubernetes plugin.
+    --part
+        Name of plugin part to run. May be specified multiple times.
     --storage
         Use the Storage plugin.
     --system
@@ -188,6 +192,10 @@ while (($#)); do
         -a|--all)
             PLUGINS[all]=true
             ;;
+        --part)
+            RUN_PARTS+=( $2 )
+            shift
+            ;;
         --all-logs)
             USE_ALL_LOGS=true
             ;;
@@ -230,6 +238,18 @@ get_git_rev_info ()
     popd &>/dev/null
 }
 
+run_part ()
+{
+    local plugin=$1
+    local part=$2
+
+    local t_start=`date +%s%3N`
+    $DEBUG_MODE && echo -n " $part" 1>&2
+    $CWD/plugins/$plugin/$part >> $MASTER_YAML_OUT
+    local t_end=`date +%s%3N`
+    $DEBUG_MODE && echo " (`echo \"scale=3;($t_end-$t_start)/1000\"| bc`s)" 1>&2
+}
+
 CWD=$(dirname `realpath $0`)
 for data_root in ${SOS_PATHS[@]}; do
     if [ "$data_root" = "/" ]; then
@@ -263,16 +283,18 @@ for data_root in ${SOS_PATHS[@]}; do
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
 
-        for priority in {00..99}; do
-            for part in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
-                t_start=`date +%s%3N`
-                $DEBUG_MODE && echo -n " `basename $part`" 1>&2
-                $part >> $MASTER_YAML_OUT
-                t_end=`date +%s%3N`
-                $DEBUG_MODE && echo " (`echo \"scale=3;($t_end-$t_start)/1000\"| bc`s)" 1>&2
+        if ((${#RUN_PARTS[@]})); then
+            for part in ${RUN_PARTS[@]}; do
+                [[ -r $CWD/plugins/$plugin/$part ]] || continue
+                run_part $plugin $part
             done
-        done
-
+        else
+            for priority in {00..99}; do
+                for part in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
+                    run_part $plugin `basename $part`
+                done
+            done
+        fi
         # teardown plugin temp area
         if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
             rm -rf $PLUGIN_TMP_DIR
