@@ -19,10 +19,11 @@ def get_pkg_info():
 
     for line in dpkg_l:
         for dep in DEP_LIST:
-            ret = re.compile(r"^ii\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+            ret = re.compile(r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
                              .format(dep)).match(line)
             if ret:
-                PKG_INFO.append("{} {}".format(ret[1], ret[2]))
+                pyprefix = ret[1] or ""
+                PKG_INFO.append("{}{} {}".format(pyprefix, ret[2], ret[3]))
 
 
 if __name__ == "__main__":

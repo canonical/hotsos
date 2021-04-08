@@ -173,6 +173,69 @@ class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
+    @mock.patch.object(ost_04package_versions, "PKG_INFO", [])
+    def test_get_pkg_info(self):
+        expected = [
+            'ceilometer-agent-compute 1:10.0.1-0ubuntu0.18.04.2~cloud0',
+            'ceilometer-common 1:10.0.1-0ubuntu0.18.04.2~cloud0',
+            'conntrack 1:1.4.3-3',
+            'dnsmasq-base 2.79-1~cloud0',
+            'dnsmasq-utils 2.79-1~cloud0',
+            'haproxy 1.6.3-1ubuntu0.3',
+            'keepalived 1:1.3.9-1ubuntu0.18.04.2~cloud1',
+            'libc-bin 2.23-0ubuntu11.2',
+            'libvirt-daemon 4.0.0-1ubuntu8.15~cloud0',
+            'libvirt-daemon-driver-storage-rbd 4.0.0-1ubuntu8.15~cloud0',
+            'libvirt-daemon-system 4.0.0-1ubuntu8.15~cloud0',
+            'neutron-common 2:12.1.0-0ubuntu1~cloud0',
+            'neutron-dhcp-agent 2:12.1.0-0ubuntu1~cloud0',
+            'neutron-l3-agent 2:12.1.0-0ubuntu1~cloud0',
+            'neutron-metadata-agent 2:12.1.0-0ubuntu1~cloud0',
+            'neutron-openvswitch-agent 2:12.1.0-0ubuntu1~cloud0',
+            'nova-api-metadata 2:17.0.12-0ubuntu1~cloud0',
+            'nova-common 2:17.0.12-0ubuntu1~cloud0',
+            'nova-compute 2:17.0.12-0ubuntu1~cloud0',
+            'nova-compute-kvm 2:17.0.12-0ubuntu1~cloud0',
+            'nova-compute-libvirt 2:17.0.12-0ubuntu1~cloud0',
+            'openvswitch-switch 2.9.5-0ubuntu0.18.04.1~cloud0',
+            'python-barbicanclient 4.6.0-0ubuntu1~cloud0',
+            'python-ceilometer 1:10.0.1-0ubuntu0.18.04.2~cloud0',
+            'python-ceilometerclient 2.9.0-0ubuntu1~cloud0',
+            'python-cinderclient 1:3.5.0-0ubuntu1~cloud0',
+            'python-designateclient 2.9.0-0ubuntu1~cloud0',
+            'python-glanceclient 1:2.9.1-0ubuntu1~cloud0',
+            'python-keystone 2:13.0.2-0ubuntu3~cloud0',
+            'python-keystoneauth1 3.4.0-0ubuntu1~cloud0',
+            'python-keystoneclient 1:3.15.0-0ubuntu1~cloud0',
+            'python-keystonemiddleware 4.21.0-0ubuntu1~cloud0',
+            'python-neutron 2:12.1.0-0ubuntu1~cloud0',
+            'python-neutron-fwaas 1:12.0.1-0ubuntu1~cloud0',
+            'python-neutron-lib 1.13.0-0ubuntu1~cloud0',
+            'python-neutronclient 1:6.7.0-0ubuntu1~cloud0',
+            'python-nova 2:17.0.12-0ubuntu1~cloud0',
+            'python-novaclient 2:9.1.1-0ubuntu1~cloud0',
+            'python-oslo.cache 1.28.0-0ubuntu1~cloud0',
+            'python-oslo.concurrency 3.25.0-0ubuntu1~cloud0',
+            'python-oslo.config 1:5.2.0-0ubuntu1~cloud0',
+            'python-oslo.context 1:2.20.0-0ubuntu1~cloud0',
+            'python-oslo.db 4.33.0-0ubuntu1~cloud0',
+            'python-oslo.i18n 3.19.0-0ubuntu1~cloud0',
+            'python-oslo.log 3.36.0-0ubuntu1~cloud0',
+            'python-oslo.messaging 5.35.0-0ubuntu1~cloud0',
+            'python-oslo.middleware 3.34.0-0ubuntu1~cloud0',
+            'python-oslo.policy 1.33.1-0ubuntu2~cloud0',
+            'python-oslo.privsep 1.27.0-0ubuntu3~cloud0',
+            'python-oslo.reports 1.26.0-0ubuntu1~cloud0',
+            'python-oslo.rootwrap 5.13.0-0ubuntu1~cloud0',
+            'python-oslo.serialization 2.24.0-0ubuntu2~cloud0',
+            'python-oslo.service 1.29.0-0ubuntu1~cloud0',
+            'python-oslo.utils 3.35.0-0ubuntu1~cloud0',
+            'python-oslo.versionedobjects 1.31.2-0ubuntu3~cloud0',
+            'python-swiftclient 1:3.5.0-0ubuntu1~cloud0',
+            'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
+        ost_04package_versions.get_pkg_info()
+        self.assertEquals(ost_04package_versions.PKG_INFO, expected)
+
 
 class TestOpenstackPlugin05network(utils.BaseTestCase):
 
