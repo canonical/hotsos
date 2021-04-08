@@ -219,12 +219,54 @@ class CephChecks(checks.ServiceChecksBase):
         if self.services:
             CEPH_INFO["services"] = self.get_service_info_str()
 
+    def build_buckets_from_crushdump(self, crushdump):
+        buckets = {}
+        # iterate jp for each bucket
+        for bucket in crushdump["buckets"]:
+            bid = bucket["id"]
+            items = []
+            for item in bucket["items"]:
+                items.append(item["id"])
+            buckets[bid] = {}
+            buckets[bid]["name"] = bucket["name"]
+            buckets[bid]["type_id"] = bucket["type_id"]
+            buckets[bid]["type_name"] = bucket["type_name"]
+            buckets[bid]["items"] = items
+        return buckets
+
+    def get_crushmap_mixed_buckets(self):
+        """
+        Report buckets that have mixed type of items,
+        as they will cause crush map unable to compute
+        the expected up set
+        """
+        osd_crush_dump = helpers.get_osd_crush_dump()
+        if not osd_crush_dump:
+            return
+
+        bad_buckets = []
+        buckets = self.build_buckets_from_crushdump(osd_crush_dump)
+        # check all bucket
+        for bid in buckets:
+            items = buckets[bid]["items"]
+            type_ids = []
+            for item in items:
+                if item >= 0:
+                    type_ids.append(0)
+                else:
+                    type_ids.append(buckets[item]["type_id"])
+            # verify if the type_id list contain mixed type id
+            if type_ids.count(type_ids[0]) != len(type_ids):
+                bad_buckets.append(buckets[bid]["name"])
+        CEPH_INFO["mixed_crush_buckets"] = bad_buckets
+
     def __call__(self):
         super().__call__()
         self.get_running_services_info()
         self.get_osd_info()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
+        self.get_crushmap_mixed_buckets()
 
 
 def get_ceph_checker():

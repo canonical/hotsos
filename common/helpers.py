@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 import sys
+import json
 
 # HOTSOS GLOBALS
 DATA_ROOT = os.environ.get('DATA_ROOT', '/')
@@ -189,6 +190,19 @@ def get_snap_list_all():
         return open(path, 'r').readlines()
 
     return []
+
+
+@catch_exceptions(OSError, subprocess.CalledProcessError, json.JSONDecodeError)
+def get_osd_crush_dump():
+    if DATA_ROOT == "/":
+        output = subprocess.check_output(['ceph', 'osd', 'crush', 'dump'])
+        return json.loads(output.decode('UTF-8'))
+
+    path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_crush_dump")
+    if os.path.exists(path):
+        f = open(path)
+        return json.load(f)
+    return {}
 
 
 @catch_exceptions(OSError, subprocess.CalledProcessError)

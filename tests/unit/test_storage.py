@@ -54,6 +54,12 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
         self.assertFalse("services" in _01ceph.CEPH_INFO)
 
     @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    def test_get_crushmap_mixed_buckets(self):
+        _01ceph.get_ceph_checker()()
+        result = ['default', 'default~ssd']
+        self.assertEqual(_01ceph.CEPH_INFO["mixed_crush_buckets"], result)
+
+    @mock.patch.object(_01ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch(self):
         result = {'mgr': ['14.2.11'],
                   'mon': ['14.2.11'],
