@@ -269,12 +269,15 @@ class TestOpenstackPlugin09agent_errors(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(ost_09agent_errors, "add_known_bug")
-    @mock.patch.object(ost_09agent_errors, "AGENT_ERROR_INFO", {})
-    def test_get_nova_exceptions(self, mock_add_known_bug):
+    @mock.patch.object(ost_09agent_errors, "AGENT_LOG_ISSUES", {})
+    def test_get_agents_issues(self, mock_add_known_bug):
         neutron_expected = {'neutron-openvswitch-agent':
                             {'MessagingTimeout': {'2021-03-04': 2},
                              'AMQP server on 10.10.123.22:5672 is unreachable':
-                             {'2021-03-04': 3}}}
+                             {'2021-03-04': 3},
+                             'OVS is dead': {'2021-03-29': 1},
+                             'RuntimeError': {'2021-03-29': 3},
+                             }}
         nova_expected = {'nova-api-wsgi':
                          {'OSError: Server unexpectedly closed connection':
                           {'2021-03-15': 1},
@@ -285,7 +288,7 @@ class TestOpenstackPlugin09agent_errors(utils.BaseTestCase):
                          'nova-compute':
                          {'DBConnectionError': {'2021-03-08': 2}}}
         ost_09agent_errors.get_agents_issues()
-        self.assertEqual(ost_09agent_errors.AGENT_ERROR_INFO,
+        self.assertEqual(ost_09agent_errors.AGENT_LOG_ISSUES,
                          {"neutron": neutron_expected, "nova": nova_expected})
         mock_add_known_bug.assert_has_calls([mock.call("1896506")])
 

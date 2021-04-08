@@ -287,3 +287,48 @@
 2021-03-02 14:26:55.681 23307 INFO neutron.plugins.ml2.drivers.openvswitch.agent.ovs_neutron_agent [req-adf3a5b5-dbc9-4f0f-b56d-60e482b00be8 - - - - -] Agent rpc_loop - iteration:1438 - cleanup stale flows. Elapsed:25.901
 2021-03-02 14:26:55.682 23307 INFO neutron.plugins.ml2.drivers.openvswitch.agent.ovs_neutron_agent [req-adf3a5b5-dbc9-4f0f-b56d-60e482b00be8 - - - - -] Agent rpc_loop - iteration:1438 completed. Processed ports statistics: {'regular': {'added': 8, 'updated': 0, 'removed': 0}}. Elapsed:25.901
 
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int [req-0410e397-d4e6-4ba7-a465-1adbf2e3b3ff - - - - -] Failed to communicate with the switch: RuntimeError: ofctl request version=0x4,m
+sg_type=0x12,msg_len=0x38,xid=0x2b1c076c,OFPFlowStatsRequest(cookie=0,cookie_mask=0,flags=0,match=OFPMatch(oxm_fields={}),out_group=4294967295,out_port=4294967295,table_id=23,type=1) timed out
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int Traceback (most recent call last):
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/neutron/plugins/ml2/drivers/openvswitch/agent/openflow/native/ofswitch.py", line 92, in _send_
+msg
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     result = ofctl_api.send_msg(self._app, msg, reply_cls, reply_multi)
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/os_ken/app/ofctl/api.py", line 89, in send_msg
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     reply_multi=reply_multi))()
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/os_ken/base/app_manager.py", line 279, in send_request
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     return req.reply_q.get()
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/eventlet/queue.py", line 322, in get
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     return waiter.wait()
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/eventlet/queue.py", line 141, in wait
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     return get_hub().switch()
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/eventlet/hubs/hub.py", line 298, in switch
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     return self.greenlet.switch()
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int eventlet.timeout.Timeout: 300 seconds
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int 
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int During handling of the above exception, another exception occurred:
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int 
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int Traceback (most recent call last):
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/neutron/plugins/ml2/drivers/openvswitch/agent/openflow/native/br_int.py", line 60, in check_ca
+nary_table
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     flows = self.dump_flows(constants.CANARY_TABLE)
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/neutron/plugins/ml2/drivers/openvswitch/agent/openflow/native/ofswitch.py", line 163, in dump_
+flows
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     reply_multi=True)
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/neutron/plugins/ml2/drivers/openvswitch/agent/openflow/native/ofswitch.py", line 110, in _send
+_msg
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int     raise RuntimeError(m)
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int RuntimeError: ofctl request version=0x4,msg_type=0x12,msg_len=0x38,xid=0x2b1c076c,OFPFlowStatsRequest(cookie=0,cookie_mask=0,flags=0,
+match=OFPMatch(oxm_fields={}),out_group=4294967295,out_port=4294967295,table_id=23,type=1) timed out
+2021-03-29 12:57:26.462 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int 
+2021-03-29 12:57:26.463 374795 WARNING neutron.plugins.ml2.drivers.openvswitch.agent.ovs_neutron_agent [req-0410e397-d4e6-4ba7-a465-1adbf2e3b3ff - - - - -] OVS is dead. OVSNeutronAgent will keep running and checking OVS status periodically
+.
+2021-03-29 12:57:26.463 374795 INFO neutron.plugins.ml2.drivers.openvswitch.agent.ovs_neutron_agent [req-0410e397-d4e6-4ba7-a465-1adbf2e3b3ff - - - - -] Agent rpc_loop - iteration:692467 completed. Processed ports statistics: {'regular': {
+'added': 0, 'updated': 0, 'removed': 0}}. Elapsed:300.004
+2021-03-29 12:57:26.463 374795 INFO neutron.plugins.ml2.drivers.openvswitch.agent.ovs_neutron_agent [req-0410e397-d4e6-4ba7-a465-1adbf2e3b3ff - - - - -] Agent rpc_loop - iteration:692468 started
+2021-03-29 13:02:26.466 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.ofswitch [req-0410e397-d4e6-4ba7-a465-1adbf2e3b3ff - - - - -] ofctl request version=0x4,msg_type=0x12,msg_len=0x38,xid=0x2b1c076e,OFPFlowSta
+tsRequest(cookie=0,cookie_mask=0,flags=0,match=OFPMatch(oxm_fields={}),out_group=4294967295,out_port=4294967295,table_id=23,type=1) timed out: eventlet.timeout.Timeout: 300 seconds
+2021-03-29 13:02:26.467 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int [req-0410e397-d4e6-4ba7-a465-1adbf2e3b3ff - - - - -] Failed to communicate with the switch: RuntimeError: ofctl request version=0x4,m
+sg_type=0x12,msg_len=0x38,xid=0x2b1c076e,OFPFlowStatsRequest(cookie=0,cookie_mask=0,flags=0,match=OFPMatch(oxm_fields={}),out_group=4294967295,out_port=4294967295,table_id=23,type=1) timed out
+2021-03-29 13:02:26.467 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int Traceback (most recent call last):
+2021-03-29 13:02:26.467 374795 ERROR neutron.plugins.ml2.drivers.openvswitch.agent.openflow.native.br_int   File "/usr/lib/python3/dist-packages/neutron/plugins/ml2/drivers/openvswitch/agent/openflow/native/ofswitch.py", line 92, in _send_
+msg

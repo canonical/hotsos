@@ -59,7 +59,7 @@ class TestSearchTools(utils.BaseTestCase):
                                                    globpath_file2,
                                                    globpath_file1]))
 
-        self.assertEquals(len(results.find_by_path(filepath)), 6)
+        self.assertEquals(len(results.find_by_path(filepath)), 37)
 
         tag_results = results.find_by_tag("T1", path=filepath)
         self.assertEquals(len(tag_results), 2)

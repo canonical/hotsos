@@ -17,11 +17,15 @@ from openstack_common import (
     NOVA_LOGS,
     OCTAVIA_LOGS,
 )
+from openstack_exceptions import (
+    OSLO_DB_EXCEPTIONS,
+    OSLO_MESSAGING_EXCEPTIONS,
+)
 from openstack_utils import (
     get_agent_exceptions,
 )
 
-AGENT_ERROR_INFO = {}
+AGENT_LOG_ISSUES = {}
 
 AGENT_NAMES = {"cinder": ["cinder-scheduler", "cinder-volume"],
                "glance": ["glance-api"],
@@ -44,21 +48,27 @@ AGENT_LOGS = {"cinder": CINDER_LOGS,
               "octavia": OCTAVIA_LOGS,
               }
 
-AGENT_EXCEPTIONS_COMMON = [r"(DBConnectionError)", r"(MessagingTimeout)",
-                           r"(AMQP server on .+ is unreachable)",
+AGENT_EXCEPTIONS_COMMON = [r"(AMQP server on .+ is unreachable)",
                            r"(amqp.exceptions.ConnectionForced):",
                            r"(OSError: Server unexpectedly closed connection)",
                            r"(ConnectionResetError: .+)"]
-AGENTS_EXCEPTIONS = {"cinder": AGENT_EXCEPTIONS_COMMON,
-                     "glance": AGENT_EXCEPTIONS_COMMON,
-                     "heat": AGENT_EXCEPTIONS_COMMON,
-                     "keystone": AGENT_EXCEPTIONS_COMMON,
-                     "nova": AGENT_EXCEPTIONS_COMMON + [
-                             r"(nova.exception.\S+):"],
-                     "neutron": AGENT_EXCEPTIONS_COMMON + [
-                                r"(OVS is dead).", r"(RuntimeError):"],
-                     "octavia": AGENT_EXCEPTIONS_COMMON,
+# assume all agents use these so add to all
+for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS:
+    AGENT_EXCEPTIONS_COMMON.append(r"({})".format(exc))
+
+# The following must be ERROR log level
+AGENTS_EXCEPTIONS = {"cinder": [] + AGENT_EXCEPTIONS_COMMON,
+                     "glance": [] + AGENT_EXCEPTIONS_COMMON,
+                     "heat": [] + AGENT_EXCEPTIONS_COMMON,
+                     "keystone": [] + AGENT_EXCEPTIONS_COMMON,
+                     "nova": [r"(nova.exception.\S+):"] +
+                     AGENT_EXCEPTIONS_COMMON,
+                     "neutron": [] + AGENT_EXCEPTIONS_COMMON,
+                     "octavia": [] + AGENT_EXCEPTIONS_COMMON,
                      }
+
+# The following can be any log level
+AGENTS_ISSUES = {"neutron": [r"(OVS is dead).", r"(RuntimeError):"]}
 
 # NOTE: only LP bugs supported for now
 BUG_SEARCH_TERMS = {"1896506": (".+Unknown configuration entry 'no_track' for "
@@ -73,10 +83,15 @@ def add_agent_terms(searcher, service):
 
     for agent in AGENT_NAMES[service]:
         data_source = data_source_template.format(agent)
-        for exc_type in AGENTS_EXCEPTIONS[service]:
-            rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_type)
+        for exc_msg in AGENTS_EXCEPTIONS[service]:
+            rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
             searcher.add_search_term(rexpr, [1, 2, 3], data_source, tag=agent,
-                                     hint=exc_type)
+                                     hint=exc_msg)
+
+        for msg in AGENTS_ISSUES.get(service, []):
+            rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
+            searcher.add_search_term(rexpr, [1, 2, 3], data_source, tag=agent,
+                                     hint=msg)
 
 
 def add_bug_search_terms(searcher):
@@ -100,10 +115,10 @@ def process_agent_results(results, service):
         e = get_agent_exceptions(results.find_by_tag(agent),
                                  AGENT_ERROR_KEY_BY_TIME)
         if e:
-            if service not in AGENT_ERROR_INFO:
-                AGENT_ERROR_INFO[service] = {}
+            if service not in AGENT_LOG_ISSUES:
+                AGENT_LOG_ISSUES[service] = {}
 
-            AGENT_ERROR_INFO[service][agent] = e
+            AGENT_LOG_ISSUES[service][agent] = e
 
 
 def get_agents_issues():
@@ -131,6 +146,6 @@ def get_agents_issues():
 
 if __name__ == "__main__":
     get_agents_issues()
-    if AGENT_ERROR_INFO:
-        AGENT_ERROR_INFO = {"agent-errors": AGENT_ERROR_INFO}
-        plugin_yaml.dump(AGENT_ERROR_INFO)
+    if AGENT_LOG_ISSUES:
+        AGENT_LOG_ISSUES = {"agent-issues": AGENT_LOG_ISSUES}
+        plugin_yaml.dump(AGENT_LOG_ISSUES)
