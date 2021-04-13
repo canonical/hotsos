@@ -247,7 +247,9 @@ run_part ()
     $DEBUG_MODE && echo -n " $part" 1>&2
     $CWD/plugins/$plugin/$part >> $MASTER_YAML_OUT
     local t_end=`date +%s%3N`
-    $DEBUG_MODE && echo " (`echo \"scale=3;($t_end-$t_start)/1000\"| bc`s)" 1>&2
+    delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
+    [[ ${delta::1} == '.' ]] && delta="0${delta}"
+    $DEBUG_MODE && echo " (${delta}s)" 1>&2
 }
 
 CWD=$(dirname `realpath $0`)
