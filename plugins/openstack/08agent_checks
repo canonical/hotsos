@@ -410,8 +410,13 @@ class CommonAgentChecks(AgentChecksBase):
             }
         # NOTE: only LP bugs supported for now
         self.agent_bug_search_terms = {
-            "1896506": (".+Unknown configuration entry 'no_track' for "
-                        "ip address - ignoring.*")
+            "1896506": {"expr":
+                        (".+Unknown configuration entry 'no_track' for "
+                         "ip address - ignoring.*"),
+                        "reason": ("identified in neutron-l3-agent logs by "
+                                   "{}.{}".
+                                   format(constants.PLUGIN_NAME,
+                                          constants.PART_NAME))}
             }
 
     def add_agent_terms(self, service):
@@ -443,8 +448,8 @@ class CommonAgentChecks(AgentChecksBase):
             data_source = "{}*".format(data_source)
 
         for tag in self.agent_bug_search_terms:
-            self.searchobj.add_search_term(self.agent_bug_search_terms[tag],
-                                           [0], data_source, tag=tag)
+            expr = self.agent_bug_search_terms[tag]["expr"]
+            self.searchobj.add_search_term(expr, [0], data_source, tag=tag)
 
     def add_agents_issues_search_terms(self):
         # Add search terms for everything at once
@@ -456,7 +461,8 @@ class CommonAgentChecks(AgentChecksBase):
     def process_bug_results(self, results):
         for tag in self.agent_bug_search_terms:
             if results.find_by_tag(tag):
-                add_known_bug(tag)
+                reason = self.agent_bug_search_terms[tag]["reason"]
+                add_known_bug(tag, description=reason)
 
     def process_agent_results(self, results, service):
         for agent in AGENT_DAEMON_NAMES[service]:

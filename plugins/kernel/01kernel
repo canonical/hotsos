@@ -5,6 +5,8 @@ import re
 from common import (
     constants,
     helpers,
+    issue_types,
+    issues_utils,
     plugin_yaml,
 )
 
@@ -214,9 +216,11 @@ def get_kernel_info():
         if success_count > 10000:
             pcent = int(fail_count / (success_count / 100))
             if pcent > 10:
-                KERNEL_INFO["memory-checks"]["compaction"] = \
-                    "failures are at {}% of successes (see {})".format(pcent,
-                                                                       VMSTAT)
+                msg = ("failures are at {}% of successes (see {})"
+                       .format(pcent, VMSTAT))
+                KERNEL_INFO["memory-checks"]["compaction"] = msg
+                issue = issue_types.MemoryWarning("compaction " + msg)
+                issues_utils.add_issue(issue)
 
         get_slab_major_consumers()
     else:

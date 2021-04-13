@@ -8,6 +8,10 @@ master yaml section for this plugin.
 from common.known_bugs_utils import (
     add_known_bugs_to_master_plugin,
 )
+from common.issues_utils import (
+    add_issues_to_master_plugin,
+)
 
 if __name__ == "__main__":
     add_known_bugs_to_master_plugin()
+    add_issues_to_master_plugin()

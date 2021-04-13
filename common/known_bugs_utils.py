@@ -12,7 +12,7 @@ MASTER_YAML_KNOWN_BUGS_KEY = "known-bugs"
 KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
 
 
-def get_known_bugs():
+def _get_known_bugs():
     """
     Fetch the current plugin known_bugs.yaml if it exists and return its
     contents or None if it doesn't exist yet.
@@ -45,7 +45,7 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     else:
         entry = new_bug
 
-    current = get_known_bugs()
+    current = _get_known_bugs()
     if current and current.get(MASTER_YAML_KNOWN_BUGS_KEY):
         current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry)
     else:
@@ -62,6 +62,6 @@ def add_known_bugs_to_master_plugin():
     Note that this can only be called once per plugin and is typically
     performed as a final part after all others have executed.
     """
-    bugs = get_known_bugs()
+    bugs = _get_known_bugs()
     if bugs:
         plugin_yaml.dump(bugs)

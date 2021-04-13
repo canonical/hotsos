@@ -348,7 +348,10 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
         c.process_agent_issues_results(s.search())
         self.assertEqual(c.agent_log_issues,
                          {"neutron": neutron_expected, "nova": nova_expected})
-        mock_add_known_bug.assert_has_calls([mock.call("1896506")])
+        calls = [mock.call("1896506",
+                           description=('identified in neutron-l3-agent logs '
+                                        'by testplugin.01part'))]
+        mock_add_known_bug.assert_has_calls(calls)
 
     def test_get_router_event_stats(self):
         router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'

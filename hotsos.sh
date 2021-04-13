@@ -21,6 +21,7 @@
 
 
 DEBUG_MODE=false
+MIMIMAL_MODE=false
 # These globals are made available to all plugins
 export VERBOSITY_LEVEL=0
 export DATA_ROOT
@@ -32,6 +33,8 @@ export MASTER_YAML_OUT
 export USE_ALL_LOGS=false
 # this is set to the name of the current plugin being executed
 export PLUGIN_NAME
+# this is set to the name of the current plugin part being executed
+export PART_NAME
 # This is a scratch area for each plugin to use and a fresh one is created at
 # the start of each plugin execution then destroyed once all parts are
 # executed.
@@ -111,6 +114,9 @@ OPTIONS
         Use the Kubernetes plugin.
     --part
         Name of plugin part to run. May be specified multiple times.
+    --short
+        If provided, the output will be filtered to only include known-bugs
+        and potential-issues sections for plugins run.
     --storage
         Use the Storage plugin.
     --system
@@ -196,6 +202,9 @@ while (($#)); do
             RUN_PARTS+=( $2 )
             shift
             ;;
+        --short)
+            MIMIMAL_MODE=true
+            ;;
         --all-logs)
             USE_ALL_LOGS=true
             ;;
@@ -245,6 +254,7 @@ run_part ()
 
     local t_start=`date +%s%3N`
     $DEBUG_MODE && echo -n " $part" 1>&2
+    PART_NAME=$part
     $CWD/plugins/$plugin/$part >> $MASTER_YAML_OUT
     local t_end=`date +%s%3N`
     delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
@@ -304,6 +314,10 @@ for data_root in ${SOS_PATHS[@]}; do
 
         $DEBUG_MODE && echo "" 1>&2
     done
+
+    if $MIMIMAL_MODE; then
+        $CWD/tools/output_filter.py $MASTER_YAML_OUT
+    fi
 
     if $SAVE_OUTPUT; then
         if [[ $data_root != "/" ]]; then

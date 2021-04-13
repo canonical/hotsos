@@ -386,7 +386,8 @@ class CPUPinningChecker(object):
                 msg = ("{} is neither a subset of isolcpus nor cpuaffinity".
                        format(self.cpu_dedicated_set_name))
                 self.results.add_error(msg)
-                add_known_bug(1897275)
+                reason = "cpu pinning check: {}".format(msg)
+                add_known_bug(1897275, description=reason)
 
         intersect = self.cpu_shared_set.intersection(self.kernel.isolcpus)
         if intersect:
