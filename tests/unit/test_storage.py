@@ -148,8 +148,8 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(storage_03ceph_daemon_logs, "DAEMON_INFO", {})
-    def test_get_daemon_info(self):
+    def test_get_daemon_log_info(self):
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
                                           'osd.85': {'2021-02-13': 4}}}
-        storage_03ceph_daemon_logs.get_daemon_info()
+        storage_03ceph_daemon_logs.get_daemon_log_info()
         self.assertEqual(storage_03ceph_daemon_logs.DAEMON_INFO, result)

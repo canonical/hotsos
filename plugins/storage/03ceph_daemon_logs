@@ -10,27 +10,9 @@ from common import (
 
 CEPH_LOGS = "var/log/ceph/"
 DAEMON_INFO = {}
-MAX_RESULTS = 5
 
 
-def get_daemon_info():
-    data_source = os.path.join(constants.DATA_ROOT, CEPH_LOGS, 'ceph*.log')
-    if constants.USE_ALL_LOGS:
-        data_source = "{}*".format(data_source)
-
-    s = searchtools.FileSearcher()
-    s.add_search_term((r"^([0-9-]+) \S+ .+ (osd.[0-9]+) reported failed "
-                       r"by osd.[0-9]+"), [1, 2], data_source,
-                      tag="osd-reported-failed", hint="reported failed")
-    s.add_search_term((r"^([0-9-]+) \S+ .+ (mon.\S+) calling monitor "
-                       r"election"), [1, 2], data_source,
-                      tag="mon-election-called",
-                      hint="calling monitor election")
-    s.add_search_term((r"^([0-9-]+) \S+ .+ ([0-9]+) slow requests are blocked "
-                       r".+ \(REQUEST_SLOW\)"), [1, 2], data_source,
-                      tag="slow-requests", hint="REQUEST_SLOW")
-    results = s.search()
-
+def process_osd_failure_reports_results(results):
     reported_failed = {}
     for result in sorted(results.find_by_tag("osd-reported-failed"),
                          key=lambda r: r.get(1)):
@@ -47,6 +29,8 @@ def get_daemon_info():
     if reported_failed:
         DAEMON_INFO["osd-reported-failed"] = reported_failed
 
+
+def process_mon_elections_results(results):
     elections_called = {}
     for result in sorted(results.find_by_tag("mon-election-called"),
                          key=lambda r: r.get(1)):
@@ -63,6 +47,8 @@ def get_daemon_info():
     if elections_called:
         DAEMON_INFO["mon-elections-called"] = elections_called
 
+
+def process_slow_requests_results(results):
     slow_requests = {}
     for result in sorted(results.find_by_tag("slow-requests"),
                          key=lambda r: r.get(1)):
@@ -77,8 +63,34 @@ def get_daemon_info():
         DAEMON_INFO["slow-requests"] = slow_requests
 
 
+def get_daemon_log_info():
+    data_source = os.path.join(constants.DATA_ROOT, CEPH_LOGS, 'ceph*.log')
+    if constants.USE_ALL_LOGS:
+        data_source = "{}*".format(data_source)
+
+    s = searchtools.FileSearcher()
+
+    s.add_search_term((r"^([0-9-]+) \S+ .+ (osd.[0-9]+) reported failed "
+                       r"by osd.[0-9]+"), [1, 2], data_source,
+                      tag="osd-reported-failed", hint="reported failed")
+
+    s.add_search_term((r"^([0-9-]+) \S+ .+ (mon.\S+) calling monitor "
+                       r"election"), [1, 2], data_source,
+                      tag="mon-election-called",
+                      hint="calling monitor election")
+
+    s.add_search_term((r"^([0-9-]+) \S+ .+ ([0-9]+) slow requests are blocked "
+                       r".+ \(REQUEST_SLOW\)"), [1, 2], data_source,
+                      tag="slow-requests", hint="REQUEST_SLOW")
+
+    results = s.search()
+    process_osd_failure_reports_results(results)
+    process_mon_elections_results(results)
+    process_slow_requests_results(results)
+
+
 if __name__ == "__main__":
-    get_daemon_info()
+    get_daemon_log_info()
     if DAEMON_INFO:
         DAEMON_INFO = {"daemon-events": DAEMON_INFO}
         plugin_yaml.dump(DAEMON_INFO)
