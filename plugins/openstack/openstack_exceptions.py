@@ -1,3 +1,11 @@
+# Some common builtin exeptions we might want to watch for
+PYTHON_BUILTIN_EXCEPTIONS = [
+    "AttributeError",
+    "IndexError",
+    "KeyError",
+    "ValueError",
+]
+
 # https://opendev.org/openstack/oslo.db/src/branch/master/oslo_db/exception.py
 OSLO_DB_EXCEPTIONS = [
     "DBError",

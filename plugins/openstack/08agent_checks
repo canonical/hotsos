@@ -25,6 +25,7 @@ from openstack_exceptions import (
     NOVA_EXCEPTIONS,
     OSLO_DB_EXCEPTIONS,
     OSLO_MESSAGING_EXCEPTIONS,
+    PYTHON_BUILTIN_EXCEPTIONS,
 )
 from openstack_utils import (
     get_agent_exceptions,
@@ -60,7 +61,8 @@ AGENT_EXCEPTIONS_COMMON = [r"(AMQP server on .+ is unreachable)",
                            r"(ConnectionResetError: .+)",
                            ]
 # assume all agents use these so add to all
-for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS:
+for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS + \
+        PYTHON_BUILTIN_EXCEPTIONS:
     AGENT_EXCEPTIONS_COMMON.append(r"({})".format(exc))
 
 NOVA_EXCEPTIONS_ALL = [r"(nova.exception.\S+):"] + AGENT_EXCEPTIONS_COMMON
