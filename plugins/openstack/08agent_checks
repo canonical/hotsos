@@ -67,7 +67,7 @@ for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS + \
 
 NOVA_EXCEPTIONS_ALL = [r"(nova.exception.\S+):"] + AGENT_EXCEPTIONS_COMMON
 for exc in NOVA_EXCEPTIONS:
-    NOVA_EXCEPTIONS_ALL.append(r"({})".format(exc))
+    NOVA_EXCEPTIONS_ALL.append(r" ({}):".format(exc))
 
 # The following must be ERROR log level
 AGENTS_EXCEPTIONS = {"cinder": [] + AGENT_EXCEPTIONS_COMMON,
