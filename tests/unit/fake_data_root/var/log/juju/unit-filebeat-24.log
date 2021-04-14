@@ -1,0 +1,10 @@
+tracer: ++   queue handler ../.venv/lib/python3.6/site-packages/charmhelpers/core/host.py:715:wrapped_f
+2021-04-14 09:20:58 INFO juju-log Invoking reactive handler: reactive/beats_base.py:62:cache_remove_elasticsearch_data
+2021-04-14 09:20:58 INFO juju-log Invoking reactive handler: reactive/beats_base.py:84:cache_remove_kafka_data
+2021-04-14 09:20:58 INFO juju-log Invoking reactive handler: reactive/apt.py:49:ensure_package_status
+2021-04-14 09:20:58 INFO juju-log Invoking reactive handler: ../.venv/lib/python3.6/site-packages/charmhelpers/core/host.py:715:wrapped_f
+2021-04-14 09:20:59 DEBUG juju-log Changing permissions on existing content: 33060 -> 292
+2021-04-14 09:20:59 DEBUG juju-log tracer>
+tracer: cleared flag beat.render
+tracer: -- dequeue handler ../.venv/lib/python3.6/site-packages/charmhelpers/core/host.py:715:wrapped_f
+2021-04-14 09:20:59 INFO juju-log status-set: active: Filebeat ready.

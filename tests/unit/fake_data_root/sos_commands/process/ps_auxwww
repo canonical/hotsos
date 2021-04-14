@@ -22,3 +22,159 @@ ceph       30824 11.0  0.7 6484804 4213288 ?     Ssl   2020 37513:17 /usr/bin/ce
 ceph       32278 11.1  0.7 7482112 3991568 ?     Ssl   2020 37791:59 /usr/bin/ceph-osd -f --cluster ceph --id 109 --setuser ceph --setgroup ceph
 ceph     2054740 10.5  0.7 6041588 4060788 ?     Ssl   2020 9653:21 /usr/bin/ceph-osd -f --cluster ceph --id 101 --setuser ceph --setgroup ceph
 ceph     2054743 16.4  0.7 6558232 4138916 ?     Ssl   2020 15089:10 /usr/bin/ceph-osd -f --cluster ceph --id 70 --setuser ceph --setgroup ceph
+
+root     21741  0.0  0.0  21776  3520 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-neutron-gateway-0-exec-start.sh
+root     21791  0.0  0.3 6260776 677896 ?      Sl    2020  88:01 /var/lib/juju/tools/unit-neutron-gateway-0/jujud unit --data-dir /var/lib/juju --unit-name neutron-gateway/0 --debug
+root     21768  0.0  0.0  21776  3588 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-landscape-client-42-exec-start.sh
+root     21798  0.0  0.0  21776  3464 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-ntp-39-exec-start.sh
+root     21807  0.0  0.0 5643268 88808 ?       Sl    2020  57:43 /var/lib/juju/tools/unit-landscape-client-42/jujud unit --data-dir /var/lib/juju --unit-name landscape-client/42 --debug
+root     21851  0.0  0.0 5718280 89796 ?       Sl    2020  69:16 /var/lib/juju/tools/unit-ntp-39/jujud unit --data-dir /var/lib/juju --unit-name ntp/39 --debug
+root     21918  0.0  0.0  21776  3504 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-33-exec-start.sh
+root     22073  0.0  0.0 5565184 122256 ?      Sl    2020  64:34 /var/lib/juju/tools/machine-33/jujud machine --data-dir /var/lib/juju --machine-id 33 --debug
+root     37919  0.0  0.0 538616  8264 ?        Ss   Mar11   0:00 [lxc monitor] /var/lib/lxd/containers juju-ff6a31-33-lxd-0
+100000   39470  0.0  0.0  21776  3556 ?        Ss   Mar11   0:00 bash /etc/systemd/system/jujud-unit-octavia-0-exec-start.sh
+100000   39504  0.0  0.0  21776  3504 ?        Ss   Mar11   0:00 bash /etc/systemd/system/jujud-unit-neutron-openvswitch-octavia-0-exec-start.sh
+100000   39515  0.0  0.0  21776  3580 ?        Ss   Mar11   0:00 bash /etc/systemd/system/jujud-unit-ntp-71-exec-start.sh
+100000   39544  0.0  0.0 5345268 92140 ?       Sl   Mar11   6:10 /var/lib/juju/tools/unit-nrpe-container-31/jujud unit --data-dir /var/lib/juju --unit-name nrpe-container/31 --debug
+100000   39550  0.0  0.0  21776  3572 ?        Ss   Mar11   0:00 bash /etc/systemd/system/jujud-machine-33-lxd-0-exec-start.sh
+100000   39558  0.0  0.0 5348340 97768 ?       Sl   Mar11  10:57 /var/lib/juju/tools/unit-octavia-0/jujud unit --data-dir /var/lib/juju --unit-name octavia/0 --debug
+100000   39562  0.0  0.0  21776  3484 ?        Ss   Mar11   0:00 bash /etc/systemd/system/jujud-unit-landscape-client-80-exec-start.sh
+100000   39585  0.0  0.0 5346292 94480 ?       Sl   Mar11   8:29 /var/lib/juju/tools/unit-neutron-openvswitch-octavia-0/jujud unit --data-dir /var/lib/juju --unit-name neutron-openvswitch-octavia/0 --debug
+100000   39612  0.0  0.0 5272816 93432 ?       Sl   Mar11   7:58 /var/lib/juju/tools/unit-ntp-71/jujud unit --data-dir /var/lib/juju --unit-name ntp/71 --debug
+100000   39684  0.0  0.0 5122536 92356 ?       Sl   Mar11   6:08 /var/lib/juju/tools/unit-landscape-client-80/jujud unit --data-dir /var/lib/juju --unit-name landscape-client/80 --debug
+100000   39691  0.0  0.0 5415672 91476 ?       Sl   Mar11   6:50 /var/lib/juju/tools/machine-33-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 33/lxd/0 --debug
+100000     819  0.0  0.0  21768  2440 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-5-exec-start.sh
+100000     822  0.0  0.0  21768  2340 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-filebeat-22-exec-start.sh
+100000     835  0.0  0.0  21768  2348 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-keystone-hacluster-0-exec-start.sh
+100000     836  0.0  0.0  21768  2512 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-keystone-0-exec-start.sh
+100000    1862  0.0  0.0 2984300 91988 ?       Sl    2020 198:28 /var/lib/juju/tools/unit-keystone-0/jujud unit --data-dir /var/lib/juju --unit-name keystone/0 --debug
+100000    1863  0.0  0.0 2983020 85404 ?       Sl    2020  80:58 /var/lib/juju/tools/unit-filebeat-22/jujud unit --data-dir /var/lib/juju --unit-name filebeat/22 --debug
+100000    1876  0.0  0.0 3057776 85464 ?       Sl    2020  77:44 /var/lib/juju/tools/unit-keystone-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name keystone-hacluster/0 --debug
+100000    1878  0.0  0.0 2982764 83928 ?       Sl    2020  67:34 /var/lib/juju/tools/machine-0-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/5 --debug
+100000    2363  0.0  0.0  21768  2372 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-7-exec-start.sh
+100000    2372  0.0  0.0  21768  2500 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-mysql-hacluster-0-exec-start.sh
+100000    2381  0.0  0.0  21768  2444 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-mysql-0-exec-start.sh
+100000    2531 16.6  0.0 160332 67752 ?        S    08:54   0:02 /var/lib/juju/agents/unit-octavia-0/.venv/bin/python /var/lib/juju/agents/unit-octavia-0/charm/hooks/update-status
+100000    2695  0.0  0.0  21768  2444 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-memcached-0-exec-start.sh
+100000    2701  0.0  0.0  21768  2440 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-6-exec-start.sh
+100000    3401  0.0  0.0 3058032 90736 ?       Sl    2020 120:08 /var/lib/juju/tools/unit-mysql-0/jujud unit --data-dir /var/lib/juju --unit-name mysql/0 --debug
+100000    3402  0.0  0.0 2981996 83744 ?       Sl    2020  66:04 /var/lib/juju/tools/machine-0-lxd-7/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/7 --debug
+100000    3405  0.0  0.0 2983788 84696 ?       Sl    2020  77:06 /var/lib/juju/tools/unit-mysql-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name mysql-hacluster/0 --debug
+100000    3548  0.0  0.0 2982764 85232 ?       Sl    2020  67:07 /var/lib/juju/tools/machine-0-lxd-6/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/6 --debug
+100000    3549  0.0  0.0 2983020 84184 ?       Sl    2020  67:47 /var/lib/juju/tools/unit-memcached-0/jujud unit --data-dir /var/lib/juju --unit-name memcached/0 --debug
+root      5056  0.0  0.0  21768  2432 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-exec-start.sh
+root      5085  0.0  0.0  21768  2396 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-ntp-0-exec-start.sh
+root      5100  0.0  0.0  21768  2548 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-filebeat-24-exec-start.sh
+100000    5112  0.0  0.0  21768  3476 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-11-exec-start.sh
+root      5116  0.0  0.0  21768  2468 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-neutron-gateway-0-exec-start.sh
+100000    5125  0.0  0.0  21768  3544 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-unit-rabbitmq-server-0-exec-start.sh
+root      5250  0.0  0.0 3272572 179804 ?      Sl    2020  96:03 /var/lib/juju/tools/machine-0/jujud machine --data-dir /var/lib/juju --machine-id 0 --debug
+root      5252  0.0  0.0 2984044 90244 ?       Sl    2020  72:23 /var/lib/juju/tools/unit-filebeat-24/jujud unit --data-dir /var/lib/juju --unit-name filebeat/24 --debug
+root      5253  0.0  0.0 2983788 91416 ?       Sl    2020 108:33 /var/lib/juju/tools/unit-neutron-gateway-0/jujud unit --data-dir /var/lib/juju --unit-name neutron-gateway/0 --debug
+root      5254  0.0  0.0 3057520 87880 ?       Sl    2020  76:45 /var/lib/juju/tools/unit-ntp-0/jujud unit --data-dir /var/lib/juju --unit-name ntp/0 --debug
+100000    5469  0.0  0.0 2907752 83520 ?       Sl   Apr06   2:49 /var/lib/juju/tools/machine-0-lxd-11/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/11 --debug
+root      5725  0.0  0.0 535880  7284 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-0
+100000    5755  0.0  0.0 3056560 89000 ?       Sl   Apr06   6:02 /var/lib/juju/tools/unit-rabbitmq-server-0/jujud unit --data-dir /var/lib/juju --unit-name rabbitmq-server/0 --debug
+root      5963  0.0  0.0 538600  7504 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-1
+root      6149  0.0  0.0 537192  7476 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-10
+root      6477  0.0  0.0 538344  7652 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-12
+root      6645  0.0  0.0 538344  7492 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-13
+root      6842  0.0  0.0 538600  7496 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-14
+root      7094  0.0  0.0 538344  7528 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-15
+root      7588  0.0  0.0 538600  7488 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-16
+root      8152  0.0  0.0 535880  7532 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-17
+100000    8799  0.0  0.0 1503516 73004 ?       Sl   08:54   0:00 juju-log Making dir /etc/octavia/certs root:octavia 750
+root      8913  0.0  0.0 535880  7440 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-2
+root      9570  0.0  0.0 538344  7648 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-3
+100000    9648  0.0  0.0  21768  2328 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-neutron-openvswitch-25-exec-start.sh
+100000    9655  0.0  0.0  21768  2440 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-17-exec-start.sh
+100000    9672  0.0  0.0  21768  2500 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-octavia-0-exec-start.sh
+100000    9694  0.0  0.0  21768  2404 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-octavia-hacluster-5-exec-start.sh
+100000    9909  0.0  0.0  21768  2356 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-neutron-api-hacluster-0-exec-start.sh
+100000    9930  0.0  0.0  21768  2408 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-8-exec-start.sh
+100000    9937  0.0  0.0  21768  2444 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-neutron-api-0-exec-start.sh
+100000    9944  0.0  0.0  21768  2376 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-filebeat-18-exec-start.sh
+100112   10063 67.8  1.0 11524276 2684164 ?    Sl   Apr07 7190:48 /usr/lib/erlang/erts-9.2/bin/beam.smp -W w -A 448 -P 1048576 -t 5000000 -stbt db -zdbbl 32000 -K true -A 48 -B i -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.10/ebin -noshell -noinput -s rabbit boot -sname rabbit@juju-52088b-0-lxd-11 -boot start_sasl -config /etc/rabbitmq/rabbitmq -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit error_logger {file,"/var/log/rabbitmq/rabbit@juju-52088b-0-lxd-11.log"} -rabbit sasl_error_logger {file,"/var/log/rabbitmq/rabbit@juju-52088b-0-lxd-11-sasl.log"} -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.6.10/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-52088b-0-lxd-11-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-52088b-0-lxd-11" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672
+100000   10200  0.0  0.0 3057520 84316 ?       Sl    2020  79:11 /var/lib/juju/tools/unit-filebeat-18/jujud unit --data-dir /var/lib/juju --unit-name filebeat/18 --debug
+100000   10201  0.0  0.0 3131508 85120 ?       Sl    2020  76:38 /var/lib/juju/tools/unit-neutron-api-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name neutron-api-hacluster/0 --debug
+100000   10202  0.0  0.0 3057520 90864 ?       Sl    2020 163:34 /var/lib/juju/tools/unit-neutron-api-0/jujud unit --data-dir /var/lib/juju --unit-name neutron-api/0 --debug
+100000   10203  0.0  0.0 2981996 85564 ?       Sl    2020  67:11 /var/lib/juju/tools/machine-0-lxd-8/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/8 --debug
+100000   10306  0.0  0.0 2983788 110432 ?      Sl    2020 208:16 /var/lib/juju/tools/unit-octavia-0/jujud unit --data-dir /var/lib/juju --unit-name octavia/0 --debug
+100000   10307  0.0  0.0 2984044 86600 ?       Sl    2020  99:06 /var/lib/juju/tools/unit-neutron-openvswitch-25/jujud unit --data-dir /var/lib/juju --unit-name neutron-openvswitch/25 --debug
+100000   10308  0.0  0.0 3130996 86048 ?       Sl    2020  78:51 /var/lib/juju/tools/unit-octavia-hacluster-5/jujud unit --data-dir /var/lib/juju --unit-name octavia-hacluster/5 --debug
+100000   10309  0.0  0.0 2981996 87316 ?       Sl    2020  65:51 /var/lib/juju/tools/machine-0-lxd-17/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/17 --debug
+root     11823  0.0  0.0 538600  7508 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-5
+root     12335  0.0  0.0 535880  7452 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-6
+100000   12642  0.0  0.0  21768  2448 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-9-exec-start.sh
+100000   12647  0.0  0.0  21768  2344 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-nova-cloud-controller-hacluster-0-exec-start.sh
+100000   12654  0.0  0.0  21768  2500 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-nova-cloud-controller-0-exec-start.sh
+100000   12655  0.0  0.0  21768  2356 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-filebeat-14-exec-start.sh
+100000   13211  0.1  0.0 2984812 107812 ?      Sl    2020 250:49 /var/lib/juju/tools/unit-nova-cloud-controller-0/jujud unit --data-dir /var/lib/juju --unit-name nova-cloud-controller/0 --debug
+100000   13212  0.0  0.0 2983788 85324 ?       Sl    2020  78:30 /var/lib/juju/tools/unit-filebeat-14/jujud unit --data-dir /var/lib/juju --unit-name filebeat/14 --debug
+100000   13213  0.0  0.0 2908008 84944 ?       Sl    2020  65:08 /var/lib/juju/tools/machine-0-lxd-9/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/9 --debug
+100000   13214  0.0  0.0 3057520 84604 ?       Sl    2020  79:22 /var/lib/juju/tools/unit-nova-cloud-controller-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name nova-cloud-controller-hacluster/0 --debug
+root     13239  0.0  0.0 538344  7520 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-7
+root     14014  0.0  0.0 537376  7668 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-8
+root     14829  0.0  0.0 538692  7496 ?        Ss    2020   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-9
+164045   18706  0.1  0.0 5249964 188916 ?      Ssl   2020 417:30 /usr/bin/radosgw -f --cluster ceph --name client.rgw.juju-52088b-0-lxd-1 --setuser ceph --setgroup ceph
+100000   18820  0.0  0.0  21768  2324 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-ceph-radosgw-hacluster-0-exec-start.sh
+100000   18823  0.0  0.0  21768  2320 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-ceph-radosgw-0-exec-start.sh
+100000   18828  0.0  0.0  21768  2348 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-1-exec-start.sh
+100000   19239  0.0  0.0 3057520 89768 ?       Sl    2020 122:12 /var/lib/juju/tools/unit-ceph-radosgw-0/jujud unit --data-dir /var/lib/juju --unit-name ceph-radosgw/0 --debug
+100000   19240  0.0  0.0 3057264 86128 ?       Sl    2020  77:26 /var/lib/juju/tools/unit-ceph-radosgw-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name ceph-radosgw-hacluster/0 --debug
+100000   19241  0.0  0.0 3055728 86264 ?       Sl    2020  66:57 /var/lib/juju/tools/machine-0-lxd-1/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/1 --debug
+164045   20210  1.6  0.1 922744 332228 ?       Ssl   2020 3983:06 /usr/bin/ceph-mgr -f --cluster ceph --id juju-52088b-0-lxd-0 --setuser ceph --setgroup ceph
+164045   20223  1.3  0.4 1491908 1062372 ?     Ssl   2020 3306:52 /usr/bin/ceph-mon -f --cluster ceph --id juju-52088b-0-lxd-0 --setuser ceph --setgroup ceph
+100000   21110  0.0  0.0  21768  2340 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-grafana-0-exec-start.sh
+100000   21122  0.0  0.0  21768  2448 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-12-exec-start.sh
+100000   21620  0.0  0.0 3057776 86320 ?       Sl    2020 124:40 /var/lib/juju/tools/unit-grafana-0/jujud unit --data-dir /var/lib/juju --unit-name grafana/0 --debug
+100000   21621  0.0  0.0 2908776 83628 ?       Sl    2020  68:29 /var/lib/juju/tools/machine-0-lxd-12/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/12 --debug
+100000   22184  0.0  0.0  21768  2456 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-0-exec-start.sh
+100000   22201  0.0  0.0  21768  2388 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-ceph-mon-0-exec-start.sh
+100000   22211  0.0  0.0  21768  2396 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-ntp-11-exec-start.sh
+100000   22468  0.0  0.0 3057328 84740 ?       Sl    2020  84:33 /var/lib/juju/tools/unit-ntp-11/jujud unit --data-dir /var/lib/juju --unit-name ntp/11 --debug
+100000   22477  0.0  0.0 3057584 90972 ?       Sl    2020 132:16 /var/lib/juju/tools/unit-ceph-mon-0/jujud unit --data-dir /var/lib/juju --unit-name ceph-mon/0 --debug
+100000   22478  0.0  0.0 3056560 84844 ?       Sl    2020  64:55 /var/lib/juju/tools/machine-0-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/0 --debug
+100000   24013  0.0  0.0  21768  2444 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-openstack-dashboard-0-exec-start.sh
+100000   24025  0.0  0.0  21768  2492 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-10-exec-start.sh
+100000   24026  0.0  0.0  21768  2368 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-openstack-dashboard-hacluster-0-exec-start.sh
+100000   24649  0.0  0.0 2983788 85260 ?       Sl    2020 109:12 /var/lib/juju/tools/unit-openstack-dashboard-0/jujud unit --data-dir /var/lib/juju --unit-name openstack-dashboard/0 --debug
+100000   24651  0.0  0.0 3057520 86440 ?       Sl    2020  79:17 /var/lib/juju/tools/unit-openstack-dashboard-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name openstack-dashboard-hacluster/0 --debug
+100000   24696  0.0  0.0 2982508 82652 ?       Sl    2020  65:36 /var/lib/juju/tools/machine-0-lxd-10/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/10 --debug
+100000   24840  0.0  0.0  21768  2444 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-15-exec-start.sh
+100000   24870  0.0  0.0  21768  2448 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-prometheus-openstack-exporter-0-exec-start.sh
+100000   25452  0.0  0.0  21768  2388 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-prometheus-ceph-exporter-0-exec-start.sh
+100000   25466  0.0  0.0  21768  2280 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-14-exec-start.sh
+100000   25692  0.0  0.0 2982508 84284 ?       Sl    2020  66:18 /var/lib/juju/tools/machine-0-lxd-15/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/15 --debug
+100000   25693  0.0  0.0 3057776 91248 ?       Sl    2020 115:14 /var/lib/juju/tools/unit-prometheus-openstack-exporter-0/jujud unit --data-dir /var/lib/juju --unit-name prometheus-openstack-exporter/0 --debug
+100000   25697  0.0  0.0  21768  2372 ?        Ss    2020   0:00 bash /lib/systemd/system/jujud-machine-0-lxd-16/exec-start.sh
+100000   25714  0.0  0.0 2981996 90052 ?       Sl    2020  68:05 /var/lib/juju/tools/machine-0-lxd-16/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/16 --debug
+100000   25754  0.0  0.0  21768  2516 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-13-exec-start.sh
+100000   25761  0.0  0.0  21768  2392 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-prometheus-0-exec-start.sh
+100000   26004  0.0  0.0  21768  2332 ?        Ss    2020   0:00 bash /lib/systemd/system/jujud-unit-filebeat-39/exec-start.sh
+100000   26019  0.0  0.0 3057264 90092 ?       Sl    2020  80:42 /var/lib/juju/tools/unit-filebeat-39/jujud unit --data-dir /var/lib/juju --unit-name filebeat/39 --debug
+100000   26441  0.0  0.0  21768  2504 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-elasticsearch-1-exec-start.sh
+100000   26458  0.0  0.0 3130996 88436 ?       Sl    2020  69:58 /var/lib/juju/tools/unit-elasticsearch-1/jujud unit --data-dir /var/lib/juju --unit-name elasticsearch/1 --debug
+100000   26607  0.0  0.0 2982252 85128 ?       Sl    2020  67:24 /var/lib/juju/tools/machine-0-lxd-14/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/14 --debug
+100000   26655  0.0  0.0 3057264 86136 ?       Sl    2020  88:03 /var/lib/juju/tools/unit-prometheus-ceph-exporter-0/jujud unit --data-dir /var/lib/juju --unit-name prometheus-ceph-exporter/0 --debug
+100000   27121  0.0  0.0 3057776 89148 ?       Sl    2020 170:27 /var/lib/juju/tools/unit-prometheus-0/jujud unit --data-dir /var/lib/juju --unit-name prometheus/0 --debug
+100000   27122  0.0  0.0 2908776 84396 ?       Sl    2020  65:07 /var/lib/juju/tools/machine-0-lxd-13/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/13 --debug
+100000   29881  0.0  0.0  21768  2324 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-cinder-hacluster-0-exec-start.sh
+100000   29883  0.0  0.0  21768  2392 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-filebeat-1-exec-start.sh
+100000   29889  0.0  0.0  21768  2328 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-cinder-0-exec-start.sh
+100000   29894  0.0  0.0  21768  2500 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-2-exec-start.sh
+100000   29895  0.0  0.0  21768  2372 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-cinder-ceph-0-exec-start.sh
+100000   30576  0.0  0.0 3057520 90384 ?       Sl    2020 139:19 /var/lib/juju/tools/unit-cinder-0/jujud unit --data-dir /var/lib/juju --unit-name cinder/0 --debug
+100000   30577  0.0  0.0 3057264 86392 ?       Sl    2020  94:54 /var/lib/juju/tools/unit-cinder-ceph-0/jujud unit --data-dir /var/lib/juju --unit-name cinder-ceph/0 --debug
+100000   30578  0.0  0.0 2981740 84516 ?       Sl    2020  67:36 /var/lib/juju/tools/machine-0-lxd-2/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/2 --debug
+100000   30579  0.0  0.0 2984044 84136 ?       Sl    2020  80:12 /var/lib/juju/tools/unit-filebeat-1/jujud unit --data-dir /var/lib/juju --unit-name filebeat/1 --debug
+100000   30580  0.0  0.0 2984044 84416 ?       Sl    2020  76:20 /var/lib/juju/tools/unit-cinder-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name cinder-hacluster/0 --debug
+100000   31794  0.0  0.0  21768  2516 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-filebeat-3-exec-start.sh
+100000   31808  0.0  0.0  21768  2452 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-glance-hacluster-0-exec-start.sh
+100000   31809  0.0  0.0  21768  2316 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-3-exec-start.sh
+100000   31810  0.0  0.0  21768  2316 ?        Ss    2020   0:00 bash /etc/systemd/system/jujud-unit-glance-0-exec-start.sh
+100000   32480  0.0  0.0 2983788 88812 ?       Sl    2020 141:03 /var/lib/juju/tools/unit-glance-0/jujud unit --data-dir /var/lib/juju --unit-name glance/0 --debug
+100000   32481  0.0  0.0 2983276 85676 ?       Sl    2020  78:31 /var/lib/juju/tools/unit-filebeat-3/jujud unit --data-dir /var/lib/juju --unit-name filebeat/3 --debug
+100000   32482  0.0  0.0 2981996 82992 ?       Sl    2020  66:07 /var/lib/juju/tools/machine-0-lxd-3/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/3 --debug
+100000   32483  0.0  0.0 3057776 85332 ?       Sl    2020  78:27 /var/lib/juju/tools/unit-glance-hacluster-0/jujud unit --data-dir /var/lib/juju --unit-name glance-hacluster/0 --debug
+root     32743  0.0  0.0 538616  8220 ?        Ss   Apr06   0:00 [lxc monitor] /var/lib/lxd/containers juju-52088b-0-lxd-11

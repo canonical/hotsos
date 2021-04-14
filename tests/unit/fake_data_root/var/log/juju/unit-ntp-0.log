@@ -1,0 +1,10 @@
+2021-04-14 09:22:05 INFO juju-log Invoking reactive handler: hooks/relations/juju-info/requires.py:19:changed:juju-info
+2021-04-14 09:22:05 INFO juju-log Invoking reactive handler: ../.venv/lib/python3.6/site-packages/charmhelpers/core/host.py:715:wrapped_f
+2021-04-14 09:22:06 DEBUG update-status Synchronizing state of chrony.service with SysV service script with /lib/systemd/systemd-sysv-install.
+2021-04-14 09:22:06 DEBUG update-status Executing: /lib/systemd/systemd-sysv-install enable chrony
+2021-04-14 09:22:07 DEBUG update-status active
+2021-04-14 09:22:07 ERROR juju.worker.dependency engine.go:671 "log-sender" manifold worker returned unexpected error: cannot send log message: write tcp 10.230.16.23:52792->10.230.20.0:17070: write: connection reset by peer
+2021-04-14 09:22:07 DEBUG juju-log tracer>
+tracer: set flag ntp.configured
+tracer: -- dequeue handler ../.venv/lib/python3.6/site-packages/charmhelpers/core/host.py:715:wrapped_f
+2021-04-14 09:22:07 DEBUG update-status active

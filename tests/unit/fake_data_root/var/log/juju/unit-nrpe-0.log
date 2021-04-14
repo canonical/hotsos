@@ -1,0 +1,517 @@
+2019-01-17 20:03:01 INFO juju.cmd supercommand.go:56 running jujud [2.4.7 gc go1.11.2]
+2019-01-17 20:03:01 DEBUG juju.cmd supercommand.go:57   args: []string{"/var/lib/juju/tools/unit-nrpe-0/jujud", "unit", "--data-dir", "/var/lib/juju", "--unit-name", "nrpe/0", "--debug"}
+2019-01-17 20:03:01 DEBUG juju.agent agent.go:545 read agent config, format "2.0"
+2019-01-17 20:03:01 INFO juju.worker.upgradesteps worker.go:74 upgrade steps for 2.4.7 have already been run.
+2019-01-17 20:03:01 DEBUG juju.worker.dependency engine.go:545 "upgrade-check-gate" manifold worker started
+2019-01-17 20:03:01 DEBUG juju.worker.dependency engine.go:545 "upgrade-check-flag" manifold worker started
+2019-01-17 20:03:01 DEBUG juju.worker.introspection socket.go:97 introspection worker listening on "@jujud-unit-nrpe-0"
+2019-01-17 20:03:01 DEBUG juju.worker.introspection socket.go:127 stats worker now serving
+2019-01-17 20:03:01 DEBUG juju.worker.dependency engine.go:545 "agent" manifold worker started
+2019-01-17 20:03:01 DEBUG juju.worker.dependency engine.go:545 "upgrade-steps-gate" manifold worker started
+2019-01-17 20:03:01 DEBUG juju.worker.dependency engine.go:545 "upgrade-steps-flag" manifold worker started
+2019-01-17 20:03:01 DEBUG juju.worker.apicaller connect.go:128 connecting with old password
+2019-01-17 20:03:01 DEBUG juju.worker.dependency engine.go:545 "api-config-watcher" manifold worker started
+2019-01-17 20:03:01 DEBUG juju.api apiclient.go:883 successfully dialed "wss://10.230.20.0:17070/model/5666ed88-9db1-49fc-8b10-28be6a52088b/api"
+2019-01-17 20:03:01 INFO juju.api apiclient.go:603 connection established to "wss://10.230.20.0:17070/model/5666ed88-9db1-49fc-8b10-28be6a52088b/api"
+2019-01-17 20:03:02 INFO juju.worker.apicaller connect.go:158 [5666ed] "unit-nrpe-0" successfully connected to "10.230.20.0:17070"
+2019-01-17 20:03:02 DEBUG juju.worker.apicaller connect.go:249 changing password...
+2019-01-17 20:03:02 INFO juju.worker.apicaller connect.go:254 [5666ed] password changed for "unit-nrpe-0"
+2019-01-17 20:03:02 DEBUG juju.api monitor.go:35 RPC connection died
+2019-01-17 20:03:02 DEBUG juju.worker.dependency engine.go:582 "api-caller" manifold worker stopped: restart immediately
+2019-01-17 20:03:02 DEBUG juju.worker.apicaller connect.go:115 connecting with current password
+2019-01-17 20:03:02 DEBUG juju.api apiclient.go:883 successfully dialed "wss://10.230.20.0:17070/model/5666ed88-9db1-49fc-8b10-28be6a52088b/api"
+2019-01-17 20:03:02 INFO juju.api apiclient.go:603 connection established to "wss://10.230.20.0:17070/model/5666ed88-9db1-49fc-8b10-28be6a52088b/api"
+2019-01-17 20:03:03 INFO juju.worker.apicaller connect.go:158 [5666ed] "unit-nrpe-0" successfully connected to "10.230.20.0:17070"
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "api-caller" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "log-sender" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "upgrader" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "migration-inactive-flag" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "upgrade-steps-runner" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:572 "upgrade-steps-runner" manifold worker completed successfully
+2019-01-17 20:03:03 INFO juju.worker.upgrader upgrader.go:155 abort check blocked until version event received
+2019-01-17 20:03:03 INFO juju.worker.upgrader upgrader.go:161 unblocking abort check
+2019-01-17 20:03:03 INFO juju.worker.upgrader upgrader.go:194 desired agent binary version: 2.4.7
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:582 "upgrade-check-flag" manifold worker stopped: gate unlocked
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "upgrade-check-flag" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "migration-fortress" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "migration-minion" manifold worker started
+2019-01-17 20:03:03 INFO juju.worker.migrationminion worker.go:116 migration phase is now: NONE
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "charm-dir" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "metric-spool" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "meter-status" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "leadership-tracker" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.logger logger.go:43 initial log config: "<root>=DEBUG"
+2019-01-17 20:03:03 DEBUG juju.worker.leadership tracker.go:130 nrpe/0 making initial claim for nrpe leadership
+2019-01-17 20:03:03 DEBUG juju.worker.logger logger.go:92 logger setup
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "api-address-updater" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "proxy-config-updater" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "logging-config-updater" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.dependency engine.go:545 "hook-retry-strategy" manifold worker started
+2019-01-17 20:03:03 DEBUG juju.worker.meterstatus connected.go:88 got meter status change signal from watcher
+2019-01-17 20:03:03 DEBUG juju.worker.proxyupdater proxyupdater.go:168 applying in-process legacy proxy settings proxy.Settings{Http:"", Https:"", Ftp:"", NoProxy:"10.230.20.0,127.0.0.1,::1,localhost", AutoNoProxy:""}
+2019-01-17 20:03:03 DEBUG juju.worker.proxyupdater proxyupdater.go:188 saving new legacy proxy settings proxy.Settings{Http:"", Https:"", Ftp:"", NoProxy:"10.230.20.0,127.0.0.1,::1,localhost", AutoNoProxy:""}
+2019-01-17 20:03:03 DEBUG juju.worker.proxyupdater proxyupdater.go:252 new apt proxy settings proxy.Settings{Http:"", Https:"", Ftp:"", NoProxy:"127.0.0.1,::1,localhost", AutoNoProxy:""}
+2019-01-17 20:03:03 DEBUG juju.worker.logger logger.go:70 reconfiguring logging from "<root>=DEBUG" to "<root>=WARNING;unit=DEBUG"
+2019-01-17 20:03:06 DEBUG install Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:03:06 DEBUG install Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:03:06 DEBUG install Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:03:06 DEBUG install Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:03:09 DEBUG install Reading package lists...
+2019-01-17 20:03:09 INFO juju-log Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:03:09 DEBUG install Reading package lists...
+2019-01-17 20:03:10 DEBUG install Building dependency tree...
+2019-01-17 20:03:10 DEBUG install Reading state information...
+2019-01-17 20:03:10 DEBUG install The following package was automatically installed and is no longer required:
+2019-01-17 20:03:10 DEBUG install   grub-pc-bin
+2019-01-17 20:03:10 DEBUG install Use 'apt autoremove' to remove it.
+2019-01-17 20:03:10 DEBUG install The following additional packages will be installed:
+2019-01-17 20:03:10 DEBUG install   libarchive13 libavahi-client3 libavahi-common-data libavahi-common3 libcups2
+2019-01-17 20:03:10 DEBUG install   libdbi1 libjansson4 libldb1 libmysqlclient20 libnet-snmp-perl libpython2.7
+2019-01-17 20:03:10 DEBUG install   libsmbclient libtalloc2 libtdb1 libtevent0 libtirpc1 libwbclient0
+2019-01-17 20:03:10 DEBUG install   monitoring-plugins-basic monitoring-plugins-common
+2019-01-17 20:03:10 DEBUG install   monitoring-plugins-standard mysql-common python-ldb python-samba
+2019-01-17 20:03:10 DEBUG install   python-talloc python-tdb rpcbind samba-common samba-common-bin samba-libs
+2019-01-17 20:03:10 DEBUG install   smbclient snmp
+2019-01-17 20:03:10 DEBUG install Suggested packages:
+2019-01-17 20:03:10 DEBUG install   lrzip cups-common libcrypt-des-perl libdigest-hmac-perl
+2019-01-17 20:03:10 DEBUG install   libio-socket-inet6-perl icinga | icinga2 fping postfix | sendmail-bin
+2019-01-17 20:03:10 DEBUG install   | exim4-daemon-heavy | exim4-daemon-light qstat xinetd | inetd python-gpgme
+2019-01-17 20:03:10 DEBUG install   heimdal-clients cifs-utils
+2019-01-17 20:03:10 DEBUG install The following NEW packages will be installed:
+2019-01-17 20:03:10 DEBUG install   libarchive13 libavahi-client3 libavahi-common-data libavahi-common3 libcups2
+2019-01-17 20:03:10 DEBUG install   libdbi1 libjansson4 libldb1 libmysqlclient20 libnet-snmp-perl libpython2.7
+2019-01-17 20:03:10 DEBUG install   libsmbclient libtalloc2 libtdb1 libtevent0 libtirpc1 libwbclient0
+2019-01-17 20:03:10 DEBUG install   monitoring-plugins-basic monitoring-plugins-common
+2019-01-17 20:03:10 DEBUG install   monitoring-plugins-standard mysql-common nagios-nrpe-server
+2019-01-17 20:03:10 DEBUG install   nagios-plugins-basic nagios-plugins-standard python-ldb python-samba
+2019-01-17 20:03:10 DEBUG install   python-talloc python-tdb rpcbind samba-common samba-common-bin samba-libs
+2019-01-17 20:03:10 DEBUG install   smbclient snmp
+2019-01-17 20:03:10 DEBUG install 0 upgraded, 34 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:03:10 DEBUG install Need to get 12.2 MB of archives.
+2019-01-17 20:03:10 DEBUG install After this operation, 57.4 MB of additional disk space will be used.
+2019-01-17 20:03:10 DEBUG install Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libwbclient0 amd64 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [34.0 kB]
+2019-01-17 20:03:10 DEBUG install Get:2 http://archive.ubuntu.com/ubuntu bionic/universe amd64 nagios-nrpe-server amd64 3.2.1-1ubuntu1 [359 kB]
+2019-01-17 20:03:11 DEBUG install Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 samba-common all 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [72.2 kB]
+2019-01-17 20:03:11 DEBUG install Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libavahi-common-data amd64 0.7-3.1ubuntu1.1 [22.1 kB]
+2019-01-17 20:03:11 DEBUG install Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libavahi-common3 amd64 0.7-3.1ubuntu1.1 [21.7 kB]
+2019-01-17 20:03:11 DEBUG install Get:6 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libavahi-client3 amd64 0.7-3.1ubuntu1.1 [25.3 kB]
+2019-01-17 20:03:11 DEBUG install Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libcups2 amd64 2.2.7-1ubuntu2.3 [211 kB]
+2019-01-17 20:03:11 DEBUG install Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 libjansson4 amd64 2.11-1 [29.3 kB]
+2019-01-17 20:03:11 DEBUG install Get:9 http://archive.ubuntu.com/ubuntu bionic/main amd64 libtalloc2 amd64 2.1.10-2ubuntu1 [36.0 kB]
+2019-01-17 20:03:11 DEBUG install Get:10 http://archive.ubuntu.com/ubuntu bionic/main amd64 libtdb1 amd64 1.3.15-2 [39.7 kB]
+2019-01-17 20:03:11 DEBUG install Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 libtevent0 amd64 0.9.34-1 [27.7 kB]
+2019-01-17 20:03:11 DEBUG install Get:12 http://archive.ubuntu.com/ubuntu bionic/main amd64 libldb1 amd64 2:1.2.3-1 [114 kB]
+2019-01-17 20:03:11 DEBUG install Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython2.7 amd64 2.7.15~rc1-1ubuntu0.1 [1053 kB]
+2019-01-17 20:03:12 DEBUG install Get:14 http://archive.ubuntu.com/ubuntu bionic/main amd64 python-talloc amd64 2.1.10-2ubuntu1 [9124 B]
+2019-01-17 20:03:12 DEBUG install Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 samba-libs amd64 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [5253 kB]
+2019-01-17 20:03:13 DEBUG install Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libarchive13 amd64 3.2.2-3.1ubuntu0.2 [288 kB]
+2019-01-17 20:03:13 DEBUG install Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libsmbclient amd64 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [54.2 kB]
+2019-01-17 20:03:13 DEBUG install Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 smbclient amd64 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [352 kB]
+2019-01-17 20:03:13 DEBUG install Get:19 http://archive.ubuntu.com/ubuntu bionic/main amd64 libdbi1 amd64 0.9.0-5 [27.3 kB]
+2019-01-17 20:03:13 DEBUG install Get:20 http://archive.ubuntu.com/ubuntu bionic/main amd64 mysql-common all 5.8+1.0.4 [7308 B]
+2019-01-17 20:03:13 DEBUG install Get:21 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmysqlclient20 amd64 5.7.24-0ubuntu0.18.04.1 [817 kB]
+2019-01-17 20:03:14 DEBUG install Get:22 http://archive.ubuntu.com/ubuntu bionic/universe amd64 libnet-snmp-perl all 6.0.1-3 [90.3 kB]
+2019-01-17 20:03:14 DEBUG install Get:23 http://archive.ubuntu.com/ubuntu bionic/main amd64 python-ldb amd64 2:1.2.3-1 [31.0 kB]
+2019-01-17 20:03:14 DEBUG install Get:24 http://archive.ubuntu.com/ubuntu bionic/main amd64 python-tdb amd64 1.3.15-2 [11.1 kB]
+2019-01-17 20:03:14 DEBUG install Get:25 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python-samba amd64 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [1926 kB]
+2019-01-17 20:03:15 DEBUG install Get:26 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libtirpc1 amd64 0.2.5-1.2ubuntu0.1 [75.7 kB]
+2019-01-17 20:03:15 DEBUG install Get:27 http://archive.ubuntu.com/ubuntu bionic/main amd64 rpcbind amd64 0.2.3-0.6 [40.6 kB]
+2019-01-17 20:03:15 DEBUG install Get:28 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 samba-common-bin amd64 2:4.7.6+dfsg~ubuntu-0ubuntu2.6 [520 kB]
+2019-01-17 20:03:15 DEBUG install Get:29 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 snmp amd64 5.7.3+dfsg-1.8ubuntu3.1 [158 kB]
+2019-01-17 20:03:15 DEBUG install Get:30 http://archive.ubuntu.com/ubuntu bionic/universe amd64 monitoring-plugins-common amd64 2.2-3ubuntu2 [49.7 kB]
+2019-01-17 20:03:15 DEBUG install Get:31 http://archive.ubuntu.com/ubuntu bionic/universe amd64 monitoring-plugins-basic amd64 2.2-3ubuntu2 [262 kB]
+2019-01-17 20:03:15 DEBUG install Get:32 http://archive.ubuntu.com/ubuntu bionic/universe amd64 monitoring-plugins-standard amd64 2.2-3ubuntu2 [133 kB]
+2019-01-17 20:03:15 DEBUG install Get:33 http://archive.ubuntu.com/ubuntu bionic/universe amd64 nagios-plugins-basic all 2.2-3ubuntu2 [6364 B]
+2019-01-17 20:03:15 DEBUG install Get:34 http://archive.ubuntu.com/ubuntu bionic/universe amd64 nagios-plugins-standard all 2.2-3ubuntu2 [6356 B]
+2019-01-17 20:03:16 DEBUG install Preconfiguring packages ...
+2019-01-17 20:03:16 DEBUG install Fetched 12.2 MB in 6s (2190 kB/s)
+2019-01-17 20:03:16 DEBUG install Selecting previously unselected package libwbclient0:amd64.
+2019-01-17 20:03:16 DEBUG install (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 89280 files and directories currently installed.)
+2019-01-17 20:03:16 DEBUG install Preparing to unpack .../00-libwbclient0_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_amd64.deb ...
+2019-01-17 20:03:16 DEBUG install Unpacking libwbclient0:amd64 (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:16 DEBUG install Selecting previously unselected package nagios-nrpe-server.
+2019-01-17 20:03:16 DEBUG install Preparing to unpack .../01-nagios-nrpe-server_3.2.1-1ubuntu1_amd64.deb ...
+2019-01-17 20:03:17 DEBUG install Unpacking nagios-nrpe-server (3.2.1-1ubuntu1) ...
+2019-01-17 20:03:17 DEBUG install Selecting previously unselected package samba-common.
+2019-01-17 20:03:17 DEBUG install Preparing to unpack .../02-samba-common_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_all.deb ...
+2019-01-17 20:03:17 DEBUG install Unpacking samba-common (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:17 DEBUG install Selecting previously unselected package libavahi-common-data:amd64.
+2019-01-17 20:03:17 DEBUG install Preparing to unpack .../03-libavahi-common-data_0.7-3.1ubuntu1.1_amd64.deb ...
+2019-01-17 20:03:17 DEBUG install Unpacking libavahi-common-data:amd64 (0.7-3.1ubuntu1.1) ...
+2019-01-17 20:03:17 DEBUG install Selecting previously unselected package libavahi-common3:amd64.
+2019-01-17 20:03:17 DEBUG install Preparing to unpack .../04-libavahi-common3_0.7-3.1ubuntu1.1_amd64.deb ...
+2019-01-17 20:03:17 DEBUG install Unpacking libavahi-common3:amd64 (0.7-3.1ubuntu1.1) ...
+2019-01-17 20:03:17 DEBUG install Selecting previously unselected package libavahi-client3:amd64.
+2019-01-17 20:03:17 DEBUG install Preparing to unpack .../05-libavahi-client3_0.7-3.1ubuntu1.1_amd64.deb ...
+2019-01-17 20:03:17 DEBUG install Unpacking libavahi-client3:amd64 (0.7-3.1ubuntu1.1) ...
+2019-01-17 20:03:17 DEBUG install Selecting previously unselected package libcups2:amd64.
+2019-01-17 20:03:17 DEBUG install Preparing to unpack .../06-libcups2_2.2.7-1ubuntu2.3_amd64.deb ...
+2019-01-17 20:03:17 DEBUG install Unpacking libcups2:amd64 (2.2.7-1ubuntu2.3) ...
+2019-01-17 20:03:18 DEBUG install Selecting previously unselected package libjansson4:amd64.
+2019-01-17 20:03:18 DEBUG install Preparing to unpack .../07-libjansson4_2.11-1_amd64.deb ...
+2019-01-17 20:03:18 DEBUG install Unpacking libjansson4:amd64 (2.11-1) ...
+2019-01-17 20:03:18 DEBUG install Selecting previously unselected package libtalloc2:amd64.
+2019-01-17 20:03:18 DEBUG install Preparing to unpack .../08-libtalloc2_2.1.10-2ubuntu1_amd64.deb ...
+2019-01-17 20:03:18 DEBUG install Unpacking libtalloc2:amd64 (2.1.10-2ubuntu1) ...
+2019-01-17 20:03:18 DEBUG install Selecting previously unselected package libtdb1:amd64.
+2019-01-17 20:03:18 DEBUG install Preparing to unpack .../09-libtdb1_1.3.15-2_amd64.deb ...
+2019-01-17 20:03:18 DEBUG install Unpacking libtdb1:amd64 (1.3.15-2) ...
+2019-01-17 20:03:18 DEBUG install Selecting previously unselected package libtevent0:amd64.
+2019-01-17 20:03:18 DEBUG install Preparing to unpack .../10-libtevent0_0.9.34-1_amd64.deb ...
+2019-01-17 20:03:18 DEBUG install Unpacking libtevent0:amd64 (0.9.34-1) ...
+2019-01-17 20:03:18 DEBUG install Selecting previously unselected package libldb1:amd64.
+2019-01-17 20:03:18 DEBUG install Preparing to unpack .../11-libldb1_2%3a1.2.3-1_amd64.deb ...
+2019-01-17 20:03:18 DEBUG install Unpacking libldb1:amd64 (2:1.2.3-1) ...
+2019-01-17 20:03:18 DEBUG install Selecting previously unselected package libpython2.7:amd64.
+2019-01-17 20:03:18 DEBUG install Preparing to unpack .../12-libpython2.7_2.7.15~rc1-1ubuntu0.1_amd64.deb ...
+2019-01-17 20:03:18 DEBUG install Unpacking libpython2.7:amd64 (2.7.15~rc1-1ubuntu0.1) ...
+2019-01-17 20:03:19 DEBUG install Selecting previously unselected package python-talloc.
+2019-01-17 20:03:19 DEBUG install Preparing to unpack .../13-python-talloc_2.1.10-2ubuntu1_amd64.deb ...
+2019-01-17 20:03:19 DEBUG install Unpacking python-talloc (2.1.10-2ubuntu1) ...
+2019-01-17 20:03:19 DEBUG install Selecting previously unselected package samba-libs:amd64.
+2019-01-17 20:03:19 DEBUG install Preparing to unpack .../14-samba-libs_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_amd64.deb ...
+2019-01-17 20:03:19 DEBUG install Unpacking samba-libs:amd64 (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:20 DEBUG install Selecting previously unselected package libarchive13:amd64.
+2019-01-17 20:03:20 DEBUG install Preparing to unpack .../15-libarchive13_3.2.2-3.1ubuntu0.2_amd64.deb ...
+2019-01-17 20:03:20 DEBUG install Unpacking libarchive13:amd64 (3.2.2-3.1ubuntu0.2) ...
+2019-01-17 20:03:20 DEBUG install Selecting previously unselected package libsmbclient:amd64.
+2019-01-17 20:03:20 DEBUG install Preparing to unpack .../16-libsmbclient_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_amd64.deb ...
+2019-01-17 20:03:20 DEBUG install Unpacking libsmbclient:amd64 (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:20 DEBUG install Selecting previously unselected package smbclient.
+2019-01-17 20:03:20 DEBUG install Preparing to unpack .../17-smbclient_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_amd64.deb ...
+2019-01-17 20:03:20 DEBUG install Unpacking smbclient (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:20 DEBUG install Selecting previously unselected package libdbi1:amd64.
+2019-01-17 20:03:20 DEBUG install Preparing to unpack .../18-libdbi1_0.9.0-5_amd64.deb ...
+2019-01-17 20:03:20 DEBUG install Unpacking libdbi1:amd64 (0.9.0-5) ...
+2019-01-17 20:03:20 DEBUG install Selecting previously unselected package mysql-common.
+2019-01-17 20:03:20 DEBUG install Preparing to unpack .../19-mysql-common_5.8+1.0.4_all.deb ...
+2019-01-17 20:03:20 DEBUG install Unpacking mysql-common (5.8+1.0.4) ...
+2019-01-17 20:03:20 DEBUG install Selecting previously unselected package libmysqlclient20:amd64.
+2019-01-17 20:03:20 DEBUG install Preparing to unpack .../20-libmysqlclient20_5.7.24-0ubuntu0.18.04.1_amd64.deb ...
+2019-01-17 20:03:20 DEBUG install Unpacking libmysqlclient20:amd64 (5.7.24-0ubuntu0.18.04.1) ...
+2019-01-17 20:03:21 DEBUG install Selecting previously unselected package libnet-snmp-perl.
+2019-01-17 20:03:21 DEBUG install Preparing to unpack .../21-libnet-snmp-perl_6.0.1-3_all.deb ...
+2019-01-17 20:03:21 DEBUG install Unpacking libnet-snmp-perl (6.0.1-3) ...
+2019-01-17 20:03:21 DEBUG install Selecting previously unselected package python-ldb:amd64.
+2019-01-17 20:03:21 DEBUG install Preparing to unpack .../22-python-ldb_2%3a1.2.3-1_amd64.deb ...
+2019-01-17 20:03:21 DEBUG install Unpacking python-ldb:amd64 (2:1.2.3-1) ...
+2019-01-17 20:03:21 DEBUG install Selecting previously unselected package python-tdb.
+2019-01-17 20:03:21 DEBUG install Preparing to unpack .../23-python-tdb_1.3.15-2_amd64.deb ...
+2019-01-17 20:03:21 DEBUG install Unpacking python-tdb (1.3.15-2) ...
+2019-01-17 20:03:21 DEBUG install Selecting previously unselected package python-samba.
+2019-01-17 20:03:21 DEBUG install Preparing to unpack .../24-python-samba_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_amd64.deb ...
+2019-01-17 20:03:21 DEBUG install Unpacking python-samba (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:22 DEBUG install Selecting previously unselected package libtirpc1:amd64.
+2019-01-17 20:03:22 DEBUG install Preparing to unpack .../25-libtirpc1_0.2.5-1.2ubuntu0.1_amd64.deb ...
+2019-01-17 20:03:22 DEBUG install Unpacking libtirpc1:amd64 (0.2.5-1.2ubuntu0.1) ...
+2019-01-17 20:03:22 DEBUG install Selecting previously unselected package rpcbind.
+2019-01-17 20:03:22 DEBUG install Preparing to unpack .../26-rpcbind_0.2.3-0.6_amd64.deb ...
+2019-01-17 20:03:22 DEBUG install Unpacking rpcbind (0.2.3-0.6) ...
+2019-01-17 20:03:22 DEBUG install Selecting previously unselected package samba-common-bin.
+2019-01-17 20:03:22 DEBUG install Preparing to unpack .../27-samba-common-bin_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.6_amd64.deb ...
+2019-01-17 20:03:22 DEBUG install Unpacking samba-common-bin (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:22 DEBUG install Selecting previously unselected package snmp.
+2019-01-17 20:03:22 DEBUG install Preparing to unpack .../28-snmp_5.7.3+dfsg-1.8ubuntu3.1_amd64.deb ...
+2019-01-17 20:03:22 DEBUG install Unpacking snmp (5.7.3+dfsg-1.8ubuntu3.1) ...
+2019-01-17 20:03:22 DEBUG install Selecting previously unselected package monitoring-plugins-common.
+2019-01-17 20:03:22 DEBUG install Preparing to unpack .../29-monitoring-plugins-common_2.2-3ubuntu2_amd64.deb ...
+2019-01-17 20:03:22 DEBUG install Unpacking monitoring-plugins-common (2.2-3ubuntu2) ...
+2019-01-17 20:03:22 DEBUG install Selecting previously unselected package monitoring-plugins-basic.
+2019-01-17 20:03:22 DEBUG install Preparing to unpack .../30-monitoring-plugins-basic_2.2-3ubuntu2_amd64.deb ...
+2019-01-17 20:03:22 DEBUG install Unpacking monitoring-plugins-basic (2.2-3ubuntu2) ...
+2019-01-17 20:03:23 DEBUG install Selecting previously unselected package monitoring-plugins-standard.
+2019-01-17 20:03:23 DEBUG install Preparing to unpack .../31-monitoring-plugins-standard_2.2-3ubuntu2_amd64.deb ...
+2019-01-17 20:03:23 DEBUG install Unpacking monitoring-plugins-standard (2.2-3ubuntu2) ...
+2019-01-17 20:03:23 DEBUG install Selecting previously unselected package nagios-plugins-basic.
+2019-01-17 20:03:23 DEBUG install Preparing to unpack .../32-nagios-plugins-basic_2.2-3ubuntu2_all.deb ...
+2019-01-17 20:03:23 DEBUG install Unpacking nagios-plugins-basic (2.2-3ubuntu2) ...
+2019-01-17 20:03:23 DEBUG install Selecting previously unselected package nagios-plugins-standard.
+2019-01-17 20:03:23 DEBUG install Preparing to unpack .../33-nagios-plugins-standard_2.2-3ubuntu2_all.deb ...
+2019-01-17 20:03:23 DEBUG install Unpacking nagios-plugins-standard (2.2-3ubuntu2) ...
+2019-01-17 20:03:23 DEBUG install Setting up libtdb1:amd64 (1.3.15-2) ...
+2019-01-17 20:03:23 DEBUG install Setting up libwbclient0:amd64 (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:23 DEBUG install Setting up libdbi1:amd64 (0.9.0-5) ...
+2019-01-17 20:03:23 DEBUG install Processing triggers for ureadahead (0.100.0-20) ...
+2019-01-17 20:03:23 DEBUG install Setting up monitoring-plugins-common (2.2-3ubuntu2) ...
+2019-01-17 20:03:23 DEBUG install Setting up nagios-nrpe-server (3.2.1-1ubuntu1) ...
+2019-01-17 20:03:24 DEBUG install Created symlink /etc/systemd/system/multi-user.target.wants/nagios-nrpe-server.service → /lib/systemd/system/nagios-nrpe-server.service.
+2019-01-17 20:03:24 DEBUG install Setting up libarchive13:amd64 (3.2.2-3.1ubuntu0.2) ...
+2019-01-17 20:03:24 DEBUG install Setting up mysql-common (5.8+1.0.4) ...
+2019-01-17 20:03:24 DEBUG install update-alternatives: using /etc/mysql/my.cnf.fallback to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+2019-01-17 20:03:24 DEBUG install Setting up libjansson4:amd64 (2.11-1) ...
+2019-01-17 20:03:24 DEBUG install Setting up monitoring-plugins-basic (2.2-3ubuntu2) ...
+2019-01-17 20:03:25 DEBUG install 
+2019-01-17 20:03:25 DEBUG install Creating config file /etc/nagios-plugins/config/apt.cfg with new version
+2019-01-17 20:03:25 DEBUG install 
+2019-01-17 20:03:25 DEBUG install Creating config file /etc/nagios-plugins/config/dhcp.cfg with new version
+2019-01-17 20:03:25 DEBUG install 
+2019-01-17 20:03:25 DEBUG install Creating config file /etc/nagios-plugins/config/disk.cfg with new version
+2019-01-17 20:03:25 DEBUG install 
+2019-01-17 20:03:25 DEBUG install Creating config file /etc/nagios-plugins/config/dummy.cfg with new version
+2019-01-17 20:03:26 DEBUG install 
+2019-01-17 20:03:26 DEBUG install Creating config file /etc/nagios-plugins/config/ftp.cfg with new version
+2019-01-17 20:03:26 DEBUG install 
+2019-01-17 20:03:26 DEBUG install Creating config file /etc/nagios-plugins/config/http.cfg with new version
+2019-01-17 20:03:26 DEBUG install 
+2019-01-17 20:03:26 DEBUG install Creating config file /etc/nagios-plugins/config/load.cfg with new version
+2019-01-17 20:03:26 DEBUG install 
+2019-01-17 20:03:26 DEBUG install Creating config file /etc/nagios-plugins/config/mail.cfg with new version
+2019-01-17 20:03:27 DEBUG install 
+2019-01-17 20:03:27 DEBUG install Creating config file /etc/nagios-plugins/config/news.cfg with new version
+2019-01-17 20:03:27 DEBUG install 
+2019-01-17 20:03:27 DEBUG install Creating config file /etc/nagios-plugins/config/ntp.cfg with new version
+2019-01-17 20:03:27 DEBUG install 
+2019-01-17 20:03:27 DEBUG install Creating config file /etc/nagios-plugins/config/ping.cfg with new version
+2019-01-17 20:03:28 DEBUG install 
+2019-01-17 20:03:28 DEBUG install Creating config file /etc/nagios-plugins/config/procs.cfg with new version
+2019-01-17 20:03:28 DEBUG install 
+2019-01-17 20:03:28 DEBUG install Creating config file /etc/nagios-plugins/config/real.cfg with new version
+2019-01-17 20:03:28 DEBUG install 
+2019-01-17 20:03:28 DEBUG install Creating config file /etc/nagios-plugins/config/ssh.cfg with new version
+2019-01-17 20:03:28 DEBUG install 
+2019-01-17 20:03:28 DEBUG install Creating config file /etc/nagios-plugins/config/tcp_udp.cfg with new version
+2019-01-17 20:03:29 DEBUG install 
+2019-01-17 20:03:29 DEBUG install Creating config file /etc/nagios-plugins/config/telnet.cfg with new version
+2019-01-17 20:03:29 DEBUG install 
+2019-01-17 20:03:29 DEBUG install Creating config file /etc/nagios-plugins/config/users.cfg with new version
+2019-01-17 20:03:29 DEBUG install Setcap for check_icmp and check_dhcp worked!
+2019-01-17 20:03:29 DEBUG install Setting up samba-common (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:29 DEBUG install 
+2019-01-17 20:03:29 DEBUG install Creating config file /etc/samba/smb.conf with new version
+2019-01-17 20:03:30 DEBUG install Setting up snmp (5.7.3+dfsg-1.8ubuntu3.1) ...
+2019-01-17 20:03:30 DEBUG install Processing triggers for libc-bin (2.27-3ubuntu1) ...
+2019-01-17 20:03:30 DEBUG install Setting up libtirpc1:amd64 (0.2.5-1.2ubuntu0.1) ...
+2019-01-17 20:03:30 DEBUG install Processing triggers for systemd (237-3ubuntu10.11) ...
+2019-01-17 20:03:30 DEBUG install Setting up libpython2.7:amd64 (2.7.15~rc1-1ubuntu0.1) ...
+2019-01-17 20:03:30 DEBUG install Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+2019-01-17 20:03:31 DEBUG install Setting up nagios-plugins-basic (2.2-3ubuntu2) ...
+2019-01-17 20:03:31 DEBUG install Setting up libtalloc2:amd64 (2.1.10-2ubuntu1) ...
+2019-01-17 20:03:31 DEBUG install Setting up libmysqlclient20:amd64 (5.7.24-0ubuntu0.18.04.1) ...
+2019-01-17 20:03:31 DEBUG install Setting up libnet-snmp-perl (6.0.1-3) ...
+2019-01-17 20:03:31 DEBUG install Setting up rpcbind (0.2.3-0.6) ...
+2019-01-17 20:03:32 DEBUG install Created symlink /etc/systemd/system/multi-user.target.wants/rpcbind.service → /lib/systemd/system/rpcbind.service.
+2019-01-17 20:03:32 DEBUG install Created symlink /etc/systemd/system/sockets.target.wants/rpcbind.socket → /lib/systemd/system/rpcbind.socket.
+2019-01-17 20:03:33 DEBUG install Setting up libavahi-common-data:amd64 (0.7-3.1ubuntu1.1) ...
+2019-01-17 20:03:33 DEBUG install Setting up python-talloc (2.1.10-2ubuntu1) ...
+2019-01-17 20:03:33 DEBUG install Setting up monitoring-plugins-standard (2.2-3ubuntu2) ...
+2019-01-17 20:03:33 DEBUG install 
+2019-01-17 20:03:33 DEBUG install Creating config file /etc/nagios-plugins/config/breeze.cfg with new version
+2019-01-17 20:03:34 DEBUG install 
+2019-01-17 20:03:34 DEBUG install Creating config file /etc/nagios-plugins/config/disk-smb.cfg with new version
+2019-01-17 20:03:34 DEBUG install 
+2019-01-17 20:03:34 DEBUG install Creating config file /etc/nagios-plugins/config/dns.cfg with new version
+2019-01-17 20:03:34 DEBUG install 
+2019-01-17 20:03:34 DEBUG install Creating config file /etc/nagios-plugins/config/flexlm.cfg with new version
+2019-01-17 20:03:35 DEBUG install 
+2019-01-17 20:03:35 DEBUG install Creating config file /etc/nagios-plugins/config/fping.cfg with new version
+2019-01-17 20:03:35 DEBUG install 
+2019-01-17 20:03:35 DEBUG install Creating config file /etc/nagios-plugins/config/games.cfg with new version
+2019-01-17 20:03:35 DEBUG install 
+2019-01-17 20:03:35 DEBUG install Creating config file /etc/nagios-plugins/config/hppjd.cfg with new version
+2019-01-17 20:03:35 DEBUG install 
+2019-01-17 20:03:35 DEBUG install Creating config file /etc/nagios-plugins/config/ifstatus.cfg with new version
+2019-01-17 20:03:36 DEBUG install 
+2019-01-17 20:03:36 DEBUG install Creating config file /etc/nagios-plugins/config/ldap.cfg with new version
+2019-01-17 20:03:36 DEBUG install 
+2019-01-17 20:03:36 DEBUG install Creating config file /etc/nagios-plugins/config/mailq.cfg with new version
+2019-01-17 20:03:36 DEBUG install 
+2019-01-17 20:03:36 DEBUG install Creating config file /etc/nagios-plugins/config/mrtg.cfg with new version
+2019-01-17 20:03:37 DEBUG install 
+2019-01-17 20:03:37 DEBUG install Creating config file /etc/nagios-plugins/config/mysql.cfg with new version
+2019-01-17 20:03:37 DEBUG install 
+2019-01-17 20:03:37 DEBUG install Creating config file /etc/nagios-plugins/config/netware.cfg with new version
+2019-01-17 20:03:37 DEBUG install 
+2019-01-17 20:03:37 DEBUG install Creating config file /etc/nagios-plugins/config/nt.cfg with new version
+2019-01-17 20:03:37 DEBUG install 
+2019-01-17 20:03:37 DEBUG install Creating config file /etc/nagios-plugins/config/pgsql.cfg with new version
+2019-01-17 20:03:38 DEBUG install 
+2019-01-17 20:03:38 DEBUG install Creating config file /etc/nagios-plugins/config/rpc-nfs.cfg with new version
+2019-01-17 20:03:38 DEBUG install 
+2019-01-17 20:03:38 DEBUG install Creating config file /etc/nagios-plugins/config/snmp.cfg with new version
+2019-01-17 20:03:38 DEBUG install Setting up python-tdb (1.3.15-2) ...
+2019-01-17 20:03:38 DEBUG install Setting up libtevent0:amd64 (0.9.34-1) ...
+2019-01-17 20:03:38 DEBUG install Setting up libavahi-common3:amd64 (0.7-3.1ubuntu1.1) ...
+2019-01-17 20:03:38 DEBUG install Setting up nagios-plugins-standard (2.2-3ubuntu2) ...
+2019-01-17 20:03:38 DEBUG install Setting up libldb1:amd64 (2:1.2.3-1) ...
+2019-01-17 20:03:38 DEBUG install Setting up libavahi-client3:amd64 (0.7-3.1ubuntu1.1) ...
+2019-01-17 20:03:38 DEBUG install Setting up libcups2:amd64 (2.2.7-1ubuntu2.3) ...
+2019-01-17 20:03:38 DEBUG install Setting up python-ldb:amd64 (2:1.2.3-1) ...
+2019-01-17 20:03:38 DEBUG install Setting up samba-libs:amd64 (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:38 DEBUG install Setting up python-samba (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:39 DEBUG install Setting up libsmbclient:amd64 (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:39 DEBUG install Setting up smbclient (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:44 DEBUG install Setting up samba-common-bin (2:4.7.6+dfsg~ubuntu-0ubuntu2.6) ...
+2019-01-17 20:03:50 DEBUG install Processing triggers for ureadahead (0.100.0-20) ...
+2019-01-17 20:03:58 DEBUG install Processing triggers for libc-bin (2.27-3ubuntu1) ...
+2019-01-17 20:04:03 DEBUG install Processing triggers for systemd (237-3ubuntu10.11) ...
+2019-01-17 20:04:13 INFO juju-log Making dir /usr/local/lib/nagios/plugins root:root 755
+2019-01-17 20:04:13 INFO juju-log Making dir /var/lib/nagios/export/ root:root 755
+2019-01-17 20:04:13 INFO juju-log /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:07:53 DEBUG config-changed Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:07:53 DEBUG config-changed Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:07:53 DEBUG config-changed Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:07:53 DEBUG config-changed Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:07:55 DEBUG config-changed Reading package lists...
+2019-01-17 20:07:55 INFO juju-log Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:07:55 DEBUG config-changed Reading package lists...
+2019-01-17 20:07:56 DEBUG config-changed Building dependency tree...
+2019-01-17 20:07:56 DEBUG config-changed Reading state information...
+2019-01-17 20:07:56 DEBUG config-changed nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:07:56 DEBUG config-changed nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:07:56 DEBUG config-changed nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:07:56 DEBUG config-changed The following package was automatically installed and is no longer required:
+2019-01-17 20:07:56 DEBUG config-changed   grub-pc-bin
+2019-01-17 20:07:56 DEBUG config-changed Use 'apt autoremove' to remove it.
+2019-01-17 20:07:56 DEBUG config-changed 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:07:56 INFO juju-log /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:08:01 DEBUG start Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:08:01 DEBUG start Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:08:01 DEBUG start Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:08:01 DEBUG start Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:08:03 DEBUG start Reading package lists...
+2019-01-17 20:08:03 INFO juju-log Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:08:03 DEBUG start Reading package lists...
+2019-01-17 20:08:03 DEBUG start Building dependency tree...
+2019-01-17 20:08:03 DEBUG start Reading state information...
+2019-01-17 20:08:03 DEBUG start nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:08:03 DEBUG start nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:03 DEBUG start nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:03 DEBUG start The following package was automatically installed and is no longer required:
+2019-01-17 20:08:03 DEBUG start   grub-pc-bin
+2019-01-17 20:08:03 DEBUG start Use 'apt autoremove' to remove it.
+2019-01-17 20:08:03 DEBUG start 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:08:03 INFO juju-log /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:08:08 DEBUG nrpe-external-master-relation-joined Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:08:09 DEBUG nrpe-external-master-relation-joined Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:08:09 DEBUG nrpe-external-master-relation-joined Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:08:09 DEBUG nrpe-external-master-relation-joined Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:08:10 DEBUG nrpe-external-master-relation-joined Reading package lists...
+2019-01-17 20:08:10 INFO juju-log nrpe-external-master:64: Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:08:10 DEBUG nrpe-external-master-relation-joined Reading package lists...
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined Building dependency tree...
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined Reading state information...
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined The following package was automatically installed and is no longer required:
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined   grub-pc-bin
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined Use 'apt autoremove' to remove it.
+2019-01-17 20:08:11 DEBUG nrpe-external-master-relation-joined 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:08:11 INFO juju-log nrpe-external-master:64: /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:08:11 INFO juju-log nrpe-external-master:64: Getting hostname for binding monitors
+2019-01-17 20:08:11 INFO juju-log nrpe-external-master:64: Using ingress-addresses
+2019-01-17 20:08:11 INFO juju-log nrpe-external-master:64: 10.230.16.23
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /var/lib/nagios/export/host__juju-neutron-gateway-0.cfg root:root 644
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_disk_root.cfg root:root 444
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_load.cfg root:root 444
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_swap.cfg root:root 444
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_swap_activity.cfg root:root 444
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_mem.cfg root:root 444
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_conntrack.cfg root:root 444
+2019-01-17 20:08:12 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.cfg root:root 444
+2019-01-17 20:08:24 DEBUG nrpe-external-master-relation-changed Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:08:24 DEBUG nrpe-external-master-relation-changed Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:08:24 DEBUG nrpe-external-master-relation-changed Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:08:25 DEBUG nrpe-external-master-relation-changed Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:08:26 DEBUG nrpe-external-master-relation-changed Reading package lists...
+2019-01-17 20:08:26 INFO juju-log nrpe-external-master:64: Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:08:26 DEBUG nrpe-external-master-relation-changed Reading package lists...
+2019-01-17 20:08:26 DEBUG nrpe-external-master-relation-changed Building dependency tree...
+2019-01-17 20:08:26 DEBUG nrpe-external-master-relation-changed Reading state information...
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed The following package was automatically installed and is no longer required:
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed   grub-pc-bin
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed Use 'apt autoremove' to remove it.
+2019-01-17 20:08:27 DEBUG nrpe-external-master-relation-changed 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:08:27 INFO juju-log nrpe-external-master:64: /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:08:27 INFO juju-log nrpe-external-master:64: Getting hostname for binding monitors
+2019-01-17 20:08:27 INFO juju-log nrpe-external-master:64: Using ingress-addresses
+2019-01-17 20:08:27 INFO juju-log nrpe-external-master:64: 10.230.16.23
+2019-01-17 20:08:28 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_disk_root.cfg root:root 444
+2019-01-17 20:08:28 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_load.cfg root:root 444
+2019-01-17 20:08:28 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_swap.cfg root:root 444
+2019-01-17 20:08:28 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_swap_activity.cfg root:root 444
+2019-01-17 20:08:28 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_mem.cfg root:root 444
+2019-01-17 20:08:28 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_conntrack.cfg root:root 444
+2019-01-17 20:08:40 DEBUG nrpe-external-master-relation-changed Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:08:41 DEBUG nrpe-external-master-relation-changed Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:08:41 DEBUG nrpe-external-master-relation-changed Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:08:41 DEBUG nrpe-external-master-relation-changed Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:08:42 DEBUG nrpe-external-master-relation-changed Reading package lists...
+2019-01-17 20:08:42 INFO juju-log nrpe-external-master:64: Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:08:42 DEBUG nrpe-external-master-relation-changed Reading package lists...
+2019-01-17 20:08:42 DEBUG nrpe-external-master-relation-changed Building dependency tree...
+2019-01-17 20:08:42 DEBUG nrpe-external-master-relation-changed Reading state information...
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed The following package was automatically installed and is no longer required:
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed   grub-pc-bin
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed Use 'apt autoremove' to remove it.
+2019-01-17 20:08:43 DEBUG nrpe-external-master-relation-changed 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:08:43 INFO juju-log nrpe-external-master:64: /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:08:43 INFO juju-log nrpe-external-master:64: Getting hostname for binding monitors
+2019-01-17 20:08:43 INFO juju-log nrpe-external-master:64: Using ingress-addresses
+2019-01-17 20:08:43 INFO juju-log nrpe-external-master:64: 10.230.16.23
+2019-01-17 20:08:44 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_disk_root.cfg root:root 444
+2019-01-17 20:08:44 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_load.cfg root:root 444
+2019-01-17 20:08:44 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_swap.cfg root:root 444
+2019-01-17 20:08:44 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_swap_activity.cfg root:root 444
+2019-01-17 20:08:44 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_mem.cfg root:root 444
+2019-01-17 20:08:44 DEBUG juju-log nrpe-external-master:64: Writing file /etc/nagios/nrpe.d/check_conntrack.cfg root:root 444
+2019-01-17 20:09:38 DEBUG monitors-relation-joined Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:09:38 DEBUG monitors-relation-joined Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:09:38 DEBUG monitors-relation-joined Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:09:38 DEBUG monitors-relation-joined Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:09:40 DEBUG monitors-relation-joined Reading package lists...
+2019-01-17 20:09:40 INFO juju-log monitors:62: Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:09:40 DEBUG monitors-relation-joined Reading package lists...
+2019-01-17 20:09:40 DEBUG monitors-relation-joined Building dependency tree...
+2019-01-17 20:09:40 DEBUG monitors-relation-joined Reading state information...
+2019-01-17 20:09:40 DEBUG monitors-relation-joined nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:09:40 DEBUG monitors-relation-joined nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:09:40 DEBUG monitors-relation-joined nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:09:40 DEBUG monitors-relation-joined The following package was automatically installed and is no longer required:
+2019-01-17 20:09:40 DEBUG monitors-relation-joined   grub-pc-bin
+2019-01-17 20:09:40 DEBUG monitors-relation-joined Use 'apt autoremove' to remove it.
+2019-01-17 20:09:40 DEBUG monitors-relation-joined 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:09:40 INFO juju-log monitors:62: /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:09:40 INFO juju-log monitors:62: Getting hostname for binding monitors
+2019-01-17 20:09:40 INFO juju-log monitors:62: Using ingress-addresses
+2019-01-17 20:09:40 INFO juju-log monitors:62: 10.230.16.23
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_disk_root.cfg root:root 444
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_load.cfg root:root 444
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_swap.cfg root:root 444
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_swap_activity.cfg root:root 444
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_mem.cfg root:root 444
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_conntrack.cfg root:root 444
+2019-01-17 20:09:41 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.cfg root:root 444
+2019-01-17 20:09:46 DEBUG monitors-relation-changed Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+2019-01-17 20:09:46 DEBUG monitors-relation-changed Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+2019-01-17 20:09:46 DEBUG monitors-relation-changed Hit:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+2019-01-17 20:09:47 DEBUG monitors-relation-changed Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+2019-01-17 20:09:48 DEBUG monitors-relation-changed Reading package lists...
+2019-01-17 20:09:48 INFO juju-log monitors:62: Installing ['nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins-standard'] with options: ['--option=Dpkg::Options::=--force-confold']
+2019-01-17 20:09:48 DEBUG monitors-relation-changed Reading package lists...
+2019-01-17 20:09:48 DEBUG monitors-relation-changed Building dependency tree...
+2019-01-17 20:09:48 DEBUG monitors-relation-changed Reading state information...
+2019-01-17 20:09:48 DEBUG monitors-relation-changed nagios-nrpe-server is already the newest version (3.2.1-1ubuntu1).
+2019-01-17 20:09:48 DEBUG monitors-relation-changed nagios-plugins-basic is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:09:48 DEBUG monitors-relation-changed nagios-plugins-standard is already the newest version (2.2-3ubuntu2).
+2019-01-17 20:09:48 DEBUG monitors-relation-changed The following package was automatically installed and is no longer required:
+2019-01-17 20:09:48 DEBUG monitors-relation-changed   grub-pc-bin
+2019-01-17 20:09:48 DEBUG monitors-relation-changed Use 'apt autoremove' to remove it.
+2019-01-17 20:09:48 DEBUG monitors-relation-changed 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+2019-01-17 20:09:49 INFO juju-log monitors:62: /usr/bin/rsync -r --executability /var/lib/juju/agents/unit-nrpe-0/charm/files/plugins /usr/local/lib/nagios/
+2019-01-17 20:09:49 INFO juju-log monitors:62: Getting hostname for binding monitors
+2019-01-17 20:09:49 INFO juju-log monitors:62: Using ingress-addresses
+2019-01-17 20:09:49 INFO juju-log monitors:62: 10.230.16.23
+2019-01-17 20:09:50 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_disk_root.cfg root:root 444
+2019-01-17 20:09:50 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_load.cfg root:root 444
+2019-01-17 20:09:50 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_swap.cfg root:root 444
+2019-01-17 20:09:50 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_swap_activity.cfg root:root 444
+2019-01-17 20:09:50 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_mem.cfg root:root 444
+2019-01-17 20:09:50 DEBUG juju-log monitors:62: Writing file /etc/nagios/nrpe.d/check_conntrack.cfg root:root 444
+2019-01-29 20:05:10 WARNING juju.worker.uniter.operation leader.go:116 we should run a leader-deposed hook here, but we can't yet

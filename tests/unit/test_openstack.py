@@ -80,7 +80,8 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
 
     @mock.patch.object(ost_01openstack, "OPENSTACK_INFO", {})
     def test_get_service_info(self):
-        result = {'services': ['haproxy (1)',
+        result = {'services': ['beam.smp (1)',
+                               'haproxy (1)',
                                'neutron-ovn-metadata-agent (3)',
                                'nova-api-metadata (5)',
                                'nova-compute (1)',

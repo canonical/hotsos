@@ -1,0 +1,100 @@
+2020-06-23 22:21:17 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2020-06-23 22:21:20 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+ERROR must restart: an agent upgrade is available
+2020-06-23 22:31:09 INFO juju.cmd supercommand.go:83 running jujud [2.7.6 4da406fb326d7a1255f97a7391056641ee86715b gc go1.12.17]
+2020-06-23 22:31:09 DEBUG juju.cmd supercommand.go:84   args: []string{"/var/lib/juju/tools/machine-0/jujud", "machine", "--data-dir", "/var/lib/juju", "--machine-id", "0", "--debug"}
+2020-06-23 22:31:09 DEBUG juju.utils gomaxprocs.go:24 setting GOMAXPROCS to 28
+2020-06-23 22:31:09 DEBUG juju.agent agent.go:545 read agent config, format "2.0"
+2020-06-23 22:31:09 INFO juju.cmd.jujud agent.go:133 setting logging config to "<root>=WARNING;unit=DEBUG"
+2020-08-03 23:03:01 ERROR juju.worker.dependency engine.go:671 "migration-minion" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2020-08-03 23:03:01 ERROR juju.worker.dependency engine.go:671 "log-sender" manifold worker returned unexpected error: cannot send log message: tls: use of closed connection
+2020-08-03 23:03:01 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: write tcp 10.230.16.23:49434->10.230.20.0:17070: write: connection reset by peer
+2020-08-03 23:03:01 ERROR juju.worker.dependency engine.go:671 "migration-inactive-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2020-08-03 23:03:01 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2020-08-03 23:03:04 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: read tcp 10.230.16.23:34630->10.230.20.0:17070: read: connection reset by peer
+2020-08-03 23:03:08 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-08-03 23:13:31 WARNING juju.container-setup container_initialisation.go:137 not stopping machine agent container watcher due to error: setting up container dependencies on host machine: removing unused link-layer devices on machine "0": state changing too quickly; try again soon (excessive contention)
+2020-08-03 23:13:31 ERROR juju.container-setup container_initialisation.go:116 starting container provisioner for lxd: setting up container dependencies on host machine: removing unused link-layer devices on machine "0": state changing too quickly; try again soon (excessive contention)
+2020-10-24 20:50:21 INFO juju.cmd supercommand.go:83 running jujud [2.7.6 4da406fb326d7a1255f97a7391056641ee86715b gc go1.12.17]
+2020-10-24 20:50:21 DEBUG juju.cmd supercommand.go:84   args: []string{"/var/lib/juju/tools/machine-0/jujud", "machine", "--data-dir", "/var/lib/juju", "--machine-id", "0", "--debug"}
+2020-10-24 20:50:21 DEBUG juju.utils gomaxprocs.go:24 setting GOMAXPROCS to 28
+2020-10-24 20:50:21 DEBUG juju.agent agent.go:545 read agent config, format "2.0"
+2020-10-24 20:50:21 INFO juju.cmd.jujud agent.go:133 setting logging config to "<root>=WARNING;unit=DEBUG"
+2020-10-24 20:50:53 ERROR juju.worker.proxyupdater proxyupdater.go:185 failed to list systemd services: List failed (/bin/systemctl list-unit-files --no-legend --no-page -l -t service | grep -o -P '^\w[\S]*(?=\.service)'): error executing "/bin/systemctl": Failed to list unit files: Connection timed out; 
+2020-10-24 20:50:53 ERROR juju.worker.dependency engine.go:671 "unit-agent-deployer" manifold worker returned unexpected error: failed to list systemd services: List failed (/bin/systemctl list-unit-files --no-legend --no-page -l -t service | grep -o -P '^\w[\S]*(?=\.service)'): error executing "/bin/systemctl": Failed to list unit files: Connection timed out; 
+2020-10-26 17:23:22 ERROR juju.api monitor.go:59 health ping timed out after 30s
+2020-10-26 17:23:22 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2020-10-26 17:23:27 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:23:33 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:23:39 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:23:45 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:23:51 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:24:01 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:24:13 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: i/o timeout
+2020-10-26 17:24:25 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:24:40 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:24:56 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:25:16 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: no route to host
+2020-10-26 17:25:38 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:50:10 ERROR juju.worker.dependency engine.go:671 "migration-minion" manifold worker returned unexpected error: txn watcher sync error
+2020-11-19 05:50:10 ERROR juju.worker.dependency engine.go:671 "log-sender" manifold worker returned unexpected error: cannot send log message: tls: use of closed connection
+2020-11-19 05:50:11 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2020-11-19 05:50:26 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: read tcp 10.230.16.23:34612->10.230.20.0:17070: read: connection reset by peer
+2020-11-19 05:50:30 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:50:34 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:50:39 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:50:45 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:50:54 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:51:03 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-11-19 05:51:33 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: model cache: model "5666ed88-9db1-49fc-8b10-28be6a52088b" did not appear in cache timeout
+2020-12-13 18:40:35 ERROR juju.worker.dependency engine.go:671 "migration-minion" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "unit-agent-deployer" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "machiner" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "upgrader" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "storage-provisioner" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "ssh-authkeys-updater" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "reboot-executor" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "fan-configurer" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "machine-action-runner" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "api-address-updater" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "upgrade-series" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "valid-credential-flag" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "migration-inactive-flag" manifold worker returned unexpected error: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.api.watcher watcher.go:93 error trying to stop watcher: txn watcher sync error
+2020-12-13 18:40:36 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2020-12-13 18:41:24 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: read tcp 10.230.16.23:43334->10.230.20.0:17070: i/o timeout
+2020-12-13 18:41:31 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: i/o timeout
+2020-12-13 18:41:36 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-13 18:41:42 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: 404 page not found (Not Found)
+2020-12-19 09:45:16 ERROR juju.worker.dependency engine.go:671 "migration-minion" manifold worker returned unexpected error: txn watcher sync error
+2020-12-19 09:45:16 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2020-12-19 09:45:40 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: read tcp 10.230.16.23:33974->10.230.20.0:17070: read: connection reset by peer
+2020-12-19 09:45:43 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-19 09:45:48 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-19 09:45:54 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-19 09:46:00 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-19 09:46:08 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-19 09:46:16 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: unable to connect to API: dial tcp 10.230.20.0:17070: connect: connection refused
+2020-12-19 09:46:31 ERROR juju.worker.dependency engine.go:671 "api-caller" manifold worker returned unexpected error: [5666ed] "machine-0" cannot open api: model cache: model "5666ed88-9db1-49fc-8b10-28be6a52088b" did not appear in cache timeout
