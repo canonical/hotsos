@@ -22,6 +22,7 @@ from openstack_common import (
     OCTAVIA_LOGS,
 )
 from openstack_exceptions import (
+    NOVA_EXCEPTIONS,
     OSLO_DB_EXCEPTIONS,
     OSLO_MESSAGING_EXCEPTIONS,
 )
@@ -62,13 +63,16 @@ AGENT_EXCEPTIONS_COMMON = [r"(AMQP server on .+ is unreachable)",
 for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS:
     AGENT_EXCEPTIONS_COMMON.append(r"({})".format(exc))
 
+NOVA_EXCEPTIONS_ALL = [r"(nova.exception.\S+):"] + AGENT_EXCEPTIONS_COMMON
+for exc in NOVA_EXCEPTIONS:
+    NOVA_EXCEPTIONS_ALL.append(r"({})".format(exc))
+
 # The following must be ERROR log level
 AGENTS_EXCEPTIONS = {"cinder": [] + AGENT_EXCEPTIONS_COMMON,
                      "glance": [] + AGENT_EXCEPTIONS_COMMON,
                      "heat": [] + AGENT_EXCEPTIONS_COMMON,
                      "keystone": [] + AGENT_EXCEPTIONS_COMMON,
-                     "nova": [r"(nova.exception.\S+):"] +
-                     AGENT_EXCEPTIONS_COMMON,
+                     "nova": NOVA_EXCEPTIONS_ALL,
                      "neutron": [] + AGENT_EXCEPTIONS_COMMON,
                      "octavia": [] + AGENT_EXCEPTIONS_COMMON,
                      }
