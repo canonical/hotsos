@@ -64,7 +64,7 @@ cleanup ()
     if [[ -n $MASTER_YAML_OUT ]] && [[ -r $MASTER_YAML_OUT ]]; then
         rm $MASTER_YAML_OUT
     fi
-    if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
+    if [[ -n ${PLUGIN_TMP_DIR:-""} ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
         rm -rf $PLUGIN_TMP_DIR
     fi
     exit
