@@ -13,13 +13,8 @@ from common import (
 from common.known_bugs_utils import add_known_bug
 from openstack_common import (
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
-    CINDER_LOGS,
-    GLANCE_LOGS,
-    HEAT_LOGS,
-    KEYSTONE_LOGS,
-    NEUTRON_LOGS,
-    NOVA_LOGS,
-    OCTAVIA_LOGS,
+    AGENT_DAEMON_NAMES,
+    AGENT_LOG_PATHS,
 )
 from openstack_exceptions import (
     NOVA_EXCEPTIONS,
@@ -31,478 +26,486 @@ from openstack_utils import (
     get_agent_exceptions,
 )
 
-MAX_RESULTS = 5
-AGENT_CHECKS = {"agent-checks": {}}
-NEUTRON_L3AGENT_INFO = {}
-NEUTRON_OVS_AGENT_INFO = {}
-AGENT_LOG_ISSUES = {}
-AGENT_NAMES = {"cinder": ["cinder-scheduler", "cinder-volume"],
-               "glance": ["glance-api"],
-               "heat": ["heat-engine", "heat-api", "heat-api-cfn"],
-               "keystone": ["keystone"],
-               "neutron": ["neutron-openvswitch-agent", "neutron-dhcp-agent",
-                           "neutron-l3-agent", "neutron-server"],
-               "nova": ["nova-compute", "nova-scheduler", "nova-conductor",
-                        "nova-api-os-compute", "nova-api-wsgi"],
-               "octavia": ["octavia-api", "octavia-worker",
-                           "octavia-health-manager", "octavia-housekeeping"],
-               }
-AGENT_LOGS = {"cinder": CINDER_LOGS,
-              "glance": GLANCE_LOGS,
-              "heat": HEAT_LOGS,
-              "keystone": KEYSTONE_LOGS,
-              "neutron": NEUTRON_LOGS,
-              "nova": NOVA_LOGS,
-              "octavia": OCTAVIA_LOGS,
-              }
-AGENT_EXCEPTIONS_COMMON = [r"(AMQP server on .+ is unreachable)",
-                           r"(amqp.exceptions.ConnectionForced):",
-                           r"(OSError: Server unexpectedly closed connection)",
-                           r"(ConnectionResetError: .+)",
-                           ]
-# assume all agents use these so add to all
-for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS + \
-        PYTHON_BUILTIN_EXCEPTIONS:
-    AGENT_EXCEPTIONS_COMMON.append(r"({})".format(exc))
 
-NOVA_EXCEPTIONS_ALL = [r"(nova.exception.\S+):"] + AGENT_EXCEPTIONS_COMMON
-for exc in NOVA_EXCEPTIONS:
-    NOVA_EXCEPTIONS_ALL.append(r" ({}):".format(exc))
+class AgentChecksBase(object):
+    MAX_RESULTS = 5
 
-# The following must be ERROR log level
-AGENTS_EXCEPTIONS = {"cinder": [] + AGENT_EXCEPTIONS_COMMON,
-                     "glance": [] + AGENT_EXCEPTIONS_COMMON,
-                     "heat": [] + AGENT_EXCEPTIONS_COMMON,
-                     "keystone": [] + AGENT_EXCEPTIONS_COMMON,
-                     "nova": NOVA_EXCEPTIONS_ALL,
-                     "neutron": [] + AGENT_EXCEPTIONS_COMMON,
-                     "octavia": [] + AGENT_EXCEPTIONS_COMMON,
-                     }
-# The following can be any log level
-AGENTS_ISSUES = {"neutron": [r"(OVS is dead).", r"(RuntimeError):"]}
-# NOTE: only LP bugs supported for now
-BUG_SEARCH_TERMS = {"1896506": (".+Unknown configuration entry 'no_track' for "
-                                "ip address - ignoring.*")}
+    def __init__(self, searchobj):
+        self.searchobj = searchobj
 
 
-def add_rpc_loop_search_terms(s):
-    """Add search terms for start and end of a neutron openvswitch agent rpc
-    loop.
-    """
-    if constants.USE_ALL_LOGS:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-openvswitch-agent.log*')
-    else:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-openvswitch-agent.log')
+class NeutronAgentChecks(AgentChecksBase):
 
-    s.add_search_term(r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - "
-                      "iteration:([0-9]+) started.*", [1, 2, 3], data_source,
-                      tag="rpc-loop-start", hint="Agent rpc_loop")
-    s.add_search_term(r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - "
-                      "iteration:([0-9]+) completed..+Elapsed:([0-9.]+).+",
-                      [1, 2, 3, 4], data_source, tag="rpc-loop-end",
-                      hint="Agent rpc_loop")
-
-
-def process_rpc_loop_results(results):
-    """Process the search results and display longest running rpc_loops with
-    stats.
-    """
-    rpc_loops = {}
-    stats = {"min": 0,
-             "max": 0,
-             "stdev": 0,
-             "avg": 0,
-             "samples": []}
-
-    for result in results.find_by_tag("rpc-loop-end"):
-        day = result.get(1)
-        secs = result.get(2)
-        iteration = int(result.get(3))
-        duration = float(result.get(4))
-        # iteration ids get reset when agent is restarted so need to do
-        # this for it to be unique.
-        iteration_key = "{}_{}".format(os.path.basename(result.source),
-                                       iteration)
-        end = "{} {}".format(day, secs)
-        end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-        rpc_loops[iteration_key] = {"end": end,
-                                    "duration": duration}
-
-    for result in results.find_by_tag("rpc-loop-start"):
-        day = result.get(1)
-        secs = result.get(2)
-        iteration = int(result.get(3))
-        start = "{} {}".format(day, secs)
-        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
-        iteration_key = "{}_{}".format(os.path.basename(result.source),
-                                       iteration)
-        if iteration_key in rpc_loops:
-            stats['samples'].append(rpc_loops[iteration_key]["duration"])
-            rpc_loops[iteration_key]["start"] = start
-
-    if not rpc_loops:
-        return
-
-    count = 0
-    top_n = {}
-    top_n_sorted = {}
-
-    for k, v in sorted(rpc_loops.items(),
-                       key=lambda x: x[1].get("duration", 0),
-                       reverse=True):
-        # skip unterminated entries (e.g. on file wraparound)
-        if "start" not in v:
-            continue
-
-        if count >= MAX_RESULTS:
-            break
-
-        count += 1
-        top_n[k] = v
-
-    for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
-                       reverse=True):
-        iteration = int(k.partition('_')[2])
-        top_n_sorted[iteration] = {"start": v["start"],
-                                   "end": v["end"],
-                                   "duration": v["duration"]}
-
-    stats['min'] = round(min(stats['samples']), 2)
-    stats['max'] = round(max(stats['samples']), 2)
-    stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
-    stats['avg'] = round(statistics.mean(stats['samples']), 2)
-    num_samples = len(stats['samples'])
-    stats['samples'] = num_samples
-
-    NEUTRON_OVS_AGENT_INFO["rpc-loop"] = {"top": top_n_sorted,
-                                          "stats": stats}
-
-
-def add_agent_terms(searcher, service):
-    """
-    Add search terms for warning, exceptions, errors etc i.e. anything that
-    could count as an "issue" of interest.
-    """
-    data_source_template = os.path.join(constants.DATA_ROOT,
-                                        AGENT_LOGS[service], '{}.log')
-    if constants.USE_ALL_LOGS:
-        data_source_template = "{}*".format(data_source_template)
-
-    for agent in AGENT_NAMES[service]:
-        data_source = data_source_template.format(agent)
-        for exc_msg in AGENTS_EXCEPTIONS[service]:
-            rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
-            searcher.add_search_term(rexpr, [1, 2, 3], data_source, tag=agent,
-                                     hint=exc_msg)
-
-        for msg in AGENTS_ISSUES.get(service, []):
-            rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
-            searcher.add_search_term(rexpr, [1, 2, 3], data_source, tag=agent,
-                                     hint=msg)
-
-
-def add_bug_search_terms(searcher):
-    """Add search terms for known bugs."""
-    data_source = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
-    if constants.USE_ALL_LOGS:
-        data_source = "{}*".format(data_source)
-
-    for tag in BUG_SEARCH_TERMS:
-        searcher.add_search_term(BUG_SEARCH_TERMS[tag], [0], data_source,
-                                 tag=tag)
-
-
-def add_agents_issues_search_terms(s):
-    # Add search terms for everything at once
-    for service in AGENT_NAMES:
-        add_agent_terms(s, service)
-
-    add_bug_search_terms(s)
-
-
-def process_bug_results(results):
-    for tag in BUG_SEARCH_TERMS:
-        if results.find_by_tag(tag):
-            add_known_bug(tag)
-
-
-def process_agent_results(results, service):
-    for agent in AGENT_NAMES[service]:
-        e = get_agent_exceptions(results.find_by_tag(agent),
-                                 AGENT_ERROR_KEY_BY_TIME)
-        if e:
-            if service not in AGENT_LOG_ISSUES:
-                AGENT_LOG_ISSUES[service] = {}
-
-            AGENT_LOG_ISSUES[service][agent] = e
-
-
-def process_agent_issues_results(results):
-    """
-    Collect information about Openstack agents. This includes errors,
-    exceptions and known bugs.
-    """
-    # process the results
-    for service in AGENT_NAMES:
-        process_agent_results(results, service)
-
-    process_bug_results(results)
-
-
-def get_router_update_stats(results):
-    router_updates = {}
-    stats = {"min": 0,
-             "max": 0,
-             "stdev": 0,
-             "avg": 0,
-             "samples": []}
-
-    event_seq_ids = {}
-    for result in results.find_by_tag("router-update-finish"):
-        day = result.get(1)
-        secs = result.get(2)
-        router = result.get(3)
-        update_id = result.get(4)
-        etime = float(result.get(5))
-        end = "{} {}".format(day, secs)
-        end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-
-        # router may have many updates over time across many files so we need
-        # to have a way to make them unique.
-        key = "{}_{}".format(os.path.basename(result.source), update_id)
-        if key not in event_seq_ids:
-            event_seq_ids[key] = 0
+    def __init__(self, searchobj):
+        super().__init__(searchobj)
+        logs_path = AGENT_LOG_PATHS["neutron"]
+        if constants.USE_ALL_LOGS:
+            self.data_source = os.path.join(constants.DATA_ROOT, logs_path,
+                                            'neutron-openvswitch-agent.log*')
         else:
-            event_seq_ids[key] += 1
+            self.data_source = os.path.join(constants.DATA_ROOT, logs_path,
+                                            'neutron-openvswitch-agent.log')
 
-        event_key = "{}_{}".format(key, event_seq_ids[key])
-        while event_key in router_updates:
-            event_seq_ids[key] += 1
-            event_key = "{}_{}".format(key, event_seq_ids[key])
+        self.l3_agent_info = {}
+        self.ovs_agent_info = {}
 
-        router_updates[event_key] = {"end": end, "router": router,
-                                     "etime": etime}
+    def add_rpc_loop_search_terms(self):
+        """Add search terms for start and end of a neutron openvswitch agent
+        rpc loop.
+        """
+        expr = (r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
+                "started.*")
+        self.searchobj.add_search_term(expr, [1, 2, 3], self.data_source,
+                                       tag="rpc-loop-start",
+                                       hint="Agent rpc_loop")
+        expr = (r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
+                "completed..+Elapsed:([0-9.]+).+")
+        self.searchobj.add_search_term(expr, [1, 2, 3, 4], self.data_source,
+                                       tag="rpc-loop-end",
+                                       hint="Agent rpc_loop")
 
-    event_seq_ids2 = {}
-    for result in results.find_by_tag("router-update-start"):
-        day = result.get(1)
-        secs = result.get(2)
-        router = result.get(3)
-        update_id = result.get(4)
-        start = "{} {}".format(day, secs)
-        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+    def process_rpc_loop_results(self, results):
+        """Process the search results and display longest running rpc_loops
+        with stats.
+        """
+        rpc_loops = {}
+        stats = {"min": 0,
+                 "max": 0,
+                 "stdev": 0,
+                 "avg": 0,
+                 "samples": []}
 
-        key = "{}_{}".format(os.path.basename(result.source), update_id)
-        if key not in event_seq_ids:
-            continue
+        for result in results.find_by_tag("rpc-loop-end"):
+            day = result.get(1)
+            secs = result.get(2)
+            iteration = int(result.get(3))
+            duration = float(result.get(4))
+            # iteration ids get reset when agent is restarted so need to do
+            # this for it to be unique.
+            iteration_key = "{}_{}".format(os.path.basename(result.source),
+                                           iteration)
+            end = "{} {}".format(day, secs)
+            end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+            rpc_loops[iteration_key] = {"end": end,
+                                        "duration": duration}
 
-        if key not in event_seq_ids2:
-            event_seq_ids2[key] = 0
-        else:
-            event_seq_ids2[key] += 1
+        for result in results.find_by_tag("rpc-loop-start"):
+            day = result.get(1)
+            secs = result.get(2)
+            iteration = int(result.get(3))
+            start = "{} {}".format(day, secs)
+            start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+            iteration_key = "{}_{}".format(os.path.basename(result.source),
+                                           iteration)
+            if iteration_key in rpc_loops:
+                stats['samples'].append(rpc_loops[iteration_key]["duration"])
+                rpc_loops[iteration_key]["start"] = start
 
-        event_key = "{}_{}".format(key, event_seq_ids2[key])
-        if event_key in router_updates:
-            etime = router_updates[event_key]["etime"]
-            router_updates[event_key]["duration"] = etime
-            stats['samples'].append(etime)
-            router_updates[event_key]["start"] = start
+        if not rpc_loops:
+            return
 
-    if not stats['samples']:
-        return
+        count = 0
+        top_n = {}
+        top_n_sorted = {}
 
-    count = 0
-    top_n = {}
-    top_n_sorted = {}
-
-    for k, v in sorted(router_updates.items(),
-                       key=lambda x: x[1].get("duration", 0),
-                       reverse=True):
-        # skip unterminated entries (e.g. on file wraparound)
-        if "start" not in v:
-            continue
-
-        if count >= MAX_RESULTS:
-            break
-
-        count += 1
-        top_n[k] = v
-
-    for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
-                       reverse=True):
-        top_n_sorted[v["router"]] = {"start": v["start"],
-                                     "end": v["end"],
-                                     "duration": v["duration"]}
-
-    stats['min'] = round(min(stats['samples']), 2)
-    stats['max'] = round(max(stats['samples']), 2)
-    stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
-    stats['avg'] = round(statistics.mean(stats['samples']), 2)
-    num_samples = len(stats['samples'])
-    stats['samples'] = num_samples
-
-    NEUTRON_L3AGENT_INFO["router-updates"] = {"top": top_n_sorted,
-                                              "stats": stats}
-
-
-def get_router_spawn_stats(results):
-    spawn_events = {}
-    stats = {"min": 0,
-             "max": 0,
-             "stdev": 0,
-             "avg": 0,
-             "samples": []}
-
-    event_seq_ids = {}
-    for result in results.find_by_tag("router-spawn2"):
-        day = result.get(1)
-        secs = result.get(2)
-        router = result.get(3)
-        end = "{} {}".format(day, secs)
-        end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-
-        # router may have many updates over time across many files so we need
-        # to have a way to make them unique.
-        key = "{}_{}".format(os.path.basename(result.source), router)
-        if key not in event_seq_ids:
-            event_seq_ids[key] = 0
-        else:
-            event_seq_ids[key] += 1
-
-        event_key = "{}_{}".format(key, event_seq_ids[key])
-        while event_key in spawn_events:
-            event_seq_ids[key] += 1
-            event_key = "{}_{}".format(key, event_seq_ids[key])
-
-        spawn_events[event_key] = {"end": end}
-
-    event_seq_ids2 = {}
-    for result in results.find_by_tag("router-spawn1"):
-        day = result.get(1)
-        secs = result.get(2)
-        router = result.get(3)
-        start = "{} {}".format(day, secs)
-        start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
-
-        key = "{}_{}".format(os.path.basename(result.source), router)
-        if key not in event_seq_ids:
-            continue
-
-        if key not in event_seq_ids2:
-            event_seq_ids2[key] = 0
-        else:
-            event_seq_ids2[key] += 1
-
-        event_key = "{}_{}".format(key, event_seq_ids2[key])
-        if event_key in spawn_events:
-            etime = spawn_events[event_key]["end"] - start
-            if etime.total_seconds() < 0:
+        for k, v in sorted(rpc_loops.items(),
+                           key=lambda x: x[1].get("duration", 0),
+                           reverse=True):
+            # skip unterminated entries (e.g. on file wraparound)
+            if "start" not in v:
                 continue
 
-            spawn_events[event_key]["start"] = start
-            spawn_events[event_key]["duration"] = etime.total_seconds()
-            stats['samples'].append(etime.total_seconds())
+            if count >= self.MAX_RESULTS:
+                break
 
-    if not stats['samples']:
-        return
+            count += 1
+            top_n[k] = v
 
-    count = 0
-    top_n = {}
-    top_n_sorted = {}
+        for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
+                           reverse=True):
+            iteration = int(k.partition('_')[2])
+            top_n_sorted[iteration] = {"start": v["start"],
+                                       "end": v["end"],
+                                       "duration": v["duration"]}
 
-    for k, v in sorted(spawn_events.items(),
-                       key=lambda x: x[1].get("duration", 0),
-                       reverse=True):
-        # skip unterminated entries (e.g. on file wraparound)
-        if "start" not in v:
-            continue
+        stats['min'] = round(min(stats['samples']), 2)
+        stats['max'] = round(max(stats['samples']), 2)
+        stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
+        stats['avg'] = round(statistics.mean(stats['samples']), 2)
+        num_samples = len(stats['samples'])
+        stats['samples'] = num_samples
 
-        if count >= MAX_RESULTS:
-            break
+        self.ovs_agent_info["rpc-loop"] = {"top": top_n_sorted,
+                                           "stats": stats}
 
-        count += 1
-        top_n[k] = v
+    def get_router_update_stats(self, results):
+        router_updates = {}
+        stats = {"min": 0,
+                 "max": 0,
+                 "stdev": 0,
+                 "avg": 0,
+                 "samples": []}
 
-    for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
-                       reverse=True):
-        router = k.rpartition('_')[0]
-        router = router.partition('_')[2]
-        top_n_sorted[router] = {"start": v["start"],
-                                "end": v["end"],
-                                "duration": v["duration"]}
+        event_seq_ids = {}
+        for result in results.find_by_tag("router-update-finish"):
+            day = result.get(1)
+            secs = result.get(2)
+            router = result.get(3)
+            update_id = result.get(4)
+            etime = float(result.get(5))
+            end = "{} {}".format(day, secs)
+            end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
 
-    stats['min'] = round(min(stats['samples']), 2)
-    stats['max'] = round(max(stats['samples']), 2)
-    stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
-    stats['avg'] = round(statistics.mean(stats['samples']), 2)
-    num_samples = len(stats['samples'])
-    stats['samples'] = num_samples
+            # router may have many updates over time across many files so we
+            # need to have a way to make them unique.
+            key = "{}_{}".format(os.path.basename(result.source), update_id)
+            if key not in event_seq_ids:
+                event_seq_ids[key] = 0
+            else:
+                event_seq_ids[key] += 1
 
-    NEUTRON_L3AGENT_INFO["router-spawn-events"] = {"top": top_n_sorted,
-                                                   "stats": stats}
+            event_key = "{}_{}".format(key, event_seq_ids[key])
+            while event_key in router_updates:
+                event_seq_ids[key] += 1
+                event_key = "{}_{}".format(key, event_seq_ids[key])
+
+            router_updates[event_key] = {"end": end, "router": router,
+                                         "etime": etime}
+
+        event_seq_ids2 = {}
+        for result in results.find_by_tag("router-update-start"):
+            day = result.get(1)
+            secs = result.get(2)
+            router = result.get(3)
+            update_id = result.get(4)
+            start = "{} {}".format(day, secs)
+            start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+
+            key = "{}_{}".format(os.path.basename(result.source), update_id)
+            if key not in event_seq_ids:
+                continue
+
+            if key not in event_seq_ids2:
+                event_seq_ids2[key] = 0
+            else:
+                event_seq_ids2[key] += 1
+
+            event_key = "{}_{}".format(key, event_seq_ids2[key])
+            if event_key in router_updates:
+                etime = router_updates[event_key]["etime"]
+                router_updates[event_key]["duration"] = etime
+                stats['samples'].append(etime)
+                router_updates[event_key]["start"] = start
+
+        if not stats['samples']:
+            return
+
+        count = 0
+        top_n = {}
+        top_n_sorted = {}
+
+        for k, v in sorted(router_updates.items(),
+                           key=lambda x: x[1].get("duration", 0),
+                           reverse=True):
+            # skip unterminated entries (e.g. on file wraparound)
+            if "start" not in v:
+                continue
+
+            if count >= self.MAX_RESULTS:
+                break
+
+            count += 1
+            top_n[k] = v
+
+        for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
+                           reverse=True):
+            top_n_sorted[v["router"]] = {"start": v["start"],
+                                         "end": v["end"],
+                                         "duration": v["duration"]}
+
+        stats['min'] = round(min(stats['samples']), 2)
+        stats['max'] = round(max(stats['samples']), 2)
+        stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
+        stats['avg'] = round(statistics.mean(stats['samples']), 2)
+        num_samples = len(stats['samples'])
+        stats['samples'] = num_samples
+
+        self.l3_agent_info["router-updates"] = {"top": top_n_sorted,
+                                                "stats": stats}
+
+    def get_router_spawn_stats(self, results):
+        spawn_events = {}
+        stats = {"min": 0,
+                 "max": 0,
+                 "stdev": 0,
+                 "avg": 0,
+                 "samples": []}
+
+        event_seq_ids = {}
+        for result in results.find_by_tag("router-spawn2"):
+            day = result.get(1)
+            secs = result.get(2)
+            router = result.get(3)
+            end = "{} {}".format(day, secs)
+            end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
+
+            # router may have many updates over time across many files so we
+            # need to have a way to make them unique.
+            key = "{}_{}".format(os.path.basename(result.source), router)
+            if key not in event_seq_ids:
+                event_seq_ids[key] = 0
+            else:
+                event_seq_ids[key] += 1
+
+            event_key = "{}_{}".format(key, event_seq_ids[key])
+            while event_key in spawn_events:
+                event_seq_ids[key] += 1
+                event_key = "{}_{}".format(key, event_seq_ids[key])
+
+            spawn_events[event_key] = {"end": end}
+
+        event_seq_ids2 = {}
+        for result in results.find_by_tag("router-spawn1"):
+            day = result.get(1)
+            secs = result.get(2)
+            router = result.get(3)
+            start = "{} {}".format(day, secs)
+            start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
+
+            key = "{}_{}".format(os.path.basename(result.source), router)
+            if key not in event_seq_ids:
+                continue
+
+            if key not in event_seq_ids2:
+                event_seq_ids2[key] = 0
+            else:
+                event_seq_ids2[key] += 1
+
+            event_key = "{}_{}".format(key, event_seq_ids2[key])
+            if event_key in spawn_events:
+                etime = spawn_events[event_key]["end"] - start
+                if etime.total_seconds() < 0:
+                    continue
+
+                spawn_events[event_key]["start"] = start
+                spawn_events[event_key]["duration"] = etime.total_seconds()
+                stats['samples'].append(etime.total_seconds())
+
+        if not stats['samples']:
+            return
+
+        count = 0
+        top_n = {}
+        top_n_sorted = {}
+
+        for k, v in sorted(spawn_events.items(),
+                           key=lambda x: x[1].get("duration", 0),
+                           reverse=True):
+            # skip unterminated entries (e.g. on file wraparound)
+            if "start" not in v:
+                continue
+
+            if count >= self.MAX_RESULTS:
+                break
+
+            count += 1
+            top_n[k] = v
+
+        for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
+                           reverse=True):
+            router = k.rpartition('_')[0]
+            router = router.partition('_')[2]
+            top_n_sorted[router] = {"start": v["start"],
+                                    "end": v["end"],
+                                    "duration": v["duration"]}
+
+        stats['min'] = round(min(stats['samples']), 2)
+        stats['max'] = round(max(stats['samples']), 2)
+        stats['stdev'] = round(statistics.pstdev(stats['samples']), 2)
+        stats['avg'] = round(statistics.mean(stats['samples']), 2)
+        num_samples = len(stats['samples'])
+        stats['samples'] = num_samples
+
+        self.l3_agent_info["router-spawn-events"] = {"top": top_n_sorted,
+                                                     "stats": stats}
+
+    def add_router_event_search_terms(self):
+        logs_path = AGENT_LOG_PATHS["neutron"]
+        if constants.USE_ALL_LOGS:
+            data_source = os.path.join(constants.DATA_ROOT, logs_path,
+                                       'neutron-l3-agent.log*')
+        else:
+            data_source = os.path.join(constants.DATA_ROOT, logs_path,
+                                       'neutron-l3-agent.log')
+
+        # router updates
+        expr = (r"^([0-9-]+) (\S+) .+ Starting router update for "
+                "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+")
+        self.searchobj.add_search_term(expr, [1, 2, 3, 4], data_source,
+                                       tag="router-update-start",
+                                       hint="router update")
+
+        expr = (r"^([0-9-]+) (\S+) .+ Finished a router update for "
+                "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
+                "([0-9.]+)")
+        self.searchobj.add_search_term(expr, [1, 2, 3, 4, 5], data_source,
+                                       tag="router-update-finish",
+                                       hint="router update")
+
+        # router state_change_monitor + keepalived spawn
+        expr = (r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
+                "spawn_state_change_monitor")
+        self.searchobj.add_search_term(expr, [1, 2, 3], data_source,
+                                       tag="router-spawn1",
+                                       hint="spawn_state_change_monitor")
+
+        expr = (r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
+                "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf .+")
+        self.searchobj.add_search_term(expr, [1, 2, 3], data_source,
+                                       tag="router-spawn2",
+                                       hint="Keepalived")
+
+    def process_router_event_results(self, results):
+        self.get_router_spawn_stats(results)
+        self.get_router_update_stats(results)
 
 
-def add_router_event_search_terms(s):
-    if constants.USE_ALL_LOGS:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-l3-agent.log*')
-    else:
-        data_source = os.path.join(constants.DATA_ROOT, NEUTRON_LOGS,
-                                   'neutron-l3-agent.log')
+class CommonAgentChecks(AgentChecksBase):
 
-    # router updates
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Starting router update for "
-                       "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+"),
-                      [1, 2, 3, 4], data_source, tag="router-update-start",
-                      hint="router update")
+    def __init__(self, searchobj):
+        super().__init__(searchobj)
+        self.agent_log_issues = {}
 
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Finished a router update for "
-                       "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
-                       "([0-9.]+)"), [1, 2, 3, 4, 5], data_source,
-                      tag="router-update-finish", hint="router update")
+        agent_exceptions_common = [
+            r"(AMQP server on .+ is unreachable)",
+            r"(amqp.exceptions.ConnectionForced):",
+            r"(OSError: Server unexpectedly closed connection)",
+            r"(ConnectionResetError: .+)",
+            ]
 
-    # router state_change_monitor + keepalived spawn
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
-                       "spawn_state_change_monitor"),
-                      [1, 2, 3], data_source, tag="router-spawn1",
-                      hint="spawn_state_change_monitor")
+        # assume all agents use these so add to all
+        for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS + \
+                PYTHON_BUILTIN_EXCEPTIONS:
+            agent_exceptions_common.append(r"({})".format(exc))
 
-    s.add_search_term((r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
-                       "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf"
-                       " .+"), [1, 2, 3], data_source, tag="router-spawn2",
-                      hint="Keepalived")
+        nova_exceptions_all = [r"(nova.exception.\S+):"]
+        nova_exceptions_all.extend(agent_exceptions_common)
 
+        for exc in NOVA_EXCEPTIONS:
+            nova_exceptions_all.append(r" ({}):".format(exc))
 
-def process_router_event_results(results):
-    get_router_spawn_stats(results)
-    get_router_update_stats(results)
+        # The following must be ERROR log level
+        self.agent_exceptions = {"cinder": [] + agent_exceptions_common,
+                                 "glance": [] + agent_exceptions_common,
+                                 "heat": [] + agent_exceptions_common,
+                                 "keystone": [] + agent_exceptions_common,
+                                 "nova": nova_exceptions_all,
+                                 "neutron": [] + agent_exceptions_common,
+                                 "octavia": [] + agent_exceptions_common,
+                                 }
+
+        # The following can be any log level
+        self.agent_issues = {
+            "neutron": [r"(OVS is dead).", r"(RuntimeError):"]
+            }
+        # NOTE: only LP bugs supported for now
+        self.agent_bug_search_terms = {
+            "1896506": (".+Unknown configuration entry 'no_track' for "
+                        "ip address - ignoring.*")
+            }
+
+    def add_agent_terms(self, service):
+        """
+        Add search terms for warning, exceptions, errors etc i.e. anything that
+        could count as an "issue" of interest.
+        """
+        data_source_template = os.path.join(constants.DATA_ROOT,
+                                            AGENT_LOG_PATHS[service], '{}.log')
+        if constants.USE_ALL_LOGS:
+            data_source_template = "{}*".format(data_source_template)
+
+        for agent in AGENT_DAEMON_NAMES[service]:
+            data_source = data_source_template.format(agent)
+            for exc_msg in self.agent_exceptions[service]:
+                rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
+                self.searchobj.add_search_term(rexpr, [1, 2, 3], data_source,
+                                               tag=agent, hint=exc_msg)
+
+            for msg in self.agent_issues.get(service, []):
+                rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
+                self.searchobj.add_search_term(rexpr, [1, 2, 3], data_source,
+                                               tag=agent, hint=msg)
+
+    def add_bug_search_terms(self):
+        """Add search terms for known bugs."""
+        data_source = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
+        if constants.USE_ALL_LOGS:
+            data_source = "{}*".format(data_source)
+
+        for tag in self.agent_bug_search_terms:
+            self.searchobj.add_search_term(self.agent_bug_search_terms[tag],
+                                           [0], data_source, tag=tag)
+
+    def add_agents_issues_search_terms(self):
+        # Add search terms for everything at once
+        for service in AGENT_DAEMON_NAMES:
+            self.add_agent_terms(service)
+
+        self.add_bug_search_terms()
+
+    def process_bug_results(self, results):
+        for tag in self.agent_bug_search_terms:
+            if results.find_by_tag(tag):
+                add_known_bug(tag)
+
+    def process_agent_results(self, results, service):
+        for agent in AGENT_DAEMON_NAMES[service]:
+            e = get_agent_exceptions(results.find_by_tag(agent),
+                                     AGENT_ERROR_KEY_BY_TIME)
+            if e:
+                if service not in self.agent_log_issues:
+                    self.agent_log_issues[service] = {}
+
+                self.agent_log_issues[service][agent] = e
+
+    def process_agent_issues_results(self, results):
+        """
+        Collect information about Openstack agents. This includes errors,
+        exceptions and known bugs.
+        """
+        # process the results
+        for service in AGENT_DAEMON_NAMES:
+            self.process_agent_results(results, service)
+
+        self.process_bug_results(results)
 
 
 if __name__ == "__main__":
     s = searchtools.FileSearcher()
-    add_rpc_loop_search_terms(s)
-    add_agents_issues_search_terms(s)
-    add_router_event_search_terms(s)
+    common_checks = CommonAgentChecks(s)
+    common_checks.add_agents_issues_search_terms()
+    neutron_checks = NeutronAgentChecks(s)
+    neutron_checks.add_rpc_loop_search_terms()
+    neutron_checks.add_router_event_search_terms()
 
     results = s.search()
 
-    process_rpc_loop_results(results)
-    process_agent_issues_results(results)
-    process_router_event_results(results)
+    neutron_checks.process_rpc_loop_results(results)
+    neutron_checks.process_router_event_results(results)
+    common_checks.process_agent_issues_results(results)
 
-    if AGENT_LOG_ISSUES:
+    AGENT_CHECKS = {"agent-checks": {}}
+    if common_checks.agent_log_issues:
         AGENT_CHECKS["agent-checks"]["agent-issues"] = \
-            AGENT_LOG_ISSUES
+            common_checks.agent_log_issues
 
-    if NEUTRON_OVS_AGENT_INFO:
+    if neutron_checks.ovs_agent_info:
         AGENT_CHECKS["agent-checks"]["neutron-ovs-agent"] = \
-            NEUTRON_OVS_AGENT_INFO
+            neutron_checks.ovs_agent_info
 
-    if NEUTRON_L3AGENT_INFO:
+    if neutron_checks.l3_agent_info:
         AGENT_CHECKS["agent-checks"]["neutron-l3-agent"] = \
-            NEUTRON_L3AGENT_INFO
+            neutron_checks.l3_agent_info
 
     if AGENT_CHECKS["agent-checks"]:
         plugin_yaml.dump(AGENT_CHECKS)

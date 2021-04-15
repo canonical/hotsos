@@ -4,6 +4,13 @@ from common import (
     helpers,
 )
 
+# Plugin config opts from global
+OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
+    helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
+                                    "False"))
+OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
+    helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
+                                    "False"))
 
 OST_PROJECTS = ["aodh",
                 "barbican",
@@ -70,17 +77,24 @@ OST_DEP_PKGS = [r"conntrack",
                 r"rabbitmq-server",
                 ]
 
-CINDER_LOGS = "var/log/cinder"
-GLANCE_LOGS = "var/log/glance"
-HEAT_LOGS = "var/log/heat"
-KEYSTONE_LOGS = "var/log/keystone"
-NEUTRON_LOGS = "var/log/neutron"
-NOVA_LOGS = "var/log/nova"
-OCTAVIA_LOGS = "var/log/octavia"
+AGENT_DAEMON_NAMES = {
+    "cinder": ["cinder-scheduler", "cinder-volume"],
+    "glance": ["glance-api"],
+    "heat": ["heat-engine", "heat-api", "heat-api-cfn"],
+    "keystone": ["keystone"],
+    "neutron": ["neutron-openvswitch-agent", "neutron-dhcp-agent",
+                "neutron-l3-agent", "neutron-server"],
+    "nova": ["nova-compute", "nova-scheduler", "nova-conductor",
+             "nova-api-os-compute", "nova-api-wsgi"],
+    "octavia": ["octavia-api", "octavia-worker",
+                "octavia-health-manager", "octavia-housekeeping"],
+    }
 
-OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
-    helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
-                                    "False"))
-OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
-    helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
-                                    "False"))
+AGENT_LOG_PATHS = {"cinder": "var/log/cinder",
+                   "glance": "var/log/glance",
+                   "heat": "var/log/heat",
+                   "keystone": "var/log/keystone",
+                   "neutron": "var/log/neutron",
+                   "nova": "var/log/nova",
+                   "octavia": "var/log/octavia",
+                   }

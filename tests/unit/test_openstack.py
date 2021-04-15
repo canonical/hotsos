@@ -307,7 +307,6 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_08agent_checks, "NEUTRON_OVS_AGENT_INFO", {})
     def test_process_rpc_loop_results(self):
         end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
         start = datetime.datetime(2021, 3, 2, 14, 26, 29, 780000)
@@ -320,13 +319,12 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                                            "avg": 25.9,
                                            "samples": 1}}}
         s = searchtools.FileSearcher()
-        ost_08agent_checks.add_rpc_loop_search_terms(s)
-        ost_08agent_checks.process_rpc_loop_results(s.search())
-        self.assertEqual(ost_08agent_checks.NEUTRON_OVS_AGENT_INFO,
-                         expected)
+        c = ost_08agent_checks.NeutronAgentChecks(s)
+        c.add_rpc_loop_search_terms()
+        c.process_rpc_loop_results(s.search())
+        self.assertEqual(c.ovs_agent_info, expected)
 
     @mock.patch.object(ost_08agent_checks, "add_known_bug")
-    @mock.patch.object(ost_08agent_checks, "AGENT_LOG_ISSUES", {})
     def test_get_agents_issues(self, mock_add_known_bug):
         neutron_expected = {'neutron-openvswitch-agent':
                             {'MessagingTimeout': {'2021-03-04': 2},
@@ -345,13 +343,13 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                          'nova-compute':
                          {'DBConnectionError': {'2021-03-08': 2}}}
         s = searchtools.FileSearcher()
-        ost_08agent_checks.add_agents_issues_search_terms(s)
-        ost_08agent_checks.process_agent_issues_results(s.search())
-        self.assertEqual(ost_08agent_checks.AGENT_LOG_ISSUES,
+        c = ost_08agent_checks.CommonAgentChecks(s)
+        c.add_agents_issues_search_terms()
+        c.process_agent_issues_results(s.search())
+        self.assertEqual(c.agent_log_issues,
                          {"neutron": neutron_expected, "nova": nova_expected})
         mock_add_known_bug.assert_has_calls([mock.call("1896506")])
 
-    @mock.patch.object(ost_08agent_checks, "NEUTRON_L3AGENT_INFO", {})
     def test_get_router_event_stats(self):
         router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'
         spawn_start = datetime.datetime(2021, 3, 25, 18, 10, 14, 747000)
@@ -378,7 +376,7 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                                                 'start': update_start}}}}
 
         s = searchtools.FileSearcher()
-        ost_08agent_checks.add_router_event_search_terms(s)
-        ost_08agent_checks.process_router_event_results(s.search())
-        self.assertEqual(ost_08agent_checks.NEUTRON_L3AGENT_INFO,
-                         expected)
+        c = ost_08agent_checks.NeutronAgentChecks(s)
+        c.add_router_event_search_terms()
+        c.process_router_event_results(s.search())
+        self.assertEqual(c.l3_agent_info, expected)
