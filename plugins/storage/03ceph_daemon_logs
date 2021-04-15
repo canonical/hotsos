@@ -114,7 +114,7 @@ def get_daemon_log_info():
     s.add_search_term(r"^([0-9-]+) .+ _verify_csum bad .+", [1], data_source,
                       tag="crc-err-bluestore", hint="_verify_csum")
 
-    s.add_search_term(r".+ ceph_abort_msg\(\"(block checksum mismatch:) .+",
+    s.add_search_term(r".+ ceph_abort_msg\(\"(block checksum mismatch).+",
                       [1], data_source,
                       tag="crc-err-rocksdb", hint="block checksum mismatch")
 
