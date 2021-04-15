@@ -63,6 +63,34 @@ def process_slow_requests_results(results):
         DAEMON_INFO["slow-requests"] = slow_requests
 
 
+def process_crc_bluestore_results(results):
+    crc_error = {}
+    for result in sorted(results.find_by_tag("crc-err-bluestore"),
+                         key=lambda r: r.get(1)):
+        date = result.get(1)
+        if date not in crc_error:
+            crc_error[date] = 1
+        else:
+            crc_error[date] += 1
+
+    if crc_error:
+        DAEMON_INFO["crc-err-bluestore"] = crc_error
+
+
+def process_crc_rocksdb_results(results):
+    crc_error = {}
+    for result in sorted(results.find_by_tag("crc-err-rocksdb"),
+                         key=lambda r: r.get(1)):
+        date = result.get(1)
+        if date not in crc_error:
+            crc_error[date] = 1
+        else:
+            crc_error[date] += 1
+
+    if crc_error:
+        DAEMON_INFO["crc-err-rocksdb"] = crc_error
+
+
 def get_daemon_log_info():
     data_source = os.path.join(constants.DATA_ROOT, CEPH_LOGS, 'ceph*.log')
     if constants.USE_ALL_LOGS:
@@ -83,10 +111,19 @@ def get_daemon_log_info():
                        r".+ \(REQUEST_SLOW\)"), [1, 2], data_source,
                       tag="slow-requests", hint="REQUEST_SLOW")
 
+    s.add_search_term(r"^([0-9-]+) .+ _verify_csum bad .+", [1], data_source,
+                      tag="crc-err-bluestore", hint="_verify_csum")
+
+    s.add_search_term(r".+ ceph_abort_msg\(\"(block checksum mismatch).+",
+                      [1], data_source,
+                      tag="crc-err-rocksdb", hint="block checksum mismatch")
+
     results = s.search()
     process_osd_failure_reports_results(results)
     process_mon_elections_results(results)
     process_slow_requests_results(results)
+    process_crc_bluestore_results(results)
+    process_crc_rocksdb_results(results)
 
 
 if __name__ == "__main__":

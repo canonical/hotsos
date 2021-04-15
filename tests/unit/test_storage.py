@@ -151,6 +151,8 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
     @mock.patch.object(storage_03ceph_daemon_logs, "DAEMON_INFO", {})
     def test_get_daemon_log_info(self):
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
-                                          'osd.85': {'2021-02-13': 4}}}
+                                          'osd.85': {'2021-02-13': 4}},
+                  'crc-err-bluestore': {'2021-04-01': 2},
+                  'crc-err-rocksdb': {'block checksum mismatch': 1}}
         storage_03ceph_daemon_logs.get_daemon_log_info()
         self.assertEqual(storage_03ceph_daemon_logs.DAEMON_INFO, result)
