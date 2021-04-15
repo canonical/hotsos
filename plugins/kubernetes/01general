@@ -16,21 +16,25 @@ SERVICES = ["etcdctl",
             "containerd",
             "dockerd"]
 
-SNAPS = [r'charm[\S]+',
-         r'conjure-up',
-         r'core[0-9]*',
-         r'cdk-addons',
-         r'docker',
-         r'go',
-         r'helm',
-         r'kubernetes-[\S]+',
-         r'kubeproxy',
-         r'kubectl',
-         r'kubelet',
-         r'kubeadm',
-         r'kubefed',
-         r'vault',
-         ]
+# Snaps that only exist in a K8s deployment
+SNAPS_K8S = [r'charm[\S]+',
+             r'conjure-up',
+             r'cdk-addons',
+             r'helm',
+             r'kubernetes-[\S]+',
+             r'kubeproxy',
+             r'kubectl',
+             r'kubelet',
+             r'kubeadm',
+             r'kubefed',
+             ]
+# Snaps that are used in a K8s deployment
+SNAPS_DEPS = [r'core[0-9]*',
+              r'docker',
+              r'go',
+              r'vault',
+              r'etcd',
+              ]
 KUBERNETES_INFO = {}
 
 
@@ -53,25 +57,55 @@ def get_service_info():
         KUBERNETES_INFO["services"] = service_info
 
 
+def _get_snap_info(line, snap):
+    """Returns snap name and version if found in line.
+
+    @return: tuple of (name, version) or None
+    """
+    ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
+    if ret:
+        return (ret[1], ret[2])
+
+    return None
+
+
 def get_snap_info():
     snap_list_all = helpers.get_snap_list_all()
     if not snap_list_all:
         return
 
-    snap_info = {}
+    snap_info_core = {}
+    snap_info_deps = {}
     for line in snap_list_all:
-        for snap in SNAPS:
-            ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
-            if ret:
-                # only show latest version installed
-                if ret[1] in snap_info:
-                    if ret[2] > snap_info[ret[1]]:
-                        snap_info[ret[1]] = ret[2]
-                else:
-                    snap_info[ret[1]] = ret[2]
+        for snap in SNAPS_K8S:
+            info = _get_snap_info(line, snap)
+            if not info:
+                continue
 
-    if snap_info:
-        KUBERNETES_INFO["snaps"] = snap_info
+            name, version = info
+            # only show latest version installed
+            if name in snap_info_core:
+                if version > snap_info_core[name]:
+                    snap_info_core[name] = version
+            else:
+                snap_info_core[name] = version
+
+        for snap in SNAPS_DEPS:
+            info = _get_snap_info(line, snap)
+            if not info:
+                continue
+
+            name, version = info
+            # only show latest version installed
+            if name in snap_info_deps:
+                if version > snap_info_deps[name]:
+                    snap_info_deps[name] = version
+            else:
+                snap_info_deps[name] = version
+
+    if snap_info_core:
+        snap_info_core.update(snap_info_deps)
+        KUBERNETES_INFO["snaps"] = snap_info_core
 
 
 def get_pod_info():

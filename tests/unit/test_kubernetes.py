@@ -6,6 +6,8 @@ from importlib.machinery import SourceFileLoader
 
 import utils
 
+from common import helpers
+
 os.environ["VERBOSITY_LEVEL"] = "1000"
 
 # need this for non-standard import
@@ -25,6 +27,7 @@ specs["02network"].loader.exec_module(k8s_02network)
 class TestKubernetesPlugin01general(utils.BaseTestCase):
 
     def setUp(self):
+        self.snaps_list = helpers.get_snap_list_all()
         super().setUp()
 
     def tearDown(self):
@@ -34,6 +37,38 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
     def test_get_service_info(self):
         result = {}
         k8s_01general.get_service_info()
+        self.assertEqual(k8s_01general.KUBERNETES_INFO, result)
+
+    @mock.patch.object(k8s_01general, "KUBERNETES_INFO", {})
+    def test_get_snap_info(self):
+        result = {'snaps': {'conjure-up': '2.6.14-20200716.2107',
+                            'core': '16-2.48.2',
+                            'core18': '20201210',
+                            'docker': '19.03.11',
+                            'go': '1.15.6',
+                            'helm': '3.5.0',
+                            'kubectl': '1.20.2',
+                            'vault': '1.5.4'}}
+        k8s_01general.get_snap_info()
+        self.assertEqual(k8s_01general.KUBERNETES_INFO, result)
+
+    @mock.patch.object(k8s_01general.helpers, "get_snap_list_all")
+    @mock.patch.object(k8s_01general, "KUBERNETES_INFO", {})
+    def test_get_snap_info_no_k8s(self, mock_get_snap_list_all):
+        filterered_snaps = []
+        for line in self.snaps_list:
+            found = False
+            for snap in k8s_01general.SNAPS_K8S:
+                if k8s_01general._get_snap_info(line, snap):
+                    found = True
+                    break
+
+            if not found:
+                filterered_snaps.append(line)
+
+        mock_get_snap_list_all.return_value = filterered_snaps
+        result = {}
+        k8s_01general.get_snap_info()
         self.assertEqual(k8s_01general.KUBERNETES_INFO, result)
 
 
