@@ -19,7 +19,7 @@ sys_01system = module_from_spec(specs["01system"])
 specs["01system"].loader.exec_module(sys_01system)
 
 
-class TestKubernetesPlugin01system(utils.BaseTestCase):
+class TestSystemPlugin01system(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

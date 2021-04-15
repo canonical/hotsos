@@ -319,3 +319,16 @@ def get_hostname():
         return open(path, 'r').readlines()
 
     return []
+
+
+@catch_exceptions(OSError)
+def get_uname():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['uname', '-a'])
+        return output.decode('UTF-8')
+
+    path = os.path.join(DATA_ROOT, "sos_commands/kernel/uname_-a")
+    if os.path.exists(path):
+        return open(path, 'r').read()
+
+    return ""

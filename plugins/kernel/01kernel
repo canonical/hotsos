@@ -1,148 +1,240 @@
-#!/bin/bash -u
-# This plugin displays information about the kernel.
+#!/usr/bin/python3
+import os
+import re
 
-FTMP=`mktemp`
-cleanup ()
-{
-    rm $FTMP
-}
+from common import (
+    constants,
+    helpers,
+    plugin_yaml,
+)
 
-trap cleanup KILL EXIT INT
+KERNEL_INFO = {}
 
-sub_indent_str="  - "
-subsub_indent_str="    - "
-subsubsub_indent_str="      - "
-zone_issue_found=false
+BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
+SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
+VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
 
-echo "kernel:"
 
-path=${DATA_ROOT}proc/cmdline
-if [ -e "$path" ]; then
-    echo "  boot: `cat $path`"
-fi
+def get_cmdline_info():
+    info = []
+    path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
+    if os.path.exists(BUDDY_INFO):
+        cmdline = open(path).read().strip()
+        for entry in cmdline.split():
+            if entry.startswith("BOOT_IMAGE"):
+                continue
 
-# TODO: consider available zones in /proc/pagetypeinfo
-#path=${DATA_ROOT}proc/pagetypeinfo
-#if [ -e "$data_source" ]; then
-#    cat $data_source | egrep "zone\s+Normal,"| sed -r 's/\s+/ /g'
-#fi
+            if entry.startswith("root="):
+                continue
 
-check_mallocinfo ()
-{
-    local node=$1
-    local zones_type=$2  # e.g. Normal, DMA etc
-    local show_zones=${3:-0}
-    local empty_zone_tally=0
-    local high_order_seq=0
-    local contiguous_empty_zones=true
+            info.append(entry)
 
-    ((show_zones)) && echo "${subsubsub_indent_str}zones:"
-    for zone in {10..0}; do
-        awk "\$4==\"$zones_type\"" ${DATA_ROOT}proc/buddyinfo|  grep -q "Node $node," || break
-        free=`awk "\\$4==\"$zones_type\"" ${DATA_ROOT}proc/buddyinfo| grep "Node $node,"| sed -r 's/\s+/ /g'| cut -d ' ' -f $((5+$zone))`
-        ((show_zones)) && echo "  ${subsubsub_indent_str}$zone: $free"
-        ((free)) || ((empty_zone_tally+=$zone))
-        ((free)) && contiguous_empty_zones=false
-        $contiguous_empty_zones && ((high_order_seq++))
-    done
-    # 0+1+...10 is 55 so threshold is this minus the max order
-    ((empty_zone_tally>=45)) && ((high_order_seq)) && return 1
-    # this implies that top 5 orders are unavailable
-    ((high_order_seq>5)) && return 1
-    return 0
-}
+        KERNEL_INFO["boot"] = " ".join(info)
 
-get_slab_major_consumers ()
-{
-    declare -A top5_name=( [0]= [1]= [2]= [3]= [4]= )
-    declare -A top5_num_objs=( [0]=0 [1]=0 [2]=0 [3]=0 [4]=0 )
-    declare -A top5_objsize=( [0]= [1]= [2]= [3]= [4]= )
-    local proc_slabinfo="${DATA_ROOT}proc/slabinfo"
-    # /proc/slabinfo may not exist in containers/VMs
-    [[ ! -e "$proc_slabinfo" ]] && return
 
-    local ftmp=`mktemp`
-    # name, num_objs, objsize
-    cat "${proc_slabinfo}"| tail -n+3| awk '{print $1, $3, $4}'| grep -v kmalloc > $ftmp
-    while read line; do
-        name=`echo $line| cut -d ' ' -f 1`
-        num_objs=`echo $line| cut -d ' ' -f 2`
-        objsize=`echo $line| cut -d ' ' -f 3`
-        for ((i=0;i<5;i++)); do
-            if ((num_objs>${top5_num_objs[$i]})); then
-                top5_num_objs[$i]=$num_objs
-                top5_name[$i]=$name
-                top5_objsize[$i]=$objsize
-                break
-            fi
-        done
-    done < $ftmp
-    rm $ftmp
-    echo "    slab (top 5):"
-    for ((i=0;i<5;i++)); do
-        echo "${subsubsub_indent_str}${top5_name[$i]} ($((${top5_num_objs[$i]}*${top5_objsize[$i]}/1024))k)"
-    done
-}
-
-check_nodes_memory () {
-    local zones_type=$1
-    local zone_issue_found=false
-    local proc_buddyinfo="${DATA_ROOT}proc/buddyinfo"
-
+def get_numa_nodes():
     # /proc/buddyinfo may not exist in containers/VMs
-    [[ ! -e "$proc_buddyinfo" ]] && return
+    if not os.path.exists(BUDDY_INFO):
+        return []
 
-    readarray -t nodes<<<"`sed -rn 's/Node\s+([0-9]+).+/\1/p' ${proc_buddyinfo}| sort -u`"
-    for node in ${nodes[@]}; do
-        check_mallocinfo $node $zones_type
-        if (($?)); then
-            echo "    node$node-${zones_type,,}:"
-            zone_issue_found=true
-            msg_suffix=""
-            echo "${subsubsub_indent_str}may have limited high order memory - check ${DATA_ROOT}proc/buddyinfo$msg_suffix"
-            # if verbosity is requested, show the zones
-            check_mallocinfo $node $zones_type 1
-        fi
-    done
+    nodes = set()
+    for line in open(BUDDY_INFO):
+        nodes.add(int(line.split()[1].strip(',')))
 
-    $zone_issue_found && return 1
-    return 0
-}
+    return list(nodes)
 
-(
-zone_issue_found=false
-check_nodes_memory Normal || zone_issue_found=true
-# only check other types of no issue detected on Normal
-$zone_issue_found || check_nodes_memory DMA32 || zone_issue_found=true
-) > $FTMP
 
-# We only report on compaction errors if there is a shortage of high-order zones
-if [[ -s $FTMP ]]; then
-    echo "  memory-checks:"
-    cat $FTMP
-    fail_count=`awk '$1=="compact_fail" {print $2}' ${DATA_ROOT}proc/vmstat`
-    success_count=`awk '$1=="compact_success" {print $2}' ${DATA_ROOT}proc/vmstat`
-    # we use an arbitrary threshold of 10k to suggest that a lot of compaction has
-    # occurred but noting that this is a rolling counter and is not necessarily
-    # representative of current state.
-    if ((success_count>10000)); then
-        pcent=$((fail_count/(success_count/100)))
-        if ((pcent>10)); then
-            echo -e "    compaction:\n${subsubsub_indent_str}failures are at $pcent% of successes (see ${DATA_ROOT}proc/vmstat)"
-        fi
-    fi
-    get_slab_major_consumers
-else
-    echo "  memory-checks: no issues found"
-fi
+def get_node_zones(zones_type, node):
+    for line in open(BUDDY_INFO):
+        if line.split()[3] == zones_type and \
+                line.startswith("Node {},".format(node)):
+            line = line.split()
+            return " ".join(line)
 
-echo -e "  systemd:"
-path=${DATA_ROOT}etc/systemd/system.conf
-if [ -e "$path" ]; then
-    if `egrep -q "^CPUAffinity=.+" $path`; then
-        egrep "^CPUAffinity=.+" $path| sort -u|xargs -l -I{} echo "${subsub_indent_str}{}"
-    else
-        echo "${sub_indent_str}CPUAffinity not set"
-    fi
-fi
+    return None
 
+
+def get_vmstat_value(key):
+    for line in open(VMSTAT):
+        if line.partition(" ")[0] == key:
+            return int(line.partition(" ")[2])
+
+    return None
+
+
+def get_slabinfo():
+    info = []
+    skip = 2
+    for line in open(SLABINFO):
+        if skip:
+            skip -= 1
+            continue
+
+        if line.startswith("kmalloc"):
+            continue
+
+        sections = line.split()
+        # name, num_objs, objsize
+        info.append([sections[0],
+                     int(sections[2]),
+                     int(sections[3])])
+
+    return info
+
+
+def check_mallocinfo(node, zones_type, node_key):
+    empty_zone_tally = 0
+    high_order_seq = 0
+    zone_info = {"zones": {}}
+
+    node_zones = get_node_zones(zones_type, node)
+    if node_zones is None:
+        return
+
+    # start from highest order zone (10) and work down to 0
+    contiguous_empty_zones = True
+    for zone in range(10, -1, -1):
+        free = int(node_zones.split()[5 + zone - 1])
+        zone_info["zones"][zone] = free
+        if free == 0:
+            empty_zone_tally += zone
+        else:
+            contiguous_empty_zones = False
+
+        if contiguous_empty_zones:
+            high_order_seq += 1
+
+    report_problem = False
+
+    # 0+1+...10 is 55 so threshold is this minus the max order
+    if empty_zone_tally >= 45 and high_order_seq:
+        report_problem = True
+
+    # this implies that top 5 orders are unavailable
+    if high_order_seq > 5:
+        report_problem = True
+
+    if report_problem:
+        if "memory-checks" not in KERNEL_INFO:
+            KERNEL_INFO["memory-checks"] = {node_key: []}
+        elif node_key not in KERNEL_INFO["memory-checks"]:
+            KERNEL_INFO["memory-checks"][node_key] = []
+
+        KERNEL_INFO["memory-checks"][node_key].append(zone_info)
+
+
+def get_slab_major_consumers():
+    top5_name = {0: 0,
+                 1: 0,
+                 2: 0,
+                 3: 0,
+                 4: 0}
+    top5_num_objs = {0: 0,
+                     1: 0,
+                     2: 0,
+                     3: 0,
+                     4: 0}
+    top5_objsize = {0: 0,
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0}
+
+    # /proc/slabinfo may not exist in containers/VMs
+    if not os.path.exists(SLABINFO):
+        return
+
+    # name, num_objs, objsize
+    for line in get_slabinfo():
+        name = line[0]
+        num_objs = line[1]
+        objsize = line[2]
+
+        for i in range(5):
+            if num_objs > top5_num_objs[i]:
+                top5_num_objs[i] = num_objs
+                top5_name[i] = name
+                top5_objsize[i] = objsize
+                break
+
+    top5 = []
+    for i in range(5):
+        kbytes = top5_num_objs[i] * top5_objsize[i] / 1024
+        top5.append("{} ({}k)".format(top5_name[i], kbytes))
+
+    if "memory-checks" not in KERNEL_INFO:
+        KERNEL_INFO["memory-checks"] = {}
+
+    KERNEL_INFO["memory-checks"]["slab (top 5)"] = top5
+
+
+def check_nodes_memory(zones_type):
+    node_zones = {}
+
+    nodes = get_numa_nodes()
+    if not nodes:
+        return
+
+    if "memory-checks" not in KERNEL_INFO:
+        KERNEL_INFO["memory-checks"] = {}
+
+    for node in nodes:
+        msg = ("limited high order memory - check {}".
+               format(BUDDY_INFO))
+        node_key = "node{}-{}".format(node, zones_type.lower())
+        node_zones[node_key] = msg
+        check_mallocinfo(node, zones_type, node_key)
+
+        if node_key in KERNEL_INFO["memory-checks"]:
+            KERNEL_INFO["memory-checks"][node_key].append(node_zones[node_key])
+
+
+def get_kernel_info():
+    uname = helpers.get_uname()
+    if uname:
+        ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
+        if ret:
+            KERNEL_INFO["version"] = ret[1]
+
+    get_cmdline_info()
+
+    check_nodes_memory("Normal")
+    if KERNEL_INFO.get("memory-checks") is None:
+        # only check other types of no issue detected on Normal
+        check_nodes_memory("DMA32")
+
+    # We only report on compaction errors if there is a shortage of high-order
+    # zones.
+    if KERNEL_INFO.get("memory-checks"):
+        fail_count = get_vmstat_value("compact_fail")
+        success_count = get_vmstat_value("compact_success")
+        # we use an arbitrary threshold of 10k to suggest that a lot of
+        # compaction has occurred but noting that this is a rolling counter
+        # and is not necessarily representative of current state.
+        if success_count > 10000:
+            pcent = int(fail_count / (success_count / 100))
+            if pcent > 10:
+                KERNEL_INFO["memory-checks"]["compaction"] = \
+                    "failures are at {}% of successes (see {})".format(pcent,
+                                                                       VMSTAT)
+
+        get_slab_major_consumers()
+    else:
+        KERNEL_INFO["memory-checks"] = "no issues found"
+
+
+def get_systemd_info():
+    path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
+    if os.path.exists(path):
+        KERNEL_INFO["systemd"] = {"CPUAffinity": "not set"}
+        for line in open(path):
+            ret = re.compile("^CPUAffinity=(.+)").match(line)
+            if ret:
+                KERNEL_INFO["systemd"]["CPUAffinity"] = ret[1]
+
+
+if __name__ == "__main__":
+    get_kernel_info()
+    get_systemd_info()
+    if KERNEL_INFO:
+        plugin_yaml.dump(KERNEL_INFO)
