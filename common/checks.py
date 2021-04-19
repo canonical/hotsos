@@ -7,6 +7,8 @@ from common import (
 
 
 class ServiceChecksBase(object):
+    """This class should be used by any plugin that wants to check identify
+    and check the status of running services."""
 
     def __init__(self, service_exprs, hint_range=None,
                  use_ps_axo_flags=False):
