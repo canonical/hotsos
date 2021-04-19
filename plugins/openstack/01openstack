@@ -3,6 +3,7 @@ import re
 import os
 
 from common import (
+    checks,
     constants,
     helpers,
     plugin_yaml,
@@ -21,22 +22,15 @@ APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, "etc/apt/sources.list.d")
 OPENSTACK_INFO = {}
 
 
-def get_service_info():
-    service_info = {}
-    for line in helpers.get_ps():
-        for svc in OST_SERVICES + OST_SERVICES_DEPS:
-            ret = re.compile(svc).search(line)
-            if ret:
-                ret = re.compile(r".+[\s/]+({})\s+".format(svc)).match(line)
-                if ret:
-                    if ret[1] in service_info:
-                        service_info[ret[1]] += 1
-                    else:
-                        service_info[ret[1]] = 1
+class OpenstackServiceChecks(checks.ServiceChecksBase):
+    def get_running_services_info(self):
+        """Get string info for running services."""
+        if self.services:
+            OPENSTACK_INFO["services"] = self.get_service_info_str()
 
-    if service_info:
-        OPENSTACK_INFO["services"] = ["{} ({})".format(s, service_info[s])
-                                      for s in sorted(service_info)]
+    def __call__(self):
+        super().__call__()
+        self.get_running_services_info()
 
 
 def get_release_info():
@@ -84,9 +78,15 @@ def get_debug_log_info():
         OPENSTACK_INFO["debug-logging-enabled"] = debug_enabled
 
 
+def get_openstack_service_checker():
+    # Do this way to make it easier to write unit tests.
+    OPENSTACK_SERVICES_EXPRS = OST_SERVICES + OST_SERVICES_DEPS
+    return OpenstackServiceChecks(OPENSTACK_SERVICES_EXPRS, hint_range=(0, 3))
+
+
 if __name__ == "__main__":
     get_release_info()
-    get_service_info()
+    get_openstack_service_checker()()
     get_debug_log_info()
     if OPENSTACK_INFO:
         plugin_yaml.dump(OPENSTACK_INFO)

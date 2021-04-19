@@ -86,7 +86,7 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                                'nova-api-metadata (5)',
                                'nova-compute (1)',
                                'qemu-system-x86_64 (1)']}
-        ost_01openstack.get_service_info()
+        ost_01openstack.get_openstack_service_checker()()
         self.assertEqual(ost_01openstack.OPENSTACK_INFO, result)
 
     @mock.patch.object(ost_01openstack, "OPENSTACK_INFO", {})

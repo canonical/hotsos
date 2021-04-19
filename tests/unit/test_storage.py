@@ -57,8 +57,8 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
 
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_service_info(self):
-        result = ['ceph-osd (6)', 'radosgw (1)', 'ceph-mgr (1)',
-                  'ceph-mon (1)']
+        result = ['ceph-mgr (1)', 'ceph-mon (1)', 'ceph-osd (6)',
+                  'radosgw (1)']
         storage_01ceph.get_ceph_checker()()
         self.assertEqual(storage_01ceph.CEPH_INFO["services"], result)
 

@@ -8,7 +8,8 @@ from common import (
 
 class ServiceChecksBase(object):
 
-    def __init__(self, service_exprs, use_ps_axo_flags=False):
+    def __init__(self, service_exprs, hint_range=None,
+                 use_ps_axo_flags=False):
         """
         @param service_exprs: list of python.re expressions used to match a
         service name.
@@ -19,8 +20,14 @@ class ServiceChecksBase(object):
         self.service_exprs = []
 
         for expr in service_exprs:
-            # arbitrarily use first 5 chars of search as a pre-search hint
-            self.service_exprs.append((expr, expr[:4]))
+            if hint_range:
+                start, end = hint_range
+            else:
+                # arbitrarily use first 5 chars of search as a pre-search hint
+                start = 0
+                end = min(len(expr), 4)
+
+            self.service_exprs.append((expr, expr[start:end]))
 
         # only use if exists
         if use_ps_axo_flags and helpers.get_ps_axo_flags_available():
@@ -39,7 +46,7 @@ class ServiceChecksBase(object):
         """Create a list of "<service> (<num running>)" for running services
         detected. Useful for display purposes."""
         service_info_str = []
-        for svc in self.services:
+        for svc in sorted(self.services):
             num_daemons = self.services[svc]["ps_cmds"]
             service_info_str.append("{} ({})".format(svc, len(num_daemons)))
 
@@ -57,10 +64,10 @@ class ServiceChecksBase(object):
                     continue
 
                 # look for running process with this name
-                ret = re.compile(r".+\s\S*({})(\s+.+|$)".format(expr)
+                ret = re.compile(r".+\S*(\s|/)({})(\s+.+|$)".format(expr)
                                  ).match(line)
                 if ret:
-                    svc = ret.group(1)
+                    svc = ret.group(2)
                     if svc not in self.services:
                         self.services[svc] = {"ps_cmds": []}
 
