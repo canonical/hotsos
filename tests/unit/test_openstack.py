@@ -290,9 +290,9 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
     def test_process_rpc_loop_results(self):
         end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
         start = datetime.datetime(2021, 3, 2, 14, 26, 29, 780000)
-        expected = {'rpc-loop': {"top": {1438: {'duration': 25.9,
-                                                'end': end,
-                                                'start': start}},
+        expected = {'rpc-loop': {"top": {"1438": {'duration': 25.9,
+                                                  'end': end,
+                                                  'start': start}},
                                  "stats": {"min": 25.9,
                                            "max": 25.9,
                                            "stdev": 0.0,

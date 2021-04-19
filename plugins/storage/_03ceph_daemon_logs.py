@@ -18,6 +18,7 @@ from common.searchtools import (
 CEPH_LOGS = "var/log/ceph/"
 DAEMON_INFO = {}
 
+# search terms are defined here to make them easier to read.
 SEARCHES = [
     SearchDef(
         r"^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+",
@@ -42,12 +43,12 @@ SEARCHES = [
         hint="checksum mismatch"),
     SearchDef(
         (r"^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ interface "
-         "seen, longest is ([0-9.]+) msec.+"),
+         r"seen, longest is ([0-9.]+) msec.+"),
         tag="long-heartbeat",
         hint="Long heartbeat ping"),
     SearchDef(
         (r"^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply "
-         "from [0-9.:]+ (osd.[0-9]+)"),
+         r"from [0-9.:]+ (osd.[0-9]+)"),
         tag="heartbeat-no-reply",
         hint="heartbeat_check"),
 ]
