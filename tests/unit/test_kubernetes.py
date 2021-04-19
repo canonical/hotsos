@@ -35,9 +35,13 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
 
     @mock.patch.object(k8s_01general, "KUBERNETES_INFO", {})
     def test_get_service_info(self):
-        result = {}
-        k8s_01general.get_service_info()
-        self.assertEqual(k8s_01general.KUBERNETES_INFO, result)
+        expected = {'services': ['containerd (17)',
+                                 'containerd-shim (16)',
+                                 'flanneld (1)',
+                                 'kube-proxy (1)',
+                                 'kubelet (2)']}
+        k8s_01general.get_kubernetes_service_checker()()
+        self.assertEqual(k8s_01general.KUBERNETES_INFO, expected)
 
     @mock.patch.object(k8s_01general, "KUBERNETES_INFO", {})
     def test_get_snap_info(self):
