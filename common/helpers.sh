@@ -145,7 +145,7 @@ get_ceph_versions ()
         cat $sos_path
     elif ! [ -d "${DATA_ROOT}sos_commands" ] && which ceph >/dev/null; then
         ceph versions
-    fi  
+    fi
 }
 export -f get_ceph_versions
 

@@ -22,7 +22,11 @@ class SearchResult(object):
         self.tag = search_term_tag
         self.source = source
         self.linenumber = linenumber
+        self.line = ""
         self._parts = {}
+
+    def __str__(self):
+        return f"{self.source}:{self.linenumber}:{self.line}"
 
     def add(self, index, value):
         self._parts[index] = SearchResultPart(index, value)
@@ -138,9 +142,9 @@ class FileSearcher(object):
 
     def _search_task(self, term_key, fd, path):
         results = []
-        for ln, line in enumerate(fd):
-            # line numbers are not zero-indexed
-            ln += 1
+
+        for ln, line in enumerate(fd, start=1):
+
             for s_term in self.paths[term_key]:
                 if type(line) == bytes:
                     line = line.decode("utf-8")
@@ -153,6 +157,7 @@ class FileSearcher(object):
                 ret = s_term["key"].match(line)
                 if ret:
                     r = SearchResult(ln, path, s_term.get("tag"))
+                    r.line = line
                     for i in s_term["indices"]:
                         r.add(i, ret[i])
 

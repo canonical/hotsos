@@ -14,3 +14,6 @@ if helpers.bool_str(USE_ALL_LOGS):
     USE_ALL_LOGS = True
 else:
     USE_ALL_LOGS = False
+
+# maximum number of chars to print when a matching text is detected.
+MAX_MATCH_CHARS = 200

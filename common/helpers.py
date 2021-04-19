@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import glob
+import io
 import os
 import re
 import subprocess
@@ -338,3 +339,23 @@ def get_uname():
         return open(path, 'r').read()
 
     return ""
+
+
+def grep(pattern, files):
+    """Run grep passing *args as arguments
+
+    :param pattern: regular expression to match
+    :param files: files to match that will be expanded by glob.glob()
+    :returns: text with the matching lines (FILENAME:MATCHING_LINE)
+    :rtype: io.StringIO"""
+    result = io.StringIO()
+    regex = re.compile(pattern)
+    for path in glob.glob(files):
+        with open(path, 'r') as f:
+            for line in f:
+                m = regex.search(line)
+                if m:
+                    result.write(f"{path}:{line}")
+
+    result.seek(0)
+    return result

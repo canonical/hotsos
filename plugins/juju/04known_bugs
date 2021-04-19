@@ -1,0 +1,75 @@
+#!/usr/bin/python3
+import subprocess
+
+from common import helpers, constants, searchtools
+from common.known_bugs_utils import add_known_bug
+from juju_common import (
+    JUJU_LOG_PATH
+)
+
+
+def detect_bug1910958():
+    """Unit fails to start complaining there are members in the relation."""
+    result = {
+        1910958: {
+            "description": ("Unit fails to start complaining there are "
+                            "members in the relation."),
+            "match": ""
+            }
+        }
+    pattern = (
+        r'.* manifold worker returned unexpected error: failed to initialize '
+        'uniter for "[A-Za-z0-9\\-]+": cannot create relation state tracker: '
+        'cannot remove persisted state, relation \\d+ has members'
+    )
+
+    try:
+        s = searchtools.FileSearcher()
+        s.add_search_term(pattern, [0], f"{JUJU_LOG_PATH}/*.log")
+
+        results = s.search()
+
+        disp_text = []
+        for fpath in results.files:
+            for r in results.find_by_path(fpath):
+                line = f"{r.source}:{r.line}"
+                if len(line) > constants.MAX_MATCH_CHARS:
+                    disp_text.append(line[:constants.MAX_MATCH_CHARS] + "...")
+                else:
+                    disp_text.append(line.strip("\n"))
+
+        result[1910958]["match"] = "\n".join(disp_text)
+        add_known_bug(1910958)
+
+    except subprocess.CalledProcessError:
+        return None
+
+    return result
+
+
+KNOWN_ISSUES = [detect_bug1910958]
+
+
+def main():
+    issues_found = {"launchpad": []}
+    for func in KNOWN_ISSUES:
+        result = func()
+        if result:
+            issues_found["launchpad"].append(result)
+
+    if len(issues_found["launchpad"]) == 0:
+        return (None, 0)
+
+    if not helpers.HOTSOSYaml.master_has_plugin("juju"):
+        issues_found = {"juju": issues_found}
+        indent = 0
+    else:
+        indent = 2
+
+    return (issues_found, indent)
+
+
+if __name__ == "__main__":
+    (issues_found, indent) = main()
+    if issues_found:
+        helpers.HOTSOSYaml.dump(issues_found, indent=indent)
