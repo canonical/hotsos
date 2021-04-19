@@ -36,53 +36,54 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
     @mock.patch.object(storage_01ceph.helpers, "get_date")
     def test_get_date_secs(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
-        self.assertEquals(storage_01ceph.get_date_secs(), 1234)
+        c = storage_01ceph.get_ceph_checker()
+        self.assertEquals(c.get_date_secs(), 1234)
 
     @mock.patch.object(storage_01ceph.helpers, "get_date")
     def test_get_date_secs_from_timestamp(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 MDT 2021"
-        self.assertEquals(storage_01ceph.get_date_secs(date_string),
+        c = storage_01ceph.get_ceph_checker()
+        self.assertEquals(c.get_date_secs(date_string),
                           1616691305)
 
     @mock.patch.object(storage_01ceph.helpers, "get_date")
     def test_get_date_secs_from_timestamp_w_tz(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 UTC 2021"
-        self.assertEquals(storage_01ceph.get_date_secs(date_string),
+        c = storage_01ceph.get_ceph_checker()
+        self.assertEquals(c.get_date_secs(date_string),
                           1616669705)
 
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_service_info(self):
-        result = {'services': ['ceph-osd (6)', 'radosgw (1)', 'ceph-mgr (1)',
-                               'ceph-mon (1)']}
-        storage_01ceph.get_service_info()
-        self.assertEqual(storage_01ceph.CEPH_INFO, result)
+        result = ['ceph-osd (6)', 'radosgw (1)', 'ceph-mgr (1)',
+                  'ceph-mon (1)']
+        storage_01ceph.get_ceph_checker()()
+        self.assertEqual(storage_01ceph.CEPH_INFO["services"], result)
 
     @mock.patch.object(storage_01ceph.helpers, "get_ps",
                        lambda: [])
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_service_info_unavailable(self):
-        storage_01ceph.get_service_info()
-        self.assertEqual(storage_01ceph.CEPH_INFO, {})
+        storage_01ceph.get_ceph_checker()()
+        self.assertFalse("services" in storage_01ceph.CEPH_INFO)
 
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch(self):
-        result = {'versions': {
-                  'mgr': ['14.2.11'],
+        result = {'mgr': ['14.2.11'],
                   'mon': ['14.2.11'],
                   'osd': ['14.2.11'],
-                  'rgw': ['14.2.11']
-                  }}
-        storage_01ceph.get_ceph_versions_mismatch()
-        self.assertEqual(storage_01ceph.CEPH_INFO, result)
+                  'rgw': ['14.2.11']}
+        storage_01ceph.get_ceph_checker()()
+        self.assertEqual(storage_01ceph.CEPH_INFO["versions"], result)
 
     @mock.patch.object(storage_01ceph.helpers, "get_ceph_versions",
                        lambda: [])
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch_unavailable(self):
-        storage_01ceph.get_ceph_versions_mismatch()
-        self.assertEqual(storage_01ceph.CEPH_INFO, {})
+        storage_01ceph.get_ceph_checker()()
+        self.assertFalse("versions" in storage_01ceph.CEPH_INFO)
 
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance(self):
@@ -96,26 +97,40 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
                    'osd.37': 406,
                    'osd.56': 209,
                    'osd.72': 206}}
-        storage_01ceph.get_ceph_pg_imbalance()
+        c = storage_01ceph.get_ceph_checker()
+        c.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, result)
+
+    @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
+    def test_get_osd_ids(self):
+        c = storage_01ceph.get_ceph_checker()
+        c()
+        self.assertEqual(c.osd_ids, [63, 81, 90, 109, 101, 70])
 
     @mock.patch.object(storage_01ceph.helpers, "get_ceph_osd_df_tree",
                        lambda: [])
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance_unavailable(self):
-        storage_01ceph.get_ceph_pg_imbalance()
+        c = storage_01ceph.get_ceph_checker()
+        c.get_ceph_pg_imbalance()
         self.assertEqual(storage_01ceph.CEPH_INFO, {})
 
     @mock.patch.object(storage_01ceph, "CEPH_INFO", {})
     def test_get_osd_info(self):
-        expected = {'osds': {63: {'dev': '/dev/bcache0', 'rss': '3867M'},
-                             70: {'dev': '/dev/bcache4', 'rss': '4041M'},
-                             81: {'dev': '/dev/bcache1', 'rss': '4065M'},
-                             90: {'dev': '/dev/bcache2', 'rss': '4114M'},
-                             101: {'dev': '/dev/bcache3', 'rss': '3965M'},
-                             109: {'dev': '/dev/bcache5', 'rss': '3898M'}}}
-        storage_01ceph.get_osd_info()
-        self.assertEqual(storage_01ceph.CEPH_INFO, expected)
+        expected = {63: {'fsid': 'b3885ec9-4d42-4860-a708-d1cbc6e4da29',
+                         'dev': '/dev/bcache0', 'rss': '3867M'},
+                    70: {'fsid': '12a94d95-fbcc-4c15-875f-aae53274b1a9',
+                         'dev': '/dev/bcache4', 'rss': '4041M'},
+                    81: {'fsid': 'bd7a98b9-d765-4d7c-b11e-1a430c3a27cb',
+                         'dev': '/dev/bcache1', 'rss': '4065M'},
+                    90: {'fsid': 'c4539810-2a63-4885-918b-0d23bcd41cf1',
+                         'dev': '/dev/bcache2', 'rss': '4114M'},
+                    101: {'fsid': '5f74e4b6-7e76-4c11-9533-c393fc9fdebc',
+                          'dev': '/dev/bcache3', 'rss': '3965M'},
+                    109: {'fsid': '9653fae9-d518-4fe8-abf9-54d015ffea68',
+                          'dev': '/dev/bcache5', 'rss': '3898M'}}
+        storage_01ceph.get_ceph_checker()()
+        self.assertEqual(storage_01ceph.CEPH_INFO["osds"], expected)
 
 
 class TestStoragePlugin02bcache(utils.BaseTestCase):

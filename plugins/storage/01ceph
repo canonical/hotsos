@@ -4,210 +4,235 @@ import re
 import subprocess
 
 from common import (
+    checks,
     helpers,
     plugin_yaml,
 )
 
-SERVICES = ["ceph-osd",
-            "ceph-mon",
-            "ceph-mgr",
-            "radosgw"]
-
-SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*[^:/]?"
-CEPH_SERVICES = [r"ceph-[A-Za-z]+",
-                 r"rados{}".format(SVC_VALID_SUFFIX),
-                 ]
+CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
+                       r"rados[a-z0-9-:]+"]
 CEPH_INFO = {}
 
 
-def get_ceph_pg_imbalance():
-    """
-    Validate PG range.
-    Upstream recommends 50-200 OSDs ideally. Higher than 200 is
-    also valid if the OSD disks are of different sizes but such
-    are generally outliers.
-    """
-    ceph_osd_tree = helpers.get_ceph_osd_df_tree()
-    if not ceph_osd_tree:
-        return
+class CephChecks(checks.ServiceChecksBase):
 
-    bad_pgs = {}
-    for line in ceph_osd_tree:
-        try:
-            if line:
-                last = line.split()[-1]
-            if re.compile(r"^osd\.[0-9]+").match(last):
-                osd = line.split()[-1]
-                pg = int(line.split()[-3])
-                if pg > 0 and (pg < 50 or pg > 200):
-                    bad_pgs.update({osd: pg})
-        except IndexError:
-            pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
+        self.ceph_osd_tree = helpers.get_ceph_osd_tree()
+        self.ceph_osd_df_tree = helpers.get_ceph_osd_df_tree()
+        self.ceph_versions = helpers.get_ceph_versions()
+        self.date_in_secs = self.get_date_secs()
 
-    if bad_pgs:
-        CEPH_INFO["pgs-per-osd"] = bad_pgs
+    @staticmethod
+    def seconds_to_date(secs):
+        days = secs / 86400
+        hours = secs / 3600 % 24
+        mins = secs / 60 % 60
+        secs = secs % 60
 
+        return '{}d:{}h:{}m:{}s'.format(int(days), int(hours),
+                                        int(mins), int(secs))
 
-def get_ceph_versions_mismatch():
-    """
-    Get versions of all Ceph daemons.
-    """
+    def get_date_secs(self, datestring=None):
+        if datestring:
+            cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
+            date_in_secs = subprocess.check_output(cmd)
+        else:
+            date_in_secs = helpers.get_date() or 0
+            if date_in_secs:
+                date_in_secs = date_in_secs.strip()
 
-    ceph_versions = helpers.get_ceph_versions()
-    if not ceph_versions:
-        return
+        return int(date_in_secs)
 
-    data = None
-    try:
-        data = json.loads(''.join(ceph_versions))
-    except ValueError:
-        return
+    @property
+    def osd_ids(self):
+        """Return list of ceph-osd ids."""
+        ceph_osds = self.services.get("ceph-osd")
+        if not ceph_osds:
+            return []
 
-    daemon_version_info = {}
-
-    if data:
-        for unit, _ in data.items():
-            if unit == "overall":
-                continue
-            vers = []
-            for key, _ in data[unit].items():
-                if re.compile(r"ceph version.+").match(key):
-                    d_ver = key.split()[2]
-                    if d_ver not in vers:
-                        vers.append(d_ver)
-            if vers:
-                daemon_version_info[unit] = vers
-
-    if daemon_version_info:
-        CEPH_INFO["versions"] = daemon_version_info
-
-
-def svc_exists(svc):
-    for line in helpers.get_ps():
-        ret = re.compile(r".+({}\S*)\s+.+".format(svc)).match(line)
-        if ret:
-            return True
-
-
-def get_osd_ids(svc):
-    osd_ids = []
-    for line in helpers.get_ps():
-        ret = re.compile(r".+({}\S*)\s+.*--id\s+([0-9]+)\s+.+"
-                         .format(svc)).match(line)
-        if ret:
-            osd_ids.append(int(ret[2]))
-
-    return osd_ids
-
-
-def seconds_to_date(secs):
-    days = secs / 86400
-    hours = secs / 3600 % 24
-    mins = secs / 60 % 60
-    secs = secs % 60
-
-    return '{}d:{}h:{}m:{}s'.format(int(days), int(hours),
-                                    int(mins), int(secs))
-
-
-def get_date_secs(datestring=None):
-    if datestring:
-        cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
-        date_in_secs = subprocess.check_output(cmd)
-    else:
-        date_in_secs = helpers.get_date() or 0
-        if date_in_secs:
-            date_in_secs = date_in_secs.strip()
-
-    return int(date_in_secs)
-
-
-def get_osd_info():
-    date_in_secs = get_date_secs()
-
-    ceph_volume_lvm_list = helpers.get_ceph_volume_lvm_list()
-
-    osd_info = {}
-    for svc in SERVICES:
-        if not svc_exists(svc):
-            continue
-
-        for osd_id in get_osd_ids(svc):
-            osd_info[osd_id] = {}
-            if ceph_volume_lvm_list:
-                for line in ceph_volume_lvm_list:
-                    ret = re.compile(".*==== osd.{} ====.*".format(osd_id)
-                                     ).match(line)
-                    if ret:
-                        osd_info[osd_id]['mark'] = 1
-
-                    if osd_info[osd_id].get('mark') is None:
-                        continue
-
-                    ret = re.compile(r"\s+osd fsid\s+([a-z0-9]+)\s+"
-                                     ).search(line)
-                    if ret:
-                        osd_info[osd_id]["fsid"] = ret[1]
-
-                    ret = re.compile(r"\s+devices\s+([\S]+)\s+").search(line)
-                    if ret:
-                        osd_info[osd_id]["dev"] = ret[1]
-                        break
-
-            if 'mark' in osd_info[osd_id]:
-                del osd_info[osd_id]['mark']
-
-            for line in helpers.get_ps():
-                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
-                                 osd_id)).match(line)
-                if ret:
-                    rss = int(int(line.split()[5]) / 1024)
-                    osd_info[osd_id]["rss"] = "{}M".format(rss)
-                    break
-
-            for line in helpers.get_ps_axo_flags():
-                ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
-                                 osd_id)).match(line)
-                if ret:
-                    osd_start = ' '.join(line.split()[13:17])
-                    if date_in_secs and osd_start:
-                        osd_start_secs = get_date_secs(datestring=osd_start)
-                        osd_uptime_secs = (date_in_secs - osd_start_secs)
-                        osd_uptime_str = seconds_to_date(osd_uptime_secs)
-                        osd_info[osd_id]["etime"] = osd_uptime_str
-                        break
-
-            ceph_osd_tree = helpers.get_ceph_osd_tree()
-            if ceph_osd_tree:
-                for line in helpers.get_ceph_osd_tree():
-                    if line.split()[3] == "osd.{}".format(osd_id):
-                        osd_info[osd_id]["devtype"] = line.split()[1]
-                        break
-
-    if osd_info:
-        CEPH_INFO["osds"] = osd_info
-
-
-def get_service_info():
-    service_info = {}
-    for line in helpers.get_ps():
-        for svc in CEPH_SERVICES:
-            ret = re.compile(r".+[\s/]+({})\s+.+".format(svc)).match(line)
+        osd_ids = []
+        for cmd in ceph_osds["ps_cmds"]:
+            ret = re.compile(r".+\s+.*--id\s+([0-9]+)\s+.+").match(cmd)
             if ret:
-                if ret[1] in service_info:
-                    service_info[ret[1]] += 1
-                else:
-                    service_info[ret[1]] = 1
+                osd_ids.append(int(ret[1]))
 
-    if service_info:
-        CEPH_INFO["services"] = ["{} ({})".format(s, service_info[s])
-                                 for s in service_info]
+        return osd_ids
+
+    def get_osd_rss(self, osd_id):
+        """Return memory RSS for a given OSD."""
+        ceph_osds = self.services.get("ceph-osd")
+        if not ceph_osds:
+            return []
+
+        for cmd in ceph_osds["ps_cmds"]:
+            ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
+                             osd_id)).match(cmd)
+            if ret:
+                return int(int(cmd.split()[5]) / 1024)
+
+        return 0
+
+    def get_osd_etime(self, osd_id):
+        """Return process etime for a given OSD."""
+        if not self.has_ps_axo_flags:
+            return
+
+        ceph_osds = self.services.get("ceph-osd")
+        if not ceph_osds:
+            return []
+
+        for cmd in ceph_osds["ps_cmds"]:
+            ret = re.compile(r".+\s+.+--id {}\s+.+".format(
+                             osd_id)).match(cmd)
+            if ret:
+                osd_start = ' '.join(cmd.split()[13:17])
+                if self.date_in_secs and osd_start:
+                    osd_start_secs = self.get_date_secs(
+                                                  datestring=osd_start)
+                    osd_uptime_secs = (self.date_in_secs - osd_start_secs)
+                    osd_uptime_str = self.seconds_to_date(osd_uptime_secs)
+                    return osd_uptime_str
+
+    def get_osd_lvm_info(self, osd_id):
+        if not self.ceph_volume_lvm_list:
+            return
+
+        info = {}
+        for line in self.ceph_volume_lvm_list:
+            ret = re.compile(".*==== osd.{} ====.*".format(osd_id)).match(line)
+            if ret:
+                info['marker'] = 1
+
+            if info.get('marker') is None:
+                continue
+
+            if "fsid" not in info:
+                ret = re.compile(r"\s+osd\s+fsid\s+([a-z0-9-]+)\s*"
+                                 ).match(line)
+                if ret:
+                    info["fsid"] = ret[1]
+
+            if "dev" not in info:
+                ret = re.compile(r"\s+devices\s+([\S]+)\s*").match(line)
+                if ret:
+                    info["dev"] = ret[1]
+
+            if info.get("dev") and info.get("fsid"):
+                break
+
+        if "marker" in info:
+            del info["marker"]
+            return info
+
+    def get_osd_devtype(self, osd_id):
+        if not self.ceph_osd_tree:
+            return
+
+        for line in self.ceph_osd_tree:
+            if line.split()[3] == "osd.{}".format(osd_id):
+                return line.split()[1]
+
+    def get_ceph_pg_imbalance(self):
+        """
+        Validate PG range.
+        Upstream recommends 50-200 OSDs ideally. Higher than 200 is
+        also valid if the OSD disks are of different sizes but such
+        are generally outliers.
+        """
+        if not self.ceph_osd_df_tree:
+            return
+
+        bad_pgs = {}
+        for line in self.ceph_osd_df_tree:
+            try:
+                if line:
+                    last = line.split()[-1]
+
+                if re.compile(r"^osd\.[0-9]+").match(last):
+                    osd = line.split()[-1]
+                    pg = int(line.split()[-3])
+                    if pg > 0 and (pg < 50 or pg > 200):
+                        bad_pgs.update({osd: pg})
+            except IndexError:
+                pass
+
+        if bad_pgs:
+            CEPH_INFO["pgs-per-osd"] = bad_pgs
+
+    def get_ceph_versions_mismatch(self):
+        """
+        Get versions of all Ceph daemons.
+        """
+        if not self.ceph_versions:
+            return
+
+        try:
+            data = json.loads(''.join(self.ceph_versions))
+        except ValueError:
+            return
+
+        daemon_version_info = {}
+        if data:
+            for unit, _ in data.items():
+                if unit == "overall":
+                    continue
+
+                vers = []
+                for key, _ in data[unit].items():
+                    if re.compile(r"ceph version.+").match(key):
+                        d_ver = key.split()[2]
+                        if d_ver not in vers:
+                            vers.append(d_ver)
+                if vers:
+                    daemon_version_info[unit] = vers
+
+        if daemon_version_info:
+            CEPH_INFO["versions"] = daemon_version_info
+
+    def get_osd_info(self):
+        osd_info = {}
+        for osd_id in self.osd_ids:
+            osd_info[osd_id] = {}
+            osd_lvm_info = self.get_osd_lvm_info(osd_id)
+            if osd_lvm_info:
+                osd_info[osd_id].update(osd_lvm_info)
+
+            osd_rss = self.get_osd_rss(osd_id)
+            if osd_rss:
+                osd_info[osd_id]["rss"] = "{}M".format(osd_rss)
+
+            osd_etime = self.get_osd_etime(osd_id)
+            if osd_etime:
+                osd_info[osd_id]["etime"] = osd_etime
+
+            osd_devtype = self.get_osd_devtype(osd_id)
+            if osd_devtype:
+                osd_info[osd_id]["devtype"]
+
+        if osd_info:
+            CEPH_INFO["osds"] = osd_info
+
+    def get_running_services_info(self):
+        """Get string info for running services."""
+        if self.services:
+            CEPH_INFO["services"] = self.get_service_info_str()
+
+    def __call__(self):
+        super().__call__()
+        self.get_running_services_info()
+        self.get_osd_info()
+        self.get_ceph_pg_imbalance()
+        self.get_ceph_versions_mismatch()
+
+
+def get_ceph_checker():
+    # Do this way to make it easier to write unit tests.
+    return CephChecks(CEPH_SERVICES_EXPRS, use_ps_axo_flags=True)
 
 
 if __name__ == "__main__":
-    get_service_info()
-    get_osd_info()
-    get_ceph_pg_imbalance()
-    get_ceph_versions_mismatch()
+    get_ceph_checker()()
     if CEPH_INFO:
         plugin_yaml.dump({"ceph": CEPH_INFO})

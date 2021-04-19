@@ -88,6 +88,14 @@ def get_ps():
     return []
 
 
+def get_ps_axo_flags_available():
+    path = os.path.join(DATA_ROOT, "sos_commands/process/ps_axo_flags_state_"
+                        "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
+                        "tty_time_cmd")
+    for path in glob.glob(path):
+        return path
+
+
 @catch_exceptions(OSError)
 def get_ps_axo_flags():
     if DATA_ROOT == '/':
@@ -98,10 +106,8 @@ def get_ps_axo_flags():
 
     # Older sosrepot uses 'wchan' option while newer ones use 'wchan:20' -
     # thus the glob is to cover both
-    path = os.path.join(DATA_ROOT, "sos_commands/process/ps_axo_flags_state_"
-                        "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
-                        "tty_time_cmd")
-    for path in glob.glob(path):
+    path = get_ps_axo_flags_available()
+    if path:
         return open(path, 'r').readlines()
 
     return []
