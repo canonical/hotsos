@@ -138,9 +138,7 @@ class FileSearcher(object):
 
     def _search_task(self, term_key, fd, path):
         results = []
-        for ln, line in enumerate(fd):
-            # line numbers are not zero-indexed
-            ln += 1
+        for ln, line in enumerate(fd, start=1):
             for s_term in self.paths[term_key]:
                 if type(line) == bytes:
                     line = line.decode("utf-8")
@@ -153,7 +151,12 @@ class FileSearcher(object):
                 ret = s_term["key"].match(line)
                 if ret:
                     r = SearchResult(ln, path, s_term.get("tag"))
+                    # ensure we always add this
+                    r.add(0, ret[0])
                     for i in s_term["indices"]:
+                        if i == 0:
+                            continue
+
                         r.add(i, ret[i])
 
                     results.append(r)

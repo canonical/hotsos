@@ -1,13 +1,19 @@
 import mock
+import os
+import shutil
+import tempfile
 
 from importlib.util import spec_from_loader, module_from_spec
 from importlib.machinery import SourceFileLoader
 
 import utils
 
+from common import known_bugs_utils
+
+
 # need this for non-standard import
 specs = {}
-for plugin in ["01juju", "02charms", "03units"]:
+for plugin in ["01juju", "02charms", "03units", "04known_bugs"]:
     loader = SourceFileLoader("juju_{}".format(plugin),
                               "plugins/juju/{}".format(plugin))
     specs[plugin] = spec_from_loader("juju_{}".format(plugin), loader)
@@ -20,6 +26,9 @@ specs["02charms"].loader.exec_module(juju_02charms)
 
 juju_03units = module_from_spec(specs["03units"])
 specs["03units"].loader.exec_module(juju_03units)
+
+juju_04known_bugs = module_from_spec(specs["04known_bugs"])
+specs["04known_bugs"].loader.exec_module(juju_04known_bugs)
 
 
 class TestJujuPlugin01juju(utils.BaseTestCase):
@@ -113,5 +122,26 @@ class TestJujuPlugin03charms(utils.BaseTestCase):
                             'prometheus-ceph-exporter-0',
                             'prometheus-openstack-exporter-0',
                             'rabbitmq-server-0'],
-                    'stopped': ['nrpe-0']}
+                    'stopped': ['nrpe-0', 'rabbitmq-server-2',
+                                'rabbitmq-server-3']}
         self.assertEquals(juju_03units.JUJU_UNIT_INFO, {"units": expected})
+
+
+class TestJujuPlugin04known_issues(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.tmpdir = tempfile.mkdtemp()
+
+    def tearDown(self):
+        if os.path.isdir(self.tmpdir):
+            shutil.rmtree(self.tmpdir)
+
+        super().tearDown()
+
+    def test_detect_known_bugs(self):
+        with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
+                               self.tmpdir):
+            juju_04known_bugs.detect_known_bugs()
+            expected = {"known-bugs": ['https://pad.lv/1910958']}
+            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
