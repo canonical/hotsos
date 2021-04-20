@@ -40,11 +40,10 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     if type == LAUNCHPAD:
         new_bug = "https://pad.lv/{}".format(bug_id)
 
-    if description:
-        entry = {new_bug: description}
-    else:
-        entry = new_bug
+    if description is None:
+        description = "no description provided"
 
+    entry = {new_bug: description}
     current = _get_known_bugs()
     if current and current.get(MASTER_YAML_KNOWN_BUGS_KEY):
         if entry not in current.get(MASTER_YAML_KNOWN_BUGS_KEY):
