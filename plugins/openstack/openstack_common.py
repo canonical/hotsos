@@ -87,7 +87,8 @@ AGENT_DAEMON_NAMES = {
     "nova": ["nova-compute", "nova-scheduler", "nova-conductor",
              "nova-api-os-compute", "nova-api-wsgi"],
     "octavia": ["octavia-api", "octavia-worker",
-                "octavia-health-manager", "octavia-housekeeping"],
+                "octavia-health-manager", "octavia-housekeeping",
+                "octavia-driver-agent"],
     }
 
 AGENT_LOG_PATHS = {"cinder": "var/log/cinder",
