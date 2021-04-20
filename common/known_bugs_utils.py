@@ -47,7 +47,8 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
 
     current = _get_known_bugs()
     if current and current.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry)
+        if entry not in current.get(MASTER_YAML_KNOWN_BUGS_KEY):
+            current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry)
     else:
         current = {MASTER_YAML_KNOWN_BUGS_KEY: [entry]}
 
