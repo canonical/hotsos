@@ -18,6 +18,7 @@ from openstack_common import (
 )
 from openstack_exceptions import (
     NOVA_EXCEPTIONS,
+    OCTAVIA_EXCEPTIONS,
     OSLO_DB_EXCEPTIONS,
     OSLO_MESSAGING_EXCEPTIONS,
     PYTHON_BUILTIN_EXCEPTIONS,
@@ -394,6 +395,10 @@ class CommonAgentChecks(AgentChecksBase):
         for exc in NOVA_EXCEPTIONS:
             nova_exceptions_all.append(r" ({}):".format(exc))
 
+        octavia_exceptions_all = [] + agent_exceptions_common
+        for exc in OCTAVIA_EXCEPTIONS:
+            octavia_exceptions_all.append(r" ({}):".format(exc))
+
         # The following must be ERROR log level
         self.agent_exceptions = {"cinder": [] + agent_exceptions_common,
                                  "glance": [] + agent_exceptions_common,
@@ -401,7 +406,7 @@ class CommonAgentChecks(AgentChecksBase):
                                  "keystone": [] + agent_exceptions_common,
                                  "nova": nova_exceptions_all,
                                  "neutron": [] + agent_exceptions_common,
-                                 "octavia": [] + agent_exceptions_common,
+                                 "octavia": octavia_exceptions_all,
                                  }
 
         # The following can be any log level
