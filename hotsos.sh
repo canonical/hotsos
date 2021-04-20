@@ -302,7 +302,7 @@ for data_root in ${SOS_PATHS[@]}; do
             done
         else
             for priority in {00..99}; do
-                for part in `find $CWD/plugins/$plugin -name $priority\*| grep -v __pycache__`; do
+                for part in `find $CWD/plugins/$plugin -name _$priority\*| grep -v __pycache__`; do
                     run_part $plugin `basename $part`
                 done
             done

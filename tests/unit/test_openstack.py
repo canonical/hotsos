@@ -4,46 +4,22 @@ import datetime
 import mock
 import tempfile
 
-from importlib.util import spec_from_loader, module_from_spec
-from importlib.machinery import SourceFileLoader
-
 import utils
 
 from common import searchtools
 
-# need this for non-standard import
-specs = {}
-for plugin in ["01openstack", "02vm_info", "03nova_external_events",
-               "04package_versions", "05network", "06service_features",
-               "07cpu_pinning_check", "08agent_checks"]:
-    loader = SourceFileLoader("ost_{}".format(plugin),
-                              "plugins/openstack/{}".format(plugin))
-    specs[plugin] = spec_from_loader("ost_{}".format(plugin), loader)
+utils.add_sys_plugin_path("openstack")
 
-ost_01openstack = module_from_spec(specs["01openstack"])
-specs["01openstack"].loader.exec_module(ost_01openstack)
-
-ost_02vm_info = module_from_spec(specs["02vm_info"])
-specs["02vm_info"].loader.exec_module(ost_02vm_info)
-
-ost_03nova_external_events = module_from_spec(specs["03nova_external_events"])
-specs["03nova_external_events"].loader.exec_module(
-                                              ost_03nova_external_events)
-
-ost_04package_versions = module_from_spec(specs["04package_versions"])
-specs["04package_versions"].loader.exec_module(ost_04package_versions)
-
-ost_05network = module_from_spec(specs["05network"])
-specs["05network"].loader.exec_module(ost_05network)
-
-ost_06service_features = module_from_spec(specs["06service_features"])
-specs["06service_features"].loader.exec_module(ost_06service_features)
-
-ost_07cpu_pinning_check = module_from_spec(specs["07cpu_pinning_check"])
-specs["07cpu_pinning_check"].loader.exec_module(ost_07cpu_pinning_check)
-
-ost_08agent_checks = module_from_spec(specs["08agent_checks"])
-specs["08agent_checks"].loader.exec_module(ost_08agent_checks)
+from plugins.openstack import (  # noqa E402
+    _01openstack,
+    _02vm_info,
+    _03nova_external_events,
+    _04package_versions,
+    _05network,
+    _06service_features,
+    _07cpu_pinning_check,
+    _08agent_checks,
+)
 
 
 APT_UCA = """
@@ -78,7 +54,7 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_01openstack, "OPENSTACK_INFO", {})
+    @mock.patch.object(_01openstack, "OPENSTACK_INFO", {})
     def test_get_service_info(self):
         result = {'services': ['beam.smp (1)',
                                'haproxy (1)',
@@ -86,10 +62,10 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                                'nova-api-metadata (5)',
                                'nova-compute (1)',
                                'qemu-system-x86_64 (1)']}
-        ost_01openstack.get_openstack_service_checker()()
-        self.assertEqual(ost_01openstack.OPENSTACK_INFO, result)
+        _01openstack.get_openstack_service_checker()()
+        self.assertEqual(_01openstack.OPENSTACK_INFO, result)
 
-    @mock.patch.object(ost_01openstack, "OPENSTACK_INFO", {})
+    @mock.patch.object(_01openstack, "OPENSTACK_INFO", {})
     def test_get_release_info(self):
         with tempfile.TemporaryDirectory() as dtmp:
             for rel in ["stein", "ussuri", "train"]:
@@ -98,12 +74,12 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                           'w') as fd:
                     fd.write(APT_UCA.format(rel))
 
-            with mock.patch.object(ost_01openstack, "APT_SOURCE_PATH", dtmp):
-                ost_01openstack.get_release_info()
-                self.assertEqual(ost_01openstack.OPENSTACK_INFO,
+            with mock.patch.object(_01openstack, "APT_SOURCE_PATH", dtmp):
+                _01openstack.get_release_info()
+                self.assertEqual(_01openstack.OPENSTACK_INFO,
                                  {"release": "ussuri"})
 
-    @mock.patch.object(ost_01openstack, "OPENSTACK_INFO", {})
+    @mock.patch.object(_01openstack, "OPENSTACK_INFO", {})
     def test_get_debug_log_info(self):
         result = {'debug-logging-enabled': {'neutron': True, 'nova': True}}
         with tempfile.TemporaryDirectory() as dtmp:
@@ -113,10 +89,10 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                 with open(os.path.join(dtmp, conf_path), 'w') as fd:
                     fd.write(SVC_CONF)
 
-            with mock.patch.object(ost_01openstack.constants,
+            with mock.patch.object(_01openstack.constants,
                                    "DATA_ROOT", dtmp):
-                ost_01openstack.get_debug_log_info()
-                self.assertEqual(ost_01openstack.OPENSTACK_INFO, result)
+                _01openstack.get_debug_log_info()
+                self.assertEqual(_01openstack.OPENSTACK_INFO, result)
 
 
 class TestOpenstackPlugin02vm_info(utils.BaseTestCase):
@@ -127,10 +103,10 @@ class TestOpenstackPlugin02vm_info(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_02vm_info, "VM_INFO", [])
+    @mock.patch.object(_02vm_info, "VM_INFO", [])
     def test_get_vm_info(self):
-        ost_02vm_info.get_vm_info()
-        self.assertEquals(ost_02vm_info.VM_INFO,
+        _02vm_info.get_vm_info()
+        self.assertEquals(_02vm_info.VM_INFO,
                           ["09461f0b-297b-4ef5-9053-dd369c86b96b"])
 
 
@@ -142,12 +118,11 @@ class TestOpenstackPlugin03nova_external_events(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_03nova_external_events, "EXT_EVENT_INFO", {})
+    @mock.patch.object(_03nova_external_events, "EXT_EVENT_INFO", {})
     def test_get_events(self):
-        data_root = ost_03nova_external_events.constants.DATA_ROOT
+        data_root = _03nova_external_events.constants.DATA_ROOT
         data_source = os.path.join(data_root, "var/log/nova")
-        ost_03nova_external_events.get_events("network-vif-plugged",
-                                              data_source)
+        _03nova_external_events.get_events("network-vif-plugged", data_source)
         events = {'network-vif-plugged':
                   {"succeeded":
                    [{"instance": 'd2666e01-73c8-4a97-9c22-0c175659e6db',
@@ -157,7 +132,7 @@ class TestOpenstackPlugin03nova_external_events(utils.BaseTestCase):
                    "failed": [
                        {"instance": '5b367a10-9e6a-4eb9-9c7d-891dab7e87fa',
                         "port": "9a3673bf-58ac-423a-869a-6c4ae801b57b"}]}}
-        self.assertEquals(ost_03nova_external_events.EXT_EVENT_INFO, events)
+        self.assertEquals(_03nova_external_events.EXT_EVENT_INFO, events)
 
 
 class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
@@ -168,7 +143,7 @@ class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_04package_versions, "PKG_INFO", [])
+    @mock.patch.object(_04package_versions, "PKG_INFO", [])
     def test_get_pkg_info(self):
         expected = [
             'ceilometer-agent-compute 1:10.0.1-0ubuntu0.18.04.2~cloud0',
@@ -228,8 +203,8 @@ class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
             'python-oslo.versionedobjects 1.31.2-0ubuntu3~cloud0',
             'python-swiftclient 1:3.5.0-0ubuntu1~cloud0',
             'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
-        ost_04package_versions.get_pkg_info()
-        self.assertEquals(ost_04package_versions.PKG_INFO, expected)
+        _04package_versions.get_pkg_info()
+        self.assertEquals(_04package_versions.PKG_INFO, expected)
 
 
 class TestOpenstackPlugin05network(utils.BaseTestCase):
@@ -240,38 +215,38 @@ class TestOpenstackPlugin05network(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_05network.helpers, 'get_ip_link_show',
+    @mock.patch.object(_05network.helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_name(self):
-        stats = ost_05network.get_port_stats(name="bond1")
+        stats = _05network.get_port_stats(name="bond1")
         self.assertEqual(stats, {'dropped': '100000000 (8%)'})
 
-    @mock.patch.object(ost_05network.helpers, 'get_ip_link_show',
+    @mock.patch.object(_05network.helpers, 'get_ip_link_show',
                        fake_ip_link_show_no_errors_drops)
     def test_get_port_stat_by_name_no_problems(self):
-        stats = ost_05network.get_port_stats(name="bond1")
+        stats = _05network.get_port_stats(name="bond1")
         self.assertEqual(stats, {})
 
-    @mock.patch.object(ost_05network.helpers, 'get_ip_link_show',
+    @mock.patch.object(_05network.helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_mac(self):
-        stats = ost_05network.get_port_stats(mac="ac:1f:6b:9e:d8:44")
+        stats = _05network.get_port_stats(mac="ac:1f:6b:9e:d8:44")
         self.assertEqual(stats, {'errors': '10000000 (5%)'})
 
     def test_find_interface_name_by_ip_address(self):
         addr = "10.10.101.33"
-        name = ost_05network.find_interface_name_by_ip_address(addr)
+        name = _05network.find_interface_name_by_ip_address(addr)
         self.assertEqual(name, "br-bond1")
 
-    @mock.patch.object(ost_05network, "NETWORK_INFO", {})
+    @mock.patch.object(_05network, "NETWORK_INFO", {})
     def test_get_ns_info(self):
         ns_info = {'namespaces': {'qdhcp': 35, 'qrouter': 35, 'fip': 1}}
-        ost_05network.get_ns_info()
-        self.assertEqual(ns_info, ost_05network.NETWORK_INFO)
+        _05network.get_ns_info()
+        self.assertEqual(ns_info, _05network.NETWORK_INFO)
 
-    @mock.patch.object(ost_05network.helpers, "get_ip_netns", lambda: [])
+    @mock.patch.object(_05network.helpers, "get_ip_netns", lambda: [])
     def test_get_ns_info_none(self):
-        ns_info = ost_05network.get_ns_info()
+        ns_info = _05network.get_ns_info()
         self.assertEqual(ns_info, None)
 
 
@@ -283,11 +258,11 @@ class TestOpenstackPlugin06service_features(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(ost_06service_features, "SERVICE_FEATURES", {})
+    @mock.patch.object(_06service_features, "SERVICE_FEATURES", {})
     def test_get_service_features(self):
-        ost_06service_features.get_service_features()
+        _06service_features.get_service_features()
         expected = {'neutron': {'neutron': {'availability_zone': 'AZ1'}}}
-        self.assertEqual(ost_06service_features.SERVICE_FEATURES, expected)
+        self.assertEqual(_06service_features.SERVICE_FEATURES, expected)
 
 
 class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
@@ -297,6 +272,10 @@ class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
 
     def tearDown(self):
         super().tearDown()
+
+    def test_cores_to_list(self):
+        ret = _07cpu_pinning_check.cores_to_list("0-4,8,9,28-32")
+        self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
 
 class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
@@ -319,12 +298,12 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                                            "avg": 25.9,
                                            "samples": 1}}}
         s = searchtools.FileSearcher()
-        c = ost_08agent_checks.NeutronAgentChecks(s)
+        c = _08agent_checks.NeutronAgentChecks(s)
         c.add_rpc_loop_search_terms()
         c.process_rpc_loop_results(s.search())
         self.assertEqual(c.ovs_agent_info, expected)
 
-    @mock.patch.object(ost_08agent_checks, "add_known_bug")
+    @mock.patch.object(_08agent_checks, "add_known_bug")
     def test_get_agents_issues(self, mock_add_known_bug):
         neutron_expected = {'neutron-openvswitch-agent':
                             {'MessagingTimeout': {'2021-03-04': 2},
@@ -343,7 +322,7 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                          'nova-compute':
                          {'DBConnectionError': {'2021-03-08': 2}}}
         s = searchtools.FileSearcher()
-        c = ost_08agent_checks.CommonAgentChecks(s)
+        c = _08agent_checks.CommonAgentChecks(s)
         c.add_agents_issues_search_terms()
         c.process_agent_issues_results(s.search())
         self.assertEqual(c.agent_log_issues,
@@ -379,7 +358,7 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                                                 'start': update_start}}}}
 
         s = searchtools.FileSearcher()
-        c = ost_08agent_checks.NeutronAgentChecks(s)
+        c = _08agent_checks.NeutronAgentChecks(s)
         c.add_router_event_search_terms()
         c.process_router_event_results(s.search())
         self.assertEqual(c.l3_agent_info, expected)

@@ -1,7 +1,8 @@
 import os
-import utils
 
 import mock
+
+import utils
 
 from common import searchtools
 

@@ -1,10 +1,11 @@
 import os
 
 import mock
-import tempfile
-import utils
 import shutil
+import tempfile
 import yaml
+
+import utils
 
 from common import known_bugs_utils
 
