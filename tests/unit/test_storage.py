@@ -13,9 +13,11 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
+        _01ceph.issues_utils.PLUGIN_TMP_DIR = self.plugin_tmp_dir
 
     def tearDown(self):
         super().tearDown()
+        _01ceph.issues_utils.PLUGIN_TMP_DIR = ""
 
     @mock.patch.object(_01ceph.helpers, "get_date")
     def test_get_date_secs(self, mock_get_date):
@@ -58,6 +60,14 @@ class TestStoragePlugin01ceph(utils.BaseTestCase):
         _01ceph.get_ceph_checker()()
         result = ['default', 'default~ssd']
         self.assertEqual(_01ceph.CEPH_INFO["mixed_crush_buckets"], result)
+        issues = _01ceph.issues_utils._get_issues()
+        issues = issues[_01ceph.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY]
+        issue_names = []
+        for issue in issues:
+            for name in issue:
+                issue_names.append(name)
+
+        self.assertTrue("CephCrushWarning" in issue_names)
 
     @mock.patch.object(_01ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch(self):

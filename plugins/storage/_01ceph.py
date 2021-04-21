@@ -6,8 +6,10 @@ import subprocess
 from common import (
     checks,
     helpers,
+    issues_utils,
     plugin_yaml,
 )
+from common.issue_types import CephCrushWarning
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]
@@ -262,6 +264,9 @@ class CephChecks(checks.ServiceChecksBase):
                 bad_buckets.append(buckets[bid]["name"])
 
         if bad_buckets:
+            issue = CephCrushWarning("mixed crush buckets indentified (see "
+                                     "--storage for more info)")
+            issues_utils.add_issue(issue)
             CEPH_INFO["mixed_crush_buckets"] = bad_buckets
 
     def __call__(self):

@@ -6,3 +6,7 @@ class IssueTypeBase(object):
 
 class MemoryWarning(IssueTypeBase):
     pass
+
+
+class CephCrushWarning(IssueTypeBase):
+    pass

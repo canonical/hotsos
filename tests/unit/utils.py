@@ -1,6 +1,8 @@
 import os
 import sys
 
+import shutil
+import tempfile
 import unittest
 
 
@@ -22,7 +24,8 @@ def add_sys_plugin_path(plugin):
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.plugin_tmp_dir = tempfile.mkdtemp()
 
     def tearDown(self):
-        pass
+        if os.path.isdir(self.plugin_tmp_dir):
+            shutil.rmtree(self.plugin_tmp_dir)
