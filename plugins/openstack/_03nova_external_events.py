@@ -33,11 +33,11 @@ def get_events(event_name, data_source):
     if event_name == "network-vif-plugged":
         key = (r".+\[instance: (\S+)\].+Preparing to wait for external "
                r"event ({})-(\S+)\s+".format(event_name))
-        s.add_search_term(key, [1, 2, 3], data_source)
+        s.add_search_term(key, data_source)
     elif event_name == "network-changed":
         key = (r".+\[instance: (\S+)\].+Received "
                r"event ({})-(\S+)\s+".format(event_name))
-        s.add_search_term(key, [1, 2, 3], data_source)
+        s.add_search_term(key, data_source)
 
     master_results = s.search()
 
@@ -55,7 +55,7 @@ def get_events(event_name, data_source):
                 key = (r".+\[instance: {}\]\s+{}\s.*\s?event\s+{}-{}.? .+".
                        format(instance_id, stage, event_name, event_id))
                 tag = "{}_{}_{}".format(instance_id, event_id, stage)
-                s.add_search_term(key, [0], data_source, tag=tag)
+                s.add_search_term(key, data_source, tag=tag)
 
     results = s.search()
     for event_id in events:

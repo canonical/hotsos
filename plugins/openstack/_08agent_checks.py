@@ -56,12 +56,12 @@ class NeutronAgentChecks(AgentChecksBase):
         """
         expr = (r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
                 "started.*")
-        self.searchobj.add_search_term(expr, [1, 2, 3], self.data_source,
+        self.searchobj.add_search_term(expr, self.data_source,
                                        tag="rpc-loop-start",
                                        hint="Agent rpc_loop")
         expr = (r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
                 "completed..+Elapsed:([0-9.]+).+")
-        self.searchobj.add_search_term(expr, [1, 2, 3, 4], self.data_source,
+        self.searchobj.add_search_term(expr, self.data_source,
                                        tag="rpc-loop-end",
                                        hint="Agent rpc_loop")
 
@@ -342,27 +342,27 @@ class NeutronAgentChecks(AgentChecksBase):
         # router updates
         expr = (r"^([0-9-]+) (\S+) .+ Starting router update for "
                 "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+")
-        self.searchobj.add_search_term(expr, [1, 2, 3, 4], data_source,
+        self.searchobj.add_search_term(expr, data_source,
                                        tag="router-update-start",
                                        hint="router update")
 
         expr = (r"^([0-9-]+) (\S+) .+ Finished a router update for "
                 "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
                 "([0-9.]+)")
-        self.searchobj.add_search_term(expr, [1, 2, 3, 4, 5], data_source,
+        self.searchobj.add_search_term(expr, data_source,
                                        tag="router-update-finish",
                                        hint="router update")
 
         # router state_change_monitor + keepalived spawn
         expr = (r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
                 "spawn_state_change_monitor")
-        self.searchobj.add_search_term(expr, [1, 2, 3], data_source,
+        self.searchobj.add_search_term(expr, data_source,
                                        tag="router-spawn1",
                                        hint="spawn_state_change_monitor")
 
         expr = (r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
                 "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf .+")
-        self.searchobj.add_search_term(expr, [1, 2, 3], data_source,
+        self.searchobj.add_search_term(expr, data_source,
                                        tag="router-spawn2",
                                        hint="Keepalived")
 
@@ -438,12 +438,12 @@ class CommonAgentChecks(AgentChecksBase):
             data_source = data_source_template.format(agent)
             for exc_msg in self.agent_exceptions[service]:
                 rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
-                self.searchobj.add_search_term(rexpr, [1, 2, 3], data_source,
+                self.searchobj.add_search_term(rexpr, data_source,
                                                tag=agent, hint=exc_msg)
 
             for msg in self.agent_issues.get(service, []):
                 rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
-                self.searchobj.add_search_term(rexpr, [1, 2, 3], data_source,
+                self.searchobj.add_search_term(rexpr, data_source,
                                                tag=agent, hint=msg)
 
     def add_bug_search_terms(self):
@@ -454,7 +454,7 @@ class CommonAgentChecks(AgentChecksBase):
 
         for tag in self.agent_bug_search_terms:
             expr = self.agent_bug_search_terms[tag]["expr"]
-            self.searchobj.add_search_term(expr, [0], data_source, tag=tag)
+            self.searchobj.add_search_term(expr, data_source, tag=tag)
 
     def add_agents_issues_search_terms(self):
         # Add search terms for everything at once

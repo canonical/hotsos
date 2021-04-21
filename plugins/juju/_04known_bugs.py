@@ -25,7 +25,7 @@ def detect_known_bugs():
 
     s = searchtools.FileSearcher()
     for bug in known_bugs:
-        s.add_search_term(known_bugs[bug]["pattern"], [],
+        s.add_search_term(known_bugs[bug]["pattern"],
                           f"{JUJU_LOG_PATH}/*", tag=bug)
 
     results = s.search()

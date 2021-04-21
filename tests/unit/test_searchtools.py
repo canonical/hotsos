@@ -44,16 +44,15 @@ class TestSearchTools(utils.BaseTestCase):
                                       'neutron-l3-agent.log.1.gz')
 
         s = searchtools.FileSearcher()
-        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+full sync.+', [1], filepath,
+        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+full sync.+', filepath,
                           tag="T1")
-        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', [1], filepath,
+        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', filepath,
                           tag="T2")
         s.add_search_term((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router '
-                           '9b8efc4c-305b-48ce-a5bd-624bc5eeee67.+'), [1],
+                           '9b8efc4c-305b-48ce-a5bd-624bc5eeee67.+'),
                           globpath, tag="T3")
         # search for something that doesn't exist to test that code path
-        s.add_search_term(r'non-existant-pattern', [1], globpath,
-                          tag="T4")
+        s.add_search_term(r'non-existant-pattern', globpath, tag="T4")
 
         results = s.search()
         self.assertEquals(set(results.files), set([filepath,
@@ -101,9 +100,8 @@ class TestSearchTools(utils.BaseTestCase):
         ip = "10.10.101.33"
         mac = "ac:1f:6b:9e:d8:44"
         s = searchtools.FileSearcher()
-        s.add_search_term(r".+({}).+".format(ip), [1], filepath)
-        s.add_search_term(r"^\s+link/ether\s+({})\s+.+".format(mac), [1],
-                          filepath2)
+        s.add_search_term(r".+({}).+".format(ip), filepath)
+        s.add_search_term(r"^\s+link/ether\s+({})\s+.+".format(mac), filepath2)
 
         results = s.search()
         self.assertEquals(set(results.files), set([filepath, filepath2]))

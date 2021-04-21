@@ -95,7 +95,7 @@ class FileSearcher(object):
 
         return cpus
 
-    def add_search_term(self, key, indices, path, tag=None, hint=None):
+    def add_search_term(self, key, path, tag=None, hint=None):
         """Add a term to search for.
 
         A search term is registered against a path which can be a file,
@@ -103,13 +103,11 @@ class FileSearcher(object):
         Searches are executed concurrently by file.
 
         @param key: regex pattern to search for
-        @param indices: list of indexes within a successful match that we want
-                        to extract.
         @param path: path that we will be searching for this key
         @param tag: optional user-friendly identifier for this search term
         @param hint: pre-search term to speed things up
         """
-        entry = {"key": re.compile(key), "indices": indices, "tag": tag}
+        entry = {"key": re.compile(key), "tag": tag}
         if hint:
             entry["hint"] = re.compile(hint)
 
@@ -151,13 +149,8 @@ class FileSearcher(object):
                 ret = s_term["key"].match(line)
                 if ret:
                     r = SearchResult(ln, path, s_term.get("tag"))
-                    # ensure we always add this
-                    r.add(0, ret[0])
-                    for i in s_term["indices"]:
-                        if i == 0:
-                            continue
-
-                        r.add(i, ret[i])
+                    for i in range(0, len(ret.groups()) + 1):
+                        r.add(i, ret.group(i))
 
                     results.append(r)
 
