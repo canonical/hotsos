@@ -167,10 +167,13 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
 
     @mock.patch.object(_03ceph_daemon_logs, "DAEMON_INFO", {})
     def test_get_ceph_daemon_log_checker(self):
+        self.maxDiff = 10000000
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
                                           'osd.85': {'2021-02-13': 4}},
                   'crc-err-bluestore': {'2021-04-01': 2},
                   'crc-err-rocksdb': {'block checksum mismatch': 1},
-                  'long-heartbeat-pings': {'2021-02-09': 42}}
+                  'long-heartbeat-pings': {'2021-02-09': 42},
+                  'heartbeat-no-reply': {'2021-02-09': {'osd.0': 1,
+                                                        'osd.1': 2}}}
         _03ceph_daemon_logs.get_ceph_daemon_log_checker()()
         self.assertEqual(_03ceph_daemon_logs.DAEMON_INFO, result)

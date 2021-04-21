@@ -18,7 +18,7 @@ DAEMON_INFO = {}
 
 class CephDaemonLogChecks(CephChecksBase):
 
-    def process_osd_failure_reports_results(self):
+    def process_osd_failure_reports(self):
         reported_failed = {}
         for result in sorted(self.results.find_by_tag("osd-reported-failed"),
                              key=lambda r: r.get(1)):
@@ -35,7 +35,7 @@ class CephDaemonLogChecks(CephChecksBase):
         if reported_failed:
             DAEMON_INFO["osd-reported-failed"] = reported_failed
 
-    def process_mon_elections_results(self):
+    def process_mon_elections(self):
         elections_called = {}
         for result in sorted(self.results.find_by_tag("mon-election-called"),
                              key=lambda r: r.get(1)):
@@ -52,7 +52,7 @@ class CephDaemonLogChecks(CephChecksBase):
         if elections_called:
             DAEMON_INFO["mon-elections-called"] = elections_called
 
-    def process_slow_requests_results(self):
+    def process_slow_requests(self):
         slow_requests = {}
         for result in sorted(self.results.find_by_tag("slow-requests"),
                              key=lambda r: r.get(1)):
@@ -66,7 +66,7 @@ class CephDaemonLogChecks(CephChecksBase):
         if slow_requests:
             DAEMON_INFO["slow-requests"] = slow_requests
 
-    def process_crc_bluestore_results(self):
+    def process_crc_bluestore(self):
         crc_error = {}
         for result in sorted(self.results.find_by_tag("crc-err-bluestore"),
                              key=lambda r: r.get(1)):
@@ -79,7 +79,7 @@ class CephDaemonLogChecks(CephChecksBase):
         if crc_error:
             DAEMON_INFO["crc-err-bluestore"] = crc_error
 
-    def process_crc_rocksdb_results(self):
+    def process_crc_rocksdb(self):
         crc_error = {}
         for result in sorted(self.results.find_by_tag("crc-err-rocksdb"),
                              key=lambda r: r.get(1)):
@@ -92,7 +92,7 @@ class CephDaemonLogChecks(CephChecksBase):
         if crc_error:
             DAEMON_INFO["crc-err-rocksdb"] = crc_error
 
-    def process_long_heartbeat_results(self):
+    def process_long_heartbeat(self):
         long_heartbeats = {}
         for result in sorted(self.results.find_by_tag("long-heartbeat"),
                              key=lambda r: r.get(1)):
@@ -104,6 +104,22 @@ class CephDaemonLogChecks(CephChecksBase):
 
         if long_heartbeats:
             DAEMON_INFO["long-heartbeat-pings"] = long_heartbeats
+
+    def process_heartbeat_no_reply(self):
+        no_replies = {}
+        for result in sorted(self.results.find_by_tag("heartbeat-no-reply"),
+                             key=lambda r: r.get(1)):
+            date = result.get(1)
+            remote_osd = result.get(2)
+            if date not in no_replies:
+                no_replies[date] = {}
+            if remote_osd not in no_replies[date]:
+                no_replies[date][remote_osd] = 1
+            else:
+                no_replies[date][remote_osd] += 1
+
+        if no_replies:
+            DAEMON_INFO["heartbeat-no-reply"] = no_replies
 
     def __call__(self):
         super().__call__()
@@ -142,13 +158,19 @@ class CephDaemonLogChecks(CephChecksBase):
         s.add_search_term(term, [1, 2], data_source, tag="long-heartbeat",
                           hint="Long heartbeat ping")
 
+        term = (r"^([0-9-]+) \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no "
+                "reply from [0-9.:]+ (osd.[0-9]+)")
+        s.add_search_term(term, [1, 2], data_source,
+                          tag="heartbeat-no-reply", hint="heartbeat_check")
+
         self.results = s.search()
-        self.process_osd_failure_reports_results()
-        self.process_mon_elections_results()
-        self.process_slow_requests_results()
-        self.process_crc_bluestore_results()
-        self.process_crc_rocksdb_results()
-        self.process_long_heartbeat_results()
+        self.process_osd_failure_reports()
+        self.process_mon_elections()
+        self.process_slow_requests()
+        self.process_crc_bluestore()
+        self.process_crc_rocksdb()
+        self.process_long_heartbeat()
+        self.process_heartbeat_no_reply()
 
 
 def get_ceph_daemon_log_checker():
