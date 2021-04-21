@@ -2,7 +2,9 @@ import mock
 
 import utils
 
-from plugins.storage import (
+utils.add_sys_plugin_path("storage")
+
+from plugins.storage import (  # noqa E402
     _01ceph,
     _02bcache,
     _03ceph_daemon_logs,
@@ -164,10 +166,10 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(_03ceph_daemon_logs, "DAEMON_INFO", {})
-    def test_get_daemon_log_info(self):
+    def test_get_ceph_daemon_log_checker(self):
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
                                           'osd.85': {'2021-02-13': 4}},
                   'crc-err-bluestore': {'2021-04-01': 2},
                   'crc-err-rocksdb': {'block checksum mismatch': 1}}
-        _03ceph_daemon_logs.get_daemon_log_info()
+        _03ceph_daemon_logs.get_ceph_daemon_log_checker()()
         self.assertEqual(_03ceph_daemon_logs.DAEMON_INFO, result)

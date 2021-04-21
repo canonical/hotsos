@@ -3,20 +3,21 @@ import json
 import re
 import subprocess
 
+from ceph_common import (
+    CephChecksBase,
+    CEPH_SERVICES_EXPRS,
+)
 from common import (
-    checks,
     helpers,
     issues_utils,
     plugin_yaml,
 )
 from common.issue_types import CephCrushWarning
 
-CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
-                       r"rados[a-z0-9-:]+"]
 CEPH_INFO = {}
 
 
-class CephChecks(checks.ServiceChecksBase):
+class CephChecks(CephChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,21 +47,6 @@ class CephChecks(checks.ServiceChecksBase):
                 date_in_secs = date_in_secs.strip()
 
         return int(date_in_secs)
-
-    @property
-    def osd_ids(self):
-        """Return list of ceph-osd ids."""
-        ceph_osds = self.services.get("ceph-osd")
-        if not ceph_osds:
-            return []
-
-        osd_ids = []
-        for cmd in ceph_osds["ps_cmds"]:
-            ret = re.compile(r".+\s+.*--id\s+([0-9]+)\s+.+").match(cmd)
-            if ret:
-                osd_ids.append(int(ret[1]))
-
-        return osd_ids
 
     def get_osd_rss(self, osd_id):
         """Return memory RSS for a given OSD."""
