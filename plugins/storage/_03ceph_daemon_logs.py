@@ -7,6 +7,7 @@ from ceph_common import (
 )
 from common import (
     constants,
+    known_bugs_utils,
     searchtools,
     plugin_yaml,
 )
@@ -34,6 +35,31 @@ class CephDaemonLogChecks(CephChecksBase):
 
         if reported_failed:
             DAEMON_INFO["osd-reported-failed"] = reported_failed
+
+    def process_osd_immediate_failure_reports_results(self):
+        reported_immediately_failed = {}
+        num_immediately_failed_osds = 0
+        tag = "osd-reported-immediately-failed"
+        for result in sorted(self.results.find_by_tag(tag),
+                             key=lambda r: r.get(1)):
+            date = result.get(1)
+            failed_osd = result.get(2)
+            if failed_osd not in reported_immediately_failed:
+                num_immediately_failed_osds += 1
+                reported_immediately_failed[failed_osd] = {date: 1}
+            else:
+                if date in reported_immediately_failed[failed_osd]:
+                    reported_immediately_failed[failed_osd][date] += 1
+                else:
+                    reported_immediately_failed[failed_osd][date] = 1
+
+        if reported_immediately_failed:
+            if num_immediately_failed_osds > 1:
+                msg = "multiple osds reported immediately failed"
+                known_bugs_utils.add_known_bug(1922561, msg)
+
+            DAEMON_INFO["osd-reported-immediately-failed"] = \
+                reported_immediately_failed
 
     def process_mon_elections_results(self):
         elections_called = {}
@@ -105,6 +131,12 @@ class CephDaemonLogChecks(CephChecksBase):
         s.add_search_term(term, [1, 2], data_source, tag="osd-reported-failed",
                           hint="reported failed")
 
+        term = (r"^([0-9-]+) \S+ .+ (osd.[0-9]+) reported immediately "
+                r"failed by osd.[0-9]+")
+        s.add_search_term(term, [1, 2], data_source,
+                          tag="osd-reported-immediately-failed",
+                          hint="reported immediately failed")
+
         term = (r"^([0-9-]+) \S+ .+ (mon.\S+) calling monitor "
                 r"election")
         s.add_search_term(term, [1, 2], data_source, tag="mon-election-called",
@@ -126,6 +158,7 @@ class CephDaemonLogChecks(CephChecksBase):
 
         self.results = s.search()
         self.process_osd_failure_reports_results()
+        self.process_osd_immediate_failure_reports_results()
         self.process_mon_elections_results()
         self.process_slow_requests_results()
         self.process_crc_bluestore_results()
