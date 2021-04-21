@@ -193,7 +193,7 @@ def get_snap_list_all():
 
 
 @catch_exceptions(OSError, subprocess.CalledProcessError, json.JSONDecodeError)
-def get_osd_crush_dump():
+def get_osd_crush_dump_json_decoded():
     if DATA_ROOT == "/":
         output = subprocess.check_output(['ceph', 'osd', 'crush', 'dump'])
         return json.loads(output.decode('UTF-8'))
@@ -202,6 +202,7 @@ def get_osd_crush_dump():
     if os.path.exists(path):
         f = open(path)
         return json.load(f)
+
     return {}
 
 

@@ -227,11 +227,12 @@ class CephChecks(checks.ServiceChecksBase):
             items = []
             for item in bucket["items"]:
                 items.append(item["id"])
-            buckets[bid] = {}
-            buckets[bid]["name"] = bucket["name"]
-            buckets[bid]["type_id"] = bucket["type_id"]
-            buckets[bid]["type_name"] = bucket["type_name"]
-            buckets[bid]["items"] = items
+
+            buckets[bid] = {"name": bucket["name"],
+                            "type_id": bucket["type_id"],
+                            "type_name": bucket["type_name"],
+                            "items": items}
+
         return buckets
 
     def get_crushmap_mixed_buckets(self):
@@ -240,7 +241,7 @@ class CephChecks(checks.ServiceChecksBase):
         as they will cause crush map unable to compute
         the expected up set
         """
-        osd_crush_dump = helpers.get_osd_crush_dump()
+        osd_crush_dump = helpers.get_osd_crush_dump_json_decoded()
         if not osd_crush_dump:
             return
 
@@ -255,10 +256,13 @@ class CephChecks(checks.ServiceChecksBase):
                     type_ids.append(0)
                 else:
                     type_ids.append(buckets[item]["type_id"])
+
             # verify if the type_id list contain mixed type id
             if type_ids.count(type_ids[0]) != len(type_ids):
                 bad_buckets.append(buckets[bid]["name"])
-        CEPH_INFO["mixed_crush_buckets"] = bad_buckets
+
+        if bad_buckets:
+            CEPH_INFO["mixed_crush_buckets"] = bad_buckets
 
     def __call__(self):
         super().__call__()
