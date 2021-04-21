@@ -170,6 +170,7 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
                                           'osd.85': {'2021-02-13': 4}},
                   'crc-err-bluestore': {'2021-04-01': 2},
-                  'crc-err-rocksdb': {'block checksum mismatch': 1}}
+                  'crc-err-rocksdb': {'block checksum mismatch': 1},
+                  'long-heartbeat-pings': {'2021-02-09': 42}}
         _03ceph_daemon_logs.get_ceph_daemon_log_checker()()
         self.assertEqual(_03ceph_daemon_logs.DAEMON_INFO, result)

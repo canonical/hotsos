@@ -92,6 +92,19 @@ class CephDaemonLogChecks(CephChecksBase):
         if crc_error:
             DAEMON_INFO["crc-err-rocksdb"] = crc_error
 
+    def process_long_heartbeat_results(self):
+        long_heartbeats = {}
+        for result in sorted(self.results.find_by_tag("long-heartbeat"),
+                             key=lambda r: r.get(1)):
+            date = result.get(1)
+            if date not in long_heartbeats:
+                long_heartbeats[date] = 1
+            else:
+                long_heartbeats[date] += 1
+
+        if long_heartbeats:
+            DAEMON_INFO["long-heartbeat-pings"] = long_heartbeats
+
     def __call__(self):
         super().__call__()
         data_source = os.path.join(constants.DATA_ROOT, CEPH_LOGS, 'ceph*.log')
@@ -124,12 +137,18 @@ class CephDaemonLogChecks(CephChecksBase):
                           tag="crc-err-rocksdb",
                           hint="block checksum mismatch")
 
+        term = (r"^([0-9-]+) \S+ .+ Long heartbeat ping times on \S+ "
+                "interface seen, longest is ([0-9.]+) msec.+")
+        s.add_search_term(term, [1, 2], data_source, tag="long-heartbeat",
+                          hint="Long heartbeat ping")
+
         self.results = s.search()
         self.process_osd_failure_reports_results()
         self.process_mon_elections_results()
         self.process_slow_requests_results()
         self.process_crc_bluestore_results()
         self.process_crc_rocksdb_results()
+        self.process_long_heartbeat_results()
 
 
 def get_ceph_daemon_log_checker():
