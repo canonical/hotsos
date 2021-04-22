@@ -1,6 +1,7 @@
 import os
 
 from common import (
+    checks,
     helpers,
 )
 
@@ -99,3 +100,7 @@ AGENT_LOG_PATHS = {"cinder": "var/log/cinder",
                    "nova": "var/log/nova",
                    "octavia": "var/log/octavia",
                    }
+
+
+class OpenstackServiceChecksBase(checks.ServiceChecksBase):
+    pass

@@ -2,7 +2,9 @@ import mock
 
 import utils
 
-from plugins.kernel import (
+# Need this for plugin imports
+utils.add_sys_plugin_path("kernel")
+from plugins.kernel import (  # noqa E402
     _01kernel,
 )
 

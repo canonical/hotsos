@@ -2,7 +2,8 @@ import mock
 
 import utils
 
-from plugins.system import (
+utils.add_sys_plugin_path("system")
+from plugins.system import (  # noqa E402
     _01system,
 )
 

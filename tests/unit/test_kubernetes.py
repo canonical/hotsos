@@ -4,10 +4,13 @@ import utils
 
 from common import helpers
 
-from plugins.kubernetes import (
+# Need this for plugin imports
+utils.add_sys_plugin_path("kubernetes")
+from plugins.kubernetes import (  # noqa E402
     _01general,
     _02network,
 )
+from _01general import KubernetesServiceChecks  # noqa E402
 
 
 class TestKubernetesPlugin01general(utils.BaseTestCase):
@@ -21,36 +24,36 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
 
     @mock.patch.object(_01general, "KUBERNETES_INFO", {})
     def test_get_service_info(self):
-        expected = {'services': ['calico-node (3)',
-                                 'containerd (17)',
-                                 'containerd-shim (16)',
-                                 'flanneld (1)',
-                                 'kube-proxy (1)',
-                                 'kubelet (2)']}
+        expected = ['calico-node (3)',
+                    'containerd (17)',
+                    'containerd-shim (16)',
+                    'flanneld (1)',
+                    'kube-proxy (1)',
+                    'kubelet (2)']
         _01general.get_kubernetes_service_checker()()
-        self.assertEqual(_01general.KUBERNETES_INFO, expected)
+        self.assertEqual(_01general.KUBERNETES_INFO['services'], expected)
 
     @mock.patch.object(_01general, "KUBERNETES_INFO", {})
-    def test_get_snap_info(self):
-        result = {'snaps': {'conjure-up': '2.6.14-20200716.2107',
-                            'core': '16-2.48.2',
-                            'core18': '20201210',
-                            'docker': '19.03.11',
-                            'go': '1.15.6',
-                            'helm': '3.5.0',
-                            'kubectl': '1.20.2',
-                            'vault': '1.5.4'}}
-        _01general.get_snap_info()
-        self.assertEqual(_01general.KUBERNETES_INFO, result)
+    def test_get_snap_info_from_line(self):
+        result = {'conjure-up': '2.6.14-20200716.2107',
+                  'core': '16-2.48.2',
+                  'core18': '20201210',
+                  'docker': '19.03.11',
+                  'go': '1.15.6',
+                  'helm': '3.5.0',
+                  'kubectl': '1.20.2',
+                  'vault': '1.5.4'}
+        _01general.get_kubernetes_service_checker()()
+        self.assertEqual(_01general.KUBERNETES_INFO["snaps"], result)
 
     @mock.patch.object(_01general.helpers, "get_snap_list_all")
     @mock.patch.object(_01general, "KUBERNETES_INFO", {})
-    def test_get_snap_info_no_k8s(self, mock_get_snap_list_all):
+    def test_get_snap_info_from_line_no_k8s(self, mock_get_snap_list_all):
         filterered_snaps = []
         for line in self.snaps_list:
             found = False
             for snap in _01general.SNAPS_K8S:
-                if _01general._get_snap_info(line, snap):
+                if KubernetesServiceChecks.get_snap_info_from_line(line, snap):
                     found = True
                     break
 
@@ -58,9 +61,8 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
                 filterered_snaps.append(line)
 
         mock_get_snap_list_all.return_value = filterered_snaps
-        result = {}
-        _01general.get_snap_info()
-        self.assertEqual(_01general.KUBERNETES_INFO, result)
+        _01general.get_kubernetes_service_checker()()
+        self.assertIsNone(_01general.KUBERNETES_INFO.get("snaps"))
 
 
 class TestKubernetesPlugin02network(utils.BaseTestCase):

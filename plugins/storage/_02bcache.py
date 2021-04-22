@@ -6,7 +6,6 @@ from common import (
     plugin_yaml,
 )
 
-
 BCACHE_INFO = {}
 
 

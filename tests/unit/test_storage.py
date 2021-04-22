@@ -2,8 +2,8 @@ import mock
 
 import utils
 
+# Need this for plugin imports
 utils.add_sys_plugin_path("storage")
-
 from plugins.storage import (  # noqa E402
     _01ceph,
     _02bcache,

@@ -8,8 +8,8 @@ import utils
 
 from common import searchtools
 
+# Need this for plugin imports
 utils.add_sys_plugin_path("openstack")
-
 from plugins.openstack import (  # noqa E402
     _01openstack,
     _02vm_info,
@@ -56,14 +56,14 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
 
     @mock.patch.object(_01openstack, "OPENSTACK_INFO", {})
     def test_get_service_info(self):
-        result = {'services': ['beam.smp (1)',
-                               'haproxy (1)',
-                               'neutron-ovn-metadata-agent (3)',
-                               'nova-api-metadata (5)',
-                               'nova-compute (1)',
-                               'qemu-system-x86_64 (1)']}
+        expected = ['beam.smp (1)',
+                    'haproxy (1)',
+                    'neutron-ovn-metadata-agent (3)',
+                    'nova-api-metadata (5)',
+                    'nova-compute (1)',
+                    'qemu-system-x86_64 (1)']
         _01openstack.get_openstack_service_checker()()
-        self.assertEqual(_01openstack.OPENSTACK_INFO, result)
+        self.assertEqual(_01openstack.OPENSTACK_INFO["services"], expected)
 
     @mock.patch.object(_01openstack, "OPENSTACK_INFO", {})
     def test_get_release_info(self):
@@ -75,13 +75,13 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                     fd.write(APT_UCA.format(rel))
 
             with mock.patch.object(_01openstack, "APT_SOURCE_PATH", dtmp):
-                _01openstack.get_release_info()
-                self.assertEqual(_01openstack.OPENSTACK_INFO,
-                                 {"release": "ussuri"})
+                _01openstack.get_openstack_service_checker()()
+                self.assertEqual(_01openstack.OPENSTACK_INFO["release"],
+                                 "ussuri")
 
     @mock.patch.object(_01openstack, "OPENSTACK_INFO", {})
     def test_get_debug_log_info(self):
-        result = {'debug-logging-enabled': {'neutron': True, 'nova': True}}
+        expected = {'neutron': True, 'nova': True}
         with tempfile.TemporaryDirectory() as dtmp:
             for svc in ["nova", "neutron"]:
                 conf_path = "etc/{svc}/{svc}.conf".format(svc=svc)
@@ -91,8 +91,9 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
 
             with mock.patch.object(_01openstack.constants,
                                    "DATA_ROOT", dtmp):
-                _01openstack.get_debug_log_info()
-                self.assertEqual(_01openstack.OPENSTACK_INFO, result)
+                _01openstack.get_openstack_service_checker()()
+                result = _01openstack.OPENSTACK_INFO['debug-logging-enabled']
+                self.assertEqual(result, expected)
 
 
 class TestOpenstackPlugin02vm_info(utils.BaseTestCase):

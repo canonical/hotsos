@@ -8,8 +8,8 @@ import utils
 
 from common import known_bugs_utils
 
+# Need this for plugin imports
 utils.add_sys_plugin_path("juju")
-
 from plugins.juju import (  # noqa E402
     _01juju,
     _02charms,
