@@ -2,6 +2,7 @@
 import os
 import yaml
 
+from launchpadlib.launchpad import Launchpad
 from common import plugin_yaml
 from common.constants import (
     PLUGIN_TMP_DIR,
@@ -10,6 +11,9 @@ from common.constants import (
 LAUNCHPAD = "launchpad"
 MASTER_YAML_KNOWN_BUGS_KEY = "known-bugs"
 KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
+
+# TODO: Add caching
+launchpad = Launchpad.login_anonymously('hotsos', 'production')
 
 
 def _get_known_bugs():
@@ -38,7 +42,12 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
                         format(PLUGIN_TMP_DIR))
 
     if type == LAUNCHPAD:
-        new_bug = "https://pad.lv/{}".format(bug_id)
+        try:
+            lp_bug = launchpad.bugs[bug_id]
+            description = lp_bug.title
+            new_bug = lp_bug.web_link
+        except (KeyError, AttributeError):
+            new_bug = "https://bugs.launchpad.net/bugs/{}".format(bug_id)
 
     if description is None:
         description = "no description provided"

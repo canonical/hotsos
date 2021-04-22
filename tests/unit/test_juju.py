@@ -130,6 +130,8 @@ class TestJujuPlugin04known_issues(utils.BaseTestCase):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             _04known_bugs.detect_known_bugs()
-            expected = {"known-bugs": [{'https://pad.lv/1910958':
-                                        'no description provided'}]}
+            expected = {"known-bugs":
+                        [{'https://bugs.launchpad.net/bugs/1910958':
+                          'Unit fails to start complaining '
+                          'there are members in the relation'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
