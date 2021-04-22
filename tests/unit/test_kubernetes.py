@@ -21,7 +21,8 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
 
     @mock.patch.object(_01general, "KUBERNETES_INFO", {})
     def test_get_service_info(self):
-        expected = {'services': ['containerd (17)',
+        expected = {'services': ['calico-node (3)',
+                                 'containerd (17)',
                                  'containerd-shim (16)',
                                  'flanneld (1)',
                                  'kube-proxy (1)',

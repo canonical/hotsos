@@ -185,9 +185,14 @@ def get_snap_list_all():
         output = subprocess.check_output(['snap', 'list', '--all'])
         return output.decode('UTF-8').splitlines(keepends=True)
 
-    path = os.path.join(DATA_ROOT, "sos_commands/snappy/snap_list_--all")
+    path = os.path.join(DATA_ROOT, "sos_commands/snap/snap_list_--all")
+    # sos_commands/snappy is not present in new sos reports as snappy plugin
+    # is renamed.
+    old_path = os.path.join(DATA_ROOT, "sos_commands/snappy/snap_list_--all")
     if os.path.exists(path):
         return open(path, 'r').readlines()
+    elif os.path.exists(old_path):
+        return open(old_path, 'r').readlines()
 
     return []
 
