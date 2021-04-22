@@ -4,7 +4,10 @@ import mock
 
 import utils
 
-from common import searchtools
+from common.searchtools import (
+    FileSearcher,
+    SearchDef,
+)
 
 
 class TestSearchTools(utils.BaseTestCase):
@@ -19,14 +22,14 @@ class TestSearchTools(utils.BaseTestCase):
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_no_override(self, mock_cpu_count):
         mock_cpu_count.return_value = 3
-        s = searchtools.FileSearcher()
+        s = FileSearcher()
         self.assertEquals(s.num_cpus, 3)
 
     @mock.patch.object(os, "environ", {"USER_MAX_PARALLEL_TASKS": 2})
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
         mock_cpu_count.return_value = 3
-        s = searchtools.FileSearcher()
+        s = FileSearcher()
         self.assertEquals(s.num_cpus, 2)
 
     def test_filesearcher_logs(self):
@@ -43,16 +46,17 @@ class TestSearchTools(utils.BaseTestCase):
         globpath_file2 = os.path.join(os.environ["DATA_ROOT"], logs_root,
                                       'neutron-l3-agent.log.1.gz')
 
-        s = searchtools.FileSearcher()
-        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+full sync.+', filepath,
-                          tag="T1")
-        s.add_search_term(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', filepath,
-                          tag="T2")
-        s.add_search_term((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router '
-                           '9b8efc4c-305b-48ce-a5bd-624bc5eeee67.+'),
-                          globpath, tag="T3")
+        s = FileSearcher()
+        sd = SearchDef(r'^(\S+\s+[0-9:\.]+)\s+.+full sync.+', tag="T1")
+        s.add_search_term(sd, filepath)
+        sd = SearchDef(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', tag="T2")
+        s.add_search_term(sd, filepath)
+        sd = SearchDef((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router '
+                        '9b8efc4c-305b-48ce-a5bd-624bc5eeee67.+'), tag="T3")
+        s.add_search_term(sd, globpath)
+        sd = SearchDef(r'non-existant-pattern', tag="T4")
         # search for something that doesn't exist to test that code path
-        s.add_search_term(r'non-existant-pattern', globpath, tag="T4")
+        s.add_search_term(sd, globpath)
 
         results = s.search()
         self.assertEquals(set(results.files), set([filepath,
@@ -99,9 +103,11 @@ class TestSearchTools(utils.BaseTestCase):
                                  'networking', 'ip_-s_-d_link')
         ip = "10.10.101.33"
         mac = "ac:1f:6b:9e:d8:44"
-        s = searchtools.FileSearcher()
-        s.add_search_term(r".+({}).+".format(ip), filepath)
-        s.add_search_term(r"^\s+link/ether\s+({})\s+.+".format(mac), filepath2)
+        s = FileSearcher()
+        sd = SearchDef(r".+({}).+".format(ip))
+        s.add_search_term(sd, filepath)
+        sd = SearchDef(r"^\s+link/ether\s+({})\s+.+".format(mac))
+        s.add_search_term(sd, filepath2)
 
         results = s.search()
         self.assertEquals(set(results.files), set([filepath, filepath2]))

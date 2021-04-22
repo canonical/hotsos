@@ -7,8 +7,11 @@ from datetime import datetime
 
 from common import (
     constants,
-    searchtools,
     plugin_yaml,
+)
+from common.searchtools import (
+    SearchDef,
+    FileSearcher,
 )
 from common.known_bugs_utils import add_known_bug
 from openstack_common import (
@@ -56,14 +59,14 @@ class NeutronAgentChecks(AgentChecksBase):
         """
         expr = (r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
                 "started.*")
-        self.searchobj.add_search_term(expr, self.data_source,
-                                       tag="rpc-loop-start",
-                                       hint="Agent rpc_loop")
+        self.searchobj.add_search_term(SearchDef(expr, tag="rpc-loop-start",
+                                                 hint="Agent rpc_loop"),
+                                       self.data_source)
         expr = (r"^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) "
                 "completed..+Elapsed:([0-9.]+).+")
-        self.searchobj.add_search_term(expr, self.data_source,
-                                       tag="rpc-loop-end",
-                                       hint="Agent rpc_loop")
+        self.searchobj.add_search_term(SearchDef(expr, tag="rpc-loop-end",
+                                                 hint="Agent rpc_loop"),
+                                       self.data_source)
 
     def process_rpc_loop_results(self, results):
         """Process the search results and display longest running rpc_loops
@@ -342,29 +345,33 @@ class NeutronAgentChecks(AgentChecksBase):
         # router updates
         expr = (r"^([0-9-]+) (\S+) .+ Starting router update for "
                 "([0-9a-z-]+), .+ update_id ([0-9a-z-]+). .+")
-        self.searchobj.add_search_term(expr, data_source,
-                                       tag="router-update-start",
-                                       hint="router update")
+        self.searchobj.add_search_term(SearchDef(expr,
+                                                 tag="router-update-start",
+                                                 hint="router update"),
+                                       data_source)
 
         expr = (r"^([0-9-]+) (\S+) .+ Finished a router update for "
                 "([0-9a-z-]+), update_id ([0-9a-z-]+). Time elapsed: "
                 "([0-9.]+)")
-        self.searchobj.add_search_term(expr, data_source,
-                                       tag="router-update-finish",
-                                       hint="router update")
+        self.searchobj.add_search_term(SearchDef(expr,
+                                                 tag="router-update-finish",
+                                                 hint="router update"),
+                                       data_source)
 
         # router state_change_monitor + keepalived spawn
         expr = (r"^([0-9-]+) (\S+) .+ Router ([0-9a-z-]+) .+ "
                 "spawn_state_change_monitor")
-        self.searchobj.add_search_term(expr, data_source,
-                                       tag="router-spawn1",
-                                       hint="spawn_state_change_monitor")
+        self.searchobj.add_search_term(SearchDef(expr,
+                                                 tag="router-spawn1",
+                                                 hint="spawn_state_change"),
+                                       data_source)
 
         expr = (r"^([0-9-]+) (\S+) .+ Keepalived spawned with config "
                 "/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf .+")
-        self.searchobj.add_search_term(expr, data_source,
-                                       tag="router-spawn2",
-                                       hint="Keepalived")
+        self.searchobj.add_search_term(SearchDef(expr,
+                                                 tag="router-spawn2",
+                                                 hint="Keepalived"),
+                                       data_source)
 
     def process_router_event_results(self, results):
         self.get_router_spawn_stats(results)
@@ -437,14 +444,16 @@ class CommonAgentChecks(AgentChecksBase):
         for agent in AGENT_DAEMON_NAMES[service]:
             data_source = data_source_template.format(agent)
             for exc_msg in self.agent_exceptions[service]:
-                rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
-                self.searchobj.add_search_term(rexpr, data_source,
-                                               tag=agent, hint=exc_msg)
+                expr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
+                self.searchobj.add_search_term(SearchDef(expr, tag=agent,
+                                                         hint=exc_msg),
+                                               data_source)
 
             for msg in self.agent_issues.get(service, []):
-                rexpr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
-                self.searchobj.add_search_term(rexpr, data_source,
-                                               tag=agent, hint=msg)
+                expr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
+                self.searchobj.add_search_term(SearchDef(expr, tag=agent,
+                                                         hint=msg),
+                                               data_source)
 
     def add_bug_search_terms(self):
         """Add search terms for known bugs."""
@@ -454,7 +463,8 @@ class CommonAgentChecks(AgentChecksBase):
 
         for tag in self.agent_bug_search_terms:
             expr = self.agent_bug_search_terms[tag]["expr"]
-            self.searchobj.add_search_term(expr, data_source, tag=tag)
+            self.searchobj.add_search_term(SearchDef(expr, tag=tag),
+                                           data_source)
 
     def add_agents_issues_search_terms(self):
         # Add search terms for everything at once
@@ -492,7 +502,7 @@ class CommonAgentChecks(AgentChecksBase):
 
 
 if __name__ == "__main__":
-    s = searchtools.FileSearcher()
+    s = FileSearcher()
     common_checks = CommonAgentChecks(s)
     common_checks.add_agents_issues_search_terms()
     neutron_checks = NeutronAgentChecks(s)

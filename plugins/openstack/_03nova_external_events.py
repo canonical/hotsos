@@ -3,8 +3,11 @@ import os
 
 from common import (
     constants,
-    searchtools,
     plugin_yaml,
+)
+from common.searchtools import (
+    SearchDef,
+    FileSearcher,
 )
 
 EXT_EVENT_META = {"network-vif-plugged": {"stages_keys":
@@ -27,22 +30,22 @@ def get_events(event_name, data_source):
     ext_event_info = {}
     events = {}
 
-    s = searchtools.FileSearcher()
+    s = FileSearcher()
 
     # look for sequence starter
     if event_name == "network-vif-plugged":
-        key = (r".+\[instance: (\S+)\].+Preparing to wait for external "
-               r"event ({})-(\S+)\s+".format(event_name))
-        s.add_search_term(key, data_source)
+        sd = SearchDef(r".+\[instance: (\S+)\].+Preparing to wait for "
+                       r"external event ({})-(\S+)\s+".format(event_name))
+        s.add_search_term(sd, data_source)
     elif event_name == "network-changed":
-        key = (r".+\[instance: (\S+)\].+Received "
-               r"event ({})-(\S+)\s+".format(event_name))
-        s.add_search_term(key, data_source)
+        sd = SearchDef(r".+\[instance: (\S+)\].+Received event ({})-(\S+)\s+".
+                       format(event_name))
+        s.add_search_term(sd, data_source)
 
     master_results = s.search()
 
     # now start a fresh one
-    s = searchtools.FileSearcher()
+    s = FileSearcher()
 
     for file, results in master_results:
         for result in results:
@@ -52,10 +55,11 @@ def get_events(event_name, data_source):
                                 "data_source": file}
 
             for stage in EXT_EVENT_META[event_name]["stages_keys"]:
-                key = (r".+\[instance: {}\]\s+{}\s.*\s?event\s+{}-{}.? .+".
-                       format(instance_id, stage, event_name, event_id))
+                expr = (r".+\[instance: {}\]\s+{}\s.*\s?event\s+{}-{}.? .+".
+                        format(instance_id, stage, event_name, event_id))
                 tag = "{}_{}_{}".format(instance_id, event_id, stage)
-                s.add_search_term(key, data_source, tag=tag)
+                sd = SearchDef(expr, tag, hint=event_name)
+                s.add_search_term(sd, data_source)
 
     results = s.search()
     for event_id in events:

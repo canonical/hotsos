@@ -7,13 +7,50 @@ from ceph_common import (
 )
 from common import (
     constants,
-    searchtools,
     plugin_yaml,
+)
+from common.searchtools import (
+    SearchDef,
+    FileSearcher,
 )
 
 
 CEPH_LOGS = "var/log/ceph/"
 DAEMON_INFO = {}
+
+SEARCHES = [
+    SearchDef(
+        r"^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+",
+        tag="osd-reported-failed",
+        hint="reported failed"),
+    SearchDef(
+        r"^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor election",
+        tag="mon-election-called",
+        hint="calling monitor election"),
+    SearchDef(
+        (r"^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked .+ "
+         r"\(REQUEST_SLOW\)"),
+        tag="slow-requests",
+        hint="REQUEST_SLOW"),
+    SearchDef(
+        r"^([0-9-]+)\S* .+ _verify_csum bad .+",
+        tag="crc-err-bluestore",
+        hint="_verify_csum"),
+    SearchDef(
+        r"^([0-9-]+)\S* .+ rocksdb: .+block checksum mismatch:.+",
+        tag="crc-err-rocksdb",
+        hint="checksum mismatch"),
+    SearchDef(
+        (r"^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ interface "
+         "seen, longest is ([0-9.]+) msec.+"),
+        tag="long-heartbeat",
+        hint="Long heartbeat ping"),
+    SearchDef(
+        (r"^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply "
+         "from [0-9.:]+ (osd.[0-9]+)"),
+        tag="heartbeat-no-reply",
+        hint="heartbeat_check"),
+]
 
 
 class CephDaemonLogChecks(CephChecksBase):
@@ -127,41 +164,9 @@ class CephDaemonLogChecks(CephChecksBase):
         if constants.USE_ALL_LOGS:
             data_source = "{}*".format(data_source)
 
-        s = searchtools.FileSearcher()
-
-        term = (r"^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed "
-                r"by osd.[0-9]+")
-        s.add_search_term(term, data_source, tag="osd-reported-failed",
-                          hint="reported failed")
-
-        term = (r"^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor "
-                r"election")
-        s.add_search_term(term, data_source, tag="mon-election-called",
-                          hint="calling monitor election")
-
-        term = (r"^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked "
-                r".+ \(REQUEST_SLOW\)")
-        s.add_search_term(term, data_source, tag="slow-requests",
-                          hint="REQUEST_SLOW")
-
-        s.add_search_term(r"^([0-9-]+)\S* .+ _verify_csum bad .+",
-                          data_source, tag="crc-err-bluestore",
-                          hint="_verify_csum")
-
-        s.add_search_term(r"^([0-9-]+)\S* .+ rocksdb: .+block checksum "
-                          "mismatch:.+",
-                          data_source, tag="crc-err-rocksdb",
-                          hint="checksum mismatch")
-
-        term = (r"^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ "
-                "interface seen, longest is ([0-9.]+) msec.+")
-        s.add_search_term(term, data_source, tag="long-heartbeat",
-                          hint="Long heartbeat ping")
-
-        term = (r"^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no "
-                "reply from [0-9.:]+ (osd.[0-9]+)")
-        s.add_search_term(term, data_source,
-                          tag="heartbeat-no-reply", hint="heartbeat_check")
+        s = FileSearcher()
+        for search in SEARCHES:
+            s.add_search_term(search, data_source)
 
         self.results = s.search()
         self.process_osd_failure_reports()

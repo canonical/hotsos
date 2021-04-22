@@ -9,6 +9,21 @@ import re
 MAX_PARALLEL_TASKS_DEFAULT = 8
 
 
+class SearchDef(object):
+
+    def __init__(self, key, tag=None, hint=None):
+        """
+        Add a search definition
+
+        @param key: regex pattern to search for
+        @param tag: optional user-friendly identifier for this search term
+        @param hint: pre-search term to speed things up
+        """
+        self.key = key
+        self.tag = tag
+        self.hint = hint
+
+
 class SearchResultPart(object):
 
     def __init__(self, index, value):
@@ -95,21 +110,19 @@ class FileSearcher(object):
 
         return cpus
 
-    def add_search_term(self, key, path, tag=None, hint=None):
+    def add_search_term(self, searchdef, path):
         """Add a term to search for.
 
-        A search term is registered against a path which can be a file,
-        directory or glob. Any number of search terms can be registered.
+        A search definition is registered against a path which can be a
+        file,  directory or glob. Any number of searches can be registered.
         Searches are executed concurrently by file.
 
-        @param key: regex pattern to search for
+        @param searchdef: definition of what to search for
         @param path: path that we will be searching for this key
-        @param tag: optional user-friendly identifier for this search term
-        @param hint: pre-search term to speed things up
         """
-        entry = {"key": re.compile(key), "tag": tag}
-        if hint:
-            entry["hint"] = re.compile(hint)
+        entry = {"key": re.compile(searchdef.key), "tag": searchdef.tag}
+        if searchdef.hint:
+            entry["hint"] = re.compile(searchdef.hint)
 
         if path in self.paths:
             self.paths[path].append(entry)
