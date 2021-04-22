@@ -1,9 +1,3 @@
 2021-04-01 00:31:37.068 7f55ad6ba700 -1 bluestore(/var/lib/ceph/osd/ceph-1299) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x0, got 0x6706be76, expected 0x4e439b0c, device location [0x1ca5b760000~1000], logical extent 0x0~1000, object 0#32:c02a81b9:::4b4c5578-2012-49da-b208-b389bd4241af.102762668.5__shadow_.tjSycOb1-QFYjIpygBIaOJUDJGWEtG4_4:head#
-2021-04-01 00:52:53.266 7f4cb443c700 -1 /build/ceph-whMQJ0/ceph-14.2.11/src/kv/RocksDBStore.cc: In function 'virtual int RocksDBStore::get(const string&, const char*, size_t, ceph::bufferlist*)' thread 7f4cb443c700 time 2021-04-01 00:52:53.255242
-/build/ceph-whMQJ0/ceph-14.2.11/src/kv/RocksDBStore.cc: 1264: ceph_abort_msg("block checksum mismatch: expected 1614159431, got 3416100087  in db/051289.sst offset 67211147 size 831754")
-
 2021-04-01 00:31:37.068 7f55ad6ba700 -1 bluestore(/var/lib/ceph/osd/ceph-1299) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x0, got 0x6706be76, expected 0x4e439b0c, device location [0x1ca5b760000~1000], logical extent 0x0~1000, object 0#32:c02a81b9:::4b4c5578-2012-49da-b208-b389bd4241af.102762668.5__shadow_.tjSycOb1-QFYjIpygBIaOJUDJGWEtG4_4:head#
 
-2021-02-09 20:23:23.884 7f028efb6700 -1 osd.4 92473 heartbeat_check: no reply from 10.109.12.175:6824 osd.0 since back 2021-02-09 20:23:23.414503 front 2021-02-09 20:23:02.007594 (oldest deadline 2021-02-09 20:23:23.107095)
-2021-02-09 20:23:23.884 7f028efb6700 -1 osd.4 92473 heartbeat_check: no reply from 10.109.12.175:6822 osd.1 since back 2021-02-09 20:23:23.414540 front 2021-02-09 20:23:02.007661 (oldest deadline 2021-02-09 20:23:23.107095)
-2021-02-09 20:23:25.908 7f028efb6700 -1 osd.4 92473 heartbeat_check: no reply from 10.109.12.175:6822 osd.1 since back 2021-02-09 20:23:23.414540 front 2021-02-09 20:23:02.007661 (oldest deadline 2021-02-09 20:23:23.107095)

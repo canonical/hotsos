@@ -129,35 +129,36 @@ class CephDaemonLogChecks(CephChecksBase):
 
         s = searchtools.FileSearcher()
 
-        term = (r"^([0-9-]+) \S+ .+ (osd.[0-9]+) reported failed "
+        term = (r"^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed "
                 r"by osd.[0-9]+")
         s.add_search_term(term, data_source, tag="osd-reported-failed",
                           hint="reported failed")
 
-        term = (r"^([0-9-]+) \S+ .+ (mon.\S+) calling monitor "
+        term = (r"^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor "
                 r"election")
         s.add_search_term(term, data_source, tag="mon-election-called",
                           hint="calling monitor election")
 
-        term = (r"^([0-9-]+) \S+ .+ ([0-9]+) slow requests are blocked "
+        term = (r"^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked "
                 r".+ \(REQUEST_SLOW\)")
         s.add_search_term(term, data_source, tag="slow-requests",
                           hint="REQUEST_SLOW")
 
-        s.add_search_term(r"^([0-9-]+) .+ _verify_csum bad .+",
+        s.add_search_term(r"^([0-9-]+)\S* .+ _verify_csum bad .+",
                           data_source, tag="crc-err-bluestore",
                           hint="_verify_csum")
 
-        s.add_search_term(r".+ ceph_abort_msg\(\"(block checksum mismatch).+",
+        s.add_search_term(r"^([0-9-]+)\S* .+ rocksdb: .+block checksum "
+                          "mismatch:.+",
                           data_source, tag="crc-err-rocksdb",
-                          hint="block checksum mismatch")
+                          hint="checksum mismatch")
 
-        term = (r"^([0-9-]+) \S+ .+ Long heartbeat ping times on \S+ "
+        term = (r"^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ "
                 "interface seen, longest is ([0-9.]+) msec.+")
         s.add_search_term(term, data_source, tag="long-heartbeat",
                           hint="Long heartbeat ping")
 
-        term = (r"^([0-9-]+) \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no "
+        term = (r"^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no "
                 "reply from [0-9.:]+ (osd.[0-9]+)")
         s.add_search_term(term, data_source,
                           tag="heartbeat-no-reply", hint="heartbeat_check")
