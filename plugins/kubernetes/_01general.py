@@ -19,6 +19,7 @@ SERVICES = ["etcdctl",
             "dockerd",
             "kubelet",
             "kube-proxy",
+            "calico-node",
             ]
 
 # Snaps that only exist in a K8s deployment
@@ -27,7 +28,7 @@ SNAPS_K8S = [r'charm[\S]+',
              r'cdk-addons',
              r'helm',
              r'kubernetes-[\S]+',
-             r'kube-proxy',
+             r'kube-[\S]+',
              r'kubectl',
              r'kubelet',
              r'kubeadm',
