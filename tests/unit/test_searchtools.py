@@ -7,6 +7,7 @@ import utils
 from common.searchtools import (
     FileSearcher,
     SearchDef,
+    SearchResult,
 )
 
 
@@ -126,3 +127,15 @@ class TestSearchTools(utils.BaseTestCase):
             ln = result.linenumber
             self.assertEquals(result.tag, None)
             self.assertEquals(result.get(1), expected[ln])
+
+    def test_filesearcher_error(self):
+        s = FileSearcher()
+        with mock.patch.object(SearchResult, '__init__') as mock_init:
+
+            def fake_init(*args, **kwargs):
+                raise EOFError("some error")
+
+            mock_init.side_effect = fake_init
+            path = os.path.join(os.environ["DATA_ROOT"])
+            s.add_search_term(SearchDef("."), path)
+            s.search()

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+import sys
 
 import glob
 import gzip
@@ -7,6 +8,11 @@ import multiprocessing
 import re
 
 MAX_PARALLEL_TASKS_DEFAULT = 8
+
+
+class FileSearchException(Exception):
+    def __init__(self, msg):
+        self.msg = msg
 
 
 class SearchDef(object):
@@ -135,17 +141,26 @@ class FileSearcher(object):
                                 (entry, term_key))
 
     def _search_task_wrapper(self, path, term_key):
-        with gzip.open(path, 'r') as fd:
-            try:
-                # test if file is gzip
-                fd.read(1)
-                fd.seek(0)
-                return self._search_task(term_key, fd, path)
-            except OSError:
-                pass
+        try:
+            with gzip.open(path, 'r') as fd:
+                try:
+                    # test if file is gzip
+                    fd.read(1)
+                    fd.seek(0)
+                    return self._search_task(term_key, fd, path)
+                except OSError:
+                    pass
 
-        with open(path) as fd:
-            return self._search_task(term_key, fd, path)
+            with open(path) as fd:
+                return self._search_task(term_key, fd, path)
+        except EOFError as e:
+            msg = ("an exception occured while searching {} - {}".
+                   format(path, e))
+            raise FileSearchException(msg) from e
+        except Exception as e:
+            msg = ("an unknown exception occured while searching {} - {}".
+                   format(path, e))
+            raise FileSearchException(msg) from e
 
     def _search_task(self, term_key, fd, path):
         results = []
@@ -184,14 +199,24 @@ class FileSearcher(object):
                 elif os.path.isdir(path):
                     for e in os.listdir(path):
                         d_entry = os.path.join(path, e)
+                        if not os.path.isfile(d_entry):
+                            continue
+
                         jobs[path][d_entry] = self._job_wrapper(pool, path,
                                                                 d_entry)
                 else:
                     for e in glob.glob(path):
+                        if not os.path.isfile(e):
+                            continue
+
                         jobs[path][e] = self._job_wrapper(pool, path, e)
 
             for path in jobs:
                 for file in jobs[path]:
-                    results.add(file, jobs[path][file].get())
+                    try:
+                        result = jobs[path][file].get()
+                        results.add(file, result)
+                    except FileSearchException as e:
+                        sys.stderr.write("{}\n".format(e.msg))
 
         return results
