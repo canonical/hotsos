@@ -191,6 +191,7 @@ class CommonAgentChecks(AgentChecksBase):
                                  "glance": [] + agent_exceptions_common,
                                  "heat": [] + agent_exceptions_common,
                                  "keystone": [] + agent_exceptions_common,
+                                 "manila": [] + agent_exceptions_common,
                                  "nova": nova_exceptions_all,
                                  "neutron": [] + agent_exceptions_common,
                                  "octavia": octavia_exceptions_all,
@@ -223,7 +224,7 @@ class CommonAgentChecks(AgentChecksBase):
 
         for agent in AGENT_DAEMON_NAMES[service]:
             data_source = data_source_template.format(agent)
-            for exc_msg in self.agent_exceptions[service]:
+            for exc_msg in self.agent_exceptions.get(service, []):
                 expr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
                 self.searchobj.add_search_term(SearchDef(expr, tag=agent,
                                                          hint=exc_msg),
