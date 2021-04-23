@@ -16,6 +16,7 @@ from openstack_common import (
     AGENT_LOG_PATHS,
 )
 from openstack_exceptions import (
+    MANILA_EXCEPTIONS,
     NOVA_EXCEPTIONS,
     OCTAVIA_EXCEPTIONS,
     OSLO_DB_EXCEPTIONS,
@@ -186,12 +187,16 @@ class CommonAgentChecks(AgentChecksBase):
         for exc in OCTAVIA_EXCEPTIONS:
             octavia_exceptions_all.append(r" ({}):".format(exc))
 
+        manila_exceptions_all = [] + agent_exceptions_common
+        for exc in MANILA_EXCEPTIONS:
+            manila_exceptions_all.append(r" ({}):".format(exc))
+
         # The following must be ERROR log level
         self.agent_exceptions = {"cinder": [] + agent_exceptions_common,
                                  "glance": [] + agent_exceptions_common,
                                  "heat": [] + agent_exceptions_common,
                                  "keystone": [] + agent_exceptions_common,
-                                 "manila": [] + agent_exceptions_common,
+                                 "manila": manila_exceptions_all,
                                  "nova": nova_exceptions_all,
                                  "neutron": [] + agent_exceptions_common,
                                  "octavia": octavia_exceptions_all,
