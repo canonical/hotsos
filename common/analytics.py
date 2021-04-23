@@ -217,6 +217,9 @@ class LogSequenceStats(LogSequenceBase):
                                       reverse=True)
 
     def get_stats(self, key):
+        if not self.data.has_complete_sequences():
+            return
+
         sequences = self.data.complete_sequences.values()
         # ignore sequences with a duration None since they are invalid
         sequences = [s.get(key) for s in sequences if s.get(key) is not None]

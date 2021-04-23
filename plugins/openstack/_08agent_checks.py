@@ -107,11 +107,16 @@ class NeutronAgentChecks(AgentChecksBase):
         """Process the search results and display longest running rpc_loops
         with stats.
         """
-        s = LogSequenceStats(results, "rpc-loop",
-                             SearchResultIndices(duration_idx=4))
-        s()
-        self.ovs_agent_info["rpc-loop"] = {"top": s.get_top_n_sorted(5),
-                                           "stats": s.get_stats("duration")}
+        stats = LogSequenceStats(results, "rpc-loop",
+                                 SearchResultIndices(duration_idx=4))
+        stats()
+        top5 = stats.get_top_n_sorted(5)
+        if not top5:
+            return
+
+        info = {"top": top5,
+                "stats": stats.get_stats("duration")}
+        self.ovs_agent_info["rpc-loop"] = info
 
     def add_router_event_search_terms(self):
         for sd in ROUTER_EVENT_SEARCHES:
@@ -124,7 +129,11 @@ class NeutronAgentChecks(AgentChecksBase):
         stats = LogSequenceStats(results, "router-update",
                                  SearchResultIndices(duration_idx=4))
         stats()
-        info = {"top": stats.get_top_n_sorted(5),
+        top5 = stats.get_top_n_sorted(5)
+        if not top5:
+            return
+
+        info = {"top": top5,
                 "stats": stats.get_stats("duration")}
         self.l3_agent_info["router-updates"] = info
 
@@ -136,7 +145,11 @@ class NeutronAgentChecks(AgentChecksBase):
         # from date+secs.
         stats = LogSequenceStats(results, "router-spawn")
         stats()
-        info = {"top": stats.get_top_n_sorted(5),
+        top5 = stats.get_top_n_sorted(5)
+        if not top5:
+            return
+
+        info = {"top": top5,
                 "stats": stats.get_stats("duration")}
         self.l3_agent_info["router-spawn-events"] = info
 
