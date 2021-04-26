@@ -205,8 +205,7 @@ def get_osd_crush_dump_json_decoded():
 
     path = os.path.join(DATA_ROOT, "sos_commands/ceph/ceph_osd_crush_dump")
     if os.path.exists(path):
-        f = open(path)
-        return json.load(f)
+        return json.load(open(path))
 
     return {}
 
