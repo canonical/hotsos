@@ -8,8 +8,7 @@ from common import (
     plugin_yaml,
 )
 from kubernetes_common import (
-    KubernetesServiceChecksBase,
-    SERVICES,
+    KubernetesChecksBase,
     SNAPS_DEPS,
     SNAPS_K8S,
 )
@@ -17,7 +16,7 @@ from kubernetes_common import (
 KUBERNETES_INFO = {}
 
 
-class KubernetesServiceChecks(KubernetesServiceChecksBase):
+class KubernetesServiceChecks(KubernetesChecksBase):
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
@@ -111,9 +110,7 @@ class KubernetesResourceChecks(object):
 
 def get_kubernetes_service_checker():
     # Do this way to make it easier to write unit tests.
-    KUBERNETES_SERVICES_EXPRS = SERVICES
-    return KubernetesServiceChecks(KUBERNETES_SERVICES_EXPRS,
-                                   hint_range=(0, 3))
+    return KubernetesServiceChecks()
 
 
 def get_kubernetes_resource_checker():

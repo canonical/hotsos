@@ -153,7 +153,7 @@ class TestStoragePlugin02bcache(utils.BaseTestCase):
                              'bcache5': {'dname': 'bcache6'},
                              'bcache6': {'dname': 'bcache0'}},
                   'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}}
-        _02bcache.get_bcache_info()
+        _02bcache.get_bcache_checks()()
         self.assertEqual(_02bcache.BCACHE_INFO, result)
 
 

@@ -18,4 +18,9 @@ class TestSystemPlugin01system(utils.BaseTestCase):
 
     @mock.patch.object(_01system, "SYSTEM_INFO", {})
     def test_get_service_info(self):
-        pass
+        expected = {'hostname': 'hothost',
+                    'num-cpus': 72,
+                    'os': 'ubuntu bionic',
+                    'unattended-upgrades': 'ENABLED'}
+        _01system.get_system_checks()()
+        self.assertEqual(_01system.SYSTEM_INFO, expected)

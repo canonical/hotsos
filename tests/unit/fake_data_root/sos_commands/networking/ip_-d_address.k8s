@@ -1,0 +1,46 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 promiscuity 0 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp6s0f0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc mq state UP group default qlen 1000
+    link/ether 00:25:b5:a1:75:05 brd ff:ff:ff:ff:ff:ff promiscuity 0 numtxqueues 8 numrxqueues 8 gso_max_size 65536 gso_max_segs 65535 
+    inet6 fe80::225:b5ff:fea1:7505/64 scope link 
+       valid_lft forever preferred_lft forever
+3: enp6s0f1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc mq state UP group default qlen 1000
+    link/ether 00:25:b5:b1:75:01 brd ff:ff:ff:ff:ff:ff promiscuity 0 numtxqueues 8 numrxqueues 8 gso_max_size 65536 gso_max_segs 65535 
+    inet 10.77.2.7/24 brd 10.77.2.255 scope global enp6s0f1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::225:b5ff:feb1:7501/64 scope link 
+       valid_lft forever preferred_lft forever
+4: enp6s0f0.1604@enp6s0f0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:25:b5:a1:75:05 brd ff:ff:ff:ff:ff:ff promiscuity 0 
+    vlan protocol 802.1Q id 1604 <REORDER_HDR> numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet 10.78.2.176/23 brd 10.78.3.255 scope global enp6s0f0.1604
+       valid_lft forever preferred_lft forever
+    inet6 fe80::225:b5ff:fea1:7505/64 scope link 
+       valid_lft forever preferred_lft forever
+5: flannel.1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8950 qdisc noqueue state UNKNOWN group default 
+    link/ether a6:f2:ba:78:9b:b7 brd ff:ff:ff:ff:ff:ff promiscuity 0 
+    vxlan id 1 local 10.78.2.176 dev enp6s0f0.1604 srcport 0 0 dstport 8472 nolearning ttl inherit ageing 300 udpcsum noudp6zerocsumtx noudp6zerocsumrx numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet 58.49.23.0/32 scope global flannel.1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a4f2:baff:fe78:9bb7/64 scope link 
+       valid_lft forever preferred_lft forever
+8: cali14018a32cbd@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 0 promiscuity 0 
+    veth numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link 
+       valid_lft forever preferred_lft forever
+10: cali16ec85f1d72@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 2 promiscuity 0 
+    veth numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link 
+       valid_lft forever preferred_lft forever
+11: caliaf531f9da16@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 3 promiscuity 0 
+    veth numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link 
+       valid_lft forever preferred_lft forever
+

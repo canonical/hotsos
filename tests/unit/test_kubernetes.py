@@ -1,3 +1,5 @@
+import os
+
 import mock
 
 import utils
@@ -73,8 +75,19 @@ class TestKubernetesPlugin02network(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
+    @mock.patch.object(_02network.helpers, "get_ip_addr")
     @mock.patch.object(_02network, "NETWORK_INFO", {})
-    def test_get_network_info(self):
-        expected = {}
-        _02network.get_network_info()
+    def test_get_network_info(self, mock_get_ip_addr):
+
+        def fake_get_ip_addr():
+            path = os.path.join(os.environ["DATA_ROOT"],
+                                "sos_commands/networking/ip_-d_address.k8s")
+            with open(path) as fd:
+                return fd.readlines()
+
+        mock_get_ip_addr.side_effect = fake_get_ip_addr
+        expected = {'flannel':
+                    {'flannel.1': {'addr': '58.49.23.0/32',
+                                   'vxlan': '10.78.2.176@enp6s0f0'}}}
+        _02network.get_kubernetes_network_checks()()
         self.assertEqual(_02network.NETWORK_INFO, expected)

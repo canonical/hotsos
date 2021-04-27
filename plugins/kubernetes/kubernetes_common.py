@@ -34,5 +34,7 @@ SNAPS_DEPS = [r'core[0-9]*',
               ]
 
 
-class KubernetesServiceChecksBase(checks.ServiceChecksBase):
-    pass
+class KubernetesChecksBase(checks.ServiceChecksBase):
+
+    def __init__(self):
+        super().__init__(SERVICES, hint_range=(0, 3))
