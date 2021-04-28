@@ -32,13 +32,7 @@ from common.analytics import (
     SearchResultIndices,
 )
 
-
-class AgentChecksBase(object):
-    MAX_RESULTS = 5
-
-    def __init__(self, searchobj):
-        self.searchobj = searchobj
-
+AGENT_CHECKS_RESULTS = {"agent-checks": {}}
 
 # search terms are defined here to make them easier to read.
 RPC_LOOP_SEARCHES = [
@@ -77,55 +71,68 @@ ROUTER_EVENT_SEARCHES = [
 ]
 
 
-class NeutronAgentChecks(AgentChecksBase):
+class BugSearchDef(SearchDef):
+    def __init__(self, expr, bug_id, hint, reason):
+        super().__init__(expr, tag=bug_id, hint=hint)
+        self.reason = reason
 
-    def __init__(self, searchobj):
-        super().__init__(searchobj)
+
+# NOTE: only LP bugs supported for now
+AGENT_BUG_SEARCHES = [
+    BugSearchDef(
+        (".+Unknown configuration entry 'no_track' for ip address - "
+         "ignoring.*"),
+        bug_id="1896506",
+        hint="no_track",
+        reason=("identified in neutron-l3-agent logs by {}.{}".
+                format(constants.PLUGIN_NAME, constants.PART_NAME)),
+        ),
+]
+
+
+class AgentChecksBase(object):
+    MAX_RESULTS = 5
+
+    def __init__(self, searchobj, master_results_key=None):
+        """
+        @param searchobj: FileSearcher object used for searches.
+        @param master_results_key: optional - key into which results
+                                   will be stored in master yaml.
+        """
+        self.searchobj = searchobj
+        if master_results_key:
+            self.master_results_key = master_results_key
+
+    def register_search_terms(self):
+        raise NotImplementedError
+
+    def process_results(self, results):
+        raise NotImplementedError
+
+
+class NeutronL3AgentEventChecks(AgentChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs,
+                         master_results_key="neutron-l3-agent")
         self.logs_path = os.path.join(constants.DATA_ROOT,
                                       AGENT_LOG_PATHS["neutron"])
 
-        ovs_agent_base_log = 'neutron-openvswitch-agent.log'
-        self.ovs_agent_data_source = os.path.join(self.logs_path,
-                                                  f'{ovs_agent_base_log}')
         l3_agent_base_log = 'neutron-l3-agent.log'
         self.l3_agent_data_source = os.path.join(self.logs_path,
                                                  f'{l3_agent_base_log}')
         if constants.USE_ALL_LOGS:
-            self.ovs_agent_data_source = f"{self.ovs_agent_data_source}*"
             self.l3_agent_data_source = f"{self.l3_agent_data_source}*"
 
-        self.l3_agent_info = {}
-        self.ovs_agent_info = {}
+        self._l3_agent_info = {}
 
-    def add_rpc_loop_search_terms(self):
-        """Add search terms for start and end of a neutron openvswitch agent
-        rpc loop.
-        """
-        for sd in RPC_LOOP_SEARCHES:
-            self.searchobj.add_search_term(sd, self.ovs_agent_data_source)
-
-    def process_rpc_loop_results(self, results):
-        """Process the search results and display longest running rpc_loops
-        with stats.
-        """
-        stats = LogSequenceStats(results, "rpc-loop",
-                                 SearchResultIndices(duration_idx=4))
-        stats()
-        top5 = stats.get_top_n_sorted(5)
-        if not top5:
-            return
-
-        info = {"top": top5,
-                "stats": stats.get_stats("duration")}
-        self.ovs_agent_info["rpc-loop"] = info
-
-    def add_router_event_search_terms(self):
+    def register_search_terms(self):
         for sd in ROUTER_EVENT_SEARCHES:
             self.searchobj.add_search_term(sd, self.l3_agent_data_source)
 
     def _get_router_update_stats(self, results):
         """Identify router updates that took the longest to complete and report
-        the top longest updates.
+        the longest updates.
         """
         stats = LogSequenceStats(results, "router-update",
                                  SearchResultIndices(duration_idx=4))
@@ -136,11 +143,11 @@ class NeutronAgentChecks(AgentChecksBase):
 
         info = {"top": top5,
                 "stats": stats.get_stats("duration")}
-        self.l3_agent_info["router-updates"] = info
+        self._l3_agent_info["router-updates"] = info
 
     def _get_router_spawn_stats(self, results):
         """Identify HA router keepalived spawn events that took the longest
-        to complete and report the top longest updates.
+        to complete and report the longest updates.
         """
         # no duration info available so we tell the checker to calculate etime
         # from date+secs.
@@ -152,18 +159,76 @@ class NeutronAgentChecks(AgentChecksBase):
 
         info = {"top": top5,
                 "stats": stats.get_stats("duration")}
-        self.l3_agent_info["router-spawn-events"] = info
+        self._l3_agent_info["router-spawn-events"] = info
 
-    def process_router_event_results(self, results):
+    def process_results(self, results):
         self._get_router_spawn_stats(results)
         self._get_router_update_stats(results)
+        return self._l3_agent_info
+
+
+class NeutronOVSAgentEventChecks(AgentChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs,
+                         master_results_key="neutron-ovs-agent")
+        self.logs_path = os.path.join(constants.DATA_ROOT,
+                                      AGENT_LOG_PATHS["neutron"])
+
+        ovs_agent_base_log = 'neutron-openvswitch-agent.log'
+        self.ovs_agent_data_source = os.path.join(self.logs_path,
+                                                  f'{ovs_agent_base_log}')
+        if constants.USE_ALL_LOGS:
+            self.ovs_agent_data_source = f"{self.ovs_agent_data_source}*"
+
+    def register_search_terms(self):
+        """Add search terms for start and end of a neutron openvswitch agent
+        rpc loop.
+        """
+        for sd in RPC_LOOP_SEARCHES:
+            self.searchobj.add_search_term(sd, self.ovs_agent_data_source)
+
+    def process_results(self, results):
+        """Process the search results and display longest running rpc_loops
+        with stats.
+        """
+        stats = LogSequenceStats(results, "rpc-loop",
+                                 SearchResultIndices(duration_idx=4))
+        stats()
+        top5 = stats.get_top_n_sorted(5)
+        if not top5:
+            return
+
+        info = {"rpc-loop": {"top": top5,
+                             "stats": stats.get_stats("duration")}}
+        return info
+
+
+class NeutronAgentBugChecks(AgentChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def register_search_terms(self):
+        """Add search terms for known bugs."""
+        data_source = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
+        if constants.USE_ALL_LOGS:
+            data_source = "{}*".format(data_source)
+
+        for bugsearch in AGENT_BUG_SEARCHES:
+            self.searchobj.add_search_term(bugsearch, data_source)
+
+    def process_results(self, results):
+        for bugsearch in AGENT_BUG_SEARCHES:
+            if results.find_by_tag(bugsearch.tag):
+                add_known_bug(bugsearch.tag, description=bugsearch.reason)
 
 
 class CommonAgentChecks(AgentChecksBase):
 
-    def __init__(self, searchobj):
-        super().__init__(searchobj)
-        self.agent_log_issues = {}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, master_results_key="agent-issues")
+        self._agent_log_issues = {}
 
         agent_exceptions_common = [
             r"(AMQP server on .+ is unreachable)",
@@ -206,18 +271,8 @@ class CommonAgentChecks(AgentChecksBase):
         self.agent_issues = {
             "neutron": [r"(OVS is dead).", r"(RuntimeError):"]
             }
-        # NOTE: only LP bugs supported for now
-        self.agent_bug_search_terms = {
-            "1896506": {"expr":
-                        (".+Unknown configuration entry 'no_track' for "
-                         "ip address - ignoring.*"),
-                        "reason": ("identified in neutron-l3-agent logs by "
-                                   "{}.{}".
-                                   format(constants.PLUGIN_NAME,
-                                          constants.PART_NAME))}
-            }
 
-    def add_agent_terms(self, service):
+    def _add_terms(self, service, issue_definitions):
         """
         Add search terms for warning, exceptions, errors etc i.e. anything that
         could count as an "issue" of interest.
@@ -229,90 +284,60 @@ class CommonAgentChecks(AgentChecksBase):
 
         for agent in AGENT_DAEMON_NAMES[service]:
             data_source = data_source_template.format(agent)
-            for exc_msg in self.agent_exceptions.get(service, []):
-                expr = r"^([0-9\-]+) (\S+) .+{}.*".format(exc_msg)
-                self.searchobj.add_search_term(SearchDef(expr, tag=agent,
-                                                         hint=exc_msg),
-                                               data_source)
-
-            for msg in self.agent_issues.get(service, []):
+            for msg in issue_definitions.get(service, []):
                 expr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
                 self.searchobj.add_search_term(SearchDef(expr, tag=agent,
                                                          hint=msg),
                                                data_source)
 
-    def add_bug_search_terms(self):
-        """Add search terms for known bugs."""
-        data_source = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
-        if constants.USE_ALL_LOGS:
-            data_source = "{}*".format(data_source)
-
-        for tag in self.agent_bug_search_terms:
-            expr = self.agent_bug_search_terms[tag]["expr"]
-            self.searchobj.add_search_term(SearchDef(expr, tag=tag),
-                                           data_source)
-
-    def add_agents_issues_search_terms(self):
-        # Add search terms for everything at once
-        for service in AGENT_DAEMON_NAMES:
-            self.add_agent_terms(service)
-
-        self.add_bug_search_terms()
-
-    def process_bug_results(self, results):
-        for tag in self.agent_bug_search_terms:
-            if results.find_by_tag(tag):
-                reason = self.agent_bug_search_terms[tag]["reason"]
-                add_known_bug(tag, description=reason)
-
-    def process_agent_results(self, results, service):
-        for agent in AGENT_DAEMON_NAMES[service]:
-            e = get_agent_exceptions(results.find_by_tag(agent),
-                                     AGENT_ERROR_KEY_BY_TIME)
-            if e:
-                if service not in self.agent_log_issues:
-                    self.agent_log_issues[service] = {}
-
-                self.agent_log_issues[service][agent] = e
-
-    def process_agent_issues_results(self, results):
+    def register_search_terms(self):
+        """Register searches for exceptions as well as any other type of issue
+        we might want to catch like warning etc which may not be errors or
+        exceptions.
         """
-        Collect information about Openstack agents. This includes errors,
-        exceptions and known bugs.
-        """
-        # process the results
         for service in AGENT_DAEMON_NAMES:
-            self.process_agent_results(results, service)
+            self._add_terms(service, self.agent_exceptions)
+            self._add_terms(service, self.agent_issues)
 
-        self.process_bug_results(results)
+    def _process_agent_results(self, results, service, agent):
+        e = get_agent_exceptions(results.find_by_tag(agent),
+                                 AGENT_ERROR_KEY_BY_TIME)
+        if e:
+            if service not in self._agent_log_issues:
+                self._agent_log_issues[service] = {}
+
+            self._agent_log_issues[service][agent] = e
+
+    def process_results(self, results):
+        """Process search results to see if we got any hits."""
+        for service in AGENT_DAEMON_NAMES:
+            for agent in AGENT_DAEMON_NAMES[service]:
+                self._process_agent_results(results, service, agent)
+
+        return self._agent_log_issues
 
 
-if __name__ == "__main__":
+def run_agent_checks():
     s = FileSearcher()
-    common_checks = CommonAgentChecks(s)
-    common_checks.add_agents_issues_search_terms()
-    neutron_checks = NeutronAgentChecks(s)
-    neutron_checks.add_rpc_loop_search_terms()
-    neutron_checks.add_router_event_search_terms()
+    checks = [CommonAgentChecks(s),
+              NeutronL3AgentEventChecks(s),
+              NeutronOVSAgentEventChecks(s),
+              NeutronAgentBugChecks(s),
+              ]
+
+    for check in checks:
+        check.register_search_terms()
 
     results = s.search()
 
-    neutron_checks.process_rpc_loop_results(results)
-    neutron_checks.process_router_event_results(results)
-    common_checks.process_agent_issues_results(results)
+    for check in checks:
+        check_results = check.process_results(results)
+        if check_results:
+            key = check.master_results_key
+            AGENT_CHECKS_RESULTS["agent-checks"][key] = check_results
 
-    AGENT_CHECKS = {"agent-checks": {}}
-    if common_checks.agent_log_issues:
-        AGENT_CHECKS["agent-checks"]["agent-issues"] = \
-            common_checks.agent_log_issues
 
-    if neutron_checks.ovs_agent_info:
-        AGENT_CHECKS["agent-checks"]["neutron-ovs-agent"] = \
-            neutron_checks.ovs_agent_info
-
-    if neutron_checks.l3_agent_info:
-        AGENT_CHECKS["agent-checks"]["neutron-l3-agent"] = \
-            neutron_checks.l3_agent_info
-
-    if AGENT_CHECKS["agent-checks"]:
-        plugin_yaml.dump(AGENT_CHECKS)
+if __name__ == "__main__":
+    run_agent_checks()
+    if AGENT_CHECKS_RESULTS["agent-checks"]:
+        plugin_yaml.dump(AGENT_CHECKS_RESULTS)

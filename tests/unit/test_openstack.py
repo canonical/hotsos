@@ -299,13 +299,12 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                                            "avg": 25.9,
                                            "samples": 1}}}
         s = searchtools.FileSearcher()
-        c = _08agent_checks.NeutronAgentChecks(s)
-        c.add_rpc_loop_search_terms()
-        c.process_rpc_loop_results(s.search())
-        self.assertEqual(c.ovs_agent_info, expected)
+        c = _08agent_checks.NeutronOVSAgentEventChecks(s)
+        c.register_search_terms()
+        results = c.process_results(s.search())
+        self.assertEqual(results, expected)
 
-    @mock.patch.object(_08agent_checks, "add_known_bug")
-    def test_get_agents_issues(self, mock_add_known_bug):
+    def test_get_agents_issues(self):
         neutron_expected = {'neutron-openvswitch-agent':
                             {'MessagingTimeout': {'2021-03-04': 2},
                              'AMQP server on 10.10.123.22:5672 is unreachable':
@@ -324,10 +323,18 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                          {'DBConnectionError': {'2021-03-08': 2}}}
         s = searchtools.FileSearcher()
         c = _08agent_checks.CommonAgentChecks(s)
-        c.add_agents_issues_search_terms()
-        c.process_agent_issues_results(s.search())
-        self.assertEqual(c.agent_log_issues,
+        c.register_search_terms()
+        results = c.process_results(s.search())
+        self.assertEqual(results,
                          {"neutron": neutron_expected, "nova": nova_expected})
+
+    @mock.patch.object(_08agent_checks, "add_known_bug")
+    def test_get_agents_bugs(self, mock_add_known_bug):
+        s = searchtools.FileSearcher()
+        c = _08agent_checks.NeutronAgentBugChecks(s)
+        c.register_search_terms()
+        results = c.process_results(s.search())
+        self.assertEqual(results, None)
         calls = [mock.call("1896506",
                            description=('identified in neutron-l3-agent logs '
                                         'by testplugin.01part'))]
@@ -359,7 +366,43 @@ class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
                                                 'start': update_start}}}}
 
         s = searchtools.FileSearcher()
-        c = _08agent_checks.NeutronAgentChecks(s)
-        c.add_router_event_search_terms()
-        c.process_router_event_results(s.search())
-        self.assertEqual(c.l3_agent_info, expected)
+        c = _08agent_checks.NeutronL3AgentEventChecks(s)
+        c.register_search_terms()
+        results = c.process_results(s.search())
+        self.assertEqual(results, expected)
+
+    @mock.patch.object(_08agent_checks, "CommonAgentChecks")
+    @mock.patch.object(_08agent_checks, "NeutronOVSAgentEventChecks")
+    @mock.patch.object(_08agent_checks, "NeutronL3AgentEventChecks")
+    @mock.patch.object(_08agent_checks, "NeutronAgentBugChecks")
+    @mock.patch.object(_08agent_checks, "AGENT_CHECKS_RESULTS",
+                       {"agent-checks": {}})
+    def test_run_agent_checks(self, mock_agent_bug_checks,
+                              mock_l3_agent_checks, mock_ovs_agent_checks,
+                              mock_common_agent_checks):
+        self.maxDiff = 100000
+        c = mock_agent_bug_checks.return_value
+        c.process_results.return_value = None
+
+        c = mock_l3_agent_checks.return_value
+        c.master_results_key = "k1"
+        c.process_results.return_value = "r1"
+
+        c = mock_ovs_agent_checks.return_value
+        c.master_results_key = "k2"
+        c.process_results.return_value = "r2"
+
+        c = mock_common_agent_checks.return_value
+        c.master_results_key = "k3"
+        c.process_results.return_value = "r3"
+
+        _08agent_checks.run_agent_checks()
+        self.assertTrue(mock_agent_bug_checks.called)
+        self.assertTrue(mock_l3_agent_checks.called)
+        self.assertTrue(mock_ovs_agent_checks.called)
+        self.assertTrue(mock_common_agent_checks.called)
+        # results should be empty if we have mocked everything
+        self.assertEqual(_08agent_checks.AGENT_CHECKS_RESULTS,
+                         {"agent-checks": {"k1": "r1",
+                                           "k2": "r2",
+                                           "k3": "r3"}})
