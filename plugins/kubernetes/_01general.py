@@ -7,6 +7,7 @@ from common import (
     helpers,
     plugin_yaml,
 )
+from common.checks import PackageChecksBase
 from kubernetes_common import (
     KubernetesChecksBase,
     SNAPS_DEPS,
@@ -16,11 +17,7 @@ from kubernetes_common import (
 KUBERNETES_INFO = {}
 
 
-class KubernetesServiceChecks(KubernetesChecksBase):
-    def get_running_services_info(self):
-        """Get string info for running services."""
-        if self.services:
-            KUBERNETES_INFO["services"] = self.get_service_info_str()
+class KubernetesPackageChecks(PackageChecksBase):
 
     @classmethod
     def get_snap_info_from_line(cls, line, snap):
@@ -36,6 +33,7 @@ class KubernetesServiceChecks(KubernetesChecksBase):
 
     def get_snaps(self):
         """Get list of relevant snaps and their versions."""
+        # TODO: generalise this method and move into the base class
         snap_list_all = helpers.get_snap_list_all()
         if not snap_list_all:
             return
@@ -74,9 +72,19 @@ class KubernetesServiceChecks(KubernetesChecksBase):
             KUBERNETES_INFO["snaps"] = snap_info_core
 
     def __call__(self):
+        # no apt packages checked currently, just snaps
+        self.get_snaps()
+
+
+class KubernetesServiceChecks(KubernetesChecksBase):
+    def get_running_services_info(self):
+        """Get string info for running services."""
+        if self.services:
+            KUBERNETES_INFO["services"] = self.get_service_info_str()
+
+    def __call__(self):
         super().__call__()
         self.get_running_services_info()
-        self.get_snaps()
 
 
 class KubernetesResourceChecks(object):
@@ -108,6 +116,11 @@ class KubernetesResourceChecks(object):
         self.get_container_info()
 
 
+def get_kubernetes_package_checker():
+    # Do this way to make it easier to write unit tests.
+    return KubernetesPackageChecks(None)
+
+
 def get_kubernetes_service_checker():
     # Do this way to make it easier to write unit tests.
     return KubernetesServiceChecks()
@@ -119,6 +132,7 @@ def get_kubernetes_resource_checker():
 
 if __name__ == "__main__":
     get_kubernetes_service_checker()()
+    get_kubernetes_package_checker()()
     get_kubernetes_resource_checker()()
     if KUBERNETES_INFO:
         plugin_yaml.dump(KUBERNETES_INFO)

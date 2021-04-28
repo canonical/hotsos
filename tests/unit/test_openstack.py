@@ -14,7 +14,7 @@ from plugins.openstack import (  # noqa E402
     _01openstack,
     _02vm_info,
     _03nova_external_events,
-    _04package_versions,
+    _04package_info,
     _05network,
     _06service_features,
     _07cpu_pinning_check,
@@ -144,7 +144,6 @@ class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(_04package_versions, "PKG_INFO", [])
     def test_get_pkg_info(self):
         expected = [
             'ceilometer-agent-compute 1:10.0.1-0ubuntu0.18.04.2~cloud0',
@@ -204,8 +203,8 @@ class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
             'python-oslo.versionedobjects 1.31.2-0ubuntu3~cloud0',
             'python-swiftclient 1:3.5.0-0ubuntu1~cloud0',
             'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
-        _04package_versions.get_pkg_info()
-        self.assertEquals(_04package_versions.PKG_INFO, expected)
+        results = _04package_info.get_checks()()
+        self.assertEquals(results, expected)
 
 
 class TestOpenstackPlugin05network(utils.BaseTestCase):

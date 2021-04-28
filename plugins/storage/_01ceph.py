@@ -7,6 +7,7 @@ from ceph_common import (
     CephChecksBase,
     CEPH_SERVICES_EXPRS,
 )
+from common.checks import PackageChecksBase
 from common import (
     helpers,
     issues_utils,
@@ -17,7 +18,26 @@ from common.issue_types import CephCrushWarning
 CEPH_INFO = {}
 
 
-class CephChecks(CephChecksBase):
+class CephPackageChecks(PackageChecksBase):
+    def __call__(self):
+        info = super().__call__()
+        if info:
+            CEPH_INFO["dpkg"] = info
+
+
+class CephServiceChecks(CephChecksBase):
+
+    def get_running_services_info(self):
+        """Get string info for running services."""
+        if self.services:
+            CEPH_INFO["services"] = self.get_service_info_str()
+
+    def __call__(self):
+        super().__call__()
+        self.get_running_services_info()
+
+
+class CephOSDChecks(CephChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -202,11 +222,6 @@ class CephChecks(CephChecksBase):
         if osd_info:
             CEPH_INFO["osds"] = osd_info
 
-    def get_running_services_info(self):
-        """Get string info for running services."""
-        if self.services:
-            CEPH_INFO["services"] = self.get_service_info_str()
-
     def build_buckets_from_crushdump(self, crushdump):
         buckets = {}
         # iterate jp for each bucket
@@ -257,19 +272,29 @@ class CephChecks(CephChecksBase):
 
     def __call__(self):
         super().__call__()
-        self.get_running_services_info()
         self.get_osd_info()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
 
 
-def get_ceph_checker():
+def get_service_checker():
     # Do this way to make it easier to write unit tests.
-    return CephChecks(CEPH_SERVICES_EXPRS, use_ps_axo_flags=True)
+    return CephServiceChecks(CEPH_SERVICES_EXPRS, use_ps_axo_flags=True)
+
+
+def get_pkg_checker():
+    return CephPackageChecks(CEPH_SERVICES_EXPRS + ["rbd"])
+
+
+def get_osd_checker():
+    # Do this way to make it easier to write unit tests.
+    return CephOSDChecks(CEPH_SERVICES_EXPRS, use_ps_axo_flags=True)
 
 
 if __name__ == "__main__":
-    get_ceph_checker()()
+    get_service_checker()()
+    get_pkg_checker()()
+    get_osd_checker()()
     if CEPH_INFO:
         plugin_yaml.dump({"ceph": CEPH_INFO})

@@ -7,7 +7,7 @@ from common import (
 
 
 class ServiceChecksBase(object):
-    """This class should be used by any plugin that wants to check identify
+    """This class should be used by any plugin that wants to identify
     and check the status of running services."""
 
     def __init__(self, service_exprs, hint_range=None,
@@ -78,3 +78,38 @@ class ServiceChecksBase(object):
     def __call__(self):
         """This can/should be extended by inheriting class."""
         self._get_running_services()
+
+
+class PackageChecksBase(object):
+    """This class should be used by any plugin that wants to identify
+    and check the status of some packages."""
+
+    def __init__(self, packages):
+        """
+        @param package_exprs: list of python.re expressions used to match
+        package names.
+        """
+        self.packages = packages
+        self.pkg_match_expr_template = \
+            r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+
+    def _get_packages(self):
+        info = []
+        dpkg_l = helpers.get_dpkg_l()
+        if not dpkg_l:
+            return
+
+        for line in dpkg_l:
+            for pkg in self.packages:
+                expr = self.pkg_match_expr_template.format(pkg)
+                ret = re.compile(expr).match(line)
+                if ret:
+                    pyprefix = ret[1] or ""
+                    result = "{}{} {}".format(pyprefix, ret[2], ret[3])
+                    info.append(result)
+
+        return info
+
+    def __call__(self):
+        """This can/should be extended by inheriting class."""
+        return self._get_packages()

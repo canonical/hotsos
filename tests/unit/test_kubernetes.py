@@ -12,7 +12,7 @@ from plugins.kubernetes import (  # noqa E402
     _01general,
     _02network,
 )
-from _01general import KubernetesServiceChecks  # noqa E402
+from _01general import KubernetesPackageChecks  # noqa E402
 
 
 class TestKubernetesPlugin01general(utils.BaseTestCase):
@@ -45,7 +45,7 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
                   'helm': '3.5.0',
                   'kubectl': '1.20.2',
                   'vault': '1.5.4'}
-        _01general.get_kubernetes_service_checker()()
+        _01general.get_kubernetes_package_checker()()
         self.assertEqual(_01general.KUBERNETES_INFO["snaps"], result)
 
     @mock.patch.object(_01general.helpers, "get_snap_list_all")
@@ -55,7 +55,7 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
         for line in self.snaps_list:
             found = False
             for snap in _01general.SNAPS_K8S:
-                if KubernetesServiceChecks.get_snap_info_from_line(line, snap):
+                if KubernetesPackageChecks.get_snap_info_from_line(line, snap):
                     found = True
                     break
 
@@ -63,7 +63,7 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
                 filterered_snaps.append(line)
 
         mock_get_snap_list_all.return_value = filterered_snaps
-        _01general.get_kubernetes_service_checker()()
+        _01general.get_kubernetes_package_checker()()
         self.assertIsNone(_01general.KUBERNETES_INFO.get("snaps"))
 
 
