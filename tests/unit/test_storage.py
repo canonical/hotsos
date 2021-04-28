@@ -5,9 +5,9 @@ import utils
 # Need this for plugin imports
 utils.add_sys_plugin_path("storage")
 from plugins.storage import (  # noqa E402
-    _01ceph,
-    _02bcache,
-    _03ceph_daemon_logs,
+    ceph,
+    bcache,
+    ceph_daemon_logs,
 )
 
 
@@ -15,29 +15,29 @@ class TestStoragePlugin01ceph_services(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        _01ceph.issues_utils.PLUGIN_TMP_DIR = self.plugin_tmp_dir
+        ceph.issues_utils.PLUGIN_TMP_DIR = self.plugin_tmp_dir
 
     def tearDown(self):
         super().tearDown()
-        _01ceph.issues_utils.PLUGIN_TMP_DIR = ""
+        ceph.issues_utils.PLUGIN_TMP_DIR = ""
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_service_info(self):
         result = ['ceph-mgr (1)', 'ceph-mon (1)', 'ceph-osd (6)',
                   'radosgw (1)']
-        _01ceph.get_service_checker()()
-        self.assertEqual(_01ceph.CEPH_INFO["services"], result)
+        ceph.get_service_checker()()
+        self.assertEqual(ceph.CEPH_INFO["services"], result)
 
-    @mock.patch.object(_01ceph.CephChecksBase, "__call__",
+    @mock.patch.object(ceph.CephChecksBase, "__call__",
                        lambda *args: None)
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_service_info_unavailable(self):
-        _01ceph.get_service_checker()()
-        self.assertFalse("services" in _01ceph.CEPH_INFO)
+        ceph.get_service_checker()()
+        self.assertFalse("services" in ceph.CEPH_INFO)
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_package_info(self):
-        _01ceph.get_pkg_checker()()
+        ceph.get_pkg_checker()()
         expected = ['ceph-base 12.2.13-0ubuntu0.18.04.6~cloud0',
                     'ceph-common 12.2.13-0ubuntu0.18.04.6~cloud0',
                     'ceph-mgr 12.2.13-0ubuntu0.18.04.6~cloud0',
@@ -45,37 +45,37 @@ class TestStoragePlugin01ceph_services(utils.BaseTestCase):
                     'ceph-osd 12.2.13-0ubuntu0.18.04.6~cloud0',
                     'python-rbd 12.2.13-0ubuntu0.18.04.6~cloud0',
                     'radosgw 12.2.13-0ubuntu0.18.04.6~cloud0']
-        self.assertEquals(_01ceph.CEPH_INFO["dpkg"], expected)
+        self.assertEquals(ceph.CEPH_INFO["dpkg"], expected)
 
-    @mock.patch.object(_01ceph.helpers, "get_date")
+    @mock.patch.object(ceph.helpers, "get_date")
     def test_get_date_secs(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
-        c = _01ceph.get_osd_checker()
+        c = ceph.get_osd_checker()
         self.assertEquals(c.get_date_secs(), 1234)
 
-    @mock.patch.object(_01ceph.helpers, "get_date")
+    @mock.patch.object(ceph.helpers, "get_date")
     def test_get_date_secs_from_timestamp(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 MDT 2021"
-        c = _01ceph.get_osd_checker()
+        c = ceph.get_osd_checker()
         self.assertEquals(c.get_date_secs(date_string),
                           1616691305)
 
-    @mock.patch.object(_01ceph.helpers, "get_date")
+    @mock.patch.object(ceph.helpers, "get_date")
     def test_get_date_secs_from_timestamp_w_tz(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 UTC 2021"
-        c = _01ceph.get_osd_checker()
+        c = ceph.get_osd_checker()
         self.assertEquals(c.get_date_secs(date_string),
                           1616669705)
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_crushmap_mixed_buckets(self):
-        _01ceph.get_osd_checker()()
+        ceph.get_osd_checker()()
         result = ['default', 'default~ssd']
-        self.assertEqual(_01ceph.CEPH_INFO["mixed_crush_buckets"], result)
-        issues = _01ceph.issues_utils._get_issues()
-        issues = issues[_01ceph.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY]
+        self.assertEqual(ceph.CEPH_INFO["mixed_crush_buckets"], result)
+        issues = ceph.issues_utils._get_issues()
+        issues = issues[ceph.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY]
         issue_names = []
         for issue in issues:
             for name in issue:
@@ -83,23 +83,23 @@ class TestStoragePlugin01ceph_services(utils.BaseTestCase):
 
         self.assertTrue("CephCrushWarning" in issue_names)
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch(self):
         result = {'mgr': ['14.2.11'],
                   'mon': ['14.2.11'],
                   'osd': ['14.2.11'],
                   'rgw': ['14.2.11']}
-        _01ceph.get_osd_checker()()
-        self.assertEqual(_01ceph.CEPH_INFO["versions"], result)
+        ceph.get_osd_checker()()
+        self.assertEqual(ceph.CEPH_INFO["versions"], result)
 
-    @mock.patch.object(_01ceph.helpers, "get_ceph_versions",
+    @mock.patch.object(ceph.helpers, "get_ceph_versions",
                        lambda: [])
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch_unavailable(self):
-        _01ceph.get_osd_checker()()
-        self.assertFalse("versions" in _01ceph.CEPH_INFO)
+        ceph.get_osd_checker()()
+        self.assertFalse("versions" in ceph.CEPH_INFO)
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance(self):
         result = {'pgs-per-osd': {
                    'osd.0': 295,
@@ -111,25 +111,25 @@ class TestStoragePlugin01ceph_services(utils.BaseTestCase):
                    'osd.37': 406,
                    'osd.56': 209,
                    'osd.72': 206}}
-        c = _01ceph.get_osd_checker()
+        c = ceph.get_osd_checker()
         c.get_ceph_pg_imbalance()
-        self.assertEqual(_01ceph.CEPH_INFO, result)
+        self.assertEqual(ceph.CEPH_INFO, result)
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_osd_ids(self):
-        c = _01ceph.get_osd_checker()
+        c = ceph.get_osd_checker()
         c()
         self.assertEqual(c.osd_ids, [63, 81, 90, 109, 101, 70])
 
-    @mock.patch.object(_01ceph.helpers, "get_ceph_osd_df_tree",
+    @mock.patch.object(ceph.helpers, "get_ceph_osd_df_tree",
                        lambda: [])
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance_unavailable(self):
-        c = _01ceph.get_osd_checker()
+        c = ceph.get_osd_checker()
         c.get_ceph_pg_imbalance()
-        self.assertEqual(_01ceph.CEPH_INFO, {})
+        self.assertEqual(ceph.CEPH_INFO, {})
 
-    @mock.patch.object(_01ceph, "CEPH_INFO", {})
+    @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_osd_info(self):
         expected = {63: {'fsid': 'b3885ec9-4d42-4860-a708-d1cbc6e4da29',
                          'dev': '/dev/bcache0', 'rss': '3867M'},
@@ -143,8 +143,8 @@ class TestStoragePlugin01ceph_services(utils.BaseTestCase):
                           'dev': '/dev/bcache3', 'rss': '3965M'},
                     109: {'fsid': '9653fae9-d518-4fe8-abf9-54d015ffea68',
                           'dev': '/dev/bcache5', 'rss': '3898M'}}
-        _01ceph.get_osd_checker()()
-        self.assertEqual(_01ceph.CEPH_INFO["osds"], expected)
+        ceph.get_osd_checker()()
+        self.assertEqual(ceph.CEPH_INFO["osds"], expected)
 
 
 class TestStoragePlugin02bcache(utils.BaseTestCase):
@@ -155,7 +155,7 @@ class TestStoragePlugin02bcache(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(_02bcache, "BCACHE_INFO", {})
+    @mock.patch.object(bcache, "BCACHE_INFO", {})
     def test_get_bcache_info(self):
         result = {'bcache': {'bcache0': {'dname': 'bcache1'},
                              'bcache1': {'dname': 'bcache3'},
@@ -165,8 +165,8 @@ class TestStoragePlugin02bcache(utils.BaseTestCase):
                              'bcache5': {'dname': 'bcache6'},
                              'bcache6': {'dname': 'bcache0'}},
                   'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}}
-        _02bcache.get_bcache_checks()()
-        self.assertEqual(_02bcache.BCACHE_INFO, result)
+        bcache.get_bcache_checks()()
+        self.assertEqual(bcache.BCACHE_INFO, result)
 
 
 class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
@@ -177,7 +177,7 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(_03ceph_daemon_logs, "DAEMON_INFO", {})
+    @mock.patch.object(ceph_daemon_logs, "DAEMON_INFO", {})
     def test_get_ceph_daemon_log_checker(self):
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
                                           'osd.85': {'2021-02-13': 4}},
@@ -187,5 +187,5 @@ class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
                   'long-heartbeat-pings': {'2021-02-09': 42},
                   'heartbeat-no-reply': {'2021-02-09': {'osd.0': 1,
                                                         'osd.1': 2}}}
-        _03ceph_daemon_logs.get_ceph_daemon_log_checker()()
-        self.assertEqual(_03ceph_daemon_logs.DAEMON_INFO, result)
+        ceph_daemon_logs.get_ceph_daemon_log_checker()()
+        self.assertEqual(ceph_daemon_logs.DAEMON_INFO, result)

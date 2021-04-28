@@ -104,4 +104,4 @@ if __name__ == "__main__":
     get_events("network-vif-plugged", data_source)
     if EXT_EVENT_INFO:
         EXT_EVENT_INFO = {"os-server-external-events": EXT_EVENT_INFO}
-        plugin_yaml.dump(EXT_EVENT_INFO)
+        plugin_yaml.save_part(EXT_EVENT_INFO, priority=2)

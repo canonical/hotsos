@@ -188,4 +188,4 @@ if __name__ == "__main__":
     get_ceph_daemon_log_checker()()
     if DAEMON_INFO:
         DAEMON_INFO = {"daemon-events": DAEMON_INFO}
-        plugin_yaml.dump(DAEMON_INFO)
+        plugin_yaml.save_part(DAEMON_INFO, priority=2)

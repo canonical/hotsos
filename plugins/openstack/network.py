@@ -219,4 +219,4 @@ if __name__ == "__main__":
     get_instances_port_health()
     if NETWORK_INFO:
         NETWORK_INFO = {"network": NETWORK_INFO}
-        plugin_yaml.dump(NETWORK_INFO)
+        plugin_yaml.save_part(NETWORK_INFO, priority=4)

@@ -135,4 +135,4 @@ if __name__ == "__main__":
     get_kubernetes_package_checker()()
     get_kubernetes_resource_checker()()
     if KUBERNETES_INFO:
-        plugin_yaml.dump(KUBERNETES_INFO)
+        plugin_yaml.save_part(KUBERNETES_INFO, priority=0)

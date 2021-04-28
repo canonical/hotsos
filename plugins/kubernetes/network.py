@@ -62,4 +62,4 @@ def get_kubernetes_network_checks():
 if __name__ == "__main__":
     get_kubernetes_network_checks()()
     if NETWORK_INFO:
-        plugin_yaml.dump({"network": NETWORK_INFO})
+        plugin_yaml.save_part({"network": NETWORK_INFO}, priority=1)

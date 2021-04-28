@@ -88,4 +88,4 @@ def get_system_checks():
 if __name__ == "__main__":
     get_system_checks()()
     if SYSTEM_INFO:
-        plugin_yaml.dump(SYSTEM_INFO)
+        plugin_yaml.save_part(SYSTEM_INFO, priority=0)

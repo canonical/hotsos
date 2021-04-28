@@ -255,4 +255,4 @@ if __name__ == "__main__":
     get_kernal_general_checks()()
     get_kernal_memory_checks()()
     if KERNEL_INFO:
-        plugin_yaml.dump(KERNEL_INFO)
+        plugin_yaml.save_part(KERNEL_INFO, priority=0)

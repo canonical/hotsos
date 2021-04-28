@@ -11,10 +11,10 @@ from common import known_bugs_utils
 # Need this for plugin imports
 utils.add_sys_plugin_path("juju")
 from plugins.juju import (  # noqa E402
-    _01juju,
-    _02charms,
-    _03units,
-    _04known_bugs,
+    juju_services,
+    juju_charms,
+    juju_units,
+    juju_known_bugs,
 )
 
 
@@ -26,12 +26,12 @@ class TestJujuPlugin01juju(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(_01juju, 'JUJU_MACHINE_INFO', {"machines": {}})
+    @mock.patch.object(juju_services, 'JUJU_MACHINE_INFO', {"machines": {}})
     def test_get_machine_info(self):
-        _01juju.get_machine_info()
+        juju_services.get_machine_info()
         expected = {'machines': {'running': ['33 (version=unknown)',
                                              '0 (version=unknown)']}}
-        self.assertEquals(_01juju.JUJU_MACHINE_INFO, expected)
+        self.assertEquals(juju_services.JUJU_MACHINE_INFO, expected)
 
 
 class TestJujuPlugin02charms(utils.BaseTestCase):
@@ -42,11 +42,11 @@ class TestJujuPlugin02charms(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(_02charms, 'CHARM_VERSIONS', {})
+    @mock.patch.object(juju_charms, 'CHARM_VERSIONS', {})
     def test_get_charm_versions(self):
-        _02charms.get_charm_versions()
+        juju_charms.get_charm_versions()
         expected = {}
-        self.assertEquals(_02charms.CHARM_VERSIONS, expected)
+        self.assertEquals(juju_charms.CHARM_VERSIONS, expected)
 
 
 class TestJujuPlugin03charms(utils.BaseTestCase):
@@ -57,21 +57,21 @@ class TestJujuPlugin03charms(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(_03units, 'JUJU_UNIT_INFO', {"units": {}})
+    @mock.patch.object(juju_units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_app_from_unit(self):
         unit = "foo-32"
-        app = _03units.get_app_from_unit(unit)
+        app = juju_units.get_app_from_unit(unit)
         self.assertEquals(app, "foo")
 
-    @mock.patch.object(_03units, 'JUJU_UNIT_INFO', {"units": {}})
+    @mock.patch.object(juju_units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_version(self):
         unit = "foo-32"
-        version = _03units.get_unit_version(unit)
+        version = juju_units.get_unit_version(unit)
         self.assertEquals(version, 32)
 
-    @mock.patch.object(_03units, 'JUJU_UNIT_INFO', {"units": {}})
+    @mock.patch.object(juju_units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_info(self):
-        _03units.get_unit_info()
+        juju_units.get_unit_info()
         expected = {'local': ['filebeat-24', 'neutron-gateway-0',
                               'ntp-0'],
                     'lxd': ['ceph-mon-0',
@@ -111,7 +111,7 @@ class TestJujuPlugin03charms(utils.BaseTestCase):
                             'rabbitmq-server-0'],
                     'stopped': ['nrpe-0', 'rabbitmq-server-2',
                                 'rabbitmq-server-3']}
-        self.assertEquals(_03units.JUJU_UNIT_INFO, {"units": expected})
+        self.assertEquals(juju_units.JUJU_UNIT_INFO, {"units": expected})
 
 
 class TestJujuPlugin04known_issues(utils.BaseTestCase):
@@ -129,7 +129,7 @@ class TestJujuPlugin04known_issues(utils.BaseTestCase):
     def test_detect_known_bugs(self):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
-            _04known_bugs.detect_known_bugs()
+            juju_known_bugs.detect_known_bugs()
             expected = {"known-bugs": [{'https://pad.lv/1910958':
                                         'no description provided'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)

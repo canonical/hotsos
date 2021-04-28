@@ -23,4 +23,4 @@ if __name__ == "__main__":
     get_vm_info()
     if VM_INFO:
         VM_INFO = {"instances": VM_INFO}
-        plugin_yaml.dump(VM_INFO)
+        plugin_yaml.save_part(VM_INFO, priority=1)

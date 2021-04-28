@@ -56,4 +56,4 @@ def add_issues_to_master_plugin():
     """
     issues = _get_issues()
     if issues:
-        plugin_yaml.dump(issues)
+        plugin_yaml.save_part(issues, priority=99)

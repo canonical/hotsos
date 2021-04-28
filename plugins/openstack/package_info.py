@@ -17,4 +17,4 @@ if __name__ == "__main__":
     c = get_checks()
     info = c()
     if info:
-        plugin_yaml.dump({"dpkg": info})
+        plugin_yaml.save_part({"dpkg": info}, priority=3)

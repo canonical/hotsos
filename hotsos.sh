@@ -301,12 +301,12 @@ for data_root in ${SOS_PATHS[@]}; do
                 run_part $plugin $part
             done
         else
-            for priority in {00..99}; do
-                for part in `find $CWD/plugins/$plugin -name _$priority\*| grep -v __pycache__`; do
-                    run_part $plugin `basename $part`
-                done
+            for part in `find $CWD/plugins/$plugin -executable -type f| grep -v __pycache__`; do
+                run_part $plugin `basename $part`
             done
         fi
+        # must be run last after all others
+        run_part utils 99known_bugs_and_issues_base
         # teardown plugin temp area
         if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
             rm -rf $PLUGIN_TMP_DIR

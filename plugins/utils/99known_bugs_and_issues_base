@@ -11,7 +11,9 @@ from common.known_bugs_utils import (
 from common.issues_utils import (
     add_issues_to_master_plugin,
 )
+from common import plugin_yaml
 
 if __name__ == "__main__":
     add_known_bugs_to_master_plugin()
     add_issues_to_master_plugin()
+    plugin_yaml.dump_all_parts()

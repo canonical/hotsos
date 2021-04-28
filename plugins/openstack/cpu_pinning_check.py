@@ -446,4 +446,4 @@ if __name__ == "__main__":
     checker.get_results()
     if CPU_PINNING_INFO:
         CPU_PINNING_INFO = {"cpu-pinning-checks": CPU_PINNING_INFO}
-        plugin_yaml.dump(CPU_PINNING_INFO)
+        plugin_yaml.save_part(CPU_PINNING_INFO, priority=6)

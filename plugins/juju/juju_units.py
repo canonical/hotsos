@@ -103,4 +103,4 @@ def get_unit_info():
 if __name__ == "__main__":
     get_unit_info()
     if JUJU_UNIT_INFO:
-        plugin_yaml.dump(JUJU_UNIT_INFO)
+        plugin_yaml.save_part(JUJU_UNIT_INFO, priority=2)

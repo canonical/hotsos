@@ -33,4 +33,4 @@ def get_charm_versions():
 if __name__ == "__main__":
     get_charm_versions()
     if CHARM_VERSIONS:
-        plugin_yaml.dump(CHARM_VERSIONS)
+        plugin_yaml.save_part(CHARM_VERSIONS, priority=1)

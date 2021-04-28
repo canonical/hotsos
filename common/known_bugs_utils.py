@@ -64,4 +64,4 @@ def add_known_bugs_to_master_plugin():
     """
     bugs = _get_known_bugs()
     if bugs:
-        plugin_yaml.dump(bugs)
+        plugin_yaml.save_part(bugs, priority=99)

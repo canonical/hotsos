@@ -34,8 +34,7 @@ def filter_master_yaml():
 
     with open(constants.MASTER_YAML_OUT, 'w') as fd:
         if filtered:
-            fd.write(plugin_yaml.dump(filtered, ensure_master_has_plugin=False,
-                                      stdout=False))
+            fd.write(plugin_yaml.dump(filtered, stdout=False))
             fd.write("\n")
         else:
             fd.write("")

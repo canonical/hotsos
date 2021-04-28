@@ -61,4 +61,4 @@ def get_machine_info():
 if __name__ == "__main__":
     get_machine_info()
     if JUJU_MACHINE_INFO:
-        plugin_yaml.dump(JUJU_MACHINE_INFO)
+        plugin_yaml.save_part(JUJU_MACHINE_INFO, priority=0)

@@ -46,4 +46,4 @@ def get_bcache_checks():
 if __name__ == "__main__":
     get_bcache_checks()()
     if BCACHE_INFO:
-        plugin_yaml.dump(BCACHE_INFO)
+        plugin_yaml.save_part(BCACHE_INFO, priority=1)

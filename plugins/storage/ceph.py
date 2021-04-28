@@ -297,4 +297,4 @@ if __name__ == "__main__":
     get_pkg_checker()()
     get_osd_checker()()
     if CEPH_INFO:
-        plugin_yaml.dump({"ceph": CEPH_INFO})
+        plugin_yaml.save_part({"ceph": CEPH_INFO}, priority=0)

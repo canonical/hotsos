@@ -340,4 +340,4 @@ def run_agent_checks():
 if __name__ == "__main__":
     run_agent_checks()
     if AGENT_CHECKS_RESULTS["agent-checks"]:
-        plugin_yaml.dump(AGENT_CHECKS_RESULTS)
+        plugin_yaml.save_part(AGENT_CHECKS_RESULTS, priority=7)

@@ -66,4 +66,4 @@ if __name__ == "__main__":
     get_service_features()
     if SERVICE_FEATURES:
         SERVICE_FEATURES = {"features": SERVICE_FEATURES}
-        plugin_yaml.dump(SERVICE_FEATURES)
+        plugin_yaml.save_part(SERVICE_FEATURES, priority=5)

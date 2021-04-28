@@ -87,4 +87,4 @@ def get_openstack_service_checker():
 if __name__ == "__main__":
     get_openstack_service_checker()()
     if OPENSTACK_INFO:
-        plugin_yaml.dump(OPENSTACK_INFO)
+        plugin_yaml.save_part(OPENSTACK_INFO, priority=0)
