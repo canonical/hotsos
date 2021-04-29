@@ -13,6 +13,7 @@ OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
     helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
                                     "False"))
 
+# These are the names of Openstack projects we want to track.
 OST_PROJECTS = ["aodh",
                 "barbican",
                 "ceilometer",
@@ -26,30 +27,18 @@ OST_PROJECTS = ["aodh",
                 "neutron",
                 "nova",
                 "manila",
+                "masakari",
                 "octavia",
+                "placement",
                 "swift",
                 ]
 
 SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*[^:/]?"
 
-# TODO: keep this list up-to-date with services we care about in the context of
-#       openstack.
-OST_SERVICES = [r"aodh{}".format(SVC_VALID_SUFFIX),
-                r"barbican{}".format(SVC_VALID_SUFFIX),
-                r"ceilometer{}".format(SVC_VALID_SUFFIX),
-                r"cinder{}".format(SVC_VALID_SUFFIX),
-                r"designate{}".format(SVC_VALID_SUFFIX),
-                r"glance{}".format(SVC_VALID_SUFFIX),
-                r"gnocchi{}".format(SVC_VALID_SUFFIX),
-                r"heat{}".format(SVC_VALID_SUFFIX),
-                r"horizon",
-                r"keystone{}".format(SVC_VALID_SUFFIX),
-                r"manila{}".format(SVC_VALID_SUFFIX),
-                r"neutron{}".format(SVC_VALID_SUFFIX),
-                r"nova{}".format(SVC_VALID_SUFFIX),
-                r"octavia{}".format(SVC_VALID_SUFFIX),
-                r"swift{}".format(SVC_VALID_SUFFIX),
-                ]
+# expressions used to match openstack services for each project
+OST_SERVICES_EXPRS = []
+for project in OST_PROJECTS:
+    OST_SERVICES_EXPRS.append(project + SVC_VALID_SUFFIX)
 
 # Services that are not actually openstack projects but are used by them
 OST_SERVICES_DEPS = [r"apache{}".format(SVC_VALID_SUFFIX),
@@ -66,6 +55,7 @@ OST_SERVICES_DEPS = [r"apache{}".format(SVC_VALID_SUFFIX),
                      r"qemu-system-\S+",
                      ]
 
+OST_PKG_ALIASES = ["openstack-dashboard"]
 
 OST_DEP_PKGS = [r"conntrack",
                 r"dnsmasq",

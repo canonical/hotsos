@@ -2,7 +2,11 @@
 from common import plugin_yaml
 from common.checks import PackageChecksBase
 
-from openstack_common import OST_PROJECTS, OST_DEP_PKGS
+from openstack_common import (
+    OST_PROJECTS,
+    OST_DEP_PKGS,
+    OST_PKG_ALIASES,
+)
 
 
 class OpenstackPackageChecks(PackageChecksBase):
@@ -10,7 +14,8 @@ class OpenstackPackageChecks(PackageChecksBase):
 
 
 def get_checks():
-    return OpenstackPackageChecks(OST_PROJECTS + OST_DEP_PKGS)
+    package_exprs = OST_PROJECTS + OST_PKG_ALIASES + OST_DEP_PKGS
+    return OpenstackPackageChecks(package_exprs)
 
 
 if __name__ == "__main__":

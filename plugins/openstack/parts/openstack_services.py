@@ -9,8 +9,8 @@ from common import (
 )
 from openstack_common import (
     OST_PROJECTS,
-    OST_SERVICES,
     OST_SERVICES_DEPS,
+    OST_SERVICES_EXPRS,
     OpenstackServiceChecksBase,
 )
 
@@ -80,7 +80,7 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
 
 def get_openstack_service_checker():
     # Do this way to make it easier to write unit tests.
-    OPENSTACK_SERVICES_EXPRS = OST_SERVICES + OST_SERVICES_DEPS
+    OPENSTACK_SERVICES_EXPRS = OST_SERVICES_EXPRS + OST_SERVICES_DEPS
     return OpenstackServiceChecks(OPENSTACK_SERVICES_EXPRS, hint_range=(0, 3))
 
 
