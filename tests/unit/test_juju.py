@@ -28,9 +28,9 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
 
     @mock.patch.object(services, 'JUJU_MACHINE_INFO', {"machines": {}})
     def test_get_machine_info(self):
-        services.get_machine_info()
         expected = {'machines': {'running': ['33 (version=unknown)',
                                              '0 (version=unknown)']}}
+        services.get_machine_checks()()
         self.assertEquals(services.JUJU_MACHINE_INFO, expected)
 
 
@@ -44,7 +44,7 @@ class TestJujuPluginPartCharms(utils.BaseTestCase):
 
     @mock.patch.object(charms, 'CHARM_VERSIONS', {})
     def test_get_charm_versions(self):
-        charms.get_charm_versions()
+        charms.get_charm_checks()()
         expected = {}
         self.assertEquals(charms.CHARM_VERSIONS, expected)
 
@@ -58,20 +58,19 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
-    def test_get_app_from_unit(self):
+    def test_get_app_from_unit_name(self):
         unit = "foo-32"
-        app = units.get_app_from_unit(unit)
+        app = units.JujuUnitChecks().get_app_from_unit_name(unit)
         self.assertEquals(app, "foo")
 
     @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_version(self):
         unit = "foo-32"
-        version = units.get_unit_version(unit)
+        version = units.JujuUnitChecks().get_unit_version(unit)
         self.assertEquals(version, 32)
 
     @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_info(self):
-        units.get_unit_info()
         expected = {'local': ['filebeat-24', 'neutron-gateway-0',
                               'ntp-0'],
                     'lxd': ['ceph-mon-0',
@@ -111,6 +110,7 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
                             'rabbitmq-server-0'],
                     'stopped': ['nrpe-0', 'rabbitmq-server-2',
                                 'rabbitmq-server-3']}
+        units.get_unit_checks()()
         self.assertEquals(units.JUJU_UNIT_INFO, {"units": expected})
 
 

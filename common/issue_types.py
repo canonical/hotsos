@@ -10,3 +10,7 @@ class MemoryWarning(IssueTypeBase):
 
 class CephCrushWarning(IssueTypeBase):
     pass
+
+
+class JujuWarning(IssueTypeBase):
+    pass
