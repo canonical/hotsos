@@ -73,7 +73,7 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
                         format(PLUGIN_TMP_DIR))
 
     if type == LAUNCHPAD:
-        new_bug = "https://pad.lv/{}".format(bug_id)
+        new_bug = "https://bugs.launchpad.net/bugs/{}".format(bug_id)
 
     if description is None:
         description = "no description provided"

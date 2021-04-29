@@ -131,7 +131,7 @@ class TestJujuPlugin04known_issues(utils.BaseTestCase):
                                self.tmpdir):
             juju_known_bugs.detect_known_bugs()
             expected = {'known-bugs':
-                        [{'https://pad.lv/1910958':
+                        [{'https://bugs.launchpad.net/bugs/1910958':
                           ('Unit unit-rabbitmq-server-2 failed to start due '
                            'to members in relation 236 that cannot be '
                            'removed. - raised by testplugin.01part')}]}

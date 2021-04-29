@@ -23,7 +23,7 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         super().tearDown()
 
     def test_get_known_bugs(self):
-        known_bugs = {"bugs": [{'https://pad.lv/1':
+        known_bugs = {"bugs": [{'https://bugs.launchpad.net/bugs/1':
                                 'no description provided'}]}
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
@@ -46,12 +46,14 @@ class TestKnownBugsUtils(utils.BaseTestCase):
             ret = known_bugs_utils._get_known_bugs()
             self.assertEquals(ret,
                               {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
-                               [{'https://pad.lv/1': 'no description provided'}
+                               [{'https://bugs.launchpad.net/bugs/1':
+                                 'no description provided'}
                                 ]})
 
     def test_add_known_bug(self):
         known_bugs = {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
-                      [{'https://pad.lv/1': 'no description provided'}]}
+                      [{'https://bugs.launchpad.net/bugs/1':
+                        'no description provided'}]}
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             with open(os.path.join(self.tmpdir, 'known_bugs.yaml'), 'w') as fd:
@@ -60,6 +62,8 @@ class TestKnownBugsUtils(utils.BaseTestCase):
             known_bugs_utils.add_known_bug(2)
             ret = known_bugs_utils._get_known_bugs()
             expected = {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
-                        [{'https://pad.lv/1': 'no description provided'},
-                         {'https://pad.lv/2': 'no description provided'}]}
+                        [{'https://bugs.launchpad.net/bugs/1':
+                          'no description provided'},
+                         {'https://bugs.launchpad.net/bugs/2':
+                          'no description provided'}]}
             self.assertEquals(ret, expected)
