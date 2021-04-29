@@ -1,43 +1,43 @@
 #!/usr/bin/python3
 from common.searchtools import (
-    SearchDef,
     FileSearcher,
 )
-from common.known_bugs_utils import add_known_bug
+from common.known_bugs_utils import (
+    add_known_bug,
+    BugSearchDef,
+)
 from juju_common import (
     JUJU_LOG_PATH
 )
 
-# maximum number of chars to print when a matching text is detected.
-MAX_MATCH_CHARS = 200
+# NOTE: only LP bugs supported for now
+BUG_SEARCHES = [
+    BugSearchDef(
+        (r'.* manifold worker .+ error: failed to initialize uniter for '
+         r'"(\S+)": cannot create relation state tracker: cannot remove '
+         r'persisted state, relation (\d+) has members'),
+        bug_id="1910958",
+        hint="manifold worker returned unexpected error",
+        reason=("Unit {} failed to start due to members in relation {} that "
+                "cannot be removed."),
+        reason_value_render_indexes=[1, 2],
+        ),
+]
 
 
 def detect_known_bugs():
     """Unit fails to start complaining there are members in the relation."""
-    known_bugs = {
-        1910958: {
-            "description": ("Unit fails to start complaining there are "
-                            "members in the relation."),
-            "pattern": (
-                r'.* manifold worker returned unexpected error: failed to '
-                r'initialize uniter for "[A-Za-z0-9-]+": cannot create '
-                r'relation state tracker: cannot remove persisted state, '
-                r'relation \d+ has members'),
-            "hint": "manifold worker returned unexpected error",
-            }
-        }
-
     s = FileSearcher()
-    for bug in known_bugs:
-        sd = SearchDef(known_bugs[bug]["pattern"],
-                       tag=1910958, hint=known_bugs[bug]["hint"])
-        s.add_search_term(sd, f"{JUJU_LOG_PATH}/*")
+    for bugdef in BUG_SEARCHES:
+        s.add_search_term(bugdef, f"{JUJU_LOG_PATH}/*")
 
     results = s.search()
 
-    for bug in known_bugs:
-        if results.find_by_tag(bug):
-            add_known_bug(bug, known_bugs.get("description"))
+    for bugdef in BUG_SEARCHES:
+        bug_results = results.find_by_tag(bugdef.tag)
+        if bug_results:
+            reason = bugdef.render_reason(bug_results[0])
+            add_known_bug(bugdef.tag, reason)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,10 @@ from common.searchtools import (
     SearchDef,
     FileSearcher,
 )
-from common.known_bugs_utils import add_known_bug
+from common.known_bugs_utils import (
+    BugSearchDef,
+    add_known_bug,
+)
 from openstack_common import (
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     AGENT_DAEMON_NAMES,
@@ -69,13 +72,6 @@ ROUTER_EVENT_SEARCHES = [
         tag="router-spawn-end",
         hint="Keepalived"),
 ]
-
-
-class BugSearchDef(SearchDef):
-    def __init__(self, expr, bug_id, hint, reason):
-        super().__init__(expr, tag=bug_id, hint=hint)
-        self.reason = reason
-
 
 # NOTE: only LP bugs supported for now
 AGENT_BUG_SEARCHES = [

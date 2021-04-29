@@ -5,11 +5,46 @@ import yaml
 from common import plugin_yaml
 from common.constants import (
     PLUGIN_TMP_DIR,
+    PLUGIN_NAME,
+    PART_NAME,
 )
+from common.searchtools import SearchDef
 
 LAUNCHPAD = "launchpad"
 MASTER_YAML_KNOWN_BUGS_KEY = "known-bugs"
 KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
+
+
+class BugSearchDef(SearchDef):
+    def __init__(self, expr, bug_id, hint, reason,
+                 reason_value_render_indexes=None):
+        """
+        @param reason: string reason describing the issue and why it has been
+        flagged. This string can be a template i.e. containing {} fields that
+        can be rendered using results.
+        @param reason_value_render_indexes: if the reason string is a template,
+        this is a list of indexes in the results that can be extracted for
+        inclusion in the reason.
+        """
+        super().__init__(expr, tag=bug_id, hint=hint)
+        if reason:
+            part_name = PART_NAME.rstrip(".py")
+            self.reason = "{} - raised by {}.{}".format(reason, PLUGIN_NAME,
+                                                        part_name)
+        else:
+            self.reason = ""
+
+        self.reason_value_render_indexes = reason_value_render_indexes
+
+    def render_reason(self, search_result):
+        if self.reason and self.reason_value_render_indexes:
+            values = []
+            for idx in self.reason_value_render_indexes:
+                values.append(search_result.get(idx))
+
+            return self.reason.format(*values)
+
+        return self.reason
 
 
 def _get_known_bugs():
