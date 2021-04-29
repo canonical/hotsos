@@ -48,6 +48,17 @@ def save_part(data, priority=0):
     parts_index = os.path.join(PLUGIN_TMP_DIR, "index.yaml")
     part_path = os.path.join(PLUGIN_TMP_DIR,
                              "{}.{}.part.yaml".format(PLUGIN_NAME, PART_NAME))
+
+    # don't clobber
+    if os.path.exists(part_path):
+        newpath = part_path
+        i = 0
+        while os.path.exists(newpath):
+            i += 1
+            newpath = "{}.{}".format(part_path, i)
+
+        part_path = newpath
+
     with open(part_path, 'w') as fd:
         fd.write(out)
 
