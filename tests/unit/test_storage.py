@@ -1,4 +1,7 @@
+import os
+
 import mock
+import tempfile
 
 import utils
 
@@ -156,7 +159,7 @@ class TestStoragePluginPartBcache(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(bcache, "BCACHE_INFO", {})
-    def test_get_bcache_info(self):
+    def test_get_bcache_dev_info(self):
         result = {'bcache': {'bcache0': {'dname': 'bcache1'},
                              'bcache1': {'dname': 'bcache3'},
                              'bcache2': {'dname': 'bcache4'},
@@ -165,8 +168,32 @@ class TestStoragePluginPartBcache(utils.BaseTestCase):
                              'bcache5': {'dname': 'bcache6'},
                              'bcache6': {'dname': 'bcache0'}},
                   'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}}
-        bcache.get_bcache_checks()()
+        bcache.get_bcache_dev_checks()()
         self.assertEqual(bcache.BCACHE_INFO, result)
+
+    @mock.patch.object(bcache, "BCACHE_INFO", {})
+    def test_get_bcache_stats_checks(self):
+        bcache.get_bcache_stats_checks()()
+        self.assertEqual(bcache.BCACHE_INFO, {})
+
+    @mock.patch.object(bcache, "add_known_bug")
+    @mock.patch.object(bcache, "add_issue")
+    @mock.patch.object(bcache, "BCACHE_INFO", {})
+    def test_get_bcache_stats_checks_issue_found(self, mock_add_issue,
+                                                 mock_add_known_bug):
+        with tempfile.TemporaryDirectory() as dtmp:
+            with mock.patch.object(bcache.BcacheChecksBase,
+                                   "get_sysfs_cachesets",
+                                   lambda *args: [dtmp]):
+                path = os.path.join(dtmp, "cache_available_percent")
+                with open(path, 'w') as fd:
+                    fd.write("30\n")
+
+                bcache.get_bcache_stats_checks()()
+                self.assertEqual(bcache.BCACHE_INFO, {})
+                self.assertTrue(mock_add_issue.called)
+                mock_add_known_bug.assert_has_calls([
+                    mock.call(1900438, 'see BcacheWarning for info')])
 
 
 class TestStoragePluginPartCeph_daemon_logs(utils.BaseTestCase):
