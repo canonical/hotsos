@@ -19,16 +19,56 @@ VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
 
 class KernelChecksBase(object):
 
-    def get_numa_nodes(self):
+    def __init__(self):
+        self._kernel_version = ""
+        self._boot_parameters = []
+        self._numa_nodes = []
+
+    @property
+    def kernel_version(self):
+        """Returns string kernel version."""
+        uname = helpers.get_uname()
+        if uname:
+            ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
+            if ret:
+                self._kernel_version = ret[1]
+
+        return self._kernel_version
+
+    @property
+    def boot_parameters(self):
+        """Returns list of boot parameters."""
+        parameters = []
+        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
+        if os.path.exists(path):
+            cmdline = open(path).read().strip()
+            for entry in cmdline.split():
+                if entry.startswith("BOOT_IMAGE"):
+                    continue
+
+                if entry.startswith("root="):
+                    continue
+
+                parameters.append(entry)
+
+            self._boot_parameters = parameters
+
+        return self._boot_parameters
+
+    @property
+    def numa_nodes(self):
+        """Returns list of numa nodes."""
         # /proc/buddyinfo may not exist in containers/VMs
         if not os.path.exists(BUDDY_INFO):
-            return []
+            return self._numa_nodes
 
-        nodes = set()
-        for line in open(BUDDY_INFO):
-            nodes.add(int(line.split()[1].strip(',')))
+        if not self._numa_nodes:
+            nodes = set()
+            for line in open(BUDDY_INFO):
+                nodes.add(int(line.split()[1].strip(',')))
 
-        return list(nodes)
+        self._numa_nodes = list(nodes)
+        return self._numa_nodes
 
     def get_node_zones(self, zones_type, node):
         for line in open(BUDDY_INFO):
@@ -69,27 +109,12 @@ class KernelChecksBase(object):
 class KernelGeneralChecks(KernelChecksBase):
 
     def get_version_info(self):
-        uname = helpers.get_uname()
-        if uname:
-            ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
-            if ret:
-                KERNEL_INFO["version"] = ret[1]
+        if self.kernel_version:
+            KERNEL_INFO["version"] = self.kernel_version
 
     def get_cmdline_info(self):
-        info = []
-        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
-        if os.path.exists(BUDDY_INFO):
-            cmdline = open(path).read().strip()
-            for entry in cmdline.split():
-                if entry.startswith("BOOT_IMAGE"):
-                    continue
-
-                if entry.startswith("root="):
-                    continue
-
-                info.append(entry)
-
-            KERNEL_INFO["boot"] = " ".join(info)
+        if self.boot_parameters:
+            KERNEL_INFO["boot"] = " ".join(self.boot_parameters)
 
     def get_systemd_info(self):
         path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
@@ -149,21 +174,9 @@ class KernelMemoryChecks(KernelChecksBase):
             KERNEL_INFO["memory-checks"][node_key].append(zone_info)
 
     def get_slab_major_consumers(self):
-        top5_name = {0: 0,
-                     1: 0,
-                     2: 0,
-                     3: 0,
-                     4: 0}
-        top5_num_objs = {0: 0,
-                         1: 0,
-                         2: 0,
-                         3: 0,
-                         4: 0}
-        top5_objsize = {0: 0,
-                        1: 0,
-                        2: 0,
-                        3: 0,
-                        4: 0}
+        top5_name = {}
+        top5_num_objs = {}
+        top5_objsize = {}
 
         # /proc/slabinfo may not exist in containers/VMs
         if not os.path.exists(SLABINFO):
@@ -176,7 +189,7 @@ class KernelMemoryChecks(KernelChecksBase):
             objsize = line[2]
 
             for i in range(5):
-                if num_objs > top5_num_objs[i]:
+                if num_objs > top5_num_objs.get(i, 0):
                     top5_num_objs[i] = num_objs
                     top5_name[i] = name
                     top5_objsize[i] = objsize
@@ -184,24 +197,24 @@ class KernelMemoryChecks(KernelChecksBase):
 
         top5 = []
         for i in range(5):
-            kbytes = top5_num_objs[i] * top5_objsize[i] / 1024
-            top5.append("{} ({}k)".format(top5_name[i], kbytes))
+            if top5_name.get(i):
+                kbytes = top5_num_objs.get(i) * top5_objsize.get(i) / 1024
+                top5.append("{} ({}k)".format(top5_name.get(i), kbytes))
 
         if "memory-checks" not in KERNEL_INFO:
             KERNEL_INFO["memory-checks"] = {}
 
-        KERNEL_INFO["memory-checks"]["slab (top 5)"] = top5
+        KERNEL_INFO["memory-checks"]["slab-top-consumers"] = top5
 
     def check_nodes_memory(self, zones_type):
-        node_zones = {}
-
-        nodes = self.get_numa_nodes()
+        nodes = self.numa_nodes
         if not nodes:
             return
 
         if "memory-checks" not in KERNEL_INFO:
             KERNEL_INFO["memory-checks"] = {}
 
+        node_zones = {}
         for node in nodes:
             msg = ("limited high order memory - check {}".
                    format(BUDDY_INFO))
@@ -213,7 +226,7 @@ class KernelMemoryChecks(KernelChecksBase):
                 KERNEL_INFO["memory-checks"][node_key].append(
                     node_zones[node_key])
 
-    def get_kernel_info(self):
+    def get_memory_info(self):
         self.check_nodes_memory("Normal")
         if KERNEL_INFO.get("memory-checks") is None:
             # only check other types of no issue detected on Normal
@@ -240,7 +253,7 @@ class KernelMemoryChecks(KernelChecksBase):
             KERNEL_INFO["memory-checks"] = "no issues found"
 
     def __call__(self):
-        self.get_kernel_info()
+        self.get_memory_info()
 
 
 def get_kernal_general_checks():

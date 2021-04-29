@@ -31,8 +31,8 @@ class TestKernelPluginPartKernel(utils.BaseTestCase):
                     "21 0 0")
         self.assertEquals(ret, expected)
 
-    def test_get_numa_nodes(self):
-        ret = kernel.KernelMemoryChecks().get_numa_nodes()
+    def test_numa_nodes(self):
+        ret = kernel.KernelMemoryChecks().numa_nodes
         expected = [0, 1]
         self.assertEquals(ret, expected)
 
@@ -90,10 +90,11 @@ class TestKernelPluginPartKernel(utils.BaseTestCase):
     def test_get_slab_major_consumers(self):
         kernel.KernelMemoryChecks().get_slab_major_consumers()
         expected = {"memory-checks":
-                    {'slab (top 5)': ['buffer_head (3714895.9453125k)',
-                                      'radix_tree_node (2426487.4921875k)',
-                                      'vm_area_struct (45507.8125k)',
-                                      'Acpi-Operand (14375.8125k)',
-                                      'anon_vma (8167.96875k)']}
+                    {'slab-top-consumers':
+                     ['buffer_head (3714895.9453125k)',
+                      'radix_tree_node (2426487.4921875k)',
+                      'vm_area_struct (45507.8125k)',
+                      'Acpi-Operand (14375.8125k)',
+                      'anon_vma (8167.96875k)']}
                     }
         self.assertEquals(kernel.KERNEL_INFO, expected)
