@@ -14,3 +14,7 @@ class CephCrushWarning(IssueTypeBase):
 
 class JujuWarning(IssueTypeBase):
     pass
+
+
+class BcacheWarning(IssueTypeBase):
+    pass
