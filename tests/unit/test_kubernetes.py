@@ -8,14 +8,13 @@ from common import helpers
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("kubernetes")
-from plugins.kubernetes import (  # noqa E402
+from plugins.kubernetes.parts import (  # noqa E402
     general,
     network,
 )
-from general import KubernetesPackageChecks  # noqa E402
 
 
-class TestKubernetesPlugin01general(utils.BaseTestCase):
+class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
     def setUp(self):
         self.snaps_list = helpers.get_snap_list_all()
@@ -55,7 +54,8 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
         for line in self.snaps_list:
             found = False
             for snap in general.SNAPS_K8S:
-                if KubernetesPackageChecks.get_snap_info_from_line(line, snap):
+                cls = general.KubernetesPackageChecks
+                if cls.get_snap_info_from_line(line, snap):
                     found = True
                     break
 
@@ -67,7 +67,7 @@ class TestKubernetesPlugin01general(utils.BaseTestCase):
         self.assertIsNone(general.KUBERNETES_INFO.get("snaps"))
 
 
-class TestKubernetesPlugin02network(utils.BaseTestCase):
+class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

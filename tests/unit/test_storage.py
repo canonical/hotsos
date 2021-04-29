@@ -4,14 +4,14 @@ import utils
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("storage")
-from plugins.storage import (  # noqa E402
+from plugins.storage.parts import (  # noqa E402
     ceph,
     bcache,
     ceph_daemon_logs,
 )
 
 
-class TestStoragePlugin01ceph_services(utils.BaseTestCase):
+class TestStoragePluginPartCeph(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -147,7 +147,7 @@ class TestStoragePlugin01ceph_services(utils.BaseTestCase):
         self.assertEqual(ceph.CEPH_INFO["osds"], expected)
 
 
-class TestStoragePlugin02bcache(utils.BaseTestCase):
+class TestStoragePluginPartBcache(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -169,7 +169,7 @@ class TestStoragePlugin02bcache(utils.BaseTestCase):
         self.assertEqual(bcache.BCACHE_INFO, result)
 
 
-class TestStoragePlugin03ceph_daemon_logs(utils.BaseTestCase):
+class TestStoragePluginPartCeph_daemon_logs(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

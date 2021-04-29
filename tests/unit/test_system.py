@@ -3,12 +3,12 @@ import mock
 import utils
 
 utils.add_sys_plugin_path("system")
-from plugins.system import (  # noqa E402
+from plugins.system.parts import (  # noqa E402
     system,
 )
 
 
-class TestSystemPlugin01system(utils.BaseTestCase):
+class TestSystemPluginPartSystem(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

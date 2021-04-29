@@ -4,12 +4,12 @@ import utils
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("kernel")
-from plugins.kernel import (  # noqa E402
+from plugins.kernel.parts import (  # noqa E402
     kernel,
 )
 
 
-class TestKernelPlugin01kernel(utils.BaseTestCase):
+class TestKernelPluginPartKernel(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

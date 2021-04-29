@@ -10,7 +10,7 @@ from common import searchtools
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("openstack")
-from plugins.openstack import (  # noqa E402
+from plugins.openstack.parts import (  # noqa E402
     openstack_services,
     vm_info,
     nova_external_events,
@@ -46,7 +46,7 @@ def fake_ip_link_show_no_errors_drops():
     return [line + '\n' for line in lines.split('\n')]
 
 
-class TestOpenstackPlugin01openstack(utils.BaseTestCase):
+class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -99,7 +99,7 @@ class TestOpenstackPlugin01openstack(utils.BaseTestCase):
                 self.assertEqual(result, expected)
 
 
-class TestOpenstackPlugin02vm_info(utils.BaseTestCase):
+class TestOpenstackPluginPartVm_info(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -114,7 +114,7 @@ class TestOpenstackPlugin02vm_info(utils.BaseTestCase):
                           ["09461f0b-297b-4ef5-9053-dd369c86b96b"])
 
 
-class TestOpenstackPlugin03nova_external_events(utils.BaseTestCase):
+class TestOpenstackPluginPartNova_external_events(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -139,7 +139,7 @@ class TestOpenstackPlugin03nova_external_events(utils.BaseTestCase):
         self.assertEquals(nova_external_events.EXT_EVENT_INFO, events)
 
 
-class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
+class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -210,7 +210,7 @@ class TestOpenstackPlugin04package_versions(utils.BaseTestCase):
         self.assertEquals(results, expected)
 
 
-class TestOpenstackPlugin05network(utils.BaseTestCase):
+class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -253,7 +253,7 @@ class TestOpenstackPlugin05network(utils.BaseTestCase):
         self.assertEqual(ns_info, None)
 
 
-class TestOpenstackPlugin06service_features(utils.BaseTestCase):
+class TestOpenstackPluginPartService_features(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -268,7 +268,7 @@ class TestOpenstackPlugin06service_features(utils.BaseTestCase):
         self.assertEqual(service_features.SERVICE_FEATURES, expected)
 
 
-class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
+class TestOpenstackPluginPartCpu_pinning_check(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -281,7 +281,7 @@ class TestOpenstackPlugin07cpu_pinning_check(utils.BaseTestCase):
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
 
-class TestOpenstackPlugin08agent_checks(utils.BaseTestCase):
+class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

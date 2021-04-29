@@ -10,15 +10,15 @@ from common import known_bugs_utils
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("juju")
-from plugins.juju import (  # noqa E402
-    juju_services,
-    juju_charms,
-    juju_units,
-    juju_known_bugs,
+from plugins.juju.parts import (  # noqa E402
+    services,
+    charms,
+    units,
+    known_bugs,
 )
 
 
-class TestJujuPlugin01juju(utils.BaseTestCase):
+class TestJujuPluginPartServices(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -26,15 +26,15 @@ class TestJujuPlugin01juju(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(juju_services, 'JUJU_MACHINE_INFO', {"machines": {}})
+    @mock.patch.object(services, 'JUJU_MACHINE_INFO', {"machines": {}})
     def test_get_machine_info(self):
-        juju_services.get_machine_info()
+        services.get_machine_info()
         expected = {'machines': {'running': ['33 (version=unknown)',
                                              '0 (version=unknown)']}}
-        self.assertEquals(juju_services.JUJU_MACHINE_INFO, expected)
+        self.assertEquals(services.JUJU_MACHINE_INFO, expected)
 
 
-class TestJujuPlugin02charms(utils.BaseTestCase):
+class TestJujuPluginPartCharms(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -42,14 +42,14 @@ class TestJujuPlugin02charms(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(juju_charms, 'CHARM_VERSIONS', {})
+    @mock.patch.object(charms, 'CHARM_VERSIONS', {})
     def test_get_charm_versions(self):
-        juju_charms.get_charm_versions()
+        charms.get_charm_versions()
         expected = {}
-        self.assertEquals(juju_charms.CHARM_VERSIONS, expected)
+        self.assertEquals(charms.CHARM_VERSIONS, expected)
 
 
-class TestJujuPlugin03charms(utils.BaseTestCase):
+class TestJujuPluginPartUnits(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -57,21 +57,21 @@ class TestJujuPlugin03charms(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(juju_units, 'JUJU_UNIT_INFO', {"units": {}})
+    @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_app_from_unit(self):
         unit = "foo-32"
-        app = juju_units.get_app_from_unit(unit)
+        app = units.get_app_from_unit(unit)
         self.assertEquals(app, "foo")
 
-    @mock.patch.object(juju_units, 'JUJU_UNIT_INFO', {"units": {}})
+    @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_version(self):
         unit = "foo-32"
-        version = juju_units.get_unit_version(unit)
+        version = units.get_unit_version(unit)
         self.assertEquals(version, 32)
 
-    @mock.patch.object(juju_units, 'JUJU_UNIT_INFO', {"units": {}})
+    @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_info(self):
-        juju_units.get_unit_info()
+        units.get_unit_info()
         expected = {'local': ['filebeat-24', 'neutron-gateway-0',
                               'ntp-0'],
                     'lxd': ['ceph-mon-0',
@@ -111,10 +111,10 @@ class TestJujuPlugin03charms(utils.BaseTestCase):
                             'rabbitmq-server-0'],
                     'stopped': ['nrpe-0', 'rabbitmq-server-2',
                                 'rabbitmq-server-3']}
-        self.assertEquals(juju_units.JUJU_UNIT_INFO, {"units": expected})
+        self.assertEquals(units.JUJU_UNIT_INFO, {"units": expected})
 
 
-class TestJujuPlugin04known_issues(utils.BaseTestCase):
+class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -129,7 +129,7 @@ class TestJujuPlugin04known_issues(utils.BaseTestCase):
     def test_detect_known_bugs(self):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
-            juju_known_bugs.detect_known_bugs()
+            known_bugs.detect_known_bugs()
             expected = {'known-bugs':
                         [{'https://bugs.launchpad.net/bugs/1910958':
                           ('Unit unit-rabbitmq-server-2 failed to start due '

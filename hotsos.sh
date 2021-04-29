@@ -255,7 +255,12 @@ run_part ()
     local t_start=`date +%s%3N`
     $DEBUG_MODE && echo -n " $part" 1>&2
     PART_NAME=$part
-    $CWD/plugins/$plugin/$part >> $MASTER_YAML_OUT
+
+    # Needed by python plugins
+    export PYTHONPATH="$CWD/plugins/$plugin"
+
+    $CWD/plugins/$plugin/parts/$part >> $MASTER_YAML_OUT
+
     local t_end=`date +%s%3N`
     delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
     [[ ${delta::1} == '.' ]] && delta="0${delta}"
@@ -297,11 +302,11 @@ for data_root in ${SOS_PATHS[@]}; do
 
         if ((${#RUN_PARTS[@]})); then
             for part in ${RUN_PARTS[@]}; do
-                [[ -r $CWD/plugins/$plugin/$part ]] || continue
+                [[ -r $CWD/plugins/$plugin/parts/$part ]] || continue
                 run_part $plugin $part
             done
         else
-            for part in `find $CWD/plugins/$plugin -executable -type f| grep -v __pycache__`; do
+            for part in `find $CWD/plugins/$plugin/parts -executable -type f| grep -v __pycache__`; do
                 run_part $plugin `basename $part`
             done
         fi
