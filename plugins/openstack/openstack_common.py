@@ -50,7 +50,6 @@ OST_SERVICES_DEPS = [r"apache{}".format(SVC_VALID_SUFFIX),
                      r"mysqld",
                      r"ovs{}".format(SVC_VALID_SUFFIX),
                      r"ovn{}".format(SVC_VALID_SUFFIX),
-                     r"rabbitmq-server",
                      r"vault{}".format(SVC_VALID_SUFFIX),
                      r"qemu-system-\S+",
                      ]
@@ -69,7 +68,6 @@ OST_DEP_PKGS = [r"conntrack",
                 r"openvswitch-switch",
                 r"ovn",
                 r"qemu-kvm",
-                r"rabbitmq-server",
                 ]
 
 AGENT_DAEMON_NAMES = {

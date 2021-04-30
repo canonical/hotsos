@@ -54,12 +54,21 @@ declare -A PLUGINS=(
     [storage]=false
     [juju]=false
     [kernel]=false
+    [rabbitmq]=true
     [system]=true  # always do system by default
     [all]=false
 )
 override_all_default=false
 # output ordering
-declare -a PLUGIN_NAMES=( system openstack kubernetes storage juju kernel )
+declare -a PLUGIN_NAMES=(
+    system
+    openstack
+    rabbitmq
+    kubernetes
+    storage
+    juju
+    kernel
+)
 
 cleanup ()
 {
@@ -202,6 +211,7 @@ if ${PLUGINS[all]}; then
     PLUGINS[juju]=true
     PLUGINS[kernel]=true
     PLUGINS[kubernetes]=true
+    PLUGINS[rabbitmq]=true
     PLUGINS[system]=true
 fi
 
