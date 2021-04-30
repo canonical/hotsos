@@ -30,3 +30,6 @@ jobs:
     - name: Run pep8
       run: tox -e pep8
       if: matrix.python-version == 3.9
+    - name: Run bashate
+      run: tox -e bashate
+      if: matrix.python-version == 3.9

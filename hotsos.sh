@@ -250,7 +250,7 @@ for data_root in ${SOS_PATHS[@]}; do
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
         repo_info=`cat $REPO_INFO_PATH`
     else
-        repo_info=`get_git_rev_info` || repo_info="unknown" 
+        repo_info=`get_git_rev_info` || repo_info="unknown"
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $MASTER_YAML_OUT
 
