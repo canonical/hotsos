@@ -23,7 +23,6 @@
 DEBUG_MODE=false
 MIMIMAL_MODE=false
 # These globals are made available to all plugins
-export VERBOSITY_LEVEL=0
 export DATA_ROOT
 # plugin args - prefix must be plugin name
 export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
@@ -90,18 +89,14 @@ OPTIONS
         Provide some debug output such as plugin execution times.
     -h|--help
         This message.
-    --juju
-        Use the Juju plugin.
-    --kernel
-        Use the Kernel plugin.
+    --<plugin name>
+        Use the specified plugin.
     --list-plugins
         Show available plugins.
     --max-parallel-tasks [INT]
         The searchtools module will execute searches across files in parallel.
         By default the number of cores used is limited to a maximum of 8 and
         you can override that value with this option.
-    --openstack
-        Use the Openstack plugin.
     --openstack-show-cpu-pinning-results
         The Openstack plugin will check for cpu pinning configurations and
         perform checks. By default only brief messgaes will be displayed when
@@ -110,17 +105,11 @@ OPTIONS
         When displaying agent error counts, they will be grouped by date. This
         option will result in grouping by date_time which may be more useful
         for cross-referencing with other logs.
-    --kubernetes
-        Use the Kubernetes plugin.
     --part
         Name of plugin part to run. May be specified multiple times.
     --short
         If provided, the output will be filtered to only include known-bugs
         and potential-issues sections for plugins run.
-    --storage
-        Use the Storage plugin.
-    --system
-        Use the System plugin.
     -s|--save
         Save yaml output to a file.
     --all-logs
@@ -149,32 +138,6 @@ while (($#)); do
             usage
             exit 0
             ;;
-## PLUGINS ############
-        --juju)
-            override_all_default=true
-            PLUGINS[juju]=true
-            ;;
-        --kernel)
-            override_all_default=true
-            PLUGINS[kernel]=true
-            ;;
-        --kubernetes)
-            override_all_default=true
-            PLUGINS[kubernetes]=true
-            ;;
-        --openstack)
-            override_all_default=true
-            PLUGINS[openstack]=true
-            ;;
-        --system)
-            override_all_default=true
-            PLUGINS[system]=true
-            ;;
-        --storage)
-            override_all_default=true
-            PLUGINS[storage]=true
-            ;;
-#######################
 ## PLUGIN OPTS ########
         --openstack-show-cpu-pinning-results)
             OPENSTACK_SHOW_CPU_PINNING_RESULTS=true
@@ -208,18 +171,20 @@ while (($#)); do
         --all-logs)
             USE_ALL_LOGS=true
             ;;
-        -v)
-            VERBOSITY_LEVEL=1
-            ;;
-        -vv)
-            VERBOSITY_LEVEL=2
-            ;;
-        -vv*)
-            VERBOSITY_LEVEL=3
-            ;;
         *)
-            [[ -d $1 ]] || { echo "ERROR: invalid path '$1'"; exit 1; }
-            SOS_PATHS+=( $1 )
+            plugin_provided=false
+            for p in ${!PLUGINS[@]}; do
+                if [[ ${1#--} == $p ]]; then
+                    override_all_default=true
+                    PLUGINS[$p]=true
+                    plugin_provided=true
+                    break
+                fi
+            done
+            if ! $plugin_provided; then
+                [[ -d $1 ]] || { echo "ERROR: invalid path or option '$1'"; exit 1; }
+                SOS_PATHS+=( $1 )
+            fi
             ;;
     esac
     shift
@@ -270,9 +235,10 @@ run_part ()
 CWD=$(dirname `realpath $0`)
 for data_root in ${SOS_PATHS[@]}; do
     if [ "$data_root" = "/" ]; then
-        echo -e "INFO: running against localhost since no sosreport path provided\n" 1>&2
+        echo -e "INFO: analysing localhost since no sosreport path provided\n" 1>&2
         DATA_ROOT=/
     else
+        echo -e "INFO: analysing sosreport at $data_root\n" 1>&2
         DATA_ROOT=$data_root
     fi
 
@@ -340,5 +306,5 @@ for data_root in ${SOS_PATHS[@]}; do
         rm $MASTER_YAML_OUT
     fi
 
-    echo "INFO: see --help for more display options" 1>&2
+    echo "INFO: see --help for more options" 1>&2
 done
