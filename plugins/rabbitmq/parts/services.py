@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 import os
 from common import (
-    constants,
     checks,
+    constants,
     plugin_yaml,
 )
 
@@ -12,6 +12,10 @@ from common.searchtools import (
     FileSearcher,
 )
 
+
+import functools
+import os.path
+import re
 
 RABBITMQ_INFO = {}
 RMQ_SERVICES_EXPRS = [
@@ -43,30 +47,47 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
         if self.services:
             RABBITMQ_INFO["services"] = self.get_service_info_str()
 
-    def check_stats(self):
+    def get_queues(self):
+        """Get distribution of queues across cluster."""
         path = os.path.join(constants.DATA_ROOT,
                             "sos_commands/rabbitmq/rabbitmqctl_report")
         s = FileSearcher()
-        sd = SequenceSearchDef(start=SearchDef(r"^Queues on ([^:]+):"),
-                               body=SearchDef(r"^(\S+)\s+(\S+)\s+.+"),
-                               end=SearchDef(r"^$"),
-                               tag="report-queues")
+        sd = SequenceSearchDef(
+            start=SearchDef(r"^Queues on ([^:]+):"),
+            body=SearchDef(r"^<([^.\s]+)[.0-9]+>\s+(\S+)\s+.+"),
+            end=SearchDef(r"^$"),
+            tag="report-queues")
         s.add_search_term(sd, path)
         results = s.search()
         sections = results.find_sequence_sections(sd)
         resources = {"queues": {}}
         for id in sections:
             vhost = None
-            queues = []
+            queues = {}
             for r in sections[id]:
                 if r.tag == sd.start_tag:
                     vhost = r.get(1)
                 elif r.tag == sd.body_tag:
                     info = {"pid_name": r.get(1),
                             "queue": r.get(2)}
-                    queues.append(info)
-
-            resources["queues"][vhost] = len(queues)
+                    if info["pid_name"] not in queues:
+                        queues[info["pid_name"]] = 1
+                    else:
+                        queues[info["pid_name"]] += 1
+            total = functools.reduce(lambda x, y: x + y,
+                                     list(queues.values()),
+                                     0)
+            if len(queues.keys()) > 0:
+                resources["queues"][vhost] = {}
+                for pid in queues:
+                    if total > 0:
+                        fraction = "{:.2f}%".format(queues[pid] / total * 100)
+                    else:
+                        fraction = "N/A"
+                    resources["queues"][vhost][pid] = "{:d} ({})".format(
+                        queues[pid], fraction)
+            else:
+                resources["queues"][vhost] = "no queues"
 
         for resource in resources:
             if not resources[resource]:
@@ -85,7 +106,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
     def __call__(self):
         super().__call__()
         self.get_running_services_info()
-        self.check_stats()
+        self.get_queues()
 
 
 def get_rabbitmq_service_checker():
