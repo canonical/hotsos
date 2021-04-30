@@ -192,7 +192,7 @@ while (($#)); do
             done
             if ! $plugin_provided; then
                 [[ -d $1 ]] || { echo "ERROR: invalid path or option '$1'"; exit 1; }
-                SOS_PATHS+=( $1 )
+                SOS_PATHS+=( "$1" )
             fi
             ;;
     esac
@@ -243,7 +243,7 @@ run_part ()
 }
 
 CWD=$(dirname `realpath $0`)
-for data_root in ${SOS_PATHS[@]}; do
+for data_root in "${SOS_PATHS[@]}"; do
     if [ "$data_root" = "/" ]; then
         echo -e "INFO: analysing localhost since no sosreport path provided\n" 1>&2
         DATA_ROOT=/
