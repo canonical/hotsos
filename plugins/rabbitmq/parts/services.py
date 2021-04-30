@@ -134,11 +134,42 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
                     else:
                         queue_connections[queue_name] += 1
 
+    def get_memory_used(self):
+        """Get the memory used per broker."""
+        memory_used = {}
+        RABBITMQ_INFO["resources"]["memory-used-mib"] = memory_used
+        report_path = os.path.join(
+            constants.DATA_ROOT,
+            "sos_commands/rabbitmq/rabbitmqctl_report")
+        start_re = re.compile("^Status of node '([^']*)'$")
+        line_re = re.compile("{total,([0-9]+)}")
+        reading_memory = False
+        if not os.path.exists(report_path):
+            return
+        with open(report_path) as fd:
+            for line in fd:
+                if not reading_memory:
+                    result = start_re.search(line.rstrip())
+                    if result is None:
+                        continue
+                    reading_memory = True
+                    node_name = result.group(1)
+                    continue
+                if len(line.rstrip()) == 0:
+                    reading_memory = False
+                    continue
+                result = line_re.search(line.rstrip())
+                if result is not None:
+                    total = result.group(1)
+                    memory_used[node_name] = "{:.3f}".format(
+                        int(total) / 1024. / 1024.)
+
     def __call__(self):
         super().__call__()
         self.get_running_services_info()
         self.get_queues()
         self.get_queue_connection_distribution()
+        self.get_memory_used()
 
 
 def get_rabbitmq_service_checker():

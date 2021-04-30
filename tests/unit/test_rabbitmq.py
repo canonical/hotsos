@@ -35,7 +35,12 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                 'queue-connections': {
                     'rabbit@juju-52088b-0-lxd-11': 1316,
                     'rabbit@juju-52088b-1-lxd-11': 521,
-                    'rabbit@juju-52088b-2-lxd-10': 454,
+                    'rabbit@juju-52088b-2-lxd-10': 454
+                },
+                'memory-used-mib': {
+                    'rabbit@juju-52088b-2-lxd-10': '558.877',
+                    'rabbit@juju-52088b-1-lxd-11': '605.539',
+                    'rabbit@juju-52088b-0-lxd-11': '1195.559',
                 },
             },
         }
