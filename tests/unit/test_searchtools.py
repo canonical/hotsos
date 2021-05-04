@@ -1,6 +1,7 @@
 import os
 
 import mock
+import tempfile
 
 import utils
 
@@ -8,7 +9,39 @@ from common.searchtools import (
     FileSearcher,
     SearchDef,
     SearchResult,
+    SequenceSearchDef,
 )
+
+SEQ_TEST_1 = """a start point
+leads to
+an ending
+"""
+
+SEQ_TEST_2 = """a start point
+another start point
+leads to
+an ending
+"""
+
+SEQ_TEST_3 = """a start point
+another start point
+leads to
+an ending
+a start point
+"""
+
+SEQ_TEST_4 = """a start point
+another start point
+value is 3
+"""
+
+SEQ_TEST_5 = """a start point
+another start point
+value is 3
+
+another start point
+value is 4
+"""
 
 
 class TestSearchTools(utils.BaseTestCase):
@@ -139,3 +172,122 @@ class TestSearchTools(utils.BaseTestCase):
             path = os.path.join(os.environ["DATA_ROOT"])
             s.add_search_term(SearchDef("."), path)
             s.search()
+
+    def test_sequence_searcher(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_1)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(
+                                                 r"^a\S* (start\S*) point\S*"),
+                                   body=SearchDef(r"leads to"),
+                                   end=SearchDef(r"^an (ending)$"),
+                                   tag="seq-search-test1")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 1)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        self.assertEqual(r.get(1), "start")
+                    elif r.tag == sd.end_tag:
+                        self.assertEqual(r.get(1), "ending")
+
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_overlapping(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_2)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(
+                                               r"^(a\S*) (start\S*) point\S*"),
+                                   body=SearchDef(r"leads to"),
+                                   end=SearchDef(r"^an (ending)$"),
+                                   tag="seq-search-test2")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 1)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        self.assertEqual(r.get(1), "another")
+                    elif r.tag == sd.end_tag:
+                        self.assertEqual(r.get(1), "ending")
+
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_overlapping_incomplete(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_3)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(
+                                               r"^(a\S*) (start\S*) point\S*"),
+                                   body=SearchDef(r"leads to"),
+                                   end=SearchDef(r"^an (ending)$"),
+                                   tag="seq-search-test3")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 1)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        self.assertEqual(r.get(1), "another")
+                    elif r.tag == sd.end_tag:
+                        self.assertEqual(r.get(1), "ending")
+
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_incomplete_eof_match(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_4)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(
+                                               r"^(a\S*) (start\S*) point\S*"),
+                                   body=SearchDef(r"value is (\S+)"),
+                                   end=SearchDef(r"^$"),
+                                   tag="seq-search-test4")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 1)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        self.assertEqual(r.get(1), "another")
+                    elif r.tag == sd.body_tag:
+                        self.assertEqual(r.get(1), "3")
+                    elif r.tag == sd.end_tag:
+                        self.assertEqual(r.get(0), "")
+
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_multiple_sections(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_5)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(
+                                               r"^(a\S*) (start\S*) point\S*"),
+                                   body=SearchDef(r"value is (\S+)"),
+                                   end=SearchDef(r"^$"),
+                                   tag="seq-search-test4")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 2)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        self.assertEqual(r.get(1), "another")
+                    elif r.tag == sd.body_tag:
+                        self.assertTrue(r.get(1) in ["3", "4"])
+                    elif r.tag == sd.end_tag:
+                        self.assertEqual(r.get(0), "")
+
+            os.remove(ftmp.name)

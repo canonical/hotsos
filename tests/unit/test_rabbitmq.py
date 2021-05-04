@@ -18,7 +18,13 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
 
     @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_service_info(self):
-        expected = {'services': ['beam.smp (1)']}
+        expected = {'resources': {"queues":
+                                  {'/': 0,
+                                   'openstack': 1321,
+                                   'telegraf-telegraf-12': 0,
+                                   'telegraf-telegraf-13': 0,
+                                   'telegraf-telegraf-14': 0}},
+                    'services': ['beam.smp (1)']}
         services.get_rabbitmq_service_checker()()
         self.assertEqual(services.RABBITMQ_INFO, expected)
 
