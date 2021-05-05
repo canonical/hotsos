@@ -362,7 +362,10 @@ def get_uname():
 @catch_exceptions(OSError)
 def get_systemctl_status_all():
     if DATA_ROOT == '/':
-        output = subprocess.check_output(['systemctl', 'status', '--all'])
+        # this frequently prints messages about units not found etc to stderr
+        # which we can ignore so pipe stderr to /dev/null.
+        output = subprocess.check_output(['systemctl', 'status', '--all'],
+                                         stderr=subprocess.DEVNULL)
         return output.decode('UTF-8').splitlines(keepends=True)
 
     path = os.path.join(DATA_ROOT,
