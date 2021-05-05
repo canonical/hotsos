@@ -19,6 +19,7 @@ from plugins.openstack.parts import (  # noqa E402
     service_features,
     cpu_pinning_check,
     agent_checks,
+    neutron_l3ha,
 )
 
 
@@ -409,3 +410,21 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
                          {"agent-checks": {"k1": "r1",
                                            "k2": "r2",
                                            "k3": "r3"}})
+
+
+class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
+    def test_run_checks(self):
+        expected = {'keepalived':
+                    {'71d46ba3-f737-41bd-a922-8b8012a6444d': '31490876'},
+                    'agent':
+                    {'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d']}}
+        neutron_l3ha.run_checks()()
+        self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)

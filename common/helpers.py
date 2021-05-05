@@ -357,3 +357,17 @@ def get_uname():
         return open(path, 'r').read()
 
     return ""
+
+
+@catch_exceptions(OSError)
+def get_systemctl_status_all():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['systemctl', 'status', '--all'])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    path = os.path.join(DATA_ROOT,
+                        "sos_commands/systemd/systemctl_status_--all")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []

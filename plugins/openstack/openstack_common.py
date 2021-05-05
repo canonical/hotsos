@@ -96,6 +96,8 @@ AGENT_LOG_PATHS = {"cinder": "var/log/cinder",
                    "octavia": "var/log/octavia",
                    }
 
+NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
+
 
 class OpenstackServiceChecksBase(checks.ServiceChecksBase):
     pass
