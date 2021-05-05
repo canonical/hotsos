@@ -29,7 +29,7 @@ parts:
   hotsos:
     source: .
     plugin: dump
-    stage-packages: [coreutils, bsdmainutils, jq, bc]
+    stage-packages: [coreutils, bsdmainutils, jq, bc, systemd]
     build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info

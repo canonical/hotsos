@@ -422,8 +422,8 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
 
     @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
     def test_run_checks(self):
-        expected = {'keepalived':
-                    {'71d46ba3-f737-41bd-a922-8b8012a6444d': '31490876'},
+        expected = {'keepalived': {'transitions':
+                    {'71d46ba3-f737-41bd-a922-8b8012a6444d': 0}},
                     'agent':
                     {'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d']}}
         neutron_l3ha.run_checks()()

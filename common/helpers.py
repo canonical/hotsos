@@ -374,3 +374,26 @@ def get_systemctl_status_all():
         return open(path, 'r').readlines()
 
     return []
+
+
+@catch_exceptions(OSError)
+def get_journalctl(unit, date=None):
+    if DATA_ROOT == '/':
+        cmd = ['journalctl']
+    else:
+        path = os.path.join(DATA_ROOT, "var/log/journal")
+        if not os.path.exists(path):
+            return []
+
+        cmd = ['journalctl', '-D', path]
+
+    if date:
+        cmd.append('--since')
+        cmd.append(date)
+
+    if unit:
+        cmd.append('--unit')
+        cmd.append(unit)
+
+    output = subprocess.check_output(cmd)
+    return output.decode('UTF-8').splitlines(keepends=True)
