@@ -10,7 +10,7 @@ for dir in ${dirs[@]}; do
     for f in `find $dir -type f| grep -v fake_data_root`; do
         if `file $f| grep -q "Python script"`; then
             files_to_check+=( $f )
-            ((num_files_checked+=1))
+            num_files_checked=$((num_files_checked + 1))
         fi
     done
 done

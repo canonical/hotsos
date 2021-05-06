@@ -39,9 +39,6 @@ export PART_NAME
 # executed.
 export PLUGIN_TMP_DIR
 
-# import helpers functions
-. `dirname $0`/common/helpers.sh
-
 MASTER_YAML_OUT=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
@@ -157,7 +154,8 @@ while (($#)); do
 #######################
         --list-plugins)
             echo "Available plugins:"
-            echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| xargs -l -I{} echo " - {}"
+            echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| \
+                xargs -l -I{} echo " - {}"
             exit
             ;;
         --max-parallel-tasks)
@@ -191,7 +189,10 @@ while (($#)); do
                 fi
             done
             if ! $plugin_provided; then
-                [[ -d $1 ]] || { echo "ERROR: invalid path or option '$1'"; exit 1; }
+                if ! [[ -d $1 ]]; then
+                    echo "ERROR: invalid path or option '$1'"
+                    exit 1
+                fi
                 SOS_PATHS+=( "$1" )
             fi
             ;;
@@ -199,7 +200,9 @@ while (($#)); do
     shift
 done
 
-((${#SOS_PATHS[@]})) || SOS_PATHS=( / )
+if ((${#SOS_PATHS[@]}==0)); then
+    SOS_PATHS=( / )
+fi
 
 if ! $override_all_default && ! ${PLUGINS[all]}; then
     PLUGINS[all]=true
@@ -227,11 +230,10 @@ show_progress ()
     trap _cleanup HUP
 
     i=0
-    while true
-    do
-      i=$(((i+1) % ${#progress_chars}))
-      printf "\b${progress_chars:$i:1}" 1>&2
-      sleep .1
+    while true; do
+        i=$(((i+1) % ${#progress_chars}))
+        printf "\b${progress_chars:$i:1}" 1>&2
+        sleep .1
     done
 }
 
@@ -246,8 +248,11 @@ run_part ()
 {
     local plugin=$1
     local part=$2
+    local t_start
+    local t_end
 
-    local t_start=`date +%s%3N`
+    t_start=`date +%s%3N`
+
     $DEBUG_MODE && echo -n " $part" 1>&2
     PART_NAME=$part
 
@@ -256,7 +261,7 @@ run_part ()
 
     $CWD/plugins/$plugin/parts/$part >> $MASTER_YAML_OUT
 
-    local t_end=`date +%s%3N`
+    t_end=`date +%s%3N`
     delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
     [[ ${delta::1} == '.' ]] && delta="0${delta}"
     $DEBUG_MODE && echo " (${delta}s)" 1>&2
@@ -265,7 +270,8 @@ run_part ()
 CWD=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [ "$data_root" = "/" ]; then
-        echo -ne "INFO: analysing localhost since no sosreport path provided  " 1>&2
+        msg="analysing localhost since no sosreport path provided"
+        echo -ne "INFO: $msg  " 1>&2
         DATA_ROOT=/
     else
         echo -ne "INFO: analysing sosreport at $data_root  " 1>&2
@@ -289,7 +295,9 @@ for data_root in "${SOS_PATHS[@]}"; do
     else
         repo_info=`get_git_rev_info` || repo_info="unknown"
     fi
-    echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $MASTER_YAML_OUT
+    echo "hotsos:" > $MASTER_YAML_OUT
+    echo "  version: ${SNAP_REVISION:-"development"}" >> $MASTER_YAML_OUT
+    echo "  repo-info: $repo_info" >> $MASTER_YAML_OUT
 
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
@@ -308,7 +316,8 @@ for data_root in "${SOS_PATHS[@]}"; do
                 run_part $plugin $part
             done
         else
-            for part in `find $CWD/plugins/$plugin/parts -executable -type f| grep -v __pycache__`; do
+            for part in `find $CWD/plugins/$plugin/parts -executable -type f| \
+                    grep -v __pycache__`; do
                 run_part $plugin `basename $part`
             done
         fi
