@@ -23,6 +23,7 @@ from plugins.openstack.parts import (  # noqa E402
     neutron_l3ha,
     service_checks,
     octavia_agent_checks,
+    octavia_bugs,
 )
 
 
@@ -588,3 +589,11 @@ class TestOpenstackPluginPartOctaviaLBs(utils.BaseTestCase):
                     }
         octavia_agent_checks.run_checks()()
         self.assertEqual(octavia_agent_checks.LB_CHECKS, expected)
+
+
+class TestOpenstackPluginPartOctavia_bugs(utils.BaseTestCase):
+
+    @mock.patch.object(octavia_bugs, "add_known_bug")
+    def test_detect_lp1906280(self, add_known_bug):
+        octavia_bugs.detect_lp1906280()
+        add_known_bug.assert_called_with(1906280)

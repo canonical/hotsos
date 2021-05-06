@@ -13,7 +13,7 @@ description:
   are supported and when found, known bugs are presented.
 confinement: strict
 grade: stable
-base: core18
+base: core20
 environment:
   REPO_INFO_PATH: $SNAP/repo-info
   LC_ALL: C.UTF-8
@@ -38,6 +38,9 @@ parts:
     source: .
     plugin: python
     stage-packages: [python3-yaml, python3-simplejson]
+    requirements:
+      - requirements.txt
+
   sem-open-preload:
     source: https://github.com/snapcore/snapcraft-preloads.git
     source-subdir: semaphores

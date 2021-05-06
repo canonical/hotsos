@@ -1,4 +1,6 @@
+import contextlib
 import tempfile
+
 
 from common import constants
 
@@ -22,3 +24,18 @@ def mktemp_dump(data):
         fd.write(data)
 
     return ftmp
+
+
+class suppress(contextlib.suppress, contextlib.ContextDecorator):
+    """Decorator to suppress the exceptions passed.
+
+    @suppress(ValueError)
+    def foo(value):
+        if type(value) == int:
+            # this will be effectively equivalent to 'return None' due to the
+            # suppress decorator.
+            raise ValueError("error")
+        else:
+            # callers will receive this exception, suppress will do nothing.
+            raise IndexError("index error")
+    """

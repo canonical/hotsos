@@ -352,7 +352,7 @@ ii  libp11-kit0:amd64                      0.23.2-5~ubuntu16.04.2               
 ii  libpam-modules:amd64                   1.1.8-3.2ubuntu2.1                              amd64        Pluggable Authentication Modules for PAM
 ii  libpam-modules-bin                     1.1.8-3.2ubuntu2.1                              amd64        Pluggable Authentication Modules for PAM - helper binaries
 ii  libpam-runtime                         1.1.8-3.2ubuntu2.1                              all          Runtime support for the PAM library
-ii  libpam-systemd:amd64                   229-4ubuntu21.28                                amd64        system and service manager - PAM module
+ii  libpam-systemd:amd64                   237-3ubuntu10.46                                amd64        system and service manager - PAM module
 ii  libpam0g:amd64                         1.1.8-3.2ubuntu2.1                              amd64        Pluggable Authentication Modules library
 ii  libpaper-utils                         1.1.24+nmu4ubuntu1                              amd64        library for handling paper characteristics (utilities)
 ii  libpaper1:amd64                        1.1.24+nmu4ubuntu1                              amd64        library for handling paper characteristics
@@ -419,7 +419,7 @@ ii  libss2:amd64                           1.42.13-1ubuntu1.2                   
 ii  libssl1.0.0:amd64                      1.0.2g-1ubuntu4.18                              amd64        Secure Sockets Layer toolkit - shared libraries
 ii  libstdc++-5-dev:amd64                  5.4.0-6ubuntu1~16.04.12                         amd64        GNU Standard C++ Library v3 (development files)
 ii  libstdc++6:amd64                       5.4.0-6ubuntu1~16.04.12                         amd64        GNU Standard C++ Library v3
-ii  libsystemd0:amd64                      229-4ubuntu21.28                                amd64        systemd utility library
+ii  libsystemd0:amd64                      237-3ubuntu10.46                                amd64        systemd utility library
 ii  libtalloc2:amd64                       2.1.5-2                                         amd64        hierarchical pool based memory allocator
 ii  libtasn1-6:amd64                       4.7-3ubuntu0.16.04.3                            amd64        Manage ASN.1 structures (runtime)
 ii  libtcmalloc-minimal4                   2.4-0ubuntu5.16.04.1                            amd64        efficient thread-caching malloc
@@ -433,7 +433,7 @@ ii  libtinfo5:amd64                        6.0+20160213-1ubuntu1                
 ii  libtirpc1:amd64                        0.2.5-1ubuntu0.1                                amd64        transport-independent RPC library
 ii  libtsan0:amd64                         5.4.0-6ubuntu1~16.04.12                         amd64        ThreadSanitizer -- a Valgrind-based detector of data races (runtime)
 ii  libubsan0:amd64                        5.4.0-6ubuntu1~16.04.12                         amd64        UBSan -- undefined behaviour sanitizer (runtime)
-ii  libudev1:amd64                         229-4ubuntu21.28                                amd64        libudev shared library
+ii  libudev1:amd64                         237-3ubuntu10.46                                amd64        libudev shared library
 ii  libunwind8                             1.1-4.1                                         amd64        library to determine the call-chain of a program - runtime
 ii  libusb-0.1-4:amd64                     2:0.1.12-28                                     amd64        userspace USB programming library
 ii  libusb-1.0-0:amd64                     2:1.0.20-1                                      amd64        userspace USB programming library
@@ -954,8 +954,8 @@ ii  ssh-import-id                          5.5-0ubuntu1                         
 ii  strace                                 4.11-1ubuntu3                                   amd64        System call tracer
 ii  sudo                                   1.8.16-0ubuntu1.10                              amd64        Provide limited super user privileges to specific users
 ii  sysstat                                11.2.0-1ubuntu0.3                               amd64        system performance tools for Linux
-ii  systemd                                229-4ubuntu21.28                                amd64        system and service manager
-ii  systemd-sysv                           229-4ubuntu21.28                                amd64        system and service manager - SysV links
+ii  systemd                                237-3ubuntu10.46                                amd64        system and service manager
+ii  systemd-sysv                           237-3ubuntu10.46                                amd64        system and service manager - SysV links
 ii  sysv-rc                                2.88dsf-59.3ubuntu2                             all          System-V-like runlevel change mechanism
 ii  sysvinit-utils                         2.88dsf-59.3ubuntu2                             amd64        System-V-like utilities
 ii  tar                                    1.28-2.1ubuntu0.2                               amd64        GNU version of the tar archiving utility
@@ -978,7 +978,7 @@ ii  ubuntu-minimal                         1.361.4                              
 ii  ubuntu-release-upgrader-core           1:16.04.30                                      all          manage release upgrades
 ii  ubuntu-standard                        1.361.4                                         amd64        The Ubuntu standard system
 ii  ucf                                    3.0036                                          all          Update Configuration File(s): preserve user changes to config files
-ii  udev                                   229-4ubuntu21.28                                amd64        /dev/ and hotplug management daemon
+ii  udev                                   237-3ubuntu10.46                                amd64        /dev/ and hotplug management daemon
 ii  ufw                                    0.35-0ubuntu2                                   all          program for managing a Netfilter firewall
 ii  uidmap                                 1:4.2-3.1ubuntu5.4                              amd64        programs to help use subuids
 ii  unattended-upgrades                    1.1ubuntu1.18.04.7~16.04.6                      all          automatic installation of security upgrades
