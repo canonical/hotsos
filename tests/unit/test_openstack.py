@@ -59,6 +59,8 @@ class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
     def test_get_service_info(self):
         expected = ['beam.smp (1)',
                     'haproxy (1)',
+                    'keepalived (2)',
+                    'neutron-keepalived-state-change (2)',
                     'neutron-ovn-metadata-agent (3)',
                     'nova-api-metadata (5)',
                     'nova-compute (1)',
@@ -384,7 +386,6 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
     def test_run_agent_checks(self, mock_agent_bug_checks,
                               mock_l3_agent_checks, mock_ovs_agent_checks,
                               mock_common_agent_checks):
-        self.maxDiff = 100000
         c = mock_agent_bug_checks.return_value
         c.process_results.return_value = None
 
@@ -422,9 +423,28 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
 
     @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
     def test_run_checks(self):
-        expected = {'keepalived': {'transitions':
-                    {'71d46ba3-f737-41bd-a922-8b8012a6444d': 0}},
-                    'agent':
-                    {'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d']}}
+        expected = {'agent':
+                    {'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d'],
+                     'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
+                    'keepalived':
+                    {'transitions':
+                     {'19c40509-225e-49f9-80df-e3c5873f4e64': 3,
+                      '71d46ba3-f737-41bd-a922-8b8012a6444d': 0}}}
         neutron_l3ha.run_checks()()
         self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
+
+    @mock.patch.object(neutron_l3ha.constants, "USE_ALL_LOGS", False)
+    @mock.patch.object(neutron_l3ha.issues_utils, "add_issue")
+    @mock.patch.object(neutron_l3ha, "VRRP_TRANSITION_WARN_THRESHOLD", 1)
+    @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
+    def test_run_checks_w_issue(self, mock_add_issue):
+        expected = {'agent':
+                    {'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d'],
+                     'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
+                    'keepalived':
+                    {'transitions':
+                     {'19c40509-225e-49f9-80df-e3c5873f4e64': 3,
+                      '71d46ba3-f737-41bd-a922-8b8012a6444d': 0}}}
+        neutron_l3ha.run_checks()()
+        self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
+        self.assertTrue(mock_add_issue.called)

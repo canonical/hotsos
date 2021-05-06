@@ -65,11 +65,21 @@ class ServiceChecksBase(object):
                 if not ret:
                     continue
 
-                # look for running process with this name
-                ret = re.compile(r".+\S*(\s|/)({})(\s+.+|$)".format(expr)
-                                 ).match(line)
+                """
+                look for running process with this name.
+                We need to account for different types of process binary e.g.
+
+                /snap/<name>/1830/<svc>
+                /usr/bin/<svc>
+
+                and filter e.g.
+
+                /var/lib/<svc> and /var/log/<svc>
+                """
+                ret = re.compile(r".+\S*(\s|(bin|[0-9]+)/)({})(\s+.+|$)".
+                                 format(expr)).match(line)
                 if ret:
-                    svc = ret.group(2)
+                    svc = ret.group(3)
                     if svc not in self.services:
                         self.services[svc] = {"ps_cmds": []}
 

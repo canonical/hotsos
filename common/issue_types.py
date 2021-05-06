@@ -18,3 +18,7 @@ class JujuWarning(IssueTypeBase):
 
 class BcacheWarning(IssueTypeBase):
     pass
+
+
+class NeutronL3HAWarning(IssueTypeBase):
+    pass

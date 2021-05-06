@@ -6,6 +6,8 @@ import tempfile
 from common import (
     constants,
     helpers,
+    issue_types,
+    issues_utils,
     plugin_yaml,
 )
 from common.searchtools import (
@@ -18,6 +20,7 @@ from openstack_common import (
 
 L3HA_CHECKS = {}
 ROUTER_VR_IDS = {}
+VRRP_TRANSITION_WARN_THRESHOLD = 8
 
 
 class NeutronL3HAChecks(object):
@@ -100,9 +103,34 @@ class NeutronL3HAChecks(object):
                                reverse=True):
                 L3HA_CHECKS["keepalived"]["transitions"][k] = v
 
+    def check_vrrp_transitions(self):
+        if "transitions" not in L3HA_CHECKS.get("keepalived", {}):
+            return
+
+        max_transitions = 0
+        warn_count = 0
+        threshold = VRRP_TRANSITION_WARN_THRESHOLD
+        for router in L3HA_CHECKS["keepalived"]["transitions"]:
+            transitions = L3HA_CHECKS["keepalived"]["transitions"][router]
+            if transitions > threshold:
+                max_transitions = max(transitions, max_transitions)
+                warn_count += 1
+
+        if warn_count:
+            msg = ("{} router(s) have had more than {} vrrp transitions "
+                   "(max={}) in the last 24 hours".format(warn_count,
+                                                          threshold,
+                                                          max_transitions))
+            issues_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
+
     def __call__(self):
         self.get_neutron_ha_info()
         self.get_vrrp_transitions()
+
+        # there will likely be a large number of transitions if we look across
+        # all time so dont run this check.
+        if not constants.USE_ALL_LOGS:
+            self.check_vrrp_transitions()
 
 
 def run_checks():
