@@ -19,7 +19,7 @@
 #  - edward.hope-morley@canonical.com
 #  - opentastic@gmail.com
 
-
+PROGRESS_PID=
 DEBUG_MODE=false
 MIMIMAL_MODE=false
 # These globals are made available to all plugins
@@ -215,6 +215,25 @@ if ${PLUGINS[all]}; then
     PLUGINS[system]=true
 fi
 
+show_progress ()
+{
+    local progress_chars='-\|/'
+
+    _cleanup ()
+    {
+        printf "\r"
+    }
+    trap _cleanup EXIT
+
+    i=0
+    while true
+    do
+      i=$(((i+1) % ${#progress_chars}))
+      printf "\r${progress_chars:$i:1}" 1>&2
+      sleep .1
+    done
+}
+
 get_git_rev_info ()
 {
     pushd `dirname $0` &>/dev/null
@@ -245,10 +264,10 @@ run_part ()
 CWD=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [ "$data_root" = "/" ]; then
-        echo -e "INFO: analysing localhost since no sosreport path provided\n" 1>&2
+        echo -e "INFO: analysing localhost since no sosreport path provided" 1>&2
         DATA_ROOT=/
     else
-        echo -e "INFO: analysing sosreport at $data_root\n" 1>&2
+        echo -e "INFO: analysing sosreport at $data_root" 1>&2
         DATA_ROOT=$data_root
     fi
 
@@ -264,7 +283,13 @@ for data_root in "${SOS_PATHS[@]}"; do
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $MASTER_YAML_OUT
 
-    $DEBUG_MODE && echo -e "Running plugins:\n" 1>&2
+    if $DEBUG_MODE; then
+        echo -e "Running plugins:\n" 1>&2
+    else
+        show_progress &
+        PROGRESS_PID=$!
+    fi
+
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
         [ "$plugin" = "all" ] && continue
@@ -296,6 +321,11 @@ for data_root in "${SOS_PATHS[@]}"; do
         $DEBUG_MODE && echo "" 1>&2
     done
 
+    if [[ -n $PROGRESS_PID ]]; then
+        kill $PROGRESS_PID &>/dev/null
+        wait &>/dev/null
+    fi
+
     if $MIMIMAL_MODE; then
         $CWD/tools/output_filter.py $MASTER_YAML_OUT
     fi
@@ -308,7 +338,7 @@ for data_root in "${SOS_PATHS[@]}"; do
         fi
         out=${archive_name}.summary
         mv $MASTER_YAML_OUT $out
-        echo "Summary written to $out"
+        echo "INFO: summary written to $out"
     else
         $DEBUG_MODE && echo "Results:" 1>&2
         cat $MASTER_YAML_OUT
