@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+from common import (
+    constants,
+)
 from common.searchtools import (
     FileSearcher,
 )
@@ -27,9 +30,13 @@ BUG_SEARCHES = [
 
 def detect_known_bugs():
     """Unit fails to start complaining there are members in the relation."""
+    data_source = f"{JUJU_LOG_PATH}/*.log"
+    if constants.USE_ALL_LOGS:
+        data_source = f"{data_source}*"
+
     s = FileSearcher()
     for bugdef in BUG_SEARCHES:
-        s.add_search_term(bugdef, f"{JUJU_LOG_PATH}/*")
+        s.add_search_term(bugdef, data_source)
 
     results = s.search()
 
