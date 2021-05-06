@@ -221,15 +221,16 @@ show_progress ()
 
     _cleanup ()
     {
-        printf "\r"
+        echo -e "\b " 1>&2
+        exit
     }
-    trap _cleanup EXIT
+    trap _cleanup HUP
 
     i=0
     while true
     do
       i=$(((i+1) % ${#progress_chars}))
-      printf "\r${progress_chars:$i:1}" 1>&2
+      printf "\b${progress_chars:$i:1}" 1>&2
       sleep .1
     done
 }
@@ -264,11 +265,18 @@ run_part ()
 CWD=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [ "$data_root" = "/" ]; then
-        echo -e "INFO: analysing localhost since no sosreport path provided" 1>&2
+        echo -ne "INFO: analysing localhost since no sosreport path provided  " 1>&2
         DATA_ROOT=/
     else
-        echo -e "INFO: analysing sosreport at $data_root" 1>&2
+        echo -ne "INFO: analysing sosreport at $data_root  " 1>&2
         DATA_ROOT=$data_root
+    fi
+
+    if $DEBUG_MODE; then
+        echo -e "Running plugins:\n" 1>&2
+    else
+        show_progress &
+        PROGRESS_PID=$!
     fi
 
     if ! [ "${DATA_ROOT:(-1)}" = "/" ]; then
@@ -282,13 +290,6 @@ for data_root in "${SOS_PATHS[@]}"; do
         repo_info=`get_git_rev_info` || repo_info="unknown"
     fi
     echo -e "hotsos:\n  version: ${SNAP_REVISION:-"development"}\n  repo-info: $repo_info" > $MASTER_YAML_OUT
-
-    if $DEBUG_MODE; then
-        echo -e "Running plugins:\n" 1>&2
-    else
-        show_progress &
-        PROGRESS_PID=$!
-    fi
 
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
@@ -322,7 +323,7 @@ for data_root in "${SOS_PATHS[@]}"; do
     done
 
     if [[ -n $PROGRESS_PID ]]; then
-        kill $PROGRESS_PID &>/dev/null
+        kill -s HUP $PROGRESS_PID &>/dev/null
         wait &>/dev/null
     fi
 
