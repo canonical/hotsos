@@ -50,12 +50,13 @@ class NeutronL3HAChecks(object):
                         else:
                             router_states[state] = [router]
 
-                    with open(keepalived_conf_path) as fd:
-                        for line in fd:
-                            expr = ".+ virtual_router_id ([0-9]+)"
-                            ret = re.compile(expr).search(line)
-                            if ret:
-                                ROUTER_VR_IDS[router] = ret.group(1)
+                    if os.path.isfile(keepalived_conf_path):
+                        with open(keepalived_conf_path) as fd:
+                            for line in fd:
+                                expr = ".+ virtual_router_id ([0-9]+)"
+                                ret = re.compile(expr).search(line)
+                                if ret:
+                                    ROUTER_VR_IDS[router] = ret.group(1)
 
                     if os.path.isfile(pid_path):
                         with open(pid_path) as fd:
