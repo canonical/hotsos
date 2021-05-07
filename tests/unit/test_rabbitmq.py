@@ -32,6 +32,11 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                     },
                     'telegraf-telegraf-13': 'no queues',
                 },
+                'queue-connections': {
+                    'rabbit@juju-52088b-0-lxd-11': 1316,
+                    'rabbit@juju-52088b-1-lxd-11': 521,
+                    'rabbit@juju-52088b-2-lxd-10': 454,
+                },
             },
         }
 
