@@ -1,4 +1,5 @@
 import os
+import re
 
 from common import (
     checks,
@@ -101,3 +102,27 @@ NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
 
 class OpenstackServiceChecksBase(checks.ServiceChecksBase):
     pass
+
+
+class OpenstackChecksBase(object):
+
+    def __init__(self):
+        self._instances = []
+
+    @property
+    def running_instances(self):
+        if self._instances:
+            return self._instances
+
+        for line in helpers.get_ps():
+            ret = re.compile(".+product=OpenStack Nova.+").match(line)
+            if ret:
+                expr = r".+uuid\s+([a-z0-9\-]+)[\s,]+.+"
+                ret = re.compile(expr).match(ret[0])
+                if ret:
+                    self._instances.append(ret[1])
+
+        return self._instances
+
+    def __call__(self):
+        pass

@@ -110,10 +110,10 @@ class TestOpenstackPluginPartVm_info(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(vm_info, "VM_INFO", [])
-    def test_get_vm_info(self):
-        vm_info.get_vm_info()
-        self.assertEquals(vm_info.VM_INFO,
+    @mock.patch.object(vm_info, "VM_INFO", {})
+    def test_get_vm_checks(self):
+        vm_info.get_vm_checks()()
+        self.assertEquals(vm_info.VM_INFO["instances"],
                           ["09461f0b-297b-4ef5-9053-dd369c86b96b"])
 
 
@@ -224,35 +224,41 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
     @mock.patch.object(network.helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_name(self):
-        stats = network.get_port_stats(name="bond1")
+        c = network.OpenstackNetworkChecks()
+        stats = c._get_port_stats(name="bond1")
         self.assertEqual(stats, {'dropped': '100000000 (8%)'})
 
     @mock.patch.object(network.helpers, 'get_ip_link_show',
                        fake_ip_link_show_no_errors_drops)
     def test_get_port_stat_by_name_no_problems(self):
-        stats = network.get_port_stats(name="bond1")
+        c = network.OpenstackNetworkChecks()
+        stats = c._get_port_stats(name="bond1")
         self.assertEqual(stats, {})
 
     @mock.patch.object(network.helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_mac(self):
-        stats = network.get_port_stats(mac="ac:1f:6b:9e:d8:44")
+        c = network.OpenstackNetworkChecks()
+        stats = c._get_port_stats(mac="ac:1f:6b:9e:d8:44")
         self.assertEqual(stats, {'errors': '10000000 (5%)'})
 
     def test_find_interface_name_by_ip_address(self):
         addr = "10.10.101.33"
-        name = network.find_interface_name_by_ip_address(addr)
+        c = network.OpenstackNetworkChecks()
+        name = c._find_interface_name_by_ip_address(addr)
         self.assertEqual(name, "br-bond1")
 
     @mock.patch.object(network, "NETWORK_INFO", {})
     def test_get_ns_info(self):
         ns_info = {'namespaces': {'qdhcp': 35, 'qrouter': 35, 'fip': 1}}
-        network.get_ns_info()
+        c = network.OpenstackNetworkChecks()
+        c.get_ns_info()
         self.assertEqual(ns_info, network.NETWORK_INFO)
 
     @mock.patch.object(network.helpers, "get_ip_netns", lambda: [])
     def test_get_ns_info_none(self):
-        ns_info = network.get_ns_info()
+        c = network.OpenstackNetworkChecks()
+        ns_info = c.get_ns_info()
         self.assertEqual(ns_info, None)
 
 
