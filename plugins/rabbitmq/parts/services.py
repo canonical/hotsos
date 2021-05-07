@@ -103,10 +103,42 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
                 value = resources[resource][key]
                 RABBITMQ_INFO["resources"][resource][key] = value
 
+    def get_queue_connection_distribution(self):
+        """Get distribution of connections across cluster."""
+        queue_connections = {}
+        RABBITMQ_INFO["resources"]["queue-connections"] = queue_connections
+        report_path = os.path.join(
+            constants.DATA_ROOT,
+            "sos_commands/rabbitmq/rabbitmqctl_report")
+        start_re = re.compile("^Connections:$")
+        line_re = re.compile("^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$")
+        reading_connections = False
+        if not os.path.exists(report_path):
+            return
+        with open(report_path) as fd:
+            for line in fd:
+                if not reading_connections:
+                    result = start_re.search(line.rstrip())
+                    if result is None:
+                        continue
+                    reading_connections = True
+                    continue
+                if len(line.rstrip()) == 0:
+                    reading_connections = False
+                    continue
+                result = line_re.search(line.rstrip())
+                if result is not None:
+                    queue_name = result.group(1)
+                    if queue_name not in queue_connections:
+                        queue_connections[queue_name] = 1
+                    else:
+                        queue_connections[queue_name] += 1
+
     def __call__(self):
         super().__call__()
         self.get_running_services_info()
         self.get_queues()
+        self.get_queue_connection_distribution()
 
 
 def get_rabbitmq_service_checker():
