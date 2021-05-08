@@ -5,18 +5,21 @@ from common import (
     helpers,
 )
 
+SVC_EXPR_TEMPLATE = r".+\S*(\s|(bin|[0-9]+)/)({})(\s+.+|$)"
+
 
 class ServiceChecksBase(object):
     """This class should be used by any plugin that wants to identify
     and check the status of running services."""
 
-    def __init__(self, service_exprs, hint_range=None,
-                 use_ps_axo_flags=False):
+    def __init__(self, service_exprs, hint_range=None):
         """
         @param service_exprs: list of python.re expressions used to match a
         service name.
-        @param use_ps_axo_flags: optional flag to change function used to get
-        ps output.
+        @param hint_range: optional range reflecting a range that can be
+                           extracted from any of the provided expressions and
+                           used as a pre-search before doing a full search in
+                           order to reduce unnecessary full searches.
         """
         self.services = {}
         self.service_exprs = []
@@ -31,18 +34,7 @@ class ServiceChecksBase(object):
 
             self.service_exprs.append((expr, expr[start:end]))
 
-        # only use if exists
-        if use_ps_axo_flags and helpers.get_ps_axo_flags_available():
-            self.ps_func = helpers.get_ps_axo_flags
-        else:
-            self.ps_func = helpers.get_ps
-
-    @property
-    def has_ps_axo_flags(self):
-        """Returns True if it is has been requested and is possible to get
-        output of helpers.get_ps_axo_flags.
-        """
-        return self.ps_func == helpers.get_ps_axo_flags
+        self.ps_func = helpers.get_ps
 
     def get_service_info_str(self):
         """Create a list of "<service> (<num running>)" for running services
@@ -76,8 +68,7 @@ class ServiceChecksBase(object):
 
                 /var/lib/<svc> and /var/log/<svc>
                 """
-                ret = re.compile(r".+\S*(\s|(bin|[0-9]+)/)({})(\s+.+|$)".
-                                 format(expr)).match(line)
+                ret = re.compile(SVC_EXPR_TEMPLATE.format(expr)).match(line)
                 if ret:
                     svc = ret.group(3)
                     if svc not in self.services:

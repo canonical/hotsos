@@ -7,7 +7,10 @@ from ceph_common import (
     CephChecksBase,
     CEPH_SERVICES_EXPRS,
 )
-from common.checks import PackageChecksBase
+from common.checks import (
+    PackageChecksBase,
+    SVC_EXPR_TEMPLATE,
+)
 from common import (
     helpers,
     issues_utils,
@@ -83,15 +86,28 @@ class CephOSDChecks(CephChecksBase):
         return 0
 
     def get_osd_etime(self, osd_id):
-        """Return process etime for a given OSD."""
-        if not self.has_ps_axo_flags:
+        """Return process etime for a given OSD.
+
+        To get etime we have to use ps_axo_flags rather than the default
+        ps_auxww.
+        """
+        if not helpers.get_ps_axo_flags_available():
             return
 
-        ceph_osds = self.services.get("ceph-osd")
+        ceph_osds = []
+        for line in helpers.get_ps_axo_flags():
+            ret = re.compile("ceph-osd").search(line)
+            if not ret:
+                continue
+
+            ret = re.compile(SVC_EXPR_TEMPLATE.format("ceph-osd")).search(line)
+            if ret:
+                ceph_osds.append(ret.group(0))
+
         if not ceph_osds:
             return []
 
-        for cmd in ceph_osds["ps_cmds"]:
+        for cmd in ceph_osds:
             ret = re.compile(r".+\s+.+--id {}\s+.+".format(
                              osd_id)).match(cmd)
             if ret:
@@ -280,7 +296,7 @@ class CephOSDChecks(CephChecksBase):
 
 def get_service_checker():
     # Do this way to make it easier to write unit tests.
-    return CephServiceChecks(CEPH_SERVICES_EXPRS, use_ps_axo_flags=True)
+    return CephServiceChecks(CEPH_SERVICES_EXPRS)
 
 
 def get_pkg_checker():
@@ -289,7 +305,7 @@ def get_pkg_checker():
 
 def get_osd_checker():
     # Do this way to make it easier to write unit tests.
-    return CephOSDChecks(CEPH_SERVICES_EXPRS, use_ps_axo_flags=True)
+    return CephOSDChecks(CEPH_SERVICES_EXPRS)
 
 
 if __name__ == "__main__":
