@@ -270,6 +270,12 @@ run_part ()
 CWD=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [ "$data_root" = "/" ]; then
+        if [[ ${SNAP_NAME:-""} = hotsos ]]; then
+            echo "ERROR: it is not currently possible to run hotsos against a host using the snap due to confinement issues - see https://forum.snapcraft.io/t/classic-confinement-request-for-hotsos-snap for more info"
+            echo -e "\nAs a workaround you can try running the snap code directly i.e. ${SNAP}/`basename $0`"
+            echo -e "\nNOTE: using the workaround may require you to install dependencies"
+            exit 1
+        fi
         msg="analysing localhost since no sosreport path provided"
         echo -ne "INFO: $msg  " 1>&2
         DATA_ROOT=/
