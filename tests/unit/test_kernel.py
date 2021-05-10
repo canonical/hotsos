@@ -7,6 +7,7 @@ utils.add_sys_plugin_path("kernel")
 from plugins.kernel.parts import (  # noqa E402
     kernel_info,
     kernel_memory,
+    kernel_network,
 )
 
 
@@ -108,3 +109,18 @@ class TestKernelPluginPartKernelMemoryInfo(utils.BaseTestCase):
                       'anon_vma (8167.96875k)']}
                     }
         self.assertEquals(kernel_memory.KERNEL_INFO, expected)
+
+
+class TestKernelPluginPartKernelNetwork(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(kernel_network, "KERNEL_INFO", {})
+    def test_run_network_checks(self):
+        expected = {}
+        kernel_network.KernelNetworkChecks()
+        self.assertEquals(kernel_network.KERNEL_INFO, expected)
