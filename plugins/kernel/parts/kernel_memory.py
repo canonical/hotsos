@@ -1,134 +1,19 @@
 #!/usr/bin/python3
 import os
-import re
 
 from common import (
-    constants,
-    helpers,
     issue_types,
     issues_utils,
     plugin_yaml,
 )
+from kernel_common import (
+    KernelChecksBase,
+    VMSTAT,
+    BUDDY_INFO,
+    SLABINFO,
+)
 
 KERNEL_INFO = {}
-
-BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
-SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
-VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
-
-
-class KernelChecksBase(object):
-
-    def __init__(self):
-        self._kernel_version = ""
-        self._boot_parameters = []
-        self._numa_nodes = []
-
-    @property
-    def kernel_version(self):
-        """Returns string kernel version."""
-        uname = helpers.get_uname()
-        if uname:
-            ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
-            if ret:
-                self._kernel_version = ret[1]
-
-        return self._kernel_version
-
-    @property
-    def boot_parameters(self):
-        """Returns list of boot parameters."""
-        parameters = []
-        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
-        if os.path.exists(path):
-            cmdline = open(path).read().strip()
-            for entry in cmdline.split():
-                if entry.startswith("BOOT_IMAGE"):
-                    continue
-
-                if entry.startswith("root="):
-                    continue
-
-                parameters.append(entry)
-
-            self._boot_parameters = parameters
-
-        return self._boot_parameters
-
-    @property
-    def numa_nodes(self):
-        """Returns list of numa nodes."""
-        # /proc/buddyinfo may not exist in containers/VMs
-        if not os.path.exists(BUDDY_INFO):
-            return self._numa_nodes
-
-        if not self._numa_nodes:
-            nodes = set()
-            for line in open(BUDDY_INFO):
-                nodes.add(int(line.split()[1].strip(',')))
-
-        self._numa_nodes = list(nodes)
-        return self._numa_nodes
-
-    def get_node_zones(self, zones_type, node):
-        for line in open(BUDDY_INFO):
-            if line.split()[3] == zones_type and \
-                    line.startswith("Node {},".format(node)):
-                line = line.split()
-                return " ".join(line)
-
-        return None
-
-    def get_vmstat_value(self, key):
-        for line in open(VMSTAT):
-            if line.partition(" ")[0] == key:
-                return int(line.partition(" ")[2])
-
-        return None
-
-    def get_slabinfo(self):
-        info = []
-        skip = 2
-        for line in open(SLABINFO):
-            if skip:
-                skip -= 1
-                continue
-
-            if line.startswith("kmalloc"):
-                continue
-
-            sections = line.split()
-            # name, num_objs, objsize
-            info.append([sections[0],
-                         int(sections[2]),
-                         int(sections[3])])
-
-        return info
-
-
-class KernelGeneralChecks(KernelChecksBase):
-
-    def get_version_info(self):
-        if self.kernel_version:
-            KERNEL_INFO["version"] = self.kernel_version
-
-    def get_cmdline_info(self):
-        if self.boot_parameters:
-            KERNEL_INFO["boot"] = " ".join(self.boot_parameters)
-
-    def get_systemd_info(self):
-        path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
-        if os.path.exists(path):
-            KERNEL_INFO["systemd"] = {"CPUAffinity": "not set"}
-            for line in open(path):
-                ret = re.compile("^CPUAffinity=(.+)").match(line)
-                if ret:
-                    KERNEL_INFO["systemd"]["CPUAffinity"] = ret[1]
-
-    def __call__(self):
-        self.get_version_info()
-        self.get_cmdline_info()
-        self.get_systemd_info()
 
 
 class KernelMemoryChecks(KernelChecksBase):
@@ -182,8 +67,8 @@ class KernelMemoryChecks(KernelChecksBase):
         if not os.path.exists(SLABINFO):
             return
 
-        # name, num_objs, objsize
-        for line in self.get_slabinfo():
+        # exclude kernel memory allocations
+        for line in self.get_slabinfo(exclude_names=[r"\S*kmalloc"]):
             name = line[0]
             num_objs = line[1]
             objsize = line[2]
@@ -256,16 +141,11 @@ class KernelMemoryChecks(KernelChecksBase):
         self.get_memory_info()
 
 
-def get_kernal_general_checks():
-    return KernelGeneralChecks()
-
-
 def get_kernal_memory_checks():
     return KernelMemoryChecks()
 
 
 if __name__ == "__main__":
-    get_kernal_general_checks()()
     get_kernal_memory_checks()()
     if KERNEL_INFO:
-        plugin_yaml.save_part(KERNEL_INFO, priority=0)
+        plugin_yaml.save_part(KERNEL_INFO, priority=1)
