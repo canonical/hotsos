@@ -19,6 +19,9 @@ from openstack_common import (
     AGENT_LOG_PATHS,
 )
 from openstack_exceptions import (
+    BARBICAN_EXCEPTIONS,
+    CASTELLAN_EXCEPTIONS,
+    CINDER_EXCEPTIONS,
     MANILA_EXCEPTIONS,
     NOVA_EXCEPTIONS,
     OCTAVIA_EXCEPTIONS,
@@ -252,8 +255,24 @@ class CommonAgentChecks(AgentChecksBase):
         for exc in MANILA_EXCEPTIONS:
             manila_exceptions_all.append(r" ({}):".format(exc))
 
+        barbican_exceptions_all = [] + agent_exceptions_common
+        for exc in BARBICAN_EXCEPTIONS:
+            barbican_exceptions_all.append(r" ({}):".format(exc))
+
+        cinder_exceptions_all = [] + agent_exceptions_common
+        for exc in CINDER_EXCEPTIONS:
+            cinder_exceptions_all.append(r" ({}):".format(exc))
+
+        # Whis is a client/interface implemenation not a service so we add it
+        # to services that implement it. We print the long form of the
+        # exception to indicate it is a non-native exception.
+        for exc in CASTELLAN_EXCEPTIONS:
+            barbican_exceptions_all.append(r" (\S*\.?{}):".format(exc))
+            cinder_exceptions_all.append(r" (\S*\.?{}):".format(exc))
+
         # The following must be ERROR log level
-        self.agent_exceptions = {"cinder": [] + agent_exceptions_common,
+        self.agent_exceptions = {"barbican": barbican_exceptions_all,
+                                 "cinder": cinder_exceptions_all,
                                  "glance": [] + agent_exceptions_common,
                                  "heat": [] + agent_exceptions_common,
                                  "keystone": [] + agent_exceptions_common,

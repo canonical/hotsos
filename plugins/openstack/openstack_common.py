@@ -72,6 +72,7 @@ OST_DEP_PKGS = [r"conntrack",
                 ]
 
 AGENT_DAEMON_NAMES = {
+    "barbican": ["barbican-worker"],
     "cinder": ["cinder-scheduler", "cinder-volume"],
     "glance": ["glance-api"],
     "heat": ["heat-engine", "heat-api", "heat-api-cfn"],
@@ -87,7 +88,8 @@ AGENT_DAEMON_NAMES = {
                 "octavia-driver-agent"],
     }
 
-AGENT_LOG_PATHS = {"cinder": "var/log/cinder",
+AGENT_LOG_PATHS = {"barbican": "var/log/barbican",
+                   "cinder": "var/log/cinder",
                    "glance": "var/log/glance",
                    "heat": "var/log/heat",
                    "keystone": "var/log/keystone",
