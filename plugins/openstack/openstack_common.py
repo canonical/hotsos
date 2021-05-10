@@ -5,6 +5,7 @@ from common import (
     checks,
     helpers,
 )
+import openstack_exceptions
 
 # Plugin config opts from global
 OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
@@ -88,16 +89,26 @@ AGENT_DAEMON_NAMES = {
                 "octavia-driver-agent"],
     }
 
-AGENT_LOG_PATHS = {"barbican": "var/log/barbican",
-                   "cinder": "var/log/cinder",
-                   "glance": "var/log/glance",
-                   "heat": "var/log/heat",
-                   "keystone": "var/log/keystone",
-                   "manila": "/var/log/manila",
-                   "neutron": "var/log/neutron",
-                   "nova": "var/log/nova",
-                   "octavia": "var/log/octavia",
-                   }
+
+# These can exist in any service
+AGENT_EXCEPTIONS_COMMON = [
+    r"(AMQP server on .+ is unreachable)",
+    r"(amqp.exceptions.ConnectionForced):",
+    r"(OSError: Server unexpectedly closed connection)",
+    r"(ConnectionResetError: .+)",
+]
+for exc in openstack_exceptions.OSLO_DB_EXCEPTIONS + \
+        openstack_exceptions.OSLO_MESSAGING_EXCEPTIONS + \
+        openstack_exceptions.PYTHON_BUILTIN_EXCEPTIONS:
+    AGENT_EXCEPTIONS_COMMON.append(r"({})".format(exc))
+
+SERVICE_RESOURCES = {}
+for service in OST_PROJECTS:
+    SERVICE_RESOURCES[service] = {"logs": os.path.join("var/log", service),
+                                  "exceptions_base": [] +
+                                  AGENT_EXCEPTIONS_COMMON,
+                                  "daemons":
+                                  AGENT_DAEMON_NAMES.get(service, [])}
 
 NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
 
@@ -128,3 +139,23 @@ class OpenstackChecksBase(object):
 
     def __call__(self):
         pass
+
+
+class AgentChecksBase(object):
+    MAX_RESULTS = 5
+
+    def __init__(self, searchobj, master_results_key=None):
+        """
+        @param searchobj: FileSearcher object used for searches.
+        @param master_results_key: optional - key into which results
+                                   will be stored in master yaml.
+        """
+        self.searchobj = searchobj
+        if master_results_key:
+            self.master_results_key = master_results_key
+
+    def register_search_terms(self):
+        raise NotImplementedError
+
+    def process_results(self, results):
+        raise NotImplementedError

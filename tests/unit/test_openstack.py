@@ -19,6 +19,7 @@ from plugins.openstack.parts import (  # noqa E402
     service_features,
     cpu_pinning_check,
     agent_checks,
+    agent_exceptions,
     neutron_l3ha,
 )
 
@@ -315,30 +316,6 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
         results = c.process_results(s.search())
         self.assertEqual(results, expected)
 
-    def test_get_agents_issues(self):
-        neutron_expected = {'neutron-openvswitch-agent':
-                            {'MessagingTimeout': {'2021-03-04': 2},
-                             'AMQP server on 10.10.123.22:5672 is unreachable':
-                             {'2021-03-04': 3},
-                             'OVS is dead': {'2021-03-29': 1},
-                             'RuntimeError': {'2021-03-29': 3},
-                             }}
-        nova_expected = {'nova-api-wsgi':
-                         {'OSError: Server unexpectedly closed connection':
-                          {'2021-03-15': 1},
-                          'AMQP server on 10.5.1.98:5672 is unreachable':
-                          {'2021-03-15': 1},
-                          'amqp.exceptions.ConnectionForced':
-                          {'2021-03-15': 1}},
-                         'nova-compute':
-                         {'DBConnectionError': {'2021-03-08': 2}}}
-        s = searchtools.FileSearcher()
-        c = agent_checks.CommonAgentChecks(s)
-        c.register_search_terms()
-        results = c.process_results(s.search())
-        self.assertEqual(results,
-                         {"neutron": neutron_expected, "nova": nova_expected})
-
     @mock.patch.object(agent_checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
         s = searchtools.FileSearcher()
@@ -383,15 +360,13 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
         results = c.process_results(s.search())
         self.assertEqual(results, expected)
 
-    @mock.patch.object(agent_checks, "CommonAgentChecks")
     @mock.patch.object(agent_checks, "NeutronOVSAgentEventChecks")
     @mock.patch.object(agent_checks, "NeutronL3AgentEventChecks")
     @mock.patch.object(agent_checks, "NeutronAgentBugChecks")
     @mock.patch.object(agent_checks, "AGENT_CHECKS_RESULTS",
                        {"agent-checks": {}})
     def test_run_agent_checks(self, mock_agent_bug_checks,
-                              mock_l3_agent_checks, mock_ovs_agent_checks,
-                              mock_common_agent_checks):
+                              mock_l3_agent_checks, mock_ovs_agent_checks):
         c = mock_agent_bug_checks.return_value
         c.process_results.return_value = None
 
@@ -403,20 +378,60 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
         c.master_results_key = "k2"
         c.process_results.return_value = "r2"
 
-        c = mock_common_agent_checks.return_value
-        c.master_results_key = "k3"
-        c.process_results.return_value = "r3"
-
         agent_checks.run_agent_checks()
         self.assertTrue(mock_agent_bug_checks.called)
         self.assertTrue(mock_l3_agent_checks.called)
         self.assertTrue(mock_ovs_agent_checks.called)
-        self.assertTrue(mock_common_agent_checks.called)
         # results should be empty if we have mocked everything
         self.assertEqual(agent_checks.AGENT_CHECKS_RESULTS,
                          {"agent-checks": {"k1": "r1",
-                                           "k2": "r2",
-                                           "k3": "r3"}})
+                                           "k2": "r2"}})
+
+
+class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    def test_get_agent_exceptions(self):
+        neutron_expected = {'neutron-openvswitch-agent':
+                            {'MessagingTimeout': {'2021-03-04': 2},
+                             'AMQP server on 10.10.123.22:5672 is unreachable':
+                             {'2021-03-04': 3},
+                             'OVS is dead': {'2021-03-29': 1},
+                             'RuntimeError': {'2021-03-29': 3},
+                             }}
+        nova_expected = {'nova-api-wsgi':
+                         {'OSError: Server unexpectedly closed connection':
+                          {'2021-03-15': 1},
+                          'AMQP server on 10.5.1.98:5672 is unreachable':
+                          {'2021-03-15': 1},
+                          'amqp.exceptions.ConnectionForced':
+                          {'2021-03-15': 1}},
+                         'nova-compute':
+                         {'DBConnectionError': {'2021-03-08': 2}}}
+        s = searchtools.FileSearcher()
+        c = agent_exceptions.CommonAgentChecks(s)
+        c.register_search_terms()
+        results = c.process_results(s.search())
+        self.assertEqual(results,
+                         {"neutron": neutron_expected, "nova": nova_expected})
+
+    @mock.patch.object(agent_exceptions, "CommonAgentChecks")
+    @mock.patch.object(agent_exceptions, "AGENT_CHECKS_RESULTS",
+                       {"agent-exceptions": {}})
+    def test_run_agent_checks(self, mock_common_agent_checks):
+        c = mock_common_agent_checks.return_value
+        c.process_results.return_value = "r1"
+
+        agent_exceptions.run_agent_exception_checks()
+        self.assertTrue(mock_common_agent_checks.called)
+        # results should be empty if we have mocked everything
+        self.assertEqual(agent_exceptions.AGENT_CHECKS_RESULTS,
+                         {"agent-exceptions": "r1"})
 
 
 class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):

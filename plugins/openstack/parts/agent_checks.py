@@ -13,30 +13,11 @@ from common.known_bugs_utils import (
     BugSearchDef,
     add_known_bug,
 )
-from openstack_common import (
-    OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
-    AGENT_DAEMON_NAMES,
-    AGENT_LOG_PATHS,
-)
-from openstack_exceptions import (
-    BARBICAN_EXCEPTIONS,
-    CASTELLAN_EXCEPTIONS,
-    CINDER_EXCEPTIONS,
-    MANILA_EXCEPTIONS,
-    NOVA_EXCEPTIONS,
-    OCTAVIA_EXCEPTIONS,
-    OSLO_DB_EXCEPTIONS,
-    OSLO_MESSAGING_EXCEPTIONS,
-    PYTHON_BUILTIN_EXCEPTIONS,
-)
-from openstack_utils import (
-    get_agent_exceptions,
-)
-
 from common.analytics import (
     LogSequenceStats,
     SearchResultIndices,
 )
+from openstack_common import SERVICE_RESOURCES
 
 AGENT_CHECKS_RESULTS = {"agent-checks": {}}
 
@@ -115,7 +96,7 @@ class NeutronL3AgentEventChecks(AgentChecksBase):
         super().__init__(*args, **kwargs,
                          master_results_key="neutron-l3-agent")
         self.logs_path = os.path.join(constants.DATA_ROOT,
-                                      AGENT_LOG_PATHS["neutron"])
+                                      SERVICE_RESOURCES["neutron"]["logs"])
 
         l3_agent_base_log = 'neutron-l3-agent.log'
         self.l3_agent_data_source = os.path.join(self.logs_path,
@@ -172,7 +153,7 @@ class NeutronOVSAgentEventChecks(AgentChecksBase):
         super().__init__(*args, **kwargs,
                          master_results_key="neutron-ovs-agent")
         self.logs_path = os.path.join(constants.DATA_ROOT,
-                                      AGENT_LOG_PATHS["neutron"])
+                                      SERVICE_RESOURCES["neutron"]["logs"])
 
         ovs_agent_base_log = 'neutron-openvswitch-agent.log'
         self.ovs_agent_data_source = os.path.join(self.logs_path,
@@ -223,119 +204,9 @@ class NeutronAgentBugChecks(AgentChecksBase):
                 add_known_bug(bugsearch.tag, description=bugsearch.reason)
 
 
-class CommonAgentChecks(AgentChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, master_results_key="agent-issues")
-        self._agent_log_issues = {}
-
-        agent_exceptions_common = [
-            r"(AMQP server on .+ is unreachable)",
-            r"(amqp.exceptions.ConnectionForced):",
-            r"(OSError: Server unexpectedly closed connection)",
-            r"(ConnectionResetError: .+)",
-            ]
-
-        # assume all agents use these so add to all
-        for exc in OSLO_DB_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS + \
-                PYTHON_BUILTIN_EXCEPTIONS:
-            agent_exceptions_common.append(r"({})".format(exc))
-
-        nova_exceptions_all = [r"(nova.exception.\S+):"]
-        nova_exceptions_all.extend(agent_exceptions_common)
-
-        for exc in NOVA_EXCEPTIONS:
-            nova_exceptions_all.append(r" ({}):".format(exc))
-
-        octavia_exceptions_all = [] + agent_exceptions_common
-        for exc in OCTAVIA_EXCEPTIONS:
-            octavia_exceptions_all.append(r" ({}):".format(exc))
-
-        manila_exceptions_all = [] + agent_exceptions_common
-        for exc in MANILA_EXCEPTIONS:
-            manila_exceptions_all.append(r" ({}):".format(exc))
-
-        barbican_exceptions_all = [] + agent_exceptions_common
-        for exc in BARBICAN_EXCEPTIONS:
-            barbican_exceptions_all.append(r" ({}):".format(exc))
-
-        cinder_exceptions_all = [] + agent_exceptions_common
-        for exc in CINDER_EXCEPTIONS:
-            cinder_exceptions_all.append(r" ({}):".format(exc))
-
-        # Whis is a client/interface implemenation not a service so we add it
-        # to services that implement it. We print the long form of the
-        # exception to indicate it is a non-native exception.
-        for exc in CASTELLAN_EXCEPTIONS:
-            barbican_exceptions_all.append(r" (\S*\.?{}):".format(exc))
-            cinder_exceptions_all.append(r" (\S*\.?{}):".format(exc))
-
-        # The following must be ERROR log level
-        self.agent_exceptions = {"barbican": barbican_exceptions_all,
-                                 "cinder": cinder_exceptions_all,
-                                 "glance": [] + agent_exceptions_common,
-                                 "heat": [] + agent_exceptions_common,
-                                 "keystone": [] + agent_exceptions_common,
-                                 "manila": manila_exceptions_all,
-                                 "nova": nova_exceptions_all,
-                                 "neutron": [] + agent_exceptions_common,
-                                 "octavia": octavia_exceptions_all,
-                                 }
-
-        # The following can be any log level
-        self.agent_issues = {
-            "neutron": [r"(OVS is dead).", r"(RuntimeError):"]
-            }
-
-    def _add_terms(self, service, issue_definitions):
-        """
-        Add search terms for warning, exceptions, errors etc i.e. anything that
-        could count as an "issue" of interest.
-        """
-        data_source_template = os.path.join(constants.DATA_ROOT,
-                                            AGENT_LOG_PATHS[service], '{}.log')
-        if constants.USE_ALL_LOGS:
-            data_source_template = "{}*".format(data_source_template)
-
-        for agent in AGENT_DAEMON_NAMES[service]:
-            data_source = data_source_template.format(agent)
-            for msg in issue_definitions.get(service, []):
-                expr = r"^([0-9\-]+) (\S+) .+{}.*".format(msg)
-                self.searchobj.add_search_term(SearchDef(expr, tag=agent,
-                                                         hint=msg),
-                                               data_source)
-
-    def register_search_terms(self):
-        """Register searches for exceptions as well as any other type of issue
-        we might want to catch like warning etc which may not be errors or
-        exceptions.
-        """
-        for service in AGENT_DAEMON_NAMES:
-            self._add_terms(service, self.agent_exceptions)
-            self._add_terms(service, self.agent_issues)
-
-    def _process_agent_results(self, results, service, agent):
-        e = get_agent_exceptions(results.find_by_tag(agent),
-                                 AGENT_ERROR_KEY_BY_TIME)
-        if e:
-            if service not in self._agent_log_issues:
-                self._agent_log_issues[service] = {}
-
-            self._agent_log_issues[service][agent] = e
-
-    def process_results(self, results):
-        """Process search results to see if we got any hits."""
-        for service in AGENT_DAEMON_NAMES:
-            for agent in AGENT_DAEMON_NAMES[service]:
-                self._process_agent_results(results, service, agent)
-
-        return self._agent_log_issues
-
-
 def run_agent_checks():
     s = FileSearcher()
-    checks = [CommonAgentChecks(s),
-              NeutronL3AgentEventChecks(s),
+    checks = [NeutronL3AgentEventChecks(s),
               NeutronOVSAgentEventChecks(s),
               NeutronAgentBugChecks(s),
               ]
@@ -355,4 +226,4 @@ def run_agent_checks():
 if __name__ == "__main__":
     run_agent_checks()
     if AGENT_CHECKS_RESULTS["agent-checks"]:
-        plugin_yaml.save_part(AGENT_CHECKS_RESULTS, priority=7)
+        plugin_yaml.save_part(AGENT_CHECKS_RESULTS, priority=9)
