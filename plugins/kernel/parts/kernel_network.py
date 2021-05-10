@@ -3,8 +3,11 @@ import os
 
 from common import (
     constants,
+    issue_types,
+    issues_utils,
     plugin_yaml,
 )
+from common.host_helpers import HostNetworkingHelper
 from common.searchtools import (
     FileSearcher,
     SearchDef,
@@ -31,6 +34,22 @@ class KernelNetworkChecks(KernelChecksBase):
                 ifaces[r.get(1)] = 1
 
         if ifaces:
+            helper = HostNetworkingHelper()
+            # on report the issue if the interfaces actually exist
+            raise_issue = False
+            host_interfaces = helper.get_host_interfaces(
+                                                       include_namespaces=True)
+            for iface in ifaces:
+                if iface in host_interfaces:
+                    raise_issue = True
+                    break
+
+            if raise_issue:
+                msg = ("kernel has reported over-mtu dropped packets for some "
+                       "interfaces")
+                issue = issue_types.NetworkWarning(msg)
+                issues_utils.add_issue(issue)
+
             sorted_dict = {}
             for k, v in sorted(ifaces.items(), key=lambda e: e[1],
                                reverse=True):

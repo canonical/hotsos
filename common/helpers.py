@@ -36,12 +36,24 @@ def catch_exceptions(*exc_types):
     return catch_exceptions_inner1
 
 
-def get_ip_addr():
+def get_ip_addr(namespace=None):
     if DATA_ROOT == '/':
-        output = subprocess.check_output(['ip', '-d', 'address'])
+        if namespace is not None:
+            output = subprocess.check_output(['ip', 'netns', 'exec',
+                                              namespace, 'ip', 'address',
+                                              'show'])
+        else:
+            output = subprocess.check_output(['ip', '-d', 'address'])
+
         return output.decode('UTF-8').splitlines(keepends=True)
 
-    path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-d_address")
+    if namespace is not None:
+        ns_path = ("sos_commands/networking/ip_netns_exec_{}_ip_address_show".
+                   format(namespace))
+        path = os.path.join(DATA_ROOT,  ns_path)
+    else:
+        path = os.path.join(DATA_ROOT, "sos_commands/networking/ip_-d_address")
+
     if os.path.exists(path):
         return open(path, 'r').readlines()
 

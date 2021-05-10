@@ -22,3 +22,7 @@ class BcacheWarning(IssueTypeBase):
 
 class NeutronL3HAWarning(IssueTypeBase):
     pass
+
+
+class NetworkWarning(IssueTypeBase):
+    pass
