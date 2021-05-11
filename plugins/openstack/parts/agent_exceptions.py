@@ -21,10 +21,13 @@ from openstack_exceptions import (
     CINDER_EXCEPTIONS,
     MANILA_EXCEPTIONS,
     NOVA_EXCEPTIONS,
+    NEUTRON_EXCEPTIONS,
     OCTAVIA_EXCEPTIONS,
+    OVSDBAPP_EXCEPTIONS,
 )
 
 AGENT_CHECKS_RESULTS = {"agent-exceptions": {}}
+AGENT_DEP_EXCEPTION_EXPR_TEMPLATE = r" (\S*\.?{}):"
 
 
 class CommonAgentChecks(AgentChecksBase):
@@ -36,6 +39,7 @@ class CommonAgentChecks(AgentChecksBase):
         self._agent_exceptions = {"barbican": BARBICAN_EXCEPTIONS,
                                   "cinder": CINDER_EXCEPTIONS,
                                   "manila": MANILA_EXCEPTIONS,
+                                  "neutron": NEUTRON_EXCEPTIONS,
                                   "nova": NOVA_EXCEPTIONS,
                                   "octavia": OCTAVIA_EXCEPTIONS,
                                   }
@@ -55,13 +59,19 @@ class CommonAgentChecks(AgentChecksBase):
             self._exception_exprs[svc] = []
             self._exception_exprs[svc] += svc_info["exceptions_base"]
             self._exception_exprs[svc] += a_excs
+
+            # Add service dependecy/lib/client exceptions
             if svc == "cinder" or svc == "barbican":
-                # Whis is a client/interface implemenation not a service so we
+                # This is a client/interface implemenation not a service so we
                 # add it to services that implement it. We print the long
                 # form of the exception to indicate it is a non-native
                 # exception.
                 for exc in CASTELLAN_EXCEPTIONS:
-                    expr = r" (\S*\.?{}):".format(exc)
+                    expr = AGENT_DEP_EXCEPTION_EXPR_TEMPLATE.format(exc)
+                    self._exception_exprs[svc].append(expr)
+            elif svc == "neutron":
+                for exc in OVSDBAPP_EXCEPTIONS:
+                    expr = AGENT_DEP_EXCEPTION_EXPR_TEMPLATE.format(exc)
                     self._exception_exprs[svc].append(expr)
 
     def _add_exception_searches(self):
