@@ -130,7 +130,7 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             known_bugs.detect_known_bugs()
-            expected = {'known-bugs':
+            expected = {'bugs-detected':
                         [{'https://bugs.launchpad.net/bugs/1910958':
                           ('Unit unit-rabbitmq-server-2 failed to start due '
                            'to members in relation 236 that cannot be '

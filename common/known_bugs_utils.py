@@ -11,7 +11,7 @@ from common.constants import (
 from common.searchtools import SearchDef
 
 LAUNCHPAD = "launchpad"
-MASTER_YAML_KNOWN_BUGS_KEY = "known-bugs"
+MASTER_YAML_KNOWN_BUGS_KEY = "bugs-detected"
 KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
 
 
