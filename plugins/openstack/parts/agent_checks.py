@@ -59,15 +59,36 @@ ROUTER_EVENT_SEARCHES = [
         hint="Keepalived"),
 ]
 
+DATA_SOURCE_SYSLOG = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
+DATA_SOURCE_NEUTRON_LOGS = os.path.join(constants.DATA_ROOT,
+                                        'var/log/neutron/')
+if constants.USE_ALL_LOGS:
+    DATA_SOURCE_SYSLOG = "{}*".format(DATA_SOURCE_SYSLOG)
+    DATA_SOURCE_NEUTRON_LOGS = "{}*".format(DATA_SOURCE_NEUTRON_LOGS)
+
 # NOTE: only LP bugs supported for now
 AGENT_BUG_SEARCHES = [
-    BugSearchDef(
-        (".+Unknown configuration entry 'no_track' for ip address - "
-         "ignoring.*"),
-        bug_id="1896506",
-        hint="no_track",
-        reason=("identified in neutron-l3-agent logs"),
-        ),
+    {
+        "def": BugSearchDef(
+            (".+Unknown configuration entry 'no_track' for ip address - "
+             "ignoring.*"),
+            bug_id="1896506",
+            hint="no_track",
+            reason=("identified in neutron-l3-agent logs"),
+            ),
+        "datasource": DATA_SOURCE_SYSLOG
+    },
+    {
+        "def": BugSearchDef(
+            (r".+OVS database connection to OVN_Northbound failed with error: "
+             r"'Timeout'.+"),
+            bug_id="1907686",
+            hint="OVS database",
+            reason=("identified in neutron logs by {}.{}".
+                    format(constants.PLUGIN_NAME, constants.PART_NAME)),
+            ),
+        "datasource": DATA_SOURCE_NEUTRON_LOGS,
+    }
 ]
 
 
@@ -207,17 +228,15 @@ class NeutronAgentBugChecks(AgentChecksBase):
 
     def register_search_terms(self):
         """Add search terms for known bugs."""
-        data_source = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
-        if constants.USE_ALL_LOGS:
-            data_source = "{}*".format(data_source)
-
         for bugsearch in AGENT_BUG_SEARCHES:
-            self.searchobj.add_search_term(bugsearch, data_source)
+            self.searchobj.add_search_term(bugsearch["def"],
+                                           bugsearch["datasource"])
 
     def process_results(self, results):
         for bugsearch in AGENT_BUG_SEARCHES:
-            if results.find_by_tag(bugsearch.tag):
-                add_known_bug(bugsearch.tag, bugsearch.reason)
+            tag = bugsearch["def"].tag
+            if results.find_by_tag(tag):
+                add_known_bug(tag, bugsearch["def"].reason)
 
 
 def run_agent_checks():
