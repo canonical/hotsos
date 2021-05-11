@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 import os
+
+import functools
+
 from common import (
     checks,
     constants,
@@ -11,11 +14,6 @@ from common.searchtools import (
     SequenceSearchDef,
     FileSearcher,
 )
-
-
-import functools
-import os.path
-import re
 
 RABBITMQ_INFO = {}
 RMQ_SERVICES_EXPRS = [
@@ -42,55 +40,122 @@ class RabbitMQServiceChecksBase(checks.ServiceChecksBase):
 
 class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.report_path = "sos_commands/rabbitmq/rabbitmqctl_report"
+        self.report_path = os.path.join(constants.DATA_ROOT, self.report_path)
+        self.searcher = FileSearcher()
+        self.resources = {}
+
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
             RABBITMQ_INFO["services"] = self.get_service_info_str()
 
+    def register_report_searches(self):
+        """Register all sequence search definitions that we will execute
+        against rabbitmqctl report.
+        """
+        self._sequences = {
+            "queues":
+                SequenceSearchDef(
+                    start=SearchDef(r"^Queues on ([^:]+):"),
+                    body=SearchDef(r"^<([^.\s]+)[.0-9]+>\s+(\S+)\s+.+"),
+                    end=SearchDef(r"^$"),
+                    tag="queues"),
+            "connections":
+                SequenceSearchDef(
+                    start=SearchDef(r"^Connections:$"),
+                    body=SearchDef(r"^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$"),
+                    end=SearchDef(r"^$"),
+                    tag="connections"),
+            "memory":
+                SequenceSearchDef(
+                    start=SearchDef(r"^Status of node '([^']*)'$"),
+                    body=SearchDef(r"^\s+\[{total,([0-9]+)}.+"),
+                    end=SearchDef(r"^$"),
+                    tag="memory")
+            }
+        for sd in self._sequences.values():
+            self.searcher.add_search_term(sd, self.report_path)
+
     def get_queues(self):
         """Get distribution of queues across cluster."""
-        path = os.path.join(constants.DATA_ROOT,
-                            "sos_commands/rabbitmq/rabbitmqctl_report")
-        s = FileSearcher()
-        sd = SequenceSearchDef(
-            start=SearchDef(r"^Queues on ([^:]+):"),
-            body=SearchDef(r"^<([^.\s]+)[.0-9]+>\s+(\S+)\s+.+"),
-            end=SearchDef(r"^$"),
-            tag="report-queues")
-        s.add_search_term(sd, path)
-        results = s.search()
-        sections = results.find_sequence_sections(sd)
-        resources = {"queues": {}}
-        for id in sections:
+        sd = self._sequences["queues"]
+        vhost_queues = {}
+        for results in self.results.find_sequence_sections(sd).values():
             vhost = None
             queues = {}
-            for r in sections[id]:
-                if r.tag == sd.start_tag:
-                    vhost = r.get(1)
-                elif r.tag == sd.body_tag:
-                    info = {"pid_name": r.get(1),
-                            "queue": r.get(2)}
+            for result in results:
+                if result.tag == sd.start_tag:
+                    vhost = result.get(1)
+                elif result.tag == sd.body_tag:
+                    info = {"pid_name": result.get(1),
+                            "queue": result.get(2)}
                     if info["pid_name"] not in queues:
                         queues[info["pid_name"]] = 1
                     else:
                         queues[info["pid_name"]] += 1
-            total = functools.reduce(lambda x, y: x + y,
-                                     list(queues.values()),
-                                     0)
-            if len(queues.keys()) > 0:
-                resources["queues"][vhost] = {}
-                for pid in queues:
-                    if total > 0:
-                        fraction = "{:.2f}%".format(queues[pid] / total * 100)
-                    else:
-                        fraction = "N/A"
-                    resources["queues"][vhost][pid] = "{:d} ({})".format(
-                        queues[pid], fraction)
-            else:
-                resources["queues"][vhost] = "no queues"
 
-        for resource in resources:
-            if not resources[resource]:
+            if len(queues.keys()) == 0:
+                vhost_queues[vhost] = "no queues"
+                continue
+
+            total = functools.reduce(lambda x, y: x + y,
+                                     list(queues.values()), 0)
+            vhost_queues[vhost] = {}
+            for pid in queues:
+                if total > 0:
+                    fraction = "{:.2f}%".format(queues[pid] / total * 100)
+                else:
+                    fraction = "n/a"
+
+                vhost_queues[vhost][pid] = "{:d} ({})".format(
+                    queues[pid], fraction)
+
+        if vhost_queues:
+            self.resources["queues"] = vhost_queues
+
+    def get_queue_connection_distribution(self):
+        """Get distribution of connections across cluster."""
+        sd = self._sequences["connections"]
+        queue_connections = {}
+        for results in self.results.find_sequence_sections(sd).values():
+            for result in results:
+                if result.tag == sd.body_tag:
+                    queue_name = result.get(1)
+                    if queue_name not in queue_connections:
+                        queue_connections[queue_name] = 1
+                    else:
+                        queue_connections[queue_name] += 1
+
+        if queue_connections:
+            self.resources["queue-connections"] = queue_connections
+
+    def get_memory_used(self):
+        """Get the memory used per broker."""
+        sd = self._sequences["memory"]
+        memory_used = {}
+        for results in self.results.find_sequence_sections(sd).values():
+            for result in results:
+                if result.tag == sd.start_tag:
+                    node_name = result.get(1)
+                elif result.tag == sd.body_tag:
+                    total = result.get(1)
+                    mib_used = int(total) / 1024. / 1024.
+                    memory_used[node_name] = "{:.3f}".format(mib_used)
+
+        if memory_used:
+            self.resources["memory-used-mib"] = memory_used
+
+    def run_report_searches(self):
+        self.register_report_searches()
+        self.results = self.searcher.search()
+        self.get_queues()
+        self.get_queue_connection_distribution()
+        self.get_memory_used()
+        for resource in self.resources:
+            if not self.resources[resource]:
                 continue
 
             if "resources" not in RABBITMQ_INFO:
@@ -99,77 +164,14 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             if resource not in RABBITMQ_INFO["resources"]:
                 RABBITMQ_INFO["resources"][resource] = {}
 
-            for key in resources[resource]:
-                value = resources[resource][key]
+            for key in self.resources[resource]:
+                value = self.resources[resource][key]
                 RABBITMQ_INFO["resources"][resource][key] = value
-
-    def get_queue_connection_distribution(self):
-        """Get distribution of connections across cluster."""
-        queue_connections = {}
-        RABBITMQ_INFO["resources"]["queue-connections"] = queue_connections
-        report_path = os.path.join(
-            constants.DATA_ROOT,
-            "sos_commands/rabbitmq/rabbitmqctl_report")
-        start_re = re.compile("^Connections:$")
-        line_re = re.compile("^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$")
-        reading_connections = False
-        if not os.path.exists(report_path):
-            return
-        with open(report_path) as fd:
-            for line in fd:
-                if not reading_connections:
-                    result = start_re.search(line.rstrip())
-                    if result is None:
-                        continue
-                    reading_connections = True
-                    continue
-                if len(line.rstrip()) == 0:
-                    reading_connections = False
-                    continue
-                result = line_re.search(line.rstrip())
-                if result is not None:
-                    queue_name = result.group(1)
-                    if queue_name not in queue_connections:
-                        queue_connections[queue_name] = 1
-                    else:
-                        queue_connections[queue_name] += 1
-
-    def get_memory_used(self):
-        """Get the memory used per broker."""
-        memory_used = {}
-        RABBITMQ_INFO["resources"]["memory-used-mib"] = memory_used
-        report_path = os.path.join(
-            constants.DATA_ROOT,
-            "sos_commands/rabbitmq/rabbitmqctl_report")
-        start_re = re.compile("^Status of node '([^']*)'$")
-        line_re = re.compile("{total,([0-9]+)}")
-        reading_memory = False
-        if not os.path.exists(report_path):
-            return
-        with open(report_path) as fd:
-            for line in fd:
-                if not reading_memory:
-                    result = start_re.search(line.rstrip())
-                    if result is None:
-                        continue
-                    reading_memory = True
-                    node_name = result.group(1)
-                    continue
-                if len(line.rstrip()) == 0:
-                    reading_memory = False
-                    continue
-                result = line_re.search(line.rstrip())
-                if result is not None:
-                    total = result.group(1)
-                    memory_used[node_name] = "{:.3f}".format(
-                        int(total) / 1024. / 1024.)
 
     def __call__(self):
         super().__call__()
         self.get_running_services_info()
-        self.get_queues()
-        self.get_queue_connection_distribution()
-        self.get_memory_used()
+        self.run_report_searches()
 
 
 def get_rabbitmq_service_checker():
