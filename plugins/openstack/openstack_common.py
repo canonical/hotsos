@@ -73,7 +73,7 @@ OST_DEP_PKGS = [r"conntrack",
                 ]
 
 AGENT_DAEMON_NAMES = {
-    "barbican": ["barbican-worker"],
+    "barbican": ["barbican-api", "barbican-worker"],
     "cinder": ["cinder-scheduler", "cinder-volume"],
     "glance": ["glance-api"],
     "heat": ["heat-engine", "heat-api", "heat-api-cfn"],

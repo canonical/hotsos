@@ -85,7 +85,12 @@ class CommonAgentChecks(AgentChecksBase):
             for agent in SERVICE_RESOURCES[svc]["daemons"]:
                 data_source = data_source_template.format(agent)
                 for subexpr in exprs + self._agent_issues.get(svc, []):
-                    expr = r"^([0-9\-]+) (\S+) .+{}.*".format(subexpr)
+                    # NOTE: services running under apache have their logs
+                    # prepending with a load of apache/mod_wsgi info so we have
+                    # to do this way to account for both. We ignore the apache
+                    # prefix and it will not count towards the result.
+                    expr = (r"^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+) (\S+) "
+                            ".+{}.*".format(subexpr))
                     self.searchobj.add_search_term(SearchDef(expr, tag=agent,
                                                              hint=subexpr),
                                                    data_source)

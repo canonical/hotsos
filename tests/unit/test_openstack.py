@@ -413,12 +413,15 @@ class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
                           {'2021-03-15': 1}},
                          'nova-compute':
                          {'DBConnectionError': {'2021-03-08': 2}}}
+        barbican_expected = {'barbican-api':
+                             {'UnicodeDecodeError': {'2021-05-04': 1}}}
+        expected = {"nova": nova_expected, "neutron": neutron_expected,
+                    "barbican": barbican_expected}
         s = searchtools.FileSearcher()
         c = agent_exceptions.CommonAgentChecks(s)
         c.register_search_terms()
         results = c.process_results(s.search())
-        self.assertEqual(results,
-                         {"neutron": neutron_expected, "nova": nova_expected})
+        self.assertEqual(results, expected)
 
     @mock.patch.object(agent_exceptions, "CommonAgentChecks")
     @mock.patch.object(agent_exceptions, "AGENT_CHECKS_RESULTS",
