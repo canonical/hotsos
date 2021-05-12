@@ -6,6 +6,8 @@ import functools
 from common import (
     checks,
     constants,
+    issue_types,
+    issues_utils,
     plugin_yaml,
 )
 
@@ -56,6 +58,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
         """Get distribution of queues across cluster."""
         sd = self._sequences["queues"]["searchdef"]
         vhost_queues = {}
+        raise_issues = []
         for results in self.results.find_sequence_sections(sd).values():
             vhost = None
             queues = {}
@@ -79,12 +82,19 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             vhost_queues[vhost] = {}
             for pid in queues:
                 if total > 0:
-                    fraction = "{:.2f}%".format(queues[pid] / total * 100)
+                    fraction = queues[pid] / total
+                    fraction_string = "{:.2f}%".format(fraction * 100)
+                    if fraction > 2 / 3:
+                        raise_issues.append(
+                            "{} holds more than 2/3 of queues".format(pid))
                 else:
-                    fraction = "n/a"
+                    fraction_string = "N/A"
 
                 vhost_queues[vhost][pid] = "{:d} ({})".format(
-                    queues[pid], fraction)
+                    queues[pid], fraction_string)
+
+        for issue in raise_issues:
+            issues_utils.add_issue(issue_types.RabbitMQWarning(issue))
 
         if vhost_queues:
             # list all vhosts but only show their queues if not []

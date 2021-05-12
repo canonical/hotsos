@@ -26,3 +26,7 @@ class NeutronL3HAWarning(IssueTypeBase):
 
 class NetworkWarning(IssueTypeBase):
     pass
+
+
+class RabbitMQWarning(IssueTypeBase):
+    pass
