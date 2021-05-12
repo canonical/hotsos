@@ -51,7 +51,7 @@ declare -A PLUGINS=(
     [storage]=false
     [juju]=false
     [kernel]=false
-    [rabbitmq]=true
+    [rabbitmq]=false
     [system]=true  # always do system by default
     [all]=false
 )
