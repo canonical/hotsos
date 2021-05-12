@@ -48,6 +48,6 @@ class TestTools(utils.BaseTestCase):
                 output_filter.filter_master_yaml()
 
                 with open(ftmp.name) as fd:
-                    result = yaml.load(fd)
+                    result = yaml.load(fd, Loader=yaml.SafeLoader)
 
                 self.assertEqual(result, expected)
