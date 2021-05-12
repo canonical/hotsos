@@ -23,3 +23,10 @@
     openvswitch_slave 
     inet6 fe80::fc16:3eff:fe0f:3e9a/64 scope link 
        valid_lft forever preferred_lft forever
+13: bond1.4003@bond1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 45:1d:b2:89:bd:35 brd ff:ff:ff:ff:ff:ff promiscuity 0 
+    bridge forward_delay 1500 hello_time 200 max_age 2000 ageing_time 30000 stp_state 0 priority 32768 vlan_filtering 0 vlan_protocol 802.1Q 
+    inet 10.10.102.53/26 brd 10.10.102.63 scope global bond1.4003@bond1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:45ff:fe57:65e7/64 scope link 
+       valid_lft forever preferred_lft forever

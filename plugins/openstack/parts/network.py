@@ -2,12 +2,20 @@
 import re
 import os
 
+import tempfile
+
 from common import (
     constants,
     helpers,
     plugin_yaml,
 )
+from common.searchtools import (
+    SearchDef,
+    SequenceSearchDef,
+    FileSearcher,
+)
 from openstack_common import OpenstackChecksBase
+
 
 CONFIG = {"nova": [{"path": os.path.join(constants.DATA_ROOT,
                                          "etc/nova/nova.conf"),
@@ -21,6 +29,10 @@ NETWORK_INFO = {}
 
 
 class OpenstackNetworkChecks(OpenstackChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.neutron_phy_ports = []
 
     def _find_line(self, key, lines):
         for i, line in enumerate(lines):
@@ -52,7 +64,6 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         for vm migration.
         """
         config_info = {}
-        port_stats_info = {}
         for svc in CONFIG:
             for info in CONFIG[svc]:
                 data_source = info["path"]
@@ -75,19 +86,16 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                 if svc not in config_info:
                     config_info[svc] = {}
 
+                if svc == "neutron" and iface:
+                    self.neutron_phy_ports.append(iface)
+
                 if ip_address:
                     config_info[svc][key] = "{} ({})".format(ip_address, iface)
-                    stats = self._get_port_stats(name=iface)
-                    if stats:
-                        port_stats_info[iface] = stats
                 else:
                     config_info[svc][key] = None
 
         if config_info:
             NETWORK_INFO["config"] = config_info
-
-        if port_stats_info:
-            NETWORK_INFO["stats"] = port_stats_info
 
     def get_ns_info(self):
         """Populate namespace information dict."""
@@ -134,38 +142,48 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def _get_port_stats(self, name=None, mac=None):
         """Get ip link stats for the given port."""
         ip_link_show = helpers.get_ip_link_show()
-        mark = -1
-        stats_raw = ""
+        stats_raw = []
 
         if mac:
             libvirt_mac = "fe" + mac[2:]
 
-        for i, line in enumerate(ip_link_show):
-            if mark < 0:
-                if mac:
-                    for _mac in [mac, libvirt_mac]:
-                        expr = r"^\s+link/ether\s+{}\s+.+".format(_mac)
-                        ret = re.compile(expr).match(line)
-                        if ret:
-                            mark = i
-                            break
-                else:
-                    ret = re.compile(r"^[0-9]+:\s+{}:\s+.+".format(name)
-                                     ).match(line)
-                    if ret:
-                        mark = i
-            else:
-                ret = re.compile(r"^[0-9]+:\s+.+").match(line)
-                if ret:
-                    for n in range(mark, i):
-                        stats_raw += ip_link_show[n]
+        exprs = []
+        if mac:
+            for _mac in [mac, libvirt_mac]:
+                exprs.append(r"\s+link/ether\s+({})\s+.+".format(_mac))
+        else:
+            exprs.append(r"\d+:\s+({}):\s+.+".format(name))
 
-                    break
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(''.join(ip_link_show))
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(
+                        # match start if interface
+                        start=SearchDef(r"^(?:{})".format('|'.join(exprs))),
+                        # match body of interface
+                        body=SearchDef(r".+"),
+                        # match next interface or EOF
+                        end=SearchDef(r"(?:^\d+:\s+\S+:.+|^$)"),
+                        tag="ifaces")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            for results in results.find_sequence_sections(sd).values():
+                for result in results:
+                    if result.tag == sd.body_tag:
+                        stats_raw.append(result.get(0))
+
+                # stop at first match - if matching by mac address it is
+                # possible for multiple interfaces to have the same mac e.g.
+                # bonds and its interfaces but we dont support that so just use
+                # first.
+                break
+
+            os.unlink(ftmp.name)
 
         stats = {}
         total_packets = float(0)
         if stats_raw:
-            stats_raw = stats_raw.split("\n")
             for i, line in enumerate(stats_raw):
                 ret = re.compile(r"\s+[RT]X:\s+.+").findall(line)
                 if ret:
@@ -207,13 +225,32 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                     port_health_info[uuid][port["mac"]] = stats
 
         if port_health_info:
-            NETWORK_INFO["port-health"] = {"num-vms-checked": len(instances),
-                                           "stats": port_health_info}
+            health = {"vm-ports": {"num-vms-checked": len(instances),
+                                   "stats": port_health_info}}
+            if "port-health" in NETWORK_INFO:
+                NETWORK_INFO["port-health"].update(health)
+            else:
+                NETWORK_INFO["port-health"] = health
+
+    def get_neutron_phy_port_health(self):
+        port_health_info = {}
+        for port in self.neutron_phy_ports:
+            stats = self._get_port_stats(name=port)
+            if stats:
+                port_health_info[port] = stats
+
+        if port_health_info:
+            health = {"phy-ports": port_health_info}
+            if "port-health" in NETWORK_INFO:
+                NETWORK_INFO["port-health"].updated(health)
+            else:
+                NETWORK_INFO["port-health"] = health
 
     def __call__(self):
         super().__call__()
         self.get_ns_info()
         self.get_config_network_info()
+        self.get_neutron_phy_port_health()
         self.get_instances_port_health()
 
 

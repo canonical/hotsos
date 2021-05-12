@@ -262,6 +262,20 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
         ns_info = c.get_ns_info()
         self.assertEqual(ns_info, None)
 
+    @mock.patch.object(network, "NETWORK_INFO", {})
+    def test_get_network_checker(self):
+        expected = {'config':
+                    {'neutron':
+                     {'local_ip': '10.10.102.53 (bond1.4003@bond1)'}},
+                    'namespaces':
+                    {'fip': 1, 'qdhcp': 35, 'qrouter': 35},
+                    'port-health':
+                    {'phy-ports':
+                     {'bond1.4003@bond1': {
+                      'dropped': '131579034 (15%)'}}}}
+        network.get_network_checker()()
+        self.assertEqual(network.NETWORK_INFO, expected)
+
 
 class TestOpenstackPluginPartService_features(utils.BaseTestCase):
 

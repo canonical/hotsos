@@ -43,6 +43,22 @@ another start point
 value is 4
 """
 
+SEQ_TEST_6 = """section 1
+1_1
+1_2
+section 2
+2_1
+"""
+
+SEQ_TEST_7 = """section 1
+1_1
+1_2
+section 2
+2_1
+section 3
+3_1
+"""
+
 
 class TestSearchTools(utils.BaseTestCase):
 
@@ -276,7 +292,7 @@ class TestSearchTools(utils.BaseTestCase):
                                                r"^(a\S*) (start\S*) point\S*"),
                                    body=SearchDef(r"value is (\S+)"),
                                    end=SearchDef(r"^$"),
-                                   tag="seq-search-test4")
+                                   tag="seq-search-test5")
             s.add_search_term(sd, path=ftmp.name)
             results = s.search()
             sections = results.find_sequence_sections(sd)
@@ -289,5 +305,66 @@ class TestSearchTools(utils.BaseTestCase):
                         self.assertTrue(r.get(1) in ["3", "4"])
                     elif r.tag == sd.end_tag:
                         self.assertEqual(r.get(0), "")
+
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_eof(self):
+        """
+        Test scenario:
+         * multiple sections that end with start of the next
+         * start def matches any start
+         * end def matches any start
+         * file ends before start of next
+        """
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_6)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(r"^section (\d+)"),
+                                   body=SearchDef(r"\d_\d"),
+                                   tag="seq-search-test6")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 2)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        section = r.get(1)
+                        self.assertTrue(r.get(1) in ["1", "2"])
+                    elif r.tag == sd.body_tag:
+                        if section == "1":
+                            self.assertTrue(r.get(0) in ["1_1", "1_2"])
+                        else:
+                            self.assertTrue(r.get(0) in ["2_1"])
+
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_section_start_end_same(self):
+        """
+        Test scenario:
+         * multiple sections that end with start of the next
+         * start def matches unique start
+         * end def matches any start
+        """
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(SEQ_TEST_7)
+            ftmp.close()
+            s = FileSearcher()
+            sd = SequenceSearchDef(start=SearchDef(r"^section (2)"),
+                                   body=SearchDef(r"\d_\d"),
+                                   end=SearchDef(
+                                               r"^section (\d+)"),
+                                   tag="seq-search-test7")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sd)
+            self.assertEqual(len(sections), 1)
+            for id in sections:
+                for r in sections[id]:
+                    if r.tag == sd.start_tag:
+                        self.assertEqual(r.get(1), "2")
+                    elif r.tag == sd.body_tag:
+                        self.assertTrue(r.get(0) in ["2_1"])
 
             os.remove(ftmp.name)
