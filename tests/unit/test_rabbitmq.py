@@ -21,16 +21,19 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
         expected = {
             'services': ['beam.smp (1)'],
             'resources': {
-                'queues': {
-                    'telegraf-telegraf-12': 'no queues',
-                    'telegraf-telegraf-14': 'no queues',
-                    '/': 'no queues',
+                'vhosts': [
+                    "/",
+                    "openstack",
+                    "telegraf-telegraf-12",
+                    "telegraf-telegraf-13",
+                    "telegraf-telegraf-14",
+                    ],
+                'vhost-queue-distributions': {
                     'openstack': {
                         'rabbit@juju-52088b-0-lxd-11': '1137 (86.14%)',
                         'rabbit@juju-52088b-1-lxd-11': '108 (8.18%)',
                         'rabbit@juju-52088b-2-lxd-10': '75 (5.68%)',
                     },
-                    'telegraf-telegraf-13': 'no queues',
                 },
                 'queue-connections': {
                     'rabbit@juju-52088b-0-lxd-11': 1316,
