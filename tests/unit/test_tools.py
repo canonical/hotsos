@@ -35,10 +35,19 @@ class TestTools(utils.BaseTestCase):
         issue_key = output_filter.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY
         bug_key = output_filter.known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY
         issues = {"testplugin":
-                  {issue_key: [{"MemoryWarning": "a msg"}],
-                   bug_key: [{1234: "a msg"}]}}
-        expected = {issue_key: {'(testplugin) MemoryWarning': 'a msg'},
-                    bug_key: {'(testplugin) 1234': "a msg"}}
+                  {issue_key: [{"type": "MemoryWarning",
+                                "desc": "a msg",
+                                "origin": "testplugin.01part"}],
+                   bug_key: [{"id": "1234",
+                              "desc": "a msg",
+                              "origin": "testplugin.01part"}]}}
+        expected = {issue_key: {"testplugin": [{"type": "MemoryWarning",
+                                                "desc": "a msg",
+                                                "origin":
+                                                "testplugin.01part"}]},
+                    bug_key: {"testplugin": [{"id": "1234",
+                                             "desc": "a msg",
+                                             "origin": "testplugin.01part"}]}}
         with tempfile.NamedTemporaryFile() as ftmp:
             with mock.patch.object(output_filter.constants, 'MASTER_YAML_OUT',
                                    ftmp.name):

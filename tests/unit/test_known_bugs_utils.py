@@ -23,8 +23,10 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         super().tearDown()
 
     def test_get_known_bugs(self):
-        known_bugs = {"bugs": [{'https://bugs.launchpad.net/bugs/1':
-                                'no description provided'}]}
+        known_bugs = {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
+                      [{'id': 'https://bugs.launchpad.net/bugs/1',
+                        'desc': 'no description provided',
+                        'origin': 'testplugin.01part'}]}
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             with open(os.path.join(self.tmpdir, 'known_bugs.yaml'), 'w') as fd:
@@ -37,7 +39,7 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             ret = known_bugs_utils._get_known_bugs()
-            self.assertEquals(ret, None)
+            self.assertEquals(ret, {})
 
     def test_add_known_bug_first(self):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
@@ -46,14 +48,16 @@ class TestKnownBugsUtils(utils.BaseTestCase):
             ret = known_bugs_utils._get_known_bugs()
             self.assertEquals(ret,
                               {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
-                               [{'https://bugs.launchpad.net/bugs/1':
-                                 'no description provided'}
+                               [{'id': 'https://bugs.launchpad.net/bugs/1',
+                                 'desc': 'no description provided',
+                                 'origin': 'testplugin.01part'}
                                 ]})
 
     def test_add_known_bug(self):
         known_bugs = {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
-                      [{'https://bugs.launchpad.net/bugs/1':
-                        'no description provided'}]}
+                      [{'id': 'https://bugs.launchpad.net/bugs/1',
+                        'desc': 'no description provided',
+                        'origin': 'testplugin.01part'}]}
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             with open(os.path.join(self.tmpdir, 'known_bugs.yaml'), 'w') as fd:
@@ -62,8 +66,10 @@ class TestKnownBugsUtils(utils.BaseTestCase):
             known_bugs_utils.add_known_bug(2)
             ret = known_bugs_utils._get_known_bugs()
             expected = {known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY:
-                        [{'https://bugs.launchpad.net/bugs/1':
-                          'no description provided'},
-                         {'https://bugs.launchpad.net/bugs/2':
-                          'no description provided'}]}
+                        [{'id': 'https://bugs.launchpad.net/bugs/1',
+                          'desc': 'no description provided',
+                          'origin': 'testplugin.01part'},
+                         {'id': 'https://bugs.launchpad.net/bugs/2',
+                          'desc': 'no description provided',
+                          'origin': 'testplugin.01part'}]}
             self.assertEquals(ret, expected)

@@ -131,8 +131,10 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
                                self.tmpdir):
             known_bugs.detect_known_bugs()
             expected = {'bugs-detected':
-                        [{'https://bugs.launchpad.net/bugs/1910958':
+                        [{'id': 'https://bugs.launchpad.net/bugs/1910958',
+                          'desc':
                           ('Unit unit-rabbitmq-server-2 failed to start due '
                            'to members in relation 236 that cannot be '
-                           'removed. - raised by testplugin.01part')}]}
+                           'removed.'),
+                          'origin': 'testplugin.01part'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)

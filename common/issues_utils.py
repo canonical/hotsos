@@ -1,13 +1,42 @@
 #!/usr/bin/python3
 import os
+import re
 import yaml
 
 from common import plugin_yaml
 from common.constants import (
     PLUGIN_TMP_DIR,
+    PLUGIN_NAME,
+    PART_NAME,
 )
 
 MASTER_YAML_ISSUES_FOUND_KEY = "potential-issues"
+
+
+class IssueEntry(object):
+    def __init__(self, ref, desc, origin=None, key=None):
+        if key is None:
+            key = "key"
+
+        self.key = key
+        self.ref = ref
+        self.description = desc
+        if origin is None:
+            ret = re.compile("(.+).py$").match(PART_NAME)
+            if ret:
+                part_name = ret.group(1)
+            else:
+                part_name = PART_NAME
+
+            self.origin = "{}.{}".format(PLUGIN_NAME, part_name)
+        else:
+            self.origin = origin
+
+    @property
+    def data(self):
+        return {self.key: self.ref,
+                "desc": self.description,
+                "origin": self.origin}
 
 
 def _get_issues():
@@ -21,9 +50,13 @@ def _get_issues():
 
     issues_yaml = os.path.join(PLUGIN_TMP_DIR, "issues.yaml")
     if not os.path.exists(issues_yaml):
-        return
+        return {}
 
-    return yaml.safe_load(open(issues_yaml))
+    issues = yaml.safe_load(open(issues_yaml))
+    if issues and issues.get(MASTER_YAML_ISSUES_FOUND_KEY):
+        return issues
+
+    return issues
 
 
 def add_issue(issue):
@@ -35,13 +68,12 @@ def add_issue(issue):
         raise Exception("plugin tmp dir  '{}' not found".
                         format(PLUGIN_TMP_DIR))
 
-    entry = {issue.name: issue.msg}
-
+    entry = IssueEntry(issue.name, issue.msg, key="type")
     current = _get_issues()
     if current and current.get(MASTER_YAML_ISSUES_FOUND_KEY):
-        current[MASTER_YAML_ISSUES_FOUND_KEY].append(entry)
+        current[MASTER_YAML_ISSUES_FOUND_KEY].append(entry.data)
     else:
-        current = {MASTER_YAML_ISSUES_FOUND_KEY: [entry]}
+        current = {MASTER_YAML_ISSUES_FOUND_KEY: [entry.data]}
 
     issues_yaml = os.path.join(PLUGIN_TMP_DIR, "issues.yaml")
     with open(issues_yaml, 'w') as fd:
@@ -55,5 +87,5 @@ def add_issues_to_master_plugin():
     performed as a final part after all others have executed.
     """
     issues = _get_issues()
-    if issues:
+    if issues and issues.get(MASTER_YAML_ISSUES_FOUND_KEY):
         plugin_yaml.save_part(issues, priority=99)

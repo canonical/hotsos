@@ -1,4 +1,8 @@
+import os
+
 import mock
+import shutil
+import tempfile
 
 import utils
 
@@ -115,12 +119,20 @@ class TestKernelPluginPartKernelNetwork(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
+        self.tmpdir = tempfile.mkdtemp()
 
     def tearDown(self):
+        if os.path.isdir(self.tmpdir):
+            shutil.rmtree(self.tmpdir)
+
         super().tearDown()
 
     @mock.patch.object(kernel_network, "KERNEL_INFO", {})
     def test_run_network_checks(self):
-        expected = {}
-        kernel_network.KernelNetworkChecks()
+        expected = {'over-mtu-dropped-packets':
+                    {'tap40f8453b-31': 5, 'tape901c8af-fb': 10}}
+        with mock.patch.object(kernel_network.issues_utils, 'PLUGIN_TMP_DIR',
+                               self.tmpdir):
+            kernel_network.KernelNetworkChecks()()
+
         self.assertEquals(kernel_network.KERNEL_INFO, expected)

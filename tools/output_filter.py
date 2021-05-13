@@ -26,11 +26,12 @@ def filter_master_yaml():
                 if key not in filtered:
                     filtered[key] = {}
 
+                if plugin not in filtered[key]:
+                    filtered[key][plugin] = []
+
                 items = master_yaml[plugin][key]
                 for item in items:
-                    for _key in item:
-                        plug_key = "({}) {}".format(plugin, _key)
-                        filtered[key][plug_key] = item[_key]
+                    filtered[key][plugin].append(item)
 
     with open(constants.MASTER_YAML_OUT, 'w') as fd:
         if filtered:

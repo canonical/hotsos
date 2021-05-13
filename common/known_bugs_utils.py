@@ -3,12 +3,9 @@ import os
 import yaml
 
 from common import plugin_yaml
-from common.constants import (
-    PLUGIN_TMP_DIR,
-    PLUGIN_NAME,
-    PART_NAME,
-)
+from common.constants import PLUGIN_TMP_DIR
 from common.searchtools import SearchDef
+from common.issues_utils import IssueEntry
 
 LAUNCHPAD = "launchpad"
 MASTER_YAML_KNOWN_BUGS_KEY = "bugs-detected"
@@ -27,11 +24,8 @@ class BugSearchDef(SearchDef):
         inclusion in the reason.
         """
         super().__init__(expr, tag=bug_id, hint=hint)
-        if reason:
-            part_name = PART_NAME.rstrip(".py")
-            self.reason = "{} - raised by {}.{}".format(reason, PLUGIN_NAME,
-                                                        part_name)
-        else:
+        self.reason = reason
+        if reason is None:
             self.reason = ""
 
         self.reason_value_render_indexes = reason_value_render_indexes
@@ -58,9 +52,13 @@ def _get_known_bugs():
 
     known_bugs_yaml = os.path.join(PLUGIN_TMP_DIR, "known_bugs.yaml")
     if not os.path.exists(known_bugs_yaml):
-        return
+        return {}
 
-    return yaml.safe_load(open(known_bugs_yaml))
+    bugs = yaml.safe_load(open(known_bugs_yaml))
+    if bugs and bugs.get(MASTER_YAML_KNOWN_BUGS_KEY):
+        return bugs
+
+    return {}
 
 
 def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
@@ -78,13 +76,12 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     if description is None:
         description = "no description provided"
 
-    entry = {new_bug: description}
+    entry = IssueEntry(new_bug, description, key="id")
     current = _get_known_bugs()
     if current and current.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        if entry not in current.get(MASTER_YAML_KNOWN_BUGS_KEY):
-            current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry)
+        current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry.data)
     else:
-        current = {MASTER_YAML_KNOWN_BUGS_KEY: [entry]}
+        current = {MASTER_YAML_KNOWN_BUGS_KEY: [entry.data]}
 
     known_bugs_yaml = os.path.join(PLUGIN_TMP_DIR, "known_bugs.yaml")
     with open(known_bugs_yaml, 'w') as fd:
@@ -98,5 +95,5 @@ def add_known_bugs_to_master_plugin():
     performed as a final part after all others have executed.
     """
     bugs = _get_known_bugs()
-    if bugs:
+    if bugs and bugs.get(MASTER_YAML_KNOWN_BUGS_KEY):
         plugin_yaml.save_part(bugs, priority=99)

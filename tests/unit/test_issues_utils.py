@@ -41,4 +41,6 @@ class TestIssuesUtils(utils.BaseTestCase):
             ret = issues_utils._get_issues()
             self.assertEquals(ret,
                               {issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
-                               [{'MemoryWarning': 'test'}]})
+                               [{'type': 'MemoryWarning',
+                                 'desc': 'test',
+                                 'origin': 'testplugin.01part'}]})

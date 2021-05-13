@@ -81,8 +81,7 @@ class TestStoragePluginPartCeph(utils.BaseTestCase):
         issues = issues[ceph.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY]
         issue_names = []
         for issue in issues:
-            for name in issue:
-                issue_names.append(name)
+            issue_names.append(issue['type'])
 
         self.assertTrue("CephCrushWarning" in issue_names)
 

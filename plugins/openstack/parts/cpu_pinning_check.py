@@ -387,7 +387,7 @@ class CPUPinningChecker(object):
                        format(self.cpu_dedicated_set_name))
                 self.results.add_error(msg)
                 reason = "cpu pinning check: {}".format(msg)
-                add_known_bug(1897275, description=reason)
+                add_known_bug(1897275, reason)
 
         intersect = self.cpu_shared_set.intersection(self.kernel.isolcpus)
         if intersect:

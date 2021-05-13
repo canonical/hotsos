@@ -35,21 +35,24 @@ class KernelNetworkChecks(KernelChecksBase):
 
         if ifaces:
             helper = HostNetworkingHelper()
-            # on report the issue if the interfaces actually exist
+            # only report the issue if the interfaces actually exist
             raise_issue = False
             host_interfaces = helper.get_host_interfaces(
                                                        include_namespaces=True)
+
+            ifaces_extant = []
             for iface in ifaces:
                 if iface in host_interfaces:
                     raise_issue = True
-                    break
+                    ifaces_extant.append(iface)
 
             if raise_issue:
-                msg = ("kernel has reported over-mtu dropped packets for some "
-                       "interfaces")
+                msg = ("kernel has reported over-mtu dropped packets for ({}) "
+                       "interfaces".format(len(ifaces_extant)))
                 issue = issue_types.NetworkWarning(msg)
                 issues_utils.add_issue(issue)
 
+            # sort by nuber of occurences
             sorted_dict = {}
             for k, v in sorted(ifaces.items(), key=lambda e: e[1],
                                reverse=True):

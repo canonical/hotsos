@@ -62,8 +62,10 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
         self.assertEqual(services.RABBITMQ_INFO, expected)
         self.assertEqual(issues,
                          {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
-                          [{'RabbitMQWarning': 'rabbit@juju-52088b-0-lxd-11 '
-                            'holds more than 2/3 of queues'}]})
+                          [{'type': 'RabbitMQWarning',
+                            'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
+                                     'than 2/3 of queues'),
+                            'origin': 'testplugin.01part'}]})
 
     @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_package_info(self):

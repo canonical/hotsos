@@ -64,8 +64,7 @@ AGENT_BUG_SEARCHES = [
          "ignoring.*"),
         bug_id="1896506",
         hint="no_track",
-        reason=("identified in neutron-l3-agent logs by {}.{}".
-                format(constants.PLUGIN_NAME, constants.PART_NAME)),
+        reason=("identified in neutron-l3-agent logs"),
         ),
 ]
 
@@ -201,7 +200,7 @@ class NeutronAgentBugChecks(AgentChecksBase):
     def process_results(self, results):
         for bugsearch in AGENT_BUG_SEARCHES:
             if results.find_by_tag(bugsearch.tag):
-                add_known_bug(bugsearch.tag, description=bugsearch.reason)
+                add_known_bug(bugsearch.tag, bugsearch.reason)
 
 
 def run_agent_checks():
