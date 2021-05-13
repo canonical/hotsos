@@ -164,6 +164,7 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'libvirt-daemon 4.0.0-1ubuntu8.15~cloud0',
             'libvirt-daemon-driver-storage-rbd 4.0.0-1ubuntu8.15~cloud0',
             'libvirt-daemon-system 4.0.0-1ubuntu8.15~cloud0',
+            'mysql-common 5.7.33-0ubuntu0.16.04.1',
             'neutron-common 2:12.1.0-0ubuntu1~cloud0',
             'neutron-dhcp-agent 2:12.1.0-0ubuntu1~cloud0',
             'neutron-l3-agent 2:12.1.0-0ubuntu1~cloud0',
