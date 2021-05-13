@@ -59,7 +59,6 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                                self.tmpdir):
             services.get_rabbitmq_service_checker()()
             issues = services.issues_utils._get_issues()
-        self.maxDiff = None
         self.assertEqual(services.RABBITMQ_INFO, expected)
         self.assertEqual(issues,
                          {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
