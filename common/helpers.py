@@ -409,3 +409,16 @@ def get_journalctl(unit, date=None):
 
     output = subprocess.check_output(cmd)
     return output.decode('UTF-8').splitlines(keepends=True)
+
+
+@catch_exceptions(OSError)
+def get_rabbitmqctl_report():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['rabbitmqctl', 'report'])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    path = os.path.join(DATA_ROOT, "sos_commands/rabbitmq/rabbitmqctl_report")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []
