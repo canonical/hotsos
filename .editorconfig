@@ -1,0 +1,15 @@
+# See https://editorconfig.org/
+#
+# https://github.com/editorconfig/editorconfig-vim#readme
+# https://github.com/editorconfig/editorconfig-emacs#readme
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{py,sh}]
+indent_style = space
+indent_size = 4
