@@ -46,8 +46,8 @@ class TestTools(utils.BaseTestCase):
                                                 "origin":
                                                 "testplugin.01part"}]},
                     bug_key: {"testplugin": [{"id": "1234",
-                                             "desc": "a msg",
-                                             "origin": "testplugin.01part"}]}}
+                                              "desc": "a msg",
+                                              "origin": "testplugin.01part"}]}}
         with tempfile.NamedTemporaryFile() as ftmp:
             with mock.patch.object(output_filter.constants, 'MASTER_YAML_OUT',
                                    ftmp.name):
