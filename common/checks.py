@@ -25,14 +25,12 @@ class ServiceChecksBase(object):
         self.service_exprs = []
 
         for expr in service_exprs:
+            hint = None
             if hint_range:
                 start, end = hint_range
-            else:
-                # arbitrarily use first 5 chars of search as a pre-search hint
-                start = 0
-                end = min(len(expr), 4)
+                hint = expr[start:end]
 
-            self.service_exprs.append((expr, expr[start:end]))
+            self.service_exprs.append((expr, hint))
 
         self.ps_func = cli_helpers.get_ps
 
@@ -53,9 +51,10 @@ class ServiceChecksBase(object):
         """
         for line in self.ps_func():
             for expr, hint in self.service_exprs:
-                ret = re.compile(hint).search(line)
-                if not ret:
-                    continue
+                if hint:
+                    ret = re.compile(hint).search(line)
+                    if not ret:
+                        continue
 
                 """
                 look for running process with this name.
@@ -83,34 +82,34 @@ class ServiceChecksBase(object):
 
 class PackageChecksBase(object):
     """This class should be used by any plugin that wants to identify
-    and check the status of some packages."""
+    and check the status of some package_exprs."""
 
-    def __init__(self, packages):
+    def __init__(self, package_exprs):
         """
         @param package_exprs: list of python.re expressions used to match
         package names.
         """
-        self.packages = packages
+        self.package_exprs = package_exprs
         self.pkg_match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+        self._packages = []
 
-    def _get_packages(self):
-        info = []
+    @property
+    def packages(self):
+        if self._packages:
+            return self._packages
+
         dpkg_l = cli_helpers.get_dpkg_l()
         if not dpkg_l:
             return
 
         for line in dpkg_l:
-            for pkg in self.packages:
+            for pkg in self.package_exprs:
                 expr = self.pkg_match_expr_template.format(pkg)
                 ret = re.compile(expr).match(line)
                 if ret:
                     pyprefix = ret[1] or ""
                     result = "{}{} {}".format(pyprefix, ret[2], ret[3])
-                    info.append(result)
+                    self._packages.append(result)
 
-        return info
-
-    def __call__(self):
-        """This can/should be extended by inheriting class."""
-        return self._get_packages()
+        return self._packages

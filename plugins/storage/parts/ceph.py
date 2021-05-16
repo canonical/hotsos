@@ -23,9 +23,9 @@ CEPH_INFO = {}
 
 class CephPackageChecks(PackageChecksBase):
     def __call__(self):
-        info = super().__call__()
-        if info:
-            CEPH_INFO["dpkg"] = info
+        p = self.packages
+        if p:
+            CEPH_INFO["dpkg"] = p
 
 
 class CephServiceChecks(CephChecksBase):

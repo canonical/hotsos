@@ -151,6 +151,7 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
+    @mock.patch.object(package_info, 'OST_PKG_INFO', {})
     def test_get_pkg_info(self):
         expected = [
             'ceilometer-agent-compute 1:10.0.1-0ubuntu0.18.04.2~cloud0',
@@ -160,7 +161,6 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'dnsmasq-utils 2.79-1~cloud0',
             'haproxy 1.6.3-1ubuntu0.3',
             'keepalived 1:1.3.9-1ubuntu0.18.04.2~cloud1',
-            'libc-bin 2.23-0ubuntu11.2',
             'libvirt-daemon 4.0.0-1ubuntu8.15~cloud0',
             'libvirt-daemon-driver-storage-rbd 4.0.0-1ubuntu8.15~cloud0',
             'libvirt-daemon-system 4.0.0-1ubuntu8.15~cloud0',
@@ -175,7 +175,6 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'nova-compute 2:17.0.12-0ubuntu1~cloud0',
             'nova-compute-kvm 2:17.0.12-0ubuntu1~cloud0',
             'nova-compute-libvirt 2:17.0.12-0ubuntu1~cloud0',
-            'openvswitch-switch 2.9.5-0ubuntu0.18.04.1~cloud0',
             'python-barbicanclient 4.6.0-0ubuntu1~cloud0',
             'python-ceilometer 1:10.0.1-0ubuntu0.18.04.2~cloud0',
             'python-ceilometerclient 2.9.0-0ubuntu1~cloud0',
@@ -211,8 +210,8 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'python-oslo.versionedobjects 1.31.2-0ubuntu3~cloud0',
             'python-swiftclient 1:3.5.0-0ubuntu1~cloud0',
             'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
-        results = package_info.get_checks()()
-        self.assertEquals(results, expected)
+        package_info.get_checks()()
+        self.assertEquals(package_info.OST_PKG_INFO['dpkg'], expected)
 
 
 class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
