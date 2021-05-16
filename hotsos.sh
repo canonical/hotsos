@@ -47,6 +47,7 @@ declare -a RUN_PARTS=()
 # unordered
 declare -A PLUGINS=(
     [openstack]=false
+    [openvswitch]=false
     [kubernetes]=false
     [storage]=false
     [juju]=false
@@ -60,6 +61,7 @@ override_all_default=false
 declare -a PLUGIN_NAMES=(
     system
     openstack
+    openvswitch
     rabbitmq
     kubernetes
     storage
@@ -209,13 +211,9 @@ if ! $override_all_default && ! ${PLUGINS[all]}; then
 fi
 
 if ${PLUGINS[all]}; then
-    PLUGINS[openstack]=true
-    PLUGINS[storage]=true
-    PLUGINS[juju]=true
-    PLUGINS[kernel]=true
-    PLUGINS[kubernetes]=true
-    PLUGINS[rabbitmq]=true
-    PLUGINS[system]=true
+    for plugin in ${!PLUGINS[@]}; do
+        PLUGINS[$plugin]=true
+    done
 fi
 
 show_progress ()

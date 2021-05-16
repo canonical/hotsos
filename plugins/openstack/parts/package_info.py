@@ -8,9 +8,14 @@ from openstack_common import (
     OST_PKG_ALIASES,
 )
 
+OST_PKG_INFO = {}
+
 
 class OpenstackPackageChecks(PackageChecksBase):
-    pass
+    def __call__(self):
+        p = self.packages
+        if p:
+            OST_PKG_INFO["dpkg"] = p
 
 
 def get_checks():
@@ -19,7 +24,6 @@ def get_checks():
 
 
 if __name__ == "__main__":
-    c = get_checks()
-    info = c()
-    if info:
-        plugin_yaml.save_part({"dpkg": info}, priority=3)
+    get_checks()()
+    if OST_PKG_INFO:
+        plugin_yaml.save_part(OST_PKG_INFO, priority=3)

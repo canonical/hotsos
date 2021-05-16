@@ -32,9 +32,9 @@ RMQ_PACKAGES = [
 class RabbitMQPackageChecks(checks.PackageChecksBase):
 
     def __call__(self):
-        package_info = super().__call__()
-        if package_info:
-            RABBITMQ_INFO["dpkg"] = package_info
+        p = self.packages
+        if p:
+            RABBITMQ_INFO["dpkg"] = p
 
 
 class RabbitMQServiceChecksBase(checks.ServiceChecksBase):
