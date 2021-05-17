@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 import os
 
-import tempfile
-
 from common import (
     constants,
     cli_helpers,
@@ -16,6 +14,7 @@ from common.searchtools import (
     SearchDef,
     SequenceSearchDef,
 )
+from common.utils import mktemp_dump
 from ovs_common import (
     OVS_DAEMONS,
 )
@@ -142,21 +141,22 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
 
     def __init__(self):
         super().__init__()
-        self.ftmp = tempfile.mktemp()
+        out = cli_helpers.get_ovs_appctl_dpctl_show("system@ovs-system")
+        self.f_dpctl = mktemp_dump(''.join(out))
         self.sequence_defs = []
 
-    def register_search_terms(self):
-        out = cli_helpers.get_ovs_appctl_dpctl_show("system@ovs-system")
-        with open(self.ftmp, 'w') as ftmp:
-            ftmp.write(''.join(out))
+    def __del__(self):
+        if os.path.exists(self.f_dpctl):
+            os.unlink(self.f_dpctl)
 
+    def register_search_terms(self):
         self.sequence_defs.append(SequenceSearchDef(
             start=SearchDef(r"\s+port \d+: (\S+) .+"),
             body=SearchDef(r"\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) "
                            r"\S+:(\d+) \S+:(\d+)"),
             tag="port-stats"))
         for sd in self.sequence_defs:
-            self.search_obj.add_search_term(sd, self.ftmp)
+            self.search_obj.add_search_term(sd, self.f_dpctl)
 
     def process_results(self):
         stats = {}

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import os
 import re
-import tempfile
 
 from common import (
     constants,
@@ -14,6 +13,7 @@ from common.searchtools import (
     SearchDef,
     FileSearcher,
 )
+from common.utils import mktemp_dump
 from openstack_common import (
     NEUTRON_HA_PATH,
 )
@@ -27,6 +27,20 @@ class NeutronL3HAChecks(object):
 
     def __init__(self):
         self.searcher = FileSearcher()
+        self.f_journalctl = None
+
+    def __del__(self):
+        if self.f_journalctl and os.path.exists(self.f_journalctl):
+            os.unlink(self.f_journalctl)
+
+    def _get_journalctl_l3_agent(self):
+        if not constants.USE_ALL_LOGS:
+            date = cli_helpers.get_date(format="--iso-8601").rstrip()
+        else:
+            date = None
+
+        out = cli_helpers.get_journalctl(unit="neutron-l3-agent", date=date)
+        self.f_journalctl = mktemp_dump(''.join(out))
 
     def get_neutron_ha_info(self):
         ha_state_path = os.path.join(constants.DATA_ROOT, NEUTRON_HA_PATH)
@@ -73,31 +87,19 @@ class NeutronL3HAChecks(object):
         if "keepalived" not in L3HA_CHECKS:
             return
 
+        self._get_journalctl_l3_agent()
         transitions = {}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            if not constants.USE_ALL_LOGS:
-                date = cli_helpers.get_date(format="--iso-8601").rstrip()
-            else:
-                date = None
+        for router in L3HA_CHECKS["keepalived"]:
+            vr_id = ROUTER_VR_IDS[router]
+            expr = (r"^(\S+) [0-9]+ [0-9:]+ \S+ Keepalived_vrrp"
+                    r"\[([0-9]+)\]: VRRP_Instance\(VR_{}\) .+ (\S+) "
+                    "STATE.*".format(vr_id))
+            d = SearchDef(expr, tag=router)
+            self.searcher.add_search_term(d, self.f_journalctl)
 
-            out = cli_helpers.get_journalctl(unit="neutron-l3-agent",
-                                             date=date)
-            ftmp.write(''.join(out))
-            ftmp.close()
-
-            for router in L3HA_CHECKS["keepalived"]:
-                vr_id = ROUTER_VR_IDS[router]
-                expr = (r"^(\S+) [0-9]+ [0-9:]+ \S+ Keepalived_vrrp"
-                        r"\[([0-9]+)\]: VRRP_Instance\(VR_{}\) .+ (\S+) "
-                        "STATE.*".format(vr_id))
-                d = SearchDef(expr, tag=router)
-                self.searcher.add_search_term(d, ftmp.name)
-
-            results = self.searcher.search()
-            for router in L3HA_CHECKS["keepalived"]:
-                transitions[router] = len(results.find_by_tag(router))
-
-            os.unlink(ftmp.name)
+        results = self.searcher.search()
+        for router in L3HA_CHECKS["keepalived"]:
+            transitions[router] = len(results.find_by_tag(router))
 
         if transitions:
             L3HA_CHECKS["keepalived"] = {"transitions": {}}

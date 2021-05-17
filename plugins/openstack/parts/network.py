@@ -2,8 +2,6 @@
 import re
 import os
 
-import tempfile
-
 from common import (
     constants,
     cli_helpers,
@@ -14,6 +12,7 @@ from common.searchtools import (
     SequenceSearchDef,
     FileSearcher,
 )
+from common.utils import mktemp_dump
 from openstack_common import OpenstackChecksBase
 
 
@@ -33,6 +32,12 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.neutron_phy_ports = []
+        out = cli_helpers.get_ip_link_show()
+        self.f_ip_link_show = mktemp_dump(''.join(out))
+
+    def __del__(self):
+        if os.path.exists(self.f_ip_link_show):
+            os.unlink(self.f_ip_link_show)
 
     def _find_line(self, key, lines):
         for i, line in enumerate(lines):
@@ -141,7 +146,6 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
     def _get_port_stats(self, name=None, mac=None):
         """Get ip link stats for the given port."""
-        ip_link_show = cli_helpers.get_ip_link_show()
         stats_raw = []
 
         if mac:
@@ -154,32 +158,27 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         else:
             exprs.append(r"\d+:\s+({}):\s+.+".format(name))
 
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(''.join(ip_link_show))
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(
-                        # match start if interface
-                        start=SearchDef(r"^(?:{})".format('|'.join(exprs))),
-                        # match body of interface
-                        body=SearchDef(r".+"),
-                        # match next interface or EOF
-                        end=SearchDef(r"(?:^\d+:\s+\S+:.+|^$)"),
-                        tag="ifaces")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            for results in results.find_sequence_sections(sd).values():
-                for result in results:
-                    if result.tag == sd.body_tag:
-                        stats_raw.append(result.get(0))
+        s = FileSearcher()
+        sd = SequenceSearchDef(
+                    # match start if interface
+                    start=SearchDef(r"^(?:{})".format('|'.join(exprs))),
+                    # match body of interface
+                    body=SearchDef(r".+"),
+                    # match next interface or EOF
+                    end=SearchDef(r"(?:^\d+:\s+\S+:.+|^$)"),
+                    tag="ifaces")
+        s.add_search_term(sd, path=self.f_ip_link_show)
+        results = s.search()
+        for results in results.find_sequence_sections(sd).values():
+            for result in results:
+                if result.tag == sd.body_tag:
+                    stats_raw.append(result.get(0))
 
-                # stop at first match - if matching by mac address it is
-                # possible for multiple interfaces to have the same mac e.g.
-                # bonds and its interfaces but we dont support that so just use
-                # first.
-                break
-
-            os.unlink(ftmp.name)
+            # stop at first match - if matching by mac address it is
+            # possible for multiple interfaces to have the same mac e.g.
+            # bonds and its interfaces but we dont support that so just use
+            # first.
+            break
 
         stats = {}
         total_packets = float(0)

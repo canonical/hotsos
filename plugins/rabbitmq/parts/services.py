@@ -2,7 +2,6 @@
 import os
 
 import functools
-import tempfile
 
 from common import (
     checks,
@@ -11,12 +10,12 @@ from common import (
     issues_utils,
     plugin_yaml,
 )
-
 from common.searchtools import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,
 )
+from common.utils import mktemp_dump
 
 RABBITMQ_INFO = {}
 RMQ_SERVICES_EXPRS = [
@@ -45,19 +44,15 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        ftmp = tempfile.mktemp()
-        _report = cli_helpers.get_rabbitmqctl_report()
+        out = cli_helpers.get_rabbitmqctl_report()
         # save to file so we can search it later
-        with open(ftmp, 'w') as fd:
-            fd.write(''.join(_report))
-
-        self.report_path = ftmp
+        self.f_report = mktemp_dump(''.join(out))
         self.searcher = FileSearcher()
         self.resources = {}
 
     def __del__(self):
-        if os.path.exists(self.report_path):
-            os.unlink(self.report_path)
+        if os.path.exists(self.f_report):
+            os.unlink(self.f_report)
 
     def get_running_services_info(self):
         """Get string info for running services."""
@@ -181,7 +176,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
                 }
             }
         for s in self._sequences.values():
-            self.searcher.add_search_term(s["searchdef"], self.report_path)
+            self.searcher.add_search_term(s["searchdef"], self.f_report)
 
     def run_report_callbacks(self):
         for s in self._sequences.values():
