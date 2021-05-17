@@ -6,6 +6,7 @@ from common import (
     plugin_yaml,
 )
 from common.searchtools import (
+    FilterDef,
     SearchDef,
     FileSearcher,
 )
@@ -105,6 +106,10 @@ class NeutronL3AgentEventChecks(AgentChecksBase):
 
         self._l3_agent_info = {}
 
+        # the logs we are looking for are DEBUG/INFO only
+        fd = FilterDef(" (INFO|DEBUG) ")
+        self.searchobj.add_filter_term(fd, self.l3_agent_data_source)
+
     def register_search_terms(self):
         for sd in ROUTER_EVENT_SEARCHES:
             self.searchobj.add_search_term(sd, self.l3_agent_data_source)
@@ -159,6 +164,10 @@ class NeutronOVSAgentEventChecks(AgentChecksBase):
                                                   f'{ovs_agent_base_log}')
         if constants.USE_ALL_LOGS:
             self.ovs_agent_data_source = f"{self.ovs_agent_data_source}*"
+
+        # the logs we are looking for are INFO only
+        fd = FilterDef(" INFO ")
+        self.searchobj.add_filter_term(fd, self.ovs_agent_data_source)
 
     def register_search_terms(self):
         """Add search terms for start and end of a neutron openvswitch agent

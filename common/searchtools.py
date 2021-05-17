@@ -16,6 +16,26 @@ class FileSearchException(Exception):
         self.msg = msg
 
 
+class FilterDef(object):
+
+    def __init__(self, key, invert_match=False):
+        """
+        Add a filter definition
+
+        @param key: regex pattern to search for
+        @param invert_match: return True if match is positive
+        """
+        self.key = re.compile(key)
+        self.invert_match = invert_match
+
+    def filter(self, line):
+        ret = self.key.search(line)
+        if self.invert_match:
+            return ret is not None
+        else:
+            return ret is None
+
+
 class SearchDef(object):
 
     def __init__(self, key, tag=None, hint=None):
@@ -220,6 +240,7 @@ class FileSearcher(object):
 
     def __init__(self):
         self.paths = {}
+        self.filters = {}
         self.results = SearchResultsCollection()
 
     @property
@@ -236,6 +257,25 @@ class FileSearcher(object):
 
         return cpus
 
+    def add_filter_term(self, filter, path):
+        """Add a term to search for that will be used as a filter for the given
+        data source. This filter is applied to each line in a file prior to
+        executing the full search(es) as means of reducing the amount of full
+        searches we have to do by filtering out lines that do not qualify. A
+        negative match results in the line being skipped and no further
+        searches performed.
+
+        A filter definition is registered against a path which can be a
+        file,  directory or glob. Any number of filters can be registered.
+
+        @param filtedef: FilterDef object
+        @param path: path to which the filter should be applied.
+        """
+        if path in self.filters:
+            self.filters[path].append(filter)
+        else:
+            self.filters[path] = [filter]
+
     def add_search_term(self, searchdef, path):
         """Add a term to search for.
 
@@ -243,7 +283,7 @@ class FileSearcher(object):
         file,  directory or glob. Any number of searches can be registered.
         Searches are executed concurrently by file.
 
-        @param searchdef: definition of what to search for
+        @param searchdef: SearchDef object
         @param path: path that we will be searching for this key
         """
         if path in self.paths:
@@ -278,14 +318,26 @@ class FileSearcher(object):
                    format(path, e))
             raise FileSearchException(msg) from e
 
+    def line_filtered(self, term_key, line):
+        """Returns True if line is to be skipped."""
+        for f_term in self.filters.get(term_key, []):
+            if f_term.filter(line):
+                return True
+
+        return False
+
     def _search_task(self, term_key, fd, path):
         results = []
         sequence_results = {}
         for ln, line in enumerate(fd, start=1):
-            for s_term in self.paths[term_key]:
-                if type(line) == bytes:
-                    line = line.decode("utf-8")
+            if type(line) == bytes:
+                line = line.decode("utf-8")
 
+            # global filters (untagged)
+            if self.line_filtered(term_key, line):
+                continue
+
+            for s_term in self.paths[term_key]:
                 if type(s_term) == SequenceSearchDef:
                     # if the ending is defined and we match a start while
                     # already in a section, we start again.

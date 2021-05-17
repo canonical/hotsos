@@ -7,10 +7,16 @@ import utils
 
 from common.searchtools import (
     FileSearcher,
+    FilterDef,
     SearchDef,
     SearchResult,
     SequenceSearchDef,
 )
+
+FILTER_TEST_1 = """blah blah ERROR blah
+blah blah ERROR blah
+blah blah INFO blah
+"""
 
 SEQ_TEST_1 = """a start point
 leads to
@@ -366,5 +372,37 @@ class TestSearchTools(utils.BaseTestCase):
                         self.assertEqual(r.get(1), "2")
                     elif r.tag == sd.body_tag:
                         self.assertTrue(r.get(0) in ["2_1"])
+
+            os.remove(ftmp.name)
+
+    def test_search_filter(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(FILTER_TEST_1)
+            ftmp.close()
+            s = FileSearcher()
+            fd = FilterDef(r" (INFO)")
+            s.add_filter_term(fd, path=ftmp.name)
+            sd = SearchDef(r".+ INFO (.+)")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search().find_by_path(ftmp.name)
+            self.assertEqual(len(results), 1)
+            for r in results:
+                self.assertEqual(r.get(1), "blah")
+
+            os.remove(ftmp.name)
+
+    def test_search_filter_invert_match(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(FILTER_TEST_1)
+            ftmp.close()
+            s = FileSearcher()
+            fd = FilterDef(r" (ERROR)", invert_match=True)
+            s.add_filter_term(fd, path=ftmp.name)
+            sd = SearchDef(r".+ INFO (.+)")
+            s.add_search_term(sd, path=ftmp.name)
+            results = s.search().find_by_path(ftmp.name)
+            self.assertEqual(len(results), 1)
+            for r in results:
+                self.assertEqual(r.get(1), "blah")
 
             os.remove(ftmp.name)

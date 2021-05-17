@@ -7,6 +7,7 @@ from common import (
     plugin_yaml,
 )
 from common.searchtools import (
+    FilterDef,
     SearchDef,
     FileSearcher,
 )
@@ -84,6 +85,8 @@ class CommonAgentChecks(AgentChecksBase):
 
             for agent in SERVICE_RESOURCES[svc]["daemons"]:
                 data_source = data_source_template.format(agent)
+                fd = FilterDef(r"( ERROR | WARNING |Traceback)")
+                self.searchobj.add_filter_term(fd, data_source)
                 for subexpr in exprs + self._agent_issues.get(svc, []):
                     # NOTE: services running under apache have their logs
                     # prepending with a load of apache/mod_wsgi info so we have
@@ -91,9 +94,8 @@ class CommonAgentChecks(AgentChecksBase):
                     # prefix and it will not count towards the result.
                     expr = (r"^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+) (\S+) "
                             ".+{}.*".format(subexpr))
-                    self.searchobj.add_search_term(SearchDef(expr, tag=agent,
-                                                             hint=subexpr),
-                                                   data_source)
+                    sd = SearchDef(expr, tag=agent, hint=subexpr)
+                    self.searchobj.add_search_term(sd, data_source)
 
     def register_search_terms(self):
         """Register searches for exceptions as well as any other type of issue
