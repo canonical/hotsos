@@ -4,10 +4,10 @@ import mock
 import tempfile
 import utils
 
-from common import helpers
+from common import cli_helpers
 
 
-class TestHelpers(utils.BaseTestCase):
+class Testcli_helpers(utils.BaseTestCase):
 
     def setUp(self):
         # NOTE: remember that data_root is configured so helpers will always
@@ -19,50 +19,50 @@ class TestHelpers(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(helpers, 'subprocess')
+    @mock.patch.object(cli_helpers, 'subprocess')
     def test_get_ip_addr(self, mock_subprocess):
         path = os.path.join(os.environ["DATA_ROOT"],
                             "sos_commands/networking/ip_-d_address")
         with open(path, 'r') as fd:
             out = fd.readlines()
 
-        ret = helpers.get_ip_addr()
+        ret = cli_helpers.get_ip_addr()
         self.assertEquals(ret, out)
         self.assertFalse(mock_subprocess.called)
 
-    @mock.patch.object(helpers, 'subprocess')
+    @mock.patch.object(cli_helpers, 'subprocess')
     def test_get_ps(self, mock_subprocess):
         path = os.path.join(os.environ["DATA_ROOT"], "ps")
         with open(path, 'r') as fd:
             out = fd.readlines()
 
-        ret = helpers.get_ps()
+        ret = cli_helpers.get_ps()
         self.assertEquals(ret, out)
         self.assertFalse(mock_subprocess.called)
 
-    @mock.patch.object(helpers, "DATA_ROOT", '/')
+    @mock.patch.object(cli_helpers, "DATA_ROOT", '/')
     def test_get_date_local(self):
-        self.assertEquals(type(helpers.get_date()), str)
+        self.assertEquals(type(cli_helpers.get_date()), str)
 
     def test_get_date(self):
-        self.assertEquals(helpers.get_date(), '1616669705\n')
+        self.assertEquals(cli_helpers.get_date(), '1616669705\n')
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            with mock.patch.object(helpers, 'DATA_ROOT', dtmp):
+            with mock.patch.object(cli_helpers, 'DATA_ROOT', dtmp):
                 os.makedirs(os.path.join(dtmp, "sos_commands/date"))
                 with open(os.path.join(dtmp, "sos_commands/date/date"),
                           'w') as fd:
                     fd.write("Thu Mar 25 10:55:05 UTC 2021")
 
-                self.assertEquals(helpers.get_date(), '1616669705\n')
+                self.assertEquals(cli_helpers.get_date(), '1616669705\n')
 
     def test_get_date_w_invalid_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            with mock.patch.object(helpers, 'DATA_ROOT', dtmp):
+            with mock.patch.object(cli_helpers, 'DATA_ROOT', dtmp):
                 os.makedirs(os.path.join(dtmp, "sos_commands/date"))
                 with open(os.path.join(dtmp, "sos_commands/date/date"),
                           'w') as fd:
                     fd.write("Thu Mar 25 10:55:05 123UTC 2021")
 
-                self.assertEquals(helpers.get_date(), "")
+                self.assertEquals(cli_helpers.get_date(), "")

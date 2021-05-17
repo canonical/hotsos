@@ -4,7 +4,7 @@ import re
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
 )
 
 JUJU_LOG_PATH = os.path.join(constants.DATA_ROOT, "var/log/juju")
@@ -26,7 +26,7 @@ class JujuChecksBase(object):
 
     def get_ps_units(self):
         units = set()
-        for line in helpers.get_ps():
+        for line in cli_helpers.get_ps():
             if "unit-" in line:
                 ret = re.compile(r".+unit-([0-9a-z\-]+-[0-9]+).*").match(line)
                 if ret:

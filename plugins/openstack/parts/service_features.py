@@ -4,7 +4,7 @@ import os
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 
@@ -45,7 +45,7 @@ def get_service_features():
                     ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)
                                      ).match(line)
                     if ret:
-                        module_features[key] = helpers.bool_str(ret[1])
+                        module_features[key] = cli_helpers.bool_str(ret[1])
                         break
 
                 if key not in module_features:

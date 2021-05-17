@@ -6,7 +6,7 @@ import tempfile
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 from common.searchtools import (
@@ -44,7 +44,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def _find_interface_name_by_ip_address(self, ip_address):
         """Lookup interface by name in ip addr show"""
         iface = None
-        lines = helpers.get_ip_addr()
+        lines = cli_helpers.get_ip_addr()
         a = self._find_line(r".+{}.+".format(ip_address), lines)
         while True:
             ret = re.compile(r"^[0-9]+:\s+(\S+):\s+.+"
@@ -100,7 +100,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def get_ns_info(self):
         """Populate namespace information dict."""
         ns_info = {}
-        for line in helpers.get_ip_netns():
+        for line in cli_helpers.get_ip_netns():
             ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
             if ret:
                 if ret[1] in ns_info:
@@ -118,7 +118,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             return
 
         guest_info = {}
-        ps_output = helpers.get_ps()
+        ps_output = cli_helpers.get_ps()
         for uuid in instances:
             for line in ps_output:
                 expr = r".+guest=(\S+),.+product=OpenStack Nova.+uuid={}.+"
@@ -141,7 +141,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
     def _get_port_stats(self, name=None, mac=None):
         """Get ip link stats for the given port."""
-        ip_link_show = helpers.get_ip_link_show()
+        ip_link_show = cli_helpers.get_ip_link_show()
         stats_raw = []
 
         if mac:

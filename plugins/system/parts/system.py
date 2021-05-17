@@ -4,7 +4,7 @@ import os
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 
@@ -16,7 +16,7 @@ class SystemChecks(object):
 
     @property
     def unattended_upgrades_enabled(self):
-        apt_config_dump = helpers.get_apt_config_dump()
+        apt_config_dump = cli_helpers.get_apt_config_dump()
         if not apt_config_dump:
             return
 
@@ -32,7 +32,7 @@ class SystemChecks(object):
         return False
 
     def get_system_info(self):
-        hostname = helpers.get_hostname()
+        hostname = cli_helpers.get_hostname()
         if hostname:
             hostname = hostname[0].split()[0]
         else:
@@ -48,7 +48,7 @@ class SystemChecks(object):
                     SYSTEM_INFO["os"] = "ubuntu {}".format(ret[1])
                     break
 
-        lscpu_output = helpers.get_lscpu()
+        lscpu_output = cli_helpers.get_lscpu()
         if lscpu_output:
             for line in lscpu_output:
                 ret = re.compile(r"^CPU\(s\):\s+([0-9]+)\s*.*").match(line)
@@ -56,14 +56,14 @@ class SystemChecks(object):
                     SYSTEM_INFO["num-cpus"] = int(ret[1])
                     break
 
-        uptime_output = helpers.get_uptime()
+        uptime_output = cli_helpers.get_uptime()
         if uptime_output:
             for line in uptime_output:
                 ret = re.compile(r".+load average:\s+(.+)").match(line)
                 if ret:
                     SYSTEM_INFO["load"] = ret[1]
                     break
-        df_output = helpers.get_df()
+        df_output = cli_helpers.get_df()
         if df_output:
             for line in df_output:
                 ret = re.compile(r"(.+\/$)").match(line)

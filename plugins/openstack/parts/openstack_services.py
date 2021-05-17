@@ -4,7 +4,7 @@ import os
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 from openstack_common import (
@@ -35,7 +35,7 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
         release_info = {}
         for source in os.listdir(APT_SOURCE_PATH):
             apt_path = os.path.join(APT_SOURCE_PATH, source)
-            for line in helpers.safe_readlines(apt_path):
+            for line in cli_helpers.safe_readlines(apt_path):
                 rexpr = r"deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+"
                 ret = re.compile(rexpr).match(line)
                 if ret:
@@ -63,10 +63,10 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
                                     "etc", proj, "{}.conf".format(proj))
 
             if os.path.exists(path):
-                for line in helpers.safe_readlines(path):
+                for line in cli_helpers.safe_readlines(path):
                     ret = re.compile(r"^debug\s*=\s*([A-Za-z]+).*").match(line)
                     if ret:
-                        debug_enabled[proj] = helpers.bool_str(ret[1])
+                        debug_enabled[proj] = cli_helpers.bool_str(ret[1])
 
         if debug_enabled:
             OPENSTACK_INFO["debug-logging-enabled"] = debug_enabled

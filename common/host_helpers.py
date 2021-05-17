@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import re
 
-from common import helpers
+from common import cli_helpers
 
 IP_ADDR_IFACE_NAME_EXPR = r"^[0-9]+:\s+(\S+):\s+.+"
 
@@ -23,28 +23,28 @@ class HostNetworkingHelper(object):
         namespaces created with ip netns.
         """
         _interfaces = []
-        _interfaces += self._get_interface_names(helpers.get_ip_addr())
+        _interfaces += self._get_interface_names(cli_helpers.get_ip_addr())
         if not include_namespaces:
             return _interfaces
 
-        for ns in helpers.get_ip_netns():
+        for ns in cli_helpers.get_ip_netns():
             ns_name = ns.partition(" ")[0]
             _interfaces += self._get_interface_names(
-                                        helpers.get_ip_addr(namespace=ns_name))
+                                    cli_helpers.get_ip_addr(namespace=ns_name))
 
         return _interfaces
 
     def host_interface_exists(self, iface, check_namespaces=True):
-        _interfaces = self._get_interface_names(helpers.get_ip_addr())
+        _interfaces = self._get_interface_names(cli_helpers.get_ip_addr())
         if iface in _interfaces:
             return True
 
         if not check_namespaces:
             return False
 
-        for ns in helpers.get_ip_netns():
+        for ns in cli_helpers.get_ip_netns():
             interfaces = self._get_interface_names(
-                                             helpers.get_ip_addr(namespace=ns))
+                                         cli_helpers.get_ip_addr(namespace=ns))
             if iface in interfaces:
                 return True
 

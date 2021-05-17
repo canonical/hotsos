@@ -223,21 +223,21 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(network.helpers, 'get_ip_link_show',
+    @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_name(self):
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(name="bond1")
         self.assertEqual(stats, {'dropped': '100000000 (8%)'})
 
-    @mock.patch.object(network.helpers, 'get_ip_link_show',
+    @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
                        fake_ip_link_show_no_errors_drops)
     def test_get_port_stat_by_name_no_problems(self):
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(name="bond1")
         self.assertEqual(stats, {})
 
-    @mock.patch.object(network.helpers, 'get_ip_link_show',
+    @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_mac(self):
         c = network.OpenstackNetworkChecks()
@@ -257,7 +257,7 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
         c.get_ns_info()
         self.assertEqual(ns_info, network.NETWORK_INFO)
 
-    @mock.patch.object(network.helpers, "get_ip_netns", lambda: [])
+    @mock.patch.object(network.cli_helpers, "get_ip_netns", lambda: [])
     def test_get_ns_info_none(self):
         c = network.OpenstackNetworkChecks()
         ns_info = c.get_ns_info()

@@ -6,7 +6,7 @@ import tempfile
 
 from common import (
     checks,
-    helpers,
+    cli_helpers,
     issue_types,
     issues_utils,
     plugin_yaml,
@@ -46,7 +46,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         ftmp = tempfile.mktemp()
-        _report = helpers.get_rabbitmqctl_report()
+        _report = cli_helpers.get_rabbitmqctl_report()
         # save to file so we can search it later
         with open(ftmp, 'w') as fd:
             fd.write(''.join(_report))

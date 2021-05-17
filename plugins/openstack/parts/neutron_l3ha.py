@@ -5,7 +5,7 @@ import tempfile
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     issue_types,
     issues_utils,
     plugin_yaml,
@@ -76,11 +76,12 @@ class NeutronL3HAChecks(object):
         transitions = {}
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
             if not constants.USE_ALL_LOGS:
-                date = helpers.get_date(format="--iso-8601").rstrip()
+                date = cli_helpers.get_date(format="--iso-8601").rstrip()
             else:
                 date = None
 
-            out = helpers.get_journalctl(unit="neutron-l3-agent", date=date)
+            out = cli_helpers.get_journalctl(unit="neutron-l3-agent",
+                                             date=date)
             ftmp.write(''.join(out))
             ftmp.close()
 

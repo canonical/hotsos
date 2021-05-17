@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 from common.known_bugs_utils import add_known_bug
@@ -200,7 +200,7 @@ class NUMAInfo(object):
 
     def __init__(self):
         try:
-            self.numactl = helpers.get_numactl() or ""
+            self.numactl = cli_helpers.get_numactl() or ""
         except OSError:
             self.numactl = ""
 

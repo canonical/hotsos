@@ -4,7 +4,7 @@ import mock
 
 import utils
 
-from common import helpers
+from common import cli_helpers
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("kubernetes")
@@ -17,7 +17,7 @@ from plugins.kubernetes.parts import (  # noqa E402
 class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
     def setUp(self):
-        self.snaps_list = helpers.get_snap_list_all()
+        self.snaps_list = cli_helpers.get_snap_list_all()
         super().setUp()
 
     def tearDown(self):
@@ -47,7 +47,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         general.get_kubernetes_package_checker()()
         self.assertEqual(general.KUBERNETES_INFO["snaps"], result)
 
-    @mock.patch.object(general.helpers, "get_snap_list_all")
+    @mock.patch.object(general.cli_helpers, "get_snap_list_all")
     @mock.patch.object(general, "KUBERNETES_INFO", {})
     def test_get_snap_info_from_line_no_k8s(self, mock_get_snap_list_all):
         filterered_snaps = []
@@ -75,7 +75,7 @@ class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(network.helpers, "get_ip_addr")
+    @mock.patch.object(network.cli_helpers, "get_ip_addr")
     @mock.patch.object(network, "NETWORK_INFO", {})
     def test_get_network_info(self, mock_get_ip_addr):
 

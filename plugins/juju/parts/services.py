@@ -4,7 +4,7 @@ import os
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 from common.issue_types import JujuWarning
@@ -28,7 +28,7 @@ class JujuMachineChecks(JujuChecksBase):
         if not os.path.exists(JUJU_LOG_PATH):
             return
 
-        for line in helpers.get_ps():
+        for line in cli_helpers.get_ps():
             if "machine-" in line:
                 ret = re.compile(r".+machine-([0-9]+).*").match(line)
                 if ret:

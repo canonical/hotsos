@@ -3,7 +3,7 @@ import re
 import sys
 
 from common import (
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 from kubernetes_common import (
@@ -17,7 +17,7 @@ NETWORK_INFO = {}
 class KubernetesNetworkChecks(KubernetesChecksBase):
 
     def get_network_info(self):
-        ip_addr_output = helpers.get_ip_addr()
+        ip_addr_output = cli_helpers.get_ip_addr()
         if not ip_addr_output:
             sys.exit(0)
 

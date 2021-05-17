@@ -3,7 +3,7 @@ import re
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
 )
 
 BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
@@ -21,7 +21,7 @@ class KernelChecksBase(object):
     @property
     def kernel_version(self):
         """Returns string kernel version."""
-        uname = helpers.get_uname()
+        uname = cli_helpers.get_uname()
         if uname:
             ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
             if ret:

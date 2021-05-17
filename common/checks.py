@@ -2,7 +2,7 @@
 import re
 
 from common import (
-    helpers,
+    cli_helpers,
 )
 
 SVC_EXPR_TEMPLATE = r".+\S*(\s|(bin|[0-9]+)/)({})(\s+.+|$)"
@@ -34,7 +34,7 @@ class ServiceChecksBase(object):
 
             self.service_exprs.append((expr, expr[start:end]))
 
-        self.ps_func = helpers.get_ps
+        self.ps_func = cli_helpers.get_ps
 
     def get_service_info_str(self):
         """Create a list of "<service> (<num running>)" for running services
@@ -96,7 +96,7 @@ class PackageChecksBase(object):
 
     def _get_packages(self):
         info = []
-        dpkg_l = helpers.get_dpkg_l()
+        dpkg_l = cli_helpers.get_dpkg_l()
         if not dpkg_l:
             return
 

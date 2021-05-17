@@ -50,13 +50,13 @@ class TestStoragePluginPartCeph(utils.BaseTestCase):
                     'radosgw 12.2.13-0ubuntu0.18.04.6~cloud0']
         self.assertEquals(ceph.CEPH_INFO["dpkg"], expected)
 
-    @mock.patch.object(ceph.helpers, "get_date")
+    @mock.patch.object(ceph.cli_helpers, "get_date")
     def test_get_date_secs(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         c = ceph.get_osd_checker()
         self.assertEquals(c.get_date_secs(), 1234)
 
-    @mock.patch.object(ceph.helpers, "get_date")
+    @mock.patch.object(ceph.cli_helpers, "get_date")
     def test_get_date_secs_from_timestamp(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 MDT 2021"
@@ -64,7 +64,7 @@ class TestStoragePluginPartCeph(utils.BaseTestCase):
         self.assertEquals(c.get_date_secs(date_string),
                           1616691305)
 
-    @mock.patch.object(ceph.helpers, "get_date")
+    @mock.patch.object(ceph.cli_helpers, "get_date")
     def test_get_date_secs_from_timestamp_w_tz(self, mock_get_date):
         mock_get_date.return_value = "1234\n"
         date_string = "Thu Mar 25 10:55:05 UTC 2021"
@@ -94,7 +94,7 @@ class TestStoragePluginPartCeph(utils.BaseTestCase):
         ceph.get_osd_checker()()
         self.assertEqual(ceph.CEPH_INFO["versions"], result)
 
-    @mock.patch.object(ceph.helpers, "get_ceph_versions",
+    @mock.patch.object(ceph.cli_helpers, "get_ceph_versions",
                        lambda: [])
     @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_ceph_versions_mismatch_unavailable(self):
@@ -123,7 +123,7 @@ class TestStoragePluginPartCeph(utils.BaseTestCase):
         c()
         self.assertEqual(c.osd_ids, [63, 81, 90, 109, 101, 70])
 
-    @mock.patch.object(ceph.helpers, "get_ceph_osd_df_tree",
+    @mock.patch.object(ceph.cli_helpers, "get_ceph_osd_df_tree",
                        lambda: [])
     @mock.patch.object(ceph, "CEPH_INFO", {})
     def test_get_ceph_pg_imbalance_unavailable(self):

@@ -4,7 +4,7 @@ import re
 
 from common import (
     constants,
-    helpers,
+    cli_helpers,
     plugin_yaml,
 )
 from common.checks import PackageChecksBase
@@ -34,7 +34,7 @@ class KubernetesPackageChecks(PackageChecksBase):
     def get_snaps(self):
         """Get list of relevant snaps and their versions."""
         # TODO: generalise this method and move into the base class
-        snap_list_all = helpers.get_snap_list_all()
+        snap_list_all = cli_helpers.get_snap_list_all()
         if not snap_list_all:
             return
 

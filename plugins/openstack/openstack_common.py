@@ -3,17 +3,17 @@ import re
 
 from common import (
     checks,
-    helpers,
+    cli_helpers,
 )
 import openstack_exceptions
 
 # Plugin config opts from global
 OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
-    helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
-                                    "False"))
+    cli_helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
+                                        'False'))
 OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
-    helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
-                                    "False"))
+    cli_helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
+                                        'False'))
 
 # These are the names of Openstack projects we want to track.
 OST_PROJECTS = ["aodh",
@@ -128,7 +128,7 @@ class OpenstackChecksBase(object):
         if self._instances:
             return self._instances
 
-        for line in helpers.get_ps():
+        for line in cli_helpers.get_ps():
             ret = re.compile(".+product=OpenStack Nova.+").match(line)
             if ret:
                 expr = r".+uuid\s+([a-z0-9\-]+)[\s,]+.+"
