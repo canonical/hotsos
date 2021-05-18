@@ -30,3 +30,7 @@ class NetworkWarning(IssueTypeBase):
 
 class RabbitMQWarning(IssueTypeBase):
     pass
+
+
+class OpenvSwitchWarning(IssueTypeBase):
+    pass

@@ -422,3 +422,20 @@ def get_rabbitmqctl_report():
         return open(path, 'r').readlines()
 
     return []
+
+
+@catch_exceptions(OSError)
+def get_ovs_appctl_dpctl_show(dp):
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ovs-appctl', 'dpctl/show', '-s',
+                                          dp])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    sos_dp_name = dp.replace('@', '_')
+    path = os.path.join(DATA_ROOT,
+                        "sos_commands/openvswitch/ovs-appctl_dpctl.show_-s_{}".
+                        format(sos_dp_name))
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []

@@ -1,3 +1,7 @@
+import os
+import shutil
+import tempfile
+
 import mock
 
 import utils
@@ -43,13 +47,26 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
+        self.tmpdir = tempfile.mkdtemp()
 
     def tearDown(self):
+        if os.path.isdir(self.tmpdir):
+            shutil.rmtree(self.tmpdir)
+
         super().tearDown()
 
     @mock.patch.object(ovs_checks, "OVS_INFO", {})
     def test_get_checks(self):
-        expected = {}
-        [c() for c in ovs_checks.get_checks()]
-        self.assertEqual(ovs_checks.OVS_INFO,
-                         expected)
+        expected = {'port-stats':
+                    {'br-int':
+                     {'RX': {'dropped': 133076541760, 'packets': 0},
+                      'TX': {'errors': 13863933, 'packets': 0}},
+                     'qr-1d849332-80':
+                     {'RX':
+                      {'dropped': 1394875,
+                       'packets': 309}}}}
+        with mock.patch.object(ovs_checks.issues_utils, 'PLUGIN_TMP_DIR',
+                               self.tmpdir):
+            [c() for c in ovs_checks.get_checks()]
+            self.assertEqual(ovs_checks.OVS_INFO,
+                             expected)

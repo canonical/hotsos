@@ -1,0 +1,40 @@
+system@ovs-system:
+  lookups: hit:1355469778765 missed:314057879 lost:620
+  flows: 890
+  masks: hit:64240179736641 total:112 hit/pkt:47.38
+  port 0: ovs-system (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 1: vxlan_sys_4789 (vxlan: packet_type=ptap)
+    RX packets:0 errors:? dropped:? overruns:? frame:?
+    TX packets:0 errors:? dropped:? aborted:? carrier:?
+    collisions:?
+    RX bytes:0  TX bytes:0
+  port 2: br-tun (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 3: qr-489c588d-ba (internal)
+    RX packets:113877305 errors:0 dropped:3 overruns:0 frame:0
+    TX packets:14195962 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:7775349396 (7.2 GiB)  TX bytes:1770163327 (1.6 GiB)
+  port 4: qr-1d849332-80 (internal)
+    RX packets:309 errors:0 dropped:1394875 overruns:0 frame:0
+    TX packets:31 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:22676 (22z.3 KiB)  TX bytes:1954 (1.9 KiB)
+  port 5: qr-03e6185e-4e (internal)
+    RX packets:12124542 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:11293812 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:7775349396 (7.2 GiB)  TX bytes:1770163327 (1.6 GiB)
+  port 6: br-int (internal)
+    RX packets:0 errors:0 dropped:133076541760 overruns:0 frame:0
+    TX packets:0 errors:13863933 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+
