@@ -50,6 +50,6 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(utils.BaseTestCase):
     @mock.patch.object(ovs_checks, "OVS_INFO", {})
     def test_get_checks(self):
         expected = {}
-        ovs_checks.get_checks()()
+        [c() for c in ovs_checks.get_checks()]
         self.assertEqual(ovs_checks.OVS_INFO,
                          expected)
