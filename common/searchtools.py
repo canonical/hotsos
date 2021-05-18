@@ -145,7 +145,7 @@ class SearchResultPart(object):
 
 class SearchResult(object):
 
-    def __init__(self, linenumber, source, search_term_tag=None,
+    def __init__(self, linenumber, source, result, search_term_tag=None,
                  section_idx=None, sequence_obj_id=None):
         self.tag = search_term_tag
         self.source = source
@@ -153,8 +153,17 @@ class SearchResult(object):
         self._parts = {}
         self.sequence_obj_id = sequence_obj_id
         self.section_idx = section_idx
+        num_groups = len(result.groups())
+        # NOTE: this does not include group(0)
+        if num_groups:
+            # To reduce memory footprint, don't store group(0) i.e. the whole
+            # line, if there are actual groups in the result.
+            for i in range(1, num_groups + 1):
+                self._add(i, result.group(i))
+        else:
+            self._add(0, result.group(0))
 
-    def add(self, index, value):
+    def _add(self, index, value):
         self._parts[index] = SearchResultPart(index, value)
 
     def get(self, index):
@@ -380,11 +389,9 @@ class FileSearcher(object):
 
                         sequence_obj_id = s_term.id
 
-                    r = SearchResult(ln, path, tag, section_idx=section_idx,
+                    r = SearchResult(ln, path, ret, tag,
+                                     section_idx=section_idx,
                                      sequence_obj_id=sequence_obj_id)
-                    for i in range(0, len(ret.groups()) + 1):
-                        r.add(i, ret.group(i))
-
                     if type(s_term) == SequenceSearchDef:
                         if s_term.id not in sequence_results:
                             sequence_results[s_term.id] = [r]
@@ -395,21 +402,13 @@ class FileSearcher(object):
 
                 elif type(s_term) == SequenceSearchDef:
                     if s_term.started and s_term.s_body:
-                        if s_term.s_body:
-                            ret = s_term.s_body.run(line)
-                            if not ret:
-                                continue
+                        ret = s_term.s_body.run(line)
+                        if not ret:
+                            continue
 
-                        r = SearchResult(ln, path, s_term.body_tag,
+                        r = SearchResult(ln, path, ret, s_term.body_tag,
                                          section_idx=s_term.section_idx,
                                          sequence_obj_id=s_term.id)
-
-                        if s_term.s_body and ret:
-                            for i in range(0, len(ret.groups()) + 1):
-                                r.add(i, ret.group(i))
-                        else:
-                            r.add(0, line)
-
                         sequence_results[s_term.id].append(r)
 
         if sequence_results:
@@ -429,11 +428,9 @@ class FileSearcher(object):
                                 section_idx = s_term.section_idx
                                 s_term.stop()
                                 tag = s_term.end_tag
-                                r = SearchResult(ln + 1, path, tag,
+                                r = SearchResult(ln + 1, path, ret, tag,
                                                  section_idx=section_idx,
                                                  sequence_obj_id=s_term.id)
-                                for i in range(0, len(ret.groups()) + 1):
-                                    r.add(i, ret.group(i))
                             else:
                                 filter_section_idx.append(s_term.section_idx)
 

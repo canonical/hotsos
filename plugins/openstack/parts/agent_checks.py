@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+import sys
 
 from common import (
     constants,
@@ -163,10 +164,17 @@ class NeutronOVSAgentEventChecks(AgentChecksBase):
         self.ovs_agent_data_source = os.path.join(self.logs_path,
                                                   f'{ovs_agent_base_log}')
         if constants.USE_ALL_LOGS:
-            self.ovs_agent_data_source = f"{self.ovs_agent_data_source}*"
+            # FIXME: disabling this for now since running against a long
+            # history of logs can generate a very large amount of data that can
+            # consume too much memory.
+            msg = ("\nINFO: disabling --all-logs for openstack rpc_loop "
+                   "checks since it can result in excessive memory "
+                   "consumption\n")
+            sys.stderr.write(msg)
+            # self.ovs_agent_data_source = f"{self.ovs_agent_data_source}*"
 
         # the logs we are looking for are INFO only
-        fd = FilterDef(" INFO ")
+        fd = FilterDef(" rpc_loop ")
         self.searchobj.add_filter_term(fd, self.ovs_agent_data_source)
 
     def register_search_terms(self):
