@@ -1,22 +1,31 @@
 #!/usr/bin/python3
+import os
+
 import json
 import re
 import subprocess
 
-from ceph_common import (
-    CephChecksBase,
-    CEPH_SERVICES_EXPRS,
-)
-from common.checks import (
-    PackageChecksBase,
-    SVC_EXPR_TEMPLATE,
-)
 from common import (
     cli_helpers,
     issues_utils,
     plugin_yaml,
 )
+from common.checks import (
+    PackageChecksBase,
+    SVC_EXPR_TEMPLATE,
+)
+from common.searchtools import (
+    FileSearcher,
+    SearchDef,
+    SequenceSearchDef,
+)
 from common.issue_types import CephCrushWarning
+from common.utils import mktemp_dump
+
+from ceph_common import (
+    CephChecksBase,
+    CEPH_SERVICES_EXPRS,
+)
 
 CEPH_INFO = {}
 
@@ -72,18 +81,29 @@ class CephOSDChecks(CephChecksBase):
         return int(date_in_secs)
 
     def get_osd_rss(self, osd_id):
-        """Return memory RSS for a given OSD."""
+        """Return memory RSS for a given OSD.
+
+        NOTE: this assumes we have ps auxwwwm format.
+        """
         ceph_osds = self.services.get("ceph-osd")
         if not ceph_osds:
-            return []
+            return 0
 
-        for cmd in ceph_osds["ps_cmds"]:
-            ret = re.compile(r".+/ceph-osd\s+.+--id {}\s+.+".format(
-                             osd_id)).match(cmd)
-            if ret:
-                return int(int(cmd.split()[5]) / 1024)
+        f_osd_ps_cmds = mktemp_dump('\n'.join(ceph_osds['ps_cmds']))
 
-        return 0
+        s = FileSearcher()
+        # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+        sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-osd\s+"
+                       r".+--id\s+{}\s+.+".format(osd_id))
+        s.add_search_term(sd, path=f_osd_ps_cmds)
+        rss = 0
+        # we only expect one result
+        for result in s.search().find_by_path(f_osd_ps_cmds):
+            rss = int(int(result.get(1)) / 1024)
+            break
+
+        os.unlink(f_osd_ps_cmds)
+        return rss
 
     def get_osd_etime(self, osd_id):
         """Return process etime for a given OSD.
@@ -119,36 +139,39 @@ class CephOSDChecks(CephChecksBase):
                     osd_uptime_str = self.seconds_to_date(osd_uptime_secs)
                     return osd_uptime_str
 
-    def get_osd_lvm_info(self, osd_id):
+    def get_osd_lvm_info(self):
         if not self.ceph_volume_lvm_list:
             return
 
+        ceph_osds = self.services.get("ceph-osd")
+        if not ceph_osds:
+            return 0
+
+        f_ceph_volume_lvm_list = mktemp_dump('\n'.join(
+                                                    self.ceph_volume_lvm_list))
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
+                               body=SearchDef(r"\s+osd\s+(fsid)\s+(\S+)\s*|"
+                                              r"\s+(devices)\s+([\S]+)\s*"),
+                               tag="ceph-lvm")
+        s.add_search_term(sd, path=f_ceph_volume_lvm_list)
         info = {}
-        for line in self.ceph_volume_lvm_list:
-            ret = re.compile(".*==== osd.{} ====.*".format(osd_id)).match(line)
-            if ret:
-                info['marker'] = 1
+        for results in s.search().find_sequence_sections(sd).values():
+            _osd_id = None
+            _info = {}
+            for result in results:
+                if result.tag == sd.start_tag:
+                    _osd_id = int(result.get(1))
+                elif result.tag == sd.body_tag:
+                    if result.get(1) == "fsid":
+                        _info["fsid"] = result.get(2)
+                    elif result.get(3) == "devices":
+                        _info["dev"] = result.get(4)
 
-            if info.get('marker') is None:
-                continue
+            info[_osd_id] = _info
 
-            if "fsid" not in info:
-                ret = re.compile(r"\s+osd\s+fsid\s+([a-z0-9-]+)\s*"
-                                 ).match(line)
-                if ret:
-                    info["fsid"] = ret[1]
-
-            if "dev" not in info:
-                ret = re.compile(r"\s+devices\s+([\S]+)\s*").match(line)
-                if ret:
-                    info["dev"] = ret[1]
-
-            if info.get("dev") and info.get("fsid"):
-                break
-
-        if "marker" in info:
-            del info["marker"]
-            return info
+        os.unlink(f_ceph_volume_lvm_list)
+        return info
 
     def get_osd_devtype(self, osd_id):
         if not self.ceph_osd_tree:
@@ -217,11 +240,11 @@ class CephOSDChecks(CephChecksBase):
 
     def get_osd_info(self):
         osd_info = {}
+        osd_lvm_info = self.get_osd_lvm_info()
         for osd_id in self.osd_ids:
             osd_info[osd_id] = {}
-            osd_lvm_info = self.get_osd_lvm_info(osd_id)
             if osd_lvm_info:
-                osd_info[osd_id].update(osd_lvm_info)
+                osd_info[osd_id].update(osd_lvm_info.get(osd_id))
 
             osd_rss = self.get_osd_rss(osd_id)
             if osd_rss:
