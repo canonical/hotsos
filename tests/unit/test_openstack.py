@@ -414,8 +414,11 @@ class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
                              'AMQP server on 10.10.123.22:5672 is unreachable':
                              {'2021-03-04': 3},
                              'OVS is dead': {'2021-03-29': 1},
-                             'RuntimeError': {'2021-03-29': 3},
-                             }}
+                             'RuntimeError': {'2021-03-29': 3}},
+                            'neutron-l3-agent':
+                            {'neutron_lib.exceptions.ProcessExecutionError':
+                             {'2021-05-18': 1}},
+                            }
         nova_expected = {'nova-api-wsgi':
                          {'OSError: Server unexpectedly closed connection':
                           {'2021-03-15': 1},

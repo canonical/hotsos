@@ -55,7 +55,11 @@ class CommonAgentChecks(AgentChecksBase):
             svc_info = SERVICE_RESOURCES[svc]
             a_excs = []
             for e in self._agent_exceptions.get(svc, []):
-                a_excs.append((r" ({}):".format(e)))
+                # sometimes the exception is printed with just the class name
+                # and sometimes it is printed with a full parent module
+                # path e.g. BigExc or foo.bar.BigExc so we need to account for
+                # both.
+                a_excs.append((r" ((?:\S+\.)?{}):".format(e)))
 
             self._exception_exprs[svc] = []
             self._exception_exprs[svc] += svc_info["exceptions_base"]

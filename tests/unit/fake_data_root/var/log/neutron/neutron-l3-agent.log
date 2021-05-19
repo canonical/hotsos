@@ -414,3 +414,5 @@
 2021-03-25 18:10:59.866 1686 DEBUG neutron.agent.l3.ha [-] Handling notification for router 9b8efc4c-305b-48ce-a5bd-624bc5eeee67, state master enqueue /usr/lib/python3/dist-packages/neutron/agent/l3/ha.py:51
 2021-03-25 18:10:59.867 1686 INFO eventlet.wsgi.server [-] <local> "GET / HTTP/1.1" status: 200  len: 115 time: 0.0011294
 2021-03-25 18:18:10.885 1686 DEBUG oslo_service.periodic_task [req-4e053bf2-e8b8-4288-bc73-28ad9f1bdca7 - - - - -] Running periodic task L3NATAgentWithStateReport.periodic_sync_routers_task run_periodic_tasks /usr/lib/python3/dist-packages/oslo_service/periodic_task.py:217
+
+2021-05-18 15:16:41.953 935831 ERROR neutron.agent.l3.dvr_local_router neutron_lib.exceptions.ProcessExecutionError: Exit code: 2; Stdin: ; Stdout: ; Stderr: Error: Nexthop has invalid gateway.
