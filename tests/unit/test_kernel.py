@@ -130,7 +130,7 @@ class TestKernelPluginPartKernelNetwork(utils.BaseTestCase):
     @mock.patch.object(kernel_network, "KERNEL_INFO", {})
     def test_run_network_checks(self):
         expected = {'over-mtu-dropped-packets':
-                    {'tap40f8453b-31': 5, 'tape901c8af-fb': 10}}
+                    {'tap40f8453b-31': 5}}
         with mock.patch.object(kernel_network.issues_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
             kernel_network.KernelNetworkChecks()()
