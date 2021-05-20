@@ -21,6 +21,7 @@ from plugins.openstack.parts import (  # noqa E402
     agent_checks,
     agent_exceptions,
     neutron_l3ha,
+    service_checks,
 )
 
 
@@ -32,6 +33,37 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/{} main
 SVC_CONF = """
 debug = True
 """
+
+JOURNALCTL_OVS_CLEANUP_GOOD = """
+-- Logs begin at Thu 2021-04-29 17:44:42 BST, end at Thu 2021-05-06 09:05:01 BST. --
+Apr 29 17:52:37 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/r
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 ovs-vsctl[15183]: ovs|00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=5 --id=@manager -- create Manager "target=\
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session closed for user root
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+May 03 06:17:29 juju-9c28ce-ubuntu-11 systemd[1]: Stopped OpenStack Neutron OVS cleanup.
+-- Reboot --
+May 04 11:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+May 04 11:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+"""  # noqa
+
+JOURNALCTL_OVS_CLEANUP_BAD = """
+-- Logs begin at Thu 2021-04-29 17:44:42 BST, end at Thu 2021-05-06 09:05:01 BST. --
+Apr 29 17:52:37 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/r
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 ovs-vsctl[15183]: ovs|00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=5 --id=@manager -- create Manager "target=\
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session closed for user root
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+May 03 06:17:29 juju-9c28ce-ubuntu-11 systemd[1]: Stopped OpenStack Neutron OVS cleanup.
+May 04 10:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+May 04 10:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+-- Reboot --
+May 04 11:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+May 04 11:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+"""  # noqa
+
 
 with open(os.path.join(os.environ['DATA_ROOT'],
                        "sos_commands/networking/ip_-s_-d_link")) as fd:
@@ -486,4 +518,30 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
                       '71d46ba3-f737-41bd-a922-8b8012a6444d': 0}}}
         neutron_l3ha.run_checks()()
         self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
+        self.assertTrue(mock_add_issue.called)
+
+
+class TestOpenstackPluginPartServiceChecks(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
+    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    def test_run_service_checks(self, mock_add_issue, mock_get_journalctl):
+        mock_get_journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
+        service_checks.run_service_checks()()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
+    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    def test_run_service_checks_w_issue(self, mock_add_issue,
+                                        mock_get_journalctl):
+        mock_get_journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
+        service_checks.run_service_checks()()
         self.assertTrue(mock_add_issue.called)

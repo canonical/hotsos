@@ -32,5 +32,9 @@ class RabbitMQWarning(IssueTypeBase):
     pass
 
 
+class OpenstackWarning(IssueTypeBase):
+    pass
+
+
 class OpenvSwitchWarning(IssueTypeBase):
     pass
