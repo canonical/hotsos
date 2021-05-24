@@ -19,7 +19,7 @@ from ovs_common import (
     OVS_DAEMONS,
 )
 
-OVS_INFO = {"daemon-checks": {}}
+OVS_INFO = {}
 
 
 class OpenvSwitchDaemonChecksBase(object):
@@ -77,6 +77,9 @@ class OpenvSwitchDaemonChecksCommon(OpenvSwitchDaemonChecksBase):
                     stats[d][key] = stats_sorted
 
         if stats:
+            if "daemon-checks" not in OVS_INFO:
+                OVS_INFO["daemon-checks"] = {}
+
             OVS_INFO["daemon-checks"]["logs"] = stats
 
 
@@ -133,6 +136,9 @@ class OpenvSwitchvSwitchdChecks(OpenvSwitchDaemonChecksBase):
                     stats_sorted[k] = v
 
                 stats[tag] = stats_sorted
+
+            if "daemon-checks" not in OVS_INFO:
+                OVS_INFO["daemon-checks"] = {}
 
             OVS_INFO["daemon-checks"]["ovs-vswitchd"] = stats
 

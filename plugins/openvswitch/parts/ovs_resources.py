@@ -5,7 +5,8 @@ from common import (
 )
 from ovs_common import (
     OPENVSWITCH_SERVICES_EXPRS,
-    OVS_PKGS,
+    OVS_PKGS_CORE,
+    OVS_PKGS_DEPS,
 )
 
 OVS_INFO = {}
@@ -25,12 +26,20 @@ class OpenvSwitchServiceChecks(checks.ServiceChecksBase):
 class OpenvswitchPackageChecks(checks.PackageChecksBase):
     def __call__(self):
         p = self.packages
-        if p:
-            OVS_INFO["dpkg"] = p
+        if not p:
+            return
+
+        for pkg in p:
+            # need at least one core package to be installed to include
+            # this in the report.
+            name = pkg.split(' ')[0]
+            if name in OVS_PKGS_CORE:
+                OVS_INFO["dpkg"] = p
+                break
 
 
 def get_package_checks():
-    return OpenvswitchPackageChecks(OVS_PKGS)
+    return OpenvswitchPackageChecks(OVS_PKGS_CORE + OVS_PKGS_DEPS)
 
 
 def get_service_checker():
