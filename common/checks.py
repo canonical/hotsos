@@ -5,7 +5,11 @@ from common import (
     cli_helpers,
 )
 
-SVC_EXPR_TEMPLATE = r".+\S*(\s|(bin|[0-9]+)/)({})(\s+.+|$)"
+SVC_EXPR_TEMPLATES = {
+    "absolute": r".+\S+bin/({})(?:\s+.+|$)",
+    "snap": r".+\S+\d+/({})(?:\s+.+|$)",
+    "relative": r".+\s({})(?:\s+.+|$)",
+    }
 
 
 class ServiceChecksBase(object):
@@ -67,13 +71,15 @@ class ServiceChecksBase(object):
 
                 /var/lib/<svc> and /var/log/<svc>
                 """
-                ret = re.compile(SVC_EXPR_TEMPLATE.format(expr)).match(line)
-                if ret:
-                    svc = ret.group(3)
-                    if svc not in self.services:
-                        self.services[svc] = {"ps_cmds": []}
+                for expr_tmplt in SVC_EXPR_TEMPLATES.values():
+                    ret = re.compile(expr_tmplt.format(expr)).match(line)
+                    if ret:
+                        svc = ret.group(1)
+                        if svc not in self.services:
+                            self.services[svc] = {"ps_cmds": []}
 
-                    self.services[svc]["ps_cmds"].append(ret.group(0))
+                        self.services[svc]["ps_cmds"].append(ret.group(0))
+                        break
 
     def __call__(self):
         """This can/should be extended by inheriting class."""

@@ -12,7 +12,7 @@ from common import (
 )
 from common.checks import (
     APTPackageChecksBase,
-    SVC_EXPR_TEMPLATE,
+    SVC_EXPR_TEMPLATES,
 )
 from common.searchtools import (
     FileSearcher,
@@ -122,7 +122,8 @@ class CephOSDChecks(CephChecksBase):
             if not ret:
                 continue
 
-            ret = re.compile(SVC_EXPR_TEMPLATE.format("ceph-osd")).search(line)
+            expt_tmplt = SVC_EXPR_TEMPLATES["absolute"]
+            ret = re.compile(expt_tmplt.format("ceph-osd")).search(line)
             if ret:
                 ceph_osds.append(ret.group(0))
 

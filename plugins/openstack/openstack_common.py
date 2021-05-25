@@ -35,7 +35,7 @@ OST_PROJECTS = ["aodh",
                 "swift",
                 ]
 
-SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*[^:/]?"
+SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*"
 
 # expressions used to match openstack services for each project
 OST_SERVICES_EXPRS = []

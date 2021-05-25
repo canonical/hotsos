@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-OPENVSWITCH_SERVICES_EXPRS = [r"ovsdb-\S+",
-                              r"ovs-vswitch\S+",
-                              r"ovn\S+"]
+OPENVSWITCH_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
+                              r"ovs-vswitch[a-zA-Z-]*",
+                              r"ovn[a-zA-Z-]*"]
 OVS_PKGS_CORE = [r"openvswitch-switch",
                  r"ovn",
                  ]
