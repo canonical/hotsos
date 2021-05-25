@@ -48,20 +48,27 @@ class OpenvSwitchDaemonChecksCommon(OpenvSwitchDaemonChecksBase):
             if constants.USE_ALL_LOGS:
                 path = f"{path}*"
 
-            sd = SearchDef(r"([0-9-]+)T([0-9:\.]+)Z.+\|(?:ERROR|WARN)\|.+",
-                           tag="{}-warn".format(d))
+            sd = SearchDef(r"([0-9-]+)T([0-9:\.]+)Z.+\|(ERR|ERROR|WARN)\|.+",
+                           tag=d)
             self.search_obj.add_search_term(sd, path)
 
     def process_results(self):
         stats = {}
         for d in OVS_DAEMONS:
-            for key in ["warn", "error"]:
-                tag = "{}-{}".format(d, key)
-                for r in self.results.find_by_tag(tag):
+            tag = d
+            for r in self.results.find_by_tag(tag):
+                ts_date = r.get(1)
+                loglevel = r.get(3)
+                for key in ["warn", "error", "ERR", "WARN"]:
+                    if loglevel != key:
+                        continue
+
                     if d not in stats:
                         stats[d] = {key: {}}
 
-                    ts_date = r.get(1)
+                    if key not in stats[d]:
+                        stats[d][key] = {}
+
                     if ts_date in stats[d][key]:
                         stats[d][key][ts_date] += 1
                     else:
