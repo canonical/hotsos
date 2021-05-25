@@ -11,7 +11,7 @@ from common import (
     plugin_yaml,
 )
 from common.checks import (
-    PackageChecksBase,
+    APTPackageChecksBase,
     SVC_EXPR_TEMPLATE,
 )
 from common.searchtools import (
@@ -24,17 +24,19 @@ from common.utils import mktemp_dump
 
 from ceph_common import (
     CephChecksBase,
+    CEPH_PKGS_CORE,
     CEPH_SERVICES_EXPRS,
 )
 
 CEPH_INFO = {}
 
 
-class CephPackageChecks(PackageChecksBase):
+class CephPackageChecks(APTPackageChecksBase):
     def __call__(self):
-        p = self.packages
-        if p:
-            CEPH_INFO["dpkg"] = p
+        # require at least one core package to be installed to include
+        # this in the report.
+        if self.core:
+            CEPH_INFO["dpkg"] = self.all
 
 
 class CephServiceChecks(CephChecksBase):
@@ -323,7 +325,7 @@ def get_service_checker():
 
 
 def get_pkg_checker():
-    return CephPackageChecks(CEPH_SERVICES_EXPRS + ["rbd"])
+    return CephPackageChecks(CEPH_PKGS_CORE)
 
 
 def get_osd_checker():

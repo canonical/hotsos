@@ -6,6 +6,10 @@ from common import checks
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]
+CEPH_PKGS_CORE = [r"ceph-[a-z-]+",
+                  r"rados[a-z-]+",
+                  r"rbd",
+                  ]
 
 
 class CephChecksBase(checks.ServiceChecksBase):

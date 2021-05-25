@@ -28,12 +28,13 @@ RMQ_PACKAGES = [
 ]
 
 
-class RabbitMQPackageChecks(checks.PackageChecksBase):
+class RabbitMQPackageChecks(checks.APTPackageChecksBase):
 
     def __call__(self):
-        p = self.packages
-        if p:
-            RABBITMQ_INFO["dpkg"] = p
+        # require at least one core package to be installed to include
+        # this in the report.
+        if self.core:
+            RABBITMQ_INFO["dpkg"] = self.all
 
 
 class RabbitMQServiceChecksBase(checks.ServiceChecksBase):

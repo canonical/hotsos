@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 import os
-import re
 
 from common import (
+    checks,
     constants,
-    cli_helpers,
     plugin_yaml,
 )
-from common.checks import PackageChecksBase
 from kubernetes_common import (
     KubernetesChecksBase,
     SNAPS_DEPS,
@@ -17,63 +15,12 @@ from kubernetes_common import (
 KUBERNETES_INFO = {}
 
 
-class KubernetesPackageChecks(PackageChecksBase):
-
-    @classmethod
-    def get_snap_info_from_line(cls, line, snap):
-        """Returns snap name and version if found in line.
-
-        @return: tuple of (name, version) or None
-        """
-        ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
-        if ret:
-            return (ret[1], ret[2])
-
-        return None
-
-    def get_snaps(self):
-        """Get list of relevant snaps and their versions."""
-        # TODO: generalise this method and move into the base class
-        snap_list_all = cli_helpers.get_snap_list_all()
-        if not snap_list_all:
-            return
-
-        snap_info_core = {}
-        snap_info_deps = {}
-        for line in snap_list_all:
-            for snap in SNAPS_K8S:
-                info = self.get_snap_info_from_line(line, snap)
-                if not info:
-                    continue
-
-                name, version = info
-                # only show latest version installed
-                if name in snap_info_core:
-                    if version > snap_info_core[name]:
-                        snap_info_core[name] = version
-                else:
-                    snap_info_core[name] = version
-
-            for snap in SNAPS_DEPS:
-                info = self.get_snap_info_from_line(line, snap)
-                if not info:
-                    continue
-
-                name, version = info
-                # only show latest version installed
-                if name in snap_info_deps:
-                    if version > snap_info_deps[name]:
-                        snap_info_deps[name] = version
-                else:
-                    snap_info_deps[name] = version
-
-        if snap_info_core:
-            snap_info_core.update(snap_info_deps)
-            KUBERNETES_INFO["snaps"] = snap_info_core
-
+class KubernetesPackageChecks(checks.SnapPackageChecksBase):
     def __call__(self):
-        # no apt packages checked currently, just snaps
-        self.get_snaps()
+        # require at least one core package to be installed to include
+        # this in the report.
+        if self.core:
+            KUBERNETES_INFO["snaps"] = self.all
 
 
 class KubernetesServiceChecks(KubernetesChecksBase):
@@ -118,7 +65,8 @@ class KubernetesResourceChecks(object):
 
 def get_kubernetes_package_checker():
     # Do this way to make it easier to write unit tests.
-    return KubernetesPackageChecks(None)
+    return KubernetesPackageChecks(core_snaps=SNAPS_K8S,
+                                   other_snaps=SNAPS_DEPS)
 
 
 def get_kubernetes_service_checker():

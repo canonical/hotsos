@@ -81,35 +81,178 @@ class ServiceChecksBase(object):
 
 
 class PackageChecksBase(object):
-    """This class should be used by any plugin that wants to identify
-    and check the status of some package_exprs."""
-
-    def __init__(self, package_exprs):
-        """
-        @param package_exprs: list of python.re expressions used to match
-        package names.
-        """
-        self.package_exprs = package_exprs
-        self.pkg_match_expr_template = \
-            r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
-        self._packages = []
 
     @property
-    def packages(self):
-        if self._packages:
-            return self._packages
+    def all(self):
+        """
+        Returns list results matched for all expressions. List items have the
+        format "<name> <version>".
+        """
+        raise NotImplementedError
+
+    @property
+    def core(self):
+        """
+        Returns list results matched for core expressions. List items have the
+        format "<name> <version>".
+        """
+        raise NotImplementedError
+
+
+class APTPackageChecksBase(PackageChecksBase):
+
+    def __init__(self, core_pkgs, other_pkgs=None):
+        """
+        @param core_pkgs: list of python.re expressions used to match
+        package names.
+        @param other_pkg_exprs: optional list of python.re expressions used to
+        match packages that are not considered part of the core set. This can
+        be used to distinguish between core and non-core packages.
+        """
+        self.core_pkg_exprs = core_pkgs
+        self.other_pkg_exprs = other_pkgs or []
+        self._core_packages = []
+        self._other_packages = []
+        self._all_packages = []
+        self._match_expr_template = \
+            r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+
+    def _match_package(self, pkg, entry):
+        expr = self._match_expr_template.format(pkg)
+        ret = re.compile(expr).match(entry)
+        if ret:
+            pyprefix = ret[1] or ""
+            return "{}{} {}".format(pyprefix, ret[2], ret[3])
+
+    @property
+    def all(self):
+        """
+        Returns list of all packages matched. Each entry in the list is an item
+        looking like "<pkgname> <pkgver>".
+        """
+        if self._all_packages:
+            return self._all_packages
 
         dpkg_l = cli_helpers.get_dpkg_l()
         if not dpkg_l:
             return
 
+        all_exprs = self.core_pkg_exprs + self.other_pkg_exprs
         for line in dpkg_l:
-            for pkg in self.package_exprs:
-                expr = self.pkg_match_expr_template.format(pkg)
-                ret = re.compile(expr).match(line)
-                if ret:
-                    pyprefix = ret[1] or ""
-                    result = "{}{} {}".format(pyprefix, ret[2], ret[3])
-                    self._packages.append(result)
+            for pkg in all_exprs:
+                result = self._match_package(pkg, line)
+                if result:
+                    if pkg in self.core_pkg_exprs:
+                        self._core_packages.append(result)
+                    else:
+                        self._other_packages.append(result)
 
-        return self._packages
+        # ensure sorted
+        self._core_packages = sorted(self._core_packages)
+        self._other_packages = sorted(self._other_packages)
+        self._all_packages = sorted(self._core_packages + self._other_packages)
+
+        return self._all_packages
+
+    @property
+    def core(self):
+        """
+        Only return results that matched from the "core" set of packages.
+        """
+        if self._core_packages:
+            return self._core_packages
+
+        if self._other_packages:
+            return []
+
+        # go fetch
+        self.all
+        return self._core_packages
+
+
+class SnapPackageChecksBase(PackageChecksBase):
+
+    def __init__(self, core_snaps, other_snaps=None):
+        """
+        @param core_snaps: list of python.re expressions used to match
+        snap names.
+        @param other_snap_exprs: optional list of python.re expressions used to
+        match snap names for snaps that are not considered part of the
+        core set.
+        """
+        self.core_snap_exprs = core_snaps
+        self.other_snap_exprs = other_snaps or []
+        self._core_snaps = []
+        self._other_snaps = []
+        self._all_snaps = []
+        self._match_expr_template = \
+            r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+
+    @classmethod
+    def _get_snap_info_from_line(cls, line, snap):
+        """Returns snap name and version if found in line.
+
+        @return: tuple of (name, version) or None
+        """
+        ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
+        if ret:
+            return (ret[1], ret[2])
+
+        return None
+
+    @property
+    def all(self):
+        if self._all_snaps:
+            return self._all_snaps
+
+        snap_list_all = cli_helpers.get_snap_list_all()
+        if not snap_list_all:
+            return []
+
+        _core = {}
+        _other = {}
+        all_exprs = self.core_snap_exprs + self.other_snap_exprs
+        for line in snap_list_all:
+            for snap in all_exprs:
+                info = self._get_snap_info_from_line(line, snap)
+                if not info:
+                    continue
+
+                name, version = info
+                # only show latest version installed
+                if snap in self.core_snap_exprs:
+                    if name in _core:
+                        if version > _core[name]:
+                            _core[name] = version
+                    else:
+                        _core[name] = version
+                else:
+                    if name in _other:
+                        if version > _other[name]:
+                            _other[name] = version
+                    else:
+                        _other[name] = version
+
+        # ensure sorted
+        self._core_snaps = sorted(["{} {}".format(name, _core[name])
+                                   for name in _core])
+        self._other_snaps = sorted(["{} {}".format(name, _other[name])
+                                    for name in _other])
+        self._all_snaps = sorted(self._core_snaps + self._other_snaps)
+
+        return self._all_snaps
+
+    @property
+    def core(self):
+        """
+        Only return results that matched from the "core" set of snaps.
+        """
+        if self._core_snaps:
+            return self._core_snaps
+
+        if self._other_snaps:
+            return []
+
+        # go fetch
+        self.all
+        return self._core_snaps

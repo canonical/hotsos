@@ -36,18 +36,18 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
     @mock.patch.object(general, "KUBERNETES_INFO", {})
     def test_get_snap_info_from_line(self):
-        result = {'conjure-up': '2.6.14-20200716.2107',
-                  'core': '16-2.48.2',
-                  'core18': '20201210',
-                  'docker': '19.03.11',
-                  'go': '1.15.6',
-                  'helm': '3.5.0',
-                  'kubectl': '1.20.2',
-                  'vault': '1.5.4'}
+        result = ['conjure-up 2.6.14-20200716.2107',
+                  'core 16-2.48.2',
+                  'core18 20201210',
+                  'docker 19.03.11',
+                  'go 1.15.6',
+                  'helm 3.5.0',
+                  'kubectl 1.20.2',
+                  'vault 1.5.4']
         general.get_kubernetes_package_checker()()
         self.assertEqual(general.KUBERNETES_INFO["snaps"], result)
 
-    @mock.patch.object(general.cli_helpers, "get_snap_list_all")
+    @mock.patch.object(general.checks.cli_helpers, "get_snap_list_all")
     @mock.patch.object(general, "KUBERNETES_INFO", {})
     def test_get_snap_info_from_line_no_k8s(self, mock_get_snap_list_all):
         filterered_snaps = []
@@ -55,7 +55,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
             found = False
             for snap in general.SNAPS_K8S:
                 cls = general.KubernetesPackageChecks
-                if cls.get_snap_info_from_line(line, snap):
+                if cls._get_snap_info_from_line(line, snap):
                     found = True
                     break
 

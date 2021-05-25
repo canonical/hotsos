@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from common import plugin_yaml
-from common.checks import PackageChecksBase
+from common.checks import APTPackageChecksBase
 
 from openstack_common import (
     OST_DEP_PKGS,
@@ -10,24 +10,17 @@ from openstack_common import (
 OST_PKG_INFO = {}
 
 
-class OpenstackPackageChecks(PackageChecksBase):
+class OpenstackPackageChecks(APTPackageChecksBase):
     def __call__(self):
-        p = self.packages
-        if not p:
-            return
-
-        for pkg in p:
-            # need at least one core package to be installed to include
-            # this in the report.
-            name = pkg.split(' ')[0]
-            if name in OST_PKGS_CORE:
-                OST_PKG_INFO["dpkg"] = p
-                break
+        # require at least one core package to be installed to include
+        # this in the report.
+        if self.core:
+            OST_PKG_INFO["dpkg"] = self.all
 
 
 def get_checks():
-    package_exprs = OST_PKGS_CORE + OST_DEP_PKGS
-    return OpenstackPackageChecks(package_exprs)
+    return OpenstackPackageChecks(core_pkgs=OST_PKGS_CORE,
+                                  other_pkgs=OST_DEP_PKGS)
 
 
 if __name__ == "__main__":
