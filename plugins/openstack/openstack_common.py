@@ -55,7 +55,7 @@ OST_SERVICES_DEPS = [r"apache{}".format(SVC_VALID_SUFFIX),
                      ]
 
 OST_PKG_ALIASES = ["openstack-dashboard"]
-
+OST_PKGS_CORE = OST_PROJECTS + OST_PKG_ALIASES
 OST_DEP_PKGS = [r"conntrack",
                 r"dnsmasq",
                 r"haproxy",
