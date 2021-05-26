@@ -104,8 +104,16 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
                         tag="memory"),
                 "callbacks":
                     [self.get_memory_used]
-                }
+                },
+            "partitioning": {
+                "searchdef":
+                SearchDef(
+                    key=r"^\s*{cluster_partition_handling,([^}]*)}",
+                    tag="cluster_partition_handling"),
+                "callbacks":
+                [self.get_partition_handling]
             }
+        }
         for s in self._sequences.values():
             self.searcher.add_search_term(s["searchdef"], self.f_report)
 
@@ -215,6 +223,17 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
         if memory_used:
             self.resources["memory-used-mib"] = memory_used
+
+    def get_partition_handling(self):
+        """Get the partition handling settings."""
+        setting = self.results.find_by_tag(
+            "cluster_partition_handling")[0].get(1)
+        if setting == "ignore":
+            msg = "Cluster partition handling is currently set to ignore. " \
+                "This is potentially dangerous and a setting of " \
+                "pause_minority is recommended."
+            issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
+            self.resources["cluster-partition-handling"] = setting
 
     def run_report_callbacks(self):
         for s in self._sequences.values():
