@@ -5,6 +5,8 @@ import shutil
 import tempfile
 import utils
 
+from common import constants
+
 utils.add_sys_plugin_path("rabbitmq")
 from plugins.rabbitmq.parts import (  # noqa E402
     services,
@@ -24,7 +26,7 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
         super().tearDown()
 
     @mock.patch.object(services, "RABBITMQ_INFO", {})
-    def test_get_service_info(self):
+    def test_get_service_info_bionic(self):
         expected = {
             'services': ['beam.smp (1)'],
             'resources': {
@@ -59,12 +61,66 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                                self.tmpdir):
             services.get_rabbitmq_service_checker()()
             issues = services.issues_utils._get_issues()
+
         self.assertEqual(services.RABBITMQ_INFO, expected)
         self.assertEqual(issues,
                          {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
-                                     'than 2/3 of queues'),
+                                     'than 2/3 of queues for 1/5 vhost(s)'),
+                            'origin': 'testplugin.01part'}]})
+
+    @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
+    @mock.patch.object(services, "RABBITMQ_INFO", {})
+    def test_get_service_info_focal(self, mock_rabbitmqctl_report):
+
+        def fake_get_rabbitmqctl_report():
+            path = os.path.join(constants.DATA_ROOT,
+                                "sos_commands/rabbitmq/rabbitmqctl_report."
+                                "focal")
+            return open(path, 'r').readlines()
+
+        mock_rabbitmqctl_report.side_effect = fake_get_rabbitmqctl_report
+
+        expected = {'services': ['beam.smp (1)'],
+                    'resources': {
+                        'vhosts': [
+                            '/',
+                            'nagios-rabbitmq-server-0',
+                            'nagios-rabbitmq-server-1',
+                            'nagios-rabbitmq-server-2',
+                            'openstack'
+                            ],
+                        'vhost-queue-distributions': {
+                            'nagios-rabbitmq-server-0': {
+                                'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
+                                },
+                            'openstack': {
+                                'rabbit@juju-ba2deb-7-lxd-9': '1495 (100.00%)'
+                                },
+                            'nagios-rabbitmq-server-2': {
+                                'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
+                                },
+                            'nagios-rabbitmq-server-1': {
+                                'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
+                                }
+                        },
+                        'queue-connections': {
+                            'rabbit@juju-ba2deb-7-lxd-9': 292}
+                        }
+                    }
+
+        with mock.patch.object(services.issues_utils, 'PLUGIN_TMP_DIR',
+                               self.tmpdir):
+            services.get_rabbitmq_service_checker()()
+            issues = services.issues_utils._get_issues()
+
+        self.assertEqual(services.RABBITMQ_INFO, expected)
+        self.assertEqual(issues,
+                         {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                          [{'type': 'RabbitMQWarning',
+                            'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
+                                     'than 2/3 of queues for 1/5 vhost(s)'),
                             'origin': 'testplugin.01part'}]})
 
     @mock.patch.object(services, "RABBITMQ_INFO", {})

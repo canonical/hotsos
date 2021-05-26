@@ -60,24 +60,84 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
         if self.services:
             RABBITMQ_INFO["services"] = self.get_service_info_str()
 
+    def register_report_searches(self):
+        """Register all sequence search definitions that we will execute
+        against rabbitmqctl report.
+
+        NOTE: the rabbitmqctl report output differs between versions 3.6.x and
+              3.8.x and we try to account for either by providing optional
+              regex expressions to match either.
+        """
+        self._sequences = {
+            "queues": {
+                "searchdef":
+                    SequenceSearchDef(
+                        start=SearchDef(r"^Queues on ([^:]+):|"
+                                        r"^Listing queues for vhost ([^:]+) "
+                                        r"..."),
+                        body=SearchDef(r"^(?:<([^.\s]+)[.0-9]+>\s+(\S+)|"
+                                       r"(\S+)\s+(?:\S+\s+){4}<([^.\s]+)[.0-9]"
+                                       r"+>)\s+.+"),
+                        end=SearchDef(r"^$"),
+                        tag="queues"),
+                "callbacks":
+                    [self.get_queues]
+                },
+            "connections": {
+                "searchdef":
+                    SequenceSearchDef(
+                        start=SearchDef(r"^Connections:$|"
+                                        r"^Listing connections ...$"),
+                        body=SearchDef(r"^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$"),
+                        end=SearchDef(r"^$"),
+                        tag="connections"),
+                "callbacks":
+                    [self.get_queue_connection_distribution]
+                },
+            "memory": {
+                "searchdef":
+                    SequenceSearchDef(
+                        start=SearchDef(r"^Status of node (?:'([^']*)'|"
+                                        r"([^']*) ...)$"),
+                        body=SearchDef(r"^\s+\[{total,([0-9]+)}.+"),
+                        end=SearchDef(r"^$"),
+                        tag="memory"),
+                "callbacks":
+                    [self.get_memory_used]
+                }
+            }
+        for s in self._sequences.values():
+            self.searcher.add_search_term(s["searchdef"], self.f_report)
+
     def get_queues(self):
         """Get distribution of queues across cluster."""
         sd = self._sequences["queues"]["searchdef"]
         vhost_queues = {}
-        raise_issues = []
+        issues_raised = {}
         for results in self.results.find_sequence_sections(sd).values():
             vhost = None
             queues = {}
             for result in results:
                 if result.tag == sd.start_tag:
-                    vhost = result.get(1)
+                    # check both report formats
+                    vhost = result.get(1) or result.get(2)
                 elif result.tag == sd.body_tag:
-                    info = {"pid_name": result.get(1),
-                            "queue": result.get(2)}
-                    if info["pid_name"] not in queues:
-                        queues[info["pid_name"]] = 1
+                    node_name = result.get(1) or result.get(4)
+                    # if we matched the section header, skip
+                    if node_name == "pid":
+                        continue
+
+                    queue = result.get(2) or result.get(3)
+                    # if we matched the section header, skip
+                    if queue == "name":
+                        continue
+
+                    info = {"node_name": node_name,
+                            "queue": queue}
+                    if info["node_name"] not in queues:
+                        queues[info["node_name"]] = 1
                     else:
-                        queues[info["pid_name"]] += 1
+                        queues[info["node_name"]] += 1
 
             vhost_queues[vhost] = {}
             if len(queues.keys()) == 0:
@@ -85,22 +145,37 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
             total = functools.reduce(lambda x, y: x + y,
                                      list(queues.values()), 0)
-            vhost_queues[vhost] = {}
-            for pid in queues:
+            node_stats = {}
+            for node_name in queues:
                 if total > 0:
-                    fraction = queues[pid] / total
+                    fraction = queues[node_name] / total
                     fraction_string = "{:.2f}%".format(fraction * 100)
                     if fraction > 2 / 3:
-                        raise_issues.append(
-                            "{} holds more than 2/3 of queues".format(pid))
+                        if node_name not in node_stats:
+                            node_stats[node_name] = 0
+
+                        node_stats[node_name] += 1
                 else:
                     fraction_string = "N/A"
 
-                vhost_queues[vhost][pid] = "{:d} ({})".format(
-                    queues[pid], fraction_string)
+                vhost_queues[vhost][node_name] = "{:d} ({})".format(
+                    queues[node_name], fraction_string)
 
-        for issue in raise_issues:
-            issues_utils.add_issue(issue_types.RabbitMQWarning(issue))
+            if node_stats:
+                max_node = None
+                for node_name in node_stats:
+                    if max_node is None:
+                        max_node = node_name
+                    elif node_stats[node_name] >= max_node:
+                        max_node = node_name
+
+                issues_raised[max_node] = node_stats[max_node]
+
+        for node_name in issues_raised:
+            msg = ("{} holds more than 2/3 of queues for {}/{} vhost(s)".
+                   format(node_name, issues_raised[node_name],
+                          len(vhost_queues)))
+            issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
         if vhost_queues:
             # list all vhosts but only show their queues if not []
@@ -131,7 +206,8 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
         for results in self.results.find_sequence_sections(sd).values():
             for result in results:
                 if result.tag == sd.start_tag:
-                    node_name = result.get(1)
+                    # check both report formats
+                    node_name = result.get(1) or result.get(2)
                 elif result.tag == sd.body_tag:
                     total = result.get(1)
                     mib_used = int(total) / 1024. / 1024.
@@ -139,45 +215,6 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
         if memory_used:
             self.resources["memory-used-mib"] = memory_used
-
-    def register_report_searches(self):
-        """Register all sequence search definitions that we will execute
-        against rabbitmqctl report.
-        """
-        self._sequences = {
-            "queues": {
-                "searchdef":
-                    SequenceSearchDef(
-                        start=SearchDef(r"^Queues on ([^:]+):"),
-                        body=SearchDef(r"^<([^.\s]+)[.0-9]+>\s+(\S+)\s+.+"),
-                        end=SearchDef(r"^$"),
-                        tag="queues"),
-                "callbacks":
-                    [self.get_queues]
-                },
-            "connections": {
-                "searchdef":
-                    SequenceSearchDef(
-                        start=SearchDef(r"^Connections:$"),
-                        body=SearchDef(r"^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$"),
-                        end=SearchDef(r"^$"),
-                        tag="connections"),
-                "callbacks":
-                    [self.get_queue_connection_distribution]
-                },
-            "memory": {
-                "searchdef":
-                    SequenceSearchDef(
-                        start=SearchDef(r"^Status of node '([^']*)'$"),
-                        body=SearchDef(r"^\s+\[{total,([0-9]+)}.+"),
-                        end=SearchDef(r"^$"),
-                        tag="memory"),
-                "callbacks":
-                    [self.get_memory_used]
-                }
-            }
-        for s in self._sequences.values():
-            self.searcher.add_search_term(s["searchdef"], self.f_report)
 
     def run_report_callbacks(self):
         for s in self._sequences.values():
