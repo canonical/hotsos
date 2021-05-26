@@ -8,7 +8,7 @@ import multiprocessing
 import re
 import uuid
 
-MAX_PARALLEL_TASKS_DEFAULT = 8
+from common import constants
 
 
 class FileSearchException(Exception):
@@ -254,15 +254,10 @@ class FileSearcher(object):
 
     @property
     def num_cpus(self):
-        USER_MAX_PARALLEL_TASKS = int(os.environ.get('USER_MAX_PARALLEL_TASKS',
-                                                     -1))
-        if USER_MAX_PARALLEL_TASKS >= 0:
-            if USER_MAX_PARALLEL_TASKS == 0:
-                cpus = 1  # i.e. no parallelism
-            else:
-                cpus = min(USER_MAX_PARALLEL_TASKS, os.cpu_count())
+        if constants.MAX_PARALLEL_TASKS == 0:
+            cpus = 1  # i.e. no parallelism
         else:
-            cpus = min(MAX_PARALLEL_TASKS_DEFAULT, os.cpu_count())
+            cpus = min(constants.MAX_PARALLEL_TASKS, os.cpu_count())
 
         return cpus
 
@@ -446,6 +441,20 @@ class FileSearcher(object):
 
         return results
 
+    def logfile_sort(self, fname):
+        suffix = fname.partition("log.")[2]
+        if suffix == "":
+            return 0
+
+        idx, key, _ = suffix.partition(".gz")
+        if key == '':
+            try:
+                return int(suffix)
+            except ValueError:
+                return 0
+
+        return int(idx)
+
     def search(self):
         """Execute all the search queries.
 
@@ -459,7 +468,12 @@ class FileSearcher(object):
                 if os.path.isfile(path):
                     jobs[path][path] = self._job_wrapper(pool, path, path)
                 elif os.path.isdir(path):
-                    for e in os.listdir(path):
+                    dir_contents = sorted(os.listdir(path),
+                                          key=self.logfile_sort)
+                    for depth, e in enumerate(dir_contents):
+                        if depth >= constants.MAX_LOGROTATE_DEPTH:
+                            break
+
                         d_entry = os.path.join(path, e)
                         if not os.path.isfile(d_entry):
                             continue
@@ -467,9 +481,17 @@ class FileSearcher(object):
                         jobs[path][d_entry] = self._job_wrapper(pool, path,
                                                                 d_entry)
                 else:
+                    dir_contents = []
                     for e in glob.glob(path):
                         if not os.path.isfile(e):
                             continue
+
+                        dir_contents.append(e)
+
+                    for depth, e in enumerate(sorted(dir_contents,
+                                                     key=self.logfile_sort)):
+                        if depth >= constants.MAX_LOGROTATE_DEPTH:
+                            break
 
                         jobs[path][e] = self._job_wrapper(pool, path, e)
 

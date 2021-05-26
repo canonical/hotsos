@@ -5,6 +5,8 @@ import tempfile
 
 import utils
 
+from common import searchtools
+
 from common.searchtools import (
     FileSearcher,
     FilterDef,
@@ -81,7 +83,7 @@ class TestSearchTools(utils.BaseTestCase):
         s = FileSearcher()
         self.assertEquals(s.num_cpus, 3)
 
-    @mock.patch.object(os, "environ", {"USER_MAX_PARALLEL_TASKS": 2})
+    @mock.patch.object(searchtools.constants, "MAX_PARALLEL_TASKS", 2)
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
         mock_cpu_count.return_value = 3
@@ -194,6 +196,24 @@ class TestSearchTools(utils.BaseTestCase):
             path = os.path.join(os.environ["DATA_ROOT"])
             s.add_search_term(SearchDef("."), path)
             s.search()
+
+    def test_filesearch_filesort(self):
+        ordered_contents = []
+        self.maxDiff = None
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.mknod(os.path.join(dtmp, "my-test-agent.log"))
+            ordered_contents.append("my-test-agent.log")
+            os.mknod(os.path.join(dtmp, "my-test-agent.log.1"))
+            ordered_contents.append("my-test-agent.log.1")
+            for i in range(2, 100):
+                fname = "my-test-agent.log.{}.gz".format(i)
+                os.mknod(os.path.join(dtmp, fname))
+                ordered_contents.append(fname)
+                self.assertEqual(FileSearcher().logfile_sort(fname), i)
+
+            contents = os.listdir(dtmp)
+            self.assertEqual(sorted(contents, key=FileSearcher().logfile_sort),
+                             ordered_contents)
 
     def test_sequence_searcher(self):
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:

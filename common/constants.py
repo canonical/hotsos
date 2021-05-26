@@ -13,3 +13,6 @@ if cli_helpers.bool_str(USE_ALL_LOGS):
     USE_ALL_LOGS = True
 else:
     USE_ALL_LOGS = False
+
+MAX_PARALLEL_TASKS = int(os.environ.get('MAX_PARALLEL_TASKS', 8))
+MAX_LOGROTATE_DEPTH = int(os.environ.get('MAX_LOGROTATE_DEPTH', 7))

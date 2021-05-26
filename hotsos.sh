@@ -105,6 +105,9 @@ OPTIONS
         The searchtools module will execute searches across files in parallel.
         By default the number of cores used is limited to a maximum of 8 and
         you can override that value with this option.
+    --max-logrotate-depth [INT]
+        Defaults to 7. This is maximum logrotate history that will be searched
+        for a given log.
     --openstack-show-cpu-pinning-results
         The Openstack plugin will check for cpu pinning configurations and
         perform checks. By default only brief messgaes will be displayed when
@@ -161,7 +164,11 @@ while (($#)); do
             exit
             ;;
         --max-parallel-tasks)
-            export USER_MAX_PARALLEL_TASKS=$2
+            export MAX_PARALLEL_TASKS=$2
+            shift
+            ;;
+        --max-logrotate-depth)
+            export MAX_LOGROTATE_DEPTH=$2
             shift
             ;;
         -s|--save)
