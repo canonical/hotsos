@@ -154,18 +154,18 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         exprs = []
         if mac:
             for _mac in [mac, libvirt_mac]:
-                exprs.append(r"\s+link/ether\s+({})\s+.+".format(_mac))
+                exprs.append(r"^\s+link/ether\s+({})\s+.+".format(_mac))
         else:
-            exprs.append(r"\d+:\s+({}):\s+.+".format(name))
+            exprs.append(r"^\d+:\s+({}):\s+.+".format(name))
 
         s = FileSearcher()
         sd = SequenceSearchDef(
-                    # match start if interface
-                    start=SearchDef(r"^(?:{})".format('|'.join(exprs))),
+                    # match start of interface
+                    start=SearchDef(exprs),
                     # match body of interface
                     body=SearchDef(r".+"),
                     # match next interface or EOF
-                    end=SearchDef(r"(?:^\d+:\s+\S+:.+|^$)"),
+                    end=SearchDef([r"^\d+:\s+\S+:.+", r"^$"]),
                     tag="ifaces")
         s.add_search_term(sd, path=self.f_ip_link_show)
         results = s.search()

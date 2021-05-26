@@ -18,18 +18,18 @@ class FileSearchException(Exception):
 
 class FilterDef(object):
 
-    def __init__(self, key, invert_match=False):
+    def __init__(self, pattern, invert_match=False):
         """
         Add a filter definition
 
-        @param key: regex pattern to search for
+        @param pattern: regex pattern to search for
         @param invert_match: return True if match is positive
         """
-        self.key = re.compile(key)
+        self.pattern = re.compile(pattern)
         self.invert_match = invert_match
 
     def filter(self, line):
-        ret = self.key.search(line)
+        ret = self.pattern.search(line)
         if self.invert_match:
             return ret is not None
         else:
@@ -38,15 +38,21 @@ class FilterDef(object):
 
 class SearchDef(object):
 
-    def __init__(self, key, tag=None, hint=None):
+    def __init__(self, pattern, tag=None, hint=None):
         """
         Add a search definition
 
-        @param key: regex pattern to search for
+        @param pattern: regex pattern or list of patterns to search for
         @param tag: optional user-friendly identifier for this search term
         @param hint: pre-search term to speed things up
         """
-        self.key = re.compile(key)
+        if type(pattern) != list:
+            self.patterns = [re.compile(pattern)]
+        else:
+            self.patterns = []
+            for _pattern in pattern:
+                self.patterns.append(re.compile(_pattern))
+
         self.tag = tag
         if hint:
             self.hint = re.compile(hint)
@@ -54,12 +60,19 @@ class SearchDef(object):
             self.hint = None
 
     def run(self, line):
+        """Execute search patterns against line and return first match."""
         if self.hint:
             ret = self.hint.search(line)
             if not ret:
                 return None
 
-        return self.key.match(line)
+        ret = None
+        for pattern in self.patterns:
+            ret = pattern.match(line)
+            if ret:
+                return ret
+
+        return ret
 
 
 class SequenceSearchDef(object):
@@ -147,6 +160,14 @@ class SearchResult(object):
 
     def __init__(self, linenumber, source, result, search_term_tag=None,
                  section_idx=None, sequence_obj_id=None):
+        """
+        @param linenumber: line number that produced a match
+        @param source: data source (path)
+        @param result: python.re match object
+        @param search_term_tag: SearchDef object tag
+        @param section_idx: SequenceSearchDef object section id
+        @param sequence_obj_id: SequenceSearchDef object unique id
+        """
         self.tag = search_term_tag
         self.source = source
         self.linenumber = linenumber

@@ -154,8 +154,8 @@ class CephOSDChecks(CephChecksBase):
                                                     self.ceph_volume_lvm_list))
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
-                               body=SearchDef(r"\s+osd\s+(fsid)\s+(\S+)\s*|"
-                                              r"\s+(devices)\s+([\S]+)\s*"),
+                               body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
+                                               r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
         s.add_search_term(sd, path=f_ceph_volume_lvm_list)
         info = {}
@@ -168,8 +168,8 @@ class CephOSDChecks(CephChecksBase):
                 elif result.tag == sd.body_tag:
                     if result.get(1) == "fsid":
                         _info["fsid"] = result.get(2)
-                    elif result.get(3) == "devices":
-                        _info["dev"] = result.get(4)
+                    elif result.get(1) == "devices":
+                        _info["dev"] = result.get(2)
 
             info[_osd_id] = _info
 

@@ -72,9 +72,13 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             "queues": {
                 "searchdef":
                     SequenceSearchDef(
-                        start=SearchDef(r"^Queues on ([^:]+):|"
-                                        r"^Listing queues for vhost ([^:]+) "
-                                        r"..."),
+                        start=SearchDef([r"^Queues on ([^:]+):",
+                                         (r"^Listing queues for vhost ([^:]+) "
+                                          r"...")]),
+                        # NOTE: we don't use a list for the body here because
+                        # we need to know which expression matched so that we
+                        # can know in which order to retrieve the columns since
+                        # their order is inverted between 3.6.x and 3.8.x
                         body=SearchDef(r"^(?:<([^.\s]+)[.0-9]+>\s+(\S+)|"
                                        r"(\S+)\s+(?:\S+\s+){4}<([^.\s]+)[.0-9]"
                                        r"+>)\s+.+"),
@@ -86,8 +90,8 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             "connections": {
                 "searchdef":
                     SequenceSearchDef(
-                        start=SearchDef(r"^Connections:$|"
-                                        r"^Listing connections ...$"),
+                        start=SearchDef([r"^Connections:$",
+                                         r"^Listing connections ...$"]),
                         body=SearchDef(r"^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$"),
                         end=SearchDef(r"^$"),
                         tag="connections"),
@@ -97,8 +101,8 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             "memory": {
                 "searchdef":
                     SequenceSearchDef(
-                        start=SearchDef(r"^Status of node (?:'([^']*)'|"
-                                        r"([^']*) ...)$"),
+                        start=SearchDef([r"^Status of node '([^']*)'$",
+                                         r"^Status of node ([^']*) ...$"]),
                         body=SearchDef(r"^\s+\[{total,([0-9]+)}.+"),
                         end=SearchDef(r"^$"),
                         tag="memory"),
@@ -107,9 +111,8 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
                 },
             "partitioning": {
                 "searchdef":
-                SearchDef(
-                    key=r"^\s*{cluster_partition_handling,([^}]*)}",
-                    tag="cluster_partition_handling"),
+                    SearchDef(r"^\s*{cluster_partition_handling,([^}]*)}",
+                              tag="cluster_partition_handling"),
                 "callbacks":
                 [self.get_partition_handling]
             }
@@ -128,7 +131,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             for result in results:
                 if result.tag == sd.start_tag:
                     # check both report formats
-                    vhost = result.get(1) or result.get(2)
+                    vhost = result.get(1)
                 elif result.tag == sd.body_tag:
                     node_name = result.get(1) or result.get(4)
                     # if we matched the section header, skip
@@ -215,7 +218,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
             for result in results:
                 if result.tag == sd.start_tag:
                     # check both report formats
-                    node_name = result.get(1) or result.get(2)
+                    node_name = result.get(1)
                 elif result.tag == sd.body_tag:
                     total = result.get(1)
                     mib_used = int(total) / 1024. / 1024.
