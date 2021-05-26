@@ -137,6 +137,13 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                             'origin': 'testplugin.01part',
                             'type': 'RabbitMQWarning'}]})
 
+    @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
+    @mock.patch.object(services, "RABBITMQ_INFO", {})
+    def test_get_service_info_no_report(self, mock_rabbitmqctl_report):
+        mock_rabbitmqctl_report.return_value = []
+        services.get_rabbitmq_service_checker()()
+        self.assertFalse("resources" in services.RABBITMQ_INFO)
+
     @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_package_info(self):
         expected = {}

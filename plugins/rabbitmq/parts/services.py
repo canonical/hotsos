@@ -229,8 +229,11 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
     def get_partition_handling(self):
         """Get the partition handling settings."""
-        setting = self.results.find_by_tag(
-            "cluster_partition_handling")[0].get(1)
+        results = self.results.find_by_tag("cluster_partition_handling")
+        if not results:
+            return
+
+        setting = results[0].get(1)
         if setting == "ignore":
             msg = "Cluster partition handling is currently set to ignore. " \
                 "This is potentially dangerous and a setting of " \
