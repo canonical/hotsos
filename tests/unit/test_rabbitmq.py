@@ -54,6 +54,7 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                     'rabbit@juju-52088b-1-lxd-11': '605.539',
                     'rabbit@juju-52088b-0-lxd-11': '1195.559',
                 },
+                'cluster-partition-handling': 'ignore',
             },
         }
 
@@ -68,7 +69,13 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
-                            'origin': 'testplugin.01part'}]})
+                            'origin': 'testplugin.01part'},
+                           {'desc': 'Cluster partition handling is currently '
+                                    'set to ignore. This is potentially '
+                                    'dangerous and a setting of '
+                                    'pause_minority is recommended.',
+                            'origin': 'testplugin.01part',
+                            'type': 'RabbitMQWarning'}]})
 
     @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
     @mock.patch.object(services, "RABBITMQ_INFO", {})
@@ -106,8 +113,9 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                                 }
                         },
                         'queue-connections': {
-                            'rabbit@juju-ba2deb-7-lxd-9': 292}
-                        }
+                            'rabbit@juju-ba2deb-7-lxd-9': 292},
+                        'cluster-partition-handling': 'ignore',
+                    }
                     }
 
         with mock.patch.object(services.issues_utils, 'PLUGIN_TMP_DIR',
@@ -121,7 +129,13 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
-                            'origin': 'testplugin.01part'}]})
+                            'origin': 'testplugin.01part'},
+                           {'desc': 'Cluster partition handling is currently '
+                                    'set to ignore. This is potentially '
+                                    'dangerous and a setting of '
+                                    'pause_minority is recommended.',
+                            'origin': 'testplugin.01part',
+                            'type': 'RabbitMQWarning'}]})
 
     @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_package_info(self):
