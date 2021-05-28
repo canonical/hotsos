@@ -62,9 +62,12 @@ ROUTER_EVENT_SEARCHES = [
 DATA_SOURCE_SYSLOG = os.path.join(constants.DATA_ROOT, 'var/log/syslog')
 DATA_SOURCE_NEUTRON_LOGS = os.path.join(constants.DATA_ROOT,
                                         'var/log/neutron/')
+DATA_SOURCE_NEUTRON_L3_LOGS = os.path.join(constants.DATA_ROOT,
+                                           'var/log/neutron/neutron-l3-agent')
 if constants.USE_ALL_LOGS:
     DATA_SOURCE_SYSLOG = "{}*".format(DATA_SOURCE_SYSLOG)
     DATA_SOURCE_NEUTRON_LOGS = "{}*".format(DATA_SOURCE_NEUTRON_LOGS)
+    DATA_SOURCE_NEUTRON_L3_LOGS = "{}*".format(DATA_SOURCE_NEUTRON_L3_LOGS)
 
 # NOTE: only LP bugs supported for now
 AGENT_BUG_SEARCHES = [
@@ -74,7 +77,7 @@ AGENT_BUG_SEARCHES = [
              "ignoring.*"),
             bug_id="1896506",
             hint="no_track",
-            reason=("identified in neutron-l3-agent logs"),
+            reason=("identified in syslog"),
             ),
         "datasource": DATA_SOURCE_SYSLOG
     },
@@ -84,11 +87,21 @@ AGENT_BUG_SEARCHES = [
              r"'Timeout'.+"),
             bug_id="1907686",
             hint="OVS database",
-            reason=("identified in neutron logs by {}.{}".
-                    format(constants.PLUGIN_NAME, constants.PART_NAME)),
+            reason=("identified in neutron logs"),
             ),
         "datasource": DATA_SOURCE_NEUTRON_LOGS,
-    }
+    },
+    {
+        "def": BugSearchDef(
+            (r".+Error while deleting router \S+: \S+ProcessExecutionError: "
+             r".+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 "
+             r"\d+ \(no filter matched\)"),
+            bug_id="1929832",
+            hint="ProcessExecutionError",
+            reason=("identified in neutron-l3-agent logs"),
+            ),
+        "datasource": DATA_SOURCE_NEUTRON_L3_LOGS,
+    },
 ]
 
 

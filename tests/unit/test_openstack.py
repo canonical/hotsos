@@ -370,6 +370,8 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
         results = c.process_results(s.search())
         self.assertEqual(results, None)
         calls = [mock.call("1896506",
+                           ('identified in syslog')),
+                 mock.call("1929832",
                            ('identified in neutron-l3-agent logs'))]
         mock_add_known_bug.assert_has_calls(calls)
 
@@ -449,7 +451,8 @@ class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
                              'RuntimeError': {'2021-03-29': 3}},
                             'neutron-l3-agent':
                             {'neutron_lib.exceptions.ProcessExecutionError':
-                             {'2021-05-18': 1}},
+                             {'2021-05-18': 1,
+                              '2021-05-26': 1}},
                             }
         nova_expected = {'nova-api-wsgi':
                          {'OSError: Server unexpectedly closed connection':

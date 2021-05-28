@@ -416,3 +416,5 @@
 2021-03-25 18:18:10.885 1686 DEBUG oslo_service.periodic_task [req-4e053bf2-e8b8-4288-bc73-28ad9f1bdca7 - - - - -] Running periodic task L3NATAgentWithStateReport.periodic_sync_routers_task run_periodic_tasks /usr/lib/python3/dist-packages/oslo_service/periodic_task.py:217
 
 2021-05-18 15:16:41.953 935831 ERROR neutron.agent.l3.dvr_local_router neutron_lib.exceptions.ProcessExecutionError: Exit code: 2; Stdin: ; Stdout: ; Stderr: Error: Nexthop has invalid gateway.
+
+2021-05-26 18:56:57.344 3457514 ERROR neutron.agent.l3.agent [-] Error while deleting router 8f14f808-c23a-422b-a3a8-7fb747e89676: neutron_lib.exceptions.ProcessExecutionError: Exit code: 99; Stdin: ; Stdout: ; Stderr: /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 365134 (no filter matched)
