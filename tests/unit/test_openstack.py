@@ -499,8 +499,7 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
                      'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
                     'keepalived':
                     {'transitions':
-                     {'19c40509-225e-49f9-80df-e3c5873f4e64': 3,
-                      '71d46ba3-f737-41bd-a922-8b8012a6444d': 0}}}
+                     {'19c40509-225e-49f9-80df-e3c5873f4e64': 3}}}
         neutron_l3ha.run_checks()()
         self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
 
@@ -514,8 +513,7 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
                      'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
                     'keepalived':
                     {'transitions':
-                     {'19c40509-225e-49f9-80df-e3c5873f4e64': 3,
-                      '71d46ba3-f737-41bd-a922-8b8012a6444d': 0}}}
+                     {'19c40509-225e-49f9-80df-e3c5873f4e64': 3}}}
         neutron_l3ha.run_checks()()
         self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
         self.assertTrue(mock_add_issue.called)

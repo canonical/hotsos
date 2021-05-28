@@ -84,6 +84,11 @@ class NeutronL3HAChecks(object):
             L3HA_CHECKS["keepalived"] = vrrp_states
 
     def get_vrrp_transitions(self):
+        """
+        List routers that have had a vrrp state transition along with the
+        number of transitions. Excludes routers that have not had any change of
+        state.
+        """
         if "keepalived" not in L3HA_CHECKS:
             return
 
@@ -99,7 +104,11 @@ class NeutronL3HAChecks(object):
 
         results = self.searcher.search()
         for router in L3HA_CHECKS["keepalived"]:
-            transitions[router] = len(results.find_by_tag(router))
+            t_count = len(results.find_by_tag(router))
+            if not t_count:
+                continue
+
+            transitions[router] = t_count
 
         if transitions:
             L3HA_CHECKS["keepalived"] = {"transitions": {}}
