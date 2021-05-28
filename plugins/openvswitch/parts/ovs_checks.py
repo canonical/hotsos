@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+import re
 
 from common import (
     constants,
@@ -156,6 +157,8 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
         super().__init__()
         out = cli_helpers.get_ovs_appctl_dpctl_show("system@ovs-system")
         self.f_dpctl = mktemp_dump(''.join(out))
+        bridges = cli_helpers.get_ovs_vsctl_list_br()
+        self.ovs_bridges = [br.strip() for br in bridges]
         self.sequence_defs = []
 
     def __del__(self):
@@ -172,6 +175,24 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
             self.search_obj.add_search_term(sd, self.f_dpctl)
 
     def process_results(self):
+        """
+        Report on interfaces that are showing packet drops or errors.
+
+        Sometimes it is normal for an interface to have packet drops and if
+        we think that is the case we ignore but otherwise we raise an issue
+        to alert.
+
+        Interfaces we currently ignore:
+
+        OVS bridges.
+
+        In Openstack for example when using Neutron HA routers, vrrp peers
+        that are in BACKUP state may still receive packets on their external
+        interface but these will be dropped since they have no where to go. In
+        this case it is possible to have 100% packet drops on the interface
+        if that VR has never been a vrrp MASTER. For this scenario we filter
+        interfaces whose name matches e.g. qg-3ca935f4-07.
+        """
         stats = {}
         all_dropped = []  # interfaces where all packets are dropped
         all_errors = []  # interfaces where all packets are errors
@@ -205,6 +226,11 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
                                 _stats[key]["dropped"] = dropped
 
                 if port and _stats:
+                    # Ports to ignore - see docstring for info
+                    if (port in self.ovs_bridges or
+                            re.compile(r"^(q|s)g-\S{11}$").match(port)):
+                        continue
+
                     for key in _stats:
                         s = _stats[key]
                         if s.get('dropped') and not s['packets']:

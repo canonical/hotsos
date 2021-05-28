@@ -58,10 +58,7 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(utils.BaseTestCase):
     @mock.patch.object(ovs_checks, "OVS_INFO", {})
     def test_get_checks(self):
         expected = {'port-stats':
-                    {'br-int':
-                     {'RX': {'dropped': 133076541760, 'packets': 0},
-                      'TX': {'errors': 13863933, 'packets': 0}},
-                     'qr-1d849332-80':
+                    {'qr-1d849332-80':
                      {'RX':
                       {'dropped': 1394875,
                        'packets': 309}}}}

@@ -439,3 +439,17 @@ def get_ovs_appctl_dpctl_show(dp):
         return open(path, 'r').readlines()
 
     return []
+
+
+@catch_exceptions(OSError)
+def get_ovs_vsctl_list_br():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['ovs-vsctl', 'list-br'])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    path = os.path.join(DATA_ROOT,
+                        "sos_commands/openvswitch/ovs-vsctl_-t_5_list-br")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []
