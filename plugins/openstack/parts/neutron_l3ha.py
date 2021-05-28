@@ -28,6 +28,7 @@ class NeutronL3HAChecks(object):
     def __init__(self):
         self.searcher = FileSearcher()
         self.f_journalctl = None
+        self.router_vrrp_pids = {}
 
     def __del__(self):
         if self.f_journalctl and os.path.exists(self.f_journalctl):
@@ -47,7 +48,6 @@ class NeutronL3HAChecks(object):
         if not os.path.exists(ha_state_path):
             return
 
-        vrrp_states = {}
         router_states = {}
         for entry in os.listdir(ha_state_path):
             entry = os.path.join(ha_state_path, entry)
@@ -75,13 +75,10 @@ class NeutronL3HAChecks(object):
                     if os.path.isfile(pid_path):
                         with open(pid_path) as fd:
                             pid = fd.read().strip()
-                            vrrp_states[router] = pid
+                            self.router_vrrp_pids[router] = pid
 
         if router_states:
             L3HA_CHECKS["agent"] = router_states
-
-        if vrrp_states:
-            L3HA_CHECKS["keepalived"] = vrrp_states
 
     def get_vrrp_transitions(self):
         """
@@ -89,12 +86,12 @@ class NeutronL3HAChecks(object):
         number of transitions. Excludes routers that have not had any change of
         state.
         """
-        if "keepalived" not in L3HA_CHECKS:
+        if not self.router_vrrp_pids:
             return
 
         self._get_journalctl_l3_agent()
         transitions = {}
-        for router in L3HA_CHECKS["keepalived"]:
+        for router in self.router_vrrp_pids:
             vr_id = ROUTER_VR_IDS[router]
             expr = (r"^(\S+) [0-9]+ [0-9:]+ \S+ Keepalived_vrrp"
                     r"\[([0-9]+)\]: VRRP_Instance\(VR_{}\) .+ (\S+) "
@@ -103,7 +100,7 @@ class NeutronL3HAChecks(object):
             self.searcher.add_search_term(d, self.f_journalctl)
 
         results = self.searcher.search()
-        for router in L3HA_CHECKS["keepalived"]:
+        for router in self.router_vrrp_pids:
             t_count = len(results.find_by_tag(router))
             if not t_count:
                 continue
