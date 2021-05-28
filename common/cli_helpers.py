@@ -391,13 +391,13 @@ def get_systemctl_status_all():
 @catch_exceptions(OSError)
 def get_journalctl(unit, date=None):
     if DATA_ROOT == '/':
-        cmd = ['journalctl']
+        cmd = ['journalctl', '-oshort-iso']
     else:
         path = os.path.join(DATA_ROOT, "var/log/journal")
         if not os.path.exists(path):
             return []
 
-        cmd = ['journalctl', '-D', path]
+        cmd = ['journalctl', '-oshort-iso', '-D', path]
 
     if date:
         cmd.append('--since')

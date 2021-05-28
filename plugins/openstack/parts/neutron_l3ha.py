@@ -93,7 +93,7 @@ class NeutronL3HAChecks(object):
         transitions = {}
         for router in self.router_vrrp_pids:
             vr_id = ROUTER_VR_IDS[router]
-            expr = (r"^(\S+) [0-9]+ [0-9:]+ \S+ Keepalived_vrrp"
+            expr = (r"^([0-9-]+)T\S+ \S+ Keepalived_vrrp"
                     r"\[([0-9]+)\]: VRRP_Instance\(VR_{}\) .+ (\S+) "
                     "STATE.*".format(vr_id))
             d = SearchDef(expr, tag=router)
@@ -105,13 +105,18 @@ class NeutronL3HAChecks(object):
             if not t_count:
                 continue
 
-            transitions[router] = t_count
+            for r in results.find_by_tag(router):
+                ts_date = r.get(1)
+                if router not in transitions:
+                    transitions[router] = {}
+
+                if ts_date in transitions[router]:
+                    transitions[router][ts_date] += 1
+                else:
+                    transitions[router][ts_date] = 1
 
         if transitions:
-            L3HA_CHECKS["keepalived"] = {"transitions": {}}
-            for k, v in sorted(transitions.items(), key=lambda x: x[1],
-                               reverse=True):
-                L3HA_CHECKS["keepalived"]["transitions"][k] = v
+            L3HA_CHECKS["keepalived"] = {"transitions": transitions}
 
     def check_vrrp_transitions(self):
         if "transitions" not in L3HA_CHECKS.get("keepalived", {}):
@@ -121,7 +126,8 @@ class NeutronL3HAChecks(object):
         warn_count = 0
         threshold = VRRP_TRANSITION_WARN_THRESHOLD
         for router in L3HA_CHECKS["keepalived"]["transitions"]:
-            transitions = L3HA_CHECKS["keepalived"]["transitions"][router]
+            r = L3HA_CHECKS["keepalived"]["transitions"][router]
+            transitions = sum([t for d, t in r.items()])
             if transitions > threshold:
                 max_transitions = max(transitions, max_transitions)
                 warn_count += 1
