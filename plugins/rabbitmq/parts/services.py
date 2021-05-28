@@ -17,15 +17,12 @@ from common.searchtools import (
 )
 from common.utils import mktemp_dump
 
+from rabbitmq_common import (
+    RabbitMQChecksBase,
+    RMQ_PACKAGES,
+)
+
 RABBITMQ_INFO = {}
-RMQ_SERVICES_EXPRS = [
-    r"beam.smp",
-    r"epmd",
-    r"rabbitmq-server",
-]
-RMQ_PACKAGES = [
-    r"rabbitmq-server",
-]
 
 
 class RabbitMQPackageChecks(checks.APTPackageChecksBase):
@@ -37,11 +34,7 @@ class RabbitMQPackageChecks(checks.APTPackageChecksBase):
             RABBITMQ_INFO["dpkg"] = self.all
 
 
-class RabbitMQServiceChecksBase(checks.ServiceChecksBase):
-    pass
-
-
-class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
+class RabbitMQServiceChecks(RabbitMQChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -263,7 +256,7 @@ class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
 def get_rabbitmq_service_checker():
     # Do this way to make it easier to write unit tests.
-    return RabbitMQServiceChecks(RMQ_SERVICES_EXPRS, hint_range=(0, 3))
+    return RabbitMQServiceChecks()
 
 
 def get_rabbitmq_package_checker():
