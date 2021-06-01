@@ -128,7 +128,7 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                          {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
-                                     'than 2/3 of queues for 1/5 vhost(s)'),
+                                     'than 2/3 of queues for 4/5 vhost(s)'),
                             'origin': 'testplugin.01part'},
                            {'desc': 'Cluster partition handling is currently '
                                     'set to ignore. This is potentially '

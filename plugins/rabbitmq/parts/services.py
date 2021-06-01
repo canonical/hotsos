@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 import os
 
-import functools
-
 from common import (
     checks,
     cli_helpers,
@@ -78,7 +76,7 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
                         end=SearchDef(r"^$"),
                         tag="queues"),
                 "callbacks":
-                    [self.get_queues]
+                    [self.get_queue_info]
                 },
             "connections": {
                 "searchdef":
@@ -113,11 +111,12 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
         for s in self._sequences.values():
             self.searcher.add_search_term(s["searchdef"], self.f_report)
 
-    def get_queues(self):
+    def get_queue_info(self):
         """Get distribution of queues across cluster."""
         sd = self._sequences["queues"]["searchdef"]
         vhost_queues = {}
         issues_raised = {}
+        skewed_queue_nodes = {}
         for results in self.results.find_sequence_sections(sd).values():
             vhost = None
             queues = {}
@@ -136,45 +135,46 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
                     if queue == "name":
                         continue
 
-                    info = {"node_name": node_name,
-                            "queue": queue}
-                    if info["node_name"] not in queues:
-                        queues[info["node_name"]] = 1
-                    else:
-                        queues[info["node_name"]] += 1
+                    if node_name not in queues:
+                        queues[node_name] = 0
+
+                    queues[node_name] += 1
 
             vhost_queues[vhost] = {}
-            if len(queues.keys()) == 0:
+            if not queues:
                 continue
 
-            total = functools.reduce(lambda x, y: x + y,
-                                     list(queues.values()), 0)
-            node_stats = {}
+            total = sum(queues.values())
             for node_name in queues:
                 if total > 0:
                     fraction = queues[node_name] / total
                     fraction_string = "{:.2f}%".format(fraction * 100)
                     if fraction > 2 / 3:
-                        if node_name not in node_stats:
-                            node_stats[node_name] = 0
+                        if node_name not in skewed_queue_nodes:
+                            skewed_queue_nodes[node_name] = 0
 
-                        node_stats[node_name] += 1
+                        skewed_queue_nodes[node_name] += 1
                 else:
                     fraction_string = "N/A"
 
                 vhost_queues[vhost][node_name] = "{:d} ({})".format(
                     queues[node_name], fraction_string)
 
-            if node_stats:
+            # Report the node with the greatest skew of queues/vhost
+            if skewed_queue_nodes:
                 max_node = None
-                for node_name in node_stats:
+                for node_name in skewed_queue_nodes:
                     if max_node is None:
                         max_node = node_name
-                    elif node_stats[node_name] >= max_node:
+                    elif (skewed_queue_nodes[node_name] >=
+                            skewed_queue_nodes[max_node]):
                         max_node = node_name
 
-                issues_raised[max_node] = node_stats[max_node]
+                if (skewed_queue_nodes[max_node] >
+                        issues_raised.get(max_node, 0)):
+                    issues_raised[max_node] = skewed_queue_nodes[max_node]
 
+        # this should only actually ever report one node
         for node_name in issues_raised:
             msg = ("{} holds more than 2/3 of queues for {}/{} vhost(s)".
                    format(node_name, issues_raised[node_name],
