@@ -462,19 +462,32 @@ class FileSearcher(object):
 
         return results
 
-    def logfile_sort(self, fname):
-        suffix = fname.partition("log.")[2]
-        if suffix == "":
+    def logrotate_file_sort(self, fname):
+        """
+        This is used to sort the contents of a directory by passing the
+        function as a the key to a list sort.
+
+        Assumes that the filename use logrotate format i.e. .log, .log.1,
+        .log.2.gz etc.
+        """
+
+        filters = [r"\S+\.log$",
+                   r"\S+\.log\.(\d+)$",
+                   r"\S+\.log\.(\d+)\.gz?$"]
+        for filter in filters:
+            ret = re.compile(filter).match(fname)
+            if ret:
+                break
+
+        # files that dont follow logrotate naming format go to the end.
+        if not ret:
+            # put at the end
+            return 100000
+
+        if len(ret.groups()) == 0:
             return 0
 
-        idx, key, _ = suffix.partition(".gz")
-        if key == '':
-            try:
-                return int(suffix)
-            except ValueError:
-                return 0
-
-        return int(idx)
+        return int(ret.group(1))
 
     def search(self):
         """Execute all the search queries.
@@ -490,7 +503,7 @@ class FileSearcher(object):
                     jobs[path][path] = self._job_wrapper(pool, path, path)
                 elif os.path.isdir(path):
                     dir_contents = sorted(os.listdir(path),
-                                          key=self.logfile_sort)
+                                          key=self.logrotate_file_sort)
                     for depth, e in enumerate(dir_contents):
                         if depth >= constants.MAX_LOGROTATE_DEPTH:
                             break
@@ -509,8 +522,9 @@ class FileSearcher(object):
 
                         dir_contents.append(e)
 
-                    for depth, e in enumerate(sorted(dir_contents,
-                                                     key=self.logfile_sort)):
+                    for depth, e in enumerate(
+                            sorted(dir_contents,
+                                   key=self.logrotate_file_sort)):
                         if depth >= constants.MAX_LOGROTATE_DEPTH:
                             break
 

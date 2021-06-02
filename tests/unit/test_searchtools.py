@@ -205,14 +205,19 @@ class TestSearchTools(utils.BaseTestCase):
             ordered_contents.append("my-test-agent.log")
             os.mknod(os.path.join(dtmp, "my-test-agent.log.1"))
             ordered_contents.append("my-test-agent.log.1")
+            # add in an erroneous file that does not follow logrotate format
+            os.mknod(os.path.join(dtmp, "my-test-agent.log.tar.gz"))
             for i in range(2, 100):
                 fname = "my-test-agent.log.{}.gz".format(i)
                 os.mknod(os.path.join(dtmp, fname))
                 ordered_contents.append(fname)
-                self.assertEqual(FileSearcher().logfile_sort(fname), i)
+                self.assertEqual(FileSearcher().logrotate_file_sort(fname), i)
+
+            ordered_contents.append("my-test-agent.log.tar.gz")
 
             contents = os.listdir(dtmp)
-            self.assertEqual(sorted(contents, key=FileSearcher().logfile_sort),
+            self.assertEqual(sorted(contents,
+                                    key=FileSearcher().logrotate_file_sort),
                              ordered_contents)
 
     def test_sequence_searcher(self):
