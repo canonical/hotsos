@@ -474,7 +474,12 @@ class FileSearcher(object):
             except ValueError:
                 return 0
 
-        return int(idx)
+        try:
+            int_idx = int(idx)
+        except ValueError:
+            return 0
+
+        return int_idx
 
     def search(self):
         """Execute all the search queries.
