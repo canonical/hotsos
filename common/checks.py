@@ -4,6 +4,7 @@ import re
 from common import (
     cli_helpers,
 )
+from common.utils import sorted_dict
 
 SVC_EXPR_TEMPLATES = {
     "absolute": r".+\S+bin/({})(?:\s+.+|$)",
@@ -88,20 +89,32 @@ class ServiceChecksBase(object):
 
 class PackageChecksBase(object):
 
+    def get_version(self, pkg):
+        """
+        Return version of package.
+        """
+        raise NotImplementedError
+
+    @staticmethod
+    def dict_to_formatted_str_list(f):
+        """
+        Convert dict returned by function f to a list of strings of format
+        '<name> <version>'.
+        """
+        def _dict_to_formatted_str_list(*args, **kwargs):
+            ret = f(*args, **kwargs)
+            return ["{} {}".format(*e) for e in ret.items()]
+
+        return _dict_to_formatted_str_list
+
     @property
     def all(self):
-        """
-        Returns list results matched for all expressions. List items have the
-        format "<name> <version>".
-        """
+        """ Returns results matched for all expressions. """
         raise NotImplementedError
 
     @property
     def core(self):
-        """
-        Returns list results matched for core expressions. List items have the
-        format "<name> <version>".
-        """
+        """ Returns results matched for core expressions. """
         raise NotImplementedError
 
 
@@ -117,25 +130,38 @@ class APTPackageChecksBase(PackageChecksBase):
         """
         self.core_pkg_exprs = core_pkgs
         self.other_pkg_exprs = other_pkgs or []
-        self._core_packages = []
-        self._other_packages = []
-        self._all_packages = []
+        self._core_packages = {}
+        self._other_packages = {}
+        self._all_packages = {}
+        # The following expression muct match any package name.
         self._match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
 
+    def get_version(self, pkg):
+        """ Return version of package. """
+        if pkg in self._all:
+            return self._all[pkg]
+
+        dpkg_l = cli_helpers.get_dpkg_l()
+        if dpkg_l:
+            for line in dpkg_l:
+                name, version = self._match_package(pkg, line)
+                if name:
+                    return version
+
     def _match_package(self, pkg, entry):
+        """ Returns tuple of (package name, version) """
         expr = self._match_expr_template.format(pkg)
         ret = re.compile(expr).match(entry)
         if ret:
             pyprefix = ret[1] or ""
-            return "{}{} {}".format(pyprefix, ret[2], ret[3])
+            return "{}{}".format(pyprefix, ret[2]), ret[3]
+
+        return None, None
 
     @property
-    def all(self):
-        """
-        Returns list of all packages matched. Each entry in the list is an item
-        looking like "<pkgname> <pkgver>".
-        """
+    def _all(self):
+        """ Returns dict of all packages matched. """
         if self._all_packages:
             return self._all_packages
 
@@ -146,21 +172,36 @@ class APTPackageChecksBase(PackageChecksBase):
         all_exprs = self.core_pkg_exprs + self.other_pkg_exprs
         for line in dpkg_l:
             for pkg in all_exprs:
-                result = self._match_package(pkg, line)
-                if result:
-                    if pkg in self.core_pkg_exprs:
-                        self._core_packages.append(result)
-                    else:
-                        self._other_packages.append(result)
+                name, version = self._match_package(pkg, line)
+                if name is None:
+                    continue
+
+                if pkg in self.core_pkg_exprs:
+                    self._core_packages[name] = version
+                else:
+                    self._other_packages[name] = version
 
         # ensure sorted
-        self._core_packages = sorted(self._core_packages)
-        self._other_packages = sorted(self._other_packages)
-        self._all_packages = sorted(self._core_packages + self._other_packages)
+        self._core_packages = sorted_dict(self._core_packages)
+        self._other_packages = sorted_dict(self._other_packages)
+        combined = {}
+        combined.update(self._core_packages)
+        combined.update(self._other_packages)
+        self._all_packages = sorted_dict(combined)
 
         return self._all_packages
 
     @property
+    @PackageChecksBase.dict_to_formatted_str_list
+    def all(self):
+        """
+        Returns list of all packages matched. Each entry in the list is an item
+        looking like "<pkgname> <pkgver>".
+        """
+        return self._all
+
+    @property
+    @PackageChecksBase.dict_to_formatted_str_list
     def core(self):
         """
         Only return results that matched from the "core" set of packages.
@@ -169,7 +210,7 @@ class APTPackageChecksBase(PackageChecksBase):
             return self._core_packages
 
         if self._other_packages:
-            return []
+            return {}
 
         # go fetch
         self.all
@@ -188,43 +229,53 @@ class SnapPackageChecksBase(PackageChecksBase):
         """
         self.core_snap_exprs = core_snaps
         self.other_snap_exprs = other_snaps or []
-        self._core_snaps = []
-        self._other_snaps = []
-        self._all_snaps = []
+        self._core_snaps = {}
+        self._other_snaps = {}
+        self._all_snaps = {}
         self._match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
 
-    @classmethod
-    def _get_snap_info_from_line(cls, line, snap):
+    def get_version(self, snap):
+        """ Return version of package. """
+        if snap in self._all:
+            return self._all[snap]
+
+        snap_list_all = cli_helpers.get_snap_list_all()
+        if snap_list_all:
+            for line in snap_list_all:
+                name, version = self._get_snap_info_from_line(line, snap)
+                if name:
+                    return version
+
+    def _get_snap_info_from_line(self, line, snap):
         """Returns snap name and version if found in line.
 
-        @return: tuple of (name, version) or None
+        @return: tuple of (name, version) or None, None
         """
         ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
         if ret:
             return (ret[1], ret[2])
 
-        return None
+        return None, None
 
     @property
-    def all(self):
+    def _all(self):
         if self._all_snaps:
             return self._all_snaps
 
         snap_list_all = cli_helpers.get_snap_list_all()
         if not snap_list_all:
-            return []
+            return {}
 
         _core = {}
         _other = {}
         all_exprs = self.core_snap_exprs + self.other_snap_exprs
         for line in snap_list_all:
             for snap in all_exprs:
-                info = self._get_snap_info_from_line(line, snap)
-                if not info:
+                name, version = self._get_snap_info_from_line(line, snap)
+                if not name:
                     continue
 
-                name, version = info
                 # only show latest version installed
                 if snap in self.core_snap_exprs:
                     if name in _core:
@@ -240,15 +291,25 @@ class SnapPackageChecksBase(PackageChecksBase):
                         _other[name] = version
 
         # ensure sorted
-        self._core_snaps = sorted(["{} {}".format(name, _core[name])
-                                   for name in _core])
-        self._other_snaps = sorted(["{} {}".format(name, _other[name])
-                                    for name in _other])
-        self._all_snaps = sorted(self._core_snaps + self._other_snaps)
+        self._core_snaps = sorted_dict(_core)
+        self._other_snaps = sorted_dict(_other)
+        combined = {}
+        combined.update(_core)
+        combined.update(_other)
+        self._all_snaps = sorted_dict(combined)
 
         return self._all_snaps
 
     @property
+    @PackageChecksBase.dict_to_formatted_str_list
+    def all(self):
+        """
+        Return results that matched from the all/any set of snaps.
+        """
+        return self._all
+
+    @property
+    @PackageChecksBase.dict_to_formatted_str_list
     def core(self):
         """
         Only return results that matched from the "core" set of snaps.
@@ -257,7 +318,7 @@ class SnapPackageChecksBase(PackageChecksBase):
             return self._core_snaps
 
         if self._other_snaps:
-            return []
+            return {}
 
         # go fetch
         self.all

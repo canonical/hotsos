@@ -54,8 +54,8 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         for line in self.snaps_list:
             found = False
             for snap in general.SNAPS_K8S:
-                cls = general.KubernetesPackageChecks
-                if cls._get_snap_info_from_line(line, snap):
+                obj = general.KubernetesPackageChecks([])
+                if obj._get_snap_info_from_line(line, snap):
                     found = True
                     break
 
