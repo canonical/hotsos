@@ -580,6 +580,13 @@ ii  nova-compute-libvirt                   2:17.0.12-0ubuntu1~cloud0            
 ii  ntfs-3g                                1:2015.3.14AR.1-1ubuntu0.3                      amd64        read/write NTFS driver for FUSE
 ii  ntp                                    1:4.2.8p4+dfsg-3ubuntu5.10                      amd64        Network Time Protocol daemon and utility programs
 ii  ntpdate                                1:4.2.8p4+dfsg-3ubuntu5.10                      amd64        client for setting system time from NTP servers
+ii  octavia-api                            6.1.0-0ubuntu1~cloud0                           all          OpenStack Load Balancer as a Service - API frontend
+ii  octavia-common                         6.1.0-0ubuntu1~cloud0                           all          OpenStack Load Balancer as a Service - Common files
+ii  octavia-health-manager                 6.1.0-0ubuntu1~cloud0                           all          OpenStack Load Balancer Service - Health manager
+ii  octavia-housekeeping                   6.1.0-0ubuntu1~cloud0                           all          OpenStack Load Balancer Service - Housekeeping manager
+ii  octavia-worker                         6.1.0-0ubuntu1~cloud0                           all          OpenStack Load Balancer Service - Worker
+ii  python3-octavia                        6.1.0-0ubuntu1~cloud0                           all          OpenStack Load Balancer as a Service - Python libraries
+ii  python3-octavia-lib                    2.0.0-0ubuntu1~cloud0                           all          Library to support Octavia provider drivers
 ii  open-iscsi                             2.0.873+git0.3b4b4500-14ubuntu3.7               amd64        iSCSI initiator tools
 ii  open-vm-tools                          2:10.2.0-3~ubuntu0.16.04.1                      amd64        Open VMware Tools for virtual machines hosted on VMware (CLI)
 ii  openssh-client                         1:7.2p2-4ubuntu2.8                              amd64        secure shell (SSH) client, for secure access to remote machines
