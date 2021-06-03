@@ -18,10 +18,11 @@ from plugins.openstack.parts import (  # noqa E402
     network,
     service_features,
     cpu_pinning_check,
-    agent_checks,
+    neutron_agent_checks,
     agent_exceptions,
     neutron_l3ha,
     service_checks,
+    octavia_agent_checks,
 )
 
 
@@ -207,6 +208,11 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'nova-compute 2:17.0.12-0ubuntu1~cloud0',
             'nova-compute-kvm 2:17.0.12-0ubuntu1~cloud0',
             'nova-compute-libvirt 2:17.0.12-0ubuntu1~cloud0',
+            'octavia-api 6.1.0-0ubuntu1~cloud0',
+            'octavia-common 6.1.0-0ubuntu1~cloud0',
+            'octavia-health-manager 6.1.0-0ubuntu1~cloud0',
+            'octavia-housekeeping 6.1.0-0ubuntu1~cloud0',
+            'octavia-worker 6.1.0-0ubuntu1~cloud0',
             'python-barbicanclient 4.6.0-0ubuntu1~cloud0',
             'python-ceilometer 1:10.0.1-0ubuntu0.18.04.2~cloud0',
             'python-ceilometerclient 2.9.0-0ubuntu1~cloud0',
@@ -241,6 +247,8 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'python-oslo.utils 3.35.0-0ubuntu1~cloud0',
             'python-oslo.versionedobjects 1.31.2-0ubuntu3~cloud0',
             'python-swiftclient 1:3.5.0-0ubuntu1~cloud0',
+            'python3-octavia 6.1.0-0ubuntu1~cloud0',
+            'python3-octavia-lib 2.0.0-0ubuntu1~cloud0',
             'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
         package_info.get_checks()()
         self.assertEquals(package_info.OST_PKG_INFO['dpkg'], expected)
@@ -357,15 +365,15 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
                                            "avg": 25.9,
                                            "samples": 1}}}
         s = searchtools.FileSearcher()
-        c = agent_checks.NeutronOVSAgentEventChecks(s)
+        c = neutron_agent_checks.NeutronOVSAgentEventChecks(s)
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results, expected)
 
-    @mock.patch.object(agent_checks, "add_known_bug")
+    @mock.patch.object(neutron_agent_checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
         s = searchtools.FileSearcher()
-        c = agent_checks.NeutronAgentBugChecks(s)
+        c = neutron_agent_checks.NeutronAgentBugChecks(s)
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results, None)
@@ -401,35 +409,36 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
                                                 'start': update_start}}}}
 
         s = searchtools.FileSearcher()
-        c = agent_checks.NeutronL3AgentEventChecks(s)
+        c = neutron_agent_checks.NeutronL3AgentEventChecks(s)
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results, expected)
 
-    @mock.patch.object(agent_checks, "NeutronOVSAgentEventChecks")
-    @mock.patch.object(agent_checks, "NeutronL3AgentEventChecks")
-    @mock.patch.object(agent_checks, "NeutronAgentBugChecks")
-    @mock.patch.object(agent_checks, "AGENT_CHECKS_RESULTS",
+    @mock.patch.object(neutron_agent_checks, "NeutronOVSAgentEventChecks")
+    @mock.patch.object(neutron_agent_checks, "NeutronL3AgentEventChecks")
+    @mock.patch.object(neutron_agent_checks, "NeutronAgentBugChecks")
+    @mock.patch.object(neutron_agent_checks, "AGENT_CHECKS_RESULTS",
                        {"agent-checks": {}})
-    def test_run_agent_checks(self, mock_agent_bug_checks,
-                              mock_l3_agent_checks, mock_ovs_agent_checks):
+    def test_run_neutron_agent_checks(self, mock_agent_bug_checks,
+                                      mock_l3_neutron_agent_checks,
+                                      mock_ovs_neutron_agent_checks):
         c = mock_agent_bug_checks.return_value
         c.process_results.return_value = None
 
-        c = mock_l3_agent_checks.return_value
+        c = mock_l3_neutron_agent_checks.return_value
         c.master_results_key = "k1"
         c.process_results.return_value = "r1"
 
-        c = mock_ovs_agent_checks.return_value
+        c = mock_ovs_neutron_agent_checks.return_value
         c.master_results_key = "k2"
         c.process_results.return_value = "r2"
 
-        agent_checks.run_agent_checks()
+        neutron_agent_checks.run_agent_checks()
         self.assertTrue(mock_agent_bug_checks.called)
-        self.assertTrue(mock_l3_agent_checks.called)
-        self.assertTrue(mock_ovs_agent_checks.called)
+        self.assertTrue(mock_l3_neutron_agent_checks.called)
+        self.assertTrue(mock_ovs_neutron_agent_checks.called)
         # results should be empty if we have mocked everything
-        self.assertEqual(agent_checks.AGENT_CHECKS_RESULTS,
+        self.assertEqual(neutron_agent_checks.AGENT_CHECKS_RESULTS,
                          {"agent-checks": {"k1": "r1",
                                            "k2": "r2"}})
 
@@ -556,3 +565,26 @@ class TestOpenstackPluginPartServiceChecks(utils.BaseTestCase):
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
         service_checks.run_service_checks()()
         self.assertTrue(mock_add_issue.called)
+
+
+class TestOpenstackPluginPartOctaviaLBs(utils.BaseTestCase):
+
+    @mock.patch.object(octavia_agent_checks, "LB_CHECKS", {})
+    def test_get_lb_failovers(self):
+        expected = {'amp-missed-heartbeats': {
+                     '2021-06-01': {
+                      '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1,
+                      }},
+                    'lb-failovers': {
+                     'auto': {
+                      '2021-03-09': {
+                          '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
+                          '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
+                          '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
+                          'e9cb98af-9c21-4cf6-9661-709179ce5733': 1,
+                        }
+                      }
+                     }
+                    }
+        octavia_agent_checks.run_checks()()
+        self.assertEqual(octavia_agent_checks.LB_CHECKS, expected)
