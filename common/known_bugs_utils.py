@@ -14,31 +14,35 @@ KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
 
 class BugSearchDef(SearchDef):
     def __init__(self, expr, bug_id, hint, reason,
-                 reason_value_render_indexes=None):
+                 reason_format_result_groups=None):
         """
         @param reason: string reason describing the issue and why it has been
         flagged. This string can be a template i.e. containing {} fields that
         can be rendered using results.
-        @param reason_value_render_indexes: if the reason string is a template,
+        @param reason_format_result_groups: if the reason string is a template,
         this is a list of indexes in the results that can be extracted for
         inclusion in the reason.
         """
         super().__init__(expr, tag=bug_id, hint=hint)
-        self.reason = reason
+        self._reason = reason
         if reason is None:
-            self.reason = ""
+            self._reason = ""
 
-        self.reason_value_render_indexes = reason_value_render_indexes
+        self.reason_format_result_groups = reason_format_result_groups
 
-    def render_reason(self, search_result):
-        if self.reason and self.reason_value_render_indexes:
+    @property
+    def reason(self):
+        return self._reason
+
+    def rendered_reason(self, search_result):
+        if self._reason and self.reason_format_result_groups:
             values = []
-            for idx in self.reason_value_render_indexes:
+            for idx in self.reason_format_result_groups:
                 values.append(search_result.get(idx))
 
-            return self.reason.format(*values)
+            return self._reason.format(*values)
 
-        return self.reason
+        return self._reason
 
 
 def _get_known_bugs():

@@ -1,16 +1,173 @@
 #!/usr/bin/python3
+import os
 import re
+import yaml
 
 from common import (
     cli_helpers,
+    constants,
 )
 from common.utils import sorted_dict
+from common.known_bugs_utils import (
+    add_known_bug,
+    BugSearchDef,
+)
+from common.searchtools import (
+    SearchDef,
+)
 
 SVC_EXPR_TEMPLATES = {
     "absolute": r".+\S+bin/({})(?:\s+.+|$)",
     "snap": r".+\S+\d+/({})(?:\s+.+|$)",
     "relative": r".+\s({})(?:\s+.+|$)",
     }
+
+
+class ChecksBase(object):
+
+    def __init__(self, searchobj, root):
+        """
+        @param searchobj: FileSearcher object used for searches.
+        @param root: yaml root key
+        """
+        self.searchobj = searchobj
+        self._yaml_root = root
+
+    def register_search_terms(self):
+        raise NotImplementedError
+
+    def process_results(self, results):
+        raise NotImplementedError
+
+
+class BugChecksBase(ChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._bug_defs = []
+
+    def _load_bug_definitions(self):
+        """
+        Load bug search definitions from yaml.
+
+        @return: list of BugSearchDef objects
+        """
+        path = os.path.join(constants.PLUGIN_YAML_DEFS, "bugs.yaml")
+        with open(path) as fd:
+            yaml_defs = yaml.safe_load(fd.read())
+
+        bugs = yaml_defs.get(self._yaml_root, {})
+        for id in bugs:
+            bug = bugs[id]
+            reason_format = bug.get("reason-format-result-groups")
+            _def = BugSearchDef(bug["expr"],
+                                bug_id=str(id),
+                                hint=bug["hint"],
+                                reason=bug["reason"],
+                                reason_format_result_groups=reason_format)
+            bdef = {"def": _def}
+
+            ds = os.path.join(constants.DATA_ROOT, bug["datasource"])
+            if bug.get("allow-all-logs", True) and constants.USE_ALL_LOGS:
+                ds = "{}*".format(ds)
+
+            bdef["datasource"] = ds
+            self._bug_defs.append(bdef)
+
+    @property
+    def bug_definitions(self):
+        """
+        @return: dict of SearchDef objects and datasource for all entries in
+        bugs.yaml under _yaml_root.
+        """
+        if self._bug_defs:
+            return self._bug_defs
+
+        self._load_bug_definitions()
+        return self._bug_defs
+
+    def register_search_terms(self):
+        for bugsearch in self.bug_definitions:
+            self.searchobj.add_search_term(bugsearch["def"],
+                                           bugsearch["datasource"])
+
+    def process_results(self, results):
+        for bugsearch in self.bug_definitions:
+            tag = bugsearch["def"].tag
+            _results = results.find_by_tag(tag)
+            if _results:
+                if bugsearch["def"].reason_format_result_groups:
+                    reason = bugsearch["def"].rendered_reason(_results[0])
+                    add_known_bug(tag, reason)
+                else:
+                    add_known_bug(tag, bugsearch["def"].reason)
+
+
+class EventChecksBase(ChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._event_defs = {}
+
+    def _load_event_definitions(self):
+        """
+        Load event search definitions from yaml.
+
+        An event has two expressions; one to identify the start and one to
+        identify the end. Note that these events can be overlapping hence why
+        we don't use a SequenceSearchDef.
+        """
+        path = os.path.join(constants.PLUGIN_YAML_DEFS, "events.yaml")
+        with open(path) as fd:
+            yaml_defs = yaml.safe_load(fd.read())
+
+        for group_name, group in yaml_defs.get(self._yaml_root, {}).items():
+            for label in group:
+                event = group[label]
+                start = SearchDef(event["start"]["expr"],
+                                  tag="{}-start".format(label),
+                                  hint=event["start"]["hint"])
+                end = SearchDef(event["end"]["expr"],
+                                tag="{}-end".format(label),
+                                hint=event["end"]["hint"])
+
+                ds = os.path.join(constants.DATA_ROOT, event["datasource"])
+                if (event.get("allow-all-logs", True) and
+                        constants.USE_ALL_LOGS):
+                    ds = "{}*".format(ds)
+
+                if group_name not in self._event_defs:
+                    self._event_defs[group_name] = {}
+
+                if label not in self._event_defs[group_name]:
+                    self._event_defs[group_name][label] = {}
+
+                self._event_defs[group_name][label] = \
+                    {"searchdefs": [start, end], "datasource": ds}
+
+    @property
+    def event_definitions(self):
+        """
+        @return: dict of SearchDef objects and datasource for all entries in
+        events.yaml under _yaml_root.
+        """
+        if self._event_defs:
+            return self._event_defs
+
+        self._load_event_definitions()
+        return self._event_defs
+
+    def register_search_terms(self):
+        """
+        Register the search definitions for all events.
+
+        @param root_key: events.yaml root key
+        """
+        for defs in self.event_definitions.values():
+            for label in defs:
+                event = defs[label]
+                for sd in event["searchdefs"]:
+                    self.searchobj.add_search_term(sd, event["datasource"])
 
 
 class ServiceChecksBase(object):

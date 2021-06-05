@@ -22,22 +22,28 @@
 PROGRESS_PID=
 DEBUG_MODE=false
 MIMIMAL_MODE=false
-# These globals are made available to all plugins
+
+#================================= ENV =========================================
+# The following are made available to all plugins
+
+# Root of all data which will be either host / or sosreport root.
 export DATA_ROOT
-# plugin args - prefix must be plugin name
+# Plugin args - prefix must be plugin name
 export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
 export OPENSTACK_AGENT_ERROR_KEY_BY_TIME=false
-# This is the path to the end product that plugins can see along the way.
+# Path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT
 export USE_ALL_LOGS=false
-# this is set to the name of the current plugin being executed
+# Name of the current plugin being executed
 export PLUGIN_NAME
-# this is set to the name of the current plugin part being executed
+# Name of the current plugin part being executed
 export PART_NAME
-# This is a scratch area for each plugin to use and a fresh one is created at
-# the start of each plugin execution then destroyed once all parts are
-# executed.
+# Scratch area for each plugin to use. A fresh one is created at start of
+# each plugin execution then destroyed once all parts are executed.
 export PLUGIN_TMP_DIR
+# location if yaml defs of issues, bugs etc
+export PLUGIN_YAML_DEFS
+#===============================================================================
 
 MASTER_YAML_OUT=`mktemp`
 SAVE_OUTPUT=false
@@ -263,6 +269,7 @@ run_part ()
 
     # Needed by python plugins
     export PYTHONPATH="$CWD/plugins/$plugin"
+    export PLUGIN_YAML_DEFS="$CWD/plugins/$plugin/defs"
 
     $CWD/plugins/$plugin/parts/$part >> $MASTER_YAML_OUT
 

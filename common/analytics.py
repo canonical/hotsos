@@ -133,7 +133,7 @@ class LogSequenceBase(object):
             event_id = result.get(self.log_seq_idxs.event_id)
             duration = result.get(self.log_seq_idxs.duration)
             if duration is not None:
-                duration = float(duration)
+                duration = round(float(duration), 2)
 
             end = "{} {}".format(day, secs)
             end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
@@ -167,7 +167,7 @@ class LogSequenceBase(object):
                         # set ingore it.
                         continue
 
-                    duration = float(etime.total_seconds())
+                    duration = round(float(etime.total_seconds()), 2)
 
                 self.data.update_sequence(unique_key, "duration", duration)
 

@@ -1,0 +1,23 @@
+# Definitions used to identify known bugs.
+#
+# REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
+#
+neutron:
+  1896506:
+    expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
+    hint: 'no_track'
+    reason: 'identified in syslog'
+    datasource: 'var/log/syslog'
+    allow-all-logs: True
+  1907686:
+    expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
+    hint: 'OVS database'
+    reason: 'identified in neutron logs'
+    datasource: 'var/log/neutron/neutron-openvswitch-agent.log'
+    allow-all-logs: True
+  1929832:
+    expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
+    hint: 'ProcessExecutionError'
+    reason: 'identified in neutron-l3-agent logs'
+    datasource: 'var/log/neutron/neutron-l3-agent.log'
+    allow-all-logs: True

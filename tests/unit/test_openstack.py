@@ -83,12 +83,6 @@ def fake_ip_link_show_no_errors_drops():
 
 class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     @mock.patch.object(openstack_services, "OPENSTACK_INFO", {})
     def test_get_service_info(self):
         expected = ['beam.smp (1)',
@@ -138,12 +132,6 @@ class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
 
 class TestOpenstackPluginPartVm_info(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     @mock.patch.object(vm_info, "VM_INFO", {})
     def test_get_vm_checks(self):
         vm_info.get_vm_checks()()
@@ -152,12 +140,6 @@ class TestOpenstackPluginPartVm_info(utils.BaseTestCase):
 
 
 class TestOpenstackPluginPartNova_external_events(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     @mock.patch.object(nova_external_events, "EXT_EVENT_INFO", {})
     def test_get_events(self):
@@ -177,12 +159,6 @@ class TestOpenstackPluginPartNova_external_events(utils.BaseTestCase):
 
 
 class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     @mock.patch.object(package_info, 'OST_PKG_INFO', {})
     def test_get_pkg_info(self):
@@ -256,12 +232,6 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
 
 class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
     def test_get_port_stat_by_name(self):
@@ -319,12 +289,6 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
 
 class TestOpenstackPluginPartService_features(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     @mock.patch.object(service_features, "SERVICE_FEATURES", {})
     def test_get_service_features(self):
         service_features.get_service_features()
@@ -334,12 +298,6 @@ class TestOpenstackPluginPartService_features(utils.BaseTestCase):
 
 class TestOpenstackPluginPartCpu_pinning_check(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     def test_cores_to_list(self):
         ret = cpu_pinning_check.cores_to_list("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
@@ -347,11 +305,13 @@ class TestOpenstackPluginPartCpu_pinning_check(utils.BaseTestCase):
 
 class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # These are static but that should be fine since they would be in a
+        # real scenario.
+        neutron_agent_checks.checks.os.environ["PLUGIN_NAME"] = "openstack"
+        neutron_agent_checks.checks.constants.PLUGIN_YAML_DEFS = \
+            os.path.join(utils.TESTS_DIR, "plugins/openstack/defs")
 
     def test_process_rpc_loop_results(self):
         end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
@@ -365,15 +325,17 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
                                            "avg": 25.9,
                                            "samples": 1}}}
         s = searchtools.FileSearcher()
-        c = neutron_agent_checks.NeutronOVSAgentEventChecks(s)
+        root_key = "neutron-agent-checks"
+        group_key = "neutron-ovs-agent"
+        c = neutron_agent_checks.NeutronAgentEventChecks(s, root_key)
         c.register_search_terms()
         results = c.process_results(s.search())
-        self.assertEqual(results, expected)
+        self.assertEqual(results.get(group_key), expected)
 
-    @mock.patch.object(neutron_agent_checks, "add_known_bug")
+    @mock.patch.object(neutron_agent_checks.checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
         s = searchtools.FileSearcher()
-        c = neutron_agent_checks.NeutronAgentBugChecks(s)
+        c = neutron_agent_checks.NeutronAgentBugChecks(s, "neutron")
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results, None)
@@ -395,61 +357,37 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
                                                       'samples': 1,
                                                       'stdev': 0.0},
                                             'top': {router:
-                                                    {'duration': 36.091,
+                                                    {'duration': 36.09,
                                                      'end': spawn_end,
                                                      'start': spawn_start}}},
                     'router-updates': {'stats': {'avg': 28.14,
                                                  'max': 42.22,
                                                  'min': 14.07,
                                                  'samples': 2,
-                                                 'stdev': 14.08},
+                                                 'stdev': 14.07},
                                        'top': {router:
-                                               {'duration': 42.222,
+                                               {'duration': 42.22,
                                                 'end': update_end,
                                                 'start': update_start}}}}
 
         s = searchtools.FileSearcher()
-        c = neutron_agent_checks.NeutronL3AgentEventChecks(s)
+        root_key = "neutron-agent-checks"
+        group_key = "neutron-l3-agent"
+        c = neutron_agent_checks.NeutronAgentEventChecks(s, root_key)
         c.register_search_terms()
         results = c.process_results(s.search())
-        self.assertEqual(results, expected)
+        self.assertEqual(results.get(group_key), expected)
 
-    @mock.patch.object(neutron_agent_checks, "NeutronOVSAgentEventChecks")
-    @mock.patch.object(neutron_agent_checks, "NeutronL3AgentEventChecks")
+    @mock.patch.object(neutron_agent_checks, "NeutronAgentEventChecks")
     @mock.patch.object(neutron_agent_checks, "NeutronAgentBugChecks")
-    @mock.patch.object(neutron_agent_checks, "AGENT_CHECKS_RESULTS",
-                       {"agent-checks": {}})
     def test_run_neutron_agent_checks(self, mock_agent_bug_checks,
-                                      mock_l3_neutron_agent_checks,
-                                      mock_ovs_neutron_agent_checks):
-        c = mock_agent_bug_checks.return_value
-        c.process_results.return_value = None
-
-        c = mock_l3_neutron_agent_checks.return_value
-        c.master_results_key = "k1"
-        c.process_results.return_value = "r1"
-
-        c = mock_ovs_neutron_agent_checks.return_value
-        c.master_results_key = "k2"
-        c.process_results.return_value = "r2"
-
+                                      mock_agent_event_checks):
         neutron_agent_checks.run_agent_checks()
         self.assertTrue(mock_agent_bug_checks.called)
-        self.assertTrue(mock_l3_neutron_agent_checks.called)
-        self.assertTrue(mock_ovs_neutron_agent_checks.called)
-        # results should be empty if we have mocked everything
-        self.assertEqual(neutron_agent_checks.AGENT_CHECKS_RESULTS,
-                         {"agent-checks": {"k1": "r1",
-                                           "k2": "r2"}})
+        self.assertTrue(mock_agent_event_checks.called)
 
 
 class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_get_agent_exceptions(self):
         neutron_expected = {'neutron-openvswitch-agent':
@@ -498,12 +436,6 @@ class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
 
 class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
     def test_run_checks(self):
         expected = {'agent': {
@@ -542,12 +474,6 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
 
 
 class TestOpenstackPluginPartServiceChecks(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
     @mock.patch.object(service_checks.issues_utils, "add_issue")

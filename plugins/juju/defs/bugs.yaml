@@ -1,0 +1,13 @@
+# Definitions used to identify known bugs.
+#
+# REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
+#
+juju:
+    1910958:
+      expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
+      hint: 'manifold worker returned unexpected error'
+      reason: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
+      reason-format-result-groups: [1, 2]
+      datasource: 'var/log/juju/*.log'
+      allow-all-logs: True
+

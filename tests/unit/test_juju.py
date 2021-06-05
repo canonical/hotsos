@@ -119,6 +119,11 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
         self.tmpdir = tempfile.mkdtemp()
+        # These are static but that should be fine since they would be in a
+        # real scenario.
+        known_bugs.checks.os.environ["PLUGIN_NAME"] = "juju"
+        known_bugs.checks.constants.PLUGIN_YAML_DEFS = \
+            os.path.join(utils.TESTS_DIR, "plugins/juju/defs")
 
     def tearDown(self):
         if os.path.isdir(self.tmpdir):
@@ -129,7 +134,7 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
     def test_detect_known_bugs(self):
         with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
                                self.tmpdir):
-            known_bugs.detect_known_bugs()
+            known_bugs.get_bug_checker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1910958',
                           'desc':

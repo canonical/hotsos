@@ -1,0 +1,41 @@
+# Definitions used to identify events that have a start and end point.
+#
+# REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
+#
+neutron-agent-checks:
+    neutron-ovs-agent:
+      # identify rpc_loop iterations and get stats and longest running loops.
+      rpc-loop:
+        start:
+          expr: '^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) started.*'
+          hint: 'Agent rpc_loop'
+        end:
+          expr: '^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) completed..+Elapsed:([0-9.]+).+'
+          hint: 'Agent rpc_loop'
+        datasource: 'var/log/neutron/neutron-openvswitch-agent.log'
+        # NOTE: disabling all-logs for now since running against a long
+        # history of logs can generate a very large amount of data that can
+        # consume too much memory.
+        allow-all-logs: False
+    neutron-l3-agent:
+      # identify router updates that took the longest to complete and report the longest updates.
+      router-updates:
+        start:
+          expr: '^([0-9-]+) (\S+) .+ Starting router update for (\S+), .+ update_id \S+. .+'
+          hint: 'router update'
+        end:
+          expr: '^([0-9-]+) (\S+) .+ Finished a router update for (\S+), update_id \S+. Time elapsed:\s([0-9.]+)'
+          hint: 'router update'
+        datasource: 'var/log/neutron/neutron-l3-agent.log'
+        allow-all-logs: True
+      # identify HA router keepalived spawn events that took the longest to complete and report the longest updates.
+      router-spawn-events:
+        # router state_change_monitor + keepalived spawn
+        start:
+          expr: '^([0-9-]+) (\S+) .+ Router (\S+) .+ spawn_state_change_monitor'
+          hint: 'spawn_state_change'
+        end:
+          expr: '^([0-9-]+) (\S+) .+ Keepalived spawned with config \S+/ha_confs/([0-9a-z-]+)/keepalived.conf .+'
+          hint: 'Keepalived'
+        datasource: 'var/log/neutron/neutron-l3-agent.log'
+        allow-all-logs: True
