@@ -85,8 +85,7 @@ class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
 
     @mock.patch.object(openstack_services, "OPENSTACK_INFO", {})
     def test_get_service_info(self):
-        expected = ['beam.smp (1)',
-                    'haproxy (1)',
+        expected = ['haproxy (1)',
                     'keepalived (2)',
                     'neutron-keepalived-state-change (2)',
                     'neutron-ovn-metadata-agent (3)',
