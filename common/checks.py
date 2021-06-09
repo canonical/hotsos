@@ -59,7 +59,8 @@ class BugChecksBase(ChecksBase):
         if not yaml_defs:
             return
 
-        bugs = yaml_defs.get(self._yaml_root, {})
+        plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
+        bugs = plugin_bugs.get(self._yaml_root, {})
         for id in bugs:
             bug = bugs[id]
             reason_format = bug.get("reason-format-result-groups")
@@ -127,7 +128,9 @@ class EventChecksBase(ChecksBase):
         if not yaml_defs:
             return
 
-        for group_name, group in yaml_defs.get(self._yaml_root, {}).items():
+        plugin_events = yaml_defs.get(constants.PLUGIN_NAME, {})
+        for group_name, group in plugin_events.get(self._yaml_root,
+                                                   {}).items():
             for label in group:
                 event = group[label]
                 start = SearchDef(event["start"]["expr"],

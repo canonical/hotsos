@@ -1,0 +1,33 @@
+# Definitions used to identify known bugs.
+#
+# REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
+#
+openstack:
+  neutron:
+    1896506:
+      expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
+      hint: 'no_track'
+      reason: 'identified in syslog'
+      datasource: 'var/log/syslog'
+      allow-all-logs: True
+    1907686:
+      expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
+      hint: 'OVS database'
+      reason: 'identified in neutron logs'
+      datasource: 'var/log/neutron/neutron-openvswitch-agent.log'
+      allow-all-logs: True
+    1929832:
+      expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
+      hint: 'ProcessExecutionError'
+      reason: 'identified in neutron-l3-agent logs'
+      datasource: 'var/log/neutron/neutron-l3-agent.log'
+      allow-all-logs: True
+juju:
+  common:
+    1910958:
+      expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
+      hint: 'manifold worker returned unexpected error'
+      reason: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
+      reason-format-result-groups: [1, 2]
+      datasource: 'var/log/juju/*.log'
+      allow-all-logs: True

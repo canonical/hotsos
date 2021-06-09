@@ -309,9 +309,9 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
         super().__init__(*args, **kwargs)
         # These are static but that should be fine since they would be in a
         # real scenario.
-        neutron_agent_checks.checks.os.environ["PLUGIN_NAME"] = "openstack"
+        neutron_agent_checks.checks.constants.PLUGIN_NAME = "openstack"
         neutron_agent_checks.checks.constants.PLUGIN_YAML_DEFS = \
-            os.path.join(utils.TESTS_DIR, "plugins/openstack/defs")
+            os.path.join(utils.TESTS_DIR, "defs")
 
     def test_process_rpc_loop_results(self):
         end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)

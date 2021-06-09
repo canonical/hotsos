@@ -12,7 +12,7 @@ class JujuBugChecks(checks.BugChecksBase):
 
 
 def get_bug_checker():
-    return JujuBugChecks(FileSearcher(), "juju")
+    return JujuBugChecks(FileSearcher(), "common")
 
 
 if __name__ == "__main__":

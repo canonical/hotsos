@@ -121,9 +121,9 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
         self.tmpdir = tempfile.mkdtemp()
         # These are static but that should be fine since they would be in a
         # real scenario.
-        known_bugs.checks.os.environ["PLUGIN_NAME"] = "juju"
+        known_bugs.checks.constants.PLUGIN_NAME = "juju"
         known_bugs.checks.constants.PLUGIN_YAML_DEFS = \
-            os.path.join(utils.TESTS_DIR, "plugins/juju/defs")
+            os.path.join(utils.TESTS_DIR, "defs")
 
     def tearDown(self):
         if os.path.isdir(self.tmpdir):
