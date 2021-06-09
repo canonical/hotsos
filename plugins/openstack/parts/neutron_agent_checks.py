@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from common import plugin_yaml
 from common.searchtools import FileSearcher
-from common.analytics import LogSequenceStats
+from common.analytics import LogSequenceStats, SearchResultIndices
 from common import checks
 
 AGENT_CHECKS_RESULTS = {"agent-checks": {}}
@@ -19,7 +19,13 @@ class NeutronAgentEventChecks(checks.EventChecksBase):
         agent_info = {}
         for agent, defs in self.event_definitions.items():
             for label in defs:
-                stats = LogSequenceStats(results, label)
+                # TODO: find a way to get rid of the need to provide this
+                if label == "rpc-loop" or label == "router-updates":
+                    sri = SearchResultIndices(duration_idx=4)
+                    stats = LogSequenceStats(results, label, sri)
+                else:
+                    stats = LogSequenceStats(results, label)
+
                 stats()
                 top5 = stats.get_top_n_sorted(5)
                 if not top5:

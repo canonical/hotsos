@@ -209,7 +209,10 @@ class SearchResultsCollection(object):
         self._results = {}
 
     def add(self, path, results):
-        self._results[path] = results
+        if path not in self._results:
+            self._results[path] = results
+        else:
+            self._results[path] += results
 
     def find_by_path(self, path):
         if path not in self._results:
@@ -222,12 +225,12 @@ class SearchResultsCollection(object):
 
         If no path is provided tagged results from all paths are returned.
         """
-        results = []
         if path:
             paths = [path]
         else:
             paths = list(self._results.keys())
 
+        results = []
         for path in paths:
             for result in self._results.get(path, []):
                 if sequence_obj_id is None:
@@ -497,26 +500,27 @@ class FileSearcher(object):
         self.results.reset()
         with multiprocessing.Pool(processes=self.num_cpus) as pool:
             jobs = {}
-            for path in self.paths:
-                jobs[path] = {}
-                if os.path.isfile(path):
-                    jobs[path][path] = self._job_wrapper(pool, path, path)
-                elif os.path.isdir(path):
-                    dir_contents = sorted(os.listdir(path),
+            for user_path in self.paths:
+                jobs[user_path] = []
+                if os.path.isfile(user_path):
+                    job = self._job_wrapper(pool, user_path, user_path)
+                    jobs[user_path] = [(user_path, job)]
+                elif os.path.isdir(user_path):
+                    dir_contents = sorted(os.listdir(user_path),
                                           key=self.logrotate_file_sort)
                     for depth, e in enumerate(dir_contents):
                         if depth >= constants.MAX_LOGROTATE_DEPTH:
                             break
 
-                        d_entry = os.path.join(path, e)
+                        d_entry = os.path.join(user_path, e)
                         if not os.path.isfile(d_entry):
                             continue
 
-                        jobs[path][d_entry] = self._job_wrapper(pool, path,
-                                                                d_entry)
+                        job = self._job_wrapper(pool, user_path, d_entry)
+                        jobs[user_path].append((d_entry, job))
                 else:
                     dir_contents = []
-                    for e in glob.glob(path):
+                    for e in glob.glob(user_path):
                         if not os.path.isfile(e):
                             continue
 
@@ -528,13 +532,14 @@ class FileSearcher(object):
                         if depth >= constants.MAX_LOGROTATE_DEPTH:
                             break
 
-                        jobs[path][e] = self._job_wrapper(pool, path, e)
+                        job = self._job_wrapper(pool, user_path, e)
+                        jobs[user_path].append((e, job))
 
-            for path in jobs:
-                for file in jobs[path]:
+            for user_path in jobs:
+                for fpath, job in jobs[user_path]:
                     try:
-                        result = jobs[path][file].get()
-                        self.results.add(file, result)
+                        result = job.get()
+                        self.results.add(fpath, result)
                     except FileSearchException as e:
                         sys.stderr.write("{}\n".format(e.msg))
 

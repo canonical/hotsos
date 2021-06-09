@@ -56,6 +56,9 @@ class BugChecksBase(ChecksBase):
         with open(path) as fd:
             yaml_defs = yaml.safe_load(fd.read())
 
+        if not yaml_defs:
+            return
+
         bugs = yaml_defs.get(self._yaml_root, {})
         for id in bugs:
             bug = bugs[id]
@@ -120,6 +123,9 @@ class EventChecksBase(ChecksBase):
         path = os.path.join(constants.PLUGIN_YAML_DEFS, "events.yaml")
         with open(path) as fd:
             yaml_defs = yaml.safe_load(fd.read())
+
+        if not yaml_defs:
+            return
 
         for group_name, group in yaml_defs.get(self._yaml_root, {}).items():
             for label in group:
