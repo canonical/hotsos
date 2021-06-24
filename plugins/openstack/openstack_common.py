@@ -4,6 +4,7 @@ import re
 from common import (
     checks,
     cli_helpers,
+    plugintools,
 )
 import openstack_exceptions
 
@@ -114,13 +115,15 @@ for service in OST_PROJECTS:
 NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
 
 
-class OpenstackServiceChecksBase(checks.ServiceChecksBase):
+class OpenstackServiceChecksBase(plugintools.PluginPartBase,
+                                 checks.ServiceChecksBase):
     pass
 
 
-class OpenstackChecksBase(object):
+class OpenstackChecksBase(plugintools.PluginPartBase):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._instances = []
 
     @property

@@ -1,31 +1,18 @@
 import mock
 
 import os
-import shutil
-import tempfile
 import utils
 
 from common import constants
 
 utils.add_sys_plugin_path("rabbitmq")
-from plugins.rabbitmq.parts import (  # noqa E402
+from plugins.rabbitmq.parts.pyparts import (  # noqa E402
     services,
 )
 
 
 class TestRabbitmqPluginPartServices(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-        self.tmpdir = tempfile.mkdtemp()
-
-    def tearDown(self):
-        if os.path.isdir(self.tmpdir):
-            shutil.rmtree(self.tmpdir)
-
-        super().tearDown()
-
-    @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_service_info_bionic(self):
         expected = {
             'services': ['beam.smp (1)'],
@@ -58,12 +45,11 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
             },
         }
 
-        with mock.patch.object(services.issues_utils, 'PLUGIN_TMP_DIR',
-                               self.tmpdir):
-            services.get_rabbitmq_service_checker()()
-            issues = services.issues_utils._get_issues()
+        inst = services.RabbitMQServiceChecks()
+        inst()
+        issues = services.issues_utils._get_issues()
 
-        self.assertEqual(services.RABBITMQ_INFO, expected)
+        self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
                          {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
@@ -78,7 +64,6 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                             'type': 'RabbitMQWarning'}]})
 
     @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
-    @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_service_info_focal(self, mock_rabbitmqctl_report):
 
         def fake_get_rabbitmqctl_report():
@@ -118,12 +103,11 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                     }
                     }
 
-        with mock.patch.object(services.issues_utils, 'PLUGIN_TMP_DIR',
-                               self.tmpdir):
-            services.get_rabbitmq_service_checker()()
-            issues = services.issues_utils._get_issues()
+        inst = services.RabbitMQServiceChecks()
+        inst()
+        issues = services.issues_utils._get_issues()
 
-        self.assertEqual(services.RABBITMQ_INFO, expected)
+        self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
                          {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
@@ -138,14 +122,13 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                             'type': 'RabbitMQWarning'}]})
 
     @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
-    @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_service_info_no_report(self, mock_rabbitmqctl_report):
         mock_rabbitmqctl_report.return_value = []
-        services.get_rabbitmq_service_checker()()
-        self.assertFalse("resources" in services.RABBITMQ_INFO)
+        inst = services.RabbitMQServiceChecks()
+        inst()
+        self.assertFalse("resources" in inst.output)
 
-    @mock.patch.object(services, "RABBITMQ_INFO", {})
     def test_get_package_info(self):
-        expected = {}
-        services.get_rabbitmq_package_checker()()
-        self.assertEqual(services.RABBITMQ_INFO, expected)
+        inst = services.get_rabbitmq_package_checker()
+        inst()
+        self.assertEqual(inst.output, None)

@@ -1,0 +1,99 @@
+# This is the Python plugin engine. Each plugin is specified with a set of
+# parts to be run along with the constituents of the part which must be a list
+# of executable items. Items can one of:
+#
+#   * a function that returns a class instance (useful if the class needs to be
+#     initialised with data found in code).
+#
+#   * a callable class i.e. one that has a __call__ method.
+#
+#   * a dictionary with callable class name as key and subkey "methods" to list
+#     all methods that we want to call. This is useful if we want to be
+#     explicit about which methods to call.
+#
+plugins:
+  juju:
+    parts:
+      charms:
+        - JujuCharmChecks
+      machines:
+        - JujuMachineChecks
+      units:
+        - JujuUnitChecks
+      known_bugs:
+        - get_bug_checker
+  openstack:
+    parts:
+      openstack_services:
+        - get_openstack_service_checker
+      service_checks:
+        - NeutronServiceChecks
+      service_features:
+        - ServiceFeatureChecks
+      package_info:
+        - get_package_checker
+      network:
+        - OpenstackNetworkChecks
+      vm_info:
+        - OpenstackInstanceChecks
+      agent_exceptions:
+        - AgentExceptionChecks
+      cpu_pinning_check:
+        - CPUPinningChecker
+      neutron_agent_checks:
+        - NeutronAgentChecks
+      neutron_l3ha:
+        - NeutronL3HAChecks
+      nova_external_events:
+        - NovaExternalEventChecks
+      octavia_agent_checks:
+        - get_octavia_lb_checker
+  openvswitch:
+    parts:
+      ovs_checks:
+        - OpenvSwitchvSwitchdChecks
+        - OpenvSwitchDaemonChecksCommon
+        - OpenvSwitchDPChecks
+      ovs_resources:
+        - get_package_checks
+        - get_service_checker
+  system:
+    parts:
+      system:
+        - SystemChecks
+  kernel:
+    parts:
+      info:
+        - KernelGeneralChecks
+      memory:
+        - KernelMemoryChecks
+      network:
+        - KernelNetworkChecks
+  kubernetes:
+    parts:
+      general:
+        - KubernetesResourceChecks
+        - KubernetesServiceChecks
+        - get_kubernetes_package_checker
+      network:
+        - KubernetesNetworkChecks
+  rabbitmq:
+    parts:
+      cluster_checks:
+        - RabbitMQClusterChecks
+      services:
+        - RabbitMQServiceChecks
+        - get_rabbitmq_package_checker
+  storage:
+    parts:
+      ceph_general:
+        - get_service_checker
+        - get_pkg_checker
+      ceph_daemon_checks:
+        - get_osd_checker
+      ceph_daemon_logs:
+        - get_ceph_daemon_log_checker
+      bcache:
+        - BcacheDeviceChecks
+        - BcacheStatsChecks
+

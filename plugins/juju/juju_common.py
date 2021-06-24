@@ -5,6 +5,7 @@ import re
 from common import (
     constants,
     cli_helpers,
+    plugintools,
 )
 
 JUJU_LOG_PATH = os.path.join(constants.DATA_ROOT, "var/log/juju")
@@ -12,19 +13,19 @@ JUJU_LIB_PATH = os.path.join(constants.DATA_ROOT, "var/lib/juju")
 CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
 
 
-class JujuChecksBase(object):
+class JujuChecksBase(plugintools.PluginPartBase):
 
-    def get_app_from_unit_name(self, unit):
+    def _get_app_from_unit_name(self, unit):
         ret = re.compile(r"([0-9a-z\-]+)-[0-9]+.*").match(unit)
         if ret:
             return ret[1]
 
-    def get_unit_version(self, unit):
+    def _get_unit_version(self, unit):
         ret = re.compile(r"[0-9a-z\-]+-([0-9]+).*").match(unit)
         if ret:
             return int(ret[1])
 
-    def get_ps_units(self):
+    def _get_ps_units(self):
         units = set()
         for line in cli_helpers.get_ps():
             if "unit-" in line:
@@ -34,7 +35,7 @@ class JujuChecksBase(object):
 
         return units
 
-    def get_log_units(self):
+    def _get_log_units(self):
         units = set()
         for logfile in os.listdir(JUJU_LOG_PATH):
             ret = re.compile(r"unit-(.+)\.log$").match(logfile)
@@ -43,6 +44,6 @@ class JujuChecksBase(object):
 
         return units
 
-    def get_local_running_units(self):
+    def _get_local_running_units(self):
         units = self.get_ps_units()
         return units.intersection(self.get_log_units())

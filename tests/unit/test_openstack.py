@@ -10,7 +10,7 @@ from common import searchtools
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("openstack")
-from plugins.openstack.parts import (  # noqa E402
+from plugins.openstack.parts.pyparts import (  # noqa E402
     openstack_services,
     vm_info,
     nova_external_events,
@@ -81,9 +81,15 @@ def fake_ip_link_show_no_errors_drops():
     return [line + '\n' for line in lines.split('\n')]
 
 
-class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
+class TestOpenstackBase(utils.BaseTestCase):
 
-    @mock.patch.object(openstack_services, "OPENSTACK_INFO", {})
+    def setUp(self, *args, **kwargs):
+        super().setUp(*args, **kwargs)
+        os.environ["PLUGIN_NAME"] = "openstack"
+
+
+class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
+
     def test_get_service_info(self):
         expected = ['haproxy (1)',
                     'keepalived (2)',
@@ -92,11 +98,10 @@ class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
                     'nova-api-metadata (5)',
                     'nova-compute (1)',
                     'qemu-system-x86_64 (1)']
-        openstack_services.get_openstack_service_checker()()
-        self.assertEqual(openstack_services.OPENSTACK_INFO["services"],
-                         expected)
+        inst = openstack_services.get_openstack_service_checker()
+        inst()
+        self.assertEqual(inst.output["services"], expected)
 
-    @mock.patch.object(openstack_services, "OPENSTACK_INFO", {})
     def test_get_release_info(self):
         with tempfile.TemporaryDirectory() as dtmp:
             for rel in ["stein", "ussuri", "train"]:
@@ -107,11 +112,10 @@ class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
 
             with mock.patch.object(openstack_services, "APT_SOURCE_PATH",
                                    dtmp):
-                openstack_services.get_openstack_service_checker()()
-                self.assertEqual(openstack_services.OPENSTACK_INFO["release"],
-                                 "ussuri")
+                inst = openstack_services.get_openstack_service_checker()
+                inst()
+                self.assertEqual(inst.output["release"], "ussuri")
 
-    @mock.patch.object(openstack_services, "OPENSTACK_INFO", {})
     def test_get_debug_log_info(self):
         expected = {'neutron': True, 'nova': True}
         with tempfile.TemporaryDirectory() as dtmp:
@@ -121,30 +125,27 @@ class TestOpenstackPluginPartOpenstackServices(utils.BaseTestCase):
                 with open(os.path.join(dtmp, conf_path), 'w') as fd:
                     fd.write(SVC_CONF)
 
-            with mock.patch.object(openstack_services.constants,
-                                   "DATA_ROOT", dtmp):
-                openstack_services.get_openstack_service_checker()()
-                result = openstack_services.OPENSTACK_INFO[
-                                                       'debug-logging-enabled']
-                self.assertEqual(result, expected)
+            os.environ["DATA_ROOT"] = dtmp
+            inst = openstack_services.get_openstack_service_checker()
+            inst()
+            self.assertEqual(inst.output["debug-logging-enabled"],
+                             expected)
 
 
-class TestOpenstackPluginPartVm_info(utils.BaseTestCase):
+class TestOpenstackPluginPartVm_info(TestOpenstackBase):
 
-    @mock.patch.object(vm_info, "VM_INFO", {})
     def test_get_vm_checks(self):
-        vm_info.get_vm_checks()()
-        self.assertEquals(vm_info.VM_INFO["instances"],
+        inst = vm_info.OpenstackInstanceChecks()
+        inst()
+        self.assertEquals(inst.output["instances"],
                           ["09461f0b-297b-4ef5-9053-dd369c86b96b"])
 
 
-class TestOpenstackPluginPartNova_external_events(utils.BaseTestCase):
+class TestOpenstackPluginPartNovaExternalEvents(TestOpenstackBase):
 
-    @mock.patch.object(nova_external_events, "EXT_EVENT_INFO", {})
     def test_get_events(self):
-        data_root = nova_external_events.constants.DATA_ROOT
-        data_source = os.path.join(data_root, "var/log/nova")
-        nova_external_events.get_events("network-vif-plugged", data_source)
+        inst = nova_external_events.NovaExternalEventChecks()
+        inst()
         events = {'network-vif-plugged':
                   {"succeeded":
                    [{"instance": 'd2666e01-73c8-4a97-9c22-0c175659e6db',
@@ -154,12 +155,11 @@ class TestOpenstackPluginPartNova_external_events(utils.BaseTestCase):
                    "failed": [
                        {"instance": '5b367a10-9e6a-4eb9-9c7d-891dab7e87fa',
                         "port": "9a3673bf-58ac-423a-869a-6c4ae801b57b"}]}}
-        self.assertEquals(nova_external_events.EXT_EVENT_INFO, events)
+        self.assertEquals(inst.output["os-server-external-events"], events)
 
 
-class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
+class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
 
-    @mock.patch.object(package_info, 'OST_PKG_INFO', {})
     def test_get_pkg_info(self):
         expected = [
             'ceilometer-agent-compute 1:10.0.1-0ubuntu0.18.04.2~cloud0',
@@ -225,11 +225,12 @@ class TestOpenstackPluginPartPackage_info(utils.BaseTestCase):
             'python3-octavia 6.1.0-0ubuntu1~cloud0',
             'python3-octavia-lib 2.0.0-0ubuntu1~cloud0',
             'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
-        package_info.get_checks()()
-        self.assertEquals(package_info.OST_PKG_INFO['dpkg'], expected)
+        inst = package_info.get_package_checker()
+        inst()
+        self.assertEquals(inst.output["dpkg"], expected)
 
 
-class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
+class TestOpenstackPluginPartNetwork(TestOpenstackBase):
 
     @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
                        fake_ip_link_show_w_errors_drops)
@@ -258,20 +259,18 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
         name = c._find_interface_name_by_ip_address(addr)
         self.assertEqual(name, "br-bond1")
 
-    @mock.patch.object(network, "NETWORK_INFO", {})
     def test_get_ns_info(self):
         ns_info = {'namespaces': {'qdhcp': 35, 'qrouter': 35, 'fip': 1}}
-        c = network.OpenstackNetworkChecks()
-        c.get_ns_info()
-        self.assertEqual(ns_info, network.NETWORK_INFO)
+        inst = network.OpenstackNetworkChecks()
+        inst.get_ns_info()
+        self.assertEqual(inst.output["network"], ns_info)
 
     @mock.patch.object(network.cli_helpers, "get_ip_netns", lambda: [])
     def test_get_ns_info_none(self):
-        c = network.OpenstackNetworkChecks()
-        ns_info = c.get_ns_info()
-        self.assertEqual(ns_info, None)
+        inst = network.OpenstackNetworkChecks()
+        inst.get_ns_info()
+        self.assertEqual(inst.output, None)
 
-    @mock.patch.object(network, "NETWORK_INFO", {})
     def test_get_network_checker(self):
         expected = {'config':
                     {'neutron':
@@ -282,35 +281,31 @@ class TestOpenstackPluginPartNetwork(utils.BaseTestCase):
                     {'phy-ports':
                      {'bond1.4003@bond1': {
                       'dropped': '131579034 (15%)'}}}}
-        network.get_network_checker()()
-        self.assertEqual(network.NETWORK_INFO, expected)
+        inst = network.OpenstackNetworkChecks()
+        inst.get_ns_info()
+        inst.get_config_network_info()
+        inst.get_neutron_phy_port_health()
+        inst.get_instances_port_health()
+        self.assertEqual(inst.output["network"], expected)
 
 
-class TestOpenstackPluginPartService_features(utils.BaseTestCase):
+class TestOpenstackPluginPartService_features(TestOpenstackBase):
 
-    @mock.patch.object(service_features, "SERVICE_FEATURES", {})
     def test_get_service_features(self):
-        service_features.get_service_features()
+        inst = service_features.ServiceFeatureChecks()
+        inst.get_service_features()
         expected = {'neutron': {'neutron': {'availability_zone': 'AZ1'}}}
-        self.assertEqual(service_features.SERVICE_FEATURES, expected)
+        self.assertEqual(inst.output["features"], expected)
 
 
-class TestOpenstackPluginPartCpu_pinning_check(utils.BaseTestCase):
+class TestOpenstackPluginPartCpu_pinning_check(TestOpenstackBase):
 
     def test_cores_to_list(self):
         ret = cpu_pinning_check.cores_to_list("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
 
-class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # These are static but that should be fine since they would be in a
-        # real scenario.
-        neutron_agent_checks.checks.constants.PLUGIN_NAME = "openstack"
-        neutron_agent_checks.checks.constants.PLUGIN_YAML_DEFS = \
-            os.path.join(utils.TESTS_DIR, "defs")
+class TestOpenstackPluginPartAgent_checks(TestOpenstackBase):
 
     def test_process_rpc_loop_results(self):
         end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
@@ -381,12 +376,12 @@ class TestOpenstackPluginPartAgent_checks(utils.BaseTestCase):
     @mock.patch.object(neutron_agent_checks, "NeutronAgentBugChecks")
     def test_run_neutron_agent_checks(self, mock_agent_bug_checks,
                                       mock_agent_event_checks):
-        neutron_agent_checks.run_agent_checks()
+        neutron_agent_checks.NeutronAgentChecks()()
         self.assertTrue(mock_agent_bug_checks.called)
         self.assertTrue(mock_agent_event_checks.called)
 
 
-class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
+class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
 
     def test_get_agent_exceptions(self):
         neutron_expected = {'neutron-openvswitch-agent':
@@ -420,22 +415,19 @@ class TestOpenstackPluginPartAgentExceptions(utils.BaseTestCase):
         self.assertEqual(results, expected)
 
     @mock.patch.object(agent_exceptions, "CommonAgentChecks")
-    @mock.patch.object(agent_exceptions, "AGENT_CHECKS_RESULTS",
-                       {"agent-exceptions": {}})
     def test_run_agent_checks(self, mock_common_agent_checks):
         c = mock_common_agent_checks.return_value
         c.process_results.return_value = "r1"
 
-        agent_exceptions.run_agent_exception_checks()
+        inst = agent_exceptions.AgentExceptionChecks()
+        inst()
         self.assertTrue(mock_common_agent_checks.called)
         # results should be empty if we have mocked everything
-        self.assertEqual(agent_exceptions.AGENT_CHECKS_RESULTS,
-                         {"agent-exceptions": "r1"})
+        self.assertEqual(inst.output, {"agent-exceptions": "r1"})
 
 
-class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
+class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
 
-    @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
     def test_run_checks(self):
         expected = {'agent': {
                      'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d'],
@@ -448,14 +440,16 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
                       }
                      }
                     }
-        neutron_l3ha.run_checks()()
-        self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
+        inst = neutron_l3ha.NeutronL3HAChecks()
+        inst.get_neutron_ha_info()
+        inst.get_vrrp_transitions()
+        inst.check_vrrp_transitions()
+        self.assertEqual(inst.output["neutron-l3ha"], expected)
 
-    @mock.patch.object(neutron_l3ha.constants, "USE_ALL_LOGS", False)
     @mock.patch.object(neutron_l3ha.issues_utils, "add_issue")
     @mock.patch.object(neutron_l3ha, "VRRP_TRANSITION_WARN_THRESHOLD", 1)
-    @mock.patch.object(neutron_l3ha, "L3HA_CHECKS", {})
     def test_run_checks_w_issue(self, mock_add_issue):
+        os.environ["USE_ALL_LOGS"] = "False"
         expected = {'agent': {
                      'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d'],
                      'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
@@ -467,19 +461,23 @@ class TestOpenstackPluginPartNeutronL3HA_checks(utils.BaseTestCase):
                       }
                      }
                     }
-        neutron_l3ha.run_checks()()
-        self.assertEqual(neutron_l3ha.L3HA_CHECKS, expected)
+        inst = neutron_l3ha.NeutronL3HAChecks()
+        inst.get_neutron_ha_info()
+        inst.get_vrrp_transitions()
+        inst.check_vrrp_transitions()
+        self.assertEqual(inst.output["neutron-l3ha"], expected)
         self.assertTrue(mock_add_issue.called)
 
 
-class TestOpenstackPluginPartServiceChecks(utils.BaseTestCase):
+class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
 
     @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
     @mock.patch.object(service_checks.issues_utils, "add_issue")
     def test_run_service_checks(self, mock_add_issue, mock_get_journalctl):
         mock_get_journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
-        service_checks.run_service_checks()()
+        inst = service_checks.NeutronServiceChecks()
+        inst()
         self.assertFalse(mock_add_issue.called)
 
     @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
@@ -488,13 +486,13 @@ class TestOpenstackPluginPartServiceChecks(utils.BaseTestCase):
                                         mock_get_journalctl):
         mock_get_journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
-        service_checks.run_service_checks()()
+        inst = service_checks.NeutronServiceChecks()
+        inst()
         self.assertTrue(mock_add_issue.called)
 
 
-class TestOpenstackPluginPartOctaviaLBs(utils.BaseTestCase):
+class TestOpenstackPluginPartOctaviaLBs(TestOpenstackBase):
 
-    @mock.patch.object(octavia_agent_checks, "LB_CHECKS", {})
     def test_get_lb_failovers(self):
         expected = {'amp-missed-heartbeats': {
                      '2021-06-01': {
@@ -511,5 +509,6 @@ class TestOpenstackPluginPartOctaviaLBs(utils.BaseTestCase):
                       }
                      }
                     }
-        octavia_agent_checks.run_checks()()
-        self.assertEqual(octavia_agent_checks.LB_CHECKS, expected)
+        inst = octavia_agent_checks.get_octavia_lb_checker()
+        inst()
+        self.assertEqual(inst.output["octavia"], expected)

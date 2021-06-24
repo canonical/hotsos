@@ -48,8 +48,6 @@ export PLUGIN_YAML_DEFS
 MASTER_YAML_OUT=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
-# optional part name to run
-declare -a RUN_PARTS=()
 # unordered
 declare -A PLUGINS=(
     [openstack]=false
@@ -122,8 +120,6 @@ OPTIONS
         When displaying agent error counts, they will be grouped by date. This
         option will result in grouping by date_time which may be more useful
         for cross-referencing with other logs.
-    --part
-        Name of plugin part to run. May be specified multiple times.
     --short
         If provided, the output will be filtered to only include known-bugs
         and potential-issues sections for plugins run.
@@ -182,10 +178,6 @@ while (($#)); do
             ;;
         -a|--all)
             PLUGINS[all]=true
-            ;;
-        --part)
-            RUN_PARTS+=( $2 )
-            shift
             ;;
         --short)
             MIMIMAL_MODE=true
@@ -268,7 +260,7 @@ run_part ()
     PART_NAME=$part
 
     # Needed by python plugins
-    export PYTHONPATH="$CWD/plugins/$plugin"
+    export PYTHONPATH="$CWD/plugins/$plugin:$CWD"
     export PLUGIN_YAML_DEFS="$CWD/defs"
 
     $CWD/plugins/$plugin/parts/$part >> $MASTER_YAML_OUT
@@ -327,20 +319,10 @@ for data_root in "${SOS_PATHS[@]}"; do
         PLUGIN_NAME=$plugin
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
-
-        if ((${#RUN_PARTS[@]})); then
-            for part in ${RUN_PARTS[@]}; do
-                [[ -r $CWD/plugins/$plugin/parts/$part ]] || continue
-                run_part $plugin $part
-            done
-        else
-            for part in `find $CWD/plugins/$plugin/parts -executable -type f| \
-                    grep -v __pycache__`; do
-                run_part $plugin `basename $part`
-            done
-        fi
-        # must be run last after all others
-        run_part utils 99known_bugs_and_issues_base
+        for part in `find $CWD/plugins/$plugin/parts -executable -type f| \
+                grep -v __pycache__`; do
+            run_part $plugin `basename $part`
+        done
         # teardown plugin temp area
         if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
             rm -rf $PLUGIN_TMP_DIR

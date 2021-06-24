@@ -1,17 +1,13 @@
 import os
 
-import mock
-import shutil
-import tempfile
-
 import utils
 
 from common import known_bugs_utils
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("juju")
-from plugins.juju.parts import (  # noqa E402
-    services,
+from plugins.juju.parts.pyparts import (  # noqa E402
+    machines,
     charms,
     units,
     known_bugs,
@@ -26,12 +22,12 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(services, 'JUJU_MACHINE_INFO', {"machines": {}})
     def test_get_machine_info(self):
         expected = {'machines': {'running': ['33 (version=unknown)',
                                              '0 (version=unknown)']}}
-        services.get_machine_checks()()
-        self.assertEquals(services.JUJU_MACHINE_INFO, expected)
+        inst = machines.JujuMachineChecks()
+        inst.get_machine_info()
+        self.assertEquals(inst.output, expected)
 
 
 class TestJujuPluginPartCharms(utils.BaseTestCase):
@@ -42,11 +38,10 @@ class TestJujuPluginPartCharms(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(charms, 'CHARM_VERSIONS', {})
     def test_get_charm_versions(self):
-        charms.get_charm_checks()()
-        expected = {}
-        self.assertEquals(charms.CHARM_VERSIONS, expected)
+        inst = charms.JujuCharmChecks()
+        inst.get_charm_versions()
+        self.assertIsNone(inst.output)
 
 
 class TestJujuPluginPartUnits(utils.BaseTestCase):
@@ -57,19 +52,18 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_app_from_unit_name(self):
         unit = "foo-32"
-        app = units.JujuUnitChecks().get_app_from_unit_name(unit)
+        inst = units.JujuUnitChecks()
+        app = inst._get_app_from_unit_name(unit)
         self.assertEquals(app, "foo")
 
-    @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_version(self):
         unit = "foo-32"
-        version = units.JujuUnitChecks().get_unit_version(unit)
+        inst = units.JujuUnitChecks()
+        version = inst._get_unit_version(unit)
         self.assertEquals(version, 32)
 
-    @mock.patch.object(units, 'JUJU_UNIT_INFO', {"units": {}})
     def test_get_unit_info(self):
         expected = {'local': ['filebeat-24', 'neutron-gateway-0',
                               'ntp-0'],
@@ -110,36 +104,24 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
                             'rabbitmq-server-0'],
                     'stopped': ['nrpe-0', 'rabbitmq-server-2',
                                 'rabbitmq-server-3']}
-        units.get_unit_checks()()
-        self.assertEquals(units.JUJU_UNIT_INFO, {"units": expected})
+        inst = units.JujuUnitChecks()
+        inst.get_unit_info()
+        self.assertEquals(inst.output, {"units": expected})
 
 
 class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.tmpdir = tempfile.mkdtemp()
-        # These are static but that should be fine since they would be in a
-        # real scenario.
-        known_bugs.checks.constants.PLUGIN_NAME = "juju"
-        known_bugs.checks.constants.PLUGIN_YAML_DEFS = \
-            os.path.join(utils.TESTS_DIR, "defs")
-
-    def tearDown(self):
-        if os.path.isdir(self.tmpdir):
-            shutil.rmtree(self.tmpdir)
-
-        super().tearDown()
+        os.environ["PLUGIN_NAME"] = "juju"
 
     def test_detect_known_bugs(self):
-        with mock.patch.object(known_bugs_utils, 'PLUGIN_TMP_DIR',
-                               self.tmpdir):
-            known_bugs.get_bug_checker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1910958',
-                          'desc':
-                          ('Unit unit-rabbitmq-server-2 failed to start due '
-                           'to members in relation 236 that cannot be '
-                           'removed.'),
-                          'origin': 'testplugin.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+        known_bugs.get_bug_checker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1910958',
+                      'desc':
+                      ('Unit unit-rabbitmq-server-2 failed to start due '
+                       'to members in relation 236 that cannot be '
+                       'removed.'),
+                      'origin': 'juju.01part'}]}
+        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)

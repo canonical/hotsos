@@ -25,13 +25,17 @@ SVC_EXPR_TEMPLATES = {
 
 class ChecksBase(object):
 
-    def __init__(self, searchobj, root):
+    def __init__(self, searchobj, yaml_defs_label):
         """
-        @param searchobj: FileSearcher object used for searches.
-        @param root: yaml root key
+        @param searchobj: FileSearcher object used for searches. If multiple
+                          implementations of this class are used in the same
+                          part it is recommended to provide a search object
+                          that is shared across them to provide concurrent
+                          execution.
+        @param _yaml_defs_label: yaml defs label key
         """
         self.searchobj = searchobj
-        self._yaml_root = root
+        self._yaml_defs_label = yaml_defs_label
 
     def register_search_terms(self):
         raise NotImplementedError
@@ -60,7 +64,7 @@ class BugChecksBase(ChecksBase):
             return
 
         plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
-        bugs = plugin_bugs.get(self._yaml_root, {})
+        bugs = plugin_bugs.get(self._yaml_defs_label, {})
         for id in bugs:
             bug = bugs[id]
             reason_format = bug.get("reason-format-result-groups")
@@ -82,7 +86,7 @@ class BugChecksBase(ChecksBase):
     def bug_definitions(self):
         """
         @return: dict of SearchDef objects and datasource for all entries in
-        bugs.yaml under _yaml_root.
+        bugs.yaml under _yaml_defs_label.
         """
         if self._bug_defs:
             return self._bug_defs
@@ -129,7 +133,7 @@ class EventChecksBase(ChecksBase):
             return
 
         plugin_events = yaml_defs.get(constants.PLUGIN_NAME, {})
-        for group_name, group in plugin_events.get(self._yaml_root,
+        for group_name, group in plugin_events.get(self._yaml_defs_label,
                                                    {}).items():
             for label in group:
                 event = group[label]
@@ -158,7 +162,7 @@ class EventChecksBase(ChecksBase):
     def event_definitions(self):
         """
         @return: dict of SearchDef objects and datasource for all entries in
-        events.yaml under _yaml_root.
+        events.yaml under _yaml_defs_label.
         """
         if self._event_defs:
             return self._event_defs

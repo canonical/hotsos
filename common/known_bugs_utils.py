@@ -2,8 +2,8 @@
 import os
 import yaml
 
-from common import plugin_yaml
-from common.constants import PLUGIN_TMP_DIR
+from common import plugintools
+from common import constants
 from common.searchtools import SearchDef
 from common.issues_utils import IssueEntry
 
@@ -50,11 +50,11 @@ def _get_known_bugs():
     Fetch the current plugin known_bugs.yaml if it exists and return its
     contents or None if it doesn't exist yet.
     """
-    if not os.path.isdir(PLUGIN_TMP_DIR):
+    if not os.path.isdir(constants.PLUGIN_TMP_DIR):
         raise Exception("plugin tmp dir  '{}' not found".
-                        format(PLUGIN_TMP_DIR))
+                        format(constants.PLUGIN_TMP_DIR))
 
-    known_bugs_yaml = os.path.join(PLUGIN_TMP_DIR, "known_bugs.yaml")
+    known_bugs_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "known_bugs.yaml")
     if not os.path.exists(known_bugs_yaml):
         return {}
 
@@ -70,9 +70,9 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     Fetch the current plugin known_bugs.yaml if it exists and add new bug with
     description of the bug.
     """
-    if not os.path.isdir(PLUGIN_TMP_DIR):
+    if not os.path.isdir(constants.PLUGIN_TMP_DIR):
         raise Exception("plugin tmp dir  '{}' not found".
-                        format(PLUGIN_TMP_DIR))
+                        format(constants.PLUGIN_TMP_DIR))
 
     if type == LAUNCHPAD:
         new_bug = "https://bugs.launchpad.net/bugs/{}".format(bug_id)
@@ -87,7 +87,7 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     else:
         current = {MASTER_YAML_KNOWN_BUGS_KEY: [entry.data]}
 
-    known_bugs_yaml = os.path.join(PLUGIN_TMP_DIR, "known_bugs.yaml")
+    known_bugs_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "known_bugs.yaml")
     with open(known_bugs_yaml, 'w') as fd:
         fd.write(yaml.dump(current))
 
@@ -100,4 +100,4 @@ def add_known_bugs_to_master_plugin():
     """
     bugs = _get_known_bugs()
     if bugs and bugs.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        plugin_yaml.save_part(bugs, priority=99)
+        plugintools.save_part(bugs, priority=99)

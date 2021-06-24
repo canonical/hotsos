@@ -5,7 +5,7 @@ from common import (
     constants,
     issues_utils,
     known_bugs_utils,
-    plugin_yaml,
+    plugintools,
 )
 
 FILTER_SCHEMA = [issues_utils.MASTER_YAML_ISSUES_FOUND_KEY,
@@ -35,7 +35,7 @@ def filter_master_yaml():
 
     with open(constants.MASTER_YAML_OUT, 'w') as fd:
         if filtered:
-            fd.write(plugin_yaml.dump(filtered, stdout=False))
+            fd.write(plugintools.dump(filtered, stdout=False))
             fd.write("\n")
         else:
             fd.write("")

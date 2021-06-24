@@ -1,4 +1,5 @@
-import mock
+import os
+
 import tempfile
 import utils
 import yaml
@@ -19,17 +20,16 @@ class TestTools(utils.BaseTestCase):
     def test_output_filter_empty(self):
         issues = {}
         with tempfile.NamedTemporaryFile() as ftmp:
-            with mock.patch.object(output_filter.constants, 'MASTER_YAML_OUT',
-                                   ftmp.name):
-                with open(ftmp.name, 'w') as fd:
-                    fd.write(yaml.dump(issues))
+            os.environ["MASTER_YAML_OUT"] = ftmp.name
+            with open(ftmp.name, 'w') as fd:
+                fd.write(yaml.dump(issues))
 
-                output_filter.filter_master_yaml()
+            output_filter.filter_master_yaml()
 
-                with open(ftmp.name) as fd:
-                    result = yaml.load(fd, Loader=yaml.SafeLoader)
+            with open(ftmp.name) as fd:
+                result = yaml.load(fd, Loader=yaml.SafeLoader)
 
-                self.assertEqual(result, None)
+            self.assertEqual(result, None)
 
     def test_output_filter(self):
         issue_key = output_filter.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY
@@ -49,14 +49,13 @@ class TestTools(utils.BaseTestCase):
                                               "desc": "a msg",
                                               "origin": "testplugin.01part"}]}}
         with tempfile.NamedTemporaryFile() as ftmp:
-            with mock.patch.object(output_filter.constants, 'MASTER_YAML_OUT',
-                                   ftmp.name):
-                with open(ftmp.name, 'w') as fd:
-                    fd.write(yaml.dump(issues))
+            os.environ["MASTER_YAML_OUT"] = ftmp.name
+            with open(ftmp.name, 'w') as fd:
+                fd.write(yaml.dump(issues))
 
-                output_filter.filter_master_yaml()
+            output_filter.filter_master_yaml()
 
-                with open(ftmp.name) as fd:
-                    result = yaml.load(fd, Loader=yaml.SafeLoader)
+            with open(ftmp.name) as fd:
+                result = yaml.load(fd, Loader=yaml.SafeLoader)
 
-                self.assertEqual(result, expected)
+            self.assertEqual(result, expected)

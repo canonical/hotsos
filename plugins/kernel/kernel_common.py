@@ -4,6 +4,7 @@ import re
 from common import (
     constants,
     cli_helpers,
+    plugintools,
 )
 
 BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
@@ -11,9 +12,10 @@ SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
 VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
 
 
-class KernelChecksBase(object):
+class KernelChecksBase(plugintools.PluginPartBase):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._kernel_version = ""
         self._boot_parameters = []
         self._numa_nodes = []

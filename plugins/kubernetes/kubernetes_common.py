@@ -1,4 +1,7 @@
-from common import checks
+from common import (
+    checks,
+    plugintools,
+)
 
 SERVICES = ["etcdctl",
             "calicoctl",
@@ -34,7 +37,8 @@ SNAPS_DEPS = [r'core[0-9]*',
               ]
 
 
-class KubernetesChecksBase(checks.ServiceChecksBase):
+class KubernetesChecksBase(plugintools.PluginPartBase,
+                           checks.ServiceChecksBase):
 
     def __init__(self):
         super().__init__(SERVICES, hint_range=(0, 3))

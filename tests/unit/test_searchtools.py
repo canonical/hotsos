@@ -5,8 +5,6 @@ import tempfile
 
 import utils
 
-from common import searchtools
-
 from common.searchtools import (
     FileSearcher,
     FilterDef,
@@ -83,9 +81,9 @@ class TestSearchTools(utils.BaseTestCase):
         s = FileSearcher()
         self.assertEquals(s.num_cpus, 3)
 
-    @mock.patch.object(searchtools.constants, "MAX_PARALLEL_TASKS", 2)
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
+        os.environ["MAX_PARALLEL_TASKS"] = "2"
         mock_cpu_count.return_value = 3
         s = FileSearcher()
         self.assertEquals(s.num_cpus, 2)
