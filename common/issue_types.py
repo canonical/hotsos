@@ -12,6 +12,10 @@ class CephCrushWarning(IssueTypeBase):
     pass
 
 
+class CephDaemonWarning(IssueTypeBase):
+    pass
+
+
 class JujuWarning(IssueTypeBase):
     pass
 

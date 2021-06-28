@@ -5,18 +5,22 @@ import json
 import re
 import subprocess
 
-from common import (
-    cli_helpers,
-    issues_utils,
-)
+from common import cli_helpers
 from common.checks import SVC_EXPR_TEMPLATES
 from common.searchtools import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,
 )
-from common.issue_types import CephCrushWarning
-from common.utils import mktemp_dump
+from common.issue_types import (
+    CephCrushWarning,
+    CephDaemonWarning,
+)
+from common.issues_utils import add_issue
+from common.utils import (
+    mktemp_dump,
+    sorted_dict,
+)
 from storage_common import (
     CephChecksBase,
     CEPH_SERVICES_EXPRS,
@@ -41,7 +45,6 @@ class CephOSDChecks(CephChecksBase):
         hours = secs / 3600 % 24
         mins = secs / 60 % 60
         secs = secs % 60
-
         return '{}d:{}h:{}m:{}s'.format(int(days), int(hours),
                                         int(mins), int(secs))
 
@@ -169,21 +172,35 @@ class CephOSDChecks(CephChecksBase):
             return
 
         bad_pgs = {}
+        pgs_idx = None
+        header = self.ceph_osd_df_tree[0].split()
+        for i, col in enumerate(header):
+            if col == "PGS":
+                pgs_idx = i + 1
+                break
+
+        if not pgs_idx:
+            return
+
+        pgs_idx = -(len(header) - pgs_idx)
         for line in self.ceph_osd_df_tree:
             try:
-                if line:
-                    last = line.split()[-1]
-
-                if re.compile(r"^osd\.[0-9]+").match(last):
-                    osd = line.split()[-1]
-                    pg = int(line.split()[-3])
-                    if pg > 0 and (pg < 50 or pg > 200):
-                        bad_pgs.update({osd: pg})
+                ret = re.compile(r"\s+(osd\.\d+)\s*$").search(line)
+                if ret:
+                    pgs = int(line.split()[pgs_idx])
+                    if pgs > 0 and (pgs < 50 or pgs > 200):
+                        bad_pgs.update({ret.group(1): pgs})
             except IndexError:
                 pass
 
         if bad_pgs:
-            self._output["pgs-per-osd"] = bad_pgs
+            self._output["bad-pgs-per-osd"] = sorted_dict(bad_pgs,
+                                                          key=lambda e: e[1],
+                                                          reverse=True)
+            msg = ("{} osds with suboptimal num of pgs have been found".
+                   format(len(bad_pgs)))
+            issue = CephCrushWarning(msg)
+            add_issue(issue)
 
     def get_ceph_versions_mismatch(self):
         """
@@ -197,6 +214,7 @@ class CephOSDChecks(CephChecksBase):
         except ValueError:
             return
 
+        versions_set = set()
         daemon_version_info = {}
         if data:
             for unit, _ in data.items():
@@ -209,11 +227,16 @@ class CephOSDChecks(CephChecksBase):
                         d_ver = key.split()[2]
                         if d_ver not in vers:
                             vers.append(d_ver)
+                            versions_set.add(d_ver)
                 if vers:
                     daemon_version_info[unit] = vers
 
         if daemon_version_info:
             self._output["versions"] = daemon_version_info
+            if len(versions_set) > 1:
+                msg = ("ceph daemon versions not aligned")
+                issue = CephDaemonWarning(msg)
+                add_issue(issue)
 
     def get_osd_info(self):
         osd_info = {}
@@ -233,7 +256,7 @@ class CephOSDChecks(CephChecksBase):
 
             osd_devtype = self.get_osd_devtype(osd_id)
             if osd_devtype:
-                osd_info[osd_id]["devtype"]
+                osd_info[osd_id]["devtype"] = osd_devtype
 
         if osd_info:
             self._output["osds"] = osd_info
@@ -276,6 +299,9 @@ class CephOSDChecks(CephChecksBase):
                 else:
                     type_ids.append(buckets[item]["type_id"])
 
+            if not type_ids:
+                continue
+
             # verify if the type_id list contain mixed type id
             if type_ids.count(type_ids[0]) != len(type_ids):
                 bad_buckets.append(buckets[bid]["name"])
@@ -283,7 +309,7 @@ class CephOSDChecks(CephChecksBase):
         if bad_buckets:
             issue = CephCrushWarning("mixed crush buckets indentified (see "
                                      "--storage for more info)")
-            issues_utils.add_issue(issue)
+            add_issue(issue)
             self._output["mixed_crush_buckets"] = bad_buckets
 
     def __call__(self):

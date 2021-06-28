@@ -68,19 +68,13 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
         self.assertEquals(c.get_date_secs(date_string),
                           1616669705)
 
-    def test_get_crushmap_mixed_buckets(self):
+    @mock.patch.object(ceph_daemon_checks, "add_issue")
+    def test_get_crushmap_mixed_buckets(self, mock_add_issue):
         inst = ceph_daemon_checks.get_osd_checker()
         inst()
         result = ['default', 'default~ssd']
         self.assertEqual(inst.output["ceph"]["mixed_crush_buckets"], result)
-        issues = ceph_daemon_checks.issues_utils._get_issues()
-        key = ceph_daemon_checks.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY
-        issues = issues[key]
-        issue_names = []
-        for issue in issues:
-            issue_names.append(issue['type'])
-
-        self.assertTrue("CephCrushWarning" in issue_names)
+        self.assertTrue(mock_add_issue.called)
 
     def test_get_ceph_versions_mismatch(self):
         result = {'mgr': ['14.2.11'],
@@ -98,8 +92,9 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
         inst()
         self.assertFalse("versions" in inst.output["ceph"])
 
-    def test_get_ceph_pg_imbalance(self):
-        result = {'pgs-per-osd': {
+    @mock.patch.object(ceph_daemon_checks, "add_issue")
+    def test_get_ceph_pg_imbalance(self, mock_add_issue):
+        result = {'bad-pgs-per-osd': {
                    'osd.0': 295,
                    'osd.3': 214,
                    'osd.15': 49,
@@ -112,6 +107,7 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
         inst = ceph_daemon_checks.get_osd_checker()
         inst.get_ceph_pg_imbalance()
         self.assertEqual(inst.output["ceph"], result)
+        self.assertTrue(mock_add_issue.called)
 
     def test_get_osd_ids(self):
         inst = ceph_daemon_checks.get_osd_checker()
