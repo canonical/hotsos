@@ -1,5 +1,19 @@
 # Definitions used to identify events that have a start and end point.
 #
+# Supported fields (for full details see common.checks.EventChecksBase):
+#
+# * start: dict with elements "expr" and "hint" where expr is a regex pattern
+#          used to match a log entry that identifies an event start point and
+#          hint is an optional quick pre-search to be run before the full expr.
+#
+# * end: similar to start but used to match event end point.
+#
+# * datasource: relative path to file/directory we want to search.
+#
+# * allow-all-logs: whether to allow datasource to be wildcarded. The default
+#                   is True and should be set to False if searching full
+#                   history will result in excessive load or execution time.
+#
 # REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
 #
 openstack:

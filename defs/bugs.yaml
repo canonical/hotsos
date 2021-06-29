@@ -1,5 +1,23 @@
 # Definitions used to identify known bugs.
 #
+# Supported fields (for full details see common.checks.BugChecksBase):
+#
+# * expr: regex pattern used to match a log entry that identifies the bug.
+#
+# * hint: optional short pattern used as a pre-filter before trying expr.
+#
+# * reason: info to display along with the bug.
+#
+# * reason-format-result-groups: optional list of python.re match group ids
+#   that are available when expr is matched and that we want to use as format
+#   input to reason.
+#
+# * datasource: relative path to file/directory we want to search.
+#
+# * allow-all-logs: whether to allow datasource to be wildcarded. The default
+#                   is True and should be set to False if searching full
+#                   history will result in excessive load or execution time.
+#
 # REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
 #
 openstack:
