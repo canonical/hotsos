@@ -4,6 +4,12 @@
 #
 openstack:
   neutron:
+    1883089:
+      expr: 'AttributeError: ''NoneType'' object has no attribute ''get'''
+      hint: 'AttributeError'
+      reason: 'identified in neutron-l3-agent logs'
+      datasource: 'var/log/neutron/neutron-l3-agent.log'
+      allow-all-logs: True
     1896506:
       expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
       hint: 'no_track'
