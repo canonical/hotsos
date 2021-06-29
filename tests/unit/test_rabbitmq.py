@@ -31,10 +31,29 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                         'rabbit@juju-52088b-2-lxd-10': '75 (5.68%)',
                     },
                 },
-                'queue-connections': {
+                'connections-per-host': {
                     'rabbit@juju-52088b-0-lxd-11': 1316,
                     'rabbit@juju-52088b-1-lxd-11': 521,
                     'rabbit@juju-52088b-2-lxd-10': 454
+                },
+                'client-connections': {
+                    'cinder': {'cinder-scheduler': 9,
+                               'cinder-volume': 24,
+                               'mod_wsgi': 36},
+                    'neutron': {'neutron-dhcp-agent': 90,
+                                'neutron-l3-agent': 21,
+                                'neutron-lbaasv2-agent': 12,
+                                'neutron-metadata-agent': 424,
+                                'neutron-metering-agent': 12,
+                                'neutron-openvswitch-agent': 296,
+                                'neutron-server': 456},
+                    'nova': {'mod_wsgi': 34,
+                             'nova-api-metadata': 339,
+                             'nova-compute': 187,
+                             'nova-conductor': 129,
+                             'nova-consoleauth': 3,
+                             'nova-scheduler': 216},
+                    'octavia': {'octavia-worker': 3},
                 },
                 'memory-used-mib': {
                     'rabbit@juju-52088b-2-lxd-10': '558.877',
@@ -74,34 +93,58 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
 
         mock_rabbitmqctl_report.side_effect = fake_get_rabbitmqctl_report
 
-        expected = {'services': ['beam.smp (1)'],
-                    'resources': {
-                        'vhosts': [
-                            '/',
-                            'nagios-rabbitmq-server-0',
-                            'nagios-rabbitmq-server-1',
-                            'nagios-rabbitmq-server-2',
-                            'openstack'
-                            ],
-                        'vhost-queue-distributions': {
-                            'nagios-rabbitmq-server-0': {
-                                'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
-                                },
-                            'openstack': {
-                                'rabbit@juju-ba2deb-7-lxd-9': '1495 (100.00%)'
-                                },
-                            'nagios-rabbitmq-server-2': {
-                                'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
-                                },
-                            'nagios-rabbitmq-server-1': {
-                                'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
-                                }
+        expected = {
+            'services': ['beam.smp (1)'],
+            'resources': {
+                'vhosts': [
+                    '/',
+                    'nagios-rabbitmq-server-0',
+                    'nagios-rabbitmq-server-1',
+                    'nagios-rabbitmq-server-2',
+                    'openstack'
+                    ],
+                'vhost-queue-distributions': {
+                    'nagios-rabbitmq-server-0': {
+                        'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
                         },
-                        'queue-connections': {
-                            'rabbit@juju-ba2deb-7-lxd-9': 292},
-                        'cluster-partition-handling': 'ignore',
-                    }
-                    }
+                    'openstack': {
+                        'rabbit@juju-ba2deb-7-lxd-9': '1495 (100.00%)'
+                        },
+                    'nagios-rabbitmq-server-2': {
+                        'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
+                        },
+                    'nagios-rabbitmq-server-1': {
+                        'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
+                        }
+                },
+                'connections-per-host': {
+                    'rabbit@juju-ba2deb-7-lxd-9': 292
+                },
+                'client-connections': {'aodh': {'aodh-listener': 1,
+                                                'aodh-notifier': 1},
+                                       'ceilometer': {'ceilometer-polling': 1},
+                                       'designate': {'designate-agent': 1,
+                                                     'designate-api': 2,
+                                                     'designate-central': 9,
+                                                     'designate-mdns': 2,
+                                                     'designate-producer': 7,
+                                                     'designate-sink': 1,
+                                                     'designate-worker': 3},
+                                       'neutron': {
+                                           'neutron-dhcp-agent': 4,
+                                           'neutron-l3-agent': 6,
+                                           'neutron-metadata-agent': 4,
+                                           'neutron-openvswitch-agent': 27,
+                                           'neutron-server': 131},
+                                       'nova': {'nova-api-metadata': 33,
+                                                'nova-compute': 6,
+                                                'nova-conductor': 35,
+                                                'nova-scheduler': 16},
+                                       'octavia': {'octavia-worker': 2},
+                                       },
+                'cluster-partition-handling': 'ignore',
+            }
+        }
 
         inst = services.RabbitMQServiceChecks()
         inst()

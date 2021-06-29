@@ -13,7 +13,7 @@ from common.searchtools import (
     SequenceSearchDef,
     FileSearcher,
 )
-from common.utils import mktemp_dump
+from common.utils import mktemp_dump, sorted_dict
 
 from rabbitmq_common import (
     RabbitMQChecksBase,
@@ -84,11 +84,14 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
                     SequenceSearchDef(
                         start=SearchDef([r"^Connections:$",
                                          r"^Listing connections ...$"]),
-                        body=SearchDef(r"^<(rabbit[^>.]*)(?:[.][0-9]+)+>.*$"),
+                        # Again, the user and protocol columns are inverted
+                        # between 3.6.x and 3.8.x so we have to catch both and
+                        # decide.
+                        body=SearchDef(r"^<(rabbit[^>.]*)(?:[.][0-9]+)+>.+(?:[A-Z]+\s+{[\d,]+}\s+(\S+)|\d+\s+{[\d,]+}\s+\S+\s+(\S+)).+{\"connection_name\",\"([^:]+):\d+:.+$"),  # noqa
                         end=SearchDef(r"^$"),
                         tag="connections"),
                 "callbacks":
-                    [self.get_queue_connection_distribution]
+                    [self.get_connection_distribution]
                 },
             "memory": {
                 "searchdef":
@@ -188,21 +191,42 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
             self.resources["vhost-queue-distributions"] = \
                 {k: v for k, v in vhost_queues.items() if v}
 
-    def get_queue_connection_distribution(self):
+    def get_connection_distribution(self):
         """Get distribution of connections across cluster."""
         sd = self._sequences["connections"]["searchdef"]
-        queue_connections = {}
+        host_connections = {}
+        client_connections = {}
+
         for results in self.results.find_sequence_sections(sd).values():
             for result in results:
                 if result.tag == sd.body_tag:
-                    queue_name = result.get(1)
-                    if queue_name not in queue_connections:
-                        queue_connections[queue_name] = 1
+                    host = result.get(1)
+                    if host not in host_connections:
+                        host_connections[host] = 1
                     else:
-                        queue_connections[queue_name] += 1
+                        host_connections[host] += 1
 
-        if queue_connections:
-            self.resources["queue-connections"] = queue_connections
+                    # detect 3.6.x or 3.8.x format
+                    user = result.get(2)
+                    if user is None:
+                        user = result.get(3)
+
+                    client_name = result.get(4)
+                    if user not in client_connections:
+                        client_connections[user] = {}
+
+                    if client_name not in client_connections[user]:
+                        client_connections[user][client_name] = 1
+                    else:
+                        client_connections[user][client_name] += 1
+
+        if host_connections:
+            for client, vals in client_connections.items():
+                client_connections[client] = sorted_dict(vals,
+                                                         key=lambda e: e[1],
+                                                         reverse=True)
+            self.resources["connections-per-host"] = host_connections
+            self.resources["client-connections"] = client_connections
 
     def get_memory_used(self):
         """Get the memory used per broker."""
