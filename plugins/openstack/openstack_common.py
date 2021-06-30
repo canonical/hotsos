@@ -163,3 +163,49 @@ class AgentChecksBase(object):
 
     def process_results(self, results):
         raise NotImplementedError
+
+
+class OpenstackConfig(object):
+
+    def __init__(self, path):
+        self.path = path
+        self.exists = False
+        self._sections = {}
+        # this provides an easy sectionless lookup but is prone to collisions.
+        self._flattened_config = {}
+        self._load()
+
+    def get(self, key, section=None):
+        """ If section is None assume DEFAULT """
+        if section is None:
+            return self._flattened_config.get(key)
+
+        return self._sections.get(section, {}).get(key)
+
+    def _load(self):
+        cfg = os.path.join(self.path)
+        if not os.path.exists(cfg):
+            return
+
+        self.exists = True
+        current_section = None
+        with open(cfg) as fd:
+            for line in fd:
+                if re.compile(r"^\s*#").search(line):
+                    continue
+
+                ret = re.compile(r"^\s*\[(\S+)].*").search(line)
+                if ret:
+                    current_section = ret.group(1)
+                    self._sections[current_section] = {}
+                    continue
+
+                if current_section is None:
+                    continue
+
+                ret = re.compile(r"^\s*(\S+)\s*=\s*(\S+)").search(line)
+                if ret:
+                    key = ret.group(1)
+                    val = cli_helpers.bool_str(ret.group(2))
+                    self._sections[current_section][key] = val
+                    self._flattened_config[key] = val

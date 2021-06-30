@@ -10,6 +10,7 @@ from openstack_common import (
     OST_PROJECTS,
     OST_SERVICES_DEPS,
     OST_SERVICES_EXPRS,
+    OpenstackConfig,
     OpenstackServiceChecksBase,
 )
 
@@ -57,16 +58,14 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
     def get_debug_log_info(self):
         debug_enabled = {}
         for proj in OST_PROJECTS:
-            path = OST_ETC_OVERRIDES.get(proj)
-            if path is None:
-                path = os.path.join(constants.DATA_ROOT,
-                                    "etc", proj, "{}.conf".format(proj))
+            conf = OST_ETC_OVERRIDES.get(proj)
+            if conf is None:
+                conf = "{}.conf".format(proj)
 
-            if os.path.exists(path):
-                for line in cli_helpers.safe_readlines(path):
-                    ret = re.compile(r"^debug\s*=\s*([A-Za-z]+).*").match(line)
-                    if ret:
-                        debug_enabled[proj] = cli_helpers.bool_str(ret[1])
+            path = os.path.join(constants.DATA_ROOT, "etc", proj, conf)
+            cfg = OpenstackConfig(path)
+            if cfg.exists:
+                debug_enabled[proj] = cfg.get("debug", section="DEFAULT")
 
         if debug_enabled:
             self._output["debug-logging-enabled"] = debug_enabled

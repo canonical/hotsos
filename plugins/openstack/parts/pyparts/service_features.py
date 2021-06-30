@@ -1,12 +1,11 @@
 #!/usr/bin/python3
-import re
 import os
 
-from common import (
-    constants,
-    cli_helpers,
+from common import constants
+from openstack_common import (
+    OpenstackChecksBase,
+    OpenstackConfig,
 )
-from openstack_common import OpenstackChecksBase
 
 CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
                             "openvswitch-agent":
@@ -41,18 +40,16 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         for service in FEATURES:
             for module in FEATURES[service]:
                 module_features = {}
-                cfg = os.path.join(constants.DATA_ROOT,
-                                   CONFIG_FILES[service][module])
-                if not os.path.exists(cfg):
-                    continue
+                path = os.path.join(constants.DATA_ROOT,
+                                    CONFIG_FILES[service][module])
+                cfg = OpenstackConfig(path)
+                if not cfg.exists:
+                    return
 
                 for key in FEATURES[service][module]:
-                    for line in open(cfg).readlines():
-                        ret = re.compile(r"^{}\s*=\s*(.+)\s*".format(key)
-                                         ).match(line)
-                        if ret:
-                            module_features[key] = cli_helpers.bool_str(ret[1])
-                            break
+                    val = cfg.get(key)
+                    if val is not None:
+                        module_features[key] = val
 
                     if key not in module_features:
                         if key in DEFAULTS.get(service, {}).get(module, {}):

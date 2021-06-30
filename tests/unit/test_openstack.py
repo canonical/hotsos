@@ -32,6 +32,7 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/{} main
 """
 
 SVC_CONF = """
+[DEFAULT]
 debug = True
 """
 
