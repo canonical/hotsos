@@ -23,6 +23,7 @@ from plugins.openstack.parts.pyparts import (  # noqa E402
     neutron_l3ha,
     service_checks,
     octavia_agent_checks,
+    config_checks,
 )
 
 
@@ -226,7 +227,7 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
             'python3-octavia 6.1.0-0ubuntu1~cloud0',
             'python3-octavia-lib 2.0.0-0ubuntu1~cloud0',
             'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
-        inst = package_info.get_package_checker()
+        inst = package_info.OpenstackPackageChecks()
         inst()
         self.assertEquals(inst.output["dpkg"], expected)
 
@@ -513,3 +514,22 @@ class TestOpenstackPluginPartOctaviaLBs(TestOpenstackBase):
         inst = octavia_agent_checks.get_octavia_lb_checker()
         inst()
         self.assertEqual(inst.output["octavia"], expected)
+
+
+class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):
+
+    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    def test_config_checks_has_issue(self, mock_add_issue):
+        inst = config_checks.OpenstackConfigChecks()
+        with mock.patch.object(inst, 'is_installed') as mock_installed:
+            mock_installed.return_value = True
+            inst()
+            self.assertTrue(mock_add_issue.called)
+
+    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    def test_config_checks_no_issue(self, mock_add_issue):
+        inst = config_checks.OpenstackConfigChecks()
+        with mock.patch.object(inst, 'is_installed') as mock_installed:
+            mock_installed.return_value = False
+            inst()
+            self.assertFalse(mock_add_issue.called)

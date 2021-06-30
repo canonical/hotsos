@@ -8,6 +8,7 @@ OVS_PKGS_CORE = [r"openvswitch-switch",
                  r"ovn",
                  ]
 OVS_PKGS_DEPS = [r"libc-bin",
+                 r"openvswitch-switch-dpdk",
                  ]
 OVS_DAEMONS = {"ovs-vswitchd":
                {"logs": "var/log/openvswitch/ovs-vswitchd.log"},

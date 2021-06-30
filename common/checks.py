@@ -1,11 +1,15 @@
 #!/usr/bin/python3
 import os
+
+import operator
 import re
 import yaml
 
 from common import (
     cli_helpers,
     constants,
+    issue_types,
+    issues_utils,
 )
 from common.utils import sorted_dict
 from common.known_bugs_utils import (
@@ -183,6 +187,60 @@ class EventChecksBase(ChecksBase):
                     self.searchobj.add_search_term(sd, event["datasource"])
 
 
+class ConfigChecksBase(object):
+
+    def _validate(self, method):
+        return getattr(self, method)()
+
+    def _get_config_handler(self, path):
+        raise NotImplementedError
+
+    def run_config_checks(self):
+        path = os.path.join(constants.PLUGIN_YAML_DEFS, "config_checks.yaml")
+        with open(path) as fd:
+            yaml_defs = yaml.safe_load(fd.read())
+
+        if not yaml_defs:
+            return
+
+        plugin_configs = yaml_defs.get(constants.PLUGIN_NAME, {})
+        for label in plugin_configs:
+            args = plugin_configs[label]
+            requires = args.get("requires")
+            if requires:
+                if not self._validate(requires):
+                    # assume feature not enabled
+                    return
+
+            path = os.path.join(constants.DATA_ROOT, args['path'])
+            cfg = self._get_config_handler(path)
+            for name in args["settings"]:
+                check = args["settings"][name]
+                op = check["operator"]
+                section = check.get("section")
+                actual = cfg.get(name, section=section)
+                value = check["value"]
+                raise_issue = False
+                if actual is None:
+                    if value is not None and not check["allow-unset"]:
+                        raise_issue = True
+                    else:
+                        continue
+
+                if not raise_issue and not getattr(operator, op)(actual,
+                                                                 value):
+                    raise_issue = True
+
+                if raise_issue:
+                    msg = (args["message"])
+                    issues_utils.add_issue(issue_types.OpenstackWarning(msg))
+                    # move on to next set of checks
+                    break
+
+    def __call__(self):
+        self.run_config_checks()
+
+
 class ServiceChecksBase(object):
     """This class should be used by any plugin that wants to identify
     and check the status of running services."""
@@ -265,6 +323,10 @@ class PackageChecksBase(object):
         """
         raise NotImplementedError
 
+    def is_installed(self, pkg):
+        """ Returns True if pkg is installed """
+        raise NotImplementedError
+
     @staticmethod
     def dict_to_formatted_str_list(f):
         """
@@ -306,6 +368,17 @@ class APTPackageChecksBase(PackageChecksBase):
         # The following expression muct match any package name.
         self._match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+
+    def is_installed(self, pkg):
+        dpkg_l = cli_helpers.get_dpkg_l()
+        if not dpkg_l:
+            return
+
+        for line in dpkg_l:
+            if re.compile(r"^ii\s+{}\s+.+".format(pkg)).search(line):
+                return True
+
+        return False
 
     def get_version(self, pkg):
         """ Return version of package. """

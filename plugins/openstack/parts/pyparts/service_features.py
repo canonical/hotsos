@@ -37,6 +37,9 @@ class ServiceFeatureChecks(OpenstackChecksBase):
             return {"features": self._output}
 
     def get_service_features(self):
+        """
+        This is used to display whether or not specific features are enabled.
+        """
         for service in FEATURES:
             for module in FEATURES[service]:
                 module_features = {}

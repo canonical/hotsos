@@ -209,3 +209,10 @@ class OpenstackConfig(object):
                     val = cli_helpers.bool_str(ret.group(2))
                     self._sections[current_section][key] = val
                     self._flattened_config[key] = val
+
+
+class OpenstackPackageChecksBase(plugintools.PluginPartBase,
+                                 checks.APTPackageChecksBase):
+
+    def __init__(self):
+        super().__init__(core_pkgs=OST_PKGS_CORE, other_pkgs=OST_DEP_PKGS)

@@ -31,7 +31,7 @@ plugins:
       service_features:
         - ServiceFeatureChecks
       package_info:
-        - get_package_checker
+        - OpenstackPackageChecks
       network:
         - OpenstackNetworkChecks
       vm_info:
@@ -48,6 +48,8 @@ plugins:
         - NovaExternalEventChecks
       octavia_agent_checks:
         - get_octavia_lb_checker
+      config_checks:
+        - OpenstackConfigChecks
   openvswitch:
     parts:
       ovs_checks:
