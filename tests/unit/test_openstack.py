@@ -239,7 +239,7 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
     def test_get_port_stat_by_name(self):
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(name="bond1")
-        self.assertEqual(stats, {'dropped': '100000000 (8%)'})
+        self.assertEqual(stats, {'rx': {'dropped': '100000000 (7%)'}})
 
     @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
                        fake_ip_link_show_no_errors_drops)
@@ -253,7 +253,7 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
     def test_get_port_stat_by_mac(self):
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(mac="ac:1f:6b:9e:d8:44")
-        self.assertEqual(stats, {'errors': '10000000 (5%)'})
+        self.assertEqual(stats, {'rx': {'errors': '10000000 (4%)'}})
 
     def test_find_interface_name_by_ip_address(self):
         addr = "10.10.101.33"
@@ -282,7 +282,7 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
                     'port-health':
                     {'phy-ports':
                      {'bond1.4003@bond1': {
-                      'dropped': '131579034 (15%)'}}}}
+                      'rx': {'dropped': '131579034 (13%)'}}}}}
         inst = network.OpenstackNetworkChecks()
         inst.get_ns_info()
         inst.get_config_network_info()

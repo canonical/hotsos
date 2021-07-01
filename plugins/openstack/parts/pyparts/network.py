@@ -185,31 +185,39 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             break
 
         stats = {}
-        total_packets = float(0)
+        counters = {}
         if stats_raw:
             for i, line in enumerate(stats_raw):
-                ret = re.compile(r"\s+[RT]X:\s+.+").findall(line)
+                ret = re.compile(r"\s+([RT]X):\s+.+").findall(line)
                 if ret:
+                    rxtx = ret[0].lower()
                     ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
                     if ret:
                         for j, column in enumerate(ret):
                             value = int(stats_raw[i + 1].split()[j])
-                            if column == "packets":
-                                total_packets = float(value)
-                                continue
-
-                            for key in ["dropped", "errors"]:
+                            for key in ["packets", "dropped", "errors",
+                                        "overrun"]:
                                 if column == key:
-                                    if not value:
-                                        continue
+                                    if rxtx not in counters:
+                                        counters[rxtx] = {}
 
-                                    percentage = int((100/total_packets) *
-                                                     value)
-                                    # only report if > 0% drops/errors
-                                    if percentage > 0:
-                                        stats[key] = ("{} ({}%)"
-                                                      .format(value,
-                                                              percentage))
+                                    counters[rxtx][key] = float(value)
+                                    continue
+
+        if counters:
+            for rxtx in counters:
+                total = sum(counters[rxtx].values())
+                del counters[rxtx]["packets"]
+                for key, value in counters[rxtx].items():
+                    if value:
+                        pcent = int(100 / total * value)
+                        if pcent <= 1:
+                            continue
+
+                        if rxtx not in stats:
+                            stats[rxtx] = {}
+
+                        stats[rxtx][key] = "{} ({}%)".format(int(value), pcent)
 
         return stats
 
