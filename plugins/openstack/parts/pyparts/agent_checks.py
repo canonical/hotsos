@@ -138,7 +138,11 @@ class AgentChecks(plugintools.PluginPartBase):
             check.register_search_terms()
 
         results = s.search()
+        output = {}
         for check in checks:
             check_results = check.process_results(results)
             if check_results:
-                self._output["agent-checks"] = check_results
+                output.update(check_results)
+
+        if output:
+            self._output = {"agent-checks": output}
