@@ -7,8 +7,9 @@ from uuid import uuid4
 from common import (
     constants,
     cli_helpers,
+    issue_types,
+    issues_utils,
 )
-from common.known_bugs_utils import add_known_bug
 from openstack_common import (
     OPENSTACK_SHOW_CPU_PINNING_RESULTS,
 )
@@ -382,6 +383,8 @@ class CPUPinningChecker(object):
                     msg = ("{} is a subset of both isolcpus AND "
                            "cpuaffinity".format(self.cpu_dedicated_set_name))
                     self.results.add_error(msg, extra)
+                    issue = issue_types.OpenstackWarning(msg)
+                    issues_utils.add_issue(issue)
             elif intersect2:
                 if intersect1:
                     extra = ("intersection with isolcpus: {}\nintersection "
@@ -390,30 +393,41 @@ class CPUPinningChecker(object):
                     msg = ("{} is a subset of both isolcpus AND "
                            "cpuaffinity".format(self.cpu_dedicated_set_name))
                     self.results.add_error(msg, extra)
+                    issue = issue_types.OpenstackWarning(msg)
+                    issues_utils.add_issue(issue)
             else:
                 msg = ("{} is neither a subset of isolcpus nor cpuaffinity".
                        format(self.cpu_dedicated_set_name))
-                self.results.add_error(msg)
-                reason = "cpu pinning check: {}".format(msg)
-                add_known_bug(1897275, reason)
+                self.results.add_info(msg)
+                # this is not necessarily an error. If using
+                # hw:cpu_policy=shared this allows moving non-kvm workloads
+                # off a set of cores while still allowing vm cores to be
+                # overcommitted.
 
         intersect = self.cpu_shared_set.intersection(self.kernel.isolcpus)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
-            self.results.add_error("cpu_shared_set contains cores from "
-                                   "isolcpus", extra)
+            msg = "cpu_shared_set contains cores from isolcpus"
+            self.results.add_error(msg, extra)
+            issue = issue_types.OpenstackWarning(msg)
+            issues_utils.add_issue(issue)
 
         intersect = self.cpu_dedicated_set.intersection(self.cpu_shared_set)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
-            self.results.add_error("cpu_shared_set and {} overlap".
-                                   format(self.cpu_dedicated_set_name),
-                                   extra)
+            msg = ("cpu_shared_set and {} overlap".
+                   format(self.cpu_dedicated_set_name))
+            self.results.add_error(msg, extra)
+            issue = issue_types.OpenstackWarning(msg)
+            issues_utils.add_issue(issue)
 
         intersect = self.isolcpus.intersection(self.cpuaffinity)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
-            self.results.add_error("isolcpus and cpuaffinity overlap", extra)
+            msg = "isolcpus and cpuaffinity overlap"
+            self.results.add_error(msg, extra)
+            issue = issue_types.OpenstackWarning(msg)
+            issues_utils.add_issue(issue)
 
         node_count = 0
         for node in self.numa.nodes:
@@ -433,13 +447,22 @@ class CPUPinningChecker(object):
             extra += "\n{}: {}".format(self.cpu_dedicated_set_name,
                                        list_to_str(self.cpu_dedicated_set))
 
-            self.results.add_info("{} has cores from > 1 numa node".
-                                  format(self.cpu_dedicated_set_name), extra)
+            msg = ("{} has cores from > 1 numa node".
+                   format(self.cpu_dedicated_set_name))
+            self.results.add_warning(msg, extra)
+            issue = issue_types.OpenstackWarning(msg)
+            issues_utils.add_issue(issue)
 
         if self.isolcpus or self.cpuaffinity:
             total_isolated = self.isolcpus.union(self.cpuaffinity)
             nonisolated = set(total_isolated).intersection()
-            if len(nonisolated) <= 4:
-                self.results.add_warn("Host has only {} cores unpinned. This "
-                                      "might cause unintended performance "
-                                      "problems".format(len(nonisolated)))
+
+            pcent_unpinned = ((float(100) / len(total_isolated)) *
+                              len(nonisolated))
+            if pcent_unpinned < 10 or len(nonisolated) <= 4:
+                msg = ("Host has only {} cores ({}%) unpinned. This might "
+                       "cause unintended performance problems".
+                       format(len(nonisolated), pcent_unpinned))
+                self.results.add_warn(msg)
+                issue = issue_types.OpenstackWarning(msg)
+                issues_utils.add_issue(issue)
