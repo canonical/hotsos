@@ -18,11 +18,10 @@ from plugins.openstack.parts.pyparts import (  # noqa E402
     network,
     service_features,
     cpu_pinning_check,
-    neutron_agent_checks,
+    agent_checks,
     agent_exceptions,
     neutron_l3ha,
     service_checks,
-    octavia_agent_checks,
     config_checks,
 )
 
@@ -307,7 +306,7 @@ class TestOpenstackPluginPartCpu_pinning_check(TestOpenstackBase):
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
 
-class TestOpenstackPluginPartAgent_checks(TestOpenstackBase):
+class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
 
     def test_process_rpc_loop_results(self):
         end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
@@ -323,15 +322,15 @@ class TestOpenstackPluginPartAgent_checks(TestOpenstackBase):
         s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-ovs-agent"
-        c = neutron_agent_checks.NeutronAgentEventChecks(s, root_key)
+        c = agent_checks.NeutronAgentEventChecks(s, root_key)
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results.get(group_key), expected)
 
-    @mock.patch.object(neutron_agent_checks.checks, "add_known_bug")
+    @mock.patch.object(agent_checks.checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
         s = searchtools.FileSearcher()
-        c = neutron_agent_checks.NeutronAgentBugChecks(s, "neutron")
+        c = agent_checks.NeutronAgentBugChecks(s, "neutron")
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results, None)
@@ -369,18 +368,43 @@ class TestOpenstackPluginPartAgent_checks(TestOpenstackBase):
         s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-l3-agent"
-        c = neutron_agent_checks.NeutronAgentEventChecks(s, root_key)
+        c = agent_checks.NeutronAgentEventChecks(s, root_key)
         c.register_search_terms()
         results = c.process_results(s.search())
         self.assertEqual(results.get(group_key), expected)
 
-    @mock.patch.object(neutron_agent_checks, "NeutronAgentEventChecks")
-    @mock.patch.object(neutron_agent_checks, "NeutronAgentBugChecks")
-    def test_run_neutron_agent_checks(self, mock_agent_bug_checks,
-                                      mock_agent_event_checks):
-        neutron_agent_checks.NeutronAgentChecks()()
+    @mock.patch.object(agent_checks, "NeutronAgentEventChecks")
+    @mock.patch.object(agent_checks, "NeutronAgentBugChecks")
+    def test_run_agent_checks(self, mock_agent_bug_checks,
+                              mock_agent_event_checks):
+        agent_checks.AgentChecks()()
         self.assertTrue(mock_agent_bug_checks.called)
         self.assertTrue(mock_agent_event_checks.called)
+
+    def test_run_octavia_checks(self):
+        expected = {'amp-missed-heartbeats': {
+                     '2021-06-01': {
+                      '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1,
+                      }},
+                    'lb-failovers': {
+                     'auto': {
+                      '2021-03-09': {
+                          '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
+                          '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
+                          '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
+                          'e9cb98af-9c21-4cf6-9661-709179ce5733': 1,
+                        }
+                      }
+                     }
+                    }
+        s = searchtools.FileSearcher()
+        root_key = "octavia-checks"
+        for group_key in ["octavia-worker", "octavia-health-manager"]:
+            c = agent_checks.OctaviaAgentEventChecks(s, root_key)
+            c.register_search_terms()
+            results = c.process_results(s.search())
+            self.assertEqual(results["octavia"].get(group_key),
+                             expected.get(group_key))
 
 
 class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
@@ -491,29 +515,6 @@ class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
         inst = service_checks.NeutronServiceChecks()
         inst()
         self.assertTrue(mock_add_issue.called)
-
-
-class TestOpenstackPluginPartOctaviaLBs(TestOpenstackBase):
-
-    def test_get_lb_failovers(self):
-        expected = {'amp-missed-heartbeats': {
-                     '2021-06-01': {
-                      '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1,
-                      }},
-                    'lb-failovers': {
-                     'auto': {
-                      '2021-03-09': {
-                          '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
-                          '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
-                          '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
-                          'e9cb98af-9c21-4cf6-9661-709179ce5733': 1,
-                        }
-                      }
-                     }
-                    }
-        inst = octavia_agent_checks.get_octavia_lb_checker()
-        inst()
-        self.assertEqual(inst.output["octavia"], expected)
 
 
 class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):

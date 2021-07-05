@@ -1,4 +1,6 @@
-# Definitions used to identify events that have a start and end point.
+# Definitions used to identify events in log files. Events can be single or
+# multi-line. The former requires a start match and the latter requires a start
+# and end.
 #
 # Supported fields (for full details see common.checks.EventChecksBase):
 #
@@ -6,7 +8,7 @@
 #          used to match a log entry that identifies an event start point and
 #          hint is an optional quick pre-search to be run before the full expr.
 #
-# * end: similar to start but used to match event end point.
+# * end: optional patter to match the end of a multi-line event.
 #
 # * datasource: relative path to file/directory we want to search.
 #
@@ -42,7 +44,6 @@ openstack:
           expr: '^([0-9-]+) (\S+) .+ Finished a router update for (\S+), update_id \S+. Time elapsed:\s([0-9.]+)'
           hint: 'router update'
         datasource: 'var/log/neutron/neutron-l3-agent.log'
-        allow-all-logs: True
       # identify HA router keepalived spawn events that took the longest to complete and report the longest updates.
       router-spawn-events:
         # router state_change_monitor + keepalived spawn
@@ -53,4 +54,22 @@ openstack:
           expr: '^([0-9-]+) (\S+) .+ Keepalived spawned with config \S+/ha_confs/([0-9a-z-]+)/keepalived.conf .+'
           hint: 'Keepalived'
         datasource: 'var/log/neutron/neutron-l3-agent.log'
-        allow-all-logs: True
+  octavia-checks:
+    octavia-health-manager:
+      amp-missed-heartbeats:
+        datasource: 'var/log/octavia/octavia-health-manager.log'
+        start:
+          expr: '^(\S+) \S+ .+ Amphora (\S+) health message was processed too slowly:.+'
+          hint: 'Amphora'
+      lb-failover-auto:
+        datasource: 'var/log/octavia/octavia-health-manager.log'
+        start:
+          expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
+          hint: 'failover'
+    octavia-worker:
+      lb-failover-manual:
+        datasource: 'var/log/octavia/octavia-worker.log'
+        start:
+          expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
+          hint: 'failover'
+

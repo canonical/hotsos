@@ -24,6 +24,8 @@ plugins:
         - get_bug_checker
   openstack:
     parts:
+      agent_checks:
+        - AgentChecks
       openstack_services:
         - get_openstack_service_checker
       service_checks:
@@ -40,14 +42,10 @@ plugins:
         - AgentExceptionChecks
       cpu_pinning_check:
         - CPUPinningChecker
-      neutron_agent_checks:
-        - NeutronAgentChecks
       neutron_l3ha:
         - NeutronL3HAChecks
       nova_external_events:
         - NovaExternalEventChecks
-      octavia_agent_checks:
-        - get_octavia_lb_checker
       config_checks:
         - OpenstackConfigChecks
   openvswitch:

@@ -125,9 +125,11 @@ class EventChecksBase(ChecksBase):
         """
         Load event search definitions from yaml.
 
-        An event has two expressions; one to identify the start and one to
-        identify the end. Note that these events can be overlapping hence why
-        we don't use a SequenceSearchDef.
+        An event is identified using between one and two expressions. If it
+        requires a start and end to be considered complete then these can be
+        specified for match otherwise we can match on a single line.
+        Note that multi-line events can be overlapping hence why we don't use a
+        SequenceSearchDef (we use common.analytics.LogSequenceStats).
         """
         path = os.path.join(constants.PLUGIN_YAML_DEFS, "events.yaml")
         with open(path) as fd:
@@ -141,12 +143,24 @@ class EventChecksBase(ChecksBase):
                                                    {}).items():
             for label in group:
                 event = group[label]
+
+                # if this is a multiline event (has a start and end), append
+                # this to the tag so that it can be used with
+                # common.analytics.LogSequenceStats.
+                if "end" in event:
+                    start_tag = "{}-start".format(label)
+                else:
+                    start_tag = label
+
                 start = SearchDef(event["start"]["expr"],
-                                  tag="{}-start".format(label),
+                                  tag=start_tag,
                                   hint=event["start"]["hint"])
-                end = SearchDef(event["end"]["expr"],
-                                tag="{}-end".format(label),
-                                hint=event["end"]["hint"])
+                if "end" in event:
+                    end = SearchDef(event["end"]["expr"],
+                                    tag="{}-end".format(label),
+                                    hint=event["end"]["hint"])
+                else:
+                    end = None
 
                 ds = os.path.join(constants.DATA_ROOT, event["datasource"])
                 if (event.get("allow-all-logs", True) and
@@ -159,8 +173,11 @@ class EventChecksBase(ChecksBase):
                 if label not in self._event_defs[group_name]:
                     self._event_defs[group_name][label] = {}
 
-                self._event_defs[group_name][label] = \
-                    {"searchdefs": [start, end], "datasource": ds}
+                e_def = {"searchdefs": [start], "datasource": ds}
+                if end:
+                    e_def["searchdefs"].append(end)
+
+                self._event_defs[group_name][label] = e_def
 
     @property
     def event_definitions(self):
