@@ -115,45 +115,58 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
         for s in self._sequences.values():
             self.searcher.add_search_term(s["searchdef"], self.f_report)
 
+    def _get_vhost_queue_counts(self, section, seq_def):
+        vhost = None
+        queues = {}
+        for result in section:
+            if result.tag == seq_def.start_tag:
+                # check both report formats
+                vhost = result.get(1)
+            elif result.tag == seq_def.body_tag:
+                node_name = result.get(1) or result.get(4)
+                # if we matched the section header, skip
+                if node_name == "pid":
+                    continue
+
+                queue = result.get(2) or result.get(3)
+                # if we matched the section header, skip
+                if queue == "name":
+                    continue
+
+                if node_name not in queues:
+                    queues[node_name] = 0
+
+                queues[node_name] += 1
+
+        return vhost, queues
+
     def get_queue_info(self):
         """Get distribution of queues across cluster."""
-        sd = self._sequences["queues"]["searchdef"]
+        seq_def = self._sequences["queues"]["searchdef"]
         vhost_queues = {}
+        vhost_info = {}
         issues_raised = {}
         skewed_queue_nodes = {}
-        for results in self.results.find_sequence_sections(sd).values():
-            vhost = None
-            queues = {}
-            for result in results:
-                if result.tag == sd.start_tag:
-                    # check both report formats
-                    vhost = result.get(1)
-                elif result.tag == sd.body_tag:
-                    node_name = result.get(1) or result.get(4)
-                    # if we matched the section header, skip
-                    if node_name == "pid":
-                        continue
+        for section in self.results.find_sequence_sections(seq_def).values():
+            vhost, queues = self._get_vhost_queue_counts(section, seq_def)
+            vhost_info[vhost] = queues
 
-                    queue = result.get(2) or result.get(3)
-                    # if we matched the section header, skip
-                    if queue == "name":
-                        continue
-
-                    if node_name not in queues:
-                        queues[node_name] = 0
-
-                    queues[node_name] += 1
-
+        global_total_queues = sum([sum(queues.values())
+                                   for queues in vhost_info.values()])
+        for vhost, queues in vhost_info.items():
+            # log anyway to show empty vhosts
             vhost_queues[vhost] = {}
             if not queues:
                 continue
 
             total = sum(queues.values())
             for node_name in queues:
+                total_pcent = float(100) / global_total_queues * total
                 if total > 0:
                     fraction = queues[node_name] / total
                     fraction_string = "{:.2f}%".format(fraction * 100)
-                    if fraction > 2 / 3:
+                    # ignore vhosts that have < 1% of total number of queues
+                    if total_pcent >= 1 and fraction > 2 / 3:
                         if node_name not in skewed_queue_nodes:
                             skewed_queue_nodes[node_name] = 0
 
