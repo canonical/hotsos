@@ -124,7 +124,8 @@ class OctaviaAgentEventChecks(checks.EventChecksBase):
         if failovers:
             output["lb-failovers"] = failovers
 
-        return {"octavia": output}
+        if output:
+            return {"octavia": output}
 
 
 class AgentChecks(plugintools.PluginPartBase):
