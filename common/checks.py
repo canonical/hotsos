@@ -204,12 +204,44 @@ class EventChecksBase(ChecksBase):
                     self.searchobj.add_search_term(sd, event["datasource"])
 
 
+class ConfigBase(object):
+
+    def __init__(self, path):
+        self.path = path
+
+    @property
+    def exists(self):
+        if os.path.exists(self.path):
+            return True
+
+        return False
+
+    def get(self, key, section=None):
+        raise NotImplementedError
+
+
 class ConfigChecksBase(object):
+    """
+    This class is used to peform checks on file based config. The input is
+    typically defined in defs/config_checks.yaml and each plugin that wants to
+    perform these checks can implement this class.
+    """
 
     def _validate(self, method):
+        """
+        @param method: name of a method that must exist in the implementation
+        of this class and that is called to determine whether to run a config
+        check. An example method could be one that checks if a particular
+        package is installed.
+        """
         return getattr(self, method)()
 
     def _get_config_handler(self, path):
+        """
+        Different services will have different config file formats.
+        Implementations of this class should implement this method such that it
+        returns an implementation of ConfigBase.
+        """
         raise NotImplementedError
 
     def run_config_checks(self):

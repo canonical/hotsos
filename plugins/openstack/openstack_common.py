@@ -165,11 +165,10 @@ class AgentChecksBase(object):
         raise NotImplementedError
 
 
-class OpenstackConfig(object):
+class OpenstackConfig(checks.ConfigBase):
 
-    def __init__(self, path):
-        self.path = path
-        self.exists = False
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._sections = {}
         # this provides an easy sectionless lookup but is prone to collisions.
         self._flattened_config = {}
@@ -183,13 +182,11 @@ class OpenstackConfig(object):
         return self._sections.get(section, {}).get(key)
 
     def _load(self):
-        cfg = os.path.join(self.path)
-        if not os.path.exists(cfg):
+        if not self.exists:
             return
 
-        self.exists = True
         current_section = None
-        with open(cfg) as fd:
+        with open(self.path) as fd:
             for line in fd:
                 if re.compile(r"^\s*#").search(line):
                     continue

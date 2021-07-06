@@ -12,7 +12,7 @@ from common.searchtools import (
     FileSearcher,
 )
 from common.utils import mktemp_dump
-from openstack_common import OpenstackChecksBase
+from openstack_common import OpenstackChecksBase, OpenstackConfig
 
 
 CONFIG = {"nova": [{"path": os.path.join(constants.DATA_ROOT,
@@ -75,22 +75,16 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         config_info = {}
         for svc in CONFIG:
             for info in CONFIG[svc]:
-                data_source = info["path"]
-                key = info["key"]
-                if not os.path.exists(data_source):
+                cfg = OpenstackConfig(info["path"])
+                if not cfg.exists:
                     continue
 
-                iface = None
-                ip_address = None
-                for line in open(data_source).readlines():
-                    ret = re.compile(r"^\s*{}\s*=\s*([0-9\.]+).*".
-                                     format(key)).match(line)
-                    if ret:
-                        ip_address = ret[1]
-                        iface = self._find_interface_name_by_ip_address(
-                                                                    ip_address)
-                        if iface:
-                            break
+                key = info["key"]
+                ip_address = cfg.get(key)
+                if ip_address:
+                    iface = self._find_interface_name_by_ip_address(ip_address)
+                else:
+                    iface = None
 
                 if svc not in config_info:
                     config_info[svc] = {}
