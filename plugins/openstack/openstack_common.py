@@ -213,3 +213,10 @@ class OpenstackPackageChecksBase(plugintools.PluginPartBase,
 
     def __init__(self):
         super().__init__(core_pkgs=OST_PKGS_CORE, other_pkgs=OST_DEP_PKGS)
+
+
+class OpenstackDockerImageChecksBase(plugintools.PluginPartBase,
+                                     checks.DockerImageChecksBase):
+
+    def __init__(self):
+        super().__init__(core_pkgs=OST_PKGS_CORE, other_pkgs=OST_DEP_PKGS)

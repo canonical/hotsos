@@ -399,6 +399,104 @@ class PackageChecksBase(object):
         raise NotImplementedError
 
 
+class DockerImageChecksBase(PackageChecksBase):
+
+    def __init__(self, core_pkgs, other_pkgs=None):
+        """
+        @param core_pkgs:
+        package names.
+        @param other_pkg_exprs:
+        """
+        self.core_image_exprs = core_pkgs
+        self.other_image_exprs = other_pkgs or []
+        self._core_images = {}
+        self._other_images = {}
+        self._all_images = {}
+        # The following expression muct match any package name.
+        self._match_expr_template = \
+            r"^(\S+/(\S+))\s+([\d\.]+)\s+(\S+)\s+.+"
+
+    def _match_image(self, image, entry):
+        expr = self._match_expr_template.format(image)
+        ret = re.compile(expr).match(entry)
+        if ret:
+            return ret[1], ret[2], ret[3]
+
+        return None, None, None
+
+    def get_container_images(self):
+        images = []
+        for line in cli_helpers.get_docker_ps():
+            ret = re.compile(r"^\S+\s+(\S+):(\S+)\s+.+").match(line)
+            if not ret:
+                continue
+
+            images.append((ret[1], ret[2]))
+
+        return images
+
+    @property
+    def _all(self):
+        """ Returns dict of all packages matched. """
+        if self._all_images:
+            return self._all_images
+
+        used_images = self.get_container_images()
+        image_list = cli_helpers.get_docker_images()
+        if not image_list:
+            return
+
+        all_exprs = self.core_image_exprs + self.other_image_exprs
+        for line in image_list:
+            for image in all_exprs:
+                fullname, shortname, version = self._match_image(image, line)
+                if shortname is None:
+                    continue
+
+                if (fullname, version) not in used_images:
+                    continue
+
+                if image in self.core_image_exprs:
+                    self._core_images[shortname] = version
+                else:
+                    self._other_images[shortname] = version
+
+        # ensure sorted
+        self._core_images = sorted_dict(self._core_images)
+        self._other_images = sorted_dict(self._other_images)
+        combined = {}
+        combined.update(self._core_images)
+        combined.update(self._other_images)
+        self._all_images = sorted_dict(combined)
+
+        return self._all_images
+
+    @property
+    @PackageChecksBase.dict_to_formatted_str_list
+    def all(self):
+        """
+        Returns list of all images matched. Each entry in the list is an item
+        looking like "<pkgname> <pkgver>".
+        """
+        return self._all
+
+    @property
+    @PackageChecksBase.dict_to_formatted_str_list
+    def core(self):
+        """
+        Only return results that matched from the "core" set of images.
+        """
+        if self._core_images:
+            return self._core_images
+
+        if self._other_images:
+            return {}
+
+        # go fetch
+        self.all
+        return self._core_images
+
+
 class APTPackageChecksBase(PackageChecksBase):
 
     def __init__(self, core_pkgs, other_pkgs=None):

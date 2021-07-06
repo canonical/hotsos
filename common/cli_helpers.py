@@ -453,3 +453,31 @@ def get_ovs_vsctl_list_br():
         return open(path, 'r').readlines()
 
     return []
+
+
+@catch_exceptions(OSError)
+def get_docker_images():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['docker', 'images'])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    path = os.path.join(DATA_ROOT,
+                        "sos_commands/docker/docker_images")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []
+
+
+@catch_exceptions(OSError)
+def get_docker_ps():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['docker', 'ps'])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    path = os.path.join(DATA_ROOT,
+                        "sos_commands/docker/docker_ps")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []

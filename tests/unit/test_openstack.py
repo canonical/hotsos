@@ -230,6 +230,29 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
         inst()
         self.assertEquals(inst.output["dpkg"], expected)
 
+    def test_get_docker_info(self):
+        expected = ['libvirt-exporter 1.1.0',
+                    'ubuntu-source-ceilometer-compute 10.2.0',
+                    'ubuntu-source-chrony 10.2.0',
+                    'ubuntu-source-cron 10.2.0',
+                    'ubuntu-source-iscsid 10.2.0',
+                    'ubuntu-source-kolla-toolbox 10.2.0',
+                    'ubuntu-source-masakari-monitors 10.2.0',
+                    'ubuntu-source-multipathd 10.2.0',
+                    'ubuntu-source-neutron-dhcp-agent 10.2.0',
+                    'ubuntu-source-neutron-metadata-agent 10.2.0',
+                    'ubuntu-source-neutron-openvswitch-agent 10.2.0',
+                    'ubuntu-source-nova-compute 10.2.0',
+                    'ubuntu-source-nova-libvirt 10.2.0',
+                    'ubuntu-source-nova-ssh 10.2.0',
+                    'ubuntu-source-openvswitch-db-server 10.2.0',
+                    'ubuntu-source-openvswitch-vswitchd 10.2.0',
+                    'ubuntu-source-prometheus-node-exporter 10.2.0']
+
+        inst = package_info.OpenstackDockerImageChecks()
+        inst()
+        self.assertEquals(inst.output["docker-images"], expected)
+
 
 class TestOpenstackPluginPartNetwork(TestOpenstackBase):
 
