@@ -384,6 +384,9 @@ class PackageChecksBase(object):
         """
         def _dict_to_formatted_str_list(*args, **kwargs):
             ret = f(*args, **kwargs)
+            if not ret:
+                return []
+
             return ["{} {}".format(*e) for e in ret.items()]
 
         return _dict_to_formatted_str_list

@@ -54,4 +54,10 @@ class BcacheChecksBase(StorageChecksBase):
             return {"bcache": self._output}
 
     def get_sysfs_cachesets(self):
-        return glob.glob(os.path.join(constants.DATA_ROOT, "sys/fs/bcache/*"))
+        cachesets = []
+        path = os.path.join(constants.DATA_ROOT, "sys/fs/bcache/*")
+        for entry in glob.glob(path):
+            if os.path.exists(os.path.join(entry, "cache_available_percent")):
+                cachesets.append(entry)
+
+        return cachesets
