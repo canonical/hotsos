@@ -57,6 +57,7 @@ declare -A PLUGINS=(
     [juju]=false
     [kernel]=false
     [rabbitmq]=false
+    [sosreport]=false
     [system]=true  # always do system by default
     [all]=false
 )
@@ -64,6 +65,7 @@ override_all_default=false
 # output ordering
 declare -a PLUGIN_NAMES=(
     system
+    sosreport
     openstack
     openvswitch
     rabbitmq
