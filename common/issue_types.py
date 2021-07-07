@@ -42,3 +42,7 @@ class OpenstackWarning(IssueTypeBase):
 
 class OpenvSwitchWarning(IssueTypeBase):
     pass
+
+
+class SOSReportWarning(IssueTypeBase):
+    pass

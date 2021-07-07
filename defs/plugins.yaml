@@ -85,6 +85,10 @@ plugins:
       services:
         - RabbitMQServiceChecks
         - get_rabbitmq_package_checker
+  sosreport:
+    parts:
+      plugin_checks:
+        - SOSReportPluginChecks
   storage:
     parts:
       ceph_general:
