@@ -16,7 +16,7 @@ from common.utils import mktemp_dump
 from openstack_common import NEUTRON_HA_PATH, OpenstackChecksBase
 
 VRRP_TRANSITION_WARN_THRESHOLD = 8
-YAML_PRIORITY = 9
+YAML_PRIORITY = 8
 
 
 class NeutronL3HAChecks(OpenstackChecksBase):

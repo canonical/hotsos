@@ -4,7 +4,7 @@ from openstack_common import (
     OpenstackDockerImageChecksBase,
 )
 
-YAML_PRIORITY = 3
+YAML_PRIORITY = 1
 
 
 class OpenstackPackageChecks(OpenstackPackageChecksBase):
