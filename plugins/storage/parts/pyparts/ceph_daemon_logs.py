@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import os
 
 from storage_common import (

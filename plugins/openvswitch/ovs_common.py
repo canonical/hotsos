@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from common import plugintools
 
 OPENVSWITCH_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",

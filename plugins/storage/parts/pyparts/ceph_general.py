@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from common.checks import APTPackageChecksBase
 
 from storage_common import (

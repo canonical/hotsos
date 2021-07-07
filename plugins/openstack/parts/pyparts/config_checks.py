@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from common.checks import ConfigChecksBase
 from openstack_common import (
     OpenstackConfig,

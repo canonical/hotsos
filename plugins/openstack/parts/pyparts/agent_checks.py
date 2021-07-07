@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import yaml
 
 from common.searchtools import FileSearcher

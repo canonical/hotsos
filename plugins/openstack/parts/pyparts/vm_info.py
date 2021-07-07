@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from openstack_common import OpenstackChecksBase
 
 YAML_PRIORITY = 3

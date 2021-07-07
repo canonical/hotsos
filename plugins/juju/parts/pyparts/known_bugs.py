@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from common import checks
 from common.searchtools import FileSearcher
 
