@@ -187,8 +187,10 @@ class CephOSDChecks(CephChecksBase):
                 ret = re.compile(r"\s+(osd\.\d+)\s*$").search(line)
                 if ret:
                     pgs = int(line.split()[pgs_idx])
-                    if pgs > 0 and (pgs < 50 or pgs > 200):
-                        bad_pgs.update({ret.group(1): pgs})
+                    margin = abs(100 - (float(100) / 200 * pgs))
+                    # allow 10% margin from optimal 200 value
+                    if margin > 10:
+                        bad_pgs[ret.group(1)] = pgs
             except IndexError:
                 pass
 
@@ -196,7 +198,7 @@ class CephOSDChecks(CephChecksBase):
             self._output["bad-pgs-per-osd"] = sorted_dict(bad_pgs,
                                                           key=lambda e: e[1],
                                                           reverse=True)
-            msg = ("{} osds with suboptimal num of pgs have been found".
+            msg = ("{} osds found with > 10% margin from optimal 200 pgs".
                    format(len(bad_pgs)))
             issue = CephCrushWarning(msg)
             add_issue(issue)

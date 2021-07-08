@@ -96,14 +96,15 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
         result = {'bad-pgs-per-osd': {
                    'osd.0': 295,
-                   'osd.3': 214,
+                   'osd.1': 150,
                    'osd.15': 49,
                    'osd.16': 316,
                    'osd.17': 370,
+                   'osd.2': 127,
                    'osd.34': 392,
+                   'osd.36': 0,
                    'osd.37': 406,
-                   'osd.56': 209,
-                   'osd.72': 206}}
+                   'osd.60': 140}}
         inst = ceph_daemon_checks.get_osd_checker()
         inst.get_ceph_pg_imbalance()
         self.assertEqual(inst.output["ceph"], result)
