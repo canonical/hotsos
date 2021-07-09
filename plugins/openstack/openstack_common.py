@@ -134,10 +134,19 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
         for line in cli_helpers.get_ps():
             ret = re.compile(".+product=OpenStack Nova.+").match(line)
             if ret:
+                guest = {}
                 expr = r".+uuid\s+([a-z0-9\-]+)[\s,]+.+"
                 ret = re.compile(expr).match(ret[0])
                 if ret:
-                    self._instances.append(ret[1])
+                    guest["uuid"] = ret[1]
+
+                expr = r".+\s+-name\s+guest=(instance-\w+)[,]*.*\s+.+"
+                ret = re.compile(expr).match(ret[0])
+                if ret:
+                    guest["name"] = ret[1]
+
+                if guest:
+                    self._instances.append(guest)
 
         return self._instances
 

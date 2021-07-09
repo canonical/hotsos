@@ -136,10 +136,19 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
 class TestOpenstackPluginPartVm_info(TestOpenstackBase):
 
     def test_get_vm_checks(self):
+        expected = {"vm-info": {
+                        "running": ["09461f0b-297b-4ef5-9053-dd369c86b96b"],
+                        "vcpu-info": {
+                            "available-pcpus": 72,
+                            "system-cpus": 72,
+                            "used": 0,
+                            "overcommit-factor": 0.0,
+                            }
+                        }
+                    }
         inst = vm_info.OpenstackInstanceChecks()
         inst()
-        self.assertEquals(inst.output["instances"],
-                          ["09461f0b-297b-4ef5-9053-dd369c86b96b"])
+        self.assertEquals(inst.output, expected)
 
 
 class TestOpenstackPluginPartNovaExternalEvents(TestOpenstackBase):
