@@ -1,7 +1,7 @@
 import os
 
 from common import constants
-from kernel_common import (
+from plugins.kernel.kernel_common import (
     KernelChecksBase,
     SystemdConfig,
 )
@@ -28,6 +28,15 @@ class KernelGeneralChecks(KernelChecksBase):
                 value = cfg.get("CPUAffinity")
                 self._output["systemd"] = {"CPUAffinity": value}
 
+    def _get_system_entry(self, path):
+        if not os.path.exists(path):
+            return
+
+        with open(path) as fd:
+            value = fd.read()
+
+        return value.strip()
+
     def get_cpu_info(self):
         """
         If isolcpus is set on the proc/cmdline this should equal that value
@@ -35,15 +44,18 @@ class KernelGeneralChecks(KernelChecksBase):
         """
         path = os.path.join(constants.DATA_ROOT,
                             "sys/devices/system/cpu/isolated")
-        if not os.path.exists(path):
-            return
-
-        with open(path) as fd:
-            isolated = fd.read()
-
-        isolated = isolated.strip()
+        isolated = self._get_system_entry(path)
         if isolated:
             self._output["cpu"] = {"isolated": isolated}
+
+        path = os.path.join(constants.DATA_ROOT,
+                            "sys/devices/system/cpu/smt/active")
+        smt = self._get_system_entry(path)
+        if smt is not None:
+            if smt == "1":
+                self._output["cpu"] = {"smt": "enabled"}
+            else:
+                self._output["cpu"] = {"smt": "disabled"}
 
     def __call__(self):
         self.get_version_info()

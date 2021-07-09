@@ -12,6 +12,7 @@ from openstack_common import (
 )
 
 from plugins.system.parts.pyparts.system import SystemChecks
+from plugins.kernel.parts.pyparts.info import KernelGeneralChecks
 
 YAML_PRIORITY = 3
 
@@ -29,6 +30,7 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
             self._output["running"] = [i['uuid'] for i in instances]
 
     def _get_vcpu_info(self):
+        vcpu_info = {}
         guests = []
         s = FileSearcher()
         instances = self.running_instances
@@ -48,30 +50,42 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                     vcpus = r.get(1)
                     total_vcpus += int(vcpus)
 
-            self._output["vcpu-info"] = {"used": total_vcpus}
+            vcpu_info["used"] = total_vcpus
             sysinfo = SystemChecks()
             sysinfo.get_system_info()
 
-            total_cpus = sysinfo.output["num-cpus"]
-            self._output["vcpu-info"]["system-cpus"] = total_cpus
+            if sysinfo.output:
+                total_cores = sysinfo.output["num-cpus"]
+                vcpu_info["system-cores"] = total_cores
 
-            pinset = self._nova_config.get("vcpu_pin_set",
-                                           expand_ranges=True) or []
-            pinset += self._nova_config.get("cpu_dedicated_set",
-                                            expand_ranges=True) or []
-            pinset += self._nova_config.get("cpu_shared_set",
-                                            expand_ranges=True) or []
-            if pinset:
-                # if pinning is used, reduce total num of cpus available to
-                # those included in nova cpu sets.
-                available_cpus = len(set(pinset))
-            else:
-                available_cpus = total_cpus
+                pinset = self._nova_config.get("vcpu_pin_set",
+                                               expand_ranges=True) or []
+                pinset += self._nova_config.get("cpu_dedicated_set",
+                                                expand_ranges=True) or []
+                pinset += self._nova_config.get("cpu_shared_set",
+                                                expand_ranges=True) or []
+                if pinset:
+                    # if pinning is used, reduce total num of cores available
+                    # to those included in nova cpu sets.
+                    available_cores = len(set(pinset))
+                else:
+                    available_cores = total_cores
 
-            self._output["vcpu-info"]["available-pcpus"] = available_cpus
+                vcpu_info["available-cores"] = available_cores
 
-            factor = float(total_vcpus) / available_cpus
-            self._output["vcpu-info"]["overcommit-factor"] = round(factor, 2)
+                k = KernelGeneralChecks()
+                k.get_cpu_info()
+                if k.output:
+                    smt = k.output.get("cpu", {}).get("smt")
+                    # repeat this here so that available cores value has
+                    # context
+                    if smt is not None:
+                        vcpu_info["smt"] = smt
+
+                factor = float(total_vcpus) / available_cores
+                vcpu_info["overcommit-factor"] = round(factor, 2)
+
+            self._output["vcpu-info"] = vcpu_info
 
     @property
     def output(self):

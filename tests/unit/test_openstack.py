@@ -139,8 +139,8 @@ class TestOpenstackPluginPartVm_info(TestOpenstackBase):
         expected = {"vm-info": {
                         "running": ["09461f0b-297b-4ef5-9053-dd369c86b96b"],
                         "vcpu-info": {
-                            "available-pcpus": 72,
-                            "system-cpus": 72,
+                            "available-cores": 72,
+                            "system-cores": 72,
                             "used": 0,
                             "overcommit-factor": 0.0,
                             }
