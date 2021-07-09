@@ -2,6 +2,7 @@ import os
 import re
 
 from common import (
+    checks,
     constants,
     cli_helpers,
     plugintools,
@@ -10,6 +11,71 @@ from common import (
 BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
 SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
 VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
+
+
+class KernelConfig(checks.ConfigBase):
+    """ Kernel configuration. """
+
+    def __init__(self, *args, **kwargs):
+        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
+        super().__init__(path=path, *args, **kwargs)
+        self._cfg = {}
+        self._load()
+
+    def get(self, key, expand_ranges=False):
+        value = self._cfg.get(key)
+        if expand_ranges and value is not None:
+            return self.expand_value_ranges(value)
+
+        return value
+
+    def _load(self):
+        """
+        Currently only supports extracting isolcpus
+
+        TODO: make more general
+        """
+        if not self.exists:
+            return
+
+        with open(self.path) as fd:
+            for line in fd:
+                expr = r'.*\s+isolcpus=([0-9\-,]+)\s*.*'
+                ret = re.compile(expr).match(line)
+                if ret:
+                    self._cfg["isolcpus"] = ret[1]
+                    break
+
+
+class SystemdConfig(checks.ConfigBase):
+    """Systemd configuration."""
+
+    def __init__(self, *args, **kwargs):
+        path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
+        super().__init__(path=path, *args, **kwargs)
+        self._cfg = {}
+        self._load()
+
+    def get(self, key, expand_ranges=False):
+        value = self._cfg.get(key)
+        if expand_ranges and value is not None:
+            return self.expand_value_ranges(value)
+
+        return value
+
+    def _load(self):
+        if not self.exists:
+            return
+
+        with open(self.path) as fd:
+            for line in fd:
+                if re.compile(r"^\s*#").search(line):
+                    continue
+
+                ret = re.compile(r"^\s*(\S+)\s*=\s*(\S+)").search(line)
+                if ret:
+                    key = ret.group(1)
+                    self._cfg[key] = ret.group(2)
 
 
 class KernelChecksBase(plugintools.PluginPartBase):

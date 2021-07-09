@@ -174,12 +174,17 @@ class OpenstackConfig(checks.ConfigBase):
         self._flattened_config = {}
         self._load()
 
-    def get(self, key, section=None):
+    def get(self, key, section=None, expand_ranges=False):
         """ If section is None assume DEFAULT """
         if section is None:
-            return self._flattened_config.get(key)
+            value = self._flattened_config.get(key)
+        else:
+            value = self._sections.get(section, {}).get(key)
 
-        return self._sections.get(section, {}).get(key)
+        if expand_ranges:
+            return self.expand_value_ranges(value)
+
+        return value
 
     def _load(self):
         if not self.exists:

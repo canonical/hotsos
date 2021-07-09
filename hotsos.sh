@@ -262,7 +262,7 @@ run_part ()
     PART_NAME=$part
 
     # Needed by python plugins
-    export PYTHONPATH="$CWD/plugins/$plugin:$CWD"
+    export PYTHONPATH="$CWD/plugins/$plugin:$CWD/plugins:$CWD"
     export PLUGIN_YAML_DEFS="$CWD/defs"
 
     $CWD/plugins/$plugin/parts/$part >> $MASTER_YAML_OUT

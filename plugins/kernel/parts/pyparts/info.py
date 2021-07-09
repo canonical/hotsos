@@ -1,8 +1,10 @@
 import os
-import re
 
 from common import constants
-from kernel_common import KernelChecksBase
+from kernel_common import (
+    KernelChecksBase,
+    SystemdConfig,
+)
 
 YAML_PRIORITY = 0
 
@@ -18,13 +20,13 @@ class KernelGeneralChecks(KernelChecksBase):
             self._output["boot"] = " ".join(self.boot_parameters)
 
     def get_systemd_info(self):
-        path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
-        if os.path.exists(path):
-            self._output["systemd"] = {"CPUAffinity": "not set"}
-            for line in open(path):
-                ret = re.compile("^CPUAffinity=(.+)").match(line)
-                if ret:
-                    self._output["systemd"]["CPUAffinity"] = ret[1]
+        cfg = SystemdConfig()
+        if cfg.exists:
+            if cfg.get("CPUAffinity") is None:
+                self._output["systemd"] = {"CPUAffinity": "not set"}
+            else:
+                value = cfg.get("CPUAffinity")
+                self._output["systemd"] = {"CPUAffinity": value}
 
     def get_cpu_info(self):
         """

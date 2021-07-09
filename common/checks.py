@@ -208,6 +208,63 @@ class ConfigBase(object):
     def __init__(self, path):
         self.path = path
 
+    @classmethod
+    def squash_int_range(cls, ilist):
+        """Takes a list of integers and squashes consecutive values into a
+        string range. Returned list contains mix of strings and ints.
+        """
+        irange = []
+        rstart = None
+        rprev = None
+
+        sorted(ilist)
+        for i, value in enumerate(ilist):
+            if rstart is None:
+                if i == (len(ilist) - 1):
+                    irange.append(value)
+                    break
+
+                rstart = value
+
+            if rprev is not None:
+                if rprev != (value - 1):
+                    if rstart == rprev:
+                        irange.append(rstart)
+                    else:
+                        irange.append("{}-{}".format(rstart, rprev))
+                        if i == (len(ilist) - 1):
+                            irange.append(value)
+
+                    rstart = value
+                elif i == (len(ilist) - 1):
+                    irange.append("{}-{}".format(rstart, value))
+                    break
+
+            rprev = value
+
+        return irange
+
+    @classmethod
+    def expand_value_ranges(cls, ranges):
+        """
+        Takes a string containing ranges of values such as 1-3 and 4,5,6,7 and
+        expands them into a single list.
+        """
+        if not ranges:
+            return ranges
+
+        expanded = []
+        ranges = ranges.split(',')
+        for subrange in ranges:
+            # expand ranges
+            subrange = subrange.partition('-')
+            if subrange[1] == '-':
+                expanded += range(int(subrange[0]), int(subrange[2]) + 1)
+            else:
+                expanded.append(int(subrange[0]))
+
+        return expanded
+
     @property
     def exists(self):
         if os.path.exists(self.path):
@@ -215,7 +272,7 @@ class ConfigBase(object):
 
         return False
 
-    def get(self, key, section=None):
+    def get(self):
         raise NotImplementedError
 
 

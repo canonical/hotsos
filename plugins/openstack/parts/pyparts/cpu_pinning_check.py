@@ -10,187 +10,28 @@ from common import (
     issues_utils,
 )
 from openstack_common import (
+    OpenstackConfig,
     OPENSTACK_SHOW_CPU_PINNING_RESULTS,
+)
+
+from plugins.kernel.kernel_common import (
+    KernelConfig,
+    SystemdConfig,
 )
 
 YAML_PRIORITY = 6
 
 
-def cores_to_list(cores):
-    """Parse comma-seperated list of core ids into an array. Ranges are
-    expanded.
-    """
-    total = []
-    cores = cores.split(',')
-    for subcores in cores:
-        # expand ranges
-        subcores = subcores.partition('-')
-        if subcores[1] == '-':
-            total += range(int(subcores[0]), int(subcores[2]) + 1)
-        else:
-            total.append(int(subcores[0]))
-
-    return total
-
-
-def squash_int_range(ilist):
-    """Takes a list of integers and squashes consecutive values into a string
-    range. Returned list contains mix of strings and ints.
-    """
-    irange = []
-    rstart = None
-    rprev = None
-
-    sorted(ilist)
-    for i, value in enumerate(ilist):
-        if rstart is None:
-            if i == (len(ilist) - 1):
-                irange.append(value)
-                break
-
-            rstart = value
-
-        if rprev is not None:
-            if rprev != (value - 1):
-                if rstart == rprev:
-                    irange.append(rstart)
-                else:
-                    irange.append("{}-{}".format(rstart, rprev))
-                    if i == (len(ilist) - 1):
-                        irange.append(value)
-
-                rstart = value
-            elif i == (len(ilist) - 1):
-                irange.append("{}-{}".format(rstart, value))
-                break
-
-        rprev = value
-
-    return irange
-
-
-def list_to_str(slist, seperator=None):
-    """Convert list of any type to string seperated by seperator."""
-    if not seperator:
-        seperator = ','
+def list_to_str(slist, separator=None):
+    """Convert list of any type to string separated by separator."""
+    if not separator:
+        separator = ','
 
     if not slist:
         return ""
 
-    slist = squash_int_range(slist)
-
-    return seperator.join([str(e) for e in slist])
-
-
-class OpenstackNovaConfig(object):
-    """Openstack Nova service configuration."""
-
-    nova_config = []
-
-    def __init__(self):
-        path = os.path.join(constants.DATA_ROOT, "etc/nova/nova.conf")
-        if os.path.exists(path):
-            self.nova_config = open(path, 'r').readlines()
-
-        self._cpu_dedicated_set = []
-        self._cpu_shared_set = []
-        self._vcpu_pin_set = []
-
-    @property
-    def cpu_dedicated_set(self):
-        if self._cpu_dedicated_set:
-            return self._cpu_dedicated_set
-
-        for line in self.nova_config:
-            expr = r'^cpu_dedicated_set\s*=\s*([0-9\-,]+)'
-            ret = re.compile(expr).match(line)
-            if ret:
-                self._cpu_dedicated_set = cores_to_list(ret[1])
-                break
-
-        return self._cpu_dedicated_set
-
-    @property
-    def cpu_shared_set(self):
-        if self._cpu_shared_set:
-            return self._cpu_shared_set
-
-        for line in self.nova_config:
-            expr = r'^cpu_shared_set\s*=\s*([0-9\-,]+)'
-            ret = re.compile(expr).match(line)
-            if ret:
-                self._cpu_shared_set = cores_to_list(ret[1])
-                break
-
-        return self._cpu_shared_set
-
-    @property
-    def vcpu_pin_set(self):
-        if self._vcpu_pin_set:
-            return self._vcpu_pin_set
-
-        for line in self.nova_config:
-            expr = r'^vcpu_pin_set\s*=\s*([0-9\-,]+)'
-            ret = re.compile(expr).match(line)
-            if ret:
-                self._vcpu_pin_set = cores_to_list(ret[1])
-                break
-
-        return self._vcpu_pin_set
-
-
-class KernelConfig(object):
-    """ Kernel configuration. """
-
-    kernel_config = []
-
-    def __init__(self):
-        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
-        if os.path.exists(path):
-            self.kernel_config = open(path, 'r').readlines()
-
-        self._isolcpus = []
-
-    @property
-    def isolcpus(self):
-        if self._isolcpus:
-            return self._isolcpus
-
-        for line in self.kernel_config:
-            expr = r'.*\s+isolcpus=([0-9\-,]+)\s*.*'
-            ret = re.compile(expr).match(line)
-            if ret:
-                self._isolcpus = cores_to_list(ret[1])
-                break
-
-        return self._isolcpus
-
-
-class SystemdConfig(object):
-    """Systemd configuration."""
-
-    systemd_config = []
-
-    def __init__(self):
-        path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
-        if os.path.exists(path):
-            self.systemd_config = open(path, 'r').readlines()
-
-        self._cpuaffinity = []
-
-    @property
-    def cpuaffinity(self):
-        if self._cpuaffinity:
-            return self._cpuaffinity
-
-        for line in self.systemd_config:
-            expr = r'^CPUAffinity\s*=\s*([0-9\-,]+)\s*.*'
-            ret = re.compile(expr).match(line)
-            if ret:
-                self._cpuaffinity = cores_to_list(ret[1])
-                break
-
-        return self._cpuaffinity
+    slist = OpenstackConfig.squash_int_range(slist)
+    return separator.join([str(e) for e in slist])
 
 
 class NUMAInfo(object):
@@ -325,31 +166,45 @@ class CPUPinningChecker(object):
         self.numa = NUMAInfo()
         self.systemd = SystemdConfig()
         self.kernel = KernelConfig()
-        self.openstack = OpenstackNovaConfig()
+        self.nova_cfg = OpenstackConfig(os.path.join(constants.DATA_ROOT,
+                                                     "etc/nova/nova.conf"))
         self.results = Results()
-        self.cpu_dedicated_set = set()
+        self.cpu_dedicated_set = self.nova_cfg.get("cpu_dedicated_set",
+                                                   expand_ranges=True) or []
+        self.cpu_shared_set = self.nova_cfg.get("cpu_shared_set",
+                                                expand_ranges=True) or []
+        self.vcpu_pin_set = self.nova_cfg.get("vcpu_pin_set",
+                                              expand_ranges=True) or []
         self.cpu_dedicated_set_name = ""
 
+        # convert to sets
+        self.cpu_dedicated_set = set(self.cpu_dedicated_set)
+        self.cpu_shared_set = set(self.cpu_shared_set)
+        self.vcpu_pin_set = set(self.vcpu_pin_set)
+
         # >= Train
-        if self.openstack.cpu_dedicated_set:
-            self.cpu_dedicated_set = set(self.openstack.cpu_dedicated_set)
-            self.cpu_dedicated_set_name = "cpu_dedicated_set"
-        elif self.openstack.vcpu_pin_set:
-            self.cpu_dedicated_set = set(self.openstack.vcpu_pin_set)
+        if self.cpu_dedicated_set:
+            self.cpu_dedicated_set_name = self.cpu_dedicated_set
+        elif self.vcpu_pin_set:
+            self.cpu_dedicated_set = self.vcpu_pin_set
             self.cpu_dedicated_set_name = "vcpu_pin_set"
 
-        self.cpu_shared_set = set(self.openstack.cpu_shared_set)
-        self.isolcpus = set(self.kernel.isolcpus)
-        self.cpuaffinity = set(self.systemd.cpuaffinity)
+        self.isolcpus = self.kernel.get("isolcpus", expand_ranges=True) or []
+        self.isolcpus = set(self.isolcpus)
 
-        self.results.add_config("nova", "cpu_dedicated_set",
-                                list_to_str(self.openstack.cpu_dedicated_set))
+        self.cpuaffinity = self.systemd.get("CPUAffinity",
+                                            expand_ranges=True) or []
+        self.cpuaffinity = set(self.cpuaffinity)
+
+        if self.nova_cfg.get("cpu_dedicated_set"):
+            self.results.add_config("nova", "cpu_dedicated_set",
+                                    list_to_str(self.cpu_dedicated_set))
 
         self.results.add_config("nova", "vcpu_pin_set",
-                                list_to_str(self.openstack.vcpu_pin_set))
+                                list_to_str(self.vcpu_pin_set))
 
         self.results.add_config("nova", "cpu_shared_set",
-                                list_to_str(self.openstack.cpu_shared_set))
+                                list_to_str(self.cpu_shared_set))
 
         self.results.add_config("kernel", "isolcpus",
                                 list_to_str(self.isolcpus))
@@ -403,7 +258,7 @@ class CPUPinningChecker(object):
                 # off a set of cores while still allowing vm cores to be
                 # overcommitted.
 
-        intersect = self.cpu_shared_set.intersection(self.kernel.isolcpus)
+        intersect = self.cpu_shared_set.intersection(self.isolcpus)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
             msg = "cpu_shared_set contains cores from isolcpus"

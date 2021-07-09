@@ -6,7 +6,7 @@ import tempfile
 
 import utils
 
-from common import searchtools
+from common import checks, searchtools
 
 # Need this for plugin imports
 utils.add_sys_plugin_path("openstack")
@@ -325,8 +325,20 @@ class TestOpenstackPluginPartService_features(TestOpenstackBase):
 class TestOpenstackPluginPartCpu_pinning_check(TestOpenstackBase):
 
     def test_cores_to_list(self):
-        ret = cpu_pinning_check.cores_to_list("0-4,8,9,28-32")
+        ret = checks.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
+
+    def test_pinning_checker(self):
+        expected = {'cpu-pinning-checks': {
+                        'input': {
+                            'systemd': {
+                                'cpuaffinity': '0-7,32-39'
+                                }
+                            }
+                        }
+                    }
+        inst = cpu_pinning_check.CPUPinningChecker()
+        self.assertEquals(inst.output, expected)
 
 
 class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
