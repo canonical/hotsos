@@ -26,7 +26,25 @@ class KernelGeneralChecks(KernelChecksBase):
                 if ret:
                     self._output["systemd"]["CPUAffinity"] = ret[1]
 
+    def get_cpu_info(self):
+        """
+        If isolcpus is set on the proc/cmdline this should equal that value
+        otherwise it has not taken effect.
+        """
+        path = os.path.join(constants.DATA_ROOT,
+                            "sys/devices/system/cpu/isolated")
+        if not os.path.exists(path):
+            return
+
+        with open(path) as fd:
+            isolated = fd.read()
+
+        isolated = isolated.strip()
+        if isolated:
+            self._output["cpu"] = {"isolated": isolated}
+
     def __call__(self):
         self.get_version_info()
         self.get_cmdline_info()
         self.get_systemd_info()
+        self.get_cpu_info()
