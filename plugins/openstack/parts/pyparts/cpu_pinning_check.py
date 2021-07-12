@@ -184,7 +184,7 @@ class CPUPinningChecker(object):
 
         # >= Train
         if self.cpu_dedicated_set:
-            self.cpu_dedicated_set_name = self.cpu_dedicated_set
+            self.cpu_dedicated_set_name = "cpu_dedicated_set"
         elif self.vcpu_pin_set:
             self.cpu_dedicated_set = self.vcpu_pin_set
             self.cpu_dedicated_set_name = "vcpu_pin_set"
