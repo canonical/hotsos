@@ -136,7 +136,7 @@ class PluginRunner(object):
         for part in parts:
             # update current env to reflect actual part being run
             os.environ['PART_NAME'] = part
-            mod_string = ('plugins.{}.parts.pyparts.{}'.
+            mod_string = ('plugins.{}.pyparts.{}'.
                           format(constants.PLUGIN_NAME, part))
             # load part
             mod = importlib.import_module(mod_string)
@@ -180,6 +180,6 @@ class PluginRunner(object):
             save_part(part_out, priority=yaml_priority)
 
         # Always execute this as last part
-        mod_string = "plugins.utils.parts.known_bugs_and_issues"
+        mod_string = "common.plugins.utils.known_bugs_and_issues"
         mod = importlib.import_module(mod_string)
         mod.KnownBugsAndIssuesCollector()()

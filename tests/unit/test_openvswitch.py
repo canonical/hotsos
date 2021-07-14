@@ -1,8 +1,6 @@
 import utils
 
-# Need this for plugin imports
-utils.add_sys_plugin_path("openvswitch")
-from plugins.openvswitch.parts.pyparts import (  # noqa E402
+from plugins.openvswitch.pyparts import (
     ovs_checks,
     ovs_resources,
 )

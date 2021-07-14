@@ -1,8 +1,6 @@
 import utils
 
-# Need this for plugin imports
-utils.add_sys_plugin_path("kernel")
-from plugins.kernel.parts.pyparts import (  # noqa E402
+from plugins.kernel.pyparts import (
     info,
     memory,
     network,
@@ -10,12 +8,6 @@ from plugins.kernel.parts.pyparts import (  # noqa E402
 
 
 class TestKernelPluginPartKernelInfo(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_get_cmdline_info(self):
         inst = info.KernelGeneralChecks()
@@ -33,12 +25,6 @@ class TestKernelPluginPartKernelInfo(utils.BaseTestCase):
 
 
 class TestKernelPluginPartKernelMemoryInfo(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_numa_nodes(self):
         ret = memory.KernelMemoryChecks().numa_nodes

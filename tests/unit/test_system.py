@@ -1,18 +1,9 @@
 import utils
 
-utils.add_sys_plugin_path("system")
-from plugins.system.parts.pyparts import (  # noqa E402
-    system,
-)
+from plugins.system.pyparts import system
 
 
 class TestSystemPluginPartSystem(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_get_service_info(self):
         expected = {'hostname': 'hothost',

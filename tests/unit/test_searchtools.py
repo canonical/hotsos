@@ -68,12 +68,6 @@ section 3
 
 class TestSearchTools(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     @mock.patch.object(os, "environ", {})
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_no_override(self, mock_cpu_count):

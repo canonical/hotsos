@@ -4,18 +4,10 @@ import tempfile
 import utils
 import yaml
 
-from tools import (
-    output_filter,
-)
+from tools import output_filter
 
 
 class TestTools(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_output_filter_empty(self):
         issues = {}

@@ -8,16 +8,12 @@ from common import cli_helpers
 
 
 class Testcli_helpers(utils.BaseTestCase):
-
-    def setUp(self):
-        # NOTE: remember that data_root is configured so helpers will always
-        # use fake_data_root if possible. If you write a test that wants to
-        # test scenario where no data root is set (i.e. no sosreport) you need
-        # to unset it as part of the test.
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
+    """
+    NOTE: remember that data_root is configured so helpers will always
+    use fake_data_root if possible. If you write a test that wants to
+    test scenario where no data root is set (i.e. no sosreport) you need
+    to unset it as part of the test.
+    """
 
     @mock.patch.object(cli_helpers, 'subprocess')
     def test_get_ip_addr(self, mock_subprocess):

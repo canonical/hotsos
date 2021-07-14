@@ -1,20 +1,13 @@
 import os
-import sys
 
 import shutil
 import tempfile
 import unittest
 
 
-sys.path += ['plugins']
-
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
 os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, "fake_data_root")
-
-
-def add_sys_plugin_path(plugin):
-    sys.path += ['plugins/{}'.format(plugin)]
 
 
 class BaseTestCase(unittest.TestCase):

@@ -5,9 +5,7 @@ import tempfile
 
 import utils
 
-# Need this for plugin imports
-utils.add_sys_plugin_path("storage")
-from plugins.storage.parts.pyparts import (  # noqa E402
+from plugins.storage.pyparts import (
     bcache,
     ceph_daemon_checks,
     ceph_daemon_logs,

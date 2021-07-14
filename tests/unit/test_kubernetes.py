@@ -5,10 +5,7 @@ import mock
 import utils
 
 from common import cli_helpers
-
-# Need this for plugin imports
-utils.add_sys_plugin_path("kubernetes")
-from plugins.kubernetes.parts.pyparts import (  # noqa E402
+from plugins.kubernetes.pyparts import (
     general,
     network,
 )
@@ -65,12 +62,6 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
 
 class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     @mock.patch.object(network.cli_helpers, "get_ip_addr")
     def test_get_network_info(self, mock_get_ip_addr):

@@ -4,9 +4,7 @@ import os
 import utils
 
 from common import constants
-
-utils.add_sys_plugin_path("rabbitmq")
-from plugins.rabbitmq.parts.pyparts import (  # noqa E402
+from plugins.rabbitmq.pyparts import (
     services,
 )
 

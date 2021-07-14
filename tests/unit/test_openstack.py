@@ -8,9 +8,7 @@ import utils
 
 from common import checks, searchtools
 
-# Need this for plugin imports
-utils.add_sys_plugin_path("openstack")
-from plugins.openstack.parts.pyparts import (  # noqa E402
+from plugins.openstack.pyparts import (
     openstack_services,
     vm_info,
     nova_external_events,

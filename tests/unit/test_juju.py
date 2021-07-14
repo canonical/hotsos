@@ -4,9 +4,7 @@ import utils
 
 from common import known_bugs_utils
 
-# Need this for plugin imports
-utils.add_sys_plugin_path("juju")
-from plugins.juju.parts.pyparts import (  # noqa E402
+from plugins.juju.pyparts import (
     machines,
     charms,
     units,
@@ -15,12 +13,6 @@ from plugins.juju.parts.pyparts import (  # noqa E402
 
 
 class TestJujuPluginPartServices(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_get_machine_info(self):
         expected = {'machines': {'running': ['33 (version=unknown)',
@@ -32,12 +24,6 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
 
 class TestJujuPluginPartCharms(utils.BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
-
     def test_get_charm_versions(self):
         inst = charms.JujuCharmChecks()
         inst.get_charm_versions()
@@ -45,12 +31,6 @@ class TestJujuPluginPartCharms(utils.BaseTestCase):
 
 
 class TestJujuPluginPartUnits(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_get_app_from_unit_name(self):
         unit = "foo-32"

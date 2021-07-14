@@ -4,10 +4,7 @@ import tempfile
 
 import utils
 
-utils.add_sys_plugin_path("sosreport")
-from plugins.sosreport.parts.pyparts import (  # noqa E402
-    plugin_checks,
-)
+from plugins.sosreport.pyparts import plugin_checks
 
 
 class TestSOSReportPluginPartPluginChecks(utils.BaseTestCase):

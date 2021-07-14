@@ -265,7 +265,7 @@ run_part ()
     export PYTHONPATH="$CWD/plugins/$plugin:$CWD/plugins:$CWD"
     export PLUGIN_YAML_DEFS="$CWD/defs"
 
-    $CWD/plugins/$plugin/parts/$part >> $MASTER_YAML_OUT
+    $CWD/plugins/$plugin/$part >> $MASTER_YAML_OUT
 
     t_end=`date +%s%3N`
     delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
@@ -321,7 +321,7 @@ for data_root in "${SOS_PATHS[@]}"; do
         PLUGIN_NAME=$plugin
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
-        for part in `find $CWD/plugins/$plugin/parts -executable -type f| \
+        for part in `find $CWD/plugins/$plugin -executable -type f,l| \
                 grep -v __pycache__`; do
             run_part $plugin `basename $part`
         done
