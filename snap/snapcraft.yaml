@@ -13,11 +13,18 @@ description:
   are supported and when found, known bugs are presented.
 confinement: strict
 grade: stable
-base: core18
+base: core20
 environment:
   REPO_INFO_PATH: $SNAP/repo-info
   LC_ALL: C.UTF-8
   LANG: C.UTF-8
+
+# dpkg won't work without this
+layout:
+  /etc/dpkg/dpkg.cfg:
+    bind-file: $SNAP_DATA/etc/dpkg/dpkg.cfg
+  /etc/dpkg/dpkg.cfg.d:
+    bind: $SNAP_DATA/etc/dpkg/dpkg.cfg.d
 
 apps:
   hotsos:
@@ -29,11 +36,23 @@ parts:
   hotsos:
     source: .
     plugin: dump
-    stage-packages: [coreutils, bsdmainutils, jq, bc, systemd]
+    stage-packages: [coreutils, bsdmainutils, jq, bc, systemd, dpkg]
     build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info
       snapcraftctl build
+    filesets:
+      # need to exclude these files since they are dangling symlinks
+      # that cause the snapstore to reject the upload.
+      exclude-systemd-files:
+        - -lib/systemd/system/hwclock.service
+        - -lib/systemd/system/rc.service
+        - -lib/systemd/system/x11-common.service
+        - -lib/systemd/system/cryptdisks-early.service
+        - -lib/systemd/system/rcS.service
+        - -lib/systemd/system/cryptdisks.service
+    stage:
+      - $exclude-systemd-files
   hotsos-python:
     source: .
     plugin: python
