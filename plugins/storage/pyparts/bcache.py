@@ -1,4 +1,3 @@
-import os
 import re
 
 from common import cli_helpers
@@ -16,24 +15,28 @@ CACHE_AVAILABLE_PERCENT_LIMIT_LP1900438 = 33
 class BcacheDeviceChecks(BcacheChecksBase):
 
     def get_device_info(self):
+        devs = {}
         for dev_type in ["bcache", "nvme"]:
             for line in cli_helpers.get_ls_lanR_sys_block():
                 expr = r".+[0-9:]+\s+({}[0-9a-z]+)\s+.+".format(dev_type)
                 ret = re.compile(expr).match(line)
                 if ret:
-                    if dev_type not in self._output:
-                        self._output[dev_type] = {}
+                    if dev_type not in devs:
+                        devs[dev_type] = {}
 
                     devname = ret[1]
-                    self._output[dev_type][devname] = {}
+                    devs[dev_type][devname] = {}
                     for line in cli_helpers.get_udevadm_info_dev(devname):
                         expr = r".+\s+disk/by-dname/(.+)"
                         ret = re.compile(expr).match(line)
                         if ret:
-                            self._output[dev_type][devname]["dname"] = ret[1]
-                        elif "dname" not in self._output[dev_type][devname]:
-                            self._output[dev_type][devname]["dname"] = \
+                            devs[dev_type][devname]["dname"] = ret[1]
+                        elif "dname" not in devs[dev_type][devname]:
+                            devs[dev_type][devname]["dname"] = \
                                 "<notfound>"
+
+        if devs:
+            self._output["devices"] = devs
 
     def __call__(self):
         self.get_device_info()
@@ -41,21 +44,25 @@ class BcacheDeviceChecks(BcacheChecksBase):
 
 class BcacheStatsChecks(BcacheChecksBase):
 
+    def get_info(self):
+        csets = self.get_sysfs_cachesets()
+        if csets:
+            self._output["cachsets"] = csets
+
     def check_stats(self):
         if not self.get_sysfs_cachesets():
             return
 
-        for path in self.get_sysfs_cachesets():
-            path = os.path.join(path, "cache_available_percent")
-            with open(path) as fd:
-                value = fd.read().strip()
-                limit = CACHE_AVAILABLE_PERCENT_LIMIT_LP1900438
-                if int(value) <= limit:
-                    msg = ("bcache cache_available_percent ({}) is <= {} - "
-                           "this node could be suffering from bug 1900438".
-                           format(value, limit))
-                    add_issue(BcacheWarning(msg))
-                    add_known_bug(1900438, "see BcacheWarning for info")
+        for cset in self.get_sysfs_cachesets():
+            limit = CACHE_AVAILABLE_PERCENT_LIMIT_LP1900438
+            key = 'cache_available_percent'
+            if cset[key] <= limit:
+                msg = ("bcache {} ({}) is <= {} - "
+                       "this node could be suffering from bug 1900438".
+                       format(key, cset[key], limit))
+                add_issue(BcacheWarning(msg))
+                add_known_bug(1900438, "see BcacheWarning for info")
 
     def __call__(self):
+        self.get_info()
         self.check_stats()

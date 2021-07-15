@@ -2,6 +2,7 @@ import os
 
 import operator
 import re
+import subprocess
 import yaml
 
 from common import (
@@ -467,6 +468,33 @@ class ServiceChecksBase(object):
     def __call__(self):
         """This can/should be extended by inheriting class."""
         self._get_running_services()
+
+
+class DPKGVersionCompare(object):
+
+    def __init__(self, a):
+        self.a = a
+
+    def _exec(self, op, b):
+        try:
+            subprocess.check_call(['dpkg', '--compare-versions',
+                                   self.a, op, b])
+        except subprocess.CalledProcessError as se:
+            if se.returncode == 1:
+                return False
+
+            raise se
+
+        return True
+
+    def __eq__(self, b):
+        return self._exec('eq', b)
+
+    def __lt__(self, b):
+        return not self._exec('ge', b)
+
+    def __gt__(self, b):
+        return not self._exec('le', b)
 
 
 class PackageChecksBase(object):

@@ -332,6 +332,20 @@ def get_udevadm_info_dev(dev):
 
 
 @catch_exceptions(OSError)
+def get_udevadm_info_exportdb():
+    if DATA_ROOT == '/':
+        output = subprocess.check_output(['udevadm', 'info', '--export-db'])
+        return output.decode('UTF-8').splitlines(keepends=True)
+
+    path = os.path.join(DATA_ROOT,
+                        "sos_commands/devices/udevadm_info_--export-db")
+    if os.path.exists(path):
+        return open(path, 'r').readlines()
+
+    return []
+
+
+@catch_exceptions(OSError)
 def get_ip_netns():
     if DATA_ROOT == '/':
         output = subprocess.check_output(['ip', 'netns'])

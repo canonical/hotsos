@@ -141,38 +141,57 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
 class TestStoragePluginPartBcache(utils.BaseTestCase):
 
     def test_get_bcache_dev_info(self):
-        result = {'bcache': {'bcache0': {'dname': 'bcache1'},
-                             'bcache1': {'dname': 'bcache3'},
-                             'bcache2': {'dname': 'bcache4'},
-                             'bcache3': {'dname': 'bcache5'},
-                             'bcache4': {'dname': 'bcache2'},
-                             'bcache5': {'dname': 'bcache6'},
-                             'bcache6': {'dname': 'bcache0'}},
-                  'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}}
+        result = {'bcache': {
+                    'devices': {
+                        'bcache': {'bcache0': {'dname': 'bcache1'},
+                                   'bcache1': {'dname': 'bcache3'},
+                                   'bcache2': {'dname': 'bcache4'},
+                                   'bcache3': {'dname': 'bcache5'},
+                                   'bcache4': {'dname': 'bcache2'},
+                                   'bcache5': {'dname': 'bcache6'},
+                                   'bcache6': {'dname': 'bcache0'}},
+                        'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}
+                        }}}
+
         inst = bcache.BcacheDeviceChecks()
         inst()
-        self.assertEqual(inst.output["bcache"], result)
+        self.assertEqual(inst.output, result)
 
     def test_get_bcache_stats_checks(self):
+        self.maxDiff = None
+        expected = {'bcache': {
+                        'cachsets': [{
+                            'cache_available_percent': 95,
+                            'uuid': '2bb274af-a015-4496-9455-43393ea06aa2'}]
+                        }
+                    }
         inst = bcache.BcacheStatsChecks()
         inst()
-        self.assertEqual(inst.output, None)
+        self.assertEqual(inst.output, expected)
 
     @mock.patch.object(bcache, "add_known_bug")
     @mock.patch.object(bcache, "add_issue")
     def test_get_bcache_stats_checks_issue_found(self, mock_add_issue,
                                                  mock_add_known_bug):
+        expected = {'bcache': {
+                        'cachsets': [{
+                            'cache_available_percent': 30,
+                            'uuid': '123'}]
+                        }
+                    }
         with tempfile.TemporaryDirectory() as dtmp:
             with mock.patch.object(bcache.BcacheChecksBase,
                                    "get_sysfs_cachesets",
-                                   lambda *args: [dtmp]):
+                                   lambda *args: [
+                                       {"uuid": "123",
+                                        "cache_available_percent": 30}]):
                 path = os.path.join(dtmp, "cache_available_percent")
                 with open(path, 'w') as fd:
                     fd.write("30\n")
 
                 inst = bcache.BcacheStatsChecks()
                 inst()
-                self.assertEqual(inst.output, None)
+                self.assertEqual(inst.output, expected)
                 self.assertTrue(mock_add_issue.called)
                 mock_add_known_bug.assert_has_calls([
                     mock.call(1900438, 'see BcacheWarning for info')])
