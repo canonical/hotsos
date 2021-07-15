@@ -68,6 +68,20 @@ def collect_all_parts(index):
         for part in index[priority]:
             with open(part) as fd:
                 part_yaml = yaml.safe_load(fd)
+
+                # Don't allow root level keys to be clobbered, instead just
+                # update them. This assumes that part subkeys will be unique.
+                remove_keys = []
+                for key in part_yaml:
+                    if key in parts:
+                        if type(parts[key]) == dict:
+                            parts[key].update(part_yaml[key])
+                            remove_keys.append(key)
+
+                if remove_keys:
+                    for key in remove_keys:
+                        del part_yaml[key]
+
                 parts.update(part_yaml)
 
     return parts
