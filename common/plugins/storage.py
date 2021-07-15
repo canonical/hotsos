@@ -45,6 +45,10 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
         return osd_ids
 
 
+class CephConfig(checks.SectionalConfigBase):
+    pass
+
+
 class BcacheChecksBase(StorageChecksBase):
 
     @property

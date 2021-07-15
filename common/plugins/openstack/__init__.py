@@ -174,52 +174,8 @@ class AgentChecksBase(object):
         raise NotImplementedError
 
 
-class OpenstackConfig(checks.ConfigBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._sections = {}
-        # this provides an easy sectionless lookup but is prone to collisions.
-        self._flattened_config = {}
-        self._load()
-
-    def get(self, key, section=None, expand_ranges=False):
-        """ If section is None assume DEFAULT """
-        if section is None:
-            value = self._flattened_config.get(key)
-        else:
-            value = self._sections.get(section, {}).get(key)
-
-        if expand_ranges:
-            return self.expand_value_ranges(value)
-
-        return value
-
-    def _load(self):
-        if not self.exists:
-            return
-
-        current_section = None
-        with open(self.path) as fd:
-            for line in fd:
-                if re.compile(r"^\s*#").search(line):
-                    continue
-
-                ret = re.compile(r"^\s*\[(\S+)].*").search(line)
-                if ret:
-                    current_section = ret.group(1)
-                    self._sections[current_section] = {}
-                    continue
-
-                if current_section is None:
-                    continue
-
-                ret = re.compile(r"^\s*(\S+)\s*=\s*(\S+)").search(line)
-                if ret:
-                    key = ret.group(1)
-                    val = cli_helpers.bool_str(ret.group(2))
-                    self._sections[current_section][key] = val
-                    self._flattened_config[key] = val
+class OpenstackConfig(checks.SectionalConfigBase):
+    pass
 
 
 class OpenstackPackageChecksBase(plugintools.PluginPartBase,
