@@ -62,6 +62,25 @@ def get_parts_index():
     return index
 
 
+def meld_part_output(data, existing):
+    """
+    Don't allow root level keys to be clobbered, instead just
+    update them. This assumes that part subkeys will be unique.
+    """
+    remove_keys = []
+    for key in data:
+        if key in existing:
+            if type(existing[key]) == dict:
+                existing[key].update(data[key])
+                remove_keys.append(key)
+
+    if remove_keys:
+        for key in remove_keys:
+            del data[key]
+
+    existing.update(data)
+
+
 def collect_all_parts(index):
     parts = {}
     for priority in sorted(index):
@@ -71,18 +90,7 @@ def collect_all_parts(index):
 
                 # Don't allow root level keys to be clobbered, instead just
                 # update them. This assumes that part subkeys will be unique.
-                remove_keys = []
-                for key in part_yaml:
-                    if key in parts:
-                        if type(parts[key]) == dict:
-                            parts[key].update(part_yaml[key])
-                            remove_keys.append(key)
-
-                if remove_keys:
-                    for key in remove_keys:
-                        del part_yaml[key]
-
-                parts.update(part_yaml)
+                meld_part_output(part_yaml, parts)
 
     return parts
 
@@ -189,7 +197,7 @@ class PluginRunner(object):
                 if hasattr(inst, "output"):
                     out = inst.output
                     if out:
-                        part_out.update(out)
+                        meld_part_output(out, part_out)
 
             save_part(part_out, priority=yaml_priority)
 
