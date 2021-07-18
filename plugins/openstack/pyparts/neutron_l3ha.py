@@ -3,10 +3,10 @@ import re
 
 from common import (
     constants,
-    cli_helpers,
     issue_types,
     issues_utils,
 )
+from common.cli_helpers import CLIHelper
 from common.searchtools import (
     SearchDef,
     FileSearcher,
@@ -29,6 +29,7 @@ class NeutronL3HAChecks(OpenstackChecksBase):
         self.f_journalctl = None
         self.router_vrrp_pids = {}
         self.router_vr_ids = {}
+        self.cli = CLIHelper()
 
     @property
     def output(self):
@@ -41,11 +42,11 @@ class NeutronL3HAChecks(OpenstackChecksBase):
 
     def _get_journalctl_l3_agent(self):
         if not constants.USE_ALL_LOGS:
-            date = cli_helpers.get_date(format="--iso-8601").rstrip()
+            date = self.cli.date(format="--iso-8601").rstrip()
         else:
             date = None
 
-        out = cli_helpers.get_journalctl(unit="neutron-l3-agent", date=date)
+        out = self.cli.journalctl(unit="neutron-l3-agent", date=date)
         self.f_journalctl = mktemp_dump(''.join(out))
 
     def get_neutron_ha_info(self):

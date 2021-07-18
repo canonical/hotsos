@@ -2,11 +2,11 @@ import os
 
 from common import (
     checks,
-    cli_helpers,
     issue_types,
     issues_utils,
     plugintools,
 )
+from common.cli_helpers import CLIHelper
 from common.searchtools import (
     SearchDef,
     SequenceSearchDef,
@@ -35,7 +35,7 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        out = cli_helpers.get_rabbitmqctl_report()
+        out = CLIHelper().rabbitmqctl_report()
         # save to file so we can search it later
         self.f_report = mktemp_dump(''.join(out))
         self.searcher = FileSearcher()

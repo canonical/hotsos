@@ -3,10 +3,10 @@ import re
 
 from common import (
     constants,
-    cli_helpers,
     issues_utils,
     issue_types,
 )
+from common.cli_helpers import CLIHelper
 from common.searchtools import (
     FileSearcher,
     FilterDef,
@@ -155,9 +155,10 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
 
     def __init__(self):
         super().__init__()
-        out = cli_helpers.get_ovs_appctl_dpctl_show("system@ovs-system")
+        cli = CLIHelper()
+        out = cli.ovs_appctl_dpctl_show(datapath="system@ovs-system")
         self.f_dpctl = mktemp_dump(''.join(out))
-        bridges = cli_helpers.get_ovs_vsctl_list_br()
+        bridges = cli.ovs_vsctl_list_br()
         self.ovs_bridges = [br.strip() for br in bridges]
         self.sequence_defs = []
 

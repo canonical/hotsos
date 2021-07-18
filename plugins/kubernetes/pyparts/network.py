@@ -1,7 +1,7 @@
 import re
 import sys
 
-from common import cli_helpers
+from common.cli_helpers import CLIHelper
 from common.plugins.kubernetes import KubernetesChecksBase
 
 YAML_PRIORITY = 1
@@ -10,7 +10,7 @@ YAML_PRIORITY = 1
 class KubernetesNetworkChecks(KubernetesChecksBase):
 
     def get_network_info(self):
-        ip_addr_output = cli_helpers.get_ip_addr()
+        ip_addr_output = CLIHelper().ip_addr()
         if not ip_addr_output:
             sys.exit(0)
 

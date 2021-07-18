@@ -4,11 +4,11 @@ import json
 import re
 import subprocess
 
-from common import cli_helpers
 from common.checks import (
     SVC_EXPR_TEMPLATES,
     DPKGVersionCompare,
 )
+from common.cli_helpers import CLIHelper, get_ps_axo_flags_available
 from common.searchtools import (
     FileSearcher,
     SearchDef,
@@ -40,10 +40,11 @@ class CephOSDChecks(CephChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ceph_volume_lvm_list = cli_helpers.get_ceph_volume_lvm_list()
-        self.ceph_osd_tree = cli_helpers.get_ceph_osd_tree()
-        self.ceph_osd_df_tree = cli_helpers.get_ceph_osd_df_tree()
-        self.ceph_versions = cli_helpers.get_ceph_versions()
+        self.cli = CLIHelper()
+        self.ceph_volume_lvm_list = self.cli.ceph_volume_lvm_list()
+        self.ceph_osd_tree = self.cli.ceph_osd_tree()
+        self.ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
+        self.ceph_versions = self.cli.ceph_versions()
         self.date_in_secs = self.get_date_secs()
 
     @staticmethod
@@ -60,7 +61,7 @@ class CephOSDChecks(CephChecksBase):
             cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
             date_in_secs = subprocess.check_output(cmd)
         else:
-            date_in_secs = cli_helpers.get_date() or 0
+            date_in_secs = self.cli.date() or 0
             if date_in_secs:
                 date_in_secs = date_in_secs.strip()
 
@@ -97,11 +98,11 @@ class CephOSDChecks(CephChecksBase):
         To get etime we have to use ps_axo_flags rather than the default
         ps_auxww.
         """
-        if not cli_helpers.get_ps_axo_flags_available():
+        if not get_ps_axo_flags_available():
             return
 
         ceph_osds = []
-        for line in cli_helpers.get_ps_axo_flags():
+        for line in self.cli.ps_axo_flags():
             ret = re.compile("ceph-osd").search(line)
             if not ret:
                 continue
@@ -292,7 +293,7 @@ class CephOSDChecks(CephChecksBase):
         as they will cause crush map unable to compute
         the expected up set
         """
-        osd_crush_dump = cli_helpers.get_osd_crush_dump_json_decoded()
+        osd_crush_dump = self.cli.ceph_osd_crush_dump_json_decoded()
         if not osd_crush_dump:
             return
 

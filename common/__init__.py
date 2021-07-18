@@ -1,7 +1,5 @@
 import os
 
-from common import cli_helpers
-
 
 class constants_properties(type):
     """
@@ -53,6 +51,15 @@ class constants(object, metaclass=constants_properties):
     """
 
     @classmethod
+    def bool_str(cls, val):
+        if val.lower() == "true":
+            return True
+        elif val.lower() == "false":
+            return False
+
+        return val
+
+    @classmethod
     def _DATA_ROOT(cls):
         return os.environ.get('DATA_ROOT', '/')
 
@@ -78,7 +85,7 @@ class constants(object, metaclass=constants_properties):
 
     @classmethod
     def _USE_ALL_LOGS(cls):
-        if cli_helpers.bool_str(os.environ.get('USE_ALL_LOGS', "False")):
+        if cls.bool_str(os.environ.get('USE_ALL_LOGS', 'False')):
             return True
         else:
             return False

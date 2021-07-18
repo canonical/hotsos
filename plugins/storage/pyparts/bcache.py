@@ -1,6 +1,6 @@
 import re
 
-from common import cli_helpers
+from common.cli_helpers import CLIHelper
 from common.known_bugs_utils import add_known_bug
 from common.issues_utils import add_issue
 from common.issue_types import BcacheWarning
@@ -17,7 +17,7 @@ class BcacheDeviceChecks(BcacheChecksBase):
     def get_device_info(self):
         devs = {}
         for dev_type in ["bcache", "nvme"]:
-            for line in cli_helpers.get_ls_lanR_sys_block():
+            for line in CLIHelper().ls_lanR_sys_block():
                 expr = r".+[0-9:]+\s+({}[0-9a-z]+)\s+.+".format(dev_type)
                 ret = re.compile(expr).match(line)
                 if ret:
@@ -26,7 +26,7 @@ class BcacheDeviceChecks(BcacheChecksBase):
 
                     devname = ret[1]
                     devs[dev_type][devname] = {}
-                    for line in cli_helpers.get_udevadm_info_dev(devname):
+                    for line in CLIHelper().udevadm_info_dev(device=devname):
                         expr = r".+\s+disk/by-dname/(.+)"
                         ret = re.compile(expr).match(line)
                         if ret:

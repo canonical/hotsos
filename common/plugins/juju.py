@@ -4,9 +4,9 @@ import re
 
 from common import (
     constants,
-    cli_helpers,
     plugintools,
 )
+from common.cli_helpers import CLIHelper
 
 JUJU_LOG_PATH = os.path.join(constants.DATA_ROOT, "var/log/juju")
 JUJU_LIB_PATH = os.path.join(constants.DATA_ROOT, "var/lib/juju")
@@ -27,7 +27,7 @@ class JujuChecksBase(plugintools.PluginPartBase):
 
     def _get_ps_units(self):
         units = set()
-        for line in cli_helpers.get_ps():
+        for line in CLIHelper().ps():
             if "unit-" in line:
                 ret = re.compile(r".+unit-([0-9a-z\-]+-[0-9]+).*").match(line)
                 if ret:

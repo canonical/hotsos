@@ -3,18 +3,19 @@ import re
 
 from common import (
     checks,
-    cli_helpers,
+    constants,
     plugintools,
 )
+from common.cli_helpers import CLIHelper
 from common.plugins.openstack import exceptions
 
 # Plugin config opts from global
 OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
-    cli_helpers.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
-                                        'False'))
+    constants.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
+                                      'False'))
 OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
-    cli_helpers.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
-                                        'False'))
+    constants.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
+                                      'False'))
 
 # These are the names of Openstack projects we want to track.
 OST_PROJECTS = ["aodh",
@@ -131,7 +132,7 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
         if self._instances:
             return self._instances
 
-        for line in cli_helpers.get_ps():
+        for line in CLIHelper().ps():
             ret = re.compile(".+product=OpenStack Nova.+").match(line)
             if ret:
                 guest = {}

@@ -6,11 +6,11 @@ import subprocess
 import yaml
 
 from common import (
-    cli_helpers,
     constants,
     issue_types,
     issues_utils,
 )
+from common.cli_helpers import CLIHelper
 from common.utils import sorted_dict
 from common.known_bugs_utils import (
     add_known_bug,
@@ -321,7 +321,7 @@ class SectionalConfigBase(ConfigBase):
                 ret = re.compile(r"^\s*(\S+)\s*=\s*(\S+)").search(line)
                 if ret:
                     key = ret.group(1)
-                    val = cli_helpers.bool_str(ret.group(2))
+                    val = constants.bool_str(ret.group(2))
                     self._sections[current_section][key] = val
                     self._flattened_config[key] = val
 
@@ -420,7 +420,7 @@ class ServiceChecksBase(object):
 
             self.service_exprs.append((expr, hint))
 
-        self.ps_func = cli_helpers.get_ps
+        self.ps_func = CLIHelper().ps
 
     def get_service_info_str(self):
         """Create a list of "<service> (<num running>)" for running services
@@ -551,6 +551,7 @@ class DockerImageChecksBase(PackageChecksBase):
         # The following expression muct match any package name.
         self._match_expr_template = \
             r"^(\S+/(\S+))\s+([\d\.]+)\s+(\S+)\s+.+"
+        self.cli = CLIHelper()
 
     def _match_image(self, image, entry):
         expr = self._match_expr_template.format(image)
@@ -562,7 +563,7 @@ class DockerImageChecksBase(PackageChecksBase):
 
     def get_container_images(self):
         images = []
-        for line in cli_helpers.get_docker_ps():
+        for line in self.cli.docker_ps():
             ret = re.compile(r"^\S+\s+(\S+):(\S+)\s+.+").match(line)
             if not ret:
                 continue
@@ -578,7 +579,7 @@ class DockerImageChecksBase(PackageChecksBase):
             return self._all_images
 
         used_images = self.get_container_images()
-        image_list = cli_helpers.get_docker_images()
+        image_list = self.cli.docker_images()
         if not image_list:
             return
 
@@ -651,9 +652,10 @@ class APTPackageChecksBase(PackageChecksBase):
         # The following expression muct match any package name.
         self._match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+        self.cli = CLIHelper()
 
     def is_installed(self, pkg):
-        dpkg_l = cli_helpers.get_dpkg_l()
+        dpkg_l = self.cli.dpkg_l()
         if not dpkg_l:
             return
 
@@ -668,7 +670,7 @@ class APTPackageChecksBase(PackageChecksBase):
         if pkg in self._all:
             return self._all[pkg]
 
-        dpkg_l = cli_helpers.get_dpkg_l()
+        dpkg_l = self.cli.dpkg_l()
         if dpkg_l:
             for line in dpkg_l:
                 name, version = self._match_package(pkg, line)
@@ -691,7 +693,7 @@ class APTPackageChecksBase(PackageChecksBase):
         if self._all_packages:
             return self._all_packages
 
-        dpkg_l = cli_helpers.get_dpkg_l()
+        dpkg_l = self.cli.dpkg_l()
         if not dpkg_l:
             return
 
@@ -760,15 +762,15 @@ class SnapPackageChecksBase(PackageChecksBase):
         self._all_snaps = {}
         self._match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+        self.snap_list_all = CLIHelper().snap_list_all()
 
     def get_version(self, snap):
         """ Return version of package. """
         if snap in self._all:
             return self._all[snap]
 
-        snap_list_all = cli_helpers.get_snap_list_all()
-        if snap_list_all:
-            for line in snap_list_all:
+        if self.snap_list_all:
+            for line in self.snap_list_all:
                 name, version = self._get_snap_info_from_line(line, snap)
                 if name:
                     return version
@@ -789,14 +791,13 @@ class SnapPackageChecksBase(PackageChecksBase):
         if self._all_snaps:
             return self._all_snaps
 
-        snap_list_all = cli_helpers.get_snap_list_all()
-        if not snap_list_all:
+        if not self.snap_list_all:
             return {}
 
         _core = {}
         _other = {}
         all_exprs = self.core_snap_exprs + self.other_snap_exprs
-        for line in snap_list_all:
+        for line in self.snap_list_all:
             for snap in all_exprs:
                 name, version = self._get_snap_info_from_line(line, snap)
                 if not name:

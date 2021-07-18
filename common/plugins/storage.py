@@ -8,6 +8,7 @@ from common import (
     plugintools,
     utils,
 )
+from common.cli_helpers import CLIHelper
 from common.searchtools import (
     FileSearcher,
     SequenceSearchDef,
@@ -35,7 +36,7 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._bcache_info = []
-        udevadm_db = checks.cli_helpers.get_udevadm_info_exportdb()
+        udevadm_db = CLIHelper().udevadm_info_exportdb()
         if udevadm_db:
             self.udevadm_db = utils.mktemp_dump('\n'.join(udevadm_db))
         else:

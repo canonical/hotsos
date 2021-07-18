@@ -7,7 +7,7 @@ import utils
 from common import cli_helpers
 
 
-class Testcli_helpers(utils.BaseTestCase):
+class TestCLIHelpers(utils.BaseTestCase):
     """
     NOTE: remember that data_root is configured so helpers will always
     use fake_data_root if possible. If you write a test that wants to
@@ -15,50 +15,56 @@ class Testcli_helpers(utils.BaseTestCase):
     to unset it as part of the test.
     """
 
-    @mock.patch.object(cli_helpers, 'subprocess')
-    def test_get_ip_addr(self, mock_subprocess):
-        path = os.path.join(os.environ["DATA_ROOT"],
-                            "sos_commands/networking/ip_-d_address")
-        with open(path, 'r') as fd:
-            out = fd.readlines()
+    def setUp(self, *args, **kwargs):
+        super().setUp(*args, **kwargs)
+        self.helper = cli_helpers.CLIHelper()
 
-        ret = cli_helpers.get_ip_addr()
-        self.assertEquals(ret, out)
-        self.assertFalse(mock_subprocess.called)
+    def test_ns_ip_addr(self):
+        ns = "qrouter-4a39d0f7-77ab-4c79-97e1-652cc80c52e2"
+        out = self.helper.ns_ip_addr(namespace=ns)
+        self.assertEquals(type(out), list)
+        self.assertEquals(len(out), 18)
+
+    def test_udevadm_info_dev(self):
+        out = self.helper.udevadm_info_dev(device='/dev/vdb')
+        self.assertEquals(out, [])
 
     @mock.patch.object(cli_helpers, 'subprocess')
-    def test_get_ps(self, mock_subprocess):
+    def test_ps(self, mock_subprocess):
         path = os.path.join(os.environ["DATA_ROOT"], "ps")
         with open(path, 'r') as fd:
             out = fd.readlines()
 
-        ret = cli_helpers.get_ps()
+        ret = self.helper.ps()
         self.assertEquals(ret, out)
         self.assertFalse(mock_subprocess.called)
 
-    @mock.patch.object(cli_helpers, "DATA_ROOT", '/')
     def test_get_date_local(self):
-        self.assertEquals(type(cli_helpers.get_date()), str)
+        os.environ['DATA_ROOT'] = '/'
+        helper = cli_helpers.CLIHelper()
+        self.assertEquals(type(helper.date()), str)
 
     def test_get_date(self):
-        self.assertEquals(cli_helpers.get_date(), '1616669705\n')
+        self.assertEquals(self.helper.date(), '1616669705\n')
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            with mock.patch.object(cli_helpers, 'DATA_ROOT', dtmp):
-                os.makedirs(os.path.join(dtmp, "sos_commands/date"))
-                with open(os.path.join(dtmp, "sos_commands/date/date"),
-                          'w') as fd:
-                    fd.write("Thu Mar 25 10:55:05 UTC 2021")
+            os.environ['DATA_ROOT'] = dtmp
+            helper = cli_helpers.CLIHelper()
+            os.makedirs(os.path.join(dtmp, "sos_commands/date"))
+            with open(os.path.join(dtmp, "sos_commands/date/date"),
+                      'w') as fd:
+                fd.write("Thu Mar 25 10:55:05 UTC 2021")
 
-                self.assertEquals(cli_helpers.get_date(), '1616669705\n')
+            self.assertEquals(helper.date(), '1616669705\n')
 
     def test_get_date_w_invalid_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            with mock.patch.object(cli_helpers, 'DATA_ROOT', dtmp):
-                os.makedirs(os.path.join(dtmp, "sos_commands/date"))
-                with open(os.path.join(dtmp, "sos_commands/date/date"),
-                          'w') as fd:
-                    fd.write("Thu Mar 25 10:55:05 123UTC 2021")
+            os.environ['DATA_ROOT'] = dtmp
+            helper = cli_helpers.CLIHelper()
+            os.makedirs(os.path.join(dtmp, "sos_commands/date"))
+            with open(os.path.join(dtmp, "sos_commands/date/date"),
+                      'w') as fd:
+                fd.write("Thu Mar 25 10:55:05 123UTC 2021")
 
-                self.assertEquals(cli_helpers.get_date(), "")
+            self.assertEquals(helper.date(), "")

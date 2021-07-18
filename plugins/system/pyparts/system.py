@@ -3,9 +3,9 @@ import os
 
 from common import (
     constants,
-    cli_helpers,
     plugintools,
 )
+from common.cli_helpers import CLIHelper
 
 
 YAML_PRIORITY = 0
@@ -15,7 +15,7 @@ class SystemChecks(plugintools.PluginPartBase):
 
     @property
     def unattended_upgrades_enabled(self):
-        apt_config_dump = cli_helpers.get_apt_config_dump()
+        apt_config_dump = CLIHelper().apt_config_dump()
         if not apt_config_dump:
             return
 
@@ -31,10 +31,8 @@ class SystemChecks(plugintools.PluginPartBase):
         return False
 
     def get_system_info(self):
-        hostname = cli_helpers.get_hostname()
-        if hostname:
-            hostname = hostname[0].split()[0]
-        else:
+        hostname = CLIHelper().hostname()
+        if not hostname:
             hostname = "unavailable"
 
         self._output["hostname"] = hostname
@@ -47,7 +45,7 @@ class SystemChecks(plugintools.PluginPartBase):
                     self._output["os"] = "ubuntu {}".format(ret[1])
                     break
 
-        lscpu_output = cli_helpers.get_lscpu()
+        lscpu_output = CLIHelper().lscpu()
         if lscpu_output:
             for line in lscpu_output:
                 ret = re.compile(r"^CPU\(s\):\s+([0-9]+)\s*.*").match(line)
@@ -55,14 +53,13 @@ class SystemChecks(plugintools.PluginPartBase):
                     self._output["num-cpus"] = int(ret[1])
                     break
 
-        uptime_output = cli_helpers.get_uptime()
-        if uptime_output:
-            for line in uptime_output:
-                ret = re.compile(r".+load average:\s+(.+)").match(line)
-                if ret:
-                    self._output["load"] = ret[1]
-                    break
-        df_output = cli_helpers.get_df()
+        uptime = CLIHelper().uptime()
+        if uptime:
+            ret = re.compile(r".+load average:\s+(.+)").match(uptime)
+            if ret:
+                self._output["load"] = ret[1]
+
+        df_output = CLIHelper().df()
         if df_output:
             for line in df_output:
                 ret = re.compile(r"(.+\/$)").match(line)

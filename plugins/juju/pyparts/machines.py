@@ -1,10 +1,8 @@
 import re
 import os
 
-from common import (
-    constants,
-    cli_helpers,
-)
+from common import constants
+from common.cli_helpers import CLIHelper
 from common.issue_types import JujuWarning
 from common.issues_utils import add_issue
 from common.plugins.juju import (
@@ -27,7 +25,7 @@ class JujuMachineChecks(JujuChecksBase):
         if not os.path.exists(JUJU_LOG_PATH):
             return
 
-        for line in cli_helpers.get_ps():
+        for line in CLIHelper().ps():
             if "machine-" in line:
                 ret = re.compile(r".+machine-([0-9]+).*").match(line)
                 if ret:

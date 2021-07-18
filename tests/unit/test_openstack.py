@@ -65,26 +65,27 @@ May 04 11:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS 
 """  # noqa
 
 
-with open(os.path.join(os.environ['DATA_ROOT'],
-                       "sos_commands/networking/ip_-s_-d_link")) as fd:
-    IP_LINK_SHOW = fd.readlines()
-
-
-def fake_ip_link_show_w_errors_drops():
-    lines = ''.join(IP_LINK_SHOW).format(10000000, 100000000)
-    return [line + '\n' for line in lines.split('\n')]
-
-
-def fake_ip_link_show_no_errors_drops():
-    lines = ''.join(IP_LINK_SHOW).format(0, 0)
-    return [line + '\n' for line in lines.split('\n')]
-
-
 class TestOpenstackBase(utils.BaseTestCase):
+
+    IP_LINK_SHOW = None
+
+    def fake_ip_link_w_errors_drops(self):
+        lines = ''.join(self.IP_LINK_SHOW).format(10000000, 100000000)
+        return [line + '\n' for line in lines.split('\n')]
+
+    def fake_ip_link_no_errors_drops(self):
+        lines = ''.join(self.IP_LINK_SHOW).format(0, 0)
+        return [line + '\n' for line in lines.split('\n')]
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         os.environ["PLUGIN_NAME"] = "openstack"
+
+        if self.IP_LINK_SHOW is None:
+            path = os.path.join(os.environ['DATA_ROOT'],
+                                "sos_commands/networking/ip_-s_-d_link")
+            with open(path) as fd:
+                self.IP_LINK_SHOW = fd.readlines()
 
 
 class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
@@ -263,23 +264,29 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
 
 class TestOpenstackPluginPartNetwork(TestOpenstackBase):
 
-    @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
-                       fake_ip_link_show_w_errors_drops)
-    def test_get_port_stat_by_name(self):
+    @mock.patch.object(network, 'CLIHelper')
+    def test_get_port_stat_by_name(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ip_link = \
+            self.fake_ip_link_w_errors_drops
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(name="bond1")
         self.assertEqual(stats, {'rx': {'dropped': '100000000 (7%)'}})
 
-    @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
-                       fake_ip_link_show_no_errors_drops)
-    def test_get_port_stat_by_name_no_problems(self):
+    @mock.patch.object(network, 'CLIHelper')
+    def test_get_port_stat_by_name_no_problems(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ip_link = \
+            self.fake_ip_link_no_errors_drops
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(name="bond1")
         self.assertEqual(stats, {})
 
-    @mock.patch.object(network.cli_helpers, 'get_ip_link_show',
-                       fake_ip_link_show_w_errors_drops)
-    def test_get_port_stat_by_mac(self):
+    @mock.patch.object(network, 'CLIHelper')
+    def test_get_port_stat_by_mac(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ip_link = \
+            self.fake_ip_link_w_errors_drops
         c = network.OpenstackNetworkChecks()
         stats = c._get_port_stats(mac="ac:1f:6b:9e:d8:44")
         self.assertEqual(stats, {'rx': {'errors': '10000000 (4%)'}})
@@ -296,8 +303,10 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
         inst.get_ns_info()
         self.assertEqual(inst.output["network"], ns_info)
 
-    @mock.patch.object(network.cli_helpers, "get_ip_netns", lambda: [])
-    def test_get_ns_info_none(self):
+    @mock.patch.object(network, 'CLIHelper')
+    def test_get_ns_info_none(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ip_link.return_value = []
         inst = network.OpenstackNetworkChecks()
         inst.get_ns_info()
         self.assertEqual(inst.output, None)
@@ -313,10 +322,7 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
                      {'bond1.4003@bond1': {
                       'rx': {'dropped': '131579034 (13%)'}}}}}
         inst = network.OpenstackNetworkChecks()
-        inst.get_ns_info()
-        inst.get_config_network_info()
-        inst.get_neutron_phy_port_health()
-        inst.get_instances_port_health()
+        inst()
         self.assertEqual(inst.output["network"], expected)
 
 
@@ -539,20 +545,21 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
 
 class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
 
-    @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
+    @mock.patch.object(service_checks, 'CLIHelper')
     @mock.patch.object(service_checks.issues_utils, "add_issue")
-    def test_run_service_checks(self, mock_add_issue, mock_get_journalctl):
-        mock_get_journalctl.return_value = \
+    def test_run_service_checks(self, mock_add_issue, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
         inst = service_checks.NeutronServiceChecks()
         inst()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch.object(service_checks.cli_helpers, "get_journalctl")
+    @mock.patch.object(service_checks, 'CLIHelper')
     @mock.patch.object(service_checks.issues_utils, "add_issue")
-    def test_run_service_checks_w_issue(self, mock_add_issue,
-                                        mock_get_journalctl):
-        mock_get_journalctl.return_value = \
+    def test_run_service_checks_w_issue(self, mock_add_issue, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
         inst = service_checks.NeutronServiceChecks()
         inst()

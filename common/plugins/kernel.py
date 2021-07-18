@@ -4,9 +4,9 @@ import re
 from common import (
     checks,
     constants,
-    cli_helpers,
     plugintools,
 )
+from common.cli_helpers import CLIHelper
 
 BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
 SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
@@ -66,7 +66,7 @@ class KernelChecksBase(plugintools.PluginPartBase):
     @property
     def kernel_version(self):
         """Returns string kernel version."""
-        uname = cli_helpers.get_uname()
+        uname = CLIHelper().uname()
         if uname:
             ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
             if ret:

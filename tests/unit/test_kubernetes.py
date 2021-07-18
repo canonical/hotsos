@@ -1,10 +1,12 @@
 import os
 
 import mock
+import shutil
+import tempfile
 
 import utils
 
-from common import cli_helpers
+from common import checks, constants, cli_helpers
 from plugins.kubernetes.pyparts import (
     general,
     network,
@@ -14,7 +16,7 @@ from plugins.kubernetes.pyparts import (
 class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
     def setUp(self):
-        self.snaps_list = cli_helpers.get_snap_list_all()
+        self.snaps_list = cli_helpers.CLIHelper().snap_list_all()
         super().setUp()
 
     def test_get_service_info(self):
@@ -41,8 +43,9 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         inst()
         self.assertEqual(inst.output['snaps'], result)
 
-    @mock.patch.object(general.checks.cli_helpers, "get_snap_list_all")
-    def test_get_snap_info_from_line_no_k8s(self, mock_get_snap_list_all):
+    @mock.patch.object(checks, 'CLIHelper')
+    def test_get_snap_info_from_line_no_k8s(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
         filterered_snaps = []
         for line in self.snaps_list:
             found = False
@@ -55,7 +58,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
             if not found:
                 filterered_snaps.append(line)
 
-        mock_get_snap_list_all.return_value = filterered_snaps
+        mock_helper.return_value.snap_list_all.return_value = filterered_snaps
         inst = general.get_kubernetes_package_checker()
         inst()
         self.assertEqual(inst.output, None)
@@ -63,19 +66,19 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
 class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
 
-    @mock.patch.object(network.cli_helpers, "get_ip_addr")
-    def test_get_network_info(self, mock_get_ip_addr):
+    def test_get_network_info(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            dst = os.path.join(dtmp, "sos_commands/networking")
+            os.makedirs(dst)
+            dst = os.path.join(dst, "ip_-d_address")
+            src = os.path.join(constants.DATA_ROOT,
+                               "sos_commands/networking/ip_-d_address.k8s")
+            shutil.copy(src, dst)
+            os.environ['DATA_ROOT'] = dtmp
 
-        def fake_get_ip_addr():
-            path = os.path.join(os.environ["DATA_ROOT"],
-                                "sos_commands/networking/ip_-d_address.k8s")
-            with open(path) as fd:
-                return fd.readlines()
-
-        mock_get_ip_addr.side_effect = fake_get_ip_addr
-        expected = {'flannel':
-                    {'flannel.1': {'addr': '58.49.23.0/32',
-                                   'vxlan': '10.78.2.176@enp6s0f0'}}}
-        inst = network.KubernetesNetworkChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+            expected = {'flannel':
+                        {'flannel.1': {'addr': '58.49.23.0/32',
+                                       'vxlan': '10.78.2.176@enp6s0f0'}}}
+            inst = network.KubernetesNetworkChecks()
+            inst()
+            self.assertEqual(inst.output, expected)

@@ -1,10 +1,8 @@
 import re
 import os
 
-from common import (
-    constants,
-    cli_helpers,
-)
+from common import constants
+from common.cli_helpers import CmdBase
 from common.plugins.openstack import (
     OST_PROJECTS,
     OST_SERVICES_DEPS,
@@ -35,7 +33,7 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
         release_info = {}
         for source in os.listdir(APT_SOURCE_PATH):
             apt_path = os.path.join(APT_SOURCE_PATH, source)
-            for line in cli_helpers.safe_readlines(apt_path):
+            for line in CmdBase.safe_readlines(apt_path):
                 rexpr = r"deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+"
                 ret = re.compile(rexpr).match(line)
                 if ret:

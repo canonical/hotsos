@@ -1,10 +1,10 @@
 import re
 
 from common import (
-    cli_helpers,
     issue_types,
     issues_utils,
 )
+from common.cli_helpers import CLIHelper
 
 
 class NeutronServiceChecks(object):
@@ -15,7 +15,8 @@ class NeutronServiceChecks(object):
         """
         raise_issue = False
         start_count = 0
-        for line in cli_helpers.get_journalctl(unit="neutron-ovs-cleanup"):
+        cli = CLIHelper()
+        for line in cli.journalctl(unit="neutron-ovs-cleanup"):
             expr = r"Started OpenStack Neutron OVS cleanup."
             if re.compile("-- Reboot --").match(line):
                 # reset after reboot

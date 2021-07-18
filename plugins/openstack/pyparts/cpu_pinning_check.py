@@ -5,10 +5,10 @@ from uuid import uuid4
 
 from common import (
     constants,
-    cli_helpers,
     issue_types,
     issues_utils,
 )
+from common.cli_helpers import CLIHelper
 from common.plugins.openstack import (
     OpenstackConfig,
     OPENSTACK_SHOW_CPU_PINNING_RESULTS,
@@ -39,7 +39,7 @@ class NUMAInfo(object):
 
     def __init__(self):
         try:
-            self.numactl = cli_helpers.get_numactl() or ""
+            self.numactl = CLIHelper().numactl() or ""
         except OSError:
             self.numactl = ""
 

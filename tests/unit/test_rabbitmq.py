@@ -80,8 +80,9 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                             'origin': 'testplugin.01part',
                             'type': 'RabbitMQWarning'}]})
 
-    @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
-    def test_get_service_info_focal(self, mock_rabbitmqctl_report):
+    @mock.patch.object(services, 'CLIHelper')
+    def test_get_service_info_focal(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
 
         def fake_get_rabbitmqctl_report():
             path = os.path.join(constants.DATA_ROOT,
@@ -89,7 +90,8 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                                 "focal")
             return open(path, 'r').readlines()
 
-        mock_rabbitmqctl_report.side_effect = fake_get_rabbitmqctl_report
+        mock_helper.return_value.rabbitmqctl_report.side_effect = \
+            fake_get_rabbitmqctl_report
 
         expected = {
             'services': ['beam.smp (1)'],
@@ -162,9 +164,10 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                             'origin': 'testplugin.01part',
                             'type': 'RabbitMQWarning'}]})
 
-    @mock.patch.object(services.cli_helpers, "get_rabbitmqctl_report")
-    def test_get_service_info_no_report(self, mock_rabbitmqctl_report):
-        mock_rabbitmqctl_report.return_value = []
+    @mock.patch.object(services, 'CLIHelper')
+    def test_get_service_info_no_report(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.rabbitmqctl_report.return_value = []
         inst = services.RabbitMQServiceChecks()
         inst()
         self.assertFalse("resources" in inst.output)

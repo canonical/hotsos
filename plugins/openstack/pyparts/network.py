@@ -1,10 +1,8 @@
 import re
 import os
 
-from common import (
-    constants,
-    cli_helpers,
-)
+from common import constants
+from common.cli_helpers import CLIHelper
 from common.searchtools import (
     SearchDef,
     SequenceSearchDef,
@@ -16,15 +14,6 @@ from common.plugins.openstack import (
     OpenstackConfig,
 )
 
-
-CONFIG = {"nova": [{"path": os.path.join(constants.DATA_ROOT,
-                                         "etc/nova/nova.conf"),
-                    "key": "my_ip"}],
-          "neutron": [{"path":
-                       os.path.join(constants.DATA_ROOT,
-                                    "etc/neutron/plugins/ml2/"
-                                    "openvswitch_agent.ini"),
-                       "key": "local_ip"}]}
 YAML_PRIORITY = 4
 
 
@@ -33,8 +22,19 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.neutron_phy_ports = []
-        out = cli_helpers.get_ip_link_show()
+        self.cli = CLIHelper()
+        out = self.cli.ip_link()
         self.f_ip_link_show = mktemp_dump(''.join(out))
+
+    @property
+    def config_map(self):
+        return {"nova": [{"path": os.path.join(constants.DATA_ROOT,
+                                               "etc/nova/nova.conf"),
+                          "key": "my_ip"}],
+                "neutron": [{"path": os.path.join(constants.DATA_ROOT,
+                                                  "etc/neutron/plugins/ml2/"
+                                                  "openvswitch_agent.ini"),
+                             "key": "local_ip"}]}
 
     @property
     def output(self):
@@ -55,7 +55,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def _find_interface_name_by_ip_address(self, ip_address):
         """Lookup interface by name in ip addr show"""
         iface = None
-        lines = cli_helpers.get_ip_addr()
+        lines = self.cli.ip_addr()
         a = self._find_line(r".+{}.+".format(ip_address), lines)
         while True:
             ret = re.compile(r"^[0-9]+:\s+(\S+):\s+.+"
@@ -75,8 +75,8 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         for vm migration.
         """
         config_info = {}
-        for svc in CONFIG:
-            for info in CONFIG[svc]:
+        for svc in self.config_map:
+            for info in self.config_map[svc]:
                 cfg = OpenstackConfig(info["path"])
                 if not cfg.exists:
                     continue
@@ -105,7 +105,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def get_ns_info(self):
         """Populate namespace information dict."""
         ns_info = {}
-        for line in cli_helpers.get_ip_netns():
+        for line in self.cli.ip_netns():
             ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
             if ret:
                 if ret[1] in ns_info:
@@ -123,7 +123,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             return
 
         guest_info = {}
-        ps_output = cli_helpers.get_ps()
+        ps_output = self.cli.ps()
         for uuid in instances:
             for line in ps_output:
                 expr = r".+guest=(\S+),.+product=OpenStack Nova.+uuid={}.+"

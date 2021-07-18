@@ -7,6 +7,9 @@ IP_ADDR_IFACE_NAME_EXPR = r"^[0-9]+:\s+(\S+):\s+.+"
 
 class HostNetworkingHelper(object):
 
+    def __init__(self):
+        self.cli = cli_helpers.CLIHelper()
+
     def _get_interface_names(self, lines):
         _interfaces = []
         cexpr = re.compile(IP_ADDR_IFACE_NAME_EXPR)
@@ -22,28 +25,28 @@ class HostNetworkingHelper(object):
         namespaces created with ip netns.
         """
         _interfaces = []
-        _interfaces += self._get_interface_names(cli_helpers.get_ip_addr())
+        _interfaces += self._get_interface_names(self.cli.ip_addr())
         if not include_namespaces:
             return _interfaces
 
-        for ns in cli_helpers.get_ip_netns():
+        for ns in self.cli.ip_netns():
             ns_name = ns.partition(" ")[0]
             _interfaces += self._get_interface_names(
-                                    cli_helpers.get_ip_addr(namespace=ns_name))
+                                        self.cli.ns_ip_addr(namespace=ns_name))
 
         return _interfaces
 
     def host_interface_exists(self, iface, check_namespaces=True):
-        _interfaces = self._get_interface_names(cli_helpers.get_ip_addr())
+        _interfaces = self._get_interface_names(self.cli.ip_addr())
         if iface in _interfaces:
             return True
 
         if not check_namespaces:
             return False
 
-        for ns in cli_helpers.get_ip_netns():
+        for ns in self.cli.ip_netns():
             interfaces = self._get_interface_names(
-                                         cli_helpers.get_ip_addr(namespace=ns))
+                                             self.cli.ns_ip_addr(namespace=ns))
             if iface in interfaces:
                 return True
 
