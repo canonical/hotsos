@@ -1,3 +1,7 @@
+import os
+
+import mock
+
 import utils
 
 from plugins.kernel.pyparts import (
@@ -7,7 +11,13 @@ from plugins.kernel.pyparts import (
 )
 
 
-class TestKernelPluginPartKernelInfo(utils.BaseTestCase):
+class TestKernelBase(utils.BaseTestCase):
+    def setUp(self):
+        super().setUp()
+        os.environ["PLUGIN_NAME"] = "kernel"
+
+
+class TestKernelPluginPartKernelInfo(TestKernelBase):
 
     def test_get_cmdline_info(self):
         inst = info.KernelGeneralChecks()
@@ -24,7 +34,7 @@ class TestKernelPluginPartKernelInfo(utils.BaseTestCase):
                           {'systemd': {'CPUAffinity': '0-7,32-39'}})
 
 
-class TestKernelPluginPartKernelMemoryInfo(utils.BaseTestCase):
+class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
 
     def test_numa_nodes(self):
         ret = memory.KernelMemoryChecks().numa_nodes
@@ -93,11 +103,20 @@ class TestKernelPluginPartKernelMemoryInfo(utils.BaseTestCase):
         self.assertEquals(inst.output, expected)
 
 
-class TestKernelPluginPartKernelNetwork(utils.BaseTestCase):
+class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
-    def test_run_network_checks(self):
+    @mock.patch.object(network.issues_utils, "add_issue")
+    def test_run_network_checks(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
         expected = {'over-mtu-dropped-packets':
                     {'tap40f8453b-31': 5}}
         inst = network.KernelNetworkChecks()
         inst()
+        self.assertTrue(mock_add_issue.called)
+        self.assertTrue(len(issues) == 2)
         self.assertEquals(inst.output, expected)

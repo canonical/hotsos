@@ -1,15 +1,10 @@
-import os
-
 from common import (
-    constants,
+    checks,
     issue_types,
     issues_utils,
 )
 from common.host_helpers import HostNetworkingHelper
-from common.searchtools import (
-    FileSearcher,
-    SearchDef,
-)
+from common.searchtools import FileSearcher
 from common.plugins.kernel import (
     KernelChecksBase,
 )
@@ -17,15 +12,11 @@ from common.plugins.kernel import (
 YAML_PRIORITY = 2
 
 
-class KernelNetworkChecks(KernelChecksBase):
+class KernLogEventChecks(checks.EventChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.search_obj = None
-
-    def check_mtu_dropped_packets(self):
+    def check_mtu_dropped_packets(self, results):
         ifaces = {}
-        for r in self.results.find_by_tag("over-mtu"):
+        for r in results:
             if r.get(1) in ifaces:
                 ifaces[r.get(1)] += 1
             else:
@@ -54,19 +45,40 @@ class KernelNetworkChecks(KernelChecksBase):
                                reverse=True):
                 sorted_dict[k] = v
 
-            self._output["over-mtu-dropped-packets"] = sorted_dict
+            return {"over-mtu-dropped-packets": sorted_dict}
 
-    def register_mtu_dropped_packets_search(self):
-        path = os.path.join(constants.DATA_ROOT, 'var/log/kern.log')
-        if constants.USE_ALL_LOGS:
-            path = path + "*"
+    def check_nf_conntrack_full(self, results):
+        if results:
+            # TODO: consider resticting this to last 24 hours
+            msg = "kernel has reported nf_conntrack_full - please check"
+            issue = issue_types.NetworkWarning(msg)
+            issues_utils.add_issue(issue)
 
-        sdef = SearchDef(r".+\] (\S+): dropped over-mtu packet",
-                         hint="dropped", tag="over-mtu")
-        self.search_obj.add_search_term(sdef, path)
+    def process_results(self, results):
+        """ See defs/events.yaml for definitions. """
+        info = {}
+        for defs in self.event_definitions.values():
+            for label in defs:
+                _results = results.find_by_tag(label)
+                if label == "over-mtu":
+                    ret = self.check_mtu_dropped_packets(_results)
+                    if ret:
+                        info.update(ret)
+                elif label == "nf-conntrack-full":
+                    ret = self.check_nf_conntrack_full(_results)
+                    if ret:
+                        info.update(ret)
+
+        return info
+
+
+class KernelNetworkChecks(KernelChecksBase):
 
     def __call__(self):
-        self.search_obj = FileSearcher()
-        self.register_mtu_dropped_packets_search()
-        self.results = self.search_obj.search()
-        self.check_mtu_dropped_packets()
+        s = FileSearcher()
+        check = KernLogEventChecks(s, "network-checks")
+        check.register_search_terms()
+        results = s.search()
+        check_results = check.process_results(results)
+        if check_results:
+            self._output.update(check_results)

@@ -72,4 +72,17 @@ openstack:
         start:
           expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
           hint: 'failover'
+kernel:
+  network-checks:
+    kernlog:
+      over-mtu:
+        datasource: 'var/log/kern.log'
+        start:
+          expr: '.+\] (\S+): dropped over-mtu packet'
+          hint: 'dropped'
+      nf-conntrack-full:
+        datasource: 'var/log/kern.log'
+        start:
+          expr: '.+ nf_conntrack: table full, dropping packet'
+          hint: 'conntrack'
 
