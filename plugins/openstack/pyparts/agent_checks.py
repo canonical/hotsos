@@ -127,13 +127,43 @@ class OctaviaAgentEventChecks(checks.EventChecksBase):
             return {"octavia": output}
 
 
+class AgentApparmorChecks(checks.EventChecksBase):
+
+    def process_results(self, results):
+        """ See defs/events.yaml for definitions. """
+        info = {}
+        for action, defs in self.event_definitions.items():
+            for label in defs:
+                _results = results.find_by_tag(label)
+                for r in _results:
+                    ts = r.get(1)
+                    profile = r.get(2)
+                    if action not in info:
+                        info[action] = {}
+
+                    if label not in info[action]:
+                        info[action][label] = {}
+
+                    if ts not in info[action][label]:
+                        info[action][label][ts] = {}
+
+                    if profile not in info[action][label][ts]:
+                        info[action][label][ts][profile] = 1
+                    else:
+                        info[action][label][ts][profile] += 1
+
+        if info:
+            return {"apparmor": info}
+
+
 class AgentChecks(plugintools.PluginPartBase):
 
     def __call__(self):
         s = FileSearcher()
         checks = [NeutronAgentEventChecks(s, "neutron-agent-checks"),
                   NeutronAgentBugChecks(s, "neutron"),
-                  OctaviaAgentEventChecks(s, "octavia-checks")]
+                  OctaviaAgentEventChecks(s, "octavia-checks"),
+                  AgentApparmorChecks(s, "apparmor-checks")]
         for check in checks:
             check.register_search_terms()
 

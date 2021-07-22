@@ -72,6 +72,18 @@ openstack:
         start:
           expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
           hint: 'failover'
+  apparmor-checks:
+    denials:
+      nova:
+        datasource: 'var/log/kern.log'
+        start:
+          expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
+          hint: 'apparmor'
+      neutron:
+        datasource: 'var/log/kern.log'
+        start:
+          expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
+          hint: 'apparmor'
 kernel:
   network-checks:
     kernlog:
