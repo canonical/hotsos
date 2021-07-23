@@ -46,6 +46,12 @@ openstack:
       reason: 'identified in neutron-l3-agent logs'
       datasource: 'var/log/neutron/neutron-l3-agent.log'
       allow-all-logs: True
+    1927868:
+      expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
+      hint: 'Gateway'
+      reason: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
+      datasource: 'var/log/neutron/neutron-l3-agent.log'
+      allow-all-logs: True
 juju:
   common:
     1910958:

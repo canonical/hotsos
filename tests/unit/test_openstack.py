@@ -377,6 +377,12 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
 
     @mock.patch.object(agent_checks.checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
         s = searchtools.FileSearcher()
         c = agent_checks.NeutronAgentBugChecks(s, "neutron")
         c.register_search_terms()
@@ -387,6 +393,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                  mock.call("1929832",
                            ('identified in neutron-l3-agent logs'))]
         mock_add_known_bug.assert_has_calls(calls)
+        self.assertEqual(len(bugs), 3)
 
     def test_get_router_event_stats(self):
         router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'
