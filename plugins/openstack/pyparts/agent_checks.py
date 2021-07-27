@@ -19,13 +19,14 @@ class NeutronAgentEventChecks(checks.EventChecksBase):
         agent_info = {}
         for agent, defs in self.event_definitions.items():
             for label in defs:
+                sri = None
                 # TODO: find a way to get rid of the need to provide this
-                if label == "rpc-loop" or label == "router-updates":
-                    sri = SearchResultIndices(duration_idx=4)
-                    stats = LogSequenceStats(results, label, sri)
-                else:
-                    stats = LogSequenceStats(results, label)
+                if label == "router-updates":
+                    sri = SearchResultIndices(event_id_idx=4,
+                                              metadata_idx=3,
+                                              metadata_key="router")
 
+                stats = LogSequenceStats(results, label, custom_idxs=sri)
                 stats()
                 top5 = stats.get_top_n_sorted(5)
                 if not top5:

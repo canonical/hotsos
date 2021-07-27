@@ -366,7 +366,8 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                                            "max": 25.9,
                                            "stdev": 0.0,
                                            "avg": 25.9,
-                                           "samples": 1}}}
+                                           "samples": 1,
+                                           "incomplete": 2}}}
         s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-ovs-agent"
@@ -399,8 +400,10 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'
         spawn_start = datetime.datetime(2021, 3, 25, 18, 10, 14, 747000)
         spawn_end = datetime.datetime(2021, 3, 25, 18, 10, 50, 838000)
-        update_start = datetime.datetime(2021, 3, 25, 18, 9, 54, 720000)
-        update_end = datetime.datetime(2021, 3, 25, 18, 10, 36, 942000)
+        update1_start = datetime.datetime(2021, 3, 25, 18, 9, 54, 720000)
+        update1_end = datetime.datetime(2021, 3, 25, 18, 10, 36, 942000)
+        update2_start = datetime.datetime(2021, 3, 25, 18, 10, 36, 942000)
+        update2_end = datetime.datetime(2021, 3, 25, 18, 10, 51, 11000)
         expected = {'router-spawn-events': {'stats': {'avg': 36.09,
                                                       'max': 36.09,
                                                       'min': 36.09,
@@ -410,15 +413,27 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                                                     {'duration': 36.09,
                                                      'end': spawn_end,
                                                      'start': spawn_start}}},
-                    'router-updates': {'stats': {'avg': 28.14,
-                                                 'max': 42.22,
-                                                 'min': 14.07,
-                                                 'samples': 2,
-                                                 'stdev': 14.07},
-                                       'top': {router:
-                                               {'duration': 42.22,
-                                                'end': update_end,
-                                                'start': update_start}}}}
+                    'router-updates': {
+                        'stats': {
+                            'avg': 28.14,
+                            'max': 42.22,
+                            'min': 14.07,
+                            'samples': 2,
+                            'stdev': 14.07},
+                        'top': {
+                            '059cc448-9037-42a4-9ac8-91d09f124aac': {
+                                'duration': 42.22,
+                                'end': update1_end,
+                                'start': update1_start,
+                                'router': router},
+                            '3b21ce82-bed1-4ea2-b667-629bc4903265': {
+                                'duration': 14.07,
+                                'end': update2_end,
+                                'start': update2_start,
+                                'router': router}
+                            }
+                        }
+                    }
 
         s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
