@@ -590,9 +590,12 @@ NOVA_EXCEPTIONS = [
     "ProviderConfigException",
 ]
 
-# From https://github.com/openstack/octavia/blob/master/octavia/common/exceptions.py
+# From:
+#  - https://github.com/openstack/octavia/blob/master/octavia/common/exceptions.py
+#  - https://github.com/openstack/octavia/blob/master/octavia/amphorae/driver_exceptions/exceptions.py
 # sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' octavia/common/exceptions.py
 OCTAVIA_EXCEPTIONS = [
+# common/exceptions.py
     "OctaviaException",
     "APIException",
     "NotFound",
@@ -668,6 +671,25 @@ OCTAVIA_EXCEPTIONS = [
     "VolumeGetException",
     "NetworkServiceError",
     "InvalidIPAddress",
+# amphora/driver_exceptions/exceptions.py
+    "AmphoraDriverError",
+    "NotFoundError",
+    "InfoException",
+    "MetricsException",
+    "UnauthorizedException",
+    "StatisticsException",
+    "TimeOutException",
+    "DeleteFailed",
+    "SuspendFailed",
+    "EnableFailed",
+    "ArchiveException",
+    "ProvisioningErrors",
+    "ListenerProvisioningError",
+    "LoadBalancerProvisoningError",
+    "HealthMonitorProvisioningError",
+    "NodeProvisioningError",
+    "AmpDriverNotImplementedError",
+    "AmpConnectionRetry",
 ]
 
 # From https://github.com/openstack/manila/blob/master/manila/exception.py
