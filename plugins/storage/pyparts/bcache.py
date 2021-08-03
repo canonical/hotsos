@@ -47,7 +47,7 @@ class BcacheStatsChecks(BcacheChecksBase):
     def get_info(self):
         csets = self.get_sysfs_cachesets()
         if csets:
-            self._output["cachsets"] = csets
+            self._output["cachesets"] = csets
 
     def check_stats(self):
         if not self.get_sysfs_cachesets():

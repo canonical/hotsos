@@ -171,7 +171,7 @@ class TestStoragePluginPartBcache(utils.BaseTestCase):
     def test_get_bcache_stats_checks(self):
         self.maxDiff = None
         expected = {'bcache': {
-                        'cachsets': [{
+                        'cachesets': [{
                             'cache_available_percent': 95,
                             'uuid': '2bb274af-a015-4496-9455-43393ea06aa2'}]
                         }
@@ -185,7 +185,7 @@ class TestStoragePluginPartBcache(utils.BaseTestCase):
     def test_get_bcache_stats_checks_issue_found(self, mock_add_issue,
                                                  mock_add_known_bug):
         expected = {'bcache': {
-                        'cachsets': [{
+                        'cachesets': [{
                             'cache_available_percent': 30,
                             'uuid': '123'}]
                         }
