@@ -1,498 +1,241 @@
-2021-04-13 23:08:41 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-13 23:10:51 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-13 23:11:21 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-13 23:13:12 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-13 23:13:19 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-13 23:15:15 unit-ntp-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-13 23:16:41 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-13 23:17:46 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-13 23:18:52 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-13 23:19:41 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-13 23:20:37 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-13 23:23:16 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-13 23:23:33 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-13 23:24:00 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-13 23:24:44 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 20s
-2021-04-13 23:27:41 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-13 23:28:13 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-13 23:28:37 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-13 23:29:02 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 21s
-2021-04-13 23:32:04 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-13 23:32:25 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-13 23:33:05 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-13 23:33:56 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-13 23:36:59 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-13 23:38:01 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-13 23:38:18 unit-telegraf-9: uniter (run update-status hook), waited 7s, held 17s
-2021-04-13 23:38:29 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-13 23:41:35 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-13 23:42:22 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-13 23:42:28 unit-ntp-0: uniter (run update-status hook), waited 1s, held 6s
-2021-04-13 23:43:59 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-13 23:47:13 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-13 23:47:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-13 23:48:02 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 11s
-2021-04-13 23:48:23 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-13 23:52:09 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-13 23:52:14 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-13 23:52:34 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-13 23:52:41 unit-neutron-gateway-0: uniter (run update-status hook), waited 5s, held 7s
-2021-04-13 23:56:49 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-13 23:57:17 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-13 23:57:25 unit-ntp-0: uniter (run update-status hook), waited 6s, held 8s
-2021-04-13 23:58:08 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 00:02:03 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 00:02:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 00:03:06 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 00:03:47 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:06:21 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 00:07:48 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 00:07:56 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 00:09:43 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:11:52 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 00:12:00 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 00:13:32 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 00:14:38 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 12s
-2021-04-14 00:16:21 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 00:17:10 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 20s
-2021-04-14 00:17:35 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 00:19:42 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 00:21:13 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 00:21:27 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 00:23:28 unit-ntp-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:24:21 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 00:25:17 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 00:26:35 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 00:28:08 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 00:29:26 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 00:30:18 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:32:15 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 00:32:25 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 00:34:34 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 00:36:15 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:37:59 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 00:38:14 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 00:39:29 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 00:42:02 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:42:13 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 00:42:47 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 00:45:27 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 00:46:06 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 00:47:52 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 00:48:04 unit-ntp-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 00:50:16 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 00:51:32 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 00:52:22 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 00:52:50 unit-ntp-0: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 00:55:12 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 21s
-2021-04-14 00:56:55 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 00:57:05 unit-ntp-0: uniter (run update-status hook), waited 1s, held 9s
-2021-04-14 00:57:25 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 00:59:34 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 01:01:45 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 01:01:50 unit-filebeat-24: uniter (run update-status hook), waited 8s, held 5s
-2021-04-14 01:02:47 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 01:03:39 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 21s
-2021-04-14 01:05:49 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 01:07:33 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 01:08:32 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 01:08:49 unit-ntp-0: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 01:10:01 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 01:11:50 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 01:12:57 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 01:13:28 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 01:15:30 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 01:17:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 21s
-2021-04-14 01:17:42 unit-ntp-0: uniter (run update-status hook), waited 15s, held 6s
-2021-04-14 01:17:45 unit-filebeat-24: uniter (run update-status hook), waited 11s, held 3s
-2021-04-14 01:19:59 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 01:22:17 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 01:22:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 01:23:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 01:25:21 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 12s
-2021-04-14 01:27:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 01:27:40 unit-filebeat-24: uniter (run update-status hook), waited 6s, held 4s
-2021-04-14 01:27:48 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 01:31:18 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 01:31:40 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 01:31:50 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 01:33:35 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 01:35:33 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 01:37:07 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 01:37:13 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 01:38:13 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 01:40:10 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 01:42:47 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 01:43:01 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 01:43:39 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 01:44:45 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 01:47:04 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 01:47:36 unit-ntp-0: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 01:49:31 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 23s
-2021-04-14 01:50:31 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 01:51:33 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 01:51:38 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 01:54:57 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 01:55:05 unit-neutron-gateway-0: uniter (run update-status hook), waited 8s, held 8s
-2021-04-14 01:56:54 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 01:57:27 unit-ntp-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 01:59:06 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 01:59:55 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 02:02:19 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 02:03:25 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 02:04:16 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 02:05:42 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 02:06:26 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 02:08:10 unit-ntp-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 02:09:19 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 02:10:17 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 02:12:08 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 02:13:51 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 02:14:17 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 02:14:36 unit-telegraf-9: uniter (run update-status hook), waited 6s, held 19s
-2021-04-14 02:16:11 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 02:19:37 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 02:19:45 unit-neutron-gateway-0: uniter (run update-status hook), waited 13s, held 7s
-2021-04-14 02:19:51 unit-ntp-0: uniter (run update-status hook), waited 6s, held 6s
-2021-04-14 02:21:51 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 02:24:02 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 02:24:52 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 02:25:14 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 02:26:32 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 02:28:48 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 02:29:14 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 02:30:51 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 13s
-2021-04-14 02:31:47 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 02:33:19 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 02:35:10 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 21s
-2021-04-14 02:35:32 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 02:37:24 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 02:38:25 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 02:39:52 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 02:41:06 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 02:42:22 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 02:43:39 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 02:44:11 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 02:47:00 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 02:47:14 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 02:48:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 02:49:26 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 02:50:59 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 02:53:06 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 02:54:20 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 02:54:37 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 02:55:04 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 02:58:42 unit-ntp-0: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 02:58:46 unit-filebeat-24: uniter (run update-status hook), waited 6s, held 4s
-2021-04-14 02:59:56 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:00:23 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 24s
-2021-04-14 03:03:51 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 03:04:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 12s
-2021-04-14 03:04:51 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:05:18 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 03:07:53 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 03:09:28 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 03:10:16 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 03:10:34 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 03:12:08 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 03:13:54 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 03:14:19 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:14:59 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 03:16:58 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 03:18:50 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 03:19:47 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 03:20:21 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:21:14 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 03:24:14 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 03:24:56 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 03:26:00 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:26:23 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 03:28:17 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 03:29:19 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 03:30:35 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:30:38 unit-filebeat-24: uniter (run update-status hook), waited 1s, held 3s
-2021-04-14 03:33:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 03:33:59 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 03:35:31 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 03:36:27 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 03:38:15 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:38:56 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 03:41:08 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 03:41:11 unit-filebeat-24: uniter (run update-status hook), waited 5s, held 3s
-2021-04-14 03:43:16 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 03:44:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 03:45:30 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 03:45:59 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 03:47:33 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:49:04 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 03:50:00 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 03:50:27 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 03:52:09 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 03:53:59 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 03:54:11 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 03:54:36 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 03:57:18 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 03:58:47 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 03:59:17 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 20s
-2021-04-14 03:59:24 unit-neutron-gateway-0: uniter (run update-status hook), waited 4s, held 7s
-2021-04-14 04:02:53 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 04:03:02 unit-ntp-0: uniter (run update-status hook), waited 3s, held 9s
-2021-04-14 04:04:00 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 04:04:58 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 04:08:04 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 20s
-2021-04-14 04:08:13 unit-ntp-0: uniter (run update-status hook), waited 9s, held 9s
-2021-04-14 04:08:34 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 04:09:40 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 04:12:22 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 04:13:31 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 04:13:34 unit-filebeat-24: uniter (run update-status hook), waited 5s, held 3s
-2021-04-14 04:15:26 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 04:17:23 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 29s
-2021-04-14 04:17:38 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 04:17:50 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 04:19:58 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 04:22:04 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 04:22:23 unit-telegraf-9: uniter (run update-status hook), waited 5s, held 19s
-2021-04-14 04:22:39 unit-ntp-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 04:25:35 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 12s
-2021-04-14 04:26:40 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 04:26:43 unit-filebeat-24: uniter (run update-status hook), waited 15s, held 4s
-2021-04-14 04:27:40 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 04:30:49 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 20s
-2021-04-14 04:31:00 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 04:31:26 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 04:33:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 04:35:08 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 04:35:52 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 04:37:18 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 04:37:44 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 04:40:11 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 04:40:51 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 04:42:55 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 04:43:32 unit-ntp-0: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 04:45:51 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 24s
-2021-04-14 04:45:57 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 04:47:49 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 04:47:56 unit-ntp-0: uniter (run update-status hook), waited 2s, held 8s
-2021-04-14 04:50:17 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 04:50:57 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 04:52:42 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 04:53:38 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 04:55:05 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 04:55:35 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 04:58:22 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 04:59:15 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 04:59:33 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:00:28 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 05:03:39 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:03:53 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:05:09 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 05:05:16 unit-neutron-gateway-0: uniter (run update-status hook), waited 4s, held 7s
-2021-04-14 05:08:17 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:08:56 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:10:25 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 05:10:59 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:12:41 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:13:19 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:15:37 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 05:16:48 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:17:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:17:43 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:19:54 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 05:21:30 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:21:57 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:23:14 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:24:12 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 05:26:04 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:26:52 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 05:28:46 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:29:34 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 05:31:00 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:32:39 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:33:55 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:34:29 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 05:35:14 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 05:37:46 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 05:38:56 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 05:39:12 unit-telegraf-9: uniter (run update-status hook), waited 3s, held 16s
-2021-04-14 05:40:33 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:42:48 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:44:11 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 05:44:15 unit-filebeat-24: uniter (run update-status hook), waited 13s, held 4s
-2021-04-14 05:45:11 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:48:03 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:48:46 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 05:49:30 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 05:50:39 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 05:53:34 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 05:53:49 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:54:41 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 05:55:09 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 05:58:21 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 05:58:52 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 05:58:55 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 05:59:24 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:03:07 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 06:04:05 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 06:04:29 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 06:05:18 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:07:29 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:09:04 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 06:09:43 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 06:09:49 unit-ntp-0: uniter (run update-status hook), waited 3s, held 6s
-2021-04-14 06:11:49 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:13:46 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:14:35 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:14:59 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 06:17:34 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 06:18:38 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 06:19:21 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:20:22 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 29s
-2021-04-14 06:22:55 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:23:53 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 06:25:01 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:25:59 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 38s
-2021-04-14 06:29:22 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 1m15s
-2021-04-14 06:29:43 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 20s
-2021-04-14 06:30:42 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 54s
-2021-04-14 06:31:10 unit-ntp-0: uniter (run update-status hook), waited 48s, held 28s
-2021-04-14 06:32:57 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 06:34:08 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 06:34:22 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:35:46 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 06:38:52 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 06:39:15 unit-ntp-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 06:39:57 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 06:40:00 unit-filebeat-24: uniter (run update-status hook), waited 3s, held 3s
-2021-04-14 06:43:27 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:44:19 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 06:44:25 unit-ntp-0: uniter (run update-status hook), waited 7s, held 6s
-2021-04-14 06:44:40 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 06:48:18 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:48:43 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 06:48:49 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:50:10 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 24s
-2021-04-14 06:52:44 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 06:52:57 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 06:54:09 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:54:55 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 06:57:50 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 06:58:22 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 06:58:57 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 06:59:35 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 07:02:28 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 07:03:28 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 07:03:49 unit-telegraf-9: uniter (run update-status hook), waited 7s, held 21s
-2021-04-14 07:04:18 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 07:07:52 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 07:07:55 unit-filebeat-24: uniter (run update-status hook), waited 5s, held 4s
-2021-04-14 07:08:37 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 07:09:42 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 07:12:37 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:13:15 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 07:13:17 unit-filebeat-24: uniter (run update-status hook), waited 15s, held 3s
-2021-04-14 07:13:57 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:18:03 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:18:18 unit-telegraf-9: uniter (run update-status hook), waited 4s, held 15s
-2021-04-14 07:18:25 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 07:19:48 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 07:22:23 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 07:23:01 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:23:39 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 07:24:12 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 07:26:32 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 07:27:12 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 07:28:35 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 07:29:28 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 07:31:47 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 07:32:31 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 07:32:54 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 07:34:36 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:36:39 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:37:03 unit-telegraf-9: uniter (run update-status hook), waited 5s, held 24s
-2021-04-14 07:38:44 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 07:39:06 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 07:41:30 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 07:41:49 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 07:44:01 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 07:44:14 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 07:46:18 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 23s
-2021-04-14 07:46:25 unit-neutron-gateway-0: uniter (run update-status hook), waited 9s, held 7s
-2021-04-14 07:48:15 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 07:49:39 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 07:50:27 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 24s
-2021-04-14 07:51:29 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:53:03 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 07:55:37 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 07:55:44 unit-ntp-0: uniter (run update-status hook), waited 5s, held 7s
-2021-04-14 07:56:10 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 07:58:44 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:00:31 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 08:00:49 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 08:01:01 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:03:06 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:05:21 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 08:05:32 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:06:04 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 08:07:17 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:10:21 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 08:10:29 unit-neutron-gateway-0: uniter (run update-status hook), waited 14s, held 8s
-2021-04-14 08:10:44 unit-ntp-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 08:12:22 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:14:32 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 08:16:00 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 24s
-2021-04-14 08:16:34 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:17:51 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 08:18:34 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 08:21:28 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 08:22:14 unit-ntp-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 08:23:46 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:24:06 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 08:25:49 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 08:27:09 unit-ntp-0: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 08:28:21 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 4s
-2021-04-14 08:29:07 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 08:31:26 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 08:32:18 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:32:53 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:34:21 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 08:35:38 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 14s
-2021-04-14 08:37:11 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:37:44 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:39:47 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 08:40:53 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 08:42:00 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:42:06 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:44:13 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 9s
-2021-04-14 08:45:48 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 18s
-2021-04-14 08:46:03 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:46:10 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:49:59 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 08:51:29 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 08:51:38 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:52:08 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 08:55:11 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 11s
-2021-04-14 08:55:46 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 08:56:44 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 08:57:13 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 09:00:15 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 19s
-2021-04-14 09:00:25 unit-neutron-gateway-0: uniter (run update-status hook), waited 8s, held 10s
-2021-04-14 09:02:34 unit-ntp-0: uniter (run update-status hook), waited 0s, held 10s
-2021-04-14 09:02:39 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 09:05:56 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 09:06:08 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 09:06:38 unit-ntp-0: uniter (run update-status hook), waited 0s, held 5s
-2021-04-14 09:07:05 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 09:11:01 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 16s
-2021-04-14 09:11:19 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 09:11:47 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 09:12:28 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 09:16:00 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 09:16:20 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 17s
-2021-04-14 09:16:29 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 09:17:32 unit-ntp-0: uniter (run update-status hook), waited 0s, held 7s
-2021-04-14 09:20:36 unit-telegraf-9: uniter (run update-status hook), waited 0s, held 15s
-2021-04-14 09:20:59 unit-filebeat-24: uniter (run update-status hook), waited 0s, held 3s
-2021-04-14 09:21:18 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 8s
-2021-04-14 09:22:08 unit-ntp-0: uniter (run update-status hook), waited 0s, held 6s
-2021-04-14 09:25:45 unit-neutron-gateway-0: uniter (run update-status hook), waited 0s, held 7s
+2021-08-02 20:54:23 === agent machine-1 started ===
+2021-08-02 20:55:13 machine-1: provisioner (lxd container initialisation), waited 0s, held 50s
+2021-08-02 20:54:23 === agent unit-ceph-osd-1 started ===
+2021-08-02 20:55:13 unit-ceph-osd-1: meterstatus (meter-status-changed), waited 50s, held 0s
+2021-08-02 20:54:23 === agent unit-nova-compute-0 started ===
+2021-08-02 20:55:13 unit-nova-compute-0: meterstatus (meter-status-changed), waited 50s, held 0s
+2021-08-02 20:56:08 unit-ceph-osd-1: ceph-osd/1 uniter (run install hook), waited 49s, held 55s
+2021-08-02 20:57:29 unit-nova-compute-0: nova-compute/0 uniter (run install hook), waited 1m44s, held 1m20s
+2021-08-02 20:57:40 machine-1: provisioner (bridging devices), waited 2m15s, held 11s
+2021-08-02 20:57:40 machine-1: provisioner (bridging devices), waited 2m26s, held 0s
+2021-08-02 20:57:40 machine-1: provisioner (bridging devices), waited 2m26s, held 0s
+2021-08-02 20:57:40 machine-1: provisioner (bridging devices), waited 2m26s, held 0s
+2021-08-02 20:57:40 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-created (35; app: ceph-mon) hook), waited 1m31s, held 0s
+2021-08-02 20:57:40 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (42; app: vault) hook), waited 11s, held 0s
+2021-08-02 20:57:29 === agent unit-neutron-openvswitch-1 started ===
+2021-08-02 20:57:40 unit-neutron-openvswitch-1: meterstatus (meter-status-changed), waited 11s, held 0s
+2021-08-02 20:58:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run install hook), waited 10s, held 32s
+2021-08-02 20:58:12 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-created (49; app: vault) hook), waited 32s, held 0s
+2021-08-02 20:58:12 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (33; app: neutron-openvswitch) hook), waited 32s, held 0s
+2021-08-02 20:58:13 unit-ceph-osd-1: ceph-osd/1 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2021-08-02 20:58:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-created (33; app: nova-compute) hook), waited 0s, held 0s
+2021-08-02 20:58:13 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (17; app: nova-cloud-controller) hook), waited 0s, held 0s
+2021-08-02 20:58:17 unit-ceph-osd-1: ceph-osd/1 uniter (run config-changed hook), waited 0s, held 5s
+2021-08-02 20:58:17 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-created (34; app: rabbitmq-server) hook), waited 5s, held 0s
+2021-08-02 20:58:18 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (8; app: nova-compute) hook), waited 5s, held 0s
+2021-08-02 20:58:18 unit-ceph-osd-1: ceph-osd/1 uniter (run start hook), waited 0s, held 1s
+2021-08-02 20:58:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-created (32; app: neutron-api) hook), waited 1s, held 0s
+2021-08-02 20:58:19 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (39; app: cinder-ceph) hook), waited 1s, held 0s
+2021-08-02 20:58:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2021-08-02 20:58:19 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (40; app: ceph-mon) hook), waited 0s, held 0s
+2021-08-02 20:58:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run config-changed hook), waited 0s, held 25s
+2021-08-02 20:58:45 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (18; app: rabbitmq-server) hook), waited 26s, held 0s
+2021-08-02 20:58:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run start hook), waited 0s, held 0s
+2021-08-02 20:58:45 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (19; app: glance) hook), waited 0s, held 0s
+2021-08-02 20:58:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-joined (33; unit: nova-compute/0) hook), waited 0s, held 14s
+2021-08-02 20:58:59 unit-nova-compute-0: nova-compute/0 uniter (run leader-settings-changed hook), waited 14s, held 0s
+2021-08-02 20:59:20 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (33; unit: nova-compute/0) hook), waited 0s, held 22s
+2021-08-02 20:59:29 unit-nova-compute-0: nova-compute/0 uniter (run config-changed hook), waited 22s, held 9s
+2021-08-02 20:59:35 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-02 21:00:03 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (33; unit: nova-compute/0) hook), waited 7s, held 27s
+2021-08-02 21:00:10 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (8; unit: nova-compute/1) hook), waited 27s, held 7s
+2021-08-02 21:00:11 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 4s, held 1s
+2021-08-02 21:00:18 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (33; unit: neutron-openvswitch/1) hook), waited 1s, held 7s
+2021-08-02 21:00:18 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (8; unit: nova-compute/1) hook), waited 0s, held 0s
+2021-08-02 21:00:27 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (8; unit: nova-compute/2) hook), waited 0s, held 8s
+2021-08-02 21:00:27 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (8; unit: nova-compute/2) hook), waited 0s, held 0s
+2021-08-02 21:00:47 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (33; unit: neutron-openvswitch/1) hook), waited 0s, held 20s
+2021-08-02 21:02:27 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 22s
+2021-08-02 21:05:47 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-joined (32; unit: neutron-api/0) hook), waited 0s, held 0s
+2021-08-02 21:06:40 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (32; unit: neutron-api/0) hook), waited 0s, held 53s
+2021-08-02 21:06:42 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 44s, held 2s
+2021-08-02 21:06:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 46s, held 16s
+2021-08-02 21:07:16 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 17s, held 18s
+2021-08-02 21:07:17 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-joined (49; unit: vault/0) hook), waited 34s, held 2s
+2021-08-02 21:07:18 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (19; unit: glance/0) hook), waited 20s, held 0s
+2021-08-02 21:07:19 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-changed (49; unit: vault/0) hook), waited 0s, held 2s
+2021-08-02 21:07:32 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: glance/0) hook), waited 2s, held 13s
+2021-08-02 21:07:49 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (42; unit: vault/0) hook), waited 0s, held 17s
+2021-08-02 21:08:06 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: vault/0) hook), waited 0s, held 17s
+2021-08-02 21:09:52 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (32; unit: neutron-api/0) hook), waited 9s, held 1m46s
+2021-08-02 21:09:54 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-changed (49; unit: vault/0) hook), waited 1m50s, held 2s
+2021-08-02 21:10:08 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: vault/0) hook), waited 1m48s, held 13s
+2021-08-02 21:10:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-joined (34; unit: rabbitmq-server/0) hook), waited 15s, held 10s
+2021-08-02 21:10:18 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-joined (35; unit: ceph-mon/0) hook), waited 24s, held 0s
+2021-08-02 21:10:31 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (18; unit: rabbitmq-server/0) hook), waited 10s, held 13s
+2021-08-02 21:10:49 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (34; unit: rabbitmq-server/0) hook), waited 13s, held 18s
+2021-08-02 21:10:52 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-changed (35; unit: ceph-mon/0) hook), waited 31s, held 3s
+2021-08-02 21:11:02 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (18; unit: rabbitmq-server/0) hook), waited 21s, held 10s
+2021-08-02 21:11:32 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: glance/0) hook), waited 0s, held 30s
+2021-08-02 21:11:34 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 26s, held 2s
+2021-08-02 21:11:49 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 7s, held 15s
+2021-08-02 21:12:08 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (18; unit: rabbitmq-server/0) hook), waited 17s, held 19s
+2021-08-02 21:12:19 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (40; unit: ceph-mon/0) hook), waited 0s, held 11s
+2021-08-02 21:12:29 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (40; unit: ceph-mon/0) hook), waited 0s, held 10s
+2021-08-02 21:12:47 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (17; unit: nova-cloud-controller/0) hook), waited 0s, held 14s
+2021-08-02 21:12:57 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 10s
+2021-08-02 21:13:28 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (34; unit: rabbitmq-server/0) hook), waited 0s, held 24s
+2021-08-02 21:15:58 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 24s
+2021-08-02 21:16:21 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 9s
+2021-08-02 21:17:05 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:17:12 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 7s
+2021-08-02 21:18:31 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 9s
+2021-08-02 21:19:12 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (39; unit: cinder-ceph/0) hook), waited 0s, held 8s
+2021-08-02 21:19:19 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (39; unit: cinder-ceph/0) hook), waited 0s, held 7s
+2021-08-02 21:20:12 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: glance/0) hook), waited 0s, held 10s
+2021-08-02 21:21:09 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (32; unit: neutron-api/0) hook), waited 0s, held 51s
+2021-08-02 21:21:37 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-changed (49; unit: vault/0) hook), waited 28s, held 28s
+2021-08-02 21:22:01 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: vault/0) hook), waited 56s, held 25s
+2021-08-02 21:22:03 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 25s, held 1s
+2021-08-02 21:22:10 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 7s, held 7s
+2021-08-02 21:22:19 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: glance/0) hook), waited 8s, held 9s
+2021-08-02 21:24:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (32; unit: neutron-api/0) hook), waited 0s, held 38s
+2021-08-02 21:24:21 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (40; unit: ceph-mon/0) hook), waited 24s, held 19s
+2021-08-02 21:24:54 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (40; unit: ceph-mon/0) hook), waited 0s, held 17s
+2021-08-02 21:25:14 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (40; unit: ceph-mon/0) hook), waited 0s, held 20s
+2021-08-02 21:25:48 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (39; unit: cinder-ceph/0) hook), waited 0s, held 11s
+2021-08-02 21:26:02 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:26:12 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 10s
+2021-08-02 21:26:28 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (40; unit: ceph-mon/0) hook), waited 0s, held 16s
+2021-08-02 21:26:37 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 8s
+2021-08-02 21:31:32 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:31:41 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 9s
+2021-08-02 21:32:10 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-02 21:33:05 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 11s
+2021-08-02 21:33:17 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 12s
+2021-08-02 21:34:22 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 13s
+2021-08-02 21:34:40 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 13s
+2021-08-02 21:34:51 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 11s
+2021-08-02 21:36:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-02 21:37:05 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:37:13 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 8s
+2021-08-02 21:41:41 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:41:52 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 11s
+2021-08-02 21:42:16 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-02 21:46:24 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (17; unit: nova-cloud-controller/0) hook), waited 0s, held 15s
+2021-08-02 21:47:33 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-02 21:47:37 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:47:47 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 10s
+2021-08-02 21:51:38 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 2s
+2021-08-02 21:51:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 2s, held 20s
+2021-08-02 21:53:25 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 27s
+2021-08-02 21:57:13 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-02 21:57:25 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 12s
+2021-08-02 21:58:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 07:43:22 === agent unit-ceph-osd-1 started ===
+2021-08-03 07:43:42 unit-ceph-osd-1: ceph-osd/1 uniter (run start hook), waited 0s, held 18s
+2021-08-03 07:43:22 === agent unit-neutron-openvswitch-1 started ===
+2021-08-03 07:43:42 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run start hook), waited 18s, held 0s
+2021-08-03 07:43:22 === agent unit-nova-compute-0 started ===
+2021-08-03 07:44:15 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 17s, held 32s
+2021-08-03 07:42:47 === agent machine-1 started ===
+2021-08-03 07:44:19 machine-1: provisioner (lxd container initialisation), waited 45s, held 4s
+2021-08-03 07:44:19 unit-ceph-osd-1: ceph-osd/1 uniter (run leader-settings-changed hook), waited 36s, held 0s
+2021-08-03 07:44:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-settings-changed hook), waited 36s, held 0s
+2021-08-03 07:44:35 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 16s
+2021-08-03 07:44:53 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-03 07:45:19 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 07:46:04 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 07:47:28 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 07:48:29 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 07:48:56 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 07:50:06 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 07:53:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 07:54:49 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 07:55:12 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 07:57:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 07:59:34 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:00:18 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:01:21 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:04:06 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:05:24 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-03 08:06:48 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:08:47 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:10:31 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-03 08:11:11 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:14:26 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:15:38 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:15:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 8s
+2021-08-03 08:19:05 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:20:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:20:44 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:24:41 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:24:58 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:25:51 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-03 08:30:10 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:30:22 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:30:58 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-03 08:34:20 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:34:41 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:36:04 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 7s
+2021-08-03 08:38:43 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:40:32 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:41:11 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:44:15 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 08:45:40 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:46:17 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:48:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 08:51:14 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:51:23 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:53:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 08:55:55 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 08:56:28 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 08:58:08 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:01:35 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:01:36 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 4s, held 1s
+2021-08-03 09:02:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:05:50 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:06:40 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:07:02 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:11:15 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:11:47 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:12:36 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:16:52 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:17:04 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:17:10 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:21:17 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:21:58 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:22:53 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:27:04 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:27:16 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:27:37 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:32:09 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:32:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:33:03 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:37:15 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 6s
+2021-08-03 09:38:15 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 7s
+2021-08-03 09:38:20 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:39:24 unit-ceph-osd-1: ceph-osd/1 uniter (run relation-changed (49; unit: vault/0) hook), waited 0s, held 2s
+2021-08-03 09:41:43 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 8s
+2021-08-03 09:41:43 unit-nova-compute-0: nova-compute/0 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2021-08-03 09:41:52 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: vault/0) hook), waited 0s, held 9s
+2021-08-03 09:42:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 8s
+2021-08-03 09:42:26 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 7s, held 8s
+2021-08-03 09:43:50 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:47:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 11s
+2021-08-03 09:47:16 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 10s, held 9s
+2021-08-03 09:49:47 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:52:49 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:52:57 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 8s
+2021-08-03 09:53:53 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 09:58:06 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 09:58:15 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 9s
+2021-08-03 09:59:31 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 10:03:28 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 10:03:36 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 8s
+2021-08-03 10:04:07 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 10:09:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 10:09:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 8s
+2021-08-03 10:09:35 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 12s, held 1s
+2021-08-03 10:15:00 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 10:15:08 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 7s
+2021-08-03 10:15:10 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 10:19:33 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 10:20:22 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 10:20:30 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 8s
+2021-08-03 10:24:03 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 10:25:10 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 6s
+2021-08-03 10:25:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 5s, held 8s
+2021-08-03 10:28:46 unit-ceph-osd-1: ceph-osd/1 uniter (run update-status hook), waited 0s, held 1s
+2021-08-03 10:31:09 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 20s
+2021-08-03 10:31:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 25s

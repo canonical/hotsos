@@ -1,1476 +1,693 @@
 /dev:
 total 4
-drwxr-xr-x 26     0     0     5060 Feb  4 08:27 .
-drwxr-xr-x 24     0     0     4096 Jan 29 06:09 ..
-crw-r--r--  1     0     0  10, 235 Jun 15  2020 autofs
-drwxr-xr-x  4     0     0       80 Jun 15  2020 bcache
-brw-rw----  1     0     6 252,   0 Nov 25 17:33 bcache0
-brw-rw----  1     0     6 252, 128 Nov 25 17:33 bcache1
-brw-rw----  1     0     6 252, 256 Nov 25 17:33 bcache2
-brw-rw----  1     0     6 252, 384 Nov 25 17:33 bcache3
-brw-rw----  1     0     6 252, 512 Nov 25 17:33 bcache4
-brw-rw----  1     0     6 252, 640 Nov 25 17:33 bcache5
-brw-rw----  1     0     6 252, 768 Nov 25 17:33 bcache6
-drwxr-xr-x  2     0     0      880 Jun 15  2020 block
-drwxr-xr-x  2     0     0      420 Jun 15  2020 bsg
-crw-rw----  1     0     6  10, 234 Jun 15  2020 btrfs-control
-drwxr-xr-x  3     0     0       60 Jun 15  2020 bus
-drwxr-xr-x  2     0     0       60 Jun 15  2020 ceph-12a94d95-fbcc-4c15-875f-aae53274b1a9
-drwxr-xr-x  2     0     0       60 Jun 15  2020 ceph-5f74e4b6-7e76-4c11-9533-c393fc9fdebc
-drwxr-xr-x  2     0     0       60 Jun 15  2020 ceph-9653fae9-d518-4fe8-abf9-54d015ffea68
-drwxr-xr-x  2     0     0       60 Jun 15  2020 ceph-b3885ec9-4d42-4860-a708-d1cbc6e4da29
-drwxr-xr-x  2     0     0       60 Jun 15  2020 ceph-bd7a98b9-d765-4d7c-b11e-1a430c3a27cb
-drwxr-xr-x  2     0     0       60 Jun 15  2020 ceph-c4539810-2a63-4885-918b-0d23bcd41cf1
-drwxr-xr-x  2     0     0     5500 Jul  3  2020 char
-crw-------  1     0     0   5,   1 Jun 15  2020 console
-lrwxrwxrwx  1     0     0       11 Jun 15  2020 core -> /proc/kcore
-drwxr-xr-x 66     0     0     1340 Jul  3  2020 cpu
-crw-------  1     0     0  10,  60 Jun 15  2020 cpu_dma_latency
-crw-------  1     0     0  10, 203 Jun 15  2020 cuse
-drwxr-xr-x  9     0     0      180 Jun 15  2020 disk
-brw-rw----  1 64045 64045 253,   0 Feb  5 06:20 dm-0
-brw-rw----  1 64045 64045 253,   1 Feb  5 06:20 dm-1
-brw-rw----  1 64045 64045 253,   2 Feb  5 06:20 dm-2
-brw-rw----  1 64045 64045 253,   3 Feb  5 06:20 dm-3
-brw-rw----  1 64045 64045 253,   4 Feb  5 06:20 dm-4
-brw-rw----  1 64045 64045 253,   5 Feb  5 06:20 dm-5
-drwxr-xr-x  2     0     0       60 Jun 15  2020 dri
-crw-------  1     0     0  10,  62 Jun 15  2020 ecryptfs
-crw-rw----  1     0    44  29,   0 Jun 15  2020 fb0
-lrwxrwxrwx  1     0     0       13 Jun 15  2020 fd -> /proc/self/fd
-crw-rw-rw-  1     0     0   1,   7 Jun 15  2020 full
-crw-rw-rw-  1     0     0  10, 229 Dec  3 19:45 fuse
-crw-------  1     0     0 242,   0 Jun 15  2020 hidraw0
-crw-------  1     0     0 242,   1 Jun 15  2020 hidraw1
-crw-------  1     0     0 242,   2 Jun 15  2020 hidraw2
-crw-------  1     0     0  10, 228 Jun 15  2020 hpet
-drwxr-xr-x  3     0     0        0 Jun 15  2020 hugepages
-crw-------  1     0     0  10, 183 Jun 15  2020 hwrng
-crw-------  1     0     0  89,   0 Jun 15  2020 i2c-0
-lrwxrwxrwx  1     0     0       25 Jun 15  2020 initctl -> /run/systemd/initctl/fifo
-drwxr-xr-x  4     0     0      240 Jun 15  2020 input
-crw-------  1     0     0 238,   0 Jun 15  2020 ipmi0
-crw-r--r--  1     0     0   1,  11 Jun 15  2020 kmsg
-crw-rw----  1     0   118  10, 232 Jan 14 08:43 kvm
-drwxr-xr-x  2     0     0       60 Jun 15  2020 lightnvm
-lrwxrwxrwx  1     0     0       28 Jun 15  2020 log -> /run/systemd/journal/dev-log
-crw-rw----  1     0     6  10, 237 Jun 15  2020 loop-control
-brw-rw----  1     0     6   7,   0 Nov 25 17:33 loop0
-brw-rw----  1     0     6   7,   1 Nov 25 17:33 loop1
-brw-rw----  1     0     6   7,   2 Jan  5 05:43 loop2
-brw-rw----  1     0     6   7,   3 Dec 17 19:02 loop3
-brw-rw----  1     0     6   7,   4 Jan  5 05:42 loop4
-brw-rw----  1     0     6   7,   5 Jan  5 05:43 loop5
-brw-rw----  1     0     6   7,   6 Nov 25 17:33 loop6
-brw-rw----  1     0     6   7,   7 Nov 25 17:33 loop7
-drwxr-xr-x  2     0     0      180 Jun 15  2020 mapper
-crw-------  1     0     0  10, 227 Jun 15  2020 mcelog
-brw-rw----  1     0     6   9,   0 Nov 25 17:33 md0
-brw-rw----  1     0     6   9,   1 Nov 25 17:33 md1
-brw-rw----  1     0     6   9,   2 Nov 25 17:33 md2
-crw-------  1     0     0 239,   0 Jun 15  2020 mei0
-crw-r-----  1     0    15   1,   1 Jun 15  2020 mem
-crw-------  1     0     0  10,  57 Jun 15  2020 memory_bandwidth
-crw-------  1     0     0  10, 221 Jun 15  2020 mpt2ctl
-crw-------  1     0     0  10, 222 Jun 15  2020 mpt3ctl
-drwxrwxrwt  2     0     0       40 Jun 15  2020 mqueue
-drwxr-xr-x  2     0     0       60 Jun 15  2020 net
-crw-------  1     0     0  10,  59 Jun 15  2020 network_latency
-crw-------  1     0     0  10,  58 Jun 15  2020 network_throughput
-crw-rw-rw-  1     0     0   1,   3 Jun 15  2020 null
-crw-------  1     0     0 241,   0 Jun 15  2020 nvme0
-brw-rw----  1     0     6 259,   0 Nov 25 17:33 nvme0n1
-brw-rw----  1     0     6 259,   1 Nov 25 17:33 nvme0n1p1
-brw-rw----  1     0     6 259,   2 Nov 25 17:33 nvme0n1p2
-crw-r-----  1     0    15   1,   4 Jun 15  2020 port
-crw-------  1     0     0 108,   0 Jun 15  2020 ppp
-crw-------  1     0     0  10,   1 Jun 15  2020 psaux
-crw-rw-rw-  1     0     5   5,   2 Feb  4 15:54 ptmx
-crw-------  1     0     0 243,   0 Jun 15  2020 ptp0
-crw-------  1     0     0 243,   1 Jun 15  2020 ptp1
-crw-------  1     0     0 243,   2 Jun 15  2020 ptp2
-crw-------  1     0     0 243,   3 Jun 15  2020 ptp3
-crw-------  1     0     0 243,   4 Jun 15  2020 ptp4
-crw-------  1     0     0 243,   5 Jun 15  2020 ptp5
-crw-------  1     0     0 243,   6 Jun 15  2020 ptp6
-crw-------  1     0     0 243,   7 Jun 15  2020 ptp7
-crw-------  1     0     0 243,   8 Jun 15  2020 ptp8
-crw-------  1     0     0 243,   9 Jun 15  2020 ptp9
-drwxr-xr-x  2     0     0        0 Jun 15  2020 pts
-crw-rw-rw-  1     0     0   1,   8 Jun 15  2020 random
-crw-rw-r--  1     0   109  10, 242 Jun 15  2020 rfkill
-lrwxrwxrwx  1     0     0        4 Jun 15  2020 rtc -> rtc0
-crw-------  1     0     0 249,   0 Jun 15  2020 rtc0
-brw-rw----  1     0     6   8,   0 Nov 25 17:33 sda
-brw-rw----  1     0     6   8,   1 Nov 25 17:33 sda1
-brw-rw----  1     0     6   8,   2 Nov 25 17:33 sda2
-brw-rw----  1     0     6   8,   3 Nov 25 17:33 sda3
-brw-rw----  1     0     6   8,  16 Nov 25 17:33 sdb
-brw-rw----  1     0     6   8,  32 Nov 25 17:33 sdc
-brw-rw----  1     0     6   8,  48 Nov 25 17:33 sdd
-brw-rw----  1     0     6   8,  64 Nov 25 17:33 sde
-brw-rw----  1     0     6   8,  80 Nov 25 17:33 sdf
-brw-rw----  1     0     6   8,  81 Nov 25 17:33 sdf1
-brw-rw----  1     0     6   8,  82 Nov 25 17:33 sdf2
-brw-rw----  1     0     6   8,  83 Nov 25 17:33 sdf3
-brw-rw----  1     0     6   8,  84 Nov 25 17:33 sdf4
-brw-rw----  1     0     6   8,  96 Nov 25 17:33 sdg
-brw-rw----  1     0     6   8, 112 Nov 25 17:33 sdh
-crw-rw----  1     0     6  21,   0 Jun 15  2020 sg0
-crw-rw----  1     0     6  21,   1 Jun 15  2020 sg1
-crw-rw----  1     0     6  21,   2 Jun 15  2020 sg2
-crw-rw----  1     0     6  21,   3 Jun 15  2020 sg3
-crw-rw----  1     0     6  21,   4 Jun 15  2020 sg4
-crw-rw----  1     0     6  21,   5 Jun 15  2020 sg5
-crw-rw----  1     0     6  21,   6 Jun 15  2020 sg6
-crw-rw----  1     0     6  21,   7 Jun 15  2020 sg7
-crw-------  1     0     0  21,   8 Jun 15  2020 sg8
-drwxrwxrwt  2     0     0       40 Jun 15  2020 shm
-crw-------  1     0     0  10, 231 Jun 15  2020 snapshot
-drwxr-xr-x  2     0     0       80 Jun 15  2020 snd
-lrwxrwxrwx  1     0     0       15 Jun 15  2020 stderr -> /proc/self/fd/2
-lrwxrwxrwx  1     0     0       15 Jun 15  2020 stdin -> /proc/self/fd/0
-lrwxrwxrwx  1     0     0       15 Jun 15  2020 stdout -> /proc/self/fd/1
-crw-rw-rw-  1     0     5   5,   0 Jun 15  2020 tty
-crw--w----  1     0     5   4,   0 Jun 15  2020 tty0
-crw--w----  1     0     5   4,   1 Jun 15  2020 tty1
-crw--w----  1     0     5   4,  10 Jun 15  2020 tty10
-crw--w----  1     0     5   4,  11 Jun 15  2020 tty11
-crw--w----  1     0     5   4,  12 Jun 15  2020 tty12
-crw--w----  1     0     5   4,  13 Jun 15  2020 tty13
-crw--w----  1     0     5   4,  14 Jun 15  2020 tty14
-crw--w----  1     0     5   4,  15 Jun 15  2020 tty15
-crw--w----  1     0     5   4,  16 Jun 15  2020 tty16
-crw--w----  1     0     5   4,  17 Jun 15  2020 tty17
-crw--w----  1     0     5   4,  18 Jun 15  2020 tty18
-crw--w----  1     0     5   4,  19 Jun 15  2020 tty19
-crw--w----  1     0     5   4,   2 Jun 15  2020 tty2
-crw--w----  1     0     5   4,  20 Jun 15  2020 tty20
-crw--w----  1     0     5   4,  21 Jun 15  2020 tty21
-crw--w----  1     0     5   4,  22 Jun 15  2020 tty22
-crw--w----  1     0     5   4,  23 Jun 15  2020 tty23
-crw--w----  1     0     5   4,  24 Jun 15  2020 tty24
-crw--w----  1     0     5   4,  25 Jun 15  2020 tty25
-crw--w----  1     0     5   4,  26 Jun 15  2020 tty26
-crw--w----  1     0     5   4,  27 Jun 15  2020 tty27
-crw--w----  1     0     5   4,  28 Jun 15  2020 tty28
-crw--w----  1     0     5   4,  29 Jun 15  2020 tty29
-crw--w----  1     0     5   4,   3 Jun 15  2020 tty3
-crw--w----  1     0     5   4,  30 Jun 15  2020 tty30
-crw--w----  1     0     5   4,  31 Jun 15  2020 tty31
-crw--w----  1     0     5   4,  32 Jun 15  2020 tty32
-crw--w----  1     0     5   4,  33 Jun 15  2020 tty33
-crw--w----  1     0     5   4,  34 Jun 15  2020 tty34
-crw--w----  1     0     5   4,  35 Jun 15  2020 tty35
-crw--w----  1     0     5   4,  36 Jun 15  2020 tty36
-crw--w----  1     0     5   4,  37 Jun 15  2020 tty37
-crw--w----  1     0     5   4,  38 Jun 15  2020 tty38
-crw--w----  1     0     5   4,  39 Jun 15  2020 tty39
-crw--w----  1     0     5   4,   4 Jun 15  2020 tty4
-crw--w----  1     0     5   4,  40 Jun 15  2020 tty40
-crw--w----  1     0     5   4,  41 Jun 15  2020 tty41
-crw--w----  1     0     5   4,  42 Jun 15  2020 tty42
-crw--w----  1     0     5   4,  43 Jun 15  2020 tty43
-crw--w----  1     0     5   4,  44 Jun 15  2020 tty44
-crw--w----  1     0     5   4,  45 Jun 15  2020 tty45
-crw--w----  1     0     5   4,  46 Jun 15  2020 tty46
-crw--w----  1     0     5   4,  47 Jun 15  2020 tty47
-crw--w----  1     0     5   4,  48 Jun 15  2020 tty48
-crw--w----  1     0     5   4,  49 Jun 15  2020 tty49
-crw--w----  1     0     5   4,   5 Jun 15  2020 tty5
-crw--w----  1     0     5   4,  50 Jun 15  2020 tty50
-crw--w----  1     0     5   4,  51 Jun 15  2020 tty51
-crw--w----  1     0     5   4,  52 Jun 15  2020 tty52
-crw--w----  1     0     5   4,  53 Jun 15  2020 tty53
-crw--w----  1     0     5   4,  54 Jun 15  2020 tty54
-crw--w----  1     0     5   4,  55 Jun 15  2020 tty55
-crw--w----  1     0     5   4,  56 Jun 15  2020 tty56
-crw--w----  1     0     5   4,  57 Jun 15  2020 tty57
-crw--w----  1     0     5   4,  58 Jun 15  2020 tty58
-crw--w----  1     0     5   4,  59 Jun 15  2020 tty59
-crw--w----  1     0     5   4,   6 Jun 15  2020 tty6
-crw--w----  1     0     5   4,  60 Jun 15  2020 tty60
-crw--w----  1     0     5   4,  61 Jun 15  2020 tty61
-crw--w----  1     0     5   4,  62 Jun 15  2020 tty62
-crw--w----  1     0     5   4,  63 Jun 15  2020 tty63
-crw--w----  1     0     5   4,   7 Jun 15  2020 tty7
-crw--w----  1     0     5   4,   8 Jun 15  2020 tty8
-crw--w----  1     0     5   4,   9 Jun 15  2020 tty9
-crw--w----  1     0     5   4,  64 Jun 15  2020 ttyS0
-crw-rw----  1     0    20   4,  65 Jun 15  2020 ttyS1
-crw-rw----  1     0    20   4,  74 Jun 15  2020 ttyS10
-crw-rw----  1     0    20   4,  75 Jun 15  2020 ttyS11
-crw-rw----  1     0    20   4,  76 Jun 15  2020 ttyS12
-crw-rw----  1     0    20   4,  77 Jun 15  2020 ttyS13
-crw-rw----  1     0    20   4,  78 Jun 15  2020 ttyS14
-crw-rw----  1     0    20   4,  79 Jun 15  2020 ttyS15
-crw-rw----  1     0    20   4,  80 Jun 15  2020 ttyS16
-crw-rw----  1     0    20   4,  81 Jun 15  2020 ttyS17
-crw-rw----  1     0    20   4,  82 Jun 15  2020 ttyS18
-crw-rw----  1     0    20   4,  83 Jun 15  2020 ttyS19
-crw-rw----  1     0    20   4,  66 Jun 15  2020 ttyS2
-crw-rw----  1     0    20   4,  84 Jun 15  2020 ttyS20
-crw-rw----  1     0    20   4,  85 Jun 15  2020 ttyS21
-crw-rw----  1     0    20   4,  86 Jun 15  2020 ttyS22
-crw-rw----  1     0    20   4,  87 Jun 15  2020 ttyS23
-crw-rw----  1     0    20   4,  88 Jun 15  2020 ttyS24
-crw-rw----  1     0    20   4,  89 Jun 15  2020 ttyS25
-crw-rw----  1     0    20   4,  90 Jun 15  2020 ttyS26
-crw-rw----  1     0    20   4,  91 Jun 15  2020 ttyS27
-crw-rw----  1     0    20   4,  92 Jun 15  2020 ttyS28
-crw-rw----  1     0    20   4,  93 Jun 15  2020 ttyS29
-crw-rw----  1     0    20   4,  67 Jun 15  2020 ttyS3
-crw-rw----  1     0    20   4,  94 Jun 15  2020 ttyS30
-crw-rw----  1     0    20   4,  95 Jun 15  2020 ttyS31
-crw-rw----  1     0    20   4,  68 Jun 15  2020 ttyS4
-crw-rw----  1     0    20   4,  69 Jun 15  2020 ttyS5
-crw-rw----  1     0    20   4,  70 Jun 15  2020 ttyS6
-crw-rw----  1     0    20   4,  71 Jun 15  2020 ttyS7
-crw-rw----  1     0    20   4,  72 Jun 15  2020 ttyS8
-crw-rw----  1     0    20   4,  73 Jun 15  2020 ttyS9
-crw-------  1     0     0   5,   3 Jun 15  2020 ttyprintk
-crw-------  1     0     0  10, 239 Jun 15  2020 uhid
-crw-------  1     0     0  10, 223 Jun 15  2020 uinput
-crw-rw-rw-  1     0     0   1,   9 Jun 15  2020 urandom
-crw-------  1     0     0  10, 240 Jun 15  2020 userio
-crw-rw----  1     0     5   7,   0 Jun 15  2020 vcs
-crw-rw----  1     0     5   7,   1 Jun 15  2020 vcs1
-crw-rw----  1     0     5   7,   2 Jun 15  2020 vcs2
-crw-rw----  1     0     5   7,   3 Jun 15  2020 vcs3
-crw-rw----  1     0     5   7,   4 Jun 15  2020 vcs4
-crw-rw----  1     0     5   7,   5 Jun 15  2020 vcs5
-crw-rw----  1     0     5   7,   6 Jun 15  2020 vcs6
-crw-rw----  1     0     5   7, 128 Jun 15  2020 vcsa
-crw-rw----  1     0     5   7, 129 Jun 15  2020 vcsa1
-crw-rw----  1     0     5   7, 130 Jun 15  2020 vcsa2
-crw-rw----  1     0     5   7, 131 Jun 15  2020 vcsa3
-crw-rw----  1     0     5   7, 132 Jun 15  2020 vcsa4
-crw-rw----  1     0     5   7, 133 Jun 15  2020 vcsa5
-crw-rw----  1     0     5   7, 134 Jun 15  2020 vcsa6
-drwxr-xr-x  2     0     0       60 Jun 15  2020 vfio
-crw-------  1     0     0  10,  63 Jun 15  2020 vga_arbiter
-crw-------  1     0     0  10, 137 Jun 15  2020 vhci
-crw-------  1     0     0  10, 238 Jun 25  2020 vhost-net
-crw-------  1     0     0  10, 241 Jun 15  2020 vhost-vsock
-crw-rw-rw-  1     0     0   1,   5 Jun 15  2020 zero
+drwxr-xr-x 20     0     0     4280 Aug  3 10:29 .
+drwxr-xr-x 19     0     0     4096 Aug  3 07:42 ..
+crw-r--r--  1     0     0  10, 235 Aug  3 07:42 autofs
+drwxr-xr-x  4     0     0       80 Aug  3 07:42 bcache
+brw-rw----  1     0     6 251,   0 Aug  3 10:29 bcache0
+brw-rw----  1     0     6 251, 128 Aug  3 10:29 bcache1
+drwxr-xr-x  2     0     0      480 Aug  3 09:39 block
+crw-rw----  1     0     6  10, 234 Aug  3 07:42 btrfs-control
+drwxr-xr-x  3     0     0       60 Aug  3 07:42 bus
+drwxr-xr-x  2     0     0       60 Aug  3 09:39 ceph-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+drwxr-xr-x  2     0     0     3580 Aug  3 10:29 char
+crw-------  1     0     0   5,   1 Aug  3 09:39 console
+lrwxrwxrwx  1     0     0       11 Aug  3 07:42 core -> /proc/kcore
+drwxr-xr-x  4     0     0       80 Aug  3 07:42 cpu
+crw-------  1     0     0  10,  59 Aug  3 07:42 cpu_dma_latency
+crw-------  1     0     0  10, 203 Aug  3 07:42 cuse
+drwxr-xr-x  8     0     0      160 Aug  3 09:39 disk
+brw-rw----  1     0     6 253,   0 Aug  3 10:29 dm-0
+brw-rw----  1 64045 64045 253,   1 Aug  3 10:31 dm-1
+brw-rw----  1     0     6 253,   2 Aug  3 10:29 dm-2
+drwxr-xr-x  3     0     0       80 Aug  3 07:42 dri
+crw-------  1     0     0  10,  62 Aug  3 07:42 ecryptfs
+crw-rw----  1     0    44  29,   0 Aug  3 07:42 fb0
+lrwxrwxrwx  1     0     0       13 Aug  3 07:42 fd -> /proc/self/fd
+crw-rw-rw-  1     0     0   1,   7 Aug  3 07:42 full
+crw-rw-rw-  1     0     0  10, 229 Aug  3 07:42 fuse
+crw-------  1     0     0  10, 228 Aug  3 07:42 hpet
+drwxr-xr-x  3     0     0        0 Aug  3 07:42 hugepages
+crw-------  1     0     0  10, 183 Aug  3 07:42 hwrng
+crw-------  1     0     0  89,   0 Aug  3 07:42 i2c-0
+lrwxrwxrwx  1     0     0       12 Aug  3 07:42 initctl -> /run/initctl
+drwxr-xr-x  3     0     0      200 Aug  3 07:42 input
+crw-r--r--  1     0     0   1,  11 Aug  3 07:42 kmsg
+crw-rw----  1     0   108  10, 232 Aug  3 10:29 kvm
+drwxr-xr-x  2     0     0       60 Aug  3 07:42 lightnvm
+lrwxrwxrwx  1     0     0       28 Aug  3 07:42 log -> /run/systemd/journal/dev-log
+crw-rw----  1     0     6  10, 237 Aug  3 07:42 loop-control
+brw-rw----  1     0     6   7,   0 Aug  3 10:29 loop0
+brw-rw----  1     0     6   7,   1 Aug  3 10:29 loop1
+brw-rw----  1     0     6   7,   2 Aug  3 10:29 loop2
+brw-rw----  1     0     6   7,   3 Aug  3 10:29 loop3
+brw-rw----  1     0     6   7,   4 Aug  3 10:29 loop4
+brw-rw----  1     0     6   7,   5 Aug  3 10:29 loop5
+brw-rw----  1     0     6   7,   6 Aug  3 10:29 loop6
+brw-rw----  1     0     6   7,   7 Aug  3 09:39 loop7
+drwxr-xr-x  2     0     0      120 Aug  3 09:39 mapper
+crw-------  1     0     0  10, 227 Aug  3 07:42 mcelog
+crw-r-----  1     0    15   1,   1 Aug  3 07:42 mem
+drwxrwxrwt  2     0     0       40 Aug  3 07:42 mqueue
+drwxr-xr-x  2     0     0       60 Aug  3 07:42 net
+crw-rw-rw-  1     0     0   1,   3 Aug  3 07:42 null
+crw-------  1     0     0  10, 144 Aug  3 07:42 nvram
+crw-r-----  1     0    15   1,   4 Aug  3 07:42 port
+crw-------  1     0     0 108,   0 Aug  3 07:42 ppp
+crw-------  1     0     0  10,   1 Aug  3 07:42 psaux
+crw-rw-rw-  1     0     5   5,   2 Aug  3 10:31 ptmx
+drwxr-xr-x  2     0     0        0 Aug  3 07:42 pts
+crw-rw-rw-  1     0     0   1,   8 Aug  3 07:42 random
+crw-rw-r--  1     0     0  10, 242 Aug  3 07:42 rfkill
+lrwxrwxrwx  1     0     0        4 Aug  3 07:42 rtc -> rtc0
+crw-------  1     0     0 249,   0 Aug  3 07:42 rtc0
+drwxrwxrwt  2     0     0       40 Aug  3 10:30 shm
+crw-------  1     0     0  10, 231 Aug  3 07:42 snapshot
+drwxr-xr-x  2     0     0       80 Aug  3 07:42 snd
+lrwxrwxrwx  1     0     0       15 Aug  3 07:42 stderr -> /proc/self/fd/2
+lrwxrwxrwx  1     0     0       15 Aug  3 07:42 stdin -> /proc/self/fd/0
+lrwxrwxrwx  1     0     0       15 Aug  3 07:42 stdout -> /proc/self/fd/1
+crw-rw-rw-  1     0     5   5,   0 Aug  3 07:42 tty
+crw--w----  1     0     5   4,   0 Aug  3 07:42 tty0
+crw--w----  1     0     5   4,   1 Aug  3 07:42 tty1
+crw--w----  1     0     5   4,  10 Aug  3 07:42 tty10
+crw--w----  1     0     5   4,  11 Aug  3 07:42 tty11
+crw--w----  1     0     5   4,  12 Aug  3 07:42 tty12
+crw--w----  1     0     5   4,  13 Aug  3 07:42 tty13
+crw--w----  1     0     5   4,  14 Aug  3 07:42 tty14
+crw--w----  1     0     5   4,  15 Aug  3 07:42 tty15
+crw--w----  1     0     5   4,  16 Aug  3 07:42 tty16
+crw--w----  1     0     5   4,  17 Aug  3 07:42 tty17
+crw--w----  1     0     5   4,  18 Aug  3 07:42 tty18
+crw--w----  1     0     5   4,  19 Aug  3 07:42 tty19
+crw--w----  1     0     5   4,   2 Aug  3 07:42 tty2
+crw--w----  1     0     5   4,  20 Aug  3 07:42 tty20
+crw--w----  1     0     5   4,  21 Aug  3 07:42 tty21
+crw--w----  1     0     5   4,  22 Aug  3 07:42 tty22
+crw--w----  1     0     5   4,  23 Aug  3 07:42 tty23
+crw--w----  1     0     5   4,  24 Aug  3 07:42 tty24
+crw--w----  1     0     5   4,  25 Aug  3 07:42 tty25
+crw--w----  1     0     5   4,  26 Aug  3 07:42 tty26
+crw--w----  1     0     5   4,  27 Aug  3 07:42 tty27
+crw--w----  1     0     5   4,  28 Aug  3 07:42 tty28
+crw--w----  1     0     5   4,  29 Aug  3 07:42 tty29
+crw--w----  1     0     5   4,   3 Aug  3 07:42 tty3
+crw--w----  1     0     5   4,  30 Aug  3 07:42 tty30
+crw--w----  1     0     5   4,  31 Aug  3 07:42 tty31
+crw--w----  1     0     5   4,  32 Aug  3 07:42 tty32
+crw--w----  1     0     5   4,  33 Aug  3 07:42 tty33
+crw--w----  1     0     5   4,  34 Aug  3 07:42 tty34
+crw--w----  1     0     5   4,  35 Aug  3 07:42 tty35
+crw--w----  1     0     5   4,  36 Aug  3 07:42 tty36
+crw--w----  1     0     5   4,  37 Aug  3 07:42 tty37
+crw--w----  1     0     5   4,  38 Aug  3 07:42 tty38
+crw--w----  1     0     5   4,  39 Aug  3 07:42 tty39
+crw--w----  1     0     5   4,   4 Aug  3 07:42 tty4
+crw--w----  1     0     5   4,  40 Aug  3 07:42 tty40
+crw--w----  1     0     5   4,  41 Aug  3 07:42 tty41
+crw--w----  1     0     5   4,  42 Aug  3 07:42 tty42
+crw--w----  1     0     5   4,  43 Aug  3 07:42 tty43
+crw--w----  1     0     5   4,  44 Aug  3 07:42 tty44
+crw--w----  1     0     5   4,  45 Aug  3 07:42 tty45
+crw--w----  1     0     5   4,  46 Aug  3 07:42 tty46
+crw--w----  1     0     5   4,  47 Aug  3 07:42 tty47
+crw--w----  1     0     5   4,  48 Aug  3 07:42 tty48
+crw--w----  1     0     5   4,  49 Aug  3 07:42 tty49
+crw--w----  1     0     5   4,   5 Aug  3 07:42 tty5
+crw--w----  1     0     5   4,  50 Aug  3 07:42 tty50
+crw--w----  1     0     5   4,  51 Aug  3 07:42 tty51
+crw--w----  1     0     5   4,  52 Aug  3 07:42 tty52
+crw--w----  1     0     5   4,  53 Aug  3 07:42 tty53
+crw--w----  1     0     5   4,  54 Aug  3 07:42 tty54
+crw--w----  1     0     5   4,  55 Aug  3 07:42 tty55
+crw--w----  1     0     5   4,  56 Aug  3 07:42 tty56
+crw--w----  1     0     5   4,  57 Aug  3 07:42 tty57
+crw--w----  1     0     5   4,  58 Aug  3 07:42 tty58
+crw--w----  1     0     5   4,  59 Aug  3 07:42 tty59
+crw--w----  1     0     5   4,   6 Aug  3 07:42 tty6
+crw--w----  1     0     5   4,  60 Aug  3 07:42 tty60
+crw--w----  1     0     5   4,  61 Aug  3 07:42 tty61
+crw--w----  1     0     5   4,  62 Aug  3 07:42 tty62
+crw--w----  1     0     5   4,  63 Aug  3 07:42 tty63
+crw--w----  1     0     5   4,   7 Aug  3 10:29 tty7
+crw--w----  1     0     5   4,   8 Aug  3 10:29 tty8
+crw--w----  1     0     5   4,   9 Aug  3 07:42 tty9
+crw-rw----  1     0    20   4,  64 Aug  3 07:42 ttyS0
+crw-rw----  1     0    20   4,  65 Aug  3 07:42 ttyS1
+crw-rw----  1     0    20   4,  74 Aug  3 07:42 ttyS10
+crw-rw----  1     0    20   4,  75 Aug  3 07:42 ttyS11
+crw-rw----  1     0    20   4,  76 Aug  3 07:42 ttyS12
+crw-rw----  1     0    20   4,  77 Aug  3 07:42 ttyS13
+crw-rw----  1     0    20   4,  78 Aug  3 07:42 ttyS14
+crw-rw----  1     0    20   4,  79 Aug  3 07:42 ttyS15
+crw-rw----  1     0    20   4,  80 Aug  3 07:42 ttyS16
+crw-rw----  1     0    20   4,  81 Aug  3 07:42 ttyS17
+crw-rw----  1     0    20   4,  82 Aug  3 07:42 ttyS18
+crw-rw----  1     0    20   4,  83 Aug  3 07:42 ttyS19
+crw-rw----  1     0    20   4,  66 Aug  3 07:42 ttyS2
+crw-rw----  1     0    20   4,  84 Aug  3 07:42 ttyS20
+crw-rw----  1     0    20   4,  85 Aug  3 07:42 ttyS21
+crw-rw----  1     0    20   4,  86 Aug  3 07:42 ttyS22
+crw-rw----  1     0    20   4,  87 Aug  3 07:42 ttyS23
+crw-rw----  1     0    20   4,  88 Aug  3 07:42 ttyS24
+crw-rw----  1     0    20   4,  89 Aug  3 07:42 ttyS25
+crw-rw----  1     0    20   4,  90 Aug  3 07:42 ttyS26
+crw-rw----  1     0    20   4,  91 Aug  3 07:42 ttyS27
+crw-rw----  1     0    20   4,  92 Aug  3 07:42 ttyS28
+crw-rw----  1     0    20   4,  93 Aug  3 07:42 ttyS29
+crw-rw----  1     0    20   4,  67 Aug  3 07:42 ttyS3
+crw-rw----  1     0    20   4,  94 Aug  3 07:42 ttyS30
+crw-rw----  1     0    20   4,  95 Aug  3 07:42 ttyS31
+crw-rw----  1     0    20   4,  68 Aug  3 07:42 ttyS4
+crw-rw----  1     0    20   4,  69 Aug  3 07:42 ttyS5
+crw-rw----  1     0    20   4,  70 Aug  3 07:42 ttyS6
+crw-rw----  1     0    20   4,  71 Aug  3 07:42 ttyS7
+crw-rw----  1     0    20   4,  72 Aug  3 07:42 ttyS8
+crw-rw----  1     0    20   4,  73 Aug  3 07:42 ttyS9
+crw-------  1     0     0   5,   3 Aug  3 07:42 ttyprintk
+crw-rw----  1     0   108  10,  60 Aug  3 07:42 udmabuf
+crw-------  1     0     0  10, 239 Aug  3 07:42 uhid
+crw-------  1     0     0  10, 223 Aug  3 07:42 uinput
+crw-rw-rw-  1     0     0   1,   9 Aug  3 07:42 urandom
+crw-------  1     0     0  10, 240 Aug  3 07:42 userio
+crw-rw----  1     0     5   7,   0 Aug  3 07:42 vcs
+crw-rw----  1     0     5   7,   1 Aug  3 07:42 vcs1
+crw-rw----  1     0     5   7,   2 Aug  3 07:42 vcs2
+crw-rw----  1     0     5   7,   3 Aug  3 07:42 vcs3
+crw-rw----  1     0     5   7,   4 Aug  3 07:42 vcs4
+crw-rw----  1     0     5   7,   5 Aug  3 07:42 vcs5
+crw-rw----  1     0     5   7,   6 Aug  3 07:42 vcs6
+crw-rw----  1     0     5   7,   7 Aug  3 10:29 vcs7
+crw-rw----  1     0     5   7,   8 Aug  3 10:29 vcs8
+crw-rw----  1     0     5   7, 128 Aug  3 07:42 vcsa
+crw-rw----  1     0     5   7, 129 Aug  3 07:42 vcsa1
+crw-rw----  1     0     5   7, 130 Aug  3 07:42 vcsa2
+crw-rw----  1     0     5   7, 131 Aug  3 07:42 vcsa3
+crw-rw----  1     0     5   7, 132 Aug  3 07:42 vcsa4
+crw-rw----  1     0     5   7, 133 Aug  3 07:42 vcsa5
+crw-rw----  1     0     5   7, 134 Aug  3 07:42 vcsa6
+crw-rw----  1     0     5   7, 135 Aug  3 10:29 vcsa7
+crw-rw----  1     0     5   7, 136 Aug  3 10:29 vcsa8
+crw-rw----  1     0     5   7,  64 Aug  3 07:42 vcsu
+crw-rw----  1     0     5   7,  65 Aug  3 07:42 vcsu1
+crw-rw----  1     0     5   7,  66 Aug  3 07:42 vcsu2
+crw-rw----  1     0     5   7,  67 Aug  3 07:42 vcsu3
+crw-rw----  1     0     5   7,  68 Aug  3 07:42 vcsu4
+crw-rw----  1     0     5   7,  69 Aug  3 07:42 vcsu5
+crw-rw----  1     0     5   7,  70 Aug  3 07:42 vcsu6
+crw-rw----  1     0     5   7,  71 Aug  3 10:29 vcsu7
+crw-rw----  1     0     5   7,  72 Aug  3 10:29 vcsu8
+brw-rw----  1     0     6 252,   0 Aug  3 10:29 vda
+brw-rw----  1     0     6 252,   1 Aug  3 10:29 vda1
+brw-rw----  1     0     6 252,   2 Aug  3 10:29 vda2
+brw-rw----  1     0     6 252,  16 Aug  3 10:29 vdb
+brw-rw----  1     0     6 252,  17 Aug  3 10:29 vdb1
+brw-rw----  1     0     6 252,  18 Aug  3 10:29 vdb2
+brw-rw----  1     0     6 252,  32 Aug  3 10:29 vdc
+brw-rw----  1     0     6 252,  48 Aug  3 10:29 vdd
+brw-rw----  1     0     6 252,  64 Aug  3 10:29 vde
+drwxr-xr-x  2     0     0       60 Aug  3 07:42 vfio
+crw-------  1     0     0  10,  63 Aug  3 07:42 vga_arbiter
+crw-------  1     0     0  10, 137 Aug  3 07:42 vhci
+crw-------  1     0     0  10, 238 Aug  3 10:29 vhost-net
+crw-------  1     0     0  10, 241 Aug  3 07:42 vhost-vsock
+crw-rw-rw-  1     0     0  10,  58 Aug  3 07:42 vsock
+crw-rw-rw-  1     0     0   1,   5 Aug  3 07:42 zero
+crw-------  1     0     0  10, 249 Aug  3 07:43 zfs
 
 /dev/bcache:
 total 0
-drwxr-xr-x  4 0 0   80 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
-drwxr-xr-x  2 0 0  180 Jun 15  2020 by-label
-drwxr-xr-x  2 0 0  180 Jun 15  2020 by-uuid
+drwxr-xr-x  4 0 0   80 Aug  3 07:42 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+drwxr-xr-x  2 0 0   80 Aug  3 07:42 by-label
+drwxr-xr-x  2 0 0   80 Aug  3 07:42 by-uuid
 
 /dev/bcache/by-label:
 total 0
-drwxr-xr-x 2 0 0 180 Jun 15  2020 .
-drwxr-xr-x 4 0 0  80 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache0 -> ../../bcache6
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache1 -> ../../bcache0
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache2 -> ../../bcache4
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache3 -> ../../bcache1
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache4 -> ../../bcache2
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache5 -> ../../bcache3
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache6 -> ../../bcache5
+drwxr-xr-x 2 0 0 80 Aug  3 07:42 .
+drwxr-xr-x 4 0 0 80 Aug  3 07:42 ..
+lrwxrwxrwx 1 0 0 13 Aug  3 10:29 bcache0 -> ../../bcache1
+lrwxrwxrwx 1 0 0 13 Aug  3 10:29 bcache1 -> ../../bcache0
 
 /dev/bcache/by-uuid:
 total 0
-drwxr-xr-x 2 0 0 180 Jun 15  2020 .
-drwxr-xr-x 4 0 0  80 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea -> ../../bcache5
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 42322d3a-b543-486d-b3ef-62f1f42d123f -> ../../bcache2
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 a0ec7fd8-1ab7-480e-bd7f-1f5490063eab -> ../../bcache6
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 b955f522-9c68-49ac-b47e-17a6b31c7e78 -> ../../bcache4
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 d400ab68-b08a-460f-905f-ae722b848f1c -> ../../bcache0
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 d4e3417c-69e5-4ad1-8457-fca31f34dd63 -> ../../bcache3
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 d5f80223-f1b9-4f95-bf8e-ff80d71b592f -> ../../bcache1
+drwxr-xr-x 2 0 0 80 Aug  3 07:42 .
+drwxr-xr-x 4 0 0 80 Aug  3 07:42 ..
+lrwxrwxrwx 1 0 0 13 Aug  3 10:29 101a3a95-5400-4d40-8edc-2330e870670c -> ../../bcache0
+lrwxrwxrwx 1 0 0 13 Aug  3 10:29 b72a7bdc-b1f9-4d8b-8562-023ba1cb1609 -> ../../bcache1
 
 /dev/block:
 total 0
-drwxr-xr-x  2 0 0  880 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:0 -> ../bcache0
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:128 -> ../bcache1
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:256 -> ../bcache2
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:384 -> ../bcache3
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:512 -> ../bcache4
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:640 -> ../bcache5
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 252:768 -> ../bcache6
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 253:0 -> ../dm-0
-lrwxrwxrwx  1 0 0    7 Dec  3 16:34 253:1 -> ../dm-1
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 253:2 -> ../dm-2
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 253:3 -> ../dm-3
-lrwxrwxrwx  1 0 0    7 Dec  3 16:34 253:4 -> ../dm-4
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 253:5 -> ../dm-5
-lrwxrwxrwx  1 0 0   10 Nov 25 17:33 259:0 -> ../nvme0n1
-lrwxrwxrwx  1 0 0   12 Nov 25 17:33 259:1 -> ../nvme0n1p1
-lrwxrwxrwx  1 0 0   12 Nov 25 17:33 259:2 -> ../nvme0n1p2
-lrwxrwxrwx  1 0 0    8 Nov 25 17:33 7:0 -> ../loop0
-lrwxrwxrwx  1 0 0    8 Nov 25 17:33 7:1 -> ../loop1
-lrwxrwxrwx  1 0 0    8 Jan  5 05:43 7:2 -> ../loop2
-lrwxrwxrwx  1 0 0    8 Dec 17 19:02 7:3 -> ../loop3
-lrwxrwxrwx  1 0 0    8 Jan  5 05:42 7:4 -> ../loop4
-lrwxrwxrwx  1 0 0    8 Jan  5 05:43 7:5 -> ../loop5
-lrwxrwxrwx  1 0 0    8 Nov 25 17:33 7:6 -> ../loop6
-lrwxrwxrwx  1 0 0    8 Nov 25 17:33 7:7 -> ../loop7
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:0 -> ../sda
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:1 -> ../sda1
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:112 -> ../sdh
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:16 -> ../sdb
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:2 -> ../sda2
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:3 -> ../sda3
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:32 -> ../sdc
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:48 -> ../sdd
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:64 -> ../sde
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:80 -> ../sdf
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:81 -> ../sdf1
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:82 -> ../sdf2
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:83 -> ../sdf3
-lrwxrwxrwx  1 0 0    7 Nov 25 17:33 8:84 -> ../sdf4
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 8:96 -> ../sdg
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 9:0 -> ../md0
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 9:1 -> ../md1
-lrwxrwxrwx  1 0 0    6 Nov 25 17:33 9:2 -> ../md2
-
-/dev/bsg:
-total 0
-drwxr-xr-x  2 0 0     420 Jun 15  2020 .
-drwxr-xr-x 26 0 0    5060 Feb  4 08:27 ..
-crw-------  1 0 0 246, 10 Jun 15  2020 6:0:0:0
-crw-------  1 0 0 246, 11 Jun 15  2020 6:0:1:0
-crw-------  1 0 0 246, 12 Jun 15  2020 6:0:2:0
-crw-------  1 0 0 246, 13 Jun 15  2020 6:0:3:0
-crw-------  1 0 0 246, 14 Jun 15  2020 6:0:4:0
-crw-------  1 0 0 246, 15 Jun 15  2020 6:0:5:0
-crw-------  1 0 0 246, 16 Jun 15  2020 6:0:6:0
-crw-------  1 0 0 246, 17 Jun 15  2020 6:0:7:0
-crw-------  1 0 0 246, 18 Jun 15  2020 6:0:8:0
-crw-------  1 0 0 246,  1 Jun 15  2020 end_device-6:0
-crw-------  1 0 0 246,  2 Jun 15  2020 end_device-6:1
-crw-------  1 0 0 246,  3 Jun 15  2020 end_device-6:2
-crw-------  1 0 0 246,  4 Jun 15  2020 end_device-6:3
-crw-------  1 0 0 246,  5 Jun 15  2020 end_device-6:4
-crw-------  1 0 0 246,  6 Jun 15  2020 end_device-6:5
-crw-------  1 0 0 246,  7 Jun 15  2020 end_device-6:6
-crw-------  1 0 0 246,  8 Jun 15  2020 end_device-6:7
-crw-------  1 0 0 246,  9 Jun 15  2020 end_device-6:8
-crw-------  1 0 0 246,  0 Jun 15  2020 sas_host6
+drwxr-xr-x  2 0 0  480 Aug  3 09:39 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+lrwxrwxrwx  1 0 0   10 Aug  3 10:29 251:0 -> ../bcache0
+lrwxrwxrwx  1 0 0   10 Aug  3 10:29 251:128 -> ../bcache1
+lrwxrwxrwx  1 0 0    6 Aug  3 10:29 252:0 -> ../vda
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 252:1 -> ../vda1
+lrwxrwxrwx  1 0 0    6 Aug  3 10:29 252:16 -> ../vdb
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 252:17 -> ../vdb1
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 252:18 -> ../vdb2
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 252:2 -> ../vda2
+lrwxrwxrwx  1 0 0    6 Aug  3 10:29 252:32 -> ../vdc
+lrwxrwxrwx  1 0 0    6 Aug  3 10:29 252:48 -> ../vdd
+lrwxrwxrwx  1 0 0    6 Aug  3 10:29 252:64 -> ../vde
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 253:0 -> ../dm-0
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 253:1 -> ../dm-1
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 253:2 -> ../dm-2
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:0 -> ../loop0
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:1 -> ../loop1
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:2 -> ../loop2
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:3 -> ../loop3
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:4 -> ../loop4
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:5 -> ../loop5
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:6 -> ../loop6
+lrwxrwxrwx  1 0 0    8 Aug  3 09:39 7:7 -> ../loop7
 
 /dev/bus:
 total 0
-drwxr-xr-x  3 0 0   60 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
-drwxr-xr-x  4 0 0   80 Jun 15  2020 usb
+drwxr-xr-x  3 0 0   60 Aug  3 07:42 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+drwxr-xr-x  6 0 0  120 Aug  3 07:42 usb
 
 /dev/bus/usb:
 total 0
-drwxr-xr-x 4 0 0  80 Jun 15  2020 .
-drwxr-xr-x 3 0 0  60 Jun 15  2020 ..
-drwxr-xr-x 2 0 0 120 Jun 15  2020 001
-drwxr-xr-x 2 0 0  60 Jun 15  2020 002
+drwxr-xr-x 6 0 0 120 Aug  3 07:42 .
+drwxr-xr-x 3 0 0  60 Aug  3 07:42 ..
+drwxr-xr-x 2 0 0  60 Aug  3 07:42 001
+drwxr-xr-x 2 0 0  60 Aug  3 07:42 002
+drwxr-xr-x 2 0 0  60 Aug  3 07:42 003
+drwxr-xr-x 2 0 0  60 Aug  3 07:42 004
 
 /dev/bus/usb/001:
 total 0
-drwxr-xr-x 2 0 0    120 Jun 15  2020 .
-drwxr-xr-x 4 0 0     80 Jun 15  2020 ..
-crw-rw-r-- 1 0 0 189, 0 Nov 25 16:31 001
-crw-rw-r-- 1 0 0 189, 1 Nov 25 16:31 002
-crw-rw-r-- 1 0 0 189, 2 Nov 25 16:31 003
-crw-rw-r-- 1 0 0 189, 3 Nov 25 16:31 004
+drwxr-xr-x 2 0 0     60 Aug  3 07:42 .
+drwxr-xr-x 6 0 0    120 Aug  3 07:42 ..
+crw-rw-r-- 1 0 0 189, 0 Aug  3 07:42 001
 
 /dev/bus/usb/002:
 total 0
-drwxr-xr-x 2 0 0       60 Jun 15  2020 .
-drwxr-xr-x 4 0 0       80 Jun 15  2020 ..
-crw-rw-r-- 1 0 0 189, 128 Nov 25 16:31 001
+drwxr-xr-x 2 0 0       60 Aug  3 07:42 .
+drwxr-xr-x 6 0 0      120 Aug  3 07:42 ..
+crw-rw-r-- 1 0 0 189, 128 Aug  3 07:42 001
 
-/dev/ceph-12a94d95-fbcc-4c15-875f-aae53274b1a9:
+/dev/bus/usb/003:
 total 0
-drwxr-xr-x  2     0     0   60 Jun 15  2020 .
-drwxr-xr-x 26     0     0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 64045 64045    7 Dec  3 16:34 osd-block-12a94d95-fbcc-4c15-875f-aae53274b1a9 -> ../dm-1
+drwxr-xr-x 2 0 0       60 Aug  3 07:42 .
+drwxr-xr-x 6 0 0      120 Aug  3 07:42 ..
+crw-rw-r-- 1 0 0 189, 256 Aug  3 07:42 001
 
-/dev/ceph-5f74e4b6-7e76-4c11-9533-c393fc9fdebc:
+/dev/bus/usb/004:
 total 0
-drwxr-xr-x  2     0     0   60 Jun 15  2020 .
-drwxr-xr-x 26     0     0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 64045 64045    7 Dec  3 16:34 osd-block-5f74e4b6-7e76-4c11-9533-c393fc9fdebc -> ../dm-4
+drwxr-xr-x 2 0 0       60 Aug  3 07:42 .
+drwxr-xr-x 6 0 0      120 Aug  3 07:42 ..
+crw-rw-r-- 1 0 0 189, 384 Aug  3 07:42 001
 
-/dev/ceph-9653fae9-d518-4fe8-abf9-54d015ffea68:
+/dev/ceph-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea:
 total 0
-drwxr-xr-x  2     0     0   60 Jun 15  2020 .
-drwxr-xr-x 26     0     0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 64045 64045    7 Nov 25 17:33 osd-block-9653fae9-d518-4fe8-abf9-54d015ffea68 -> ../dm-5
-
-/dev/ceph-b3885ec9-4d42-4860-a708-d1cbc6e4da29:
-total 0
-drwxr-xr-x  2     0     0   60 Jun 15  2020 .
-drwxr-xr-x 26     0     0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 64045 64045    7 Nov 25 17:33 osd-block-b3885ec9-4d42-4860-a708-d1cbc6e4da29 -> ../dm-0
-
-/dev/ceph-bd7a98b9-d765-4d7c-b11e-1a430c3a27cb:
-total 0
-drwxr-xr-x  2     0     0   60 Jun 15  2020 .
-drwxr-xr-x 26     0     0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 64045 64045    7 Nov 25 17:33 osd-block-bd7a98b9-d765-4d7c-b11e-1a430c3a27cb -> ../dm-2
-
-/dev/ceph-c4539810-2a63-4885-918b-0d23bcd41cf1:
-total 0
-drwxr-xr-x  2     0     0   60 Jun 15  2020 .
-drwxr-xr-x 26     0     0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 64045 64045    7 Nov 25 17:33 osd-block-c4539810-2a63-4885-918b-0d23bcd41cf1 -> ../dm-3
+drwxr-xr-x  2 0 0   60 Aug  3 09:39 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 osd-block-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea -> ../dm-1
 
 /dev/char:
 total 0
-drwxr-xr-x  2 0 0 5500 Jul  3  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 108:0 -> ../ppp
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 10:1 -> ../psaux
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 10:183 -> ../hwrng
-lrwxrwxrwx  1 0 0   16 Jun 15  2020 10:184 -> ../cpu/microcode
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 10:200 -> ../net/tun
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 10:221 -> ../mpt2ctl
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 10:222 -> ../mpt3ctl
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 10:223 -> ../uinput
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 10:227 -> ../mcelog
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 10:228 -> ../hpet
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 10:229 -> ../fuse
-lrwxrwxrwx  1 0 0   11 Jun 15  2020 10:231 -> ../snapshot
-lrwxrwxrwx  1 0 0    6 Jan 14 08:43 10:232 -> ../kvm
-lrwxrwxrwx  1 0 0   16 Jun 15  2020 10:234 -> ../btrfs-control
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 10:235 -> ../autofs
-lrwxrwxrwx  1 0 0   17 Jun 15  2020 10:236 -> ../mapper/control
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 10:237 -> ../loop-control
-lrwxrwxrwx  1 0 0   12 Jun 25  2020 10:238 -> ../vhost-net
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 10:242 -> ../rfkill
-lrwxrwxrwx  1 0 0   19 Jun 15  2020 10:57 -> ../memory_bandwidth
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 10:58 -> ../network_throughput
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 10:59 -> ../network_latency
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 10:60 -> ../cpu_dma_latency
-lrwxrwxrwx  1 0 0   19 Jun 15  2020 10:61 -> ../lightnvm/control
-lrwxrwxrwx  1 0 0   11 Jun 15  2020 10:62 -> ../ecryptfs
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 10:63 -> ../vga_arbiter
-lrwxrwxrwx  1 0 0   12 Jun 15  2020 13:0 -> ../input/js0
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 13:32 -> ../input/mouse0
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 13:33 -> ../input/mouse1
-lrwxrwxrwx  1 0 0   13 Jun 15  2020 13:63 -> ../input/mice
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 13:64 -> ../input/event0
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 13:65 -> ../input/event1
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 13:66 -> ../input/event2
-lrwxrwxrwx  1 0 0   15 Jun 15  2020 13:67 -> ../input/event3
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 189:0 -> ../bus/usb/001/001
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 189:1 -> ../bus/usb/001/002
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 189:128 -> ../bus/usb/002/001
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 189:2 -> ../bus/usb/001/003
-lrwxrwxrwx  1 0 0   18 Jun 15  2020 189:3 -> ../bus/usb/001/004
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 1:1 -> ../mem
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 1:11 -> ../kmsg
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 1:3 -> ../null
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 1:4 -> ../port
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 1:5 -> ../zero
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 1:7 -> ../full
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 1:8 -> ../random
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 1:9 -> ../urandom
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:0 -> ../cpu/0/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:1 -> ../cpu/1/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:10 -> ../cpu/10/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:11 -> ../cpu/11/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:12 -> ../cpu/12/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:13 -> ../cpu/13/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:14 -> ../cpu/14/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:15 -> ../cpu/15/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:16 -> ../cpu/16/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:17 -> ../cpu/17/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:18 -> ../cpu/18/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:19 -> ../cpu/19/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:2 -> ../cpu/2/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:20 -> ../cpu/20/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:21 -> ../cpu/21/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:22 -> ../cpu/22/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:23 -> ../cpu/23/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:24 -> ../cpu/24/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:25 -> ../cpu/25/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:26 -> ../cpu/26/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:27 -> ../cpu/27/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:28 -> ../cpu/28/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:29 -> ../cpu/29/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:3 -> ../cpu/3/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:30 -> ../cpu/30/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:31 -> ../cpu/31/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:32 -> ../cpu/32/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:33 -> ../cpu/33/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:34 -> ../cpu/34/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:35 -> ../cpu/35/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:36 -> ../cpu/36/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:37 -> ../cpu/37/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:38 -> ../cpu/38/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:39 -> ../cpu/39/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:4 -> ../cpu/4/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:40 -> ../cpu/40/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:41 -> ../cpu/41/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:42 -> ../cpu/42/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:43 -> ../cpu/43/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:44 -> ../cpu/44/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:45 -> ../cpu/45/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:46 -> ../cpu/46/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:47 -> ../cpu/47/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:48 -> ../cpu/48/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:49 -> ../cpu/49/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:5 -> ../cpu/5/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:50 -> ../cpu/50/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:51 -> ../cpu/51/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:52 -> ../cpu/52/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:53 -> ../cpu/53/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:54 -> ../cpu/54/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:55 -> ../cpu/55/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:56 -> ../cpu/56/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:57 -> ../cpu/57/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:58 -> ../cpu/58/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:59 -> ../cpu/59/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:6 -> ../cpu/6/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:60 -> ../cpu/60/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:61 -> ../cpu/61/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:62 -> ../cpu/62/cpuid
-lrwxrwxrwx  1 0 0   15 Jul  3  2020 203:63 -> ../cpu/63/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:7 -> ../cpu/7/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:8 -> ../cpu/8/cpuid
-lrwxrwxrwx  1 0 0   14 Jul  3  2020 203:9 -> ../cpu/9/cpuid
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:0 -> ../sg0
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:1 -> ../sg1
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:2 -> ../sg2
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:3 -> ../sg3
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:4 -> ../sg4
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:5 -> ../sg5
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:6 -> ../sg6
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:7 -> ../sg7
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 21:8 -> ../sg8
-lrwxrwxrwx  1 0 0   12 Jun 15  2020 226:0 -> ../dri/card0
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 238:0 -> ../ipmi0
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 239:0 -> ../mei0
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 241:0 -> ../nvme0
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 242:0 -> ../hidraw0
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 242:1 -> ../hidraw1
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 242:2 -> ../hidraw2
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:0 -> ../ptp0
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:1 -> ../ptp1
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:2 -> ../ptp2
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:3 -> ../ptp3
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:4 -> ../ptp4
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:5 -> ../ptp5
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:6 -> ../ptp6
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:7 -> ../ptp7
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:8 -> ../ptp8
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 243:9 -> ../ptp9
-lrwxrwxrwx  1 0 0   16 Jun 15  2020 246:0 -> ../bsg/sas_host6
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:1 -> ../bsg/end_device-6:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:10 -> ../bsg/6:0:0:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:11 -> ../bsg/6:0:1:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:12 -> ../bsg/6:0:2:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:13 -> ../bsg/6:0:3:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:14 -> ../bsg/6:0:4:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:15 -> ../bsg/6:0:5:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:16 -> ../bsg/6:0:6:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:17 -> ../bsg/6:0:7:0
-lrwxrwxrwx  1 0 0   14 Jun 15  2020 246:18 -> ../bsg/6:0:8:0
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:2 -> ../bsg/end_device-6:1
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:3 -> ../bsg/end_device-6:2
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:4 -> ../bsg/end_device-6:3
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:5 -> ../bsg/end_device-6:4
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:6 -> ../bsg/end_device-6:5
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:7 -> ../bsg/end_device-6:6
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:8 -> ../bsg/end_device-6:7
-lrwxrwxrwx  1 0 0   21 Jun 15  2020 246:9 -> ../bsg/end_device-6:8
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 249:0 -> ../rtc0
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 29:0 -> ../fb0
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:0 -> ../tty0
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:1 -> ../tty1
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:10 -> ../tty10
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:11 -> ../tty11
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:12 -> ../tty12
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:13 -> ../tty13
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:14 -> ../tty14
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:15 -> ../tty15
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:16 -> ../tty16
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:17 -> ../tty17
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:18 -> ../tty18
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:19 -> ../tty19
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:2 -> ../tty2
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:20 -> ../tty20
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:21 -> ../tty21
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:22 -> ../tty22
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:23 -> ../tty23
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:24 -> ../tty24
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:25 -> ../tty25
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:26 -> ../tty26
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:27 -> ../tty27
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:28 -> ../tty28
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:29 -> ../tty29
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:3 -> ../tty3
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:30 -> ../tty30
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:31 -> ../tty31
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:32 -> ../tty32
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:33 -> ../tty33
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:34 -> ../tty34
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:35 -> ../tty35
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:36 -> ../tty36
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:37 -> ../tty37
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:38 -> ../tty38
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:39 -> ../tty39
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:4 -> ../tty4
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:40 -> ../tty40
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:41 -> ../tty41
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:42 -> ../tty42
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:43 -> ../tty43
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:44 -> ../tty44
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:45 -> ../tty45
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:46 -> ../tty46
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:47 -> ../tty47
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:48 -> ../tty48
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:49 -> ../tty49
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:5 -> ../tty5
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:50 -> ../tty50
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:51 -> ../tty51
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:52 -> ../tty52
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:53 -> ../tty53
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:54 -> ../tty54
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:55 -> ../tty55
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:56 -> ../tty56
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:57 -> ../tty57
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:58 -> ../tty58
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:59 -> ../tty59
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:6 -> ../tty6
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:60 -> ../tty60
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:61 -> ../tty61
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:62 -> ../tty62
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:63 -> ../tty63
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:64 -> ../ttyS0
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:65 -> ../ttyS1
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:66 -> ../ttyS2
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:67 -> ../ttyS3
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:68 -> ../ttyS4
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:69 -> ../ttyS5
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:7 -> ../tty7
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:70 -> ../ttyS6
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:71 -> ../ttyS7
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:72 -> ../ttyS8
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 4:73 -> ../ttyS9
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:74 -> ../ttyS10
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:75 -> ../ttyS11
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:76 -> ../ttyS12
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:77 -> ../ttyS13
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:78 -> ../ttyS14
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:79 -> ../ttyS15
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:8 -> ../tty8
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:80 -> ../ttyS16
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:81 -> ../ttyS17
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:82 -> ../ttyS18
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:83 -> ../ttyS19
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:84 -> ../ttyS20
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:85 -> ../ttyS21
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:86 -> ../ttyS22
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:87 -> ../ttyS23
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:88 -> ../ttyS24
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:89 -> ../ttyS25
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 4:9 -> ../tty9
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:90 -> ../ttyS26
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:91 -> ../ttyS27
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:92 -> ../ttyS28
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:93 -> ../ttyS29
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:94 -> ../ttyS30
-lrwxrwxrwx  1 0 0    9 Jun 15  2020 4:95 -> ../ttyS31
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 5:0 -> ../tty
-lrwxrwxrwx  1 0 0   10 Jun 15  2020 5:1 -> ../console
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 5:2 -> ../ptmx
-lrwxrwxrwx  1 0 0   12 Jun 15  2020 5:3 -> ../ttyprintk
-lrwxrwxrwx  1 0 0    6 Jun 15  2020 7:0 -> ../vcs
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:1 -> ../vcs1
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:128 -> ../vcsa
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 7:129 -> ../vcsa1
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 7:130 -> ../vcsa2
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 7:131 -> ../vcsa3
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 7:132 -> ../vcsa4
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 7:133 -> ../vcsa5
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 7:134 -> ../vcsa6
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:2 -> ../vcs2
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:3 -> ../vcs3
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:4 -> ../vcs4
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:5 -> ../vcs5
-lrwxrwxrwx  1 0 0    7 Jun 15  2020 7:6 -> ../vcs6
-lrwxrwxrwx  1 0 0    8 Jun 15  2020 89:0 -> ../i2c-0
+drwxr-xr-x  2 0 0 3580 Aug  3 10:29 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+lrwxrwxrwx  1 0 0    6 Aug  3 07:42 108:0 -> ../ppp
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 10:1 -> ../psaux
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 10:183 -> ../hwrng
+lrwxrwxrwx  1 0 0   12 Aug  3 07:42 10:196 -> ../vfio/vfio
+lrwxrwxrwx  1 0 0   10 Aug  3 07:42 10:200 -> ../net/tun
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 10:223 -> ../uinput
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 10:227 -> ../mcelog
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 10:228 -> ../hpet
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 10:229 -> ../fuse
+lrwxrwxrwx  1 0 0   11 Aug  3 07:42 10:231 -> ../snapshot
+lrwxrwxrwx  1 0 0    6 Aug  3 10:29 10:232 -> ../kvm
+lrwxrwxrwx  1 0 0   16 Aug  3 07:42 10:234 -> ../btrfs-control
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 10:235 -> ../autofs
+lrwxrwxrwx  1 0 0   17 Aug  3 07:42 10:236 -> ../mapper/control
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 10:237 -> ../loop-control
+lrwxrwxrwx  1 0 0   12 Aug  3 10:29 10:238 -> ../vhost-net
+lrwxrwxrwx  1 0 0   14 Aug  3 07:42 10:241 -> ../vhost-vsock
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 10:242 -> ../rfkill
+lrwxrwxrwx  1 0 0    6 Aug  3 07:43 10:249 -> ../zfs
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 10:58 -> ../vsock
+lrwxrwxrwx  1 0 0   18 Aug  3 07:42 10:59 -> ../cpu_dma_latency
+lrwxrwxrwx  1 0 0   10 Aug  3 07:42 10:60 -> ../udmabuf
+lrwxrwxrwx  1 0 0   19 Aug  3 07:42 10:61 -> ../lightnvm/control
+lrwxrwxrwx  1 0 0   11 Aug  3 07:42 10:62 -> ../ecryptfs
+lrwxrwxrwx  1 0 0   14 Aug  3 07:42 10:63 -> ../vga_arbiter
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 13:32 -> ../input/mouse0
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 13:33 -> ../input/mouse1
+lrwxrwxrwx  1 0 0   13 Aug  3 07:42 13:63 -> ../input/mice
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 13:64 -> ../input/event0
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 13:65 -> ../input/event1
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 13:66 -> ../input/event2
+lrwxrwxrwx  1 0 0   15 Aug  3 07:42 13:67 -> ../input/event3
+lrwxrwxrwx  1 0 0   18 Aug  3 07:42 189:0 -> ../bus/usb/001/001
+lrwxrwxrwx  1 0 0   18 Aug  3 07:42 189:128 -> ../bus/usb/002/001
+lrwxrwxrwx  1 0 0   18 Aug  3 07:42 189:256 -> ../bus/usb/003/001
+lrwxrwxrwx  1 0 0   18 Aug  3 07:42 189:384 -> ../bus/usb/004/001
+lrwxrwxrwx  1 0 0    6 Aug  3 07:42 1:1 -> ../mem
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 1:11 -> ../kmsg
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 1:3 -> ../null
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 1:4 -> ../port
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 1:5 -> ../zero
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 1:7 -> ../full
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 1:8 -> ../random
+lrwxrwxrwx  1 0 0   10 Aug  3 07:42 1:9 -> ../urandom
+lrwxrwxrwx  1 0 0   12 Aug  3 07:42 202:0 -> ../cpu/0/msr
+lrwxrwxrwx  1 0 0   12 Aug  3 07:42 202:1 -> ../cpu/1/msr
+lrwxrwxrwx  1 0 0   12 Aug  3 07:42 226:0 -> ../dri/card0
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 249:0 -> ../rtc0
+lrwxrwxrwx  1 0 0    6 Aug  3 07:42 29:0 -> ../fb0
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:0 -> ../tty0
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:1 -> ../tty1
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:10 -> ../tty10
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:11 -> ../tty11
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:12 -> ../tty12
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:13 -> ../tty13
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:14 -> ../tty14
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:15 -> ../tty15
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:16 -> ../tty16
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:17 -> ../tty17
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:18 -> ../tty18
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:19 -> ../tty19
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:2 -> ../tty2
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:20 -> ../tty20
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:21 -> ../tty21
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:22 -> ../tty22
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:23 -> ../tty23
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:24 -> ../tty24
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:25 -> ../tty25
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:26 -> ../tty26
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:27 -> ../tty27
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:28 -> ../tty28
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:29 -> ../tty29
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:3 -> ../tty3
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:30 -> ../tty30
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:31 -> ../tty31
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:32 -> ../tty32
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:33 -> ../tty33
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:34 -> ../tty34
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:35 -> ../tty35
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:36 -> ../tty36
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:37 -> ../tty37
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:38 -> ../tty38
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:39 -> ../tty39
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:4 -> ../tty4
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:40 -> ../tty40
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:41 -> ../tty41
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:42 -> ../tty42
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:43 -> ../tty43
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:44 -> ../tty44
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:45 -> ../tty45
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:46 -> ../tty46
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:47 -> ../tty47
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:48 -> ../tty48
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:49 -> ../tty49
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:5 -> ../tty5
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:50 -> ../tty50
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:51 -> ../tty51
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:52 -> ../tty52
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:53 -> ../tty53
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:54 -> ../tty54
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:55 -> ../tty55
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:56 -> ../tty56
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:57 -> ../tty57
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:58 -> ../tty58
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:59 -> ../tty59
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:6 -> ../tty6
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:60 -> ../tty60
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:61 -> ../tty61
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:62 -> ../tty62
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:63 -> ../tty63
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:64 -> ../ttyS0
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:65 -> ../ttyS1
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:66 -> ../ttyS2
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:67 -> ../ttyS3
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:68 -> ../ttyS4
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:69 -> ../ttyS5
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:7 -> ../tty7
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:70 -> ../ttyS6
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:71 -> ../ttyS7
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:72 -> ../ttyS8
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 4:73 -> ../ttyS9
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:74 -> ../ttyS10
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:75 -> ../ttyS11
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:76 -> ../ttyS12
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:77 -> ../ttyS13
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:78 -> ../ttyS14
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:79 -> ../ttyS15
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:8 -> ../tty8
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:80 -> ../ttyS16
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:81 -> ../ttyS17
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:82 -> ../ttyS18
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:83 -> ../ttyS19
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:84 -> ../ttyS20
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:85 -> ../ttyS21
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:86 -> ../ttyS22
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:87 -> ../ttyS23
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:88 -> ../ttyS24
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:89 -> ../ttyS25
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 4:9 -> ../tty9
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:90 -> ../ttyS26
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:91 -> ../ttyS27
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:92 -> ../ttyS28
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:93 -> ../ttyS29
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:94 -> ../ttyS30
+lrwxrwxrwx  1 0 0    9 Aug  3 07:42 4:95 -> ../ttyS31
+lrwxrwxrwx  1 0 0    6 Aug  3 07:42 5:0 -> ../tty
+lrwxrwxrwx  1 0 0   10 Aug  3 07:42 5:1 -> ../console
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 5:2 -> ../ptmx
+lrwxrwxrwx  1 0 0   12 Aug  3 07:42 5:3 -> ../ttyprintk
+lrwxrwxrwx  1 0 0    6 Aug  3 07:42 7:0 -> ../vcs
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:1 -> ../vcs1
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:128 -> ../vcsa
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:129 -> ../vcsa1
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:130 -> ../vcsa2
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:131 -> ../vcsa3
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:132 -> ../vcsa4
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:133 -> ../vcsa5
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:134 -> ../vcsa6
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:135 -> ../vcsa7
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:136 -> ../vcsa8
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:2 -> ../vcs2
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:3 -> ../vcs3
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:4 -> ../vcs4
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:5 -> ../vcs5
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:6 -> ../vcs6
+lrwxrwxrwx  1 0 0    7 Aug  3 07:42 7:64 -> ../vcsu
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:65 -> ../vcsu1
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:66 -> ../vcsu2
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:67 -> ../vcsu3
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:68 -> ../vcsu4
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:69 -> ../vcsu5
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 7:7 -> ../vcs7
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 7:70 -> ../vcsu6
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:71 -> ../vcsu7
+lrwxrwxrwx  1 0 0    8 Aug  3 10:29 7:72 -> ../vcsu8
+lrwxrwxrwx  1 0 0    7 Aug  3 10:29 7:8 -> ../vcs8
+lrwxrwxrwx  1 0 0    8 Aug  3 07:42 89:0 -> ../i2c-0
 
 /dev/cpu:
 total 0
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 .
-drwxr-xr-x 26 0 0    5060 Feb  4 08:27 ..
-drwxr-xr-x  2 0 0      60 Jul  3  2020 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 1
-drwxr-xr-x  2 0 0      60 Jul  3  2020 10
-drwxr-xr-x  2 0 0      60 Jul  3  2020 11
-drwxr-xr-x  2 0 0      60 Jul  3  2020 12
-drwxr-xr-x  2 0 0      60 Jul  3  2020 13
-drwxr-xr-x  2 0 0      60 Jul  3  2020 14
-drwxr-xr-x  2 0 0      60 Jul  3  2020 15
-drwxr-xr-x  2 0 0      60 Jul  3  2020 16
-drwxr-xr-x  2 0 0      60 Jul  3  2020 17
-drwxr-xr-x  2 0 0      60 Jul  3  2020 18
-drwxr-xr-x  2 0 0      60 Jul  3  2020 19
-drwxr-xr-x  2 0 0      60 Jul  3  2020 2
-drwxr-xr-x  2 0 0      60 Jul  3  2020 20
-drwxr-xr-x  2 0 0      60 Jul  3  2020 21
-drwxr-xr-x  2 0 0      60 Jul  3  2020 22
-drwxr-xr-x  2 0 0      60 Jul  3  2020 23
-drwxr-xr-x  2 0 0      60 Jul  3  2020 24
-drwxr-xr-x  2 0 0      60 Jul  3  2020 25
-drwxr-xr-x  2 0 0      60 Jul  3  2020 26
-drwxr-xr-x  2 0 0      60 Jul  3  2020 27
-drwxr-xr-x  2 0 0      60 Jul  3  2020 28
-drwxr-xr-x  2 0 0      60 Jul  3  2020 29
-drwxr-xr-x  2 0 0      60 Jul  3  2020 3
-drwxr-xr-x  2 0 0      60 Jul  3  2020 30
-drwxr-xr-x  2 0 0      60 Jul  3  2020 31
-drwxr-xr-x  2 0 0      60 Jul  3  2020 32
-drwxr-xr-x  2 0 0      60 Jul  3  2020 33
-drwxr-xr-x  2 0 0      60 Jul  3  2020 34
-drwxr-xr-x  2 0 0      60 Jul  3  2020 35
-drwxr-xr-x  2 0 0      60 Jul  3  2020 36
-drwxr-xr-x  2 0 0      60 Jul  3  2020 37
-drwxr-xr-x  2 0 0      60 Jul  3  2020 38
-drwxr-xr-x  2 0 0      60 Jul  3  2020 39
-drwxr-xr-x  2 0 0      60 Jul  3  2020 4
-drwxr-xr-x  2 0 0      60 Jul  3  2020 40
-drwxr-xr-x  2 0 0      60 Jul  3  2020 41
-drwxr-xr-x  2 0 0      60 Jul  3  2020 42
-drwxr-xr-x  2 0 0      60 Jul  3  2020 43
-drwxr-xr-x  2 0 0      60 Jul  3  2020 44
-drwxr-xr-x  2 0 0      60 Jul  3  2020 45
-drwxr-xr-x  2 0 0      60 Jul  3  2020 46
-drwxr-xr-x  2 0 0      60 Jul  3  2020 47
-drwxr-xr-x  2 0 0      60 Jul  3  2020 48
-drwxr-xr-x  2 0 0      60 Jul  3  2020 49
-drwxr-xr-x  2 0 0      60 Jul  3  2020 5
-drwxr-xr-x  2 0 0      60 Jul  3  2020 50
-drwxr-xr-x  2 0 0      60 Jul  3  2020 51
-drwxr-xr-x  2 0 0      60 Jul  3  2020 52
-drwxr-xr-x  2 0 0      60 Jul  3  2020 53
-drwxr-xr-x  2 0 0      60 Jul  3  2020 54
-drwxr-xr-x  2 0 0      60 Jul  3  2020 55
-drwxr-xr-x  2 0 0      60 Jul  3  2020 56
-drwxr-xr-x  2 0 0      60 Jul  3  2020 57
-drwxr-xr-x  2 0 0      60 Jul  3  2020 58
-drwxr-xr-x  2 0 0      60 Jul  3  2020 59
-drwxr-xr-x  2 0 0      60 Jul  3  2020 6
-drwxr-xr-x  2 0 0      60 Jul  3  2020 60
-drwxr-xr-x  2 0 0      60 Jul  3  2020 61
-drwxr-xr-x  2 0 0      60 Jul  3  2020 62
-drwxr-xr-x  2 0 0      60 Jul  3  2020 63
-drwxr-xr-x  2 0 0      60 Jul  3  2020 7
-drwxr-xr-x  2 0 0      60 Jul  3  2020 8
-drwxr-xr-x  2 0 0      60 Jul  3  2020 9
-crw-------  1 0 0 10, 184 Jun 15  2020 microcode
+drwxr-xr-x  4 0 0   80 Aug  3 07:42 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+drwxr-xr-x  2 0 0   60 Aug  3 07:42 0
+drwxr-xr-x  2 0 0   60 Aug  3 07:42 1
 
 /dev/cpu/0:
 total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 0 Jul  3  2020 cpuid
+drwxr-xr-x 2 0 0     60 Aug  3 07:42 .
+drwxr-xr-x 4 0 0     80 Aug  3 07:42 ..
+crw------- 1 0 0 202, 0 Aug  3 07:42 msr
 
 /dev/cpu/1:
 total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 1 Jul  3  2020 cpuid
-
-/dev/cpu/10:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 10 Jul  3  2020 cpuid
-
-/dev/cpu/11:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 11 Jul  3  2020 cpuid
-
-/dev/cpu/12:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 12 Jul  3  2020 cpuid
-
-/dev/cpu/13:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 13 Jul  3  2020 cpuid
-
-/dev/cpu/14:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 14 Jul  3  2020 cpuid
-
-/dev/cpu/15:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 15 Jul  3  2020 cpuid
-
-/dev/cpu/16:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 16 Jul  3  2020 cpuid
-
-/dev/cpu/17:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 17 Jul  3  2020 cpuid
-
-/dev/cpu/18:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 18 Jul  3  2020 cpuid
-
-/dev/cpu/19:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 19 Jul  3  2020 cpuid
-
-/dev/cpu/2:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 2 Jul  3  2020 cpuid
-
-/dev/cpu/20:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 20 Jul  3  2020 cpuid
-
-/dev/cpu/21:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 21 Jul  3  2020 cpuid
-
-/dev/cpu/22:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 22 Jul  3  2020 cpuid
-
-/dev/cpu/23:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 23 Jul  3  2020 cpuid
-
-/dev/cpu/24:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 24 Jul  3  2020 cpuid
-
-/dev/cpu/25:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 25 Jul  3  2020 cpuid
-
-/dev/cpu/26:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 26 Jul  3  2020 cpuid
-
-/dev/cpu/27:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 27 Jul  3  2020 cpuid
-
-/dev/cpu/28:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 28 Jul  3  2020 cpuid
-
-/dev/cpu/29:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 29 Jul  3  2020 cpuid
-
-/dev/cpu/3:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 3 Jul  3  2020 cpuid
-
-/dev/cpu/30:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 30 Jul  3  2020 cpuid
-
-/dev/cpu/31:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 31 Jul  3  2020 cpuid
-
-/dev/cpu/32:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 32 Jul  3  2020 cpuid
-
-/dev/cpu/33:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 33 Jul  3  2020 cpuid
-
-/dev/cpu/34:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 34 Jul  3  2020 cpuid
-
-/dev/cpu/35:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 35 Jul  3  2020 cpuid
-
-/dev/cpu/36:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 36 Jul  3  2020 cpuid
-
-/dev/cpu/37:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 37 Jul  3  2020 cpuid
-
-/dev/cpu/38:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 38 Jul  3  2020 cpuid
-
-/dev/cpu/39:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 39 Jul  3  2020 cpuid
-
-/dev/cpu/4:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 4 Jul  3  2020 cpuid
-
-/dev/cpu/40:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 40 Jul  3  2020 cpuid
-
-/dev/cpu/41:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 41 Jul  3  2020 cpuid
-
-/dev/cpu/42:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 42 Jul  3  2020 cpuid
-
-/dev/cpu/43:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 43 Jul  3  2020 cpuid
-
-/dev/cpu/44:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 44 Jul  3  2020 cpuid
-
-/dev/cpu/45:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 45 Jul  3  2020 cpuid
-
-/dev/cpu/46:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 46 Jul  3  2020 cpuid
-
-/dev/cpu/47:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 47 Jul  3  2020 cpuid
-
-/dev/cpu/48:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 48 Jul  3  2020 cpuid
-
-/dev/cpu/49:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 49 Jul  3  2020 cpuid
-
-/dev/cpu/5:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 5 Jul  3  2020 cpuid
-
-/dev/cpu/50:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 50 Jul  3  2020 cpuid
-
-/dev/cpu/51:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 51 Jul  3  2020 cpuid
-
-/dev/cpu/52:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 52 Jul  3  2020 cpuid
-
-/dev/cpu/53:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 53 Jul  3  2020 cpuid
-
-/dev/cpu/54:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 54 Jul  3  2020 cpuid
-
-/dev/cpu/55:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 55 Jul  3  2020 cpuid
-
-/dev/cpu/56:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 56 Jul  3  2020 cpuid
-
-/dev/cpu/57:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 57 Jul  3  2020 cpuid
-
-/dev/cpu/58:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 58 Jul  3  2020 cpuid
-
-/dev/cpu/59:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 59 Jul  3  2020 cpuid
-
-/dev/cpu/6:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 6 Jul  3  2020 cpuid
-
-/dev/cpu/60:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 60 Jul  3  2020 cpuid
-
-/dev/cpu/61:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 61 Jul  3  2020 cpuid
-
-/dev/cpu/62:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 62 Jul  3  2020 cpuid
-
-/dev/cpu/63:
-total 0
-drwxr-xr-x  2 0 0      60 Jul  3  2020 .
-drwxr-xr-x 66 0 0    1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 63 Jul  3  2020 cpuid
-
-/dev/cpu/7:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 7 Jul  3  2020 cpuid
-
-/dev/cpu/8:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 8 Jul  3  2020 cpuid
-
-/dev/cpu/9:
-total 0
-drwxr-xr-x  2 0 0     60 Jul  3  2020 .
-drwxr-xr-x 66 0 0   1340 Jul  3  2020 ..
-crw-------  1 0 0 203, 9 Jul  3  2020 cpuid
+drwxr-xr-x 2 0 0     60 Aug  3 07:42 .
+drwxr-xr-x 4 0 0     80 Aug  3 07:42 ..
+crw------- 1 0 0 202, 1 Aug  3 07:42 msr
 
 /dev/disk:
 total 0
-drwxr-xr-x  9 0 0  180 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
-drwxr-xr-x  2 0 0  600 Jun 15  2020 by-dname
-drwxr-xr-x  2 0 0 1240 Jun 15  2020 by-id
-drwxr-xr-x  2 0 0   80 Jun 15  2020 by-label
-drwxr-xr-x  2 0 0  160 Jun 15  2020 by-parttypeuuid
-drwxr-xr-x  2 0 0  160 Jun 15  2020 by-partuuid
-drwxr-xr-x  2 0 0  340 Jun 15  2020 by-path
-drwxr-xr-x  2 0 0  260 Jun 15  2020 by-uuid
+drwxr-xr-x  8 0 0  160 Aug  3 09:39 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+drwxr-xr-x  2 0 0  120 Aug  3 07:42 by-dname
+drwxr-xr-x  2 0 0  180 Aug  3 09:39 by-id
+drwxr-xr-x  2 0 0   60 Aug  3 07:42 by-label
+drwxr-xr-x  2 0 0  120 Aug  3 07:42 by-partuuid
+drwxr-xr-x  2 0 0  400 Aug  3 07:42 by-path
+drwxr-xr-x  2 0 0  120 Aug  3 09:39 by-uuid
 
 /dev/disk/by-dname:
 total 0
-drwxr-xr-x 2 0 0 600 Jun 15  2020 .
-drwxr-xr-x 9 0 0 180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache0 -> ../../bcache6
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache1 -> ../../bcache0
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache2 -> ../../bcache4
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache3 -> ../../bcache1
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache4 -> ../../bcache2
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache5 -> ../../bcache3
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 bcache6 -> ../../bcache5
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 md0 -> ../../md0
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 md1 -> ../../md1
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 md2 -> ../../md2
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 nvme0n1 -> ../../nvme0n1
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 nvme0n1-part1 -> ../../nvme0n1p1
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 nvme0n1-part2 -> ../../nvme0n1p2
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sda -> ../../sda
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sda-part1 -> ../../sda1
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sda-part2 -> ../../sda2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sda-part3 -> ../../sda3
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sdb -> ../../sdb
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sdc -> ../../sdc
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sdd -> ../../sdd
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sde -> ../../sde
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sdf -> ../../sdf
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sdf-part1 -> ../../sdf1
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sdf-part2 -> ../../sdf2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sdf-part3 -> ../../sdf3
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 sdf-part4 -> ../../sdf4
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sdg -> ../../sdg
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 sdh -> ../../sdh
+drwxr-xr-x 2 0 0 120 Aug  3 07:42 .
+drwxr-xr-x 8 0 0 160 Aug  3 09:39 ..
+lrwxrwxrwx 1 0 0  13 Aug  3 10:29 bcache0 -> ../../bcache1
+lrwxrwxrwx 1 0 0  13 Aug  3 10:29 bcache1 -> ../../bcache0
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 vda-part2 -> ../../vda2
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 vdb-part2 -> ../../vdb2
 
 /dev/disk/by-id:
 total 0
-drwxr-xr-x 2 0 0 1240 Jun 15  2020 .
-drwxr-xr-x 9 0 0  180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0   10 Dec  3 16:34 dm-name-ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9 -> ../../dm-1
-lrwxrwxrwx 1 0 0   10 Dec  3 16:34 dm-name-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc -> ../../dm-4
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-name-ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68 -> ../../dm-5
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-name-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29 -> ../../dm-0
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-name-ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb -> ../../dm-2
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-name-ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1 -> ../../dm-3
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-uuid-LVM-0Rq0ZP9LvRuyAlMt21mStq83Nf0LGdjtq2hpXjGOLcS8O2yV44PusYRj3Cg13Yfu -> ../../dm-3
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-uuid-LVM-WAtFkl5krMBNqQnIJIj60FJATYbjeMhLoPbJcp7kP9QCXxtficn4zWZIK8iIwasS -> ../../dm-5
-lrwxrwxrwx 1 0 0   10 Dec  3 16:34 dm-uuid-LVM-cIm9MC3e6W5t1eVbwcCAajqJ1rPnPnxO0vZndzbIE59Gd5u50feBsly3ZwBApoKV -> ../../dm-4
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-uuid-LVM-diNODTvd0lJH30mtGusRxrh4D9ljMUzd7FVvAIubsH0ZYLWOQAxy76R1SMzvh30e -> ../../dm-0
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 dm-uuid-LVM-epgBDPTwlFoDWfSW1pNeNCtVwCWVbs0m4YCGdJpELIOlfg2IcprJlob0zx0kfY23 -> ../../dm-2
-lrwxrwxrwx 1 0 0   10 Dec  3 16:34 dm-uuid-LVM-zgFI0tuar57vp8Zx8xC1ia8zg4lVZutIKPno55uf6DVKgB7MsiBARUP0MeaXMZkd -> ../../dm-1
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 lvm-pv-uuid-6qfE2T-chFo-HvWi-1AvC-u2rX-UMlW-HJ7wV6 -> ../../bcache5
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 lvm-pv-uuid-8IBGzW-fm7a-IPY0-mUPB-bN01-dDoU-bRteXY -> ../../bcache0
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 lvm-pv-uuid-9Jyuu0-AtXR-4BEn-dgma-0Vmj-o3PF-IKAvlY -> ../../bcache2
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 lvm-pv-uuid-SxUhnJ-GcJQ-Z90F-5njd-kK2V-Vf31-QlC0p3 -> ../../bcache4
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 lvm-pv-uuid-VtCGFL-Z8zT-6r7W-fcBy-Yfme-eHb6-Spv1fE -> ../../bcache3
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 lvm-pv-uuid-l2Uqif-Fw6T-WVgA-l2jJ-7GSo-d4tx-klJt4Y -> ../../bcache1
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 md-name-WZP23350GRC:0 -> ../../md0
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 md-name-WZP23350GRC:1 -> ../../md1
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 md-name-WZP23350GRC:2 -> ../../md2
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 md-uuid-02769b6d:9f559037:97fae479:39f9b785 -> ../../md0
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 md-uuid-4189440f:b24661ba:65b42980:7451cd5b -> ../../md1
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 md-uuid-b6cb3a90:213316a4:4ca64222:ab2cfa37 -> ../../md2
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 nvme-UCSC-F-H16003_SDM000075043 -> ../../nvme0n1
-lrwxrwxrwx 1 0 0   15 Nov 25 17:33 nvme-UCSC-F-H16003_SDM000075043-part1 -> ../../nvme0n1p1
-lrwxrwxrwx 1 0 0   15 Nov 25 17:33 nvme-UCSC-F-H16003_SDM000075043-part2 -> ../../nvme0n1p2
-lrwxrwxrwx 1 0 0   13 Nov 25 17:33 nvme-eui.0000000000000000000cca0c02b5cf00 -> ../../nvme0n1
-lrwxrwxrwx 1 0 0   15 Nov 25 17:33 nvme-eui.0000000000000000000cca0c02b5cf00-part1 -> ../../nvme0n1p1
-lrwxrwxrwx 1 0 0   15 Nov 25 17:33 nvme-eui.0000000000000000000cca0c02b5cf00-part2 -> ../../nvme0n1p2
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000c500ae4ac9ab -> ../../sdf
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9ab-part1 -> ../../sdf1
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9ab-part2 -> ../../sdf2
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9ab-part3 -> ../../sdf3
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9ab-part4 -> ../../sdf4
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000c500ae4ac9c7 -> ../../sda
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9c7-part1 -> ../../sda1
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9c7-part2 -> ../../sda2
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 scsi-35000c500ae4ac9c7-part3 -> ../../sda3
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000cca273b03358 -> ../../sdc
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000cca273b10970 -> ../../sdd
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000cca273b10990 -> ../../sdg
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000cca273b1397c -> ../../sde
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000cca273b16690 -> ../../sdh
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 scsi-35000cca273b1bdb4 -> ../../sdb
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000c500ae4ac9ab -> ../../sdf
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9ab-part1 -> ../../sdf1
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9ab-part2 -> ../../sdf2
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9ab-part3 -> ../../sdf3
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9ab-part4 -> ../../sdf4
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000c500ae4ac9c7 -> ../../sda
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9c7-part1 -> ../../sda1
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9c7-part2 -> ../../sda2
-lrwxrwxrwx 1 0 0   10 Nov 25 17:33 wwn-0x5000c500ae4ac9c7-part3 -> ../../sda3
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000cca273b03358 -> ../../sdc
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000cca273b10970 -> ../../sdd
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000cca273b10990 -> ../../sdg
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000cca273b1397c -> ../../sde
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000cca273b16690 -> ../../sdh
-lrwxrwxrwx 1 0 0    9 Nov 25 17:33 wwn-0x5000cca273b1bdb4 -> ../../sdb
+drwxr-xr-x 2 0 0 180 Aug  3 09:39 .
+drwxr-xr-x 8 0 0 160 Aug  3 09:39 ..
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 dm-name-ceph--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea-osd--block--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea -> ../../dm-1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 dm-name-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea -> ../../dm-0
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 dm-name-crypt-f3249bf4-4e48-4a7b-94f4-5719b5a8ee0d -> ../../dm-2
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 dm-uuid-CRYPT-LUKS2-51f1b8343c8f4cd18c0a81a6f75ba2ea-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea -> ../../dm-0
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 dm-uuid-CRYPT-LUKS2-f3249bf44e484a7b94f45719b5a8ee0d-crypt-f3249bf4-4e48-4a7b-94f4-5719b5a8ee0d -> ../../dm-2
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 dm-uuid-LVM-TUg87avpGWSWpiNpufa3GVq6Jf5Eub27Iwp0nBctBehsj6eN5U1TLeauNSJjp0my -> ../../dm-1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 lvm-pv-uuid-SEdcXQ-kbJF-HLho-jXsH-7q1Y-EuIN-bOYSIv -> ../../dm-0
 
 /dev/disk/by-label:
 total 0
-drwxr-xr-x 2 0 0  80 Jun 15  2020 .
-drwxr-xr-x 9 0 0 180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 boot -> ../../md0
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 root -> ../../md1
-
-/dev/disk/by-parttypeuuid:
-total 0
-drwxr-xr-x 2 0 0 160 Jun 15  2020 .
-drwxr-xr-x 9 0 0 180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 0fc63daf-8483-4772-8e79-3d69d8477de4.15328b90-1511-4785-8cdb-ed6b2ef6b4fd -> ../../sdf3
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 0fc63daf-8483-4772-8e79-3d69d8477de4.428f3fed-dcd9-46bc-9b9e-bc2900e2bf68 -> ../../sdf2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 0fc63daf-8483-4772-8e79-3d69d8477de4.4d83ad2c-099e-4108-8272-21a17aedc721 -> ../../sdf4
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 0fc63daf-8483-4772-8e79-3d69d8477de4.de47b06f-2846-42b4-b773-c36322f7943c -> ../../nvme0n1p2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 21686148-6449-6e6f-744e-656564454649.06b44c27-eba5-4adb-91e7-faf71119d2cf -> ../../sdf1
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 21686148-6449-6e6f-744e-656564454649.30380217-5f83-4211-8752-92cacaa7904e -> ../../nvme0n1p1
+drwxr-xr-x 2 0 0  60 Aug  3 07:42 .
+drwxr-xr-x 8 0 0 160 Aug  3 09:39 ..
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 root -> ../../vda2
 
 /dev/disk/by-partuuid:
 total 0
-drwxr-xr-x 2 0 0 160 Jun 15  2020 .
-drwxr-xr-x 9 0 0 180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 06b44c27-eba5-4adb-91e7-faf71119d2cf -> ../../sdf1
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 15328b90-1511-4785-8cdb-ed6b2ef6b4fd -> ../../sdf3
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 30380217-5f83-4211-8752-92cacaa7904e -> ../../nvme0n1p1
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 428f3fed-dcd9-46bc-9b9e-bc2900e2bf68 -> ../../sdf2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 4d83ad2c-099e-4108-8272-21a17aedc721 -> ../../sdf4
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 de47b06f-2846-42b4-b773-c36322f7943c -> ../../nvme0n1p2
+drwxr-xr-x 2 0 0 120 Aug  3 07:42 .
+drwxr-xr-x 8 0 0 160 Aug  3 09:39 ..
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 1b9f7c1c-20b6-4310-8895-c009827f87a4 -> ../../vdb2
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 39df8133-d917-4632-ba4f-a114ceb7e5cd -> ../../vdb1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 b6093c29-ad1a-4da2-8c17-fdaf044bf472 -> ../../vda2
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 e6e381e6-f70b-4e09-95ab-219dd39aa3b3 -> ../../vda1
 
 /dev/disk/by-path:
 total 0
-drwxr-xr-x 2 0 0 340 Jun 15  2020 .
-drwxr-xr-x 9 0 0 180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy0-lun-0 -> ../../sdb
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy1-lun-0 -> ../../sda
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy1-lun-0-part1 -> ../../sda1
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy1-lun-0-part2 -> ../../sda2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy1-lun-0-part3 -> ../../sda3
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy10-lun-0 -> ../../sdg
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy12-lun-0 -> ../../sdh
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy3-lun-0 -> ../../sdc
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy4-lun-0 -> ../../sdd
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy6-lun-0 -> ../../sde
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 pci-0000:18:00.0-sas-phy7-lun-0 -> ../../sdf
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy7-lun-0-part1 -> ../../sdf1
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy7-lun-0-part2 -> ../../sdf2
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy7-lun-0-part3 -> ../../sdf3
-lrwxrwxrwx 1 0 0  10 Nov 25 17:33 pci-0000:18:00.0-sas-phy7-lun-0-part4 -> ../../sdf4
+drwxr-xr-x 2 0 0 400 Aug  3 07:42 .
+drwxr-xr-x 8 0 0 160 Aug  3 09:39 ..
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 pci-0000:00:0b.0 -> ../../vda
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 pci-0000:00:0b.0-part1 -> ../../vda1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 pci-0000:00:0b.0-part2 -> ../../vda2
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 pci-0000:00:0c.0 -> ../../vdb
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 pci-0000:00:0c.0-part1 -> ../../vdb1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 pci-0000:00:0c.0-part2 -> ../../vdb2
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 pci-0000:00:0d.0 -> ../../vdc
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 pci-0000:00:0f.0 -> ../../vdd
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 pci-0000:00:10.0 -> ../../vde
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 virtio-pci-0000:00:0b.0 -> ../../vda
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 virtio-pci-0000:00:0b.0-part1 -> ../../vda1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 virtio-pci-0000:00:0b.0-part2 -> ../../vda2
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 virtio-pci-0000:00:0c.0 -> ../../vdb
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 virtio-pci-0000:00:0c.0-part1 -> ../../vdb1
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 virtio-pci-0000:00:0c.0-part2 -> ../../vdb2
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 virtio-pci-0000:00:0d.0 -> ../../vdc
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 virtio-pci-0000:00:0f.0 -> ../../vdd
+lrwxrwxrwx 1 0 0   9 Aug  3 10:29 virtio-pci-0000:00:10.0 -> ../../vde
 
 /dev/disk/by-uuid:
 total 0
-drwxr-xr-x 2 0 0 260 Jun 15  2020 .
-drwxr-xr-x 9 0 0 180 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0  13 Nov 25 17:33 25c4fd24-aeb6-459c-99bf-c246ad641bee -> ../../bcache6
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 27ac4590-1dba-4c23-bcd4-f1a74ce0c4ea -> ../../sdh
-lrwxrwxrwx 1 0 0  15 Nov 25 17:33 2ccea92c-362e-4ce7-8467-45e410cfd2c0 -> ../../nvme0n1p2
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 42322d3a-b543-486d-b3ef-62f1f42d123f -> ../../sde
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 68c5bd53-3c6c-46d9-b0c1-e8dd8789b170 -> ../../md1
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 994a3a83-c1aa-47f4-960d-2704fb45cb1b -> ../../md0
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 a0ec7fd8-1ab7-480e-bd7f-1f5490063eab -> ../../md2
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 b955f522-9c68-49ac-b47e-17a6b31c7e78 -> ../../sdb
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 d400ab68-b08a-460f-905f-ae722b848f1c -> ../../sdc
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 d4e3417c-69e5-4ad1-8457-fca31f34dd63 -> ../../sdg
-lrwxrwxrwx 1 0 0   9 Nov 25 17:33 d5f80223-f1b9-4f95-bf8e-ff80d71b592f -> ../../sdd
+drwxr-xr-x 2 0 0 120 Aug  3 09:39 .
+drwxr-xr-x 8 0 0 160 Aug  3 09:39 ..
+lrwxrwxrwx 1 0 0  13 Aug  3 10:29 51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea -> ../../bcache0
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 a4d68caa-da3b-4ce0-8f9a-56f8efa43b42 -> ../../vda2
+lrwxrwxrwx 1 0 0  10 Aug  3 10:29 b6c29a50-f674-49c3-acf6-074493764ebb -> ../../dm-2
+lrwxrwxrwx 1 0 0  13 Aug  3 10:29 f3249bf4-4e48-4a7b-94f4-5719b5a8ee0d -> ../../bcache1
 
 /dev/dri:
 total 0
-drwxr-xr-x  2 0  0     60 Jun 15  2020 .
-drwxr-xr-x 26 0  0   5060 Feb  4 08:27 ..
-crw-rw----  1 0 44 226, 0 Jun 15  2020 card0
+drwxr-xr-x  3 0  0     80 Aug  3 07:42 .
+drwxr-xr-x 20 0  0   4280 Aug  3 10:29 ..
+drwxr-xr-x  2 0  0     60 Aug  3 07:42 by-path
+crw-rw----  1 0 44 226, 0 Aug  3 07:42 card0
+
+/dev/dri/by-path:
+total 0
+drwxr-xr-x 2 0 0 60 Aug  3 07:42 .
+drwxr-xr-x 3 0 0 80 Aug  3 07:42 ..
+lrwxrwxrwx 1 0 0  8 Aug  3 07:42 pci-0000:00:02.0-card -> ../card0
 
 /dev/hugepages:
 total 0
-drwxr-xr-x  3 0 0    0 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
-drwxr-xr-x  3 0 0    0 Jun 15  2020 libvirt
+drwxr-xr-x  3 0 0    0 Aug  3 07:42 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
+drwxr-xr-x  3 0 0    0 Aug  3 07:42 libvirt
 
 /dev/hugepages/libvirt:
 total 0
-drwxr-xr-x 3 0 0 0 Jun 15  2020 .
-drwxr-xr-x 3 0 0 0 Jun 15  2020 ..
-drwxr-xr-x 2 0 0 0 Jun 15  2020 qemu
+drwxr-xr-x 3 0 0 0 Aug  3 07:42 .
+drwxr-xr-x 3 0 0 0 Aug  3 07:42 ..
+drwxr-xr-x 2 0 0 0 Aug  3 07:42 qemu
 
 /dev/hugepages/libvirt/qemu:
 total 0
-drwxr-xr-x 2 0 0 0 Jun 15  2020 .
-drwxr-xr-x 3 0 0 0 Jun 15  2020 ..
+drwxr-xr-x 2 0 0 0 Aug  3 07:42 .
+drwxr-xr-x 3 0 0 0 Aug  3 07:42 ..
 
 /dev/input:
 total 0
-drwxr-xr-x  4 0   0    240 Jun 15  2020 .
-drwxr-xr-x 26 0   0   5060 Feb  4 08:27 ..
-drwxr-xr-x  2 0   0    140 Jun 15  2020 by-id
-drwxr-xr-x  2 0   0    140 Jun 15  2020 by-path
-crw-rw----  1 0 106 13, 64 Jun 15  2020 event0
-crw-rw----  1 0 106 13, 65 Jun 15  2020 event1
-crw-rw----  1 0 106 13, 66 Jun 15  2020 event2
-crw-rw----  1 0 106 13, 67 Jun 15  2020 event3
-crw-rw-r--  1 0 106 13,  0 Jun 15  2020 js0
-crw-rw----  1 0 106 13, 63 Jun 15  2020 mice
-crw-rw----  1 0 106 13, 32 Jun 15  2020 mouse0
-crw-rw----  1 0 106 13, 33 Jun 15  2020 mouse1
-
-/dev/input/by-id:
-total 0
-drwxr-xr-x 2 0 0 140 Jun 15  2020 .
-drwxr-xr-x 4 0 0 240 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 usb-Avocent_Keyboard_Mouse_Function_20161209-event-kbd -> ../event1
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 usb-Avocent_Keyboard_Mouse_Function_20161209-if01-event-mouse -> ../event2
-lrwxrwxrwx 1 0 0   6 Jun 15  2020 usb-Avocent_Keyboard_Mouse_Function_20161209-if01-mouse -> ../js0
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 usb-Avocent_Keyboard_Mouse_Function_20161209-if02-event-mouse -> ../event3
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 usb-Avocent_Keyboard_Mouse_Function_20161209-if02-mouse -> ../mouse1
+drwxr-xr-x  3 0   0    200 Aug  3 07:42 .
+drwxr-xr-x 20 0   0   4280 Aug  3 10:29 ..
+drwxr-xr-x  2 0   0    100 Aug  3 07:42 by-path
+crw-rw----  1 0 107 13, 64 Aug  3 07:42 event0
+crw-rw----  1 0 107 13, 65 Aug  3 07:42 event1
+crw-rw----  1 0 107 13, 66 Aug  3 07:42 event2
+crw-rw----  1 0 107 13, 67 Aug  3 07:42 event3
+crw-rw----  1 0 107 13, 63 Aug  3 07:42 mice
+crw-rw----  1 0 107 13, 32 Aug  3 07:42 mouse0
+crw-rw----  1 0 107 13, 33 Aug  3 07:42 mouse1
 
 /dev/input/by-path:
 total 0
-drwxr-xr-x 2 0 0 140 Jun 15  2020 .
-drwxr-xr-x 4 0 0 240 Jun 15  2020 ..
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 pci-0000:00:14.0-usb-0:6.1:1.0-event-kbd -> ../event1
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 pci-0000:00:14.0-usb-0:6.1:1.1-event-mouse -> ../event2
-lrwxrwxrwx 1 0 0   6 Jun 15  2020 pci-0000:00:14.0-usb-0:6.1:1.1-mouse -> ../js0
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 pci-0000:00:14.0-usb-0:6.1:1.2-event-mouse -> ../event3
-lrwxrwxrwx 1 0 0   9 Jun 15  2020 pci-0000:00:14.0-usb-0:6.1:1.2-mouse -> ../mouse1
+drwxr-xr-x 2 0 0 100 Aug  3 07:42 .
+drwxr-xr-x 3 0 0 200 Aug  3 07:42 ..
+lrwxrwxrwx 1 0 0   9 Aug  3 07:42 platform-i8042-serio-0-event-kbd -> ../event1
+lrwxrwxrwx 1 0 0   9 Aug  3 07:42 platform-i8042-serio-1-event-mouse -> ../event2
+lrwxrwxrwx 1 0 0   9 Aug  3 07:42 platform-i8042-serio-1-mouse -> ../mouse0
 
 /dev/lightnvm:
 total 0
-drwxr-xr-x  2 0 0     60 Jun 15  2020 .
-drwxr-xr-x 26 0 0   5060 Feb  4 08:27 ..
-crw-------  1 0 0 10, 61 Jun 15  2020 control
+drwxr-xr-x  2 0 0     60 Aug  3 07:42 .
+drwxr-xr-x 20 0 0   4280 Aug  3 10:29 ..
+crw-------  1 0 0 10, 61 Aug  3 07:42 control
 
 /dev/mapper:
 total 0
-drwxr-xr-x  2 0 0     180 Jun 15  2020 .
-drwxr-xr-x 26 0 0    5060 Feb  4 08:27 ..
-lrwxrwxrwx  1 0 0       7 Dec  3 16:34 ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9 -> ../dm-1
-lrwxrwxrwx  1 0 0       7 Dec  3 16:34 ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc -> ../dm-4
-lrwxrwxrwx  1 0 0       7 Nov 25 17:33 ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68 -> ../dm-5
-lrwxrwxrwx  1 0 0       7 Nov 25 17:33 ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29 -> ../dm-0
-lrwxrwxrwx  1 0 0       7 Nov 25 17:33 ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb -> ../dm-2
-lrwxrwxrwx  1 0 0       7 Nov 25 17:33 ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1 -> ../dm-3
-crw-------  1 0 0 10, 236 Jun 15  2020 control
+drwxr-xr-x  2 0 0     120 Aug  3 09:39 .
+drwxr-xr-x 20 0 0    4280 Aug  3 10:29 ..
+lrwxrwxrwx  1 0 0       7 Aug  3 10:29 ceph--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea-osd--block--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea -> ../dm-1
+crw-------  1 0 0 10, 236 Aug  3 07:42 control
+lrwxrwxrwx  1 0 0       7 Aug  3 10:29 crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea -> ../dm-0
+lrwxrwxrwx  1 0 0       7 Aug  3 10:29 crypt-f3249bf4-4e48-4a7b-94f4-5719b5a8ee0d -> ../dm-2
 
 /dev/mqueue:
 total 0
-drwxrwxrwt  2 0 0   40 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
+drwxrwxrwt  2 0 0   40 Aug  3 07:42 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
 
 /dev/net:
 total 0
-drwxr-xr-x  2 0 0      60 Jun 15  2020 .
-drwxr-xr-x 26 0 0    5060 Feb  4 08:27 ..
-crw-rw-rw-  1 0 0 10, 200 Dec  3 19:45 tun
+drwxr-xr-x  2 0 0      60 Aug  3 07:42 .
+drwxr-xr-x 20 0 0    4280 Aug  3 10:29 ..
+crw-rw-rw-  1 0 0 10, 200 Aug  3 07:42 tun
 
 /dev/pts:
 total 0
-drwxr-xr-x  2      0      0       0 Jun 15  2020 .
-drwxr-xr-x 26      0      0    5060 Feb  4 08:27 ..
-crw--w----  1 100000 100005 136,  0 Nov 10 09:47 0
-crw--w----  1 100000 100005 136,  1 Nov 10 09:20 1
-crw--w----  1  64055      5 136, 10 Jul  1  2020 10
-crw--w----  1  64055      5 136, 11 Sep 17 20:39 11
-crw--w----  1  64055      5 136, 12 Jan 14 08:43 12
-crw--w----  1  64055      5 136, 13 Dec 16 16:52 13
-crw--w----  1  64055      5 136, 14 Sep 28 12:26 14
-crw--w----  1  64055      5 136, 15 Sep 17 20:41 15
-crw--w----  1  64055      5 136, 16 Sep 17 21:00 16
-crw--w----  1  64055      5 136, 17 Sep 17 21:53 17
-crw--w----  1  64055      5 136, 18 Sep 17 22:27 18
-crw--w----  1  64055      5 136, 19 Aug 14 22:56 19
-crw--w----  1  64055      5 136,  2 Jun 25  2020 2
-crw--w----  1  64055      5 136, 20 Aug 19 10:27 20
-crw--w----  1  64055      5 136, 21 Aug 19 10:39 21
-crw--w----  1  64055      5 136, 22 Aug 19 14:48 22
-crw--w----  1  64055      5 136, 23 Aug 27 02:17 23
-crw--w----  1  64055      5 136, 24 Aug 29 23:09 24
-crw--w----  1  64055      5 136, 25 Sep  4 11:31 25
-crw--w----  1  64055      5 136, 26 Sep  8 12:42 26
-crw--w----  1  64055      5 136, 27 Dec 17 09:31 27
-crw--w----  1  64055      5 136, 28 Nov 10 13:13 28
-crw--w----  1  64055      5 136, 29 Sep  9 12:47 29
-crw--w----  1 100000 100005 136,  3 Dec  3 19:46 3
-crw--w----  1  64055      5 136, 30 Sep 24 09:47 30
-crw--w----  1  64055      5 136, 31 Sep 24 09:47 31
-crw--w----  1   1000      5 136, 32 Feb  5 06:19 32
-crw--w----  1  64055      5 136, 36 Sep 26 09:05 36
-crw--w----  1  64055      5 136, 38 Oct 30 10:57 38
-crw--w----  1  64055      5 136, 39 Nov 10 13:13 39
-crw--w----  1  64055      5 136,  4 Jun 25  2020 4
-crw--w----  1  64055      5 136, 40 Nov 10 14:14 40
-crw--w----  1  64055      5 136,  5 Jun 25  2020 5
-crw--w----  1  64055      5 136,  6 Jul  1  2020 6
-crw--w----  1  64055      5 136,  7 Jul  1  2020 7
-crw--w----  1  64055      5 136,  8 Jul  1  2020 8
-crw--w----  1  64055      5 136,  9 Dec  1 16:37 9
-c---------  1      0      0   5,  2 Jun 15  2020 ptmx
+drwxr-xr-x  2     0 0      0 Aug  3 07:42 .
+drwxr-xr-x 20     0 0   4280 Aug  3 10:29 ..
+crw--w----  1  1000 5 136, 0 Aug  3 10:31 0
+crw--w----  1 64055 5 136, 1 Aug  3 10:29 1
+crw--w----  1 64055 5 136, 2 Aug  3 10:29 2
+c---------  1     0 0   5, 2 Aug  3 07:42 ptmx
 
 /dev/shm:
 total 0
-drwxrwxrwt  2 0 0   40 Jun 15  2020 .
-drwxr-xr-x 26 0 0 5060 Feb  4 08:27 ..
+drwxrwxrwt  2 0 0   40 Aug  3 10:30 .
+drwxr-xr-x 20 0 0 4280 Aug  3 10:29 ..
 
 /dev/snd:
 total 0
-drwxr-xr-x  2 0  0      80 Jun 15  2020 .
-drwxr-xr-x 26 0  0    5060 Feb  4 08:27 ..
-crw-rw----  1 0 29 116,  1 Jun 15  2020 seq
-crw-rw----  1 0 29 116, 33 Jun 15  2020 timer
+drwxr-xr-x  2 0  0      80 Aug  3 07:42 .
+drwxr-xr-x 20 0  0    4280 Aug  3 10:29 ..
+crw-rw----  1 0 29 116,  1 Aug  3 07:42 seq
+crw-rw----  1 0 29 116, 33 Aug  3 07:42 timer
 
 /dev/vfio:
 total 0
-drwxr-xr-x  2 0 0      60 Jun 15  2020 .
-drwxr-xr-x 26 0 0    5060 Feb  4 08:27 ..
-crw-------  1 0 0 10, 196 Jun 15  2020 vfio
+drwxr-xr-x  2 0 0      60 Aug  3 07:42 .
+drwxr-xr-x 20 0 0    4280 Aug  3 10:29 ..
+crw-rw-rw-  1 0 0 10, 196 Aug  3 07:42 vfio

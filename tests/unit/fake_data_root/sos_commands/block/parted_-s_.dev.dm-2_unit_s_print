@@ -1,6 +1,9 @@
-Error: /dev/dm-2: unrecognised disk label
-Model: Linux device-mapper (linear) (dm)
-Disk /dev/dm-2: 19532865536s
+Model: Linux device-mapper (crypt) (dm)
+Disk /dev/dm-2: 209682416s
 Sector size (logical/physical): 512B/512B
-Partition Table: unknown
+Partition Table: loop
 Disk Flags: 
+
+Number  Start  End         Size        File system  Flags
+ 1      0s     209682415s  209682416s  xfs
+

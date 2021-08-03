@@ -91,13 +91,22 @@ class TestOpenstackBase(utils.BaseTestCase):
 class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
 
     def test_get_service_info(self):
-        expected = ['haproxy (1)',
+        expected = ['apache2 (6)',
+                    'dnsmasq (1)',
+                    'glance-api (5)',
+                    'haproxy (7)',
                     'keepalived (2)',
+                    'mysqld (1)',
+                    'neutron-dhcp-agent (1)',
                     'neutron-keepalived-state-change (2)',
-                    'neutron-ovn-metadata-agent (3)',
+                    'neutron-l3-agent (1)',
+                    'neutron-metadata-agent (5)',
+                    'neutron-openvswitch-agent (1)',
+                    'neutron-server (11)',
                     'nova-api-metadata (5)',
                     'nova-compute (1)',
-                    'qemu-system-x86_64 (1)']
+                    'qemu-system-x86_64 (2)',
+                    'vault (1)']
         inst = openstack_services.get_openstack_service_checker()
         inst()
         self.assertEqual(inst.output["services"], expected)
@@ -136,12 +145,13 @@ class TestOpenstackPluginPartVm_info(TestOpenstackBase):
 
     def test_get_vm_checks(self):
         expected = {"vm-info": {
-                        "running": ["09461f0b-297b-4ef5-9053-dd369c86b96b"],
+                        "running": ['29bcaff8-3d85-43cb-b76f-01bad0e1d568',
+                                    'c050e183-c808-43f9-bdb4-02e95fad58e2'],
                         "vcpu-info": {
-                            "available-cores": 72,
-                            "system-cores": 72,
-                            "used": 0,
-                            "overcommit-factor": 0.0,
+                            "available-cores": 2,
+                            "system-cores": 2,
+                            "used": 2,
+                            "overcommit-factor": 1.0,
                             }
                         }
                     }
@@ -155,15 +165,18 @@ class TestOpenstackPluginPartNovaExternalEvents(TestOpenstackBase):
     def test_get_events(self):
         inst = nova_external_events.NovaExternalEventChecks()
         inst()
-        events = {'network-vif-plugged':
+        events = {'network-changed':
                   {"succeeded":
-                   [{"instance": 'd2666e01-73c8-4a97-9c22-0c175659e6db',
-                     "port": "f6f5e6c5-2fdd-4719-9489-ca385d7fa7a7"},
-                    {"instance": 'd2666e01-73c8-4a97-9c22-0c175659e6db',
-                     "port": "1824336a-4bc3-46bb-9c08-bc86b1d24226"}],
-                   "failed": [
-                       {"instance": '5b367a10-9e6a-4eb9-9c7d-891dab7e87fa',
-                        "port": "9a3673bf-58ac-423a-869a-6c4ae801b57b"}]}}
+                   [{"port": "03c4d61b-60b0-4f1e-b29c-2554e0c78afd",
+                     "instance": "29bcaff8-3d85-43cb-b76f-01bad0e1d568"},
+                    {"port": "0906171f-17bb-478f-b8fa-9904983b26af",
+                     "instance": "c050e183-c808-43f9-bdb4-02e95fad58e2"}]},
+                  'network-vif-plugged':
+                  {"succeeded":
+                   [{"instance": '29bcaff8-3d85-43cb-b76f-01bad0e1d568',
+                     "port": "03c4d61b-60b0-4f1e-b29c-2554e0c78afd"},
+                    {"instance": 'c050e183-c808-43f9-bdb4-02e95fad58e2',
+                     "port": "0906171f-17bb-478f-b8fa-9904983b26af"}]}}
         self.assertEquals(inst.output["os-server-external-events"], events)
 
 
@@ -171,69 +184,63 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
 
     def test_get_pkg_info(self):
         expected = [
-            'ceilometer-agent-compute 1:10.0.1-0ubuntu0.18.04.2~cloud0',
-            'ceilometer-common 1:10.0.1-0ubuntu0.18.04.2~cloud0',
-            'conntrack 1:1.4.3-3',
-            'dnsmasq-base 2.79-1~cloud0',
-            'dnsmasq-utils 2.79-1~cloud0',
-            'haproxy 1.6.3-1ubuntu0.3',
-            'keepalived 1:1.3.9-1ubuntu0.18.04.2~cloud1',
-            'libvirt-daemon 4.0.0-1ubuntu8.15~cloud0',
-            'libvirt-daemon-driver-storage-rbd 4.0.0-1ubuntu8.15~cloud0',
-            'libvirt-daemon-system 4.0.0-1ubuntu8.15~cloud0',
-            'mysql-common 5.7.33-0ubuntu0.16.04.1',
-            'neutron-common 2:12.1.0-0ubuntu1~cloud0',
-            'neutron-dhcp-agent 2:12.1.0-0ubuntu1~cloud0',
-            'neutron-l3-agent 2:12.1.0-0ubuntu1~cloud0',
-            'neutron-metadata-agent 2:12.1.0-0ubuntu1~cloud0',
-            'neutron-openvswitch-agent 2:12.1.0-0ubuntu1~cloud0',
-            'nova-api-metadata 2:17.0.12-0ubuntu1~cloud0',
-            'nova-common 2:17.0.12-0ubuntu1~cloud0',
-            'nova-compute 2:17.0.12-0ubuntu1~cloud0',
-            'nova-compute-kvm 2:17.0.12-0ubuntu1~cloud0',
-            'nova-compute-libvirt 2:17.0.12-0ubuntu1~cloud0',
-            'octavia-api 6.1.0-0ubuntu1~cloud0',
-            'octavia-common 6.1.0-0ubuntu1~cloud0',
-            'octavia-health-manager 6.1.0-0ubuntu1~cloud0',
-            'octavia-housekeeping 6.1.0-0ubuntu1~cloud0',
-            'octavia-worker 6.1.0-0ubuntu1~cloud0',
-            'python-barbicanclient 4.6.0-0ubuntu1~cloud0',
-            'python-ceilometer 1:10.0.1-0ubuntu0.18.04.2~cloud0',
-            'python-ceilometerclient 2.9.0-0ubuntu1~cloud0',
-            'python-cinderclient 1:3.5.0-0ubuntu1~cloud0',
-            'python-designateclient 2.9.0-0ubuntu1~cloud0',
-            'python-glanceclient 1:2.9.1-0ubuntu1~cloud0',
-            'python-keystone 2:13.0.2-0ubuntu3~cloud0',
-            'python-keystoneauth1 3.4.0-0ubuntu1~cloud0',
-            'python-keystoneclient 1:3.15.0-0ubuntu1~cloud0',
-            'python-keystonemiddleware 4.21.0-0ubuntu1~cloud0',
-            'python-neutron 2:12.1.0-0ubuntu1~cloud0',
-            'python-neutron-fwaas 1:12.0.1-0ubuntu1~cloud0',
-            'python-neutron-lib 1.13.0-0ubuntu1~cloud0',
-            'python-neutronclient 1:6.7.0-0ubuntu1~cloud0',
-            'python-nova 2:17.0.12-0ubuntu1~cloud0',
-            'python-novaclient 2:9.1.1-0ubuntu1~cloud0',
-            'python-oslo.cache 1.28.0-0ubuntu1~cloud0',
-            'python-oslo.concurrency 3.25.0-0ubuntu1~cloud0',
-            'python-oslo.config 1:5.2.0-0ubuntu1~cloud0',
-            'python-oslo.context 1:2.20.0-0ubuntu1~cloud0',
-            'python-oslo.db 4.33.0-0ubuntu1~cloud0',
-            'python-oslo.i18n 3.19.0-0ubuntu1~cloud0',
-            'python-oslo.log 3.36.0-0ubuntu1~cloud0',
-            'python-oslo.messaging 5.35.0-0ubuntu1~cloud0',
-            'python-oslo.middleware 3.34.0-0ubuntu1~cloud0',
-            'python-oslo.policy 1.33.1-0ubuntu2~cloud0',
-            'python-oslo.privsep 1.27.0-0ubuntu3~cloud0',
-            'python-oslo.reports 1.26.0-0ubuntu1~cloud0',
-            'python-oslo.rootwrap 5.13.0-0ubuntu1~cloud0',
-            'python-oslo.serialization 2.24.0-0ubuntu2~cloud0',
-            'python-oslo.service 1.29.0-0ubuntu1~cloud0',
-            'python-oslo.utils 3.35.0-0ubuntu1~cloud0',
-            'python-oslo.versionedobjects 1.31.2-0ubuntu3~cloud0',
-            'python-swiftclient 1:3.5.0-0ubuntu1~cloud0',
-            'python3-octavia 6.1.0-0ubuntu1~cloud0',
-            'python3-octavia-lib 2.0.0-0ubuntu1~cloud0',
-            'qemu-kvm 1:2.11+dfsg-1ubuntu7.23~cloud0']
+            'conntrack 1:1.4.5-2',
+            'dnsmasq-base 2.80-1.1ubuntu1.4',
+            'dnsmasq-utils 2.80-1.1ubuntu1.4',
+            'haproxy 2.0.13-2ubuntu0.1',
+            'keepalived 1:2.0.19-2',
+            'keystone-common 2:17.0.0-0ubuntu0.20.04.1',
+            'libvirt-daemon 6.0.0-0ubuntu8.11',
+            'libvirt-daemon-driver-qemu 6.0.0-0ubuntu8.11',
+            'libvirt-daemon-driver-storage-rbd 6.0.0-0ubuntu8.11',
+            'libvirt-daemon-system 6.0.0-0ubuntu8.11',
+            'libvirt-daemon-system-systemd 6.0.0-0ubuntu8.11',
+            'mysql-common 5.8+1.0.5ubuntu2',
+            'neutron-common 2:16.4.0-0ubuntu2',
+            'neutron-dhcp-agent 2:16.4.0-0ubuntu2',
+            'neutron-fwaas-common 1:16.0.0-0ubuntu0.20.04.1',
+            'neutron-l3-agent 2:16.4.0-0ubuntu2',
+            'neutron-metadata-agent 2:16.4.0-0ubuntu2',
+            'neutron-openvswitch-agent 2:16.4.0-0ubuntu2',
+            'nova-api-metadata 2:21.2.1-0ubuntu1',
+            'nova-common 2:21.2.1-0ubuntu1',
+            'nova-compute 2:21.2.1-0ubuntu1',
+            'nova-compute-kvm 2:21.2.1-0ubuntu1',
+            'nova-compute-libvirt 2:21.2.1-0ubuntu1',
+            'python3-barbicanclient 4.10.0-0ubuntu1',
+            'python3-cinderclient 1:7.0.0-0ubuntu1',
+            'python3-designateclient 2.11.0-0ubuntu2',
+            'python3-glanceclient 1:3.1.1-0ubuntu1',
+            'python3-keystone 2:17.0.0-0ubuntu0.20.04.1',
+            'python3-keystoneauth1 4.0.0-0ubuntu1',
+            'python3-keystoneclient 1:4.0.0-0ubuntu1',
+            'python3-keystonemiddleware 9.0.0-0ubuntu1',
+            'python3-neutron 2:16.4.0-0ubuntu2',
+            'python3-neutron-fwaas 1:16.0.0-0ubuntu0.20.04.1',
+            'python3-neutron-lib 2.3.0-0ubuntu1',
+            'python3-neutronclient 1:7.1.1-0ubuntu1',
+            'python3-nova 2:21.2.1-0ubuntu1',
+            'python3-novaclient 2:17.0.0-0ubuntu1',
+            'python3-oslo.cache 2.3.0-0ubuntu1',
+            'python3-oslo.concurrency 4.0.2-0ubuntu1',
+            'python3-oslo.config 1:8.0.2-0ubuntu1',
+            'python3-oslo.context 1:3.0.2-0ubuntu1',
+            'python3-oslo.db 8.1.0-0ubuntu1',
+            'python3-oslo.i18n 4.0.1-0ubuntu1',
+            'python3-oslo.log 4.1.1-0ubuntu1',
+            'python3-oslo.messaging 12.1.0-0ubuntu1',
+            'python3-oslo.middleware 4.0.2-0ubuntu1',
+            'python3-oslo.policy 3.1.0-0ubuntu1.1',
+            'python3-oslo.privsep 2.1.1-0ubuntu1',
+            'python3-oslo.reports 2.0.1-0ubuntu1',
+            'python3-oslo.rootwrap 6.0.2-0ubuntu1',
+            'python3-oslo.serialization 3.1.1-0ubuntu1',
+            'python3-oslo.service 2.1.1-0ubuntu1.1',
+            'python3-oslo.upgradecheck 1.0.1-0ubuntu1',
+            'python3-oslo.utils 4.1.1-0ubuntu1',
+            'python3-oslo.versionedobjects 2.0.1-0ubuntu1',
+            'python3-oslo.vmware 3.3.1-0ubuntu1',
+            'qemu-kvm 1:4.2-3ubuntu6.17']
         inst = package_info.OpenstackPackageChecks()
         inst()
         self.assertEquals(inst.output["dpkg"], expected)
@@ -298,7 +305,8 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
         self.assertEqual(name, "br-bond1")
 
     def test_get_ns_info(self):
-        ns_info = {'namespaces': {'qdhcp': 35, 'qrouter': 35, 'fip': 1}}
+        ns_info = {'namespaces': {'qdhcp': 1, 'qrouter': 1, 'fip': 1,
+                                  'snat': 1}}
         inst = network.OpenstackNetworkChecks()
         inst.get_ns_info()
         self.assertEqual(inst.output["network"], ns_info)
@@ -313,14 +321,16 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
 
     def test_get_network_checker(self):
         expected = {'config':
-                    {'neutron':
-                     {'local_ip': '10.10.102.53 (bond1.4003@bond1)'}},
+                    {'nova':
+                        {'my_ip': '10.0.0.49 (br-ens3)'},
+                     'neutron':
+                        {'local_ip': '10.0.0.49 (br-ens3)'}},
                     'namespaces':
-                    {'fip': 1, 'qdhcp': 35, 'qrouter': 35},
+                        {'fip': 1, 'qdhcp': 1, 'qrouter': 1, 'snat': 1},
                     'port-health':
-                    {'phy-ports':
-                     {'bond1.4003@bond1': {
-                      'rx': {'dropped': '131579034 (13%)'}}}}}
+                        {'phy-ports':
+                         {'br-ens3': {
+                             'rx': {'dropped': '131579 (36%)'}}}}}
         inst = network.OpenstackNetworkChecks()
         inst()
         self.assertEqual(inst.output["network"], expected)
@@ -331,7 +341,16 @@ class TestOpenstackPluginPartService_features(TestOpenstackBase):
     def test_get_service_features(self):
         inst = service_features.ServiceFeatureChecks()
         inst.get_service_features()
-        expected = {'neutron': {'neutron': {'availability_zone': 'AZ1'}}}
+        expected = {'neutron': {'dhcp-agent': {
+                                    'enable_isolated_metadata': True,
+                                    'enable_metadata_network': True,
+                                    'ovs_use_veth': False},
+                                'l3-agent': {
+                                    'agent_mode': 'dvr_snat'},
+                                'neutron': {
+                                    'availability_zone': 'nova'},
+                                'openvswitch-agent': {
+                                    'l2_population': True}}}
         self.assertEqual(inst.output["features"], expected)
 
 
@@ -357,17 +376,57 @@ class TestOpenstackPluginPartCpu_pinning_check(TestOpenstackBase):
 class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
 
     def test_process_rpc_loop_results(self):
-        end = datetime.datetime(2021, 3, 2, 14, 26, 55, 682000)
-        start = datetime.datetime(2021, 3, 2, 14, 26, 29, 780000)
-        expected = {'rpc-loop': {"top": {"1438": {'duration': 25.9,
-                                                  'end': end,
-                                                  'start': start}},
-                                 "stats": {"min": 25.9,
-                                           "max": 25.9,
-                                           "stdev": 0.0,
-                                           "avg": 25.9,
-                                           "samples": 1,
-                                           "incomplete": 2}}}
+        expected = {'rpc-loop': {
+                        'top': {
+                            '1329': {
+                                'start':
+                                    datetime.datetime(2021, 8, 3, 10, 29, 51,
+                                                      272000),
+                                'end':
+                                    datetime.datetime(2021, 8, 3, 10, 29, 56,
+                                                      861000),
+                                'duration': 5.59},
+                            '1328': {
+                                'start':
+                                    datetime.datetime(2021, 8, 3, 10, 29, 48,
+                                                      591000),
+                                'end':
+                                    datetime.datetime(2021, 8, 3, 10, 29, 51,
+                                                      271000),
+                                'duration': 2.68},
+                            '55': {
+                                'start':
+                                    datetime.datetime(2021, 8, 3, 9, 47, 20,
+                                                      938000),
+                                'end':
+                                    datetime.datetime(2021, 8, 3, 9, 47, 22,
+                                                      166000),
+                                'duration': 1.23},
+                            '41': {
+                                'start':
+                                    datetime.datetime(2021, 8, 3, 9, 46, 52,
+                                                      597000),
+                                'end':
+                                    datetime.datetime(2021, 8, 3, 9, 46, 54,
+                                                      923000),
+                                'duration': 2.33},
+                            '40': {
+                                'start':
+                                    datetime.datetime(2021, 8, 3, 9, 46, 50,
+                                                      151000),
+                                'end':
+                                    datetime.datetime(2021, 8, 3, 9, 46, 52,
+                                                      596000),
+                                'duration': 2.44}},
+                        'stats': {
+                            'min': 0.0,
+                            'max': 5.59,
+                            'stdev': 0.2,
+                            'avg': 0.02,
+                            'samples': 1389,
+                            'incomplete': 2}
+                        }
+                    }
         s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-ovs-agent"
@@ -397,44 +456,83 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         self.assertEqual(len(bugs), 3)
 
     def test_get_router_event_stats(self):
-        router = '9b8efc4c-305b-48ce-a5bd-624bc5eeee67'
-        spawn_start = datetime.datetime(2021, 3, 25, 18, 10, 14, 747000)
-        spawn_end = datetime.datetime(2021, 3, 25, 18, 10, 50, 838000)
-        update1_start = datetime.datetime(2021, 3, 25, 18, 9, 54, 720000)
-        update1_end = datetime.datetime(2021, 3, 25, 18, 10, 36, 942000)
-        update2_start = datetime.datetime(2021, 3, 25, 18, 10, 36, 942000)
-        update2_end = datetime.datetime(2021, 3, 25, 18, 10, 51, 11000)
-        expected = {'router-spawn-events': {'stats': {'avg': 36.09,
-                                                      'max': 36.09,
-                                                      'min': 36.09,
-                                                      'samples': 1,
-                                                      'stdev': 0.0},
-                                            'top': {router:
-                                                    {'duration': 36.09,
-                                                     'end': spawn_end,
-                                                     'start': spawn_start}}},
-                    'router-updates': {
-                        'stats': {
-                            'avg': 28.14,
-                            'max': 42.22,
-                            'min': 14.07,
-                            'samples': 2,
-                            'stdev': 14.07},
+        updates = {0: {'start':
+                       datetime.datetime(2021, 8, 3, 9, 46, 44, 593000),
+                       'end':
+                       datetime.datetime(2021, 8, 3, 9, 47, 0, 692000)},
+                   1: {'start':
+                       datetime.datetime(2021, 8, 2, 21, 53, 58, 516000),
+                       'end':
+                       datetime.datetime(2021, 8, 2, 21, 54, 10, 683000)},
+                   2: {'start':
+                       datetime.datetime(2021, 8, 2, 21, 51, 0, 306000),
+                       'end':
+                       datetime.datetime(2021, 8, 2, 21, 51, 16, 760000)},
+                   3: {'start':
+                       datetime.datetime(2021, 8, 2, 21, 50, 36, 610000),
+                       'end':
+                       datetime.datetime(2021, 8, 2, 21, 51, 0, 305000)},
+                   4: {'start':
+                       datetime.datetime(2021, 8, 2, 21, 47, 53, 325000),
+                       'end':
+                       datetime.datetime(2021, 8, 2, 21, 48, 18, 406000)}}
+        spawn_start = datetime.datetime(2021, 8, 3, 9, 46, 48, 66000)
+        spawn_end = datetime.datetime(2021, 8, 3, 9, 47, 7, 617000)
+        expected = {'router-updates': {
                         'top': {
-                            '059cc448-9037-42a4-9ac8-91d09f124aac': {
-                                'duration': 42.22,
-                                'end': update1_end,
-                                'start': update1_start,
-                                'router': router},
-                            '3b21ce82-bed1-4ea2-b667-629bc4903265': {
-                                'duration': 14.07,
-                                'end': update2_end,
-                                'start': update2_start,
-                                'router': router}
-                            }
+                            '0339c98d-13d9-4fb1-ab57-3874a3e56c3e': {
+                                'start': updates[0]["start"],
+                                'end': updates[0]["end"],
+                                'duration': 16.1,
+                                'router':
+                                    '1e086be2-93c2-4740-921d-3e3237f23959'
+                                },
+                            '93350e2d-c717-44fd-a10f-cb6019cce18b': {
+                                'start': updates[1]["start"],
+                                'end': updates[1]["end"],
+                                'duration': 12.17,
+                                'router':
+                                    '1e086be2-93c2-4740-921d-3e3237f23959'},
+                            'caa3629f-e401-43d3-a2bf-aa3e6a3bfb6a': {
+                                'start': updates[2]["start"],
+                                'end': updates[2]["end"],
+                                'duration': 16.45,
+                                'router':
+                                    '1e086be2-93c2-4740-921d-3e3237f23959'},
+                            '2e401a45-c471-4472-8425-86bdc6ff27b3': {
+                                'start': updates[3]["start"],
+                                'end': updates[3]["end"],
+                                'duration': 23.7,
+                                'router':
+                                    '1e086be2-93c2-4740-921d-3e3237f23959'},
+                            'd30df808-c11e-401f-824d-b6f313658455': {
+                                'start': updates[4]["start"],
+                                'end': updates[4]["end"],
+                                'duration': 25.08,
+                                'router':
+                                    '1e086be2-93c2-4740-921d-3e3237f23959'}
+                            },
+                        'stats': {
+                            'min': 6.97,
+                            'max': 25.08,
+                            'stdev': 5.88,
+                            'avg': 15.43,
+                            'samples': 8}
+                        },
+                    'router-spawn-events': {
+                        'top': {
+                            '1e086be2-93c2-4740-921d-3e3237f23959': {
+                                'start': spawn_start,
+                                'end': spawn_end,
+                                'duration': 19.55}},
+                        'stats': {
+                            'min': 19.55,
+                            'max': 19.55,
+                            'stdev': 0.0,
+                            'avg': 19.55,
+                            'samples': 1}
                         }
                     }
-
         s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-l3-agent"
@@ -480,26 +578,41 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
 class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
 
     def test_get_agent_exceptions(self):
-        neutron_expected = {'neutron-openvswitch-agent':
-                            {'MessagingTimeout': {'2021-03-04': 2},
-                             'AMQP server on 10.10.123.22:5672 is unreachable':
-                             {'2021-03-04': 3},
-                             'OVS is dead': {'2021-03-29': 1},
-                             'RuntimeError': {'2021-03-29': 3}},
-                            'neutron-l3-agent':
-                            {'neutron_lib.exceptions.ProcessExecutionError':
-                             {'2021-05-18': 1,
-                              '2021-05-26': 1}},
-                            }
-        nova_expected = {'nova-api-wsgi':
-                         {'OSError: Server unexpectedly closed connection':
-                          {'2021-03-15': 1},
-                          'AMQP server on 10.5.1.98:5672 is unreachable':
-                          {'2021-03-15': 1},
-                          'amqp.exceptions.ConnectionForced':
-                          {'2021-03-15': 1}},
-                         'nova-compute':
-                         {'DBConnectionError': {'2021-03-08': 2}}}
+        neutron_expected = {
+            'neutron-l3-agent': {
+                'neutron_lib.exceptions.ProcessExecutionError': {
+                    '2021-05-18': 1,
+                    '2021-05-26': 1},
+                'MessagingTimeout': {
+                    '2021-08-02': 6,
+                    '2021-08-03': 32},
+                },
+            'neutron-openvswitch-agent': {
+                'RuntimeError': {
+                    '2021-03-29': 3},
+                'OVS is dead': {
+                    '2021-03-29': 1},
+                'MessagingTimeout': {
+                    '2021-03-04': 2,
+                    '2021-08-02': 6,
+                    '2021-08-03': 32},
+                'AMQP server on 10.10.123.22:5672 is unreachable': {
+                    '2021-03-04': 3},
+                }
+        }
+        nova_expected = {
+            'nova-compute': {
+                'MessagingTimeout': {'2021-08-16': 35}
+            },
+            'nova-api-wsgi': {
+                'OSError: Server unexpectedly closed connection': {
+                    '2021-03-15': 1},
+                'AMQP server on 10.5.1.98:5672 is unreachable': {
+                    '2021-03-15': 1},
+                'amqp.exceptions.ConnectionForced': {
+                    '2021-03-15': 1},
+            }
+        }
         barbican_expected = {'barbican-api':
                              {'UnicodeDecodeError': {'2021-05-04': 1}}}
         expected = {"nova": nova_expected, "neutron": neutron_expected,
@@ -526,12 +639,12 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
 
     def test_run_checks(self):
         expected = {'agent': {
-                     'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d'],
-                     'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
+                     'master': ['1e086be2-93c2-4740-921d-3e3237f23959']},
                     'keepalived': {
                      'transitions': {
-                      '19c40509-225e-49f9-80df-e3c5873f4e64': {
-                       '2021-05-05': 3
+                      '1e086be2-93c2-4740-921d-3e3237f23959': {
+                          '2021-08-02': 7,
+                          '2021-08-03': 2
                        }
                       }
                      }
@@ -547,12 +660,11 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
     def test_run_checks_w_issue(self, mock_add_issue):
         os.environ["USE_ALL_LOGS"] = "False"
         expected = {'agent': {
-                     'backup': ['71d46ba3-f737-41bd-a922-8b8012a6444d'],
-                     'master': ['19c40509-225e-49f9-80df-e3c5873f4e64']},
+                     'master': ['1e086be2-93c2-4740-921d-3e3237f23959']},
                     'keepalived': {
                      'transitions': {
-                      '19c40509-225e-49f9-80df-e3c5873f4e64': {
-                       '2021-05-05': 3
+                      '1e086be2-93c2-4740-921d-3e3237f23959': {
+                       '2021-08-03': 2
                        }
                       }
                      }

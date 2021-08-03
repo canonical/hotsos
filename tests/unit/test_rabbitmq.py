@@ -13,7 +13,7 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
 
     def test_get_service_info_bionic(self):
         expected = {
-            'services': ['beam.smp (1)'],
+            'services': ['beam.smp (1)', 'epmd (1)', 'rabbitmq-server (1)'],
             'resources': {
                 'vhosts': [
                     "/",
@@ -94,7 +94,7 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
             fake_get_rabbitmqctl_report
 
         expected = {
-            'services': ['beam.smp (1)'],
+            'services': ['beam.smp (1)', 'epmd (1)', 'rabbitmq-server (1)'],
             'resources': {
                 'vhosts': [
                     '/',

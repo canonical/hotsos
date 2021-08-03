@@ -1,0 +1,46 @@
+default via 10.0.0.2 dev br-ens3 proto static 
+10.0.0.0/24 dev br-ens3 proto kernel scope link src 10.0.0.49 
+10.12.60.0/24 dev lxdbr0 proto kernel scope link src 10.12.60.1 linkdown 
+broadcast 10.0.0.0 dev br-ens3 table local proto kernel scope link src 10.0.0.49 
+local 10.0.0.49 dev br-ens3 table local proto kernel scope host src 10.0.0.49 
+broadcast 10.0.0.255 dev br-ens3 table local proto kernel scope link src 10.0.0.49 
+broadcast 10.12.60.0 dev lxdbr0 table local proto kernel scope link src 10.12.60.1 linkdown 
+local 10.12.60.1 dev lxdbr0 table local proto kernel scope host src 10.12.60.1 
+broadcast 10.12.60.255 dev lxdbr0 table local proto kernel scope link src 10.12.60.1 linkdown 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+::1 dev lo proto kernel metric 256 pref medium
+fe80::/64 dev br-ens3 proto kernel metric 256 pref medium
+fe80::/64 dev ens9 proto kernel metric 256 pref medium
+fe80::/64 dev ens8 proto kernel metric 256 pref medium
+fe80::/64 dev ens7 proto kernel metric 256 pref medium
+fe80::/64 dev ens6 proto kernel metric 256 pref medium
+fe80::/64 dev ens5 proto kernel metric 256 pref medium
+fe80::/64 dev ens4 proto kernel metric 256 pref medium
+fe80::/64 dev vxlan_sys_4789 proto kernel metric 256 pref medium
+fe80::/64 dev tap1d798b14-c4 proto kernel metric 256 pref medium
+fe80::/64 dev tap4d42159a-4c proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::5054:ff:fe5c:a7e0 dev ens9 table local proto kernel metric 0 pref medium
+local fe80::5054:ff:fe5c:d947 dev ens5 table local proto kernel metric 0 pref medium
+local fe80::5054:ff:fe78:19c3 dev ens7 table local proto kernel metric 0 pref medium
+local fe80::5054:ff:febb:47e2 dev ens4 table local proto kernel metric 0 pref medium
+local fe80::5054:ff:fee6:1419 dev ens6 table local proto kernel metric 0 pref medium
+local fe80::5054:ff:fefa:5095 dev ens8 table local proto kernel metric 0 pref medium
+local fe80::dcb7:f6ff:fe7b:2396 dev br-ens3 table local proto kernel metric 0 pref medium
+local fe80::f828:27ff:fe5e:b9f5 dev vxlan_sys_4789 table local proto kernel metric 0 pref medium
+local fe80::fc16:3eff:fe0e:72db dev tap1d798b14-c4 table local proto kernel metric 0 pref medium
+local fe80::fc16:3eff:fe46:ae dev tap4d42159a-4c table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev br-ens3 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens9 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens8 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens7 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens6 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens5 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens4 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens3 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vxlan_sys_4789 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev tap1d798b14-c4 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev tap4d42159a-4c table local proto kernel metric 256 pref medium

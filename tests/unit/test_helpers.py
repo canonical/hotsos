@@ -45,7 +45,7 @@ class TestCLIHelpers(utils.BaseTestCase):
         self.assertEquals(type(helper.date()), str)
 
     def test_get_date(self):
-        self.assertEquals(self.helper.date(), '1616669705\n')
+        self.assertEquals(self.helper.date(), '1627986690\n')
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:

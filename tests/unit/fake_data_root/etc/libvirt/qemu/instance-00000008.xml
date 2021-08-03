@@ -1,0 +1,115 @@
+<!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh edit instance-00000008
+or other application using the libvirt API.
+-->
+
+<domain type='kvm'>
+  <name>instance-00000008</name>
+  <uuid>29bcaff8-3d85-43cb-b76f-01bad0e1d568</uuid>
+  <metadata>
+    <nova:instance xmlns:nova="http://openstack.org/xmlns/libvirt/nova/1.0">
+      <nova:package version="21.2.1"/>
+      <nova:name>focal-201633-1</nova:name>
+      <nova:creationTime>2021-08-16 20:16:56</nova:creationTime>
+      <nova:flavor name="m1.small">
+        <nova:memory>2048</nova:memory>
+        <nova:disk>20</nova:disk>
+        <nova:swap>0</nova:swap>
+        <nova:ephemeral>0</nova:ephemeral>
+        <nova:vcpus>1</nova:vcpus>
+      </nova:flavor>
+      <nova:owner>
+        <nova:user uuid="b0c653b583b646ae8a6919e4affd634c">admin</nova:user>
+        <nova:project uuid="edd686b91b9d4a16969df27becab12a9">admin</nova:project>
+      </nova:owner>
+      <nova:root type="image" uuid="3378e4f0-593c-4834-b2e8-3cddd0a4f25b"/>
+    </nova:instance>
+  </metadata>
+  <memory unit='KiB'>2097152</memory>
+  <currentMemory unit='KiB'>2097152</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  <cputune>
+    <shares>1024</shares>
+  </cputune>
+  <sysinfo type='smbios'>
+    <system>
+      <entry name='manufacturer'>OpenStack Foundation</entry>
+      <entry name='product'>OpenStack Nova</entry>
+      <entry name='version'>21.2.1</entry>
+      <entry name='serial'>29bcaff8-3d85-43cb-b76f-01bad0e1d568</entry>
+      <entry name='uuid'>29bcaff8-3d85-43cb-b76f-01bad0e1d568</entry>
+      <entry name='family'>Virtual Machine</entry>
+    </system>
+  </sysinfo>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-4.2'>hvm</type>
+    <boot dev='hd'/>
+    <smbios mode='sysinfo'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+  </features>
+  <cpu mode='host-model' check='partial'>
+    <topology sockets='1' cores='1' threads='1'/>
+  </cpu>
+  <clock offset='utc'>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type='network' device='disk'>
+      <driver name='qemu' type='raw' cache='none' discard='unmap'/>
+      <auth username='nova-compute'>
+        <secret type='ceph' uuid='514c9fca-8cbe-11e2-9c52-3bc8c7819472'/>
+      </auth>
+      <source protocol='rbd' name='nova/29bcaff8-3d85-43cb-b76f-01bad0e1d568_disk'>
+        <host name='10.0.0.59' port='6789'/>
+      </source>
+      <target dev='vda' bus='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </disk>
+    <controller type='usb' index='0' model='piix3-uhci'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pci-root'/>
+    <interface type='bridge'>
+      <mac address='fa:16:3e:3f:eb:95'/>
+      <source bridge='br-int'/>
+      <virtualport type='openvswitch'>
+        <parameters interfaceid='03c4d61b-60b0-4f1e-b29c-2554e0c78afd'/>
+      </virtualport>
+      <target dev='tap03c4d61b-60'/>
+      <model type='virtio'/>
+      <mtu size='1450'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </interface>
+    <serial type='pty'>
+      <log file='/var/lib/nova/instances/29bcaff8-3d85-43cb-b76f-01bad0e1d568/console.log' append='off'/>
+      <target type='isa-serial' port='0'>
+        <model name='isa-serial'/>
+      </target>
+    </serial>
+    <console type='pty'>
+      <log file='/var/lib/nova/instances/29bcaff8-3d85-43cb-b76f-01bad0e1d568/console.log' append='off'/>
+      <target type='serial' port='0'/>
+    </console>
+    <input type='mouse' bus='ps2'/>
+    <input type='keyboard' bus='ps2'/>
+    <memballoon model='virtio'>
+      <stats period='10'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </memballoon>
+    <rng model='virtio'>
+      <backend model='random'>/dev/urandom</backend>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+    </rng>
+  </devices>
+</domain>

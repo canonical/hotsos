@@ -1,0 +1,34 @@
+default via 10.100.0.1 dev qg-89181899-70 proto static 
+10.100.0.0/24 dev qg-89181899-70 proto kernel scope link src 10.100.0.243 
+169.254.0.0/24 dev ha-a42d8bdd-55 proto kernel scope link src 169.254.0.100 
+169.254.192.0/18 dev ha-a42d8bdd-55 proto kernel scope link src 169.254.194.37 
+192.168.21.0/24 dev sg-6df85cb0-c0 proto kernel scope link src 192.168.21.180 
+broadcast 10.100.0.0 dev qg-89181899-70 table local proto kernel scope link src 10.100.0.243 
+local 10.100.0.243 dev qg-89181899-70 table local proto kernel scope host src 10.100.0.243 
+broadcast 10.100.0.255 dev qg-89181899-70 table local proto kernel scope link src 10.100.0.243 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+broadcast 169.254.0.0 dev ha-a42d8bdd-55 table local proto kernel scope link src 169.254.0.100 
+local 169.254.0.100 dev ha-a42d8bdd-55 table local proto kernel scope host src 169.254.0.100 
+broadcast 169.254.0.255 dev ha-a42d8bdd-55 table local proto kernel scope link src 169.254.0.100 
+broadcast 169.254.192.0 dev ha-a42d8bdd-55 table local proto kernel scope link src 169.254.194.37 
+local 169.254.194.37 dev ha-a42d8bdd-55 table local proto kernel scope host src 169.254.194.37 
+broadcast 169.254.255.255 dev ha-a42d8bdd-55 table local proto kernel scope link src 169.254.194.37 
+broadcast 192.168.21.0 dev sg-6df85cb0-c0 table local proto kernel scope link src 192.168.21.180 
+local 192.168.21.180 dev sg-6df85cb0-c0 table local proto kernel scope host src 192.168.21.180 
+broadcast 192.168.21.255 dev sg-6df85cb0-c0 table local proto kernel scope link src 192.168.21.180 
+fe80::/64 dev ha-a42d8bdd-55 proto kernel metric 256 pref medium
+fe80::/64 dev sg-6df85cb0-c0 proto kernel metric 256 pref medium
+fe80::/64 dev qg-89181899-70 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+anycast fe80:: dev ha-a42d8bdd-55 table local proto kernel metric 0 pref medium
+anycast fe80:: dev sg-6df85cb0-c0 table local proto kernel metric 0 pref medium
+anycast fe80:: dev qg-89181899-70 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe20:a623 dev sg-6df85cb0-c0 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe4a:1841 dev ha-a42d8bdd-55 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe9f:1180 dev qg-89181899-70 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev ha-a42d8bdd-55 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev sg-6df85cb0-c0 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev qg-89181899-70 table local proto kernel metric 256 pref medium

@@ -1,0 +1,21 @@
+P: /devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+N: vdc
+L: 0
+S: disk/by-path/virtio-pci-0000:00:0d.0
+S: disk/by-path/pci-0000:00:0d.0
+E: DEVPATH=/devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+E: DEVNAME=/dev/vdc
+E: DEVTYPE=disk
+E: MAJOR=252
+E: MINOR=32
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=1598878
+E: ID_PATH=pci-0000:00:0d.0
+E: ID_PATH_TAG=pci-0000_00_0d_0
+E: ID_FS_UUID=b72a7bdc-b1f9-4d8b-8562-023ba1cb1609
+E: ID_FS_UUID_ENC=b72a7bdc-b1f9-4d8b-8562-023ba1cb1609
+E: ID_FS_TYPE=bcache
+E: ID_FS_USAGE=other
+E: DEVLINKS=/dev/disk/by-path/virtio-pci-0000:00:0d.0 /dev/disk/by-path/pci-0000:00:0d.0
+E: TAGS=:systemd:
+

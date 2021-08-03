@@ -16,8 +16,7 @@ from plugins.storage.pyparts import (
 class TestStoragePluginPartCephGeneral(utils.BaseTestCase):
 
     def test_get_service_info(self):
-        result = ['ceph-mgr (1)', 'ceph-mon (1)', 'ceph-osd (6)',
-                  'radosgw (1)']
+        result = ['ceph-crash (1)', 'ceph-osd (1)']
         inst = ceph_general.get_service_checker()
         inst()
         self.assertEqual(inst.output["ceph"]["services"], result)
@@ -32,13 +31,17 @@ class TestStoragePluginPartCephGeneral(utils.BaseTestCase):
     def test_get_package_info(self):
         inst = ceph_general.get_pkg_checker()
         inst()
-        expected = ['ceph-base 12.2.13-0ubuntu0.18.04.6~cloud0',
-                    'ceph-common 12.2.13-0ubuntu0.18.04.6~cloud0',
-                    'ceph-mgr 12.2.13-0ubuntu0.18.04.6~cloud0',
-                    'ceph-mon 12.2.13-0ubuntu0.18.04.6~cloud0',
-                    'ceph-osd 12.2.13-0ubuntu0.18.04.6~cloud0',
-                    'python-rbd 12.2.13-0ubuntu0.18.04.6~cloud0',
-                    'radosgw 12.2.13-0ubuntu0.18.04.6~cloud0']
+        expected = ['ceph-base 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-common 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-mds 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-mgr 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-mgr-modules-core 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-mon 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-osd 15.2.13-0ubuntu0.20.04.1',
+                    'python3-ceph-argparse 15.2.13-0ubuntu0.20.04.1',
+                    'python3-ceph-common 15.2.13-0ubuntu0.20.04.1',
+                    'python3-rbd 15.2.13-0ubuntu0.20.04.1',
+                    'radosgw 15.2.13-0ubuntu0.20.04.1']
         self.assertEquals(inst.output["ceph"]["dpkg"], expected)
 
 
@@ -103,16 +106,7 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
     @mock.patch.object(ceph_daemon_checks, "add_issue")
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
         result = {'bad-pgs-per-osd': {
-                   'osd.0': 295,
-                   'osd.1': 150,
-                   'osd.15': 49,
-                   'osd.16': 316,
-                   'osd.17': 370,
-                   'osd.2': 127,
-                   'osd.34': 392,
-                   'osd.36': 0,
-                   'osd.37': 406,
-                   'osd.60': 140}}
+                   'osd.0': 295}}
         inst = ceph_daemon_checks.get_osd_checker()
         inst.get_ceph_pg_imbalance()
         self.assertEqual(inst.output["ceph"], result)
@@ -121,7 +115,7 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
     def test_get_osd_ids(self):
         inst = ceph_daemon_checks.get_osd_checker()
         inst()
-        self.assertEqual(inst.osd_ids, [63, 81, 90, 109, 101, 70])
+        self.assertEqual(inst.osd_ids, [0])
 
     @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
     def test_get_ceph_pg_imbalance_unavailable(self, mock_helper):
@@ -132,18 +126,11 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
         self.assertEqual(inst.output, None)
 
     def test_get_osd_info(self):
-        expected = {63: {'fsid': 'b3885ec9-4d42-4860-a708-d1cbc6e4da29',
-                         'dev': '/dev/bcache0', 'rss': '3867M'},
-                    70: {'fsid': '12a94d95-fbcc-4c15-875f-aae53274b1a9',
-                         'dev': '/dev/bcache4', 'rss': '4041M'},
-                    81: {'fsid': 'bd7a98b9-d765-4d7c-b11e-1a430c3a27cb',
-                         'dev': '/dev/bcache1', 'rss': '4065M'},
-                    90: {'fsid': 'c4539810-2a63-4885-918b-0d23bcd41cf1',
-                         'dev': '/dev/bcache2', 'rss': '4114M'},
-                    101: {'fsid': '5f74e4b6-7e76-4c11-9533-c393fc9fdebc',
-                          'dev': '/dev/bcache3', 'rss': '3965M'},
-                    109: {'fsid': '9653fae9-d518-4fe8-abf9-54d015ffea68',
-                          'dev': '/dev/bcache5', 'rss': '3898M'}}
+        fsid = "51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea"
+        expected = {0: {
+                    'dev': '/dev/mapper/crypt-{}'.format(fsid),
+                    'fsid': fsid,
+                    'rss': '639M'}}
         inst = ceph_daemon_checks.get_osd_checker()
         inst()
         self.assertEqual(inst.output["ceph"]["osds"], expected)
@@ -155,13 +142,7 @@ class TestStoragePluginPartBcache(utils.BaseTestCase):
         result = {'bcache': {
                     'devices': {
                         'bcache': {'bcache0': {'dname': 'bcache1'},
-                                   'bcache1': {'dname': 'bcache3'},
-                                   'bcache2': {'dname': 'bcache4'},
-                                   'bcache3': {'dname': 'bcache5'},
-                                   'bcache4': {'dname': 'bcache2'},
-                                   'bcache5': {'dname': 'bcache6'},
-                                   'bcache6': {'dname': 'bcache0'}},
-                        'nvme': {'nvme0n1': {'dname': 'nvme0n1'}}
+                                   'bcache1': {'dname': 'bcache0'}}
                         }}}
 
         inst = bcache.BcacheDeviceChecks()

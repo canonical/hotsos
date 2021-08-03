@@ -1,0 +1,7 @@
+2021-08-03T10:31:53.121+0000 7f6c6031d700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
+2021-08-03T10:31:53.121+0000 7f6c6031d700 -1 AuthRegistry(0x7f6c580590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
+2021-08-03T10:31:53.193+0000 7f6c5f0bb700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
+2021-08-03T10:31:53.193+0000 7f6c5f0bb700 -1 AuthRegistry(0x7f6c50004298) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
+2021-08-03T10:31:53.197+0000 7f6c5f0bb700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
+2021-08-03T10:31:53.197+0000 7f6c5f0bb700 -1 AuthRegistry(0x7f6c5f0ba130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
+[errno 2] RADOS object not found (error connecting to the cluster)

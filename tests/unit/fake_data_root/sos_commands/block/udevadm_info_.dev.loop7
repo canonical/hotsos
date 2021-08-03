@@ -1,12 +1,13 @@
 P: /devices/virtual/block/loop7
 N: loop7
-E: DEVNAME=/dev/loop7
+L: 0
 E: DEVPATH=/devices/virtual/block/loop7
+E: DEVNAME=/dev/loop7
 E: DEVTYPE=disk
 E: MAJOR=7
 E: MINOR=7
 E: SUBSYSTEM=block
+E: USEC_INITIALIZED=1507306
 E: SYSTEMD_READY=0
 E: TAGS=:systemd:
-E: USEC_INITIALIZED=5394515
 

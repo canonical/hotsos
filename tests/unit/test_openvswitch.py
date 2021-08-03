@@ -10,8 +10,8 @@ class TestOpenvswitchPluginPartOpenvswitchServices(utils.BaseTestCase):
 
     def test_get_package_checks(self):
         expected = {'dpkg':
-                    ['libc-bin 2.23-0ubuntu11.2',
-                     'openvswitch-switch 2.9.5-0ubuntu0.18.04.1~cloud0']}
+                    ['libc-bin 2.31-0ubuntu9.2',
+                     'openvswitch-switch 2.13.3-0ubuntu0.20.04.1']}
 
         inst = ovs_resources.get_package_checks()
         inst()
@@ -41,7 +41,7 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(utils.BaseTestCase):
 
     def test_dp_checks(self):
         expected = {'port-stats':
-                    {'qr-1d849332-80':
+                    {'qr-aa623763-fd':
                      {'RX':
                       {'dropped': 1394875,
                        'packets': 309}}}}

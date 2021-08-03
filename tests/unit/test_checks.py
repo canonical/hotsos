@@ -16,15 +16,17 @@ class TestChecks(utils.BaseTestCase):
         super().tearDown()
 
     def test_APTPackageChecksBase(self):
-        expected = ['python3-systemd 231-2build1',
-                    'systemd 229-4ubuntu21.28',
-                    'systemd-sysv 229-4ubuntu21.28']
+        expected = ['python3-systemd 234-3build2',
+                    'systemd 245.4-4ubuntu3.11',
+                    'systemd-container 245.4-4ubuntu3.11',
+                    'systemd-sysv 245.4-4ubuntu3.11',
+                    'systemd-timesyncd 245.4-4ubuntu3.11']
         obj = checks.APTPackageChecksBase(["systemd"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
-        self.assertEqual(obj.get_version("systemd"), "229-4ubuntu21.28")
+        self.assertEqual(obj.get_version("systemd"), "245.4-4ubuntu3.11")
         # lookup package not already loaded
-        self.assertEqual(obj.get_version("apt"), "1.2.32ubuntu0.2")
+        self.assertEqual(obj.get_version("apt"), "2.0.6")
 
     def test_SnapPackageChecksBase(self):
         expected = ['core 16-2.48.2']

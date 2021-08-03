@@ -1,0 +1,14 @@
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
+3: ens4    inet6 fe80::5054:ff:febb:47e2/64 scope link \       valid_lft forever preferred_lft forever
+4: ens5    inet6 fe80::5054:ff:fe5c:d947/64 scope link \       valid_lft forever preferred_lft forever
+5: ens6    inet6 fe80::5054:ff:fee6:1419/64 scope link \       valid_lft forever preferred_lft forever
+6: ens7    inet6 fe80::5054:ff:fe78:19c3/64 scope link \       valid_lft forever preferred_lft forever
+7: ens8    inet6 fe80::5054:ff:fefa:5095/64 scope link \       valid_lft forever preferred_lft forever
+8: ens9    inet6 fe80::5054:ff:fe5c:a7e0/64 scope link \       valid_lft forever preferred_lft forever
+9: br-ens3    inet 10.0.0.49/24 brd 10.0.0.255 scope global br-ens3\       valid_lft forever preferred_lft forever
+9: br-ens3    inet6 fe80::dcb7:f6ff:fe7b:2396/64 scope link \       valid_lft forever preferred_lft forever
+11: vxlan_sys_4789    inet6 fe80::f828:27ff:fe5e:b9f5/64 scope link \       valid_lft forever preferred_lft forever
+21: lxdbr0    inet 10.12.60.1/24 scope global lxdbr0\       valid_lft forever preferred_lft forever
+36: tap1d798b14-c4    inet6 fe80::fc16:3eff:fe0e:72db/64 scope link \       valid_lft forever preferred_lft forever
+37: tap4d42159a-4c    inet6 fe80::fc16:3eff:fe46:ae/64 scope link \       valid_lft forever preferred_lft forever
