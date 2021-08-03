@@ -86,7 +86,7 @@ AGENT_DAEMON_NAMES = {
                 "neutron-l3-agent", "neutron-server",
                 "neutron-sriov-agent"],
     "nova": ["nova-compute", "nova-scheduler", "nova-conductor",
-             "nova-api-os-compute", "nova-api-wsgi"],
+             "nova-api-os-compute", "nova-api-wsgi", "nova-api-metadata.log"],
     "octavia": ["octavia-api", "octavia-worker",
                 "octavia-health-manager", "octavia-housekeeping",
                 "octavia-driver-agent"],
