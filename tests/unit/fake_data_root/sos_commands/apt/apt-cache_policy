@@ -1,0 +1,46 @@
+Package files:
+ 100 /var/lib/dpkg/status
+     release a=now
+ 100 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-backports,n=focal,l=Ubuntu,c=universe,b=amd64
+     origin archive.ubuntu.com
+ 100 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-backports,n=focal,l=Ubuntu,c=main,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-security/universe amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-security,n=focal,l=Ubuntu,c=universe,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-security/main amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-security,n=focal,l=Ubuntu,c=main,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-security/restricted amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-security,n=focal,l=Ubuntu,c=restricted,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-security,n=focal,l=Ubuntu,c=multiverse,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-updates,n=focal,l=Ubuntu,c=universe,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-updates,n=focal,l=Ubuntu,c=main,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-updates,n=focal,l=Ubuntu,c=restricted,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal-updates,n=focal,l=Ubuntu,c=multiverse,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal,n=focal,l=Ubuntu,c=universe,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal/main amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal,n=focal,l=Ubuntu,c=main,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal/restricted amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal,n=focal,l=Ubuntu,c=restricted,b=amd64
+     origin archive.ubuntu.com
+ 500 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages
+     release v=20.04,o=Ubuntu,a=focal,n=focal,l=Ubuntu,c=multiverse,b=amd64
+     origin archive.ubuntu.com
+Pinned packages:

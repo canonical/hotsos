@@ -1,0 +1,12 @@
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 100 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off ens3
+9: br-ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 br-ens3
+21: lxdbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 master lxdbr0 lxdbr0
+23: 1lxd0-0@if22: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off 1lxd0-0
+25: 1lxd1-0@if24: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off 1lxd1-0
+27: 1lxd2-0@if26: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off 1lxd2-0
+29: 1lxd3-0@if28: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off 1lxd3-0

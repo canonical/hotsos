@@ -57,6 +57,9 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
             return self._bcache_info
 
         devs = []
+        if not self.udevadm_db:
+            return devs
+
         s = FileSearcher()
         sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
                                  body=SearchDef(r"^S: disk/by-uuid/(\S+)"),

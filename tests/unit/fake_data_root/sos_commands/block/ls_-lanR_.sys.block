@@ -1,37 +1,22 @@
 /sys/block:
 total 0
-drwxr-xr-x  2 0 0 0 Jun 19  2020 .
-dr-xr-xr-x 13 0 0 0 Jun 19  2020 ..
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache0 -> ../devices/virtual/block/bcache0
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache1 -> ../devices/virtual/block/bcache1
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache2 -> ../devices/virtual/block/bcache2
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache3 -> ../devices/virtual/block/bcache3
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache4 -> ../devices/virtual/block/bcache4
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache5 -> ../devices/virtual/block/bcache5
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 bcache6 -> ../devices/virtual/block/bcache6
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 dm-0 -> ../devices/virtual/block/dm-0
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 dm-1 -> ../devices/virtual/block/dm-1
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 dm-2 -> ../devices/virtual/block/dm-2
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 dm-3 -> ../devices/virtual/block/dm-3
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 dm-4 -> ../devices/virtual/block/dm-4
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 dm-5 -> ../devices/virtual/block/dm-5
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop0 -> ../devices/virtual/block/loop0
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop1 -> ../devices/virtual/block/loop1
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop2 -> ../devices/virtual/block/loop2
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop3 -> ../devices/virtual/block/loop3
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop4 -> ../devices/virtual/block/loop4
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop5 -> ../devices/virtual/block/loop5
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop6 -> ../devices/virtual/block/loop6
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 loop7 -> ../devices/virtual/block/loop7
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 md0 -> ../devices/virtual/block/md0
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 md1 -> ../devices/virtual/block/md1
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 md2 -> ../devices/virtual/block/md2
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 nvme0n1 -> ../devices/pci0000:ae/0000:ae:00.0/0000:af:00.0/nvme/nvme0/nvme0n1
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sda -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:0/end_device-6:0/target6:0:0/6:0:0:0/block/sda
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sdb -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:1/end_device-6:1/target6:0:1/6:0:1:0/block/sdb
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sdc -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:2/end_device-6:2/target6:0:2/6:0:2:0/block/sdc
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sdd -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:3/end_device-6:3/target6:0:3/6:0:3:0/block/sdd
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sde -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:4/end_device-6:4/target6:0:4/6:0:4:0/block/sde
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sdf -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:5/end_device-6:5/target6:0:5/6:0:5:0/block/sdf
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sdg -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:6/end_device-6:6/target6:0:6/6:0:6:0/block/sdg
-lrwxrwxrwx  1 0 0 0 Jun 19  2020 sdh -> ../devices/pci0000:17/0000:17:00.0/0000:18:00.0/host6/port-6:7/end_device-6:7/target6:0:7/6:0:7:0/block/sdh
+drwxr-xr-x  2 0 0 0 Aug  3 07:42 .
+dr-xr-xr-x 13 0 0 0 Aug  3 07:42 ..
+lrwxrwxrwx  1 0 0 0 Aug  3 07:43 bcache0 -> ../devices/virtual/block/bcache0
+lrwxrwxrwx  1 0 0 0 Aug  3 07:43 bcache1 -> ../devices/virtual/block/bcache1
+lrwxrwxrwx  1 0 0 0 Aug  3 09:39 dm-0 -> ../devices/virtual/block/dm-0
+lrwxrwxrwx  1 0 0 0 Aug  3 09:39 dm-1 -> ../devices/virtual/block/dm-1
+lrwxrwxrwx  1 0 0 0 Aug  3 09:39 dm-2 -> ../devices/virtual/block/dm-2
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop0 -> ../devices/virtual/block/loop0
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop1 -> ../devices/virtual/block/loop1
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop2 -> ../devices/virtual/block/loop2
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop3 -> ../devices/virtual/block/loop3
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop4 -> ../devices/virtual/block/loop4
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop5 -> ../devices/virtual/block/loop5
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop6 -> ../devices/virtual/block/loop6
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 loop7 -> ../devices/virtual/block/loop7
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 vda -> ../devices/pci0000:00/0000:00:0b.0/virtio7/block/vda
+lrwxrwxrwx  1 0 0 0 Aug  3 07:42 vdb -> ../devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb
+lrwxrwxrwx  1 0 0 0 Aug  3 07:43 vdc -> ../devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+lrwxrwxrwx  1 0 0 0 Aug  3 07:43 vdd -> ../devices/pci0000:00/0000:00:0f.0/virtio11/block/vdd
+lrwxrwxrwx  1 0 0 0 Aug  3 07:43 vde -> ../devices/pci0000:00/0000:00:10.0/virtio12/block/vde

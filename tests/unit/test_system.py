@@ -14,9 +14,9 @@ from plugins.system.pyparts import (
 class TestSystemPluginPartGeneral(utils.BaseTestCase):
 
     def test_get_service_info(self):
-        expected = {'hostname': 'hothost',
-                    'num-cpus': 72,
-                    'os': 'ubuntu bionic',
+        expected = {'hostname': 'compute4',
+                    'num-cpus': 2,
+                    'os': 'ubuntu focal',
                     'unattended-upgrades': 'ENABLED'}
         inst = general.SystemGeneral()
         inst()

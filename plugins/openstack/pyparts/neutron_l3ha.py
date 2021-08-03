@@ -99,8 +99,9 @@ class NeutronL3HAChecks(OpenstackChecksBase):
         transitions = {}
         for router in self.router_vrrp_pids:
             vr_id = self.router_vr_ids[router]
+            # NOTE: the VRRP_Instance part does not exist in keepalived 2.x
             expr = (r"^([0-9-]+)T\S+ \S+ Keepalived_vrrp"
-                    r"\[([0-9]+)\]: VRRP_Instance\(VR_{}\) .+ (\S+) "
+                    r"\[([0-9]+)\]: (?:VRRP_Instance)?\(VR_{}\) .+ (\S+) "
                     "STATE.*".format(vr_id))
             d = SearchDef(expr, tag=router)
             self.searcher.add_search_term(d, self.f_journalctl)

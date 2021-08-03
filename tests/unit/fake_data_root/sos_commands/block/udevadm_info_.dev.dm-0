@@ -1,28 +1,31 @@
 P: /devices/virtual/block/dm-0
 N: dm-0
-L: 50
-S: ceph-b3885ec9-4d42-4860-a708-d1cbc6e4da29/osd-block-b3885ec9-4d42-4860-a708-d1cbc6e4da29
-S: disk/by-id/dm-name-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29
-S: disk/by-id/dm-uuid-LVM-diNODTvd0lJH30mtGusRxrh4D9ljMUzd7FVvAIubsH0ZYLWOQAxy76R1SMzvh30e
-S: mapper/ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29
-E: DEVLINKS=/dev/mapper/ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29 /dev/disk/by-id/dm-uuid-LVM-diNODTvd0lJH30mtGusRxrh4D9ljMUzd7FVvAIubsH0ZYLWOQAxy76R1SMzvh30e /dev/ceph-b3885ec9-4d42-4860-a708-d1cbc6e4da29/osd-block-b3885ec9-4d42-4860-a708-d1cbc6e4da29 /dev/disk/by-id/dm-name-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29
-E: DEVNAME=/dev/dm-0
+L: 0
+S: disk/by-id/lvm-pv-uuid-SEdcXQ-kbJF-HLho-jXsH-7q1Y-EuIN-bOYSIv
+S: disk/by-id/dm-uuid-CRYPT-LUKS2-51f1b8343c8f4cd18c0a81a6f75ba2ea-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+S: mapper/crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+S: disk/by-id/dm-name-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
 E: DEVPATH=/devices/virtual/block/dm-0
+E: DEVNAME=/dev/dm-0
 E: DEVTYPE=disk
-E: DM_LV_NAME=osd-block-b3885ec9-4d42-4860-a708-d1cbc6e4da29
-E: DM_NAME=ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29
-E: DM_STATE=ACTIVE
-E: DM_SUSPENDED=0
-E: DM_TABLE_STATE=LIVE
-E: DM_TYPE=raid
-E: DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG=1
-E: DM_UDEV_PRIMARY_SOURCE_FLAG=1
-E: DM_UDEV_RULES=1
-E: DM_UUID=LVM-diNODTvd0lJH30mtGusRxrh4D9ljMUzd7FVvAIubsH0ZYLWOQAxy76R1SMzvh30e
-E: DM_VG_NAME=ceph-b3885ec9-4d42-4860-a708-d1cbc6e4da29
 E: MAJOR=253
 E: MINOR=0
 E: SUBSYSTEM=block
+E: USEC_INITIALIZED=7003765687
+E: DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG=1
+E: DM_UDEV_PRIMARY_SOURCE_FLAG=1
+E: DM_UDEV_RULES=1
+E: DM_UDEV_RULES_VSN=2
+E: DM_NAME=crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+E: DM_UUID=CRYPT-LUKS2-51f1b8343c8f4cd18c0a81a6f75ba2ea-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+E: DM_SUSPENDED=0
+E: ID_FS_UUID=SEdcXQ-kbJF-HLho-jXsH-7q1Y-EuIN-bOYSIv
+E: ID_FS_UUID_ENC=SEdcXQ-kbJF-HLho-jXsH-7q1Y-EuIN-bOYSIv
+E: ID_FS_VERSION=LVM2 001
+E: ID_FS_TYPE=LVM2_member
+E: ID_FS_USAGE=raid
+E: DM_TABLE_STATE=LIVE
+E: DM_STATE=ACTIVE
+E: DEVLINKS=/dev/disk/by-id/lvm-pv-uuid-SEdcXQ-kbJF-HLho-jXsH-7q1Y-EuIN-bOYSIv /dev/disk/by-id/dm-uuid-CRYPT-LUKS2-51f1b8343c8f4cd18c0a81a6f75ba2ea-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea /dev/mapper/crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea /dev/disk/by-id/dm-name-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
 E: TAGS=:systemd:
-E: USEC_INITIALIZED=976995541
 

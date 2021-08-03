@@ -22,9 +22,7 @@ class TestKernelPluginPartKernelInfo(TestKernelBase):
     def test_get_cmdline_info(self):
         inst = info.KernelGeneralChecks()
         inst.get_cmdline_info()
-        expected = {'boot': 'ro '
-                    'console=tty0 console=ttyS0,115200 console=ttyS1,115200 '
-                    'panic=30 raid=noautodetect'}
+        expected = {'boot': 'ro'}
         self.assertEquals(inst.output, expected)
 
     def test_get_systemd_info(self):
@@ -56,17 +54,20 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
     def test_check_mallocinfo_bad_node(self):
         inst = memory.KernelMemoryChecks()
         inst.check_mallocinfo(1, "Normal", "node1-normal")
-        expected = {'memory-checks': {'node1-normal': [{'zones': {0: 220376,
-                                                                  1: 217700,
-                                                                  2: 54089,
-                                                                  3: 1,
-                                                                  4: 0,
-                                                                  5: 0,
-                                                                  6: 0,
-                                                                  7: 0,
-                                                                  8: 0,
-                                                                  9: 0,
-                                                                  10: 0}}]}}
+        expected = {'memory-checks': {
+                        'node1-normal': [
+                            {'zones': {
+                                10: 0,
+                                9: 0,
+                                8: 0,
+                                7: 0,
+                                6: 0,
+                                5: 0,
+                                4: 0,
+                                3: 1,
+                                2: 54089,
+                                1: 217700,
+                                0: 220376}}]}}
         self.assertEquals(inst.output, expected)
 
     def test_check_nodes_memory(self):
@@ -92,13 +93,14 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
     def test_get_slab_major_consumers(self):
         inst = memory.KernelMemoryChecks()
         inst.get_slab_major_consumers()
-        expected = {"memory-checks":
-                    {'slab-top-consumers':
-                     ['buffer_head (3714895.9453125k)',
-                      'radix_tree_node (2426487.4921875k)',
-                      'vm_area_struct (45507.8125k)',
-                      'Acpi-Operand (14375.8125k)',
-                      'anon_vma (8167.96875k)']}
+        expected = {'memory-checks': {
+                        'slab-top-consumers': [
+                            'buffer_head (44081.2734375k)',
+                            'anon_vma_chain (6580.0k)',
+                            'anon_vma (5617.390625k)',
+                            'radix_tree_node (30156.984375k)',
+                            'vmap_area (1612.0k)']
+                        }
                     }
         self.assertEquals(inst.output, expected)
 
@@ -114,7 +116,7 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
         mock_add_issue.side_effect = fake_add_issue
         expected = {'over-mtu-dropped-packets':
-                    {'tap40f8453b-31': 5}}
+                    {'tap1d798b14-c4': 5}}
         inst = network.KernelNetworkChecks()
         inst()
         self.assertTrue(mock_add_issue.called)

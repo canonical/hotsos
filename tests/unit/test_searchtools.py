@@ -84,7 +84,9 @@ class TestSearchTools(utils.BaseTestCase):
 
     def test_filesearcher_logs(self):
         expected = {4: '2021-02-25 14:22:18.861',
-                    16: '2021-02-25 14:22:19.587'}
+                    16: '2021-02-25 14:22:19.587',
+                    8389: '2021-08-03 09:45:30.106',
+                    8493: '2021-08-03 09:45:32.091'}
 
         logs_root = "var/log/neutron/"
         filepath = os.path.join(os.environ["DATA_ROOT"], logs_root,
@@ -102,7 +104,7 @@ class TestSearchTools(utils.BaseTestCase):
         sd = SearchDef(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', tag="T2")
         s.add_search_term(sd, filepath)
         sd = SearchDef((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router '
-                        '9b8efc4c-305b-48ce-a5bd-624bc5eeee67.+'), tag="T3")
+                        '1e086be2-93c2-4740-921d-3e3237f23959.+'), tag="T3")
         s.add_search_term(sd, globpath)
         sd = SearchDef(r'non-existant-pattern', tag="T4")
         # search for something that doesn't exist to test that code path
@@ -113,27 +115,30 @@ class TestSearchTools(utils.BaseTestCase):
                                                    globpath_file2,
                                                    globpath_file1]))
 
-        self.assertEquals(len(results.find_by_path(filepath)), 37)
+        self.assertEquals(len(results.find_by_path(filepath)), 127)
 
         tag_results = results.find_by_tag("T1", path=filepath)
-        self.assertEquals(len(tag_results), 2)
+        self.assertEquals(len(tag_results), 4)
         for result in tag_results:
             ln = result.linenumber
             self.assertEquals(result.tag, "T1")
             self.assertEquals(result.get(1), expected[ln])
 
         tag_results = results.find_by_tag("T1")
-        self.assertEquals(len(tag_results), 2)
+        self.assertEquals(len(tag_results), 4)
         for result in tag_results:
             ln = result.linenumber
             self.assertEquals(result.tag, "T1")
             self.assertEquals(result.get(1), expected[ln])
 
-        self.assertEquals(len(results.find_by_path(globpath_file1)), 1)
+        self.assertEquals(len(results.find_by_path(globpath_file1)), 4)
         self.assertEquals(len(results.find_by_path(globpath_file2)), 0)
 
         # these files have the same content so expect same result from both
-        expected = {81: '2021-03-25 18:10:15.179'}
+        expected = {986: '2021-08-02 21:48:03.684',
+                    1932: '2021-08-02 21:59:57.366',
+                    2929: '2021-08-03 09:46:48.252',
+                    3370: '2021-08-03 09:47:17.221'}
         path_results = results.find_by_path(globpath_file1)
         for result in path_results:
             ln = result.linenumber
@@ -164,13 +169,13 @@ class TestSearchTools(utils.BaseTestCase):
         self.assertEquals(len(results.find_by_path(filepath)), 1)
         self.assertEquals(len(results.find_by_path(filepath2)), 3)
 
-        self.assertEquals(results.find_by_path(filepath)[0].linenumber, 16)
+        self.assertEquals(results.find_by_path(filepath)[0].linenumber, 106)
         for result in results.find_by_path(filepath):
             self.assertEquals(result.get(1), ip)
 
-        expected = {8: mac,
-                    15: mac,
-                    22: mac}
+        expected = {158: mac,
+                    165: mac,
+                    172: mac}
 
         for result in results.find_by_path(filepath2):
             ln = result.linenumber

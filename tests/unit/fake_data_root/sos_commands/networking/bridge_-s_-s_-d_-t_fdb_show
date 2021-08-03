@@ -1,0 +1,95 @@
+00:16:3e:6c:e5:36 dev ens3 used 3209/0 master br-ens3 
+52:54:00:13:11:d8 dev ens3 used 9146/22 master br-ens3 
+00:16:3e:14:a9:24 dev ens3 used 0/0 master br-ens3 
+36:86:69:24:70:a6 dev ens3 used 11/0 master br-ens3 
+00:16:3e:7c:0c:e5 dev ens3 used 0/0 master br-ens3 
+00:16:3e:b0:2f:23 dev ens3 used 0/0 master br-ens3 
+00:16:3e:71:ef:8a dev ens3 used 1/1 master br-ens3 
+00:16:3e:f1:02:a4 dev ens3 used 0/0 master br-ens3 
+00:16:3e:b4:b5:87 dev ens3 used 1/1 master br-ens3 
+02:ae:4c:f2:d3:3e dev ens3 used 17/0 master br-ens3 
+00:16:3e:ff:63:4e dev ens3 used 1/1 master br-ens3 
+52:54:00:23:38:7f dev ens3 used 32/0 master br-ens3 
+fe:54:00:e2:28:a3 dev ens3 used 10168/1 master br-ens3 
+52:54:00:d6:16:aa dev ens3 used 0/0 master br-ens3 
+52:54:00:e2:28:a3 dev ens3 vlan 1 used 10168/10168 master br-ens3 permanent
+52:54:00:e2:28:a3 dev ens3 used 10168/10168 master br-ens3 permanent
+33:33:00:00:00:01 dev ens3 self permanent
+01:00:5e:00:00:01 dev ens3 self permanent
+01:80:c2:00:00:00 dev ens3 self permanent
+01:80:c2:00:00:03 dev ens3 self permanent
+01:80:c2:00:00:0e dev ens3 self permanent
+33:33:00:00:00:01 dev ens4 self permanent
+01:00:5e:00:00:01 dev ens4 self permanent
+33:33:ff:bb:47:e2 dev ens4 self permanent
+01:80:c2:00:00:00 dev ens4 self permanent
+01:80:c2:00:00:03 dev ens4 self permanent
+01:80:c2:00:00:0e dev ens4 self permanent
+33:33:00:00:00:01 dev ens5 self permanent
+01:00:5e:00:00:01 dev ens5 self permanent
+33:33:ff:5c:d9:47 dev ens5 self permanent
+01:80:c2:00:00:00 dev ens5 self permanent
+01:80:c2:00:00:03 dev ens5 self permanent
+01:80:c2:00:00:0e dev ens5 self permanent
+33:33:00:00:00:01 dev ens6 self permanent
+01:00:5e:00:00:01 dev ens6 self permanent
+33:33:ff:e6:14:19 dev ens6 self permanent
+01:80:c2:00:00:00 dev ens6 self permanent
+01:80:c2:00:00:03 dev ens6 self permanent
+01:80:c2:00:00:0e dev ens6 self permanent
+33:33:00:00:00:01 dev ens7 self permanent
+01:00:5e:00:00:01 dev ens7 self permanent
+33:33:ff:78:19:c3 dev ens7 self permanent
+01:80:c2:00:00:00 dev ens7 self permanent
+01:80:c2:00:00:03 dev ens7 self permanent
+01:80:c2:00:00:0e dev ens7 self permanent
+33:33:00:00:00:01 dev ens8 self permanent
+01:00:5e:00:00:01 dev ens8 self permanent
+33:33:ff:fa:50:95 dev ens8 self permanent
+01:80:c2:00:00:00 dev ens8 self permanent
+01:80:c2:00:00:03 dev ens8 self permanent
+01:80:c2:00:00:0e dev ens8 self permanent
+33:33:00:00:00:01 dev ens9 self permanent
+01:00:5e:00:00:01 dev ens9 self permanent
+33:33:ff:5c:a7:e0 dev ens9 self permanent
+01:80:c2:00:00:00 dev ens9 self permanent
+01:80:c2:00:00:03 dev ens9 self permanent
+01:80:c2:00:00:0e dev ens9 self permanent
+33:33:00:00:00:01 dev br-ens3 self permanent
+01:00:5e:00:00:6a dev br-ens3 self permanent
+33:33:00:00:00:6a dev br-ens3 self permanent
+01:00:5e:00:00:01 dev br-ens3 self permanent
+33:33:ff:7b:23:96 dev br-ens3 self permanent
+33:33:00:00:00:01 dev ovs-system self permanent
+33:33:00:00:00:01 dev br-tun self permanent
+33:33:00:00:00:01 dev br-ex self permanent
+33:33:00:00:00:01 dev br-int self permanent
+33:33:00:00:00:01 dev br-data self permanent
+33:33:00:00:00:01 dev lxdbr0 self permanent
+01:00:5e:00:00:6a dev lxdbr0 self permanent
+33:33:00:00:00:6a dev lxdbr0 self permanent
+01:00:5e:00:00:01 dev lxdbr0 self permanent
+00:16:3e:52:97:ea dev lxdbr0 vlan 1 used 10150/10150 master lxdbr0 permanent
+00:16:3e:52:97:ea dev lxdbr0 used 10150/10150 master lxdbr0 permanent
+00:16:3e:0e:ab:b8 dev 1lxd0-0 used 0/0 master br-ens3 
+96:ab:08:1c:81:f5 dev 1lxd0-0 vlan 1 used 10149/10149 master br-ens3 permanent
+96:ab:08:1c:81:f5 dev 1lxd0-0 used 10149/10149 master br-ens3 permanent
+01:00:5e:00:00:01 dev 1lxd0-0 self permanent
+00:16:3e:dd:02:19 dev 1lxd1-0 used 0/0 master br-ens3 
+c6:b9:fe:3e:9c:a1 dev 1lxd1-0 vlan 1 used 10149/10149 master br-ens3 permanent
+c6:b9:fe:3e:9c:a1 dev 1lxd1-0 used 10149/10149 master br-ens3 permanent
+01:00:5e:00:00:01 dev 1lxd1-0 self permanent
+00:16:3e:1c:af:82 dev 1lxd2-0 used 0/0 master br-ens3 
+a2:c2:b4:45:92:09 dev 1lxd2-0 vlan 1 used 10148/10148 master br-ens3 permanent
+a2:c2:b4:45:92:09 dev 1lxd2-0 used 10148/10148 master br-ens3 permanent
+01:00:5e:00:00:01 dev 1lxd2-0 self permanent
+00:16:3e:75:aa:83 dev 1lxd3-0 used 0/0 master br-ens3 
+f6:f1:2d:50:44:08 dev 1lxd3-0 vlan 1 used 10147/10147 master br-ens3 permanent
+f6:f1:2d:50:44:08 dev 1lxd3-0 used 10147/10147 master br-ens3 permanent
+01:00:5e:00:00:01 dev 1lxd3-0 self permanent
+33:33:00:00:00:01 dev tap1d798b14-c4 self permanent
+01:00:5e:00:00:01 dev tap1d798b14-c4 self permanent
+33:33:ff:0e:72:db dev tap1d798b14-c4 self permanent
+33:33:00:00:00:01 dev tap4d42159a-4c self permanent
+01:00:5e:00:00:01 dev tap4d42159a-4c self permanent
+33:33:ff:46:00:ae dev tap4d42159a-4c self permanent

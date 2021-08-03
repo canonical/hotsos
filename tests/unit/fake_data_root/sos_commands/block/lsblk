@@ -1,56 +1,27 @@
-NAME                                                                                                      MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
-loop1                                                                                                       7:1    0   9.1M  1 loop  /snap/canonical-livepatch/95
-sdf                                                                                                         8:80   0   1.8T  0 disk  
-|-sdf3                                                                                                      8:83   0   475G  0 part  
-| `-md1                                                                                                     9:1    0 474.9G  0 raid1 /
-|-sdf1                                                                                                      8:81   0     1M  0 part  
-|-sdf4                                                                                                      8:84   0   1.3T  0 part  
-| `-md2                                                                                                     9:2    0   1.3T  0 raid1 
-|   `-bcache6                                                                                             252:768  0   1.3T  0 disk  /var/lib/virt/images
-`-sdf2                                                                                                      8:82   0   1.9G  0 part  
-  `-md0                                                                                                     9:0    0   1.9G  0 raid1 /boot
-nvme0n1                                                                                                   259:0    0   1.5T  0 disk  
-|-nvme0n1p1                                                                                               259:1    0     1M  0 part  
-`-nvme0n1p2                                                                                               259:2    0   1.5T  0 part  
-  |-bcache4                                                                                               252:512  0   9.1T  0 disk  
-  | `-ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9 253:1    0   9.1T  0 lvm   
-  |-bcache2                                                                                               252:256  0   9.1T  0 disk  
-  | `-ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1 253:3    0   9.1T  0 lvm   
-  |-bcache0                                                                                               252:0    0   9.1T  0 disk  
-  | `-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29 253:0    0   9.1T  0 lvm   
-  |-bcache5                                                                                               252:640  0   9.1T  0 disk  
-  | `-ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68 253:5    0   9.1T  0 lvm   
-  |-bcache3                                                                                               252:384  0   9.1T  0 disk  
-  | `-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc 253:4    0   9.1T  0 lvm   
-  |-bcache1                                                                                               252:128  0   9.1T  0 disk  
-  | `-ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb 253:2    0   9.1T  0 lvm   
-  `-bcache6                                                                                               252:768  0   1.3T  0 disk  /var/lib/virt/images
-sdd                                                                                                         8:48   0   9.1T  0 disk  
-`-bcache1                                                                                                 252:128  0   9.1T  0 disk  
-  `-ceph--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb-osd--block--bd7a98b9--d765--4d7c--b11e--1a430c3a27cb   253:2    0   9.1T  0 lvm   
-sdb                                                                                                         8:16   0   9.1T  0 disk  
-`-bcache4                                                                                                 252:512  0   9.1T  0 disk  
-  `-ceph--12a94d95--fbcc--4c15--875f--aae53274b1a9-osd--block--12a94d95--fbcc--4c15--875f--aae53274b1a9   253:1    0   9.1T  0 lvm   
-loop4                                                                                                       7:4    0  97.9M  1 loop  /snap/core/10583
-sdg                                                                                                         8:96   0   9.1T  0 disk  
-`-bcache3                                                                                                 252:384  0   9.1T  0 disk  
-  `-ceph--5f74e4b6--7e76--4c11--9533--c393fc9fdebc-osd--block--5f74e4b6--7e76--4c11--9533--c393fc9fdebc   253:4    0   9.1T  0 lvm   
-loop0                                                                                                       7:0    0    97M  1 loop  
-sde                                                                                                         8:64   0   9.1T  0 disk  
-`-bcache2                                                                                                 252:256  0   9.1T  0 disk  
-  `-ceph--c4539810--2a63--4885--918b--0d23bcd41cf1-osd--block--c4539810--2a63--4885--918b--0d23bcd41cf1   253:3    0   9.1T  0 lvm   
-sdc                                                                                                         8:32   0   9.1T  0 disk  
-`-bcache0                                                                                                 252:0    0   9.1T  0 disk  
-  `-ceph--b3885ec9--4d42--4860--a708--d1cbc6e4da29-osd--block--b3885ec9--4d42--4860--a708--d1cbc6e4da29   253:0    0   9.1T  0 lvm   
-sda                                                                                                         8:0    0   1.8T  0 disk  
-|-sda2                                                                                                      8:2    0   475G  0 part  
-| `-md1                                                                                                     9:1    0 474.9G  0 raid1 /
-|-sda3                                                                                                      8:3    0   1.3T  0 part  
-| `-md2                                                                                                     9:2    0   1.3T  0 raid1 
-|   `-bcache6                                                                                             252:768  0   1.3T  0 disk  /var/lib/virt/images
-`-sda1                                                                                                      8:1    0   1.9G  0 part  
-  `-md0                                                                                                     9:0    0   1.9G  0 raid1 /boot
-loop3                                                                                                       7:3    0  97.9M  1 loop  /snap/core/10577
-sdh                                                                                                         8:112  0   9.1T  0 disk  
-`-bcache5                                                                                                 252:640  0   9.1T  0 disk  
-  `-ceph--9653fae9--d518--4fe8--abf9--54d015ffea68-osd--block--9653fae9--d518--4fe8--abf9--54d015ffea68   253:5    0   9.1T  0 lvm   
+NAME                                                                                                        MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+loop0                                                                                                         7:0    0 61.8M  1 loop  /snap/core20/1081
+loop1                                                                                                         7:1    0 55.5M  1 loop  /snap/core18/2074
+loop2                                                                                                         7:2    0 17.5M  1 loop  /snap/hotsos/298
+loop3                                                                                                         7:3    0 68.2M  1 loop  /snap/lxd/21039
+loop4                                                                                                         7:4    0 32.3M  1 loop  /snap/snapd/12398
+loop5                                                                                                         7:5    0 70.3M  1 loop  /snap/lxd/21029
+loop6                                                                                                         7:6    0 32.3M  1 loop  /snap/snapd/12704
+vda                                                                                                         252:0    0  300G  0 disk  
+|-vda1                                                                                                      252:1    0    1M  0 part  
+`-vda2                                                                                                      252:2    0  300G  0 part  /
+vdb                                                                                                         252:16   0  100G  0 disk  
+|-vdb1                                                                                                      252:17   0    1M  0 part  
+`-vdb2                                                                                                      252:18   0  100G  0 part  
+  |-bcache0                                                                                                 251:0    0  100G  0 disk  
+  | `-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea                                                            253:0    0  100G  0 crypt 
+  |   `-ceph--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea-osd--block--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea 253:1    0  100G  0 lvm   
+  `-bcache1                                                                                                 251:128  0  100G  0 disk  
+    `-crypt-f3249bf4-4e48-4a7b-94f4-5719b5a8ee0d                                                            253:2    0  100G  0 crypt 
+vdc                                                                                                         252:32   0  100G  0 disk  
+`-bcache1                                                                                                   251:128  0  100G  0 disk  
+  `-crypt-f3249bf4-4e48-4a7b-94f4-5719b5a8ee0d                                                              253:2    0  100G  0 crypt 
+vdd                                                                                                         252:48   0  100G  0 disk  
+`-bcache0                                                                                                   251:0    0  100G  0 disk  
+  `-crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea                                                              253:0    0  100G  0 crypt 
+    `-ceph--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea-osd--block--51f1b834--3c8f--4cd1--8c0a--81a6f75ba2ea   253:1    0  100G  0 lvm   
+vde                                                                                                         252:64   0  100G  0 disk  
