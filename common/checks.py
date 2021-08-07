@@ -129,7 +129,7 @@ class EventChecksBase(ChecksBase):
         requires a start and end to be considered complete then these can be
         specified for match otherwise we can match on a single line.
         Note that multi-line events can be overlapping hence why we don't use a
-        SequenceSearchDef (we use common.analytics.LogSequenceStats).
+        SequenceSearchDef (we use common.analytics.LogEventStats).
         """
         path = os.path.join(constants.PLUGIN_YAML_DEFS, "events.yaml")
         with open(path) as fd:
@@ -146,7 +146,7 @@ class EventChecksBase(ChecksBase):
 
                 # if this is a multiline event (has a start and end), append
                 # this to the tag so that it can be used with
-                # common.analytics.LogSequenceStats.
+                # common.analytics.LogEventStats.
                 if "end" in event:
                     start_tag = "{}-start".format(label)
                 else:

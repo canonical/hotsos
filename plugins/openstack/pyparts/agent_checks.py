@@ -1,7 +1,7 @@
 import yaml
 
 from common.searchtools import FileSearcher
-from common.analytics import LogSequenceStats, SearchResultIndices
+from common.analytics import LogEventStats, SearchResultIndices
 from common import checks, plugintools, utils
 
 YAML_PRIORITY = 9
@@ -26,14 +26,14 @@ class NeutronAgentEventChecks(checks.EventChecksBase):
                                               metadata_idx=3,
                                               metadata_key="router")
 
-                stats = LogSequenceStats(results, label, custom_idxs=sri)
-                stats()
-                top5 = stats.get_top_n_sorted(5)
+                stats = LogEventStats(results, label, custom_idxs=sri)
+                stats.run()
+                top5 = stats.get_top_n_events_sorted(5)
                 if not top5:
                     break
 
                 info = {"top": top5,
-                        "stats": stats.get_stats("duration")}
+                        "stats": stats.get_event_stats()}
                 if agent not in agent_info:
                     agent_info[agent] = {}
 

@@ -1,94 +1,145 @@
-import os
-
 import statistics
 
 from datetime import datetime
 
 
-class LogSequenceCollection(object):
-    """This class is used by the LogSequenceBase class to identify and
-    collect log seqeunces defined by a start and end point.
+class EventCollection(object):
+    """Used to collect events found in logfiles. Events are defined as having
+    identifiable start and end points containing timestamp information such
+    that we can calculate their duration.
 
     Sequences can span multiple files and are identified by an "event_id" which
-    itself does not have to be unique and as such event_ids are tracked using
-    unique identifiers.
+    may occur more than once. As such we always try to match using the closest
+    available marker by date.
     """
     def __init__(self):
-        """Get stats on the collected sequences. We refer to sequences as
-        samples in the results."""
-        self._sequences = {}
-        self._incomplete_sequences = {}
-        self.sequence_end_unique_ids = {}
-        self.sequence_start_unique_ids = {}
+        self._events = {}
 
-    def has_complete_sequences(self):
-        for s in self._sequences:
-            if "start" in self._sequences[s]:
-                return True
+    def most_recent(self, items):
+        """ For an event id that has been re-used, find the most recent one.
 
-        return False
+        This means that when we calculate stats on events found we will include
+        only the most recent instance of an event with a given id.
+        """
+        return sorted(items, key=lambda e: e["end"], reverse=True)[0]
 
     @property
-    def complete_sequences(self):
-        sequences = {}
-        for s in self._sequences:
-            if "start" in self._sequences[s]:
-                sequences[s] = self._sequences[s]
+    def complete_events(self):
+        """ Complete events are ones for which a duration has been
+        calculated which implies their start and has been identified. """
+        complete = {}
+        for event_id, info in self._events.items():
+            for item in info.get("heads", []):
+                if "duration" in item:
+                    if event_id not in complete:
+                        complete[event_id] = []
 
-        return sequences
+                    complete[event_id].append(item)
+
+            if event_id in complete:
+                complete[event_id] = self.most_recent(complete[event_id])
+
+        return complete
 
     @property
-    def incomplete_sequences(self):
-        return self._incomplete_sequences
+    def incomplete_events(self):
+        incomplete = {}
+        for event_id, info in self._events.items():
+            for item in info.get("heads", []):
+                if "duration" not in item:
+                    if event_id not in incomplete:
+                        incomplete[event_id] = []
 
-    def update_sequence(self, sequence_id, key, value):
-        self._sequences[sequence_id][key] = value
+                    incomplete[event_id].append(item)
 
-    def add_sequence_end(self, key, end):
-        if key in self.sequence_end_unique_ids:
-            self.sequence_end_unique_ids[key] += 1
+        return incomplete
+
+    def find_most_recent_start(self, event_id, end_ts):
+        """
+        For a given event end marker, find the most recent start marker.
+        """
+        last = None
+        for item in self._events[event_id].get("heads", []):
+            start_ts = item["start"]
+            if start_ts <= end_ts:
+                if not last or start_ts > last["start"]:
+                    last = item
+
+        return last
+
+    def add_event_end(self, event_id, end_ts):
+        """
+        Add an event termination marker with given event id and timestamp.
+
+        We support non-unique event ids in the case that e.g. they get rotated
+        by storing as a list of their corresponding end/tail timestamps.
+
+        @param event_id: id used to identify an event iteration. This is
+                         usually a sequence id but could be anything.
+        @param end_ts: timestamp of the end of an event.
+        """
+        if event_id not in self._events:
+            self._events[event_id] = {}
+
+        if "tails" not in self._events[event_id]:
+            self._events[event_id]["tails"] = [end_ts]
         else:
-            self.sequence_end_unique_ids[key] = 0
+            self._events[event_id]["tails"].append(end_ts)
 
-        seq_key = self.sequence_end_unique_ids[key]
-        sequence_id = "{}_{}".format(seq_key, key)
+    def add_event_start(self, event_id, start_ts, metadata=None,
+                        metadata_key=None):
+        """
+        Add an event start marker with given event id and timestamp.
 
-        self._sequences[sequence_id] = {"end": end}
-        return sequence_id
+        We support non-unique event ids in the case that e.g. they get rotated
+        by storing as a list of their corresponding start timestamps. If an
+        event includes some metadata that we want to collect we store it as
+        part of the event start/head.
 
-    def add_sequence_start(self, key, data, metadata=None, metadata_key=None):
-        if key not in self.sequence_end_unique_ids:
-            # cant add start for non-existant ending so store incomplete
-            # sequence and return.
-            self._incomplete_sequences[key] = data
-            return
-
-        # get new start id
-        seq_key = self.sequence_start_unique_ids.get(key, -1)
-        if seq_key >= 0:
-            seq_key += 1
-        else:
-            seq_key = 0
-
-        sequence_id = "{}_{}".format(seq_key, key)
-
-        # We only add start if end already found. If this is not the case it
-        # could be an interrupted sequence or EOF.
-        if sequence_id not in self._sequences:
-            return
-
-        self.sequence_start_unique_ids[key] = seq_key
-        self._sequences[sequence_id]["start"] = data
+        @param event_id: id used to identify an event iteration. This is
+                         usually a sequence id but could be anything.
+        @param start_ts: timestamp of the start of an event.
+        @param metadata: an optional field that can be extracted from the
+                         search result.
+        @param metadata_key: a custom key name used to store the metadata in
+                             results.
+        """
+        event_info = {"start": start_ts}
         if metadata:
             if not metadata_key:
                 metadata_key = "metadata"
 
-            self._sequences[sequence_id][metadata_key] = metadata
+            event_info[metadata_key] = metadata
 
-        return sequence_id
+        if event_id not in self._events:
+            self._events[event_id] = {}
 
-    def get_sequence(self, sequence_id):
-        return self._sequences[sequence_id]
+        if "heads" not in self._events[event_id]:
+            self._events[event_id]["heads"] = [event_info]
+        else:
+            self._events[event_id]["heads"].append(event_info)
+
+    def calculate_event_deltas(self):
+        """
+        Once we have collected all complete events i.e. ones that have a start
+        and end, we can calculate their elapsed time. We add this to the start
+        item.
+
+        Since it is possible for events to be incomplete i.e. not have a start
+        or end, we ensure to account for this by matching ends with their
+        most recent start.
+        """
+        for event, info in self._events.items():
+            for end_ts in info.get("tails", []):
+                start_item = self.find_most_recent_start(event, end_ts)
+                if not start_item:
+                    # incomplete event
+                    continue
+
+                etime = end_ts - start_item["start"]
+                duration = round(float(etime.total_seconds()), 2)
+                start_item["duration"] = duration
+                start_item["end"] = end_ts
 
 
 class SearchResultIndices(object):
@@ -109,12 +160,12 @@ class SearchResultIndices(object):
         self.metadata_key = metadata_key
 
 
-class LogSequenceBase(object):
-    """This base class is used to identify sequences within logs whereby a
-    sequence has a start and end point. It can thenbe implemented by other
-    classes to perform further analysis on sequence data.
+class LogEventStats(object):
+    """Used to identify events within logs whereby a event has a start and end
+    point. It can thenbe implemented by other classes to perform further
+    analysis on event data.
 
-    This class supports overlapping sequences e.g. for scenarios where logs
+    This class supports overlapping events e.g. for scenarios where logs
     are generated by parallal tasks.
     """
 
@@ -123,10 +174,10 @@ class LogSequenceBase(object):
         @param results: FileSearcher results. This will be searched using
                         <results_tag_prefix>-start and <results_tag_prefix>-end
         @param results_tag_prefix: prefix of tag used for search results for
-                                   sequences start and end.
+                                   events start and end.
         @param custom_idxs: optionally provide custom SearchResultIndices.
         """
-        self.data = LogSequenceCollection()
+        self.data = EventCollection()
         self.results = results
         self.results_tag_prefix = results_tag_prefix
         if custom_idxs:
@@ -136,9 +187,10 @@ class LogSequenceBase(object):
 
         self.log_seq_idxs = log_seq_idxs
 
-    def get_sequences(self):
-        """ First collect matched sequence endings then relate with their
-        corresponding start event to form complete sequences.
+    def run(self):
+        """ Collect event start markers and end markers then attempt to link
+        them to form complete events thus allowing us to calculate their
+        duration.
         """
         seq_idxs = self.log_seq_idxs
 
@@ -146,115 +198,74 @@ class LogSequenceBase(object):
         for result in self.results.find_by_tag(end_tag):
             day = result.get(seq_idxs.day)
             secs = result.get(seq_idxs.secs)
-            event_id = result.get(seq_idxs.event_id)
             end = "{} {}".format(day, secs)
             end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
-
-            # event_id may have many updates over time across many files so we
-            # need to have a way to make them unique.
-            key = "{}_{}".format(os.path.basename(result.source), event_id)
-            sequence_id = self.data.add_sequence_end(key, end)
+            self.data.add_event_end(result.get(seq_idxs.event_id), end)
 
         start_tag = "{}-start".format(self.results_tag_prefix)
         for result in self.results.find_by_tag(start_tag):
             day = result.get(seq_idxs.day)
             secs = result.get(seq_idxs.secs)
-            event_id = result.get(seq_idxs.event_id)
             start = "{} {}".format(day, secs)
             start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
             metadata = result.get(seq_idxs.metadata)
             meta_key = seq_idxs.metadata_key
-            key = "{}_{}".format(os.path.basename(result.source), event_id)
-            sequence_id = self.data.add_sequence_start(key, start,
-                                                       metadata=metadata,
-                                                       metadata_key=meta_key)
-            if not sequence_id:
-                """
-                Indicates an incomplete sequence i.e. one that has a start but
-                no end.
-                """
-                continue
+            event_id = result.get(seq_idxs.event_id)
+            self.data.add_event_start(event_id, start, metadata=metadata,
+                                      metadata_key=meta_key)
 
-            sequence = self.data.get_sequence(sequence_id)
-            if not sequence:
-                continue
+        self.data.calculate_event_deltas()
 
-            end = sequence.get("end", None)
-            etime = end - start
-            if etime.total_seconds() < 0:
-                # this is probably a broken or invalid sequence so we
-                # set ingore it.
-                continue
+    def get_top_n_events_sorted(self, max, reverse=True):
+        """
+        Find events with the longest duration limited to max results.
 
-            duration = round(float(etime.total_seconds()), 2)
-            self.data.update_sequence(sequence_id, "duration", duration)
-
-        if not self.data.has_complete_sequences():
-            return
-
-    def __call__(self):
-        self.get_sequences()
-
-
-class LogSequenceStats(LogSequenceBase):
-    """ This class provides statistical information on log sequences."""
-
-    def get_top_sequences(self, max, sort_by_key, reverse=False):
+        @param max: integer number of events to include.
+        @param reverse: defaults to True for longest durations. Set to False to
+        fetch events with shortest duration.
+        @return: dictionary of results.
+        """
         count = 0
         top_n = {}
         top_n_sorted = {}
 
-        valid_sequences = {}
-        for k, v in self.data.complete_sequences.items():
-            if v.get(sort_by_key):
-                valid_sequences[k] = v
-
-        for k, v in sorted(valid_sequences.items(),
-                           key=lambda x: x[1].get(sort_by_key, 0),
-                           reverse=reverse):
-            # skip unterminated entries (e.g. on file wraparound)
-            if "start" not in v:
-                continue
-
+        for event_id, item in sorted(self.data.complete_events.items(),
+                                     key=lambda e: e[1]["duration"],
+                                     reverse=reverse):
             if count >= max:
                 break
 
             count += 1
-            top_n[k] = v
+            top_n[event_id] = item
 
-        for k, v in sorted(top_n.items(), key=lambda x: x[1]["start"],
-                           reverse=reverse):
-            event_id = k.rpartition('_')[2]
-            event_id = event_id.partition('_')[0]
-            top_n_sorted[event_id] = {"start": v["start"],
-                                      "end": v["end"]}
-            if v.get("duration"):
-                top_n_sorted[event_id]["duration"] = v["duration"]
+        for event_id, item in sorted(top_n.items(),
+                                     key=lambda x: x[1]["start"],
+                                     reverse=reverse):
+            top_n_sorted[event_id] = {"start": item["start"],
+                                      "end": item["end"],
+                                      "duration": item["duration"]}
 
+            # include metadata in results if it is available.
             metadata_key = self.log_seq_idxs.metadata_key
-            if v.get(metadata_key):
-                top_n_sorted[event_id][metadata_key] = v[metadata_key]
+            if item.get(metadata_key):
+                top_n_sorted[event_id][metadata_key] = item[metadata_key]
 
         return top_n_sorted
 
-    def get_top_n_sorted(self, max):
-        return self.get_top_sequences(max, sort_by_key="duration",
-                                      reverse=True)
-
-    def get_stats(self, key):
-        if not self.data.has_complete_sequences():
+    def get_event_stats(self):
+        """ Return common statistics on the dataset of events. """
+        events = self.data.complete_events
+        if not events:
             return
 
-        sequences = self.data.complete_sequences.values()
-        # ignore sequences with a duration None since they are invalid
-        sequences = [s.get(key) for s in sequences if s.get(key) is not None]
-        stats = {'min': round(min(sequences), 2),
-                 'max': round(max(sequences), 2),
-                 'stdev': round(statistics.pstdev(sequences), 2),
-                 'avg': round(statistics.mean(sequences), 2),
-                 'samples': len(sequences)}
+        events = [s["duration"] for s in events.values()]
+        stats = {'min': round(min(events), 2),
+                 'max': round(max(events), 2),
+                 'stdev': round(statistics.pstdev(events), 2),
+                 'avg': round(statistics.mean(events), 2),
+                 'samples': len(events)}
 
-        if self.data.incomplete_sequences:
-            stats['incomplete'] = len(self.data.incomplete_sequences.values())
+        if self.data.incomplete_events:
+            stats['incomplete'] = len(self.data.incomplete_events.values())
 
         return stats
