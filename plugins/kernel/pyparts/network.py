@@ -39,13 +39,13 @@ class KernLogEventChecks(checks.EventChecksBase):
                 issue = issue_types.NetworkWarning(msg)
                 issues_utils.add_issue(issue)
 
-            # sort by nuber of occurences
-            sorted_dict = {}
-            for k, v in sorted(ifaces_extant.items(), key=lambda e: e[1],
-                               reverse=True):
-                sorted_dict[k] = v
+                # sort by number of occurrences
+                sorted_dict = {}
+                for k, v in sorted(ifaces_extant.items(), key=lambda e: e[1],
+                                   reverse=True):
+                    sorted_dict[k] = v
 
-            return {"over-mtu-dropped-packets": sorted_dict}
+                return {"over-mtu-dropped-packets": sorted_dict}
 
     def check_nf_conntrack_full(self, results):
         if results:
