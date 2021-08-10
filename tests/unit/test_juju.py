@@ -15,8 +15,7 @@ from plugins.juju.pyparts import (
 class TestJujuPluginPartServices(utils.BaseTestCase):
 
     def test_get_machine_info(self):
-        expected = {'machines': {'running': ['33 (version=unknown)',
-                                             '0 (version=unknown)']}}
+        expected = {'machines': {'running': ['0 (version=2.9.9)']}}
         inst = machines.JujuMachineChecks()
         inst.get_machine_info()
         self.assertEquals(inst.output, expected)
@@ -45,8 +44,7 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
         self.assertEquals(version, 32)
 
     def test_get_unit_info(self):
-        expected = {'local': ['filebeat-24', 'neutron-gateway-0',
-                              'ntp-0'],
+        expected = {'local': ['neutron-gateway-0'],
                     'lxd': ['ceph-mon-0',
                             'ceph-osd-no-fixed-wal-7',
                             'ceph-radosgw-0',
@@ -81,11 +79,9 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
                             'prometheus-0',
                             'prometheus-ceph-exporter-0',
                             'prometheus-openstack-exporter-0',
-                            'rabbitmq-server-0'],
-                    'stopped': ['nrpe-0', 'rabbitmq-server-2',
-                                'rabbitmq-server-3']}
+                            'rabbitmq-server-0']}
         inst = units.JujuUnitChecks()
-        inst.get_unit_info()
+        inst()
         self.assertEquals(inst.output, {"units": expected})
 
 

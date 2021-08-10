@@ -27,7 +27,7 @@ class JujuCharmChecks(JujuChecksBase):
                     versions.append("{}-{}".format(ret[1], ret[2]))
 
         if versions:
-            self._output["charm-versions"] = sorted(versions)
+            self._output["charms"] = sorted(versions)
 
     def __call__(self):
         self.get_charm_versions()

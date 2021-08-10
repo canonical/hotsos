@@ -1,7 +1,6 @@
 import re
 import os
 
-from common import constants
 from common.cli_helpers import CLIHelper
 from common.issue_types import JujuWarning
 from common.issues_utils import add_issue
@@ -36,21 +35,10 @@ class JujuMachineChecks(JujuChecksBase):
             if ret:
                 log_machines.add(ret[1])
 
-        combined_machines = ps_machines.union(log_machines)
-        for machine in combined_machines:
-            conf_path = ("var/lib/juju/agents/machine-{}/agent.conf".
-                         format(machine))
-            agent_conf = os.path.join(constants.DATA_ROOT, conf_path)
-            version = "unknown"
-            if os.path.exists(agent_conf):
-                for line in open(agent_conf).readlines():
-                    ret = re.compile(r"upgradedToVersion:\s+(.+)").match(line)
-                    if ret:
-                        version = ret[1]
-
+        for machine in log_machines:
             if machine in ps_machines:
-                machines_running.add("{} (version={})".format(machine,
-                                                              version))
+                machines_running.add("{} (version={})".
+                                     format(machine, self.machine.version))
             else:
                 machines_stopped.add(machine)
 
