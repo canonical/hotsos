@@ -23,8 +23,6 @@ environment:
 layout:
   /etc/dpkg/dpkg.cfg:
     bind-file: $SNAP_DATA/etc/dpkg/dpkg.cfg
-  /etc/dpkg/dpkg.cfg.d:
-    bind: $SNAP_DATA/etc/dpkg/dpkg.cfg.d
 
 apps:
   hotsos:

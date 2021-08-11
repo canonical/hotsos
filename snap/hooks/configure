@@ -1,5 +1,4 @@
 #!/bin/sh -x
-mkdir -p $SNAP_DATA/etc/dpkg/dpkg.cfg.d
+mkdir -p $SNAP_DATA/etc/dpkg
 chmod 1777 $SNAP_DATA/etc/dpkg
 chmod 1777 $SNAP_DATA/etc/dpkg/*
-chmod 1777 $SNAP_DATA/etc/dpkg/dpkg.cfg.d
