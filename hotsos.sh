@@ -321,7 +321,7 @@ for data_root in "${SOS_PATHS[@]}"; do
         PLUGIN_NAME=$plugin
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
-        for part in `find $CWD/plugins/$plugin -executable -type f,l| \
+        for part in `find $CWD/plugins/$plugin -maxdepth 1 -executable -type f,l| \
                 grep -v __pycache__`; do
             run_part $plugin `basename $part`
         done
