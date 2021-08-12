@@ -1,5 +1,7 @@
 import os
 
+import mock
+
 import utils
 
 from common import known_bugs_utils
@@ -11,6 +13,9 @@ from plugins.juju.pyparts import (
     known_bugs,
 )
 
+FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-11-exec-start.sh
+root       731  0.0  0.0 2981484 81644 ?       Sl   Apr06  49:01 /var/lib/juju/tools/machine-0-lxd-11/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/11 --debug"""  # noqa
+
 
 class TestJujuPluginPartServices(utils.BaseTestCase):
 
@@ -18,6 +23,20 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
         expected = {'machines': {'running': ['0 (version=2.9.9)']}}
         inst = machines.JujuMachineChecks()
         inst.get_machine_info()
+        self.assertEquals(inst.output, expected)
+
+    @mock.patch.object(machines, 'CLIHelper')
+    def test_get_lxd_machine_info(self, mock_cli_helper):
+        mock_helper = mock.MagicMock()
+        mock_cli_helper.return_value = mock_helper
+        mock_helper.ps.return_value = FAKE_PS.split('\n')
+        expected = {'machines': {'running': ['0-lxd-11 (version=2.9.9)']}}
+        inst = machines.JujuMachineChecks()
+        with mock.patch.object(inst, 'machine') as m:
+            m.agent_service_name = 'jujud-machine-0-lxd-11'
+            m.version = '2.9.9'
+            inst.get_machine_info()
+
         self.assertEquals(inst.output, expected)
 
 

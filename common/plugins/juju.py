@@ -47,6 +47,10 @@ class JujuMachine(object):
         return self.cfg
 
     @property
+    def agent_service_name(self):
+        return self.config.get("values", {}).get("AGENT_SERVICE_NAME")
+
+    @property
     def version(self):
         return self.config.get("upgradedToVersion", "unknown")
 

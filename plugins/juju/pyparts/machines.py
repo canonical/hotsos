@@ -17,30 +17,26 @@ class JujuMachineChecks(JujuChecksBase):
     def get_machine_info(self):
         machine_info = {"machines": {}}
         ps_machines = set()
-        log_machines = set()
         machines_running = set()
         machines_stopped = set()
 
         if not os.path.exists(JUJU_LOG_PATH):
             return
 
+        machine = self.machine.agent_service_name
+        machine_unit = machine.partition("jujud-machine-")[2]
         for line in CLIHelper().ps():
-            if "machine-" in line:
-                ret = re.compile(r".+machine-([0-9]+).*").match(line)
+            if "jujud-machine-" in line:
+                expr = r".+jujud-machine-(\d+(?:-lxd-\d+)?).*"
+                ret = re.compile(expr).match(line)
                 if ret:
-                    ps_machines.add(ret[1])
+                    ps_machines.add("jujud-machine-{}".format(ret[1]))
 
-        for f in os.listdir(JUJU_LOG_PATH):
-            ret = re.compile(r"machine-([0-9]+)\.log.*").match(f)
-            if ret:
-                log_machines.add(ret[1])
-
-        for machine in log_machines:
-            if machine in ps_machines:
-                machines_running.add("{} (version={})".
-                                     format(machine, self.machine.version))
-            else:
-                machines_stopped.add(machine)
+        if machine in ps_machines:
+            machines_running.add("{} (version={})".
+                                 format(machine_unit, self.machine.version))
+        else:
+            machines_stopped.add(machine_unit)
 
         if machines_running:
             machine_info["machines"]["running"] = list(machines_running)
