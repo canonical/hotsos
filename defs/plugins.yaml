@@ -60,7 +60,9 @@ plugins:
         - get_service_checker
   system:
     parts:
-      system:
+      general:
+        - SystemGeneral
+      checks:
         - SystemChecks
   kernel:
     parts:

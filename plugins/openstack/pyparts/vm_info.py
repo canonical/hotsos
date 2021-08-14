@@ -10,7 +10,7 @@ from common.plugins.openstack import (
     OpenstackConfig,
 )
 
-from plugins.system.pyparts.system import SystemChecks
+from plugins.system.pyparts.general import SystemGeneral
 from plugins.kernel.pyparts.info import KernelGeneralChecks
 
 YAML_PRIORITY = 3
@@ -50,7 +50,7 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                     total_vcpus += int(vcpus)
 
             vcpu_info["used"] = total_vcpus
-            sysinfo = SystemChecks()
+            sysinfo = SystemGeneral()
             sysinfo.get_system_info()
 
             if sysinfo.output:

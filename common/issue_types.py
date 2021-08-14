@@ -46,3 +46,7 @@ class OpenvSwitchWarning(IssueTypeBase):
 
 class SOSReportWarning(IssueTypeBase):
     pass
+
+
+class SysCtlWarning(IssueTypeBase):
+    pass

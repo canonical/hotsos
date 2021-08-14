@@ -401,6 +401,9 @@ class CLIHelper(object):
                  FileCmd('sos_commands/snap/snap_list_--all'),
                  # sos legacy
                  FileCmd('sos_commands/snappy/snap_list_--all')],
+            'sysctl_all':
+                [BinCmd('sysctl -a'),
+                 FileCmd('sos_commands/kernel/sysctl_-a')],
             'systemctl_status_all':
                 [BinCmd('systemctl status --all'),
                  FileCmd('sos_commands/systemd/systemctl_status_--all')],

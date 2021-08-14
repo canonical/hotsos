@@ -11,7 +11,7 @@ from common.cli_helpers import CLIHelper
 YAML_PRIORITY = 0
 
 
-class SystemChecks(plugintools.PluginPartBase):
+class SystemGeneral(plugintools.PluginPartBase):
 
     @property
     def unattended_upgrades_enabled(self):
