@@ -432,5 +432,12 @@ def get_ps_axo_flags_available():
                         "sos_commands/process/ps_axo_flags_state_"
                         "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
                         "tty_time_cmd")
+    _paths = []
     for path in glob.glob(path):
-        return path
+        _paths.append(path)
+
+    if not _paths:
+        return
+
+    # strip data_root since it will be prepended later
+    return _paths[0].partition(constants.DATA_ROOT)[2]
