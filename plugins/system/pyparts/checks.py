@@ -115,7 +115,9 @@ class SystemChecks(plugintools.PluginPartBase):
         mismatch = {}
         sysctld = self._get_sysctl_d()
         for key, value in sysctld.items():
-            if value != actuals[key]:
+            # some keys will not be readable e.g. when inside an unprivileged
+            # container so we just ignore them.
+            if value != actuals.get(key, value):
                 mismatch[key] = {"actual": actuals[key],
                                  "expected": value}
 
