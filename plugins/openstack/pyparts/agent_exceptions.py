@@ -5,7 +5,6 @@ from common import (
     constants,
 )
 from common.searchtools import (
-    FilterDef,
     SearchDef,
     FileSearcher,
 )
@@ -43,10 +42,15 @@ class CommonAgentChecks(AgentChecksBase):
                                   "nova": NOVA_EXCEPTIONS,
                                   "octavia": OCTAVIA_EXCEPTIONS,
                                   }
-        # The following are not necessarily exceptions (perhaps they are just
-        # warnings) but we deal with them here anyway.
-        self._agent_issues = {
-            "neutron": [r"(OVS is dead).", r"(RuntimeError):"]
+        # The following are WARNINGs
+        self._agent_warnings = {
+            "nova": [r"(MessagingTimeout)"],
+            "neutron": [r"(OVS is dead).", r"(MessagingTimeout)"]
+            }
+
+        # The following are ERRORs
+        self._agent_errors = {
+            "neutron": [r"(RuntimeError):"]
             }
 
     def _prepare_exception_expressions(self):
@@ -86,18 +90,29 @@ class CommonAgentChecks(AgentChecksBase):
             if constants.USE_ALL_LOGS:
                 data_source_template = "{}*".format(data_source_template)
 
+            # NOTE: services running under apache have their logs
+            # prepending with a load of apache/mod_wsgi info so we have
+            # to do this way to account for both. We ignore the apache
+            # prefix and it will not count towards the result.
+            expr_template = (r"^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+) (\S+) "
+                             ".+{}.*")
+
             for agent in SERVICE_RESOURCES[svc]["daemons"]:
                 data_source = data_source_template.format(agent)
-                fd = FilterDef(r"( ERROR | WARNING |Traceback)")
-                self.searchobj.add_filter_term(fd, data_source)
-                for subexpr in exprs + self._agent_issues.get(svc, []):
-                    # NOTE: services running under apache have their logs
-                    # prepending with a load of apache/mod_wsgi info so we have
-                    # to do this way to account for both. We ignore the apache
-                    # prefix and it will not count towards the result.
-                    expr = (r"^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+) (\S+) "
-                            ".+{}.*".format(subexpr))
-                    sd = SearchDef(expr, tag=agent, hint=subexpr)
+                for subexpr in exprs:
+                    expr = expr_template.format(subexpr)
+                    hint = "( ERROR | Traceback)"
+                    sd = SearchDef(expr, tag=agent, hint=hint)
+                    self.searchobj.add_search_term(sd, data_source)
+
+                for subexpr in self._agent_warnings.get(svc, []):
+                    expr = expr_template.format(subexpr)
+                    sd = SearchDef(expr, tag=agent, hint="WARNING")
+                    self.searchobj.add_search_term(sd, data_source)
+
+                for subexpr in self._agent_errors.get(svc, []):
+                    expr = expr_template.format(subexpr)
+                    sd = SearchDef(expr, tag=agent, hint="ERROR")
                     self.searchobj.add_search_term(sd, data_source)
 
     def register_search_terms(self):
