@@ -309,6 +309,7 @@ class SectionalConfigBase(ConfigBase):
                 if re.compile(r"^\s*#").search(line):
                     continue
 
+                # section names are not expected to contain whitespace
                 ret = re.compile(r"^\s*\[(\S+)].*").search(line)
                 if ret:
                     current_section = ret.group(1)
@@ -318,7 +319,9 @@ class SectionalConfigBase(ConfigBase):
                 if current_section is None:
                     continue
 
-                ret = re.compile(r"^\s*(\S+)\s*=\s*(\S+)").search(line)
+                # key names may contain whitespace
+                expr = r"^\s*(\S+(?:\s+\S+)?)\s*=\s*(\S+)"
+                ret = re.compile(expr).search(line)
                 if ret:
                     key = ret.group(1)
                     val = constants.bool_str(ret.group(2))

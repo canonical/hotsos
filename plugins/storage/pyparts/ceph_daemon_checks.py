@@ -25,7 +25,6 @@ from common.utils import (
 )
 from common.plugins.storage import (
     CephChecksBase,
-    CephConfig,
     CEPH_SERVICES_EXPRS,
 )
 
@@ -356,8 +355,7 @@ class CephOSDChecks(CephChecksBase):
         if KernelChecksBase().kernel_version >= "5.4":
             return
 
-        cfg = CephConfig()
-        bluefs_buffered_io = cfg.get('bluefs_buffered_io')
+        bluefs_buffered_io = self.ceph_config.get('bluefs_buffered_io')
         if bluefs_buffered_io is False:
             return
 

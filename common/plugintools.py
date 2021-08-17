@@ -125,7 +125,17 @@ def dump(data, stdout=True):
         return out
 
 
-class PluginPartBase(object):
+class ApplicationBase(object):
+
+    @property
+    def bind_interfaces(self):
+        """Implement this method to return a dict of network interfaces used
+        by this application.
+        """
+        raise NotImplementedError
+
+
+class PluginPartBase(ApplicationBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -5,6 +5,7 @@ import tempfile
 
 import utils
 
+from common.plugins.storage import CephChecksBase
 from plugins.storage.pyparts import (
     bcache,
     ceph_daemon_checks,
@@ -43,6 +44,10 @@ class TestStoragePluginPartCephGeneral(utils.BaseTestCase):
                     'python3-rbd 15.2.13-0ubuntu0.20.04.1',
                     'radosgw 15.2.13-0ubuntu0.20.04.1']
         self.assertEquals(inst.output["ceph"]["dpkg"], expected)
+
+    def test_ceph_base_interfaces(self):
+        expected = {'addresses': ['10.0.0.49'], 'name': 'br-ens3'}
+        self.assertEqual(CephChecksBase([]).bind_interfaces, expected)
 
 
 class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):

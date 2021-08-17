@@ -5,6 +5,7 @@ import re
 from common import (
     checks,
     constants,
+    host_helpers,
     plugintools,
     utils,
 )
@@ -31,10 +32,17 @@ class StorageChecksBase(plugintools.PluginPartBase):
         super().__init__(*args, **kwargs)
 
 
+class CephConfig(checks.SectionalConfigBase):
+    def __init__(self, *args, **kwargs):
+        path = os.path.join(constants.DATA_ROOT, 'etc/ceph/ceph.conf')
+        super().__init__(path=path, *args, **kwargs)
+
+
 class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.ceph_config = CephConfig()
         self._bcache_info = []
         udevadm_db = CLIHelper().udevadm_info_exportdb()
         if udevadm_db:
@@ -45,6 +53,34 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
     def __del__(self):
         if self.udevadm_db:
             os.unlink(self.udevadm_db)
+
+    @property
+    def bind_interfaces(self):
+        """
+        If ceph is using specific network interfaces, return them as a list.
+        """
+        pub_net = self.ceph_config.get('public network')
+        pub_addr = self.ceph_config.get('public addr')
+        clus_net = self.ceph_config.get('cluster network')
+        clus_addr = self.ceph_config.get('cluster addr')
+
+        interfaces = {}
+        if not any([pub_net, pub_addr, clus_net, clus_addr]):
+            return interfaces
+
+        nethelp = host_helpers.HostNetworkingHelper()
+
+        if pub_net:
+            interfaces.update(nethelp.get_interface_with_addr(pub_net))
+        elif pub_addr:
+            interfaces.update(nethelp.get_interface_with_addr(pub_addr))
+
+        if clus_net:
+            interfaces.update(nethelp.get_interface_with_addr(clus_net))
+        elif clus_addr:
+            interfaces.update(nethelp.get_interface_with_addr(clus_addr))
+
+        return interfaces
 
     @property
     def output(self):
@@ -119,12 +155,6 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
                 osd_ids.append(int(ret[1]))
 
         return osd_ids
-
-
-class CephConfig(checks.SectionalConfigBase):
-    def __init__(self, *args, **kwargs):
-        path = os.path.join(constants.DATA_ROOT, '/etc/ceph/ceph.conf')
-        super().__init__(path=path, *args, **kwargs)
 
 
 class BcacheChecksBase(StorageChecksBase):
