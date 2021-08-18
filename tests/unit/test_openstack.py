@@ -6,7 +6,10 @@ import tempfile
 
 import utils
 
-from common import checks, searchtools
+from common import (
+    checks,
+    searchtools,
+)
 
 from plugins.openstack.pyparts import (
     openstack_services,
@@ -270,39 +273,6 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
 
 
 class TestOpenstackPluginPartNetwork(TestOpenstackBase):
-
-    @mock.patch.object(network, 'CLIHelper')
-    def test_get_port_stat_by_name(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.ip_link = \
-            self.fake_ip_link_w_errors_drops
-        c = network.OpenstackNetworkChecks()
-        stats = c._get_port_stats(name="bond1")
-        self.assertEqual(stats, {'rx': {'dropped': '100000000 (7%)'}})
-
-    @mock.patch.object(network, 'CLIHelper')
-    def test_get_port_stat_by_name_no_problems(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.ip_link = \
-            self.fake_ip_link_no_errors_drops
-        c = network.OpenstackNetworkChecks()
-        stats = c._get_port_stats(name="bond1")
-        self.assertEqual(stats, {})
-
-    @mock.patch.object(network, 'CLIHelper')
-    def test_get_port_stat_by_mac(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.ip_link = \
-            self.fake_ip_link_w_errors_drops
-        c = network.OpenstackNetworkChecks()
-        stats = c._get_port_stats(mac="ac:1f:6b:9e:d8:44")
-        self.assertEqual(stats, {'rx': {'errors': '10000000 (4%)'}})
-
-    def test_find_interface_name_by_ip_address(self):
-        addr = "10.10.101.33"
-        c = network.OpenstackNetworkChecks()
-        name = c._find_interface_name_by_ip_address(addr)
-        self.assertEqual(name, "br-bond1")
 
     def test_get_ns_info(self):
         ns_info = {'namespaces': {'qdhcp': 1, 'qrouter': 1, 'fip': 1,

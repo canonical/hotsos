@@ -2,16 +2,10 @@ import os
 
 from common import constants
 from common.plugins.openstack import (
+    CONFIG_FILES,
     OpenstackChecksBase,
     OpenstackConfig,
 )
-
-CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
-                            "openvswitch-agent":
-                            "etc/neutron/plugins/ml2/openvswitch_agent.ini",
-                            "l3-agent": "etc/neutron/l3_agent.ini",
-                            "dhcp-agent": "etc/neutron/dhcp_agent.ini"},
-                "nova": {"nova": "etc/nova/nova.conf"}}
 
 FEATURES = {"neutron": {"neutron": ["availability_zone"],
                         "openvswitch-agent": ["l2_population"],

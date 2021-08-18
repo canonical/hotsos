@@ -116,7 +116,7 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
         mock_add_issue.side_effect = fake_add_issue
         expected = {'over-mtu-dropped-packets':
-                    {'tap1d798b14-c4': 5}}
+                    {'tap0906171f-17': 5}}
         inst = network.KernelNetworkChecks()
         inst()
         self.assertTrue(mock_add_issue.called)

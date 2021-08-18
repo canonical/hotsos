@@ -1,18 +1,8 @@
 import re
-import os
 
-from common import constants
+from common import host_helpers
 from common.cli_helpers import CLIHelper
-from common.searchtools import (
-    SearchDef,
-    SequenceSearchDef,
-    FileSearcher,
-)
-from common.utils import mktemp_dump
-from common.plugins.openstack import (
-    OpenstackChecksBase,
-    OpenstackConfig,
-)
+from common.plugins.openstack import OpenstackChecksBase
 
 YAML_PRIORITY = 4
 
@@ -21,83 +11,65 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.neutron_phy_ports = []
+        self.nethelp = host_helpers.HostNetworkingHelper()
         self.cli = CLIHelper()
-        out = self.cli.ip_link()
-        self.f_ip_link_show = mktemp_dump(''.join(out))
-
-    @property
-    def config_map(self):
-        return {"nova": [{"path": os.path.join(constants.DATA_ROOT,
-                                               "etc/nova/nova.conf"),
-                          "key": "my_ip"}],
-                "neutron": [{"path": os.path.join(constants.DATA_ROOT,
-                                                  "etc/neutron/plugins/ml2/"
-                                                  "openvswitch_agent.ini"),
-                             "key": "local_ip"}]}
 
     @property
     def output(self):
         if self._output:
             return {"network": self._output}
 
-    def __del__(self):
-        if os.path.exists(self.f_ip_link_show):
-            os.unlink(self.f_ip_link_show)
+    def _get_port_stat_outliers(self, counters):
+        """ For a given port's packet counters, identify outliers i.e. > 1%
+        and create a new dict with count and percent values.
+        """
+        stats = {}
+        for rxtx in counters:
+            total = sum(counters[rxtx].values())
+            del counters[rxtx]["packets"]
+            for key, value in counters[rxtx].items():
+                if value:
+                    pcent = int(100 / float(total) * float(value))
+                    if pcent <= 1:
+                        continue
 
-    def _find_line(self, key, lines):
-        for i, line in enumerate(lines):
-            if re.compile(key).match(line):
-                return i
+                    if rxtx not in stats:
+                        stats[rxtx] = {}
 
-        return None
+                    stats[rxtx][key] = "{} ({}%)".format(int(value), pcent)
 
-    def _find_interface_name_by_ip_address(self, ip_address):
-        """Lookup interface by name in ip addr show"""
-        iface = None
-        lines = self.cli.ip_addr()
-        a = self._find_line(r".+{}.+".format(ip_address), lines)
-        while True:
-            ret = re.compile(r"^[0-9]+:\s+(\S+):\s+.+"
-                             ).match(lines[a])
-            if ret:
-                iface = ret[1]
-                break
-
-            a = a-1
-
-        return iface
+        return stats
 
     def get_config_network_info(self):
-        """For each service defined, check its config file and extract network
-        info e.g. neutron local_ip is address of interface used for creating
-        tunnels (vxlan, gre etc) and nova my_ip is interface used by-default
-        for vm migration.
+        """ Identify ports used by Openstack services, include them in output
+        for informational purposes along with their health (dropped packets
+        etc) for any outliers detected.
         """
+        port_health_info = {}
         config_info = {}
-        for svc in self.config_map:
-            for info in self.config_map[svc]:
-                cfg = OpenstackConfig(info["path"])
-                if not cfg.exists:
-                    continue
+        for key, port in self.neutron_bind_interfaces.items():
+            if 'neutron' not in config_info:
+                config_info['neutron'] = {}
 
-                key = info["key"]
-                ip_address = cfg.get(key)
-                if ip_address:
-                    iface = self._find_interface_name_by_ip_address(ip_address)
-                else:
-                    iface = None
+            config_info['neutron'][key] = "{} ({})".format(port.addresses[0],
+                                                           port.name)
+            stats = self._get_port_stat_outliers(port.stats())
+            if stats:
+                port_health_info[port.name] = stats
 
-                if svc not in config_info:
-                    config_info[svc] = {}
+        if port_health_info:
+            health = {"phy-ports": port_health_info}
+            if "port-health" in self._output:
+                self._output["port-health"].update(health)
+            else:
+                self._output["port-health"] = health
 
-                if svc == "neutron" and iface:
-                    self.neutron_phy_ports.append(iface)
+        for key, port in self.nova_bind_interfaces.items():
+            if 'nova' not in config_info:
+                config_info['nova'] = {}
 
-                if ip_address:
-                    config_info[svc][key] = "{} ({})".format(ip_address, iface)
-                else:
-                    config_info[svc][key] = None
+            config_info['nova'][key] = "{} ({})".format(port.addresses[0],
+                                                        port.name)
 
         if config_info:
             self._output["config"] = config_info
@@ -116,120 +88,26 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         if ns_info:
             self._output["namespaces"] = ns_info
 
-    def _get_instances_info(self):
-        """Get information e.g. ip link  stats for each port on a vm"""
+    def get_instances_port_health(self):
+        """ For each instance get its ports and check port health, reporting on
+        any outliers. """
         instances = self.running_instances
         if instances is None:
             return
 
-        guest_info = {}
-        ps_output = self.cli.ps()
-        for uuid in instances:
-            for line in ps_output:
-                expr = r".+guest=(\S+),.+product=OpenStack Nova.+uuid={}.+"
-                ret = re.compile(expr.format(uuid)).match(line)
-                if ret:
-                    guest = ret[1]
-                    if guest not in guest_info:
-                        guest_info[uuid] = {"ports": []}
-
-                    ret = re.compile(r"mac=([a-z0-9:]+)").findall(line)
-                    if ret:
-                        if "ports" not in guest_info[uuid]:
-                            guest_info[uuid]["ports"] = []
-
-                        for port in ret:
-                            guest_info[uuid]["ports"].append({"mac": port,
-                                                              "health": {}})
-
-        return guest_info
-
-    def _get_port_stats(self, name=None, mac=None):
-        """Get ip link stats for the given port."""
-        stats_raw = []
-
-        if mac:
-            libvirt_mac = "fe" + mac[2:]
-
-        exprs = []
-        if mac:
-            for _mac in [mac, libvirt_mac]:
-                exprs.append(r"^\s+link/ether\s+({})\s+.+".format(_mac))
-        else:
-            exprs.append(r"^\d+:\s+({}):\s+.+".format(name))
-
-        s = FileSearcher()
-        sd = SequenceSearchDef(
-                    # match start of interface
-                    start=SearchDef(exprs),
-                    # match body of interface
-                    body=SearchDef(r".+"),
-                    # match next interface or EOF
-                    end=SearchDef([r"^\d+:\s+\S+:.+", r"^$"]),
-                    tag="ifaces")
-        s.add_search_term(sd, path=self.f_ip_link_show)
-        results = s.search()
-        for results in results.find_sequence_sections(sd).values():
-            for result in results:
-                if result.tag == sd.body_tag:
-                    stats_raw.append(result.get(0))
-
-            # stop at first match - if matching by mac address it is
-            # possible for multiple interfaces to have the same mac e.g.
-            # bonds and its interfaces but we dont support that so just use
-            # first.
-            break
-
-        stats = {}
-        counters = {}
-        if stats_raw:
-            for i, line in enumerate(stats_raw):
-                ret = re.compile(r"\s+([RT]X):\s+.+").findall(line)
-                if ret:
-                    rxtx = ret[0].lower()
-                    ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
-                    if ret:
-                        for j, column in enumerate(ret):
-                            value = int(stats_raw[i + 1].split()[j])
-                            for key in ["packets", "dropped", "errors",
-                                        "overrun"]:
-                                if column == key:
-                                    if rxtx not in counters:
-                                        counters[rxtx] = {}
-
-                                    counters[rxtx][key] = float(value)
-                                    continue
-
-        if counters:
-            for rxtx in counters:
-                total = sum(counters[rxtx].values())
-                del counters[rxtx]["packets"]
-                for key, value in counters[rxtx].items():
-                    if value:
-                        pcent = int(100 / total * value)
-                        if pcent <= 1:
-                            continue
-
-                        if rxtx not in stats:
-                            stats[rxtx] = {}
-
-                        stats[rxtx][key] = "{} ({}%)".format(int(value), pcent)
-
-        return stats
-
-    def get_instances_port_health(self):
-        instances = self._get_instances_info()
-        if not instances:
-            return
-
         port_health_info = {}
-        for uuid in instances:
-            for port in instances[uuid]['ports']:
-                stats = self._get_port_stats(mac=port["mac"])
+        for guest in instances:
+            for port in guest['ports']:
+                stats = port.stats()
                 if stats:
-                    if uuid not in port_health_info:
-                        port_health_info[uuid] = {}
-                    port_health_info[uuid][port["mac"]] = stats
+                    outliers = self._get_port_stat_outliers(stats)
+                    if not outliers:
+                        continue
+
+                    if guest['uuid'] not in port_health_info:
+                        port_health_info[guest['uuid']] = {}
+
+                    port_health_info[guest['uuid']][port.hwaddr] = outliers
 
         if port_health_info:
             health = {"vm-ports": {"num-vms-checked": len(instances),
@@ -239,22 +117,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             else:
                 self._output["port-health"] = health
 
-    def get_neutron_phy_port_health(self):
-        port_health_info = {}
-        for port in self.neutron_phy_ports:
-            stats = self._get_port_stats(name=port)
-            if stats:
-                port_health_info[port] = stats
-
-        if port_health_info:
-            health = {"phy-ports": port_health_info}
-            if "port-health" in self._output:
-                self._output["port-health"].updated(health)
-            else:
-                self._output["port-health"] = health
-
     def __call__(self):
         self.get_ns_info()
         self.get_config_network_info()
-        self.get_neutron_phy_port_health()
         self.get_instances_port_health()

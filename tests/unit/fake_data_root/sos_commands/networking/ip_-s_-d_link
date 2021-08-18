@@ -137,16 +137,16 @@
     147799284  1186895  0       0       0       0       
     TX: bytes  packets  errors  dropped carrier collsns 
     325191485  1136207  0       0       0       0       
-36: tap1d798b14-c4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN mode DEFAULT group default qlen 1000
-    link/ether fe:16:3e:0e:72:db brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
+40: tap03c4d61b-60: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether fe:16:3e:3f:eb:95 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
     tun type tap pi off vnet_hdr on persist off 
     openvswitch_slave addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
     RX: bytes  packets  errors  dropped overrun mcast   
     200705     2327     0       0       0       0       
     TX: bytes  packets  errors  dropped carrier collsns 
-    42560499   25524    0       0       0       0       
-37: tap4d42159a-4c: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN mode DEFAULT group default qlen 1000
-    link/ether fe:16:3e:46:00:ae brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
+    42560499   25524    0       0       0       0   
+41: tap0906171f-17: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether fe:16:3e:60:aa:f3 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
     tun type tap pi off vnet_hdr on persist off 
     openvswitch_slave addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
     RX: bytes  packets  errors  dropped overrun mcast   

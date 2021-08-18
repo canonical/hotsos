@@ -4,6 +4,7 @@ import re
 from common import (
     checks,
     constants,
+    host_helpers,
     plugintools,
 )
 from common.cli_helpers import CLIHelper
@@ -115,6 +116,13 @@ for service in OST_PROJECTS:
 
 NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
 
+CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
+                            "openvswitch-agent":
+                            "etc/neutron/plugins/ml2/openvswitch_agent.ini",
+                            "l3-agent": "etc/neutron/l3_agent.ini",
+                            "dhcp-agent": "etc/neutron/dhcp_agent.ini"},
+                "nova": {"nova": "etc/nova/nova.conf"}}
+
 
 class OpenstackServiceChecksBase(plugintools.PluginPartBase,
                                  checks.ServiceChecksBase):
@@ -126,6 +134,13 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._instances = []
+        self.nethelp = host_helpers.HostNetworkingHelper()
+        nova_conf = os.path.join(constants.DATA_ROOT,
+                                 CONFIG_FILES['nova']['nova'])
+        self.nova_config = OpenstackConfig(nova_conf)
+        neutron_ovs_conf = CONFIG_FILES['neutron']['openvswitch-agent']
+        neutron_ovs_conf = os.path.join(constants.DATA_ROOT, neutron_ovs_conf)
+        self.neutron_ovs_config = OpenstackConfig(neutron_ovs_conf)
 
     @property
     def running_instances(self):
@@ -147,9 +162,73 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
                     guest["name"] = ret[1]
 
                 if guest:
+                    # get ports
+                    ret = re.compile(r"mac=([a-z0-9:]+)").findall(line)
+                    if ret:
+                        guest['ports'] = []
+                        for mac in ret:
+                            # convert libvirt to local/native
+                            mac = "fe" + mac[2:]
+                            _port = self.nethelp.get_interface_with_hwaddr(mac)
+                            if _port:
+                                guest['ports'].append(_port)
+
                     self._instances.append(guest)
 
         return self._instances
+
+    @property
+    def nova_bind_interfaces(self):
+        """
+        Fetch interfaces used by Openstack Nova. Returned dict is keyed by
+        config key used to identify interface.
+        """
+        my_ip = self.nova_config.get('my_ip')
+
+        interfaces = {}
+        if not any([my_ip]):
+            return interfaces
+
+        if my_ip:
+            port = self.nethelp.get_interface_with_addr(my_ip)
+            interfaces.update({'my_ip': port})
+
+        return interfaces
+
+    @property
+    def neutron_bind_interfaces(self):
+        """
+        Fetch interfaces used by Openstack Neutron. Returned dict is keyed by
+        config key used to identify interface.
+        """
+        local_ip = self.neutron_ovs_config.get('local_ip')
+
+        interfaces = {}
+        if not any([local_ip]):
+            return interfaces
+
+        if local_ip:
+            port = self.nethelp.get_interface_with_addr(local_ip)
+            interfaces.update({'local_ip': port})
+
+        return interfaces
+
+    @property
+    def bind_interfaces(self):
+        """
+        Fetch interfaces used by Openstack services and return dict.
+        """
+        interfaces = {}
+
+        nova = self.nova_bind_interfaces
+        if nova:
+            interfaces.update(nova)
+
+        neutron = self.neutron_bind_interfaces
+        if neutron:
+            interfaces.update(neutron)
+
+        return interfaces
 
     def __call__(self):
         pass

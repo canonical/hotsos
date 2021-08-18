@@ -866,7 +866,7 @@ Aug  2 21:52:09 compute4 kernel: [ 3526.808590] audit: type=1400 audit(162794112
 Aug  2 21:52:10 compute4 kernel: [ 3527.059280] audit: type=1400 audit(1627941130.124:245): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-79cdf72c-a92d-4f53-908b-bd141289cc06" pid=314264 comm="apparmor_parser"
 Aug  2 21:52:10 compute4 kernel: [ 3527.294332] audit: type=1400 audit(1627941130.356:246): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="libvirt-79cdf72c-a92d-4f53-908b-bd141289cc06" pid=314268 comm="apparmor_parser"
 Aug  2 21:52:10 compute4 kernel: [ 3527.360318] device tap4d42159a-4c entered promiscuous mode
-Aug  2 21:52:10 compute4 kernel: [ 3527.385911] device tap1d798b14-c4 entered promiscuous mode
+Aug  2 21:52:10 compute4 kernel: [ 3527.385911] device tap0906171f-17 entered promiscuous mode
 Aug  2 21:52:10 compute4 kernel: [ 3527.621352] audit: type=1400 audit(1627941130.684:247): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-79cdf72c-a92d-4f53-908b-bd141289cc06" pid=314296 comm="apparmor_parser"
 Aug  2 21:52:10 compute4 kernel: [ 3527.857461] audit: type=1400 audit(1627941130.920:248): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-1cf1f3ee-22d1-4b2e-86b5-9b47110363cf" pid=314299 comm="apparmor_parser"
 Aug  2 21:56:48 compute4 kernel: [ 3805.250093] ICMPv6: NA: fa:16:3e:20:a6:23 advertised our address fe80::f816:3eff:fe20:a623 on sg-6df85cb0-c0!
@@ -1761,7 +1761,7 @@ Aug  3 10:29:46 compute4 kernel: [10030.385698] audit: type=1400 audit(162798658
 Aug  3 10:29:46 compute4 kernel: [10030.531566] audit: type=1400 audit(1627986586.907:391): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-1cf1f3ee-22d1-4b2e-86b5-9b47110363cf" pid=205359 comm="apparmor_parser"
 Aug  3 10:29:47 compute4 kernel: [10030.702860] audit: type=1400 audit(1627986587.079:392): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-1cf1f3ee-22d1-4b2e-86b5-9b47110363cf" pid=205363 comm="apparmor_parser"
 Aug  3 10:29:47 compute4 kernel: [10030.883438] audit: type=1400 audit(1627986587.259:393): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="libvirt-1cf1f3ee-22d1-4b2e-86b5-9b47110363cf" pid=205367 comm="apparmor_parser"
-Aug  3 10:29:47 compute4 kernel: [10030.980862] device tap1d798b14-c4 entered promiscuous mode
+Aug  3 10:29:47 compute4 kernel: [10030.980862] device tap0906171f-17 entered promiscuous mode
 Aug  3 10:29:47 compute4 kernel: [10031.241340] audit: type=1400 audit(1627986587.619:394): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-1cf1f3ee-22d1-4b2e-86b5-9b47110363cf" pid=205395 comm="apparmor_parser"
 Aug  3 10:29:48 compute4 kernel: [10032.297857] audit: type=1400 audit(1627986588.675:395): apparmor="STATUS" operation="profile_load" profile="unconfined" name="libvirt-79cdf72c-a92d-4f53-908b-bd141289cc06" pid=205456 comm="apparmor_parser"
 Aug  3 10:29:49 compute4 kernel: [10032.622701] audit: type=1400 audit(1627986588.999:396): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="libvirt-79cdf72c-a92d-4f53-908b-bd141289cc06" pid=205459 comm="apparmor_parser"
@@ -1776,11 +1776,11 @@ Aug  3 10:31:22 compute4 kernel: [10126.080045] bcache: register_bcache() error 
 Aug  3 10:31:23 compute4 kernel: [10126.652807] blk_update_request: I/O error, dev loop7, sector 0 op 0x1:(WRITE) flags 0x800 phys_seg 0 prio class 0
 Aug  3 10:31:23 compute4 kernel: [10126.837691] bcache: register_bcache() error : device already registered (emitting change event)
 
-May  6 10:49:21 compute4 kernel: [13502680.515977] tap1d798b14-c4: dropped over-mtu packet: 8950 > 1450
-May  6 10:49:21 compute4 kernel: [13502680.516145] tap1d798b14-c4: dropped over-mtu packet: 8950 > 1450
-May  6 10:49:21 compute4 kernel: [13502680.519706] tap1d798b14-c4: dropped over-mtu packet: 8950 > 1450
-May  6 10:49:21 compute4 kernel: [13502680.523590] tap1d798b14-c4: dropped over-mtu packet: 8950 > 1450
-May  6 10:49:21 compute4 kernel: [13502680.524071] tap1d798b14-c4: dropped over-mtu packet: 8950 > 1450
+May  6 10:49:21 compute4 kernel: [13502680.515977] tap0906171f-17: dropped over-mtu packet: 8950 > 1450
+May  6 10:49:21 compute4 kernel: [13502680.516145] tap0906171f-17: dropped over-mtu packet: 8950 > 1450
+May  6 10:49:21 compute4 kernel: [13502680.519706] tap0906171f-17: dropped over-mtu packet: 8950 > 1450
+May  6 10:49:21 compute4 kernel: [13502680.523590] tap0906171f-17: dropped over-mtu packet: 8950 > 1450
+May  6 10:49:21 compute4 kernel: [13502680.524071] tap0906171f-17: dropped over-mtu packet: 8950 > 1450
 May  6 17:24:13 compute4 kernel: [13526370.254883] tape901c8af-fb: dropped over-mtu packet: 2776 > 1450
 May  6 17:24:13 compute4 kernel: [13526370.254940] tape901c8af-fb: dropped over-mtu packet: 2776 > 1450
 May  6 17:24:13 compute4 kernel: [13526370.489870] tape901c8af-fb: dropped over-mtu packet: 1580 > 1450

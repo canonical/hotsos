@@ -57,7 +57,7 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
     @property
     def bind_interfaces(self):
         """
-        If ceph is using specific network interfaces, return them as a list.
+        If ceph is using specific network interfaces, return them as a dict.
         """
         pub_net = self.ceph_config.get('public network')
         pub_addr = self.ceph_config.get('public addr')
@@ -71,14 +71,18 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
         nethelp = host_helpers.HostNetworkingHelper()
 
         if pub_net:
-            interfaces.update(nethelp.get_interface_with_addr(pub_net))
+            iface = nethelp.get_interface_with_addr(pub_net).to_dict()
+            interfaces.update(iface)
         elif pub_addr:
-            interfaces.update(nethelp.get_interface_with_addr(pub_addr))
+            iface = nethelp.get_interface_with_addr(pub_addr).to_dict()
+            interfaces.update(iface)
 
         if clus_net:
-            interfaces.update(nethelp.get_interface_with_addr(clus_net))
+            iface = nethelp.get_interface_with_addr(clus_net).to_dict()
+            interfaces.update(iface)
         elif clus_addr:
-            interfaces.update(nethelp.get_interface_with_addr(clus_addr))
+            iface = nethelp.get_interface_with_addr(clus_addr).to_dict()
+            interfaces.update(iface)
 
         return interfaces
 

@@ -81,17 +81,17 @@
     link/ether f6:f1:2d:50:44:08 brd ff:ff:ff:ff:ff:ff link-netnsid 3 promiscuity 1 minmtu 68 maxmtu 65535 
     veth 
     bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8005 port_no 0x5 designated_port 32773 designated_cost 0 designated_bridge 8000.52:54:0:e2:28:a3 designated_root 8000.52:54:0:e2:28:a3 hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
-36: tap1d798b14-c4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN group default qlen 1000
-    link/ether fe:16:3e:0e:72:db brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
+40: tap03c4d61b-60: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN group default qlen 1000
+    link/ether fe:16:3e:3f:eb:95 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
     tun type tap pi off vnet_hdr on persist off 
     openvswitch_slave numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
-    inet6 fe80::fc16:3eff:fe0e:72db/64 scope link 
+    inet6 fe80::fc16:3eff:fe3f:eb95/64 scope link 
        valid_lft forever preferred_lft forever
-37: tap4d42159a-4c: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN group default qlen 1000
-    link/ether fe:16:3e:46:00:ae brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
+41: tap0906171f-17: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN group default qlen 1000
+    link/ether fe:16:3e:60:aa:f3 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
     tun type tap pi off vnet_hdr on persist off 
     openvswitch_slave numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
-    inet6 fe80::fc16:3eff:fe46:ae/64 scope link 
+    inet6 fe80::fc16:3eff:fe60:aaf3/64 scope link 
        valid_lft forever preferred_lft forever
 # the following added for test purposes
 45: bond1: <BROADCAST,MULTICAST,MASTER,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-bond1 state UP group default qlen 1000

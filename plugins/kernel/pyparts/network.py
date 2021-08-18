@@ -26,8 +26,7 @@ class KernLogEventChecks(checks.EventChecksBase):
             helper = HostNetworkingHelper()
 
             # only report on interfaces that currently exist
-            iface_names = [iface["name"]
-                           for iface in helper.host_interfaces_all]
+            iface_names = [iface.name for iface in helper.host_interfaces_all]
             ifaces_extant = {}
             for iface in ifaces:
                 if iface in iface_names:
