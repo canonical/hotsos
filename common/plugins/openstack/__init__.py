@@ -191,7 +191,10 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
 
         if my_ip:
             port = self.nethelp.get_interface_with_addr(my_ip)
-            interfaces.update({'my_ip': port})
+            # NOTE: my_ip can be an address or fqdn, we currently only support
+            # searching by address.
+            if port:
+                interfaces.update({'my_ip': port})
 
         return interfaces
 
@@ -209,7 +212,10 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
 
         if local_ip:
             port = self.nethelp.get_interface_with_addr(local_ip)
-            interfaces.update({'local_ip': port})
+            # NOTE: local_ip can be an address or fqdn, we currently only
+            # support searching by address.
+            if port:
+                interfaces.update({'local_ip': port})
 
         return interfaces
 

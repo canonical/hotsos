@@ -97,7 +97,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
         port_health_info = {}
         for guest in instances:
-            for port in guest['ports']:
+            for port in guest.get('ports', []):
                 stats = port.stats()
                 if stats:
                     outliers = self._get_port_stat_outliers(stats)
