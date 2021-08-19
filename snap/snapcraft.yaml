@@ -1,16 +1,14 @@
 name: hotsos
 version: '1.0'
-summary: Create a summary of a sosreport.
+summary: Collection application operational information.
 description:
-  Sosreports contain a large amount of information about
-  a host and the applications running on it. By automating
-  the extraction of useful information and identification
-  of errors, we reduce the time needed to get the root of
-  problems. This tool creates a yaml summary of information
-  extracted by a set of plugins. The output is intentionally
-  application-specific, with plugins for common projects
-  such as Openstack, Kubernetes and Ceph. Different views
-  are supported and when found, known bugs are presented.
+  Collect information about specific applications and raise issues when
+  problems are detected. Can be run against host or sosreport.
+  A number of application plugins are supported including Openstack, Ceph,
+  Kubernetes, Juju and more. The standard output is structured YAML format.
+  By default all plugins are run and only produce ouput if applicable. If you
+  want to run specific plugins you can choose from a selection
+  (--list-plugins). See --help for more options.
 confinement: strict
 grade: stable
 base: core20
