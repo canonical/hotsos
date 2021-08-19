@@ -146,6 +146,14 @@ class PluginPartBase(ApplicationBase):
         if self._output:
             return self._output
 
+    def __call__(self):
+        """ This must be implemented.
+
+        The plugin runner will call this method by default unless specific
+        methods are defined in the plugin definition (yaml).
+        """
+        raise NotImplementedError
+
 
 class PluginRunner(object):
 

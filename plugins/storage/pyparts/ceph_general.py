@@ -31,7 +31,6 @@ class CephServiceChecks(CephChecksBase):
             self._output["services"] = self.get_service_info_str()
 
     def __call__(self):
-        super().__call__()
         self.get_running_services_info()
 
 

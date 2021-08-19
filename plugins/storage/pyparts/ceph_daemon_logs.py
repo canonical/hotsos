@@ -155,7 +155,6 @@ class CephDaemonLogChecks(CephChecksBase):
             self._output["heartbeat-no-reply"] = no_replies
 
     def __call__(self):
-        super().__call__()
         data_source = os.path.join(constants.DATA_ROOT, CEPH_LOGS, 'ceph*.log')
         if constants.USE_ALL_LOGS:
             data_source = "{}*".format(data_source)

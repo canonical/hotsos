@@ -5,6 +5,7 @@ import tempfile
 
 import utils
 
+from common import checks
 from common.plugins.storage import CephChecksBase
 from plugins.storage.pyparts import (
     bcache,
@@ -22,9 +23,10 @@ class TestStoragePluginPartCephGeneral(utils.BaseTestCase):
         inst()
         self.assertEqual(inst.output["ceph"]["services"], result)
 
-    @mock.patch.object(ceph_general.CephChecksBase, "__call__",
-                       lambda *args: None)
-    def test_get_service_info_unavailable(self):
+    @mock.patch.object(checks, 'CLIHelper')
+    def test_get_service_info_unavailable(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ps.return_value = []
         inst = ceph_general.get_service_checker()
         inst()
         self.assertIsNone(inst.output)

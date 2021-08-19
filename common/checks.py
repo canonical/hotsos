@@ -395,9 +395,6 @@ class ConfigChecksBase(object):
                     # move on to next set of checks
                     break
 
-    def __call__(self):
-        self.run_config_checks()
-
 
 class ServiceChecksBase(object):
     """This class should be used by any plugin that wants to identify
@@ -414,7 +411,6 @@ class ServiceChecksBase(object):
         """
         self.services = {}
         self.service_exprs = []
-
         for expr in service_exprs:
             hint = None
             if hint_range:
@@ -423,24 +419,14 @@ class ServiceChecksBase(object):
 
             self.service_exprs.append((expr, hint))
 
-        self.ps_func = CLIHelper().ps
-
-    def get_service_info_str(self):
-        """Create a list of "<service> (<num running>)" for running services
-        detected. Useful for display purposes."""
-        service_info_str = []
-        for svc in sorted(self.services):
-            num_daemons = self.services[svc]["ps_cmds"]
-            service_info_str.append("{} ({})".format(svc, len(num_daemons)))
-
-        return service_info_str
+        self._get_running_services()
 
     def _get_running_services(self):
         """
         Execute each provided service expression against lines in ps and store
         each full line in a list against the service matched.
         """
-        for line in self.ps_func():
+        for line in CLIHelper().ps():
             for expr, hint in self.service_exprs:
                 if hint:
                     ret = re.compile(hint).search(line)
@@ -468,9 +454,15 @@ class ServiceChecksBase(object):
                         self.services[svc]["ps_cmds"].append(ret.group(0))
                         break
 
-    def __call__(self):
-        """This can/should be extended by inheriting class."""
-        self._get_running_services()
+    def get_service_info_str(self):
+        """Create a list of "<service> (<num running>)" for running services
+        detected. Useful for display purposes."""
+        service_info_str = []
+        for svc in sorted(self.services):
+            num_daemons = self.services[svc]["ps_cmds"]
+            service_info_str.append("{} ({})".format(svc, len(num_daemons)))
+
+        return service_info_str
 
 
 class DPKGVersionCompare(object):

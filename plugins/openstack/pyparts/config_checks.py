@@ -18,4 +18,4 @@ class OpenstackConfigChecks(ConfigChecksBase, OpenstackPackageChecksBase):
         if not self.core:
             return
 
-        super().__call__()
+        self.run_config_checks()

@@ -236,9 +236,6 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
 
         return interfaces
 
-    def __call__(self):
-        pass
-
 
 class AgentChecksBase(object):
     MAX_RESULTS = 5

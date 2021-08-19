@@ -285,7 +285,6 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
         self._output["resources"] = self.resources
 
     def __call__(self):
-        super().__call__()
         self.get_running_services_info()
         self.run_report_searches()
 

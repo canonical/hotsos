@@ -43,5 +43,4 @@ class KubernetesNetworkChecks(KubernetesChecksBase):
                 self._output[cni_type][iface]["vxlan"] = iface_info
 
     def __call__(self):
-        super().__call__()
         self.get_network_info()

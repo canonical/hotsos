@@ -68,7 +68,6 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
             self._output["debug-logging-enabled"] = debug_enabled
 
     def __call__(self):
-        super().__call__()
         self.get_release_info()
         self.get_running_services_info()
         self.get_debug_log_info()

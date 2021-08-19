@@ -37,5 +37,4 @@ class RabbitMQClusterChecks(RabbitMQChecksBase):
             issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
     def __call__(self):
-        super().__call__()
         self.check_log_errors()

@@ -8,6 +8,6 @@ find plugins -name __pycache__ -type d| xargs -l rm -rf
 
 snapcraft clean --destructive-mode
 snapcraft --destructive-mode
-snapcraft push hotsos_1.0_amd64.snap
+snapcraft upload hotsos_1.0_amd64.snap
 
 echo "Don't forget to snapcraft release!"

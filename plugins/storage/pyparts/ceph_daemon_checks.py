@@ -369,7 +369,6 @@ class CephOSDChecks(CephChecksBase):
         add_issue(issue)
 
     def __call__(self):
-        super().__call__()
         self.get_osd_info()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()

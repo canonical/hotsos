@@ -32,7 +32,6 @@ class KubernetesServiceChecks(KubernetesChecksBase):
             self._output["services"] = self.get_service_info_str()
 
     def __call__(self):
-        super().__call__()
         self.get_running_services_info()
 
 
@@ -61,7 +60,6 @@ class KubernetesResourceChecks(KubernetesChecksBase):
             self._output["containers"] = container_info
 
     def __call__(self):
-        super().__call__()
         self.get_pod_info()
         self.get_container_info()
 
