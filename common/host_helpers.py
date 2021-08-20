@@ -12,19 +12,21 @@ from common.searchtools import (
 # compatible with ip addr and ip link
 IP_IFACE_NAME = r"^\d+:\s+(\S+):\s+.+"
 IP_IFACE_NAME_TEMPLATE = r"^\d+:\s+({}):\s+.+"
-IP_IFACE_V4_ADDR = r".+(inet) ([\d\.]+)/(\d+) brd \S+ scope global (\S+)"
+IP_IFACE_V4_ADDR = r".+(inet) ([\d\.]+)/(\d+) (?:brd \S+ )?scope global (\S+)"
 IP_IFACE_V6_ADDR = r".+(inet6) ([\d\:]+)/(\d+) scope global.*"
 IP_IFACE_HW_ADDR = r".+(link/ether) (\S+) brd .+"
-IP_IFACE_HW_ADDR_TEMPLATE = r".+link/ether {} brd .+"
+IP_IFACE_HW_ADDR_TEMPLATE = r".+(link/ether) {} brd .+"
+IP_IFACE_VXLAN_INFO = r"\s+(vxlan) id (\d+) local (\S+) dev (\S+) .+"
 IP_EOF = r"^$"
 
 
 class NetworkPort(object):
 
-    def __init__(self, name, addresses, hwaddr):
+    def __init__(self, name, addresses, hwaddr, encap_info):
         self.name = name
         self.addresses = addresses
         self.hwaddr = hwaddr
+        self.encap_info = encap_info
         self.cli_helper = cli_helpers.CLIHelper()
         self.f_ip_link_show = mktemp_dump(''.join(self.cli_helper.ip_link()))
 
@@ -101,7 +103,8 @@ class HostNetworkingHelper(object):
                 start=SearchDef(IP_IFACE_NAME),
                 body=SearchDef([IP_IFACE_V4_ADDR,
                                 IP_IFACE_V6_ADDR,
-                                IP_IFACE_HW_ADDR]),
+                                IP_IFACE_HW_ADDR,
+                                IP_IFACE_VXLAN_INFO]),
                 tag="interfaces")
         search_obj = FileSearcher()
         search_obj.add_search_term(self.ip_addr_seq_search,
@@ -110,6 +113,7 @@ class HostNetworkingHelper(object):
         sections = r.find_sequence_sections(self.ip_addr_seq_search).values()
         for section in sections:
             addrs = []
+            encap_info = None
             hwaddr = None
             name = None
             for result in section:
@@ -118,10 +122,15 @@ class HostNetworkingHelper(object):
                 elif result.tag == self.ip_addr_seq_search.body_tag:
                     if result.get(1) in ['inet', 'inet6']:
                         addrs.append(result.get(2))
+                    elif result.get(1) in ['vxlan']:
+                        encap_info = {result.get(1): {
+                                          'id': result.get(2),
+                                          'local_ip': result.get(3),
+                                          'dev': result.get(4)}}
                     else:
                         hwaddr = result.get(2)
 
-            interfaces.append(NetworkPort(name, addrs, hwaddr))
+            interfaces.append(NetworkPort(name, addrs, hwaddr, encap_info))
 
         return interfaces
 

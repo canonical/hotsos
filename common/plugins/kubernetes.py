@@ -1,5 +1,6 @@
 from common import (
     checks,
+    host_helpers,
     plugintools,
 )
 
@@ -42,3 +43,20 @@ class KubernetesChecksBase(plugintools.PluginPartBase,
 
     def __init__(self):
         super().__init__(SERVICES, hint_range=(0, 3))
+        self.nethelp = host_helpers.HostNetworkingHelper()
+
+    @property
+    def flannel_ports(self):
+        ports = []
+        for port in self.nethelp.host_interfaces:
+            if "flannel" in port.name:
+                ports.append(port)
+
+        return ports
+
+    @property
+    def bind_interfaces(self):
+        """
+        Fetch interfaces used by Kubernetes.
+        """
+        return {'flannel': self.flannel_ports}

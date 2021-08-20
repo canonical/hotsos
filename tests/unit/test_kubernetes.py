@@ -75,10 +75,11 @@ class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
                                "sos_commands/networking/ip_-d_address.k8s")
             shutil.copy(src, dst)
             os.environ['DATA_ROOT'] = dtmp
-
             expected = {'flannel':
-                        {'flannel.1': {'addr': '58.49.23.0/32',
-                                       'vxlan': '10.78.2.176@enp6s0f0'}}}
+                        {'flannel.1': {'addr': '58.49.23.0',
+                                       'vxlan': {'dev': 'enp6s0f0.1604',
+                                                 'id': '1',
+                                                 'local_ip': '10.78.2.176'}}}}
             inst = network.KubernetesNetworkChecks()
             inst()
             self.assertEqual(inst.output, expected)
