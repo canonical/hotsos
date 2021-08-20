@@ -400,7 +400,7 @@ class ServiceChecksBase(object):
     """This class should be used by any plugin that wants to identify
     and check the status of running services."""
 
-    def __init__(self, service_exprs, hint_range=None):
+    def __init__(self, service_exprs, *args, hint_range=None, **kwargs):
         """
         @param service_exprs: list of python.re expressions used to match a
         service name.
@@ -409,6 +409,7 @@ class ServiceChecksBase(object):
                            used as a pre-search before doing a full search in
                            order to reduce unnecessary full searches.
         """
+        super().__init__(*args, **kwargs)
         self.services = {}
         self.service_exprs = []
         for expr in service_exprs:

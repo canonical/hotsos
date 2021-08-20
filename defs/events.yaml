@@ -97,4 +97,12 @@ kernel:
         start:
           expr: '.+ nf_conntrack: table full, dropping packet'
           hint: 'conntrack'
+rabbitmq:
+  cluster-checks:
+    rabbitlog:
+      cluster-partitions:
+        datasource: 'var/log/rabbitmq/rabbit@*.log'
+        start:
+          expr: '.+ \S+_partitioned_network'
+          hint: 'partition'
 

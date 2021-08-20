@@ -1,40 +1,31 @@
-import os
-
 from common import (
-    constants,
+    checks,
     issue_types,
     issues_utils,
 )
-from common.searchtools import (
-    SearchDef,
-    FileSearcher,
-)
 from common.plugins.rabbitmq import RabbitMQChecksBase
+from common.searchtools import FileSearcher
 
 YAML_PRIORITY = 1
 
 
-class RabbitMQClusterChecks(RabbitMQChecksBase):
+class RabbitMQClusterChecks(RabbitMQChecksBase, checks.EventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.searcher = FileSearcher()
+        s = FileSearcher()
+        super().__init__(*args, searchobj=s, yaml_defs_label='cluster-checks',
+                         **kwargs)
 
-    def check_log_errors(self):
-        path = os.path.join(constants.DATA_ROOT,
-                            'var/log/rabbitmq/rabbit@*.log')
-        if constants.USE_ALL_LOGS:
-            path = f"{path}*"
-
-        self.searcher.add_search_term(SearchDef(
-                                        r".+ \S+_partitioned_network",
-                                        tag="partitions"),
-                                      path=path)
-        results = self.searcher.search()
-        if results.find_by_tag("partitions"):
-            msg = ("cluster either has or has had partitions - check "
-                   "cluster_status")
-            issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
+    def process_results(self, results):
+        """ See defs/events.yaml for definitions. """
+        for defs in self.event_definitions.values():
+            for label in defs:
+                _results = results.find_by_tag(label)
+                if label == "cluster-partitions" and _results:
+                    msg = ("cluster either has or has had partitions - check "
+                           "cluster_status")
+                    issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
     def __call__(self):
-        self.check_log_errors()
+        self.register_search_terms()
+        self.process_results(self.searchobj.search())

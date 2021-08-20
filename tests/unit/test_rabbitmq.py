@@ -1,15 +1,25 @@
 import mock
 
 import os
+import tempfile
+
 import utils
 
 from common import constants
 from plugins.rabbitmq.pyparts import (
+    cluster_checks,
     services,
 )
 
 
-class TestRabbitmqPluginPartServices(utils.BaseTestCase):
+class TestRabbitmqBase(utils.BaseTestCase):
+
+    def setUp(self, *args, **kwargs):
+        super().setUp(*args, **kwargs)
+        os.environ["PLUGIN_NAME"] = "rabbitmq"
+
+
+class TestRabbitmqServices(TestRabbitmqBase):
 
     def test_get_service_info_bionic(self):
         expected = {
@@ -72,12 +82,12 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
-                            'origin': 'testplugin.01part'},
+                            'origin': 'rabbitmq.01part'},
                            {'desc': 'Cluster partition handling is currently '
                                     'set to ignore. This is potentially '
                                     'dangerous and a setting of '
                                     'pause_minority is recommended.',
-                            'origin': 'testplugin.01part',
+                            'origin': 'rabbitmq.01part',
                             'type': 'RabbitMQWarning'}]})
 
     @mock.patch.object(services, 'CLIHelper')
@@ -156,12 +166,12 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
-                            'origin': 'testplugin.01part'},
+                            'origin': 'rabbitmq.01part'},
                            {'desc': 'Cluster partition handling is currently '
                                     'set to ignore. This is potentially '
                                     'dangerous and a setting of '
                                     'pause_minority is recommended.',
-                            'origin': 'testplugin.01part',
+                            'origin': 'rabbitmq.01part',
                             'type': 'RabbitMQWarning'}]})
 
     @mock.patch.object(services, 'CLIHelper')
@@ -176,3 +186,30 @@ class TestRabbitmqPluginPartServices(utils.BaseTestCase):
         inst = services.get_rabbitmq_package_checker()
         inst()
         self.assertEqual(inst.output, None)
+
+
+class TestRabbitmqClusterChecks(TestRabbitmqBase):
+
+    @mock.patch.object(cluster_checks.issues_utils, 'add_issue')
+    def test_cluster_checks_no_issue(self, mock_add_issue):
+        inst = cluster_checks.RabbitMQClusterChecks()
+        inst()
+        self.assertEqual(inst.output, None)
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch.object(cluster_checks.issues_utils, 'add_issue')
+    def test_cluster_checks_w_partitions(self, mock_add_issue):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            logdir = os.path.join(dtmp, 'var/log/rabbitmq')
+            os.makedirs(logdir)
+            with open(os.path.join(logdir, 'rabbit@foo.log'), 'w') as fd:
+                fd.write("Mnesia(rabbit@node1): ** ERROR ** mnesia_event got "
+                         "{inconsistent_database, running_partitioned_network"
+                         ", rabbit@node2}\n")
+
+            inst = cluster_checks.RabbitMQClusterChecks()
+            inst()
+
+        self.assertEqual(inst.output, None)
+        self.assertTrue(mock_add_issue.called)
