@@ -18,8 +18,8 @@ YAML_PRIORITY = 3
 
 class OpenstackInstanceChecks(OpenstackChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self._nova_config = OpenstackConfig(os.path.join(constants.DATA_ROOT,
                                                          "etc/nova/nova.conf"))
 

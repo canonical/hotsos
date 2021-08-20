@@ -4,15 +4,15 @@ from common import (
     issues_utils,
 )
 from common.host_helpers import HostNetworkingHelper
-from common.searchtools import FileSearcher
-from common.plugins.kernel import (
-    KernelChecksBase,
-)
+from common.plugins.kernel import KernelChecksBase
 
 YAML_PRIORITY = 2
 
 
-class KernLogEventChecks(checks.EventChecksBase):
+class KernelNetworkChecks(KernelChecksBase, checks.EventChecksBase):
+
+    def __init__(self):
+        super().__init__(yaml_defs_label='network-checks')
 
     def check_mtu_dropped_packets(self, results):
         ifaces = {}
@@ -70,14 +70,8 @@ class KernLogEventChecks(checks.EventChecksBase):
 
         return info
 
-
-class KernelNetworkChecks(KernelChecksBase):
-
     def __call__(self):
-        s = FileSearcher()
-        check = KernLogEventChecks(s, "network-checks")
-        check.register_search_terms()
-        results = s.search()
-        check_results = check.process_results(results)
+        self.register_search_terms()
+        check_results = self.process_results(self.searchobj.search())
         if check_results:
             self._output.update(check_results)

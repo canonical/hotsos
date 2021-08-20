@@ -237,26 +237,6 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
         return interfaces
 
 
-class AgentChecksBase(object):
-    MAX_RESULTS = 5
-
-    def __init__(self, searchobj, master_results_key=None):
-        """
-        @param searchobj: FileSearcher object used for searches.
-        @param master_results_key: optional - key into which results
-                                   will be stored in master yaml.
-        """
-        self.searchobj = searchobj
-        if master_results_key:
-            self.master_results_key = master_results_key
-
-    def register_search_terms(self):
-        raise NotImplementedError
-
-    def process_results(self, results):
-        raise NotImplementedError
-
-
 class OpenstackConfig(checks.SectionalConfigBase):
     pass
 

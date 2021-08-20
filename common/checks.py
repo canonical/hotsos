@@ -17,6 +17,7 @@ from common.known_bugs_utils import (
     BugSearchDef,
 )
 from common.searchtools import (
+    FileSearcher,
     SearchDef,
 )
 
@@ -29,16 +30,23 @@ SVC_EXPR_TEMPLATES = {
 
 class ChecksBase(object):
 
-    def __init__(self, searchobj, yaml_defs_label):
+    def __init__(self, yaml_defs_label, searchobj=None):
         """
-        @param searchobj: FileSearcher object used for searches. If multiple
-                          implementations of this class are used in the same
-                          part it is recommended to provide a search object
-                          that is shared across them to provide concurrent
-                          execution.
-        @param _yaml_defs_label: yaml defs label key
+        @param _yaml_defs_label: key used to identify our yaml definitions if
+                                 indeed we have any. This is given meaning by
+                                 the implementing class.
+        @param searchobj: optional FileSearcher object used for searches. If
+                          multiple implementations of this class are used in
+                          the same part it is recommended to provide a search
+                          object that is shared across them to provide
+                          concurrent execution.
+
         """
-        self.searchobj = searchobj
+        if searchobj:
+            self.searchobj = searchobj
+        else:
+            self.searchobj = FileSearcher()
+
         self._yaml_defs_label = yaml_defs_label
 
     def register_search_terms(self):

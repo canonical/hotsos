@@ -16,8 +16,8 @@ YAML_PRIORITY = 0
 
 class SOSReportPluginChecks(plugintools.PluginPartBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.searcher = FileSearcher()
 
     def check_plugin_timouts(self):

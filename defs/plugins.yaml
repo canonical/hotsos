@@ -21,7 +21,7 @@ plugins:
       units:
         - JujuUnitChecks
       known_bugs:
-        - get_bug_checker
+        - JujuBugChecks
   openstack:
     parts:
       agent_checks:

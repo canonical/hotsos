@@ -6,11 +6,7 @@ import tempfile
 
 import utils
 
-from common import (
-    checks,
-    searchtools,
-)
-
+from common import checks
 from plugins.openstack.pyparts import (
     openstack_services,
     vm_info,
@@ -397,12 +393,11 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                             'incomplete': 2}
                         }
                     }
-        s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-ovs-agent"
-        c = agent_checks.NeutronAgentEventChecks(s, root_key)
+        c = agent_checks.NeutronAgentEventChecks(root_key)
         c.register_search_terms()
-        results = c.process_results(s.search())
+        results = c.process_results(c.searchobj.search())
         self.assertEqual(results.get(group_key), expected)
 
     @mock.patch.object(agent_checks.checks, "add_known_bug")
@@ -413,10 +408,9 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
             bugs.append((args, kwargs))
 
         mock_add_known_bug.side_effect = fake_add_bug
-        s = searchtools.FileSearcher()
-        c = agent_checks.NeutronAgentBugChecks(s, "neutron")
+        c = agent_checks.NeutronAgentBugChecks("neutron")
         c.register_search_terms()
-        results = c.process_results(s.search())
+        results = c.process_results(c.searchobj.search())
         self.assertEqual(results, None)
         calls = [mock.call("1896506",
                            ('identified in syslog')),
@@ -503,12 +497,11 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                             'samples': 1}
                         }
                     }
-        s = searchtools.FileSearcher()
         root_key = "neutron-agent-checks"
         group_key = "neutron-l3-agent"
-        c = agent_checks.NeutronAgentEventChecks(s, root_key)
+        c = agent_checks.NeutronAgentEventChecks(root_key)
         c.register_search_terms()
-        results = c.process_results(s.search())
+        results = c.process_results(c.searchobj.search())
         self.assertEqual(results.get(group_key), expected)
 
     @mock.patch.object(agent_checks, "NeutronAgentEventChecks")
@@ -535,12 +528,11 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                       }
                      }
                     }
-        s = searchtools.FileSearcher()
         root_key = "octavia-checks"
         for group_key in ["octavia-worker", "octavia-health-manager"]:
-            c = agent_checks.OctaviaAgentEventChecks(s, root_key)
+            c = agent_checks.OctaviaAgentEventChecks(root_key)
             c.register_search_terms()
-            results = c.process_results(s.search())
+            results = c.process_results(c.searchobj.search())
             self.assertEqual(results["octavia"].get(group_key),
                              expected.get(group_key))
 
@@ -587,22 +579,10 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
                              {'UnicodeDecodeError': {'2021-05-04': 1}}}
         expected = {"nova": nova_expected, "neutron": neutron_expected,
                     "barbican": barbican_expected}
-        s = searchtools.FileSearcher()
-        c = agent_exceptions.CommonAgentChecks(s)
+        c = agent_exceptions.AgentExceptionChecks()
         c.register_search_terms()
-        results = c.process_results(s.search())
+        results = c.process_results(c.searchobj.search())
         self.assertEqual(results, expected)
-
-    @mock.patch.object(agent_exceptions, "CommonAgentChecks")
-    def test_run_agent_checks(self, mock_common_agent_checks):
-        c = mock_common_agent_checks.return_value
-        c.process_results.return_value = "r1"
-
-        inst = agent_exceptions.AgentExceptionChecks()
-        inst()
-        self.assertTrue(mock_common_agent_checks.called)
-        # results should be empty if we have mocked everything
-        self.assertEqual(inst.output, {"agent-exceptions": "r1"})
 
 
 class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):

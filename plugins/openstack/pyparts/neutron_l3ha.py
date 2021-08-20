@@ -23,8 +23,8 @@ YAML_PRIORITY = 8
 
 class NeutronL3HAChecks(OpenstackChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.searcher = FileSearcher()
         self.f_journalctl = None
         self.router_vrrp_pids = {}

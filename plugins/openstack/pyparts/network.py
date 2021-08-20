@@ -9,8 +9,8 @@ YAML_PRIORITY = 4
 
 class OpenstackNetworkChecks(OpenstackChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.nethelp = host_helpers.HostNetworkingHelper()
         self.cli = CLIHelper()
 

@@ -4,17 +4,14 @@ from common import (
     issues_utils,
 )
 from common.plugins.rabbitmq import RabbitMQChecksBase
-from common.searchtools import FileSearcher
 
 YAML_PRIORITY = 1
 
 
 class RabbitMQClusterChecks(RabbitMQChecksBase, checks.EventChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        s = FileSearcher()
-        super().__init__(*args, searchobj=s, yaml_defs_label='cluster-checks',
-                         **kwargs)
+    def __init__(self):
+        super().__init__(yaml_defs_label='cluster-checks')
 
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """

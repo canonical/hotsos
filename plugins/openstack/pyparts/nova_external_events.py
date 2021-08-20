@@ -17,8 +17,8 @@ YAML_PRIORITY = 2
 
 class NovaExternalEventChecks(OpenstackChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.data_source = os.path.join(constants.DATA_ROOT,
                                         "var/log/nova/nova-compute.log")
 

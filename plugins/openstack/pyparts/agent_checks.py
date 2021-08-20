@@ -48,9 +48,6 @@ class NeutronAgentBugChecks(checks.BugChecksBase):
 
 class OctaviaAgentEventChecks(checks.EventChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def _get_failover(self, result):
         ts_date = result.get(1)
         payload = yaml.safe_load(result.get(2))
@@ -161,10 +158,10 @@ class AgentChecks(plugintools.PluginPartBase):
 
     def __call__(self):
         s = FileSearcher()
-        checks = [NeutronAgentEventChecks(s, "neutron-agent-checks"),
-                  NeutronAgentBugChecks(s, "neutron"),
-                  OctaviaAgentEventChecks(s, "octavia-checks"),
-                  AgentApparmorChecks(s, "apparmor-checks")]
+        checks = [NeutronAgentEventChecks("neutron-agent-checks", searchobj=s),
+                  NeutronAgentBugChecks("neutron", searchobj=s),
+                  OctaviaAgentEventChecks("octavia-checks", searchobj=s),
+                  AgentApparmorChecks("apparmor-checks", searchobj=s)]
         for check in checks:
             check.register_search_terms()
 

@@ -79,7 +79,7 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
         os.environ["PLUGIN_NAME"] = "juju"
 
     def test_detect_known_bugs(self):
-        known_bugs.get_bug_checker()()
+        known_bugs.JujuBugChecks()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1910958',
                       'desc':

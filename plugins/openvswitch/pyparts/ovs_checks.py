@@ -24,8 +24,8 @@ YAML_PRIORITY = 1
 
 class OpenvSwitchDaemonChecksBase(OpenvSwitchChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.search_obj = FileSearcher()
         self.results = []
 

@@ -10,8 +10,8 @@ YAML_PRIORITY = 2
 
 class JujuUnitChecks(JujuChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.units = {}
 
     def get_nonlocal_unit_info(self):

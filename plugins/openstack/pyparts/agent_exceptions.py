@@ -5,11 +5,10 @@ from common import (
     constants,
 )
 from common.searchtools import (
-    SearchDef,
     FileSearcher,
+    SearchDef
 )
 from common.plugins.openstack import (
-    AgentChecksBase,
     OpenstackChecksBase,
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     SERVICE_RESOURCES,
@@ -29,10 +28,11 @@ AGENT_DEP_EXCEPTION_EXPR_TEMPLATE = r" (\S*\.?{}):"
 YAML_PRIORITY = 7
 
 
-class CommonAgentChecks(AgentChecksBase):
+class AgentExceptionChecks(OpenstackChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
+        self.searchobj = FileSearcher()
         self._agent_log_issues = {}
         self._exception_exprs = {}
         self._agent_exceptions = {"barbican": BARBICAN_EXCEPTIONS,
@@ -178,17 +178,8 @@ class CommonAgentChecks(AgentChecksBase):
 
         return self._agent_log_issues
 
-
-class AgentExceptionChecks(OpenstackChecksBase):
-
     def __call__(self):
-        s = FileSearcher()
-        checks = [CommonAgentChecks(s)]
-        for check in checks:
-            check.register_search_terms()
-
-        results = s.search()
-        for check in checks:
-            check_results = check.process_results(results)
-            if check_results:
-                self._output["agent-exceptions"] = check_results
+        self.register_search_terms()
+        check_results = self.process_results(self.searchobj.search())
+        if check_results:
+            self._output["agent-exceptions"] = check_results
