@@ -1775,6 +1775,9 @@ Aug  3 10:31:22 compute4 kernel: [10125.983499] bcache: register_bcache() error 
 Aug  3 10:31:22 compute4 kernel: [10126.080045] bcache: register_bcache() error : device already registered
 Aug  3 10:31:23 compute4 kernel: [10126.652807] blk_update_request: I/O error, dev loop7, sector 0 op 0x1:(WRITE) flags 0x800 phys_seg 0 prio class 0
 Aug  3 10:31:23 compute4 kernel: [10126.837691] bcache: register_bcache() error : device already registered (emitting change event)
+Aug  3 10:31:24 compute4 kernel: [5490487.294657] Memory cgroup out of memory: Kill process 55438 (ruby) score 1116 or sacrifice child
+Aug  3 10:31:24 compute4 kernel: [5490487.297212] Killed process 55438 (ruby) total-vm:1771344kB, anon-rss:1469448kB, file-rss:4992kB
+Aug  3 08:32:23 compute4 kernel: [5489652.470650] nice invoked oom-killer: gfp_mask=0x24000c0, order=0, oom_score_adj=876
 
 May  6 10:49:21 compute4 kernel: [13502680.515977] tap0906171f-17: dropped over-mtu packet: 8950 > 1450
 May  6 10:49:21 compute4 kernel: [13502680.516145] tap0906171f-17: dropped over-mtu packet: 8950 > 1450

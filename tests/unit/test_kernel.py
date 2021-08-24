@@ -122,3 +122,22 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
         self.assertTrue(mock_add_issue.called)
         self.assertTrue(len(issues) == 2)
         self.assertEquals(inst.output, expected)
+
+
+class TestKernelPluginPartKernelOOM(TestKernelBase):
+
+    @mock.patch.object(memory.issues_utils, "add_issue")
+    def test_run_memory_checks(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        expected = {'oom-event':
+                    'Aug  3 08:32:23'}
+        inst = memory.KernelOOMChecks()
+        inst()
+        self.assertTrue(mock_add_issue.called)
+        self.assertTrue(len(issues) == 1)
+        self.assertEquals(inst.output, expected)
