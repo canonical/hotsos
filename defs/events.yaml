@@ -1,26 +1,51 @@
 # Definitions used to identify events in log files. Events can be single or
-# multi-line. The former requires a start match and the latter requires a start
-# and end.
+# multi-line.
+#
+# Entries are defined using the following hierarchy:
+#
+# PLUGIN:
+#   GROUP_LABEL:
+#     SECTION:
+#       EVENT:
 #
 # Supported fields (for full details see common.checks.EventChecksBase):
 #
-# * start: dict with elements "expr" and "hint" where expr is a regex pattern
-#          used to match a log entry that identifies an event start point and
-#          hint is an optional quick pre-search to be run before the full expr.
+# Two types of searches are available here; single line and sequence.
 #
-# * end: optional patter to match the end of a multi-line event.
+# To match single line events use the form:
 #
-# * datasource: relative path to file/directory we want to search.
+# <label>:
+#   expr: <re.match pattern>
+#   hint: optional <re.match pattern> used as a low-cost filter
 #
-# * allow-all-logs: whether to allow datasource to be wildcarded. The default
+# To match multi-line events (sequences) use the form:
+#
+# <label>:
+#   start:
+#     expr: <re.match pattern> used to match start of sequence
+#     hint: optional <re.match pattern> used as a low-cost filter
+#   end:
+#     expr: <re.match pattern> used to match end of sequence
+#     hint: optional <re.match pattern> used as a low-cost filter
+#
+# Mandatory fields:
+#
+#   path: file/dir/glob to search - this can specified as a section global or
+#         within the event definition.
+#
+# Optional fields:
+#
+#   allow-all-logs: whether to allow path to be wildcarded. The default
 #                   is True and should be set to False if searching full
 #                   history will result in excessive load or execution time.
 #
-# REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
+# TIP: to use a single quote ' inside a yaml string you need to replace it with
+#      two single quotes.
 #
 openstack:
   neutron-agent-checks:
     neutron-ovs-agent:
+      path: 'var/log/neutron/neutron-openvswitch-agent.log'
       # identify rpc_loop iterations and get stats and longest running loops.
       rpc-loop:
         start:
@@ -29,12 +54,12 @@ openstack:
         end:
           expr: '^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) completed..+'
           hint: 'Agent rpc_loop'
-        datasource: 'var/log/neutron/neutron-openvswitch-agent.log'
         # NOTE: disabling all-logs for now since running against a long
         # history of logs can generate a very large amount of data that can
         # consume too much memory.
         allow-all-logs: False
     neutron-l3-agent:
+      path: 'var/log/neutron/neutron-l3-agent.log'
       # identify router updates that took the longest to complete and report the longest updates.
       router-updates:
         start:
@@ -43,7 +68,6 @@ openstack:
         end:
           expr: '^([0-9-]+) (\S+) .+ Finished a router update for (\S+), update_id (\S+). .+'
           hint: 'router update'
-        datasource: 'var/log/neutron/neutron-l3-agent.log'
       # identify HA router keepalived spawn events that took the longest to complete and report the longest updates.
       router-spawn-events:
         # router state_change_monitor + keepalived spawn
@@ -53,101 +77,77 @@ openstack:
         end:
           expr: '^([0-9-]+) (\S+) .+ Keepalived spawned with config \S+/ha_confs/([0-9a-z-]+)/keepalived.conf .+'
           hint: 'Keepalived'
-        datasource: 'var/log/neutron/neutron-l3-agent.log'
   octavia-checks:
     octavia-health-manager:
+      path: 'var/log/octavia/octavia-health-manager.log'
       amp-missed-heartbeats:
-        datasource: 'var/log/octavia/octavia-health-manager.log'
-        start:
-          expr: '^(\S+) \S+ .+ Amphora (\S+) health message was processed too slowly:.+'
-          hint: 'Amphora'
+        expr: '^(\S+) \S+ .+ Amphora (\S+) health message was processed too slowly:.+'
+        hint: 'Amphora'
       lb-failover-auto:
-        datasource: 'var/log/octavia/octavia-health-manager.log'
-        start:
-          expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
-          hint: 'failover'
+        expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
+        hint: 'failover'
     octavia-worker:
       lb-failover-manual:
-        datasource: 'var/log/octavia/octavia-worker.log'
-        start:
-          expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
-          hint: 'failover'
+        path: 'var/log/octavia/octavia-worker.log'
+        expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
+        hint: 'failover'
   apparmor-checks:
     denials:
       nova:
-        datasource: 'var/log/kern.log'
-        start:
-          expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
-          hint: 'apparmor'
+        path: 'var/log/kern.log'
+        expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
+        hint: 'apparmor'
       neutron:
-        datasource: 'var/log/kern.log'
-        start:
-          expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
-          hint: 'apparmor'
+        path: 'var/log/kern.log'
+        expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
+        hint: 'apparmor'
 kernel:
-  memory-check:
+  memory-checks:
     kernlog:
       oom:
-        datasource: 'var/log/kern.log'
-        start:
-          expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
-          hint: 'oom'
+        path: 'var/log/kern.log'
+        expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
+        hint: 'oom'
   network-checks:
     kernlog:
       over-mtu:
-        datasource: 'var/log/kern.log'
-        start:
-          expr: '.+\] (\S+): dropped over-mtu packet'
-          hint: 'dropped'
+        path: 'var/log/kern.log'
+        expr: '.+\] (\S+): dropped over-mtu packet'
+        hint: 'dropped'
       nf-conntrack-full:
-        datasource: 'var/log/kern.log'
-        start:
-          expr: '.+ nf_conntrack: table full, dropping packet'
-          hint: 'conntrack'
+        path: 'var/log/kern.log'
+        expr: '.+ nf_conntrack: table full, dropping packet'
+        hint: 'conntrack'
 rabbitmq:
   cluster-checks:
     rabbitlog:
       cluster-partitions:
-        datasource: 'var/log/rabbitmq/rabbit@*.log'
-        start:
-          expr: '.+ \S+_partitioned_network'
-          hint: 'partition'
+        path: 'var/log/rabbitmq/rabbit@*.log'
+        expr: '.+ \S+_partitioned_network'
+        hint: 'partition'
 storage:
   ceph:
     cephlogs:
+      path: 'var/log/ceph/ceph*.log'
       report-failed:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
-          hint: 'reported failed'
+        expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
+        hint: 'reported failed'
       mon-elections:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor election'
-          hint: 'calling monitor election'
+        expr: '^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor election'
+        hint: 'calling monitor election'
       slow-requests:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked .+ \(REQUEST_SLOW\)'
-          hint: 'REQUEST_SLOW'
+        expr: '^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked .+ \(REQUEST_SLOW\)'
+        hint: 'REQUEST_SLOW'
       crc-err-bluestore:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* .+ _verify_csum bad .+'
-          hint: '_verify_csum'
+        expr: '^([0-9-]+)\S* .+ _verify_csum bad .+'
+        hint: '_verify_csum'
       crc-err-rocksdb:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* .+ rocksdb: .+block checksum mismatch:'
-          hint: 'checksum mismatch'
+        expr: '^([0-9-]+)\S* .+ rocksdb: .+block checksum mismatch:'
+        hint: 'checksum mismatch'
       long-heartbeat:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ interface seen'
-          hint: 'Long heartbeat ping'
+        expr: '^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ interface seen'
+        hint: 'Long heartbeat ping'
       heartbeat-no-reply:
-        datasource: 'var/log/ceph/ceph*.log'
-        start:
-          expr: '^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
-          hint: 'heartbeat_check'
+        expr: '^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
+        hint: 'heartbeat_check'
 

@@ -11,7 +11,7 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
 
     def __init__(self):
         super().__init__(CEPH_SERVICES_EXPRS,
-                         yaml_defs_label='ceph')
+                         yaml_defs_group='ceph')
 
     def process_slow_requests(self, results):
         slow_requests = {}
@@ -70,31 +70,31 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         info = {}
-        for defs in self.event_definitions.values():
-            for label in defs:
-                _results = results.find_by_tag(label)
-                if label == "report-failed":
+        for group in self.event_definitions.values():
+            for event in group:
+                _results = results.find_by_tag(event)
+                if event == "report-failed":
                     ret = self.get_results_timings(_results,
                                                    'osd-reported-failed',
                                                    group_by_resource=True)
-                elif label == "mon-elections":
+                elif event == "mon-elections":
                     ret = self.get_results_timings(_results,
                                                    'mon-elections-called',
                                                    group_by_resource=True)
-                elif label == "slow-requests":
+                elif event == "slow-requests":
                     # This one is special since we extract the count from the
                     # search result itself.
                     ret = self.process_slow_requests(_results)
-                elif label == "crc-err-bluestore":
+                elif event == "crc-err-bluestore":
                     ret = self.get_results_timings(_results,
                                                    'crc-err-bluestore')
-                elif label == "crc-err-rocksdb":
+                elif event == "crc-err-rocksdb":
                     ret = self.get_results_timings(_results,
                                                    'crc-err-rocksdb')
-                elif label == "long-heartbeat":
+                elif event == "long-heartbeat":
                     ret = self.get_results_timings(_results,
                                                    'long-heartbeat-pings')
-                elif label == "heartbeat-no-reply":
+                elif event == "heartbeat-no-reply":
                     ret = self.get_results_timings(_results,
                                                    'heartbeat-no-reply')
                 if ret:

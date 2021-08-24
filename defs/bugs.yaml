@@ -12,13 +12,14 @@
 #   that are available when expr is matched and that we want to use as format
 #   input to reason.
 #
-# * datasource: relative path to file/directory we want to search.
+# * path: relative path to file/directory we want to search.
 #
-# * allow-all-logs: whether to allow datasource to be wildcarded. The default
+# * allow-all-logs: whether to allow path to be wildcarded. The default
 #                   is True and should be set to False if searching full
 #                   history will result in excessive load or execution time.
 #
-# REMINDER: to use a single quote ' in a yaml string you need to put a double (single)quote i.e. ''
+# TIP: to use a single quote ' inside a yaml string you need to replace it with
+#      two single quotes.
 #
 openstack:
   neutron:
@@ -26,32 +27,27 @@ openstack:
       expr: 'AttributeError: ''NoneType'' object has no attribute ''get'''
       hint: 'AttributeError'
       reason: 'identified in neutron-l3-agent logs'
-      datasource: 'var/log/neutron/neutron-l3-agent.log'
-      allow-all-logs: True
+      path: 'var/log/neutron/neutron-l3-agent.log'
     1896506:
       expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
       hint: 'no_track'
-      reason: 'identified in syslog'
-      datasource: 'var/log/syslog'
-      allow-all-logs: True
+      reason: 'identified bug that critically impacts keepalived'
+      path: 'var/log/syslog'
     1907686:
       expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
       hint: 'OVS database'
-      reason: 'identified in neutron logs'
-      datasource: 'var/log/neutron/neutron-openvswitch-agent.log'
-      allow-all-logs: True
+      reason: 'identified bug impacting OVN db connections'
+      path: 'var/log/neutron/neutron-openvswitch-agent.log'
     1929832:
       expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
       hint: 'ProcessExecutionError'
-      reason: 'identified in neutron-l3-agent logs'
-      datasource: 'var/log/neutron/neutron-l3-agent.log'
-      allow-all-logs: True
+      reason: 'identified bug impacting deletion of HA routers'
+      path: 'var/log/neutron/neutron-l3-agent.log'
     1927868:
       expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
       hint: 'Gateway'
       reason: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
-      datasource: 'var/log/neutron/neutron-l3-agent.log'
-      allow-all-logs: True
+      path: 'var/log/neutron/neutron-l3-agent.log'
 juju:
   common:
     1910958:
@@ -59,5 +55,5 @@ juju:
       hint: 'manifold worker returned unexpected error'
       reason: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
       reason-format-result-groups: [1, 2]
-      datasource: 'var/log/juju/*.log'
-      allow-all-logs: True
+      path: 'var/log/juju/*.log'
+

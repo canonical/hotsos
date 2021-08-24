@@ -30,9 +30,9 @@ SVC_EXPR_TEMPLATES = {
 
 class ChecksBase(object):
 
-    def __init__(self, yaml_defs_label, searchobj=None):
+    def __init__(self, yaml_defs_group, searchobj=None):
         """
-        @param _yaml_defs_label: key used to identify our yaml definitions if
+        @param _yaml_defs_group: key used to identify our yaml definitions if
                                  indeed we have any. This is given meaning by
                                  the implementing class.
         @param searchobj: optional FileSearcher object used for searches. If
@@ -47,7 +47,7 @@ class ChecksBase(object):
         else:
             self.searchobj = FileSearcher()
 
-        self._yaml_defs_label = yaml_defs_label
+        self._yaml_defs_group = yaml_defs_group
 
     def register_search_terms(self):
         raise NotImplementedError
@@ -76,18 +76,18 @@ class BugChecksBase(ChecksBase):
             return
 
         plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
-        bugs = plugin_bugs.get(self._yaml_defs_label, {})
+        bugs = plugin_bugs.get(self._yaml_defs_group, {})
         for id in bugs:
             bug = bugs[id]
             reason_format = bug.get("reason-format-result-groups")
             _def = BugSearchDef(bug["expr"],
                                 bug_id=str(id),
-                                hint=bug["hint"],
+                                hint=bug.get("hint"),
                                 reason=bug["reason"],
                                 reason_format_result_groups=reason_format)
             bdef = {"def": _def}
 
-            ds = os.path.join(constants.DATA_ROOT, bug["datasource"])
+            ds = os.path.join(constants.DATA_ROOT, bug["path"])
             if bug.get("allow-all-logs", True) and constants.USE_ALL_LOGS:
                 ds = "{}*".format(ds)
 
@@ -98,7 +98,7 @@ class BugChecksBase(ChecksBase):
     def bug_definitions(self):
         """
         @return: dict of SearchDef objects and datasource for all entries in
-        bugs.yaml under _yaml_defs_label.
+        bugs.yaml under _yaml_defs_group.
         """
         if self._bug_defs:
             return self._bug_defs
@@ -146,52 +146,60 @@ class EventChecksBase(ChecksBase):
         if not yaml_defs:
             return
 
-        plugin_events = yaml_defs.get(constants.PLUGIN_NAME, {})
-        for group_name, group in plugin_events.get(self._yaml_defs_label,
-                                                   {}).items():
-            for label in group:
-                event = group[label]
+        plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
+        groups = plugin.get(self._yaml_defs_group, {})
+        for group_name, section in groups.items():
+            global_datasource = section.get('path')
+            if 'path' in section:
+                del section['path']
+
+            for event_name in section:
+                event = section[event_name]
 
                 # if this is a multiline event (has a start and end), append
                 # this to the tag so that it can be used with
                 # common.analytics.LogEventStats.
-                if "end" in event:
-                    start_tag = "{}-start".format(label)
+                if 'end' in event:
+                    tag = "{}-start".format(event_name)
+                    expr = event['start']['expr']
+                    hint = event['start'].get('hint')
                 else:
-                    start_tag = label
+                    tag = event_name
+                    expr = event['expr']
+                    hint = event.get('hint')
 
-                start = SearchDef(event["start"]["expr"],
-                                  tag=start_tag,
-                                  hint=event["start"]["hint"])
-                if "end" in event:
-                    end = SearchDef(event["end"]["expr"],
-                                    tag="{}-end".format(label),
-                                    hint=event["end"]["hint"])
+                start = SearchDef(expr, tag=tag, hint=hint)
+                if 'end' in event:
+                    tag = "{}-end".format(event_name)
+                    hint = event['end'].get('hint')
+                    end = SearchDef(event['end']['expr'], tag=tag, hint=hint)
                 else:
                     end = None
 
-                ds = os.path.join(constants.DATA_ROOT, event["datasource"])
-                if (event.get("allow-all-logs", True) and
+                # allow low-level path to override section global path
+                datasource = event.get('path', global_datasource)
+                ds = os.path.join(constants.DATA_ROOT, datasource)
+                if (event.get('allow-all-logs', True) and
                         constants.USE_ALL_LOGS):
                     ds = "{}*".format(ds)
 
                 if group_name not in self._event_defs:
                     self._event_defs[group_name] = {}
 
-                if label not in self._event_defs[group_name]:
-                    self._event_defs[group_name][label] = {}
+                if event_name not in self._event_defs[group_name]:
+                    self._event_defs[group_name][event_name] = {}
 
-                e_def = {"searchdefs": [start], "datasource": ds}
+                e_def = {'searchdefs': [start], 'datasource': ds}
                 if end:
-                    e_def["searchdefs"].append(end)
+                    e_def['searchdefs'].append(end)
 
-                self._event_defs[group_name][label] = e_def
+                self._event_defs[group_name][event_name] = e_def
 
     @property
     def event_definitions(self):
         """
         @return: dict of SearchDef objects and datasource for all entries in
-        events.yaml under _yaml_defs_label.
+        events.yaml under _yaml_defs_group.
         """
         if self._event_defs:
             return self._event_defs

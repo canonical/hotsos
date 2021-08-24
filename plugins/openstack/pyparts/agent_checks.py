@@ -17,16 +17,17 @@ class NeutronAgentEventChecks(checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         agent_info = {}
-        for agent, defs in self.event_definitions.items():
-            for label in defs:
+        for group, section in self.event_definitions.items():
+            agent_name = group
+            for event in section:
                 sri = None
                 # TODO: find a way to get rid of the need to provide this
-                if label == "router-updates":
+                if event == "router-updates":
                     sri = SearchResultIndices(event_id_idx=4,
                                               metadata_idx=3,
                                               metadata_key="router")
 
-                stats = LogEventStats(results, label, custom_idxs=sri)
+                stats = LogEventStats(results, event, custom_idxs=sri)
                 stats.run()
                 top5 = stats.get_top_n_events_sorted(5)
                 if not top5:
@@ -34,10 +35,10 @@ class NeutronAgentEventChecks(checks.EventChecksBase):
 
                 info = {"top": top5,
                         "stats": stats.get_event_stats()}
-                if agent not in agent_info:
-                    agent_info[agent] = {}
+                if agent_name not in agent_info:
+                    agent_info[agent_name] = {}
 
-                agent_info[agent][label] = info
+                agent_info[agent_name][event] = info
 
         return agent_info
 
@@ -102,17 +103,17 @@ class OctaviaAgentEventChecks(checks.EventChecksBase):
         failovers = {}
         missed_heartbeats = {}
         for defs in self.event_definitions.values():
-            for label in defs:
-                _results = results.find_by_tag(label)
-                if label.startswith("lb-failover-"):
-                    fo_type = label.partition("lb-failover-")[2]
+            for event in defs:
+                _results = results.find_by_tag(event)
+                if event.startswith("lb-failover-"):
+                    fo_type = event.partition("lb-failover-")[2]
                     f = self._get_failovers(_results)
                     if f:
                         failovers[fo_type] = f
-                elif label == "amp-missed-heartbeats":
+                elif event == "amp-missed-heartbeats":
                     missed_heartbeats = self._get_missed_heartbeats(_results)
                 else:
-                    raise Exception("unknown label {}".format(label))
+                    raise Exception("unknown event {}".format(event))
 
         output = {}
         if missed_heartbeats:
@@ -130,25 +131,26 @@ class AgentApparmorChecks(checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         info = {}
-        for action, defs in self.event_definitions.items():
-            for label in defs:
-                _results = results.find_by_tag(label)
+        for group, section in self.event_definitions.items():
+            aa_action = group
+            for event in section:
+                _results = results.find_by_tag(event)
                 for r in _results:
                     ts = r.get(1)
                     profile = r.get(2)
-                    if action not in info:
-                        info[action] = {}
+                    if aa_action not in info:
+                        info[aa_action] = {}
 
-                    if label not in info[action]:
-                        info[action][label] = {}
+                    if event not in info[aa_action]:
+                        info[aa_action][event] = {}
 
-                    if ts not in info[action][label]:
-                        info[action][label][ts] = {}
+                    if ts not in info[aa_action][event]:
+                        info[aa_action][event][ts] = {}
 
-                    if profile not in info[action][label][ts]:
-                        info[action][label][ts][profile] = 1
+                    if profile not in info[aa_action][event][ts]:
+                        info[aa_action][event][ts][profile] = 1
                     else:
-                        info[action][label][ts][profile] += 1
+                        info[aa_action][event][ts][profile] += 1
 
         if info:
             return {"apparmor": info}

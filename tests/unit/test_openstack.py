@@ -413,9 +413,11 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         results = c.process_results(c.searchobj.search())
         self.assertEqual(results, None)
         calls = [mock.call("1896506",
-                           ('identified in syslog')),
+                           ('identified bug that critically impacts '
+                            'keepalived')),
                  mock.call("1929832",
-                           ('identified in neutron-l3-agent logs'))]
+                           ('identified bug impacting deletion of HA '
+                            'routers'))]
         mock_add_known_bug.assert_has_calls(calls)
         self.assertEqual(len(bugs), 3)
 

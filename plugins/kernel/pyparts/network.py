@@ -13,7 +13,7 @@ YAML_PRIORITY = 2
 class KernelNetworkChecks(KernelChecksBase, checks.EventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_label='network-checks')
+        super().__init__(yaml_defs_group='network-checks')
         self.cli_helper = CLIHelper()
         self.hostnet_helper = HostNetworkingHelper()
 
@@ -62,14 +62,14 @@ class KernelNetworkChecks(KernelChecksBase, checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         info = {}
-        for defs in self.event_definitions.values():
-            for label in defs:
-                _results = results.find_by_tag(label)
-                if label == "over-mtu":
+        for section in self.event_definitions.values():
+            for event in section:
+                _results = results.find_by_tag(event)
+                if event == "over-mtu":
                     ret = self.check_mtu_dropped_packets(_results)
                     if ret:
                         info.update(ret)
-                elif label == "nf-conntrack-full":
+                elif event == "nf-conntrack-full":
                     ret = self.check_nf_conntrack_full(_results)
                     if ret:
                         info.update(ret)

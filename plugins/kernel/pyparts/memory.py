@@ -18,22 +18,21 @@ YAML_PRIORITY = 1
 class KernelOOMChecks(KernelChecksBase, checks.EventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_label='memory-check')
+        super().__init__(yaml_defs_group='memory-checks')
 
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         info = {}
-        for defs in self.event_definitions.values():
-            for label in defs:
-                _results = results.find_by_tag(label)
-                if label == "oom":
+        for section in self.event_definitions.values():
+            for event in section:
+                _results = results.find_by_tag(event)
+                if event == "oom":
                     if _results:
                         process_name = _results[0].get(3)
-                        time_oomd = _results[0].get(1) +\
-                            " " + _results[0].get(2)
-                        msg = ("oom-killer invoked for process '{}' at {} {}"
-                               .format(process_name, _results[0].get(1),
-                                       _results[0].get(2)))
+                        time_oomd = "{} {}".format(_results[0].get(1),
+                                                   _results[0].get(2))
+                        msg = ("oom-killer invoked for process '{}' at {}"
+                               .format(process_name, time_oomd))
                         issue = issue_types.MemoryWarning(msg)
                         issues_utils.add_issue(issue)
                         info['oom-event'] = time_oomd
