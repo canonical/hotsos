@@ -9,6 +9,7 @@ from plugins.kernel.pyparts import (
     memory,
     network,
 )
+from common.host_helpers import NetworkPort
 
 
 class TestKernelBase(utils.BaseTestCase):
@@ -122,6 +123,30 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
         self.assertTrue(mock_add_issue.called)
         self.assertTrue(len(issues) == 2)
         self.assertEquals(inst.output, expected)
+
+    @mock.patch.object(network, 'CLIHelper')
+    @mock.patch.object(network, 'HostNetworkingHelper')
+    def test_check_mtu_dropped_packets(self, mock_nethelper, mock_clihelper):
+        mock_ch = mock.MagicMock()
+        mock_clihelper.return_value = mock_ch
+        mock_ch.ovs_vsctl_list_br.return_value = ['br-int']
+
+        mock_nh = mock.MagicMock()
+        mock_nethelper.return_value = mock_nh
+        p1 = NetworkPort('br-int', None, None, None)
+        p2 = NetworkPort('tap7e105503-64', None, None, None)
+        mock_nh.host_interfaces_all = [p1, p2]
+
+        expected = {'over-mtu-dropped-packets': {'tap7e105503-64': 1}}
+        inst = network.KernelNetworkChecks()
+
+        mock_result1 = mock.MagicMock()
+        mock_result1.get.return_value = 'br-int'
+        mock_result2 = mock.MagicMock()
+        mock_result2.get.return_value = 'tap7e105503-64'
+
+        ret = inst.check_mtu_dropped_packets([mock_result1, mock_result2])
+        self.assertEquals(ret, expected)
 
 
 class TestKernelPluginPartKernelOOM(TestKernelBase):

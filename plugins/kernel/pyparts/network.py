@@ -3,6 +3,7 @@ from common import (
     issue_types,
     issues_utils,
 )
+from common.cli_helpers import CLIHelper
 from common.host_helpers import HostNetworkingHelper
 from common.plugins.kernel import KernelChecksBase
 
@@ -13,35 +14,40 @@ class KernelNetworkChecks(KernelChecksBase, checks.EventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_label='network-checks')
+        self.cli_helper = CLIHelper()
+        self.hostnet_helper = HostNetworkingHelper()
 
     def check_mtu_dropped_packets(self, results):
-        ifaces = {}
+        interfaces = {}
         for r in results:
-            if r.get(1) in ifaces:
-                ifaces[r.get(1)] += 1
+            if r.get(1) in interfaces:
+                interfaces[r.get(1)] += 1
             else:
-                ifaces[r.get(1)] = 1
+                interfaces[r.get(1)] = 1
 
-        if ifaces:
-            helper = HostNetworkingHelper()
-
+        if interfaces:
             # only report on interfaces that currently exist
-            iface_names = [iface.name for iface in helper.host_interfaces_all]
-            ifaces_extant = {}
-            for iface in ifaces:
-                if iface in iface_names:
-                    ifaces_extant[iface] = ifaces[iface]
+            host_interfaces = [iface.name for iface in
+                               self.hostnet_helper.host_interfaces_all]
+            # filter out interfaces that are actually ovs bridge aliases
+            ovs_bridges = self.cli_helper.ovs_vsctl_list_br()
 
-            if ifaces_extant:
+            interfaces_extant = {}
+            for iface in interfaces:
+                if iface in host_interfaces:
+                    if iface not in ovs_bridges:
+                        interfaces_extant[iface] = interfaces[iface]
+
+            if interfaces_extant:
                 msg = ("kernel has reported over-mtu dropped packets for ({}) "
-                       "interfaces".format(len(ifaces_extant)))
+                       "interfaces".format(len(interfaces_extant)))
                 issue = issue_types.NetworkWarning(msg)
                 issues_utils.add_issue(issue)
 
                 # sort by number of occurrences
                 sorted_dict = {}
-                for k, v in sorted(ifaces_extant.items(), key=lambda e: e[1],
-                                   reverse=True):
+                for k, v in sorted(interfaces_extant.items(),
+                                   key=lambda e: e[1], reverse=True):
                     sorted_dict[k] = v
 
                 return {"over-mtu-dropped-packets": sorted_dict}
