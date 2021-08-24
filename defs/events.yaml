@@ -85,6 +85,13 @@ openstack:
           expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
           hint: 'apparmor'
 kernel:
+  memory-check:
+    kernlog:
+      oom:
+        datasource: 'var/log/kern.log'
+        start:
+          expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
+          hint: 'oom'
   network-checks:
     kernlog:
       over-mtu:
