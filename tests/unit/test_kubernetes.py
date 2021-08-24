@@ -39,7 +39,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
                   'helm 3.5.0',
                   'kubectl 1.20.2',
                   'vault 1.5.4']
-        inst = general.get_kubernetes_package_checker()
+        inst = general.KubernetesPackageChecks()
         inst()
         self.assertEqual(inst.output['snaps'], result)
 
@@ -50,7 +50,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         for line in self.snaps_list:
             found = False
             for snap in general.SNAPS_K8S:
-                obj = general.KubernetesPackageChecks([])
+                obj = general.KubernetesPackageChecks()
                 if obj._get_snap_info_from_line(line, snap):
                     found = True
                     break
@@ -59,7 +59,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
                 filterered_snaps.append(line)
 
         mock_helper.return_value.snap_list_all.return_value = filterered_snaps
-        inst = general.get_kubernetes_package_checker()
+        inst = general.KubernetesPackageChecks()
         inst()
         self.assertEqual(inst.output, None)
 

@@ -27,7 +27,7 @@ plugins:
       agent_checks:
         - AgentChecks
       openstack_services:
-        - get_openstack_service_checker
+        - OpenstackServiceChecks
       service_checks:
         - NeutronServiceChecks
       service_features:
@@ -55,8 +55,8 @@ plugins:
         - OpenvSwitchDaemonChecks
         - OpenvSwitchDPChecks
       ovs_resources:
-        - get_package_checks
-        - get_service_checker
+        - OpenvSwitchPackageChecks
+        - OpenvSwitchServiceChecks
   system:
     parts:
       general:
@@ -77,7 +77,7 @@ plugins:
       general:
         - KubernetesResourceChecks
         - KubernetesServiceChecks
-        - get_kubernetes_package_checker
+        - KubernetesPackageChecks
       network:
         - KubernetesNetworkChecks
   rabbitmq:
@@ -86,7 +86,7 @@ plugins:
         - RabbitMQClusterChecks
       services:
         - RabbitMQServiceChecks
-        - get_rabbitmq_package_checker
+        - RabbitMQPackageChecks
   sosreport:
     parts:
       plugin_checks:
@@ -94,10 +94,10 @@ plugins:
   storage:
     parts:
       ceph_general:
-        - get_service_checker
-        - get_pkg_checker
+        - CephServiceChecks
+        - CephPackageChecks
       ceph_daemon_checks:
-        - get_osd_checker
+        - CephOSDChecks
       ceph_daemon_logs:
         - CephDaemonLogChecks
       bcache:

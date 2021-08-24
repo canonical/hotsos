@@ -65,7 +65,7 @@ class JujuMachine(object):
         return units
 
 
-class JujuChecksBase(plugintools.PluginPartBase):
+class JujuBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -107,3 +107,7 @@ class JujuChecksBase(plugintools.PluginPartBase):
     def _get_local_running_units(self):
         units = self.get_ps_units()
         return units.intersection(self.get_log_units())
+
+
+class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
+    pass

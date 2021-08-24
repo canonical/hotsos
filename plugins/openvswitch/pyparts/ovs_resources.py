@@ -12,6 +12,9 @@ YAML_PRIORITY = 0
 class OpenvSwitchServiceChecks(OpenvSwitchChecksBase,
                                checks.ServiceChecksBase):
 
+    def __init__(self):
+        super().__init__(service_exprs=OPENVSWITCH_SERVICES_EXPRS)
+
     def get_running_services_info(self):
         """Get string info for running daemons."""
         if self.services:
@@ -21,21 +24,14 @@ class OpenvSwitchServiceChecks(OpenvSwitchChecksBase,
         self.get_running_services_info()
 
 
-class OpenvswitchPackageChecks(OpenvSwitchChecksBase,
+class OpenvSwitchPackageChecks(OpenvSwitchChecksBase,
                                checks.APTPackageChecksBase):
+
+    def __init__(self):
+        super().__init__(core_pkgs=OVS_PKGS_CORE, other_pkgs=OVS_PKGS_DEPS)
 
     def __call__(self):
         # require at least one core package to be installed to include
         # this in the report.
         if self.core:
             self._output["dpkg"] = self.all
-
-
-def get_package_checks():
-    return OpenvswitchPackageChecks(core_pkgs=OVS_PKGS_CORE,
-                                    other_pkgs=OVS_PKGS_DEPS)
-
-
-def get_service_checker():
-    # Do this way to make it easier to write unit tests.
-    return OpenvSwitchServiceChecks(OPENVSWITCH_SERVICES_EXPRS)

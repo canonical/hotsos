@@ -55,7 +55,7 @@ class SystemdConfig(checks.SectionalConfigBase):
         super().__init__(path=path, *args, **kwargs)
 
 
-class KernelChecksBase(plugintools.PluginPartBase):
+class KernelBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -161,3 +161,11 @@ class KernelChecksBase(plugintools.PluginPartBase):
                          int(sections[3])])
 
         return info
+
+
+class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
+    pass
+
+
+class KernelEventChecksBase(KernelBase, checks.EventChecksBase):
+    pass

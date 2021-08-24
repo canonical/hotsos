@@ -1,5 +1,5 @@
-import re
 import os
+import re
 
 from common.cli_helpers import CLIHelper
 from common.issue_types import JujuWarning

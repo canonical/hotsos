@@ -13,7 +13,7 @@ class TestOpenvswitchPluginPartOpenvswitchServices(utils.BaseTestCase):
                     ['libc-bin 2.31-0ubuntu9.2',
                      'openvswitch-switch 2.13.3-0ubuntu0.20.04.1']}
 
-        inst = ovs_resources.get_package_checks()
+        inst = ovs_resources.OpenvSwitchPackageChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
@@ -22,7 +22,7 @@ class TestOpenvswitchPluginPartOpenvswitchServices(utils.BaseTestCase):
                                  'ovsdb-client (1)',
                                  'ovsdb-server (1)']}
 
-        inst = ovs_resources.get_service_checker()
+        inst = ovs_resources.OpenvSwitchServiceChecks()
         inst()
         self.assertEqual(inst.output, expected)
 

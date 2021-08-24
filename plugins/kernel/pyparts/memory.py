@@ -1,12 +1,12 @@
 import os
 
 from common import (
-    checks,
     issue_types,
     issues_utils,
 )
 from common.plugins.kernel import (
     KernelChecksBase,
+    KernelEventChecksBase,
     VMSTAT,
     BUDDY_INFO,
     SLABINFO,
@@ -15,7 +15,7 @@ from common.plugins.kernel import (
 YAML_PRIORITY = 1
 
 
-class KernelOOMChecks(KernelChecksBase, checks.EventChecksBase):
+class KernelOOMChecks(KernelEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='memory-checks')
@@ -36,13 +36,8 @@ class KernelOOMChecks(KernelChecksBase, checks.EventChecksBase):
                         issue = issue_types.MemoryWarning(msg)
                         issues_utils.add_issue(issue)
                         info['oom-event'] = time_oomd
-        return info
 
-    def __call__(self):
-        self.register_search_terms()
-        check_results = self.process_results(self.searchobj.search())
-        if check_results:
-            self._output.update(check_results)
+        self._output = info
 
 
 class KernelMemoryChecks(KernelChecksBase):

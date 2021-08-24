@@ -2,7 +2,6 @@ import os
 import re
 
 from common import (
-    checks,
     issues_utils,
     issue_types,
 )
@@ -13,12 +12,15 @@ from common.searchtools import (
     SequenceSearchDef,
 )
 from common.utils import mktemp_dump
-from common.plugins.openvswitch import OpenvSwitchChecksBase
+from common.plugins.openvswitch import (
+    OpenvSwitchChecksBase,
+    OpenvSwitchEventChecksBase,
+)
 
 YAML_PRIORITY = 1
 
 
-class OpenvSwitchDaemonChecks(OpenvSwitchChecksBase, checks.EventChecksBase):
+class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='daemon-checks')
@@ -96,10 +98,6 @@ class OpenvSwitchDaemonChecks(OpenvSwitchChecksBase, checks.EventChecksBase):
 
         if checkresults:
             self._output["daemon-checks"] = checkresults
-
-    def __call__(self):
-        self.register_search_terms()
-        self.process_results(self.searchobj.search())
 
 
 class OpenvSwitchDPChecks(OpenvSwitchChecksBase):

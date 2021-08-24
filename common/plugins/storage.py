@@ -26,7 +26,7 @@ CEPH_PKGS_CORE = [r"ceph-[a-z-]+",
 CEPH_LOGS = "var/log/ceph/"
 
 
-class StorageChecksBase(plugintools.PluginPartBase):
+class StorageBase(plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -38,7 +38,7 @@ class CephConfig(checks.SectionalConfigBase):
         super().__init__(path=path, *args, **kwargs)
 
 
-class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
+class CephBase(StorageBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -85,11 +85,6 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
             interfaces.update(iface)
 
         return interfaces
-
-    @property
-    def output(self):
-        if self._output:
-            return {"ceph": self._output}
 
     @property
     def bcache_info(self):
@@ -161,12 +156,27 @@ class CephChecksBase(StorageChecksBase, checks.ServiceChecksBase):
         return osd_ids
 
 
-class BcacheChecksBase(StorageChecksBase):
+class CephChecksBase(CephBase, plugintools.PluginPartBase,
+                     checks.ServiceChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
 
     @property
     def output(self):
         if self._output:
-            return {"bcache": self._output}
+            return {"ceph": self._output}
+
+
+class CephEventChecksBase(CephBase, checks.EventChecksBase):
+
+    @property
+    def output(self):
+        if self._output:
+            return {"ceph": self._output}
+
+
+class BcacheBase(StorageBase):
 
     def get_sysfs_cachesets(self):
         cachesets = []
@@ -186,3 +196,11 @@ class BcacheChecksBase(StorageChecksBase):
             del cset["path"]
 
         return cachesets
+
+
+class BcacheChecksBase(BcacheBase, plugintools.PluginPartBase):
+
+    @property
+    def output(self):
+        if self._output:
+            return {"bcache": self._output}

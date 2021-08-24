@@ -23,11 +23,7 @@ from common.utils import (
     mktemp_dump,
     sorted_dict,
 )
-from common.plugins.storage import (
-    CephChecksBase,
-    CEPH_SERVICES_EXPRS,
-)
-
+from common.plugins.storage import CephChecksBase
 from common.plugins.kernel import KernelChecksBase
 from common.plugins.storage import BcacheChecksBase
 
@@ -37,8 +33,8 @@ LP1936136_BCACHE_CACHE_LIMIT = 70
 
 class CephOSDChecks(CephChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.cli = CLIHelper()
         self.ceph_volume_lvm_list = self.cli.ceph_volume_lvm_list()
         self.ceph_osd_tree = self.cli.ceph_osd_tree()
@@ -374,8 +370,3 @@ class CephOSDChecks(CephChecksBase):
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
         self.check_bcache_vulnerabilities()
-
-
-def get_osd_checker():
-    # Do this way to make it easier to write unit tests.
-    return CephOSDChecks(CEPH_SERVICES_EXPRS)

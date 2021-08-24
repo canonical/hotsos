@@ -17,6 +17,9 @@ YAML_PRIORITY = 0
 class KubernetesPackageChecks(plugintools.PluginPartBase,
                               checks.SnapPackageChecksBase):
 
+    def __init__(self):
+        super().__init__(core_snaps=SNAPS_K8S, other_snaps=SNAPS_DEPS)
+
     def __call__(self):
         # require at least one core package to be installed to include
         # this in the report.
@@ -62,9 +65,3 @@ class KubernetesResourceChecks(KubernetesChecksBase):
     def __call__(self):
         self.get_pod_info()
         self.get_container_info()
-
-
-def get_kubernetes_package_checker():
-    # Do this way to make it easier to write unit tests.
-    return KubernetesPackageChecks(core_snaps=SNAPS_K8S,
-                                   other_snaps=SNAPS_DEPS)

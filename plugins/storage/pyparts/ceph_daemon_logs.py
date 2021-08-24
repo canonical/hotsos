@@ -1,19 +1,14 @@
 import re
 
-from common import checks
-from common.plugins.storage import (
-    CephChecksBase,
-    CEPH_SERVICES_EXPRS,
-)
+from common.plugins.storage import CephEventChecksBase
 
 YAML_PRIORITY = 2
 
 
-class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
+class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
-        super().__init__(CEPH_SERVICES_EXPRS,
-                         yaml_defs_group='ceph')
+        super().__init__(yaml_defs_group='ceph')
 
     def process_slow_requests(self, results):
         slow_requests = {}
@@ -108,10 +103,5 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
                     else:
                         info[event] = ret
 
-        return info
-
-    def __call__(self):
-        self.register_search_terms()
-        check_results = self.process_results(self.searchobj.search())
-        if check_results:
-            self._output.update(check_results)
+        if info:
+            self._output = info

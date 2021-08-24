@@ -1,15 +1,10 @@
 import os
 import re
 
-from common import (
-    constants,
-)
-from common.searchtools import (
-    FileSearcher,
-    SearchDef
-)
+from common import constants
+from common.searchtools import SearchDef
 from common.plugins.openstack import (
-    OpenstackChecksBase,
+    OpenstackEventChecksBase,
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     SERVICE_RESOURCES,
 )
@@ -28,12 +23,12 @@ AGENT_DEP_EXCEPTION_EXPR_TEMPLATE = r" (\S*\.?{}):"
 YAML_PRIORITY = 7
 
 
-class AgentExceptionChecks(OpenstackChecksBase):
+class AgentExceptionChecks(OpenstackEventChecksBase):
 
     def __init__(self):
-        super().__init__()
-        self.searchobj = FileSearcher()
-        self._agent_log_issues = {}
+        # NOTE: we are OpenstackEventChecksBase to get the call structure but
+        # we dont currently use yaml to define out searches.
+        super().__init__(yaml_defs_group='agent-exceptions')
         self._exception_exprs = {}
         self._agent_exceptions = {"barbican": BARBICAN_EXCEPTIONS,
                                   "cinder": CINDER_EXCEPTIONS,
@@ -161,25 +156,19 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
         return agent_exceptions
 
-    def _process_agent_results(self, results, service, agent):
-        e = self.get_exceptions_results(results.find_by_tag(agent),
-                                        AGENT_ERROR_KEY_BY_TIME)
-        if e:
-            if service not in self._agent_log_issues:
-                self._agent_log_issues[service] = {}
-
-            self._agent_log_issues[service][agent] = e
-
     def process_results(self, results):
         """Process search results to see if we got any hits."""
+        issues = {}
         for service in SERVICE_RESOURCES:
             for agent in SERVICE_RESOURCES[service]["daemons"]:
-                self._process_agent_results(results, service, agent)
+                _results = results.find_by_tag(agent)
+                ret = self.get_exceptions_results(_results,
+                                                  AGENT_ERROR_KEY_BY_TIME)
+                if ret:
+                    if service not in issues:
+                        issues[service] = {}
 
-        return self._agent_log_issues
+                    issues[service][agent] = ret
 
-    def __call__(self):
-        self.register_search_terms()
-        check_results = self.process_results(self.searchobj.search())
-        if check_results:
-            self._output["agent-exceptions"] = check_results
+        if issues:
+            self._output["agent-exceptions"] = issues

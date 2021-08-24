@@ -13,8 +13,17 @@ RMQ_PACKAGES = [
 ]
 
 
-class RabbitMQChecksBase(plugintools.PluginPartBase, checks.ServiceChecksBase):
+class RabbitMQBase(object):
+    pass
+
+
+class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase,
+                         checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(RMQ_SERVICES_EXPRS, *args, hint_range=(0, 3),
-                         **kwargs)
+        super().__init__(service_exprs=RMQ_SERVICES_EXPRS,
+                         *args, hint_range=(0, 3), **kwargs)
+
+
+class RabbitMQEventChecksBase(RabbitMQBase, checks.EventChecksBase):
+    pass

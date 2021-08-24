@@ -124,12 +124,11 @@ CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
                 "nova": {"nova": "etc/nova/nova.conf"}}
 
 
-class OpenstackServiceChecksBase(plugintools.PluginPartBase,
-                                 checks.ServiceChecksBase):
+class OpenstackConfig(checks.SectionalConfigBase):
     pass
 
 
-class OpenstackChecksBase(plugintools.PluginPartBase):
+class OpenstackBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -237,7 +236,16 @@ class OpenstackChecksBase(plugintools.PluginPartBase):
         return interfaces
 
 
-class OpenstackConfig(checks.SectionalConfigBase):
+class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
+    pass
+
+
+class OpenstackEventChecksBase(OpenstackBase, checks.EventChecksBase):
+    pass
+
+
+class OpenstackServiceChecksBase(plugintools.PluginPartBase,
+                                 checks.ServiceChecksBase):
     pass
 
 

@@ -21,6 +21,10 @@ YAML_PRIORITY = 0
 
 class OpenstackServiceChecks(OpenstackServiceChecksBase):
 
+    def __init__(self):
+        service_exprs = OST_SERVICES_EXPRS + OST_SERVICES_DEPS
+        super().__init__(service_exprs=service_exprs, hint_range=(0, 3))
+
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
@@ -71,9 +75,3 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
         self.get_release_info()
         self.get_running_services_info()
         self.get_debug_log_info()
-
-
-def get_openstack_service_checker():
-    # Do this way to make it easier to write unit tests.
-    OPENSTACK_SERVICES_EXPRS = OST_SERVICES_EXPRS + OST_SERVICES_DEPS
-    return OpenstackServiceChecks(OPENSTACK_SERVICES_EXPRS, hint_range=(0, 3))

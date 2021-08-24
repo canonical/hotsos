@@ -106,7 +106,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                     'nova-compute (1)',
                     'qemu-system-x86_64 (2)',
                     'vault (1)']
-        inst = openstack_services.get_openstack_service_checker()
+        inst = openstack_services.OpenstackServiceChecks()
         inst()
         self.assertEqual(inst.output["services"], expected)
 
@@ -120,7 +120,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
 
             with mock.patch.object(openstack_services, "APT_SOURCE_PATH",
                                    dtmp):
-                inst = openstack_services.get_openstack_service_checker()
+                inst = openstack_services.OpenstackServiceChecks()
                 inst()
                 self.assertEqual(inst.output["release"], "ussuri")
 
@@ -134,7 +134,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                     fd.write(SVC_CONF)
 
             os.environ["DATA_ROOT"] = dtmp
-            inst = openstack_services.get_openstack_service_checker()
+            inst = openstack_services.OpenstackServiceChecks()
             inst()
             self.assertEqual(inst.output["debug-logging-enabled"],
                              expected)
@@ -581,10 +581,9 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
                              {'UnicodeDecodeError': {'2021-05-04': 1}}}
         expected = {"nova": nova_expected, "neutron": neutron_expected,
                     "barbican": barbican_expected}
-        c = agent_exceptions.AgentExceptionChecks()
-        c.register_search_terms()
-        results = c.process_results(c.searchobj.search())
-        self.assertEqual(results, expected)
+        inst = agent_exceptions.AgentExceptionChecks()
+        inst()
+        self.assertEqual(inst.output['agent-exceptions'], expected)
 
 
 class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):

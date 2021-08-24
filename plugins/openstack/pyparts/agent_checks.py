@@ -3,11 +3,12 @@ import yaml
 from common.searchtools import FileSearcher
 from common.analytics import LogEventStats, SearchResultIndices
 from common import checks, plugintools, utils
+from common.plugins.openstack import OpenstackEventChecksBase
 
 YAML_PRIORITY = 9
 
 
-class NeutronAgentEventChecks(checks.EventChecksBase):
+class NeutronAgentEventChecks(OpenstackEventChecksBase):
     """
     Loads events we want to check from definitions yaml and executes them. The
     results are sorted by date and the "top 5" are presented along with stats
@@ -47,7 +48,7 @@ class NeutronAgentBugChecks(checks.BugChecksBase):
     """ See defs/bugs.yaml for definitions. """
 
 
-class OctaviaAgentEventChecks(checks.EventChecksBase):
+class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     def _get_failover(self, result):
         ts_date = result.get(1)
@@ -126,7 +127,7 @@ class OctaviaAgentEventChecks(checks.EventChecksBase):
             return {"octavia": output}
 
 
-class AgentApparmorChecks(checks.EventChecksBase):
+class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """

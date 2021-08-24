@@ -20,6 +20,7 @@ from common.searchtools import (
     FileSearcher,
     SearchDef,
 )
+from common.plugintools import PluginPartBase
 
 SVC_EXPR_TEMPLATES = {
     "absolute": r".+\S+bin/({})(?:\s+.+|$)",
@@ -28,9 +29,9 @@ SVC_EXPR_TEMPLATES = {
     }
 
 
-class ChecksBase(object):
+class ChecksBase(PluginPartBase):
 
-    def __init__(self, yaml_defs_group, searchobj=None):
+    def __init__(self, yaml_defs_group, *args, searchobj=None, **kwargs):
         """
         @param _yaml_defs_group: key used to identify our yaml definitions if
                                  indeed we have any. This is given meaning by
@@ -42,6 +43,7 @@ class ChecksBase(object):
                           concurrent execution.
 
         """
+        super().__init__(*args, **kwargs)
         if searchobj:
             self.searchobj = searchobj
         else:
@@ -54,6 +56,10 @@ class ChecksBase(object):
 
     def process_results(self, results):
         raise NotImplementedError
+
+    def __call__(self):
+        self.register_search_terms()
+        return self.process_results(self.searchobj.search())
 
 
 class BugChecksBase(ChecksBase):
@@ -380,9 +386,9 @@ class ConfigChecksBase(object):
         plugin_configs = yaml_defs.get(constants.PLUGIN_NAME, {})
         for label in plugin_configs:
             args = plugin_configs[label]
-            requires = args.get("requires")
-            if requires:
-                if not self._validate(requires):
+            callback = args.get("callback")
+            if callback:
+                if not self._validate(callback):
                     # assume feature not enabled
                     return
 

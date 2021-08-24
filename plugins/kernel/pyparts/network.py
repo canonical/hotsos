@@ -1,16 +1,15 @@
 from common import (
-    checks,
     issue_types,
     issues_utils,
 )
 from common.cli_helpers import CLIHelper
 from common.host_helpers import HostNetworkingHelper
-from common.plugins.kernel import KernelChecksBase
+from common.plugins.kernel import KernelEventChecksBase
 
 YAML_PRIORITY = 2
 
 
-class KernelNetworkChecks(KernelChecksBase, checks.EventChecksBase):
+class KernelNetworkChecks(KernelEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='network-checks')
@@ -77,7 +76,6 @@ class KernelNetworkChecks(KernelChecksBase, checks.EventChecksBase):
         return info
 
     def __call__(self):
-        self.register_search_terms()
-        check_results = self.process_results(self.searchobj.search())
-        if check_results:
-            self._output.update(check_results)
+        output = super().__call__()
+        if output:
+            self._output.update(output)

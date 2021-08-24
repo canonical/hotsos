@@ -183,7 +183,7 @@ class TestRabbitmqServices(TestRabbitmqBase):
         self.assertFalse("resources" in inst.output)
 
     def test_get_package_info(self):
-        inst = services.get_rabbitmq_package_checker()
+        inst = services.RabbitMQPackageChecks()
         inst()
         self.assertEqual(inst.output, None)
 

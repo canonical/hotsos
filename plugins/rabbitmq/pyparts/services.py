@@ -24,6 +24,9 @@ YAML_PRIORITY = 0
 class RabbitMQPackageChecks(plugintools.PluginPartBase,
                             checks.APTPackageChecksBase):
 
+    def __init__(self):
+        super().__init__(core_pkgs=RMQ_PACKAGES)
+
     def __call__(self):
         # require at least one core package to be installed to include
         # this in the report.
@@ -287,8 +290,3 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
     def __call__(self):
         self.get_running_services_info()
         self.run_report_searches()
-
-
-def get_rabbitmq_package_checker():
-    # Do this way to make it easier to write unit tests.
-    return RabbitMQPackageChecks(RMQ_PACKAGES)

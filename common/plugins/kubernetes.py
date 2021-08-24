@@ -38,8 +38,7 @@ SNAPS_DEPS = [r'core[0-9]*',
               ]
 
 
-class KubernetesChecksBase(plugintools.PluginPartBase,
-                           checks.ServiceChecksBase):
+class KubernetesBase(object):
 
     def __init__(self):
         super().__init__(SERVICES, hint_range=(0, 3))
@@ -60,3 +59,8 @@ class KubernetesChecksBase(plugintools.PluginPartBase,
         Fetch interfaces used by Kubernetes.
         """
         return {'flannel': self.flannel_ports}
+
+
+class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase,
+                           checks.ServiceChecksBase):
+    pass
