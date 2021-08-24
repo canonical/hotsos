@@ -100,7 +100,7 @@ plugins:
       ceph_daemon_checks:
         - get_osd_checker
       ceph_daemon_logs:
-        - get_ceph_daemon_log_checker
+        - CephDaemonLogChecks
       bcache:
         - BcacheDeviceChecks
         - BcacheStatsChecks

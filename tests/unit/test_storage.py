@@ -15,7 +15,14 @@ from plugins.storage.pyparts import (
 )
 
 
-class TestStoragePluginPartCephGeneral(utils.BaseTestCase):
+class StorageTestsBase(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        os.environ['PLUGIN_NAME'] = 'storage'
+
+
+class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
     def test_get_service_info(self):
         result = ['ceph-crash (1)', 'ceph-osd (1)']
@@ -53,7 +60,7 @@ class TestStoragePluginPartCephGeneral(utils.BaseTestCase):
         self.assertEqual(CephChecksBase([]).bind_interfaces, expected)
 
 
-class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
+class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
 
     @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
     def test_get_date_secs(self, mock_helper):
@@ -144,7 +151,7 @@ class TestStoragePluginPartCephDaemonChecks(utils.BaseTestCase):
         self.assertEqual(inst.output["ceph"]["osds"], expected)
 
 
-class TestStoragePluginPartBcache(utils.BaseTestCase):
+class TestStoragePluginPartBcache(StorageTestsBase):
 
     def test_get_bcache_dev_info(self):
         result = {'bcache': {
@@ -197,7 +204,7 @@ class TestStoragePluginPartBcache(utils.BaseTestCase):
                     mock.call(1900438, 'see BcacheWarning for info')])
 
 
-class TestStoragePluginPartCeph_daemon_logs(utils.BaseTestCase):
+class TestStoragePluginPartCeph_daemon_logs(StorageTestsBase):
 
     def test_get_ceph_daemon_log_checker(self):
         result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
@@ -208,6 +215,6 @@ class TestStoragePluginPartCeph_daemon_logs(utils.BaseTestCase):
                   'long-heartbeat-pings': {'2021-02-09': 42},
                   'heartbeat-no-reply': {'2021-02-09': {'osd.0': 1,
                                                         'osd.1': 2}}}
-        inst = ceph_daemon_logs.get_ceph_daemon_log_checker()
+        inst = ceph_daemon_logs.CephDaemonLogChecks()
         inst()
         self.assertEqual(inst.output["ceph"], result)
