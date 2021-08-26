@@ -52,8 +52,7 @@ plugins:
   openvswitch:
     parts:
       ovs_checks:
-        - OpenvSwitchvSwitchdChecks
-        - OpenvSwitchDaemonChecksCommon
+        - OpenvSwitchDaemonChecks
         - OpenvSwitchDPChecks
       ovs_resources:
         - get_package_checks

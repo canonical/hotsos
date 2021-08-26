@@ -30,12 +30,7 @@ class TestOpenvswitchPluginPartOpenvswitchServices(utils.BaseTestCase):
 class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(utils.BaseTestCase):
 
     def test_common_checks(self):
-        inst = ovs_checks.OpenvSwitchDaemonChecksCommon()
-        inst()
-        self.assertEqual(inst.output, None)
-
-    def test_vswitchd_checks(self):
-        inst = ovs_checks.OpenvSwitchvSwitchdChecks()
+        inst = ovs_checks.OpenvSwitchDaemonChecks()
         inst()
         self.assertEqual(inst.output, None)
 

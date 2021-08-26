@@ -2,156 +2,107 @@ import os
 import re
 
 from common import (
-    constants,
+    checks,
     issues_utils,
     issue_types,
 )
 from common.cli_helpers import CLIHelper
 from common.searchtools import (
     FileSearcher,
-    FilterDef,
     SearchDef,
     SequenceSearchDef,
 )
 from common.utils import mktemp_dump
-from common.plugins.openvswitch import (
-    OVS_DAEMONS,
-    OpenvSwitchChecksBase,
-)
+from common.plugins.openvswitch import OpenvSwitchChecksBase
 
 YAML_PRIORITY = 1
 
 
-class OpenvSwitchDaemonChecksBase(OpenvSwitchChecksBase):
+class OpenvSwitchDaemonChecks(OpenvSwitchChecksBase, checks.EventChecksBase):
 
     def __init__(self):
-        super().__init__()
-        self.search_obj = FileSearcher()
-        self.results = []
+        super().__init__(yaml_defs_group='daemon-checks')
 
-    def register_search_terms(self):
-        raise NotImplementedError
+    def _stats_sort(self, stats):
+        stats_sorted = {}
+        for k, v in sorted(stats.items(),
+                           key=lambda x: x[0]):
+            stats_sorted[k] = v
 
-    def process_results(self):
-        raise NotImplementedError
+        return stats_sorted
+
+    def get_results_stats(self, event, results, key_by_date=True):
+        """
+        Collect information about how often a resource occurs. A resource can
+        be anything e.g. an interface or a loglevel string.
+
+        @param event: string identifier for this set of results.
+        @param results: a list of SearchResult objects containing two groups; a
+                        date and a resource.
+        @param key_by_date: by default the results are collected by datetime
+                            i.e. for each timestamp show how many of each
+                            resource occured.
+        """
+        stats = {}
+        for r in results:
+            if key_by_date:
+                key = r.get(1)
+                value = r.get(2)
+            else:
+                key = r.get(2)
+                value = r.get(1)
+
+            if key not in stats:
+                stats[key] = {}
+
+            if value not in stats[key]:
+                stats[key][value] = 1
+            else:
+                stats[key][value] += 1
+
+            # sort each keyset
+            if not key_by_date:
+                stats[key] = self._stats_sort(stats[key])
+
+        if stats:
+            # only if sorted per key
+            if key_by_date:
+                stats = self._stats_sort(stats)
+
+            return {event: stats}
+
+    def process_results(self, results):
+        """ See defs/events.yaml for definitions. """
+        checkresults = {}
+        for section, events in self.event_definitions.items():
+            for event in events:
+                _results = results.find_by_tag(event)
+                if not _results:
+                    continue
+
+                if section == 'errors-and-warnings':
+                    ret = self.get_results_stats(event, _results,
+                                                 key_by_date=False)
+                    out_key = 'logs'
+                elif section == 'vswitchd':
+                    ret = self.get_results_stats(event, _results)
+                    out_key = 'ovs-vswitchd'
+
+                if ret:
+                    if out_key not in checkresults:
+                        checkresults[out_key] = ret
+                    else:
+                        checkresults[out_key].update(ret)
+
+        if checkresults:
+            self._output["daemon-checks"] = checkresults
 
     def __call__(self):
         self.register_search_terms()
-        self.results = self.search_obj.search()
-        self.process_results()
+        self.process_results(self.searchobj.search())
 
 
-class OpenvSwitchDaemonChecksCommon(OpenvSwitchDaemonChecksBase):
-
-    def register_search_terms(self):
-        for d in OVS_DAEMONS:
-            path = os.path.join(constants.DATA_ROOT, OVS_DAEMONS[d]["logs"])
-            if constants.USE_ALL_LOGS:
-                path = f"{path}*"
-
-            sd = SearchDef(r"([0-9-]+)T([0-9:\.]+)Z.+\|(ERR|ERROR|WARN)\|.+",
-                           tag=d)
-            self.search_obj.add_search_term(sd, path)
-
-    def process_results(self):
-        stats = {}
-        for d in OVS_DAEMONS:
-            tag = d
-            for r in self.results.find_by_tag(tag):
-                ts_date = r.get(1)
-                loglevel = r.get(3)
-                for key in ["warn", "error", "ERR", "WARN"]:
-                    if loglevel != key:
-                        continue
-
-                    if d not in stats:
-                        stats[d] = {key: {}}
-
-                    if key not in stats[d]:
-                        stats[d][key] = {}
-
-                    if ts_date in stats[d][key]:
-                        stats[d][key][ts_date] += 1
-                    else:
-                        stats[d][key][ts_date] = 1
-
-            if stats.get(d):
-                for key in stats[d]:
-                    stats_sorted = {}
-                    for k, v in sorted(stats[d][key].items(),
-                                       key=lambda x: x[0]):
-                        stats_sorted[k] = v
-
-                    stats[d][key] = stats_sorted
-
-        if stats:
-            if "daemon-checks" not in self._output:
-                self._output["daemon-checks"] = {}
-
-            self._output["daemon-checks"]["logs"] = stats
-
-
-class OpenvSwitchvSwitchdChecks(OpenvSwitchDaemonChecksBase):
-
-    def __init__(self):
-        super().__init__()
-        self.daemon = "ovs-vswitchd"
-        self.tags = []
-
-    def register_search_terms(self):
-        path = os.path.join(constants.DATA_ROOT,
-                            OVS_DAEMONS[self.daemon]["logs"])
-        if constants.USE_ALL_LOGS:
-            path = f"{path}*"
-
-        fd = FilterDef(r"ERROR|WARN")
-        self.search_obj.add_filter_term(fd, path)
-
-        tag = "netdev_linux-no-such-device"
-        sd = SearchDef(r"([0-9-]+)T([0-9:\.]+)Z.+\|(\S+): .+: No such device",
-                       tag=tag)
-        self.tags.append(tag)
-        self.search_obj.add_search_term(sd, path)
-
-        tag = "bridge-no-such-device"
-        sd = SearchDef(r"([0-9-]+)T([0-9:\.]+)Z.+\|could not open network "
-                       r"device (\S+) \(No such device\)", tag=tag)
-        self.tags.append(tag)
-        self.search_obj.add_search_term(sd, path)
-
-    def process_results(self):
-        stats = {}
-        for tag in self.tags:
-            for r in self.results.find_by_tag(tag):
-                if tag not in stats:
-                    stats[tag] = {}
-
-                ts_date = r.get(1)
-                iface = r.get(3)
-                if ts_date not in stats[tag]:
-                    stats[tag][ts_date] = {}
-
-                if iface not in stats[tag][ts_date]:
-                    stats[tag][ts_date][iface] = 1
-                else:
-                    stats[tag][ts_date][iface] += 1
-
-        if stats:
-            for tag in stats:
-                stats_sorted = {}
-                for k, v in sorted(stats[tag].items(),
-                                   key=lambda x: x[0]):
-                    stats_sorted[k] = v
-
-                stats[tag] = stats_sorted
-
-            if "daemon-checks" not in self._output:
-                self._output["daemon-checks"] = {}
-
-            self._output["daemon-checks"]["ovs-vswitchd"] = stats
-
-
-class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
+class OpenvSwitchDPChecks(OpenvSwitchChecksBase):
 
     def __init__(self):
         super().__init__()
@@ -160,6 +111,7 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
         self.f_dpctl = mktemp_dump(''.join(out))
         bridges = cli.ovs_vsctl_list_br()
         self.ovs_bridges = [br.strip() for br in bridges]
+        self.searchobj = FileSearcher()
         self.sequence_defs = []
 
     def __del__(self):
@@ -173,9 +125,9 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
                            r"\S+:(\d+) \S+:(\d+)"),
             tag="port-stats"))
         for sd in self.sequence_defs:
-            self.search_obj.add_search_term(sd, self.f_dpctl)
+            self.searchobj.add_search_term(sd, self.f_dpctl)
 
-    def process_results(self):
+    def process_results(self, results):
         """
         Report on interfaces that are showing packet drops or errors.
 
@@ -198,10 +150,10 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
         all_dropped = []  # interfaces where all packets are dropped
         all_errors = []  # interfaces where all packets are errors
         for sd in self.sequence_defs:
-            for results in self.results.find_sequence_sections(sd).values():
+            for section in results.find_sequence_sections(sd).values():
                 port = None
                 _stats = {}
-                for result in results:
+                for result in section:
                     if result.tag == sd.start_tag:
                         port = result.get(1)
                     elif result.tag == sd.body_tag:
@@ -258,3 +210,7 @@ class OpenvSwitchDPChecks(OpenvSwitchDaemonChecksBase):
                 stats_sorted[k] = stats[k]
 
             self._output["port-stats"] = stats_sorted
+
+    def __call__(self):
+        self.register_search_terms()
+        self.process_results(self.searchobj.search())

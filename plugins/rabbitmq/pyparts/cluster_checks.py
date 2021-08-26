@@ -15,8 +15,8 @@ class RabbitMQClusterChecks(RabbitMQChecksBase, checks.EventChecksBase):
 
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
-        for group in self.event_definitions.values():
-            for event in group:
+        for events in self.event_definitions.values():
+            for event in events:
                 _results = results.find_by_tag(event)
                 if event == "cluster-partitions" and _results:
                     msg = ("cluster either has or has had partitions - check "

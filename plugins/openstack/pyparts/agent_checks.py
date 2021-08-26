@@ -17,9 +17,9 @@ class NeutronAgentEventChecks(checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         agent_info = {}
-        for group, section in self.event_definitions.items():
-            agent_name = group
-            for event in section:
+        for section, events in self.event_definitions.items():
+            agent_name = section
+            for event in events:
                 sri = None
                 # TODO: find a way to get rid of the need to provide this
                 if event == "router-updates":
@@ -102,8 +102,8 @@ class OctaviaAgentEventChecks(checks.EventChecksBase):
         """ See defs/events.yaml for definitions. """
         failovers = {}
         missed_heartbeats = {}
-        for defs in self.event_definitions.values():
-            for event in defs:
+        for events in self.event_definitions.values():
+            for event in events:
                 _results = results.find_by_tag(event)
                 if event.startswith("lb-failover-"):
                     fo_type = event.partition("lb-failover-")[2]
@@ -131,9 +131,9 @@ class AgentApparmorChecks(checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         info = {}
-        for group, section in self.event_definitions.items():
-            aa_action = group
-            for event in section:
+        for section, events in self.event_definitions.items():
+            aa_action = section
+            for event in events:
                 _results = results.find_by_tag(event)
                 for r in _results:
                     ts = r.get(1)

@@ -70,8 +70,8 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
         info = {}
-        for group in self.event_definitions.values():
-            for event in group:
+        for events in self.event_definitions.values():
+            for event in events:
                 _results = results.find_by_tag(event)
                 if event == "report-failed":
                     ret = self.get_results_timings(_results,
