@@ -24,7 +24,7 @@
 openstack:
   neutron:
     1883089:
-      expr: 'AttributeError: ''NoneType'' object has no attribute ''get'''
+      expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
       hint: 'AttributeError'
       reason: 'identified in neutron-l3-agent logs'
       path: 'var/log/neutron/neutron-l3-agent.log'
@@ -48,6 +48,11 @@ openstack:
       hint: 'Gateway'
       reason: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
       path: 'var/log/neutron/neutron-l3-agent.log'
+    1928031:
+      expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
+      hint: 'AttributeError'
+      reason: 'identified bug impacting OVN sbdb connections from ovn agents'
+      path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
 juju:
   common:
     1910958:

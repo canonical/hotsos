@@ -419,7 +419,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                            ('identified bug impacting deletion of HA '
                             'routers'))]
         mock_add_known_bug.assert_has_calls(calls)
-        self.assertEqual(len(bugs), 3)
+        self.assertEqual(len(bugs), 4)
 
     def test_get_router_event_stats(self):
         updates = {0: {'start':
