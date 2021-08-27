@@ -146,10 +146,10 @@ storage:
   ceph:
     cephlogs:
       path: 'var/log/ceph/ceph*.log'
-      report-failed:
+      osd-reported-failed:
         expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
         hint: 'reported failed'
-      mon-elections:
+      mon-elections-called:
         expr: '^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor election'
         hint: 'calling monitor election'
       slow-requests:
@@ -159,9 +159,9 @@ storage:
         expr: '^([0-9-]+)\S* .+ _verify_csum bad .+'
         hint: '_verify_csum'
       crc-err-rocksdb:
-        expr: '^([0-9-]+)\S* .+ rocksdb: .+block checksum mismatch:'
+        expr: '^([0-9-]+)\S* .+ rocksdb: .+block checksum mismatch'
         hint: 'checksum mismatch'
-      long-heartbeat:
+      long-heartbeat-pings:
         expr: '^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ interface seen'
         hint: 'Long heartbeat ping'
       heartbeat-no-reply:

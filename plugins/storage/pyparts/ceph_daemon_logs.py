@@ -1,3 +1,5 @@
+import re
+
 from common import checks
 from common.plugins.storage import (
     CephChecksBase,
@@ -26,8 +28,8 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
         if slow_requests:
             return {"slow-requests": slow_requests}
 
-    def get_results_timings(self, results, output_key,
-                            group_by_resource=False):
+    def get_timings(self, results, group_by_resource=False,
+                    resource_osd_from_source=False):
         """
         @param results: list of search results. Each result must contain a
         timestamp as the first group and optional a resource name as a
@@ -36,11 +38,19 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
         provide per-resource counts for each timestamp.
         @param group_by_resource: if resource is available group results by
         resource instead of by timestamp.
+        @param resource_osd_from_source: extract osd id from search path and
+                                         use that as resource.
         """
         info = {}
+        c_expr = re.compile(r'.+ceph-osd\.(\d+)\.log')
         for result in sorted(results, key=lambda r: r.get(1)):
             date = result.get(1)
             resource = result.get(2)
+            if resource_osd_from_source:
+                ret = re.compile(c_expr).match(result.source)
+                if ret:
+                    resource = "osd.{}".format(ret.group(1))
+
             if resource:
                 if group_by_resource:
                     if resource not in info:
@@ -64,8 +74,7 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
                 else:
                     info[date] += 1
 
-        if info:
-            return {output_key: info}
+        return info
 
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """
@@ -73,32 +82,32 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
         for events in self.event_definitions.values():
             for event in events:
                 _results = results.find_by_tag(event)
-                if event == "report-failed":
-                    ret = self.get_results_timings(_results,
-                                                   'osd-reported-failed',
-                                                   group_by_resource=True)
-                elif event == "mon-elections":
-                    ret = self.get_results_timings(_results,
-                                                   'mon-elections-called',
-                                                   group_by_resource=True)
+                ret = None
+                if event == "osd-reported-failed":
+                    ret = self.get_timings(_results, group_by_resource=True)
+                elif event == "mon-elections-called":
+                    ret = self.get_timings(_results, group_by_resource=True)
                 elif event == "slow-requests":
                     # This one is special since we extract the count from the
                     # search result itself.
                     ret = self.process_slow_requests(_results)
                 elif event == "crc-err-bluestore":
-                    ret = self.get_results_timings(_results,
-                                                   'crc-err-bluestore')
+                    ret = self.get_timings(_results,
+                                           resource_osd_from_source=True)
                 elif event == "crc-err-rocksdb":
-                    ret = self.get_results_timings(_results,
-                                                   'crc-err-rocksdb')
-                elif event == "long-heartbeat":
-                    ret = self.get_results_timings(_results,
-                                                   'long-heartbeat-pings')
+                    ret = self.get_timings(_results,
+                                           resource_osd_from_source=True)
+                elif event == "long-heartbeat-pings":
+                    ret = self.get_timings(_results,
+                                           resource_osd_from_source=True)
                 elif event == "heartbeat-no-reply":
-                    ret = self.get_results_timings(_results,
-                                                   'heartbeat-no-reply')
+                    ret = self.get_timings(_results)
+
                 if ret:
-                    info.update(ret)
+                    if event in info:
+                        info[event].update(ret)
+                    else:
+                        info[event] = ret
 
         return info
 
