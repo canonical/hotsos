@@ -469,7 +469,7 @@ class FileSearcher(object):
         This is used to sort the contents of a directory by passing the
         function as a the key to a list sort.
 
-        Assumes that the filename use logrotate format i.e. .log, .log.1,
+        Assumes that the filenames use logrotate format i.e. .log, .log.1,
         .log.2.gz etc.
         """
 
@@ -491,6 +491,37 @@ class FileSearcher(object):
 
         return int(ret.group(1))
 
+    def filtered_paths(self, paths):
+        """
+        Paths can be a mix of files and directories.
+        """
+        logrotate_collection = {}
+        dir_contents = []
+        for path in paths:
+            if not os.path.isfile(path):
+                continue
+
+            ret = re.compile(r"(\S+)\.log\S*").match(path)
+            if ret:
+                base = ret.group(1)
+                if base not in logrotate_collection:
+                    logrotate_collection[base] = []
+
+                if re.compile(r"(\S+)\.log\S+").match(path):
+                    logrotate_collection[base].append(path)
+                else:
+                    dir_contents.append(base + '.log')
+            else:
+                dir_contents.append(path)
+
+        limit = constants.MAX_LOGROTATE_DEPTH
+        for logrotated in logrotate_collection.values():
+            capped = sorted(logrotated,
+                            key=self.logrotate_file_sort)[:limit]
+            dir_contents += capped
+
+        return dir_contents
+
     def search(self):
         """Execute all the search queries.
 
@@ -505,34 +536,13 @@ class FileSearcher(object):
                     job = self._job_wrapper(pool, user_path, user_path)
                     jobs[user_path] = [(user_path, job)]
                 elif os.path.isdir(user_path):
-                    dir_contents = sorted(os.listdir(user_path),
-                                          key=self.logrotate_file_sort)
-                    for depth, e in enumerate(dir_contents):
-                        if depth >= constants.MAX_LOGROTATE_DEPTH:
-                            break
-
-                        d_entry = os.path.join(user_path, e)
-                        if not os.path.isfile(d_entry):
-                            continue
-
-                        job = self._job_wrapper(pool, user_path, d_entry)
-                        jobs[user_path].append((d_entry, job))
+                    for path in self.filtered_paths(user_path):
+                        job = self._job_wrapper(pool, user_path, path)
+                        jobs[user_path].append((path, job))
                 else:
-                    dir_contents = []
-                    for e in glob.glob(user_path):
-                        if not os.path.isfile(e):
-                            continue
-
-                        dir_contents.append(e)
-
-                    for depth, e in enumerate(
-                            sorted(dir_contents,
-                                   key=self.logrotate_file_sort)):
-                        if depth >= constants.MAX_LOGROTATE_DEPTH:
-                            break
-
-                        job = self._job_wrapper(pool, user_path, e)
-                        jobs[user_path].append((e, job))
+                    for path in self.filtered_paths(glob.glob(user_path)):
+                        job = self._job_wrapper(pool, user_path, path)
+                        jobs[user_path].append((path, job))
 
             for user_path in jobs:
                 for fpath, job in jobs[user_path]:

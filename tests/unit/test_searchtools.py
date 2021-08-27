@@ -1,3 +1,4 @@
+import glob
 import os
 
 import mock
@@ -5,6 +6,7 @@ import tempfile
 
 import utils
 
+from common import constants
 from common.searchtools import (
     FileSearcher,
     FilterDef,
@@ -216,6 +218,52 @@ class TestSearchTools(utils.BaseTestCase):
             self.assertEqual(sorted(contents,
                                     key=FileSearcher().logrotate_file_sort),
                              ordered_contents)
+
+    def test_filesearch_glob_filesort(self):
+        dir_contents = []
+        self.maxDiff = None
+        with tempfile.TemporaryDirectory() as dtmp:
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.0.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.1.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.1.log.1"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.2.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.16.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.49.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.49.log.1"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.77.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.100.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.100.log.1"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.110.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.142.log"))
+            dir_contents.append(os.path.join(dtmp, "my-test-agent.183.log"))
+            for e in dir_contents:
+                os.mknod(e)
+
+            for i in range(2, constants.MAX_LOGROTATE_DEPTH + 10):
+                fname = os.path.join(dtmp,
+                                     "my-test-agent.1.log.{}.gz".format(i))
+                os.mknod(fname)
+                if i <= constants.MAX_LOGROTATE_DEPTH:
+                    dir_contents.append(fname)
+
+            for i in range(2, constants.MAX_LOGROTATE_DEPTH + 10):
+                fname = os.path.join(dtmp,
+                                     "my-test-agent.49.log.{}.gz".format(i))
+                os.mknod(fname)
+                if i <= constants.MAX_LOGROTATE_DEPTH:
+                    dir_contents.append(fname)
+
+            for i in range(2, constants.MAX_LOGROTATE_DEPTH + 10):
+                fname = os.path.join(dtmp,
+                                     "my-test-agent.100.log.{}.gz".format(i))
+                os.mknod(fname)
+                if i <= constants.MAX_LOGROTATE_DEPTH:
+                    dir_contents.append(fname)
+
+            exp = sorted(dir_contents)
+            path = os.path.join(dtmp, 'my-test-agent*.log*')
+            act = sorted(FileSearcher().filtered_paths(glob.glob(path)))
+            self.assertEqual(act, exp)
 
     def test_sequence_searcher(self):
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
