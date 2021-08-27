@@ -25,8 +25,7 @@ class CephDaemonLogChecks(CephChecksBase, checks.EventChecksBase):
             else:
                 slow_requests[date] += int(count)
 
-        if slow_requests:
-            return {"slow-requests": slow_requests}
+        return slow_requests
 
     def get_timings(self, results, group_by_resource=False,
                     resource_osd_from_source=False):
