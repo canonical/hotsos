@@ -10,8 +10,8 @@ from core.plugins.openstack import (
     OpenstackConfig,
 )
 
-from plugins.system.pyparts.general import SystemGeneral
-from plugins.kernel.pyparts.info import KernelGeneralChecks
+from core.plugins.system import SystemBase
+from core.plugins.kernel import CPU
 
 YAML_PRIORITY = 3
 
@@ -50,11 +50,9 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                     total_vcpus += int(vcpus)
 
             vcpu_info["used"] = total_vcpus
-            sysinfo = SystemGeneral()
-            sysinfo.get_system_info()
-
-            if sysinfo.output:
-                total_cores = sysinfo.output["num-cpus"]
+            sysinfo = SystemBase()
+            if sysinfo.num_cpus is not None:
+                total_cores = sysinfo.num_cpus
                 vcpu_info["system-cores"] = total_cores
 
                 pinset = self._nova_config.get("vcpu_pin_set",
@@ -72,14 +70,11 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
 
                 vcpu_info["available-cores"] = available_cores
 
-                k = KernelGeneralChecks()
-                k.get_cpu_info()
-                if k.output:
-                    smt = k.output.get("cpu", {}).get("smt")
-                    # repeat this here so that available cores value has
-                    # context
-                    if smt is not None:
-                        vcpu_info["smt"] = smt
+                cpu = CPU()
+                # put this here so that available cores value has
+                # context
+                if cpu.smt is not None:
+                    vcpu_info["smt"] = cpu.smt
 
                 factor = float(total_vcpus) / available_cores
                 vcpu_info["overcommit-factor"] = round(factor, 2)

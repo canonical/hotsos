@@ -13,6 +13,42 @@ SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
 VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
 
 
+class SYSFSBase(object):
+
+    def get(self, relpath):
+        """
+        Read a sysfs entry and return its value.
+
+        @param relpath: path relative to DATA_ROOT/sys
+        """
+        path = os.path.join(constants.DATA_ROOT, 'sys', relpath)
+        if not os.path.exists(path):
+            return
+
+        with open(path) as fd:
+            value = fd.read()
+
+        return value.strip()
+
+
+class CPU(SYSFSBase):
+
+    @property
+    def isolated(self):
+        return self.get('devices/system/cpu/isolated')
+
+    @property
+    def smt(self):
+        smt = self.get('devices/system/cpu/smt/active')
+        if smt is None:
+            return
+
+        if smt == '1':
+            return True
+
+        return False
+
+
 class KernelConfig(checks.ConfigBase):
     """ Kernel configuration. """
 
@@ -64,7 +100,7 @@ class KernelBase(object):
         self._numa_nodes = []
 
     @property
-    def kernel_version(self):
+    def version(self):
         """Returns string kernel version."""
         uname = CLIHelper().uname()
         if uname:

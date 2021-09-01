@@ -20,17 +20,13 @@ class TestKernelBase(utils.BaseTestCase):
 
 class TestKernelPluginPartKernelInfo(TestKernelBase):
 
-    def test_get_cmdline_info(self):
+    def test_info(self):
         inst = info.KernelGeneralChecks()
-        inst.get_cmdline_info()
-        expected = {'boot': 'ro'}
+        inst()
+        expected = {'boot': 'ro',
+                    'systemd': {'CPUAffinity': '0-7,32-39'},
+                    'version': '5.4.0-80-generic'}
         self.assertEquals(inst.output, expected)
-
-    def test_get_systemd_info(self):
-        inst = info.KernelGeneralChecks()
-        inst.get_systemd_info()
-        self.assertEquals(inst.output,
-                          {'systemd': {'CPUAffinity': '0-7,32-39'}})
 
 
 class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):

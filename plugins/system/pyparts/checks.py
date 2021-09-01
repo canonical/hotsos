@@ -1,46 +1,15 @@
 import os
 
-from core import (
-    constants,
-    plugintools,
-)
+from core import constants
+from core.cli_helpers import CLIHelper
 from core.issue_types import SysCtlWarning
 from core.issues_utils import add_issue
-from core.cli_helpers import CLIHelper
+from core.plugins.system import SystemChecksBase, SYSCtlHelper
 
 YAML_PRIORITY = 1
 
 
-class SystemChecks(plugintools.PluginPartBase):
-
-    def _sysctl_conf(self, path):
-        sysctl_key_values = {}
-        if not os.path.isfile(path):
-            return sysctl_key_values
-
-        with open(path) as fd:
-            for line in fd.readlines():
-                if line.startswith("#"):
-                    continue
-
-                split = line.partition("=")
-                if not split[1]:
-                    continue
-
-                key = split[0].strip()
-                value = split[2].strip()
-
-                # ignore wildcarded keys'
-                if '*' in key:
-                    continue
-
-                # ignore unsetters
-                if key.startswith('-'):
-                    continue
-
-                sysctl_key_values[key] = value
-
-        return sysctl_key_values
+class SystemChecks(SystemChecksBase):
 
     def _get_charm_sysctl_d(self):
         """ Collect all key/value pairs defined under /etc/sysctl.d that were
@@ -58,8 +27,8 @@ class SystemChecks(plugintools.PluginPartBase):
             return
 
         for conf in confs:
-            parsed = self._sysctl_conf(os.path.join(path, conf))
-            for key, value in parsed.items():
+            sysctl = SYSCtlHelper(os.path.join(path, conf))
+            for key, value in sysctl.all.items():
                 if key in sysctl_key_priorities:
                     if sysctl_key_priorities[key] >= conf:
                         continue
@@ -89,8 +58,8 @@ class SystemChecks(plugintools.PluginPartBase):
                 continue
 
             for conf in os.listdir(path):
-                parsed = self._sysctl_conf(os.path.join(path, conf))
-                for key, value in parsed.items():
+                sysctl = SYSCtlHelper(os.path.join(path, conf))
+                for key, value in sysctl.all.items():
                     if key in sysctl_key_priorities:
                         if sysctl_key_priorities[key] >= conf:
                             continue
