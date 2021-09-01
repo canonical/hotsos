@@ -4,28 +4,28 @@ import json
 import re
 import subprocess
 
-from common.checks import (
+from core.checks import (
     SVC_EXPR_TEMPLATES,
     DPKGVersionCompare,
 )
-from common.cli_helpers import CLIHelper, get_ps_axo_flags_available
-from common.searchtools import (
+from core.cli_helpers import CLIHelper, get_ps_axo_flags_available
+from core.searchtools import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,
 )
-from common.issue_types import (
+from core.issue_types import (
     CephCrushWarning,
     CephDaemonWarning,
 )
-from common.issues_utils import add_issue
-from common.utils import (
+from core.issues_utils import add_issue
+from core.utils import (
     mktemp_dump,
     sorted_dict,
 )
-from common.plugins.storage import CephChecksBase
-from common.plugins.kernel import KernelChecksBase
-from common.plugins.storage import BcacheChecksBase
+from core.plugins.storage import CephChecksBase
+from core.plugins.kernel import KernelChecksBase
+from core.plugins.storage import BcacheChecksBase
 
 YAML_PRIORITY = 1
 LP1936136_BCACHE_CACHE_LIMIT = 70

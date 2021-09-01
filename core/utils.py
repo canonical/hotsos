@@ -1,6 +1,6 @@
 import tempfile
 
-from common import constants
+from core import constants
 
 
 def sorted_dict(d, key=None, reverse=False):

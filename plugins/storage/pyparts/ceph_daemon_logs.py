@@ -1,6 +1,6 @@
 import re
 
-from common.plugins.storage import CephEventChecksBase
+from core.plugins.storage import CephEventChecksBase
 
 YAML_PRIORITY = 2
 

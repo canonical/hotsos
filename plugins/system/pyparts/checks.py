@@ -1,12 +1,12 @@
 import os
 
-from common import (
+from core import (
     constants,
     plugintools,
 )
-from common.issue_types import SysCtlWarning
-from common.issues_utils import add_issue
-from common.cli_helpers import CLIHelper
+from core.issue_types import SysCtlWarning
+from core.issues_utils import add_issue
+from core.cli_helpers import CLIHelper
 
 YAML_PRIORITY = 1
 

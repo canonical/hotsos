@@ -2,15 +2,15 @@ import glob
 import os
 import re
 
-from common import (
+from core import (
     checks,
     constants,
     host_helpers,
     plugintools,
     utils,
 )
-from common.cli_helpers import CLIHelper
-from common.searchtools import (
+from core.cli_helpers import CLIHelper
+from core.searchtools import (
     FileSearcher,
     SequenceSearchDef,
     SearchDef

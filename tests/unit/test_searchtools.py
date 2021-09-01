@@ -6,8 +6,8 @@ import tempfile
 
 import utils
 
-from common import constants
-from common.searchtools import (
+from core import constants
+from core.searchtools import (
     FileSearcher,
     FilterDef,
     SearchDef,

@@ -1,33 +1,11 @@
-import glob
-import re
-import os
-
-from common.plugins.juju import (
-    CHARM_MANIFEST_GLOB,
-    JujuChecksBase,
-    JUJU_LIB_PATH,
-)
+from core.plugins.juju import JujuChecksBase
 
 YAML_PRIORITY = 1
 
 
 class JujuCharmChecks(JujuChecksBase):
 
-    def get_charm_versions(self):
-        if not os.path.exists(JUJU_LIB_PATH):
-            return
-
-        versions = []
-        for entry in glob.glob(os.path.join(JUJU_LIB_PATH,
-                                            CHARM_MANIFEST_GLOB)):
-            for manifest in os.listdir(entry):
-                base = os.path.basename(manifest)
-                ret = re.compile(r".+_(\S+)-([0-9]+)$").match(base)
-                if ret:
-                    versions.append("{}-{}".format(ret[1], ret[2]))
-
-        if versions:
-            self._output["charms"] = sorted(versions)
-
     def __call__(self):
-        self.get_charm_versions()
+        if self.charms:
+            charms = ["{}-{}".format(c.name, c.version) for c in self.charms]
+            self._output['charms'] = sorted(charms)

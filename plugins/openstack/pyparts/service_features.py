@@ -1,7 +1,7 @@
 import os
 
-from common import constants
-from common.plugins.openstack import (
+from core import constants
+from core.plugins.openstack import (
     CONFIG_FILES,
     OpenstackChecksBase,
     OpenstackConfig,

@@ -5,7 +5,7 @@ import subprocess
 import sys
 import json
 
-from common import constants
+from core import constants
 
 
 def catch_exceptions(*exc_types):

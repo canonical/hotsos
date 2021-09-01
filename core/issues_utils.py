@@ -2,8 +2,8 @@ import os
 import re
 import yaml
 
-from common import plugintools
-from common import constants
+from core import plugintools
+from core import constants
 
 MASTER_YAML_ISSUES_FOUND_KEY = "potential-issues"
 

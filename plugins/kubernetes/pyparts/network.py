@@ -1,4 +1,4 @@
-from common.plugins.kubernetes import KubernetesChecksBase
+from core.plugins.kubernetes import KubernetesChecksBase
 
 YAML_PRIORITY = 1
 

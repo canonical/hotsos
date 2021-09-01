@@ -1,9 +1,9 @@
 import os
 import re
 
-from common import cli_helpers
-from common.utils import mktemp_dump
-from common.searchtools import (
+from core import cli_helpers
+from core.utils import mktemp_dump
+from core.searchtools import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,

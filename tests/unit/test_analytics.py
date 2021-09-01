@@ -5,8 +5,8 @@ import tempfile
 
 import utils
 
-from common import analytics
-from common.searchtools import FileSearcher, SearchDef
+from core import analytics
+from core.searchtools import FileSearcher, SearchDef
 
 
 SEQ_TEST_1 = """2021-07-19 09:01:58.498 iteration:0 start

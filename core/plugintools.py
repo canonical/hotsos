@@ -2,7 +2,7 @@ import os
 import importlib
 import yaml
 
-from common import constants
+from core import constants
 
 
 class HOTSOSDumper(yaml.Dumper):
@@ -220,6 +220,6 @@ class PluginRunner(object):
             save_part(part_out, priority=yaml_priority)
 
         # Always execute this as last part
-        mod_string = "common.plugins.utils.known_bugs_and_issues"
+        mod_string = "core.plugins.utils.known_bugs_and_issues"
         mod = importlib.import_module(mod_string)
         mod.KnownBugsAndIssuesCollector()()

@@ -1,13 +1,9 @@
-import os
 import re
 
-from common.cli_helpers import CLIHelper
-from common.issue_types import JujuWarning
-from common.issues_utils import add_issue
-from common.plugins.juju import (
-    JUJU_LOG_PATH,
-    JujuChecksBase,
-)
+from core.cli_helpers import CLIHelper
+from core.issue_types import JujuWarning
+from core.issues_utils import add_issue
+from core.plugins.juju import JujuChecksBase
 
 YAML_PRIORITY = 0
 
@@ -15,42 +11,28 @@ YAML_PRIORITY = 0
 class JujuMachineChecks(JujuChecksBase):
 
     def get_machine_info(self):
-        machine_info = {"machines": {}}
-        ps_machines = set()
-        machines_running = set()
-        machines_stopped = set()
-
-        if not os.path.exists(JUJU_LOG_PATH):
+        if not self.machine:
             return
 
-        machine = self.machine.agent_service_name
-        machine_unit = machine.partition("jujud-machine-")[2]
+        machine_info = {'version': self.machine.version,
+                        'machine': self.machine.id}
+
+        agent_running = False
         for line in CLIHelper().ps():
-            if "jujud-machine-" in line:
-                expr = r".+jujud-machine-(\d+(?:-lxd-\d+)?).*"
+            if 'jujud' in line:
+                expr = r".+(jujud-machine-\d+(?:-lxd-\d+)?)"
                 ret = re.compile(expr).match(line)
                 if ret:
-                    ps_machines.add("jujud-machine-{}".format(ret[1]))
+                    if ret.group(1) == self.machine.agent_service_name:
+                        agent_running = True
+                        break
 
-        if machine in ps_machines:
-            machines_running.add("{} (version={})".
-                                 format(machine_unit, self.machine.version))
-        else:
-            machines_stopped.add(machine_unit)
-
-        if machines_running:
-            machine_info["machines"]["running"] = list(machines_running)
-
-        if machines_stopped:
-            machine_info["machines"]["stopped"] = list(machines_stopped)
-
-        if not machines_running and (machines_stopped or
-                                     self._get_local_running_units):
+        if not agent_running:
             msg = ("there is no Juju machined running on this host but it "
                    "seems there should be")
             add_issue(JujuWarning(msg))
 
-        if machine_info["machines"]:
+        if machine_info["machine"]:
             self._output.update(machine_info)
 
     def __call__(self):

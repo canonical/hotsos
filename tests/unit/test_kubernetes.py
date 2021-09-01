@@ -6,7 +6,7 @@ import tempfile
 
 import utils
 
-from common import checks, constants, cli_helpers
+from core import checks, constants, cli_helpers
 from plugins.kubernetes.pyparts import (
     general,
     network,

@@ -1,12 +1,12 @@
 import os
 import re
 
-from common import (
+from core import (
     checks,
     constants,
     plugintools,
 )
-from common.cli_helpers import CLIHelper
+from core.cli_helpers import CLIHelper
 
 BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
 SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")

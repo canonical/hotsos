@@ -1,7 +1,7 @@
 import os
 
-from common import constants
-from common.plugins.kernel import (
+from core import constants
+from core.plugins.kernel import (
     KernelChecksBase,
     SystemdConfig,
 )

@@ -1,4 +1,4 @@
-from common.plugins.openstack import (
+from core.plugins.openstack import (
     OpenstackPackageChecksBase,
     OpenstackDockerImageChecksBase,
 )

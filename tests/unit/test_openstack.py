@@ -6,7 +6,7 @@ import tempfile
 
 import utils
 
-from common import checks
+from core import checks
 from plugins.openstack.pyparts import (
     openstack_services,
     vm_info,

@@ -1,11 +1,11 @@
 import re
 import os
 
-from common import (
+from core import (
     constants,
     plugintools,
 )
-from common.cli_helpers import CLIHelper
+from core.cli_helpers import CLIHelper
 
 
 YAML_PRIORITY = 0

@@ -1,19 +1,19 @@
 import os
 
-from common import (
+from core import (
     checks,
     issue_types,
     issues_utils,
     plugintools,
 )
-from common.cli_helpers import CLIHelper
-from common.searchtools import (
+from core.cli_helpers import CLIHelper
+from core.searchtools import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,
 )
-from common.utils import mktemp_dump, sorted_dict
-from common.plugins.rabbitmq import (
+from core.utils import mktemp_dump, sorted_dict
+from core.plugins.rabbitmq import (
     RabbitMQChecksBase,
     RMQ_PACKAGES,
 )

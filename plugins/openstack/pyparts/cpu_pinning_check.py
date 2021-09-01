@@ -3,17 +3,17 @@ import os
 
 from uuid import uuid4
 
-from common import (
+from core import (
     constants,
     issue_types,
     issues_utils,
 )
-from common.cli_helpers import CLIHelper
-from common.plugins.openstack import (
+from core.cli_helpers import CLIHelper
+from core.plugins.openstack import (
     OpenstackConfig,
     OPENSTACK_SHOW_CPU_PINNING_RESULTS,
 )
-from common.plugins.kernel import (
+from core.plugins.kernel import (
     KernelConfig,
     SystemdConfig,
 )

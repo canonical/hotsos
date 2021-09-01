@@ -1,73 +1,48 @@
-import os
-
-from common.plugins.juju import (
-    JUJU_LOG_PATH,
-    JujuChecksBase,
-)
+from core.plugins.juju import JujuChecksBase
 
 YAML_PRIORITY = 2
 
 
 class JujuUnitChecks(JujuChecksBase):
 
-    def __init__(self):
-        super().__init__()
-        self.units = {}
-
     def get_nonlocal_unit_info(self):
-        unit_nonlocal = set()
+        """ These are units that may be running on the local host i.e.
+        their associated jujud process is visible but inside containers.
+        """
+        unit_nonlocal = []
         app_nonlocal = {}
         units_nonlocal_dedup = set()
+        local_units = [u.name for u in self.units]
         for unit in self.ps_units:
-            if unit in self.units.get("local", []):
+            if unit.name in local_units:
                 continue
 
-            unit_nonlocal.add(unit)
+            unit_nonlocal.append(unit)
             # i.e. it is running but there is no log file in /var/log/juju
             # so it is likely running in a container
-            app = self._get_app_from_unit_name(unit)
-            if app:
-                version = self._get_unit_version(unit)
-                if version is not None:
-                    if app in app_nonlocal:
-                        if version > app_nonlocal[app]:
-                            app_nonlocal[app] = version
-                    else:
-                        app_nonlocal[app] = version
+            if unit.application in app_nonlocal:
+                if unit.id > app_nonlocal[unit.application]:
+                    app_nonlocal[unit.application] = unit.id
+            else:
+                app_nonlocal[unit.application] = unit.id
 
         # dedup unit_nonlocal
         for unit in unit_nonlocal:
-            app = self._get_app_from_unit_name(unit)
-            version = app_nonlocal[app]
-            if version == self._get_unit_version(unit):
-                units_nonlocal_dedup.add(unit)
+            id = app_nonlocal[unit.application]
+            if id == unit.id:
+                units_nonlocal_dedup.add(unit.name)
 
         if units_nonlocal_dedup:
-            self.units["lxd"] = \
-                list(sorted(units_nonlocal_dedup))
-
-    def get_local_unit_info_legacy(self):
-        units_local = set()
-        combined_units = self.ps_units.union(self.log_units)
-        for unit in combined_units:
-            if unit in self.log_units:
-                units_local.add(unit)
-
-        if units_local:
-            self.units["local"] = list(sorted(units_local))
-
-    def get_local_unit_info(self):
-        self.units["local"] = self.machine.deployed_units
+            return list(sorted(units_nonlocal_dedup))
 
     def __call__(self):
-        if not os.path.exists(JUJU_LOG_PATH):
-            return
-
-        if self.machine.version < "2.9":
-            self.get_local_unit_info_legacy()
-        else:
-            self.get_local_unit_info()
-
-        self.get_nonlocal_unit_info()
+        unit_info = {}
         if self.units:
-            self._output.update({"units": self.units})
+            unit_info["local"] = sorted([u.name for u in self.units])
+
+        non_local = self.get_nonlocal_unit_info()
+        if non_local:
+            unit_info['lxd'] = non_local
+
+        if unit_info:
+            self._output.update({"units": unit_info})

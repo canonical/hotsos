@@ -1,9 +1,9 @@
 import yaml
 
-from common.searchtools import FileSearcher
-from common.analytics import LogEventStats, SearchResultIndices
-from common import checks, plugintools, utils
-from common.plugins.openstack import OpenstackEventChecksBase
+from core.searchtools import FileSearcher
+from core.analytics import LogEventStats, SearchResultIndices
+from core import checks, plugintools, utils
+from core.plugins.openstack import OpenstackEventChecksBase
 
 YAML_PRIORITY = 9
 

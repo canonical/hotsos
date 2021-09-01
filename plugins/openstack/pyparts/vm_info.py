@@ -1,11 +1,11 @@
 import os
 
-from common import constants
-from common.searchtools import (
+from core import constants
+from core.searchtools import (
     FileSearcher,
     SearchDef,
 )
-from common.plugins.openstack import (
+from core.plugins.openstack import (
     OpenstackChecksBase,
     OpenstackConfig,
 )

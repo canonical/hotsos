@@ -5,7 +5,7 @@ import tempfile
 
 import utils
 
-from common import constants
+from core import constants
 from plugins.rabbitmq.pyparts import (
     cluster_checks,
     services,

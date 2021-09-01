@@ -1,10 +1,10 @@
 import os
 
-from common import (
+from core import (
     issue_types,
     issues_utils,
 )
-from common.plugins.kernel import (
+from core.plugins.kernel import (
     KernelChecksBase,
     KernelEventChecksBase,
     VMSTAT,

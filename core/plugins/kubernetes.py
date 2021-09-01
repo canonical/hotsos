@@ -1,4 +1,4 @@
-from common import (
+from core import (
     checks,
     host_helpers,
     plugintools,

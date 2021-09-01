@@ -1,4 +1,4 @@
-from common import checks
+from core import checks
 
 
 class JujuBugChecks(checks.BugChecksBase):

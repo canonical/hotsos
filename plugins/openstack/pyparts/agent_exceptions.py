@@ -1,14 +1,14 @@
 import os
 import re
 
-from common import constants
-from common.searchtools import SearchDef
-from common.plugins.openstack import (
+from core import constants
+from core.searchtools import SearchDef
+from core.plugins.openstack import (
     OpenstackEventChecksBase,
     OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     SERVICE_RESOURCES,
 )
-from common.plugins.openstack.exceptions import (
+from core.plugins.openstack.exceptions import (
     BARBICAN_EXCEPTIONS,
     CASTELLAN_EXCEPTIONS,
     CINDER_EXCEPTIONS,

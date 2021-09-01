@@ -1,11 +1,11 @@
 import os
 
-from common import constants
-from common.searchtools import (
+from core import constants
+from core.searchtools import (
     SearchDef,
     FileSearcher,
 )
-from common.plugins.openstack import OpenstackChecksBase
+from core.plugins.openstack import OpenstackChecksBase
 
 EXT_EVENT_META = {"network-vif-plugged": {"stages_keys":
                                           ["Preparing", "Received",

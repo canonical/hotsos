@@ -1,6 +1,6 @@
 import utils
 
-from common import checks
+from core import checks
 
 
 class TestChecks(utils.BaseTestCase):

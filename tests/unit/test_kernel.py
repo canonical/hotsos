@@ -9,7 +9,7 @@ from plugins.kernel.pyparts import (
     memory,
     network,
 )
-from common.host_helpers import NetworkPort
+from core.host_helpers import NetworkPort
 
 
 class TestKernelBase(utils.BaseTestCase):

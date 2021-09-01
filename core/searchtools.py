@@ -7,7 +7,7 @@ import multiprocessing
 import re
 import uuid
 
-from common import constants
+from core import constants
 
 
 class FileSearchException(Exception):

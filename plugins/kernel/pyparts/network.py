@@ -1,10 +1,10 @@
-from common import (
+from core import (
     issue_types,
     issues_utils,
 )
-from common.cli_helpers import CLIHelper
-from common.host_helpers import HostNetworkingHelper
-from common.plugins.kernel import KernelEventChecksBase
+from core.cli_helpers import CLIHelper
+from core.host_helpers import HostNetworkingHelper
+from core.plugins.kernel import KernelEventChecksBase
 
 YAML_PRIORITY = 2
 

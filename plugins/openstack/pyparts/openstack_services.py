@@ -1,9 +1,9 @@
 import re
 import os
 
-from common import constants
-from common.cli_helpers import CmdBase
-from common.plugins.openstack import (
+from core import constants
+from core.cli_helpers import CmdBase
+from core.plugins.openstack import (
     OST_PROJECTS,
     OST_SERVICES_DEPS,
     OST_SERVICES_EXPRS,

@@ -1,5 +1,5 @@
-from common import checks
-from common.plugins.openvswitch import (
+from core import checks
+from core.plugins.openvswitch import (
     OpenvSwitchChecksBase,
     OPENVSWITCH_SERVICES_EXPRS,
     OVS_PKGS_CORE,

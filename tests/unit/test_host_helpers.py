@@ -1,6 +1,6 @@
 import utils
 
-from common.host_helpers import HostNetworkingHelper
+from core.host_helpers import HostNetworkingHelper
 
 
 class TestHostHelpers(utils.BaseTestCase):

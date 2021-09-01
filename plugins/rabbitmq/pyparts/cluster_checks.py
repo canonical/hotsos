@@ -1,8 +1,8 @@
-from common import (
+from core import (
     issue_types,
     issues_utils,
 )
-from common.plugins.rabbitmq import RabbitMQEventChecksBase
+from core.plugins.rabbitmq import RabbitMQEventChecksBase
 
 YAML_PRIORITY = 1
 

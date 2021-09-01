@@ -1,8 +1,8 @@
 import re
 
-from common import host_helpers
-from common.cli_helpers import CLIHelper
-from common.plugins.openstack import OpenstackChecksBase
+from core import host_helpers
+from core.cli_helpers import CLIHelper
+from core.plugins.openstack import OpenstackChecksBase
 
 YAML_PRIORITY = 4
 

@@ -5,8 +5,8 @@ import tempfile
 
 import utils
 
-from common import checks
-from common.plugins.storage import CephChecksBase
+from core import checks
+from core.plugins.storage import CephChecksBase
 from plugins.storage.pyparts import (
     bcache,
     ceph_daemon_checks,

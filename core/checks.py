@@ -5,22 +5,22 @@ import re
 import subprocess
 import yaml
 
-from common import (
+from core import (
     constants,
     issue_types,
     issues_utils,
 )
-from common.cli_helpers import CLIHelper
-from common.utils import sorted_dict
-from common.known_bugs_utils import (
+from core.cli_helpers import CLIHelper
+from core.utils import sorted_dict
+from core.known_bugs_utils import (
     add_known_bug,
     BugSearchDef,
 )
-from common.searchtools import (
+from core.searchtools import (
     FileSearcher,
     SearchDef,
 )
-from common.plugintools import PluginPartBase
+from core.plugintools import PluginPartBase
 
 SVC_EXPR_TEMPLATES = {
     "absolute": r".+\S+bin/({})(?:\s+.+|$)",
@@ -143,7 +143,7 @@ class EventChecksBase(ChecksBase):
         requires a start and end to be considered complete then these can be
         specified for match otherwise we can match on a single line.
         Note that multi-line events can be overlapping hence why we don't use a
-        SequenceSearchDef (we use common.analytics.LogEventStats).
+        SequenceSearchDef (we use core.analytics.LogEventStats).
         """
         path = os.path.join(constants.PLUGIN_YAML_DEFS, "events.yaml")
         with open(path) as fd:
@@ -164,7 +164,7 @@ class EventChecksBase(ChecksBase):
 
                 # if this is a multiline event (has a start and end), append
                 # this to the tag so that it can be used with
-                # common.analytics.LogEventStats.
+                # core.analytics.LogEventStats.
                 if 'end' in event:
                     tag = "{}-start".format(event_name)
                     expr = event['start']['expr']

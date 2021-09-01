@@ -1,10 +1,10 @@
 import re
 
-from common import (
+from core import (
     issue_types,
     issues_utils,
 )
-from common.cli_helpers import CLIHelper
+from core.cli_helpers import CLIHelper
 
 
 class NeutronServiceChecks(object):

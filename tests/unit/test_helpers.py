@@ -4,7 +4,7 @@ import mock
 import tempfile
 import utils
 
-from common import cli_helpers
+from core import cli_helpers
 
 
 class TestCLIHelpers(utils.BaseTestCase):

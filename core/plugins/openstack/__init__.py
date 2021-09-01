@@ -1,14 +1,14 @@
 import os
 import re
 
-from common import (
+from core import (
     checks,
     constants,
     host_helpers,
     plugintools,
 )
-from common.cli_helpers import CLIHelper
-from common.plugins.openstack import exceptions
+from core.cli_helpers import CLIHelper
+from core.plugins.openstack import exceptions
 
 # Plugin config opts from global
 OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \

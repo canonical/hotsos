@@ -3,7 +3,7 @@ import os
 import utils
 import yaml
 
-from common import (
+from core import (
     issue_types,
     issues_utils,
 )

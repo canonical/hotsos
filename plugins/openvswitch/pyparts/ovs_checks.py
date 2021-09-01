@@ -1,18 +1,18 @@
 import os
 import re
 
-from common import (
+from core import (
     issues_utils,
     issue_types,
 )
-from common.cli_helpers import CLIHelper
-from common.searchtools import (
+from core.cli_helpers import CLIHelper
+from core.searchtools import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,
 )
-from common.utils import mktemp_dump
-from common.plugins.openvswitch import (
+from core.utils import mktemp_dump
+from core.plugins.openvswitch import (
     OpenvSwitchChecksBase,
     OpenvSwitchEventChecksBase,
 )

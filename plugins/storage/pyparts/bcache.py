@@ -1,10 +1,10 @@
 import re
 
-from common.cli_helpers import CLIHelper
-from common.known_bugs_utils import add_known_bug
-from common.issues_utils import add_issue
-from common.issue_types import BcacheWarning
-from common.plugins.storage import BcacheChecksBase
+from core.cli_helpers import CLIHelper
+from core.known_bugs_utils import add_known_bug
+from core.issues_utils import add_issue
+from core.issue_types import BcacheWarning
+from core.plugins.storage import BcacheChecksBase
 
 YAML_PRIORITY = 3
 # The real limit is 30 but we go just above in case bcache is flapping

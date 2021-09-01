@@ -1,11 +1,11 @@
 import os
 
-from common import (
+from core import (
     checks,
     constants,
     plugintools,
 )
-from common.plugins.kubernetes import (
+from core.plugins.kubernetes import (
     KubernetesChecksBase,
     SNAPS_DEPS,
     SNAPS_K8S,

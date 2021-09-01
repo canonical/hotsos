@@ -4,7 +4,7 @@ import mock
 
 import utils
 
-from common import known_bugs_utils
+from core import known_bugs_utils
 
 from plugins.juju.pyparts import (
     machines,
@@ -20,7 +20,8 @@ root       731  0.0  0.0 2981484 81644 ?       Sl   Apr06  49:01 /var/lib/juju/t
 class TestJujuPluginPartServices(utils.BaseTestCase):
 
     def test_get_machine_info(self):
-        expected = {'machines': {'running': ['1 (version=2.9.8)']}}
+        expected = {'machine': '1',
+                    'version': '2.9.8'}
         inst = machines.JujuMachineChecks()
         inst.get_machine_info()
         self.assertEquals(inst.output, expected)
@@ -30,11 +31,15 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
         mock_helper = mock.MagicMock()
         mock_cli_helper.return_value = mock_helper
         mock_helper.ps.return_value = FAKE_PS.split('\n')
-        expected = {'machines': {'running': ['0-lxd-11 (version=2.9.9)']}}
-        inst = machines.JujuMachineChecks()
-        with mock.patch.object(inst, 'machine') as m:
-            m.agent_service_name = 'jujud-machine-0-lxd-11'
-            m.version = '2.9.9'
+        expected = {'machine': '0-lxd-11',
+                    'version': '2.9.9'}
+
+        with mock.patch('core.plugins.juju.JujuMachine') as m:
+            mock_machine = mock.MagicMock()
+            m.return_value = mock_machine
+            mock_machine.id = '0-lxd-11'
+            mock_machine.version = '2.9.9'
+            inst = machines.JujuMachineChecks()
             inst.get_machine_info()
 
         self.assertEquals(inst.output, expected)
@@ -46,23 +51,11 @@ class TestJujuPluginPartCharms(utils.BaseTestCase):
         expected = {'charms': ['ceph-osd-495', 'neutron-openvswitch-443',
                                'nova-compute-564']}
         inst = charms.JujuCharmChecks()
-        inst.get_charm_versions()
+        inst()
         self.assertEquals(inst.output, expected)
 
 
 class TestJujuPluginPartUnits(utils.BaseTestCase):
-
-    def test_get_app_from_unit_name(self):
-        unit = "foo-32"
-        inst = units.JujuUnitChecks()
-        app = inst._get_app_from_unit_name(unit)
-        self.assertEquals(app, "foo")
-
-    def test_get_unit_version(self):
-        unit = "foo-32"
-        inst = units.JujuUnitChecks()
-        version = inst._get_unit_version(unit)
-        self.assertEquals(version, 32)
 
     def test_get_unit_info(self):
         expected = {'local': ['ceph-osd-1', 'neutron-openvswitch-1',

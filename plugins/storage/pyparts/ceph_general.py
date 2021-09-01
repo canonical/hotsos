@@ -1,5 +1,5 @@
-from common.checks import APTPackageChecksBase
-from common.plugins.storage import (
+from core.checks import APTPackageChecksBase
+from core.plugins.storage import (
     CephChecksBase,
     CEPH_PKGS_CORE,
 )

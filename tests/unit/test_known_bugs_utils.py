@@ -4,7 +4,7 @@ import yaml
 
 import utils
 
-from common import known_bugs_utils
+from core import known_bugs_utils
 
 
 class TestKnownBugsUtils(utils.BaseTestCase):

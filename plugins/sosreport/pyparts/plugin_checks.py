@@ -1,12 +1,12 @@
 import os
 
-from common import (
+from core import (
     constants,
     issue_types,
     issues_utils,
     plugintools,
 )
-from common.searchtools import (
+from core.searchtools import (
     SearchDef,
     FileSearcher,
 )

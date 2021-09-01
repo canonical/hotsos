@@ -1,10 +1,10 @@
 import os
 import yaml
 
-from common import plugintools
-from common import constants
-from common.searchtools import SearchDef
-from common.issues_utils import IssueEntry
+from core import plugintools
+from core import constants
+from core.searchtools import SearchDef
+from core.issues_utils import IssueEntry
 
 LAUNCHPAD = "launchpad"
 MASTER_YAML_KNOWN_BUGS_KEY = "bugs-detected"

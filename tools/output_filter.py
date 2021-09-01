@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import yaml
 
-from common import (
+from core import (
     constants,
     issues_utils,
     known_bugs_utils,

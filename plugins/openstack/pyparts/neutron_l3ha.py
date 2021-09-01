@@ -1,18 +1,18 @@
 import os
 import re
 
-from common import (
+from core import (
     constants,
     issue_types,
     issues_utils,
 )
-from common.cli_helpers import CLIHelper
-from common.searchtools import (
+from core.cli_helpers import CLIHelper
+from core.searchtools import (
     SearchDef,
     FileSearcher,
 )
-from common.utils import mktemp_dump
-from common.plugins.openstack import (
+from core.utils import mktemp_dump
+from core.plugins.openstack import (
     NEUTRON_HA_PATH,
     OpenstackChecksBase,
 )

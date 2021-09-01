@@ -1,5 +1,5 @@
-from common.checks import ConfigChecksBase
-from common.plugins.openstack import (
+from core.checks import ConfigChecksBase
+from core.plugins.openstack import (
     OpenstackConfig,
     OpenstackPackageChecksBase
 )
