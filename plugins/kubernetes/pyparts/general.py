@@ -1,8 +1,5 @@
-import os
-
 from core import (
     checks,
-    constants,
     plugintools,
 )
 from core.plugins.kubernetes import (
@@ -39,29 +36,9 @@ class KubernetesServiceChecks(KubernetesChecksBase):
 
 
 class KubernetesResourceChecks(KubernetesChecksBase):
-
-    def get_pod_info(self):
-        pod_info = []
-        pods_path = os.path.join(constants.DATA_ROOT,
-                                 "var/log/pods")
-        if os.path.exists(pods_path):
-            for pod in os.listdir(pods_path):
-                pod_info.append(pod)
-
-        if pod_info:
-            self._output["pods"] = pod_info
-
-    def get_container_info(self):
-        container_info = []
-        containers_path = os.path.join(constants.DATA_ROOT,
-                                       "var/log/containers")
-        if os.path.exists(containers_path):
-            for container in os.listdir(containers_path):
-                container_info.append(container)
-
-        if container_info:
-            self._output["containers"] = container_info
-
     def __call__(self):
-        self.get_pod_info()
-        self.get_container_info()
+        if self.pods:
+            self._output['pods'] = self.pods
+
+        if self.pods:
+            self._output['containers'] = self.containers

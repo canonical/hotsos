@@ -1,5 +1,8 @@
+import os
+
 from core import (
     checks,
+    constants,
     host_helpers,
     plugintools,
 )
@@ -43,6 +46,8 @@ class KubernetesBase(object):
     def __init__(self):
         super().__init__(SERVICES, hint_range=(0, 3))
         self.nethelp = host_helpers.HostNetworkingHelper()
+        self._containers = []
+        self._pods = []
 
     @property
     def flannel_ports(self):
@@ -59,6 +64,32 @@ class KubernetesBase(object):
         Fetch interfaces used by Kubernetes.
         """
         return {'flannel': self.flannel_ports}
+
+    @property
+    def pods(self):
+        if self._pods:
+            return self._pods
+
+        pods_path = os.path.join(constants.DATA_ROOT,
+                                 "var/log/pods")
+        if os.path.exists(pods_path):
+            for pod in os.listdir(pods_path):
+                self._pods.append(pod)
+
+        return self._pods
+
+    @property
+    def containers(self):
+        if self._containers:
+            return self._containers
+
+        containers_path = os.path.join(constants.DATA_ROOT,
+                                       "var/log/containers")
+        if os.path.exists(containers_path):
+            for pod in os.listdir(containers_path):
+                self._containers.append(pod)
+
+        return self._containers
 
 
 class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase,
