@@ -30,6 +30,8 @@ class KernelNetworkChecks(KernelEventChecksBase):
                                self.hostnet_helper.host_interfaces_all]
             # filter out interfaces that are actually ovs bridge aliases
             ovs_bridges = self.cli_helper.ovs_vsctl_list_br()
+            # strip trailing newline chars
+            ovs_bridges = [br.strip() for br in ovs_bridges]
 
             interfaces_extant = {}
             for iface in interfaces:

@@ -129,7 +129,8 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
     def test_check_mtu_dropped_packets(self, mock_nethelper, mock_clihelper):
         mock_ch = mock.MagicMock()
         mock_clihelper.return_value = mock_ch
-        mock_ch.ovs_vsctl_list_br.return_value = ['br-int']
+        # include trailing newline since cli would give that
+        mock_ch.ovs_vsctl_list_br.return_value = ['br-int\n']
 
         mock_nh = mock.MagicMock()
         mock_nethelper.return_value = mock_nh
