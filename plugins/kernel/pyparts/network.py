@@ -1,6 +1,6 @@
-from core import (
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
@@ -43,7 +43,7 @@ class KernelNetworkChecks(KernelEventChecksBase):
                 msg = ("kernel has reported over-mtu dropped packets for ({}) "
                        "interfaces".format(len(interfaces_extant)))
                 issue = issue_types.NetworkWarning(msg)
-                issues_utils.add_issue(issue)
+                issue_utils.add_issue(issue)
 
                 # sort by number of occurrences
                 sorted_dict = {}
@@ -58,7 +58,7 @@ class KernelNetworkChecks(KernelEventChecksBase):
             # TODO: consider resticting this to last 24 hours
             msg = "kernel has reported nf_conntrack_full - please check"
             issue = issue_types.NetworkWarning(msg)
-            issues_utils.add_issue(issue)
+            issue_utils.add_issue(issue)
 
     def process_results(self, results):
         """ See defs/events.yaml for definitions. """

@@ -1,8 +1,10 @@
 import re
 
 from core.cli_helpers import CLIHelper
-from core.issue_types import JujuWarning
-from core.issues_utils import add_issue
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
 from core.plugins.juju import JujuChecksBase
 
 YAML_PRIORITY = 0
@@ -30,7 +32,7 @@ class JujuMachineChecks(JujuChecksBase):
         if not agent_running:
             msg = ("there is no Juju machined running on this host but it "
                    "seems there should be")
-            add_issue(JujuWarning(msg))
+            issue_utils.add_issue(issue_types.JujuWarning(msg))
 
         if machine_info["machine"]:
             self._output.update(machine_info)

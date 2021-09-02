@@ -1,8 +1,8 @@
 import re
 
-from core import (
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 
@@ -32,7 +32,7 @@ class NeutronServiceChecks(object):
             msg = ("neutron-ovs-cleanup has been manually run on this "
                    "host. This is not recommended and can have unintended "
                    "side-effects.")
-            issues_utils.add_issue(issue_types.OpenstackWarning(msg))
+            issue_utils.add_issue(issue_types.OpenstackWarning(msg))
 
     def __call__(self):
         self.check_ovs_cleanup()

@@ -1,8 +1,8 @@
 import os
 
-from core import (
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.plugins.kernel import (
     KernelChecksBase,
@@ -34,7 +34,7 @@ class KernelOOMChecks(KernelEventChecksBase):
                         msg = ("oom-killer invoked for process '{}' at {}"
                                .format(process_name, time_oomd))
                         issue = issue_types.MemoryWarning(msg)
-                        issues_utils.add_issue(issue)
+                        issue_utils.add_issue(issue)
                         info['oom-event'] = time_oomd
 
         self._output = info
@@ -155,7 +155,7 @@ class KernelMemoryChecks(KernelChecksBase):
                     msg = ("failures are at {}% of successes (see {})"
                            .format(pcent, VMSTAT))
                     issue = issue_types.MemoryWarning("compaction " + msg)
-                    issues_utils.add_issue(issue)
+                    issue_utils.add_issue(issue)
 
             self.get_slab_major_consumers()
         else:

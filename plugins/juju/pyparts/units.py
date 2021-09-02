@@ -10,8 +10,6 @@ class JujuUnitChecks(JujuChecksBase):
         their associated jujud process is visible but inside containers.
         """
         unit_nonlocal = []
-        app_nonlocal = {}
-        units_nonlocal_dedup = set()
         local_units = [u.name for u in self.units]
         for unit in self.ps_units:
             if unit.name in local_units:

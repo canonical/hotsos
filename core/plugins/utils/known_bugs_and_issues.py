@@ -8,7 +8,7 @@ master yaml section for this plugin.
 from core.known_bugs_utils import (
     add_known_bugs_to_master_plugin,
 )
-from core.issues_utils import (
+from core.issues.issue_utils import (
     add_issues_to_master_plugin,
 )
 from core import plugintools

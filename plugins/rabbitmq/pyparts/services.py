@@ -2,9 +2,11 @@ import os
 
 from core import (
     checks,
-    issue_types,
-    issues_utils,
     plugintools,
+)
+from core.issues import (
+    issue_types,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 from core.searchtools import (
@@ -197,7 +199,7 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
             msg = ("{} holds more than 2/3 of queues for {}/{} vhost(s)".
                    format(node_name, issues_raised[node_name],
                           len(vhost_queues)))
-            issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
+            issue_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
         if vhost_queues:
             # list all vhosts but only show their queues if not []
@@ -270,7 +272,7 @@ class RabbitMQServiceChecks(RabbitMQChecksBase):
             msg = "Cluster partition handling is currently set to ignore. " \
                 "This is potentially dangerous and a setting of " \
                 "pause_minority is recommended."
-            issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
+            issue_utils.add_issue(issue_types.RabbitMQWarning(msg))
             self.resources["cluster-partition-handling"] = setting
 
     def run_report_callbacks(self):

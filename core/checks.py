@@ -5,10 +5,10 @@ import re
 import subprocess
 import yaml
 
-from core import (
-    constants,
+from core import constants
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 from core.utils import sorted_dict
@@ -413,7 +413,7 @@ class ConfigChecksBase(object):
 
                 if raise_issue:
                     msg = (args["message"])
-                    issues_utils.add_issue(issue_types.OpenstackWarning(msg))
+                    issue_utils.add_issue(issue_types.OpenstackWarning(msg))
                     # move on to next set of checks
                     break
 

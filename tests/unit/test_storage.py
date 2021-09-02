@@ -62,7 +62,7 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
 class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
 
-    @mock.patch.object(ceph_daemon_checks, "add_issue")
+    @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_get_crushmap_mixed_buckets(self, mock_add_issue):
         inst = ceph_daemon_checks.CephOSDChecks()
         inst()
@@ -87,7 +87,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         inst.get_ceph_versions_mismatch()
         self.assertIsNone(inst.output)
 
-    @mock.patch.object(ceph_daemon_checks, "add_issue")
+    @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
         result = {'bad-pgs-per-osd': {
                    'osd.0': 295}}
@@ -146,7 +146,7 @@ class TestStoragePluginPartBcache(StorageTestsBase):
         self.assertEqual(inst.output, expected)
 
     @mock.patch.object(bcache, "add_known_bug")
-    @mock.patch.object(bcache, "add_issue")
+    @mock.patch.object(bcache.issue_utils, "add_issue")
     def test_get_bcache_stats_checks_issue_found(self, mock_add_issue,
                                                  mock_add_known_bug):
         expected = {'bcache': {

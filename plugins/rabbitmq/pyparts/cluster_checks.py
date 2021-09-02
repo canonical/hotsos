@@ -1,6 +1,6 @@
-from core import (
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.plugins.rabbitmq import RabbitMQEventChecksBase
 
@@ -20,4 +20,4 @@ class RabbitMQClusterChecks(RabbitMQEventChecksBase):
                 if event == "cluster-partitions" and _results:
                     msg = ("cluster either has or has had partitions - check "
                            "cluster_status")
-                    issues_utils.add_issue(issue_types.RabbitMQWarning(msg))
+                    issue_utils.add_issue(issue_types.RabbitMQWarning(msg))

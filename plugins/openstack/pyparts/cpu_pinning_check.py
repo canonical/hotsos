@@ -3,10 +3,10 @@ import os
 
 from uuid import uuid4
 
-from core import (
-    constants,
+from core import constants
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import (
@@ -237,7 +237,7 @@ class CPUPinningChecker(object):
                            "cpuaffinity".format(self.cpu_dedicated_set_name))
                     self.results.add_error(msg, extra)
                     issue = issue_types.OpenstackWarning(msg)
-                    issues_utils.add_issue(issue)
+                    issue_utils.add_issue(issue)
             elif intersect2:
                 if intersect1:
                     extra = ("intersection with isolcpus: {}\nintersection "
@@ -247,7 +247,7 @@ class CPUPinningChecker(object):
                            "cpuaffinity".format(self.cpu_dedicated_set_name))
                     self.results.add_error(msg, extra)
                     issue = issue_types.OpenstackWarning(msg)
-                    issues_utils.add_issue(issue)
+                    issue_utils.add_issue(issue)
             else:
                 msg = ("{} is neither a subset of isolcpus nor cpuaffinity".
                        format(self.cpu_dedicated_set_name))
@@ -263,7 +263,7 @@ class CPUPinningChecker(object):
             msg = "cpu_shared_set contains cores from isolcpus"
             self.results.add_error(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
-            issues_utils.add_issue(issue)
+            issue_utils.add_issue(issue)
 
         intersect = self.cpu_dedicated_set.intersection(self.cpu_shared_set)
         if intersect:
@@ -272,7 +272,7 @@ class CPUPinningChecker(object):
                    format(self.cpu_dedicated_set_name))
             self.results.add_error(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
-            issues_utils.add_issue(issue)
+            issue_utils.add_issue(issue)
 
         intersect = self.isolcpus.intersection(self.cpuaffinity)
         if intersect:
@@ -280,7 +280,7 @@ class CPUPinningChecker(object):
             msg = "isolcpus and cpuaffinity overlap"
             self.results.add_error(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
-            issues_utils.add_issue(issue)
+            issue_utils.add_issue(issue)
 
         node_count = 0
         for node in self.numa.nodes:
@@ -304,7 +304,7 @@ class CPUPinningChecker(object):
                    format(self.cpu_dedicated_set_name))
             self.results.add_warning(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
-            issues_utils.add_issue(issue)
+            issue_utils.add_issue(issue)
 
         if self.isolcpus or self.cpuaffinity:
             total_isolated = self.isolcpus.union(self.cpuaffinity)
@@ -318,4 +318,4 @@ class CPUPinningChecker(object):
                        format(len(nonisolated), pcent_unpinned))
                 self.results.add_warn(msg)
                 issue = issue_types.OpenstackWarning(msg)
-                issues_utils.add_issue(issue)
+                issue_utils.add_issue(issue)

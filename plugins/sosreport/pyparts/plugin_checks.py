@@ -2,9 +2,11 @@ import os
 
 from core import (
     constants,
-    issue_types,
-    issues_utils,
     plugintools,
+)
+from core.issues import (
+    issue_types,
+    issue_utils,
 )
 from core.searchtools import (
     SearchDef,
@@ -34,7 +36,7 @@ class SOSReportPluginChecks(plugintools.PluginPartBase):
             timeouts.append(plugin)
             msg = ("sosreport plugin '{}' has timed out and may have "
                    "incomplete data".format(plugin))
-            issues_utils.add_issue(issue_types.SOSReportWarning(msg))
+            issue_utils.add_issue(issue_types.SOSReportWarning(msg))
 
         if timeouts:
             self._output["plugin-timeouts"] = timeouts

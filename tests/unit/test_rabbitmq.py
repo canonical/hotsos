@@ -74,11 +74,11 @@ class TestRabbitmqServices(TestRabbitmqBase):
 
         inst = services.RabbitMQServiceChecks()
         inst()
-        issues = services.issues_utils._get_issues()
+        issues = services.issue_utils._get_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
-                         {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                         {services.issue_utils.MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
@@ -158,11 +158,11 @@ class TestRabbitmqServices(TestRabbitmqBase):
 
         inst = services.RabbitMQServiceChecks()
         inst()
-        issues = services.issues_utils._get_issues()
+        issues = services.issue_utils._get_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
-                         {services.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                         {services.issue_utils.MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
@@ -190,14 +190,14 @@ class TestRabbitmqServices(TestRabbitmqBase):
 
 class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
-    @mock.patch.object(cluster_checks.issues_utils, 'add_issue')
+    @mock.patch.object(cluster_checks.issue_utils, 'add_issue')
     def test_cluster_checks_no_issue(self, mock_add_issue):
         inst = cluster_checks.RabbitMQClusterChecks()
         inst()
         self.assertEqual(inst.output, None)
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch.object(cluster_checks.issues_utils, 'add_issue')
+    @mock.patch.object(cluster_checks.issue_utils, 'add_issue')
     def test_cluster_checks_w_partitions(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp

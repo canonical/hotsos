@@ -606,7 +606,7 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
         inst.check_vrrp_transitions()
         self.assertEqual(inst.output["neutron-l3ha"], expected)
 
-    @mock.patch.object(neutron_l3ha.issues_utils, "add_issue")
+    @mock.patch.object(neutron_l3ha.issue_utils, "add_issue")
     @mock.patch.object(neutron_l3ha, "VRRP_TRANSITION_WARN_THRESHOLD", 1)
     def test_run_checks_w_issue(self, mock_add_issue):
         os.environ["USE_ALL_LOGS"] = "False"
@@ -631,7 +631,7 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
 class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
 
     @mock.patch.object(service_checks, 'CLIHelper')
-    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    @mock.patch.object(service_checks.issue_utils, "add_issue")
     def test_run_service_checks(self, mock_add_issue, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -641,7 +641,7 @@ class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
         self.assertFalse(mock_add_issue.called)
 
     @mock.patch.object(service_checks, 'CLIHelper')
-    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    @mock.patch.object(service_checks.issue_utils, "add_issue")
     def test_run_service_checks_w_issue(self, mock_add_issue, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -653,7 +653,7 @@ class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
 
 class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):
 
-    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    @mock.patch.object(service_checks.issue_utils, "add_issue")
     def test_config_checks_has_issue(self, mock_add_issue):
         inst = config_checks.OpenstackConfigChecks()
         with mock.patch.object(inst, 'is_installed') as mock_installed:
@@ -661,7 +661,7 @@ class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):
             inst()
             self.assertTrue(mock_add_issue.called)
 
-    @mock.patch.object(service_checks.issues_utils, "add_issue")
+    @mock.patch.object(service_checks.issue_utils, "add_issue")
     def test_config_checks_no_issue(self, mock_add_issue):
         inst = config_checks.OpenstackConfigChecks()
         with mock.patch.object(inst, 'is_installed') as mock_installed:

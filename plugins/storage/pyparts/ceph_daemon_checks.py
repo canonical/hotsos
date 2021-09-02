@@ -1,17 +1,12 @@
 import json
 import re
 
-from core.checks import (
-    DPKGVersionCompare,
+from core.checks import DPKGVersionCompare
+from core.issues import (
+    issue_types,
+    issue_utils,
 )
-from core.issue_types import (
-    CephCrushWarning,
-    CephDaemonWarning,
-)
-from core.issues_utils import add_issue
-from core.utils import (
-    sorted_dict,
-)
+from core.utils import sorted_dict
 from core.plugins.storage import CephChecksBase
 from core.plugins.kernel import KernelChecksBase
 from core.plugins.storage import BcacheChecksBase
@@ -67,8 +62,8 @@ class CephOSDChecks(CephChecksBase):
                                                           reverse=True)
             msg = ("{} osds found with > 10% margin from optimal 200 pgs".
                    format(len(bad_pgs)))
-            issue = CephCrushWarning(msg)
-            add_issue(issue)
+            issue = issue_types.CephCrushWarning(msg)
+            issue_utils.add_issue(issue)
 
     def get_ceph_versions_mismatch(self):
         """
@@ -103,8 +98,8 @@ class CephOSDChecks(CephChecksBase):
             self._output["versions"] = daemon_version_info
             if len(versions_set) > 1:
                 msg = ("ceph daemon versions not aligned")
-                issue = CephDaemonWarning(msg)
-                add_issue(issue)
+                issue = issue_types.CephDaemonWarning(msg)
+                issue_utils.add_issue(issue)
 
     def build_buckets_from_crushdump(self, crushdump):
         buckets = {}
@@ -152,9 +147,10 @@ class CephOSDChecks(CephChecksBase):
                 bad_buckets.append(buckets[bid]["name"])
 
         if bad_buckets:
-            issue = CephCrushWarning("mixed crush buckets indentified (see "
-                                     "--storage for more info)")
-            add_issue(issue)
+            msg = ("mixed crush buckets indentified (see --storage for more "
+                   "info)")
+            issue = issue_types.CephCrushWarning(msg)
+            issue_utils.add_issue(issue)
             self._output["mixed_crush_buckets"] = bad_buckets
 
     def check_bcache_vulnerabilities(self):
@@ -197,8 +193,8 @@ class CephOSDChecks(CephChecksBase):
         msg = ("host may be vulnerable to bcache bug 1936136 - please ensure "
                "bluefs_buffered_io is set to False or upgrade to kernel "
                ">= 5.4")
-        issue = CephCrushWarning(msg)
-        add_issue(issue)
+        issue = issue_types.CephCrushWarning(msg)
+        issue_utils.add_issue(issue)
 
     def __call__(self):
         if self.osds:

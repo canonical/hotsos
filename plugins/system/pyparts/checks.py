@@ -2,8 +2,10 @@ import os
 
 from core import constants
 from core.cli_helpers import CLIHelper
-from core.issue_types import SysCtlWarning
-from core.issues_utils import add_issue
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
 from core.plugins.system import SystemChecksBase, SYSCtlHelper
 
 YAML_PRIORITY = 1
@@ -101,8 +103,8 @@ class SystemChecks(SystemChecksBase):
 
         if mismatch:
             self._output['sysctl-mismatch'] = mismatch
-            add_issue(SysCtlWarning("host sysctl not consistent with contents "
-                                    "of systcl.d"))
+            msg = "host sysctl not consistent with contents of systcl.d"
+            issue_utils.add_issue(issue_types.SysCtlWarning(msg))
 
         if charm_mismatch:
             # We dont raise an issue for this sine it is just informational

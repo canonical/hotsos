@@ -24,7 +24,7 @@ class TestTools(utils.BaseTestCase):
             self.assertEqual(result, None)
 
     def test_output_filter(self):
-        issue_key = output_filter.issues_utils.MASTER_YAML_ISSUES_FOUND_KEY
+        issue_key = output_filter.issue_utils.MASTER_YAML_ISSUES_FOUND_KEY
         bug_key = output_filter.known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY
         issues = {"testplugin":
                   {issue_key: [{"type": "MemoryWarning",

@@ -1,10 +1,10 @@
 import os
 import re
 
-from core import (
-    constants,
+from core import constants
+from core.issues import (
     issue_types,
-    issues_utils,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 from core.searchtools import (
@@ -149,7 +149,7 @@ class NeutronL3HAChecks(OpenstackChecksBase):
                    "(max={}) in the last 24 hours".format(warn_count,
                                                           threshold,
                                                           max_transitions))
-            issues_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
+            issue_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
 
     def __call__(self):
         self.get_neutron_ha_info()

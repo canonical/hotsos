@@ -2,8 +2,10 @@ import re
 
 from core.cli_helpers import CLIHelper
 from core.known_bugs_utils import add_known_bug
-from core.issues_utils import add_issue
-from core.issue_types import BcacheWarning
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
 from core.plugins.storage import BcacheChecksBase
 
 YAML_PRIORITY = 3
@@ -60,7 +62,7 @@ class BcacheStatsChecks(BcacheChecksBase):
                 msg = ("bcache {} ({}) is <= {} - "
                        "this node could be suffering from bug 1900438".
                        format(key, cset[key], limit))
-                add_issue(BcacheWarning(msg))
+                issue_utils.add_issue(issue_types.BcacheWarning(msg))
                 add_known_bug(1900438, "see BcacheWarning for info")
 
     def __call__(self):

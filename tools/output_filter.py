@@ -3,12 +3,12 @@ import yaml
 
 from core import (
     constants,
-    issues_utils,
     known_bugs_utils,
     plugintools,
 )
+from core.issues import issue_utils
 
-FILTER_SCHEMA = [issues_utils.MASTER_YAML_ISSUES_FOUND_KEY,
+FILTER_SCHEMA = [issue_utils.MASTER_YAML_ISSUES_FOUND_KEY,
                  known_bugs_utils.MASTER_YAML_KNOWN_BUGS_KEY]
 
 

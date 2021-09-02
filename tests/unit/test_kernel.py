@@ -104,7 +104,7 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
 
 class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
-    @mock.patch.object(network.issues_utils, "add_issue")
+    @mock.patch.object(network.issue_utils, "add_issue")
     def test_run_network_checks(self, mock_add_issue):
         issues = []
 
@@ -148,7 +148,7 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
 class TestKernelPluginPartKernelOOM(TestKernelBase):
 
-    @mock.patch.object(memory.issues_utils, "add_issue")
+    @mock.patch.object(memory.issue_utils, "add_issue")
     def test_run_memory_checks(self, mock_add_issue):
         issues = []
 

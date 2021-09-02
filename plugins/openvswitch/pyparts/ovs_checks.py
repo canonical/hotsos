@@ -1,9 +1,9 @@
 import os
 import re
 
-from core import (
-    issues_utils,
+from core.issues import (
     issue_types,
+    issue_utils,
 )
 from core.cli_helpers import CLIHelper
 from core.searchtools import (
@@ -196,12 +196,12 @@ class OpenvSwitchDPChecks(OpenvSwitchChecksBase):
             if all_dropped:
                 msg = ("found {} ovs interfaces with 100% dropped packets"
                        .format(len(all_dropped)))
-                issues_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
+                issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 
             if all_errors:
                 msg = ("found {} ovs interfaces with 100% packet errors"
                        .format(len(all_errors)))
-                issues_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
+                issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 
             stats_sorted = {}
             for k in sorted(stats):
