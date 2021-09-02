@@ -18,22 +18,9 @@ class JujuUnitChecks(JujuChecksBase):
                 continue
 
             unit_nonlocal.append(unit)
-            # i.e. it is running but there is no log file in /var/log/juju
-            # so it is likely running in a container
-            if unit.application in app_nonlocal:
-                if unit.id > app_nonlocal[unit.application]:
-                    app_nonlocal[unit.application] = unit.id
-            else:
-                app_nonlocal[unit.application] = unit.id
 
-        # dedup unit_nonlocal
-        for unit in unit_nonlocal:
-            id = app_nonlocal[unit.application]
-            if id == unit.id:
-                units_nonlocal_dedup.add(unit.name)
-
-        if units_nonlocal_dedup:
-            return list(sorted(units_nonlocal_dedup))
+        if unit_nonlocal:
+            return list(sorted([u.name for u in unit_nonlocal]))
 
     def __call__(self):
         unit_info = {}

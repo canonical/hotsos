@@ -13,7 +13,7 @@ class KernelGeneralChecks(KernelChecksBase):
         cpu = CPU()
         info = {}
         if cpu.smt is not None:
-            if cpu.smt == '1':
+            if cpu.smt:
                 info['smt'] = 'enabled'
             else:
                 info['smt'] = 'disabled'

@@ -147,7 +147,7 @@ class JujuBase(object):
         units = set()
         for line in CLIHelper().ps():
             if "unit-" in line:
-                ret = re.compile(r".+unit-(\S+)-(\d+).*").match(line)
+                ret = re.compile(r".+jujud-unit-(\S+)-(\d+).*").match(line)
                 if ret:
                     units.add(JujuUnit(ret[2], ret[1]))
 

@@ -9,12 +9,14 @@ from core import (
     plugintools,
     utils,
 )
+from core.cli_helpers import get_ps_axo_flags_available
 from core.cli_helpers import CLIHelper
 from core.searchtools import (
     FileSearcher,
     SequenceSearchDef,
     SearchDef
 )
+from core.utils import mktemp_dump
 
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
@@ -38,21 +40,138 @@ class CephConfig(checks.SectionalConfigBase):
         super().__init__(path=path, *args, **kwargs)
 
 
+class CephOSD(object):
+
+    def __init__(self, id, fsid, device):
+        self.cli = CLIHelper()
+        self.date_in_secs = utils.get_date_secs()
+        self.id = id
+        self.fsid = fsid
+        self.device = device
+        self._devtype = None
+        self._etime = None
+        self._rss = None
+
+    def to_dict(self):
+        d = {self.id: {
+             'fsid': self.fsid,
+             'dev': self.device}}
+
+        if self.devtype:
+            d[self.id]['devtype'] = self.devtype
+
+        if self.etime:
+            d[self.id]['etime'] = self.etime
+
+        if self.rss:
+            d[self.id]['rss'] = self.rss
+
+        return d
+
+    @property
+    def rss(self):
+        """Return memory RSS for a given OSD.
+
+        NOTE: this assumes we have ps auxwwwm format.
+        """
+        if self._rss:
+            return self._rss
+
+        f_osd_ps_cmds = mktemp_dump(''.join(self.cli.ps()))
+
+        s = FileSearcher()
+        # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+        sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-osd\s+"
+                       r".+--id\s+{}\s+.+".format(self.id))
+        s.add_search_term(sd, path=f_osd_ps_cmds)
+        rss = 0
+        # we only expect one result
+        for result in s.search().find_by_path(f_osd_ps_cmds):
+            rss = int(int(result.get(1)) / 1024)
+            break
+
+        os.unlink(f_osd_ps_cmds)
+        self._rss = "{}M".format(rss)
+        return self._rss
+
+    @property
+    def etime(self):
+        """Return process etime for a given OSD.
+
+        To get etime we have to use ps_axo_flags rather than the default
+        ps_auxww.
+        """
+        if self._etime:
+            return self._etime
+
+        if not get_ps_axo_flags_available():
+            return
+
+        ps_osds = []
+        for line in self.cli.ps_axo_flags():
+            ret = re.compile("ceph-osd").search(line)
+            if not ret:
+                continue
+
+            expt_tmplt = checks.SVC_EXPR_TEMPLATES["absolute"]
+            ret = re.compile(expt_tmplt.format("ceph-osd")).search(line)
+            if ret:
+                ps_osds.append(ret.group(0))
+
+        if not ps_osds:
+            return
+
+        for cmd in ps_osds:
+            ret = re.compile(r".+\s+.+--id {}\s+.+".format(
+                             self.id)).match(cmd)
+            if ret:
+                osd_start = ' '.join(cmd.split()[13:17])
+                if self.date_in_secs and osd_start:
+                    osd_start_secs = utils.get_date_secs(datestring=osd_start)
+                    osd_uptime_secs = (self.date_in_secs - osd_start_secs)
+                    osd_uptime_str = utils.seconds_to_date(osd_uptime_secs)
+                    self._etime = osd_uptime_str
+
+        return self._etime
+
+    @property
+    def devtype(self):
+        if self._devtype:
+            return self._devtype
+
+        for line in self.cli.ceph_osd_tree():
+            if line.split()[3] == "osd.{}".format(self.id):
+                self._devtype = line.split()[1]
+
+        return self._devtype
+
+
 class CephBase(StorageBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self._bcache_info = []
-        udevadm_db = CLIHelper().udevadm_info_exportdb()
+        self._osds = {}
+        self.cli = CLIHelper()
+        udevadm_db = self.cli.udevadm_info_exportdb()
+        self.udevadm_db = None
         if udevadm_db:
             self.udevadm_db = utils.mktemp_dump('\n'.join(udevadm_db))
-        else:
-            self.udevadm_db = None
+
+        ceph_volume_lvm_list = self.cli.ceph_volume_lvm_list()
+        self.f_ceph_volume_lvm_list = None
+        if ceph_volume_lvm_list:
+            self.f_ceph_volume_lvm_list = mktemp_dump('\n'.
+                                                      join(
+                                                        ceph_volume_lvm_list))
 
     def __del__(self):
         if self.udevadm_db:
             os.unlink(self.udevadm_db)
+
+        if self.f_ceph_volume_lvm_list:
+            os.unlink(self.f_ceph_volume_lvm_list)
 
     @property
     def bind_interfaces(self):
@@ -86,8 +205,46 @@ class CephBase(StorageBase):
 
         return interfaces
 
+    def _get_osds(self):
+        if not self.f_ceph_volume_lvm_list:
+            return
+
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
+                               body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
+                                               r"\s+(devices)\s+([\S]+)\s*"]),
+                               tag="ceph-lvm")
+        s.add_search_term(sd, path=self.f_ceph_volume_lvm_list)
+        osds = []
+        for results in s.search().find_sequence_sections(sd).values():
+            id = None
+            fsid = None
+            dev = None
+            for result in results:
+                if result.tag == sd.start_tag:
+                    id = int(result.get(1))
+                elif result.tag == sd.body_tag:
+                    if result.get(1) == "fsid":
+                        fsid = result.get(2)
+                    elif result.get(1) == "devices":
+                        dev = result.get(2)
+
+            osds.append(CephOSD(id, fsid, dev))
+
+        return osds
+
+    @property
+    def osds(self):
+        """ Get key information about OSDs. """
+        if self._osds:
+            return self._osds
+
+        self._osds = self._get_osds()
+        return self._osds
+
     @property
     def bcache_info(self):
+        """ If bcache devices exist fetch information and return as a dict. """
         if self._bcache_info:
             return self._bcache_info
 
@@ -139,21 +296,6 @@ class CephBase(StorageBase):
         """
         pkginfo = checks.APTPackageChecksBase(CEPH_PKGS_CORE)
         return pkginfo.get_version(daemon)
-
-    @property
-    def osd_ids(self):
-        """Return list of ceph-osd ids."""
-        ceph_osds = self.services.get("ceph-osd")
-        if not ceph_osds:
-            return []
-
-        osd_ids = []
-        for cmd in ceph_osds["ps_cmds"]:
-            ret = re.compile(r".+\s+.*--id\s+([0-9]+)\s+.+").match(cmd)
-            if ret:
-                osd_ids.append(int(ret[1]))
-
-        return osd_ids
 
 
 class CephChecksBase(CephBase, plugintools.PluginPartBase,

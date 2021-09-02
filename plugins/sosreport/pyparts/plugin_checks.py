@@ -20,7 +20,7 @@ class SOSReportPluginChecks(plugintools.PluginPartBase):
         super().__init__()
         self.searcher = FileSearcher()
 
-    def check_plugin_timouts(self):
+    def check_plugin_timeouts(self):
         if not os.path.exists(os.path.join(constants.DATA_ROOT, 'sos_logs')):
             return
 
@@ -40,4 +40,4 @@ class SOSReportPluginChecks(plugintools.PluginPartBase):
             self._output["plugin-timeouts"] = timeouts
 
     def __call__(self):
-        self.check_plugin_timouts()
+        self.check_plugin_timeouts()

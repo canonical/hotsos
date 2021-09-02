@@ -6,7 +6,7 @@ import tempfile
 import utils
 
 from core import checks
-from core.plugins.storage import CephChecksBase
+from core.plugins import storage
 from plugins.storage.pyparts import (
     bcache,
     ceph_daemon_checks,
@@ -57,41 +57,10 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
     def test_ceph_base_interfaces(self):
         expected = {'br-ens3': {'addresses': ['10.0.0.49'],
                                 'hwaddr': '52:54:00:e2:28:a3'}}
-        self.assertEqual(CephChecksBase().bind_interfaces, expected)
+        self.assertEqual(storage.CephChecksBase().bind_interfaces, expected)
 
 
 class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
-
-    @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
-    def test_get_date_secs(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_date = mock.MagicMock()
-        mock_helper.return_value.date = mock_date
-        mock_date.return_value = "1234\n"
-        c = ceph_daemon_checks.CephOSDChecks()
-        self.assertEquals(c.get_date_secs(), 1234)
-
-    @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
-    def test_get_date_secs_from_timestamp(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_date = mock.MagicMock()
-        mock_helper.return_value.date = mock_date
-        mock_date.return_value = "1234\n"
-        date_string = "Thu Mar 25 10:55:05 MDT 2021"
-        c = ceph_daemon_checks.CephOSDChecks()
-        self.assertEquals(c.get_date_secs(date_string),
-                          1616691305)
-
-    @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
-    def test_get_date_secs_from_timestamp_w_tz(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_date = mock.MagicMock()
-        mock_helper.return_value.date = mock_date
-        mock_date.return_value = "1234\n"
-        date_string = "Thu Mar 25 10:55:05 UTC 2021"
-        c = ceph_daemon_checks.CephOSDChecks()
-        self.assertEquals(c.get_date_secs(date_string),
-                          1616669705)
 
     @mock.patch.object(ceph_daemon_checks, "add_issue")
     def test_get_crushmap_mixed_buckets(self, mock_add_issue):
@@ -110,7 +79,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         inst.get_ceph_versions_mismatch()
         self.assertEqual(inst.output["ceph"]["versions"], result)
 
-    @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
+    @mock.patch.object(storage, 'CLIHelper')
     def test_get_ceph_versions_mismatch_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = []
@@ -130,9 +99,9 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
     def test_get_osd_ids(self):
         inst = ceph_daemon_checks.CephOSDChecks()
         inst()
-        self.assertEqual(inst.osd_ids, [0])
+        self.assertEqual([osd.id for osd in inst.osds], [0])
 
-    @mock.patch.object(ceph_daemon_checks, 'CLIHelper')
+    @mock.patch.object(storage, 'CLIHelper')
     def test_get_ceph_pg_imbalance_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_df_tree.return_value = []
