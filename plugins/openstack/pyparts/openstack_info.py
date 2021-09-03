@@ -1,8 +1,6 @@
-import re
 import os
 
 from core import constants
-from core.cli_helpers import CmdBase
 from core.plugins.openstack import (
     OST_PROJECTS,
     OST_SERVICES_DEPS,
@@ -15,11 +13,10 @@ from core.plugins.openstack import (
 OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
                      "swift": "proxy.conf"}
 
-APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, "etc/apt/sources.list.d")
 YAML_PRIORITY = 0
 
 
-class OpenstackServiceChecks(OpenstackServiceChecksBase):
+class OpenstackInfo(OpenstackServiceChecksBase):
 
     def __init__(self):
         service_exprs = OST_SERVICES_EXPRS + OST_SERVICES_DEPS
@@ -29,32 +26,6 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
         """Get string info for running services."""
         if self.services:
             self._output["services"] = self.get_service_info_str()
-
-    def get_release_info(self):
-        if not os.path.exists(APT_SOURCE_PATH):
-            return
-
-        release_info = {}
-        for source in os.listdir(APT_SOURCE_PATH):
-            apt_path = os.path.join(APT_SOURCE_PATH, source)
-            for line in CmdBase.safe_readlines(apt_path):
-                rexpr = r"deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+"
-                ret = re.compile(rexpr).match(line)
-                if ret:
-                    if "uca" not in release_info:
-                        release_info["uca"] = set()
-
-                    if ret[1] != "updates":
-                        release_info["uca"].add("{}-{}".format(ret[2], ret[1]))
-                    else:
-                        release_info["uca"].add(ret[2])
-
-        if release_info:
-            if release_info.get("uca"):
-                self._output["release"] = sorted(release_info["uca"],
-                                                 reverse=True)[0]
-        else:
-            self._output["release"] = "distro"
 
     def get_debug_log_info(self):
         debug_enabled = {}
@@ -72,6 +43,6 @@ class OpenstackServiceChecks(OpenstackServiceChecksBase):
             self._output["debug-logging-enabled"] = debug_enabled
 
     def __call__(self):
-        self.get_release_info()
+        self._output["release"] = self.release_name
         self.get_running_services_info()
         self.get_debug_log_info()

@@ -7,8 +7,9 @@ import tempfile
 import utils
 
 from core import checks
+import core.plugins.openstack as openstack_core
 from plugins.openstack.pyparts import (
-    openstack_services,
+    openstack_info,
     vm_info,
     nova_external_events,
     package_info,
@@ -106,7 +107,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                     'nova-compute (1)',
                     'qemu-system-x86_64 (2)',
                     'vault (1)']
-        inst = openstack_services.OpenstackServiceChecks()
+        inst = openstack_info.OpenstackInfo()
         inst()
         self.assertEqual(inst.output["services"], expected)
 
@@ -118,9 +119,9 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                           'w') as fd:
                     fd.write(APT_UCA.format(rel))
 
-            with mock.patch.object(openstack_services, "APT_SOURCE_PATH",
+            with mock.patch.object(openstack_core, "APT_SOURCE_PATH",
                                    dtmp):
-                inst = openstack_services.OpenstackServiceChecks()
+                inst = openstack_info.OpenstackInfo()
                 inst()
                 self.assertEqual(inst.output["release"], "ussuri")
 
@@ -134,7 +135,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                     fd.write(SVC_CONF)
 
             os.environ["DATA_ROOT"] = dtmp
-            inst = openstack_services.OpenstackServiceChecks()
+            inst = openstack_info.OpenstackInfo()
             inst()
             self.assertEqual(inst.output["debug-logging-enabled"],
                              expected)

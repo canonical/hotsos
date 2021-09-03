@@ -26,8 +26,8 @@ plugins:
     parts:
       agent_checks:
         - AgentChecks
-      openstack_services:
-        - OpenstackServiceChecks
+      openstack_info:
+        - OpenstackInfo
       service_checks:
         - NeutronServiceChecks
       service_features:

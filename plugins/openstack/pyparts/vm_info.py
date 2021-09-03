@@ -24,23 +24,22 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                                                          "etc/nova/nova.conf"))
 
     def _get_vm_info(self):
-        instances = self.running_instances
+        instances = self.instances
         if instances:
-            self._output["running"] = [i['uuid'] for i in instances]
+            self._output["running"] = [i.uuid for i in instances]
 
     def _get_vcpu_info(self):
         vcpu_info = {}
         guests = []
         s = FileSearcher()
-        instances = self.running_instances
+        instances = self.instances
         if instances:
             for i in instances:
-                name = i["name"]
-                guests.append(name)
+                guests.append(i.name)
                 path = os.path.join(constants.DATA_ROOT, 'etc/libvirt/qemu',
-                                    "{}.xml".format(name))
+                                    "{}.xml".format(i.name))
                 s.add_search_term(SearchDef(".+vcpus>([0-9]+)<.+",
-                                            tag=name), path)
+                                            tag=i.name), path)
 
             total_vcpus = 0
             results = s.search()

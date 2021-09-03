@@ -33,7 +33,7 @@ class RabbitMQPackageChecks(plugintools.PluginPartBase,
         # require at least one core package to be installed to include
         # this in the report.
         if self.core:
-            self._output["dpkg"] = self.all
+            self._output["dpkg"] = self.all_formatted
 
 
 class RabbitMQServiceChecks(RabbitMQChecksBase):

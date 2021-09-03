@@ -91,23 +91,23 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def get_instances_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
-        instances = self.running_instances
+        instances = self.instances
         if instances is None:
             return
 
         port_health_info = {}
         for guest in instances:
-            for port in guest.get('ports', []):
+            for port in guest.ports:
                 stats = port.stats()
                 if stats:
                     outliers = self._get_port_stat_outliers(stats)
                     if not outliers:
                         continue
 
-                    if guest['uuid'] not in port_health_info:
-                        port_health_info[guest['uuid']] = {}
+                    if guest.uuid not in port_health_info:
+                        port_health_info[guest.uuid] = {}
 
-                    port_health_info[guest['uuid']][port.hwaddr] = outliers
+                    port_health_info[guest.uuid][port.hwaddr] = outliers
 
         if port_health_info:
             health = {"vm-ports": {"num-vms-checked": len(instances),

@@ -21,7 +21,7 @@ class KubernetesPackageChecks(plugintools.PluginPartBase,
         # require at least one core package to be installed to include
         # this in the report.
         if self.core:
-            self._output["snaps"] = self.all
+            self._output["snaps"] = self.all_formatted
 
 
 class KubernetesServiceChecks(KubernetesChecksBase):

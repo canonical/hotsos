@@ -16,11 +16,11 @@ class TestChecks(utils.BaseTestCase):
         super().tearDown()
 
     def test_APTPackageChecksBase(self):
-        expected = ['python3-systemd 234-3build2',
-                    'systemd 245.4-4ubuntu3.11',
-                    'systemd-container 245.4-4ubuntu3.11',
-                    'systemd-sysv 245.4-4ubuntu3.11',
-                    'systemd-timesyncd 245.4-4ubuntu3.11']
+        expected = {'python3-systemd': '234-3build2',
+                    'systemd': '245.4-4ubuntu3.11',
+                    'systemd-container': '245.4-4ubuntu3.11',
+                    'systemd-sysv': '245.4-4ubuntu3.11',
+                    'systemd-timesyncd': '245.4-4ubuntu3.11'}
         obj = checks.APTPackageChecksBase(["systemd"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
@@ -28,11 +28,25 @@ class TestChecks(utils.BaseTestCase):
         # lookup package not already loaded
         self.assertEqual(obj.get_version("apt"), "2.0.6")
 
+    def test_APTPackageChecksBase_formatted(self):
+        expected = ['python3-systemd 234-3build2',
+                    'systemd 245.4-4ubuntu3.11',
+                    'systemd-container 245.4-4ubuntu3.11',
+                    'systemd-sysv 245.4-4ubuntu3.11',
+                    'systemd-timesyncd 245.4-4ubuntu3.11']
+        obj = checks.APTPackageChecksBase(["systemd"])
+        self.assertEqual(obj.all_formatted, expected)
+
     def test_SnapPackageChecksBase(self):
-        expected = ['core 16-2.48.2']
+        expected = {'core': '16-2.48.2'}
         obj = checks.SnapPackageChecksBase(["core"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
         self.assertEqual(obj.get_version("core"), "16-2.48.2")
         # lookup package not already loaded
         self.assertEqual(obj.get_version("juju"), "2.7.8")
+
+    def test_SnapPackageChecksBase_formatted(self):
+        expected = ['core 16-2.48.2']
+        obj = checks.SnapPackageChecksBase(["core"])
+        self.assertEqual(obj.all_formatted, expected)

@@ -515,6 +515,21 @@ class DPKGVersionCompare(object):
         return not self._exec('le', b)
 
 
+def dict_to_formatted_str_list(f):
+    """
+    Convert dict returned by function f to a list of strings of format
+    '<name> <version>'.
+    """
+    def _dict_to_formatted_str_list(*args, **kwargs):
+        ret = f(*args, **kwargs)
+        if not ret:
+            return []
+
+        return ["{} {}".format(*e) for e in ret.items()]
+
+    return _dict_to_formatted_str_list
+
+
 class PackageChecksBase(object):
 
     def get_version(self, pkg):
@@ -527,20 +542,14 @@ class PackageChecksBase(object):
         """ Returns True if pkg is installed """
         raise NotImplementedError
 
-    @staticmethod
-    def dict_to_formatted_str_list(f):
+    @property
+    @dict_to_formatted_str_list
+    def all_formatted(self):
         """
-        Convert dict returned by function f to a list of strings of format
-        '<name> <version>'.
+        Returns list of packages. Each entry in the list is an item
+        looking like "<pkgname> <pkgver>".
         """
-        def _dict_to_formatted_str_list(*args, **kwargs):
-            ret = f(*args, **kwargs)
-            if not ret:
-                return []
-
-            return ["{} {}".format(*e) for e in ret.items()]
-
-        return _dict_to_formatted_str_list
+        return self.all
 
     @property
     def all(self):
@@ -627,16 +636,13 @@ class DockerImageChecksBase(PackageChecksBase):
         return self._all_images
 
     @property
-    @PackageChecksBase.dict_to_formatted_str_list
     def all(self):
         """
-        Returns list of all images matched. Each entry in the list is an item
-        looking like "<pkgname> <pkgver>".
+        Returns list of all images matched.
         """
         return self._all
 
     @property
-    @PackageChecksBase.dict_to_formatted_str_list
     def core(self):
         """
         Only return results that matched from the "core" set of images.
@@ -738,7 +744,6 @@ class APTPackageChecksBase(PackageChecksBase):
         return self._all_packages
 
     @property
-    @PackageChecksBase.dict_to_formatted_str_list
     def all(self):
         """
         Returns list of all packages matched. Each entry in the list is an item
@@ -747,7 +752,6 @@ class APTPackageChecksBase(PackageChecksBase):
         return self._all
 
     @property
-    @PackageChecksBase.dict_to_formatted_str_list
     def core(self):
         """
         Only return results that matched from the "core" set of packages.
@@ -846,7 +850,6 @@ class SnapPackageChecksBase(PackageChecksBase):
         return self._all_snaps
 
     @property
-    @PackageChecksBase.dict_to_formatted_str_list
     def all(self):
         """
         Return results that matched from the all/any set of snaps.
@@ -854,7 +857,6 @@ class SnapPackageChecksBase(PackageChecksBase):
         return self._all
 
     @property
-    @PackageChecksBase.dict_to_formatted_str_list
     def core(self):
         """
         Only return results that matched from the "core" set of snaps.

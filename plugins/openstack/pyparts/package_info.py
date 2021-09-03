@@ -12,7 +12,7 @@ class OpenstackPackageChecks(OpenstackPackageChecksBase):
         # require at least one core package to be installed to include
         # this in the report.
         if self.core:
-            self._output["dpkg"] = self.all
+            self._output["dpkg"] = self.all_formatted
 
 
 class OpenstackDockerImageChecks(OpenstackDockerImageChecksBase):
@@ -21,4 +21,4 @@ class OpenstackDockerImageChecks(OpenstackDockerImageChecksBase):
         # require at least one core image to be in-use to include
         # this in the report.
         if self.core:
-            self._output["docker-images"] = self.all
+            self._output["docker-images"] = self.all_formatted
