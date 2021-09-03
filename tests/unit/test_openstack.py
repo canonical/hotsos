@@ -316,7 +316,8 @@ class TestOpenstackPluginPartService_features(TestOpenstackBase):
                                 'neutron': {
                                     'availability_zone': 'nova'},
                                 'openvswitch-agent': {
-                                    'l2_population': True}}}
+                                    'l2_population': True,
+                                    'firewall_driver': 'openvswitch'}}}
         self.assertEqual(inst.output["features"], expected)
 
 

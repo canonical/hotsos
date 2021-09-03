@@ -7,18 +7,27 @@ from core.plugins.openstack import (
     OpenstackConfig,
 )
 
-FEATURES = {"neutron": {"neutron": ["availability_zone"],
-                        "openvswitch-agent": ["l2_population"],
-                        "l3-agent": ["agent_mode", "ovs_use_veth"],
-                        "dhcp-agent": ["enable_metadata_network",
-                                       "enable_isolated_metadata",
-                                       "ovs_use_veth"]},
-            "nova": {"nova": ["vcpu_pin_set", "cpu_shared_set",
-                              "cpu_dedicated_set"]}}
+FEATURES = {'neutron': {'neutron': [
+                            'availability_zone'],
+                        'openvswitch-agent': [
+                            'l2_population',
+                            'firewall_driver'],
+                        'l3-agent': [
+                            'agent_mode',
+                            'ovs_use_veth'],
+                        'dhcp-agent': [
+                            'enable_metadata_network',
+                            'enable_isolated_metadata',
+                            'ovs_use_veth']},
+            'nova': {'nova': [
+                        'vcpu_pin_set',
+                        'cpu_shared_set',
+                        'cpu_dedicated_set']}}
 
 # checked against neutron
-DEFAULTS = {"neutron": {"dhcp-agent": {"enable_metadata_network": False,
-                                       "enable_isolated_metadata": False}}}
+DEFAULTS = {'neutron': {'dhcp-agent': {
+                            'enable_metadata_network': False,
+                            'enable_isolated_metadata': False}}}
 YAML_PRIORITY = 5
 
 
