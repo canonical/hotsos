@@ -1,6 +1,7 @@
 from core.plugins.openstack import (
     OpenstackPackageChecksBase,
     OpenstackDockerImageChecksBase,
+    OpenstackPackageBugChecksBase,
 )
 
 YAML_PRIORITY = 1
@@ -22,3 +23,7 @@ class OpenstackDockerImageChecks(OpenstackDockerImageChecksBase):
         # this in the report.
         if self.core:
             self._output["docker-images"] = self.all_formatted
+
+
+class OpenstackPackageBugChecks(OpenstackPackageBugChecksBase):
+    pass

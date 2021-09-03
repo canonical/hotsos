@@ -268,6 +268,13 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
         inst()
         self.assertEquals(inst.output["docker-images"], expected)
 
+    def test_pkgbugchecks(self):
+        os.environ['PLUGIN_NAME'] = 'openstack'
+        with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
+            obj = package_info.OpenstackPackageBugChecks()
+            obj()
+            self.assertTrue(mock_add_known_bug.called)
+
 
 class TestOpenstackPluginPartNetwork(TestOpenstackBase):
 

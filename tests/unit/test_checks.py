@@ -1,3 +1,7 @@
+import os
+
+import mock
+
 import utils
 
 from core import checks
@@ -50,3 +54,23 @@ class TestChecks(utils.BaseTestCase):
         expected = ['core 16-2.48.2']
         obj = checks.SnapPackageChecksBase(["core"])
         self.assertEqual(obj.all_formatted, expected)
+
+    def test_PackageBugChecksBase(self):
+        os.environ['PLUGIN_NAME'] = 'openstack'
+        with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
+            pkg_info = {'neutron-common': '2:16.4.0-0ubuntu4~cloud0'}
+            obj = checks.PackageBugChecksBase('ussuri', pkg_info)
+            obj()
+            self.assertFalse(mock_add_known_bug.called)
+
+            mock_add_known_bug.reset_mock()
+            pkg_info = {'neutron-common': '2:16.4.0-0ubuntu2~cloud0'}
+            obj = checks.PackageBugChecksBase('ussuri', pkg_info)
+            obj()
+            self.assertTrue(mock_add_known_bug.called)
+
+            mock_add_known_bug.reset_mock()
+            pkg_info = {'neutron-common': '2:16.2.0-0ubuntu4~cloud0'}
+            obj = checks.PackageBugChecksBase('ussuri', pkg_info)
+            obj()
+            self.assertFalse(mock_add_known_bug.called)

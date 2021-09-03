@@ -360,11 +360,20 @@ class OpenstackServiceChecksBase(OpenstackBase,
     pass
 
 
-class OpenstackPackageChecksBase(plugintools.PluginPartBase,
+class OpenstackPackageChecksBase(OpenstackBase,
+                                 plugintools.PluginPartBase,
                                  checks.APTPackageChecksBase):
 
-    def __init__(self):
-        super().__init__(core_pkgs=OST_PKGS_CORE, other_pkgs=OST_DEP_PKGS)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, core_pkgs=OST_PKGS_CORE, **kwargs,
+                         other_pkgs=OST_DEP_PKGS)
+
+
+class OpenstackPackageBugChecksBase(OpenstackPackageChecksBase):
+
+    def __call__(self):
+        c = checks.PackageBugChecksBase(self.release_name, self.apt_check.all)
+        c()
 
 
 class OpenstackDockerImageChecksBase(plugintools.PluginPartBase,

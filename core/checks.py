@@ -62,6 +62,83 @@ class ChecksBase(PluginPartBase):
         return self.process_results(self.searchobj.search())
 
 
+class PackageReleaseCheckObj(object):
+    def __init__(self, package_name):
+        self.package_name = package_name
+        self.bugs = {}
+
+    def add_bug_check(self, id, release, minbroken, minfixed):
+        bug = {'id': id, 'minbroken': minbroken, 'minfixed': minfixed}
+        if release in self.bugs:
+            self.bugs[release].append(bug)
+        else:
+            self.bugs[release] = [bug]
+
+
+class PackageBugChecksBase(object):
+    """
+    This is used to check if the version of installed packages contain
+    known bugs and report them if found.
+    """
+    def __init__(self, release_name, pkg_info):
+        """
+        @param release_name: release name we are checking against - this must
+                             exist in the yaml defs.
+        @param pkg_info: dict of installed packages in the for
+                         {<name>: <version>}. This is typically obtained from
+                         an implementation of APTPackageChecksBase.
+        """
+        self._release_name = release_name
+        self._pkg_info = pkg_info
+        self._checks = []
+
+    def _load_definitions(self):
+        """
+        Load bug search definitions from yaml.
+
+        @return: list of BugSearchDef objects
+        """
+        path = os.path.join(constants.PLUGIN_YAML_DEFS,
+                            'package_bug_checks.yaml')
+        with open(path) as fd:
+            yaml_defs = yaml.safe_load(fd.read())
+
+        if not yaml_defs:
+            return
+
+        plugin_checks = yaml_defs.get(constants.PLUGIN_NAME, {})
+        for pkg, bugs in plugin_checks.items():
+            p = PackageReleaseCheckObj(pkg)
+            for bug, releases in bugs.items():
+                for release in releases.values():
+                    for name, info in release.items():
+                        p.add_bug_check(bug, name, info['min-broken'],
+                                        info['min-fixed'])
+
+            self._checks.append(p)
+
+    def __call__(self):
+        self._load_definitions()
+        for check in self._checks:
+            pkg = check.package_name
+            # if installed do check
+            if pkg in self._pkg_info:
+                pkgver = self._pkg_info[pkg]
+                for release, bugs in check.bugs.items():
+                    if release == self._release_name:
+                        for bug in bugs:
+                            minbroken = bug['minbroken']
+                            minfixed = bug['minfixed']
+                            if (not pkgver < DPKGVersionCompare(minbroken) and
+                                    pkgver < DPKGVersionCompare(minfixed)):
+                                desc = ("installed package '{}' with version "
+                                        "{} has a known critical bug and "
+                                        "should be upgraded to a version >= "
+                                        "{}.".format(pkg, pkgver,
+                                                     bug['minfixed']))
+                                add_known_bug(bug['id'], desc)
+
+
 class BugChecksBase(ChecksBase):
 
     def __init__(self, *args, **kwargs):

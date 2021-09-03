@@ -35,6 +35,7 @@ plugins:
       package_info:
         - OpenstackPackageChecks
         - OpenstackDockerImageChecks
+        - OpenstackPackageBugChecks
       network:
         - OpenstackNetworkChecks
       vm_info:

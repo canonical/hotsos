@@ -1,0 +1,26 @@
+# Definitions used to identify installed packages that contain known bugs.
+#
+# Entries are defined using the following hierarchy:
+#
+# PLUGIN:
+#   PACKAGE_NAME:
+#     BUG_ID:
+#       # list of release names with their associated package versions.
+#       releases:
+#         release-name
+#           # (optional) least version that contains the bug
+#           min-broken:
+#           # least version that contains the fix
+#           min-fixed:
+#
+openstack:
+  neutron-common:
+    1927868:
+      releases:
+        ussuri:
+          min-broken: 2:16.3.0
+          min-fixed: 2:16.4.0-0ubuntu3~cloud0
+        train:
+          min-broken: 15.3.3
+          min-fixed: 2:15.3.4-0ubuntu1~cloud1
+
