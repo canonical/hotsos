@@ -70,4 +70,8 @@ class ServiceFeatureChecks(OpenstackChecksBase):
                     self._output[service][module] = module_features
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         self.get_service_features()

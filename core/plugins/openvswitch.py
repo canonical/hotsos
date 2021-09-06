@@ -10,6 +10,9 @@ OVS_PKGS_CORE = [r"openvswitch-switch",
 OVS_PKGS_DEPS = [r"libc-bin",
                  r"openvswitch-switch-dpdk",
                  ]
+# Add in clients/deps
+for pkg in OVS_PKGS_CORE:
+    OVS_PKGS_DEPS.append(r"python3?-{}\S*".format(pkg))
 
 
 class OpenvSwitchBase(object):

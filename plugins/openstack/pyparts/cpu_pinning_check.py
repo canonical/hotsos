@@ -11,6 +11,7 @@ from core.issues import (
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import (
     OpenstackConfig,
+    OpenstackChecksBase,
     OPENSTACK_SHOW_CPU_PINNING_RESULTS,
 )
 from core.plugins.kernel import (
@@ -159,9 +160,11 @@ class Results(object):
         return info
 
 
-class CPUPinningChecker(object):
+class CPUPinningChecker(OpenstackChecksBase):
 
     def __init__(self):
+        super().__init__()
+
         self.numa = NUMAInfo()
         self.systemd = SystemdConfig()
         self.kernel = KernelConfig()
@@ -216,6 +219,10 @@ class CPUPinningChecker(object):
 
     @property
     def output(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         _output = self.results.get()
         if _output:
             return {"cpu-pinning-checks": _output}
@@ -224,6 +231,9 @@ class CPUPinningChecker(object):
         """Perform a set of checks on Nova cpu pinning configuration to ensure
         it is setup as expected.
         """
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
 
         if self.cpu_dedicated_set:
             intersect1 = self.cpu_dedicated_set.intersection(self.isolcpus)

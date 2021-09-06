@@ -2,8 +2,11 @@ import yaml
 
 from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
-from core import checks, plugintools, utils
-from core.plugins.openstack import OpenstackEventChecksBase
+from core import checks, utils
+from core.plugins.openstack import (
+    OpenstackChecksBase,
+    OpenstackEventChecksBase,
+)
 
 YAML_PRIORITY = 9
 
@@ -157,9 +160,13 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
             return {"apparmor": info}
 
 
-class AgentChecks(plugintools.PluginPartBase):
+class AgentChecks(OpenstackChecksBase):
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         s = FileSearcher()
         checks = [NeutronAgentEventChecks("neutron-agent-checks", searchobj=s),
                   NeutronAgentBugChecks("neutron", searchobj=s),

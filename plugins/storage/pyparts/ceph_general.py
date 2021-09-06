@@ -2,6 +2,7 @@ from core.checks import APTPackageChecksBase
 from core.plugins.storage import (
     CephChecksBase,
     CEPH_PKGS_CORE,
+    CEPH_PKGS_OTHER,
 )
 
 YAML_PRIORITY = 0
@@ -10,7 +11,7 @@ YAML_PRIORITY = 0
 class CephPackageChecks(CephChecksBase, APTPackageChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(core_pkgs=CEPH_PKGS_CORE)
+        super().__init__(core_pkgs=CEPH_PKGS_CORE, other_pkgs=CEPH_PKGS_OTHER)
 
     @property
     def output(self):

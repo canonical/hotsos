@@ -5,9 +5,10 @@ from core.issues import (
     issue_utils,
 )
 from core.cli_helpers import CLIHelper
+from core.plugins.openstack import OpenstackChecksBase
 
 
-class NeutronServiceChecks(object):
+class NeutronServiceChecks(OpenstackChecksBase):
 
     def check_ovs_cleanup(self):
         """
@@ -35,4 +36,8 @@ class NeutronServiceChecks(object):
             issue_utils.add_issue(issue_types.OpenstackWarning(msg))
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         self.check_ovs_cleanup()

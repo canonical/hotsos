@@ -105,6 +105,10 @@ class NovaExternalEventChecks(OpenstackChecksBase):
                     self._output[event][result] = list(s)
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
         self._get_events("network-changed")
         self._get_events("network-vif-plugged")

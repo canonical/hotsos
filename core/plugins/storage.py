@@ -21,10 +21,15 @@ from core.utils import mktemp_dump
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]
-CEPH_PKGS_CORE = [r"ceph-[a-z-]+",
-                  r"rados[a-z-]+",
+CEPH_PKGS_CORE = [r"ceph",
+                  r"rados",
                   r"rbd",
                   ]
+CEPH_PKGS_OTHER = []
+# Add in clients/deps
+for pkg in CEPH_PKGS_CORE:
+    CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(pkg))
+
 CEPH_LOGS = "var/log/ceph/"
 
 
@@ -165,6 +170,9 @@ class CephBase(StorageBase):
             self.f_ceph_volume_lvm_list = mktemp_dump('\n'.
                                                       join(
                                                         ceph_volume_lvm_list))
+        self.apt_check = checks.APTPackageChecksBase(
+                                                core_pkgs=CEPH_PKGS_CORE,
+                                                other_pkgs=CEPH_PKGS_OTHER)
 
     def __del__(self):
         if self.udevadm_db:
@@ -294,8 +302,7 @@ class CephBase(StorageBase):
         This is prone to inaccuracy since the deamom many not have been
         restarted after package update.
         """
-        pkginfo = checks.APTPackageChecksBase(CEPH_PKGS_CORE)
-        return pkginfo.get_version(daemon)
+        return self.apt_check.get_version(daemon)
 
 
 class CephChecksBase(CephBase, plugintools.PluginPartBase,

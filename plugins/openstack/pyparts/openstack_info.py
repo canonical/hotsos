@@ -43,6 +43,10 @@ class OpenstackInfo(OpenstackServiceChecksBase):
             self._output["debug-logging-enabled"] = debug_enabled
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         self._output["release"] = self.release_name
         self.get_running_services_info()
         self.get_debug_log_info()

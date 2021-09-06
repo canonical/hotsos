@@ -121,6 +121,9 @@ OST_DEP_PKGS = [r"conntrack",
                 r"python3?-oslo[.-]",
                 r"qemu-kvm",
                 ]
+# Add in clients/deps
+for pkg in OST_PKGS_CORE:
+    OST_DEP_PKGS.append(r"python3?-{}\S*".format(pkg))
 
 AGENT_DAEMON_NAMES = {
     "barbican": ["barbican-api", "barbican-worker"],
@@ -347,26 +350,31 @@ class OpenstackBase(object):
 
 
 class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
-    pass
+
+    @property
+    def openstack_installed(self):
+        if self.apt_check.core:
+            return True
+
+        return False
 
 
 class OpenstackEventChecksBase(OpenstackBase, checks.EventChecksBase):
-    pass
+
+    def __call__(self):
+        if not self.apt_check.core:
+            return
+
+        super().__call__()
 
 
-class OpenstackServiceChecksBase(OpenstackBase,
-                                 plugintools.PluginPartBase,
+class OpenstackServiceChecksBase(OpenstackChecksBase,
                                  checks.ServiceChecksBase):
     pass
 
 
-class OpenstackPackageChecksBase(OpenstackBase,
-                                 plugintools.PluginPartBase,
-                                 checks.APTPackageChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, core_pkgs=OST_PKGS_CORE, **kwargs,
-                         other_pkgs=OST_DEP_PKGS)
+class OpenstackPackageChecksBase(OpenstackChecksBase):
+    pass
 
 
 class OpenstackPackageBugChecksBase(OpenstackPackageChecksBase):
@@ -376,7 +384,7 @@ class OpenstackPackageBugChecksBase(OpenstackPackageChecksBase):
         c()
 
 
-class OpenstackDockerImageChecksBase(plugintools.PluginPartBase,
+class OpenstackDockerImageChecksBase(OpenstackChecksBase,
                                      checks.DockerImageChecksBase):
 
     def __init__(self):

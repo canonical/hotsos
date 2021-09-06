@@ -118,6 +118,10 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                 self._output["port-health"] = health
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         self.get_ns_info()
         self.get_config_network_info()
         self.get_instances_port_health()

@@ -19,9 +19,8 @@ class TestChecks(utils.BaseTestCase):
     def tearDown(self):
         super().tearDown()
 
-    def test_APTPackageChecksBase(self):
-        expected = {'python3-systemd': '234-3build2',
-                    'systemd': '245.4-4ubuntu3.11',
+    def test_APTPackageChecksBase_core_only(self):
+        expected = {'systemd': '245.4-4ubuntu3.11',
                     'systemd-container': '245.4-4ubuntu3.11',
                     'systemd-sysv': '245.4-4ubuntu3.11',
                     'systemd-timesyncd': '245.4-4ubuntu3.11'}
@@ -32,9 +31,17 @@ class TestChecks(utils.BaseTestCase):
         # lookup package not already loaded
         self.assertEqual(obj.get_version("apt"), "2.0.6")
 
+    def test_APTPackageChecksBase_all(self):
+        expected = {'python3-systemd': '234-3build2',
+                    'systemd': '245.4-4ubuntu3.11',
+                    'systemd-container': '245.4-4ubuntu3.11',
+                    'systemd-sysv': '245.4-4ubuntu3.11',
+                    'systemd-timesyncd': '245.4-4ubuntu3.11'}
+        obj = checks.APTPackageChecksBase(["systemd"], ["python3?-systemd"])
+        self.assertEqual(obj.all, expected)
+
     def test_APTPackageChecksBase_formatted(self):
-        expected = ['python3-systemd 234-3build2',
-                    'systemd 245.4-4ubuntu3.11',
+        expected = ['systemd 245.4-4ubuntu3.11',
                     'systemd-container 245.4-4ubuntu3.11',
                     'systemd-sysv 245.4-4ubuntu3.11',
                     'systemd-timesyncd 245.4-4ubuntu3.11']

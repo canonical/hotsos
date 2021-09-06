@@ -750,9 +750,7 @@ class APTPackageChecksBase(PackageChecksBase):
         self._core_packages = {}
         self._other_packages = {}
         self._all_packages = {}
-        # The following expression muct match any package name.
-        self._match_expr_template = \
-            r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+        self._match_expr_template = r"^ii\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
         self.cli = CLIHelper()
 
     def is_installed(self, pkg):
@@ -783,8 +781,7 @@ class APTPackageChecksBase(PackageChecksBase):
         expr = self._match_expr_template.format(pkg)
         ret = re.compile(expr).match(entry)
         if ret:
-            pyprefix = ret[1] or ""
-            return "{}{}".format(pyprefix, ret[2]), ret[3]
+            return ret[1], ret[2]
 
         return None, None
 

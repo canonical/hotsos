@@ -136,6 +136,8 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
 
             os.environ["DATA_ROOT"] = dtmp
             inst = openstack_info.OpenstackInfo()
+            # fake some core packages
+            inst.apt_check._core_packages = {"foo": 1}
             inst()
             self.assertEqual(inst.output["debug-logging-enabled"],
                              expected)
@@ -665,7 +667,8 @@ class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):
     @mock.patch.object(service_checks.issue_utils, "add_issue")
     def test_config_checks_has_issue(self, mock_add_issue):
         inst = config_checks.OpenstackConfigChecks()
-        with mock.patch.object(inst, 'is_installed') as mock_installed:
+        with mock.patch.object(inst.apt_check,
+                               'is_installed') as mock_installed:
             mock_installed.return_value = True
             inst()
             self.assertTrue(mock_add_issue.called)
@@ -673,7 +676,8 @@ class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):
     @mock.patch.object(service_checks.issue_utils, "add_issue")
     def test_config_checks_no_issue(self, mock_add_issue):
         inst = config_checks.OpenstackConfigChecks()
-        with mock.patch.object(inst, 'is_installed') as mock_installed:
+        with mock.patch.object(inst.apt_check,
+                               'is_installed') as mock_installed:
             mock_installed.return_value = False
             inst()
             self.assertFalse(mock_add_issue.called)

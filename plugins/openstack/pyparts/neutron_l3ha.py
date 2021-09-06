@@ -152,6 +152,10 @@ class NeutronL3HAChecks(OpenstackChecksBase):
             issue_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         self.get_neutron_ha_info()
         self.get_vrrp_transitions()
         self.check_vrrp_transitions()

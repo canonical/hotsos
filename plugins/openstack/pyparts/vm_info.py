@@ -86,5 +86,9 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
             return {"vm-info": self._output}
 
     def __call__(self):
+        # Only run if we think Openstack is installed.
+        if not self.openstack_installed:
+            return
+
         self._get_vm_info()
         self._get_vcpu_info()

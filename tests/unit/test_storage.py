@@ -41,7 +41,8 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
     def test_get_package_info(self):
         inst = ceph_general.CephPackageChecks()
         inst()
-        expected = ['ceph-base 15.2.13-0ubuntu0.20.04.1',
+        expected = ['ceph 15.2.13-0ubuntu0.20.04.1',
+                    'ceph-base 15.2.13-0ubuntu0.20.04.1',
                     'ceph-common 15.2.13-0ubuntu0.20.04.1',
                     'ceph-mds 15.2.13-0ubuntu0.20.04.1',
                     'ceph-mgr 15.2.13-0ubuntu0.20.04.1',
@@ -50,6 +51,8 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
                     'ceph-osd 15.2.13-0ubuntu0.20.04.1',
                     'python3-ceph-argparse 15.2.13-0ubuntu0.20.04.1',
                     'python3-ceph-common 15.2.13-0ubuntu0.20.04.1',
+                    'python3-cephfs 15.2.13-0ubuntu0.20.04.1',
+                    'python3-rados 15.2.13-0ubuntu0.20.04.1',
                     'python3-rbd 15.2.13-0ubuntu0.20.04.1',
                     'radosgw 15.2.13-0ubuntu0.20.04.1']
         self.assertEquals(inst.output["ceph"]["dpkg"], expected)
