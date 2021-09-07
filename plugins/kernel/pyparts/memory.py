@@ -26,9 +26,6 @@ class KernelMemoryEventChecks(KernelEventChecksBase):
     @EVENTCALLBACKS.callback
     def oom_killer_invoked(self, event):
         results = event['results']
-        if not results:
-            return
-
         process_name = results[0].get(3)
         time_oomd = "{} {}".format(results[0].get(1),
                                    results[0].get(2))

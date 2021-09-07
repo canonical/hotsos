@@ -407,9 +407,8 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         group_key = "neutron-agent-checks"
         section_key = "neutron-ovs-agent"
         c = agent_checks.NeutronAgentEventChecks(group_key)
-        c.register_search_terms()
-        results = c.process_results(c.searchobj.search())
-        self.assertEqual(results.get(section_key), expected)
+        c()
+        self.assertEqual(c.output.get(section_key), expected)
 
     @mock.patch.object(agent_checks.checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
@@ -513,9 +512,8 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         group_key = "neutron-agent-checks"
         section_key = "neutron-l3-agent"
         c = agent_checks.NeutronAgentEventChecks(group_key)
-        c.register_search_terms()
-        results = c.process_results(c.searchobj.search())
-        self.assertEqual(results.get(section_key), expected)
+        c()
+        self.assertEqual(c.output.get(section_key), expected)
 
     @mock.patch.object(agent_checks, "NeutronAgentEventChecks")
     @mock.patch.object(agent_checks, "NeutronAgentBugChecks")

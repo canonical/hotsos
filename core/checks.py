@@ -224,7 +224,8 @@ class BugChecksBase(ChecksBase):
 class EventChecksBase(ChecksBase):
 
     def __init__(self, *args, callback_helper=None,
-                 event_results_output_key=None, **kwargs):
+                 event_results_output_key=None,
+                 event_results_passthrough=False, **kwargs):
         """
         @param callback_helper: optionally provide a callback helper. This is
         used to "register" callbacks against events defined in the yaml so
@@ -235,10 +236,15 @@ class EventChecksBase(ChecksBase):
                                          but that can be optionally set
                                          with this key as root e.g. to avoid
                                          clobbering other results.
+        @param event_results_passthrough: if set to True, the master results
+                                          list is passed to callbacks so that
+                                          they may fetch results in their own
+                                          way.
         """
         super().__init__(*args, **kwargs)
         self.callback_helper = callback_helper
         self.event_results_output_key = event_results_output_key
+        self.event_results_passthrough = event_results_passthrough
         self._event_defs = {}
 
     def _load_event_definitions(self):
@@ -348,7 +354,16 @@ class EventChecksBase(ChecksBase):
         info = {}
         for section_name, section in self.event_definitions.items():
             for event in section:
-                _results = results.find_by_tag(event)
+                if self.event_results_passthrough:
+                    # this is for implementations that have their own means of
+                    # retreiving results.
+                    _results = results
+                else:
+                    _results = results.find_by_tag(event)
+
+                if not _results:
+                    continue
+
                 # We want this to throw an exception if the callback is not
                 # defined.
                 _event_name = event.replace('-', '_')
@@ -371,7 +386,12 @@ class EventChecksBase(ChecksBase):
             if self.event_results_output_key:
                 info = {self.event_results_output_key: info}
 
-            self._output.update(info)
+            return info
+
+    def __call__(self):
+        ret = super().__call__()
+        if ret:
+            self._output.update(ret)
 
 
 class ConfigBase(object):

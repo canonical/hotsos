@@ -20,33 +20,48 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
     on the full set of samples.
     """
 
-    def process_results(self, results):
-        """ See defs/events.yaml for definitions. """
-        agent_info = {}
-        for section, events in self.event_definitions.items():
-            agent_name = section
-            for event in events:
-                sri = None
-                # TODO: find a way to get rid of the need to provide this
-                if event == "router-updates":
-                    sri = SearchResultIndices(event_id_idx=4,
-                                              metadata_idx=3,
-                                              metadata_key="router")
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         event_results_passthrough=True,
+                         **kwargs)
 
-                stats = LogEventStats(results, event, custom_idxs=sri)
-                stats.run()
-                top5 = stats.get_top_n_events_sorted(5)
-                if not top5:
-                    break
+    def _get_event_stats(self, results, event_name, custom_idxs=None):
+        stats = LogEventStats(results, event_name, custom_idxs=custom_idxs)
+        stats.run()
+        top5 = stats.get_top_n_events_sorted(5)
+        if not top5:
+            return
 
-                info = {"top": top5,
-                        "stats": stats.get_event_stats()}
-                if agent_name not in agent_info:
-                    agent_info[agent_name] = {}
+        return {"top": top5,
+                "stats": stats.get_event_stats()}
 
-                agent_info[agent_name][event] = info
+    @EVENTCALLBACKS.callback
+    def router_updates(self, event):
+        agent = event['section']
+        sri = SearchResultIndices(event_id_idx=4,
+                                  metadata_idx=3,
+                                  metadata_key='router')
+        event_name = 'router-updates'
+        ret = self._get_event_stats(event['results'], event_name,
+                                    custom_idxs=sri)
+        if ret:
+            return {event_name: ret}, agent
 
-        return agent_info
+    @EVENTCALLBACKS.callback
+    def router_spawn_events(self, event):
+        agent = event['section']
+        event_name = 'router-spawn-events'
+        ret = self._get_event_stats(event['results'], event_name)
+        if ret:
+            return {event_name: ret}, agent
+
+    @EVENTCALLBACKS.callback
+    def rpc_loop(self, event):
+        agent = event['section']
+        event_name = 'rpc-loop'
+        ret = self._get_event_stats(event['results'], event_name)
+        if ret:
+            return {event_name: ret}, agent
 
 
 class NeutronAgentBugChecks(checks.BugChecksBase):
@@ -87,32 +102,20 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def lb_failover_auto(self, event):
-        results = event['results']
-        if not results:
-            return
-
-        ret = self._get_failovers(results)
+        ret = self._get_failovers(event['results'])
         if ret:
             return {'auto': ret}, 'lb-failovers'
 
     @EVENTCALLBACKS.callback
     def lb_failover_manual(self, event):
-        results = event['results']
-        if not results:
-            return
-
-        ret = self._get_failovers(results)
+        ret = self._get_failovers(event['results'])
         if ret:
             return {'manual': ret}, 'lb-failovers'
 
     @EVENTCALLBACKS.callback
     def amp_missed_heartbeats(self, event):
-        results = event['results']
-        if not results:
-            return
-
         missed_heartbeats = {}
-        for r in results:
+        for r in event['results']:
             ts_date = r.get(1)
             amp_id = r.get(2)
 
@@ -139,32 +142,38 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
 class AgentApparmorChecks(OpenstackEventChecksBase):
 
-    def process_results(self, results):
-        """ See defs/events.yaml for definitions. """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         event_results_output_key='apparmor', **kwargs)
+
+    def _get_aa_stats(self, results, service):
         info = {}
-        for section, events in self.event_definitions.items():
-            aa_action = section
-            for event in events:
-                _results = results.find_by_tag(event)
-                for r in _results:
-                    ts = r.get(1)
-                    profile = r.get(2)
-                    if aa_action not in info:
-                        info[aa_action] = {}
+        for r in results:
+            ts = r.get(1)
+            profile = r.get(2)
+            if service not in info:
+                info[service] = {}
 
-                    if event not in info[aa_action]:
-                        info[aa_action][event] = {}
+            if ts not in info[service]:
+                info[service][ts] = {}
 
-                    if ts not in info[aa_action][event]:
-                        info[aa_action][event][ts] = {}
-
-                    if profile not in info[aa_action][event][ts]:
-                        info[aa_action][event][ts][profile] = 1
-                    else:
-                        info[aa_action][event][ts][profile] += 1
+            if profile not in info[service][ts]:
+                info[service][ts][profile] = 1
+            else:
+                info[service][ts][profile] += 1
 
         if info:
-            return {"apparmor": info}
+            return info
+
+    @EVENTCALLBACKS.callback
+    def nova(self, event):
+        action = event['section']
+        return self._get_aa_stats(event['results'], 'nova'), action
+
+    @EVENTCALLBACKS.callback
+    def neutron(self, event):
+        action = event['section']
+        return self._get_aa_stats(event['results'], 'neutron'), action
 
 
 class AgentChecks(OpenstackChecksBase):

@@ -22,9 +22,6 @@ class KernelNetworkChecks(KernelEventChecksBase):
     @EVENTCALLBACKS.callback
     def over_mtu_dropped_packets(self, event):
         results = event['results']
-        if not results:
-            return
-
         interfaces = {}
         for r in results:
             if r.get(1) in interfaces:
@@ -62,11 +59,7 @@ class KernelNetworkChecks(KernelEventChecksBase):
                 return sorted_dict
 
     @EVENTCALLBACKS.callback
-    def nf_conntrack_full(self, event):
-        results = event['results']
-        if not results:
-            return
-
+    def nf_conntrack_full(self, event):  # pylint: disable=W0613
         # TODO: consider resticting this to last 24 hours
         msg = "kernel has reported nf_conntrack_full - please check"
         issue = issue_types.NetworkWarning(msg)
