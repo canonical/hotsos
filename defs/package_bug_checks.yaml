@@ -19,13 +19,13 @@ openstack:
       releases:
         wallaby:
           min-broken: 2:18.0.0
-          min-fixed: 2:18.1.0-0ubuntu2
+          min-fixed: 2:18.1.0-0ubuntu2~cloud0
         victoria:
           min-broken: 2:17.0.0
           min-fixed: 2:17.2.0-0ubuntu1~cloud1
         ussuri:
           min-broken: 2:16.3.0
-          min-fixed: 2:16.4.0-0ubuntu3
+          min-fixed: 2:16.4.0-0ubuntu3~cloud0
         train:
           min-broken: 2:15.3.3
           min-fixed: 2:15.3.4-0ubuntu1~cloud1
