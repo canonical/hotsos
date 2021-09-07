@@ -2,21 +2,29 @@ from core.issues import (
     issue_types,
     issue_utils,
 )
+from core.checks import CallbackHelper
 from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
 from core.plugins.kernel import KernelEventChecksBase
 
 YAML_PRIORITY = 2
+EVENTCALLBACKS = CallbackHelper()
 
 
 class KernelNetworkChecks(KernelEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='network-checks')
+        super().__init__(yaml_defs_group='network-checks',
+                         callback_helper=EVENTCALLBACKS)
         self.cli_helper = CLIHelper()
         self.hostnet_helper = HostNetworkingHelper()
 
-    def check_mtu_dropped_packets(self, results):
+    @EVENTCALLBACKS.callback
+    def over_mtu_dropped_packets(self, event):
+        results = event['results']
+        if not results:
+            return
+
         interfaces = {}
         for r in results:
             if r.get(1) in interfaces:
@@ -51,33 +59,15 @@ class KernelNetworkChecks(KernelEventChecksBase):
                                    key=lambda e: e[1], reverse=True):
                     sorted_dict[k] = v
 
-                return {"over-mtu-dropped-packets": sorted_dict}
+                return sorted_dict
 
-    def check_nf_conntrack_full(self, results):
-        if results:
-            # TODO: consider resticting this to last 24 hours
-            msg = "kernel has reported nf_conntrack_full - please check"
-            issue = issue_types.NetworkWarning(msg)
-            issue_utils.add_issue(issue)
+    @EVENTCALLBACKS.callback
+    def nf_conntrack_full(self, event):
+        results = event['results']
+        if not results:
+            return
 
-    def process_results(self, results):
-        """ See defs/events.yaml for definitions. """
-        info = {}
-        for section in self.event_definitions.values():
-            for event in section:
-                _results = results.find_by_tag(event)
-                if event == "over-mtu":
-                    ret = self.check_mtu_dropped_packets(_results)
-                    if ret:
-                        info.update(ret)
-                elif event == "nf-conntrack-full":
-                    ret = self.check_nf_conntrack_full(_results)
-                    if ret:
-                        info.update(ret)
-
-        return info
-
-    def __call__(self):
-        output = super().__call__()
-        if output:
-            self._output.update(output)
+        # TODO: consider resticting this to last 24 hours
+        msg = "kernel has reported nf_conntrack_full - please check"
+        issue = issue_types.NetworkWarning(msg)
+        issue_utils.add_issue(issue)

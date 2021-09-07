@@ -106,7 +106,7 @@ openvswitch:
     vswitchd:
       path: 'var/log/openvswitch/ovs-vswitchd.log'
       netdev-linux-no-such-device:
-        expr: '([0-9-]+)T[0-9:\.]+Z.+\|\S+: .+ (\S+): No such device'
+        expr: '([0-9-]+)T[0-9:\.]+Z.+\|(\S+): .+ \S+: No such device'
       bridge-no-such-device:
         expr: '([0-9-]+)T[0-9:\.]+Z.+\|could not open network device (\S+) \(No such device\)'
     errors-and-warnings:
@@ -121,13 +121,13 @@ openvswitch:
 kernel:
   memory-checks:
     kernlog:
-      oom:
+      oom-killer-invoked:
         path: 'var/log/kern.log'
         expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
         hint: 'oom'
   network-checks:
     kernlog:
-      over-mtu:
+      over-mtu-dropped-packets:
         path: 'var/log/kern.log'
         expr: '.+\] (\S+): dropped over-mtu packet'
         hint: 'dropped'

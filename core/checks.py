@@ -29,6 +29,21 @@ SVC_EXPR_TEMPLATES = {
     }
 
 
+class CallbackHelper(object):
+
+    def __init__(self):
+        self.callbacks = {}
+
+    def callback(self, f):
+        def callback_inner(*args, **kwargs):
+            return f(*args, **kwargs)
+
+        self.callbacks[f.__name__] = callback_inner
+        # we don't need to return but we leave it so that we can unit test
+        # these methods.
+        return callback_inner
+
+
 class ChecksBase(PluginPartBase):
 
     def __init__(self, yaml_defs_group, *args, searchobj=None, **kwargs):
@@ -208,8 +223,22 @@ class BugChecksBase(ChecksBase):
 
 class EventChecksBase(ChecksBase):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, callback_helper=None,
+                 event_results_output_key=None, **kwargs):
+        """
+        @param callback_helper: optionally provide a callback helper. This is
+        used to "register" callbacks against events defined in the yaml so
+        that they are automatically called when corresponding events are
+        detected.
+        @param event_results_output_key: by default the plugin output will be
+                                         set to the return of process_results()
+                                         but that can be optionally set
+                                         with this key as root e.g. to avoid
+                                         clobbering other results. 
+        """
         super().__init__(*args, **kwargs)
+        self.callback_helper = callback_helper
+        self.event_results_output_key = event_results_output_key
         self._event_defs = {}
 
     def _load_event_definitions(self):
@@ -231,7 +260,7 @@ class EventChecksBase(ChecksBase):
 
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
         groups = plugin.get(self._yaml_defs_group, {})
-        for group_name, section in groups.items():
+        for section_name, section in groups.items():
             global_datasource = section.get('path')
             if 'path' in section:
                 del section['path']
@@ -266,17 +295,17 @@ class EventChecksBase(ChecksBase):
                         constants.USE_ALL_LOGS):
                     ds = "{}*".format(ds)
 
-                if group_name not in self._event_defs:
-                    self._event_defs[group_name] = {}
+                if section_name not in self._event_defs:
+                    self._event_defs[section_name] = {}
 
-                if event_name not in self._event_defs[group_name]:
-                    self._event_defs[group_name][event_name] = {}
+                if event_name not in self._event_defs[section_name]:
+                    self._event_defs[section_name][event_name] = {}
 
                 e_def = {'searchdefs': [start], 'datasource': ds}
                 if end:
                     e_def['searchdefs'].append(end)
 
-                self._event_defs[group_name][event_name] = e_def
+                self._event_defs[section_name][event_name] = e_def
 
     @property
     def event_definitions(self):
@@ -301,6 +330,48 @@ class EventChecksBase(ChecksBase):
                 event = defs[label]
                 for sd in event["searchdefs"]:
                     self.searchobj.add_search_term(sd, event["datasource"])
+
+    def process_results(self, results):
+        """
+        Provide a default way for results to be processed. This requires a
+        CallbacksHelper to have been provided and callbacks registered. If that
+        is not the case the method must be re-implemented with another means
+        of processing results.
+
+        See defs/events.yaml for definitions.
+        """
+        if self.callback_helper is None or not self.callback_helper.callbacks:
+            # If there are no callbacks registered this method must be
+            # (re)implemented.
+            raise NotImplementedError
+
+        info = {}
+        for section_name, section in self.event_definitions.items():
+            for event in section:
+                _results = results.find_by_tag(event)
+                # We want this to throw an exception if the callback is not
+                # defined.
+                _event_name = event.replace('-', '_')
+                event_meta = {'results': _results, 'section': section_name}
+                ret = self.callback_helper.callbacks[_event_name](self,
+                                                                  event_meta)
+                if type(ret) == tuple:
+                    out_key = ret[1]
+                    ret = ret[0]
+                else:
+                    out_key = event
+
+                if ret:
+                    if out_key in info:
+                        info[out_key].update(ret)
+                    else:
+                        info[out_key] = ret
+
+        if info:
+            if self.event_results_output_key:
+                info = {self.event_results_output_key: info}
+
+            self._output.update(info)
 
 
 class ConfigBase(object):

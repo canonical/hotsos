@@ -404,12 +404,12 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                             'incomplete': 2}
                         }
                     }
-        root_key = "neutron-agent-checks"
-        group_key = "neutron-ovs-agent"
-        c = agent_checks.NeutronAgentEventChecks(root_key)
+        group_key = "neutron-agent-checks"
+        section_key = "neutron-ovs-agent"
+        c = agent_checks.NeutronAgentEventChecks(group_key)
         c.register_search_terms()
         results = c.process_results(c.searchobj.search())
-        self.assertEqual(results.get(group_key), expected)
+        self.assertEqual(results.get(section_key), expected)
 
     @mock.patch.object(agent_checks.checks, "add_known_bug")
     def test_get_agents_bugs(self, mock_add_known_bug):
@@ -510,12 +510,12 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                             'samples': 1}
                         }
                     }
-        root_key = "neutron-agent-checks"
-        group_key = "neutron-l3-agent"
-        c = agent_checks.NeutronAgentEventChecks(root_key)
+        group_key = "neutron-agent-checks"
+        section_key = "neutron-l3-agent"
+        c = agent_checks.NeutronAgentEventChecks(group_key)
         c.register_search_terms()
         results = c.process_results(c.searchobj.search())
-        self.assertEqual(results.get(group_key), expected)
+        self.assertEqual(results.get(section_key), expected)
 
     @mock.patch.object(agent_checks, "NeutronAgentEventChecks")
     @mock.patch.object(agent_checks, "NeutronAgentBugChecks")
@@ -541,13 +541,12 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                       }
                      }
                     }
-        root_key = "octavia-checks"
-        for group_key in ["octavia-worker", "octavia-health-manager"]:
-            c = agent_checks.OctaviaAgentEventChecks(root_key)
-            c.register_search_terms()
-            results = c.process_results(c.searchobj.search())
-            self.assertEqual(results["octavia"].get(group_key),
-                             expected.get(group_key))
+        group_key = "octavia-checks"
+        for section_key in ["octavia-worker", "octavia-health-manager"]:
+            c = agent_checks.OctaviaAgentEventChecks(group_key)
+            c()
+            self.assertEqual(c.output["octavia"].get(section_key),
+                             expected.get(section_key))
 
 
 class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):

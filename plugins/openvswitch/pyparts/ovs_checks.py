@@ -1,6 +1,7 @@
 import os
 import re
 
+from core.checks import CallbackHelper
 from core.issues import (
     issue_types,
     issue_utils,
@@ -18,12 +19,15 @@ from core.plugins.openvswitch import (
 )
 
 YAML_PRIORITY = 1
+EVENTCALLBACKS = CallbackHelper()
 
 
 class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='daemon-checks')
+        super().__init__(yaml_defs_group='daemon-checks',
+                         event_results_output_key='daemon-checks',
+                         callback_helper=EVENTCALLBACKS)
 
     def _stats_sort(self, stats):
         stats_sorted = {}
@@ -33,12 +37,11 @@ class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
 
         return stats_sorted
 
-    def get_results_stats(self, event, results, key_by_date=True):
+    def get_results_stats(self, results, key_by_date=True):
         """
         Collect information about how often a resource occurs. A resource can
         be anything e.g. an interface or a loglevel string.
 
-        @param event: string identifier for this set of results.
         @param results: a list of SearchResult objects containing two groups; a
                         date and a resource.
         @param key_by_date: by default the results are collected by datetime
@@ -71,33 +74,51 @@ class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
             if key_by_date:
                 stats = self._stats_sort(stats)
 
-            return {event: stats}
+            return stats
 
-    def process_results(self, results):
-        """ See defs/events.yaml for definitions. """
-        checkresults = {}
-        for section, events in self.event_definitions.items():
-            for event in events:
-                _results = results.find_by_tag(event)
-                if not _results:
-                    continue
+    @EVENTCALLBACKS.callback
+    def netdev_linux_no_such_device(self, event):
+        """ Group with vswitchd section results. """
+        results = event['results']
+        if not results:
+            return
 
-                if section == 'errors-and-warnings':
-                    ret = self.get_results_stats(event, _results,
-                                                 key_by_date=False)
-                    out_key = 'logs'
-                elif section == 'vswitchd':
-                    ret = self.get_results_stats(event, _results)
-                    out_key = 'ovs-vswitchd'
+        ret = self.get_results_stats(results)
+        if ret:
+            return {'netdev-linux-no-such-device': ret}, 'ovs-vswitchd'
 
-                if ret:
-                    if out_key not in checkresults:
-                        checkresults[out_key] = ret
-                    else:
-                        checkresults[out_key].update(ret)
+    @EVENTCALLBACKS.callback
+    def bridge_no_such_device(self, event):
+        """ Group with vswitchd section results. """
+        results = event['results']
+        if not results:
+            return
 
-        if checkresults:
-            self._output["daemon-checks"] = checkresults
+        ret = self.get_results_stats(results)
+        if ret:
+            return {'bridge-no-such-device': ret}, 'ovs-vswitchd'
+
+    @EVENTCALLBACKS.callback
+    def ovs_vswitchd(self, event):
+        """ Group with errors-and-warnings section results. """
+        results = event['results']
+        if not results:
+            return
+
+        ret = self.get_results_stats(results, key_by_date=False)
+        if ret:
+            return {'ovs-vswitchd': ret}, 'logs'
+
+    @EVENTCALLBACKS.callback
+    def ovsdb_server(self, event):
+        """ Group with errors-and-warnings section results. """
+        results = event['results']
+        if not results:
+            return
+
+        ret = self.get_results_stats(results, key_by_date=False)
+        if ret:
+            return {'ovsdb-server': ret}, 'logs'
 
 
 class OpenvSwitchDPChecks(OpenvSwitchChecksBase):

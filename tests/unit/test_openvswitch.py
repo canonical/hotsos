@@ -1,3 +1,4 @@
+import os
 import utils
 
 from plugins.openvswitch.pyparts import (
@@ -6,7 +7,14 @@ from plugins.openvswitch.pyparts import (
 )
 
 
-class TestOpenvswitchPluginPartOpenvswitchServices(utils.BaseTestCase):
+class TestOpenvswitchBase(utils.BaseTestCase):
+
+    def setUp(self, *args, **kwargs):
+        super().setUp(*args, **kwargs)
+        os.environ["PLUGIN_NAME"] = "openvswitch"
+
+
+class TestOpenvswitchPluginPartOpenvswitchServices(TestOpenvswitchBase):
 
     def test_get_package_checks(self):
         expected = {'dpkg':
@@ -27,12 +35,26 @@ class TestOpenvswitchPluginPartOpenvswitchServices(utils.BaseTestCase):
         self.assertEqual(inst.output, expected)
 
 
-class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(utils.BaseTestCase):
+class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
+        expected = {'daemon-checks': {
+                        'logs': {
+                            'ovs-vswitchd': {'WARN': {'2021-06-29': 1,
+                                                      '2021-07-19': 1}},
+                            'ovsdb-server': {'ERR': {'2021-07-16': 1},
+                                             'WARN': {'2021-07-28': 1}}},
+                        'ovs-vswitchd': {
+                            'bridge-no-such-device': {
+                                '2021-06-29': {
+                                    'tapd4b5494a-b1': 1}},
+                            'netdev-linux-no-such-device': {
+                                '2021-07-19': {
+                                    'tap4b02cb1d-8b': 1}
+                                }}}}
         inst = ovs_checks.OpenvSwitchDaemonChecks()
         inst()
-        self.assertEqual(inst.output, None)
+        self.assertEqual(inst.output, expected)
 
     def test_dp_checks(self):
         expected = {'port-stats':

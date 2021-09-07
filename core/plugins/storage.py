@@ -318,11 +318,7 @@ class CephChecksBase(CephBase, plugintools.PluginPartBase,
 
 
 class CephEventChecksBase(CephBase, checks.EventChecksBase):
-
-    @property
-    def output(self):
-        if self._output:
-            return {"ceph": self._output}
+    pass
 
 
 class BcacheBase(StorageBase):

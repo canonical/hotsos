@@ -122,7 +122,7 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
     @mock.patch.object(network, 'CLIHelper')
     @mock.patch.object(network, 'HostNetworkingHelper')
-    def test_check_mtu_dropped_packets(self, mock_nethelper, mock_clihelper):
+    def test_over_mtu_dropped_packets(self, mock_nethelper, mock_clihelper):
         mock_ch = mock.MagicMock()
         mock_clihelper.return_value = mock_ch
         # include trailing newline since cli would give that
@@ -134,7 +134,7 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
         p2 = NetworkPort('tap7e105503-64', None, None, None)
         mock_nh.host_interfaces_all = [p1, p2]
 
-        expected = {'over-mtu-dropped-packets': {'tap7e105503-64': 1}}
+        expected = {'tap7e105503-64': 1}
         inst = network.KernelNetworkChecks()
 
         mock_result1 = mock.MagicMock()
@@ -142,11 +142,12 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
         mock_result2 = mock.MagicMock()
         mock_result2.get.return_value = 'tap7e105503-64'
 
-        ret = inst.check_mtu_dropped_packets([mock_result1, mock_result2])
+        event = {'results': [mock_result1, mock_result2]}
+        ret = inst.over_mtu_dropped_packets(event)
         self.assertEquals(ret, expected)
 
 
-class TestKernelPluginPartKernelOOM(TestKernelBase):
+class TestKernelPluginPartKernelMemoryEventChecks(TestKernelBase):
 
     @mock.patch.object(memory.issue_utils, "add_issue")
     def test_run_memory_checks(self, mock_add_issue):
@@ -156,9 +157,9 @@ class TestKernelPluginPartKernelOOM(TestKernelBase):
             issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
-        expected = {'oom-event':
+        expected = {'oom-killer-invoked':
                     'Aug  3 08:32:23'}
-        inst = memory.KernelOOMChecks()
+        inst = memory.KernelMemoryEventChecks()
         inst()
         self.assertTrue(mock_add_issue.called)
         self.assertTrue(len(issues) == 1)

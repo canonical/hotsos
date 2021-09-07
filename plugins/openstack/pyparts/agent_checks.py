@@ -1,5 +1,6 @@
 import yaml
 
+from core.checks import CallbackHelper
 from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
 from core import checks, utils
@@ -9,6 +10,7 @@ from core.plugins.openstack import (
 )
 
 YAML_PRIORITY = 9
+EVENTCALLBACKS = CallbackHelper()
 
 
 class NeutronAgentEventChecks(OpenstackEventChecksBase):
@@ -53,6 +55,10 @@ class NeutronAgentBugChecks(checks.BugChecksBase):
 
 class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         event_results_output_key='octavia', **kwargs)
+
     def _get_failover(self, result):
         ts_date = result.get(1)
         payload = yaml.safe_load(result.get(2))
@@ -79,7 +85,32 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
         return failovers
 
-    def _get_missed_heartbeats(self, results):
+    @EVENTCALLBACKS.callback
+    def lb_failover_auto(self, event):
+        results = event['results']
+        if not results:
+            return
+
+        ret = self._get_failovers(results)
+        if ret:
+            return {'auto': ret}, 'lb-failovers'
+
+    @EVENTCALLBACKS.callback
+    def lb_failover_manual(self, event):
+        results = event['results']
+        if not results:
+            return
+
+        ret = self._get_failovers(results)
+        if ret:
+            return {'manual': ret}, 'lb-failovers'
+
+    @EVENTCALLBACKS.callback
+    def amp_missed_heartbeats(self, event):
+        results = event['results']
+        if not results:
+            return
+
         missed_heartbeats = {}
         for r in results:
             ts_date = r.get(1)
@@ -99,35 +130,11 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
                                                            key=lambda e: e[1],
                                                            reverse=True)
 
+        if not missed_heartbeats:
+            return
+
         # then sort by date
         return utils.sorted_dict(missed_heartbeats)
-
-    def process_results(self, results):
-        """ See defs/events.yaml for definitions. """
-        failovers = {}
-        missed_heartbeats = {}
-        for events in self.event_definitions.values():
-            for event in events:
-                _results = results.find_by_tag(event)
-                if event.startswith("lb-failover-"):
-                    fo_type = event.partition("lb-failover-")[2]
-                    f = self._get_failovers(_results)
-                    if f:
-                        failovers[fo_type] = f
-                elif event == "amp-missed-heartbeats":
-                    missed_heartbeats = self._get_missed_heartbeats(_results)
-                else:
-                    raise Exception("unknown event {}".format(event))
-
-        output = {}
-        if missed_heartbeats:
-            output["amp-missed-heartbeats"] = missed_heartbeats
-
-        if failovers:
-            output["lb-failovers"] = failovers
-
-        if output:
-            return {"octavia": output}
 
 
 class AgentApparmorChecks(OpenstackEventChecksBase):

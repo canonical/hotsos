@@ -1,26 +1,18 @@
 import re
 
+from core.checks import CallbackHelper
 from core.plugins.storage import CephEventChecksBase
 
 YAML_PRIORITY = 2
+EVENTCALLBACKS = CallbackHelper()
 
 
 class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='ceph')
-
-    def process_slow_requests(self, results):
-        slow_requests = {}
-        for result in sorted(results, key=lambda r: r.get(1)):
-            date = result.get(1)
-            count = result.get(2)
-            if date not in slow_requests:
-                slow_requests[date] = int(count)
-            else:
-                slow_requests[date] += int(count)
-
-        return slow_requests
+        super().__init__(yaml_defs_group='ceph',
+                         event_results_output_key='ceph',
+                         callback_helper=EVENTCALLBACKS)
 
     def get_timings(self, results, group_by_resource=False,
                     resource_osd_from_source=False):
@@ -35,6 +27,9 @@ class CephDaemonLogChecks(CephEventChecksBase):
         @param resource_osd_from_source: extract osd id from search path and
                                          use that as resource.
         """
+        if not results:
+            return
+
         info = {}
         c_expr = re.compile(r'.+ceph-osd\.(\d+)\.log')
         for result in sorted(results, key=lambda r: r.get(1)):
@@ -70,38 +65,44 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return info
 
-    def process_results(self, results):
-        """ See defs/events.yaml for definitions. """
-        info = {}
-        for events in self.event_definitions.values():
-            for event in events:
-                _results = results.find_by_tag(event)
-                ret = None
-                if event == "osd-reported-failed":
-                    ret = self.get_timings(_results, group_by_resource=True)
-                elif event == "mon-elections-called":
-                    ret = self.get_timings(_results, group_by_resource=True)
-                elif event == "slow-requests":
-                    # This one is special since we extract the count from the
-                    # search result itself.
-                    ret = self.process_slow_requests(_results)
-                elif event == "crc-err-bluestore":
-                    ret = self.get_timings(_results,
-                                           resource_osd_from_source=True)
-                elif event == "crc-err-rocksdb":
-                    ret = self.get_timings(_results,
-                                           resource_osd_from_source=True)
-                elif event == "long-heartbeat-pings":
-                    ret = self.get_timings(_results,
-                                           resource_osd_from_source=True)
-                elif event == "heartbeat-no-reply":
-                    ret = self.get_timings(_results)
+    @EVENTCALLBACKS.callback
+    def slow_requests(self, event):
+        slow_requests = {}
+        for result in sorted(event['results'], key=lambda r: r.get(1)):
+            date = result.get(1)
+            count = result.get(2)
+            if date not in slow_requests:
+                slow_requests[date] = int(count)
+            else:
+                slow_requests[date] += int(count)
 
-                if ret:
-                    if event in info:
-                        info[event].update(ret)
-                    else:
-                        info[event] = ret
+        return slow_requests
 
-        if info:
-            self._output = info
+    @EVENTCALLBACKS.callback
+    def osd_reported_failed(self, event):
+        return self.get_timings(event['results'],
+                                group_by_resource=True)
+
+    @EVENTCALLBACKS.callback
+    def mon_elections_called(self, event):
+        return self.get_timings(event['results'],
+                                group_by_resource=True)
+
+    @EVENTCALLBACKS.callback
+    def crc_err_bluestore(self, event):
+        return self.get_timings(event['results'],
+                                resource_osd_from_source=True)
+
+    @EVENTCALLBACKS.callback
+    def crc_err_rocksdb(self, event):
+        return self.get_timings(event['results'],
+                                resource_osd_from_source=True)
+
+    @EVENTCALLBACKS.callback
+    def long_heartbeat_pings(self, event):
+        return self.get_timings(event['results'],
+                                resource_osd_from_source=True)
+
+    @EVENTCALLBACKS.callback
+    def heartbeat_no_reply(self, event):
+        return self.get_timings(event['results'])
