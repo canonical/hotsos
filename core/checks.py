@@ -234,7 +234,7 @@ class EventChecksBase(ChecksBase):
                                          set to the return of process_results()
                                          but that can be optionally set
                                          with this key as root e.g. to avoid
-                                         clobbering other results. 
+                                         clobbering other results.
         """
         super().__init__(*args, **kwargs)
         self.callback_helper = callback_helper
