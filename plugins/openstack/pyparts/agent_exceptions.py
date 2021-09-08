@@ -19,7 +19,6 @@ from core.plugins.openstack.exceptions import (
     OVSDBAPP_EXCEPTIONS,
 )
 
-AGENT_DEP_EXCEPTION_EXPR_TEMPLATE = r" (\S*\.?{}):"
 YAML_PRIORITY = 7
 
 
@@ -30,56 +29,42 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         # we dont currently use yaml to define out searches.
         super().__init__(yaml_defs_group='agent-exceptions')
         self._exception_exprs = {}
-        self._agent_exceptions = {"barbican": BARBICAN_EXCEPTIONS,
-                                  "cinder": CINDER_EXCEPTIONS,
-                                  "manila": MANILA_EXCEPTIONS,
-                                  "neutron": NEUTRON_EXCEPTIONS,
-                                  "nova": NOVA_EXCEPTIONS,
-                                  "octavia": OCTAVIA_EXCEPTIONS,
+        self._agent_exceptions = {'barbican': BARBICAN_EXCEPTIONS,
+                                  'cinder': CINDER_EXCEPTIONS,
+                                  'manila': MANILA_EXCEPTIONS,
+                                  'neutron': NEUTRON_EXCEPTIONS,
+                                  'nova': NOVA_EXCEPTIONS,
+                                  'octavia': OCTAVIA_EXCEPTIONS,
                                   }
         # The following are WARNINGs
         self._agent_warnings = {
-            "nova": [r"(MessagingTimeout)"],
-            "neutron": [r"(OVS is dead).", r"(MessagingTimeout)"]
+            'nova': ['MessagingTimeout'],
+            'neutron': [r'OVS is dead', r'MessagingTimeout']
             }
 
         # The following are ERRORs
         self._agent_errors = {
-            "neutron": [r"(RuntimeError):"]
+            'neutron': [r'RuntimeError']
             }
 
     def _prepare_exception_expressions(self):
         for svc in SERVICE_RESOURCES:
-            svc_info = SERVICE_RESOURCES[svc]
-            a_excs = []
-            for e in self._agent_exceptions.get(svc, []):
-                # sometimes the exception is printed with just the class name
-                # and sometimes it is printed with a full parent module
-                # path e.g. BigExc or foo.bar.BigExc so we need to account for
-                # both.
-                a_excs.append((r" ((?:\S+\.)?{}):".format(e)))
-
             self._exception_exprs[svc] = []
-            self._exception_exprs[svc] += svc_info["exceptions_base"]
-            self._exception_exprs[svc] += a_excs
+            self._exception_exprs[svc] += self._agent_exceptions.get(svc, [])
+            svc_base_exceptions = SERVICE_RESOURCES[svc]['exceptions_base']
+            self._exception_exprs[svc] += svc_base_exceptions
 
-            # Add service dependecy/lib/client exceptions
-            if svc == "cinder" or svc == "barbican":
-                # This is a client/interface implemenation not a service so we
-                # add it to services that implement it. We print the long
-                # form of the exception to indicate it is a non-native
-                # exception.
+            # Add service dependency/lib/client exceptions
+            if svc == 'cinder' or svc == 'barbican':
                 for exc in CASTELLAN_EXCEPTIONS:
-                    expr = AGENT_DEP_EXCEPTION_EXPR_TEMPLATE.format(exc)
-                    self._exception_exprs[svc].append(expr)
-            elif svc == "neutron":
+                    self._exception_exprs[svc].append(exc)
+            elif svc == 'neutron':
                 for exc in OVSDBAPP_EXCEPTIONS:
-                    expr = AGENT_DEP_EXCEPTION_EXPR_TEMPLATE.format(exc)
-                    self._exception_exprs[svc].append(expr)
+                    self._exception_exprs[svc].append(exc)
 
     def _add_exception_searches(self):
         for svc, exprs in self._exception_exprs.items():
-            logpath = SERVICE_RESOURCES[svc]["logs"]
+            logpath = SERVICE_RESOURCES[svc]['logs']
             data_source_template = os.path.join(constants.DATA_ROOT,
                                                 logpath, '{}.log')
             if constants.USE_ALL_LOGS:
@@ -89,25 +74,31 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             # prepending with a load of apache/mod_wsgi info so we have
             # to do this way to account for both. We ignore the apache
             # prefix and it will not count towards the result.
-            expr_template = (r"^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+) (\S+) "
-                             ".+{}.*")
+            wsgi_prefix_match = r'^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+)'
 
-            for agent in SERVICE_RESOURCES[svc]["daemons"]:
+            # Sometimes the exception is printed with just the class name
+            # and sometimes it is printed with a full import path e.g.
+            # MyExc or somemod.MyExc so we need to account for both.
+            exc_obj_full_path_match = r'(?:\S+\.)?'
+            expr_template = (r"{} (\S+) .+\S+\s({}{{}})[\s:\.]".
+                             format(wsgi_prefix_match,
+                                    exc_obj_full_path_match))
+
+            for agent in SERVICE_RESOURCES[svc]['daemons']:
                 data_source = data_source_template.format(agent)
-                for subexpr in exprs:
-                    expr = expr_template.format(subexpr)
-                    hint = "( ERROR | Traceback)"
-                    sd = SearchDef(expr, tag=agent, hint=hint)
-                    self.searchobj.add_search_term(sd, data_source)
+                expr = expr_template.format("(?:{})".format('|'.join(exprs)))
+                hint = '( ERROR | Traceback)'
+                sd = SearchDef(expr, tag=agent, hint=hint)
+                self.searchobj.add_search_term(sd, data_source)
 
                 for subexpr in self._agent_warnings.get(svc, []):
                     expr = expr_template.format(subexpr)
-                    sd = SearchDef(expr, tag=agent, hint="WARNING")
+                    sd = SearchDef(expr, tag=agent, hint='WARNING')
                     self.searchobj.add_search_term(sd, data_source)
 
                 for subexpr in self._agent_errors.get(svc, []):
                     expr = expr_template.format(subexpr)
-                    sd = SearchDef(expr, tag=agent, hint="ERROR")
+                    sd = SearchDef(expr, tag=agent, hint='ERROR')
                     self.searchobj.add_search_term(sd, data_source)
 
     def register_search_terms(self):
@@ -133,7 +124,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
 
             if include_time_in_key:
                 # use hours and minutes only
-                time = re.compile("([0-9]+:[0-9]+).+").search(result.get(2))[1]
+                time = re.compile('([0-9]+:[0-9]+).+').search(result.get(2))[1]
                 key = "{}_{}".format(result.get(1), time)
             else:
                 key = str(result.get(1))
@@ -160,7 +151,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         """Process search results to see if we got any hits."""
         issues = {}
         for service in SERVICE_RESOURCES:
-            for agent in SERVICE_RESOURCES[service]["daemons"]:
+            for agent in SERVICE_RESOURCES[service]['daemons']:
                 _results = results.find_by_tag(agent)
                 ret = self.get_exceptions_results(_results,
                                                   AGENT_ERROR_KEY_BY_TIME)
@@ -171,4 +162,4 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
                     issues[service][agent] = ret
 
         if issues:
-            self._output["agent-exceptions"] = issues
+            self._output['agent-exceptions'] = issues

@@ -556,7 +556,7 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
                 'neutron_lib.exceptions.ProcessExecutionError': {
                     '2021-05-18': 1,
                     '2021-05-26': 1},
-                'MessagingTimeout': {
+                'oslo_messaging.exceptions.MessagingTimeout': {
                     '2021-08-02': 6,
                     '2021-08-03': 32},
                 },
@@ -567,6 +567,8 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
                     '2021-03-29': 1},
                 'MessagingTimeout': {
                     '2021-03-04': 2,
+                },
+                'oslo_messaging.exceptions.MessagingTimeout': {
                     '2021-08-02': 6,
                     '2021-08-03': 32},
                 'AMQP server on 10.10.123.22:5672 is unreachable': {
@@ -575,7 +577,8 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
         }
         nova_expected = {
             'nova-compute': {
-                'MessagingTimeout': {'2021-08-16': 35}
+                'oslo_messaging.exceptions.MessagingTimeout': {
+                    '2021-08-16': 35}
             },
             'nova-api-wsgi': {
                 'OSError: Server unexpectedly closed connection': {

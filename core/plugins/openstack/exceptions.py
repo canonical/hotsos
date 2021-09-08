@@ -12,7 +12,7 @@ PYTHON_BUILTIN_EXCEPTIONS = [
 #    "ConnectionAbortedError",
 #    "ConnectionError",
 #    "ConnectionRefusedError",
-#    "ConnectionResetError",
+    "ConnectionResetError",
 #    "DeprecationWarning",
 #    "EnvironmentError",
     "EOFError",

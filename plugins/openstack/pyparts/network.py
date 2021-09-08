@@ -1,6 +1,5 @@
 import re
 
-from core import host_helpers
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import OpenstackChecksBase
 
@@ -11,7 +10,6 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
     def __init__(self):
         super().__init__()
-        self.nethelp = host_helpers.HostNetworkingHelper()
         self.cli = CLIHelper()
 
     @property

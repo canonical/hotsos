@@ -151,15 +151,14 @@ AGENT_DAEMON_NAMES = {
 
 # These can exist in any service
 AGENT_EXCEPTIONS_COMMON = [
-    r"(AMQP server on .+ is unreachable)",
-    r"(amqp.exceptions.ConnectionForced):",
-    r"(OSError: Server unexpectedly closed connection)",
-    r"(ConnectionResetError: .+)",
+    r"AMQP server on .+ is unreachable",
+    r"amqp.exceptions.ConnectionForced",
+    r"OSError: Server unexpectedly closed connection",
 ]
 for exc in exceptions.OSLO_DB_EXCEPTIONS + \
         exceptions.OSLO_MESSAGING_EXCEPTIONS + \
         exceptions.PYTHON_BUILTIN_EXCEPTIONS:
-    AGENT_EXCEPTIONS_COMMON.append(r"({})".format(exc))
+    AGENT_EXCEPTIONS_COMMON.append(exc)
 
 SERVICE_RESOURCES = {}
 for service in OST_PROJECTS:
