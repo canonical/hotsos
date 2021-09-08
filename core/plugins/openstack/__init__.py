@@ -104,6 +104,7 @@ OST_SERVICES_DEPS = [r"apache{}".format(SVC_VALID_SUFFIX),
                      r"mysqld",
                      r"vault{}".format(SVC_VALID_SUFFIX),
                      r"qemu-system-\S+",
+                     r"radvd",
                      ]
 
 OST_PKG_ALIASES = ["openstack-dashboard"]
@@ -120,6 +121,7 @@ OST_DEP_PKGS = [r"conntrack",
                 r"nfs--ganesha",
                 r"python3?-oslo[.-]",
                 r"qemu-kvm",
+                r"radvd",
                 ]
 # Add in clients/deps
 for pkg in OST_PKGS_CORE:

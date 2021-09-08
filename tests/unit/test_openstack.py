@@ -242,7 +242,8 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
             'python3-oslo.utils 4.1.1-0ubuntu1',
             'python3-oslo.versionedobjects 2.0.1-0ubuntu1',
             'python3-oslo.vmware 3.3.1-0ubuntu1',
-            'qemu-kvm 1:4.2-3ubuntu6.17']
+            'qemu-kvm 1:4.2-3ubuntu6.17',
+            'radvd 1:2.17-2']
         inst = package_info.OpenstackPackageChecks()
         inst()
         self.assertEquals(inst.output["dpkg"], expected)
