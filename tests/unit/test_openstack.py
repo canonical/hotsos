@@ -278,6 +278,16 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
             obj()
             self.assertTrue(mock_add_known_bug.called)
 
+    def test_pkgbugchecks_no_packages(self):
+        os.environ['PLUGIN_NAME'] = 'openstack'
+        with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
+            with mock.patch.object(checks, 'CLIHelper') as mock_cli:
+                mock_cli.return_value = mock.MagicMock()
+                mock_cli.return_value.dpkg_l.return_value = []
+                obj = package_info.OpenstackPackageBugChecks()
+                obj()
+                self.assertFalse(mock_add_known_bug.called)
+
 
 class TestOpenstackPluginPartNetwork(TestOpenstackBase):
 

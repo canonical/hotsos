@@ -889,7 +889,7 @@ class APTPackageChecksBase(PackageChecksBase):
 
         dpkg_l = self.cli.dpkg_l()
         if not dpkg_l:
-            return
+            return self._all_packages
 
         all_exprs = self.core_pkg_exprs + self.other_pkg_exprs
         for line in dpkg_l:
@@ -929,8 +929,10 @@ class APTPackageChecksBase(PackageChecksBase):
         if self._core_packages:
             return self._core_packages
 
+        # If _other_packages has contents it implies that we have already
+        # collected and there are no core packages so return empty.
         if self._other_packages:
-            return {}
+            return self._core_packages
 
         # go fetch
         self.all
