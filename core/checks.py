@@ -266,9 +266,14 @@ class EventChecksBase(ChecksBase):
 
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
         groups = plugin.get(self._yaml_defs_group, {})
+        global_datasource = None
         for section_name, section in groups.items():
-            global_datasource = section.get('path')
+            if section_name == 'path':
+                global_datasource = section
+                continue
+
             if 'path' in section:
+                global_datasource = section.get('path')
                 del section['path']
 
             for event_name in section:

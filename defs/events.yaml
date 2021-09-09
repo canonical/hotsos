@@ -30,8 +30,8 @@
 #
 # Mandatory fields:
 #
-#   path: file/dir/glob to search - this can specified as a section global or
-#         within the event definition.
+#   path: file/dir/glob to search - this can specified at the group, section
+#         or event level with the latter taking precedence.
 #
 # Optional fields:
 #
@@ -92,13 +92,12 @@ openstack:
         expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
         hint: 'failover'
   apparmor-checks:
+    path: 'var/log/kern.log'
     denials:
       nova:
-        path: 'var/log/kern.log'
         expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
         hint: 'apparmor'
       neutron:
-        path: 'var/log/kern.log'
         expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
         hint: 'apparmor'
 openvswitch:
