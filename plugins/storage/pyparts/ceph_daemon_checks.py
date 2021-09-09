@@ -13,6 +13,8 @@ from core.plugins.storage import BcacheChecksBase
 
 YAML_PRIORITY = 1
 LP1936136_BCACHE_CACHE_LIMIT = 70
+OSD_PG_MAX_LIMIT = 500
+OSD_PG_OPTIMAL_NUM = 200
 
 
 class CephOSDChecks(CephChecksBase):
@@ -23,16 +25,19 @@ class CephOSDChecks(CephChecksBase):
         self.ceph_versions = self.cli.ceph_versions()
 
     def get_ceph_pg_imbalance(self):
-        """
-        Validate PG range.
-        Upstream recommends 50-200 OSDs ideally. Higher than 200 is
-        also valid if the OSD disks are of different sizes but such
-        are generally outliers.
+        """ Validate PG counts on OSDs
+
+        Upstream recommends 50-200 OSDs ideally. Higher than 200 is also valid
+        if the OSD disks are of different sizes but that tends to be the
+        exception rather than the norm.
+
+        We also check for OSDs with excessive numbers of PGs that can cause
+        them to fail.
         """
         if not self.ceph_osd_df_tree:
             return
 
-        bad_pgs = {}
+        # Find index of PGS column in output.
         pgs_idx = None
         header = self.ceph_osd_df_tree[0].split()
         for i, col in enumerate(header):
@@ -44,24 +49,40 @@ class CephOSDChecks(CephChecksBase):
             return
 
         pgs_idx = -(len(header) - pgs_idx)
+        suboptimal_pgs = {}
+        error_pgs = {}
         for line in self.ceph_osd_df_tree:
             try:
                 ret = re.compile(r"\s+(osd\.\d+)\s*$").search(line)
                 if ret:
+                    osd_id = ret.group(1)
                     pgs = int(line.split()[pgs_idx])
-                    margin = abs(100 - (float(100) / 200 * pgs))
-                    # allow 10% margin from optimal 200 value
+                    if pgs > OSD_PG_MAX_LIMIT:
+                        error_pgs[osd_id] = pgs
+
+                    margin = abs(100 - (float(100) / OSD_PG_OPTIMAL_NUM * pgs))
+                    # allow 10% margin from optimal OSD_PG_OPTIMAL_NUM value
                     if margin > 10:
-                        bad_pgs[ret.group(1)] = pgs
+                        suboptimal_pgs[osd_id] = pgs
             except IndexError:
                 pass
 
-        if bad_pgs:
-            self._output["bad-pgs-per-osd"] = sorted_dict(bad_pgs,
-                                                          key=lambda e: e[1],
-                                                          reverse=True)
-            msg = ("{} osds found with > 10% margin from optimal 200 pgs".
-                   format(len(bad_pgs)))
+        if error_pgs:
+            info = sorted_dict(error_pgs, key=lambda e: e[1], reverse=True)
+            self._output['osd-pgs-near-limit'] = info
+            msg = ("{} osds found with > {} pgs - this is close to the hard "
+                   "limit at which point OSDs will stop creating pgs and fail "
+                   "- please investigate".
+                   format(len(error_pgs), OSD_PG_MAX_LIMIT))
+            issue = issue_types.CephCrushError(msg)
+            issue_utils.add_issue(issue)
+
+        if suboptimal_pgs:
+            info = sorted_dict(suboptimal_pgs, key=lambda e: e[1],
+                               reverse=True)
+            self._output['osd-pgs-suboptimal'] = info
+            msg = ("{} osds found with > 10% margin from optimal {} pgs.".
+                   format(len(suboptimal_pgs), OSD_PG_OPTIMAL_NUM))
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
 

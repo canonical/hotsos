@@ -6,6 +6,7 @@ import tempfile
 import utils
 
 from core import checks
+from core.issues import issue_types
 from core.plugins import storage
 from plugins.storage.pyparts import (
     bcache,
@@ -92,11 +93,33 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
 
     @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
-        result = {'bad-pgs-per-osd': {
-                   'osd.0': 295}}
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        result = {'osd-pgs-suboptimal': {
+                   'osd.0': 295,
+                   'osd.1': 501},
+                  'osd-pgs-near-limit': {
+                      'osd.1': 501}
+                  }
         inst = ceph_daemon_checks.CephOSDChecks()
         inst.get_ceph_pg_imbalance()
         self.assertEqual(inst.output["ceph"], result)
+
+        types = {}
+        for issue in issues:
+            t = type(issue)
+            if t in types:
+                types[t] += 1
+            else:
+                types[t] = 1
+
+        self.assertEqual(len(issues), 2)
+        self.assertEqual(types[issue_types.CephCrushError], 1)
+        self.assertEqual(types[issue_types.CephCrushWarning], 1)
         self.assertTrue(mock_add_issue.called)
 
     def test_get_osd_ids(self):
