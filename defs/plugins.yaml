@@ -70,9 +70,8 @@ plugins:
         - KernelGeneralChecks
       memory:
         - KernelMemoryChecks
-        - KernelMemoryEventChecks
-      network:
-        - KernelNetworkChecks
+      log_event_checks:
+        - KernelLogEventChecks
   kubernetes:
     parts:
       general:

@@ -7,9 +7,10 @@ import utils
 from plugins.kernel.pyparts import (
     info,
     memory,
-    network,
+    log_event_checks,
 )
 from core.host_helpers import NetworkPort
+from core.issues import issue_types
 
 
 class TestKernelBase(utils.BaseTestCase):
@@ -26,7 +27,7 @@ class TestKernelPluginPartKernelInfo(TestKernelBase):
         expected = {'boot': 'ro',
                     'systemd': {'CPUAffinity': '0-7,32-39'},
                     'version': '5.4.0-80-generic'}
-        self.assertEquals(inst.output, expected)
+        self.assertEqual(inst.output, expected)
 
 
 class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
@@ -34,14 +35,14 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
     def test_numa_nodes(self):
         ret = memory.KernelMemoryChecks().numa_nodes
         expected = [0, 1]
-        self.assertEquals(ret, expected)
+        self.assertEqual(ret, expected)
 
     def test_get_node_zones(self):
         inst = memory.KernelMemoryChecks()
         ret = inst.get_node_zones("DMA32", 0)
         expected = ("Node 0, zone DMA32 2900 1994 2422 4791 3090 1788 886 290 "
                     "21 0 0")
-        self.assertEquals(ret, expected)
+        self.assertEqual(ret, expected)
 
     def test_check_mallocinfo_good_node(self):
         inst = memory.KernelMemoryChecks()
@@ -65,7 +66,7 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
                                 2: 54089,
                                 1: 217700,
                                 0: 220376}}]}}
-        self.assertEquals(inst.output, expected)
+        self.assertEqual(inst.output, expected)
 
     def test_check_nodes_memory(self):
         inst = memory.KernelMemoryChecks()
@@ -85,7 +86,7 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
                                       ("limited high order memory - check {}".
                                        format(memory.BUDDY_INFO))
                                       ]}}
-        self.assertEquals(inst.output, expected)
+        self.assertEqual(inst.output, expected)
 
     def test_get_slab_major_consumers(self):
         inst = memory.KernelMemoryChecks()
@@ -99,13 +100,13 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
                             'vmap_area (1612.0k)']
                         }
                     }
-        self.assertEquals(inst.output, expected)
+        self.assertEqual(inst.output, expected)
 
 
-class TestKernelPluginPartKernelNetwork(TestKernelBase):
+class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
 
-    @mock.patch.object(network.issue_utils, "add_issue")
-    def test_run_network_checks(self, mock_add_issue):
+    @mock.patch.object(log_event_checks.issue_utils, "add_issue")
+    def test_run_log_event_checks(self, mock_add_issue):
         issues = []
 
         def fake_add_issue(issue):
@@ -113,15 +114,27 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
         mock_add_issue.side_effect = fake_add_issue
         expected = {'over-mtu-dropped-packets':
-                    {'tap0906171f-17': 5}}
-        inst = network.KernelNetworkChecks()
+                    {'tap0906171f-17': 5},
+                    'oom-killer-invoked': 'Aug  3 08:32:23'}
+        inst = log_event_checks.KernelLogEventChecks()
         inst()
         self.assertTrue(mock_add_issue.called)
-        self.assertTrue(len(issues) == 2)
-        self.assertEquals(inst.output, expected)
+        types = {}
+        for issue in issues:
+            t = type(issue)
+            if t in types:
+                types[t] += 1
+            else:
+                types[t] = 1
 
-    @mock.patch.object(network, 'CLIHelper')
-    @mock.patch.object(network, 'HostNetworkingHelper')
+        self.assertEqual(len(issues), 4)
+        self.assertEqual(types[issue_types.KernelError], 1)
+        self.assertEqual(types[issue_types.MemoryWarning], 1)
+        self.assertEqual(types[issue_types.NetworkWarning], 2)
+        self.assertEqual(inst.output, expected)
+
+    @mock.patch.object(log_event_checks, 'CLIHelper')
+    @mock.patch.object(log_event_checks, 'HostNetworkingHelper')
     def test_over_mtu_dropped_packets(self, mock_nethelper, mock_clihelper):
         mock_ch = mock.MagicMock()
         mock_clihelper.return_value = mock_ch
@@ -135,7 +148,7 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
         mock_nh.host_interfaces_all = [p1, p2]
 
         expected = {'tap7e105503-64': 1}
-        inst = network.KernelNetworkChecks()
+        inst = log_event_checks.KernelLogEventChecks()
 
         mock_result1 = mock.MagicMock()
         mock_result1.get.return_value = 'br-int'
@@ -144,23 +157,4 @@ class TestKernelPluginPartKernelNetwork(TestKernelBase):
 
         event = {'results': [mock_result1, mock_result2]}
         ret = inst.over_mtu_dropped_packets(event)
-        self.assertEquals(ret, expected)
-
-
-class TestKernelPluginPartKernelMemoryEventChecks(TestKernelBase):
-
-    @mock.patch.object(memory.issue_utils, "add_issue")
-    def test_run_memory_checks(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        expected = {'oom-killer-invoked':
-                    'Aug  3 08:32:23'}
-        inst = memory.KernelMemoryEventChecks()
-        inst()
-        self.assertTrue(mock_add_issue.called)
-        self.assertTrue(len(issues) == 1)
-        self.assertEquals(inst.output, expected)
+        self.assertEqual(ret, expected)
