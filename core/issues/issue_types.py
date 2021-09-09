@@ -4,6 +4,10 @@ class IssueTypeBase(object):
         self.msg = msg
 
 
+class KernelError(IssueTypeBase):
+    pass
+
+
 class MemoryWarning(IssueTypeBase):
     pass
 

@@ -11,13 +11,32 @@ YAML_PRIORITY = 2
 EVENTCALLBACKS = CallbackHelper()
 
 
-class KernelNetworkChecks(KernelEventChecksBase):
+class KernelLogEventChecks(KernelEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='network-checks',
+        super().__init__(yaml_defs_group='kernlog',
                          callback_helper=EVENTCALLBACKS)
         self.cli_helper = CLIHelper()
         self.hostnet_helper = HostNetworkingHelper()
+
+    @EVENTCALLBACKS.callback
+    def stacktrace(self, event):
+        msg = ("kern.log contains {} stacktraces.".
+               format(len(event['results'])))
+        issue = issue_types.KernelError(msg)
+        issue_utils.add_issue(issue)
+
+    @EVENTCALLBACKS.callback
+    def oom_killer_invoked(self, event):
+        results = event['results']
+        process_name = results[0].get(3)
+        time_oomd = "{} {}".format(results[0].get(1),
+                                   results[0].get(2))
+        msg = ("oom-killer invoked for process '{}' at {}"
+               .format(process_name, time_oomd))
+        issue = issue_types.MemoryWarning(msg)
+        issue_utils.add_issue(issue)
+        return time_oomd
 
     @EVENTCALLBACKS.callback
     def over_mtu_dropped_packets(self, event):

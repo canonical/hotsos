@@ -1,39 +1,17 @@
 import os
 
-from core.checks import CallbackHelper
 from core.issues import (
     issue_types,
     issue_utils,
 )
 from core.plugins.kernel import (
     KernelChecksBase,
-    KernelEventChecksBase,
     VMSTAT,
     BUDDY_INFO,
     SLABINFO,
 )
 
 YAML_PRIORITY = 1
-EVENTCALLBACKS = CallbackHelper()
-
-
-class KernelMemoryEventChecks(KernelEventChecksBase):
-
-    def __init__(self):
-        super().__init__(yaml_defs_group='memory-checks',
-                         callback_helper=EVENTCALLBACKS)
-
-    @EVENTCALLBACKS.callback
-    def oom_killer_invoked(self, event):
-        results = event['results']
-        process_name = results[0].get(3)
-        time_oomd = "{} {}".format(results[0].get(1),
-                                   results[0].get(2))
-        msg = ("oom-killer invoked for process '{}' at {}"
-               .format(process_name, time_oomd))
-        issue = issue_types.MemoryWarning(msg)
-        issue_utils.add_issue(issue)
-        return time_oomd
 
 
 class KernelMemoryChecks(KernelChecksBase):
