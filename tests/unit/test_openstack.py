@@ -48,7 +48,7 @@ May 04 11:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS
 May 04 11:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
 """  # noqa
 
-JOURNALCTL_OVS_CLEANUP_BAD = """
+JOURNALCTL_OVS_CLEANUP_GOOD2 = """
 -- Logs begin at Thu 2021-04-29 17:44:42 BST, end at Thu 2021-05-06 09:05:01 BST. --
 Apr 29 17:52:37 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
 Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/r
@@ -62,6 +62,19 @@ May 04 10:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS 
 -- Reboot --
 May 04 11:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
 May 04 11:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+"""  # noqa
+
+JOURNALCTL_OVS_CLEANUP_BAD = """
+-- Logs begin at Thu 2021-04-29 17:44:42 BST, end at Thu 2021-05-06 09:05:01 BST. --
+Apr 29 17:52:37 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/r
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 ovs-vsctl[15183]: ovs|00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=5 --id=@manager -- create Manager "target=\
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session closed for user root
+Apr 29 17:52:39 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+May 03 06:17:29 juju-9c28ce-ubuntu-11 systemd[1]: Stopped OpenStack Neutron OVS cleanup.
+May 04 10:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
+May 04 10:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
 """  # noqa
 
 
@@ -658,6 +671,19 @@ class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
+        inst = service_checks.NeutronServiceChecks()
+        inst()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch.object(service_checks, 'CLIHelper')
+    @mock.patch.object(service_checks.issue_utils, "add_issue")
+    def test_run_service_checks2(self, mock_add_issue, mock_helper):
+        """
+        Covers scenario where we had manual restart but not after last reboot.
+        """
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_GOOD2.splitlines(keepends=True)
         inst = service_checks.NeutronServiceChecks()
         inst()
         self.assertFalse(mock_add_issue.called)
