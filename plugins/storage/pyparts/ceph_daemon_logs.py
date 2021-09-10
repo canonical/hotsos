@@ -1,5 +1,6 @@
 import re
 
+from core.issues import issue_types, issue_utils
 from core.checks import CallbackHelper
 from core.plugins.storage import CephEventChecksBase
 
@@ -88,15 +89,45 @@ class CephDaemonLogChecks(CephEventChecksBase):
         return self.get_timings(event['results'],
                                 group_by_resource=True)
 
+    def _get_crc_errors(self, results, osd_type):
+        if results:
+            ret = self.get_timings(results, resource_osd_from_source=True)
+
+            # If on any particular day there were > 3 crc errors for a
+            # particular osd we raise an issue since that indicates they are
+            # likely to reflect a real problem.
+            osds_in_err = set()
+            osd_err_max = 0
+            # ret is keyed by day
+            for osds in ret.values():
+                # If we were unable to glean the osd id from the search results
+                # this will not be a dict so skip.
+                if type(osds) != dict:
+                    continue
+
+                for osd, num_errs in osds.items():
+                    if num_errs > 3:
+                        if num_errs > osd_err_max:
+                            osd_err_max = num_errs
+
+                        osds_in_err.add(osd)
+
+            if osds_in_err:
+                msg = ("{} osds ({}) found with > 3 {} crc errors (max={}) "
+                       "each within a 24hr period - please investigate".
+                       format(len(osds_in_err), ','.join(osds_in_err),
+                              osd_type, osd_err_max))
+                issue_utils.add_issue(issue_types.CephOSDError(msg))
+
+            return ret
+
     @EVENTCALLBACKS.callback
     def crc_err_bluestore(self, event):
-        return self.get_timings(event['results'],
-                                resource_osd_from_source=True)
+        return self._get_crc_errors(event['results'], 'bluestore')
 
     @EVENTCALLBACKS.callback
     def crc_err_rocksdb(self, event):
-        return self.get_timings(event['results'],
-                                resource_osd_from_source=True)
+        return self._get_crc_errors(event['results'], 'rocksdb')
 
     @EVENTCALLBACKS.callback
     def long_heartbeat_pings(self, event):

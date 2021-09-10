@@ -16,6 +16,10 @@ class CephCrushError(IssueTypeBase):
     pass
 
 
+class CephOSDError(IssueTypeBase):
+    pass
+
+
 class CephDaemonWarning(IssueTypeBase):
     pass
 
