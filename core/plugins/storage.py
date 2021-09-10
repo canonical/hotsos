@@ -296,13 +296,33 @@ class CephBase(StorageBase):
                 if dev.get("by-uuid") == ret.group(1):
                     return True
 
-    def daemon_pkg_version(self, daemon):
-        """Get version of local daemon based on package installed.
-
-        This is prone to inaccuracy since the deamom many not have been
-        restarted after package update.
+    @property
+    def bluestore_enabled(self):
         """
-        return self.apt_check.get_version(daemon)
+        If any of the following are enabled in ceph.conf (by the charm) it
+        indicates that bluestore=True.
+        """
+        bs_key_vals = {('enable experimental unrecoverable data corrupting '
+                        'features'): 'bluestore',
+                       'osd objectstore': 'bluestore'}
+        bs_keys = ['bluestore block wal size', 'bluestore block db size',
+                   r'bluestore compression .+']
+
+        for keys in self.ceph_config.all.values():
+            for conf_key in keys:
+                if conf_key in bs_keys:
+                    return True
+
+                for key in bs_keys:
+                    if re.compile(key).match(conf_key):
+                        return True
+
+        for key, val in bs_key_vals.items():
+            conf_val = self.ceph_config.get(key)
+            if conf_val and val in conf_val:
+                return True
+
+        return False
 
 
 class CephChecksBase(CephBase, plugintools.PluginPartBase,

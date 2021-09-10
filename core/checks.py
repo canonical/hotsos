@@ -482,6 +482,10 @@ class SectionalConfigBase(ConfigBase):
         self._flattened_config = {}
         self._load()
 
+    @property
+    def all(self):
+        return self._sections
+
     def get(self, key, section=None, expand_ranges=False):
         """ If section is None use flattened """
         if section is None:

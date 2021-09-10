@@ -189,7 +189,10 @@ class CephOSDChecks(CephChecksBase):
                     LP1936136_BCACHE_CACHE_LIMIT):
                 return
 
-        current = self.daemon_pkg_version("ceph-osd")
+        # Get version of osd based on package installed. This is prone to
+        # inaccuracy since the deamom many not have been restarted after
+        # package update.
+        current = self.apt_check.get_version('ceph-osd')
         if current < DPKGVersionCompare("13.2.0"):
             return
 

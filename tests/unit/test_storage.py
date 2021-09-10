@@ -15,12 +15,38 @@ from plugins.storage.pyparts import (
     ceph_general,
 )
 
+CEPH_CONF_NO_BLUESTORE = """
+[global]
+[osd]
+osd objectstore = filestore
+osd journal size = 1024
+filestore xattr use omap = true
+"""
+
 
 class StorageTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
         os.environ['PLUGIN_NAME'] = 'storage'
+
+
+class TestStorageCephBase(StorageTestsBase):
+
+    def test_bluestore_enabled(self):
+        enabled = storage.CephBase().bluestore_enabled
+        self.assertTrue(enabled)
+
+    def test_bluestore_not_enabled(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'etc/ceph')
+            os.makedirs(path)
+            with open(os.path.join(path, 'ceph.conf'), 'w') as fd:
+                fd.write(CEPH_CONF_NO_BLUESTORE)
+
+            os.environ['DATA_ROOT'] = dtmp
+            enabled = storage.CephBase().bluestore_enabled
+            self.assertFalse(enabled)
 
 
 class TestStoragePluginPartCephGeneral(StorageTestsBase):
