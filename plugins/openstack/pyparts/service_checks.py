@@ -17,15 +17,15 @@ class NeutronServiceChecks(OpenstackChecksBase):
         raise_issue = False
         start_count = 0
         cli = CLIHelper()
+        cexpr = re.compile(r"Started OpenStack Neutron OVS cleanup.")
         for line in cli.journalctl(unit="neutron-ovs-cleanup"):
-            expr = r"Started OpenStack Neutron OVS cleanup."
             if re.compile("-- Reboot --").match(line):
                 # reset after reboot
+                raise_issue = False
                 start_count = 0
-            elif re.compile(expr).search(line):
+            elif cexpr.search(line):
                 if start_count:
                     raise_issue = True
-                    break
 
                 start_count += 1
 
