@@ -190,9 +190,18 @@ class BinFileCmd(FileCmd):
         if kwargs:
             self.path = self.path.format(**kwargs)
 
+        # If this file is part of a sosreport we want to make sure it is run
+        # in the same timezone context as the sosreport host.
+        env = {}
+        try:
+            env['TZ'] = DateFileCmd('sos_commands/date/date',
+                                    singleline=True)(format="+%Z")
+        except SourceNotFound:
+            pass
+
         # Now split into a command and run
         output = subprocess.check_output(self.path.split(),
-                                         stderr=subprocess.STDOUT)
+                                         stderr=subprocess.STDOUT, env=env)
 
         return output.decode('UTF-8').splitlines(keepends=True)
 
