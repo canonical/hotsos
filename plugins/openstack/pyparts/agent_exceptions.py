@@ -29,6 +29,8 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         # we dont currently use yaml to define out searches.
         super().__init__(yaml_defs_group='agent-exceptions')
         self._exception_exprs = {}
+
+        # The following are expected to be ERROR or Traceback
         self._agent_exceptions = {'barbican': BARBICAN_EXCEPTIONS,
                                   'cinder': CINDER_EXCEPTIONS,
                                   'manila': MANILA_EXCEPTIONS,
@@ -36,13 +38,19 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
                                   'nova': NOVA_EXCEPTIONS,
                                   'octavia': OCTAVIA_EXCEPTIONS,
                                   }
-        # The following are WARNINGs
+
+        # The following are expected to be WARNING
         self._agent_warnings = {
-            'nova': ['MessagingTimeout'],
-            'neutron': [r'OVS is dead', r'MessagingTimeout']
+            'nova': ['MessagingTimeout',
+                     'DiskNotFound',
+                     ],
+            'neutron': [r'OVS is dead',
+                        r'MessagingTimeout',
+                        ]
             }
 
-        # The following are ERRORs
+        # The following are expected to be ERROR. This is typically used to
+        # catch events that are not defined as an exception.
         self._agent_errors = {
             'neutron': [r'RuntimeError']
             }
@@ -63,7 +71,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
                     self._exception_exprs[svc].append(exc)
 
     def _add_exception_searches(self):
-        for svc, exprs in self._exception_exprs.items():
+        for svc, exc_exprs in self._exception_exprs.items():
             logpath = SERVICE_RESOURCES[svc]['logs']
             data_source_template = os.path.join(constants.DATA_ROOT,
                                                 logpath, '{}.log')
@@ -86,18 +94,23 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
 
             for agent in SERVICE_RESOURCES[svc]['daemons']:
                 data_source = data_source_template.format(agent)
-                expr = expr_template.format("(?:{})".format('|'.join(exprs)))
+                expr = expr_template.format("(?:{})".
+                                            format('|'.join(exc_exprs)))
                 hint = '( ERROR | Traceback)'
                 sd = SearchDef(expr, tag=agent, hint=hint)
                 self.searchobj.add_search_term(sd, data_source)
 
-                for subexpr in self._agent_warnings.get(svc, []):
-                    expr = expr_template.format(subexpr)
+                warn_exprs = self._agent_warnings.get(svc, [])
+                if warn_exprs:
+                    expr = expr_template.format("(?:{})".
+                                                format('|'.join(warn_exprs)))
                     sd = SearchDef(expr, tag=agent, hint='WARNING')
                     self.searchobj.add_search_term(sd, data_source)
 
-                for subexpr in self._agent_errors.get(svc, []):
-                    expr = expr_template.format(subexpr)
+                err_exprs = self._agent_errors.get(svc, [])
+                if err_exprs:
+                    expr = expr_template.format("(?:{})".
+                                                format('|'.join(err_exprs)))
                     sd = SearchDef(expr, tag=agent, hint='ERROR')
                     self.searchobj.add_search_term(sd, data_source)
 

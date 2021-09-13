@@ -578,38 +578,50 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
             'neutron-l3-agent': {
                 'neutron_lib.exceptions.ProcessExecutionError': {
                     '2021-05-18': 1,
-                    '2021-05-26': 1},
+                    '2021-05-26': 1
+                    },
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2021-08-02': 6,
-                    '2021-08-03': 32},
+                    '2021-08-03': 32
+                    },
                 },
             'neutron-openvswitch-agent': {
                 'RuntimeError': {
-                    '2021-03-29': 3},
+                    '2021-03-29': 3
+                    },
                 'OVS is dead': {
-                    '2021-03-29': 1},
+                    '2021-03-29': 1
+                    },
                 'MessagingTimeout': {
                     '2021-03-04': 2,
-                },
+                    },
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2021-08-02': 6,
-                    '2021-08-03': 32},
+                    '2021-08-03': 32
+                    },
                 'AMQP server on 10.10.123.22:5672 is unreachable': {
                     '2021-03-04': 3},
                 }
         }
         nova_expected = {
             'nova-compute': {
+                'nova.exception.DiskNotFound': {
+                    '2021-09-11': 1
+                    },
                 'oslo_messaging.exceptions.MessagingTimeout': {
-                    '2021-08-16': 35}
+                    '2021-08-16': 35
+                    },
             },
             'nova-api-wsgi': {
                 'OSError: Server unexpectedly closed connection': {
-                    '2021-03-15': 1},
+                    '2021-03-15': 1
+                    },
                 'AMQP server on 10.5.1.98:5672 is unreachable': {
-                    '2021-03-15': 1},
+                    '2021-03-15': 1
+                    },
                 'amqp.exceptions.ConnectionForced': {
-                    '2021-03-15': 1},
+                    '2021-03-15': 1
+                    },
             }
         }
         barbican_expected = {'barbican-api':
