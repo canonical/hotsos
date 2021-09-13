@@ -17,6 +17,7 @@ class TestSystemPluginPartGeneral(utils.BaseTestCase):
         expected = {'hostname': 'compute4',
                     'num-cpus': 2,
                     'os': 'ubuntu focal',
+                    'virtualisation': 'kvm',
                     'unattended-upgrades': 'ENABLED'}
         inst = general.SystemGeneral()
         inst()

@@ -19,6 +19,9 @@ class SystemGeneral(SystemChecksBase):
         if self.loadavg:
             self._output["load"] = self.loadavg
 
+        if self.virtualisation_type:
+            self._output["virtualisation"] = self.virtualisation_type
+
         df_output = CLIHelper().df()
         if df_output:
             for line in df_output:

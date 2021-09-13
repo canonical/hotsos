@@ -63,6 +63,20 @@ class SystemBase(plugintools.PluginPartBase):
                     return "ubuntu {}".format(ret[1])
 
     @property
+    def virtualisation_type(self):
+        """
+        @return: virt type e.g. kvm or lxc if host is virtualised otherwise
+                 None.
+        """
+        info = CLIHelper().hostnamectl()
+        for line in info:
+            split_line = line.partition(': ')
+            if 'Virtualization' in split_line[0]:
+                return split_line[2].strip()
+
+        return
+
+    @property
     def num_cpus(self):
         lscpu_output = CLIHelper().lscpu()
         if lscpu_output:

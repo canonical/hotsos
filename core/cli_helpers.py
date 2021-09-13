@@ -352,6 +352,9 @@ class CLIHelper(object):
             'hostname':
                 [BinCmd('hostname', singleline=True),
                  FileCmd('hostname', singleline=True)],
+            'hostnamectl':
+                [BinCmd('hostnamectl'),
+                 FileCmd('sos_commands/host/hostnamectl_status')],
             'ip_netns':
                 [BinCmd('ip netns'),
                  FileCmd('sos_commands/networking/ip_netns')],
