@@ -320,17 +320,34 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
         self.assertEqual(inst.output, None)
 
     def test_get_network_checker(self):
-        expected = {'config':
-                    {'nova':
-                        {'my_ip': '10.0.0.49 (br-ens3)'},
-                     'neutron':
-                        {'local_ip': '10.0.0.49 (br-ens3)'}},
-                    'namespaces':
-                        {'fip': 1, 'qdhcp': 1, 'qrouter': 1, 'snat': 1},
-                    'port-health':
-                        {'phy-ports':
-                         {'br-ens3': {
-                             'rx': {'dropped': '131579 (36%)'}}}}}
+        expected = {
+            'config': {
+                'nova': {
+                    'my_ip': '10.0.0.49 (br-ens3)'
+                },
+                'neutron': {
+                    'local_ip': '10.0.0.49 (br-ens3)'
+                },
+                'octavia': {
+                    'o-hm0': 'fc00:2203:1448:17b7:f816:3eff:fe4f:ed8a (o-hm0)'
+                }
+            },
+            'namespaces': {
+                'fip': 1,
+                'qdhcp': 1,
+                'qrouter': 1,
+                'snat': 1
+            },
+            'port-health': {
+                'phy-ports': {
+                    'br-ens3': {
+                        'rx': {
+                            'dropped': '131579 (36%)'
+                        }
+                    }
+                }
+            }
+        }
         inst = network.OpenstackNetworkChecks()
         inst()
         self.assertEqual(inst.output["network"], expected)

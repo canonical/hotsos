@@ -288,6 +288,19 @@ class OpenstackBase(object):
         return interfaces
 
     @property
+    def octavia_bind_interfaces(self):
+        """
+        Fetch interface o-hm0 used by Openstack Octavia. Returned dict is
+        keyed by config key used to identify interface.
+        """
+        interfaces = {}
+        port = self.nethelp.get_interface_with_name('o-hm0')
+        if port:
+            interfaces.update({'o-hm0': port})
+
+        return interfaces
+
+    @property
     def bind_interfaces(self):
         """
         Fetch interfaces used by Openstack services and return dict.

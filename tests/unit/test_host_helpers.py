@@ -11,7 +11,7 @@ class TestHostHelpers(utils.BaseTestCase):
                     'br-tun', 'br-ex', 'br-int', 'br-data', 'lxdbr0',
                     '1lxd0-0@if22', '1lxd1-0@if24', '1lxd2-0@if26',
                     '1lxd3-0@if28', 'tap03c4d61b-60', 'tap0906171f-17',
-                    'bond1', 'br-bond1', 'bond1.4003@bond1']
+                    'bond1', 'br-bond1', 'bond1.4003@bond1', 'o-hm0']
         helper = HostNetworkingHelper()
         ifaces = helper.host_interfaces
         names = [iface.name for iface in ifaces]
@@ -23,11 +23,11 @@ class TestHostHelpers(utils.BaseTestCase):
                     'br-tun', 'br-ex', 'br-int', 'br-data', 'lxdbr0',
                     '1lxd0-0@if22', '1lxd1-0@if24', '1lxd2-0@if26',
                     '1lxd3-0@if28', 'tap03c4d61b-60', 'tap0906171f-17',
-                    'bond1', 'br-bond1', 'bond1.4003@bond1', 'lo',
-                    'fpr-1e086be2-9@if2', 'fg-7450b342-b1', 'lo',
-                    'fpr-1e086be2-9@if2', 'fg-7450b342-b1', 'lo',
-                    'fpr-1e086be2-9@if2', 'fg-7450b342-b1', 'lo',
-                    'fpr-1e086be2-9@if2', 'fg-7450b342-b1']
+                    'bond1', 'br-bond1', 'bond1.4003@bond1', 'o-hm0',
+                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1',
+                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1',
+                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1',
+                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1']
         helper = HostNetworkingHelper()
         ifaces = helper.host_interfaces_all
         names = [iface.name for iface in ifaces]

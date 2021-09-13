@@ -62,3 +62,7 @@ class SOSReportWarning(IssueTypeBase):
 
 class SysCtlWarning(IssueTypeBase):
     pass
+
+
+class OpenstackError(IssueTypeBase):
+    pass
