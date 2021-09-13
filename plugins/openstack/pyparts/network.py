@@ -1,5 +1,9 @@
 import re
 
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import OpenstackChecksBase
 
@@ -68,6 +72,19 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
             config_info['nova'][key] = "{} ({})".format(port.addresses[0],
                                                         port.name)
+
+        for key, port in self.octavia_bind_interfaces.items():
+            if 'octavia' not in config_info:
+                config_info['octavia'] = {}
+
+            if port.addresses:
+                config_info['octavia'][key] = "{} ({})".format(
+                        port.addresses[0], port.name)
+            else:
+                msg = ("No IP address found on Octavia Health manager port "
+                       "({}). Octavia will not be able to communicate with "
+                       "Amphora VMs - please investigate.".format(port.name))
+                issue_utils.add_issue(issue_types.OpenstackError(msg))
 
         if config_info:
             self._output["config"] = config_info

@@ -14,7 +14,7 @@ from core.searchtools import (
 IP_IFACE_NAME = r"^\d+:\s+(\S+):\s+.+state\s+(\S+)"
 IP_IFACE_NAME_TEMPLATE = r"^\d+:\s+({}):\s+.+"
 IP_IFACE_V4_ADDR = r".+(inet) ([\d\.]+)/(\d+) (?:brd \S+ )?scope global (\S+)"
-IP_IFACE_V6_ADDR = r".+(inet6) ([\d\:]+)/(\d+) scope global.*"
+IP_IFACE_V6_ADDR = r".+(inet6) (\S+)/(\d+) scope global (\S+)"
 IP_IFACE_HW_ADDR = r".+(link/ether) (\S+) brd .+"
 IP_IFACE_HW_ADDR_TEMPLATE = r".+(link/ether) {} brd .+"
 IP_IFACE_VXLAN_INFO = r"\s+(vxlan) id (\d+) local (\S+) dev (\S+) .+"
@@ -181,6 +181,11 @@ class HostNetworkingHelper(object):
             for _addr in iface.addresses:
                 if _addr.startswith(addr):
                     return iface
+
+    def get_interface_with_name(self, name):
+        for iface in self.host_interfaces_all:
+            if iface.name == name:
+                return iface
 
     def host_interface_exists(self, name, check_namespaces=True):
         names = [_iface.name for _iface in self.host_interfaces]
