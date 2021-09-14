@@ -20,7 +20,7 @@
 #  - opentastic@gmail.com
 
 PROGRESS_PID=
-DEBUG_MODE=false
+export DEBUG_MODE=false
 MIMIMAL_MODE=false
 
 #================================= ENV =========================================

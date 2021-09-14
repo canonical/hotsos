@@ -8,6 +8,10 @@ class constants_properties(type):
     """
 
     @property
+    def DEBUG_MODE(cls):
+        return cls._DEBUG_MODE()
+
+    @property
     def DATA_ROOT(cls):
         return cls._DATA_ROOT()
 
@@ -58,6 +62,13 @@ class constants(object, metaclass=constants_properties):
             return False
 
         return val
+
+    @classmethod
+    def _DEBUG_MODE(cls):
+        if cls.bool_str(os.environ.get('DEBUG_MODE', 'False')):
+            return True
+        else:
+            return False
 
     @classmethod
     def _DATA_ROOT(cls):
