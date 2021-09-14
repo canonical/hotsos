@@ -172,6 +172,24 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         inst()
         self.assertEqual(inst.output["ceph"]["osds"], expected)
 
+    @mock.patch.object(ceph_daemon_checks, 'KernelChecksBase')
+    @mock.patch.object(ceph_daemon_checks, 'BcacheChecksBase')
+    @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
+    def test_check_bcache_vulnerabilities(self, mock_add_issue, mock_bcb,
+                                          mock_kcb):
+        mock_kcb.return_value = mock.MagicMock()
+        mock_kcb.return_value.version = '5.3'
+        mock_cset = mock.MagicMock()
+        mock_cset.get.return_value = 60
+        mock_bcb.get_sysfs_cachesets.return_value = mock_cset
+        inst = ceph_daemon_checks.CephOSDChecks()
+        with mock.patch.object(inst, 'is_bcache_device') as mock_ibd:
+            mock_ibd.return_value = True
+            with mock.patch.object(inst, 'apt_check') as mock_apt_check:
+                mock_apt_check.get_version.return_value = "15.2.13"
+                inst.check_bcache_vulnerabilities()
+                self.assertTrue(mock_add_issue.called)
+
 
 class TestStoragePluginPartBcache(StorageTestsBase):
 

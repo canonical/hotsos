@@ -204,7 +204,7 @@ class CephOSDChecks(CephChecksBase):
         elif current < DPKGVersionCompare("15.2.13"):
             return
 
-        if KernelChecksBase().kernel_version >= "5.4":
+        if KernelChecksBase().version >= "5.4":
             return
 
         bluefs_buffered_io = self.ceph_config.get('bluefs_buffered_io')
