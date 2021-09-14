@@ -10,7 +10,8 @@ from core.searchtools import (
 )
 
 # compatible with ip addr and ip link
-IP_IFACE_NAME = r"^\d+:\s+(\S+):\s+.+"
+# this one is name and state
+IP_IFACE_NAME = r"^\d+:\s+(\S+):\s+.+state\s+(\S+)"
 IP_IFACE_NAME_TEMPLATE = r"^\d+:\s+({}):\s+.+"
 IP_IFACE_V4_ADDR = r".+(inet) ([\d\.]+)/(\d+) (?:brd \S+ )?scope global (\S+)"
 IP_IFACE_V6_ADDR = r".+(inet6) ([\d\:]+)/(\d+) scope global.*"
@@ -22,24 +23,31 @@ IP_EOF = r"^$"
 
 class NetworkPort(object):
 
-    def __init__(self, name, addresses, hwaddr, encap_info):
+    def __init__(self, name, addresses, hwaddr, state, encap_info):
         self.name = name
         self.addresses = addresses
         self.hwaddr = hwaddr
+        self.state = state
         self.encap_info = encap_info
         self.cli_helper = cli_helpers.CLIHelper()
         self.f_ip_link_show = mktemp_dump(''.join(self.cli_helper.ip_link()))
+        self._counters = None
 
     def __del__(self):
         if os.path.exists(self.f_ip_link_show):
             os.unlink(self.f_ip_link_show)
 
     def to_dict(self):
-        return {self.name: {"addresses": self.addresses,
-                            "hwaddr": self.hwaddr}}
+        return {self.name: {'addresses': self.addresses,
+                            'hwaddr': self.hwaddr,
+                            'state': self.state}}
 
+    @property
     def stats(self):
-        """ Get ip link stats for the interface. """
+        if self._counters:
+            return self._counters
+
+        """ Get ip link info for the interface. """
         s = FileSearcher()
         seqdef = SequenceSearchDef(
                     # match start of interface
@@ -68,16 +76,17 @@ class NetworkPort(object):
                     if ret:
                         for j, column in enumerate(ret):
                             value = int(stats_raw[i + 1].split()[j])
-                            for key in ["packets", "dropped", "errors",
-                                        "overrun"]:
-                                if column == key:
-                                    if rxtx not in counters:
-                                        counters[rxtx] = {}
+                            if column in ['packets', 'dropped', 'errors',
+                                          'overrun']:
+                                if rxtx not in counters:
+                                    counters[rxtx] = {}
 
-                                    counters[rxtx][key] = value
-                                    continue
+                                counters[rxtx][column] = value
 
-        return counters
+        if counters:
+            self._counters = counters
+
+        return self._counters
 
 
 class HostNetworkingHelper(object):
@@ -116,9 +125,11 @@ class HostNetworkingHelper(object):
             encap_info = None
             hwaddr = None
             name = None
+            state = None
             for result in section:
                 if result.tag == self.ip_addr_seq_search.start_tag:
                     name = result.get(1)
+                    state = result.get(2)
                 elif result.tag == self.ip_addr_seq_search.body_tag:
                     if result.get(1) in ['inet', 'inet6']:
                         addrs.append(result.get(2))
@@ -130,7 +141,8 @@ class HostNetworkingHelper(object):
                     else:
                         hwaddr = result.get(2)
 
-            interfaces.append(NetworkPort(name, addrs, hwaddr, encap_info))
+            interfaces.append(NetworkPort(name, addrs, hwaddr, state,
+                                          encap_info))
 
         return interfaces
 

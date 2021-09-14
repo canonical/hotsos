@@ -86,7 +86,8 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
     def test_ceph_base_interfaces(self):
         expected = {'br-ens3': {'addresses': ['10.0.0.49'],
-                                'hwaddr': '52:54:00:e2:28:a3'}}
+                                'hwaddr': '52:54:00:e2:28:a3',
+                                'state': 'UP'}}
         self.assertEqual(storage.CephChecksBase().bind_interfaces, expected)
 
 

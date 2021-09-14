@@ -40,7 +40,8 @@ class TestHostHelpers(utils.BaseTestCase):
 
     def test_get_interface_with_addr_exists(self):
         expected = {'br-ens3': {'addresses': ['10.0.0.49'],
-                                'hwaddr': '52:54:00:e2:28:a3'}}
+                                'hwaddr': '52:54:00:e2:28:a3',
+                                'state': 'UP'}}
         helper = HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.49')
         self.assertEqual(iface.to_dict(), expected)
@@ -55,4 +56,4 @@ class TestHostHelpers(utils.BaseTestCase):
                            'packets': 216802}}
         helper = HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.49')
-        self.assertEqual(iface.stats(), expected)
+        self.assertEqual(iface.stats, expected)

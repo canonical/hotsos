@@ -51,7 +51,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
             config_info['neutron'][key] = "{} ({})".format(port.addresses[0],
                                                            port.name)
-            stats = self._get_port_stat_outliers(port.stats())
+            stats = self._get_port_stat_outliers(port.stats)
             if stats:
                 port_health_info[port.name] = stats
 
@@ -96,7 +96,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         port_health_info = {}
         for guest in instances:
             for port in guest.ports:
-                stats = port.stats()
+                stats = port.stats
                 if stats:
                     outliers = self._get_port_stat_outliers(stats)
                     if not outliers:

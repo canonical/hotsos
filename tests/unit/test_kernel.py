@@ -143,8 +143,8 @@ class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
 
         mock_nh = mock.MagicMock()
         mock_nethelper.return_value = mock_nh
-        p1 = NetworkPort('br-int', None, None, None)
-        p2 = NetworkPort('tap7e105503-64', None, None, None)
+        p1 = NetworkPort('br-int', None, None, None, None)
+        p2 = NetworkPort('tap7e105503-64', None, None, None, None)
         mock_nh.host_interfaces_all = [p1, p2]
 
         expected = {'tap7e105503-64': 1}
