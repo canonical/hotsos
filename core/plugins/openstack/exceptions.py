@@ -594,6 +594,7 @@ NOVA_EXCEPTIONS = [
 #  - https://github.com/openstack/octavia/blob/master/octavia/common/exceptions.py
 #  - https://github.com/openstack/octavia/blob/master/octavia/amphorae/driver_exceptions/exceptions.py
 # sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' octavia/common/exceptions.py
+# sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' octavia/network/base.py
 OCTAVIA_EXCEPTIONS = [
 # common/exceptions.py
     "OctaviaException",
@@ -690,6 +691,25 @@ OCTAVIA_EXCEPTIONS = [
     "NodeProvisioningError",
     "AmpDriverNotImplementedError",
     "AmpConnectionRetry",
+# network/base.py
+    "NetworkException",
+    "PlugVIPException",
+    "UnplugVIPException",
+    "AllocateVIPException",
+    "DeallocateVIPException",
+    "PlugNetworkException",
+    "UnplugNetworkException",
+    "VIPInUseException",
+    "PortNotFound",
+    "NetworkNotFound",
+    "SubnetNotFound",
+    "AmphoraNotFound",
+    "PluggedVIPNotFound",
+    "TimeoutException",
+    "QosPolicyNotFound",
+    "SecurityGroupNotFound",
+    "CreatePortException",
+    "AbstractNetworkDriver",
 ]
 
 # From https://github.com/openstack/manila/blob/master/manila/exception.py
