@@ -11,6 +11,7 @@ from core.issues import (
     issue_utils,
 )
 from core.cli_helpers import CLIHelper
+from core.log import log
 from core.utils import sorted_dict
 from core.known_bugs_utils import (
     add_known_bug,
@@ -264,8 +265,26 @@ class EventChecksBase(ChecksBase):
         if not yaml_defs:
             return
 
+        log.debug("loading event definitions for plugin=%s group=%s",
+                  constants.PLUGIN_NAME, self._yaml_defs_group)
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
         groups = plugin.get(self._yaml_defs_group, {})
+
+        section_names = []
+        event_names = []
+        for name, section in groups.items():
+            if name == "path":
+                continue
+
+            section_names.append(name)
+            for name in section:
+                if name == "path":
+                    continue
+
+                event_names.append(name)
+
+        log.debug("sections=%s, events=%s",
+                  len(section_names), len(event_names))
         global_datasource = None
         for section_name, section in groups.items():
             if section_name == 'path':

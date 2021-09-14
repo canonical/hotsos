@@ -3,6 +3,7 @@ import importlib
 import yaml
 
 from core import constants
+from core.log import log
 
 
 class HOTSOSDumper(yaml.Dumper):
@@ -181,6 +182,9 @@ class PluginRunner(object):
         plugins = yaml_defs.get("plugins", {})
         plugin = plugins.get(constants.PLUGIN_NAME, {})
         parts = plugin.get("parts", {})
+        if not parts:
+            log.debug("plugin %s has no parts to run", constants.PLUGIN_NAME)
+
         for part in parts:
             # update current env to reflect actual part being run
             os.environ['PART_NAME'] = part
@@ -200,8 +204,12 @@ class PluginRunner(object):
                 inst = obj()
                 # Only run plugin if it delares itself runnable.
                 if not inst.plugin_runnable:
+                    log.debug("plugin=%s, part=%s not runnable - skipping",
+                              constants.PLUGIN_NAME, part)
                     continue
 
+                log.debug("running plugin=%s, part=%s",
+                          constants.PLUGIN_NAME, part)
                 inst()
                 if hasattr(inst, "output"):
                     out = inst.output

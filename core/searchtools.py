@@ -7,6 +7,7 @@ import multiprocessing
 import re
 import uuid
 
+from core.log import log
 from core import constants
 
 
@@ -528,9 +529,11 @@ class FileSearcher(object):
         @return: search results
         """
         self.results.reset()
+        log.debug("creating filesearcher with max=%d processes", self.num_cpus)
         with multiprocessing.Pool(processes=self.num_cpus) as pool:
             jobs = {}
             for user_path in self.paths:
+                log.debug("path=%s", user_path)
                 jobs[user_path] = []
                 if os.path.isfile(user_path):
                     job = self._job_wrapper(pool, user_path, user_path)
@@ -544,6 +547,10 @@ class FileSearcher(object):
                         job = self._job_wrapper(pool, user_path, path)
                         jobs[user_path].append((path, job))
 
+            total_paths = sum([len(jobs[p]) for p in jobs])
+            total_searches = sum([len(jobs[p]) * len(self.paths[p])
+                                  for p in jobs])
+            log.debug("files=%s searches=%s", total_paths, total_searches)
             for user_path in jobs:
                 for fpath, job in jobs[user_path]:
                     try:
