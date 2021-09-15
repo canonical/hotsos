@@ -1,7 +1,7 @@
-from core import checks
+from core.plugins.juju import JujuBugChecksBase
 
 
-class JujuBugChecks(checks.BugChecksBase):
+class JujuBugChecks(JujuBugChecksBase):
 
     def __init__(self):
         """ see defs/bugs.yaml """

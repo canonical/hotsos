@@ -112,4 +112,8 @@ class SystemBase(plugintools.PluginPartBase):
 
 
 class SystemChecksBase(SystemBase, plugintools.PluginPartBase):
-    pass
+
+    @property
+    def plugin_runnable(self):
+        # Always run
+        return True

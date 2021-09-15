@@ -21,7 +21,7 @@ SERVICES = ["etcdctl",
             ]
 
 # Snaps that only exist in a K8s deployment
-SNAPS_K8S = [r'charm[\S]+',
+K8S_SNAPS = [r'charm[\S]+',
              r'conjure-up',
              r'cdk-addons',
              r'helm',
@@ -33,12 +33,12 @@ SNAPS_K8S = [r'charm[\S]+',
              r'kubefed',
              ]
 # Snaps that are used in a K8s deployment
-SNAPS_DEPS = [r'core[0-9]*',
-              r'docker',
-              r'go',
-              r'vault',
-              r'etcd',
-              ]
+K8S_DEP_SNAPS = [r'core[0-9]*',
+                 r'docker',
+                 r'go',
+                 r'vault',
+                 r'etcd',
+                 ]
 
 
 class KubernetesBase(object):
@@ -94,4 +94,16 @@ class KubernetesBase(object):
 
 class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase,
                            checks.ServiceChecksBase):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        deps = K8S_DEP_SNAPS
+        self.snap_check = checks.SnapPackageChecksBase(core_snaps=K8S_SNAPS,
+                                                       other_snaps=deps)
+
+    @property
+    def plugin_runnable(self):
+        if self.snap_check.core:
+            return True
+
+        return False

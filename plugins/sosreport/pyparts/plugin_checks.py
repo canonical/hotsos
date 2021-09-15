@@ -22,6 +22,11 @@ class SOSReportPluginChecks(plugintools.PluginPartBase):
         super().__init__()
         self.searcher = FileSearcher()
 
+    @property
+    def plugin_runnable(self):
+        # Always run
+        return True
+
     def check_plugin_timeouts(self):
         if not os.path.exists(os.path.join(constants.DATA_ROOT, 'sos_logs')):
             return

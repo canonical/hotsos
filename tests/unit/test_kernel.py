@@ -27,6 +27,7 @@ class TestKernelPluginPartKernelInfo(TestKernelBase):
         expected = {'boot': 'ro',
                     'systemd': {'CPUAffinity': '0-7,32-39'},
                     'version': '5.4.0-80-generic'}
+        self.assertTrue(inst.plugin_runnable)
         self.assertEqual(inst.output, expected)
 
 
@@ -42,6 +43,7 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
         ret = inst.get_node_zones("DMA32", 0)
         expected = ("Node 0, zone DMA32 2900 1994 2422 4791 3090 1788 886 290 "
                     "21 0 0")
+        self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)
 
     def test_check_mallocinfo_good_node(self):
@@ -131,6 +133,7 @@ class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
         self.assertEqual(types[issue_types.KernelError], 1)
         self.assertEqual(types[issue_types.MemoryWarning], 1)
         self.assertEqual(types[issue_types.NetworkWarning], 2)
+        self.assertTrue(inst.plugin_runnable)
         self.assertEqual(inst.output, expected)
 
     @mock.patch.object(log_event_checks, 'CLIHelper')
@@ -157,4 +160,5 @@ class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
 
         event = {'results': [mock_result1, mock_result2]}
         ret = inst.over_mtu_dropped_packets(event)
+        self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)

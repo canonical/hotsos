@@ -1,27 +1,12 @@
-from core import (
-    checks,
-    plugintools,
-)
-from core.plugins.kubernetes import (
-    KubernetesChecksBase,
-    SNAPS_DEPS,
-    SNAPS_K8S,
-)
+from core.plugins.kubernetes import KubernetesChecksBase
 
 YAML_PRIORITY = 0
 
 
-class KubernetesPackageChecks(plugintools.PluginPartBase,
-                              checks.SnapPackageChecksBase):
-
-    def __init__(self):
-        super().__init__(core_snaps=SNAPS_K8S, other_snaps=SNAPS_DEPS)
+class KubernetesPackageChecks(KubernetesChecksBase):
 
     def __call__(self):
-        # require at least one core package to be installed to include
-        # this in the report.
-        if self.core:
-            self._output["snaps"] = self.all_formatted
+        self._output["snaps"] = self.snap_check.all_formatted
 
 
 class KubernetesServiceChecks(KubernetesChecksBase):
@@ -40,5 +25,5 @@ class KubernetesResourceChecks(KubernetesChecksBase):
         if self.pods:
             self._output['pods'] = self.pods
 
-        if self.pods:
+        if self.containers:
             self._output['containers'] = self.containers

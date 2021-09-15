@@ -185,7 +185,8 @@ class TestRabbitmqServices(TestRabbitmqBase):
     def test_get_package_info(self):
         inst = services.RabbitMQPackageChecks()
         inst()
-        self.assertEqual(inst.output, None)
+        self.assertFalse(inst.plugin_runnable)
+        self.assertEqual(inst.output, {'dpkg': []})
 
 
 class TestRabbitmqClusterChecks(TestRabbitmqBase):

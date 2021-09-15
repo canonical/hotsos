@@ -142,6 +142,14 @@ class PluginPartBase(ApplicationBase):
         self._output = {}
 
     @property
+    def plugin_runnable(self):
+        """
+        Must be implemented by all plugins to define at runtime whether they
+        should run.
+        """
+        raise NotImplementedError
+
+    @property
     def output(self):
         if self._output:
             return self._output
@@ -188,29 +196,12 @@ class PluginRunner(object):
 
             part_out = {}
             for entry in parts[part] or []:
-                if type(parts[part]) == list:
-                    obj = getattr(mod, entry)
-                    inst = obj()
-                    inst()
-                else:
-                    cls_name = entry
-                    cls = getattr(mod, cls_name)
-                    inst = cls()
-
-                    methods = parts[part][cls_name].get("methods", [])
-                    # Only call __class__ of methods are NOT explicitly
-                    # defined.
-                    if not methods:
-                        if hasattr(inst, "__call__"):
-                            inst()
-                        else:
-                            raise Exception("expected to find a __call__ "
-                                            "method in class {} but did not "
-                                            "find one".format(cls_name))
-                    else:
-                        for method_name in methods:
-                            method = getattr(inst, method_name)
-                            method()
+                obj = getattr(mod, entry)
+                inst = obj()
+                inst()
+                # Only run plugin if it delares itself runnable.
+                if not inst.plugin_runnable:
+                    continue
 
                 if hasattr(inst, "output"):
                     out = inst.output

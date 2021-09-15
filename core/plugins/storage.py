@@ -332,13 +332,26 @@ class CephChecksBase(CephBase, plugintools.PluginPartBase,
         super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
 
     @property
+    def plugin_runnable(self):
+        if self.apt_check.core:
+            return True
+
+        return False
+
+    @property
     def output(self):
         if self._output:
             return {"ceph": self._output}
 
 
 class CephEventChecksBase(CephBase, checks.EventChecksBase):
-    pass
+
+    @property
+    def plugin_runnable(self):
+        if self.apt_check.core:
+            return True
+
+        return False
 
 
 class BcacheBase(StorageBase):
@@ -364,6 +377,11 @@ class BcacheBase(StorageBase):
 
 
 class BcacheChecksBase(BcacheBase, plugintools.PluginPartBase):
+
+    @property
+    def plugin_runnable(self):
+        # TODO: define whether this plugin should run or not.
+        return True
 
     @property
     def output(self):

@@ -200,8 +200,16 @@ class KernelBase(object):
 
 
 class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
-    pass
+
+    @property
+    def plugin_runnable(self):
+        # Always run
+        return True
 
 
 class KernelEventChecksBase(KernelBase, checks.EventChecksBase):
-    pass
+
+    @property
+    def plugin_runnable(self):
+        # Always run
+        return True

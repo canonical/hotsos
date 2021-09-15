@@ -7,6 +7,7 @@ import tempfile
 import utils
 
 from core import checks, constants, cli_helpers
+from core.plugins import kubernetes as kubernetes_core
 from plugins.kubernetes.pyparts import (
     general,
     network,
@@ -49,9 +50,9 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         filterered_snaps = []
         for line in self.snaps_list:
             found = False
-            for snap in general.SNAPS_K8S:
+            for snap in kubernetes_core.K8S_SNAPS:
                 obj = general.KubernetesPackageChecks()
-                if obj._get_snap_info_from_line(line, snap):
+                if obj.snap_check._get_snap_info_from_line(line, snap):
                     found = True
                     break
 
@@ -61,7 +62,8 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         mock_helper.return_value.snap_list_all.return_value = filterered_snaps
         inst = general.KubernetesPackageChecks()
         inst()
-        self.assertEqual(inst.output, None)
+        self.assertFalse(inst.plugin_runnable)
+        self.assertEqual(inst.output, {'snaps': []})
 
 
 class TestKubernetesPluginPartNetwork(utils.BaseTestCase):

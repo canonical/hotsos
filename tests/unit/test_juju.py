@@ -24,6 +24,7 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
                     'version': '2.9.8'}
         inst = machines.JujuMachineChecks()
         inst.get_machine_info()
+        self.assertTrue(inst.plugin_runnable)
         self.assertEquals(inst.output, expected)
 
     @mock.patch.object(machines, 'CLIHelper')
@@ -40,6 +41,7 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
             mock_machine.id = '0-lxd-11'
             mock_machine.version = '2.9.9'
             inst = machines.JujuMachineChecks()
+            self.assertTrue(inst.plugin_runnable)
             inst.get_machine_info()
 
         self.assertEquals(inst.output, expected)
@@ -52,6 +54,7 @@ class TestJujuPluginPartCharms(utils.BaseTestCase):
                                'nova-compute-564']}
         inst = charms.JujuCharmChecks()
         inst()
+        self.assertTrue(inst.plugin_runnable)
         self.assertEquals(inst.output, expected)
 
 
@@ -62,6 +65,7 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
                               'nova-compute-0']}
         inst = units.JujuUnitChecks()
         inst()
+        self.assertTrue(inst.plugin_runnable)
         self.assertEquals(inst.output, {"units": expected})
 
 

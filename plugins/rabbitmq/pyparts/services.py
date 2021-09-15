@@ -1,9 +1,5 @@
 import os
 
-from core import (
-    checks,
-    plugintools,
-)
 from core.issues import (
     issue_types,
     issue_utils,
@@ -15,25 +11,15 @@ from core.searchtools import (
     FileSearcher,
 )
 from core.utils import mktemp_dump, sorted_dict
-from core.plugins.rabbitmq import (
-    RabbitMQChecksBase,
-    RMQ_PACKAGES,
-)
+from core.plugins.rabbitmq import RabbitMQChecksBase
 
 YAML_PRIORITY = 0
 
 
-class RabbitMQPackageChecks(plugintools.PluginPartBase,
-                            checks.APTPackageChecksBase):
-
-    def __init__(self):
-        super().__init__(core_pkgs=RMQ_PACKAGES)
+class RabbitMQPackageChecks(RabbitMQChecksBase):
 
     def __call__(self):
-        # require at least one core package to be installed to include
-        # this in the report.
-        if self.core:
-            self._output["dpkg"] = self.all_formatted
+        self._output["dpkg"] = self.apt_check.all_formatted
 
 
 class RabbitMQServiceChecks(RabbitMQChecksBase):

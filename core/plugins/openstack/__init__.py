@@ -372,14 +372,19 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
         return False
 
+    @property
+    def plugin_runnable(self):
+        return self.openstack_installed
+
 
 class OpenstackEventChecksBase(OpenstackBase, checks.EventChecksBase):
 
-    def __call__(self):
-        if not self.apt_check.core:
-            return
+    @property
+    def plugin_runnable(self):
+        if self.apt_check.core:
+            return True
 
-        super().__call__()
+        return False
 
 
 class OpenstackServiceChecksBase(OpenstackChecksBase,

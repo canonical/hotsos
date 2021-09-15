@@ -1,15 +1,7 @@
 # This is the Python plugin engine. Each plugin is specified with a set of
 # parts to be run along with the constituents of the part which must be a list
-# of executable items. Items can one of:
-#
-#   * a function that returns a class instance (useful if the class needs to be
-#     initialised with data found in code).
-#
-#   * a callable class i.e. one that has a __call__ method.
-#
-#   * a dictionary with callable class name as key and subkey "methods" to list
-#     all methods that we want to call. This is useful if we want to be
-#     explicit about which methods to call.
+# of executable items. Items must be callable classes i.e. one that have a
+# __call__ method.
 #
 plugins:
   juju:
