@@ -18,3 +18,15 @@ class OpenvSwitchPackageChecks(OpenvSwitchChecksBase):
 
     def __call__(self):
         self._output['dpkg'] = self.apt_check.all_formatted
+
+
+class OpenvSwitchConfigChecks(OpenvSwitchChecksBase):
+
+    @property
+    def output(self):
+        if self._output:
+            return {'config': self._output}
+
+    def __call__(self):
+        if self.offload_enabled:
+            self._output['offload'] = 'enabled'

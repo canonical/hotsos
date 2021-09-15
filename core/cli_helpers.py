@@ -389,6 +389,11 @@ class CLIHelper(object):
                 [BinCmd('ip netns exec {namespace} ip address show'),
                  FileCmd('sos_commands/networking/'
                          'ip_netns_exec_{namespace}_ip_address_show')],
+            'ovs_vsctl_get_Open_vSwitch_other_config':
+                [BinCmd('ovs-vsctl get Open_vSwitch . other_config',
+                        singleline=True),
+                 FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
+                         'Open_vSwitch_._other_config', singleline=True)],
             'ovs_appctl_dpctl_show':
                 [BinCmd('ovs-appctl dpctl/show -s {datapath}'),
                  OVSDPCTLFileCmd('sos_commands/openvswitch/'

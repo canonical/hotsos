@@ -1,5 +1,6 @@
 from core import plugintools
 from core import checks
+from core.cli_helpers import CLIHelper
 
 OVS_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
                       r"ovs-vswitch[a-zA-Z-]*",
@@ -16,7 +17,21 @@ for pkg in OVS_PKGS_CORE:
 
 
 class OpenvSwitchBase(object):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cli = CLIHelper()
+
+    @property
+    def offload_enabled(self):
+        other_config = self.cli.ovs_vsctl_get_Open_vSwitch_other_config()
+        if not other_config:
+            return False
+
+        if 'hw-offload="true"' in other_config:
+            return True
+
+        return False
 
 
 class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):

@@ -48,6 +48,7 @@ plugins:
         - OpenvSwitchDaemonChecks
         - OpenvSwitchDPChecks
       ovs_resources:
+        - OpenvSwitchConfigChecks
         - OpenvSwitchPackageChecks
         - OpenvSwitchServiceChecks
   system:

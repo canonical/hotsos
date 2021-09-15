@@ -1,5 +1,10 @@
 import os
+
+import mock
+
 import utils
+
+from core.plugins import openvswitch
 
 from plugins.openvswitch.pyparts import (
     ovs_checks,
@@ -12,6 +17,21 @@ class TestOpenvswitchBase(utils.BaseTestCase):
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         os.environ["PLUGIN_NAME"] = "openvswitch"
+
+
+class TestCoreOpenvSwitch(TestOpenvswitchBase):
+
+    def testBase_offload_disabled(self):
+        enabled = openvswitch.OpenvSwitchBase().offload_enabled
+        self.assertFalse(enabled)
+
+    def testBase_offload_enabled(self):
+        with mock.patch.object(openvswitch, 'CLIHelper') as mock_cli:
+            mock_cli.return_value = mock.MagicMock()
+            f = mock_cli.return_value.ovs_vsctl_get_Open_vSwitch_other_config
+            f.return_value = '{hw-offload="true", max-idle="30000"}'
+            enabled = openvswitch.OpenvSwitchBase().offload_enabled
+            self.assertTrue(enabled)
 
 
 class TestOpenvswitchPluginPartOpenvswitchServices(TestOpenvswitchBase):
