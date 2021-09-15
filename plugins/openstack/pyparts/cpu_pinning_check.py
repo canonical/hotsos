@@ -312,7 +312,7 @@ class CPUPinningChecker(OpenstackChecksBase):
 
             msg = ("{} has cores from > 1 numa node".
                    format(self.cpu_dedicated_set_name))
-            self.results.add_warning(msg, extra)
+            self.results.add_warn(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
             issue_utils.add_issue(issue)
 
