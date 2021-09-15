@@ -198,11 +198,11 @@ class PluginRunner(object):
             for entry in parts[part] or []:
                 obj = getattr(mod, entry)
                 inst = obj()
-                inst()
                 # Only run plugin if it delares itself runnable.
                 if not inst.plugin_runnable:
                     continue
 
+                inst()
                 if hasattr(inst, "output"):
                     out = inst.output
                     if out:
