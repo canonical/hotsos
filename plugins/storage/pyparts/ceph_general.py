@@ -1,5 +1,5 @@
 from core.checks import APTPackageChecksBase
-from core.plugins.storage import (
+from core.plugins.storage.ceph import (
     CephChecksBase,
     CEPH_PKGS_CORE,
     CEPH_PKGS_OTHER,
@@ -33,4 +33,5 @@ class CephServiceChecks(CephChecksBase):
             self._output["services"] = self.get_service_info_str()
 
     def __call__(self):
+        self._output['release'] = self.release_name
         self.get_running_services_info()

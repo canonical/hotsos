@@ -327,6 +327,9 @@ class CLIHelper(object):
             'apt_config_dump':
                 [BinCmd('apt-config dump'),
                  FileCmd('sos_commands/apt/apt-config_dump')],
+            'ceph_osd_dump':
+                [BinCmd('ceph osd dump'),
+                 FileCmd('sos_commands/ceph/ceph_osd_dump')],
             'ceph_osd_df_tree':
                 [BinCmd('ceph osd df tree'),
                  FileCmd('sos_commands/ceph/ceph_osd_df_tree')],

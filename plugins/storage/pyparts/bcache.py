@@ -6,7 +6,7 @@ from core.issues import (
     issue_types,
     issue_utils,
 )
-from core.plugins.storage import BcacheChecksBase
+from core.plugins.storage.bcache import BcacheChecksBase
 
 YAML_PRIORITY = 3
 # The real limit is 30 but we go just above in case bcache is flapping

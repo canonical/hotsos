@@ -7,9 +7,11 @@ from core.issues import (
     issue_utils,
 )
 from core.utils import sorted_dict
-from core.plugins.storage import CephChecksBase
+from core.plugins.storage import (
+    bcache,
+    ceph,
+)
 from core.plugins.kernel import KernelChecksBase
-from core.plugins.storage import BcacheChecksBase
 
 YAML_PRIORITY = 1
 LP1936136_BCACHE_CACHE_LIMIT = 70
@@ -17,7 +19,7 @@ OSD_PG_MAX_LIMIT = 500
 OSD_PG_OPTIMAL_NUM = 200
 
 
-class CephOSDChecks(CephChecksBase):
+class CephOSDChecks(ceph.CephChecksBase):
 
     def __init__(self):
         super().__init__()
@@ -184,7 +186,7 @@ class CephOSDChecks(CephChecksBase):
         if not has_bcache:
             return
 
-        for cset in BcacheChecksBase().get_sysfs_cachesets():
+        for cset in bcache.BcacheChecksBase().get_sysfs_cachesets():
             if (cset.get("cache_available_percent") >=
                     LP1936136_BCACHE_CACHE_LIMIT):
                 return

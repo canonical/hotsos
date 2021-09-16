@@ -2,7 +2,7 @@ import re
 
 from core.issues import issue_types, issue_utils
 from core.checks import CallbackHelper
-from core.plugins.storage import CephEventChecksBase
+from core.plugins.storage.ceph import CephEventChecksBase
 
 YAML_PRIORITY = 2
 EVENTCALLBACKS = CallbackHelper()

@@ -1,7 +1,11 @@
-2021-08-03T10:31:48.457+0000 7fbeb7e2a700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:48.457+0000 7fbeb7e2a700 -1 AuthRegistry(0x7fbeb00590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:48.473+0000 7fbeb7e2a700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:48.473+0000 7fbeb7e2a700 -1 AuthRegistry(0x7fbeb005b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:48.477+0000 7fbeb7e2a700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:48.477+0000 7fbeb7e2a700 -1 AuthRegistry(0x7fbeb7e29130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+--- RAW STORAGE ---
+CLASS  SIZE     AVAIL    USED    RAW USED  %RAW USED
+ssd    300 GiB  283 GiB  14 GiB    17 GiB       5.64
+TOTAL  300 GiB  283 GiB  14 GiB    17 GiB       5.64
+ 
+--- POOLS ---
+POOL                   ID  PGS  STORED   (DATA)   (OMAP)   OBJECTS  USED     (DATA)   (OMAP)   %USED  MAX AVAIL  QUOTA OBJECTS  QUOTA BYTES  DIRTY  USED COMPR  UNDER COMPR
+device_health_metrics   1    1      0 B      0 B      0 B        0      0 B      0 B      0 B      0     89 GiB  N/A            N/A              0         0 B          0 B
+glance                  2   16  886 MiB  886 MiB  1.3 KiB      122  2.6 GiB  2.6 GiB  4.0 KiB   0.96     89 GiB  N/A            N/A            122         0 B          0 B
+nova                    3   32  3.8 GiB  3.8 GiB  1.7 MiB    1.05k   11 GiB   11 GiB  5.2 MiB   4.05     89 GiB  N/A            N/A          1.05k         0 B          0 B
+cinder-ceph             4   32      0 B      0 B      0 B        0      0 B      0 B      0 B      0     89 GiB  N/A            N/A              0         0 B          0 B

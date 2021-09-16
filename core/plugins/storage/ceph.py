@@ -1,4 +1,3 @@
-import glob
 import os
 import re
 
@@ -6,11 +5,11 @@ from core import (
     checks,
     constants,
     host_helpers,
-    plugintools,
     utils,
 )
 from core.cli_helpers import get_ps_axo_flags_available
 from core.cli_helpers import CLIHelper
+from core.plugins.storage import StorageBase
 from core.searchtools import (
     FileSearcher,
     SequenceSearchDef,
@@ -32,11 +31,16 @@ for pkg in CEPH_PKGS_CORE:
 
 CEPH_LOGS = "var/log/ceph/"
 
-
-class StorageBase(plugintools.PluginPartBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+CEPH_REL_INFO = {
+    'ceph-common': {
+        'pacific': '16.0',
+        'octopus': '15.0',
+        'nautilus': '14.0',
+        'mimic': '13.0',
+        'luminous': '12.0',
+        'kraken': '11.0',
+        'jewel': '10.0'},
+    }
 
 
 class CephConfig(checks.SectionalConfigBase):
@@ -158,28 +162,55 @@ class CephBase(StorageBase):
         self.ceph_config = CephConfig()
         self._bcache_info = []
         self._osds = {}
-        self.cli = CLIHelper()
-        udevadm_db = self.cli.udevadm_info_exportdb()
-        self.udevadm_db = None
-        if udevadm_db:
-            self.udevadm_db = utils.mktemp_dump('\n'.join(udevadm_db))
-
-        ceph_volume_lvm_list = self.cli.ceph_volume_lvm_list()
-        self.f_ceph_volume_lvm_list = None
-        if ceph_volume_lvm_list:
-            self.f_ceph_volume_lvm_list = mktemp_dump('\n'.
-                                                      join(
-                                                        ceph_volume_lvm_list))
         self.apt_check = checks.APTPackageChecksBase(
                                                 core_pkgs=CEPH_PKGS_CORE,
                                                 other_pkgs=CEPH_PKGS_OTHER)
+        self.cli = CLIHelper()
+
+        # store the following in files to make them easier to search
+        out = self.cli.udevadm_info_exportdb()
+        if out:
+            self.udevadm_db = utils.mktemp_dump('\n'.join(out))
+        else:
+            self.udevadm_db = None
+
+        out = self.cli.ceph_osd_dump()
+        if out:
+            self.ceph_osd_dump = utils.mktemp_dump('\n'.join(out))
+        else:
+            self.ceph_osd_dump = None
+
+        out = self.cli.ceph_volume_lvm_list()
+        if out:
+            self.f_ceph_volume_lvm_list = mktemp_dump('\n'.join(out))
+        else:
+            self.f_ceph_volume_lvm_list = None
 
     def __del__(self):
+        if self.ceph_osd_dump:
+            os.unlink(self.ceph_osd_dump)
+
         if self.udevadm_db:
             os.unlink(self.udevadm_db)
 
         if self.f_ceph_volume_lvm_list:
             os.unlink(self.f_ceph_volume_lvm_list)
+
+    @property
+    def release_name(self):
+        relname = 'unknown'
+
+        # First try from package version (TODO: add more)
+        pkg = 'ceph-common'
+        if pkg in self.apt_check.core:
+            for rel, ver in sorted(CEPH_REL_INFO[pkg].items(),
+                                   key=lambda i: i[1], reverse=True):
+                if self.apt_check.core[pkg] > \
+                        checks.DPKGVersionCompare(ver):
+                    relname = rel
+                    break
+
+        return relname
 
     @property
     def bind_interfaces(self):
@@ -325,8 +356,7 @@ class CephBase(StorageBase):
         return False
 
 
-class CephChecksBase(CephBase, plugintools.PluginPartBase,
-                     checks.ServiceChecksBase):
+class CephChecksBase(CephBase, checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
@@ -352,38 +382,3 @@ class CephEventChecksBase(CephBase, checks.EventChecksBase):
             return True
 
         return False
-
-
-class BcacheBase(StorageBase):
-
-    def get_sysfs_cachesets(self):
-        cachesets = []
-        path = os.path.join(constants.DATA_ROOT, "sys/fs/bcache/*")
-        for entry in glob.glob(path):
-            if os.path.exists(os.path.join(entry, "cache_available_percent")):
-                cachesets.append({"path": entry,
-                                  "uuid": os.path.basename(entry)})
-
-        for cset in cachesets:
-            path = os.path.join(cset['path'], "cache_available_percent")
-            with open(path) as fd:
-                value = fd.read().strip()
-                cset["cache_available_percent"] = int(value)
-
-            # dont include in final output
-            del cset["path"]
-
-        return cachesets
-
-
-class BcacheChecksBase(BcacheBase, plugintools.PluginPartBase):
-
-    @property
-    def plugin_runnable(self):
-        # TODO: define whether this plugin should run or not.
-        return True
-
-    @property
-    def output(self):
-        if self._output:
-            return {"bcache": self._output}

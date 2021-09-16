@@ -7,7 +7,10 @@ import utils
 
 from core import checks
 from core.issues import issue_types
-from core.plugins import storage
+from core.plugins.storage import (
+    bcache as bcache_core,
+    ceph as ceph_core,
+)
 from plugins.storage.pyparts import (
     bcache,
     ceph_daemon_checks,
@@ -33,8 +36,12 @@ class StorageTestsBase(utils.BaseTestCase):
 
 class TestStorageCephBase(StorageTestsBase):
 
+    def test_release_name(self):
+        release_name = ceph_core.CephBase().release_name
+        self.assertEqual(release_name, 'octopus')
+
     def test_bluestore_enabled(self):
-        enabled = storage.CephBase().bluestore_enabled
+        enabled = ceph_core.CephBase().bluestore_enabled
         self.assertTrue(enabled)
 
     def test_bluestore_not_enabled(self):
@@ -45,25 +52,33 @@ class TestStorageCephBase(StorageTestsBase):
                 fd.write(CEPH_CONF_NO_BLUESTORE)
 
             os.environ['DATA_ROOT'] = dtmp
-            enabled = storage.CephBase().bluestore_enabled
+            enabled = ceph_core.CephBase().bluestore_enabled
             self.assertFalse(enabled)
 
 
 class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
     def test_get_service_info(self):
-        result = ['ceph-crash (1)', 'ceph-osd (1)']
+        expected = {'ceph': {
+                        'services': [
+                            'ceph-crash (1)', 'ceph-osd (1)'],
+                        'release': 'octopus',
+                    }}
         inst = ceph_general.CephServiceChecks()
         inst()
-        self.assertEqual(inst.output["ceph"]["services"], result)
+        self.assertEqual(inst.output, expected)
 
     @mock.patch.object(checks, 'CLIHelper')
     def test_get_service_info_unavailable(self, mock_helper):
+        expected = {'ceph': {
+                        'release': 'unknown',
+                    }}
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
+        mock_helper.return_value.dpkg_l.return_value = []
         inst = ceph_general.CephServiceChecks()
         inst()
-        self.assertIsNone(inst.output)
+        self.assertEqual(inst.output, expected)
 
     def test_get_package_info(self):
         inst = ceph_general.CephPackageChecks()
@@ -88,29 +103,25 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
         expected = {'br-ens3': {'addresses': ['10.0.0.49'],
                                 'hwaddr': '52:54:00:e2:28:a3',
                                 'state': 'UP'}}
-        self.assertEqual(storage.CephChecksBase().bind_interfaces, expected)
+        self.assertEqual(ceph_core.CephChecksBase().bind_interfaces, expected)
 
 
 class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
 
-    @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
-    def test_get_crushmap_mixed_buckets(self, mock_add_issue):
+    def test_get_crushmap_mixed_buckets(self):
         inst = ceph_daemon_checks.CephOSDChecks()
         inst()
-        result = ['default', 'default~ssd']
-        self.assertEqual(inst.output["ceph"]["mixed_crush_buckets"], result)
-        self.assertTrue(mock_add_issue.called)
+        self.assertFalse('mixed_crush_buckets' in inst.output['ceph'])
 
     def test_get_ceph_versions_mismatch(self):
-        result = {'mgr': ['14.2.11'],
-                  'mon': ['14.2.11'],
-                  'osd': ['14.2.11'],
-                  'rgw': ['14.2.11']}
+        result = {'mgr': ['15.2.13'],
+                  'mon': ['15.2.13'],
+                  'osd': ['15.2.13']}
         inst = ceph_daemon_checks.CephOSDChecks()
         inst.get_ceph_versions_mismatch()
         self.assertEqual(inst.output["ceph"]["versions"], result)
 
-    @mock.patch.object(storage, 'CLIHelper')
+    @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_versions_mismatch_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = []
@@ -154,7 +165,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         inst()
         self.assertEqual([osd.id for osd in inst.osds], [0])
 
-    @mock.patch.object(storage, 'CLIHelper')
+    @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_df_tree.return_value = []
@@ -166,6 +177,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         fsid = "51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea"
         expected = {0: {
                     'dev': '/dev/mapper/crypt-{}'.format(fsid),
+                    'devtype': 'ssd',
                     'fsid': fsid,
                     'rss': '639M'}}
         inst = ceph_daemon_checks.CephOSDChecks()
@@ -173,7 +185,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         self.assertEqual(inst.output["ceph"]["osds"], expected)
 
     @mock.patch.object(ceph_daemon_checks, 'KernelChecksBase')
-    @mock.patch.object(ceph_daemon_checks, 'BcacheChecksBase')
+    @mock.patch.object(ceph_daemon_checks.bcache, 'BcacheChecksBase')
     @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_check_bcache_vulnerabilities(self, mock_add_issue, mock_bcb,
                                           mock_kcb):
@@ -227,7 +239,7 @@ class TestStoragePluginPartBcache(StorageTestsBase):
                         }
                     }
         with tempfile.TemporaryDirectory() as dtmp:
-            with mock.patch.object(bcache.BcacheChecksBase,
+            with mock.patch.object(bcache_core.BcacheChecksBase,
                                    "get_sysfs_cachesets",
                                    lambda *args: [
                                        {"uuid": "123",

@@ -1,7 +1,25 @@
-2021-08-03T10:31:39.645+0000 7f1d9c43e700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:39.645+0000 7f1d9c43e700 -1 AuthRegistry(0x7f1d940590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:39.665+0000 7f1d9c43e700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:39.665+0000 7f1d9c43e700 -1 AuthRegistry(0x7f1d9405b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:39.693+0000 7f1d9c43e700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:39.693+0000 7f1d9c43e700 -1 AuthRegistry(0x7f1d9c43d130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+epoch 659
+fsid d7174a2e-f3d5-11eb-8bfa-9ff391569dab
+created 2021-08-02T21:08:54.986615+0000
+modified 2021-09-16T21:25:17.615002+0000
+flags sortbitwise,recovery_deletes,purged_snapdirs,pglog_hardlimit
+crush_version 20
+full_ratio 0.95
+backfillfull_ratio 0.9
+nearfull_ratio 0.85
+require_min_compat_client jewel
+min_compat_client jewel
+require_osd_release octopus
+pool 1 'device_health_metrics' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 1 pgp_num 1 autoscale_mode on last_change 648 flags hashpspool stripe_width 0 pg_num_min 1 application mgr_devicehealth
+pool 2 'glance' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 16 pgp_num 16 autoscale_mode on last_change 582 lfor 0/576/574 flags hashpspool,selfmanaged_snaps stripe_width 0 pg_num_min 4 target_size_ratio 0.05 application rbd
+pool 3 'nova' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode on last_change 584 flags hashpspool,selfmanaged_snaps stripe_width 0 pg_num_min 32 target_size_ratio 0.3 application rbd
+pool 4 'cinder-ceph' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode on last_change 86 flags hashpspool stripe_width 0 pg_num_min 32 target_size_ratio 0.4 application rbd
+max_osd 3
+osd.0 up   in  weight 1 up_from 651 up_thru 658 down_at 650 last_clean_interval [635,645) [v2:10.0.0.49:6800/33943,v1:10.0.0.49:6801/33943] [v2:10.0.0.49:6802/33943,v1:10.0.0.49:6803/33943] exists,up 51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+osd.1 up   in  weight 1 up_from 658 up_thru 658 down_at 652 last_clean_interval [638,645) [v2:10.0.0.48:6800/24136,v1:10.0.0.48:6801/24136] [v2:10.0.0.48:6802/24136,v1:10.0.0.48:6803/24136] exists,up 625f0760-586e-4032-bd89-c7fc5080ed05
+osd.2 up   in  weight 1 up_from 655 up_thru 658 down_at 652 last_clean_interval [631,645) [v2:10.0.0.50:6800/31448,v1:10.0.0.50:6801/31448] [v2:10.0.0.50:6802/31448,v1:10.0.0.50:6803/31448] exists,up c42942cd-878c-43e7-afb3-2667f65a2e41
+blacklist 10.0.0.59:6801/245 expires 2021-09-17T21:19:53.819481+0000
+blacklist 10.0.0.59:6800/245 expires 2021-09-17T21:19:53.819481+0000
+blacklist 10.0.0.59:0/1868013791 expires 2021-09-17T21:19:53.819481+0000
+blacklist 10.0.0.59:0/447181660 expires 2021-09-17T21:19:53.819481+0000
+blacklist 10.0.0.59:0/3371639558 expires 2021-09-17T21:19:53.819481+0000

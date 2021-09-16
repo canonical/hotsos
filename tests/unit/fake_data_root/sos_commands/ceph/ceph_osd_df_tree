@@ -1,10 +1,10 @@
-ID  CLASS WEIGHT    REWEIGHT SIZE    RAW USE DATA     OMAP    META    AVAIL    %USE  VAR  PGS STATUS TYPE NAME
- -1       400.37894        - 569 TiB 248 TiB  324 TiB 637 GiB 108 GiB  322 TiB 43.52 1.00   -        root default
- -5        36.39999        -  36 TiB  23 TiB   11 TiB  31 GiB  13 GiB   13 TiB 64.29 1.48   -            host compute4
-  0   hdd   3.64000  1.00000 3.6 TiB 2.5 TiB  1.2 TiB 3.4 GiB     0 B  1.2 TiB 68.07 1.56 295     up         osd.0
- -3        40.03999        -  40 TiB  27 TiB   16 TiB  47 GiB  46 GiB   13 TiB 66.47 1.53   -            host compute1
- 15   hdd   3.64000  1.00000 3.6 TiB 2.9 TiB  2.9 TiB 4.3 GiB  46 GiB  719 GiB 80.71 1.85 501     up         osd.1
- -4        43.67999        - 128 TiB  32 TiB   96 TiB 183 GiB     0 B   96 TiB 24.80 0.57   -            host compute2
- 34   hdd   3.64000  1.00000  11 TiB 2.4 TiB  8.3 TiB  16 GiB     0 B  8.3 TiB 22.79 0.52 200     up         osd.2
-                       TOTAL 569 TiB 248 TiB  324 TiB 637 GiB 108 GiB  322 TiB 43.52                                  
-MIN/MAX VAR: 0.01/1.85  STDDEV: 24.93
+ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP     META      AVAIL    %USE  VAR   PGS  STATUS  TYPE NAME        
+-1         0.29279         -  300 GiB   17 GiB   14 GiB  5.2 MiB   3.0 GiB  283 GiB  5.64  1.00    -          root default     
+-7         0.09760         -  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00    -              host compute1
+ 2    ssd  0.09760   1.00000  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00   200      up          osd.2    
+-5         0.09760         -  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00    -              host compute2
+ 1    ssd  0.09760   1.00000  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00   501      up          osd.1    
+-3         0.09760         -  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00    -              host compute4
+ 0    ssd  0.09760   1.00000  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00   295      up          osd.0    
+                       TOTAL  300 GiB   17 GiB   14 GiB  5.2 MiB   3.0 GiB  283 GiB  5.64                                      
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0

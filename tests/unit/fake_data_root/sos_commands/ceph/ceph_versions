@@ -1,18 +1,15 @@
 {
-"mon": {
-"ceph version 14.2.11 (5579a94fafbc1f9cc913a0f5d362953a5) mimic (stable)": 3
-},
-"mgr": {
-"ceph version 14.2.11 (5579a94fafbc1f9cc913a0f5d362953a5) mimic (stable)": 3
-},
-"osd": {
-"ceph version 14.2.11 (5579a94fafbc1f9cc913a0f5d362953a5) mimic (stable)": 32
-},
-"mds": {},
-"rgw": {
-"ceph version 14.2.11 (5579a94fafbc1f9cc913a0f5d362953a5) mimic (stable)": 3
-},
-"overall": {
-"ceph version 14.2.11 (5579a94fafbc1f9cc913a0f5d362953a5) mimic (stable)": 41
-}
+    "mon": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
+    },
+    "mgr": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
+    },
+    "osd": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 3
+    },
+    "mds": {},
+    "overall": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 5
+    }
 }

@@ -1,7 +1,6 @@
-2021-08-03T10:31:40.473+0000 7fa63c124700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:40.473+0000 7fa63c124700 -1 AuthRegistry(0x7fa6340590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:40.477+0000 7fa63c124700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:40.477+0000 7fa63c124700 -1 AuthRegistry(0x7fa63405b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:40.477+0000 7fa63c124700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:40.477+0000 7fa63c124700 -1 AuthRegistry(0x7fa63c123130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP     META      AVAIL    %USE  VAR   PGS  STATUS
+ 2    ssd  0.09760   1.00000  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00   81      up
+ 1    ssd  0.09760   1.00000  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00   81      up
+ 0    ssd  0.09760   1.00000  100 GiB  5.6 GiB  4.6 GiB  1.7 MiB  1022 MiB   94 GiB  5.64  1.00   81      up
+                       TOTAL  300 GiB   17 GiB   14 GiB  5.2 MiB   3.0 GiB  283 GiB  5.64                   
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0
