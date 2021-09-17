@@ -163,9 +163,7 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
         return True
 
 
-class JujuBugChecksBase(checks.BugChecksBase):
+class JujuBugChecksBase(JujuChecksBase, checks.BugChecksBase):
 
-    @property
-    def plugin_runnable(self):
-        # TODO: define whether this plugin should run or not.
-        return True
+    def __call__(self):
+        self.run_checks()

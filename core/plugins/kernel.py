@@ -207,9 +207,9 @@ class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
         return True
 
 
-class KernelEventChecksBase(KernelBase, checks.EventChecksBase):
+class KernelEventChecksBase(KernelChecksBase, checks.EventChecksBase):
 
-    @property
-    def plugin_runnable(self):
-        # Always run
-        return True
+    def __call__(self):
+        ret = self.run_checks()
+        if ret:
+            self._output.update(ret)

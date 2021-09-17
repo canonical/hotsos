@@ -377,19 +377,23 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
         return self.openstack_installed
 
 
-class OpenstackEventChecksBase(OpenstackBase, checks.EventChecksBase):
+class OpenstackEventChecksBase(OpenstackChecksBase, checks.EventChecksBase):
 
-    @property
-    def plugin_runnable(self):
-        if self.apt_check.core:
-            return True
-
-        return False
+    def __call__(self):
+        ret = self.run_checks()
+        if ret:
+            self._output.update(ret)
 
 
 class OpenstackServiceChecksBase(OpenstackChecksBase,
                                  checks.ServiceChecksBase):
     pass
+
+
+class OpenstackBugChecksBase(OpenstackChecksBase, checks.BugChecksBase):
+
+    def __call__(self):
+        self.run_checks()
 
 
 class OpenstackPackageChecksBase(OpenstackChecksBase):

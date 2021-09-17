@@ -3,8 +3,9 @@ import yaml
 from core.checks import CallbackHelper
 from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
-from core import checks, utils
+from core import utils
 from core.plugins.openstack import (
+    OpenstackBugChecksBase,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
@@ -64,7 +65,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
             return {event_name: ret}, agent
 
 
-class NeutronAgentBugChecks(checks.BugChecksBase):
+class NeutronAgentBugChecks(OpenstackBugChecksBase):
     """ See defs/bugs.yaml for definitions. """
 
 

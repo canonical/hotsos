@@ -1,6 +1,6 @@
 from core.checks import APTPackageChecksBase
 from core.plugins.storage.ceph import (
-    CephChecksBase,
+    CephServiceChecksBase,
     CEPH_PKGS_CORE,
     CEPH_PKGS_OTHER,
 )
@@ -8,7 +8,7 @@ from core.plugins.storage.ceph import (
 YAML_PRIORITY = 0
 
 
-class CephPackageChecks(CephChecksBase, APTPackageChecksBase):
+class CephPackageChecks(CephServiceChecksBase, APTPackageChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(core_pkgs=CEPH_PKGS_CORE, other_pkgs=CEPH_PKGS_OTHER)
@@ -25,7 +25,7 @@ class CephPackageChecks(CephChecksBase, APTPackageChecksBase):
             self._output["dpkg"] = self.all_formatted
 
 
-class CephServiceChecks(CephChecksBase):
+class CephServiceChecks(CephServiceChecksBase):
 
     def get_running_services_info(self):
         """Get string info for running services."""

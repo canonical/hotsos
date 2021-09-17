@@ -21,7 +21,6 @@ from core.searchtools import (
     FileSearcher,
     SearchDef,
 )
-from core.plugintools import PluginPartBase
 
 SVC_EXPR_TEMPLATES = {
     "absolute": r".+\S+bin/({})(?:\s+.+|$)",
@@ -45,7 +44,7 @@ class CallbackHelper(object):
         return callback_inner
 
 
-class ChecksBase(PluginPartBase):
+class ChecksBase(object):
 
     def __init__(self, yaml_defs_group, *args, searchobj=None, **kwargs):
         """
@@ -73,7 +72,7 @@ class ChecksBase(PluginPartBase):
     def process_results(self, results):
         raise NotImplementedError
 
-    def __call__(self):
+    def run_checks(self):
         self.register_search_terms()
         return self.process_results(self.searchobj.search())
 
@@ -411,11 +410,6 @@ class EventChecksBase(ChecksBase):
                 info = {self.event_results_output_key: info}
 
             return info
-
-    def __call__(self):
-        ret = super().__call__()
-        if ret:
-            self._output.update(ret)
 
 
 class ConfigBase(object):

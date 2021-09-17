@@ -49,14 +49,10 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
         return len(self.apt_check.core) > 0
 
 
-class OpenvSwitchEventChecksBase(OpenvSwitchBase, checks.EventChecksBase):
+class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase,
+                                 checks.EventChecksBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apt_check = checks.APTPackageChecksBase(core_pkgs=OVS_PKGS_CORE,
-                                                     other_pkgs=OVS_PKGS_DEPS)
-
-    @property
-    def plugin_runnable(self):
-        # require at least one core package to be installed to run this plugin.
-        return len(self.apt_check.core) > 0
+    def __call__(self):
+        ret = self.run_checks()
+        if ret:
+            self._output.update(ret)

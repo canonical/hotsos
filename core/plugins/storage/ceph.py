@@ -356,10 +356,7 @@ class CephBase(StorageBase):
         return False
 
 
-class CephChecksBase(CephBase, checks.ServiceChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
+class CephChecksBase(CephBase):
 
     @property
     def plugin_runnable(self):
@@ -374,11 +371,15 @@ class CephChecksBase(CephBase, checks.ServiceChecksBase):
             return {"ceph": self._output}
 
 
-class CephEventChecksBase(CephBase, checks.EventChecksBase):
+class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):
 
-    @property
-    def plugin_runnable(self):
-        if self.apt_check.core:
-            return True
+    def __init__(self, *args, **kwargs):
+        super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
 
-        return False
+
+class CephEventChecksBase(CephChecksBase, checks.EventChecksBase):
+
+    def __call__(self):
+        ret = self.run_checks()
+        if ret:
+            self._output.update(ret)

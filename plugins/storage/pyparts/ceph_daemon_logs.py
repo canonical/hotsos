@@ -12,7 +12,6 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='ceph',
-                         event_results_output_key='ceph',
                          callback_helper=EVENTCALLBACKS)
 
     def get_timings(self, results, group_by_resource=False,

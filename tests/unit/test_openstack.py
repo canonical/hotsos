@@ -451,7 +451,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
-    @mock.patch.object(agent_checks.checks, "add_known_bug")
+    @mock.patch('core.checks.add_known_bug')
     def test_get_agents_bugs(self, mock_add_known_bug):
         bugs = []
 

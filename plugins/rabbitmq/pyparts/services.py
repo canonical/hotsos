@@ -11,7 +11,10 @@ from core.searchtools import (
     FileSearcher,
 )
 from core.utils import mktemp_dump, sorted_dict
-from core.plugins.rabbitmq import RabbitMQChecksBase
+from core.plugins.rabbitmq import (
+    RabbitMQChecksBase,
+    RabbitMQServiceChecksBase
+)
 
 YAML_PRIORITY = 0
 
@@ -22,7 +25,7 @@ class RabbitMQPackageChecks(RabbitMQChecksBase):
         self._output["dpkg"] = self.apt_check.all_formatted
 
 
-class RabbitMQServiceChecks(RabbitMQChecksBase):
+class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
