@@ -8,9 +8,11 @@ By default all plugins are run and only produce ouput if applicable. If you want
 
 ### Usage
 
-- Get all information (run all plugins):
-```> hotsos /path/to/sos/report
-INFO: analysing sosreport at my/sos
+- Run hotsos against a sosreport (by default runs all plugins)
+
+```
+$ hotsos ./mysosreport
+INFO: analysing sosreport at ./mysosreport
 hotsos:
   version: 309
   repo-info: 68239cd
