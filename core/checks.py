@@ -278,6 +278,10 @@ class EventChecksBase(ChecksBase):
         if not yaml_defs:
             return
 
+        # The following are keys that can be overriden at any level below
+        # plugin.
+        global_override_keys = ['path', 'allow-all-logs']
+
         log.debug("loading event definitions for plugin=%s group=%s",
                   constants.PLUGIN_NAME, self._yaml_defs_group)
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
@@ -286,27 +290,30 @@ class EventChecksBase(ChecksBase):
         section_names = []
         event_names = []
         for name, section in groups.items():
-            if name == "path":
+            if name in global_override_keys:
                 continue
 
             section_names.append(name)
             for name in section:
-                if name == "path":
+                if name in global_override_keys:
                     continue
 
                 event_names.append(name)
 
         log.debug("sections=%s, events=%s",
                   len(section_names), len(event_names))
-        global_datasource = None
+        group_globals = {k: None for k in global_override_keys}
         for section_name, section in groups.items():
-            if section_name == 'path':
-                global_datasource = section
+            if section_name in global_override_keys:
+                group_globals[section_name] = section
                 continue
 
-            if 'path' in section:
-                global_datasource = section.get('path')
-                del section['path']
+            section_globals = {}
+            section_globals.update(group_globals)
+            for key in global_override_keys:
+                if key in section:
+                    section_globals[key] = section[key]
+                    del section[key]
 
             for event_name in section:
                 event = section[event_name]
@@ -332,11 +339,16 @@ class EventChecksBase(ChecksBase):
                     end = None
 
                 # allow low-level path to override section global path
-                datasource = event.get('path', global_datasource)
+                datasource = event.get('path', section_globals['path'])
                 ds = os.path.join(constants.DATA_ROOT, datasource)
-                if (event.get('allow-all-logs', True) and
-                        constants.USE_ALL_LOGS):
-                    ds = "{}*".format(ds)
+                if constants.USE_ALL_LOGS:
+                    if section_globals['allow-all-logs'] is not None:
+                        allow_all_logs = section_globals['allow-all-logs']
+                    else:
+                        allow_all_logs = event.get('allow-all-logs', True)
+
+                    if allow_all_logs:
+                        ds = "{}*".format(ds)
 
                 if section_name not in self._event_defs:
                     self._event_defs[section_name] = {}
