@@ -5,7 +5,6 @@ from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
 from core import utils
 from core.plugins.openstack import (
-    OpenstackBugChecksBase,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
@@ -63,10 +62,6 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         ret = self._get_event_stats(event['results'], event_name)
         if ret:
             return {event_name: ret}, agent
-
-
-class NeutronAgentBugChecks(OpenstackBugChecksBase):
-    """ See defs/bugs.yaml for definitions. """
 
 
 class OctaviaAgentEventChecks(OpenstackEventChecksBase):
@@ -185,10 +180,13 @@ class AgentChecks(OpenstackChecksBase):
             return
 
         s = FileSearcher()
-        checks = [NeutronAgentEventChecks("neutron-agent-checks", searchobj=s),
-                  NeutronAgentBugChecks("neutron", searchobj=s),
-                  OctaviaAgentEventChecks("octavia-checks", searchobj=s),
-                  AgentApparmorChecks("apparmor-checks", searchobj=s)]
+        checks = [
+            NeutronAgentEventChecks(yaml_defs_group='neutron-agent-checks',
+                                    searchobj=s),
+            OctaviaAgentEventChecks(yaml_defs_group='octavia-checks',
+                                    searchobj=s),
+            AgentApparmorChecks(yaml_defs_group='apparmor-checks',
+                                searchobj=s)]
         for check in checks:
             check.register_search_terms()
 

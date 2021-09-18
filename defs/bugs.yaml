@@ -1,25 +1,39 @@
 # Definitions used to identify known bugs.
 #
-# Supported fields (for full details see common.checks.BugChecksBase):
+# Structure of definition is:
 #
-# * expr: regex pattern used to match a log entry that identifies the bug.
+#   PLUGIN_NAME:
+#     GROUP_NAME:
+#       BUG_ID:
+#         FIELDS
 #
-# * hint: optional short pattern used as a pre-filter before trying expr.
+# GROUP_NAME - this is required but has no actual meaning and is just way to
+#              organise definitions.
 #
-# * reason: info to display along with the bug.
+# FIELDS (for full details see common.checks.BugChecksBase):
 #
-# * reason-format-result-groups: optional list of python.re match group ids
-#   that are available when expr is matched and that we want to use as format
-#   input to reason.
+# Mandatory:
 #
-# * path: relative path to file/directory we want to search.
+#   * expr: python.re regex pattern used to match line(s).
 #
-# * allow-all-logs: whether to allow path to be wildcarded. The default
-#                   is True and should be set to False if searching full
-#                   history will result in excessive load or execution time.
+#     TIP: to use a single quote ' inside a yaml string you need to replace it
+#          with two single quotes.
 #
-# TIP: to use a single quote ' inside a yaml string you need to replace it with
-#      two single quotes.
+#   * reason: info displayed in output describing the bug/issue.
+#
+#   * path: relative path to file/directory we want to search.
+#
+# Optional:
+#
+#   * allow-all-logs: whether to allow path to be wildcarded. The default
+#                     is True and should be set to False if searching full
+#                     history will result in excessive load or execution time.
+#
+#   * reason-format-result-groups: optional list of python.re match group ids
+#     that are available when expr is matched and that we want to use as input
+#     reason when it is a formatted string.
+#
+#   * hint: optional short pattern used as a pre-filter before trying expr.
 #
 openstack:
   neutron:

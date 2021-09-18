@@ -447,7 +447,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                     }
         group_key = "neutron-agent-checks"
         section_key = "neutron-ovs-agent"
-        c = agent_checks.NeutronAgentEventChecks(group_key)
+        c = agent_checks.NeutronAgentEventChecks(yaml_defs_group=group_key)
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
@@ -459,10 +459,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
             bugs.append((args, kwargs))
 
         mock_add_known_bug.side_effect = fake_add_bug
-        c = agent_checks.NeutronAgentBugChecks("neutron")
-        c.register_search_terms()
-        results = c.process_results(c.searchobj.search())
-        self.assertEqual(results, None)
+        checks.BugChecksBase()()
         calls = [mock.call("1896506",
                            ('identified bug that critically impacts '
                             'keepalived')),
@@ -552,16 +549,13 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                     }
         group_key = "neutron-agent-checks"
         section_key = "neutron-l3-agent"
-        c = agent_checks.NeutronAgentEventChecks(group_key)
+        c = agent_checks.NeutronAgentEventChecks(yaml_defs_group=group_key)
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
     @mock.patch.object(agent_checks, "NeutronAgentEventChecks")
-    @mock.patch.object(agent_checks, "NeutronAgentBugChecks")
-    def test_run_agent_checks(self, mock_agent_bug_checks,
-                              mock_agent_event_checks):
+    def test_run_agent_checks(self, mock_agent_event_checks):
         agent_checks.AgentChecks()()
-        self.assertTrue(mock_agent_bug_checks.called)
         self.assertTrue(mock_agent_event_checks.called)
 
     def test_run_octavia_checks(self):
@@ -582,7 +576,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                     }
         group_key = "octavia-checks"
         for section_key in ["octavia-worker", "octavia-health-manager"]:
-            c = agent_checks.OctaviaAgentEventChecks(group_key)
+            c = agent_checks.OctaviaAgentEventChecks(yaml_defs_group=group_key)
             c()
             self.assertEqual(c.output["octavia"].get(section_key),
                              expected.get(section_key))

@@ -390,12 +390,6 @@ class OpenstackServiceChecksBase(OpenstackChecksBase,
     pass
 
 
-class OpenstackBugChecksBase(OpenstackChecksBase, checks.BugChecksBase):
-
-    def __call__(self):
-        self.run_checks()
-
-
 class OpenstackPackageChecksBase(OpenstackChecksBase):
     pass
 

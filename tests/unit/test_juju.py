@@ -4,13 +4,13 @@ import mock
 
 import utils
 
+from core import checks
 from core import known_bugs_utils
 
 from plugins.juju.pyparts import (
     machines,
     charms,
     units,
-    known_bugs,
 )
 
 FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-11-exec-start.sh
@@ -76,7 +76,7 @@ class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
         os.environ["PLUGIN_NAME"] = "juju"
 
     def test_detect_known_bugs(self):
-        known_bugs.JujuBugChecks()()
+        checks.BugChecksBase()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1910958',
                       'desc':

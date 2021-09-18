@@ -185,7 +185,20 @@ class PluginRunner(object):
         if not parts:
             log.debug("plugin %s has no parts to run", constants.PLUGIN_NAME)
 
-        for part in parts:
+        # The following are executed as part of each plugin run (but not last).
+        ALWAYS_RUN = {'default_bug_checker':
+                      {'core.checks': 'BugChecksBase'}}
+        for part, parts in ALWAYS_RUN.items():
+            for obj, cls in parts.items():
+                # update current env to reflect actual part being run
+                os.environ['PART_NAME'] = part
+                inst = getattr(importlib.import_module(obj), cls)
+                inst()()
+                # NOTE: we don't currently collect their output since that is
+                #       not currently needed but may be be in the future as
+                #       more are added.
+
+        for part, obj_names in plugin.get("parts", {}).items():
             # update current env to reflect actual part being run
             os.environ['PART_NAME'] = part
             mod_string = ('plugins.{}.pyparts.{}'.
@@ -199,7 +212,7 @@ class PluginRunner(object):
                 yaml_priority = 0
 
             part_out = {}
-            for entry in parts[part] or []:
+            for entry in obj_names or []:
                 obj = getattr(mod, entry)
                 inst = obj()
                 # Only run plugin if it delares itself runnable.
@@ -211,14 +224,17 @@ class PluginRunner(object):
                 log.debug("running plugin=%s, part=%s",
                           constants.PLUGIN_NAME, part)
                 inst()
-                if hasattr(inst, "output"):
-                    out = inst.output
-                    if out:
-                        meld_part_output(out, part_out)
+                # NOTE: since all parts are expected to be implementations of
+                # PluginPartBase we expect them to always define an output.
+                out = inst.output
+                if out:
+                    meld_part_output(out, part_out)
 
             save_part(part_out, priority=yaml_priority)
 
-        # Always execute this as last part
-        mod_string = "core.plugins.utils.known_bugs_and_issues"
-        mod = importlib.import_module(mod_string)
-        mod.KnownBugsAndIssuesCollector()()
+        # The following are executed at the end of each plugin run (i.e. after
+        # all other parts have run).
+        FINAL_RUN = {'core.plugins.utils.known_bugs_and_issues':
+                     'KnownBugsAndIssuesCollector'}
+        for obj, cls in FINAL_RUN.items():
+            getattr(importlib.import_module(obj), cls)()()

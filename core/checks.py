@@ -46,11 +46,11 @@ class CallbackHelper(object):
 
 class ChecksBase(object):
 
-    def __init__(self, yaml_defs_group, *args, searchobj=None, **kwargs):
+    def __init__(self, *args, yaml_defs_group=None, searchobj=None, **kwargs):
         """
-        @param _yaml_defs_group: key used to identify our yaml definitions if
-                                 indeed we have any. This is given meaning by
-                                 the implementing class.
+        @param _yaml_defs_group: optional key used to identify our yaml
+                                 definitions if indeed we have any. This is
+                                 given meaning by the implementing class.
         @param searchobj: optional FileSearcher object used for searches. If
                           multiple implementations of this class are used in
                           the same part it is recommended to provide a search
@@ -155,7 +155,14 @@ class PackageBugChecksBase(object):
 
 
 class BugChecksBase(ChecksBase):
+    """
+    Class used to identify bugs by searching for entries in files (typically
+    log files). What we search for and how we respond is defined in
+    defs/bugs.yaml so that we can grow our searches without touching code.
 
+    Searches are defined per plugin and run automatically i.e. there is no need
+    to implement this class.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._bug_defs = []
@@ -174,23 +181,26 @@ class BugChecksBase(ChecksBase):
             return
 
         plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
-        bugs = plugin_bugs.get(self._yaml_defs_group, {})
-        for id in bugs:
-            bug = bugs[id]
-            reason_format = bug.get("reason-format-result-groups")
-            _def = BugSearchDef(bug["expr"],
-                                bug_id=str(id),
-                                hint=bug.get("hint"),
-                                reason=bug["reason"],
-                                reason_format_result_groups=reason_format)
-            bdef = {"def": _def}
+        log.debug("running bug searches for plugin '%s' (groups=%d)",
+                  constants.PLUGIN_NAME, len(plugin_bugs))
+        for group, bugs in plugin_bugs.items():
+            log.debug("running bug group '%s", group)
+            for id in bugs:
+                bug = bugs[id]
+                reason_format = bug.get("reason-format-result-groups")
+                _def = BugSearchDef(bug["expr"],
+                                    bug_id=str(id),
+                                    hint=bug.get("hint"),
+                                    reason=bug["reason"],
+                                    reason_format_result_groups=reason_format)
+                bdef = {"def": _def}
 
-            ds = os.path.join(constants.DATA_ROOT, bug["path"])
-            if bug.get("allow-all-logs", True) and constants.USE_ALL_LOGS:
-                ds = "{}*".format(ds)
+                ds = os.path.join(constants.DATA_ROOT, bug["path"])
+                if bug.get("allow-all-logs", True) and constants.USE_ALL_LOGS:
+                    ds = "{}*".format(ds)
 
-            bdef["datasource"] = ds
-            self._bug_defs.append(bdef)
+                bdef["datasource"] = ds
+                self._bug_defs.append(bdef)
 
     @property
     def bug_definitions(self):
@@ -219,6 +229,10 @@ class BugChecksBase(ChecksBase):
                     add_known_bug(tag, reason)
                 else:
                     add_known_bug(tag, bugsearch["def"].reason)
+
+    def __call__(self):
+        """ Must be callable since its run automatically. """
+        self.run_checks()
 
 
 class EventChecksBase(ChecksBase):
