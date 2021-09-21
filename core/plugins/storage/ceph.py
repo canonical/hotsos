@@ -49,17 +49,168 @@ class CephConfig(checks.SectionalConfigBase):
         super().__init__(path=path, *args, **kwargs)
 
 
-class CephOSD(object):
+class CephDaemonBase(object):
 
-    def __init__(self, id, fsid, device):
+    def __init__(self, daemon_type):
+        self.daemon_type = daemon_type
         self.cli = CLIHelper()
         self.date_in_secs = utils.get_date_secs()
+        self._version_info = None
+        # create file-based caches of useful commands so they can be searched.
+        self.cli_cache = {'ceph_mon_dump': self.cli.ceph_mon_dump(),
+                          'ceph_osd_dump': self.cli.ceph_osd_dump(),
+                          'ceph_versions': self.cli.ceph_versions()}
+        for cmd, output in self.cli_cache.items():
+            self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
+
+    def __del__(self):
+        """ Ensure temp files/dirs are deleted. """
+        for tmpfile in self.cli_cache.values():
+            if os.path.exists(tmpfile):
+                os.unlink(tmpfile)
+
+    def _get_version_info(self):
+        """
+        Returns a dict of veph versions info for our daemon type.
+        """
+        if self._version_info:
+            return self._version_info
+
+        out = self.cli_cache['ceph_versions']
+        if not out:
+            return
+
+        versions = {}
+        s = FileSearcher()
+        sd = SequenceSearchDef(
+            start=SearchDef(r"^\s+\"{}\":".format(self.daemon_type)),
+            body=SearchDef([r"\s+\"ceph version (\S+) .+ (\S+) "
+                            r"\(\S+\)\":\s+(\d)+$"]),
+            end=SearchDef(r"^\s+\"\S+\":"),
+            tag="versions")
+        s.add_search_term(sd, path=self.cli_cache['ceph_versions'])
+        for section in s.search().find_sequence_sections(sd).values():
+            for result in section:
+                if result.tag == sd.body_tag:
+                    version = result.get(1)
+                    rname = result.get(2)
+                    amount = result.get(3)
+                    versions[version] = {'release_name': rname,
+                                         'count': int(amount)}
+
+        if versions:
+            self._version_info = versions
+
+        return self._version_info
+
+    @property
+    def versions(self):
+        """
+        Returns a dict of versions of our daemon type associated with the
+        number of each that is running. Ideally this would only return a single
+        version showing that all daemons are in sync but sometimes e.g.
+        during an upgrade this may not be the case.
+        """
+        _versions = {}
+        version_info = self._get_version_info()
+        if version_info:
+            for ver, info in version_info.items():
+                _versions[ver] = info['count']
+
+        if _versions:
+            return _versions
+
+    @property
+    def release_names(self):
+        """
+        Same as versions property but with release names instead of versions.
+        """
+        _releases = {}
+        version_info = self._get_version_info()
+        if version_info:
+            for info in version_info.values():
+                rname = info['release_name']
+                if rname in _releases:
+                    _releases[rname] += info['count']
+                else:
+                    _releases[rname] = info['count']
+
+        if _releases:
+            return _releases
+
+
+class CephMon(CephDaemonBase):
+
+    def __init__(self):
+        super().__init__('mon')
+        self._mon_dump = None
+
+    @property
+    def mon_dump(self):
+        if self._mon_dump:
+            return self._mon_dump
+
+        out = self.cli_cache['ceph_mon_dump']
+        if not out:
+            return
+
+        dump = {}
+        s = FileSearcher()
+        s.add_search_term(SearchDef(r"^(\S+)\s+(.+)", tag='dump'),
+                          path=self.cli_cache['ceph_mon_dump'])
+        for result in s.search().find_by_tag('dump'):
+            dump[result.get(1)] = result.get(2)
+
+        if dump:
+            self._mon_dump = dump
+
+        return self._mon_dump
+
+
+class CephMDS(CephDaemonBase):
+
+    def __init__(self):
+        super().__init__('mds')
+
+
+class CephRGW(CephDaemonBase):
+
+    def __init__(self):
+        super().__init__('radosgw')
+
+
+class CephOSD(CephDaemonBase):
+
+    def __init__(self, id, fsid, device):
+        super().__init__('osd')
         self.id = id
         self.fsid = fsid
         self.device = device
         self._devtype = None
         self._etime = None
         self._rss = None
+        self._osd_dump = None
+
+    @property
+    def osd_dump(self):
+        if self._osd_dump:
+            return self._osd_dump
+
+        out = self.cli_cache['ceph_osd_dump']
+        if not out:
+            return
+
+        dump = {}
+        s = FileSearcher()
+        s.add_search_term(SearchDef(r"^(\S+)\s+(.+)", tag='dump'),
+                          path=self.cli_cache['ceph_osd_dump'])
+        for result in s.search().find_by_tag('dump'):
+            dump[result.get(1)] = result.get(2)
+
+        if dump:
+            self._osd_dump = dump
+
+        return self._osd_dump
 
     def to_dict(self):
         d = {self.id: {
@@ -155,7 +306,7 @@ class CephOSD(object):
         return self._devtype
 
 
-class CephBase(StorageBase):
+class CephChecksBase(StorageBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -167,34 +318,31 @@ class CephBase(StorageBase):
                                                 other_pkgs=CEPH_PKGS_OTHER)
         self.cli = CLIHelper()
 
-        # store the following in files to make them easier to search
-        out = self.cli.udevadm_info_exportdb()
-        if out:
-            self.udevadm_db = utils.mktemp_dump('\n'.join(out))
-        else:
-            self.udevadm_db = None
-
-        out = self.cli.ceph_osd_dump()
-        if out:
-            self.ceph_osd_dump = utils.mktemp_dump('\n'.join(out))
-        else:
-            self.ceph_osd_dump = None
-
-        out = self.cli.ceph_volume_lvm_list()
-        if out:
-            self.f_ceph_volume_lvm_list = mktemp_dump('\n'.join(out))
-        else:
-            self.f_ceph_volume_lvm_list = None
+        # create file-based caches of useful commands so they can be searched.
+        self.cli_cache = {'udevadm_info_exportdb':
+                          self.cli.udevadm_info_exportdb(),
+                          'ceph_volume_lvm_list':
+                          self.cli.ceph_volume_lvm_list()}
+        for cmd, output in self.cli_cache.items():
+            self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
 
     def __del__(self):
-        if self.ceph_osd_dump:
-            os.unlink(self.ceph_osd_dump)
+        """ Ensure temp files/dirs are deleted. """
+        for tmpfile in self.cli_cache.values():
+            if os.path.exists(tmpfile):
+                os.unlink(tmpfile)
 
-        if self.udevadm_db:
-            os.unlink(self.udevadm_db)
+    @property
+    def plugin_runnable(self):
+        if self.apt_check.core:
+            return True
 
-        if self.f_ceph_volume_lvm_list:
-            os.unlink(self.f_ceph_volume_lvm_list)
+        return False
+
+    @property
+    def output(self):
+        if self._output:
+            return {"ceph": self._output}
 
     @property
     def release_name(self):
@@ -245,7 +393,7 @@ class CephBase(StorageBase):
         return interfaces
 
     def _get_osds(self):
-        if not self.f_ceph_volume_lvm_list:
+        if not self.cli_cache['ceph_volume_lvm_list']:
             return
 
         s = FileSearcher()
@@ -253,7 +401,7 @@ class CephBase(StorageBase):
                                body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
-        s.add_search_term(sd, path=self.f_ceph_volume_lvm_list)
+        s.add_search_term(sd, path=self.cli_cache['ceph_volume_lvm_list'])
         osds = []
         for results in s.search().find_sequence_sections(sd).values():
             id = None
@@ -288,14 +436,14 @@ class CephBase(StorageBase):
             return self._bcache_info
 
         devs = []
-        if not self.udevadm_db:
+        if not self.cli_cache['udevadm_info_exportdb']:
             return devs
 
         s = FileSearcher()
         sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
                                  body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
                                  tag="bcacheinfo")
-        s.add_search_term(sdef, self.udevadm_db)
+        s.add_search_term(sdef, self.cli_cache['udevadm_info_exportdb'])
         results = s.search()
         for section in results.find_sequence_sections(sdef).values():
             dev = {}
@@ -354,21 +502,6 @@ class CephBase(StorageBase):
                 return True
 
         return False
-
-
-class CephChecksBase(CephBase):
-
-    @property
-    def plugin_runnable(self):
-        if self.apt_check.core:
-            return True
-
-        return False
-
-    @property
-    def output(self):
-        if self._output:
-            return {"ceph": self._output}
 
 
 class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):

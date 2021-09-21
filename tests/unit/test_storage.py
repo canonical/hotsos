@@ -34,14 +34,14 @@ class StorageTestsBase(utils.BaseTestCase):
         os.environ['PLUGIN_NAME'] = 'storage'
 
 
-class TestStorageCephBase(StorageTestsBase):
+class TestStorageCephChecksBase(StorageTestsBase):
 
     def test_release_name(self):
-        release_name = ceph_core.CephBase().release_name
+        release_name = ceph_core.CephChecksBase().release_name
         self.assertEqual(release_name, 'octopus')
 
     def test_bluestore_enabled(self):
-        enabled = ceph_core.CephBase().bluestore_enabled
+        enabled = ceph_core.CephChecksBase().bluestore_enabled
         self.assertTrue(enabled)
 
     def test_bluestore_not_enabled(self):
@@ -52,8 +52,43 @@ class TestStorageCephBase(StorageTestsBase):
                 fd.write(CEPH_CONF_NO_BLUESTORE)
 
             os.environ['DATA_ROOT'] = dtmp
-            enabled = ceph_core.CephBase().bluestore_enabled
+            enabled = ceph_core.CephChecksBase().bluestore_enabled
             self.assertFalse(enabled)
+
+
+class TestStorageCephDaemons(StorageTestsBase):
+
+    def test_osd_versions(self):
+        versions = ceph_core.CephOSD(1, 1234, '/dev/foo').versions
+        self.assertEqual(versions, {'15.2.13': 3})
+
+    def test_mon_versions(self):
+        versions = ceph_core.CephMon().versions
+        self.assertEqual(versions, {'15.2.13': 1})
+
+    def test_mds_versions(self):
+        versions = ceph_core.CephMDS().versions
+        self.assertIsNone(versions)
+
+    def test_rgw_versions(self):
+        versions = ceph_core.CephRGW().versions
+        self.assertIsNone(versions)
+
+    def test_osd_release_name(self):
+        release_names = ceph_core.CephOSD(1, 1234, '/dev/foo').release_names
+        self.assertEqual(release_names, {'octopus': 3})
+
+    def test_mon_release_name(self):
+        release_names = ceph_core.CephMon().release_names
+        self.assertEqual(release_names, {'octopus': 1})
+
+    def test_mon_dump(self):
+        dump = ceph_core.CephMon().mon_dump
+        self.assertEqual(dump['min_mon_release'], '15 (octopus)')
+
+    def test_osd_dump(self):
+        dump = ceph_core.CephOSD(1, 1234, '/dev/foo').osd_dump
+        self.assertEqual(dump['require_osd_release'], 'octopus')
 
 
 class TestStoragePluginPartCephGeneral(StorageTestsBase):
