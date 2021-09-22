@@ -22,6 +22,7 @@ from core.plugins.openstack.exceptions import (
     CINDER_EXCEPTIONS,
     KEYSTONE_EXCEPTIONS,
     MANILA_EXCEPTIONS,
+    PLACEMENT_EXCEPTIONS,
     PYTHON_LIBVIRT_EXCEPTIONS,
     NOVA_EXCEPTIONS,
     NEUTRON_EXCEPTIONS,
@@ -157,6 +158,7 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
                   'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS,
                   'octavia': OCTAVIA_EXCEPTIONS,
+                  'placement': PLACEMENT_EXCEPTIONS,
                   }
 
 
@@ -169,7 +171,8 @@ class OSTProject(object):
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
     def __init__(self, name, config=None, daemon_names=None,
-                 apt_core_alt=None, systemd_masked_services=None):
+                 apt_core_alt=None, systemd_masked_services=None,
+                 log_path_overrides=None):
         """
         @param name: name of this project
         @param config: dict of config files keyed by a label used to identify
@@ -202,8 +205,18 @@ class OSTProject(object):
         self.packages_core.append(client)
         self.service_expr = '{}{}'.format(name, self.SVC_VALID_SUFFIX)
         self.daemon_names = daemon_names or []
-        self.log_file_path = os.path.join('var/log', name)
+        self.logs_path = os.path.join('var/log', name)
+        self.log_path_overrides = log_path_overrides or {}
         self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
+
+    @property
+    def log_paths(self):
+        """
+        Returns tuples of daemon name, log path for each agent/daemon.
+        """
+        for daemon in self.daemon_names:
+            path = os.path.join('var/log', self.name, daemon)
+            yield daemon, self.log_path_overrides.get(daemon, path)
 
 
 class OSTProjectCatalog(object):
@@ -278,10 +291,12 @@ class OSTProjectCatalog(object):
         self.add('nova',
                  daemon_names=['nova-compute', 'nova-scheduler',
                                'nova-conductor', 'nova-api-os-compute',
-                               'nova-api-wsgi',
-                               'nova-api-metadata'],
+                               'nova-api-wsgi', 'nova-api-metadata',
+                               'nova-placement'],
                  config={'main': 'nova.conf'},
-                 systemd_masked_services=['nova-api-os-compute']),
+                 systemd_masked_services=['nova-api-os-compute'],
+                 log_path_overrides={'nova-api-os-compute':
+                                     'var/log/apache2/nova-*.log'}),
         self.add('manila',
                  daemon_names=['manila-api', 'manila-scheduler',
                                'manila-data', 'manila-share'],
@@ -297,7 +312,9 @@ class OSTProjectCatalog(object):
                  config={'main': 'octavia.conf'},
                  systemd_masked_services=['octavia-api']),
         self.add('placement', config={'main': 'placement.conf'},
-                 systemd_masked_services=['placement']),
+                 systemd_masked_services=['placement'],
+                 log_path_overrides={'placement':
+                                     'var/log/apache2/*error.log'}),
         self.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'}),
 

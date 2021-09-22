@@ -701,6 +701,44 @@ NOVA_EXCEPTIONS = [
     "ProviderConfigException",
 ]
 
+# sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' placement/exception.py
+PLACEMENT_EXCEPTIONS = [
+    "NotFound",
+    "Exists",
+    "InvalidInventory",
+    "CannotDeleteParentResourceProvider",
+    "ConcurrentUpdateDetected",
+    "ResourceProviderConcurrentUpdateDetected",
+    "ResourceProviderNotFound",
+    "InvalidAllocationCapacityExceeded",
+    "InvalidAllocationConstraintsViolated",
+    "InvalidInventoryCapacity",
+    "InvalidInventoryCapacityReservedCanBeTotal",
+    "InventoryInUse",
+    "InventoryWithResourceClassNotFound",
+    "MaxDBRetriesExceeded",
+    "ObjectActionError",
+    "PolicyNotAuthorized",
+    "ResourceClassCannotDeleteStandard",
+    "ResourceClassCannotUpdateStandard",
+    "ResourceClassExists",
+    "ResourceClassInUse",
+    "ResourceClassNotFound",
+    "ResourceProviderInUse",
+    "TraitCannotDeleteStandard",
+    "TraitExists",
+    "TraitInUse",
+    "TraitNotFound",
+    "ProjectNotFound",
+    "ProjectExists",
+    "UserNotFound",
+    "UserExists",
+    "ConsumerNotFound",
+    "ConsumerExists",
+    "ConsumerTypeNotFound",
+    "ConsumerTypeExists",
+]
+
 # From:
 #  - https://github.com/openstack/octavia/blob/master/octavia/common/exceptions.py
 #  - https://github.com/openstack/octavia/blob/master/octavia/amphorae/driver_exceptions/exceptions.py
