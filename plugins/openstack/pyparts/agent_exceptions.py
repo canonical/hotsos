@@ -35,17 +35,36 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             'neutron': [r'RuntimeError']
             }
 
+    def _add_agent_searches(self, project, agent, data_source, expr_template):
+        if project.exceptions:
+            values = "(?:{})".format('|'.join(project.exceptions))
+            expr = expr_template.format(values)
+            hint = '( ERROR | Traceback)'
+            self.searchobj.add_search_term(SearchDef(expr, tag=agent,
+                                                     hint=hint),
+                                           data_source)
+
+            warn_exprs = self._agent_warnings.get(project.name, [])
+            if warn_exprs:
+                values = "(?:{})".format('|'.join(warn_exprs))
+                expr = expr_template.format(values)
+                self.searchobj.add_search_term(SearchDef(expr, tag=agent,
+                                                         hint='WARNING'),
+                                               data_source)
+
+        err_exprs = self._agent_errors.get(project.name, [])
+        if err_exprs:
+            expr = expr_template.format("(?:{})".
+                                        format('|'.join(err_exprs)))
+            sd = SearchDef(expr, tag=agent, hint='ERROR')
+            self.searchobj.add_search_term(sd, data_source)
+
     def load(self):
         """Register searches for exceptions as well as any other type of issue
         we might want to catch like warnings etc which may not be errors or
         exceptions.
         """
-        for name, info in self.ost_projects.all.items():
-            data_source_template = os.path.join(constants.DATA_ROOT,
-                                                info.log_file_path, '{}.log')
-            if constants.USE_ALL_LOGS:
-                data_source_template = "{}*".format(data_source_template)
-
+        for project in self.ost_projects.all.values():
             # NOTE: services running under apache may have their logs (e.g.
             # barbican-api.log) prepended with apache/mod_wsgi info so do this
             # way to account for both. If present, the prefix will be ignored
@@ -63,28 +82,13 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             expr_template = (r"^{}([0-9\-]+) (\S+) .+\S+\s({}{{}})[\s:\.]".
                              format(prefix_match, exc_obj_full_path_match))
 
-            for agent in info.daemon_names:
-                data_source = data_source_template.format(agent)
-                if info.exceptions:
-                    values = "(?:{})".format('|'.join(info.exceptions))
-                    expr = expr_template.format(values)
-                    hint = '( ERROR | Traceback)'
-                    sd = SearchDef(expr, tag=agent, hint=hint)
-                    self.searchobj.add_search_term(sd, data_source)
+            for agent, log_path in project.log_paths:
+                log_path = os.path.join(constants.DATA_ROOT, log_path)
+                if constants.USE_ALL_LOGS:
+                    log_path = "{}*".format(log_path)
 
-                    warn_exprs = self._agent_warnings.get(name, [])
-                    if warn_exprs:
-                        values = "(?:{})".format('|'.join(warn_exprs))
-                        expr = expr_template.format(values)
-                        sd = SearchDef(expr, tag=agent, hint='WARNING')
-                        self.searchobj.add_search_term(sd, data_source)
-
-                err_exprs = self._agent_errors.get(name, [])
-                if err_exprs:
-                    expr = expr_template.format("(?:{})".
-                                                format('|'.join(err_exprs)))
-                    sd = SearchDef(expr, tag=agent, hint='ERROR')
-                    self.searchobj.add_search_term(sd, data_source)
+                self._add_agent_searches(project, agent, log_path,
+                                         expr_template)
 
     def get_exceptions_results(self, results):
         """ Process exception search results.
