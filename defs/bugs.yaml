@@ -67,6 +67,13 @@ openstack:
       hint: 'AttributeError'
       reason: 'identified bug impacting OVN sbdb connections from ovn agents'
       path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
+openvswitch:
+  ovn:
+    1917475:
+      expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
+      hint: 'transaction error'
+      reason: 'db rbac error bug detected in ovn logs - see LP for details'
+      path: 'var/log/ovn/ovn-controller.log'
 juju:
   common:
     1910958:
