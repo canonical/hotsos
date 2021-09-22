@@ -581,6 +581,15 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
             self.assertEqual(c.output["octavia"].get(section_key),
                              expected.get(section_key))
 
+    def test_run_nova_checks(self):
+        expected = {'PciDeviceNotFoundById': {
+                        '2021-09-17': {'0000:3b:0f.7': 1,
+                                       '0000:3b:10.0': 1}}}
+        group_key = "nova-checks"
+        c = agent_checks.NovaAgentEventChecks(yaml_defs_group=group_key)
+        c()
+        self.assertEqual(c.output["nova"], expected)
+
 
 class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
 

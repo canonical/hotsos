@@ -5,6 +5,7 @@ from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
 from core import utils
 from core.plugins.openstack import (
+    OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
@@ -136,6 +137,39 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
         return utils.sorted_dict(missed_heartbeats)
 
 
+class NovaAgentEventChecks(OpenstackEventChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         event_results_output_key='nova', **kwargs)
+
+    @EVENTCALLBACKS.callback
+    def pci_dev_not_found(self, event):
+        notfounds = {}
+        for result in event['results']:
+            ts_date = result.get(1)
+            ts_time = result.get(2)
+            pci_dev = result.get(3)
+
+            if ts_date not in notfounds:
+                notfounds[ts_date] = {}
+
+            if AGENT_ERROR_KEY_BY_TIME:
+                if ts_time not in notfounds:
+                    notfounds[ts_date][ts_time] = {pci_dev: 1}
+                elif pci_dev not in notfounds[ts_date][ts_time]:
+                    notfounds[ts_date][ts_time][pci_dev] = 1
+                else:
+                    notfounds[ts_date][ts_time][pci_dev] += 1
+            else:
+                if pci_dev not in notfounds[ts_date]:
+                    notfounds[ts_date][pci_dev] = 1
+                else:
+                    notfounds[ts_date][pci_dev] += 1
+
+        return notfounds, 'PciDeviceNotFoundById'
+
+
 class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
@@ -183,6 +217,8 @@ class AgentChecks(OpenstackChecksBase):
         checks = [
             NeutronAgentEventChecks(yaml_defs_group='neutron-agent-checks',
                                     searchobj=s),
+            NovaAgentEventChecks(yaml_defs_group='nova-checks',
+                                 searchobj=s),
             OctaviaAgentEventChecks(yaml_defs_group='octavia-checks',
                                     searchobj=s),
             AgentApparmorChecks(yaml_defs_group='apparmor-checks',

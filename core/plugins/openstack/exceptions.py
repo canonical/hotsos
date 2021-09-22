@@ -102,6 +102,11 @@ OSLO_MESSAGING_EXCEPTIONS = [
     "MessageUndeliverable",
 ]
 
+# From https://github.com/libvirt/libvirt-python used by Nova 
+PYTHON_LIBVIRT_EXCEPTIONS = [
+    "libvirtError",
+]
+
 # Since there are many many exception types we need to cherry-pick the ones we
 # care about to avoid search expresssions becoming too huge.
 # e.g. sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' nova/exception.py

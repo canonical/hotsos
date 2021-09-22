@@ -13,6 +13,7 @@ from core.plugins.openstack.exceptions import (
     CASTELLAN_EXCEPTIONS,
     CINDER_EXCEPTIONS,
     MANILA_EXCEPTIONS,
+    PYTHON_LIBVIRT_EXCEPTIONS,
     NOVA_EXCEPTIONS,
     NEUTRON_EXCEPTIONS,
     OCTAVIA_EXCEPTIONS,
@@ -35,7 +36,8 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
                                   'cinder': CINDER_EXCEPTIONS,
                                   'manila': MANILA_EXCEPTIONS,
                                   'neutron': NEUTRON_EXCEPTIONS,
-                                  'nova': NOVA_EXCEPTIONS,
+                                  'nova': NOVA_EXCEPTIONS +
+                                  PYTHON_LIBVIRT_EXCEPTIONS,
                                   'octavia': OCTAVIA_EXCEPTIONS,
                                   }
 

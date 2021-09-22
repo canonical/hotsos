@@ -54,6 +54,12 @@ openstack:
         expr: '.+\[instance: (\S+)\].+Received event (network-changed)-(\S+)\s+'
       network-vif-plugged:
         expr: '.+\[instance: (\S+)\].+Preparing to wait for external event (network-vif-plugged)-(\S+)\s+'
+  nova-checks:
+    path: 'var/log/nova/nova-compute.log'
+    warnings:
+      pci-dev-not-found:
+        expr: '^([0-9\-]+) (\S+) .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'
+        hint: 'WARNING'
   neutron-agent-checks:
     neutron-ovs-agent:
       path: 'var/log/neutron/neutron-openvswitch-agent.log'
