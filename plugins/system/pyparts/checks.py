@@ -26,7 +26,7 @@ class SystemChecks(SystemChecksBase):
         sysctl_key_values = {}
         path = os.path.join(constants.DATA_ROOT, 'etc/sysctl.d')
         if not os.path.isdir(path):
-            return
+            return sysctl_key_values
 
         for conf in confs:
             sysctl = SYSCtlHelper(os.path.join(path, conf))

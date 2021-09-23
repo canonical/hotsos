@@ -26,6 +26,19 @@ class CephOSDChecks(ceph.CephChecksBase):
         self.ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
         self.ceph_versions = self.cli.ceph_versions()
 
+    def check_require_osd_release(self):
+        cluster = ceph.CephCluster()
+        expected_rname = cluster.daemon_dump('osd').get('require_osd_release')
+        if expected_rname is None:
+            return
+
+        for rname in cluster.daemon_release_names('osd'):
+            if expected_rname > rname:
+                msg = ("require_osd_release is {} but one or more osds is on "
+                       "release {} - needs fixing".format(expected_rname,
+                                                          rname))
+                issue_utils.add_issue(issue_types.CephOSDError(msg))
+
     def get_ceph_pg_imbalance(self):
         """ Validate PG counts on OSDs
 
@@ -178,7 +191,7 @@ class CephOSDChecks(ceph.CephChecksBase):
 
     def check_bcache_vulnerabilities(self):
         has_bcache = False
-        for osd in self.osds:
+        for osd in self.local_osds:
             dev = osd.device
             if self.is_bcache_device(dev):
                 has_bcache = True
@@ -223,15 +236,16 @@ class CephOSDChecks(ceph.CephChecksBase):
         issue_utils.add_issue(issue)
 
     def __call__(self):
-        if self.osds:
+        if self.local_osds:
             osds = {}
-            for osd in self.osds:
+            for osd in self.local_osds:
                 osds.update(osd.to_dict())
 
-            self._output["osds"] = sorted_dict(osds)
+            self._output["local-osds"] = sorted_dict(osds)
 
             self.check_bcache_vulnerabilities()
 
+        self.check_require_osd_release()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()

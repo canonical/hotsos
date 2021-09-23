@@ -15,7 +15,6 @@ from core.searchtools import (
     SequenceSearchDef,
     SearchDef
 )
-from core.utils import mktemp_dump
 
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
@@ -49,13 +48,10 @@ class CephConfig(checks.SectionalConfigBase):
         super().__init__(path=path, *args, **kwargs)
 
 
-class CephDaemonBase(object):
+class CephCluster(object):
 
-    def __init__(self, daemon_type):
-        self.daemon_type = daemon_type
+    def __init__(self):
         self.cli = CLIHelper()
-        self.date_in_secs = utils.get_date_secs()
-        self._version_info = None
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_mon_dump': self.cli.ceph_mon_dump(),
                           'ceph_osd_dump': self.cli.ceph_osd_dump(),
@@ -69,13 +65,31 @@ class CephDaemonBase(object):
             if os.path.exists(tmpfile):
                 os.unlink(tmpfile)
 
-    def _get_version_info(self):
+    def daemon_dump(self, daemon_type):
+        """
+        @param daemon_type: daemon type e.g. mon/osd
+
+        Returns a dict where key is first word on each line of dump and value
+        is the remainder.
+        """
+        cmd = "ceph_{}_dump".format(daemon_type)
+        out = self.cli_cache[cmd]
+        if not out:
+            return
+
+        dump = {}
+        s = FileSearcher()
+        s.add_search_term(SearchDef(r"^(\S+)\s+(.+)", tag='dump'),
+                          path=self.cli_cache[cmd])
+        for result in s.search().find_by_tag('dump'):
+            dump[result.get(1)] = result.get(2)
+
+        return dump
+
+    def _get_version_info(self, daemon_type):
         """
         Returns a dict of veph versions info for our daemon type.
         """
-        if self._version_info:
-            return self._version_info
-
         out = self.cli_cache['ceph_versions']
         if not out:
             return
@@ -83,9 +97,9 @@ class CephDaemonBase(object):
         versions = {}
         s = FileSearcher()
         sd = SequenceSearchDef(
-            start=SearchDef(r"^\s+\"{}\":".format(self.daemon_type)),
-            body=SearchDef([r"\s+\"ceph version (\S+) .+ (\S+) "
-                            r"\(\S+\)\":\s+(\d)+$"]),
+            start=SearchDef(r"^\s+\"{}\":".format(daemon_type)),
+            body=SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
+                           r"\(\S+\)\":\s+(\d)+$"),
             end=SearchDef(r"^\s+\"\S+\":"),
             tag="versions")
         s.add_search_term(sd, path=self.cli_cache['ceph_versions'])
@@ -98,10 +112,123 @@ class CephDaemonBase(object):
                     versions[version] = {'release_name': rname,
                                          'count': int(amount)}
 
-        if versions:
-            self._version_info = versions
+        return versions
 
-        return self._version_info
+    def daemon_versions(self, daemon_type):
+        """
+        Returns a dict of versions of daemon type associated with the
+        number of each that is running. Ideally this would only return a single
+        version showing that all daemons are in sync but sometimes e.g.
+        during an upgrade this may not be the case.
+        """
+        _versions = {}
+        version_info = self._get_version_info(daemon_type)
+        if version_info:
+            for ver, info in version_info.items():
+                _versions[ver] = info['count']
+
+        return _versions
+
+    def daemon_release_names(self, daemon_type):
+        """
+        Same as versions property but with release names instead of versions.
+        """
+        _releases = {}
+        version_info = self._get_version_info(daemon_type)
+        if version_info:
+            for info in version_info.values():
+                rname = info['release_name']
+                if rname in _releases:
+                    _releases[rname] += info['count']
+                else:
+                    _releases[rname] = info['count']
+
+        return _releases
+
+
+class CephDaemonBase(object):
+
+    def __init__(self, daemon_type):
+        self.daemon_type = daemon_type
+        self.cli = CLIHelper()
+        self.date_in_secs = utils.get_date_secs()
+        self._version_info = None
+        self._etime = None
+        self._rss = None
+        self.cluster = CephCluster()
+        # create file-based caches of useful commands so they can be searched.
+        self.cli_cache = {'ps': self.cli.ps()}
+        for cmd, output in self.cli_cache.items():
+            self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
+
+    def __del__(self):
+        """ Ensure temp files/dirs are deleted. """
+        for tmpfile in self.cli_cache.values():
+            if os.path.exists(tmpfile):
+                os.unlink(tmpfile)
+
+    @property
+    def rss(self):
+        """Return memory RSS for a given daemon.
+
+        NOTE: this assumes we have ps auxwwwm format.
+        """
+        if self._rss:
+            return self._rss
+
+        s = FileSearcher()
+        # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+        sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+"
+                       r".+--id\s+{}\s+.+".format(self.daemon_type, self.id))
+        s.add_search_term(sd, path=self.cli_cache['ps'])
+        rss = 0
+        # we only expect one result
+        for result in s.search().find_by_path(self.cli_cache['ps']):
+            rss = int(int(result.get(1)) / 1024)
+            break
+
+        self._rss = "{}M".format(rss)
+        return self._rss
+
+    @property
+    def etime(self):
+        """Return process etime for a given daemon.
+
+        To get etime we have to use ps_axo_flags rather than the default
+        ps_auxww.
+        """
+        if self._etime:
+            return self._etime
+
+        if not get_ps_axo_flags_available():
+            return
+
+        ps_info = []
+        daemon = "ceph-{}".format(self.daemon_type)
+        for line in self.cli.ps_axo_flags():
+            ret = re.compile(daemon).search(line)
+            if not ret:
+                continue
+
+            expt_tmplt = checks.SVC_EXPR_TEMPLATES["absolute"]
+            ret = re.compile(expt_tmplt.format(daemon)).search(line)
+            if ret:
+                ps_info.append(ret.group(0))
+
+        if not ps_info:
+            return
+
+        for cmd in ps_info:
+            ret = re.compile(r".+\s+.+--id {}\s+.+".format(self.id)).match(cmd)
+            if ret:
+                osd_start = ' '.join(cmd.split()[13:17])
+                if self.date_in_secs and osd_start:
+                    osd_start_secs = utils.get_date_secs(datestring=osd_start)
+                    osd_uptime_secs = (self.date_in_secs - osd_start_secs)
+                    osd_uptime_str = utils.seconds_to_date(osd_uptime_secs)
+                    self._etime = osd_uptime_str
+
+        return self._etime
 
     @property
     def versions(self):
@@ -111,32 +238,14 @@ class CephDaemonBase(object):
         version showing that all daemons are in sync but sometimes e.g.
         during an upgrade this may not be the case.
         """
-        _versions = {}
-        version_info = self._get_version_info()
-        if version_info:
-            for ver, info in version_info.items():
-                _versions[ver] = info['count']
-
-        if _versions:
-            return _versions
+        return self.cluster.daemon_versions(self.daemon_type)
 
     @property
     def release_names(self):
         """
         Same as versions property but with release names instead of versions.
         """
-        _releases = {}
-        version_info = self._get_version_info()
-        if version_info:
-            for info in version_info.values():
-                rname = info['release_name']
-                if rname in _releases:
-                    _releases[rname] += info['count']
-                else:
-                    _releases[rname] = info['count']
-
-        if _releases:
-            return _releases
+        return self.cluster.daemon_release_names(self.daemon_type)
 
 
 class CephMon(CephDaemonBase):
@@ -150,17 +259,7 @@ class CephMon(CephDaemonBase):
         if self._mon_dump:
             return self._mon_dump
 
-        out = self.cli_cache['ceph_mon_dump']
-        if not out:
-            return
-
-        dump = {}
-        s = FileSearcher()
-        s.add_search_term(SearchDef(r"^(\S+)\s+(.+)", tag='dump'),
-                          path=self.cli_cache['ceph_mon_dump'])
-        for result in s.search().find_by_tag('dump'):
-            dump[result.get(1)] = result.get(2)
-
+        dump = self.cluster.daemon_dump(self.daemon_type)
         if dump:
             self._mon_dump = dump
 
@@ -181,14 +280,12 @@ class CephRGW(CephDaemonBase):
 
 class CephOSD(CephDaemonBase):
 
-    def __init__(self, id, fsid, device):
+    def __init__(self, id, fsid=None, device=None):
         super().__init__('osd')
         self.id = id
         self.fsid = fsid
         self.device = device
         self._devtype = None
-        self._etime = None
-        self._rss = None
         self._osd_dump = None
 
     @property
@@ -196,17 +293,7 @@ class CephOSD(CephDaemonBase):
         if self._osd_dump:
             return self._osd_dump
 
-        out = self.cli_cache['ceph_osd_dump']
-        if not out:
-            return
-
-        dump = {}
-        s = FileSearcher()
-        s.add_search_term(SearchDef(r"^(\S+)\s+(.+)", tag='dump'),
-                          path=self.cli_cache['ceph_osd_dump'])
-        for result in s.search().find_by_tag('dump'):
-            dump[result.get(1)] = result.get(2)
-
+        dump = self.cluster.daemon_dump(self.daemon_type)
         if dump:
             self._osd_dump = dump
 
@@ -229,72 +316,6 @@ class CephOSD(CephDaemonBase):
         return d
 
     @property
-    def rss(self):
-        """Return memory RSS for a given OSD.
-
-        NOTE: this assumes we have ps auxwwwm format.
-        """
-        if self._rss:
-            return self._rss
-
-        f_osd_ps_cmds = mktemp_dump(''.join(self.cli.ps()))
-
-        s = FileSearcher()
-        # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-        sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-osd\s+"
-                       r".+--id\s+{}\s+.+".format(self.id))
-        s.add_search_term(sd, path=f_osd_ps_cmds)
-        rss = 0
-        # we only expect one result
-        for result in s.search().find_by_path(f_osd_ps_cmds):
-            rss = int(int(result.get(1)) / 1024)
-            break
-
-        os.unlink(f_osd_ps_cmds)
-        self._rss = "{}M".format(rss)
-        return self._rss
-
-    @property
-    def etime(self):
-        """Return process etime for a given OSD.
-
-        To get etime we have to use ps_axo_flags rather than the default
-        ps_auxww.
-        """
-        if self._etime:
-            return self._etime
-
-        if not get_ps_axo_flags_available():
-            return
-
-        ps_osds = []
-        for line in self.cli.ps_axo_flags():
-            ret = re.compile("ceph-osd").search(line)
-            if not ret:
-                continue
-
-            expt_tmplt = checks.SVC_EXPR_TEMPLATES["absolute"]
-            ret = re.compile(expt_tmplt.format("ceph-osd")).search(line)
-            if ret:
-                ps_osds.append(ret.group(0))
-
-        if not ps_osds:
-            return
-
-        for cmd in ps_osds:
-            ret = re.compile(r".+\s+.+--id {}\s+.+".format(
-                             self.id)).match(cmd)
-            if ret:
-                osd_start = ' '.join(cmd.split()[13:17])
-                if self.date_in_secs and osd_start:
-                    osd_start_secs = utils.get_date_secs(datestring=osd_start)
-                    osd_uptime_secs = (self.date_in_secs - osd_start_secs)
-                    osd_uptime_str = utils.seconds_to_date(osd_uptime_secs)
-                    self._etime = osd_uptime_str
-
-        return self._etime
-
-    @property
     def devtype(self):
         if self._devtype:
             return self._devtype
@@ -312,7 +333,8 @@ class CephChecksBase(StorageBase):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self._bcache_info = []
-        self._osds = {}
+        self._local_osds = None
+        self._cluster_osds = None
         self.apt_check = checks.APTPackageChecksBase(
                                                 core_pkgs=CEPH_PKGS_CORE,
                                                 other_pkgs=CEPH_PKGS_OTHER)
@@ -392,7 +414,16 @@ class CephChecksBase(StorageBase):
 
         return interfaces
 
-    def _get_osds(self):
+    def _get_cluster_osds(self):
+        cluster_osds = []
+        for key in CephOSD(None).osd_dump:
+            ret = re.compile(r'^osd\.(\d+)').match(key)
+            if ret:
+                cluster_osds.append(CephOSD(int(ret.group(1))))
+
+        return cluster_osds
+
+    def _get_local_osds(self):
         if not self.cli_cache['ceph_volume_lvm_list']:
             return
 
@@ -402,7 +433,7 @@ class CephChecksBase(StorageBase):
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
         s.add_search_term(sd, path=self.cli_cache['ceph_volume_lvm_list'])
-        osds = []
+        local_osds = []
         for results in s.search().find_sequence_sections(sd).values():
             id = None
             fsid = None
@@ -416,18 +447,29 @@ class CephChecksBase(StorageBase):
                     elif result.get(1) == "devices":
                         dev = result.get(2)
 
-            osds.append(CephOSD(id, fsid, dev))
+            local_osds.append(CephOSD(id, fsid, dev))
 
-        return osds
+        return local_osds
 
     @property
-    def osds(self):
-        """ Get key information about OSDs. """
-        if self._osds:
-            return self._osds
+    def cluster_osds(self):
+        """ Returns a list of CephOSD objects for all osds in the cluster. """
+        if self._cluster_osds:
+            return self._cluster_osds
 
-        self._osds = self._get_osds()
-        return self._osds
+        self._cluster_osds = self._get_cluster_osds()
+        return self._cluster_osds
+
+    @property
+    def local_osds(self):
+        """
+        Returns a list of CephOSD objects for osds found on the local host.
+        """
+        if self._local_osds:
+            return self._local_osds
+
+        self._local_osds = self._get_local_osds()
+        return self._local_osds
 
     @property
     def bcache_info(self):

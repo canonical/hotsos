@@ -26,6 +26,25 @@ osd journal size = 1024
 filestore xattr use omap = true
 """
 
+CEPH_VERSIONS_MISMATCHED = """
+{
+    "mon": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
+    },
+    "mgr": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
+    },
+    "osd": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 2
+        "ceph version 14.2.18 (b77bc49e3a57a87d84df112a087a2058aa217118) nautilus (stable)": 1
+    },
+    "mds": {},
+    "overall": {
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 5
+    }
+}
+"""  # noqa
+
 
 class StorageTestsBase(utils.BaseTestCase):
 
@@ -68,11 +87,11 @@ class TestStorageCephDaemons(StorageTestsBase):
 
     def test_mds_versions(self):
         versions = ceph_core.CephMDS().versions
-        self.assertIsNone(versions)
+        self.assertEqual(versions, {})
 
     def test_rgw_versions(self):
         versions = ceph_core.CephRGW().versions
-        self.assertIsNone(versions)
+        self.assertEqual(versions, {})
 
     def test_osd_release_name(self):
         release_names = ceph_core.CephOSD(1, 1234, '/dev/foo').release_names
@@ -164,6 +183,18 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         inst.get_ceph_versions_mismatch()
         self.assertIsNone(inst.output)
 
+    @mock.patch.object(ceph_daemon_checks, 'issue_utils')
+    def test_check_require_osd_release(self, mock_issue_utils):
+        osd_dump = ceph_core.CLIHelper().ceph_osd_dump()
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_versions.return_value = \
+                CEPH_VERSIONS_MISMATCHED.split('\n')
+            mock_helper.return_value.ceph_osd_dump.return_value = osd_dump
+            inst = ceph_daemon_checks.CephOSDChecks()
+            inst.check_require_osd_release()
+            self.assertTrue(mock_issue_utils.add_issue.called)
+
     @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
         issues = []
@@ -198,7 +229,12 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
     def test_get_osd_ids(self):
         inst = ceph_daemon_checks.CephOSDChecks()
         inst()
-        self.assertEqual([osd.id for osd in inst.osds], [0])
+        self.assertEqual([osd.id for osd in inst.local_osds], [0])
+
+    def test_get_cluster_osd_ids(self):
+        inst = ceph_daemon_checks.CephOSDChecks()
+        inst()
+        self.assertEqual([osd.id for osd in inst.cluster_osds], [0, 1, 2])
 
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance_unavailable(self, mock_helper):
@@ -217,7 +253,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
                     'rss': '639M'}}
         inst = ceph_daemon_checks.CephOSDChecks()
         inst()
-        self.assertEqual(inst.output["ceph"]["osds"], expected)
+        self.assertEqual(inst.output["ceph"]["local-osds"], expected)
 
     @mock.patch.object(ceph_daemon_checks, 'KernelChecksBase')
     @mock.patch.object(ceph_daemon_checks.bcache, 'BcacheChecksBase')
