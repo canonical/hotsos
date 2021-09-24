@@ -33,11 +33,32 @@ class CephOSDChecks(ceph.CephChecksBase):
             return
 
         for rname in cluster.daemon_release_names('osd'):
-            if expected_rname > rname:
+            if expected_rname != rname:
                 msg = ("require_osd_release is {} but one or more osds is on "
                        "release {} - needs fixing".format(expected_rname,
                                                           rname))
                 issue_utils.add_issue(issue_types.CephOSDError(msg))
+
+    def check_osd_msgr_protocol_versions(self):
+        """Check if any OSDs are not using the messenger v2 protocol
+
+        The msgr v2 is the second major revision of Ceph’s on-wire protocol
+        and should be the default Nautilus onward."""
+        v1_osds = []
+        cluster = ceph.CephCluster()
+        osd_count = int(cluster.daemon_dump('osd').get('max_osd'))
+        counter = 0
+        if osd_count < 1:
+            return
+        while counter < osd_count:
+            key = "osd.{}".format(counter)
+            version_info = cluster.daemon_dump('osd').get(key)
+            if version_info.find("v2:") == -1:
+                v1_osds.append(counter+1)
+            counter = counter + 1
+        if v1_osds:
+            msg = ("{} OSDs do not bind to v2 address".format(len(v1_osds)))
+            issue_utils.add_issue(issue_types.CephOSDWarning(msg))
 
     def get_ceph_pg_imbalance(self):
         """ Validate PG counts on OSDs
@@ -247,6 +268,7 @@ class CephOSDChecks(ceph.CephChecksBase):
             self.check_bcache_vulnerabilities()
 
         self.check_require_osd_release()
+        self.check_osd_msgr_protocol_versions()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()

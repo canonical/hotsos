@@ -24,6 +24,10 @@ class CephOSDError(IssueTypeBase):
     pass
 
 
+class CephOSDWarning(IssueTypeBase):
+    pass
+
+
 class CephDaemonWarning(IssueTypeBase):
     pass
 
