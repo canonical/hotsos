@@ -45,6 +45,13 @@ CEPH_VERSIONS_MISMATCHED = """
 }
 """  # noqa
 
+OSD_V2FAIL = """
+max_osd 3
+osd.0 up   in  weight 1 up_from 651 up_thru 658 down_at 650 last_clean_interval [635,645) [v1:10.0.0.49:6801/33943] [v1:10.0.0.49:6803/33943] exists,up 51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+osd.1 up   in  weight 1 up_from 658 up_thru 658 down_at 652 last_clean_interval [638,645) [v1:10.0.0.48:6801/24136] [v1:10.0.0.48:6803/24136] exists,up 625f0760-586e-4032-bd89-c7fc5080ed05
+osd.2 up   in  weight 1 up_from 655 up_thru 658 down_at 652 last_clean_interval [631,645) [v1:10.0.0.50:6801/31448] [v1:10.0.0.50:6803/31448] exists,up c42942cd-878c-43e7-afb3-2667f65a2e41
+ """  # noqa
+
 
 class StorageTestsBase(utils.BaseTestCase):
 
@@ -193,6 +200,16 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
             mock_helper.return_value.ceph_osd_dump.return_value = osd_dump
             inst = ceph_daemon_checks.CephOSDChecks()
             inst.check_require_osd_release()
+            self.assertTrue(mock_issue_utils.add_issue.called)
+
+    @mock.patch.object(ceph_daemon_checks, 'issue_utils')
+    def test_check_osd_v2(self, mock_issue_utils):
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_osd_dump.return_value = \
+                OSD_V2FAIL.split('\n')
+            inst = ceph_daemon_checks.CephOSDChecks()
+            inst.check_osd_msgr_protocol_versions()
             self.assertTrue(mock_issue_utils.add_issue.called)
 
     @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
