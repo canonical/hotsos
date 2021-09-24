@@ -205,18 +205,19 @@ class CephOSDChecks(ceph.CephChecksBase):
                 return
 
         # Get version of osd based on package installed. This is prone to
-        # inaccuracy since the deamom many not have been restarted after
+        # inaccuracy since the daemon many not have been restarted after
         # package update.
         current = self.apt_check.get_version('ceph-osd')
-        if current < DPKGVersionCompare("13.2.0"):
+        if current <= DPKGVersionCompare("13.0.1"):
             return
-
-        if current < DPKGVersionCompare("15.2.0"):
-            if current > DPKGVersionCompare("14.2.0"):
-                if current > DPKGVersionCompare("14.2.10"):
-                    if current < DPKGVersionCompare("14.2.22"):
-                        return
-        elif current < DPKGVersionCompare("15.2.13"):
+        if current >= DPKGVersionCompare("14.2.10") and \
+           current <= DPKGVersionCompare("14.2.21"):
+            return
+        if current >= DPKGVersionCompare("15.2.2") and \
+           current <= DPKGVersionCompare("15.2.12"):
+            return
+        if current == DPKGVersionCompare("16.1.0") or \
+           current == DPKGVersionCompare("17.0.0"):
             return
 
         if KernelChecksBase().version >= "5.4":

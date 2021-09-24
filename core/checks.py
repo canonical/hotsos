@@ -730,6 +730,12 @@ class DPKGVersionCompare(object):
     def __gt__(self, b):
         return not self._exec('le', b)
 
+    def __le__(self, b):
+        return self._exec('le', b)
+
+    def __ge__(self, b):
+        return self._exec('ge', b)
+
 
 def dict_to_formatted_str_list(f):
     """
