@@ -32,7 +32,7 @@ definitions categories:
            operation on the information retreived.  See yaml file for full
            description.
 
-* config_checks - Defines criteria for indentifying invalid application
+* config_checks - Defines criteria for identifying invalid application
                   configuration. See yaml file for full description. 
  
 * package\_bug\_checks - Defines criteria for identifying whether installed
