@@ -55,7 +55,8 @@ class CephCluster(object):
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_mon_dump': self.cli.ceph_mon_dump(),
                           'ceph_osd_dump': self.cli.ceph_osd_dump(),
-                          'ceph_versions': self.cli.ceph_versions()}
+                          'ceph_versions': self.cli.ceph_versions(),
+                          'ceph_report': self.cli.ceph_report()}
         for cmd, output in self.cli_cache.items():
             self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
 
@@ -88,7 +89,7 @@ class CephCluster(object):
 
     def _get_version_info(self, daemon_type):
         """
-        Returns a dict of veph versions info for our daemon type.
+        Returns a dict of ceph versions info for our daemon type.
         """
         out = self.cli_cache['ceph_versions']
         if not out:

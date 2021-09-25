@@ -349,6 +349,9 @@ class CLIHelper(object):
             'ceph_volume_lvm_list':
                 [BinCmd('ceph-volume lvm list'),
                  FileCmd('sos_commands/ceph/ceph-volume_lvm_list')],
+            'ceph_report':
+                [BinCmd('ceph report'),
+                 FileCmd('sos_commands/ceph/ceph_report')],
             'date':
                 [DateBinCmd('date --utc {format}', singleline=True),
                  DateFileCmd('sos_commands/date/date', singleline=True)],
