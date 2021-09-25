@@ -29,7 +29,7 @@ class CephOSDChecks(ceph.CephChecksBase):
     def check_require_osd_release(self):
         cluster = ceph.CephCluster()
         expected_rname = cluster.daemon_dump('osd').get('require_osd_release')
-        if expected_rname is None:
+        if not expected_rname:
             return
 
         for rname in cluster.daemon_release_names('osd'):
@@ -53,7 +53,7 @@ class CephOSDChecks(ceph.CephChecksBase):
         while counter < osd_count:
             key = "osd.{}".format(counter)
             version_info = cluster.daemon_dump('osd').get(key)
-            if version_info.find("v2:") == -1:
+            if version_info and version_info.find("v2:") == -1:
                 v1_osds.append(counter+1)
             counter = counter + 1
         if v1_osds:
@@ -204,7 +204,7 @@ class CephOSDChecks(ceph.CephChecksBase):
                 bad_buckets.append(buckets[bid]["name"])
 
         if bad_buckets:
-            msg = ("mixed crush buckets indentified (see --storage for more "
+            msg = ("mixed crush buckets identified (see --storage for more "
                    "info)")
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
