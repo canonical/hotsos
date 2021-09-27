@@ -322,15 +322,22 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
     def test_get_network_checker(self):
         expected = {
             'config': {
-                'nova': {
-                    'my_ip': '10.0.0.49 (br-ens3)'
-                },
-                'neutron': {
-                    'local_ip': '10.0.0.49 (br-ens3)'
-                },
-                'octavia': {
-                    'o-hm0': 'fc00:2203:1448:17b7:f816:3eff:fe4f:ed8a (o-hm0)'
-                }
+                'nova': {'my_ip': {
+                    'br-ens3': {
+                        'addresses': ['10.0.0.49'],
+                        'hwaddr': '52:54:00:e2:28:a3',
+                        'state': 'UP'}}},
+                'neutron': {'local_ip': {
+                    'br-ens3': {
+                        'addresses': ['10.0.0.49'],
+                        'hwaddr': '52:54:00:e2:28:a3',
+                        'state': 'UP'}}},
+                'octavia': {'o-hm0': {
+                    'o-hm0': {
+                        'addresses': [
+                            'fc00:2203:1448:17b7:f816:3eff:fe4f:ed8a'],
+                        'hwaddr': 'fa:16:3e:4f:ed:8a',
+                        'state': 'UNKNOWN'}}}
             },
             'namespaces': {
                 'fip': 1,

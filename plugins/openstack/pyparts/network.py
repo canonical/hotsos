@@ -53,8 +53,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             if 'neutron' not in config_info:
                 config_info['neutron'] = {}
 
-            config_info['neutron'][key] = "{} ({})".format(port.addresses[0],
-                                                           port.name)
+            config_info['neutron'][key] = port.to_dict()
             stats = self._get_port_stat_outliers(port.stats)
             if stats:
                 port_health_info[port.name] = stats
@@ -70,16 +69,14 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             if 'nova' not in config_info:
                 config_info['nova'] = {}
 
-            config_info['nova'][key] = "{} ({})".format(port.addresses[0],
-                                                        port.name)
+            config_info['nova'][key] = port.to_dict()
 
         for key, port in self.octavia_bind_interfaces.items():
             if 'octavia' not in config_info:
                 config_info['octavia'] = {}
 
             if port.addresses:
-                config_info['octavia'][key] = "{} ({})".format(
-                        port.addresses[0], port.name)
+                config_info['octavia'][key] = port.to_dict()
             else:
                 msg = ("No IP address found on Octavia Health manager port "
                        "({}). Octavia will not be able to communicate with "

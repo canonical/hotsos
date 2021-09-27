@@ -419,35 +419,40 @@ class CephChecksBase(StorageBase):
 
         return relname
 
+    def get_bind_interfaces(self, type):
+        """
+        For the given config network type determine what interface ceph is
+        binding to.
+
+        @param type: cluster or public
+        """
+        net = self.ceph_config.get('{} network'.format(type))
+        addr = self.ceph_config.get('{} addr'.format(type))
+        if not any([net, addr]):
+            return {}
+
+        nethelp = host_helpers.HostNetworkingHelper()
+        port = None
+        if net:
+            port = nethelp.get_interface_with_addr(net)
+        elif addr:
+            port = nethelp.get_interface_with_addr(addr)
+
+        if port:
+            return {type: port}
+
     @property
     def bind_interfaces(self):
         """
-        If ceph is using specific network interfaces, return them as a dict.
+        Determine which interfaces Ceph daemons are binding to based on their
+        ceph configuration. Return a dict keyed by network
+        config type i.e. cluster/public.
         """
-        pub_net = self.ceph_config.get('public network')
-        pub_addr = self.ceph_config.get('public addr')
-        clus_net = self.ceph_config.get('cluster network')
-        clus_addr = self.ceph_config.get('cluster addr')
-
         interfaces = {}
-        if not any([pub_net, pub_addr, clus_net, clus_addr]):
-            return interfaces
-
-        nethelp = host_helpers.HostNetworkingHelper()
-
-        if pub_net:
-            iface = nethelp.get_interface_with_addr(pub_net).to_dict()
-            interfaces.update(iface)
-        elif pub_addr:
-            iface = nethelp.get_interface_with_addr(pub_addr).to_dict()
-            interfaces.update(iface)
-
-        if clus_net:
-            iface = nethelp.get_interface_with_addr(clus_net).to_dict()
-            interfaces.update(iface)
-        elif clus_addr:
-            iface = nethelp.get_interface_with_addr(clus_addr).to_dict()
-            interfaces.update(iface)
+        for type in ['cluster', 'public']:
+            ret = self.get_bind_interfaces(type)
+            if ret:
+                interfaces.update(ret)
 
         return interfaces
 
