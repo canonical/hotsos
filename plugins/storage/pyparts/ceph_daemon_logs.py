@@ -68,7 +68,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
     @EVENTCALLBACKS.callback
     def slow_requests(self, event):
         slow_requests = {}
-        for result in sorted(event['results'], key=lambda r: r.get(1)):
+        for result in sorted(event.results, key=lambda r: r.get(1)):
             date = result.get(1)
             count = result.get(2)
             if date not in slow_requests:
@@ -80,12 +80,12 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def osd_reported_failed(self, event):
-        return self.get_timings(event['results'],
+        return self.get_timings(event.results,
                                 group_by_resource=True)
 
     @EVENTCALLBACKS.callback
     def mon_elections_called(self, event):
-        return self.get_timings(event['results'],
+        return self.get_timings(event.results,
                                 group_by_resource=True)
 
     def _get_crc_errors(self, results, osd_type):
@@ -122,17 +122,17 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def crc_err_bluestore(self, event):
-        return self._get_crc_errors(event['results'], 'bluestore')
+        return self._get_crc_errors(event.results, 'bluestore')
 
     @EVENTCALLBACKS.callback
     def crc_err_rocksdb(self, event):
-        return self._get_crc_errors(event['results'], 'rocksdb')
+        return self._get_crc_errors(event.results, 'rocksdb')
 
     @EVENTCALLBACKS.callback
     def long_heartbeat_pings(self, event):
-        return self.get_timings(event['results'],
+        return self.get_timings(event.results,
                                 resource_osd_from_source=True)
 
     @EVENTCALLBACKS.callback
     def heartbeat_no_reply(self, event):
-        return self.get_timings(event['results'])
+        return self.get_timings(event.results)

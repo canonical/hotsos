@@ -22,13 +22,13 @@ class KernelLogEventChecks(KernelEventChecksBase):
     @EVENTCALLBACKS.callback
     def stacktrace(self, event):
         msg = ("kern.log contains {} stacktraces.".
-               format(len(event['results'])))
+               format(len(event.results)))
         issue = issue_types.KernelError(msg)
         issue_utils.add_issue(issue)
 
     @EVENTCALLBACKS.callback
     def oom_killer_invoked(self, event):
-        results = event['results']
+        results = event.results
         process_name = results[0].get(3)
         time_oomd = "{} {}".format(results[0].get(1),
                                    results[0].get(2))
@@ -40,9 +40,8 @@ class KernelLogEventChecks(KernelEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def over_mtu_dropped_packets(self, event):
-        results = event['results']
         interfaces = {}
-        for r in results:
+        for r in event.results:
             if r.get(1) in interfaces:
                 interfaces[r.get(1)] += 1
             else:
