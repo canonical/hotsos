@@ -1,4 +1,3 @@
-import json
 import re
 
 from core.checks import DPKGVersionCompare
@@ -20,11 +19,6 @@ OSD_PG_OPTIMAL_NUM = 200
 
 
 class CephOSDChecks(ceph.CephChecksBase):
-
-    def __init__(self):
-        super().__init__()
-        self.ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
-        self.ceph_versions = self.cli.ceph_versions()
 
     def check_require_osd_release(self):
         cluster = ceph.CephCluster()
@@ -70,12 +64,13 @@ class CephOSDChecks(ceph.CephChecksBase):
         We also check for OSDs with excessive numbers of PGs that can cause
         them to fail.
         """
-        if not self.ceph_osd_df_tree:
+        ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
+        if not ceph_osd_df_tree:
             return
 
         # Find index of PGS column in output.
         pgs_idx = None
-        header = self.ceph_osd_df_tree[0].split()
+        header = ceph_osd_df_tree[0].split()
         for i, col in enumerate(header):
             if col == "PGS":
                 pgs_idx = i + 1
@@ -87,7 +82,7 @@ class CephOSDChecks(ceph.CephChecksBase):
         pgs_idx = -(len(header) - pgs_idx)
         suboptimal_pgs = {}
         error_pgs = {}
-        for line in self.ceph_osd_df_tree:
+        for line in ceph_osd_df_tree:
             try:
                 ret = re.compile(r"\s+(osd\.\d+)\s*$").search(line)
                 if ret:
@@ -126,35 +121,29 @@ class CephOSDChecks(ceph.CephChecksBase):
         """
         Get versions of all Ceph daemons.
         """
-        if not self.ceph_versions:
+        versions = ceph.CephCluster().daemon_versions()
+        if not versions:
             return
 
-        try:
-            data = json.loads(''.join(self.ceph_versions))
-        except ValueError:
-            return
-
-        versions_set = set()
+        global_vers = set()
         daemon_version_info = {}
-        if data:
-            for unit, _ in data.items():
-                if unit == "overall":
-                    continue
+        for daemon_type in versions:
+            # skip the catchall
+            if daemon_type == 'overall':
+                continue
 
-                vers = []
-                for key, _ in data[unit].items():
-                    if re.compile(r"ceph version.+").match(key):
-                        d_ver = key.split()[2]
-                        if d_ver not in vers:
-                            vers.append(d_ver)
-                            versions_set.add(d_ver)
-                if vers:
-                    daemon_version_info[unit] = vers
+            vers = []
+            for version in versions[daemon_type]:
+                vers.append(version)
+                global_vers.add(version)
+
+            if vers:
+                daemon_version_info[daemon_type] = vers
 
         if daemon_version_info:
-            self._output["versions"] = daemon_version_info
-            if len(versions_set) > 1:
-                msg = ("ceph daemon versions not aligned")
+            self._output['versions'] = daemon_version_info
+            if len(global_vers) > 1:
+                msg = ('ceph daemon versions not aligned')
                 issue = issue_types.CephDaemonWarning(msg)
                 issue_utils.add_issue(issue)
 
