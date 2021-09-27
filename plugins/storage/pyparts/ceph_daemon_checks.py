@@ -40,16 +40,23 @@ class CephOSDChecks(ceph.CephChecksBase):
         and should be the default Nautilus onward."""
         v1_osds = []
         cluster = ceph.CephCluster()
-        osd_count = int(cluster.daemon_dump('osd').get('max_osd'))
-        counter = 0
+        osd_dump = cluster.daemon_dump('osd')
+        if not osd_dump:
+            return
+
+        osd_count = int(cluster.daemon_dump('osd').get('max_osd', 0))
         if osd_count < 1:
             return
+
+        counter = 0
         while counter < osd_count:
             key = "osd.{}".format(counter)
             version_info = cluster.daemon_dump('osd').get(key)
             if version_info and version_info.find("v2:") == -1:
                 v1_osds.append(counter+1)
+
             counter = counter + 1
+
         if v1_osds:
             msg = ("{} OSDs do not bind to v2 address".format(len(v1_osds)))
             issue_utils.add_issue(issue_types.CephOSDWarning(msg))
