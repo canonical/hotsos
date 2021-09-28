@@ -28,6 +28,10 @@ class CephOSDWarning(IssueTypeBase):
     pass
 
 
+class CephMapsWarning(IssueTypeBase):
+    pass
+
+
 class CephDaemonWarning(IssueTypeBase):
     pass
 

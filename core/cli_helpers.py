@@ -1,9 +1,10 @@
 import glob
+import json
 import os
 import re
 import subprocess
 import sys
-import json
+import tempfile
 
 from core import constants
 
@@ -41,7 +42,7 @@ class NullSource(object):
 def run_pre_exec_hooks(f):
     """ pre-exec hooks are run before running __call__ method.
 
-    These hooks are not expetced to return anything and are used to manipulate
+    These hooks are not expected to return anything and are used to manipulate
     the instance variables used by the main __call__ method.
     """
     def run_pre_exec_hooks_inner(self, *args, **kwargs):
@@ -290,6 +291,35 @@ class DateFileCmd(FileCmd):
         return output.decode('UTF-8').splitlines(keepends=True)[0]
 
 
+class CephReportFileCmd(FileCmd):
+
+    def __init__(self, *args, **kwargs):  # pylint: disable=W0613
+        super().__init__(*args, **kwargs)
+        self.register_hook("pre-exec", self.format_json_contents)
+        self.register_hook("post-exec", self.cleanup)
+        self.orig_path = None
+
+    def format_json_contents(self, *args, **kwargs):  # pylint: disable=W0613
+        with open(self.path) as f:
+            lines = f.readlines()
+
+        # Remove the last line as that makes it an invalid json.
+        # The extra line comes from the stderr of 'ceph report'.
+        if lines and lines[-1].startswith('report'):
+            lines = lines[:-1]
+            with tempfile.NamedTemporaryFile(mode='w+t', delete=False) as tmp:
+                tmp.write(''.join(lines))
+                tmp.close()
+                self.orig_path = self.path
+                self.path = tmp.name
+
+    def cleanup(self, output, **kwargs):  # pylint: disable=W0613
+        if not self.orig_path:
+            os.unlink(self.path)
+            self.path = self.orig_path
+        return output
+
+
 class SourceRunner(object):
 
     def __init__(self, sources):
@@ -349,6 +379,10 @@ class CLIHelper(object):
             'ceph_volume_lvm_list':
                 [BinCmd('ceph-volume lvm list'),
                  FileCmd('sos_commands/ceph/ceph-volume_lvm_list')],
+            'ceph_report_json_decoded':
+                [BinCmd('ceph report', json_decode=True),
+                 CephReportFileCmd('sos_commands/ceph/ceph_report',
+                                   json_decode=True)],
             'date':
                 [DateBinCmd('date --utc {format}', singleline=True),
                  DateFileCmd('sos_commands/date/date', singleline=True)],
