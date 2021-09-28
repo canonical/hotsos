@@ -1,9 +1,9 @@
 import glob
+import json
 import os
 import re
 import subprocess
 import sys
-import json
 
 from core import constants
 
@@ -41,7 +41,7 @@ class NullSource(object):
 def run_pre_exec_hooks(f):
     """ pre-exec hooks are run before running __call__ method.
 
-    These hooks are not expetced to return anything and are used to manipulate
+    These hooks are not expected to return anything and are used to manipulate
     the instance variables used by the main __call__ method.
     """
     def run_pre_exec_hooks_inner(self, *args, **kwargs):
@@ -349,8 +349,8 @@ class CLIHelper(object):
             'ceph_volume_lvm_list':
                 [BinCmd('ceph-volume lvm list'),
                  FileCmd('sos_commands/ceph/ceph-volume_lvm_list')],
-            'ceph_report':
-                [BinCmd('ceph report'),
+            'ceph_report_json_decoded':
+                [BinCmd('ceph report', json_decode=True),
                  FileCmd('sos_commands/ceph/ceph_report')],
             'date':
                 [DateBinCmd('date --utc {format}', singleline=True),

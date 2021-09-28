@@ -38,29 +38,29 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def router_updates(self, event):
-        agent = event['section']
+        agent = event.section
         sri = SearchResultIndices(event_id_idx=4,
                                   metadata_idx=3,
                                   metadata_key='router')
         event_name = 'router-updates'
-        ret = self._get_event_stats(event['results'], event_name,
+        ret = self._get_event_stats(event.results, event_name,
                                     custom_idxs=sri)
         if ret:
             return {event_name: ret}, agent
 
     @EVENTCALLBACKS.callback
     def router_spawn_events(self, event):
-        agent = event['section']
+        agent = event.section
         event_name = 'router-spawn-events'
-        ret = self._get_event_stats(event['results'], event_name)
+        ret = self._get_event_stats(event.results, event_name)
         if ret:
             return {event_name: ret}, agent
 
     @EVENTCALLBACKS.callback
     def rpc_loop(self, event):
-        agent = event['section']
+        agent = event.section
         event_name = 'rpc-loop'
-        ret = self._get_event_stats(event['results'], event_name)
+        ret = self._get_event_stats(event.results, event_name)
         if ret:
             return {event_name: ret}, agent
 
@@ -99,20 +99,20 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def lb_failover_auto(self, event):
-        ret = self._get_failovers(event['results'])
+        ret = self._get_failovers(event.results)
         if ret:
             return {'auto': ret}, 'lb-failovers'
 
     @EVENTCALLBACKS.callback
     def lb_failover_manual(self, event):
-        ret = self._get_failovers(event['results'])
+        ret = self._get_failovers(event.results)
         if ret:
             return {'manual': ret}, 'lb-failovers'
 
     @EVENTCALLBACKS.callback
     def amp_missed_heartbeats(self, event):
         missed_heartbeats = {}
-        for r in event['results']:
+        for r in event.results:
             ts_date = r.get(1)
             amp_id = r.get(2)
 
@@ -146,7 +146,7 @@ class NovaAgentEventChecks(OpenstackEventChecksBase):
     @EVENTCALLBACKS.callback
     def pci_dev_not_found(self, event):
         notfounds = {}
-        for result in event['results']:
+        for result in event.results:
             ts_date = result.get(1)
             ts_time = result.get(2)
             pci_dev = result.get(3)
@@ -197,13 +197,13 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback
     def nova(self, event):
-        action = event['section']
-        return self._get_aa_stats(event['results'], 'nova'), action
+        action = event.section
+        return self._get_aa_stats(event.results, 'nova'), action
 
     @EVENTCALLBACKS.callback
     def neutron(self, event):
-        action = event['section']
-        return self._get_aa_stats(event['results'], 'neutron'), action
+        action = event.section
+        return self._get_aa_stats(event.results, 'neutron'), action
 
 
 class AgentChecks(OpenstackChecksBase):

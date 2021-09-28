@@ -121,6 +121,18 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
     def test_get_service_info(self):
         expected = {'ceph': {
+                        'network': {
+                            'cluster': {
+                                'br-ens3': {
+                                    'addresses': ['10.0.0.49'],
+                                    'hwaddr': '52:54:00:e2:28:a3',
+                                    'state': 'UP'}},
+                            'public': {
+                                'br-ens3': {
+                                    'addresses': ['10.0.0.49'],
+                                    'hwaddr': '52:54:00:e2:28:a3',
+                                    'state': 'UP'}}
+                            },
                         'services': [
                             'ceph-crash (1)', 'ceph-osd (1)'],
                         'release': 'octopus',
@@ -132,8 +144,20 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
     @mock.patch.object(checks, 'CLIHelper')
     def test_get_service_info_unavailable(self, mock_helper):
         expected = {'ceph': {
-                        'release': 'unknown',
-                    }}
+                        'network': {
+                            'cluster': {
+                                'br-ens3': {
+                                    'addresses': ['10.0.0.49'],
+                                    'hwaddr': '52:54:00:e2:28:a3',
+                                    'state': 'UP'}},
+                            'public': {
+                                'br-ens3': {
+                                    'addresses': ['10.0.0.49'],
+                                    'hwaddr': '52:54:00:e2:28:a3',
+                                    'state': 'UP'}}
+                            },
+                        'release': 'unknown'}}
+
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
         mock_helper.return_value.dpkg_l.return_value = []
@@ -161,10 +185,18 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
         self.assertEquals(inst.output["ceph"]["dpkg"], expected)
 
     def test_ceph_base_interfaces(self):
-        expected = {'br-ens3': {'addresses': ['10.0.0.49'],
-                                'hwaddr': '52:54:00:e2:28:a3',
-                                'state': 'UP'}}
-        self.assertEqual(ceph_core.CephChecksBase().bind_interfaces, expected)
+        expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.49'],
+                                            'hwaddr': '52:54:00:e2:28:a3',
+                                            'state': 'UP'}},
+                    'public': {'br-ens3': {'addresses': ['10.0.0.49'],
+                                           'hwaddr': '52:54:00:e2:28:a3',
+                                           'state': 'UP'}}}
+        ports = ceph_core.CephChecksBase().bind_interfaces
+        _ports = {}
+        for config, port in ports.items():
+            _ports.update({config: port.to_dict()})
+
+        self.assertEqual(_ports, expected)
 
 
 class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
@@ -214,10 +246,11 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
 
     @mock.patch.object(ceph_daemon_checks, 'issue_utils')
     def test_check_osdmaps_size(self, mock_issue_utils):
-        ceph_report = ceph_core.CLIHelper().ceph_report()
+        ceph_report = ceph_core.CLIHelper().ceph_report_json_decoded()
         with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
             mock_helper.return_value = mock.MagicMock()
-            mock_helper.return_value.ceph_report.return_value = ceph_report
+            mock_helper.return_value.ceph_report_json_decoded.return_value = \
+                ceph_report
             inst = ceph_daemon_checks.CephOSDChecks()
             inst.check_osdmaps_size()
             self.assertTrue(mock_issue_utils.add_issue.called)

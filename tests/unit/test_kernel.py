@@ -9,6 +9,7 @@ from plugins.kernel.pyparts import (
     memory,
     log_event_checks,
 )
+from core.checks import EventCheckResult
 from core.host_helpers import NetworkPort
 from core.issues import issue_types
 
@@ -158,7 +159,7 @@ class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
         mock_result2 = mock.MagicMock()
         mock_result2.get.return_value = 'tap7e105503-64'
 
-        event = {'results': [mock_result1, mock_result2]}
+        event = EventCheckResult([mock_result1, mock_result2], 'section8')
         ret = inst.over_mtu_dropped_packets(event)
         self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)

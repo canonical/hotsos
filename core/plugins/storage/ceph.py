@@ -55,8 +55,7 @@ class CephCluster(object):
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_mon_dump': self.cli.ceph_mon_dump(),
                           'ceph_osd_dump': self.cli.ceph_osd_dump(),
-                          'ceph_versions': self.cli.ceph_versions(),
-                          'ceph_report': self.cli.ceph_report()}
+                          'ceph_versions': self.cli.ceph_versions()}
         for cmd, output in self.cli_cache.items():
             self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
 
@@ -87,9 +86,12 @@ class CephCluster(object):
 
         return dump
 
-    def _get_version_info(self, daemon_type):
+    def _get_version_info(self, daemon_type=None):
         """
-        Returns a dict of ceph versions info for our daemon type.
+        Returns a dict of ceph versions info for the provided daemon type. If
+        no daemon type provided, version info is collected for all types and
+        the resulting dict is keyed by daemon type otherwise it is keyed by
+        version (and only versions for that daemon type.)
         """
         out = self.cli_cache['ceph_versions']
         if not out:
@@ -97,25 +99,39 @@ class CephCluster(object):
 
         versions = {}
         s = FileSearcher()
-        sd = SequenceSearchDef(
-            start=SearchDef(r"^\s+\"{}\":".format(daemon_type)),
-            body=SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
-                           r"\(\S+\)\":\s+(\d)+$"),
-            end=SearchDef(r"^\s+\"\S+\":"),
-            tag="versions")
+        body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
+                         r"\(\S+\)\":\s+(\d)+$")
+        if daemon_type is None:
+            # all/any - start matches any so no seq ending needed
+            sd = SequenceSearchDef(start=SearchDef(r"^\s+\"(\S+)\":\s+{"),
+                                   body=body, tag='versions')
+        else:
+            start = SearchDef(r"^\s+\"({})\":\s+{{".format(daemon_type))
+            sd = SequenceSearchDef(start=start, body=body,
+                                   end=SearchDef(r"^\s+\"\S+\":\s+{"),
+                                   tag='versions')
+
         s.add_search_term(sd, path=self.cli_cache['ceph_versions'])
         for section in s.search().find_sequence_sections(sd).values():
+            _versions = {}
             for result in section:
-                if result.tag == sd.body_tag:
+                if result.tag == sd.start_tag:
+                    versions[result.get(1)] = _versions
+                elif result.tag == sd.body_tag:
                     version = result.get(1)
                     rname = result.get(2)
                     amount = result.get(3)
-                    versions[version] = {'release_name': rname,
-                                         'count': int(amount)}
+                    _versions[version] = {'release_name': rname,
+                                          'count': int(amount)}
+
+        # If specific daemon_type provided only return version for that type
+        # otherwise all.
+        if daemon_type is not None:
+            versions = versions.get(daemon_type)
 
         return versions
 
-    def daemon_versions(self, daemon_type):
+    def daemon_versions(self, daemon_type=None):
         """
         Returns a dict of versions of daemon type associated with the
         number of each that is running. Ideally this would only return a single
@@ -125,24 +141,44 @@ class CephCluster(object):
         _versions = {}
         version_info = self._get_version_info(daemon_type)
         if version_info:
-            for ver, info in version_info.items():
-                _versions[ver] = info['count']
+            if daemon_type:
+                for ver, info in version_info.items():
+                    _versions[ver] = info['count']
+            else:
+                for daemon, _version_info in version_info.items():
+                    for ver, info in _version_info.items():
+                        if daemon not in _versions:
+                            _versions[daemon] = {}
+
+                        _versions[daemon][ver] = info['count']
 
         return _versions
 
-    def daemon_release_names(self, daemon_type):
+    def daemon_release_names(self, daemon_type=None):
         """
         Same as versions property but with release names instead of versions.
         """
         _releases = {}
         version_info = self._get_version_info(daemon_type)
         if version_info:
-            for info in version_info.values():
-                rname = info['release_name']
-                if rname in _releases:
-                    _releases[rname] += info['count']
-                else:
-                    _releases[rname] = info['count']
+            if daemon_type:
+                for info in version_info.values():
+                    rname = info['release_name']
+                    if rname in _releases:
+                        _releases[rname] += info['count']
+                    else:
+                        _releases[rname] = info['count']
+            else:
+                for daemon, _version_info in version_info.items():
+                    for info in _version_info.values():
+                        if daemon not in _releases:
+                            _releases[daemon] = {}
+
+                        rname = info['release_name']
+                        if rname in _releases:
+                            _releases[daemon][rname] += info['count']
+                        else:
+                            _releases[daemon][rname] = info['count']
 
         return _releases
 
@@ -383,35 +419,40 @@ class CephChecksBase(StorageBase):
 
         return relname
 
+    def get_bind_interfaces(self, type):
+        """
+        For the given config network type determine what interface ceph is
+        binding to.
+
+        @param type: cluster or public
+        """
+        net = self.ceph_config.get('{} network'.format(type))
+        addr = self.ceph_config.get('{} addr'.format(type))
+        if not any([net, addr]):
+            return {}
+
+        nethelp = host_helpers.HostNetworkingHelper()
+        port = None
+        if net:
+            port = nethelp.get_interface_with_addr(net)
+        elif addr:
+            port = nethelp.get_interface_with_addr(addr)
+
+        if port:
+            return {type: port}
+
     @property
     def bind_interfaces(self):
         """
-        If ceph is using specific network interfaces, return them as a dict.
+        Determine which interfaces Ceph daemons are binding to based on their
+        ceph configuration. Return a dict keyed by network
+        config type i.e. cluster/public.
         """
-        pub_net = self.ceph_config.get('public network')
-        pub_addr = self.ceph_config.get('public addr')
-        clus_net = self.ceph_config.get('cluster network')
-        clus_addr = self.ceph_config.get('cluster addr')
-
         interfaces = {}
-        if not any([pub_net, pub_addr, clus_net, clus_addr]):
-            return interfaces
-
-        nethelp = host_helpers.HostNetworkingHelper()
-
-        if pub_net:
-            iface = nethelp.get_interface_with_addr(pub_net).to_dict()
-            interfaces.update(iface)
-        elif pub_addr:
-            iface = nethelp.get_interface_with_addr(pub_addr).to_dict()
-            interfaces.update(iface)
-
-        if clus_net:
-            iface = nethelp.get_interface_with_addr(clus_net).to_dict()
-            interfaces.update(iface)
-        elif clus_addr:
-            iface = nethelp.get_interface_with_addr(clus_addr).to_dict()
-            interfaces.update(iface)
+        for type in ['cluster', 'public']:
+            ret = self.get_bind_interfaces(type)
+            if ret:
+                interfaces.update(ret)
 
         return interfaces
 

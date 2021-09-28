@@ -21,16 +21,6 @@ OSD_PG_OPTIMAL_NUM = 200
 
 class CephOSDChecks(ceph.CephChecksBase):
 
-    def __init__(self):
-        super().__init__()
-        self.ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
-        self.ceph_versions = self.cli.ceph_versions()
-        self.ceph_report = self.cli.ceph_report()
-        # Remove the last line as that makes it an invalid json.
-        # The extra line comes from the stderr of 'ceph report'.
-        if self.ceph_report and self.ceph_report[-1].startswith('report'):
-            self.ceph_report = self.ceph_report[:-1]
-
     def check_osdmaps_size(self):
         """
         Check if there are too many osdmaps
@@ -41,15 +31,18 @@ class CephOSDChecks(ceph.CephChecksBase):
 
         Doc: https://docs.ceph.com/en/latest/dev/mon-osdmap-prune/
         """
-        if not self.ceph_report:
+
+        report = self.cli.ceph_report_json_decoded()
+        if not report:
             return
 
-        try:
-            cr_json = json.loads(''.join(self.ceph_report))
-        except ValueError:
-            return
+        # Remove the last line as that makes it an invalid json.
+        # The extra line comes from the stderr of 'ceph report'.
+        if report and report[-1].startswith('report'):
+            report = report[:-1]
 
         try:
+            cr_json = json.loads(''.join(report))
             osdmaps_count = len(cr_json['osdmap_manifest']['pinned_maps'])
             # The default count is 500. Going above isn't unusual whenever
             # any recovery/rebalance happens. We arbitrarily chose 5000 as the
@@ -61,7 +54,7 @@ class CephOSDChecks(ceph.CephChecksBase):
                        "https://tracker.ceph.com/issues/47290"
                        .format(osdmaps_count))
                 issue_utils.add_issue(issue_types.CephMapsWarning(msg))
-        except Exception:
+        except (ValueError, KeyError):
             return
 
     def check_require_osd_release(self):
@@ -84,16 +77,23 @@ class CephOSDChecks(ceph.CephChecksBase):
         and should be the default Nautilus onward."""
         v1_osds = []
         cluster = ceph.CephCluster()
-        osd_count = int(cluster.daemon_dump('osd').get('max_osd'))
-        counter = 0
+        osd_dump = cluster.daemon_dump('osd')
+        if not osd_dump:
+            return
+
+        osd_count = int(cluster.daemon_dump('osd').get('max_osd', 0))
         if osd_count < 1:
             return
+
+        counter = 0
         while counter < osd_count:
             key = "osd.{}".format(counter)
             version_info = cluster.daemon_dump('osd').get(key)
             if version_info and version_info.find("v2:") == -1:
                 v1_osds.append(counter+1)
+
             counter = counter + 1
+
         if v1_osds:
             msg = ("{} OSDs do not bind to v2 address".format(len(v1_osds)))
             issue_utils.add_issue(issue_types.CephOSDWarning(msg))
@@ -108,12 +108,13 @@ class CephOSDChecks(ceph.CephChecksBase):
         We also check for OSDs with excessive numbers of PGs that can cause
         them to fail.
         """
-        if not self.ceph_osd_df_tree:
+        ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
+        if not ceph_osd_df_tree:
             return
 
         # Find index of PGS column in output.
         pgs_idx = None
-        header = self.ceph_osd_df_tree[0].split()
+        header = ceph_osd_df_tree[0].split()
         for i, col in enumerate(header):
             if col == "PGS":
                 pgs_idx = i + 1
@@ -125,7 +126,7 @@ class CephOSDChecks(ceph.CephChecksBase):
         pgs_idx = -(len(header) - pgs_idx)
         suboptimal_pgs = {}
         error_pgs = {}
-        for line in self.ceph_osd_df_tree:
+        for line in ceph_osd_df_tree:
             try:
                 ret = re.compile(r"\s+(osd\.\d+)\s*$").search(line)
                 if ret:
@@ -164,35 +165,29 @@ class CephOSDChecks(ceph.CephChecksBase):
         """
         Get versions of all Ceph daemons.
         """
-        if not self.ceph_versions:
+        versions = ceph.CephCluster().daemon_versions()
+        if not versions:
             return
 
-        try:
-            data = json.loads(''.join(self.ceph_versions))
-        except ValueError:
-            return
-
-        versions_set = set()
+        global_vers = set()
         daemon_version_info = {}
-        if data:
-            for unit, _ in data.items():
-                if unit == "overall":
-                    continue
+        for daemon_type in versions:
+            # skip the catchall
+            if daemon_type == 'overall':
+                continue
 
-                vers = []
-                for key, _ in data[unit].items():
-                    if re.compile(r"ceph version.+").match(key):
-                        d_ver = key.split()[2]
-                        if d_ver not in vers:
-                            vers.append(d_ver)
-                            versions_set.add(d_ver)
-                if vers:
-                    daemon_version_info[unit] = vers
+            vers = []
+            for version in versions[daemon_type]:
+                vers.append(version)
+                global_vers.add(version)
+
+            if vers:
+                daemon_version_info[daemon_type] = vers
 
         if daemon_version_info:
-            self._output["versions"] = daemon_version_info
-            if len(versions_set) > 1:
-                msg = ("ceph daemon versions not aligned")
+            self._output['versions'] = daemon_version_info
+            if len(global_vers) > 1:
+                msg = ('ceph daemon versions not aligned')
                 issue = issue_types.CephDaemonWarning(msg)
                 issue_utils.add_issue(issue)
 

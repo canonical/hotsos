@@ -32,6 +32,18 @@ class CephServiceChecks(CephServiceChecksBase):
         if self.services:
             self._output["services"] = self.get_service_info_str()
 
+    def get_config_network_info(self):
+        """ Identify ports used by Ceph daemons, include them in output
+        for informational purposes.
+        """
+        net_info = {}
+        for config, port in self.bind_interfaces.items():
+            net_info[config] = port.to_dict()
+
+        if net_info:
+            self._output['network'] = net_info
+
     def __call__(self):
         self._output['release'] = self.release_name
         self.get_running_services_info()
+        self.get_config_network_info()

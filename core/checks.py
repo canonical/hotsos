@@ -235,6 +235,17 @@ class BugChecksBase(ChecksBase):
         self.run_checks()
 
 
+class EventCheckResult(object):
+
+    def __init__(self, search_results, defs_section):
+        """
+        @param search_results:
+        @param defs_section:
+        """
+        self.results = search_results
+        self.section = defs_section
+
+
 class EventChecksBase(ChecksBase):
 
     def __init__(self, *args, callback_helper=None,
@@ -389,7 +400,7 @@ class EventChecksBase(ChecksBase):
     def process_results(self, results):
         """
         Provide a default way for results to be processed. This requires a
-        CallbacksHelper to have been provided and callbacks registered. If that
+        CallbackHelper to have been provided and callbacks registered. If that
         is not the case the method must be re-implemented with another means
         of processing results.
 
@@ -406,30 +417,39 @@ class EventChecksBase(ChecksBase):
                 if self.event_results_passthrough:
                     # this is for implementations that have their own means of
                     # retreiving results.
-                    _results = results
+                    search_results = results
                 else:
-                    _results = results.find_by_tag(event)
+                    search_results = results.find_by_tag(event)
 
-                if not _results:
+                if not search_results:
                     continue
 
                 # We want this to throw an exception if the callback is not
                 # defined.
-                _event_name = event.replace('-', '_')
-                event_meta = {'results': _results, 'section': section_name}
-                ret = self.callback_helper.callbacks[_event_name](self,
-                                                                  event_meta)
+                callback_name = event.replace('-', '_')
+                callback = self.callback_helper.callbacks[callback_name]
+                log.debug("executing event callback '%s'", callback_name)
+                event_results_obj = EventCheckResult(search_results,
+                                                     section_name)
+                ret = callback(self, event_results_obj)
+                if not ret:
+                    continue
+
+                # if the return is a tuple it is assumed to be of the form
+                # (<output value>, <output key>) where <output key> is used to
+                # override the output key for the result which defaults to the
+                # event name.
                 if type(ret) == tuple:
                     out_key = ret[1]
                     ret = ret[0]
                 else:
                     out_key = event
 
-                if ret:
-                    if out_key in info:
-                        info[out_key].update(ret)
-                    else:
-                        info[out_key] = ret
+                # Don't clobber results, instead allow them to aggregate.
+                if out_key in info:
+                    info[out_key].update(ret)
+                else:
+                    info[out_key] = ret
 
         if info:
             if self.event_results_output_key:
