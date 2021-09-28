@@ -244,6 +244,17 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
             inst.check_osd_msgr_protocol_versions()
             self.assertTrue(mock_issue_utils.add_issue.called)
 
+    @mock.patch.object(ceph_daemon_checks, 'issue_utils')
+    def test_check_osdmaps_size(self, mock_issue_utils):
+        ceph_report = ceph_core.CLIHelper().ceph_report_json_decoded()
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_report_json_decoded.return_value = \
+                ceph_report
+            inst = ceph_daemon_checks.CephOSDChecks()
+            inst.check_osdmaps_size()
+            self.assertTrue(mock_issue_utils.add_issue.called)
+
     @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
         issues = []

@@ -88,9 +88,9 @@ class CephCluster(object):
 
     def _get_version_info(self, daemon_type=None):
         """
-        Returns a dict of veph versions info for the provided daemon type. If
+        Returns a dict of ceph versions info for the provided daemon type. If
         no daemon type provided, version info is collected for all types and
-        the resulting dict is keyed by deamon type otherwise it is keyed by
+        the resulting dict is keyed by daemon type otherwise it is keyed by
         version (and only versions for that daemon type.)
         """
         out = self.cli_cache['ceph_versions']
