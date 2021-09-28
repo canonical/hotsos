@@ -24,6 +24,7 @@ class CephOSDChecks(ceph.CephChecksBase):
     def check_osdmaps_size(self):
         """
         Check if there are too many osdmaps
+
         By default mon_min_osdmaps_epochs (=500) osdmaps are stored by the
         monitors. However, if the cluster isn't healthy for a long time,
         the number of osdmaps stored will keep increasing which can result
@@ -48,7 +49,7 @@ class CephOSDChecks(ceph.CephChecksBase):
             # any recovery/rebalance happens. We arbitrarily chose 5000 as the
             # "bad" limit (10 x default).
             if osdmaps_count >= 5000:
-                msg = ("Found {} pinned osdmaps. This can affect mon's"
+                msg = ("Found {} pinned osdmaps. This can affect mon's "
                        "performance and also indicate bugs such as "
                        "https://tracker.ceph.com/issues/44184 and "
                        "https://tracker.ceph.com/issues/47290"
