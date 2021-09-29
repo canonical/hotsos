@@ -236,6 +236,22 @@ class JournalctlBinFileCmd(BinFileCmd):
             self.path = "{} --since {}".format(self.path, kwargs.get("date"))
 
 
+
+class CephReportFileCmd(FileCmd):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.register_hook("pre-exec", self.performat_sos_datapath)
+
+    def sanitise_contents(self, **kwargs):
+        datapath = kwargs["datapath"].replace('@', '_')
+        self.path = self.path.format(datapath=datapath)
+
+    def cleanup(self, **kwargs):
+        os.unlink(self.path)
+        
+
+
 class OVSDPCTLFileCmd(FileCmd):
 
     def __init__(self, *args, **kwargs):

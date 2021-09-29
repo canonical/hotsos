@@ -37,7 +37,12 @@ class CephOSDChecks(ceph.CephChecksBase):
         """Check if any OSDs are not using the messenger v2 protocol
 
         The msgr v2 is the second major revision of Ceph’s on-wire protocol
-        and should be the default Nautilus onward."""
+        and should be the default Nautilus onward.
+        """
+        if self.release_name <= 'mimic':
+            """ v2 only available for >= Nautilus. """
+            return
+
         v1_osds = []
         cluster = ceph.CephCluster()
         osd_dump = cluster.daemon_dump('osd')
@@ -99,8 +104,8 @@ class CephOSDChecks(ceph.CephChecksBase):
                         error_pgs[osd_id] = pgs
 
                     margin = abs(100 - (float(100) / OSD_PG_OPTIMAL_NUM * pgs))
-                    # allow 10% margin from optimal OSD_PG_OPTIMAL_NUM value
-                    if margin > 10:
+                    # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM value
+                    if margin > 30:
                         suboptimal_pgs[osd_id] = pgs
             except IndexError:
                 pass
