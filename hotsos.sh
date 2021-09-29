@@ -134,8 +134,6 @@ OPTIONS
         all available log history.
     -a|--all
         Enable all plugins. This is the default.
-    -v
-        Increase amount of information displayed.
 
 SOSPATH
     Path to a sosreport. Can be provided multiple times. If none provided,
