@@ -1,12 +1,17 @@
 import os
 import re
 
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
 from core import (
     checks,
     constants,
     host_helpers,
     plugintools,
 )
+from core.log import log
 from core.cli_helpers import CmdBase, CLIHelper
 from core.plugins.openstack import exceptions
 
@@ -21,6 +26,36 @@ OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
                                       'False'))
 
 OST_REL_INFO = {
+    'barbican-common': {
+        'yoga': '1:14.0.0',
+        'xena': '1:13.0.0',
+        'wallaby': '1:12.0.0',
+        'victoria': '1:11.0.0',
+        'ussuri': '1:10.0.0',
+        'train': '1:9.0.0',
+        'stein': '1:8.0.0',
+        'rocky': '1:7.0.0',
+        'queens': '1:6.0.0'},
+    'designate-common': {
+        'yoga': '1:14.0.0',
+        'xena': '1:13.0.0',
+        'wallaby': '1:12.0.0',
+        'victoria': '1:11.0.0',
+        'ussuri': '1:10.0.0',
+        'train': '1:9.0.0',
+        'stein': '1:8.0.0',
+        'rocky': '1:7.0.0',
+        'queens': '1:6.0.0'},
+    'heat-common': {
+        'yoga': '1:18.0.0',
+        'xena': '1:17.0.0',
+        'wallaby': '1:16.0.0',
+        'victoria': '1:15.0.0',
+        'ussuri': '1:14.0.0',
+        'train': '1:13.0.0',
+        'stein': '1:12.0.0',
+        'rocky': '1:11.0.0',
+        'queens': '1:10.0.0'},
     'keystone': {
         'yoga': '2:21.0.0',
         'xena': '2:20.0.0',
@@ -321,17 +356,27 @@ class OpenstackBase(object):
     def release_name(self):
         relname = None
 
-        # First try from package version (TODO: add more)
-        for pkg in ['neutron-common', 'nova-common']:
+        relnames = set()
+        for pkg in OST_REL_INFO:
             if pkg in self.apt_check.core:
                 for rel, ver in sorted(OST_REL_INFO[pkg].items(),
                                        key=lambda i: i[1], reverse=True):
                     if self.apt_check.core[pkg] > \
                             checks.DPKGVersionCompare(ver):
-                        relname = rel
+                        relnames.add(rel)
                         break
 
-                break
+        log.debug("release name(s) found: %s", relnames)
+        if relnames:
+            relnames = sorted(list(relnames))
+            if len(relnames) > 1:
+                relnames
+                msg = ("openstack packages from mixed releases found - {}".
+                       format(relnames))
+                issue = issue_types.OpenstackWarning(msg)
+                issue_utils.add_issue(issue)
+
+            relname = relnames[0]
 
         if relname:
             return relname

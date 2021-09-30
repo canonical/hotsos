@@ -7,6 +7,7 @@ import tempfile
 import utils
 
 from core import checks
+from core.issues import issue_types
 import core.plugins.openstack as openstack_core
 from plugins.openstack.pyparts import (
     openstack_info,
@@ -77,6 +78,11 @@ May 04 10:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS
 May 04 10:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
 """  # noqa
 
+DPKG_L_MIX_RELS = """
+ii  nova-common                          2:21.2.1-0ubuntu1                                    all          OpenStack Compute - common files
+ii  neutron-common                       2:17.2.0-0ubuntu2                                    all          Neutron is a virtual network service for Openstack - common
+"""  # noqa
+
 
 class TestOpenstackBase(utils.BaseTestCase):
 
@@ -99,6 +105,34 @@ class TestOpenstackBase(utils.BaseTestCase):
                                 "sos_commands/networking/ip_-s_-d_link")
             with open(path) as fd:
                 self.IP_LINK_SHOW = fd.readlines()
+
+
+class TestOpenstackPluginCore(TestOpenstackBase):
+
+    def test_release_name(self):
+        base = openstack_core.OpenstackBase()
+        self.assertEqual(base.release_name, 'ussuri')
+
+    @mock.patch.object(openstack_core.issue_utils, 'add_issue')
+    def test_release_name_detect_multiples(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        with mock.patch.object(checks, 'CLIHelper') as mock_cli:
+            mock_cli.return_value = mock.MagicMock()
+            mock_cli.return_value.dpkg_l.return_value = \
+                ["{}\n".format(line) for line in DPKG_L_MIX_RELS.split('\n')]
+
+            mock_add_issue.side_effect = fake_add_issue
+            base = openstack_core.OpenstackBase()
+            self.assertEqual(base.release_name, 'ussuri')
+            self.assertEqual(len(issues), 1)
+            self.assertEqual(type(issues[0]), issue_types.OpenstackWarning)
+            msg = ("openstack packages from mixed releases found - ['ussuri', "
+                   "'victoria']")
+            self.assertEqual(issues[0].msg, msg)
 
 
 class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
