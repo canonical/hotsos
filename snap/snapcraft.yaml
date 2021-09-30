@@ -9,7 +9,7 @@ description:
   By default all plugins are run and only produce ouput if applicable. If you
   want to run specific plugins you can choose from a selection
   (--list-plugins). See --help for more options.
-confinement: strict
+confinement: classic
 grade: stable
 base: core20
 environment:
