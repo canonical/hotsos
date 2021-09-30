@@ -324,6 +324,6 @@ INFO: see --help for more options
 
 You can either run from this repository directly or install Ubuntu snap e.g.
 
-sudo snap install hotsos
+sudo snap install hotsos --classic
 
 See https://snapcraft.io/hotsos for more info on usage.
