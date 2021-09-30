@@ -5,7 +5,7 @@ from core import constants
 from core.searchtools import SearchDef
 from core.plugins.openstack import (
     OpenstackEventChecksBase,
-    OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
+    OPENSTACK_AGENT_ERROR_KEY_BY_TIME,
     SERVICE_RESOURCES,
 )
 from core.plugins.openstack.exceptions import (
@@ -124,25 +124,27 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         self._prepare_exception_expressions()
         self._add_exception_searches()
 
-    def get_exceptions_results(self, results, include_time_in_key=False):
-        """Search results and determine frequency of occurrences of the given
-        exception types.
+    def get_exceptions_results(self, results):
+        """ Process exception search results.
 
-        @param include_time_in_key: (bool) whether to include time of exception
-                                    in output. Default is to only show date.
+        Determine frequency of occurrences. By default they are
+        grouped/presented by date but can optionally be grouped by time for
+        more granularity.
         """
         agent_exceptions = {}
         for result in results:
-            exc_tag = result.get(3)
+            # strip leading/trailing quotes
+            exc_tag = result.get(3).strip("'")
             if exc_tag not in agent_exceptions:
                 agent_exceptions[exc_tag] = {}
 
-            if include_time_in_key:
+            ts_date = result.get(1)
+            if OPENSTACK_AGENT_ERROR_KEY_BY_TIME:
                 # use hours and minutes only
-                time = re.compile('([0-9]+:[0-9]+).+').search(result.get(2))[1]
-                key = "{}_{}".format(result.get(1), time)
+                ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
+                key = "{}_{}".format(ts_date, ts_time)
             else:
-                key = str(result.get(1))
+                key = str(ts_date)
 
             if key not in agent_exceptions[exc_tag]:
                 agent_exceptions[exc_tag][key] = 0
@@ -168,8 +170,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         for service in SERVICE_RESOURCES:
             for agent in SERVICE_RESOURCES[service]['daemons']:
                 _results = results.find_by_tag(agent)
-                ret = self.get_exceptions_results(_results,
-                                                  AGENT_ERROR_KEY_BY_TIME)
+                ret = self.get_exceptions_results(_results)
                 if ret:
                     if service not in issues:
                         issues[service] = {}
