@@ -11,6 +11,7 @@ from core import (
     host_helpers,
     plugintools,
 )
+from core.checks import DPKGVersionCompare
 from core.log import log
 from core.cli_helpers import CmdBase, CLIHelper
 from core.plugins.openstack import exceptions
@@ -36,6 +37,16 @@ OST_REL_INFO = {
         'stein': '1:8.0.0',
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
+    'cinder-common': {
+        'yoga': '2:20.0.0',
+        'xena': '2:19.0.0',
+        'wallaby': '2:18.0.0',
+        'victoria': '2:17.0.0',
+        'ussuri': '2:16.0.0',
+        'train': '2:15.0.0',
+        'stein': '2:14.0.0',
+        'rocky': '2:13.0.0',
+        'queens': '2:12.0.0'},
     'designate-common': {
         'yoga': '1:14.0.0',
         'xena': '1:13.0.0',
@@ -46,6 +57,16 @@ OST_REL_INFO = {
         'stein': '1:8.0.0',
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
+    'glance-common': {
+        'yoga': '2:24.0.0',
+        'xena': '2:23.0.0',
+        'wallaby': '2:22.0.0',
+        'victoria': '2:21.0.0',
+        'ussuri': '2:20.0.0',
+        'train': '2:19.0.0',
+        'stein': '2:18.0.0',
+        'rocky': '2:17.0.0',
+        'queens': '2:16.0.0'},
     'heat-common': {
         'yoga': '1:18.0.0',
         'xena': '1:17.0.0',
@@ -359,12 +380,21 @@ class OpenstackBase(object):
         relnames = set()
         for pkg in OST_REL_INFO:
             if pkg in self.apt_check.core:
-                for rel, ver in sorted(OST_REL_INFO[pkg].items(),
-                                       key=lambda i: i[1], reverse=True):
-                    if self.apt_check.core[pkg] > \
-                            checks.DPKGVersionCompare(ver):
-                        relnames.add(rel)
-                        break
+                # Since the versions we match against will always match our
+                # version - 1 we use last known lt as current version.
+                v_lt = None
+                r_lt = None
+                pkg_ver = DPKGVersionCompare(self.apt_check.core[pkg])
+                for rel, ver in OST_REL_INFO[pkg].items():
+                    if pkg_ver > ver:
+                        if v_lt is None:
+                            v_lt = ver
+                            r_lt = rel
+                        elif ver > DPKGVersionCompare(v_lt):
+                            v_lt = ver
+                            r_lt = rel
+
+                relnames.add(r_lt)
 
         log.debug("release name(s) found: %s", relnames)
         if relnames:
