@@ -190,7 +190,7 @@ class CephOSDChecks(ceph.CephChecksBase):
                 issue = issue_types.CephDaemonWarning(msg)
                 issue_utils.add_issue(issue)
 
-    def build_buckets_from_crushdump(self, crushdump):
+    def _build_buckets_from_crushdump(self, crushdump):
         buckets = {}
         # iterate jp for each bucket
         for bucket in crushdump["buckets"]:
@@ -217,7 +217,7 @@ class CephOSDChecks(ceph.CephChecksBase):
             return
 
         bad_buckets = []
-        buckets = self.build_buckets_from_crushdump(osd_crush_dump)
+        buckets = self._build_buckets_from_crushdump(osd_crush_dump)
         # check all bucket
         for bid in buckets:
             items = buckets[bid]["items"]
@@ -236,11 +236,11 @@ class CephOSDChecks(ceph.CephChecksBase):
                 bad_buckets.append(buckets[bid]["name"])
 
         if bad_buckets:
-            msg = ("mixed crush buckets identified (see --storage for more "
-                   "info)")
+            msg = ("mixed crush bucket types identified in buckets '{}'. "
+                   "This can cause data distribution to become skewed - "
+                   "please check crush map".format(bad_buckets))
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
-            self._output["mixed_crush_buckets"] = bad_buckets
 
     def check_bcache_vulnerabilities(self):
         has_bcache = False
