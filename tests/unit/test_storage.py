@@ -1,8 +1,7 @@
-import os
-
+import json
 import mock
+import os
 import tempfile
-
 import utils
 
 from core import checks
@@ -51,6 +50,87 @@ osd.0 up   in  weight 1 up_from 651 up_thru 658 down_at 650 last_clean_interval 
 osd.1 up   in  weight 1 up_from 658 up_thru 658 down_at 652 last_clean_interval [638,645) [v1:10.0.0.48:6801/24136] [v1:10.0.0.48:6803/24136] exists,up 625f0760-586e-4032-bd89-c7fc5080ed05
 osd.2 up   in  weight 1 up_from 655 up_thru 658 down_at 652 last_clean_interval [631,645) [v1:10.0.0.50:6801/31448] [v1:10.0.0.50:6803/31448] exists,up c42942cd-878c-43e7-afb3-2667f65a2e41
  """  # noqa
+
+CEPH_OSD_CRUSH_DUMP = """
+{
+        "buckets": [
+            {
+                "id": -1,
+                "name": "default",
+                "type_id": 11,
+                "type_name": "root",
+                "weight": 1926,
+                "alg": "straw2",
+                "hash": "rjenkins1",
+                "items": [
+                    {
+                        "id": -3,
+                        "weight": 642,
+                        "pos": 0
+                    },
+                    {
+                        "id": -5,
+                        "weight": 642,
+                        "pos": 1
+                    },
+                    {
+                        "id": -7,
+                        "weight": 642,
+                        "pos": 2
+                    }
+                ]
+            },
+            {
+                "id": -3,
+                "name": "juju-94442c-oct00-1",
+                "type_id": 1,
+                "type_name": "host",
+                "weight": 642,
+                "alg": "straw2",
+                "hash": "rjenkins1",
+                "items": [
+                    {
+                        "id": 1,
+                        "weight": 642,
+                        "pos": 0
+                    }
+                ]
+            },
+            {
+                "id": -5,
+                "name": "juju-94442c-oct00-3",
+                "type_id": 1,
+                "type_name": "host",
+                "weight": 642,
+                "alg": "straw2",
+                "hash": "rjenkins1",
+                "items": [
+                    {
+                        "id": 0,
+                        "weight": 642,
+                        "pos": 0
+                    }
+                ]
+            },
+            {
+                "id": -7,
+                "name": "juju-94442c-oct00-2",
+                "type_id": 3,
+                "type_name": "rack00",
+                "weight": 642,
+                "alg": "straw2",
+                "hash": "rjenkins1",
+                "items": [
+                    {
+                        "id": 2,
+                        "weight": 642,
+                        "pos": 0
+                    }
+                ]
+            }
+        ]
+    }
+"""
 
 
 class StorageTestsBase(utils.BaseTestCase):
@@ -201,10 +281,21 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
 class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
 
-    def test_get_crushmap_mixed_buckets(self):
+    @mock.patch.object(ceph_daemon_checks, 'issue_utils')
+    def test_get_crushmap_mixed_buckets(self, mock_issue_utils):
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\
+                return_value = json.loads(CEPH_OSD_CRUSH_DUMP)
+            inst = ceph_daemon_checks.CephOSDChecks()
+            inst.get_crushmap_mixed_buckets()
+            self.assertTrue(mock_issue_utils.add_issue.called)
+
+    @mock.patch.object(ceph_daemon_checks, 'issue_utils')
+    def test_get_crushmap_no_mixed_buckets(self, mock_issue_utils):
         inst = ceph_daemon_checks.CephOSDChecks()
-        inst()
-        self.assertFalse('mixed_crush_buckets' in inst.output['ceph'])
+        inst.get_crushmap_mixed_buckets()
+        self.assertFalse(mock_issue_utils.add_issue.called)
 
     def test_get_ceph_versions_mismatch(self):
         result = {'mgr': ['15.2.13'],
