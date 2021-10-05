@@ -1,0 +1,15 @@
+name: "Issues Sync"
+on:
+  issues:
+    types: [opened, assigned, edited]
+
+jobs:
+  issue-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: canonical/github-project-automation-plus
+        with:
+          project: 'test project'
+          column: To Do
+          repo-token: ${{ secrets.PROJ_MNG }}
+

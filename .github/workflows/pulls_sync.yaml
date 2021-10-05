@@ -1,0 +1,15 @@
+name: "Pull Requests Sync"
+on:
+  pull_request:
+    types: opened
+
+jobs:
+  pulls-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: canonical/github-project-automation-plus
+        with:
+          project: 'Automation and Tooling'
+          column: In Progress
+          repo-token: ${{ secrets.PROJ_MNG }}
+
