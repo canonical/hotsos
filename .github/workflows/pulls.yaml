@@ -1,9 +1,10 @@
 name: Pulls Sync
 on:
   pull_request:
-    types: opened
+    types: [opened]
+    branches: [master]
 jobs:
-  sync-issues:
+  sync-pulls:
     runs-on: ubuntu-latest
     steps:
       - uses: alex-page/github-project-automation-plus@v0.8.1

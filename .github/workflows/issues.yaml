@@ -1,7 +1,7 @@
 name: Issues Sync
 on:
   issues:
-    types: opened
+    types: [opened]
 jobs:
   sync-issues:
     runs-on: ubuntu-latest
