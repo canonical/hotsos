@@ -89,4 +89,16 @@ juju:
       reason: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
       reason-format-result-groups: [1, 2]
       path: 'var/log/juju/*.log'
-
+rabbitmq:
+  common:
+    1943937:
+      expr: 'operation queue.declare caused a channel exception not_found: failed to perform operation on queue ''\S+'' in vhost ''\S+'' due to timeout'
+      hint: 'not_found'
+      reason: >-
+        Known issue where RabbitMQ queues get stuck and clients trying to use
+        them will just keep timing out. This stops many services in the cloud
+        from working correctly. Resolution requires you to stop all RabbitMQ
+        servers before starting them all again at the same time. A rolling
+        restart or restarting them simultaneously will not work. See bug for
+        more detail.
+      path: 'var/log/rabbitmq/rabbit@*.log'
