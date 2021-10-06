@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: alex-page/github-project-automation-plus@v0.8.1
         with:
-          project: 'TEST'
+          project: 'Automation and Tooling'
           column: 'In Progress'
           repo-token: ${{ secrets.PROJ_MNG }}
 
