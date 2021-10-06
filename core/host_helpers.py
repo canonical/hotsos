@@ -101,48 +101,60 @@ class HostNetworkingHelper(object):
         if os.path.exists(self.ip_addr_dump):
             os.unlink(self.ip_addr_dump)
 
-    def _get_interfaces(self, ip_addr=None):
-        interfaces = []
-        if ip_addr:
-            ip_addr_dump = mktemp_dump('\n'.join(ip_addr))
-        else:
-            ip_addr_dump = self.ip_addr_dump
+    def _get_interfaces(self, namespaces=False):
+        """
+        Get all interfaces in ip address show.
 
-        self.ip_addr_seq_search = SequenceSearchDef(
-                start=SearchDef(IP_IFACE_NAME),
-                body=SearchDef([IP_IFACE_V4_ADDR,
-                                IP_IFACE_V6_ADDR,
-                                IP_IFACE_HW_ADDR,
-                                IP_IFACE_VXLAN_INFO]),
-                tag="interfaces")
+        @param namespaces: if set to True will get interfaces from all
+        namespaces on the host.
+        @return: list of NetworkPort objects for each interface found.
+        """
+        paths = []
+        seq = SequenceSearchDef(start=SearchDef(IP_IFACE_NAME),
+                                body=SearchDef([IP_IFACE_V4_ADDR,
+                                                IP_IFACE_V6_ADDR,
+                                                IP_IFACE_HW_ADDR,
+                                                IP_IFACE_VXLAN_INFO]),
+                                tag='ip_addr_show')
         search_obj = FileSearcher()
-        search_obj.add_search_term(self.ip_addr_seq_search,
-                                   ip_addr_dump)
-        r = search_obj.search()
-        sections = r.find_sequence_sections(self.ip_addr_seq_search).values()
-        for section in sections:
-            addrs = []
-            encap_info = None
-            hwaddr = None
-            name = None
-            state = None
-            for result in section:
-                if result.tag == self.ip_addr_seq_search.start_tag:
-                    name = result.get(1)
-                    state = result.get(2)
-                elif result.tag == self.ip_addr_seq_search.body_tag:
-                    if result.get(1) in ['inet', 'inet6']:
-                        addrs.append(result.get(2))
-                    elif result.get(1) in ['vxlan']:
-                        encap_info = {result.get(1): {
-                                          'id': result.get(2),
-                                          'local_ip': result.get(3),
-                                          'dev': result.get(4)}}
-                    else:
-                        hwaddr = result.get(2)
+        if namespaces:
+            for ns in self.cli.ip_netns():
+                ns_name = ns.partition(" ")[0]
+                ip_addr = self.cli.ns_ip_addr(namespace=ns_name)
+                path = mktemp_dump('\n'.join(ip_addr))
+                search_obj.add_search_term(seq, path)
+                paths.append(path)
+        else:
+            paths = [self.ip_addr_dump]
+            search_obj.add_search_term(seq, self.ip_addr_dump)
 
-            interfaces.append(NetworkPort(name, addrs, hwaddr, state,
-                                          encap_info))
+        r = search_obj.search()
+        interfaces = []
+        for path in paths:
+            sections = r.find_sequence_sections(seq, path).values()
+            for section in sections:
+                addrs = []
+                encap_info = None
+                hwaddr = None
+                name = None
+                state = None
+                for result in section:
+                    if result.tag == seq.start_tag:
+                        name = result.get(1)
+                        state = result.get(2)
+                    elif result.tag == seq.body_tag:
+                        if result.get(1) in ['inet', 'inet6']:
+                            addrs.append(result.get(2))
+                        elif result.get(1) in ['vxlan']:
+                            encap_info = {result.get(1): {
+                                              'id': result.get(2),
+                                              'local_ip': result.get(3),
+                                              'dev': result.get(4)}}
+                        else:
+                            hwaddr = result.get(2)
+
+                interfaces.append(NetworkPort(name, addrs, hwaddr, state,
+                                              encap_info))
 
         return interfaces
 
@@ -159,11 +171,7 @@ class HostNetworkingHelper(object):
         if self._host_ns_interfaces:
             return self._host_ns_interfaces
 
-        for ns in self.cli.ip_netns():
-            ns_name = ns.partition(" ")[0]
-            ns_ip_addr = self.cli.ns_ip_addr(namespace=ns_name)
-            self._host_ns_interfaces += self._get_interfaces(ns_ip_addr)
-
+        self._host_ns_interfaces = self._get_interfaces(namespaces=True)
         return self._host_ns_interfaces
 
     @property

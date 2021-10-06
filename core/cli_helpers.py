@@ -71,10 +71,33 @@ def run_post_exec_hooks(f):
     return run_post_exec_hooks_inner
 
 
+def reset_command(f):
+    """
+    This should be run by all commands as their last action after all/any hooks
+    have run.
+    """
+    def reset_command_inner(self, *args, **kwargs):
+        out = f(self, *args, **kwargs)
+        self.reset()
+        return out
+
+    return reset_command_inner
+
+
 class CmdBase(object):
 
     def __init__(self):
         self.hooks = {}
+        self.reset()
+
+    def reset(self):
+        """
+        Used to reset an object after it has been called. In other words, each
+        time a command object is called it may alter its initial state e.g. via
+        hooks but this state should not persist to the next call so this is
+        used to restore state.
+        """
+        raise NotImplementedError
 
     """ Base class for all command source types. """
     @classmethod
@@ -101,13 +124,19 @@ class BinCmd(CmdBase):
         """
         @param cmd: command in string format (not list)
         """
+        self.original_cmd = cmd
+        self.original_json_decode = json_decode
+        self.original_singleline = singleline
         super().__init__()
-        self.cmd = cmd
-        self.json_decode = json_decode
-        self.singleline = singleline
+
+    def reset(self):
+        self.cmd = self.original_cmd
+        self.json_decode = self.original_json_decode
+        self.singleline = self.original_singleline
 
     @catch_exceptions(OSError, subprocess.CalledProcessError,
                       json.JSONDecodeError)
+    @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
     def __call__(self, *args, **kwargs):
@@ -135,15 +164,21 @@ class FileCmd(CmdBase):
 
     def __init__(self, path, safe_decode=False, json_decode=False,
                  singleline=False):
+        self.original_path = os.path.join(constants.DATA_ROOT, path)
+        self.original_safe_decode = safe_decode
+        self.original_json_decode = json_decode
+        self.original_singleline = singleline
         super().__init__()
-        self.raw_path = os.path.join(constants.DATA_ROOT, path)
-        self.path = self.raw_path
-        self.safe_decode = safe_decode
-        self.json_decode = json_decode
-        self.singleline = singleline
+
+    def reset(self):
+        self.path = self.original_path
+        self.safe_decode = self.original_safe_decode
+        self.json_decode = self.original_json_decode
+        self.singleline = self.original_singleline
 
     @catch_exceptions(OSError, subprocess.CalledProcessError,
                       json.JSONDecodeError)
+    @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
     def __call__(self, *args, **kwargs):
@@ -173,16 +208,18 @@ class FileCmd(CmdBase):
 
 
 class BinFileCmd(FileCmd):
-    """ Binary output stored in a file. """
+    """ This is used when we are executing an actual binary/command against a
+    file. """
 
     @catch_exceptions(OSError, subprocess.CalledProcessError,
                       json.JSONDecodeError)
+    @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
     def __call__(self, *args, **kwargs):
         # TODO: find a better way to handle this because path may still need
         # formatting.
-        if not os.path.exists(self.raw_path):
+        if not os.path.exists(self.original_path):
             raise SourceNotFound()
 
         if args:

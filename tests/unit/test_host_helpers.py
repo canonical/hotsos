@@ -25,9 +25,10 @@ class TestHostHelpers(utils.BaseTestCase):
                     '1lxd3-0@if28', 'tap03c4d61b-60', 'tap0906171f-17',
                     'bond1', 'br-bond1', 'bond1.4003@bond1', 'o-hm0',
                     'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1',
-                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1',
-                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1',
-                    'lo', 'fpr-1e086be2-9@if2', 'fg-7450b342-b1']
+                    'lo', 'rfp-1e086be2-9@if2', 'qr-aa623763-fd',
+                    'lo', 'ha-a42d8bdd-55', 'sg-6df85cb0-c0', 'qg-89181899-70',
+                    'lo', 'tapc84fa526-7a']
+
         helper = HostNetworkingHelper()
         ifaces = helper.host_interfaces_all
         names = [iface.name for iface in ifaces]
