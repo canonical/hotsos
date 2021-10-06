@@ -114,7 +114,6 @@ class TestSearchTools(utils.BaseTestCase):
 
         results = s.search()
         self.assertEquals(set(results.files), set([filepath,
-                                                   globpath_file2,
                                                    globpath_file1]))
 
         self.assertEquals(len(results.find_by_path(filepath)), 127)
