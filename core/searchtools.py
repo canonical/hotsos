@@ -337,6 +337,9 @@ class FileSearcher(object):
 
             with open(path) as fd:
                 return self._search_task(term_key, fd, path)
+        except UnicodeDecodeError:
+            # ignore the file if it can't be decoded
+            log.debug("caught UnicodeDecodeError for path %s - skipping", path)
         except EOFError as e:
             msg = ("an exception occured while searching {} - {}".
                    format(path, e))
@@ -555,7 +558,8 @@ class FileSearcher(object):
                 for fpath, job in jobs[user_path]:
                     try:
                         result = job.get()
-                        self.results.add(fpath, result)
+                        if result:
+                            self.results.add(fpath, result)
                     except FileSearchException as e:
                         sys.stderr.write("{}\n".format(e.msg))
 
