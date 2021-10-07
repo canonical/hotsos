@@ -14,7 +14,8 @@
 #
 # Mandatory:
 #
-#   * expr: python.re regex pattern used to match line(s).
+#   * expr: python.re regex pattern used to match line(s). this can be a single
+#           pattern or a list of patterns.
 #
 #     TIP: to use a single quote ' inside a yaml string you need to replace it
 #          with two single quotes.

@@ -90,6 +90,72 @@ class PackageReleaseCheckObj(object):
             self.bugs[release] = [bug]
 
 
+class YAMLDefBase(object):
+    """
+    We use yaml to define the metadata for common tasks such as event
+    searches. To achieve this we define a structure for the yaml based on a
+    hierarchy of definition types e.g. groups, sections etc.
+
+    A definition instance can contain other instances as well as settings and
+    these settings abide by a system of inheritance that allows child
+    definitions to override parent definitions. For example each level may
+    define a "path" setting in a group that is inherited by all sections in
+    that group and that any section can optionally override.
+    """
+    # The following are keys that can be at any level below. Child definitions
+    # override parent.
+    global_override_keys = ['path', 'allow-all-logs']
+
+    def __init__(self, override_keys=None):
+        if override_keys:
+            self.global_override_keys = override_keys
+
+
+class YAMLDefGroup(YAMLDefBase):
+    """ A group contains one or more sections. """
+
+    def __init__(self, name, group, override_keys=None):
+        super().__init__(override_keys=override_keys)
+        if not group:
+            return
+
+        self.name = name
+        self.sections = []
+        self.group_globals = {}
+
+        for sname, section in group.items():
+            if sname in self.global_override_keys:
+                self.group_globals[sname] = section
+
+        for sname, section in group.items():
+            if sname in self.group_globals:
+                continue
+
+            self.sections.append(YAMLDefSection(sname, section,
+                                                self.group_globals))
+
+
+class YAMLDefSection(YAMLDefBase):
+    """ A section contains one or more entries. """
+
+    def __init__(self, name, section, group_globals, override_keys=None):
+        super().__init__(override_keys=override_keys)
+        self.name = name
+        self.entries = {}
+        self.globals = {}
+        self.globals.update(group_globals)
+
+        for ename, entry in section.items():
+            if ename in self.global_override_keys:
+                self.globals[ename] = entry
+
+        for ename, entry in section.items():
+            if ename in self.globals:
+                continue
+
+            self.entries[ename] = entry
+
+
 class PackageBugChecksBase(object):
     """
     This is used to check if the version of installed packages contain
@@ -122,9 +188,13 @@ class PackageBugChecksBase(object):
             return
 
         plugin_checks = yaml_defs.get(constants.PLUGIN_NAME, {})
-        for pkg, bugs in plugin_checks.items():
-            p = PackageReleaseCheckObj(pkg)
-            for bug, releases in bugs.items():
+        for name, group in plugin_checks.items():
+            group = YAMLDefGroup(name, group)
+            log.debug("loading package bug group '%s'", group.name)
+            p = PackageReleaseCheckObj(group.name)
+            for section in group.sections:
+                bug = section.name
+                releases = section.entries
                 for release in releases.values():
                     for name, info in release.items():
                         p.add_bug_check(bug, name, info['min-broken'],
@@ -181,25 +251,31 @@ class BugChecksBase(ChecksBase):
             return
 
         plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
-        log.debug("running bug searches for plugin '%s' (groups=%d)",
+        log.debug("loading bug searches for plugin '%s' (groups=%d)",
                   constants.PLUGIN_NAME, len(plugin_bugs))
-        for group, bugs in plugin_bugs.items():
-            log.debug("running bug group '%s", group)
-            for id in bugs:
-                bug = bugs[id]
+        for name, group in plugin_bugs.items():
+            group = YAMLDefGroup(name, group)
+            log.debug("loading bug group '%s'", group.name)
+            for section in group.sections:
+                id = section.name
+                bug = section.entries
                 reason_format = bug.get("reason-format-result-groups")
-                _def = BugSearchDef(bug["expr"],
-                                    bug_id=str(id),
-                                    hint=bug.get("hint"),
-                                    reason=bug["reason"],
-                                    reason_format_result_groups=reason_format)
-                bdef = {"def": _def}
+                pattern = bug['expr']
+                # NOTE: pattern can be string or list of strings
+                bdef = {'def':
+                        BugSearchDef(
+                                pattern,
+                                bug_id=str(id),
+                                hint=bug.get('hint'),
+                                reason=bug['reason'],
+                                reason_format_result_groups=reason_format)}
+                path = os.path.join(constants.DATA_ROOT,
+                                    section.globals['path'])
+                allow_all_logs = section.globals.get('allow-all-logs', True)
+                if allow_all_logs and constants.USE_ALL_LOGS:
+                    path = "{}*".format(path)
 
-                ds = os.path.join(constants.DATA_ROOT, bug["path"])
-                if bug.get("allow-all-logs", True) and constants.USE_ALL_LOGS:
-                    ds = "{}*".format(ds)
-
-                bdef["datasource"] = ds
+                bdef["datasource"] = path
                 self._bug_defs.append(bdef)
 
     @property
@@ -289,89 +365,59 @@ class EventChecksBase(ChecksBase):
         if not yaml_defs:
             return
 
-        # The following are keys that can be overriden at any level below
-        # plugin.
-        global_override_keys = ['path', 'allow-all-logs']
-
         log.debug("loading event definitions for plugin=%s group=%s",
                   constants.PLUGIN_NAME, self._yaml_defs_group)
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
-        groups = plugin.get(self._yaml_defs_group, {})
-
-        section_names = []
-        event_names = []
-        for name, section in groups.items():
-            if name in global_override_keys:
-                continue
-
-            section_names.append(name)
-            for name in section:
-                if name in global_override_keys:
-                    continue
-
-                event_names.append(name)
+        group_name = self._yaml_defs_group
+        group = YAMLDefGroup(group_name, plugin.get(group_name))
 
         log.debug("sections=%s, events=%s",
-                  len(section_names), len(event_names))
-        group_globals = {k: None for k in global_override_keys}
-        for section_name, section in groups.items():
-            if section_name in global_override_keys:
-                group_globals[section_name] = section
-                continue
-
-            section_globals = {}
-            section_globals.update(group_globals)
-            for key in global_override_keys:
-                if key in section:
-                    section_globals[key] = section[key]
-                    del section[key]
-
-            for event_name in section:
-                event = section[event_name]
-
+                  len(group.sections),
+                  sum([len(s.entries) for s in group.sections]))
+        for section in group.sections:
+            for ename, event in section.entries.items():
                 # if this is a multiline event (has a start and end), append
                 # this to the tag so that it can be used with
                 # core.analytics.LogEventStats.
                 if 'end' in event:
-                    tag = "{}-start".format(event_name)
+                    tag = "{}-start".format(ename)
                     expr = event['start']['expr']
                     hint = event['start'].get('hint')
                 else:
-                    tag = event_name
+                    tag = ename
                     expr = event['expr']
                     hint = event.get('hint')
 
                 start = SearchDef(expr, tag=tag, hint=hint)
                 if 'end' in event:
-                    tag = "{}-end".format(event_name)
+                    tag = "{}-end".format(ename)
                     hint = event['end'].get('hint')
                     end = SearchDef(event['end']['expr'], tag=tag, hint=hint)
                 else:
                     end = None
 
                 # allow low-level path to override section global path
-                datasource = event.get('path', section_globals['path'])
+                datasource = event.get('path', section.globals.get('path'))
                 ds = os.path.join(constants.DATA_ROOT, datasource)
                 if constants.USE_ALL_LOGS:
-                    if section_globals['allow-all-logs'] is not None:
-                        allow_all_logs = section_globals['allow-all-logs']
-                    else:
-                        allow_all_logs = event.get('allow-all-logs', True)
-
+                    allow_all_logs = section.globals.get('allow-all-logs',
+                                                         True)
+                    allow_all_logs = event.get('allow-all-logs',
+                                               allow_all_logs)
                     if allow_all_logs:
                         ds = "{}*".format(ds)
 
-                if section_name not in self._event_defs:
-                    self._event_defs[section_name] = {}
+                if section.name not in self._event_defs:
+                    self._event_defs[section.name] = {}
 
-                if event_name not in self._event_defs[section_name]:
-                    self._event_defs[section_name][event_name] = {}
+                if ename not in self._event_defs[section.name]:
+                    self._event_defs[section.name][ename] = {}
 
                 e_def = {'searchdefs': [start], 'datasource': ds}
                 if end:
                     e_def['searchdefs'].append(end)
 
-                self._event_defs[section_name][event_name] = e_def
+                self._event_defs[section.name][ename] = e_def
 
     @property
     def event_definitions(self):
@@ -594,6 +640,10 @@ class ConfigChecksBase(object):
     perform these checks can implement this class.
     """
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._check_defs = {}
+
     def _validate(self, method):
         """
         @param method: name of a method that must exist in the implementation
@@ -611,7 +661,7 @@ class ConfigChecksBase(object):
         """
         raise NotImplementedError
 
-    def run_config_checks(self):
+    def _load_definitions(self):
         path = os.path.join(constants.PLUGIN_YAML_DEFS, "config_checks.yaml")
         with open(path) as fd:
             yaml_defs = yaml.safe_load(fd.read())
@@ -619,26 +669,37 @@ class ConfigChecksBase(object):
         if not yaml_defs:
             return
 
-        plugin_configs = yaml_defs.get(constants.PLUGIN_NAME, {})
-        for label in plugin_configs:
-            args = plugin_configs[label]
-            callback = args.get("callback")
-            if callback:
-                if not self._validate(callback):
-                    # assume feature not enabled
-                    return
+        plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
+        for name, group in plugin.items():
+            group = YAMLDefGroup(name, group, override_keys=['callback',
+                                                             'path',
+                                                             'message'])
+            for section in group.sections:
+                self._check_defs[section.name] = section
 
-            path = os.path.join(constants.DATA_ROOT, args['path'])
-            cfg = self._get_config_handler(path)
-            for name in args["settings"]:
-                check = args["settings"][name]
-                op = check["operator"]
-                section = check.get("section")
-                actual = cfg.get(name, section=section)
-                value = check["value"]
+    def run_config_checks(self):
+        self._load_definitions()
+        for name, section in self._check_defs.items():
+            path = section.globals.get('path')
+            message = section.globals['message']
+            callback = section.globals['callback']
+            log.debug("section=%s, callback=%s", name, callback)
+            if not self._validate(callback):
+                # assume feature not enabled
+                return
+
+            for cfg_key, settings in section.entries.items():
+                path = os.path.join(constants.DATA_ROOT,
+                                    settings.get('path') or path)
+                cfg = self._get_config_handler(path)
+                op = settings['operator']
+                section = settings.get('section')
+                actual = cfg.get(cfg_key, section=section)
+                value = settings['value']
+                log.debug("checking config %s has value %s", cfg_key, value)
                 raise_issue = False
                 if actual is None:
-                    if value is not None and not check["allow-unset"]:
+                    if value is not None and not settings['allow-unset']:
                         raise_issue = True
                     else:
                         continue
@@ -648,8 +709,8 @@ class ConfigChecksBase(object):
                     raise_issue = True
 
                 if raise_issue:
-                    msg = (args["message"])
-                    issue_utils.add_issue(issue_types.OpenstackWarning(msg))
+                    issue = issue_types.OpenstackWarning(message)
+                    issue_utils.add_issue(issue)
                     # move on to next set of checks
                     break
 

@@ -12,7 +12,7 @@ KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
 
 
 class BugSearchDef(SearchDef):
-    def __init__(self, expr, bug_id, hint, reason,
+    def __init__(self, pattern, bug_id, hint, reason,
                  reason_format_result_groups=None):
         """
         @param reason: string reason describing the issue and why it has been
@@ -22,7 +22,7 @@ class BugSearchDef(SearchDef):
         this is a list of indexes in the results that can be extracted for
         inclusion in the reason.
         """
-        super().__init__(expr, tag=bug_id, hint=hint)
+        super().__init__(pattern, tag=bug_id, hint=hint)
         self._reason = reason
         if reason is None:
             self._reason = ""
