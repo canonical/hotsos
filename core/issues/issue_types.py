@@ -36,6 +36,10 @@ class CephDaemonWarning(IssueTypeBase):
     pass
 
 
+class CephDaemonVersionsError(IssueTypeBase):
+    pass
+
+
 class JujuWarning(IssueTypeBase):
     pass
 

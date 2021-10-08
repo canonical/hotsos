@@ -340,6 +340,32 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
             inst.get_ceph_versions_mismatch()
             self.assertEqual(inst.output["ceph"]["versions"], result)
 
+    @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
+    def test_get_ceph_mon_lower_version(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_versions.return_value = \
+                CEPH_VERSIONS_MISMATCHED_MINOR.split('\n')
+            inst = ceph_daemon_checks.CephOSDChecks()
+            inst.get_ceph_versions_mismatch()
+
+        types = {}
+        for issue in issues:
+            t = type(issue)
+            if t in types:
+                types[t] += 1
+            else:
+                types[t] = 1
+
+        self.assertEqual(types[issue_types.CephDaemonVersionsError], 1)
+        self.assertTrue(mock_add_issue.called)
+
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_versions_mismatch_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()

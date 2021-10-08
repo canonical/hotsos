@@ -160,6 +160,13 @@ class CephOSDChecks(ceph.CephChecksBase):
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
 
+    @staticmethod
+    def version_as_a_tuple(ver):
+        """
+        Return a version string as a tuple for easy comparison
+        """
+        return tuple(map(int, (ver.split("."))))
+
     def get_ceph_versions_mismatch(self):
         """
         Get versions of all Ceph daemons.
@@ -170,6 +177,11 @@ class CephOSDChecks(ceph.CephChecksBase):
 
         global_vers = set()
         daemon_version_info = {}
+
+        # these store highest ver and daemon name with highest ver
+        h_version = "0.0.0"
+        h_daemon = ""
+
         for daemon_type in versions:
             # skip the catchall
             if daemon_type == 'overall':
@@ -179,7 +191,11 @@ class CephOSDChecks(ceph.CephChecksBase):
             for version in versions[daemon_type]:
                 vers.append(version)
                 global_vers.add(version)
-
+                # store the highest version any component has
+                if self.version_as_a_tuple(version) > \
+                        self.version_as_a_tuple(h_version):
+                    h_version = version
+                    h_daemon = daemon_type
             if vers:
                 daemon_version_info[daemon_type] = vers
 
@@ -189,6 +205,15 @@ class CephOSDChecks(ceph.CephChecksBase):
                 msg = ('ceph daemon versions not aligned')
                 issue = issue_types.CephDaemonWarning(msg)
                 issue_utils.add_issue(issue)
+
+            # check if mon is lower than highest version we stored earlier
+            for version in versions.get('mon', []):
+                if self.version_as_a_tuple(version) < \
+                      self.version_as_a_tuple(h_version):
+                    msg = ("mon version {} is lower than {} version {}"
+                           .format(version, h_daemon, h_version))
+                    issue = issue_types.CephDaemonVersionsError(msg)
+                    issue_utils.add_issue(issue)
 
     def _build_buckets_from_crushdump(self, crushdump):
         buckets = {}
