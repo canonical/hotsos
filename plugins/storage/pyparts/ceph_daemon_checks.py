@@ -1,5 +1,3 @@
-import re
-
 from core.checks import DPKGVersionCompare
 from core.issues import (
     issue_types,
@@ -16,6 +14,7 @@ YAML_PRIORITY = 1
 LP1936136_BCACHE_CACHE_LIMIT = 70
 OSD_PG_MAX_LIMIT = 500
 OSD_PG_OPTIMAL_NUM = 200
+OSD_META_LIMIT_KB = (10 * 1024 * 1024)
 
 
 class CephOSDChecks(ceph.CephChecksBase):
@@ -97,6 +96,32 @@ class CephOSDChecks(ceph.CephChecksBase):
             msg = ("{} OSDs do not bind to v2 address".format(len(v1_osds)))
             issue_utils.add_issue(issue_types.CephOSDWarning(msg))
 
+    def check_ceph_bluefs_size(self):
+        """
+        Check if the BlueFS metadata size is too large
+        """
+        bad_meta_osds = []
+        ceph_osd_df_tree = self.cli.ceph_osd_df_tree_json_decoded()
+        if not ceph_osd_df_tree:
+            return
+
+        for device in ceph_osd_df_tree['nodes']:
+            if device['id'] >= 0:
+                meta_kb = device['kb_used_meta']
+                # Usually the meta data is expected to be in 0-4G range
+                # and we check if it's over 10G
+                if meta_kb > OSD_META_LIMIT_KB:
+                    bad_meta_osds.append(device['name'])
+
+        if bad_meta_osds:
+            msg = ("{} OSDs have metadata size larger than 10G. This "
+                   "indicates compaction failure/bug. Possibly affected by "
+                   "https://tracker.ceph.com/issues/45903. "
+                   "A workaround (>= Nautilus) is to manually compact using "
+                   "'ceph-bluestore-tool'"
+                   .format(bad_meta_osds))
+            issue_utils.add_issue(issue_types.CephOSDWarning(msg))
+
     def get_ceph_pg_imbalance(self):
         """ Validate PG counts on OSDs
 
@@ -107,39 +132,23 @@ class CephOSDChecks(ceph.CephChecksBase):
         We also check for OSDs with excessive numbers of PGs that can cause
         them to fail.
         """
-        ceph_osd_df_tree = self.cli.ceph_osd_df_tree()
+        suboptimal_pgs = {}
+        error_pgs = {}
+        ceph_osd_df_tree = self.cli.ceph_osd_df_tree_json_decoded()
         if not ceph_osd_df_tree:
             return
 
-        # Find index of PGS column in output.
-        pgs_idx = None
-        header = ceph_osd_df_tree[0].split()
-        for i, col in enumerate(header):
-            if col == "PGS":
-                pgs_idx = i + 1
-                break
+        for device in ceph_osd_df_tree['nodes']:
+            if device['id'] >= 0:
+                osd_id = device['name']
+                pgs = device['pgs']
+                if pgs > OSD_PG_MAX_LIMIT:
+                    error_pgs[osd_id] = pgs
 
-        if not pgs_idx:
-            return
-
-        pgs_idx = -(len(header) - pgs_idx)
-        suboptimal_pgs = {}
-        error_pgs = {}
-        for line in ceph_osd_df_tree:
-            try:
-                ret = re.compile(r"\s+(osd\.\d+)\s*$").search(line)
-                if ret:
-                    osd_id = ret.group(1)
-                    pgs = int(line.split()[pgs_idx])
-                    if pgs > OSD_PG_MAX_LIMIT:
-                        error_pgs[osd_id] = pgs
-
-                    margin = abs(100 - (float(100) / OSD_PG_OPTIMAL_NUM * pgs))
-                    # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM value
-                    if margin > 30:
-                        suboptimal_pgs[osd_id] = pgs
-            except IndexError:
-                pass
+                margin = abs(100 - (100.0 / OSD_PG_OPTIMAL_NUM * pgs))
+                # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM value
+                if margin > 30:
+                    suboptimal_pgs[osd_id] = pgs
 
         if error_pgs:
             info = sorted_dict(error_pgs, key=lambda e: e[1], reverse=True)
@@ -202,7 +211,10 @@ class CephOSDChecks(ceph.CephChecksBase):
         if daemon_version_info:
             self._output['versions'] = daemon_version_info
             if len(global_vers) > 1:
-                msg = ('ceph daemon versions not aligned')
+                msg = ('ceph daemon versions not aligned possibly because '
+                       'cluster upgrade is incomplete/incorrectly done. '
+                       'All daemons, except the clients, should be on the '
+                       'same version for proper functioning.')
                 issue = issue_types.CephDaemonWarning(msg)
                 issue_utils.add_issue(issue)
 
@@ -326,6 +338,7 @@ class CephOSDChecks(ceph.CephChecksBase):
 
         self.check_require_osd_release()
         self.check_osd_msgr_protocol_versions()
+        self.check_ceph_bluefs_size()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
