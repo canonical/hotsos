@@ -407,6 +407,12 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
             inst.check_osdmaps_size()
             self.assertTrue(mock_issue_utils.add_issue.called)
 
+    @mock.patch.object(ceph_daemon_checks, 'issue_utils')
+    def test_check_ceph_bluefs_size(self, mock_issue_utils):
+        inst = ceph_daemon_checks.CephOSDChecks()
+        inst.check_ceph_bluefs_size()
+        self.assertTrue(mock_issue_utils.add_issue.called)
+
     @mock.patch.object(ceph_daemon_checks.issue_utils, "add_issue")
     def test_get_ceph_pg_imbalance(self, mock_add_issue):
         issues = []

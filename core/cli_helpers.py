@@ -403,6 +403,12 @@ class CLIHelper(object):
             'ceph_osd_df_tree':
                 [BinCmd('ceph osd df tree'),
                  FileCmd('sos_commands/ceph/ceph_osd_df_tree')],
+            'ceph_osd_df_tree_json_decoded':
+                [BinCmd('ceph osd df tree --format json-pretty',
+                        json_decode=True),
+                 FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_osd_df_tree_--format_json-pretty',
+                         json_decode=True)],
             'ceph_osd_tree':
                 [BinCmd('ceph osd tree'),
                  FileCmd('sos_commands/ceph/ceph_osd_tree')],
