@@ -2,9 +2,16 @@
 #
 # Entries are defined using the following hierarchy:
 #
+# Message formatted fields:
+#   - package_name
+#   - version_current
+#   - version_fixed
+#
 # PLUGIN:
 #   PACKAGE_NAME:
 #     BUG_ID:
+#       # string message with formatted fields (see above for available fields)
+#       message: "a message"
 #       # list of release names with their associated package versions.
 #       releases:
 #         release-name
@@ -16,6 +23,10 @@
 openstack:
   neutron-common:
     1927868:
+      message: >-
+        installed package '{package_name}' with version {version_current} has a
+        known critical bug. If this environment is using Neutron ML2 OVS (i.e.
+        not OVN) it should be upgraded to a version >= {version_fixed} asap.
       releases:
         wallaby:
           min-broken: 2:18.0.0

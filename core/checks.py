@@ -82,8 +82,9 @@ class PackageReleaseCheckObj(object):
         self.package_name = package_name
         self.bugs = {}
 
-    def add_bug_check(self, id, release, minbroken, minfixed):
-        bug = {'id': id, 'minbroken': minbroken, 'minfixed': minfixed}
+    def add_bug_check(self, id, release, minbroken, minfixed, message):
+        bug = {'id': id, 'minbroken': minbroken, 'minfixed': minfixed,
+               'message': message}
         if release in self.bugs:
             self.bugs[release].append(bug)
         else:
@@ -191,14 +192,21 @@ class PackageBugChecksBase(object):
         for name, group in plugin_checks.items():
             group = YAMLDefGroup(name, group)
             log.debug("loading package bug group '%s'", group.name)
+            # group name must be package name
             p = PackageReleaseCheckObj(group.name)
             for section in group.sections:
                 bug = section.name
                 releases = section.entries
-                for release in releases.values():
+                message = None
+                for key, val in releases.items():
+                    if key == "message":
+                        message = val
+                        continue
+
+                    release = val
                     for name, info in release.items():
                         p.add_bug_check(bug, name, info['min-broken'],
-                                        info['min-fixed'])
+                                        info['min-fixed'], message)
 
             self._checks.append(p)
 
@@ -207,21 +215,35 @@ class PackageBugChecksBase(object):
         for check in self._checks:
             pkg = check.package_name
             # if installed do check
-            if pkg in self._pkg_info:
-                pkgver = self._pkg_info[pkg]
-                for release, bugs in check.bugs.items():
-                    if release == self._release_name:
-                        for bug in bugs:
-                            minbroken = bug['minbroken']
-                            minfixed = bug['minfixed']
-                            if (not pkgver < DPKGVersionCompare(minbroken) and
-                                    pkgver < DPKGVersionCompare(minfixed)):
-                                desc = ("installed package '{}' with version "
-                                        "{} has a known critical bug and "
-                                        "should be upgraded to a version >= "
-                                        "{}.".format(pkg, pkgver,
-                                                     bug['minfixed']))
-                                add_known_bug(bug['id'], desc)
+            if pkg not in self._pkg_info:
+                return
+
+            pkgver = self._pkg_info[pkg]
+            for release, bugs in check.bugs.items():
+                if release != self._release_name:
+                    continue
+
+                for bug in bugs:
+                    minbroken = bug['minbroken']
+                    minfixed = bug['minfixed']
+                    if (not pkgver < DPKGVersionCompare(minbroken) and
+                            pkgver < DPKGVersionCompare(minfixed)):
+                        log.debug("bug identified for package=%s release=%s "
+                                  "version=%s", pkg, release, pkgver)
+                        message_format_kwargs = {'package_name': pkg,
+                                                 'version_current': pkgver,
+                                                 'version_fixed': minfixed}
+
+                        message = bug.get('message')
+                        if not message:
+                            # generic message
+                            message = ("package {package_name} with version "
+                                       "{version_current} contains a known "
+                                       "bug and should be upgraded to >= "
+                                       "{version_fixed}")
+
+                        add_known_bug(bug['id'],
+                                      message.format(**message_format_kwargs))
 
 
 class BugChecksBase(ChecksBase):
