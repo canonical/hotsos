@@ -154,11 +154,20 @@ kernel:
         hint: 'conntrack'
 rabbitmq:
   cluster-checks:
+    path: 'var/log/rabbitmq/rabbit@*.log'
     rabbitlog:
       cluster-partitions:
-        path: 'var/log/rabbitmq/rabbit@*.log'
         expr: '.+ \S+_partitioned_network'
         hint: 'partition'
+  synced-queues:
+    path: 'var/log/rabbitmq/rabbit@*.log'
+    rabbitlog:
+      no-sync:
+        expr: 'Mirrored queue ''.+'' in vhost ''.+'': Stopping'
+        hint: 'synchronised'
+      discard:
+        expr: 'Discarding message.+old incarnation'
+        hint: 'Discarding'
 storage:
   ceph:
     cephlogs:
@@ -184,4 +193,3 @@ storage:
       heartbeat-no-reply:
         expr: '^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
         hint: 'heartbeat_check'
-

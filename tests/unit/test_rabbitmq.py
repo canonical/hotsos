@@ -1,7 +1,6 @@
 import mock
 
 import os
-import tempfile
 
 import utils
 
@@ -9,6 +8,7 @@ from core import constants
 from plugins.rabbitmq.pyparts import (
     cluster_checks,
     services,
+    synchronization_checks,
 )
 
 
@@ -192,25 +192,18 @@ class TestRabbitmqServices(TestRabbitmqBase):
 class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
     @mock.patch.object(cluster_checks.issue_utils, 'add_issue')
-    def test_cluster_checks_no_issue(self, mock_add_issue):
+    def test_cluster_checks_w_partitions(self, mock_add_issue):
         inst = cluster_checks.RabbitMQClusterChecks()
         inst()
         self.assertEqual(inst.output, None)
-        self.assertFalse(mock_add_issue.called)
+        self.assertTrue(mock_add_issue.called)
 
-    @mock.patch.object(cluster_checks.issue_utils, 'add_issue')
-    def test_cluster_checks_w_partitions(self, mock_add_issue):
-        with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            logdir = os.path.join(dtmp, 'var/log/rabbitmq')
-            os.makedirs(logdir)
-            with open(os.path.join(logdir, 'rabbit@foo.log'), 'w') as fd:
-                fd.write("Mnesia(rabbit@node1): ** ERROR ** mnesia_event got "
-                         "{inconsistent_database, running_partitioned_network"
-                         ", rabbit@node2}\n")
 
-            inst = cluster_checks.RabbitMQClusterChecks()
-            inst()
+class TestRabbitMQSynchronizationChecks(TestRabbitmqBase):
 
+    @mock.patch.object(synchronization_checks.issue_utils, 'add_issue')
+    def test_syncronization_checks(self, mock_add_issue):
+        inst = synchronization_checks.RabbitMQSynchronizationChecks()
+        inst()
         self.assertEqual(inst.output, None)
         self.assertTrue(mock_add_issue.called)
