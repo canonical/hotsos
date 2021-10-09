@@ -75,6 +75,8 @@ plugins:
     parts:
       cluster_checks:
         - RabbitMQClusterChecks
+      synchronization_checks:
+        - RabbitMQSynchronizationChecks
       services:
         - RabbitMQServiceChecks
         - RabbitMQPackageChecks
@@ -94,4 +96,3 @@ plugins:
       bcache:
         - BcacheDeviceChecks
         - BcacheStatsChecks
-
