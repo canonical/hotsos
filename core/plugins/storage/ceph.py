@@ -100,7 +100,7 @@ class CephCluster(object):
         versions = {}
         s = FileSearcher()
         body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
-                         r"\(\S+\)\":\s+(\d)+$")
+                         r"\(\S+\)\":\s+(\d)+,?$")
         if daemon_type is None:
             # all/any - start matches any so no seq ending needed
             sd = SequenceSearchDef(start=SearchDef(r"^\s+\"(\S+)\":\s+{"),
@@ -116,7 +116,8 @@ class CephCluster(object):
             _versions = {}
             for result in section:
                 if result.tag == sd.start_tag:
-                    versions[result.get(1)] = _versions
+                    _daemon_type = result.get(1)
+                    versions[_daemon_type] = _versions
                 elif result.tag == sd.body_tag:
                     version = result.get(1)
                     rname = result.get(2)
