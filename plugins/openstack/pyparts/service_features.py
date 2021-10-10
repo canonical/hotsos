@@ -17,12 +17,17 @@ FEATURES = {'neutron': {'main': [
             'nova': {'main': [
                         'vcpu_pin_set',
                         'cpu_shared_set',
-                        'cpu_dedicated_set']}}
+                        'cpu_dedicated_set',
+                        'live_migration_permit_auto_converge',
+                        'live_migration_permit_post_copy',
+                        ]}}
 
 # checked against neutron
 DEFAULTS = {'neutron': {'dhcp-agent': {
                             'enable_metadata_network': False,
-                            'enable_isolated_metadata': False}}}
+                            'enable_isolated_metadata': False}},
+            'nova': {'main': {'live_migration_permit_auto_converge': False,
+                              'live_migration_permit_post_copy': False}}}
 YAML_PRIORITY = 5
 
 
@@ -42,7 +47,7 @@ class ServiceFeatureChecks(OpenstackChecksBase):
                 module_features = {}
                 cfg = self.ost_projects.all[service].config[module]
                 if not cfg.exists:
-                    return
+                    continue
 
                 for key in FEATURES[service][module]:
                     val = cfg.get(key)

@@ -1,0 +1,3 @@
+passthrough-results: True
+start: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] _post_live_migration() is started'
+end: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] VM Stopped (Lifecycle Event)'

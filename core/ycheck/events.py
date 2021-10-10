@@ -205,10 +205,12 @@ class YEventCheckerBase(ManualChecksBase):
                 # defined.
                 callback_name = event.replace('-', '_')
                 callback = self.callback_helper.callbacks[callback_name]
-                log.debug("executing event callback '%s'", callback_name)
                 event_results_obj = EventCheckResult(section_name, event,
                                                      search_results,
                                                      sequence_def=sequence_def)
+                log.debug("executing event %s.%s callback '%s'",
+                          event_results_obj.section, event,
+                          callback_name)
                 ret = callback(self, event_results_obj)
                 if not ret:
                     continue
@@ -220,6 +222,8 @@ class YEventCheckerBase(ManualChecksBase):
                 if type(ret) == tuple:
                     out_key = ret[1]
                     ret = ret[0]
+                    if not ret:
+                        continue
                 else:
                     out_key = event
 

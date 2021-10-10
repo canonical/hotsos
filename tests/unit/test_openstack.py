@@ -419,6 +419,23 @@ class TestOpenstackVmInfo(TestOpenstackBase):
         inst()
         self.assertEquals(inst.output, expected)
 
+    def test_vm_migration_analysis(self):
+        expected = {'nova-migrations': {
+                        'live-migration': {
+                            'c050e183-c808-43f9-bdb4-02e95fad58e2': [
+                                {'start': '2021-09-14 08:21:07',
+                                 'end': '2021-09-14 08:22:24',
+                                 'duration': 77.0,
+                                 'resources': {'memory_mbytes': 2048},
+                                 'regressions': {
+                                     'memory': 1,
+                                     'disk': 0},
+                                 'iterations': 4}]
+                        }}}
+        inst = vm_info.NovaServerMigrationAnalysis()
+        inst()
+        self.assertEquals(inst.output, expected)
+
 
 class TestOpenstackNovaExternalEvents(TestOpenstackBase):
 
@@ -513,7 +530,10 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                     'availability_zone': 'nova'},
                                 'openvswitch-agent': {
                                     'l2_population': True,
-                                    'firewall_driver': 'openvswitch'}}}
+                                    'firewall_driver': 'openvswitch'}},
+                    'nova': {'main': {
+                                'live_migration_permit_auto_converge': False,
+                                'live_migration_permit_post_copy': False}}}
         self.assertEqual(inst.output["features"], expected)
 
 

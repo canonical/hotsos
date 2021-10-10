@@ -30,6 +30,7 @@ plugins:
         - AgentEventChecks
       vm_info:
         - OpenstackInstanceChecks
+        - NovaServerMigrationAnalysis
       agent_exceptions:
         - AgentExceptionChecks
       cpu_pinning_check:
