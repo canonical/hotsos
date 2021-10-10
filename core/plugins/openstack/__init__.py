@@ -368,11 +368,12 @@ class OSTProjectCatalog(object):
         return self.APT_DEPS_COMMON
 
 
-class OSGuest(object):
+class NovaInstance(object):
     def __init__(self, uuid, name):
         self.uuid = uuid
         self.name = name
         self.ports = []
+        self.memory_mbytes = None
 
     def add_port(self, port):
         self.ports.append(port)
@@ -504,14 +505,15 @@ class NovaBase(OSTServiceBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__('nova', *args, **kwargs)
-        self._instances = []
+        self._instances = None
         self.nova_config = self.project.config['main']
 
     @property
     def instances(self):
-        if self._instances:
+        if self._instances is not None:
             return self._instances
 
+        instances = {}
         for line in CLIHelper().ps():
             ret = re.compile('.+product=OpenStack Nova.+').match(line)
             if ret:
@@ -531,7 +533,7 @@ class NovaBase(OSTServiceBase):
                 if not all([name, uuid]):
                     continue
 
-                guest = OSGuest(uuid, name)
+                guest = NovaInstance(uuid, name)
                 ret = re.compile(r'mac=([a-z0-9:]+)').findall(line)
                 if ret:
                     for mac in ret:
@@ -541,8 +543,16 @@ class NovaBase(OSTServiceBase):
                         if _port:
                             guest.add_port(_port)
 
-                self._instances.append(guest)
+                ret = re.compile(r'.+\s-m\s+(\d+)').search(line)
+                if ret:
+                    guest.memory_mbytes = int(ret.group(1))
 
+                instances[uuid] = guest
+
+        if not instances:
+            return {}
+
+        self._instances = instances
         return self._instances
 
     @property

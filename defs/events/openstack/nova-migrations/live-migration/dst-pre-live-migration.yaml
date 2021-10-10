@@ -1,0 +1,3 @@
+passthrough-results: True
+start: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] pre_live_migration data is LibvirtLiveMigrateData'
+end: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] pre_live_migration result data is LibvirtLiveMigrateData'

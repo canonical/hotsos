@@ -94,7 +94,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             return
 
         port_health_info = {}
-        for guest in self.nova.instances:
+        for guest in self.nova.instances.values():
             for port in guest.ports:
                 stats = port.stats
                 if stats:
