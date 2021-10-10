@@ -25,7 +25,7 @@ osd journal size = 1024
 filestore xattr use omap = true
 """
 
-CEPH_VERSIONS_MISMATCHED = """
+CEPH_VERSIONS_MISMATCHED_MAJOR = """
 {
     "mon": {
         "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
@@ -34,7 +34,7 @@ CEPH_VERSIONS_MISMATCHED = """
         "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
     },
     "osd": {
-        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 2
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 2,
         "ceph version 14.2.18 (b77bc49e3a57a87d84df112a087a2058aa217118) nautilus (stable)": 1
     },
     "mds": {},
@@ -43,6 +43,28 @@ CEPH_VERSIONS_MISMATCHED = """
     }
 }
 """  # noqa
+
+
+CEPH_VERSIONS_MISMATCHED_MINOR = """
+{
+    "mon": {
+        "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 3
+    },
+    "mgr": {
+        "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 3
+    },
+    "osd": {
+        "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 208,
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 16
+    },
+    "mds": {},
+    "overall": {
+        "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 217,
+        "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 16
+    }
+}
+"""  # noqa
+
 
 OSD_V2FAIL = """
 max_osd 3
@@ -297,13 +319,26 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         inst.get_crushmap_mixed_buckets()
         self.assertFalse(mock_issue_utils.add_issue.called)
 
-    def test_get_ceph_versions_mismatch(self):
+    def test_get_ceph_versions_mismatch_pass(self):
         result = {'mgr': ['15.2.13'],
                   'mon': ['15.2.13'],
                   'osd': ['15.2.13']}
         inst = ceph_daemon_checks.CephOSDChecks()
         inst.get_ceph_versions_mismatch()
         self.assertEqual(inst.output["ceph"]["versions"], result)
+
+    def test_get_ceph_versions_mismatch_fail(self):
+        result = {'mgr': ['15.2.11'],
+                  'mon': ['15.2.11'],
+                  'osd': ['15.2.11',
+                          '15.2.13']}
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_versions.return_value = \
+                CEPH_VERSIONS_MISMATCHED_MINOR.split('\n')
+            inst = ceph_daemon_checks.CephOSDChecks()
+            inst.get_ceph_versions_mismatch()
+            self.assertEqual(inst.output["ceph"]["versions"], result)
 
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_versions_mismatch_unavailable(self, mock_helper):
@@ -319,7 +354,7 @@ class TestStoragePluginPartCephDaemonChecks(StorageTestsBase):
         with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
             mock_helper.return_value = mock.MagicMock()
             mock_helper.return_value.ceph_versions.return_value = \
-                CEPH_VERSIONS_MISMATCHED.split('\n')
+                CEPH_VERSIONS_MISMATCHED_MAJOR.split('\n')
             mock_helper.return_value.ceph_osd_dump.return_value = osd_dump
             inst = ceph_daemon_checks.CephOSDChecks()
             inst.check_require_osd_release()
