@@ -55,6 +55,21 @@ eponymous directory containing any number of executable plugin "parts" which
 are a way of breaking down the structure of the plugin using meaningfully named
 files.
 
+Plugin output must be yaml-formatted. There are tools provided to manage this
+for you (see core.plugintools) and the basic workflow is that each plugin part
+implement a plugintools.PluginPartBase and is assigned a YAML_PRIORITY which
+determines its position within the plugin output. Once all plugins are run,
+their respective yaml outputs are aggregated into a master yaml "summary".
+
+Parts that produce output need simply add it to the _output variable or
+override the output (dict) property and the rest is taken care of for you.
+
+Some implementations may not produce output directly and instead raise "issues"
+using the tools in core.issues. These ultimately translate to yaml as well but
+again this is dealt with automatically.
+
+NOTE: do not print anything to standard output.
+
 ### tests
 
 All code should be accompanied by unit tests and this is where they live. Tests
