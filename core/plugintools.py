@@ -179,6 +179,7 @@ class PluginRunner(object):
         if not yaml_defs:
             return
 
+        failed_parts = []
         plugins = yaml_defs.get("plugins", {})
         plugin = plugins.get(constants.PLUGIN_NAME, {})
         parts = plugin.get("parts", {})
@@ -192,11 +193,15 @@ class PluginRunner(object):
             for obj, cls in parts.items():
                 # update current env to reflect actual part being run
                 os.environ['PART_NAME'] = part
-                inst = getattr(importlib.import_module(obj), cls)
-                inst()()
-                # NOTE: we don't currently collect their output since that is
-                #       not currently needed but may be be in the future as
-                #       more are added.
+                part_obj = getattr(importlib.import_module(obj), cls)
+                try:
+                    part_obj()()
+                except Exception as exc:
+                    failed_parts.append(part)
+                    log.debug("part '%s' raised exception: %s", part, exc)
+
+                # NOTE: we don't currently expect these parts to produce any
+                # output.
 
         for part, obj_names in plugin.get("parts", {}).items():
             # update current env to reflect actual part being run
@@ -213,24 +218,33 @@ class PluginRunner(object):
 
             part_out = {}
             for entry in obj_names or []:
-                obj = getattr(mod, entry)
-                inst = obj()
+                part_obj = getattr(mod, entry)()
                 # Only run plugin if it delares itself runnable.
-                if not inst.plugin_runnable:
+                if not part_obj.plugin_runnable:
                     log.debug("plugin=%s, part=%s not runnable - skipping",
                               constants.PLUGIN_NAME, part)
                     continue
 
                 log.debug("running plugin=%s, part=%s",
                           constants.PLUGIN_NAME, part)
-                inst()
-                # NOTE: since all parts are expected to be implementations of
-                # PluginPartBase we expect them to always define an output.
-                out = inst.output
-                if out:
-                    meld_part_output(out, part_out)
+                try:
+                    part_obj()
+                    # NOTE: since all parts are expected to be implementations
+                    # of PluginPartBase we expect them to always define an
+                    # output property.
+                    output = part_obj.output
+                except Exception as exc:
+                    failed_parts.append(part)
+                    log.debug("part '%s' raised exception: %s", part, exc)
+                    output = None
+
+                if output:
+                    meld_part_output(output, part_out)
 
             save_part(part_out, priority=yaml_priority)
+
+        if failed_parts:
+            save_part({'failed-parts': failed_parts}, priority=0)
 
         # The following are executed at the end of each plugin run (i.e. after
         # all other parts have run).
