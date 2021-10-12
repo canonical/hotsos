@@ -396,36 +396,66 @@ class CLIHelper(object):
                  FileCmd('sos_commands/apt/apt-config_dump')],
             'ceph_mon_dump':
                 [BinCmd('ceph mon dump'),
-                 FileCmd('sos_commands/ceph/ceph_mon_dump')],
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/ceph_mon_dump'),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/ceph_mon_dump')],
             'ceph_osd_dump':
                 [BinCmd('ceph osd dump'),
-                 FileCmd('sos_commands/ceph/ceph_osd_dump')],
-            'ceph_osd_df_tree':
-                [BinCmd('ceph osd df tree'),
-                 FileCmd('sos_commands/ceph/ceph_osd_df_tree')],
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/ceph_osd_dump'),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/ceph_osd_dump')],
             'ceph_osd_df_tree_json_decoded':
                 [BinCmd('ceph osd df tree --format json-pretty',
                         json_decode=True),
+                 # sosreport < 4.2
                  FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_osd_df_tree_--format_json-pretty',
+                         json_decode=True),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/json_output/'
                          'ceph_osd_df_tree_--format_json-pretty',
                          json_decode=True)],
             'ceph_osd_tree':
                 [BinCmd('ceph osd tree'),
-                 FileCmd('sos_commands/ceph/ceph_osd_tree')],
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/ceph_osd_tree'),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/ceph_osd_tree'),
+                 ],
             'ceph_osd_crush_dump_json_decoded':
                 [BinCmd('ceph osd crush dump', json_decode=True),
+                 # sosreport < 4.2
                  FileCmd('sos_commands/ceph/ceph_osd_crush_dump',
-                         json_decode=True)],
+                         json_decode=True),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/ceph_osd_crush_dump',
+                         json_decode=True),
+                 ],
             'ceph_versions':
                 [BinCmd('ceph versions'),
-                 FileCmd('sos_commands/ceph/ceph_versions')],
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/ceph_versions'),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/ceph_versions'),
+                 ],
             'ceph_volume_lvm_list':
                 [BinCmd('ceph-volume lvm list'),
-                 FileCmd('sos_commands/ceph/ceph-volume_lvm_list')],
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/ceph-volume_lvm_list'),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_osd/ceph-volume_lvm_list'),
+                 ],
             'ceph_report_json_decoded':
                 [BinCmd('ceph report', json_decode=True),
+                 # sosreport < 4.2
                  CephReportFileCmd('sos_commands/ceph/ceph_report',
-                                   json_decode=True)],
+                                   json_decode=True),
+                 # sosreport >= 4.2
+                 CephReportFileCmd('sos_commands/ceph_mon/ceph_report',
+                                   json_decode=True),
+                 ],
             'date':
                 [DateBinCmd('date --utc {format}', singleline=True),
                  DateFileCmd('sos_commands/date/date', singleline=True)],
