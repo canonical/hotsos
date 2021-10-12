@@ -1,7 +1,48 @@
-2021-08-03T10:31:56.873+0000 7ff6c0c5a700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:56.873+0000 7ff6c0c5a700 -1 AuthRegistry(0x7ff6bc0590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:56.901+0000 7ff6bb59e700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:56.901+0000 7ff6bb59e700 -1 AuthRegistry(0x7ff6bc05b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:56.913+0000 7ff6bb59e700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:56.913+0000 7ff6bb59e700 -1 AuthRegistry(0x7ff6bb59d130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "epoch": 1,
+    "fsid": "d7174a2e-f3d5-11eb-8bfa-9ff391569dab",
+    "modified": "2021-08-02T21:08:53.363696Z",
+    "created": "2021-08-02T21:08:53.363696Z",
+    "min_mon_release": 15,
+    "min_mon_release_name": "octopus",
+    "features": {
+        "persistent": [
+            "kraken",
+            "luminous",
+            "mimic",
+            "osdmap-prune",
+            "nautilus",
+            "octopus"
+        ],
+        "optional": []
+    },
+    "mons": [
+        {
+            "rank": 0,
+            "name": "juju-4eb7e9-2-lxd-0",
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.59:3300",
+                        "nonce": 0
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.59:6789",
+                        "nonce": 0
+                    }
+                ]
+            },
+            "addr": "10.0.0.59:6789/0",
+            "public_addr": "10.0.0.59:6789/0",
+            "priority": 0,
+            "weight": 0
+        }
+    ],
+    "quorum": [
+        0
+    ]
+}
+dumped monmap epoch 1

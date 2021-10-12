@@ -1,7 +1,124 @@
-2021-08-03T10:31:51.349+0000 7fcfae182700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:51.349+0000 7fcfae182700 -1 AuthRegistry(0x7fcfa80590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:51.393+0000 7fcfae182700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:51.393+0000 7fcfae182700 -1 AuthRegistry(0x7fcfa805b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:51.397+0000 7fcfae182700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:51.397+0000 7fcfae182700 -1 AuthRegistry(0x7fcfae181130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "status": "HEALTH_WARN",
+    "checks": {
+        "AUTH_INSECURE_GLOBAL_ID_RECLAIM_ALLOWED": {
+            "severity": "HEALTH_WARN",
+            "summary": {
+                "message": "mon is allowing insecure global_id reclaim",
+                "count": 1
+            },
+            "detail": [
+                {
+                    "message": "mon.juju-4eb7e9-2-lxd-0 has auth_allow_insecure_global_id_reclaim set to true"
+                }
+            ],
+            "muted": false
+        },
+        "PG_NOT_DEEP_SCRUBBED": {
+            "severity": "HEALTH_WARN",
+            "summary": {
+                "message": "14 pgs not deep-scrubbed in time",
+                "count": 14
+            },
+            "detail": [
+                {
+                    "message": "pg 3.f not deep-scrubbed since 2021-08-16T20:37:44.387271+0000"
+                },
+                {
+                    "message": "pg 4.b not deep-scrubbed since 2021-08-15T17:56:59.876466+0000"
+                },
+                {
+                    "message": "pg 3.2 not deep-scrubbed since 2021-08-15T17:55:34.554650+0000"
+                },
+                {
+                    "message": "pg 4.5 not deep-scrubbed since 2021-08-15T17:56:25.404697+0000"
+                },
+                {
+                    "message": "pg 3.0 not deep-scrubbed since 2021-08-15T17:56:22.818783+0000"
+                },
+                {
+                    "message": "pg 3.3 not deep-scrubbed since 2021-08-15T17:56:31.637652+0000"
+                },
+                {
+                    "message": "pg 3.5 not deep-scrubbed since 2021-08-16T18:46:04.428489+0000"
+                },
+                {
+                    "message": "pg 3.4 not deep-scrubbed since 2021-08-15T17:54:29.790723+0000"
+                },
+                {
+                    "message": "pg 2.5 not deep-scrubbed since 2021-08-16T21:27:50.865161+0000"
+                },
+                {
+                    "message": "pg 2.9 not deep-scrubbed since 2021-08-15T17:57:05.580495+0000"
+                },
+                {
+                    "message": "pg 3.a not deep-scrubbed since 2021-08-15T17:54:53.877696+0000"
+                },
+                {
+                    "message": "pg 3.10 not deep-scrubbed since 2021-08-15T17:55:58.684325+0000"
+                },
+                {
+                    "message": "pg 3.13 not deep-scrubbed since 2021-08-15T17:55:46.522345+0000"
+                },
+                {
+                    "message": "pg 4.1b not deep-scrubbed since 2021-08-15T17:55:37.359370+0000"
+                }
+            ],
+            "muted": false
+        },
+        "PG_NOT_SCRUBBED": {
+            "severity": "HEALTH_WARN",
+            "summary": {
+                "message": "14 pgs not scrubbed in time",
+                "count": 14
+            },
+            "detail": [
+                {
+                    "message": "pg 3.f not scrubbed since 2021-08-16T20:37:44.387271+0000"
+                },
+                {
+                    "message": "pg 4.b not scrubbed since 2021-08-16T20:30:22.956584+0000"
+                },
+                {
+                    "message": "pg 3.2 not scrubbed since 2021-08-16T18:51:46.025976+0000"
+                },
+                {
+                    "message": "pg 4.5 not scrubbed since 2021-08-16T21:16:07.964452+0000"
+                },
+                {
+                    "message": "pg 3.0 not scrubbed since 2021-08-16T20:12:17.646871+0000"
+                },
+                {
+                    "message": "pg 3.3 not scrubbed since 2021-08-16T20:55:15.114283+0000"
+                },
+                {
+                    "message": "pg 3.5 not scrubbed since 2021-08-16T18:46:04.428489+0000"
+                },
+                {
+                    "message": "pg 3.4 not scrubbed since 2021-08-16T20:25:09.475924+0000"
+                },
+                {
+                    "message": "pg 2.5 not scrubbed since 2021-08-16T21:27:50.865161+0000"
+                },
+                {
+                    "message": "pg 2.9 not scrubbed since 2021-08-16T20:11:27.689310+0000"
+                },
+                {
+                    "message": "pg 3.a not scrubbed since 2021-08-15T17:54:53.877696+0000"
+                },
+                {
+                    "message": "pg 3.10 not scrubbed since 2021-08-15T17:55:58.684325+0000"
+                },
+                {
+                    "message": "pg 3.13 not scrubbed since 2021-08-15T17:55:46.522345+0000"
+                },
+                {
+                    "message": "pg 4.1b not scrubbed since 2021-08-16T21:28:38.478333+0000"
+                }
+            ],
+            "muted": false
+        }
+    },
+    "mutes": []
+}

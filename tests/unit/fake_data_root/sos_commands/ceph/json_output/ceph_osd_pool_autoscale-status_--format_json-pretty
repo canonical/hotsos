@@ -1,7 +1,87 @@
-2021-08-03T10:31:55.693+0000 7fe3d31ab700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:55.693+0000 7fe3d31ab700 -1 AuthRegistry(0x7fe3cc0590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:55.773+0000 7fe3d31ab700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:55.773+0000 7fe3d31ab700 -1 AuthRegistry(0x7fe3cc05b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:55.777+0000 7fe3d31ab700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:55.777+0000 7fe3d31ab700 -1 AuthRegistry(0x7fe3d31aa130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+[
+    {
+        "actual_capacity_ratio": 0.0,
+        "actual_raw_used": 0.0,
+        "bias": 1.0,
+        "capacity_ratio": 0.0,
+        "crush_root_id": -1,
+        "effective_target_ratio": 0.0,
+        "logical_used": 0,
+        "pg_autoscale_mode": "on",
+        "pg_num_final": 1,
+        "pg_num_ideal": 0,
+        "pg_num_target": 1,
+        "pool_id": 1,
+        "pool_name": "device_health_metrics",
+        "raw_used": 0.0,
+        "raw_used_rate": 3.0,
+        "subtree_capacity": 322059632640.0,
+        "target_bytes": 0,
+        "target_ratio": 0.0,
+        "would_adjust": false
+    },
+    {
+        "actual_capacity_ratio": 0.008651607142316338,
+        "actual_raw_used": 2786333418.0,
+        "bias": 1.0,
+        "capacity_ratio": 0.008651607142316338,
+        "crush_root_id": -1,
+        "effective_target_ratio": 0.06666666666666667,
+        "logical_used": 928777806,
+        "pg_autoscale_mode": "on",
+        "pg_num_final": 8,
+        "pg_num_ideal": 6,
+        "pg_num_target": 16,
+        "pool_id": 2,
+        "pool_name": "glance",
+        "raw_used": 2786333418.0,
+        "raw_used_rate": 3.0,
+        "subtree_capacity": 322059632640.0,
+        "target_bytes": 0,
+        "target_ratio": 0.05,
+        "would_adjust": false
+    },
+    {
+        "actual_capacity_ratio": 0.03769562043676061,
+        "actual_raw_used": 12140237670.0,
+        "bias": 1.0,
+        "capacity_ratio": 0.03769562043676061,
+        "crush_root_id": -1,
+        "effective_target_ratio": 0.39999999999999997,
+        "logical_used": 4046745890,
+        "pg_autoscale_mode": "on",
+        "pg_num_final": 32,
+        "pg_num_ideal": 39,
+        "pg_num_target": 32,
+        "pool_id": 3,
+        "pool_name": "nova",
+        "raw_used": 12140237670.0,
+        "raw_used_rate": 3.0,
+        "subtree_capacity": 322059632640.0,
+        "target_bytes": 0,
+        "target_ratio": 0.3,
+        "would_adjust": false
+    },
+    {
+        "actual_capacity_ratio": 0.0,
+        "actual_raw_used": 0.0,
+        "bias": 1.0,
+        "capacity_ratio": 0.0,
+        "crush_root_id": -1,
+        "effective_target_ratio": 0.5333333333333333,
+        "logical_used": 0,
+        "pg_autoscale_mode": "on",
+        "pg_num_final": 64,
+        "pg_num_ideal": 53,
+        "pg_num_target": 32,
+        "pool_id": 4,
+        "pool_name": "cinder-ceph",
+        "raw_used": 0.0,
+        "raw_used_rate": 3.0,
+        "subtree_capacity": 322059632640.0,
+        "target_bytes": 0,
+        "target_ratio": 0.4,
+        "would_adjust": false
+    }
+]

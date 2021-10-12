@@ -1,7 +1,132 @@
-2021-08-03T10:31:59.189+0000 7f0c905d7700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:59.189+0000 7f0c905d7700 -1 AuthRegistry(0x7f0c880590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:59.197+0000 7f0c905d7700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:59.197+0000 7f0c905d7700 -1 AuthRegistry(0x7f0c8805b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:59.209+0000 7f0c905d7700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:59.209+0000 7f0c905d7700 -1 AuthRegistry(0x7f0c905d6130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "stats": {
+        "total_bytes": 322059632640,
+        "total_avail_bytes": 303900291072,
+        "total_used_bytes": 14938116096,
+        "total_used_raw_bytes": 18159341568,
+        "total_used_raw_ratio": 0.05638502910733223,
+        "num_osds": 3,
+        "num_per_pool_osds": 3,
+        "num_per_pool_omap_osds": 3
+    },
+    "stats_by_class": {
+        "ssd": {
+            "total_bytes": 322059632640,
+            "total_avail_bytes": 303900291072,
+            "total_used_bytes": 14938116096,
+            "total_used_raw_bytes": 18159341568,
+            "total_used_raw_ratio": 0.05638502910733223
+        }
+    },
+    "pools": [
+        {
+            "name": "device_health_metrics",
+            "id": 1,
+            "stats": {
+                "stored": 0,
+                "stored_data": 0,
+                "stored_omap": 0,
+                "objects": 0,
+                "kb_used": 0,
+                "bytes_used": 0,
+                "data_bytes_used": 0,
+                "omap_bytes_used": 0,
+                "percent_used": 0,
+                "max_avail": 95932416000,
+                "quota_objects": 0,
+                "quota_bytes": 0,
+                "dirty": 0,
+                "rd": 0,
+                "rd_bytes": 0,
+                "wr": 0,
+                "wr_bytes": 0,
+                "compress_bytes_used": 0,
+                "compress_under_bytes": 0,
+                "stored_raw": 0,
+                "avail_raw": 287797260159
+            }
+        },
+        {
+            "name": "glance",
+            "id": 2,
+            "stats": {
+                "stored": 928777806,
+                "stored_data": 928776448,
+                "stored_omap": 1358,
+                "objects": 122,
+                "kb_used": 2721112,
+                "bytes_used": 2786418667,
+                "data_bytes_used": 2786414592,
+                "omap_bytes_used": 4075,
+                "percent_used": 0.0095890406519174576,
+                "max_avail": 95932416000,
+                "quota_objects": 0,
+                "quota_bytes": 0,
+                "dirty": 122,
+                "rd": 1248,
+                "rd_bytes": 328186880,
+                "wr": 369,
+                "wr_bytes": 929031168,
+                "compress_bytes_used": 0,
+                "compress_under_bytes": 0,
+                "stored_raw": 2786333440,
+                "avail_raw": 287797260159
+            }
+        },
+        {
+            "name": "nova",
+            "id": 3,
+            "stats": {
+                "stored": 4046745890,
+                "stored_data": 4044929792,
+                "stored_omap": 1816098,
+                "objects": 1051,
+                "kb_used": 11855753,
+                "bytes_used": 12140290664,
+                "data_bytes_used": 12134842368,
+                "omap_bytes_used": 5448296,
+                "percent_used": 0.040476065129041672,
+                "max_avail": 95932416000,
+                "quota_objects": 0,
+                "quota_bytes": 0,
+                "dirty": 1051,
+                "rd": 264386,
+                "rd_bytes": 7948716032,
+                "wr": 110220,
+                "wr_bytes": 28173872128,
+                "compress_bytes_used": 0,
+                "compress_under_bytes": 0,
+                "stored_raw": 12140237824,
+                "avail_raw": 287797260159
+            }
+        },
+        {
+            "name": "cinder-ceph",
+            "id": 4,
+            "stats": {
+                "stored": 0,
+                "stored_data": 0,
+                "stored_omap": 0,
+                "objects": 0,
+                "kb_used": 0,
+                "bytes_used": 0,
+                "data_bytes_used": 0,
+                "omap_bytes_used": 0,
+                "percent_used": 0,
+                "max_avail": 95932416000,
+                "quota_objects": 0,
+                "quota_bytes": 0,
+                "dirty": 0,
+                "rd": 0,
+                "rd_bytes": 0,
+                "wr": 0,
+                "wr_bytes": 0,
+                "compress_bytes_used": 0,
+                "compress_under_bytes": 0,
+                "stored_raw": 0,
+                "avail_raw": 287797260159
+            }
+        }
+    ]
+}

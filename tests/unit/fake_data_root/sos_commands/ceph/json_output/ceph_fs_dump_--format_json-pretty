@@ -1,7 +1,27 @@
-2021-08-03T10:31:59.737+0000 7fd52c4e1700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:59.737+0000 7fd52c4e1700 -1 AuthRegistry(0x7fd5240590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:59.761+0000 7fd52c4e1700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:59.761+0000 7fd52c4e1700 -1 AuthRegistry(0x7fd52405b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:59.773+0000 7fd52c4e1700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:59.773+0000 7fd52c4e1700 -1 AuthRegistry(0x7fd52c4e0130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "epoch": 1,
+    "default_fscid": -1,
+    "compat": {
+        "compat": {},
+        "ro_compat": {},
+        "incompat": {
+            "feature_1": "base v0.20",
+            "feature_2": "client writeable ranges",
+            "feature_3": "default file layouts on dirs",
+            "feature_4": "dir inode in separate object",
+            "feature_5": "mds uses versioned encoding",
+            "feature_6": "dirfrag is stored in omap",
+            "feature_8": "no anchor table",
+            "feature_9": "file layout v2",
+            "feature_10": "snaprealm v2"
+        }
+    },
+    "feature_flags": {
+        "enable_multiple": false,
+        "ever_enabled_multiple": false
+    },
+    "standbys": [],
+    "filesystems": []
+}
+dumped fsmap epoch 1

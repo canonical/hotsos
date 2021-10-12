@@ -1,7 +1,36 @@
-2021-08-03T10:31:54.489+0000 7f07a8133700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:54.489+0000 7f07a8133700 -1 AuthRegistry(0x7f07a00590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:54.493+0000 7f07a6ed1700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:54.493+0000 7f07a6ed1700 -1 AuthRegistry(0x7f07a005b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:54.493+0000 7f07a6ed1700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:54.493+0000 7f07a6ed1700 -1 AuthRegistry(0x7f07a6ed0130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "pg_ready": true,
+    "osdstats": {
+        "osd_perf_infos": [
+            {
+                "id": 1,
+                "perf_stats": {
+                    "commit_latency_ms": 11,
+                    "apply_latency_ms": 11,
+                    "commit_latency_ns": 11000000,
+                    "apply_latency_ns": 11000000
+                }
+            },
+            {
+                "id": 2,
+                "perf_stats": {
+                    "commit_latency_ms": 13,
+                    "apply_latency_ms": 13,
+                    "commit_latency_ns": 13000000,
+                    "apply_latency_ns": 13000000
+                }
+            },
+            {
+                "id": 0,
+                "perf_stats": {
+                    "commit_latency_ms": 15,
+                    "apply_latency_ms": 15,
+                    "commit_latency_ns": 15000000,
+                    "apply_latency_ns": 15000000
+                }
+            }
+        ]
+    }
+
+}

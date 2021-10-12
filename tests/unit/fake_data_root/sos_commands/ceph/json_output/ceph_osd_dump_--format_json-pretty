@@ -1,7 +1,608 @@
-2021-08-03T10:31:53.641+0000 7ff4624a7700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:53.641+0000 7ff4624a7700 -1 AuthRegistry(0x7ff45c0590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:53.689+0000 7ff4624a7700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:53.689+0000 7ff4624a7700 -1 AuthRegistry(0x7ff45c05b808) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:53.705+0000 7ff4624a7700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:53.705+0000 7ff4624a7700 -1 AuthRegistry(0x7ff4624a6130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "epoch": 659,
+    "fsid": "d7174a2e-f3d5-11eb-8bfa-9ff391569dab",
+    "created": "2021-08-02T21:08:54.986615+0000",
+    "modified": "2021-09-16T21:25:17.615002+0000",
+    "last_up_change": "2021-09-16T21:25:16.607066+0000",
+    "last_in_change": "2021-08-15T17:54:13.367229+0000",
+    "flags": "sortbitwise,recovery_deletes,purged_snapdirs,pglog_hardlimit",
+    "flags_num": 5799936,
+    "flags_set": [
+        "pglog_hardlimit",
+        "purged_snapdirs",
+        "recovery_deletes",
+        "sortbitwise"
+    ],
+    "crush_version": 20,
+    "full_ratio": 0.94999998807907104,
+    "backfillfull_ratio": 0.89999997615814209,
+    "nearfull_ratio": 0.85000002384185791,
+    "cluster_snapshot": "",
+    "pool_max": 4,
+    "max_osd": 3,
+    "require_min_compat_client": "jewel",
+    "min_compat_client": "jewel",
+    "require_osd_release": "octopus",
+    "pools": [
+        {
+            "pool": 1,
+            "pool_name": "device_health_metrics",
+            "create_time": "2021-08-02T21:21:32.526696+0000",
+            "flags": 1,
+            "flags_names": "hashpspool",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 1,
+            "pg_placement_num": 1,
+            "pg_placement_num_target": 1,
+            "pg_num_target": 1,
+            "pg_num_pending": 1,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "648",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 0,
+            "snap_epoch": 0,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 1
+            },
+            "application_metadata": {
+                "mgr_devicehealth": {}
+            }
+        },
+        {
+            "pool": 2,
+            "pool_name": "glance",
+            "create_time": "2021-08-02T21:23:52.766492+0000",
+            "flags": 8193,
+            "flags_names": "hashpspool,selfmanaged_snaps",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 16,
+            "pg_placement_num": 16,
+            "pg_placement_num_target": 16,
+            "pg_num_target": 16,
+            "pg_num_pending": 16,
+            "last_pg_merge_meta": {
+                "source_pgid": "2.10",
+                "ready_epoch": 576,
+                "last_epoch_started": 575,
+                "last_epoch_clean": 575,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "582",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "576",
+            "last_force_op_resend_preluminous": "574",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 5,
+            "snap_epoch": 582,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 4,
+                "target_size_ratio": 0.050000000000000003
+            },
+            "application_metadata": {
+                "rbd": {}
+            }
+        },
+        {
+            "pool": 3,
+            "pool_name": "nova",
+            "create_time": "2021-08-02T21:24:29.691684+0000",
+            "flags": 8193,
+            "flags_names": "hashpspool,selfmanaged_snaps",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 32,
+            "pg_placement_num": 32,
+            "pg_placement_num_target": 32,
+            "pg_num_target": 32,
+            "pg_num_pending": 32,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "584",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 5,
+            "snap_epoch": 584,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 32,
+                "target_size_ratio": 0.29999999999999999
+            },
+            "application_metadata": {
+                "rbd": {}
+            }
+        },
+        {
+            "pool": 4,
+            "pool_name": "cinder-ceph",
+            "create_time": "2021-08-02T21:26:11.113093+0000",
+            "flags": 1,
+            "flags_names": "hashpspool",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 32,
+            "pg_placement_num": 32,
+            "pg_placement_num_target": 32,
+            "pg_num_target": 32,
+            "pg_num_pending": 32,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "86",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 0,
+            "snap_epoch": 0,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 32,
+                "target_size_ratio": 0.40000000000000002
+            },
+            "application_metadata": {
+                "rbd": {}
+            }
+        }
+    ],
+    "osds": [
+        {
+            "osd": 0,
+            "uuid": "51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea",
+            "up": 1,
+            "in": 1,
+            "weight": 1,
+            "primary_affinity": 1,
+            "last_clean_begin": 635,
+            "last_clean_end": 645,
+            "up_from": 651,
+            "up_thru": 658,
+            "down_at": 650,
+            "lost_at": 0,
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.49:6800",
+                        "nonce": 33943
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.49:6801",
+                        "nonce": 33943
+                    }
+                ]
+            },
+            "cluster_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.49:6802",
+                        "nonce": 33943
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.49:6803",
+                        "nonce": 33943
+                    }
+                ]
+            },
+            "heartbeat_back_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.49:6806",
+                        "nonce": 33943
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.49:6807",
+                        "nonce": 33943
+                    }
+                ]
+            },
+            "heartbeat_front_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.49:6804",
+                        "nonce": 33943
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.49:6805",
+                        "nonce": 33943
+                    }
+                ]
+            },
+            "public_addr": "10.0.0.49:6801/33943",
+            "cluster_addr": "10.0.0.49:6803/33943",
+            "heartbeat_back_addr": "10.0.0.49:6807/33943",
+            "heartbeat_front_addr": "10.0.0.49:6805/33943",
+            "state": [
+                "exists",
+                "up"
+            ]
+        },
+        {
+            "osd": 1,
+            "uuid": "625f0760-586e-4032-bd89-c7fc5080ed05",
+            "up": 1,
+            "in": 1,
+            "weight": 1,
+            "primary_affinity": 1,
+            "last_clean_begin": 638,
+            "last_clean_end": 645,
+            "up_from": 658,
+            "up_thru": 658,
+            "down_at": 652,
+            "lost_at": 0,
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.48:6800",
+                        "nonce": 24136
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.48:6801",
+                        "nonce": 24136
+                    }
+                ]
+            },
+            "cluster_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.48:6802",
+                        "nonce": 24136
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.48:6803",
+                        "nonce": 24136
+                    }
+                ]
+            },
+            "heartbeat_back_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.48:6806",
+                        "nonce": 24136
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.48:6807",
+                        "nonce": 24136
+                    }
+                ]
+            },
+            "heartbeat_front_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.48:6804",
+                        "nonce": 24136
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.48:6805",
+                        "nonce": 24136
+                    }
+                ]
+            },
+            "public_addr": "10.0.0.48:6801/24136",
+            "cluster_addr": "10.0.0.48:6803/24136",
+            "heartbeat_back_addr": "10.0.0.48:6807/24136",
+            "heartbeat_front_addr": "10.0.0.48:6805/24136",
+            "state": [
+                "exists",
+                "up"
+            ]
+        },
+        {
+            "osd": 2,
+            "uuid": "c42942cd-878c-43e7-afb3-2667f65a2e41",
+            "up": 1,
+            "in": 1,
+            "weight": 1,
+            "primary_affinity": 1,
+            "last_clean_begin": 631,
+            "last_clean_end": 645,
+            "up_from": 655,
+            "up_thru": 658,
+            "down_at": 652,
+            "lost_at": 0,
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.50:6800",
+                        "nonce": 31448
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.50:6801",
+                        "nonce": 31448
+                    }
+                ]
+            },
+            "cluster_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.50:6802",
+                        "nonce": 31448
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.50:6803",
+                        "nonce": 31448
+                    }
+                ]
+            },
+            "heartbeat_back_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.50:6806",
+                        "nonce": 31448
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.50:6807",
+                        "nonce": 31448
+                    }
+                ]
+            },
+            "heartbeat_front_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.50:6804",
+                        "nonce": 31448
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.50:6805",
+                        "nonce": 31448
+                    }
+                ]
+            },
+            "public_addr": "10.0.0.50:6801/31448",
+            "cluster_addr": "10.0.0.50:6803/31448",
+            "heartbeat_back_addr": "10.0.0.50:6807/31448",
+            "heartbeat_front_addr": "10.0.0.50:6805/31448",
+            "state": [
+                "exists",
+                "up"
+            ]
+        }
+    ],
+    "osd_xinfo": [
+        {
+            "osd": 0,
+            "down_stamp": "2021-09-16T21:24:53.631213+0000",
+            "laggy_probability": 0,
+            "laggy_interval": 0,
+            "features": 4540138292840890367,
+            "old_weight": 0,
+            "last_purged_snaps_scrub": "2021-09-16T21:24:53.032582+0000",
+            "dead_epoch": 632
+        },
+        {
+            "osd": 1,
+            "down_stamp": "2021-08-04T13:04:12.140717+0000",
+            "laggy_probability": 0,
+            "laggy_interval": 0,
+            "features": 4540138292840890367,
+            "old_weight": 0,
+            "last_purged_snaps_scrub": "2021-09-16T21:25:15.737072+0000",
+            "dead_epoch": 652
+        },
+        {
+            "osd": 2,
+            "down_stamp": "2021-08-16T11:04:56.739353+0000",
+            "laggy_probability": 0,
+            "laggy_interval": 0,
+            "features": 4540138292840890367,
+            "old_weight": 0,
+            "last_purged_snaps_scrub": "2021-09-16T21:25:04.513043+0000",
+            "dead_epoch": 652
+        }
+    ],
+    "pg_upmap": [],
+    "pg_upmap_items": [],
+    "pg_temp": [],
+    "primary_temp": [],
+    "blacklist": {
+        "10.0.0.59:6801/245": "2021-09-17T21:19:53.819481+0000",
+        "10.0.0.59:6800/245": "2021-09-17T21:19:53.819481+0000",
+        "10.0.0.59:0/1868013791": "2021-09-17T21:19:53.819481+0000",
+        "10.0.0.59:0/447181660": "2021-09-17T21:19:53.819481+0000",
+        "10.0.0.59:0/3371639558": "2021-09-17T21:19:53.819481+0000"
+    },
+    "erasure_code_profiles": {
+        "default": {
+            "k": "2",
+            "m": "2",
+            "plugin": "jerasure",
+            "technique": "reed_sol_van"
+        }
+    },
+    "removed_snaps_queue": [],
+    "new_removed_snaps": [],
+    "new_purged_snaps": [],
+    "crush_node_flags": {},
+    "device_class_flags": {}
+}

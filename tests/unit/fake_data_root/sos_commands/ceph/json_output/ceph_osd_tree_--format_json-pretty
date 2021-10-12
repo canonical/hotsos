@@ -1,7 +1,89 @@
-2021-08-03T10:31:51.817+0000 7fec9bf96700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:51.817+0000 7fec9bf96700 -1 AuthRegistry(0x7fec940590a0) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:51.837+0000 7fec9ad34700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:51.837+0000 7fec9ad34700 -1 AuthRegistry(0x7fec8c003d08) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-2021-08-03T10:31:51.845+0000 7fec9ad34700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
-2021-08-03T10:31:51.845+0000 7fec9ad34700 -1 AuthRegistry(0x7fec9ad33130) no keyring found at /etc/ceph/ceph.client.admin.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
-[errno 2] RADOS object not found (error connecting to the cluster)
+
+{
+    "nodes": [
+        {
+            "id": -1,
+            "name": "default",
+            "type": "root",
+            "type_id": 11,
+            "children": [
+                -3,
+                -5,
+                -7
+            ]
+        },
+        {
+            "id": -7,
+            "name": "compute1",
+            "type": "host",
+            "type_id": 1,
+            "pool_weights": {},
+            "children": [
+                2
+            ]
+        },
+        {
+            "id": 2,
+            "device_class": "ssd",
+            "name": "osd.2",
+            "type": "osd",
+            "type_id": 0,
+            "crush_weight": 0.09759521484375,
+            "depth": 2,
+            "pool_weights": {},
+            "exists": 1,
+            "status": "up",
+            "reweight": 1,
+            "primary_affinity": 1
+        },
+        {
+            "id": -5,
+            "name": "compute2",
+            "type": "host",
+            "type_id": 1,
+            "pool_weights": {},
+            "children": [
+                1
+            ]
+        },
+        {
+            "id": 1,
+            "device_class": "ssd",
+            "name": "osd.1",
+            "type": "osd",
+            "type_id": 0,
+            "crush_weight": 0.09759521484375,
+            "depth": 2,
+            "pool_weights": {},
+            "exists": 1,
+            "status": "up",
+            "reweight": 1,
+            "primary_affinity": 1
+        },
+        {
+            "id": -3,
+            "name": "compute4",
+            "type": "host",
+            "type_id": 1,
+            "pool_weights": {},
+            "children": [
+                0
+            ]
+        },
+        {
+            "id": 0,
+            "device_class": "ssd",
+            "name": "osd.0",
+            "type": "osd",
+            "type_id": 0,
+            "crush_weight": 0.09759521484375,
+            "depth": 2,
+            "pool_weights": {},
+            "exists": 1,
+            "status": "up",
+            "reweight": 1,
+            "primary_affinity": 1
+        }
+    ],
+    "stray": []
+}
