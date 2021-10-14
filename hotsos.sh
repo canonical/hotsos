@@ -29,8 +29,8 @@ MIMIMAL_MODE=false
 # Root of all data which will be either host / or sosreport root.
 export DATA_ROOT
 # Plugin args - prefix must be plugin name
-export OPENSTACK_SHOW_CPU_PINNING_RESULTS=false
-export OPENSTACK_AGENT_ERROR_KEY_BY_TIME=false
+export SHOW_CPU_PINNING_RESULTS=false
+export AGENT_ERROR_KEY_BY_TIME=false
 # Path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT
 export USE_ALL_LOGS=false
@@ -99,8 +99,14 @@ Ceph and more (see supported plugins). The standard output is yaml format to
 allow easy visual inspection and post-processing by other tools.
 
 OPTIONS
-    --debug)
-        Provide some debug output such as plugin execution times.
+    --all-logs
+        Some plugins may choose to only analyse the most recent version of a
+        log file by default since parsing the full history could take a lot
+        longer. Setting this to true tells plugins that we wish to analyse
+        all available log history (see --max-logrotate-depth for limits).
+    --debug
+        Provide some debug output such as plugin execution times. For python
+        plugins this will print debug logs to stderr.
     -h|--help
         This message.
     --<plugin name>
@@ -113,27 +119,26 @@ OPTIONS
         you can override that value with this option.
     --max-logrotate-depth [INT]
         Defaults to 7. This is maximum logrotate history that will be searched
-        for a given log.
-    --openstack-show-cpu-pinning-results
-        The Openstack plugin will check for cpu pinning configurations and
-        perform checks. By default only brief messgaes will be displayed when
-        issues are found. Use this flag to get more detailed results.
-    --openstack-agent-error-key-by-time
-        When displaying agent error counts, they will be grouped by date. This
-        option will result in grouping by date_time which may be more useful
-        for cross-referencing with other logs.
+        for a given log. Only applies when --all-logs is provided.
     --short
-        If provided, the output will be filtered to only include known-bugs
-        and potential-issues sections for plugins run.
+        Filtered yaml output to only include known-bugs and potential-issues
+        sections for plugins run.
     -s|--save
         Save yaml output to a file.
-    --all-logs
-        Some plugins may choose to only analyse the most recent version of a
-        log file by default since parsing the full history could take a lot
-        longer. Setting this to true tells plugins that we wish to analyse
-        all available log history.
-    -a|--all
-        Enable all plugins. This is the default.
+
+PLUGIN OPTIONS
+
+  These options only apply to specific plugins.
+
+  openstack:
+    --show-cpu-pinning-results
+        The Openstack plugin will check for cpu pinning configurations and
+        perform checks. By default only brief messages will be displayed when
+        issues are found. Use this flag to get more detailed results.
+    --agent-error-key-by-time
+        When displaying agent error counts, they will be grouped by date. This
+        option will result in grouping by date and time which may be more useful
+        for cross-referencing with other logs.
 
 SOSPATH
     Path to a sosreport. Can be provided multiple times. If none provided,
@@ -152,11 +157,11 @@ while (($#)); do
             exit 0
             ;;
 ## PLUGIN OPTS ########
-        --openstack-show-cpu-pinning-results)
-            OPENSTACK_SHOW_CPU_PINNING_RESULTS=true
+        --show-cpu-pinning-results)
+            SHOW_CPU_PINNING_RESULTS=true
             ;;
-        --openstack-agent-error-key-by-time)
-            OPENSTACK_AGENT_ERROR_KEY_BY_TIME=true
+        --agent-error-key-by-time)
+            AGENT_ERROR_KEY_BY_TIME=true
             ;;
 #######################
         --list-plugins)

@@ -19,11 +19,11 @@ from core.plugins.openstack import exceptions
 APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, "etc/apt/sources.list.d")
 
 # Plugin config opts from global
-OPENSTACK_AGENT_ERROR_KEY_BY_TIME = \
-    constants.bool_str(os.environ.get('OPENSTACK_AGENT_ERROR_KEY_BY_TIME',
+AGENT_ERROR_KEY_BY_TIME = \
+    constants.bool_str(os.environ.get('AGENT_ERROR_KEY_BY_TIME',
                                       'False'))
-OPENSTACK_SHOW_CPU_PINNING_RESULTS = \
-    constants.bool_str(os.environ.get('OPENSTACK_SHOW_CPU_PINNING_RESULTS',
+SHOW_CPU_PINNING_RESULTS = \
+    constants.bool_str(os.environ.get('SHOW_CPU_PINNING_RESULTS',
                                       'False'))
 
 OST_REL_INFO = {

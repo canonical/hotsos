@@ -5,7 +5,7 @@ from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
 from core import utils
 from core.plugins.openstack import (
-    OPENSTACK_AGENT_ERROR_KEY_BY_TIME as AGENT_ERROR_KEY_BY_TIME,
+    AGENT_ERROR_KEY_BY_TIME,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )

@@ -12,7 +12,7 @@ from core.cli_helpers import CLIHelper
 from core.plugins.openstack import (
     OpenstackConfig,
     OpenstackChecksBase,
-    OPENSTACK_SHOW_CPU_PINNING_RESULTS,
+    SHOW_CPU_PINNING_RESULTS,
 )
 from core.plugins.kernel import (
     KernelConfig,
@@ -153,7 +153,7 @@ class Results(object):
                     msg = self._results[level]["main"][key]
                     info["results"][label].append(msg)
                     extras = self._results[level]["extras"].get(key)
-                    if OPENSTACK_SHOW_CPU_PINNING_RESULTS and extras:
+                    if SHOW_CPU_PINNING_RESULTS and extras:
                         _extras = {"extra-info": extras.split('\n')}
                         info["results"][label].append(_extras)
 
