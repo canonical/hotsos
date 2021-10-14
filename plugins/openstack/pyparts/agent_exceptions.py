@@ -12,6 +12,7 @@ from core.plugins.openstack.exceptions import (
     BARBICAN_EXCEPTIONS,
     CASTELLAN_EXCEPTIONS,
     CINDER_EXCEPTIONS,
+    KEYSTONE_EXCEPTIONS,
     MANILA_EXCEPTIONS,
     PYTHON_LIBVIRT_EXCEPTIONS,
     NOVA_EXCEPTIONS,
@@ -34,6 +35,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         # The following are expected to be ERROR or Traceback
         self._agent_exceptions = {'barbican': BARBICAN_EXCEPTIONS,
                                   'cinder': CINDER_EXCEPTIONS,
+                                  'keystone': KEYSTONE_EXCEPTIONS,
                                   'manila': MANILA_EXCEPTIONS,
                                   'neutron': NEUTRON_EXCEPTIONS,
                                   'nova': NOVA_EXCEPTIONS +
@@ -80,19 +82,22 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             if constants.USE_ALL_LOGS:
                 data_source_template = "{}*".format(data_source_template)
 
-            # NOTE: services running under apache have their logs
-            # prepending with a load of apache/mod_wsgi info so we have
-            # to do this way to account for both. We ignore the apache
-            # prefix and it will not count towards the result.
-            wsgi_prefix_match = r'^(?:\[[\w :\.]+\].+\]\s+)?([0-9\-]+)'
+            # NOTE: services running under apache may have their logs (e.g.
+            # barbican-api.log) prepended with apache/mod_wsgi info so do this
+            # way to account for both. If present, the prefix will be ignored
+            # and not count towards the result.
+            wsgi_prefix = r'\[[\w :\.]+\].+\]\s+'
+            # keystone logs contain the (module_name): at the beginning of the
+            # line.
+            keystone_prefix = r'\(\S+\):\s+'
+            prefix_match = r'(?:{}|{})?'.format(wsgi_prefix, keystone_prefix)
 
             # Sometimes the exception is printed with just the class name
             # and sometimes it is printed with a full import path e.g.
             # MyExc or somemod.MyExc so we need to account for both.
             exc_obj_full_path_match = r'(?:\S+\.)?'
-            expr_template = (r"{} (\S+) .+\S+\s({}{{}})[\s:\.]".
-                             format(wsgi_prefix_match,
-                                    exc_obj_full_path_match))
+            expr_template = (r"^{}([0-9\-]+) (\S+) .+\S+\s({}{{}})[\s:\.]".
+                             format(prefix_match, exc_obj_full_path_match))
 
             for agent in SERVICE_RESOURCES[svc]['daemons']:
                 data_source = data_source_template.format(agent)
