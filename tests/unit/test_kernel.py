@@ -130,8 +130,9 @@ class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
             else:
                 types[t] = 1
 
-        self.assertEqual(len(issues), 4)
+        self.assertEqual(len(issues), 5)
         self.assertEqual(types[issue_types.KernelError], 1)
+        self.assertEqual(types[issue_types.KernelWarning], 1)
         self.assertEqual(types[issue_types.MemoryWarning], 1)
         self.assertEqual(types[issue_types.NetworkWarning], 2)
         self.assertTrue(inst.plugin_runnable)

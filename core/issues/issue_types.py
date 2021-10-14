@@ -8,6 +8,10 @@ class KernelError(IssueTypeBase):
     pass
 
 
+class KernelWarning(IssueTypeBase):
+    pass
+
+
 class MemoryWarning(IssueTypeBase):
     pass
 

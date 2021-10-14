@@ -27,6 +27,12 @@ class KernelLogEventChecks(KernelEventChecksBase):
         issue_utils.add_issue(issue)
 
     @EVENTCALLBACKS.callback
+    def tainted(self, event):
+        msg = ("kernel has been tainted")
+        issue = issue_types.KernelWarning(msg)
+        issue_utils.add_issue(issue)
+
+    @EVENTCALLBACKS.callback
     def oom_killer_invoked(self, event):
         results = event.results
         process_name = results[0].get(3)

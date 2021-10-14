@@ -141,6 +141,9 @@ kernel:
       stacktrace:
         expr: '.*Call Trace:'
         hint: 'Call'
+      tainted:
+        expr: '.*Tainted:'
+        hint: 'Tainted'
     memory:
       oom-killer-invoked:
         expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
