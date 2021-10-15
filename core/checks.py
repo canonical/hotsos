@@ -334,14 +334,17 @@ class BugChecksBase(ChecksBase):
 
 
 class EventCheckResult(object):
+    """ This is passed to an event check callback when matches are found """
 
-    def __init__(self, search_results, defs_section):
+    def __init__(self, search_results, defs_section, defs_event):
         """
-        @param search_results:
-        @param defs_section:
+        @param search_results: searchtools.SearchResultsCollection
+        @param defs_section: section name from yaml
+        @param defs_event: event label/name from yaml
         """
         self.results = search_results
         self.section = defs_section
+        self.name = defs_event
 
 
 class EventChecksBase(ChecksBase):
@@ -498,7 +501,7 @@ class EventChecksBase(ChecksBase):
                 callback = self.callback_helper.callbacks[callback_name]
                 log.debug("executing event callback '%s'", callback_name)
                 event_results_obj = EventCheckResult(search_results,
-                                                     section_name)
+                                                     section_name, event)
                 ret = callback(self, event_results_obj)
                 if not ret:
                     continue

@@ -42,27 +42,24 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         sri = SearchResultIndices(event_id_idx=4,
                                   metadata_idx=3,
                                   metadata_key='router')
-        event_name = 'router-updates'
-        ret = self._get_event_stats(event.results, event_name,
+        ret = self._get_event_stats(event.results, event.name,
                                     custom_idxs=sri)
         if ret:
-            return {event_name: ret}, agent
+            return {event.name: ret}, agent
 
     @EVENTCALLBACKS.callback
     def router_spawn_events(self, event):
         agent = event.section
-        event_name = 'router-spawn-events'
-        ret = self._get_event_stats(event.results, event_name)
+        ret = self._get_event_stats(event.results, event.name)
         if ret:
-            return {event_name: ret}, agent
+            return {event.name: ret}, agent
 
     @EVENTCALLBACKS.callback
     def rpc_loop(self, event):
         agent = event.section
-        event_name = 'rpc-loop'
-        ret = self._get_event_stats(event.results, event_name)
+        ret = self._get_event_stats(event.results, event.name)
         if ret:
-            return {event_name: ret}, agent
+            return {event.name: ret}, agent
 
 
 class OctaviaAgentEventChecks(OpenstackEventChecksBase):

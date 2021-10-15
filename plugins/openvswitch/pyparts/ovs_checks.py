@@ -81,28 +81,28 @@ class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
         """ Group with vswitchd section results. """
         ret = self.get_results_stats(event.results)
         if ret:
-            return {'netdev-linux-no-such-device': ret}, 'ovs-vswitchd'
+            return {event.name: ret}, 'ovs-vswitchd'
 
     @EVENTCALLBACKS.callback
     def bridge_no_such_device(self, event):
         """ Group with vswitchd section results. """
         ret = self.get_results_stats(event.results)
         if ret:
-            return {'bridge-no-such-device': ret}, 'ovs-vswitchd'
+            return {event.name: ret}, 'ovs-vswitchd'
 
     @EVENTCALLBACKS.callback
     def ovs_vswitchd(self, event):
         """ Group with errors-and-warnings section results. """
         ret = self.get_results_stats(event.results, key_by_date=False)
         if ret:
-            return {'ovs-vswitchd': ret}, 'logs'
+            return {event.name: ret}, 'logs'
 
     @EVENTCALLBACKS.callback
     def ovsdb_server(self, event):
         """ Group with errors-and-warnings section results. """
         ret = self.get_results_stats(event.results, key_by_date=False)
         if ret:
-            return {'ovsdb-server': ret}, 'logs'
+            return {event.name: ret}, 'logs'
 
 
 class OpenvSwitchDPChecks(OpenvSwitchChecksBase):

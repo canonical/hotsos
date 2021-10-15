@@ -159,7 +159,8 @@ class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
         mock_result2 = mock.MagicMock()
         mock_result2.get.return_value = 'tap7e105503-64'
 
-        event = EventCheckResult([mock_result1, mock_result2], 'section8')
+        event = EventCheckResult([mock_result1, mock_result2], 'section8',
+                                 'over_mtu_dropped_packets')
         ret = inst.over_mtu_dropped_packets(event)
         self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)
