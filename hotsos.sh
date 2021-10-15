@@ -43,8 +43,11 @@ export PLUGIN_YAML_DEFS
 #===============================================================================
 
 PROGRESS_PID=
+FULL_MODE_EXPLICIT=false
 MINIMAL_MODE=false
+USER_PROVIDED_SUMMARY=
 MASTER_YAML_OUT=`mktemp`
+MASTER_YAML_OUT_ORIG=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
 override_all_default=false
@@ -77,6 +80,9 @@ declare -a PLUGIN_NAMES=(
 
 cleanup ()
 {
+    if [[ -n $MASTER_YAML_OUT_ORIG ]] && [[ -r $MASTER_YAML_OUT_ORIG ]]; then
+        rm $MASTER_YAML_OUT_ORIG
+    fi
     if [[ -n $MASTER_YAML_OUT ]] && [[ -r $MASTER_YAML_OUT ]]; then
         rm $MASTER_YAML_OUT
     fi
@@ -109,6 +115,10 @@ OPTIONS
     --debug
         Provide some debug output such as plugin execution times. For python
         plugins this will print debug logs to stderr.
+    --full
+        This is the default and tells hotsos to generate a full summary. If you
+        want to save both a short and full summary you can specifiy this option
+        when doing --short.
     -h|--help
         This message.
     --<plugin name>
@@ -127,6 +137,10 @@ OPTIONS
         and potential-issues sections.
     -s|--save
         Save yaml output to a file.
+    --user-summary
+        Used in conjunction with --short to allow an existing (full) summary to
+        to be shortened.
+
 
 PLUGIN OPTIONS
 
@@ -186,8 +200,15 @@ while (($#)); do
         -a|--all)
             PLUGINS[all]=true
             ;;
+        --full)
+            FULL_MODE_EXPLICIT=true
+            ;;
         --short)
             MINIMAL_MODE=true
+            ;;
+        --user-summary)
+            USER_PROVIDED_SUMMARY=$2
+            shift
             ;;
         --all-logs)
             USE_ALL_LOGS=true
@@ -278,8 +299,13 @@ run_part ()
     $DEBUG_MODE && echo " (${delta}s)" 1>&2
 }
 
-CWD=$(dirname `realpath $0`)
-for data_root in "${SOS_PATHS[@]}"; do
+generate_summary ()
+{
+    local data_root=$1
+    local repo_info
+    local plugin
+    local part
+
     if [ "$data_root" = "/" ]; then
         msg="analysing localhost since no sosreport path provided"
         echo -ne "INFO: $msg  " 1>&2
@@ -336,20 +362,47 @@ for data_root in "${SOS_PATHS[@]}"; do
         kill -s HUP $PROGRESS_PID &>/dev/null
         wait &>/dev/null
     fi
+}
+
+CWD=$(dirname `realpath $0`)
+for data_root in "${SOS_PATHS[@]}"; do
+    output_summary_name=""
+    if [[ -r $USER_PROVIDED_SUMMARY ]] && $MINIMAL_MODE; then
+        cp $USER_PROVIDED_SUMMARY $MASTER_YAML_OUT
+        output_summary_name="`basename $USER_PROVIDED_SUMMARY`"
+        output_summary_name=${output_summary_name%%.*}
+    else
+        generate_summary $data_root
+    fi
 
     if $MINIMAL_MODE; then
-        $CWD/tools/output_filter.py $MASTER_YAML_OUT
+        # the following will overwrite the master copy so we need to make a
+        # backup in case we intend to display short and full.
+        cp $MASTER_YAML_OUT $MASTER_YAML_OUT_ORIG
+        $CWD/tools/output_filter.py
     fi
 
     if $SAVE_OUTPUT; then
-        if [[ $data_root != "/" ]]; then
-            archive_name=`basename $data_root`
-        else
-            archive_name="hotsos-`hostname`"
+        if [[ -z $output_summary_name ]]; then
+            if [[ $data_root != "/" ]]; then
+                output_summary_name=`basename $data_root`
+            else
+                output_summary_name="hotsos-`hostname`"
+            fi
         fi
-        out=${archive_name}.summary
-        mv $MASTER_YAML_OUT $out
-        echo "INFO: summary written to $out"
+        if $MINIMAL_MODE; then
+            out=$output_summary_name.short.summary
+            mv $MASTER_YAML_OUT $out
+            echo "INFO: short summary written to $out"
+            if $FULL_MODE_EXPLICIT; then
+                cp $MASTER_YAML_OUT_ORIG $MASTER_YAML_OUT
+            fi
+        fi
+        if ! $MINIMAL_MODE || $FULL_MODE_EXPLICIT; then
+            out=$output_summary_name.summary
+            mv $MASTER_YAML_OUT $out
+            echo "INFO: full summary written to $out"
+        fi
     else
         $DEBUG_MODE && echo "Results:" 1>&2
         cat $MASTER_YAML_OUT
