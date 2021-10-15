@@ -19,13 +19,10 @@
 #  - edward.hope-morley@canonical.com
 #  - opentastic@gmail.com
 
-PROGRESS_PID=
-export DEBUG_MODE=false
-MIMIMAL_MODE=false
-
 #================================= ENV =========================================
 # The following are made available to all plugins
 
+export DEBUG_MODE=false
 # Root of all data which will be either host / or sosreport root.
 export DATA_ROOT
 # Plugin args - prefix must be plugin name
@@ -45,10 +42,13 @@ export PLUGIN_TMP_DIR
 export PLUGIN_YAML_DEFS
 #===============================================================================
 
+PROGRESS_PID=
+MINIMAL_MODE=false
 MASTER_YAML_OUT=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
-# unordered
+override_all_default=false
+# Ordering is not important here since associative arrays do not respect order.
 declare -A PLUGINS=(
     [openstack]=false
     [openvswitch]=false
@@ -61,8 +61,8 @@ declare -A PLUGINS=(
     [system]=true  # always do system by default
     [all]=false
 )
-override_all_default=false
-# output ordering
+# The order of the following list determines the order in which the plugins
+# output is presented in the summary.
 declare -a PLUGIN_NAMES=(
     system
     sosreport
@@ -93,10 +93,12 @@ usage ()
 cat << EOF
 USAGE: hotsos [OPTIONS] [SOSPATH]
 
-Run this tool against a sosreport or live host to extract information that may
-be helpful for analysing or debugging applications like Openstack, Kubernetes,
-Ceph and more (see supported plugins). The standard output is yaml format to
-allow easy visual inspection and post-processing by other tools.
+Run this tool on a host or against a sosreport to perform analysis of specific
+applications. A summary of information about those applications is generated
+along with any issues or known bugs detected. Applications are defined as
+plugins and support currently includes Openstack, Kubernetes, Ceph and more
+(see --list-plugins). The standard output is yaml format to allow easy visual
+inspection and post-processing by other tools.
 
 OPTIONS
     --all-logs
@@ -121,8 +123,8 @@ OPTIONS
         Defaults to 7. This is maximum logrotate history that will be searched
         for a given log. Only applies when --all-logs is provided.
     --short
-        Filtered yaml output to only include known-bugs and potential-issues
-        sections for plugins run.
+        Filters the full summary so that it only includes plugin known-bugs
+        and potential-issues sections.
     -s|--save
         Save yaml output to a file.
 
@@ -185,7 +187,7 @@ while (($#)); do
             PLUGINS[all]=true
             ;;
         --short)
-            MIMIMAL_MODE=true
+            MINIMAL_MODE=true
             ;;
         --all-logs)
             USE_ALL_LOGS=true
@@ -335,7 +337,7 @@ for data_root in "${SOS_PATHS[@]}"; do
         wait &>/dev/null
     fi
 
-    if $MIMIMAL_MODE; then
+    if $MINIMAL_MODE; then
         $CWD/tools/output_filter.py $MASTER_YAML_OUT
     fi
 
