@@ -91,6 +91,24 @@ class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
             return {event.name: ret}, 'ovs-vswitchd'
 
     @EVENTCALLBACKS.callback
+    def ovs_thread_unreasonably_long_poll_interval(self, event):
+        ret = self.get_results_stats(event.results)
+        if ret:
+            return {event.name: ret}, 'logs'
+
+    @EVENTCALLBACKS.callback
+    def rx_packet_on_unassociated_datapath_port(self, event):
+        ret = self.get_results_stats(event.results)
+        if ret:
+            return {event.name: ret}, 'logs'
+
+    @EVENTCALLBACKS.callback
+    def receive_tunnel_port_not_found(self, event):
+        ret = self.get_results_stats(event.results)
+        if ret:
+            return {event.name: ret}, 'logs'
+
+    @EVENTCALLBACKS.callback
     def ovs_vswitchd(self, event):
         """ Group with errors-and-warnings section results. """
         ret = self.get_results_stats(event.results, key_by_date=False)
