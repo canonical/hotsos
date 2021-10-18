@@ -501,12 +501,22 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
 
         mock_add_known_bug.side_effect = fake_add_bug
         checks.BugChecksBase()()
-        calls = [mock.call("1896506",
+        calls = [mock.call('1929832',
+                           ('identified bug impacting deletion of HA '
+                            'routers')),
+                 mock.call('1927868',
+                           ('neutron-l3-agent is reporting it failed to '
+                            'configure some router gateway ports which may '
+                            'render them non-functional. This has been '
+                            'reported as a potential package regression (see '
+                            'bug) - please check.')),
+                 mock.call('1896506',
                            ('identified bug that critically impacts '
                             'keepalived')),
-                 mock.call("1929832",
-                           ('identified bug impacting deletion of HA '
-                            'routers'))]
+                 mock.call('1928031',
+                           ('identified bug impacting OVN sbdb connections '
+                            'from ovn agents'))]
+
         mock_add_known_bug.assert_has_calls(calls)
         self.assertEqual(len(bugs), 4)
 
@@ -709,9 +719,7 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
                      }
                     }
         inst = neutron_l3ha.NeutronL3HAChecks()
-        inst.get_neutron_ha_info()
-        inst.get_vrrp_transitions()
-        inst.check_vrrp_transitions()
+        inst()
         self.assertEqual(inst.output["neutron-l3ha"], expected)
 
     @mock.patch.object(neutron_l3ha.issue_utils, "add_issue")
@@ -729,9 +737,7 @@ class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
                      }
                     }
         inst = neutron_l3ha.NeutronL3HAChecks()
-        inst.get_neutron_ha_info()
-        inst.get_vrrp_transitions()
-        inst.check_vrrp_transitions()
+        inst()
         self.assertEqual(inst.output["neutron-l3ha"], expected)
         self.assertTrue(mock_add_issue.called)
 

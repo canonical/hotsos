@@ -23,6 +23,11 @@ class OpenvSwitchBase(object):
         self.cli = CLIHelper()
 
     @property
+    def bridges(self):
+        bridges = self.cli.ovs_vsctl_list_br()
+        return [br.strip() for br in bridges]
+
+    @property
     def offload_enabled(self):
         other_config = self.cli.ovs_vsctl_get_Open_vSwitch_other_config()
         if not other_config:

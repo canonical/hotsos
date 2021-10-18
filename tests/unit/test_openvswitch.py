@@ -82,6 +82,6 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(TestOpenvswitchBase):
                      {'RX':
                       {'dropped': 1394875,
                        'packets': 309}}}}
-        inst = ovs_checks.OpenvSwitchDPChecks()
+        inst = ovs_checks.OpenvSwitchFlowChecks()
         inst()
         self.assertEqual(inst.output, expected)

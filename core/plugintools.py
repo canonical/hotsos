@@ -199,6 +199,8 @@ class PluginRunner(object):
                 except Exception as exc:
                     failed_parts.append(part)
                     log.debug("part '%s' raised exception: %s", part, exc)
+                    if constants.DEBUG_MODE:
+                        raise
 
                 # NOTE: we don't currently expect these parts to produce any
                 # output.
@@ -237,6 +239,8 @@ class PluginRunner(object):
                     failed_parts.append(part)
                     log.debug("part '%s' raised exception: %s", part, exc)
                     output = None
+                    if constants.DEBUG_MODE:
+                        raise
 
                 if output:
                     meld_part_output(output, part_out)

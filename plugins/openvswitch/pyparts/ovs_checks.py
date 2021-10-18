@@ -1,4 +1,3 @@
-import os
 import re
 
 from core.checks import CallbackHelper
@@ -6,15 +5,7 @@ from core.issues import (
     issue_types,
     issue_utils,
 )
-from core.cli_helpers import CLIHelper
-from core.searchtools import (
-    FileSearcher,
-    SearchDef,
-    SequenceSearchDef,
-)
-from core.utils import mktemp_dump
 from core.plugins.openvswitch import (
-    OpenvSwitchChecksBase,
     OpenvSwitchEventChecksBase,
 )
 
@@ -123,32 +114,15 @@ class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
             return {event.name: ret}, 'logs'
 
 
-class OpenvSwitchDPChecks(OpenvSwitchChecksBase):
+class OpenvSwitchFlowChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
-        super().__init__()
-        cli = CLIHelper()
-        out = cli.ovs_appctl_dpctl_show(datapath="system@ovs-system")
-        self.f_dpctl = mktemp_dump(''.join(out))
-        bridges = cli.ovs_vsctl_list_br()
-        self.ovs_bridges = [br.strip() for br in bridges]
-        self.searchobj = FileSearcher()
-        self.sequence_defs = []
+        super().__init__(yaml_defs_group='flow-checks',
+                         event_results_output_key='port-stats',
+                         callback_helper=EVENTCALLBACKS)
 
-    def __del__(self):
-        if os.path.exists(self.f_dpctl):
-            os.unlink(self.f_dpctl)
-
-    def register_search_terms(self):
-        self.sequence_defs.append(SequenceSearchDef(
-            start=SearchDef(r"\s+port \d+: (\S+) .+"),
-            body=SearchDef(r"\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) "
-                           r"\S+:(\d+) \S+:(\d+)"),
-            tag="port-stats"))
-        for sd in self.sequence_defs:
-            self.searchobj.add_search_term(sd, self.f_dpctl)
-
-    def process_results(self, results):
+    @EVENTCALLBACKS.callback
+    def packet_drops(self, event):
         """
         Report on interfaces that are showing packet drops or errors.
 
@@ -170,50 +144,49 @@ class OpenvSwitchDPChecks(OpenvSwitchChecksBase):
         stats = {}
         all_dropped = []  # interfaces where all packets are dropped
         all_errors = []  # interfaces where all packets are errors
-        for sd in self.sequence_defs:
-            for section in results.find_sequence_sections(sd).values():
-                port = None
-                _stats = {}
-                for result in section:
-                    if result.tag == sd.start_tag:
-                        port = result.get(1)
-                    elif result.tag == sd.body_tag:
-                        key = result.get(1)
-                        packets = int(result.get(2))
-                        errors = int(result.get(3))
-                        dropped = int(result.get(4))
+        for section in event.results:
+            port = None
+            _stats = {}
+            for result in section:
+                if result.tag == event.sequence_def.start_tag:
+                    port = result.get(1)
+                elif result.tag == event.sequence_def.body_tag:
+                    key = result.get(1)
+                    packets = int(result.get(2))
+                    errors = int(result.get(3))
+                    dropped = int(result.get(4))
 
-                        log_stats = False
-                        if packets:
-                            dropped_pcent = int((100/packets) * dropped)
-                            errors_pcent = int((100/packets) * errors)
-                            if dropped_pcent > 1 or errors_pcent > 1:
-                                log_stats = True
-                        elif errors or dropped:
+                    log_stats = False
+                    if packets:
+                        dropped_pcent = int((100/packets) * dropped)
+                        errors_pcent = int((100/packets) * errors)
+                        if dropped_pcent > 1 or errors_pcent > 1:
                             log_stats = True
+                    elif errors or dropped:
+                        log_stats = True
 
-                        if log_stats:
-                            _stats[key] = {"packets": packets}
-                            if errors:
-                                _stats[key]["errors"] = errors
-                            if dropped:
-                                _stats[key]["dropped"] = dropped
+                    if log_stats:
+                        _stats[key] = {"packets": packets}
+                        if errors:
+                            _stats[key]["errors"] = errors
+                        if dropped:
+                            _stats[key]["dropped"] = dropped
 
-                if port and _stats:
-                    # Ports to ignore - see docstring for info
-                    if (port in self.ovs_bridges or
-                            re.compile(r"^(q|s)g-\S{11}$").match(port)):
-                        continue
+            if port and _stats:
+                # Ports to ignore - see docstring for info
+                if (port in self.bridges or
+                        re.compile(r"^(q|s)g-\S{11}$").match(port)):
+                    continue
 
-                    for key in _stats:
-                        s = _stats[key]
-                        if s.get('dropped') and not s['packets']:
-                            all_dropped.append(port)
+                for key in _stats:
+                    s = _stats[key]
+                    if s.get('dropped') and not s['packets']:
+                        all_dropped.append(port)
 
-                        if s.get('errors') and not s['packets']:
-                            all_errors.append(port)
+                    if s.get('errors') and not s['packets']:
+                        all_errors.append(port)
 
-                    stats[port] = _stats
+                stats[port] = _stats
 
         if stats:
             if all_dropped:
@@ -231,7 +204,3 @@ class OpenvSwitchDPChecks(OpenvSwitchChecksBase):
                 stats_sorted[k] = stats[k]
 
             self._output["port-stats"] = stats_sorted
-
-    def __call__(self):
-        self.register_search_terms()
-        self.process_results(self.searchobj.search())
