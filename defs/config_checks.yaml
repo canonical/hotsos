@@ -12,7 +12,9 @@
 openstack:
   nova-dpdk:
     callback: 'dpdk_enabled'
-    path: etc/nova/nova.conf
+    input:
+      type: filesystem
+      value: etc/nova/nova.conf
     message: DPDK is enabled but rx_queue_size/tx_queue_size set incorrectly in nova.conf (expect both to be >= 1024)
     settings:
       rx_queue_size:

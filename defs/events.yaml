@@ -1,16 +1,22 @@
-# Definitions used to identify events in log files. Events can be single or
-# multi-line.
+# Definitions used to identify events searches. Events can be single or
+# multi-line and the data source can be a filesystem path or command.
 #
 # Entries are defined using the following hierarchy:
 #
 # PLUGIN:
-#   GROUP_LABEL:
+#   GROUP:
 #     SECTION:
 #       EVENT:
 #
-# Supported fields (for full details see common.checks.EventChecksBase):
+# Supported fields (for more details see common.checks.EventChecksBase):
 #
-# Two types of searches are available here; single line and sequence.
+# Two types of searches are available here; single line and sequence. A
+# sequence can take one of two formats; start/end or start/body/end. Sequence
+# endings are optional and if a body is defined this results in
+# searchtools.SequenceSearchDef being used otherwise the results are simply
+# tagged with -start and -end suffix which can then be processed using
+# core.analytics.LogEventStats. If not a sequence then a single
+# searchtools.SearchDef pattern is used.
 #
 # To match single line events use the form:
 #
@@ -21,17 +27,16 @@
 # To match multi-line events (sequences) use the form:
 #
 # <label>:
-#   start:
-#     expr: <re.match pattern> used to match start of sequence
-#     hint: optional <re.match pattern> used as a low-cost filter
-#   end:
-#     expr: <re.match pattern> used to match end of sequence
+#   [start|body|end]:
+#     expr: <re.match pattern> used to match portion of sequence
 #     hint: optional <re.match pattern> used as a low-cost filter
 #
 # Mandatory fields:
 #
-#   path: file/dir/glob to search - this can specified at the group, section
-#         or event level with the latter taking precedence.
+#  input: see core.checks.YAMLDefInput
+#
+#  NOTE: input can specified at the group, section or event level with the
+#        latter taking precedence.
 #
 # Optional fields:
 #
@@ -44,10 +49,13 @@
 #
 openstack:
   nova-external-events:
-    path: 'var/log/nova/nova-compute.log'
-    # Searching all logs can yield too many results and we don't yet have a
-    # way to override MAX_LOGROTATE_DEPTH so disabling for now.
-    allow-all-logs: False
+    input:
+      type: filesystem
+      value: 'var/log/nova/nova-compute.log'
+      meta:
+        # Searching all logs can yield too many results and we don't yet have a
+        # way to override MAX_LOGROTATE_DEPTH so disabling for now.
+        allow-all-logs: False
     # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
     events:
       network-changed:
@@ -55,14 +63,23 @@ openstack:
       network-vif-plugged:
         expr: '.+\[instance: (\S+)\].+Preparing to wait for external event (network-vif-plugged)-(\S+)\s+'
   nova-checks:
-    path: 'var/log/nova/nova-compute.log'
+    input:
+      type: filesystem
+      value: 'var/log/nova/nova-compute.log'
     warnings:
       pci-dev-not-found:
         expr: '^([0-9\-]+) (\S+) .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'
         hint: 'WARNING'
   neutron-agent-checks:
     neutron-ovs-agent:
-      path: 'var/log/neutron/neutron-openvswitch-agent.log'
+      input:
+        type: filesystem
+        value: 'var/log/neutron/neutron-openvswitch-agent.log'
+        meta:
+          # Disabling all-logs for now since running against a long
+          # history of logs can generate a very large amount of data that can
+          # consume too much memory.
+          allow-all-logs: False
       # identify rpc_loop iterations and get stats and longest running loops.
       rpc-loop:
         start:
@@ -71,12 +88,10 @@ openstack:
         end:
           expr: '^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) completed..+'
           hint: 'Agent rpc_loop'
-        # NOTE: disabling all-logs for now since running against a long
-        # history of logs can generate a very large amount of data that can
-        # consume too much memory.
-        allow-all-logs: False
     neutron-l3-agent:
-      path: 'var/log/neutron/neutron-l3-agent.log'
+      input:
+        type: filesystem
+        value: 'var/log/neutron/neutron-l3-agent.log'
       # identify router updates that took the longest to complete and report the longest updates.
       router-updates:
         start:
@@ -94,9 +109,20 @@ openstack:
         end:
           expr: '^([0-9-]+) (\S+) .+ Keepalived spawned with config \S+/ha_confs/([0-9a-z-]+)/keepalived.conf .+'
           hint: 'Keepalived'
+  neutron-router-checks:
+    l3ha:
+      vrrp-transitions:
+        input:
+          type: command
+          value: journalctl
+          meta:
+            args-callback: journalctl_args
+        expr: '^([0-9-]+)T\S+ \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\(VR_(\d+)\) .+ (\S+) STATE'
   octavia-checks:
     octavia-health-manager:
-      path: 'var/log/octavia/octavia-health-manager.log'
+      input:
+        type: filesystem
+        value: 'var/log/octavia/octavia-health-manager.log'
       amp-missed-heartbeats:
         expr: '^(\S+) \S+ .+ Amphora (\S+) health message was processed too slowly:.+'
         hint: 'Amphora'
@@ -105,11 +131,15 @@ openstack:
         hint: 'failover'
     octavia-worker:
       lb-failover-manual:
-        path: 'var/log/octavia/octavia-worker.log'
+        input:
+          type: filesystem
+          value: 'var/log/octavia/octavia-worker.log'
         expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
         hint: 'failover'
   apparmor-checks:
-    path: 'var/log/kern.log'
+    input:
+      type: filesystem
+      value: 'var/log/kern.log'
     denials:
       nova:
         expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
@@ -120,7 +150,9 @@ openstack:
 openvswitch:
   daemon-checks:
     vswitchd:
-      path: 'var/log/openvswitch/ovs-vswitchd.log'
+      input:
+        type: filesystem
+        value: 'var/log/openvswitch/ovs-vswitchd.log'
       netdev-linux-no-such-device:
         expr: '([0-9-]+)T[0-9:\.]+Z.+\|(\S+): .+ \S+: No such device'
       bridge-no-such-device:
@@ -134,16 +166,33 @@ openvswitch:
           - '([0-9-]+)T[0-9:\.]+Z.+\|receive tunnel port not found \((\w+),'
     errors-and-warnings:
       ovs-vswitchd:
-        path: 'var/log/openvswitch/ovs-vswitchd.log'
+        input:
+          type: filesystem
+          value: 'var/log/openvswitch/ovs-vswitchd.log'
         expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
         hint: '(ERR|WARN)'
       ovsdb-server:
-        path: 'var/log/openvswitch/ovsdb-server.log'
+        input:
+          type: filesystem
+          value: 'var/log/openvswitch/ovsdb-server.log'
         expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
         hint: '(ERR|WARN)'
+  flow-checks:
+    datapath:
+      packet-drops:
+        input:
+          type: command
+          value: ovs_appctl_dpctl_show
+          meta:
+            kwargs:
+              datapath: 'system@ovs-system'
+        start: '\s+port \d+: (\S+) .+'
+        body: '\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+)'
 kernel:
   kernlog:
-    path: 'var/log/kern.log'
+    input:
+      type: filesystem
+      value: 'var/log/kern.log'
     common:
       stacktrace:
         expr: '.*Call Trace:'
@@ -161,13 +210,17 @@ kernel:
         hint: 'conntrack'
 rabbitmq:
   cluster-checks:
-    path: 'var/log/rabbitmq/rabbit@*.log'
+    input:
+      type: filesystem
+      value: 'var/log/rabbitmq/rabbit@*.log'
     rabbitlog:
       cluster-partitions:
         expr: '.+ \S+_partitioned_network'
         hint: 'partition'
   synced-queues:
-    path: 'var/log/rabbitmq/rabbit@*.log'
+    input:
+      type: filesystem
+      value: 'var/log/rabbitmq/rabbit@*.log'
     rabbitlog:
       no-sync:
         expr: 'Mirrored queue ''.+'' in vhost ''.+'': Stopping'
@@ -178,7 +231,9 @@ rabbitmq:
 storage:
   ceph:
     cephlogs:
-      path: 'var/log/ceph/ceph*.log'
+      input:
+        type: filesystem
+        value: 'var/log/ceph/ceph*.log'
       osd-reported-failed:
         expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
         hint: 'reported failed'

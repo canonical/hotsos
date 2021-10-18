@@ -22,13 +22,9 @@
 #
 #   * reason: info displayed in output describing the bug/issue.
 #
-#   * path: relative path to file/directory we want to search.
+#   * input: see core.checks.YAMLDefInput
 #
 # Optional:
-#
-#   * allow-all-logs: whether to allow path to be wildcarded. The default
-#                     is True and should be set to False if searching full
-#                     history will result in excessive load or execution time.
 #
 #   * reason-format-result-groups: optional list of python.re match group ids
 #     that are available when expr is matched and that we want to use as input
@@ -39,58 +35,74 @@
 openstack:
   nova:
     1888395:
+      input:
+        type: filesystem
+        value: 'var/log/nova/nova-compute.log'
       expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
       hint: 'NotImplementedError'
       reason: 'known bug identified in nova logs'
-      path: 'var/log/nova/nova-compute.log'
-  neutron:
+  neutron-l3-agent:
+    input:
+      type: filesystem
+      value: 'var/log/neutron/neutron-l3-agent.log'
     1883089:
       expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
       hint: 'AttributeError'
       reason: 'identified in neutron-l3-agent logs'
-      path: 'var/log/neutron/neutron-l3-agent.log'
-    1896506:
-      expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
-      hint: 'no_track'
-      reason: 'identified bug that critically impacts keepalived'
-      path: 'var/log/syslog'
-    1907686:
-      expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
-      hint: 'OVS database'
-      reason: 'identified bug impacting OVN db connections'
-      path: 'var/log/neutron/neutron-openvswitch-agent.log'
     1929832:
       expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
       hint: 'ProcessExecutionError'
       reason: 'identified bug impacting deletion of HA routers'
-      path: 'var/log/neutron/neutron-l3-agent.log'
     1927868:
       expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
       hint: 'Gateway'
       reason: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
-      path: 'var/log/neutron/neutron-l3-agent.log'
+    1896506:
+      input:
+        type: filesystem
+        value: 'var/log/syslog'
+      expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
+      hint: 'no_track'
+      reason: 'identified bug that critically impacts keepalived'
+  neutron-agents-any:
+    1907686:
+      input:
+        type: filesystem
+        value: 'var/log/neutron/neutron-openvswitch-agent.log'
+      expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
+      hint: 'OVS database'
+      reason: 'identified bug impacting OVN db connections'
     1928031:
+      input:
+        type: filesystem
+        value: 'var/log/neutron/neutron-ovn-metadata-agent.log'
       expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
       hint: 'AttributeError'
       reason: 'identified bug impacting OVN sbdb connections from ovn agents'
-      path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
 openvswitch:
   ovn:
+    input:
+      type: filesystem
+      value: 'var/log/ovn/ovn-controller.log'
     1917475:
       expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
       hint: 'transaction error'
       reason: 'db rbac error bug detected in ovn logs - see LP for details'
-      path: 'var/log/ovn/ovn-controller.log'
 juju:
   common:
+    input:
+      type: filesystem
+      value: 'var/log/juju/*.log'
     1910958:
       expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
       hint: 'manifold worker returned unexpected error'
       reason: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
       reason-format-result-groups: [1, 2]
-      path: 'var/log/juju/*.log'
 rabbitmq:
   common:
+    input:
+      type: filesystem
+      value:  'var/log/rabbitmq/rabbit@*.log'
     1943937:
       expr: 'operation queue.declare caused a channel exception not_found: failed to perform operation on queue ''\S+'' in vhost ''\S+'' due to timeout'
       hint: 'not_found'
@@ -101,4 +113,4 @@ rabbitmq:
         servers before starting them all again at the same time. A rolling
         restart or restarting them simultaneously will not work. See bug for
         more detail.
-      path: 'var/log/rabbitmq/rabbit@*.log'
+
