@@ -15,6 +15,7 @@ LP1936136_BCACHE_CACHE_LIMIT = 70
 OSD_PG_MAX_LIMIT = 500
 OSD_PG_OPTIMAL_NUM = 200
 OSD_META_LIMIT_KB = (10 * 1024 * 1024)
+OSD_MAPS_LIMIT = 500  # mon_min_osdmap_epochs default
 
 
 class CephOSDChecks(ceph.CephChecksBase):
@@ -37,10 +38,10 @@ class CephOSDChecks(ceph.CephChecksBase):
 
         try:
             osdmaps_count = len(report['osdmap_manifest']['pinned_maps'])
-            # The default count is 500. Going above isn't unusual whenever
-            # any recovery/rebalance happens. We arbitrarily chose 5000 as the
-            # "bad" limit (10 x default).
-            if osdmaps_count >= 5000:
+            # mon_min_osdmap_epochs (= 500) maps are held by default. Anything
+            # over the limit, we need to look at and decide whether this could
+            # be temporary or needs further investigation.
+            if osdmaps_count > OSD_MAPS_LIMIT:
                 msg = ("Found {} pinned osdmaps. This can affect mon's "
                        "performance and also indicate bugs such as "
                        "https://tracker.ceph.com/issues/44184 and "
