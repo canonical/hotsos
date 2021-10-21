@@ -138,22 +138,24 @@ class TestOpenstackPluginCore(TestOpenstackBase):
 class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
 
     def test_get_service_info(self):
-        expected = ['apache2 (6)',
-                    'dnsmasq (1)',
-                    'glance-api (5)',
-                    'haproxy (7)',
-                    'keepalived (2)',
-                    'mysqld (1)',
-                    'neutron-dhcp-agent (1)',
-                    'neutron-keepalived-state-change (2)',
-                    'neutron-l3-agent (1)',
-                    'neutron-metadata-agent (5)',
-                    'neutron-openvswitch-agent (1)',
-                    'neutron-server (11)',
-                    'nova-api-metadata (5)',
-                    'nova-compute (1)',
-                    'qemu-system-x86_64 (2)',
-                    'vault (1)']
+        expected = {'systemd': {
+                        'enabled': [
+                            'haproxy', 'keepalived', 'neutron-dhcp-agent',
+                            'neutron-l3-agent', 'neutron-metadata-agent',
+                            'neutron-openvswitch-agent', 'neutron-ovs-cleanup',
+                            'nova-api-metadata', 'nova-compute'],
+                        'disabled': ['radvd'],
+                        'indirect': ['vaultlocker-decrypt']},
+                    'ps': ['apache2 (6)', 'dnsmasq (1)', 'glance-api (5)',
+                           'haproxy (7)', 'keepalived (2)', 'mysqld (1)',
+                           'neutron-dhcp-agent (1)',
+                           'neutron-keepalived-state-change (2)',
+                           'neutron-l3-agent (1)',
+                           'neutron-metadata-agent (5)',
+                           'neutron-openvswitch-agent (1)',
+                           'neutron-server (11)', 'nova-api-metadata (5)',
+                           'nova-compute (1)', 'qemu-system-x86_64 (2)',
+                           'vault (1)']}
         inst = openstack_info.OpenstackInfo()
         inst()
         self.assertEqual(inst.output["services"], expected)

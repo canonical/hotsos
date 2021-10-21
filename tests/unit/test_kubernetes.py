@@ -13,6 +13,15 @@ from plugins.kubernetes.pyparts import (
     network,
 )
 
+SYSTEMD_UNITS = """
+UNIT FILE                                               STATE           VENDOR PRESET
+calico-node.service                    enabled         enabled      
+containerd.service                     enabled         enabled      
+flannel.service                        enabled         enabled      
+snap.kube-proxy.daemon.service         enabled         enabled      
+snap.kubelet.daemon.service            enabled         enabled      
+"""  # noqa
+
 
 class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
 
@@ -21,15 +30,31 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         super().setUp()
 
     def test_get_service_info(self):
-        expected = ['calico-node (3)',
-                    'containerd (17)',
-                    'containerd-shim (16)',
-                    'flanneld (1)',
-                    'kube-proxy (1)',
-                    'kubelet (2)']
-        inst = general.KubernetesServiceChecks()
-        inst()
-        self.assertEqual(inst.output['services'], expected)
+        orig_ps = checks.CLIHelper().ps()
+        with mock.patch('core.checks.CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            helper = mock_helper.return_value
+            helper.systemctl_list_unit_files.return_value = \
+                SYSTEMD_UNITS.split('\n')
+            helper.ps.return_value = orig_ps
+            expected = {'systemd': {
+                            'enabled': [
+                                'calico-node',
+                                'containerd',
+                                'flannel',
+                                'snap.kube-proxy.daemon',
+                                'snap.kubelet.daemon']
+                            },
+                        'ps': [
+                            'calico-node (3)',
+                            'containerd (17)',
+                            'containerd-shim-runc-v2 (1)',
+                            'flanneld (1)',
+                            'kube-proxy (1)',
+                            'kubelet (1)']}
+            inst = general.KubernetesServiceChecks()
+            inst()
+            self.assertEqual(inst.output['services'], expected)
 
     def test_get_snap_info_from_line(self):
         result = ['conjure-up 2.6.14-20200716.2107',

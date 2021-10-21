@@ -4,12 +4,18 @@ import os
 
 import utils
 
-from core import constants
+from core import checks, constants
 from plugins.rabbitmq.pyparts import (
     cluster_checks,
     services,
     synchronization_checks,
 )
+
+
+SYSTEMD_UNITS = """
+UNIT FILE                                               STATE
+rabbitmq-server.service                enabled
+"""  # noqa
 
 
 class TestRabbitmqBase(utils.BaseTestCase):
@@ -23,7 +29,9 @@ class TestRabbitmqServices(TestRabbitmqBase):
 
     def test_get_service_info_bionic(self):
         expected = {
-            'services': ['beam.smp (1)', 'epmd (1)', 'rabbitmq-server (1)'],
+            'services': {'systemd': {'enabled': ['rabbitmq-server']},
+                         'ps': ['beam.smp (1)', 'epmd (1)',
+                                'rabbitmq-server (1)']},
             'resources': {
                 'vhosts': [
                     "/",
@@ -72,9 +80,17 @@ class TestRabbitmqServices(TestRabbitmqBase):
             },
         }
 
-        inst = services.RabbitMQServiceChecks()
-        inst()
-        issues = services.issue_utils._get_issues()
+        orig_ps = checks.CLIHelper().ps()
+        with mock.patch('core.checks.CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            helper = mock_helper.return_value
+            helper.systemctl_list_unit_files.return_value = \
+                SYSTEMD_UNITS.split('\n')
+            helper.ps.return_value = orig_ps
+
+            inst = services.RabbitMQServiceChecks()
+            inst()
+            issues = services.issue_utils._get_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
@@ -104,7 +120,9 @@ class TestRabbitmqServices(TestRabbitmqBase):
             fake_get_rabbitmqctl_report
 
         expected = {
-            'services': ['beam.smp (1)', 'epmd (1)', 'rabbitmq-server (1)'],
+            'services': {'systemd': {'enabled': ['rabbitmq-server']},
+                         'ps': ['beam.smp (1)', 'epmd (1)',
+                                'rabbitmq-server (1)']},
             'resources': {
                 'vhosts': [
                     '/',
@@ -156,9 +174,17 @@ class TestRabbitmqServices(TestRabbitmqBase):
             }
         }
 
-        inst = services.RabbitMQServiceChecks()
-        inst()
-        issues = services.issue_utils._get_issues()
+        orig_ps = checks.CLIHelper().ps()
+        with mock.patch('core.checks.CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            helper = mock_helper.return_value
+            helper.systemctl_list_unit_files.return_value = \
+                SYSTEMD_UNITS.split('\n')
+            helper.ps.return_value = orig_ps
+
+            inst = services.RabbitMQServiceChecks()
+            inst()
+            issues = services.issue_utils._get_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
@@ -180,7 +206,7 @@ class TestRabbitmqServices(TestRabbitmqBase):
         mock_helper.return_value.rabbitmqctl_report.return_value = []
         inst = services.RabbitMQServiceChecks()
         inst()
-        self.assertFalse("resources" in inst.output)
+        self.assertIsNone(inst.output)
 
     def test_get_package_info(self):
         inst = services.RabbitMQPackageChecks()

@@ -537,6 +537,9 @@ class CLIHelper(object):
             'systemctl_status_all':
                 [BinCmd('systemctl status --all'),
                  FileCmd('sos_commands/systemd/systemctl_status_--all')],
+            'systemctl_list_unit_files':
+                [BinCmd('systemctl list-unit-files'),
+                 FileCmd('sos_commands/systemd/systemctl_list-unit-files')],
             'udevadm_info_dev':
                 [BinCmd('udevadm info /dev/{device}'),
                  FileCmd('sos_commands/block/udevadm_info_.dev.{device}')],

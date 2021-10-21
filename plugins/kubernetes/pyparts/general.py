@@ -14,7 +14,7 @@ class KubernetesServiceChecks(KubernetesChecksBase):
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
-            self._output["services"] = self.get_service_info_str()
+            self._output["services"] = self.service_info_str
 
     def __call__(self):
         self.get_running_services_info()

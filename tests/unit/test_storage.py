@@ -222,6 +222,17 @@ class TestStorageCephDaemons(StorageTestsBase):
 class TestStoragePluginPartCephGeneral(StorageTestsBase):
 
     def test_get_service_info(self):
+        svc_info = {'systemd': {'enabled': [
+                                    'ceph-crash'],
+                                'disabled': [
+                                    'ceph-mds',
+                                    'ceph-mgr',
+                                    'ceph-mon',
+                                    'ceph-radosgw'],
+                                'indirect': ['ceph-osd',
+                                             'ceph-volume'],
+                                'generated': ['radosgw']},
+                    'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
         expected = {'ceph': {
                         'network': {
                             'cluster': {
@@ -235,8 +246,7 @@ class TestStoragePluginPartCephGeneral(StorageTestsBase):
                                     'hwaddr': '52:54:00:e2:28:a3',
                                     'state': 'UP'}}
                             },
-                        'services': [
-                            'ceph-crash (1)', 'ceph-osd (1)'],
+                        'services': svc_info,
                         'release': 'octopus',
                     }}
         inst = ceph_general.CephServiceChecks()
