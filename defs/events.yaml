@@ -1,48 +1,62 @@
-# Definitions used to identify events searches. Events can be single or
-# multi-line and the data source can be a filesystem path or command.
+# Definitions for event searches. An event can be single or multi-line and
+# the data source can be a filesystem path or command.
 #
-# Entries are defined using the following hierarchy:
+# The contents of this file are structured as follows:
 #
 # PLUGIN:
 #   GROUP:
 #     SECTION:
 #       EVENT:
+#         SETTINGS
 #
-# Supported fields (for more details see common.checks.EventChecksBase):
+# Supported SETTINGS (for more details see common.checks.EventChecksBase):
 #
-# Two types of searches are available here; single line and sequence. A
-# sequence can take one of two formats; start/end or start/body/end. Sequence
-# endings are optional and if a body is defined this results in
-# searchtools.SequenceSearchDef being used otherwise the results are simply
-# tagged with -start and -end suffix which can then be processed using
-# core.analytics.LogEventStats. If not a sequence then a single
-# searchtools.SearchDef pattern is used.
+# Two types of searches are available here; single or multi line. A multi-line
+# search can be used in two ways. The first use is simply to have a "start" and
+# "end" expression and the results will have -start and -end appended to their
+# tags accordingly. The second use is to define a sequence. This requires at
+# least a "start" and "body" with optional "end". Sequences are processed using
+# searchtools.SequenceSearchDef and all other searches use
+# searchtools.SearchDef.
 #
-# To match single line events use the form:
+# An example single-line search on a file path could look like:
 #
-# <label>:
+# myeventname:
+#   input:
+#     type: filesystem
+#     value: path/to/my/file
 #   expr: <re.match pattern>
 #   hint: optional <re.match pattern> used as a low-cost filter
 #
-# To match multi-line events (sequences) use the form:
+# An example multi-line search on a file path could look like:
 #
-# <label>:
-#   [start|body|end]:
-#     expr: <re.match pattern> used to match portion of sequence
-#     hint: optional <re.match pattern> used as a low-cost filter
+# myeventname:
+#   input:
+#     type: filesystem
+#     value: path/to/my/file
+#   start:
+#     expr: <re.match pattern>
+#   end:
+#     expr: <re.match pattern>
 #
-# Mandatory fields:
+# An example sequence search on a file path could look like:
 #
-#  input: see core.checks.YAMLDefInput
+# myeventname:
+#   input:
+#     type: filesystem
+#     value: path/to/my/file
+#   start:
+#     expr: <re.match pattern>
+#   body:
+#     expr: <re.match pattern>
+#   end:
+#     expr: <re.match pattern>
+#
+#  NOTE: see core.checks.YAMLDefInput for more info on support for input types.
 #
 #  NOTE: input can specified at the group, section or event level with the
-#        latter taking precedence.
+#        lowest definition taking precedence.
 #
-# Optional fields:
-#
-#   allow-all-logs: whether to allow path to be wildcarded. The default
-#                   is True and should be set to False if searching full
-#                   history will result in excessive load or execution time.
 #
 # TIP: to use a single quote ' inside a yaml string you need to replace it with
 #      two single quotes.

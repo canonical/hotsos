@@ -114,6 +114,7 @@ class YAMLDefInput(object):
         self.args = []
         self.kwargs = {}
         self.allow_all_logs = True
+        self._path = None
 
         if self.type not in [self.TYPE_COMMAND, self.TYPE_FILESYSTEM]:
             log.debug("unknown event search input type '%s'", self.type)
@@ -121,7 +122,7 @@ class YAMLDefInput(object):
 
         if self.type == self.TYPE_FILESYSTEM:
             # value is a path so make it absolute
-            self.value = os.path.join(constants.DATA_ROOT, self.value)
+            self._path = os.path.join(constants.DATA_ROOT, self.value)
 
         if meta:
             if self.type == self.TYPE_COMMAND:
@@ -135,6 +136,23 @@ class YAMLDefInput(object):
             elif self.type == self.TYPE_FILESYSTEM:
                 self.allow_all_logs = meta.get('allow-all-logs',
                                                self.allow_all_logs)
+
+    @property
+    def path(self):
+        if self._path:
+            return self._path
+
+        if self.type == self.TYPE_COMMAND:
+            # get command output
+            out = getattr(CLIHelper(), self.value)(*self.args,
+                                                   **self.kwargs)
+            # store in temp file to make it searchable
+            # NOTE: we dont need to delete this at the the end since they are
+            # created in the plugun tmp dir which is wiped at the end of the
+            # plugin run.
+            self._path = mktemp_dump(''.join(out))
+
+        return self._path
 
 
 class YAMLDefBase(object):
@@ -372,7 +390,7 @@ class BugChecksBase(ChecksBase):
                 id = section.name
                 # NOTE: the bugs are defined as sections rather than entries
                 settings = {bug.name: bug.settings for bug in section.entries}
-                reason_format = settings.get("reason-format-result-groups")
+                message_format = settings.get("message-format-result-groups")
                 pattern = settings['expr']
                 # NOTE: pattern can be string or list of strings
                 bdef = {'def':
@@ -380,11 +398,11 @@ class BugChecksBase(ChecksBase):
                                 pattern,
                                 bug_id=str(id),
                                 hint=settings.get('hint'),
-                                reason=settings['reason'],
-                                reason_format_result_groups=reason_format)}
+                                message=settings['message'],
+                                message_format_result_groups=message_format)}
 
                 input = settings.get('input', section.input or group.input)
-                datasource = input.value
+                datasource = input.path
                 log.debug("bug=%s path=%s", id, datasource)
                 if input.allow_all_logs and constants.USE_ALL_LOGS:
                     datasource = "{}*".format(datasource)
@@ -414,11 +432,11 @@ class BugChecksBase(ChecksBase):
             tag = bugsearch["def"].tag
             _results = results.find_by_tag(tag)
             if _results:
-                if bugsearch["def"].reason_format_result_groups:
-                    reason = bugsearch["def"].rendered_reason(_results[0])
-                    add_known_bug(tag, reason)
+                if bugsearch["def"].message_format_result_groups:
+                    message = bugsearch["def"].rendered_message(_results[0])
+                    add_known_bug(tag, message)
                 else:
-                    add_known_bug(tag, bugsearch["def"].reason)
+                    add_known_bug(tag, bugsearch["def"].message)
 
     def __call__(self):
         """ Must be callable since its run automatically. """
@@ -470,12 +488,6 @@ class EventChecksBase(ChecksBase):
         self.event_results_output_key = event_results_output_key
         self.event_results_passthrough = event_results_passthrough
         self._event_defs = {}
-        self._dump_tmps = []
-
-    def __del__(self):
-        for path in self._dump_tmps:
-            if os.path.exists(path):
-                os.remove(path)
 
     def _load_event_definitions(self):
         """
@@ -552,23 +564,10 @@ class EventChecksBase(ChecksBase):
                               "section '%s'", event, section)
                     continue
 
+                datasource = event.input.path
                 if event.input.type == event.input.TYPE_FILESYSTEM:
-                    datasource = event.input.value
                     if constants.USE_ALL_LOGS and event.input.allow_all_logs:
                         datasource = "{}*".format(datasource)
-
-                elif event.input.type == event.input.TYPE_COMMAND:
-                    command = event.input.value
-                    # get command output
-                    out = getattr(CLIHelper(), command)(*event.input.args,
-                                                        **event.input.kwargs)
-                    # store in temp file to make it searchable
-                    datasource = mktemp_dump(''.join(out))
-                    # save for deletion later
-                    self._dump_tmps.append(datasource)
-                else:
-                    log("event '%s' has no datapath or command defined",
-                        event.name)
 
                 if section.name not in self._event_defs:
                     self._event_defs[section.name] = {}
@@ -860,8 +859,7 @@ class ConfigChecksBase(object):
             for entry in section.entries:
                 cfg_key = entry.name
                 settings = entry.settings
-                path = entry.input.value
-                cfg = self._get_config_handler(path)
+                cfg = self._get_config_handler(entry.input.path)
                 op = settings['operator']
                 section = settings.get('section')
                 actual = cfg.get(cfg_key, section=section)

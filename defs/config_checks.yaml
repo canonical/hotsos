@@ -1,4 +1,12 @@
-# Config assertions
+# Definitions for config assertions. 
+#
+# Allows us to assert that config is as expected.
+#
+# The contents of this file are structured as follows:
+#
+# PLUGIN:
+#   ASSERTION:
+#     SETTINGS
 #
 # NOTE: this is currently only supported by the openstack plugin.
 #

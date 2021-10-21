@@ -133,7 +133,7 @@ class TestChecks(utils.BaseTestCase):
             for section in group.sections:
                 for entry in section.entries:
                     self.assertEquals(entry.input.type, 'filesystem')
-                    self.assertEquals(entry.input.value,
+                    self.assertEquals(entry.input.path,
                                       os.path.join(checks.constants.DATA_ROOT,
                                                    'foo/bar1'))
 
@@ -144,7 +144,7 @@ class TestChecks(utils.BaseTestCase):
             for section in group.sections:
                 for entry in section.entries:
                     self.assertEquals(entry.input.type, 'filesystem')
-                    self.assertEquals(entry.input.value,
+                    self.assertEquals(entry.input.path,
                                       os.path.join(checks.constants.DATA_ROOT,
                                                    'foo/bar2'))
 
@@ -155,6 +155,6 @@ class TestChecks(utils.BaseTestCase):
             for section in group.sections:
                 for entry in section.entries:
                     self.assertEquals(entry.input.type, 'filesystem')
-                    self.assertEquals(entry.input.value,
+                    self.assertEquals(entry.input.path,
                                       os.path.join(checks.constants.DATA_ROOT,
                                                    'foo/bar3'))

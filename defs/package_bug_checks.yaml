@@ -1,15 +1,13 @@
 # Definitions used to identify installed packages that contain known bugs.
 #
-# Entries are defined using the following hierarchy:
-#
-# Message formatted fields:
-#   - package_name
-#   - version_current
-#   - version_fixed
+# The contents of this file are structured as follows:
 #
 # PLUGIN:
-#   PACKAGE_NAME:
+#   PACKAGE:
 #     BUG_ID:
+#       SETTINGS
+#
+# SETTINGS
 #       # string message with formatted fields (see above for available fields)
 #       message: "a message"
 #       # list of release names with their associated package versions.
@@ -19,6 +17,11 @@
 #           min-broken:
 #           # least version that contains the fix
 #           min-fixed:
+#
+# Message formatted fields:
+#   - package_name
+#   - version_current
+#   - version_fixed
 #
 openstack:
   neutron-common:

@@ -1,36 +1,51 @@
-# Definitions used to identify known bugs.
+# Definitions for known-bug searches.
 #
-# Structure of definition is:
+# This file allows you to define search criteria to match contents of files or
+# command output that identify a known bug. When a match is found a bug issue
+# is raised and displayed in the plugin output.
 #
-#   PLUGIN_NAME:
-#     GROUP_NAME:
-#       BUG_ID:
-#         FIELDS
+# The contents of this file are structured as follows:
 #
-# GROUP_NAME - this is required but has no actual meaning and is just way to
-#              organise definitions.
+# PLUGIN:
+#   GROUP:
+#     BUG_ID:
+#       SETTINGS
 #
-# FIELDS (for full details see common.checks.BugChecksBase):
-#
-# Mandatory:
+# SETTINGS (for more info see common.checks.BugChecksBase):
 #
 #   * expr: python.re regex pattern used to match line(s). this can be a single
 #           pattern or a list of patterns.
 #
-#     TIP: to use a single quote ' inside a yaml string you need to replace it
-#          with two single quotes.
+#   * message: message displayed in output describing the bug/issue.
 #
-#   * reason: info displayed in output describing the bug/issue.
+#   * input: our data source e.g. a log file or command
 #
-#   * input: see core.checks.YAMLDefInput
+#  NOTE: see core.checks.YAMLDefInput for more info on support for input types.
+#
+#  NOTE: input can specified at the group, section or event level with the
+#        lowest definition taking precedence.
 #
 # Optional:
 #
-#   * reason-format-result-groups: optional list of python.re match group ids
+#   * message-format-result-groups: optional list of python.re.match group ids
 #     that are available when expr is matched and that we want to use as input
-#     reason when it is a formatted string.
+#     to a formatted message.
 #
 #   * hint: optional short pattern used as a pre-filter before trying expr.
+#
+# Bug Example:
+#
+#   1234567:
+#     input:
+#       type: filesystem
+#       value: path/to/my/file
+#     expr: <re.match pattern>
+#     hint: optional <re.match pattern> used as a low-cost filter
+#     message: this is a really bad bug
+#
+#
+# TIP: to use a single quote ' inside a yaml string you need to replace it
+#      with two single quotes.
 #
 openstack:
   nova:
@@ -40,7 +55,7 @@ openstack:
         value: 'var/log/nova/nova-compute.log'
       expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
       hint: 'NotImplementedError'
-      reason: 'known bug identified in nova logs'
+      message: 'known bug identified in nova logs'
   neutron-l3-agent:
     input:
       type: filesystem
@@ -48,22 +63,22 @@ openstack:
     1883089:
       expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
       hint: 'AttributeError'
-      reason: 'identified in neutron-l3-agent logs'
+      message: 'identified in neutron-l3-agent logs'
     1929832:
       expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
       hint: 'ProcessExecutionError'
-      reason: 'identified bug impacting deletion of HA routers'
+      message: 'identified bug impacting deletion of HA routers'
     1927868:
       expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
       hint: 'Gateway'
-      reason: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
+      message: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
     1896506:
       input:
         type: filesystem
         value: 'var/log/syslog'
       expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
       hint: 'no_track'
-      reason: 'identified bug that critically impacts keepalived'
+      message: 'identified bug that critically impacts keepalived'
   neutron-agents-any:
     1907686:
       input:
@@ -71,14 +86,14 @@ openstack:
         value: 'var/log/neutron/neutron-openvswitch-agent.log'
       expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
       hint: 'OVS database'
-      reason: 'identified bug impacting OVN db connections'
+      message: 'identified bug impacting OVN db connections'
     1928031:
       input:
         type: filesystem
         value: 'var/log/neutron/neutron-ovn-metadata-agent.log'
       expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
       hint: 'AttributeError'
-      reason: 'identified bug impacting OVN sbdb connections from ovn agents'
+      message: 'identified bug impacting OVN sbdb connections from ovn agents'
 openvswitch:
   ovn:
     input:
@@ -87,7 +102,7 @@ openvswitch:
     1917475:
       expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
       hint: 'transaction error'
-      reason: 'db rbac error bug detected in ovn logs - see LP for details'
+      message: 'db rbac error bug detected in ovn logs - see LP for details'
 juju:
   common:
     input:
@@ -96,8 +111,8 @@ juju:
     1910958:
       expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
       hint: 'manifold worker returned unexpected error'
-      reason: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
-      reason-format-result-groups: [1, 2]
+      message: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
+      message-format-result-groups: [1, 2]
 rabbitmq:
   common:
     input:
@@ -106,7 +121,7 @@ rabbitmq:
     1943937:
       expr: 'operation queue.declare caused a channel exception not_found: failed to perform operation on queue ''\S+'' in vhost ''\S+'' due to timeout'
       hint: 'not_found'
-      reason: >-
+      message: >-
         Known issue where RabbitMQ queues get stuck and clients trying to use
         them will just keep timing out. This stops many services in the cloud
         from working correctly. Resolution requires you to stop all RabbitMQ

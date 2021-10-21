@@ -12,36 +12,36 @@ KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
 
 
 class BugSearchDef(SearchDef):
-    def __init__(self, pattern, bug_id, hint, reason,
-                 reason_format_result_groups=None):
+    def __init__(self, pattern, bug_id, hint, message,
+                 message_format_result_groups=None):
         """
-        @param reason: string reason describing the issue and why it has been
+        @param message: string message describing the issue and why it has been
         flagged. This string can be a template i.e. containing {} fields that
         can be rendered using results.
-        @param reason_format_result_groups: if the reason string is a template,
-        this is a list of indexes in the results that can be extracted for
-        inclusion in the reason.
+        @param message_format_result_groups: if the message string is a
+        template, this is a list of indexes in the results that can be
+        extracted for inclusion in the message.
         """
         super().__init__(pattern, tag=bug_id, hint=hint)
-        self._reason = reason
-        if reason is None:
-            self._reason = ""
+        self._message = message
+        if message is None:
+            self._message = ""
 
-        self.reason_format_result_groups = reason_format_result_groups
+        self.message_format_result_groups = message_format_result_groups
 
     @property
-    def reason(self):
-        return self._reason
+    def message(self):
+        return self._message
 
-    def rendered_reason(self, search_result):
-        if self._reason and self.reason_format_result_groups:
+    def rendered_message(self, search_result):
+        if self._message and self.message_format_result_groups:
             values = []
-            for idx in self.reason_format_result_groups:
+            for idx in self.message_format_result_groups:
                 values.append(search_result.get(idx))
 
-            return self._reason.format(*values)
+            return self._message.format(*values)
 
-        return self._reason
+        return self._message
 
 
 def _get_known_bugs():
