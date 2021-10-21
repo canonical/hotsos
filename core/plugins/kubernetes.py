@@ -7,17 +7,13 @@ from core import (
     plugintools,
 )
 
-SERVICES = ["etcdctl",
-            "calicoctl",
-            "flanneld",
-            "kubectl2",
-            "kubelet",
-            "containerd-shim",
-            "containerd",
-            "dockerd",
-            "kubelet",
-            "kube-proxy",
-            "calico-node",
+SERVICES = [r"etcd\S*",
+            r"calico\S*",
+            r"flannel\S*",
+            r"containerd\S*",
+            r"dockerd\S*",
+            r"kubelet\S*",
+            r"kube-\S*",
             ]
 
 # Snaps that only exist in a K8s deployment

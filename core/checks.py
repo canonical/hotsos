@@ -897,29 +897,85 @@ class ServiceChecksBase(object):
                            order to reduce unnecessary full searches.
         """
         super().__init__(*args, **kwargs)
-        self.services = {}
         self.service_exprs = []
-        for expr in service_exprs:
-            hint = None
-            if hint_range:
-                start, end = hint_range
-                hint = expr[start:end]
+        self.hint_range = hint_range
+        self._processes = {}
+        self._service_info = {}
+        self.service_exprs = service_exprs
 
-            self.service_exprs.append((expr, hint))
-
-        self._get_running_services()
-
-    def _get_running_services(self):
+    def hint(self, expr, line, offset=None):
         """
-        Execute each provided service expression against lines in ps and store
-        each full line in a list against the service matched.
+        Apply a hint search to the line. Returns True if a match is found
+        otherwise False.
+
+        Since this hint is a chopped version of the full expression it may now
+        contain incomplete/invalid regex. In this case we automatically grow it
+        until it no longer causes an exception to be raised.
         """
+        if not self.hint_range:
+            return True
+
+        start, end = self.hint_range
+        if offset is not None:
+            # Set a limit to how far we will go
+            if offset > min(10, len(expr) - 1):
+                return False
+
+            offset += 1
+            end += offset
+
+        try:
+            ret = re.compile(expr[start:end]).search(line)
+            if ret:
+                return True
+        except re.error:
+            # if sre_constants is raised we need to adjust the
+            # hint.
+            if offset is None:
+                offset = 1
+
+            return self.hint(expr, line, offset)
+
+        return False
+
+    @property
+    def services(self):
+        """
+        Return a dict of identified systemd services and corresponding
+        information such as status, number of processes etc.
+        """
+        for line in CLIHelper().systemctl_list_unit_files():
+            for expr in self.service_exprs:
+                if not self.hint(expr, line):
+                    continue
+
+                # Add snap prefix/suffixes
+                svc_expr = r"(?:snap\.)?{}(?:\.daemon)?".format(expr)
+                # make it a service
+                # NOTE: the @ is left out from the service name as it implies
+                # this is an "indirect" service that has a .target.
+                svc_expr = r'^\s*({})@?\.service\s+(\S+)'.format(svc_expr)
+
+                ret = re.compile(svc_expr).match(line)
+                if ret:
+                    svc = ret.group(1)
+                    state = ret.group(2)
+                    self._service_info[svc] = {'state': state}
+
+        return self._service_info
+
+    @property
+    def processes(self):
+        """
+        Identify running processes from ps using the provided search filter.
+        """
+        if self._processes:
+            return self._processes
+
         for line in CLIHelper().ps():
-            for expr, hint in self.service_exprs:
-                if hint:
-                    ret = re.compile(hint).search(line)
-                    if not ret:
-                        continue
+            for expr in self.service_exprs:
+                if not self.hint(expr, line):
+                    continue
 
                 """
                 look for running process with this name.
@@ -936,21 +992,30 @@ class ServiceChecksBase(object):
                     ret = re.compile(expr_tmplt.format(expr)).match(line)
                     if ret:
                         svc = ret.group(1)
-                        if svc not in self.services:
-                            self.services[svc] = {"ps_cmds": []}
+                        if svc not in self._processes:
+                            self._processes[svc] = []
 
-                        self.services[svc]["ps_cmds"].append(ret.group(0))
+                        self._processes[svc].append(ret.group(0))
                         break
 
-    def get_service_info_str(self):
-        """Create a list of "<service> (<num running>)" for running services
-        detected. Useful for display purposes."""
-        service_info_str = []
-        for svc in sorted(self.services):
-            num_daemons = self.services[svc]["ps_cmds"]
-            service_info_str.append("{} ({})".format(svc, len(num_daemons)))
+        return self._processes
 
-        return service_info_str
+    @property
+    def service_info_str(self):
+        info = {'systemd': {},
+                'ps': []}
+        for svc, svc_info in self.services.items():
+            state = svc_info['state']
+            if state not in info['systemd']:
+                info['systemd'][state] = []
+
+            info['systemd'][state].append(svc)
+
+        for svc in sorted(self.processes):
+            num_daemons = len(self.processes[svc])
+            info['ps'].append("{} ({})".format(svc, num_daemons))
+
+        return info
 
 
 class DPKGVersionCompare(object):
