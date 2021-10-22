@@ -113,6 +113,13 @@ juju:
       hint: 'manifold worker returned unexpected error'
       message: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
       message-format-result-groups: [1, 2]
+    1858519:
+      input:
+        type: filesystem
+        value: 'var/log/juju/unit-ceph-osd*.log'
+      expr: '.* Cannot zap a device used by lvm'
+      hint: 'Cannot zap'
+      message: 'The ceph-osd charm tried to zap a disk but failed since the disk had an LVM header. If you are sure the disk is not in active use by LVM, you may run pvremove on it before using it as an OSD'
 rabbitmq:
   common:
     input:
