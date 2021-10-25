@@ -189,8 +189,8 @@ class PluginRunner(object):
         # The following are executed as part of each plugin run (but not last).
         ALWAYS_RUN = {'default_bug_checker':
                       {'core.checks': 'BugChecksBase'}}
-        for part, parts in ALWAYS_RUN.items():
-            for obj, cls in parts.items():
+        for part, always_parts in ALWAYS_RUN.items():
+            for obj, cls in always_parts.items():
                 # update current env to reflect actual part being run
                 os.environ['PART_NAME'] = part
                 part_obj = getattr(importlib.import_module(obj), cls)
@@ -205,7 +205,7 @@ class PluginRunner(object):
                 # NOTE: we don't currently expect these parts to produce any
                 # output.
 
-        for part, obj_names in plugin.get("parts", {}).items():
+        for part, obj_names in parts.items():
             # update current env to reflect actual part being run
             os.environ['PART_NAME'] = part
             mod_string = ('plugins.{}.pyparts.{}'.

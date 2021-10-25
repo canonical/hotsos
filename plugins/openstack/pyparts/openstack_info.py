@@ -8,6 +8,10 @@ from core.plugins.openstack import (
     OpenstackConfig,
     OpenstackServiceChecksBase,
 )
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
 
 # configs that dont use standard /etc/<project>/<project>.conf
 OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
@@ -27,7 +31,21 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         if self.services:
             self._output["services"] = self.service_info_str
 
+    def get_masked_services(self):
+        """Get a list of masked services."""
+        if self.service_info_str['systemd']:
+            masked = self.service_info_str['systemd'].get('masked', {})
+            if 'keystone' in masked:
+                del masked['keystone']
+            if masked:
+                msg = (f'Found masked services: {", ".join(masked)}. Please '
+                       + "ensure that this is intended.")
+                issue_utils.add_issue(issue_types.OpenstackWarning(msg))
+
     def get_debug_log_info(self):
+        """Return dictionary of OpenStack services and the value of the debug
+        setting in their configuration.
+        """
         debug_enabled = {}
         for proj in OST_PROJECTS:
             conf = OST_ETC_OVERRIDES.get(proj)
@@ -50,3 +68,4 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         self._output["release"] = self.release_name
         self.get_running_services_info()
         self.get_debug_log_info()
+        self.get_masked_services()

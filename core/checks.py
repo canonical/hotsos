@@ -1019,6 +1019,11 @@ class ServiceChecksBase(object):
 
     @property
     def service_info_str(self):
+        """Return a dictionary of systemd services and processes.
+
+        The services under the `systemd` key are sub-keyed by service state.
+        The processes unde the `ps` key are returned as a list.
+        """
         info = {'systemd': {},
                 'ps': []}
         for svc, svc_info in self.services.items():
