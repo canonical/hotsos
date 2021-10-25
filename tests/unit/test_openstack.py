@@ -140,12 +140,21 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
     def test_get_service_info(self):
         expected = {'systemd': {
                         'enabled': [
-                            'haproxy', 'keepalived', 'neutron-dhcp-agent',
-                            'neutron-l3-agent', 'neutron-metadata-agent',
-                            'neutron-openvswitch-agent', 'neutron-ovs-cleanup',
-                            'nova-api-metadata', 'nova-compute'],
+                            'haproxy',
+                            'keepalived',
+                            'neutron-dhcp-agent',
+                            'neutron-l3-agent',
+                            'neutron-metadata-agent',
+                            'neutron-openvswitch-agent',
+                            'neutron-ovs-cleanup',
+                            'nova-compute',
+                            ],
                         'disabled': ['radvd'],
-                        'indirect': ['vaultlocker-decrypt']},
+                        'indirect': ['vaultlocker-decrypt'],
+                        'masked': [
+                            'nova-api-metadata',
+                        ],
+                    },
                     'ps': ['apache2 (6)', 'dnsmasq (1)', 'glance-api (5)',
                            'haproxy (7)', 'keepalived (2)', 'mysqld (1)',
                            'neutron-dhcp-agent (1)',
