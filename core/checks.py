@@ -524,41 +524,58 @@ class EventChecksBase(ChecksBase):
 
                 settings = event.settings
                 search_meta = {'searchdefs': [], 'datasource': None}
-                start = settings.get('start')
-                body = settings.get('body')
-                end = settings.get('end')
+
                 expr = settings.get('expr')
-                sequence_def = None
+                if expr is None:
+                    # these can either be dict of expr/hint or shorthand string
+                    # expression.
+                    search_settings = {}
+                    for pos in ['start', 'body', 'end']:
+                        setting = settings.get(pos)
+                        if not setting:
+                            continue
+
+                        search_settings[pos] = {}
+                        if type(setting) is dict:
+                            search_settings[pos].update(setting)
+                        else:
+                            # shorthand form i.e. just expr str and no hint
+                            search_settings[pos]['expr'] = setting
+                            search_settings[pos]['hint'] = None
 
                 if expr is not None:
                     tag = event.name
                     search_meta['searchdefs'].append(
                         SearchDef(expr, tag=tag,
                                   hint=settings.get('hint')))
-                elif set(['start', 'body']).issubset(settings.keys()):
+                elif set(['start', 'body']).issubset(search_settings.keys()):
                     log.debug("event '%s' search is a sequence", event.name)
-                    # its a sequence
-                    if end is not None:
-                        sd_end = SearchDef(end)
-                    else:
-                        sd_end = None
+                    sd_end = None
+                    # explicit end is optional for sequence definition
+                    if 'end' in search_settings:
+                        sd_end = SearchDef(search_settings['end']['expr'])
 
-                    sequence_def = SequenceSearchDef(start=SearchDef(start),
-                                                     body=SearchDef(body),
+                    # NOTE: we ignore hints here
+                    sd_start = SearchDef(search_settings['start']['expr'])
+                    sd_body = SearchDef(search_settings['body']['expr'])
+                    sequence_def = SequenceSearchDef(start=sd_start,
+                                                     body=sd_body,
                                                      end=sd_end,
                                                      tag=event.name)
                     search_meta['searchdefs'].append(sequence_def)
                     search_meta['is_sequence'] = True
-                elif set(['start', 'end']).issubset(settings.keys()):
+                elif set(['start', 'end']).issubset(search_settings.keys()):
                     # start and end required for core.analytics.LogEventStats
-                    hint = settings['start'].get('hint')
+                    start = search_settings['start']['expr']
+                    hint = search_settings['start']['hint']
                     tag = "{}-start".format(event.name)
                     search_meta['searchdefs'].append(
-                        SearchDef(start['expr'], tag=tag, hint=hint))
-                    hint = settings['end'].get('hint')
+                        SearchDef(start, tag=tag, hint=hint))
+                    end = search_settings['end']['expr']
+                    hint = search_settings['end']['hint']
                     tag = "{}-end".format(event.name)
                     search_meta['searchdefs'].append(
-                        SearchDef(end['expr'], tag=tag, hint=hint))
+                        SearchDef(end, tag=tag, hint=hint))
                 else:
                     log.debug("invalid search definition for event '%s' in "
                               "section '%s'", event, section)

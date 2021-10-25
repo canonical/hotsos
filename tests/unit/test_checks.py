@@ -1,4 +1,5 @@
 import os
+import tempfile
 import yaml
 
 import mock
@@ -49,6 +50,19 @@ pluginX:
             value: foo/bar3
         settingA: True
 """
+
+YAML_DEF_SEQ = r"""
+myplugin:
+  mygroup:
+    input:
+      type: filesystem
+      value: {path}
+    mysection:
+      mysearch:
+        start: '^hello'
+        body: '^\S+'
+        end: '^world'
+"""  # noqa
 
 
 class TestChecks(utils.BaseTestCase):
@@ -158,3 +172,49 @@ class TestChecks(utils.BaseTestCase):
                     self.assertEquals(entry.input.path,
                                       os.path.join(checks.constants.DATA_ROOT,
                                                    'foo/bar3'))
+
+    def test_yaml_def_entry_seq(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            data_file = os.path.join(dtmp, 'data.txt')
+            _yaml = YAML_DEF_SEQ.format(path=os.path.basename(data_file))
+            open(os.path.join(dtmp, 'events.yaml'), 'w').write(_yaml)
+            open(data_file, 'w').write('hello\nbrave\nworld\n')
+            plugin_checks = yaml.safe_load(_yaml).get('myplugin')
+            for name, group in plugin_checks.items():
+                group = checks.YAMLDefGroup(name, group, event_check_obj=None)
+                for section in group.sections:
+                    for entry in section.entries:
+                        self.assertEquals(entry.input.type, 'filesystem')
+                        self.assertEquals(entry.input.path, data_file)
+
+            test_self = self
+            match_count = {'count': 0}
+            os.environ['PLUGIN_YAML_DEFS'] = dtmp
+            os.environ['PLUGIN_NAME'] = 'myplugin'
+            EVENTCALLBACKS = checks.CallbackHelper()
+
+            class MyEventHandler(checks.EventChecksBase):
+                def __init__(self):
+                    super().__init__(yaml_defs_group='mygroup',
+                                     callback_helper=EVENTCALLBACKS)
+
+                @EVENTCALLBACKS.callback
+                def mysearch(self, event):
+                    for section in event.results:
+                        for result in section:
+                            if result.tag.endswith('-start'):
+                                match_count['count'] += 1
+                                test_self.assertEquals(result.get(0), 'hello')
+                            elif result.tag.endswith('-body'):
+                                match_count['count'] += 1
+                                test_self.assertEquals(result.get(0), 'brave')
+                            elif result.tag.endswith('-end'):
+                                match_count['count'] += 1
+                                test_self.assertEquals(result.get(0), 'world')
+
+                def __call__(self):
+                    self.run_checks()
+
+            MyEventHandler()()
+            self.assertEquals(match_count['count'], 3)
