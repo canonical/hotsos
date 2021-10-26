@@ -66,6 +66,7 @@ declare -A PLUGINS=(
     [rabbitmq]=false
     [sosreport]=false
     [system]=true  # always do system by default
+    [vault]=false
     [all]=false
 )
 # The order of the following list determines the order in which the plugins
@@ -78,6 +79,7 @@ declare -a PLUGIN_NAMES=(
     rabbitmq
     kubernetes
     storage
+    vault
     juju
     kernel
 )

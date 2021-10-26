@@ -92,3 +92,9 @@ plugins:
         - BcacheDeviceChecks
         - BcacheCSetChecks
         - BcacheCharmChecks
+  vault:
+    parts:
+      general:
+        - VaultInstallChecks
+        - VaultServiceChecks
+
