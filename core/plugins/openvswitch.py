@@ -55,13 +55,41 @@ class OpenvSwitchBase(object):
         bridges = self.cli.ovs_vsctl_list_br()
         return [OVSBridge(br.strip(), self.net_helper) for br in bridges]
 
+    def _record_to_dict(self, record):
+        record_dict = {}
+        if record:
+            for field in re.compile(r'(\S+,)').findall(record):
+                for char in [',', '}', '{']:
+                    field = field.strip(char)
+
+                key, _, val = field.partition('=')
+                record_dict[key] = val.strip('"')
+
+        return record_dict
+
+    @property
+    def external_ids(self):
+        config = self.cli.ovs_vsctl_get_Open_vSwitch(record='external_ids')
+        if not config:
+            for line in self.cli.ovs_vsctl_list_Open_vSwitch():
+                if line.startswith('external_ids '):
+                    config = line.partition(':')[2].strip()
+                    break
+
+        return self._record_to_dict(config)
+
+    @property
+    def other_config(self):
+        config = self.cli.ovs_vsctl_get_Open_vSwitch(record='other_config')
+        return self._record_to_dict(config)
+
     @property
     def offload_enabled(self):
-        other_config = self.cli.ovs_vsctl_get_Open_vSwitch_other_config()
-        if not other_config:
+        config = self.other_config
+        if not config:
             return False
 
-        if 'hw-offload="true"' in other_config:
+        if config.get('hw-offload') == "true":
             return True
 
         return False

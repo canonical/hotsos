@@ -32,6 +32,12 @@ class OpenvSwitchConfigChecks(OpenvSwitchChecksBase):
         if self.offload_enabled:
             self._output['offload'] = 'enabled'
 
+        if self.other_config:
+            self._output['other-config'] = self.other_config
+
+        if self.external_ids:
+            self._output['external-ids'] = self.external_ids
+
 
 class OpenvSwitchBridgeChecks(OpenvSwitchChecksBase):
 

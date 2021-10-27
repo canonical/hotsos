@@ -28,7 +28,7 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
     def testBase_offload_enabled(self):
         with mock.patch.object(openvswitch, 'CLIHelper') as mock_cli:
             mock_cli.return_value = mock.MagicMock()
-            f = mock_cli.return_value.ovs_vsctl_get_Open_vSwitch_other_config
+            f = mock_cli.return_value.ovs_vsctl_get_Open_vSwitch
             f.return_value = '{hw-offload="true", max-idle="30000"}'
             enabled = openvswitch.OpenvSwitchBase().offload_enabled
             self.assertTrue(enabled)
