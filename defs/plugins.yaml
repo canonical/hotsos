@@ -49,6 +49,7 @@ plugins:
         - OpenvSwitchConfigChecks
         - OpenvSwitchPackageChecks
         - OpenvSwitchServiceChecks
+        - OpenvSwitchBridgeChecks
   system:
     parts:
       general:

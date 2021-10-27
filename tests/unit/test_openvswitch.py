@@ -54,6 +54,21 @@ class TestOpenvswitchPluginPartOpenvswitchServices(TestOpenvswitchBase):
         inst()
         self.assertEqual(inst.output, expected)
 
+    def test_bridge_checks(self):
+        expected = {'bridges': {'br-data': [
+                                    {'ens7': {
+                                        'addresses': [],
+                                        'hwaddr': '52:54:00:78:19:c3',
+                                        'state': 'UP'}}],
+                                'br-ex': [],
+                                'br-int': ['(7 ports)'],
+                                'br-tun': ['vxlan-0a000032',
+                                           'vxlan-0a000030']}}
+
+        inst = ovs_resources.OpenvSwitchBridgeChecks()
+        inst()
+        self.assertEqual(inst.output, expected)
+
 
 class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(TestOpenvswitchBase):
 

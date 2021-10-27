@@ -174,7 +174,7 @@ class OpenvSwitchFlowChecks(OpenvSwitchEventChecksBase):
 
             if port and _stats:
                 # Ports to ignore - see docstring for info
-                if (port in self.bridges or
+                if (port in [b.name for b in self.bridges] or
                         re.compile(r"^(q|s)g-\S{11}$").match(port)):
                     continue
 

@@ -1,6 +1,10 @@
+import re
+
 from core import plugintools
 from core import checks
 from core.cli_helpers import CLIHelper
+from core.host_helpers import HostNetworkingHelper
+
 
 OVS_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
                       r"ovs-vswitch[a-zA-Z-]*",
@@ -16,16 +20,40 @@ for pkg in OVS_PKGS_CORE:
     OVS_PKGS_DEPS.append(r"python3?-{}\S*".format(pkg))
 
 
+class OVSBridge(object):
+
+    def __init__(self, name, nethelper):
+        self.name = name
+        self.cli = CLIHelper()
+        self.nethelper = nethelper
+
+    @property
+    def ports(self):
+        ports = []
+        for line in self.cli.ovs_ofctl_show(bridge=self.name):
+            ret = re.compile(r'^\s+\d+\((\S+)\):\s+').match(line)
+            if ret:
+                name = ret.group(1)
+                port = self.nethelper.get_interface_with_name(name)
+                if not port:
+                    port = name
+
+                ports.append(port)
+
+        return ports
+
+
 class OpenvSwitchBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.cli = CLIHelper()
+        self.net_helper = HostNetworkingHelper()
 
     @property
     def bridges(self):
         bridges = self.cli.ovs_vsctl_list_br()
-        return [br.strip() for br in bridges]
+        return [OVSBridge(br.strip(), self.net_helper) for br in bridges]
 
     @property
     def offload_enabled(self):
