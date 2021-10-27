@@ -634,6 +634,15 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
             self.assertEqual(c.output["octavia"].get(section_key),
                              expected.get(section_key))
 
+    def test_run_apache_checks(self):
+        expected = {'connection-refused': {
+                        '2021-10-26': {'127.0.0.1:8981': 3}}}
+        for section_key in ['connection-refused']:
+            c = agent_checks.ApacheEventChecks(yaml_defs_group='apache')
+            c()
+            self.assertEqual(c.output['apache'].get(section_key),
+                             expected.get(section_key))
+
     def test_run_nova_checks(self):
         expected = {'PciDeviceNotFoundById': {
                         '2021-09-17': {'0000:3b:0f.7': 1,

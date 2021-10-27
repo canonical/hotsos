@@ -1,17 +1,70 @@
+import datetime
 import yaml
 
 from core.checks import CallbackHelper
 from core.searchtools import FileSearcher
 from core.analytics import LogEventStats, SearchResultIndices
 from core import utils
+from core.issues import issue_utils, issue_types
 from core.plugins.openstack import (
     AGENT_ERROR_KEY_BY_TIME,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
+from core.utils import sorted_dict
 
 YAML_PRIORITY = 9
 EVENTCALLBACKS = CallbackHelper()
+
+
+class ApacheEventChecks(OpenstackEventChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         event_results_output_key='apache', **kwargs)
+
+    @EVENTCALLBACKS.callback
+    def connection_refused(self, event):
+        events = {}
+        ports_max = {}
+        for result in event.results:
+            month = datetime.datetime.strptime(result.get(1), '%b').month
+            day = result.get(2)
+            year = result.get(3)
+            ts_date = "{}-{}-{}".format(year, month, day)
+            addr = result.get(4)
+            port = result.get(5)
+
+            addr = "{}:{}".format(addr, port)
+            if ts_date not in events:
+                events[ts_date] = {}
+
+            if addr not in events[ts_date]:
+                events[ts_date][addr] = 1
+            else:
+                events[ts_date][addr] += 1
+
+        for addrs in events.values():
+            for addr, count in addrs.items():
+                port = addr.partition(':')[2]
+                # allow a small number of connection refused errors on a given
+                # day
+                if count < 5:
+                    continue
+
+                if port not in ports_max:
+                    ports_max[port] = count
+                else:
+                    ports_max[port] = max(count, ports_max[port])
+
+        if ports_max:
+            msg = ('apache is reporting connection refused errors for the '
+                   'following ports which could mean some services are not '
+                   'working properly - {} - please check'.
+                   format(','.join(ports_max.keys())))
+            issue_utils.add_issue(issue_types.OpenstackWarning(msg))
+
+        return sorted_dict(events)
 
 
 class NeutronAgentEventChecks(OpenstackEventChecksBase):
@@ -212,6 +265,7 @@ class AgentChecks(OpenstackChecksBase):
 
         s = FileSearcher()
         checks = [
+            ApacheEventChecks(yaml_defs_group='apache', searchobj=s),
             NeutronAgentEventChecks(yaml_defs_group='neutron-agent-checks',
                                     searchobj=s),
             NovaAgentEventChecks(yaml_defs_group='nova-checks',
