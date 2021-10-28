@@ -224,6 +224,69 @@ class OSTProjectCatalog(object):
 
     def __init__(self):
         self._projects = {}
+        self.add('aodh', config={'main': 'aodh.conf'},
+                 systemd_masked_services=['aodh-api']),
+        self.add('barbican',
+                 daemon_names=['barbican-api', 'barbican-worker'],
+                 config={'main': 'barbican.conf'},
+                 systemd_masked_services=['barbican-api']),
+        self.add('ceilometer', config={'main': 'ceilometer.conf'},
+                 systemd_masked_services=['ceilometer-api']),
+        self.add('cinder',
+                 daemon_names=['cinder-scheduler', 'cinder-volume'],
+                 config={'main': 'cinder.conf'}),
+        self.add('designate',
+                 daemon_names=['designate-agent', 'designate-api',
+                               'designate-central', 'designate-mdns',
+                               'designate-producer', 'designate-sink',
+                               'designate-worker'],
+                 config={'main': 'designate.conf'}),
+        self.add('glance', daemon_names=['glance-api'],
+                 config={'main': 'glance-api.conf'}),
+        self.add('gnocchi', config={'main': 'gnocchi.conf'},
+                 systemd_masked_services=['gnocchi-api']),
+        self.add('heat',
+                 daemon_names=['heat-engine', 'heat-api', 'heat-api-cfn'],
+                 config={'main': 'heat.conf'}),
+        self.add('horizon',
+                 apt_core_alt='openstack-dashboard'),
+        self.add('keystone', daemon_names=['keystone'],
+                 config={'main': 'keystone.conf'},
+                 systemd_masked_services=['keystone']),
+        self.add('neutron',
+                 daemon_names=['neutron-openvswitch-agent',
+                               'neutron-dhcp-agent', 'neutron-l3-agent',
+                               'neutron-server', 'neutron-sriov-agent'],
+                 config={'main': 'neutron.conf',
+                         'openvswitch-agent':
+                         'plugins/ml2/openvswitch_agent.ini',
+                         'l3-agent': 'l3_agent.ini',
+                         'dhcp-agent': 'dhcp_agent.ini'}),
+        self.add('nova',
+                 daemon_names=['nova-compute', 'nova-scheduler',
+                               'nova-conductor', 'nova-api-os-compute',
+                               'nova-api-wsgi',
+                               'nova-api-metadata'],
+                 config={'main': 'nova.conf'},
+                 systemd_masked_services=['nova-api-os-compute']),
+        self.add('manila',
+                 daemon_names=['manila-api', 'manila-scheduler',
+                               'manila-data', 'manila-share'],
+                 config={'main': 'manila.conf'},
+                 systemd_masked_services=['manila-api']),
+        self.add('masakari', config={'main': 'masakari.conf'},
+                 systemd_masked_services=['masakari']),
+        self.add('octavia',
+                 daemon_names=['octavia-api', 'octavia-worker',
+                               'octavia-health-manager',
+                               'octavia-housekeeping',
+                               'octavia-driver-agent'],
+                 config={'main': 'octavia.conf'},
+                 systemd_masked_services=['octavia-api']),
+        self.add('placement', config={'main': 'placement.conf'},
+                 systemd_masked_services=['placement']),
+        self.add('swift', config={'main': 'swift-proxy.conf',
+                                  'proxy': 'swift-proxy.conf'}),
 
     def __getattr__(self, name):
         return self._projects[name]
@@ -235,7 +298,7 @@ class OSTProjectCatalog(object):
     @property
     def service_exprs(self):
         # Expressions used to match openstack systemd services for each project
-        return [p.service_expr for p in OST_PROJECTS.all.values()] + \
+        return [p.service_expr for p in self.all.values()] + \
                 self.OST_SERVICES_DEPS
 
     @property
@@ -245,7 +308,7 @@ class OSTProjectCatalog(object):
         systemd.
         """
         masked = []
-        for p in OST_PROJECTS.all.values():
+        for p in self.all.values():
             masked += p.systemd_masked_services
 
         return masked
@@ -257,7 +320,7 @@ class OSTProjectCatalog(object):
     def packages_core(self):
         # Set of packages we consider to be core for openstack
         core = []
-        for p in OST_PROJECTS.all.values():
+        for p in self.all.values():
             core += p.packages_core
 
         return core
@@ -265,72 +328,6 @@ class OSTProjectCatalog(object):
     @property
     def package_dependencies(self):
         return self.APT_DEPS_COMMON
-
-
-OST_PROJECTS = OSTProjectCatalog()
-OST_PROJECTS.add('aodh', config={'main': 'aodh.conf'},
-                 systemd_masked_services=['aodh-api']),
-OST_PROJECTS.add('barbican',
-                 daemon_names=['barbican-api', 'barbican-worker'],
-                 config={'main': 'barbican.conf'},
-                 systemd_masked_services=['barbican-api']),
-OST_PROJECTS.add('ceilometer', config={'main': 'ceilometer.conf'},
-                 systemd_masked_services=['ceilometer-api']),
-OST_PROJECTS.add('cinder',
-                 daemon_names=['cinder-scheduler', 'cinder-volume'],
-                 config={'main': 'cinder.conf'}),
-OST_PROJECTS.add('designate',
-                 daemon_names=['designate-agent', 'designate-api',
-                               'designate-central', 'designate-mdns',
-                               'designate-producer', 'designate-sink',
-                               'designate-worker'],
-                 config={'main': 'designate.conf'}),
-OST_PROJECTS.add('glance', daemon_names=['glance-api'],
-                 config={'main': 'glance-api.conf'}),
-OST_PROJECTS.add('gnocchi', config={'main': 'gnocchi.conf'},
-                 systemd_masked_services=['gnocchi-api']),
-OST_PROJECTS.add('heat',
-                 daemon_names=['heat-engine', 'heat-api', 'heat-api-cfn'],
-                 config={'main': 'heat.conf'}),
-OST_PROJECTS.add('horizon',
-                 apt_core_alt='openstack-dashboard'),
-OST_PROJECTS.add('keystone', daemon_names=['keystone'],
-                 config={'main': 'keystone.conf'},
-                 systemd_masked_services=['keystone']),
-OST_PROJECTS.add('neutron',
-                 daemon_names=['neutron-openvswitch-agent',
-                               'neutron-dhcp-agent', 'neutron-l3-agent',
-                               'neutron-server', 'neutron-sriov-agent'],
-                 config={'main': 'neutron.conf',
-                         'openvswitch-agent':
-                         'plugins/ml2/openvswitch_agent.ini',
-                         'l3-agent': 'l3_agent.ini',
-                         'dhcp-agent': 'dhcp_agent.ini'}),
-OST_PROJECTS.add('nova',
-                 daemon_names=['nova-compute', 'nova-scheduler',
-                               'nova-conductor', 'nova-api-os-compute',
-                               'nova-api-wsgi',
-                               'nova-api-metadata'],
-                 config={'main': 'nova.conf'},
-                 systemd_masked_services=['nova-api-os-compute']),
-OST_PROJECTS.add('manila',
-                 daemon_names=['manila-api', 'manila-scheduler',
-                               'manila-data', 'manila-share'],
-                 config={'main': 'manila.conf'},
-                 systemd_masked_services=['manila-api']),
-OST_PROJECTS.add('masakari', config={'main': 'masakari.conf'},
-                 systemd_masked_services=['masakari']),
-OST_PROJECTS.add('octavia',
-                 daemon_names=['octavia-api', 'octavia-worker',
-                               'octavia-health-manager',
-                               'octavia-housekeeping',
-                               'octavia-driver-agent'],
-                 config={'main': 'octavia.conf'},
-                 systemd_masked_services=['octavia-api']),
-OST_PROJECTS.add('placement', config={'main': 'placement.conf'},
-                 systemd_masked_services=['placement']),
-OST_PROJECTS.add('swift', config={'main': 'swift-proxy.conf',
-                                  'proxy': 'swift-proxy.conf'}),
 
 
 class OSGuest(object):
@@ -407,12 +404,14 @@ class OpenstackBase(object):
         super().__init__(*args, **kwargs)
         self._instances = []
         self.nethelp = host_helpers.HostNetworkingHelper()
-        self.nova_config = OST_PROJECTS.nova.config['main']
-        neutron = OST_PROJECTS.neutron
+        self.ost_projects = OSTProjectCatalog()
+        self.nova_config = self.ost_projects.nova.config['main']
+        neutron = self.ost_projects.neutron
         self.neutron_ovs_config = neutron.config['openvswitch-agent']
+        other_pkgs = self.ost_projects.package_dependencies
         self.apt_check = checks.APTPackageChecksBase(
-                                  core_pkgs=OST_PROJECTS.packages_core,
-                                  other_pkgs=OST_PROJECTS.package_dependencies)
+                                  core_pkgs=self.ost_projects.packages_core,
+                                  other_pkgs=other_pkgs)
 
     @property
     def instances(self):
@@ -613,7 +612,9 @@ class OpenstackEventChecksBase(OpenstackChecksBase, checks.EventChecksBase):
 
 class OpenstackServiceChecksBase(OpenstackChecksBase,
                                  checks.ServiceChecksBase):
-    pass
+    def __init__(self):
+        service_exprs = OSTProjectCatalog().service_exprs
+        super().__init__(service_exprs=service_exprs, hint_range=(0, 3))
 
 
 class OpenstackPackageChecksBase(OpenstackChecksBase):
@@ -631,5 +632,6 @@ class OpenstackDockerImageChecksBase(OpenstackChecksBase,
                                      checks.DockerImageChecksBase):
 
     def __init__(self):
-        super().__init__(core_pkgs=OST_PROJECTS.packages_core,
-                         other_pkgs=OST_PROJECTS.package_dependencies)
+        self.ost_projects = OSTProjectCatalog()
+        super().__init__(core_pkgs=self.ost_projects.packages_core,
+                         other_pkgs=self.ost_projects.package_dependencies)

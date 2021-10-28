@@ -188,7 +188,9 @@ class PluginRunner(object):
 
         # The following are executed as part of each plugin run (but not last).
         ALWAYS_RUN = {'default_bug_checker':
-                      {'core.checks': 'BugChecksBase'}}
+                      {'core.checks': 'BugChecksBase'},
+                      'default_config_checker':
+                      {'core.checks': 'ConfigChecksBase'}}
         for part, always_parts in ALWAYS_RUN.items():
             for obj, cls in always_parts.items():
                 # update current env to reflect actual part being run
@@ -227,8 +229,8 @@ class PluginRunner(object):
                               constants.PLUGIN_NAME, part)
                     continue
 
-                log.debug("running plugin=%s, part=%s",
-                          constants.PLUGIN_NAME, part)
+                log.debug("running %s.%s.%s",
+                          constants.PLUGIN_NAME, part, entry)
                 try:
                     part_obj()
                     # NOTE: since all parts are expected to be implementations

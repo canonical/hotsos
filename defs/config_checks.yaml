@@ -13,16 +13,14 @@
 # See https://docs.python.org/3/library/operator.html for valid operator
 # methods.
 #
-# The optional "callback" field can be set to the name of a method that will be
-# executed and return True or False. A return of True is required to allow the
-# checks to be run.
-#
 openstack:
   nova-dpdk:
-    callback: 'dpdk_enabled'
-    input:
-      type: filesystem
-      value: etc/nova/nova.conf
+    config:
+      handler: core.plugins.openstack.OpenstackConfig
+      path: etc/nova/nova.conf
+    requires:
+      type: apt
+      value: openvswitch-switch-dpdk
     message: >-
       DPDK is enabled but rx_queue_size/tx_queue_size set incorrectly in
       nova.conf (expect both to be >= 1024).

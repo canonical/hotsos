@@ -18,7 +18,6 @@ from plugins.openstack.pyparts import (
     cpu_pinning_check,
     agent_event_checks,
     agent_exceptions,
-    service_config_checks,
 )
 
 OCTAVIA_UNIT_FILES = """
@@ -857,20 +856,16 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
 class TestOpenstackConfigChecks(TestOpenstackBase):
 
+    @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_config_checks_has_issue(self, mock_add_issue):
-        inst = service_config_checks.OpenstackConfigChecks()
-        with mock.patch.object(inst.apt_check,
-                               'is_installed') as mock_installed:
-            mock_installed.return_value = True
-            inst()
-            self.assertTrue(mock_add_issue.called)
+    def test_config_checks_has_issue(self, mock_add_issue, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            ["ii  openvswitch-switch-dpdk 2.13.3-0ubuntu0.20.04.2 amd64"]
+        checks.ConfigChecksBase()()
+        self.assertTrue(mock_add_issue.called)
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_no_issue(self, mock_add_issue):
-        inst = service_config_checks.OpenstackConfigChecks()
-        with mock.patch.object(inst.apt_check,
-                               'is_installed') as mock_installed:
-            mock_installed.return_value = False
-            inst()
-            self.assertFalse(mock_add_issue.called)
+        checks.ConfigChecksBase()()
+        self.assertFalse(mock_add_issue.called)

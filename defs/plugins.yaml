@@ -35,8 +35,6 @@ plugins:
         - CPUPinningChecker
       nova_external_events:
         - NovaExternalEventChecks
-      service_config_checks:
-        - OpenstackConfigChecks
   openvswitch:
     parts:
       service_info:

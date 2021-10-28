@@ -1,5 +1,5 @@
 # Definitions for event searches. An event can be single or multi-line and
-# the data source can be a filesystem path or command.
+# the data source (input) can be a filesystem path or command.
 #
 # The contents of this file are structured as follows:
 #
@@ -12,12 +12,12 @@
 # Supported SETTINGS (for more details see common.checks.EventChecksBase):
 #
 # Two types of searches are available here; single or multi line. A multi-line
-# search can be used in two ways. The first use is simply to have a "start" and
+# search can be used in two ways; the first use is simply to have a "start" and
 # "end" expression and the results will have -start and -end appended to their
-# tags accordingly. The second use is to define a sequence. This requires at
+# tags accordingly and the second use is to define a sequence which requires at
 # least a "start" and "body" with optional "end". Sequences are processed using
 # searchtools.SequenceSearchDef and all other searches use
-# searchtools.SearchDef.
+# searchtools.SearchDef. Single line search is defined using the "expr" key.
 #
 # An example single-line search on a file path could look like:
 #
@@ -93,6 +93,8 @@ openstack:
         expr: '^([0-9\-]+) (\S+) .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'
         hint: 'WARNING'
   neutron-agent-checks:
+    # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
+    passthrough-results: True
     neutron-ovs-agent:
       input:
         type: filesystem
@@ -187,18 +189,16 @@ openvswitch:
         expr:
           - '([0-9-]+)T[0-9:\.]+Z.+\|receive tunnel port not found \((\w+),'
     errors-and-warnings:
+      hint: '(ERR|WARN)'
+      expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
       ovs-vswitchd:
         input:
           type: filesystem
           value: 'var/log/openvswitch/ovs-vswitchd.log'
-        expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
-        hint: '(ERR|WARN)'
       ovsdb-server:
         input:
           type: filesystem
           value: 'var/log/openvswitch/ovsdb-server.log'
-        expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
-        hint: '(ERR|WARN)'
   flow-checks:
     datapath:
       packet-drops:

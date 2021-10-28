@@ -6,7 +6,6 @@ from core.searchtools import SearchDef
 from core.plugins.openstack import (
     OpenstackEventChecksBase,
     AGENT_ERROR_KEY_BY_TIME,
-    OST_PROJECTS,
 )
 
 YAML_PRIORITY = 7
@@ -39,7 +38,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         we might want to catch like warnings etc which may not be errors or
         exceptions.
         """
-        for name, info in OST_PROJECTS.all.items():
+        for name, info in self.ost_projects.all.items():
             data_source_template = os.path.join(constants.DATA_ROOT,
                                                 info.log_file_path, '{}.log')
             if constants.USE_ALL_LOGS:
@@ -128,7 +127,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
     def process_results(self, results):
         """Process search results to see if we got any hits."""
         issues = {}
-        for name, info in OST_PROJECTS.all.items():
+        for name, info in self.ost_projects.all.items():
             for agent in info.daemon_names:
                 _results = results.find_by_tag(agent)
                 ret = self.get_exceptions_results(_results)
