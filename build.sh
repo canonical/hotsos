@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-# require successfull run
+# require successful run
 tox
 
 # these get created when running units tests so need to remove since they will break hotsos
