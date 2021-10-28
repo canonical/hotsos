@@ -30,8 +30,8 @@ class JujuMachineChecks(JujuChecksBase):
                         break
 
         if not agent_running:
-            msg = ("there is no Juju machined running on this host but it "
-                   "seems there should be")
+            msg = ("no Juju machine agent found running on this host but it "
+                   "seems there should be.")
             issue_utils.add_issue(issue_types.JujuWarning(msg))
 
         if machine_info["machine"]:

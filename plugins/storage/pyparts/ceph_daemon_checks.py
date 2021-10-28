@@ -215,7 +215,7 @@ class CephOSDChecks(ceph.CephChecksBase):
                 msg = ('ceph daemon versions not aligned possibly because '
                        'cluster upgrade is incomplete/incorrectly done. '
                        'All daemons, except the clients, should be on the '
-                       'same version for proper functioning.')
+                       'same version for ceph to function correctly.')
                 issue = issue_types.CephDaemonWarning(msg)
                 issue_utils.add_issue(issue)
 
@@ -321,9 +321,9 @@ class CephOSDChecks(ceph.CephChecksBase):
         # NOTE: we need a way to check that actual osd config
 
         # then bluefs_buffered_io is True by default
-        msg = ("host may be vulnerable to bcache bug 1936136 - please ensure "
-               "bluefs_buffered_io is set to False or upgrade to kernel "
-               ">= 5.4")
+        msg = ("host may be vulnerable to bcache bug LP 1936136 - please "
+               "ensure bluefs_buffered_io is set to False or upgrade to "
+               "kernel >= 5.4")
         issue = issue_types.CephCrushWarning(msg)
         issue_utils.add_issue(issue)
 

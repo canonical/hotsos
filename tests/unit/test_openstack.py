@@ -513,20 +513,18 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         mock_add_known_bug.side_effect = fake_add_bug
         checks.BugChecksBase()()
         calls = [mock.call('1929832',
-                           ('identified bug impacting deletion of HA '
-                            'routers')),
+                           ('known neutron l3-agent bug identified that '
+                            'impacts deletion of neutron routers.')),
                  mock.call('1927868',
-                           ('neutron-l3-agent is reporting it failed to '
-                            'configure some router gateway ports which may '
-                            'render them non-functional. This has been '
-                            'reported as a potential package regression (see '
-                            'bug) - please check.')),
+                           ('known neutron l3-agent bug identified that '
+                            'impacts HA routers and can cause router updates '
+                            'to stall.')),
                  mock.call('1896506',
-                           ('identified bug that critically impacts '
-                            'keepalived')),
+                           ('known neutron l3-agent bug identified that '
+                            'critically impacts keepalived.')),
                  mock.call('1928031',
-                           ('identified bug impacting OVN sbdb connections '
-                            'from ovn agents'))]
+                           ('known neutron-ovn bug identified that impacts '
+                            'OVN sbdb connections.'))]
 
         mock_add_known_bug.assert_has_calls(calls)
         self.assertEqual(len(bugs), 4)

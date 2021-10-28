@@ -78,9 +78,12 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             if port.addresses:
                 config_info['octavia'][key] = port.to_dict()
             else:
-                msg = ("No IP address found on Octavia Health manager port "
-                       "({}). Octavia will not be able to communicate with "
-                       "Amphora VMs - please investigate.".format(port.name))
+                msg = ("Octavia health manager port {} does not have an ip "
+                       "address configured which means octavia services "
+                       "on this host will not have access to the "
+                       "lb-managament network and therefore will not be able "
+                       "to communicate with Amphora VMs - please investigate.".
+                       format(port.name))
                 issue_utils.add_issue(issue_types.OpenstackError(msg))
 
         if config_info:

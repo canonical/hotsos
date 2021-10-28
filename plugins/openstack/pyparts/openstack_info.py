@@ -37,9 +37,12 @@ class OpenstackInfo(OpenstackServiceChecksBase):
             masked = self.service_info_str['systemd'].get('masked', {})
             if 'keystone' in masked:
                 del masked['keystone']
+
             if masked:
-                msg = (f'Found masked services: {", ".join(masked)}. Please '
-                       + "ensure that this is intended.")
+                _masked = {', '.join(masked)}
+                msg = ('The following Openstack systemd services are masked: '
+                       '{}. Please ensure that this is intended otherwise '
+                       'these services may be unavailable.'.format(_masked))
                 issue_utils.add_issue(issue_types.OpenstackWarning(msg))
 
     def get_debug_log_info(self):

@@ -59,11 +59,12 @@ class BcacheStatsChecks(BcacheChecksBase):
             limit = CACHE_AVAILABLE_PERCENT_LIMIT_LP1900438
             key = 'cache_available_percent'
             if cset[key] <= limit:
-                msg = ("bcache {} ({}) is <= {} - "
-                       "this node could be suffering from bug 1900438".
-                       format(key, cset[key], limit))
+                lp_bug = 1900438
+                msg = ("bcache {} ({}) is <= {} - this node could be "
+                       "suffering from bug LP {}".
+                       format(key, cset[key], limit, lp_bug))
                 issue_utils.add_issue(issue_types.BcacheWarning(msg))
-                add_known_bug(1900438, "see BcacheWarning for info")
+                add_known_bug(lp_bug, 'see BcacheWarning for info')
 
     def __call__(self):
         self.get_info()

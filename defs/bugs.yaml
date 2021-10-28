@@ -55,7 +55,7 @@ openstack:
         value: 'var/log/nova/nova-compute.log'
       expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
       hint: 'NotImplementedError'
-      message: 'known bug identified in nova logs'
+      message: 'known nova bug identified'
   neutron-l3-agent:
     input:
       type: filesystem
@@ -63,22 +63,26 @@ openstack:
     1883089:
       expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
       hint: 'AttributeError'
-      message: 'identified in neutron-l3-agent logs'
+      message: 'known neutron l3-agent bug identified that affects dvr floating ips.'
     1929832:
       expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
       hint: 'ProcessExecutionError'
-      message: 'identified bug impacting deletion of HA routers'
+      message: 'known neutron l3-agent bug identified that impacts deletion of neutron routers.'
     1927868:
       expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
       hint: 'Gateway'
-      message: 'neutron-l3-agent is reporting it failed to configure some router gateway ports which may render them non-functional. This has been reported as a potential package regression (see bug) - please check.'
+      message: >-
+        known neutron l3-agent bug identified that impacts HA routers and can
+        cause router updates to stall.
     1896506:
       input:
         type: filesystem
         value: 'var/log/syslog'
       expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
       hint: 'no_track'
-      message: 'identified bug that critically impacts keepalived'
+      message: >-
+        known neutron l3-agent bug identified that critically impacts
+        keepalived.
   neutron-agents-any:
     1907686:
       input:
@@ -86,14 +90,16 @@ openstack:
         value: 'var/log/neutron/neutron-openvswitch-agent.log'
       expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
       hint: 'OVS database'
-      message: 'identified bug impacting OVN db connections'
+      message: >-
+        known neutron-ovn bug identified that impacts OVN db connections.
     1928031:
       input:
         type: filesystem
         value: 'var/log/neutron/neutron-ovn-metadata-agent.log'
       expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
       hint: 'AttributeError'
-      message: 'identified bug impacting OVN sbdb connections from ovn agents'
+      message: >-
+        known neutron-ovn bug identified that impacts OVN sbdb connections.
 openvswitch:
   ovn:
     input:
@@ -102,7 +108,7 @@ openvswitch:
     1917475:
       expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
       hint: 'transaction error'
-      message: 'db rbac error bug detected in ovn logs - see LP for details'
+      message: 'known ovn bug identified - db rbac errors'
 juju:
   common:
     input:
@@ -111,7 +117,9 @@ juju:
     1910958:
       expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
       hint: 'manifold worker returned unexpected error'
-      message: 'Unit {} failed to start due to members in relation {} that cannot be removed.'
+      message: >-
+        Unit {} failed to start due to members in relation {} that cannot be
+        removed.
       message-format-result-groups: [1, 2]
     1858519:
       input:
@@ -119,7 +127,11 @@ juju:
         value: 'var/log/juju/unit-ceph-osd*.log'
       expr: '.* Cannot zap a device used by lvm'
       hint: 'Cannot zap'
-      message: 'The ceph-osd charm tried to zap a disk but failed since the disk had an LVM header. If you are sure the disk is not in active use by LVM, you may run pvremove on it before using it as an OSD'
+      message: >-
+        known ceph-osd charm bug identified - charm tried to zap a disk but
+        failed since the disk has an LVM header. If you are sure the disk is
+        not in active use by LVM, you may run pvremove on it before using it as
+        an OSD - see LP bug for details.
 rabbitmq:
   common:
     input:
@@ -129,7 +141,7 @@ rabbitmq:
       expr: 'operation queue.declare caused a channel exception not_found: failed to perform operation on queue ''\S+'' in vhost ''\S+'' due to timeout'
       hint: 'not_found'
       message: >-
-        Known issue where RabbitMQ queues get stuck and clients trying to use
+        Known RabbitMQ issue where queues get stuck and clients trying to use
         them will just keep timing out. This stops many services in the cloud
         from working correctly. Resolution requires you to stop all RabbitMQ
         servers before starting them all again at the same time. A rolling
