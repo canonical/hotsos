@@ -239,11 +239,6 @@ rabbitmq:
       cluster-partitions:
         expr: '.+ \S+_partitioned_network'
         hint: 'partition'
-  synced-queues:
-    input:
-      type: filesystem
-      value: 'var/log/rabbitmq/rabbit@*.log'
-    rabbitlog:
       no-sync:
         expr: 'Mirrored queue ''.+'' in vhost ''.+'': Stopping'
         hint: 'synchronised'

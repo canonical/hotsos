@@ -9,8 +9,8 @@ import utils
 from core import checks, constants, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
 from plugins.kubernetes.pyparts import (
-    general,
-    network,
+    service_info,
+    network_checks,
 )
 
 SYSTEMD_UNITS = """
@@ -23,7 +23,7 @@ snap.kubelet.daemon.service            enabled         enabled
 """  # noqa
 
 
-class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
+class TestKubernetesServiceInfo(utils.BaseTestCase):
 
     def setUp(self):
         self.snaps_list = cli_helpers.CLIHelper().snap_list_all()
@@ -52,7 +52,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
                             'flanneld (1)',
                             'kube-proxy (1)',
                             'kubelet (1)']}
-            inst = general.KubernetesServiceChecks()
+            inst = service_info.KubernetesServiceChecks()
             inst()
             self.assertEqual(inst.output['services'], expected)
 
@@ -65,7 +65,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
                   'helm 3.5.0',
                   'kubectl 1.20.2',
                   'vault 1.5.4']
-        inst = general.KubernetesPackageChecks()
+        inst = service_info.KubernetesPackageChecks()
         inst()
         self.assertEqual(inst.output['snaps'], result)
 
@@ -76,7 +76,7 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
         for line in self.snaps_list:
             found = False
             for snap in kubernetes_core.K8S_SNAPS:
-                obj = general.KubernetesPackageChecks()
+                obj = service_info.KubernetesPackageChecks()
                 if obj.snap_check._get_snap_info_from_line(line, snap):
                     found = True
                     break
@@ -85,13 +85,13 @@ class TestKubernetesPluginPartGeneral(utils.BaseTestCase):
                 filterered_snaps.append(line)
 
         mock_helper.return_value.snap_list_all.return_value = filterered_snaps
-        inst = general.KubernetesPackageChecks()
+        inst = service_info.KubernetesPackageChecks()
         inst()
         self.assertFalse(inst.plugin_runnable)
         self.assertEqual(inst.output, {'snaps': []})
 
 
-class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
+class TestKubernetesNetworkChecks(utils.BaseTestCase):
 
     def test_get_network_info(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -107,6 +107,6 @@ class TestKubernetesPluginPartNetwork(utils.BaseTestCase):
                                        'vxlan': {'dev': 'enp6s0f0.1604',
                                                  'id': '1',
                                                  'local_ip': '10.78.2.176'}}}}
-            inst = network.KubernetesNetworkChecks()
+            inst = network_checks.KubernetesNetworkChecks()
             inst()
             self.assertEqual(inst.output, expected)

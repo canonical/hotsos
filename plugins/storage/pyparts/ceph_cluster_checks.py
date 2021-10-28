@@ -18,7 +18,7 @@ OSD_META_LIMIT_KB = (10 * 1024 * 1024)
 OSD_MAPS_LIMIT = 500  # mon_min_osdmap_epochs default
 
 
-class CephOSDChecks(ceph.CephChecksBase):
+class CephClusterChecks(ceph.CephChecksBase):
 
     def check_osdmaps_size(self):
         """

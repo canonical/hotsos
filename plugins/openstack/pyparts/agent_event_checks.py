@@ -1,13 +1,20 @@
 import datetime
 import yaml
 
-from core.checks import CallbackHelper
-from core.searchtools import FileSearcher
+from core import constants
 from core.analytics import LogEventStats, SearchResultIndices
+from core.cli_helpers import CLIHelper
+from core.checks import CallbackHelper
+from core.issues import (
+    issue_types,
+    issue_utils,
+)
+from core.log import log
+from core.searchtools import FileSearcher
 from core import utils
-from core.issues import issue_utils, issue_types
 from core.plugins.openstack import (
     AGENT_ERROR_KEY_BY_TIME,
+    NeutronHAInfo,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
@@ -15,12 +22,14 @@ from core.utils import sorted_dict
 
 YAML_PRIORITY = 9
 EVENTCALLBACKS = CallbackHelper()
+VRRP_TRANSITION_WARN_THRESHOLD = 8
 
 
 class ApacheEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='apache',
                          event_results_output_key='apache', **kwargs)
 
     @EVENTCALLBACKS.callback
@@ -76,6 +85,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='neutron-agent-checks',
                          event_results_passthrough=True,
                          **kwargs)
 
@@ -119,6 +129,7 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='octavia-checks',
                          event_results_output_key='octavia', **kwargs)
 
     def _get_failover(self, result):
@@ -191,6 +202,7 @@ class NovaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='nova-checks',
                          event_results_output_key='nova', **kwargs)
 
     @EVENTCALLBACKS.callback
@@ -224,6 +236,7 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='apparmor-checks',
                          event_results_output_key='apparmor', **kwargs)
 
     def _get_aa_stats(self, results, service):
@@ -256,7 +269,74 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
         return self._get_aa_stats(event.results, 'neutron'), action
 
 
-class AgentChecks(OpenstackChecksBase):
+class NeutronL3HAEventChecks(OpenstackEventChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='neutron-router-checks',
+                         event_results_output_key='neutron-l3ha', **kwargs)
+        self.cli = CLIHelper()
+        self.ha_info = NeutronHAInfo()
+
+    def check_vrrp_transitions(self, transitions):
+        # there will likely be a large number of transitions if we look across
+        # all time so dont run this check.
+        if constants.USE_ALL_LOGS:
+            return
+
+        max_transitions = 0
+        warn_count = 0
+        threshold = VRRP_TRANSITION_WARN_THRESHOLD
+        for router in transitions:
+            r = transitions[router]
+            transitions = sum([t for d, t in r.items()])
+            if transitions > threshold:
+                max_transitions = max(transitions, max_transitions)
+                warn_count += 1
+
+        if warn_count:
+            msg = ("{} router(s) have had more than {} vrrp transitions "
+                   "(max={}) in the last 24 hours".format(warn_count,
+                                                          threshold,
+                                                          max_transitions))
+            issue_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
+
+    def journalctl_args(self):
+        """ Args callback for event cli command """
+        args = []
+        kwargs = {'unit': 'neutron-l3-agent'}
+        if not constants.USE_ALL_LOGS:
+            kwargs['date'] = self.cli.date(format="--iso-8601").rstrip()
+
+        return args, kwargs
+
+    @EVENTCALLBACKS.callback
+    def vrrp_transitions(self, event):
+        transitions = {}
+        for r in event.results:
+            ts_date = r.get(1)
+            vr_id = r.get(2)
+            router = self.ha_info.find_router_with_vr_id(vr_id)
+            if not router:
+                log.debug("no router found with vr_id %s", vr_id)
+                continue
+
+            uuid = router.uuid
+            if uuid not in transitions:
+                transitions[uuid] = {ts_date: 1}
+            elif ts_date in transitions[uuid]:
+                transitions[uuid][ts_date] += 1
+            else:
+                transitions[uuid][ts_date] = 1
+
+        if transitions:
+            # run checks
+            self.check_vrrp_transitions(transitions)
+            # add info to summary
+            return {'transitions': transitions}, 'keepalived'
+
+
+class AgentEventChecks(OpenstackChecksBase):
 
     def __call__(self):
         # Only run if we think Openstack is installed.
@@ -264,16 +344,12 @@ class AgentChecks(OpenstackChecksBase):
             return
 
         s = FileSearcher()
-        checks = [
-            ApacheEventChecks(yaml_defs_group='apache', searchobj=s),
-            NeutronAgentEventChecks(yaml_defs_group='neutron-agent-checks',
-                                    searchobj=s),
-            NovaAgentEventChecks(yaml_defs_group='nova-checks',
-                                 searchobj=s),
-            OctaviaAgentEventChecks(yaml_defs_group='octavia-checks',
-                                    searchobj=s),
-            AgentApparmorChecks(yaml_defs_group='apparmor-checks',
-                                searchobj=s)]
+        checks = [AgentApparmorChecks(searchobj=s),
+                  ApacheEventChecks(searchobj=s),
+                  NeutronL3HAEventChecks(searchobj=s),
+                  NeutronAgentEventChecks(searchobj=s),
+                  NovaAgentEventChecks(searchobj=s),
+                  OctaviaAgentEventChecks(searchobj=s)]
         for check in checks:
             check.register_search_terms()
 

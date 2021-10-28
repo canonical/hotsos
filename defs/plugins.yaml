@@ -14,42 +14,39 @@ plugins:
         - JujuUnitChecks
   openstack:
     parts:
-      agent_checks:
-        - AgentChecks
-      openstack_info:
+      service_info:
         - OpenstackInfo
-      service_checks:
-        - NeutronServiceChecks
-      service_features:
-        - ServiceFeatureChecks
-      package_info:
         - OpenstackPackageChecks
         - OpenstackDockerImageChecks
         - OpenstackPackageBugChecks
-      network:
+        - NeutronServiceChecks
+        - NeutronL3HAInfo
+      service_features:
+        - ServiceFeatureChecks
+      service_network_checks:
         - OpenstackNetworkChecks
+      agent_event_checks:
+        - AgentEventChecks
       vm_info:
         - OpenstackInstanceChecks
       agent_exceptions:
         - AgentExceptionChecks
       cpu_pinning_check:
         - CPUPinningChecker
-      neutron_l3ha:
-        - NeutronL3HAChecks
       nova_external_events:
         - NovaExternalEventChecks
-      config_checks:
+      service_config_checks:
         - OpenstackConfigChecks
   openvswitch:
     parts:
-      ovs_checks:
-        - OpenvSwitchDaemonChecks
-        - OpenvSwitchFlowChecks
-      ovs_resources:
+      service_info:
         - OpenvSwitchConfigChecks
         - OpenvSwitchPackageChecks
         - OpenvSwitchServiceChecks
         - OpenvSwitchBridgeChecks
+      event_checks:
+        - OpenvSwitchDaemonEventChecks
+        - OpenvSwitchFlowEventChecks
   system:
     parts:
       general:
@@ -66,33 +63,32 @@ plugins:
         - KernelLogEventChecks
   kubernetes:
     parts:
-      general:
+      service_info:
         - KubernetesResourceChecks
         - KubernetesServiceChecks
         - KubernetesPackageChecks
-      network:
+      network_checks:
         - KubernetesNetworkChecks
   rabbitmq:
     parts:
       cluster_checks:
         - RabbitMQClusterChecks
-      synchronization_checks:
-        - RabbitMQSynchronizationChecks
-      services:
-        - RabbitMQServiceChecks
+      service_info:
         - RabbitMQPackageChecks
+      service_event_checks:
+        - RabbitMQEventChecks
   sosreport:
     parts:
       plugin_checks:
         - SOSReportPluginChecks
   storage:
     parts:
-      ceph_general:
+      ceph_service_info:
         - CephServiceChecks
         - CephPackageChecks
-      ceph_daemon_checks:
-        - CephOSDChecks
-      ceph_daemon_logs:
+      ceph_cluster_checks:
+        - CephClusterChecks
+      ceph_event_checks:
         - CephDaemonLogChecks
       bcache:
         - BcacheDeviceChecks

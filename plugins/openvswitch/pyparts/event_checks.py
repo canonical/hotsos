@@ -13,7 +13,7 @@ YAML_PRIORITY = 1
 EVENTCALLBACKS = CallbackHelper()
 
 
-class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
+class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='daemon-checks',
@@ -114,7 +114,7 @@ class OpenvSwitchDaemonChecks(OpenvSwitchEventChecksBase):
             return {event.name: ret}, 'logs'
 
 
-class OpenvSwitchFlowChecks(OpenvSwitchEventChecksBase):
+class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='flow-checks',

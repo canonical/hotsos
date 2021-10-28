@@ -20,7 +20,7 @@ class TestKernelBase(utils.BaseTestCase):
         os.environ["PLUGIN_NAME"] = "kernel"
 
 
-class TestKernelPluginPartKernelInfo(TestKernelBase):
+class TestKernelKernelInfo(TestKernelBase):
 
     def test_info(self):
         inst = info.KernelGeneralChecks()
@@ -32,7 +32,7 @@ class TestKernelPluginPartKernelInfo(TestKernelBase):
         self.assertEqual(inst.output, expected)
 
 
-class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
+class TestKernelKernelMemoryInfo(TestKernelBase):
 
     def test_numa_nodes(self):
         ret = memory.KernelMemoryChecks().numa_nodes
@@ -106,7 +106,7 @@ class TestKernelPluginPartKernelMemoryInfo(TestKernelBase):
         self.assertEqual(inst.output, expected)
 
 
-class TestKernelPluginPartKernelLogEventChecks(TestKernelBase):
+class TestKernelKernelLogEventChecks(TestKernelBase):
 
     @mock.patch.object(log_event_checks.issue_utils, "add_issue")
     def test_run_log_event_checks(self, mock_add_issue):

@@ -248,6 +248,64 @@ class OSGuest(object):
         self.ports.append(port)
 
 
+class NeutronRouter(object):
+    def __init__(self, uuid, ha_state):
+        self.uuid = uuid
+        self.ha_state = ha_state
+
+
+class NeutronHAInfo(object):
+
+    def __init__(self):
+        self._routers = []
+        self._get_neutron_ha_info()
+        self.vr_id = None
+
+    def _get_neutron_ha_info(self):
+        if not os.path.exists(self.state_path):
+            return
+
+        for entry in os.listdir(self.state_path):
+            entry = os.path.join(self.state_path, entry)
+            if not os.path.isdir(entry):
+                # if its not a directory then it is probably not a live router
+                # so we ignore it.
+                continue
+
+            state_path = os.path.join(entry, "state")
+            if not os.path.exists(state_path):
+                continue
+
+            with open(state_path) as fd:
+                uuid = os.path.basename(entry)
+                state = fd.read().strip()
+                router = NeutronRouter(uuid, state)
+
+            keepalived_conf_path = os.path.join(entry, "keepalived.conf")
+            if os.path.isfile(keepalived_conf_path):
+                with open(keepalived_conf_path) as fd:
+                    for line in fd:
+                        expr = r".+ virtual_router_id (\d+)"
+                        ret = re.compile(expr).search(line)
+                        if ret:
+                            router.vr_id = ret.group(1)
+
+            self._routers.append(router)
+
+    def find_router_with_vr_id(self, id):
+        for r in self.ha_routers:
+            if r.vr_id == id:
+                return r
+
+    @property
+    def state_path(self):
+        return os.path.join(constants.DATA_ROOT, NEUTRON_HA_PATH)
+
+    @property
+    def ha_routers(self):
+        return self._routers
+
+
 class OpenstackBase(object):
 
     def __init__(self, *args, **kwargs):

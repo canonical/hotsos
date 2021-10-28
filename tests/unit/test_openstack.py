@@ -10,18 +10,15 @@ from core import checks
 from core.issues import issue_types
 import core.plugins.openstack as openstack_core
 from plugins.openstack.pyparts import (
-    openstack_info,
     vm_info,
     nova_external_events,
-    package_info,
-    network,
+    service_info,
+    service_network_checks,
     service_features,
     cpu_pinning_check,
-    agent_checks,
+    agent_event_checks,
     agent_exceptions,
-    neutron_l3ha,
-    service_checks,
-    config_checks,
+    service_config_checks,
 )
 
 
@@ -135,7 +132,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
             self.assertEqual(issues[0].msg, msg)
 
 
-class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
+class TestOpenstackServiceInfo(TestOpenstackBase):
 
     def test_get_service_info(self):
         expected = {'systemd': {
@@ -165,7 +162,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                            'neutron-server (11)', 'nova-api-metadata (5)',
                            'nova-compute (1)', 'qemu-system-x86_64 (2)',
                            'vault (1)']}
-        inst = openstack_info.OpenstackInfo()
+        inst = service_info.OpenstackInfo()
         inst()
         self.assertEqual(inst.output["services"], expected)
 
@@ -179,7 +176,7 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
 
             with mock.patch.object(openstack_core, "APT_SOURCE_PATH",
                                    dtmp):
-                inst = openstack_info.OpenstackInfo()
+                inst = service_info.OpenstackInfo()
                 inst()
                 self.assertEqual(inst.output["release"], "ussuri")
 
@@ -193,54 +190,12 @@ class TestOpenstackPluginPartOpenstackServices(TestOpenstackBase):
                     fd.write(SVC_CONF)
 
             os.environ["DATA_ROOT"] = dtmp
-            inst = openstack_info.OpenstackInfo()
+            inst = service_info.OpenstackInfo()
             # fake some core packages
             inst.apt_check._core_packages = {"foo": 1}
             inst()
             self.assertEqual(inst.output["debug-logging-enabled"],
                              expected)
-
-
-class TestOpenstackPluginPartVm_info(TestOpenstackBase):
-
-    def test_get_vm_checks(self):
-        expected = {"vm-info": {
-                        "running": ['29bcaff8-3d85-43cb-b76f-01bad0e1d568',
-                                    'c050e183-c808-43f9-bdb4-02e95fad58e2'],
-                        "vcpu-info": {
-                            "available-cores": 2,
-                            "system-cores": 2,
-                            "used": 2,
-                            "overcommit-factor": 1.0,
-                            }
-                        }
-                    }
-        inst = vm_info.OpenstackInstanceChecks()
-        inst()
-        self.assertEquals(inst.output, expected)
-
-
-class TestOpenstackPluginPartNovaExternalEvents(TestOpenstackBase):
-
-    def test_get_events(self):
-        inst = nova_external_events.NovaExternalEventChecks()
-        inst()
-        events = {'network-changed':
-                  {"succeeded":
-                   [{"port": "03c4d61b-60b0-4f1e-b29c-2554e0c78afd",
-                     "instance": "29bcaff8-3d85-43cb-b76f-01bad0e1d568"},
-                    {"port": "0906171f-17bb-478f-b8fa-9904983b26af",
-                     "instance": "c050e183-c808-43f9-bdb4-02e95fad58e2"}]},
-                  'network-vif-plugged':
-                  {"succeeded":
-                   [{"instance": '29bcaff8-3d85-43cb-b76f-01bad0e1d568',
-                     "port": "03c4d61b-60b0-4f1e-b29c-2554e0c78afd"},
-                    {"instance": 'c050e183-c808-43f9-bdb4-02e95fad58e2',
-                     "port": "0906171f-17bb-478f-b8fa-9904983b26af"}]}}
-        self.assertEquals(inst.output["os-server-external-events"], events)
-
-
-class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
 
     def test_get_pkg_info(self):
         expected = [
@@ -302,7 +257,7 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
             'python3-oslo.vmware 3.3.1-0ubuntu1',
             'qemu-kvm 1:4.2-3ubuntu6.17',
             'radvd 1:2.17-2']
-        inst = package_info.OpenstackPackageChecks()
+        inst = service_info.OpenstackPackageChecks()
         inst()
         self.assertEquals(inst.output["dpkg"], expected)
 
@@ -325,14 +280,14 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
                     'ubuntu-source-openvswitch-vswitchd 10.2.0',
                     'ubuntu-source-prometheus-node-exporter 10.2.0']
 
-        inst = package_info.OpenstackDockerImageChecks()
+        inst = service_info.OpenstackDockerImageChecks()
         inst()
         self.assertEquals(inst.output["docker-images"], expected)
 
     def test_pkgbugchecks(self):
         os.environ['PLUGIN_NAME'] = 'openstack'
         with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
-            obj = package_info.OpenstackPackageBugChecks()
+            obj = service_info.OpenstackPackageBugChecks()
             obj()
             self.assertTrue(mock_add_known_bug.called)
 
@@ -342,25 +297,104 @@ class TestOpenstackPluginPartPackage_info(TestOpenstackBase):
             with mock.patch.object(checks, 'CLIHelper') as mock_cli:
                 mock_cli.return_value = mock.MagicMock()
                 mock_cli.return_value.dpkg_l.return_value = []
-                obj = package_info.OpenstackPackageBugChecks()
+                obj = service_info.OpenstackPackageBugChecks()
                 obj()
                 self.assertFalse(mock_add_known_bug.called)
 
+    @mock.patch.object(service_info, 'CLIHelper')
+    @mock.patch.object(service_info.issue_utils, "add_issue")
+    def test_run_service_info(self, mock_add_issue, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
+        inst = service_info.NeutronServiceChecks()
+        inst()
+        self.assertFalse(mock_add_issue.called)
 
-class TestOpenstackPluginPartNetwork(TestOpenstackBase):
+    @mock.patch.object(service_info, 'CLIHelper')
+    @mock.patch.object(service_info.issue_utils, "add_issue")
+    def test_run_service_info2(self, mock_add_issue, mock_helper):
+        """
+        Covers scenario where we had manual restart but not after last reboot.
+        """
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_GOOD2.splitlines(keepends=True)
+        inst = service_info.NeutronServiceChecks()
+        inst()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch.object(service_info, 'CLIHelper')
+    @mock.patch.object(service_info.issue_utils, "add_issue")
+    def test_run_service_info_w_issue(self, mock_add_issue, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
+        inst = service_info.NeutronServiceChecks()
+        inst()
+        self.assertTrue(mock_add_issue.called)
+
+    def test_get_neutronl3ha_info(self):
+        expected = {'neutron-l3ha': {'master':
+                                     ['1e086be2-93c2-4740-921d-3e3237f23959']}}
+        inst = service_info.NeutronL3HAInfo()
+        inst()
+        self.assertEquals(inst.output, expected)
+
+
+class TestOpenstackVmInfo(TestOpenstackBase):
+
+    def test_get_vm_checks(self):
+        expected = {"vm-info": {
+                        "running": ['29bcaff8-3d85-43cb-b76f-01bad0e1d568',
+                                    'c050e183-c808-43f9-bdb4-02e95fad58e2'],
+                        "vcpu-info": {
+                            "available-cores": 2,
+                            "system-cores": 2,
+                            "used": 2,
+                            "overcommit-factor": 1.0,
+                            }
+                        }
+                    }
+        inst = vm_info.OpenstackInstanceChecks()
+        inst()
+        self.assertEquals(inst.output, expected)
+
+
+class TestOpenstackNovaExternalEvents(TestOpenstackBase):
+
+    def test_get_events(self):
+        inst = nova_external_events.NovaExternalEventChecks()
+        inst()
+        events = {'network-changed':
+                  {"succeeded":
+                   [{"port": "03c4d61b-60b0-4f1e-b29c-2554e0c78afd",
+                     "instance": "29bcaff8-3d85-43cb-b76f-01bad0e1d568"},
+                    {"port": "0906171f-17bb-478f-b8fa-9904983b26af",
+                     "instance": "c050e183-c808-43f9-bdb4-02e95fad58e2"}]},
+                  'network-vif-plugged':
+                  {"succeeded":
+                   [{"instance": '29bcaff8-3d85-43cb-b76f-01bad0e1d568',
+                     "port": "03c4d61b-60b0-4f1e-b29c-2554e0c78afd"},
+                    {"instance": 'c050e183-c808-43f9-bdb4-02e95fad58e2',
+                     "port": "0906171f-17bb-478f-b8fa-9904983b26af"}]}}
+        self.assertEquals(inst.output["os-server-external-events"], events)
+
+
+class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
 
     def test_get_ns_info(self):
         ns_info = {'namespaces': {'qdhcp': 1, 'qrouter': 1, 'fip': 1,
                                   'snat': 1}}
-        inst = network.OpenstackNetworkChecks()
+        inst = service_network_checks.OpenstackNetworkChecks()
         inst.get_ns_info()
         self.assertEqual(inst.output["network"], ns_info)
 
-    @mock.patch.object(network, 'CLIHelper')
+    @mock.patch.object(service_network_checks, 'CLIHelper')
     def test_get_ns_info_none(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ip_link.return_value = []
-        inst = network.OpenstackNetworkChecks()
+        inst = service_network_checks.OpenstackNetworkChecks()
         inst.get_ns_info()
         self.assertEqual(inst.output, None)
 
@@ -400,12 +434,12 @@ class TestOpenstackPluginPartNetwork(TestOpenstackBase):
                 }
             }
         }
-        inst = network.OpenstackNetworkChecks()
+        inst = service_network_checks.OpenstackNetworkChecks()
         inst()
         self.assertEqual(inst.output["network"], expected)
 
 
-class TestOpenstackPluginPartService_features(TestOpenstackBase):
+class TestOpenstackServiceFeatures(TestOpenstackBase):
 
     def test_get_service_features(self):
         inst = service_features.ServiceFeatureChecks()
@@ -424,7 +458,7 @@ class TestOpenstackPluginPartService_features(TestOpenstackBase):
         self.assertEqual(inst.output["features"], expected)
 
 
-class TestOpenstackPluginPartCpu_pinning_check(TestOpenstackBase):
+class TestOpenstackCPUPinningCheck(TestOpenstackBase):
 
     def test_cores_to_list(self):
         ret = checks.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
@@ -443,7 +477,7 @@ class TestOpenstackPluginPartCpu_pinning_check(TestOpenstackBase):
         self.assertEquals(inst.output, expected)
 
 
-class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
+class TestOpenstackAgentEventChecks(TestOpenstackBase):
 
     def test_process_rpc_loop_results(self):
         expected = {'rpc-loop': {
@@ -497,9 +531,8 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                             'incomplete': 2}
                         }
                     }
-        group_key = "neutron-agent-checks"
         section_key = "neutron-ovs-agent"
-        c = agent_checks.NeutronAgentEventChecks(yaml_defs_group=group_key)
+        c = agent_event_checks.NeutronAgentEventChecks()
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
@@ -607,15 +640,14 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                             'samples': 1}
                         }
                     }
-        group_key = "neutron-agent-checks"
         section_key = "neutron-l3-agent"
-        c = agent_checks.NeutronAgentEventChecks(yaml_defs_group=group_key)
+        c = agent_event_checks.NeutronAgentEventChecks()
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
-    @mock.patch.object(agent_checks, "NeutronAgentEventChecks")
-    def test_run_agent_checks(self, mock_agent_event_checks):
-        agent_checks.AgentChecks()()
+    @mock.patch.object(agent_event_checks, "NeutronAgentEventChecks")
+    def test_run_agent_event_checks(self, mock_agent_event_checks):
+        agent_event_checks.AgentEventChecks()()
         self.assertTrue(mock_agent_event_checks.called)
 
     def test_run_octavia_checks(self):
@@ -634,9 +666,8 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
                       }
                      }
                     }
-        group_key = "octavia-checks"
         for section_key in ["octavia-worker", "octavia-health-manager"]:
-            c = agent_checks.OctaviaAgentEventChecks(yaml_defs_group=group_key)
+            c = agent_event_checks.OctaviaAgentEventChecks()
             c()
             self.assertEqual(c.output["octavia"].get(section_key),
                              expected.get(section_key))
@@ -645,7 +676,7 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
         for section_key in ['connection-refused']:
-            c = agent_checks.ApacheEventChecks(yaml_defs_group='apache')
+            c = agent_event_checks.ApacheEventChecks()
             c()
             self.assertEqual(c.output['apache'].get(section_key),
                              expected.get(section_key))
@@ -654,13 +685,43 @@ class TestOpenstackPluginPartAgentChecks(TestOpenstackBase):
         expected = {'PciDeviceNotFoundById': {
                         '2021-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
-        group_key = "nova-checks"
-        c = agent_checks.NovaAgentEventChecks(yaml_defs_group=group_key)
+        c = agent_event_checks.NovaAgentEventChecks()
         c()
         self.assertEqual(c.output["nova"], expected)
 
+    def test_run_neutron_l3ha_checks(self):
+        expected = {'keepalived': {
+                     'transitions': {
+                      '1e086be2-93c2-4740-921d-3e3237f23959': {
+                          '2021-08-02': 7,
+                          '2021-08-03': 2
+                       }
+                      }
+                     }
+                    }
+        inst = agent_event_checks.NeutronL3HAEventChecks()
+        inst()
+        self.assertEqual(inst.output["neutron-l3ha"], expected)
 
-class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
+    @mock.patch.object(agent_event_checks.issue_utils, "add_issue")
+    @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 1)
+    def test_run_neutron_l3ha_checks_w_issue(self, mock_add_issue):
+        os.environ["USE_ALL_LOGS"] = "False"
+        expected = {'keepalived': {
+                     'transitions': {
+                      '1e086be2-93c2-4740-921d-3e3237f23959': {
+                       '2021-08-03': 2
+                       }
+                      }
+                     }
+                    }
+        inst = agent_event_checks.NeutronL3HAEventChecks()
+        inst()
+        self.assertEqual(inst.output["neutron-l3ha"], expected)
+        self.assertTrue(mock_add_issue.called)
+
+
+class TestOpenstackAgentExceptions(TestOpenstackBase):
 
     def test_get_agent_exceptions(self):
         neutron_expected = {
@@ -722,94 +783,20 @@ class TestOpenstackPluginPartAgentExceptions(TestOpenstackBase):
         self.assertEqual(inst.output['agent-exceptions'], expected)
 
 
-class TestOpenstackPluginPartNeutronL3HA_checks(TestOpenstackBase):
+class TestOpenstackConfigChecks(TestOpenstackBase):
 
-    def test_run_checks(self):
-        expected = {'agent': {
-                     'master': ['1e086be2-93c2-4740-921d-3e3237f23959']},
-                    'keepalived': {
-                     'transitions': {
-                      '1e086be2-93c2-4740-921d-3e3237f23959': {
-                          '2021-08-02': 7,
-                          '2021-08-03': 2
-                       }
-                      }
-                     }
-                    }
-        inst = neutron_l3ha.NeutronL3HAChecks()
-        inst()
-        self.assertEqual(inst.output["neutron-l3ha"], expected)
-
-    @mock.patch.object(neutron_l3ha.issue_utils, "add_issue")
-    @mock.patch.object(neutron_l3ha, "VRRP_TRANSITION_WARN_THRESHOLD", 1)
-    def test_run_checks_w_issue(self, mock_add_issue):
-        os.environ["USE_ALL_LOGS"] = "False"
-        expected = {'agent': {
-                     'master': ['1e086be2-93c2-4740-921d-3e3237f23959']},
-                    'keepalived': {
-                     'transitions': {
-                      '1e086be2-93c2-4740-921d-3e3237f23959': {
-                       '2021-08-03': 2
-                       }
-                      }
-                     }
-                    }
-        inst = neutron_l3ha.NeutronL3HAChecks()
-        inst()
-        self.assertEqual(inst.output["neutron-l3ha"], expected)
-        self.assertTrue(mock_add_issue.called)
-
-
-class TestOpenstackPluginPartServiceChecks(TestOpenstackBase):
-
-    @mock.patch.object(service_checks, 'CLIHelper')
-    @mock.patch.object(service_checks.issue_utils, "add_issue")
-    def test_run_service_checks(self, mock_add_issue, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.journalctl.return_value = \
-            JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
-        inst = service_checks.NeutronServiceChecks()
-        inst()
-        self.assertFalse(mock_add_issue.called)
-
-    @mock.patch.object(service_checks, 'CLIHelper')
-    @mock.patch.object(service_checks.issue_utils, "add_issue")
-    def test_run_service_checks2(self, mock_add_issue, mock_helper):
-        """
-        Covers scenario where we had manual restart but not after last reboot.
-        """
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.journalctl.return_value = \
-            JOURNALCTL_OVS_CLEANUP_GOOD2.splitlines(keepends=True)
-        inst = service_checks.NeutronServiceChecks()
-        inst()
-        self.assertFalse(mock_add_issue.called)
-
-    @mock.patch.object(service_checks, 'CLIHelper')
-    @mock.patch.object(service_checks.issue_utils, "add_issue")
-    def test_run_service_checks_w_issue(self, mock_add_issue, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.journalctl.return_value = \
-            JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
-        inst = service_checks.NeutronServiceChecks()
-        inst()
-        self.assertTrue(mock_add_issue.called)
-
-
-class TestOpenstackPluginPartConfigChecks(TestOpenstackBase):
-
-    @mock.patch.object(service_checks.issue_utils, "add_issue")
+    @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_has_issue(self, mock_add_issue):
-        inst = config_checks.OpenstackConfigChecks()
+        inst = service_config_checks.OpenstackConfigChecks()
         with mock.patch.object(inst.apt_check,
                                'is_installed') as mock_installed:
             mock_installed.return_value = True
             inst()
             self.assertTrue(mock_add_issue.called)
 
-    @mock.patch.object(service_checks.issue_utils, "add_issue")
+    @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_no_issue(self, mock_add_issue):
-        inst = config_checks.OpenstackConfigChecks()
+        inst = service_config_checks.OpenstackConfigChecks()
         with mock.patch.object(inst.apt_check,
                                'is_installed') as mock_installed:
             mock_installed.return_value = False

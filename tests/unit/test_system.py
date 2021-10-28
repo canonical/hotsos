@@ -11,7 +11,7 @@ from plugins.system.pyparts import (
 )
 
 
-class TestSystemPluginPartGeneral(utils.BaseTestCase):
+class TestSystemGeneral(utils.BaseTestCase):
 
     def test_get_service_info(self):
         expected = {'hostname': 'compute4',
@@ -24,7 +24,7 @@ class TestSystemPluginPartGeneral(utils.BaseTestCase):
         self.assertEqual(inst.output, expected)
 
 
-class TestSystemPluginPartChecks(utils.BaseTestCase):
+class TestSystemChecks(utils.BaseTestCase):
 
     def test_sysctl_checks(self):
         expected = {'juju-charm-sysctl-mismatch': {

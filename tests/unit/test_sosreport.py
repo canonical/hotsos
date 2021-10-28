@@ -7,7 +7,7 @@ import utils
 from plugins.sosreport.pyparts import plugin_checks
 
 
-class TestSOSReportPluginPartPluginChecks(utils.BaseTestCase):
+class TestSOSReportPluginChecks(utils.BaseTestCase):
 
     def test_check_plugin_timouts_none(self):
         inst = plugin_checks.SOSReportPluginChecks()

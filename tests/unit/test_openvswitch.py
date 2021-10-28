@@ -7,8 +7,8 @@ import utils
 from core.plugins import openvswitch
 
 from plugins.openvswitch.pyparts import (
-    ovs_checks,
-    ovs_resources,
+    event_checks,
+    service_info,
 )
 
 
@@ -34,14 +34,14 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
             self.assertTrue(enabled)
 
 
-class TestOpenvswitchPluginPartOpenvswitchServices(TestOpenvswitchBase):
+class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
     def test_get_package_checks(self):
         expected = {'dpkg':
                     ['libc-bin 2.31-0ubuntu9.2',
                      'openvswitch-switch 2.13.3-0ubuntu0.20.04.1']}
 
-        inst = ovs_resources.OpenvSwitchPackageChecks()
+        inst = service_info.OpenvSwitchPackageChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
@@ -50,7 +50,7 @@ class TestOpenvswitchPluginPartOpenvswitchServices(TestOpenvswitchBase):
                                              ['ovs-vswitchd', 'ovsdb-server']},
                                  'ps': ['ovs-vswitchd (1)', 'ovsdb-client (1)',
                                         'ovsdb-server (1)']}}
-        inst = ovs_resources.OpenvSwitchServiceChecks()
+        inst = service_info.OpenvSwitchServiceChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
@@ -65,12 +65,12 @@ class TestOpenvswitchPluginPartOpenvswitchServices(TestOpenvswitchBase):
                                 'br-tun': ['vxlan-0a000032',
                                            'vxlan-0a000030']}}
 
-        inst = ovs_resources.OpenvSwitchBridgeChecks()
+        inst = service_info.OpenvSwitchBridgeChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
 
-class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(TestOpenvswitchBase):
+class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
         expected = {'daemon-checks': {
@@ -87,7 +87,7 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(TestOpenvswitchBase):
                                 '2021-07-19': {
                                     'tap4b02cb1d-8b': 1}
                                 }}}}
-        inst = ovs_checks.OpenvSwitchDaemonChecks()
+        inst = event_checks.OpenvSwitchDaemonEventChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
@@ -97,6 +97,6 @@ class TestOpenvswitchPluginPartOpenvswitchDaemonChecks(TestOpenvswitchBase):
                      {'RX':
                       {'dropped': 1394875,
                        'packets': 309}}}}
-        inst = ovs_checks.OpenvSwitchFlowChecks()
+        inst = event_checks.OpenvSwitchFlowEventChecks()
         inst()
         self.assertEqual(inst.output, expected)

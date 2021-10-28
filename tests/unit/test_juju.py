@@ -17,7 +17,7 @@ FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 ba
 root       731  0.0  0.0 2981484 81644 ?       Sl   Apr06  49:01 /var/lib/juju/tools/machine-0-lxd-11/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/11 --debug"""  # noqa
 
 
-class TestJujuPluginPartServices(utils.BaseTestCase):
+class TestJujuMachines(utils.BaseTestCase):
 
     def test_get_machine_info(self):
         expected = {'machine': '1',
@@ -47,7 +47,7 @@ class TestJujuPluginPartServices(utils.BaseTestCase):
         self.assertEquals(inst.output, expected)
 
 
-class TestJujuPluginPartCharms(utils.BaseTestCase):
+class TestJujuCharms(utils.BaseTestCase):
 
     def test_get_charm_versions(self):
         expected = {'charms': ['ceph-osd-495', 'neutron-openvswitch-443',
@@ -58,7 +58,7 @@ class TestJujuPluginPartCharms(utils.BaseTestCase):
         self.assertEquals(inst.output, expected)
 
 
-class TestJujuPluginPartUnits(utils.BaseTestCase):
+class TestJujuUnits(utils.BaseTestCase):
 
     def test_get_unit_info(self):
         expected = {'local': ['ceph-osd-1', 'neutron-openvswitch-1',
@@ -69,7 +69,7 @@ class TestJujuPluginPartUnits(utils.BaseTestCase):
         self.assertEquals(inst.output, {"units": expected})
 
 
-class TestJujuPluginPartKnown_bugs(utils.BaseTestCase):
+class TestJujuKnownBugs(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()

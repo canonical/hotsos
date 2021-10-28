@@ -5,10 +5,11 @@ import os
 import utils
 
 from core import checks, constants
+from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
 from plugins.rabbitmq.pyparts import (
     cluster_checks,
-    services,
-    synchronization_checks,
+    service_info,
+    service_event_checks,
 )
 
 
@@ -25,9 +26,18 @@ class TestRabbitmqBase(utils.BaseTestCase):
         os.environ["PLUGIN_NAME"] = "rabbitmq"
 
 
-class TestRabbitmqServices(TestRabbitmqBase):
+class TestRabbitmqServiceInfo(TestRabbitmqBase):
 
-    def test_get_service_info_bionic(self):
+    def test_get_package_info(self):
+        inst = service_info.RabbitMQPackageChecks()
+        inst()
+        self.assertFalse(inst.plugin_runnable)
+        self.assertEqual(inst.output, {'dpkg': []})
+
+
+class TestRabbitmqClusterChecks(TestRabbitmqBase):
+
+    def test_cluster_checks_bionic(self):
         expected = {
             'services': {'systemd': {'enabled': ['rabbitmq-server']},
                          'ps': ['beam.smp (1)', 'epmd (1)',
@@ -88,13 +98,13 @@ class TestRabbitmqServices(TestRabbitmqBase):
                 SYSTEMD_UNITS.split('\n')
             helper.ps.return_value = orig_ps
 
-            inst = services.RabbitMQServiceChecks()
+            inst = cluster_checks.RabbitMQClusterChecks()
             inst()
-            issues = services.issue_utils._get_issues()
+            issues = cluster_checks.issue_utils._get_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
-                         {services.issue_utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                         {MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
@@ -106,8 +116,8 @@ class TestRabbitmqServices(TestRabbitmqBase):
                             'origin': 'rabbitmq.01part',
                             'type': 'RabbitMQWarning'}]})
 
-    @mock.patch.object(services, 'CLIHelper')
-    def test_get_service_info_focal(self, mock_helper):
+    @mock.patch.object(cluster_checks, 'CLIHelper')
+    def test_cluster_checks_focal(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
 
         def fake_get_rabbitmqctl_report():
@@ -182,13 +192,13 @@ class TestRabbitmqServices(TestRabbitmqBase):
                 SYSTEMD_UNITS.split('\n')
             helper.ps.return_value = orig_ps
 
-            inst = services.RabbitMQServiceChecks()
+            inst = cluster_checks.RabbitMQClusterChecks()
             inst()
-            issues = services.issue_utils._get_issues()
+            issues = cluster_checks.issue_utils._get_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
-                         {services.issue_utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                         {MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
                                      'than 2/3 of queues for 1/5 vhost(s)'),
@@ -200,36 +210,20 @@ class TestRabbitmqServices(TestRabbitmqBase):
                             'origin': 'rabbitmq.01part',
                             'type': 'RabbitMQWarning'}]})
 
-    @mock.patch.object(services, 'CLIHelper')
+    @mock.patch.object(cluster_checks, 'CLIHelper')
     def test_get_service_info_no_report(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.rabbitmqctl_report.return_value = []
-        inst = services.RabbitMQServiceChecks()
+        inst = cluster_checks.RabbitMQClusterChecks()
         inst()
         self.assertIsNone(inst.output)
 
-    def test_get_package_info(self):
-        inst = services.RabbitMQPackageChecks()
-        inst()
-        self.assertFalse(inst.plugin_runnable)
-        self.assertEqual(inst.output, {'dpkg': []})
 
+class TestRabbitmqEventChecks(TestRabbitmqBase):
 
-class TestRabbitmqClusterChecks(TestRabbitmqBase):
-
-    @mock.patch.object(cluster_checks.issue_utils, 'add_issue')
-    def test_cluster_checks_w_partitions(self, mock_add_issue):
-        inst = cluster_checks.RabbitMQClusterChecks()
-        inst()
-        self.assertEqual(inst.output, None)
-        self.assertTrue(mock_add_issue.called)
-
-
-class TestRabbitMQSynchronizationChecks(TestRabbitmqBase):
-
-    @mock.patch.object(synchronization_checks.issue_utils, 'add_issue')
-    def test_syncronization_checks(self, mock_add_issue):
-        inst = synchronization_checks.RabbitMQSynchronizationChecks()
+    @mock.patch.object(service_event_checks.issue_utils, 'add_issue')
+    def test_service_event_checks(self, mock_add_issue):
+        inst = service_event_checks.RabbitMQEventChecks()
         inst()
         self.assertEqual(inst.output, None)
         self.assertTrue(mock_add_issue.called)
