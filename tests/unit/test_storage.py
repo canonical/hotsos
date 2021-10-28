@@ -314,6 +314,12 @@ class TestStorageCephServiceInfo(StorageTestsBase):
 class TestStorageCephDaemonChecks(StorageTestsBase):
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
+    def test_superblock_read_error(self, mock_issue_utils):
+        inst = ceph_cluster_checks.CephClusterChecks()
+        inst()
+        self.assertTrue(mock_issue_utils.add_issue.called)
+
+    @mock.patch.object(ceph_cluster_checks, 'issue_utils')
     def test_get_crushmap_mixed_buckets(self, mock_issue_utils):
         with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
             mock_helper.return_value = mock.MagicMock()

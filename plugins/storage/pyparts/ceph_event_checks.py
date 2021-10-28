@@ -136,3 +136,10 @@ class CephDaemonLogChecks(CephEventChecksBase):
     @EVENTCALLBACKS.callback
     def heartbeat_no_reply(self, event):
         return self.get_timings(event.results)
+
+    @EVENTCALLBACKS.callback
+    def superblock_read_error(self, event):  # pylint: disable=W0613
+        msg = ('Detected superblock read errors which indicates an OSD disk '
+               'failure or its likely failure in the near future. This '
+               'drive needs to be inspected further using sar/smartctl.')
+        issue_utils.add_issue(issue_types.CephOSDError(msg))

@@ -272,3 +272,6 @@ storage:
       heartbeat-no-reply:
         expr: '^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
         hint: 'heartbeat_check'
+      superblock-read-error:
+        expr: '.+ unable to read osd superblock'
+        hint: 'osd superblock'
