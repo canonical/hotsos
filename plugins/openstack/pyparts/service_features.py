@@ -1,5 +1,4 @@
 from core.plugins.openstack import (
-    OST_PROJECTS,
     OpenstackChecksBase,
 )
 
@@ -41,7 +40,7 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         for service in FEATURES:
             for module in FEATURES[service]:
                 module_features = {}
-                cfg = OST_PROJECTS.all[service].config[module]
+                cfg = self.ost_projects.all[service].config[module]
                 if not cfg.exists:
                     return
 

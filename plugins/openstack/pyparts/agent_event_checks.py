@@ -85,9 +85,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='neutron-agent-checks',
-                         event_results_passthrough=True,
-                         **kwargs)
+                         yaml_defs_group='neutron-agent-checks', **kwargs)
 
     def _get_event_stats(self, results, event_name, custom_idxs=None):
         stats = LogEventStats(results, event_name, custom_idxs=custom_idxs)

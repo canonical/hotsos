@@ -3,7 +3,6 @@ import re
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import (
     NeutronHAInfo,
-    OST_PROJECTS,
     OpenstackChecksBase,
     OpenstackServiceChecksBase,
     OpenstackPackageChecksBase,
@@ -20,10 +19,6 @@ YAML_PRIORITY = 0
 
 class OpenstackInfo(OpenstackServiceChecksBase):
 
-    def __init__(self):
-        service_exprs = OST_PROJECTS.service_exprs
-        super().__init__(service_exprs=service_exprs, hint_range=(0, 3))
-
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
@@ -33,10 +28,10 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         """Get a list of masked services."""
         if self.service_info_str['systemd']:
             masked = self.service_info_str['systemd'].get('masked', {})
-            expected_masked = OST_PROJECTS.default_masked_services
+            expected_masked = self.ost_projects.default_masked_services
             masked = set(masked).difference(expected_masked)
             if masked:
-                _masked = {', '.join(masked)}
+                _masked = ', '.join(masked)
                 msg = ('The following Openstack systemd services are masked: '
                        '{}. Please ensure that this is intended otherwise '
                        'these services may be unavailable.'.format(_masked))
@@ -47,7 +42,7 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         setting in their configuration.
         """
         debug_enabled = {}
-        for name, info in OST_PROJECTS.all.items():
+        for name, info in self.ost_projects.all.items():
             cfg = info.config.get('main')
             if cfg and cfg.exists:
                 debug_enabled[name] = cfg.get("debug", section="DEFAULT")

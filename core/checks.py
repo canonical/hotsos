@@ -1,5 +1,6 @@
 import os
 
+import importlib
 import operator
 import re
 import subprocess
@@ -22,12 +23,169 @@ from core.searchtools import (
     SearchDef,
     SequenceSearchDef,
 )
+from core.ystruct import (
+    YAMLDefOverrideBase,
+    YAMLDefSection,
+)
 
 SVC_EXPR_TEMPLATES = {
     "absolute": r".+\S+bin/({})(?:\s+.+|$)",
     "snap": r".+\S+\d+/({})(?:\s+.+|$)",
     "relative": r".+\s({})(?:\s+.+|$)",
     }
+
+
+class YAMLDefExpr(YAMLDefOverrideBase):
+    KEYS = ['start', 'body', 'end', 'expr', 'hint']
+
+    @property
+    def expr(self):
+        """
+        Subkey e.g for start.expr, body.expr. Expression defs that are just
+        a string or use subkey 'expr' will rely on __getattr__.
+        """
+        return self.content.get('expr', self.content)
+
+    @property
+    def hint(self):
+        return self.content.get('hint', None)
+
+    def __getattr__(self, name):
+        """
+        An expression can be provided in multiple ways. The simplest form is
+        where the value of the event is a pattern string hence why we override
+        this to just return the content if it is not a dict.
+        """
+        if type(self.content) == dict:
+            return super().__getattr__(name)
+        else:
+            return self.content
+
+
+class YAMLDefMessage(YAMLDefOverrideBase):
+    KEYS = ['message', 'message-format-result-groups']
+
+    @property
+    def format_groups(self):
+        return self.content
+
+    def __str__(self):
+        return self.content
+
+
+class YAMLDefSettings(YAMLDefOverrideBase):
+    KEYS = ['settings']
+
+    def __iter__(self):
+        for key, val in self.content.items():
+            yield key, val
+
+
+class YAMLDefReleases(YAMLDefOverrideBase):
+    KEYS = ['releases']
+
+    def __iter__(self):
+        for key, val in self.content.items():
+            yield key, val
+
+
+class YAMLDefResultsPassthrough(YAMLDefOverrideBase):
+    KEYS = ['passthrough-results']
+
+    def __bool__(self):
+        """ If returns True, the master results list is passed to callbacks
+        so that they may fetch results in their own way. This is required e.g.
+        when processing results with analytics.LogEventStats.
+        """
+        return bool(self.content)
+
+
+class YAMLDefInput(YAMLDefOverrideBase):
+    KEYS = ['input']
+    TYPE_COMMAND = 'command'
+    TYPE_FILESYSTEM = 'filesystem'
+
+    # NOTE: this must be set by the handler object that is using the overrides.
+    #       we need a better way to do this but we can't use __init__ because
+    #       this class must be provided uninstantiated.
+    EVENT_CHECK_OBJ = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._path = None
+
+    @property
+    def meta(self):
+        defaults = {'allow-all-logs': True,
+                    'args': [],
+                    'kargs': {},
+                    'args-callback': None}
+        _meta = self.content.get('meta', defaults)
+        defaults.update(_meta)
+        return defaults
+
+    @property
+    def path(self):
+        if self.type == self.TYPE_FILESYSTEM:
+            path = os.path.join(constants.DATA_ROOT, self.value)
+            if constants.USE_ALL_LOGS and self.meta['allow-all-logs']:
+                path = "{}*".format(path)
+
+            return path
+        elif self.type == self.TYPE_COMMAND:
+            if self._path:
+                return self._path
+
+            args_callback = self.meta['args-callback']
+            if args_callback:
+                args, kwargs = getattr(self.EVENT_CHECK_OBJ, args_callback)()
+            else:
+                args = self.meta['args']
+                kwargs = self.meta['kwargs']
+
+            # get command output
+            out = getattr(CLIHelper(), self.value)(*args,
+                                                   **kwargs)
+            # store in temp file to make it searchable
+            # NOTE: we dont need to delete this at the the end since they are
+            # created in the plugun tmp dir which is wiped at the end of the
+            # plugin run.
+            self._path = mktemp_dump(''.join(out))
+            return self._path
+
+
+class YAMLDefRequires(YAMLDefOverrideBase):
+    KEYS = ['requires']
+
+    @property
+    def passes(self):
+        if self.type == 'apt':
+            pkg = self.value
+            return APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
+        else:
+            self.debug("unsupported yaml requires type=%s", self.type)
+
+        return False
+
+
+class YAMLDefConfig(YAMLDefOverrideBase):
+    KEYS = ['config']
+
+    def check(self, key, value, op, allow_unset=False, section=None):
+        mod = self.handler.rpartition('.')[0]
+        cls = self.handler.rpartition('.')[2]
+        self.cfg = getattr(importlib.import_module(mod), cls)(self.path)
+        actual = self.cfg.get(key, section=section)
+        if actual is None:
+            if allow_unset:
+                return True
+            else:
+                return False
+
+        if getattr(operator, op)(actual, value):
+            return True
+
+        return False
 
 
 class CallbackHelper(object):
@@ -92,183 +250,6 @@ class PackageReleaseCheckObj(object):
             self.bugs[release] = [bug]
 
 
-class YAMLDefInput(object):
-
-    TYPE_COMMAND = 'command'
-    TYPE_FILESYSTEM = 'filesystem'
-
-    def __init__(self, event_check_obj, type, value, meta=None):
-        """
-        This class defines the canonical form of input for a yaml definition
-        such as an event or bug search.
-
-        @param event_check_obj: the EventChecksBase object that owns this
-                                object. This is used to execute a callback if
-                                defined.
-        @param type: input type i.e. filesystem or command
-        @param value: input value i.e. path or CLIHelpers command
-        @param meta: optional metadata for the input type
-        """
-        self.type = type
-        self.value = value
-        self.args = []
-        self.kwargs = {}
-        self.allow_all_logs = True
-        self._path = None
-
-        if self.type not in [self.TYPE_COMMAND, self.TYPE_FILESYSTEM]:
-            log.debug("unknown event search input type '%s'", self.type)
-            return
-
-        if self.type == self.TYPE_FILESYSTEM:
-            # value is a path so make it absolute
-            self._path = os.path.join(constants.DATA_ROOT, self.value)
-
-        if meta:
-            if self.type == self.TYPE_COMMAND:
-                args_callback = meta.get('args-callback')
-                if args_callback:
-                    self.args, self.kwargs = getattr(event_check_obj,
-                                                     args_callback)()
-                else:
-                    self.args = meta.get('args', [])
-                    self.kwargs = meta.get('kwargs', {})
-            elif self.type == self.TYPE_FILESYSTEM:
-                self.allow_all_logs = meta.get('allow-all-logs',
-                                               self.allow_all_logs)
-
-    @property
-    def path(self):
-        if self._path:
-            return self._path
-
-        if self.type == self.TYPE_COMMAND:
-            # get command output
-            out = getattr(CLIHelper(), self.value)(*self.args,
-                                                   **self.kwargs)
-            # store in temp file to make it searchable
-            # NOTE: we dont need to delete this at the the end since they are
-            # created in the plugun tmp dir which is wiped at the end of the
-            # plugin run.
-            self._path = mktemp_dump(''.join(out))
-
-        return self._path
-
-
-class YAMLDefBase(object):
-    """
-    We use yaml to define the metadata for common tasks such as event
-    searches. To achieve this we define a structure for the yaml based on a
-    hierarchy of definition types e.g. groups, sections etc.
-
-    A definition instance can contain other instances as well as settings and
-    these settings abide by a system of inheritance that allows child
-    definitions to override parent definitions. For example each level may
-    define an "input" setting in a group that is inherited by all sections in
-    that group and that any section can optionally override.
-    """
-    # The following are keys that can be at any level below. Child definitions
-    # override parent.
-    global_override_keys = ['input']
-
-    def __init__(self, event_check_obj, override_keys=None):
-        """
-        @param event_check_obj: this must be the EventChecksObject being used
-                                drive the analysis.
-        """
-        # this must be set by the time we reach a YAMLDefEntry
-        self.input = None
-        self.event_check_obj = event_check_obj
-        if override_keys:
-            self.global_override_keys = override_keys
-
-
-class YAMLDefGroup(YAMLDefBase):
-    """ A group contains one or more sections. """
-
-    def __init__(self, name, group, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not group:
-            return
-
-        self.name = name
-        self.sections = []
-        self.group_globals = {}
-
-        for sname, section in group.items():
-            if sname in self.global_override_keys:
-                if sname == 'input':
-                    self.input = YAMLDefInput(self.event_check_obj,
-                                              section['type'],
-                                              section['value'],
-                                              section.get('meta'))
-
-                self.group_globals[sname] = section
-
-        for sname, section in group.items():
-            if sname in self.group_globals:
-                continue
-
-            section = YAMLDefSection(sname, section, self.group_globals,
-                                     self.input,
-                                     override_keys=self.global_override_keys,
-                                     event_check_obj=self.event_check_obj)
-            self.sections.append(section)
-
-
-class YAMLDefEntry(YAMLDefBase):
-    """ An entry contains settings. """
-
-    def __init__(self, name, settings, section_input, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.name = name
-        self.input = section_input
-        self.settings = settings
-
-        remove_keys = []
-        if type(settings) != dict:
-            return
-
-        for name, value in settings.items():
-            if name == 'input':
-                self.input = YAMLDefInput(self.event_check_obj, value['type'],
-                                          value['value'], value.get('meta'))
-                remove_keys.append(name)
-
-        for key in remove_keys:
-            del self.settings[key]
-
-
-class YAMLDefSection(YAMLDefBase):
-    """ A section contains one or more entries. """
-
-    def __init__(self, name, section, group_globals, group_input, *args,
-                 **kwargs):
-        super().__init__(*args, **kwargs)
-        self.name = name
-        self.input = group_input
-        self.entries = []
-        self.globals = {}
-        self.globals.update(group_globals)
-
-        for ename, entry in section.items():
-            if ename in self.global_override_keys:
-                if ename == 'input':
-                    self.input = YAMLDefInput(self, entry['type'],
-                                              entry['value'],
-                                              entry.get('meta'))
-
-                self.globals[ename] = entry
-
-        for ename, entry in section.items():
-            if ename in self.globals:
-                continue
-
-            entry = YAMLDefEntry(ename, entry, self.input,
-                                 event_check_obj=self.event_check_obj)
-            self.entries.append(entry)
-
-
 class PackageBugChecksBase(object):
     """
     This is used to check if the version of installed packages contain
@@ -300,21 +281,26 @@ class PackageBugChecksBase(object):
         if not yaml_defs:
             return
 
+        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
+                     YAMLDefReleases]
+        # TODO: need a better way to provide this instance to the input
+        #       override.
+        YAMLDefInput.EVENT_CHECK_OBJ = self
         plugin_checks = yaml_defs.get(constants.PLUGIN_NAME, {})
         for name, group in plugin_checks.items():
-            group = YAMLDefGroup(name, group,
-                                 override_keys=['input', 'message'],
-                                 event_check_obj=self)
-            log.debug("loading package bug group '%s'", group.name)
-            # group name must be package name
-            p = PackageReleaseCheckObj(group.name)
-            for section in group.sections:
-                bug = section.name
-                message = section.globals['message']
-                for entry in section.entries:
-                    for name, info in entry.settings.items():
-                        p.add_bug_check(bug, name, info['min-broken'],
-                                        info['min-fixed'], message)
+            group = YAMLDefSection(name, group, override_handlers=overrides)
+            log.debug("sections=%s, events=%s",
+                      len(group.branch_sections),
+                      len(group.leaf_sections))
+
+            pkg_name = group.name
+            p = PackageReleaseCheckObj(pkg_name)
+            for bug_check in group.leaf_sections:
+                bug = bug_check.name
+                message = str(bug_check.message)
+                for rel, info in dict(bug_check.releases).items():
+                    p.add_bug_check(bug, rel, info['min-broken'],
+                                    info['min-fixed'], message)
 
             self._checks.append(p)
 
@@ -383,30 +369,36 @@ class BugChecksBase(ChecksBase):
         plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
         log.debug("loading bug searches for plugin '%s' (groups=%d)",
                   constants.PLUGIN_NAME, len(plugin_bugs))
+
+        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage]
+        # TODO: need a better way to provide this instance to the input
+        #       override.
+        YAMLDefInput.EVENT_CHECK_OBJ = self
         for name, group in plugin_bugs.items():
-            group = YAMLDefGroup(name, group, event_check_obj=self)
-            log.debug("loading bug group '%s'", group.name)
-            for section in group.sections:
-                id = section.name
-                # NOTE: the bugs are defined as sections rather than entries
-                settings = {bug.name: bug.settings for bug in section.entries}
-                message_format = settings.get("message-format-result-groups")
-                pattern = settings['expr']
+            bug_group = YAMLDefSection(name, group,
+                                       override_handlers=overrides)
+            log.debug("loading bug group '%s' - sections=%s, events=%s",
+                      bug_group.name,
+                      len(bug_group.branch_sections),
+                      len(bug_group.leaf_sections))
+            for bug in bug_group.leaf_sections:
+                id = bug.name
+                message_format = bug.message_format_result_groups
+                if message_format:
+                    message_format = message_format.format_groups
+
+                pattern = bug.expr.value
                 # NOTE: pattern can be string or list of strings
                 bdef = {'def':
                         BugSearchDef(
                                 pattern,
                                 bug_id=str(id),
-                                hint=settings.get('hint'),
-                                message=settings['message'],
+                                hint=bug.hint.value,
+                                message=str(bug.message),
                                 message_format_result_groups=message_format)}
 
-                input = settings.get('input', section.input or group.input)
-                datasource = input.path
+                datasource = bug.input.path
                 log.debug("bug=%s path=%s", id, datasource)
-                if input.allow_all_logs and constants.USE_ALL_LOGS:
-                    datasource = "{}*".format(datasource)
-
                 bdef["datasource"] = datasource
                 self._bug_defs.append(bdef)
 
@@ -466,8 +458,7 @@ class EventCheckResult(object):
 class EventChecksBase(ChecksBase):
 
     def __init__(self, *args, callback_helper=None,
-                 event_results_output_key=None,
-                 event_results_passthrough=False, **kwargs):
+                 event_results_output_key=None, **kwargs):
         """
         @param callback_helper: optionally provide a callback helper. This is
         used to "register" callbacks against events defined in the yaml so
@@ -478,15 +469,10 @@ class EventChecksBase(ChecksBase):
                                          but that can be optionally set
                                          with this key as root e.g. to avoid
                                          clobbering other results.
-        @param event_results_passthrough: if set to True, the master results
-                                          list is passed to callbacks so that
-                                          they may fetch results in their own
-                                          way.
         """
         super().__init__(*args, **kwargs)
         self.callback_helper = callback_helper
         self.event_results_output_key = event_results_output_key
-        self.event_results_passthrough = event_results_passthrough
         self._event_defs = {}
 
     def _load_event_definitions(self):
@@ -510,90 +496,86 @@ class EventChecksBase(ChecksBase):
                   constants.PLUGIN_NAME, self._yaml_defs_group)
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
         group_name = self._yaml_defs_group
-        group = YAMLDefGroup(group_name, plugin.get(group_name),
-                             event_check_obj=self)
 
+        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefResultsPassthrough]
+        # TODO: need a better way to provide this instance to the input
+        #       override.
+        YAMLDefInput.EVENT_CHECK_OBJ = self
+        group = YAMLDefSection(group_name, plugin.get(group_name),
+                               override_handlers=overrides)
         log.debug("sections=%s, events=%s",
-                  len(group.sections),
-                  sum([len(s.entries) for s in group.sections]))
-        for section in group.sections:
-            for event in section.entries:
-                # if this is a multiline event (has a start and end), append
-                # this to the tag so that it can be used with
-                # core.analytics.LogEventStats.
+                  len(group.branch_sections),
+                  len(group.leaf_sections))
 
-                settings = event.settings
-                search_meta = {'searchdefs': [], 'datasource': None}
+        for event in group.leaf_sections:
+            results_passthrough = bool(event.passthrough_results)
+            log.debug("event: %s", event.name)
+            log.debug("input: %s:%s", event.input.type, event.input.path)
+            log.debug("passthrough: %s", results_passthrough)
 
-                expr = settings.get('expr')
-                if expr is None:
-                    # these can either be dict of expr/hint or shorthand string
-                    # expression.
-                    search_settings = {}
-                    for pos in ['start', 'body', 'end']:
-                        setting = settings.get(pos)
-                        if not setting:
-                            continue
+            # if this is a multiline event (has a start and end), append
+            # this to the tag so that it can be used with
+            # core.analytics.LogEventStats.
+            search_meta = {'searchdefs': [], 'datasource': None,
+                           'passthrough_results': results_passthrough}
 
-                        search_settings[pos] = {}
-                        if type(setting) is dict:
-                            search_settings[pos].update(setting)
-                        else:
-                            # shorthand form i.e. just expr str and no hint
-                            search_settings[pos]['expr'] = setting
-                            search_settings[pos]['hint'] = None
+            if event.expr:
+                hint = None
+                if event.hint:
+                    hint = event.hint.value
 
-                if expr is not None:
-                    tag = event.name
-                    search_meta['searchdefs'].append(
-                        SearchDef(expr, tag=tag,
-                                  hint=settings.get('hint')))
-                elif set(['start', 'body']).issubset(search_settings.keys()):
+                search_meta['searchdefs'].append(
+                    SearchDef(event.expr.value, tag=event.name, hint=hint))
+            elif event.start:
+                if (event.body or
+                        (event.end and not results_passthrough)):
                     log.debug("event '%s' search is a sequence", event.name)
+                    sd_start = SearchDef(event.start.expr)
+
                     sd_end = None
                     # explicit end is optional for sequence definition
-                    if 'end' in search_settings:
-                        sd_end = SearchDef(search_settings['end']['expr'])
+                    if event.end:
+                        sd_end = SearchDef(event.end.expr)
 
-                    # NOTE: we ignore hints here
-                    sd_start = SearchDef(search_settings['start']['expr'])
-                    sd_body = SearchDef(search_settings['body']['expr'])
+                    sd_body = None
+                    if event.body:
+                        sd_body = SearchDef(event.body.expr)
+
+                    # NOTE: we don't use hints here
                     sequence_def = SequenceSearchDef(start=sd_start,
                                                      body=sd_body,
                                                      end=sd_end,
                                                      tag=event.name)
                     search_meta['searchdefs'].append(sequence_def)
                     search_meta['is_sequence'] = True
-                elif set(['start', 'end']).issubset(search_settings.keys()):
+                elif (results_passthrough and
+                      (event.start and event.end)):
                     # start and end required for core.analytics.LogEventStats
-                    start = search_settings['start']['expr']
-                    hint = search_settings['start']['hint']
-                    tag = "{}-start".format(event.name)
                     search_meta['searchdefs'].append(
-                        SearchDef(start, tag=tag, hint=hint))
-                    end = search_settings['end']['expr']
-                    hint = search_settings['end']['hint']
-                    tag = "{}-end".format(event.name)
+                        SearchDef(event.start.expr,
+                                  tag="{}-start".format(event.name),
+                                  hint=event.start.hint))
                     search_meta['searchdefs'].append(
-                        SearchDef(end, tag=tag, hint=hint))
+                        SearchDef(event.end.expr,
+                                  tag="{}-end".format(event.name),
+                                  hint=event.end.hint))
                 else:
-                    log.debug("invalid search definition for event '%s' in "
-                              "section '%s'", event, section)
-                    continue
+                    log.debug("unexpected search definition passthrough=%s "
+                              "body provided=%s, end provided=%s",
+                              results_passthrough, event.body is not None,
+                              event.end is not None)
+            else:
+                log.debug("invalid search definition for event '%s' in "
+                          "section '%s'", event, event.parent.name)
+                continue
 
-                datasource = event.input.path
-                if event.input.type == event.input.TYPE_FILESYSTEM:
-                    if constants.USE_ALL_LOGS and event.input.allow_all_logs:
-                        datasource = "{}*".format(datasource)
+            datasource = event.input.path
+            section_name = event.parent.name
+            if section_name not in self._event_defs:
+                self._event_defs[section_name] = {}
 
-                if section.name not in self._event_defs:
-                    self._event_defs[section.name] = {}
-
-                if event.name not in self._event_defs[section.name]:
-                    self._event_defs[section.name][event.name] = {}
-
-                search_meta['datasource'] = datasource
-                self._event_defs[section.name][event.name] = search_meta
+            search_meta['datasource'] = datasource
+            self._event_defs[section_name][event.name] = search_meta
 
     @property
     def event_definitions(self):
@@ -637,7 +619,7 @@ class EventChecksBase(ChecksBase):
         for section_name, section in self.event_definitions.items():
             for event, event_meta in section.items():
                 sequence_def = None
-                if self.event_results_passthrough:
+                if event_meta.get('passthrough_results'):
                     # this is for implementations that have their own means of
                     # retreiving results.
                     search_results = results
@@ -821,30 +803,12 @@ class SectionalConfigBase(ConfigBase):
 class ConfigChecksBase(object):
     """
     This class is used to peform checks on file based config. The input is
-    typically defined in defs/config_checks.yaml and each plugin that wants to
-    perform these checks can implement this class.
+    defined in defs/config_checks.yaml.
     """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._check_defs = {}
-
-    def _validate(self, method):
-        """
-        @param method: name of a method that must exist in the implementation
-        of this class and that is called to determine whether to run a config
-        check. An example method could be one that checks if a particular
-        package is installed.
-        """
-        return getattr(self, method)()
-
-    def _get_config_handler(self, path):
-        """
-        Different services will have different config file formats.
-        Implementations of this class should implement this method such that it
-        returns an implementation of ConfigBase.
-        """
-        raise NotImplementedError
 
     def _load_definitions(self):
         path = os.path.join(constants.PLUGIN_YAML_DEFS, "config_checks.yaml")
@@ -854,43 +818,42 @@ class ConfigChecksBase(object):
         if not yaml_defs:
             return
 
+        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
+                     YAMLDefRequires, YAMLDefConfig, YAMLDefSettings]
+        # TODO: need a better way to provide this instance to the input
+        #       override.
+        YAMLDefInput.EVENT_CHECK_OBJ = self
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
         for name, group in plugin.items():
-            group = YAMLDefGroup(name, group,
-                                 override_keys=['input', 'callback',
-                                                'message'],
-                                 event_check_obj=self)
-            for section in group.sections:
-                self._check_defs[section.name] = section
+            group = YAMLDefSection(name, group, override_handlers=overrides)
+            log.debug("sections=%s, events=%s",
+                      len(group.branch_sections),
+                      len(group.leaf_sections))
 
-    def run_config_checks(self):
-        self._load_definitions()
-        for name, section in self._check_defs.items():
-            message = section.globals['message']
-            callback = section.globals['callback']
-            log.debug("section=%s, callback=%s", name, callback)
-            if not self._validate(callback):
-                # assume feature not enabled
-                return
+            for cfg_check in group.leaf_sections:
+                self._check_defs[cfg_check.name] = {
+                    'message': cfg_check.message,
+                    'config': cfg_check.config,
+                    'requires': cfg_check.requires,
+                    'settings': dict(cfg_check.settings)}
 
-            for entry in section.entries:
-                cfg_key = entry.name
-                settings = entry.settings
-                cfg = self._get_config_handler(entry.input.path)
+    def run_checks(self):
+        for name, cfg_check in self._check_defs.items():
+            if not cfg_check['requires'].passes:
+                continue
+
+            log.debug("config check section=%s", name)
+            message = str(cfg_check['message'])
+            for cfg_key, settings in cfg_check['settings'].items():
                 op = settings['operator']
-                section = settings.get('section')
-                actual = cfg.get(cfg_key, section=section)
                 value = settings['value']
+                section = settings['section']
+                allow_unset = bool(settings.get('allow-unset', False))
                 log.debug("checking config %s has value %s", cfg_key, value)
                 raise_issue = False
-                if actual is None:
-                    if value is not None and not settings['allow-unset']:
-                        raise_issue = True
-                    else:
-                        continue
-
-                if not raise_issue and not getattr(operator, op)(actual,
-                                                                 value):
+                if not cfg_check['config'].check(cfg_key, value, op,
+                                                 section=section,
+                                                 allow_unset=allow_unset):
                     raise_issue = True
 
                 if raise_issue:
@@ -898,6 +861,11 @@ class ConfigChecksBase(object):
                     issue_utils.add_issue(issue)
                     # move on to next set of checks
                     break
+
+    def __call__(self):
+        """ Must be callable since it's run automatically. """
+        self._load_definitions()
+        self.run_checks()
 
 
 class ServiceChecksBase(object):
