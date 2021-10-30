@@ -86,6 +86,7 @@ plugins:
         - CephPackageChecks
       ceph_cluster_checks:
         - CephClusterChecks
+        - CephCrushChecks
       ceph_event_checks:
         - CephDaemonLogChecks
       bcache:

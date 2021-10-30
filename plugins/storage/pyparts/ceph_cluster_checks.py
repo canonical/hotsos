@@ -8,6 +8,7 @@ from core.plugins.storage import (
     bcache,
     ceph,
 )
+from core.plugins.storage.ceph import CephChecksBase
 from core.plugins.kernel import KernelChecksBase
 
 YAML_PRIORITY = 1
@@ -18,7 +19,7 @@ OSD_META_LIMIT_KB = (10 * 1024 * 1024)
 OSD_MAPS_LIMIT = 500  # mon_min_osdmap_epochs default
 
 
-class CephClusterChecks(ceph.CephChecksBase):
+class CephClusterChecks(CephChecksBase):
 
     def check_osdmaps_size(self):
         """
@@ -346,3 +347,16 @@ class CephClusterChecks(ceph.CephChecksBase):
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
         self.check_osdmaps_size()
+
+
+class CephCrushChecks(CephChecksBase):
+    def get_crush_summary(self):
+        """
+        Get crush rules summary and the pools using those rules map.
+        """
+
+        if self.crush_rules:
+            self._output['crush_rules'] = self.crush_rules
+
+    def __call__(self):
+        self.get_crush_summary()
