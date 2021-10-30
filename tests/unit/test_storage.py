@@ -483,6 +483,13 @@ class TestStorageCephDaemonChecks(StorageTestsBase):
         inst()
         self.assertEqual(inst.output["ceph"]["local-osds"], expected)
 
+    def test_get_crush_rules(self):
+        inst = ceph_cluster_checks.CephClusterChecks()
+        inst()
+        expected = {'replicated_rule': {'id': 0, 'type': 'replicated',
+                    'pools': ['device_health_metrics (1)', 'glance (2)']}}
+        self.assertEqual(inst.crush_rules, expected)
+
     @mock.patch.object(ceph_cluster_checks, 'KernelChecksBase')
     @mock.patch.object(ceph_cluster_checks.bcache, 'BcacheChecksBase')
     @mock.patch.object(ceph_cluster_checks.issue_utils, "add_issue")

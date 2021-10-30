@@ -41,6 +41,8 @@ CEPH_REL_INFO = {
         'jewel': '10.0'},
     }
 
+CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
+
 
 class CephConfig(checks.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
@@ -371,6 +373,7 @@ class CephChecksBase(StorageBase):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self._bcache_info = []
+        self._crush_rules = []
         self._local_osds = None
         self._cluster_osds = None
         self.apt_check = checks.APTPackageChecksBase(
@@ -513,6 +516,40 @@ class CephChecksBase(StorageBase):
 
         self._local_osds = self._get_local_osds()
         return self._local_osds
+
+    def _filter_pools_by_rule(self, pools, crush_rule):
+        res_pool = []
+        for pool in pools:
+            if pool['crush_rule'] == crush_rule:
+                pool_str = pool['pool_name'] + ' (' + str(pool['pool']) + ')'
+                res_pool.append(pool_str)
+
+        return res_pool
+
+    @property
+    def crush_rules(self):
+        """
+        Returns a list of crush rules, mapped to the respective pools.
+        """
+        if self._crush_rules:
+            return self._crush_rules
+
+        ceph_report = self.cli.ceph_report_json_decoded()
+        if not ceph_report:
+            return
+
+        rule_to_pool = {}
+        for rule in ceph_report['crushmap']['rules']:
+            rule_id = rule['rule_id']
+            rtype = rule['type']
+            pools = self._filter_pools_by_rule(ceph_report['osdmap']['pools'],
+                                               rule_id)
+            rule_to_pool[rule['rule_name']] = {'id': rule_id,
+                                               'type': CEPH_POOL_TYPE[rtype],
+                                               'pools': pools}
+
+        self._crush_rules = rule_to_pool
+        return self._crush_rules
 
     @property
     def bcache_info(self):
