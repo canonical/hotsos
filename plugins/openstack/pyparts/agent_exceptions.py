@@ -63,8 +63,8 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
                              format(prefix_match, exc_obj_full_path_match))
 
             for agent in info.daemon_names:
+                data_source = data_source_template.format(agent)
                 if info.exceptions:
-                    data_source = data_source_template.format(agent)
                     values = "(?:{})".format('|'.join(info.exceptions))
                     expr = expr_template.format(values)
                     hint = '( ERROR | Traceback)'
