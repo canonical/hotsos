@@ -450,7 +450,7 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                     'ovs_use_veth': False},
                                 'l3-agent': {
                                     'agent_mode': 'dvr_snat'},
-                                'neutron': {
+                                'main': {
                                     'availability_zone': 'nova'},
                                 'openvswitch-agent': {
                                     'l2_population': True,

@@ -1,14 +1,9 @@
-import os
 import re
 
-from core import constants
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import (
     NeutronHAInfo,
     OST_PROJECTS,
-    OST_SERVICES_DEPS,
-    OST_SERVICES_EXPRS,
-    OpenstackConfig,
     OpenstackChecksBase,
     OpenstackServiceChecksBase,
     OpenstackPackageChecksBase,
@@ -20,17 +15,13 @@ from core.issues import (
     issue_utils,
 )
 
-# configs that dont use standard /etc/<project>/<project>.conf
-OST_ETC_OVERRIDES = {"glance": "glance-api.conf",
-                     "swift": "proxy.conf"}
-
 YAML_PRIORITY = 0
 
 
 class OpenstackInfo(OpenstackServiceChecksBase):
 
     def __init__(self):
-        service_exprs = OST_SERVICES_EXPRS + OST_SERVICES_DEPS
+        service_exprs = OST_PROJECTS.service_exprs
         super().__init__(service_exprs=service_exprs, hint_range=(0, 3))
 
     def get_running_services_info(self):
@@ -57,15 +48,10 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         setting in their configuration.
         """
         debug_enabled = {}
-        for proj in OST_PROJECTS:
-            conf = OST_ETC_OVERRIDES.get(proj)
-            if conf is None:
-                conf = "{}.conf".format(proj)
-
-            path = os.path.join(constants.DATA_ROOT, "etc", proj, conf)
-            cfg = OpenstackConfig(path)
-            if cfg.exists:
-                debug_enabled[proj] = cfg.get("debug", section="DEFAULT")
+        for name, info in OST_PROJECTS.all.items():
+            cfg = info.config.get('main')
+            if cfg and cfg.exists:
+                debug_enabled[name] = cfg.get("debug", section="DEFAULT")
 
         if debug_enabled:
             self._output["debug-logging-enabled"] = debug_enabled

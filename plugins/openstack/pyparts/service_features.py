@@ -1,13 +1,9 @@
-import os
-
-from core import constants
 from core.plugins.openstack import (
-    CONFIG_FILES,
+    OST_PROJECTS,
     OpenstackChecksBase,
-    OpenstackConfig,
 )
 
-FEATURES = {'neutron': {'neutron': [
+FEATURES = {'neutron': {'main': [
                             'availability_zone'],
                         'openvswitch-agent': [
                             'l2_population',
@@ -19,7 +15,7 @@ FEATURES = {'neutron': {'neutron': [
                             'enable_metadata_network',
                             'enable_isolated_metadata',
                             'ovs_use_veth']},
-            'nova': {'nova': [
+            'nova': {'main': [
                         'vcpu_pin_set',
                         'cpu_shared_set',
                         'cpu_dedicated_set']}}
@@ -45,9 +41,7 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         for service in FEATURES:
             for module in FEATURES[service]:
                 module_features = {}
-                path = os.path.join(constants.DATA_ROOT,
-                                    CONFIG_FILES[service][module])
-                cfg = OpenstackConfig(path)
+                cfg = OST_PROJECTS.all[service].config[module]
                 if not cfg.exists:
                     return
 

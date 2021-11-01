@@ -1652,3 +1652,12 @@ OVSDBAPP_EXCEPTIONS = [
     "TimeoutException",
     "OvsdbConnectionUnavailable",
 ]
+
+# Exceptions common to any project should be defined here
+EXCEPTIONS_COMMON = [
+    r'AMQP server on .+ is unreachable',
+    r'amqp.exceptions.ConnectionForced',
+    r'OSError: Server unexpectedly closed connection',
+] + OSLO_DB_EXCEPTIONS \
+  + OSLO_MESSAGING_EXCEPTIONS \
+  + PYTHON_BUILTIN_EXCEPTIONS

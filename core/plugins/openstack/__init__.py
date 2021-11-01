@@ -14,9 +14,22 @@ from core import (
 from core.checks import DPKGVersionCompare
 from core.log import log
 from core.cli_helpers import CmdBase, CLIHelper
-from core.plugins.openstack import exceptions
+from core.plugins.openstack.exceptions import (
+    EXCEPTIONS_COMMON,
+    BARBICAN_EXCEPTIONS,
+    CASTELLAN_EXCEPTIONS,
+    CINDER_EXCEPTIONS,
+    KEYSTONE_EXCEPTIONS,
+    MANILA_EXCEPTIONS,
+    PYTHON_LIBVIRT_EXCEPTIONS,
+    NOVA_EXCEPTIONS,
+    NEUTRON_EXCEPTIONS,
+    OCTAVIA_EXCEPTIONS,
+    OVSDBAPP_EXCEPTIONS,
+)
 
-APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, "etc/apt/sources.list.d")
+APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, 'etc/apt/sources.list.d')
+NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
 
 # Plugin config opts from global
 AGENT_ERROR_KEY_BY_TIME = \
@@ -124,118 +137,156 @@ OST_REL_INFO = {
         'rocky': '3.0.0'}
     }
 
-# These are the names of Openstack projects we want to track.
-OST_PROJECTS = ["aodh",
-                "barbican",
-                "ceilometer",
-                "cinder",
-                "designate",
-                "glance",
-                "gnocchi",
-                "heat",
-                "horizon",
-                "keystone",
-                "neutron",
-                "nova",
-                "manila",
-                "masakari",
-                "octavia",
-                "placement",
-                "swift",
-                ]
-
-SVC_VALID_SUFFIX = r"[0-9a-zA-Z-_]*"
-
-# expressions used to match openstack services for each project
-OST_SERVICES_EXPRS = []
-for project in OST_PROJECTS:
-    OST_SERVICES_EXPRS.append(project + SVC_VALID_SUFFIX)
-
-# Services that are not actually openstack projects but are used by them
-OST_SERVICES_DEPS = [r"apache{}".format(SVC_VALID_SUFFIX),
-                     r"dnsmasq",
-                     r"ganesha.nfsd",
-                     r"haproxy",
-                     r"keepalived{}".format(SVC_VALID_SUFFIX),
-                     r"mysqld",
-                     r"vault{}".format(SVC_VALID_SUFFIX),
-                     r"qemu-system-\S+",
-                     r"radvd",
-                     ]
-
-OST_PKG_ALIASES = ["openstack-dashboard"]
-OST_PKGS_CORE = OST_PROJECTS + OST_PKG_ALIASES
-OST_DEP_PKGS = [r"conntrack",
-                r"dnsmasq",
-                r"haproxy",
-                r"keepalived",
-                r"libvirt-daemon",
-                r"libvirt-bin",
-                r"mysql-?\S+",
-                r"pacemaker",
-                r"corosync",
-                r"nfs--ganesha",
-                r"python3?-oslo[.-]",
-                r"qemu-kvm",
-                r"radvd",
-                ]
-# Add in clients/deps
-for pkg in OST_PKGS_CORE:
-    OST_DEP_PKGS.append(r"python3?-{}\S*".format(pkg))
-
-AGENT_DAEMON_NAMES = {
-    "barbican": ["barbican-api", "barbican-worker"],
-    "cinder": ["cinder-scheduler", "cinder-volume"],
-    "designate": ["designate-agent", "designate-api", "designate-central",
-                  "designate-mdns", "designate-producer", "designate-sink",
-                  "designate-worker"],
-    "glance": ["glance-api"],
-    "heat": ["heat-engine", "heat-api", "heat-api-cfn"],
-    "keystone": ["keystone"],
-    "manila": ["manila-api", "manila-scheduler", "manila-data",
-               "manila-share"],
-    "neutron": ["neutron-openvswitch-agent", "neutron-dhcp-agent",
-                "neutron-l3-agent", "neutron-server",
-                "neutron-sriov-agent"],
-    "nova": ["nova-compute", "nova-scheduler", "nova-conductor",
-             "nova-api-os-compute", "nova-api-wsgi", "nova-api-metadata.log"],
-    "octavia": ["octavia-api", "octavia-worker",
-                "octavia-health-manager", "octavia-housekeeping",
-                "octavia-driver-agent"],
-    }
-
-
-# These can exist in any service
-AGENT_EXCEPTIONS_COMMON = [
-    r"AMQP server on .+ is unreachable",
-    r"amqp.exceptions.ConnectionForced",
-    r"OSError: Server unexpectedly closed connection",
-]
-for exc in exceptions.OSLO_DB_EXCEPTIONS + \
-        exceptions.OSLO_MESSAGING_EXCEPTIONS + \
-        exceptions.PYTHON_BUILTIN_EXCEPTIONS:
-    AGENT_EXCEPTIONS_COMMON.append(exc)
-
-SERVICE_RESOURCES = {}
-for service in OST_PROJECTS:
-    SERVICE_RESOURCES[service] = {"logs": os.path.join("var/log", service),
-                                  "exceptions_base": [] +
-                                  AGENT_EXCEPTIONS_COMMON,
-                                  "daemons":
-                                  AGENT_DAEMON_NAMES.get(service, [])}
-
-NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
-
-CONFIG_FILES = {"neutron": {"neutron": "etc/neutron/neutron.conf",
-                            "openvswitch-agent":
-                            "etc/neutron/plugins/ml2/openvswitch_agent.ini",
-                            "l3-agent": "etc/neutron/l3_agent.ini",
-                            "dhcp-agent": "etc/neutron/dhcp_agent.ini"},
-                "nova": {"nova": "etc/nova/nova.conf"}}
+OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
+                  'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
+                  'keystone': KEYSTONE_EXCEPTIONS,
+                  'manila': MANILA_EXCEPTIONS,
+                  'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
+                  'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS,
+                  'octavia': OCTAVIA_EXCEPTIONS,
+                  }
 
 
 class OpenstackConfig(checks.SectionalConfigBase):
     pass
+
+
+class OSTProject(object):
+    SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
+    PY_CLIENT_PREFIX = r"python3?-{}\S*"
+
+    def __init__(self, name, config=None, daemon_names=None,
+                 apt_core_alt=None):
+        self.name = name
+        self.packages_core = [name]
+        if apt_core_alt:
+            self.packages_core.append(apt_core_alt)
+            client = self.PY_CLIENT_PREFIX.format(apt_core_alt)
+        else:
+            client = self.PY_CLIENT_PREFIX.format(name)
+
+        self.config = {}
+        if config:
+            for label, path in config.items():
+                path = os.path.join(constants.DATA_ROOT, 'etc', name, path)
+                self.config[label] = OpenstackConfig(path)
+
+        self.packages_core.append(client)
+        self.service_expr = '{}{}'.format(name, self.SVC_VALID_SUFFIX)
+        self.daemon_names = daemon_names or []
+        self.log_file_path = os.path.join('var/log', name)
+        self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
+
+
+class OSTProjectCatalog(object):
+    # Services that are not actually openstack projects but are used by them
+    OST_SERVICES_DEPS = [r'apache{}'.format(OSTProject.SVC_VALID_SUFFIX),
+                         'dnsmasq',
+                         'ganesha.nfsd',
+                         'haproxy',
+                         r"keepalived{}".format(OSTProject.SVC_VALID_SUFFIX),
+                         'mysqld',
+                         r"vault{}".format(OSTProject.SVC_VALID_SUFFIX),
+                         r'qemu-system-\S+',
+                         'radvd',
+                         ]
+
+    # Set of packages that any project can depend on
+    APT_DEPS_COMMON = ['conntrack',
+                       'dnsmasq',
+                       'haproxy',
+                       'keepalived',
+                       'libvirt-daemon',
+                       'libvirt-bin',
+                       r'mysql-?\S+',
+                       'pacemaker',
+                       'corosync',
+                       'nfs--ganesha',
+                       r'python3?-oslo[.-]',
+                       'qemu-kvm',
+                       'radvd',
+                       ]
+
+    def __init__(self):
+        self._projects = {}
+
+    def __getattr__(self, name):
+        return self._projects[name]
+
+    @property
+    def all(self):
+        return self._projects
+
+    @property
+    def service_exprs(self):
+        # Expressions used to match openstack systemd services for each project
+        return [p.service_expr for p in OST_PROJECTS.all.values()] + \
+                self.OST_SERVICES_DEPS
+
+    def add(self, name, *args, **kwargs):
+        self._projects[name] = OSTProject(name, *args, **kwargs)
+
+    @property
+    def packages_core(self):
+        # Set of packages we consider to be core for openstack
+        core = []
+        for p in OST_PROJECTS.all.values():
+            core += p.packages_core
+
+        return core
+
+    @property
+    def package_dependencies(self):
+        return self.APT_DEPS_COMMON
+
+
+OST_PROJECTS = OSTProjectCatalog()
+OST_PROJECTS.add('aodh'),
+OST_PROJECTS.add('barbican',
+                 daemon_names=['barbican-api', 'barbican-worker']),
+OST_PROJECTS.add('ceilometer'),
+OST_PROJECTS.add('cinder',
+                 daemon_names=['cinder-scheduler', 'cinder-volume']),
+OST_PROJECTS.add('designate',
+                 daemon_names=['designate-agent', 'designate-api',
+                               'designate-central', 'designate-mdns',
+                               'designate-producer', 'designate-sink',
+                               'designate-worker']),
+OST_PROJECTS.add('glance', daemon_names=['glance-api'],
+                 config={'main': 'glance-api.conf'}),
+OST_PROJECTS.add('gnocchi'),
+OST_PROJECTS.add('heat',
+                 daemon_names=['heat-engine', 'heat-api', 'heat-api-cfn']),
+OST_PROJECTS.add('horizon',
+                 apt_core_alt='openstack-dashboard'),
+OST_PROJECTS.add('keystone', daemon_names=['keystone']),
+OST_PROJECTS.add('neutron',
+                 daemon_names=['neutron-openvswitch-agent',
+                               'neutron-dhcp-agent', 'neutron-l3-agent',
+                               'neutron-server', 'neutron-sriov-agent'],
+                 config={'main': 'neutron.conf',
+                         'openvswitch-agent':
+                         'plugins/ml2/openvswitch_agent.ini',
+                         'l3-agent': 'l3_agent.ini',
+                         'dhcp-agent': 'dhcp_agent.ini'}),
+OST_PROJECTS.add('nova',
+                 daemon_names=['nova-compute', 'nova-scheduler',
+                               'nova-conductor', 'nova-api-os-compute',
+                               'nova-api-wsgi',
+                               'nova-api-metadata'],
+                 config={'main': 'nova.conf'}),
+OST_PROJECTS.add('manila',
+                 daemon_names=['manila-api', 'manila-scheduler',
+                               'manila-data', 'manila-share']),
+OST_PROJECTS.add('masakari'),
+OST_PROJECTS.add('octavia',
+                 daemon_names=['octavia-api', 'octavia-worker',
+                               'octavia-health-manager',
+                               'octavia-housekeeping',
+                               'octavia-driver-agent']),
+OST_PROJECTS.add('placement'),
+OST_PROJECTS.add('swift', config={'main': 'swift-proxy.conf',
+                                  'proxy': 'swift-proxy.conf'}),
 
 
 class OSGuest(object):
@@ -272,7 +323,7 @@ class NeutronHAInfo(object):
                 # so we ignore it.
                 continue
 
-            state_path = os.path.join(entry, "state")
+            state_path = os.path.join(entry, 'state')
             if not os.path.exists(state_path):
                 continue
 
@@ -281,11 +332,11 @@ class NeutronHAInfo(object):
                 state = fd.read().strip()
                 router = NeutronRouter(uuid, state)
 
-            keepalived_conf_path = os.path.join(entry, "keepalived.conf")
+            keepalived_conf_path = os.path.join(entry, 'keepalived.conf')
             if os.path.isfile(keepalived_conf_path):
                 with open(keepalived_conf_path) as fd:
                     for line in fd:
-                        expr = r".+ virtual_router_id (\d+)"
+                        expr = r'.+ virtual_router_id (\d+)'
                         ret = re.compile(expr).search(line)
                         if ret:
                             router.vr_id = ret.group(1)
@@ -312,14 +363,12 @@ class OpenstackBase(object):
         super().__init__(*args, **kwargs)
         self._instances = []
         self.nethelp = host_helpers.HostNetworkingHelper()
-        nova_conf = os.path.join(constants.DATA_ROOT,
-                                 CONFIG_FILES['nova']['nova'])
-        self.nova_config = OpenstackConfig(nova_conf)
-        neutron_ovs_conf = CONFIG_FILES['neutron']['openvswitch-agent']
-        neutron_ovs_conf = os.path.join(constants.DATA_ROOT, neutron_ovs_conf)
-        self.neutron_ovs_config = OpenstackConfig(neutron_ovs_conf)
-        self.apt_check = checks.APTPackageChecksBase(core_pkgs=OST_PKGS_CORE,
-                                                     other_pkgs=OST_DEP_PKGS)
+        self.nova_config = OST_PROJECTS.nova.config['main']
+        neutron = OST_PROJECTS.neutron
+        self.neutron_ovs_config = neutron.config['openvswitch-agent']
+        self.apt_check = checks.APTPackageChecksBase(
+                                  core_pkgs=OST_PROJECTS.packages_core,
+                                  other_pkgs=OST_PROJECTS.package_dependencies)
 
     @property
     def instances(self):
@@ -327,17 +376,17 @@ class OpenstackBase(object):
             return self._instances
 
         for line in CLIHelper().ps():
-            ret = re.compile(".+product=OpenStack Nova.+").match(line)
+            ret = re.compile('.+product=OpenStack Nova.+').match(line)
             if ret:
                 name = None
                 uuid = None
 
-                expr = r".+uuid\s+([a-z0-9\-]+)[\s,]+.+"
+                expr = r'.+uuid\s+([a-z0-9\-]+)[\s,]+.+'
                 ret = re.compile(expr).match(ret[0])
                 if ret:
                     uuid = ret[1]
 
-                expr = r".+\s+-name\s+guest=(instance-\w+)[,]*.*\s+.+"
+                expr = r'.+\s+-name\s+guest=(instance-\w+)[,]*.*\s+.+'
                 ret = re.compile(expr).match(ret[0])
                 if ret:
                     name = ret[1]
@@ -346,11 +395,11 @@ class OpenstackBase(object):
                     continue
 
                 guest = OSGuest(uuid, name)
-                ret = re.compile(r"mac=([a-z0-9:]+)").findall(line)
+                ret = re.compile(r'mac=([a-z0-9:]+)').findall(line)
                 if ret:
                     for mac in ret:
                         # convert libvirt to local/native
-                        mac = "fe" + mac[2:]
+                        mac = 'fe' + mac[2:]
                         _port = self.nethelp.get_interface_with_hwaddr(mac)
                         if _port:
                             guest.add_port(_port)
@@ -479,7 +528,7 @@ class OpenstackBase(object):
         for source in os.listdir(APT_SOURCE_PATH):
             apt_path = os.path.join(APT_SOURCE_PATH, source)
             for line in CmdBase.safe_readlines(apt_path):
-                rexpr = r"deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+"
+                rexpr = r'deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+'
                 ret = re.compile(rexpr).match(line)
                 if ret:
                     if 'uca' not in release_info:
@@ -538,4 +587,5 @@ class OpenstackDockerImageChecksBase(OpenstackChecksBase,
                                      checks.DockerImageChecksBase):
 
     def __init__(self):
-        super().__init__(core_pkgs=OST_PKGS_CORE, other_pkgs=OST_DEP_PKGS)
+        super().__init__(core_pkgs=OST_PROJECTS.packages_core,
+                         other_pkgs=OST_PROJECTS.package_dependencies)
