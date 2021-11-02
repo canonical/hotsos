@@ -46,10 +46,18 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
         self.assertEqual(inst.output, expected)
 
     def test_get_resource_checks(self):
-        expected = {'services': {'systemd': {'static':
-                                             ['ovs-vswitchd', 'ovsdb-server']},
-                                 'ps': ['ovs-vswitchd (1)', 'ovsdb-client (1)',
-                                        'ovsdb-server (1)']}}
+        expected = {'services': {
+                        'systemd': {
+                            'enabled': [
+                                'openvswitch-switch'
+                                ],
+                            'static': [
+                                'ovs-vswitchd', 'ovsdb-server'
+                                ]
+                            },
+                        'ps': [
+                            'ovs-vswitchd (1)', 'ovsdb-client (1)',
+                            'ovsdb-server (1)']}}
         inst = service_info.OpenvSwitchServiceChecks()
         inst()
         self.assertEqual(inst.output, expected)

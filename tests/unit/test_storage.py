@@ -223,14 +223,16 @@ class TestStorageCephServiceInfo(StorageTestsBase):
 
     def test_get_service_info(self):
         svc_info = {'systemd': {'enabled': [
-                                    'ceph-crash'],
+                                    'ceph-crash',
+                                    'ceph-osd',
+                                    ],
                                 'disabled': [
+                                    'ceph-mon',
                                     'ceph-mds',
                                     'ceph-mgr',
-                                    'ceph-mon',
-                                    'ceph-radosgw'],
-                                'indirect': ['ceph-osd',
-                                             'ceph-volume'],
+                                    'ceph-radosgw',
+                                    ],
+                                'indirect': ['ceph-volume'],
                                 'generated': ['radosgw']},
                     'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
         expected = {'ceph': {

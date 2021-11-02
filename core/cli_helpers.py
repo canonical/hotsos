@@ -551,6 +551,9 @@ class CLIHelper(object):
             'systemctl_status_all':
                 [BinCmd('systemctl status --all'),
                  FileCmd('sos_commands/systemd/systemctl_status_--all')],
+            'systemctl_list_units':
+                [BinCmd('systemctl list-units'),
+                 FileCmd('sos_commands/systemd/systemctl_list-units')],
             'systemctl_list_unit_files':
                 [BinCmd('systemctl list-unit-files'),
                  FileCmd('sos_commands/systemd/systemctl_list-unit-files')],

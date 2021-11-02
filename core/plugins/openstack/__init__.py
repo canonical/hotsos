@@ -156,7 +156,21 @@ class OSTProject(object):
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
     def __init__(self, name, config=None, daemon_names=None,
-                 apt_core_alt=None):
+                 apt_core_alt=None, systemd_masked_services=None):
+        """
+        @param name: name of this project
+        @param config: dict of config files keyed by a label used to identify
+                       them. All projects should have a config file labelled
+                       'main'.
+        @param daemon_names: list of daemon names of processes run by this
+                             project.
+        @param apt_core_alt: optional list of apt packages (regex) that are
+                             used by this project where the name of the project
+                             is not the same as the name used for its packages.
+        @param systemd_masked_services: optional list of services that are
+               expected to be masked in systemd e.g. if they are actually being
+               run by apache.
+        """
         self.name = name
         self.packages_core = [name]
         if apt_core_alt:
@@ -171,6 +185,7 @@ class OSTProject(object):
                 path = os.path.join(constants.DATA_ROOT, 'etc', name, path)
                 self.config[label] = OpenstackConfig(path)
 
+        self.systemd_masked_services = systemd_masked_services or []
         self.packages_core.append(client)
         self.service_expr = '{}{}'.format(name, self.SVC_VALID_SUFFIX)
         self.daemon_names = daemon_names or []
@@ -180,7 +195,7 @@ class OSTProject(object):
 
 class OSTProjectCatalog(object):
     # Services that are not actually openstack projects but are used by them
-    OST_SERVICES_DEPS = [r'apache{}'.format(OSTProject.SVC_VALID_SUFFIX),
+    OST_SERVICES_DEPS = [r'apache2',
                          'dnsmasq',
                          'ganesha.nfsd',
                          'haproxy',
@@ -223,6 +238,18 @@ class OSTProjectCatalog(object):
         return [p.service_expr for p in OST_PROJECTS.all.values()] + \
                 self.OST_SERVICES_DEPS
 
+    @property
+    def default_masked_services(self):
+        """
+        Returns a list of services that are expected to be marked as masked in
+        systemd.
+        """
+        masked = []
+        for p in OST_PROJECTS.all.values():
+            masked += p.systemd_masked_services
+
+        return masked
+
     def add(self, name, *args, **kwargs):
         self._projects[name] = OSTProject(name, *args, **kwargs)
 
@@ -241,11 +268,14 @@ class OSTProjectCatalog(object):
 
 
 OST_PROJECTS = OSTProjectCatalog()
-OST_PROJECTS.add('aodh', config={'main': 'aodh.conf'}),
+OST_PROJECTS.add('aodh', config={'main': 'aodh.conf'},
+                 systemd_masked_services=['aodh-api']),
 OST_PROJECTS.add('barbican',
                  daemon_names=['barbican-api', 'barbican-worker'],
-                 config={'main': 'barbican.conf'}),
-OST_PROJECTS.add('ceilometer', config={'main': 'ceilometer.conf'}),
+                 config={'main': 'barbican.conf'},
+                 systemd_masked_services=['barbican-api']),
+OST_PROJECTS.add('ceilometer', config={'main': 'ceilometer.conf'},
+                 systemd_masked_services=['ceilometer-api']),
 OST_PROJECTS.add('cinder',
                  daemon_names=['cinder-scheduler', 'cinder-volume'],
                  config={'main': 'cinder.conf'}),
@@ -257,14 +287,16 @@ OST_PROJECTS.add('designate',
                  config={'main': 'designate.conf'}),
 OST_PROJECTS.add('glance', daemon_names=['glance-api'],
                  config={'main': 'glance-api.conf'}),
-OST_PROJECTS.add('gnocchi', config={'main': 'gnocchi.conf'}),
+OST_PROJECTS.add('gnocchi', config={'main': 'gnocchi.conf'},
+                 systemd_masked_services=['gnocchi-api']),
 OST_PROJECTS.add('heat',
                  daemon_names=['heat-engine', 'heat-api', 'heat-api-cfn'],
                  config={'main': 'heat.conf'}),
 OST_PROJECTS.add('horizon',
                  apt_core_alt='openstack-dashboard'),
 OST_PROJECTS.add('keystone', daemon_names=['keystone'],
-                 config={'main': 'keystone.conf'}),
+                 config={'main': 'keystone.conf'},
+                 systemd_masked_services=['keystone']),
 OST_PROJECTS.add('neutron',
                  daemon_names=['neutron-openvswitch-agent',
                                'neutron-dhcp-agent', 'neutron-l3-agent',
@@ -279,19 +311,24 @@ OST_PROJECTS.add('nova',
                                'nova-conductor', 'nova-api-os-compute',
                                'nova-api-wsgi',
                                'nova-api-metadata'],
-                 config={'main': 'nova.conf'}),
+                 config={'main': 'nova.conf'},
+                 systemd_masked_services=['nova-api-os-compute']),
 OST_PROJECTS.add('manila',
                  daemon_names=['manila-api', 'manila-scheduler',
                                'manila-data', 'manila-share'],
-                 config={'main': 'manila.conf'}),
-OST_PROJECTS.add('masakari', config={'main': 'masakari.conf'}),
+                 config={'main': 'manila.conf'},
+                 systemd_masked_services=['manila-api']),
+OST_PROJECTS.add('masakari', config={'main': 'masakari.conf'},
+                 systemd_masked_services=['masakari']),
 OST_PROJECTS.add('octavia',
                  daemon_names=['octavia-api', 'octavia-worker',
                                'octavia-health-manager',
                                'octavia-housekeeping',
                                'octavia-driver-agent'],
-                 config={'main': 'octavia.conf'}),
-OST_PROJECTS.add('placement', config={'main': 'placement.conf'}),
+                 config={'main': 'octavia.conf'},
+                 systemd_masked_services=['octavia-api']),
+OST_PROJECTS.add('placement', config={'main': 'placement.conf'},
+                 systemd_masked_services=['placement']),
 OST_PROJECTS.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'}),
 
