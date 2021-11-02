@@ -8,7 +8,8 @@ from core.host_helpers import HostNetworkingHelper
 
 OVS_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
                       r"ovs-vswitch[a-zA-Z-]*",
-                      r"ovn[a-zA-Z-]*"]
+                      r"ovn[a-zA-Z-]*",
+                      "openvswitch-switch"]
 OVS_PKGS_CORE = [r"openvswitch-switch",
                  r"ovn",
                  ]

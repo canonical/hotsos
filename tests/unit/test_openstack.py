@@ -21,6 +21,32 @@ from plugins.openstack.pyparts import (
     service_config_checks,
 )
 
+OCTAVIA_UNIT_FILES = """
+apache-htcacheclean.service               disabled       
+apache-htcacheclean@.service              disabled       
+apache2.service                           enabled        
+apache2@.service                          disabled       
+jujud-unit-octavia-0.service              enabled        
+jujud-unit-octavia-hacluster-5.service    enabled        
+octavia-api.service                       masked         
+octavia-health-manager.service            enabled        
+octavia-housekeeping.service              enabled        
+octavia-worker.service                    enabled 
+"""  # noqa
+
+OCTAVIA_UNIT_FILES_APACHE_MASKED = """
+apache-htcacheclean.service               disabled       
+apache-htcacheclean@.service              disabled       
+apache2.service                           masked        
+apache2@.service                          disabled       
+jujud-unit-octavia-0.service              enabled        
+jujud-unit-octavia-hacluster-5.service    enabled        
+octavia-api.service                       masked         
+octavia-health-manager.service            enabled        
+octavia-housekeeping.service              enabled        
+octavia-worker.service                    enabled 
+"""  # noqa
+
 
 APT_UCA = """
 # Ubuntu Cloud Archive
@@ -165,6 +191,52 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
         inst = service_info.OpenstackInfo()
         inst()
         self.assertEqual(inst.output["services"], expected)
+
+    @mock.patch.object(service_info.issue_utils, 'add_issue')
+    @mock.patch('core.checks.CLIHelper')
+    def test_get_service_info_apache_service(self, mock_helper,
+                                             mock_add_issue):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.systemctl_list_unit_files.return_value = \
+            OCTAVIA_UNIT_FILES.splitlines(keepends=True)
+        expected = {'enabled': [
+                        'apache2',
+                        'octavia-health-manager',
+                        'octavia-housekeeping',
+                        'octavia-worker'],
+                    'masked': [
+                        'octavia-api']
+                    }
+        with mock.patch.object(service_info.OpenstackServiceChecksBase,
+                               'openstack_installed', lambda: True):
+            inst = service_info.OpenstackInfo()
+            inst()
+            self.assertEqual(inst.output['services']['systemd'], expected)
+
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch.object(service_info.issue_utils, 'add_issue')
+    @mock.patch('core.checks.CLIHelper')
+    def test_get_service_info_apache_service_masked(self, mock_helper,
+                                                    mock_add_issue):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.systemctl_list_unit_files.return_value = \
+            OCTAVIA_UNIT_FILES_APACHE_MASKED.splitlines(keepends=True)
+        expected = {'enabled': [
+                        'octavia-health-manager',
+                        'octavia-housekeeping',
+                        'octavia-worker'],
+                    'masked': [
+                        'apache2',
+                        'octavia-api']
+                    }
+        with mock.patch.object(service_info.OpenstackServiceChecksBase,
+                               'openstack_installed', lambda: True):
+            inst = service_info.OpenstackInfo()
+            inst()
+            self.assertEqual(inst.output['services']['systemd'], expected)
+
+        self.assertTrue(mock_add_issue.called)
 
     def test_get_release_info(self):
         with tempfile.TemporaryDirectory() as dtmp:

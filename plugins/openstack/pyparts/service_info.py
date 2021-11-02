@@ -33,9 +33,8 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         """Get a list of masked services."""
         if self.service_info_str['systemd']:
             masked = self.service_info_str['systemd'].get('masked', {})
-            if 'keystone' in masked:
-                del masked['keystone']
-
+            expected_masked = OST_PROJECTS.default_masked_services
+            masked = set(masked).difference(expected_masked)
             if masked:
                 _masked = {', '.join(masked)}
                 msg = ('The following Openstack systemd services are masked: '
