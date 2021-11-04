@@ -1,0 +1,42 @@
+name: Notifications
+on:
+  issues:
+    types:
+      - opened
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post notification (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          PR=$(jq -r '.pull_request._links.html[]' ${GITHUB_EVENT_PATH})
+          USER=$(jq -r '.pull_request.user.login' ${GITHUB_EVENT_PATH})
+          curl -i -X POST -H "Content-Type: application/json" \
+            -d "{ \
+              \"text\": \"Pull Request ${{ github.event.action }} by ${USER} at ${PR}\" \
+              }" \
+            ${{ secrets.WEBHOOK_URI }}
+
+      - name: Post notification (Issue)
+        if: github.event_name == 'issues'
+        run: |
+          TITLE=$(jq -r '.issue.title' ${GITHUB_EVENT_PATH})
+          URL=$(jq -r '.issue.html_url' ${GITHUB_EVENT_PATH})
+          curl -i -X POST -H "Content-Type: application/json" \
+            -d "{ \
+              \"channel_id\": \"${{ secrets.CHANNEL_ID }}\", \
+              \"text\": \"New Issue: ${{ github.event.action }} '${TITLE}' at ${URL}\" \
+              }" \
+            ${{ secrets.WEBHOOK_URI }}
