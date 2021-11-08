@@ -571,3 +571,42 @@ class TestStorageCephEventChecks(StorageTestsBase):
         inst = ceph_event_checks.CephDaemonLogChecks()
         inst()
         self.assertEqual(inst.output["ceph"], result)
+
+
+class TestStorageConfigChecks(StorageTestsBase):
+
+    def setup_bcachefs(self, path, error=False):
+        cset = os.path.join(path, 'sys/fs/bcache/1234')
+        os.makedirs(cset)
+        for cfg, val in {'congested_read_threshold_us': '0',
+                         'congested_write_threshold_us': '0'}.items():
+            with open(os.path.join(cset, cfg), 'w') as fd:
+                fd.write(val)
+
+        bdev = os.path.join(cset, 'bdev1')
+        os.makedirs(bdev)
+        for cfg, val in {'sequential_cutoff': '0.0k',
+                         'cache_mode':
+                         'writethrough [writeback] writearound none',
+                         'writeback_percent': '10'}.items():
+            if error and cfg == 'writeback_percent':
+                val = '1'
+
+            with open(os.path.join(bdev, cfg), 'w') as fd:
+                fd.write(val)
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_config_checks_has_issue(self, mock_add_issue):
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp, error=True)
+            os.environ['DATA_ROOT'] = dtmp
+            checks.ConfigChecksBase()()
+            self.assertTrue(mock_add_issue.called)
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_config_checks_no_issue(self, mock_add_issue):
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp)
+            os.environ['DATA_ROOT'] = dtmp
+            checks.ConfigChecksBase()()
+            self.assertFalse(mock_add_issue.called)

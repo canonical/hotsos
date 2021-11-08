@@ -7,10 +7,15 @@ from core.plugins.storage import StorageBase
 
 class BcacheBase(StorageBase):
 
+    def get_cachesets(self):
+        return glob.glob(os.path.join(constants.DATA_ROOT, 'sys/fs/bcache/*'))
+
+    def get_cacheset_bdevs(self, cset):
+        return glob.glob(os.path.join(cset, 'bdev*'))
+
     def get_sysfs_cachesets(self):
         cachesets = []
-        path = os.path.join(constants.DATA_ROOT, "sys/fs/bcache/*")
-        for entry in glob.glob(path):
+        for entry in self.get_cachesets():
             if os.path.exists(os.path.join(entry, "cache_available_percent")):
                 cachesets.append({"path": entry,
                                   "uuid": os.path.basename(entry)})
@@ -25,6 +30,27 @@ class BcacheBase(StorageBase):
             del cset["path"]
 
         return cachesets
+
+
+class CachesetsConfig(BcacheBase):
+
+    def get(self, key):
+        for cset in self.get_cachesets():
+            cfg = os.path.join(cset, key)
+            if os.path.exists(cfg):
+                with open(cfg) as fd:
+                    return fd.read().strip()
+
+
+class BdevsConfig(BcacheBase):
+
+    def get(self, key):
+        for cset in self.get_cachesets():
+            for bdev in self.get_cacheset_bdevs(cset):
+                cfg = os.path.join(bdev, key)
+                if os.path.exists(cfg):
+                    with open(cfg) as fd:
+                        return fd.read().strip()
 
 
 class BcacheChecksBase(BcacheBase):
