@@ -171,16 +171,32 @@ class YAMLDefRequires(YAMLDefOverrideBase):
 class YAMLDefConfig(YAMLDefOverrideBase):
     KEYS = ['config']
 
-    def check(self, key, value, op, allow_unset=False, section=None):
+    def actual(self, key, section=None):
         mod = self.handler.rpartition('.')[0]
         cls = self.handler.rpartition('.')[2]
-        self.cfg = getattr(importlib.import_module(mod), cls)(self.path)
-        actual = self.cfg.get(key, section=section)
+        obj = getattr(importlib.import_module(mod), cls)
+        if hasattr(self, 'path'):
+            self.cfg = obj(self.path)
+        else:
+            self.cfg = obj()
+
+        if section:
+            actual = self.cfg.get(key, section=section)
+        else:
+            actual = self.cfg.get(key)
+
+        return actual
+
+    def check(self, actual, value, op, allow_unset=False):
         if actual is None:
             if allow_unset:
                 return True
             else:
                 return False
+
+        # Apply the type from the yaml to that of the config
+        if type(value) != type(actual):
+            actual = type(value)(actual)
 
         if getattr(operator, op)(actual, value):
             return True
@@ -831,7 +847,14 @@ class ConfigChecksBase(object):
                       len(group.leaf_sections))
 
             for cfg_check in group.leaf_sections:
+                # This is only available if there is a section above us
+                if cfg_check.parent:
+                    group_name = cfg_check.parent.name
+                else:
+                    group_name = None
+
                 self._check_defs[cfg_check.name] = {
+                    'group': group_name,
                     'message': cfg_check.message,
                     'config': cfg_check.config,
                     'requires': cfg_check.requires,
@@ -839,25 +862,39 @@ class ConfigChecksBase(object):
 
     def run_checks(self):
         for name, cfg_check in self._check_defs.items():
-            if not cfg_check['requires'].passes:
+            # this is optional
+            requires = cfg_check['requires']
+            if requires and not cfg_check['requires'].passes:
                 continue
 
             log.debug("config check section=%s", name)
-            message = str(cfg_check['message'])
+            message = None
+            if cfg_check['message']:
+                message = str(cfg_check['message'])
+
             for cfg_key, settings in cfg_check['settings'].items():
                 op = settings['operator']
                 value = settings['value']
-                section = settings['section']
+                section = settings.get('section')
                 allow_unset = bool(settings.get('allow-unset', False))
-                log.debug("checking config %s has value %s", cfg_key, value)
                 raise_issue = False
-                if not cfg_check['config'].check(cfg_key, value, op,
-                                                 section=section,
+                actual = cfg_check['config'].actual(cfg_key, section=section)
+                log.debug("checking config %s %s %s (actual=%s)", cfg_key, op,
+                          value, actual)
+                if not cfg_check['config'].check(actual, value, op,
                                                  allow_unset=allow_unset):
                     raise_issue = True
 
                 if raise_issue:
-                    issue = issue_types.OpenstackWarning(message)
+                    if message:
+                        _message = message
+                    else:
+                        _message = ("{} config {} expected to be {} {} "
+                                    "but actual={}".format(cfg_check['group'],
+                                                           cfg_key, op, value,
+                                                           actual))
+
+                    issue = issue_types.OpenstackWarning(_message)
                     issue_utils.add_issue(issue)
                     # move on to next set of checks
                     break

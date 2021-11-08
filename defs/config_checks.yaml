@@ -35,4 +35,28 @@ openstack:
         value: 1024
         operator: ge
         allow-unset: False
-    
+storage:
+  bcache:
+    cset:
+      config:
+        handler: core.plugins.storage.bcache.CachesetsConfig
+      settings:
+        congested_read_threshold_us:
+          value: 0
+          operator: eq
+        congested_write_threshold_us:
+          value: 0
+          operator: eq
+    bdev:
+      config:
+        handler: core.plugins.storage.bcache.BdevsConfig
+      settings:
+        sequential_cutoff:
+          value: '0.0k'
+          operator: eq
+        cache_mode:
+          value: 'writethrough [writeback] writearound none'
+          operator: eq
+        writeback_percent:
+          value: 10
+          operator: ge
