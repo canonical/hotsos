@@ -603,7 +603,12 @@ class TestStorageConfigChecks(StorageTestsBase):
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_has_issue(self, mock_add_issue):
+        ceph_conf = ceph_core.CephConfig().dump
         with tempfile.TemporaryDirectory() as dtmp:
+            os.makedirs(os.path.join(dtmp, 'etc/ceph'))
+            with open(os.path.join(dtmp, 'etc/ceph/ceph.conf'), 'w') as fd:
+                fd.write(ceph_conf)
+
             self.setup_bcachefs(dtmp, error=True)
             os.environ['DATA_ROOT'] = dtmp
             checks.ConfigChecksBase()()
@@ -611,7 +616,12 @@ class TestStorageConfigChecks(StorageTestsBase):
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_no_issue(self, mock_add_issue):
+        ceph_conf = ceph_core.CephConfig().dump
         with tempfile.TemporaryDirectory() as dtmp:
+            os.makedirs(os.path.join(dtmp, 'etc/ceph'))
+            with open(os.path.join(dtmp, 'etc/ceph/ceph.conf'), 'w') as fd:
+                fd.write(ceph_conf)
+
             self.setup_bcachefs(dtmp)
             os.environ['DATA_ROOT'] = dtmp
             checks.ConfigChecksBase()()

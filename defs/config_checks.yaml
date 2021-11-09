@@ -60,3 +60,19 @@ storage:
         writeback_percent:
           value: 10
           operator: ge
+  ceph:
+    filestore-to-bluestore:
+      message: >-
+        bluestore is enabled yet there is a still a journal device
+        configured in ceph.conf - please check
+      requires:
+        type: property
+        source: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
+        value: True
+      config:
+        handler: core.plugins.storage.ceph.CephConfig
+      settings:
+        osd_journal:
+          value:
+          operator: eq
+

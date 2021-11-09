@@ -161,7 +161,20 @@ class YAMLDefRequires(YAMLDefOverrideBase):
     def passes(self):
         if self.type == 'apt':
             pkg = self.value
-            return APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
+            result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
+            log.debug('config_check requirement:apt %s (result=%s)', pkg,
+                      result)
+            return result
+        elif self.type == 'property':
+            mod = self.source.rpartition('.')[0]
+            property = self.source.rpartition('.')[2]
+            class_name = mod.rpartition('.')[2]
+            mod = mod.rpartition('.')[0]
+            cls = getattr(importlib.import_module(mod), class_name)
+            result = getattr(cls(), property) is self.value
+            log.debug('config_check requirement:property %s is %s (result=%s)',
+                      self.source, self.value, result)
+            return result
         else:
             self.debug("unsupported yaml requires type=%s", self.type)
 
@@ -188,14 +201,14 @@ class YAMLDefConfig(YAMLDefOverrideBase):
         return actual
 
     def check(self, actual, value, op, allow_unset=False):
-        if actual is None:
+        if value is not None and actual is None:
             if allow_unset:
                 return True
             else:
                 return False
 
         # Apply the type from the yaml to that of the config
-        if type(value) != type(actual):
+        if value is not None and type(value) != type(actual):
             actual = type(value)(actual)
 
         if getattr(operator, op)(actual, value):
@@ -785,6 +798,11 @@ class SectionalConfigBase(ConfigBase):
             return self.expand_value_ranges(value)
 
         return value
+
+    @property
+    def dump(self):
+        with open(self.path) as fd:
+            return fd.read()
 
     def _load(self):
         if not self.exists:
