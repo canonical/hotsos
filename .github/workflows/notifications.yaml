@@ -3,14 +3,6 @@ on:
   issues:
     types:
       - opened
-  pull_request:
-    branches:
-      - master
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
   workflow_dispatch:
 
 jobs:
@@ -18,17 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Post notification (PR)
-        if: github.event_name == 'pull_request'
-        run: |
-          PR=$(jq -r '.pull_request._links.html[]' ${GITHUB_EVENT_PATH})
-          USER=$(jq -r '.pull_request.user.login' ${GITHUB_EVENT_PATH})
-          curl -i -X POST -H "Content-Type: application/json" \
-            -d "{ \
-              \"text\": \"Pull Request ${{ github.event.action }} by ${USER} at ${PR}\" \
-              }" \
-            ${{ secrets.WEBHOOK_URI }}
-
       - name: Post notification (Issue)
         if: github.event_name == 'issues'
         run: |
