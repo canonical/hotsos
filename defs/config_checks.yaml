@@ -37,6 +37,10 @@ openstack:
         allow-unset: False
 storage:
   bcache:
+    requires:
+      type: property
+      source: core.plugins.storage.bcache.BcacheBase.bcache_enabled
+      value: True
     cset:
       config:
         handler: core.plugins.storage.bcache.CachesetsConfig

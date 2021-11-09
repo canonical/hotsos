@@ -7,6 +7,13 @@ from core.plugins.storage import StorageBase
 
 class BcacheBase(StorageBase):
 
+    @property
+    def bcache_enabled(self):
+        """ Return True if there are any backing devices configured. """
+        for cset in self.get_cachesets():
+            if self.get_cacheset_bdevs(cset):
+                return True
+
     def get_cachesets(self):
         return glob.glob(os.path.join(constants.DATA_ROOT, 'sys/fs/bcache/*'))
 
@@ -57,8 +64,7 @@ class BcacheChecksBase(BcacheBase):
 
     @property
     def plugin_runnable(self):
-        # TODO: define whether this plugin should run or not.
-        return True
+        self.bcache_enabled
 
     @property
     def output(self):
