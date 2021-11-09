@@ -94,7 +94,8 @@ class CephClusterChecks(ceph.CephChecksBase):
             counter = counter + 1
 
         if v1_osds:
-            msg = ("{} OSDs do not bind to v2 address".format(len(v1_osds)))
+            msg = ("{} osd(s) do not bind to a v2 address".
+                   format(len(v1_osds)))
             issue_utils.add_issue(issue_types.CephOSDWarning(msg))
 
     def check_ceph_bluefs_size(self):
@@ -115,12 +116,13 @@ class CephClusterChecks(ceph.CephChecksBase):
                     bad_meta_osds.append(device['name'])
 
         if bad_meta_osds:
-            msg = ("{} OSDs have metadata size larger than 10G. This "
-                   "indicates compaction failure/bug. Possibly affected by "
+            msg = ("{} osd(s) have metadata size larger than 10G. This "
+                   "could be the result of a compaction failure/bug and this "
+                   "host may be affected by "
                    "https://tracker.ceph.com/issues/45903. "
                    "A workaround (>= Nautilus) is to manually compact using "
                    "'ceph-bluestore-tool'"
-                   .format(bad_meta_osds))
+                   .format(len(bad_meta_osds)))
             issue_utils.add_issue(issue_types.CephOSDWarning(msg))
 
     def get_ceph_pg_imbalance(self):
@@ -154,8 +156,8 @@ class CephClusterChecks(ceph.CephChecksBase):
         if error_pgs:
             info = sorted_dict(error_pgs, key=lambda e: e[1], reverse=True)
             self._output['osd-pgs-near-limit'] = info
-            msg = ("{} osds found with > {} pgs - this is close to the hard "
-                   "limit at which point OSDs will stop creating pgs and fail "
+            msg = ("{} osd(s) found with > {} pgs - this is close to the hard "
+                   "limit at which point they will stop creating pgs and fail "
                    "- please investigate".
                    format(len(error_pgs), OSD_PG_MAX_LIMIT))
             issue = issue_types.CephCrushError(msg)
@@ -165,7 +167,7 @@ class CephClusterChecks(ceph.CephChecksBase):
             info = sorted_dict(suboptimal_pgs, key=lambda e: e[1],
                                reverse=True)
             self._output['osd-pgs-suboptimal'] = info
-            msg = ("{} osds found with > 10% margin from optimal {} pgs.".
+            msg = ("{} osd(s) found with > 10% margin from optimal {} pgs.".
                    format(len(suboptimal_pgs), OSD_PG_OPTIMAL_NUM))
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
