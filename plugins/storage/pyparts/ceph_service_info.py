@@ -45,5 +45,6 @@ class CephServiceChecks(CephServiceChecksBase):
 
     def __call__(self):
         self._output['release'] = self.release_name
+        self._output['status'] = self.health_status
         self.get_running_services_info()
         self.get_config_network_info()

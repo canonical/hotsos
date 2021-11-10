@@ -168,6 +168,10 @@ class TestStorageCephChecksBase(StorageTestsBase):
         release_name = ceph_core.CephChecksBase().release_name
         self.assertEqual(release_name, 'octopus')
 
+    def test_health_status(self):
+        health = ceph_core.CephChecksBase().health_status
+        self.assertEqual(health, 'HEALTH_WARN')
+
     def test_bluestore_enabled(self):
         enabled = ceph_core.CephChecksBase().bluestore_enabled
         self.assertTrue(enabled)
@@ -250,6 +254,7 @@ class TestStorageCephServiceInfo(StorageTestsBase):
                             },
                         'services': svc_info,
                         'release': 'octopus',
+                        'status': 'HEALTH_WARN',
                     }}
         inst = ceph_service_info.CephServiceChecks()
         inst()
@@ -270,7 +275,8 @@ class TestStorageCephServiceInfo(StorageTestsBase):
                                     'hwaddr': '52:54:00:e2:28:a3',
                                     'state': 'UP'}}
                             },
-                        'release': 'unknown'}}
+                        'release': 'unknown',
+                        'status': 'HEALTH_WARN'}}
 
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []

@@ -408,6 +408,16 @@ class CephChecksBase(StorageBase):
             return {"ceph": self._output}
 
     @property
+    def health_status(self):
+        health = 'unknown'
+
+        status = self.cli.ceph_status_json_decoded()
+        if status:
+            health = status['health']['status']
+
+        return health
+
+    @property
     def release_name(self):
         relname = 'unknown'
 
