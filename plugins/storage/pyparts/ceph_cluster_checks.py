@@ -22,6 +22,10 @@ OSD_MAPS_LIMIT = 500  # mon_min_osdmap_epochs default
 class CephClusterChecks(CephChecksBase):
 
     def check_health_status(self):
+        if not self.health_status:
+            # only available from a ceph-mon
+            return
+
         if self.health_status != 'HEALTH_OK':
             msg = ("Ceph cluster is '{}'. Please check 'ceph status' for "
                    "details".format(self.health_status))

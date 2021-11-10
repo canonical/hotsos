@@ -409,8 +409,7 @@ class CephChecksBase(StorageBase):
 
     @property
     def health_status(self):
-        health = 'unknown'
-
+        health = None
         status = self.cli.ceph_status_json_decoded()
         if status:
             health = status['health']['status']
