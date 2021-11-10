@@ -64,7 +64,7 @@ class BcacheChecksBase(BcacheBase):
 
     @property
     def plugin_runnable(self):
-        self.bcache_enabled
+        return self.bcache_enabled
 
     @property
     def output(self):
