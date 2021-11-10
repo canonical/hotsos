@@ -21,6 +21,12 @@ OSD_MAPS_LIMIT = 500  # mon_min_osdmap_epochs default
 
 class CephClusterChecks(CephChecksBase):
 
+    def check_health_status(self):
+        if self.health_status != 'HEALTH_OK':
+            msg = ("Ceph cluster is '{}'. Please check 'ceph status' for "
+                   "details".format(self.health_status))
+            issue_utils.add_issue(issue_types.CephHealthWarning(msg))
+
     def check_osdmaps_size(self):
         """
         Check if there are too many osdmaps
@@ -340,6 +346,7 @@ class CephClusterChecks(CephChecksBase):
 
             self.check_bcache_vulnerabilities()
 
+        self.check_health_status()
         self.check_require_osd_release()
         self.check_osd_msgr_protocol_versions()
         self.check_ceph_bluefs_size()

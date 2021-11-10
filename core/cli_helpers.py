@@ -433,6 +433,17 @@ class CLIHelper(object):
                  FileCmd('sos_commands/ceph_mon/ceph_osd_crush_dump',
                          json_decode=True),
                  ],
+            'ceph_status_json_decoded':
+                [BinCmd('ceph status --format json-pretty', json_decode=True),
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_status_--format_json-pretty',
+                         json_decode=True),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/'
+                         'json_output/ceph_status_--format_json-pretty',
+                         json_decode=True),
+                 ],
             'ceph_versions':
                 [BinCmd('ceph versions'),
                  # sosreport < 4.2
