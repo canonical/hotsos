@@ -201,6 +201,14 @@ class SearchResultsCollection(object):
         self.reset()
 
     @property
+    def count(self):
+        _count = 0
+        for f in self.files:
+            _count += len(self.find_by_path(f))
+
+        return _count
+
+    @property
     def files(self):
         return list(self._results.keys())
 
@@ -532,6 +540,11 @@ class FileSearcher(object):
         @return: search results
         """
         self.results.reset()
+        if not self.paths:
+            # If no searches have been registered we don't have anything to do.
+            log.debug("no search terms registered so nothing to do")
+            return self.results
+
         log.debug("creating filesearcher with max=%d processes", self.num_cpus)
         with multiprocessing.Pool(processes=self.num_cpus) as pool:
             jobs = {}
@@ -563,4 +576,5 @@ class FileSearcher(object):
                     except FileSearchException as e:
                         sys.stderr.write("{}\n".format(e.msg))
 
+        log.debug("completed searches (results=%s)", self.results.count)
         return self.results

@@ -44,7 +44,7 @@ class NetworkPort(object):
 
     @property
     def stats(self):
-        if self._counters:
+        if self._counters is not None:
             return self._counters
 
         """ Get ip link info for the interface. """
@@ -92,8 +92,8 @@ class NetworkPort(object):
 class HostNetworkingHelper(object):
 
     def __init__(self):
-        self._host_interfaces = []
-        self._host_ns_interfaces = []
+        self._host_interfaces = None
+        self._host_ns_interfaces = None
         self.cli = cli_helpers.CLIHelper()
         self.ip_addr_dump = mktemp_dump('\n'.join(self.cli.ip_addr()))
 
@@ -160,7 +160,7 @@ class HostNetworkingHelper(object):
 
     @property
     def host_interfaces(self):
-        if self._host_interfaces:
+        if self._host_interfaces is not None:
             return self._host_interfaces
 
         self._host_interfaces = self._get_interfaces()
@@ -168,7 +168,7 @@ class HostNetworkingHelper(object):
 
     @property
     def host_ns_interfaces(self):
-        if self._host_ns_interfaces:
+        if self._host_ns_interfaces is not None:
             return self._host_ns_interfaces
 
         self._host_ns_interfaces = self._get_interfaces(namespaces=True)
