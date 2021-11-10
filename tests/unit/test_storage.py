@@ -7,7 +7,6 @@ import utils
 from core import checks
 from core.issues import issue_types
 from core.plugins.storage import (
-    bcache as bcache_core,
     ceph as ceph_core,
 )
 from plugins.storage.pyparts import (
@@ -544,36 +543,9 @@ class TestStorageBcache(StorageTestsBase):
                             'uuid': '2bb274af-a015-4496-9455-43393ea06aa2'}]
                         }
                     }
-        inst = bcache.BcacheStatsChecks()
+        inst = bcache.BcacheCSetChecks()
         inst()
         self.assertEqual(inst.output, expected)
-
-    @mock.patch.object(bcache, "add_known_bug")
-    @mock.patch.object(bcache.issue_utils, "add_issue")
-    def test_get_bcache_stats_checks_issue_found(self, mock_add_issue,
-                                                 mock_add_known_bug):
-        expected = {'bcache': {
-                        'cachesets': [{
-                            'cache_available_percent': 30,
-                            'uuid': '123'}]
-                        }
-                    }
-        with tempfile.TemporaryDirectory() as dtmp:
-            with mock.patch.object(bcache_core.BcacheChecksBase,
-                                   "get_sysfs_cachesets",
-                                   lambda *args: [
-                                       {"uuid": "123",
-                                        "cache_available_percent": 30}]):
-                path = os.path.join(dtmp, "cache_available_percent")
-                with open(path, 'w') as fd:
-                    fd.write("30\n")
-
-                inst = bcache.BcacheStatsChecks()
-                inst()
-                self.assertEqual(inst.output, expected)
-                self.assertTrue(mock_add_issue.called)
-                mock_add_known_bug.assert_has_calls([
-                    mock.call(1900438, 'see BcacheWarning for info')])
 
 
 class TestStorageCephEventChecks(StorageTestsBase):
@@ -602,20 +574,36 @@ class TestStorageConfigChecks(StorageTestsBase):
             with open(os.path.join(cset, cfg), 'w') as fd:
                 fd.write(val)
 
+        for cfg, val in {'cache_available_percent': '34'}.items():
+            if error:
+                if cfg == 'cache_available_percent':
+                    # i.e. >= 33 for lplp1900438 check
+                    val = '33'
+
+            with open(os.path.join(cset, cfg), 'w') as fd:
+                fd.write(val)
+
         bdev = os.path.join(cset, 'bdev1')
         os.makedirs(bdev)
         for cfg, val in {'sequential_cutoff': '0.0k',
                          'cache_mode':
                          'writethrough [writeback] writearound none',
                          'writeback_percent': '10'}.items():
-            if error and cfg == 'writeback_percent':
-                val = '1'
+            if error:
+                if cfg == 'writeback_percent':
+                    val = '1'
 
             with open(os.path.join(bdev, cfg), 'w') as fd:
                 fd.write(val)
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_has_issue(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(type(issue))
+
+        mock_add_issue.side_effect = fake_add_issue
         ceph_conf = ceph_core.CephConfig().dump
         with tempfile.TemporaryDirectory() as dtmp:
             os.makedirs(os.path.join(dtmp, 'etc/ceph'))
@@ -626,6 +614,8 @@ class TestStorageConfigChecks(StorageTestsBase):
             os.environ['DATA_ROOT'] = dtmp
             checks.ConfigChecksBase()()
             self.assertTrue(mock_add_issue.called)
+            self.assertEquals(issues, [issue_types.BcacheWarning,
+                                       issue_types.BcacheWarning])
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_no_issue(self, mock_add_issue):

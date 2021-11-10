@@ -859,11 +859,18 @@ class TestOpenstackConfigChecks(TestOpenstackBase):
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_has_issue(self, mock_add_issue, mock_helper):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(type(issue))
+
+        mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
             ["ii  openvswitch-switch-dpdk 2.13.3-0ubuntu0.20.04.2 amd64"]
         checks.ConfigChecksBase()()
         self.assertTrue(mock_add_issue.called)
+        self.assertEquals(issues, [issue_types.OpenstackWarning])
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_no_issue(self, mock_add_issue):

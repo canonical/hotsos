@@ -83,6 +83,7 @@ a-key = 1023
 
 YAML_DEF_CONFIG_CHECK = """
 myplugin:
+  raises: core.issues.issue_types.OpenstackWarning
   mygroup:
     config:
       handler: core.plugins.openstack.OpenstackConfig
@@ -294,16 +295,15 @@ class TestChecks(utils.BaseTestCase):
             with open(conf, 'w') as fd:
                 fd.write(DUMMY_CONFIG)
 
-            cfg_checks = yaml.safe_load(YAML_DEF_CONFIG_CHECK).get('myplugin')
-
+            plugin = yaml.safe_load(YAML_DEF_CONFIG_CHECK).get('myplugin')
             overrides = [checks.YAMLDefInput, checks.YAMLDefExpr,
                          checks.YAMLDefConfig, checks.YAMLDefRequires,
-                         checks.YAMLDefSettings, checks.YAMLDefMessage]
-            for name, group in cfg_checks.items():
-                group = YAMLDefSection(name, group,
-                                       override_handlers=overrides)
-                for entry in group.leaf_sections:
-                    self.assertTrue(entry.requires.passes)
+                         checks.YAMLDefSettings, checks.YAMLDefMessage,
+                         checks.YAMLDefIssueType]
+            group = YAMLDefSection('myplugin', plugin,
+                                   override_handlers=overrides)
+            for entry in group.leaf_sections:
+                self.assertTrue(entry.requires.passes)
 
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
             open(os.path.join(dtmp, 'config_checks.yaml'),

@@ -50,7 +50,7 @@ class YAMLDefBase(object):
 
     @property
     def branch_sections(self):
-        return [s.parent for s in self.leaf_sections]
+        return list(set([s.parent for s in self.leaf_sections]))
 
     @property
     def leaf_sections(self):
@@ -104,7 +104,7 @@ class YAMLDefSection(YAMLDefBase):
 
     @property
     def is_leaf(self):
-        return len(self.sections) == 0
+        return self.content and len(self.sections) == 0
 
     def __getattr__(self, name):
         name = name.replace('_', '-')

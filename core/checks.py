@@ -7,10 +7,7 @@ import subprocess
 import yaml
 
 from core import constants
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
+from core.issues import issue_utils
 from core.cli_helpers import CLIHelper
 from core.log import log
 from core.utils import mktemp_dump, sorted_dict
@@ -181,6 +178,16 @@ class YAMLDefRequires(YAMLDefOverrideBase):
         return False
 
 
+class YAMLDefIssueType(YAMLDefOverrideBase):
+    KEYS = ['raises']
+
+    @property
+    def issue(self):
+        mod = self.content.rpartition('.')[0]
+        class_name = self.content.rpartition('.')[2]
+        return getattr(importlib.import_module(mod), class_name)
+
+
 class YAMLDefConfig(YAMLDefOverrideBase):
     KEYS = ['config']
 
@@ -315,21 +322,21 @@ class PackageBugChecksBase(object):
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
-        plugin_checks = yaml_defs.get(constants.PLUGIN_NAME, {})
-        for name, group in plugin_checks.items():
-            group = YAMLDefSection(name, group, override_handlers=overrides)
-            log.debug("sections=%s, events=%s",
-                      len(group.branch_sections),
-                      len(group.leaf_sections))
+        plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
+        group = YAMLDefSection(constants.PLUGIN_NAME, plugin,
+                               override_handlers=overrides)
+        log.debug("sections=%s, events=%s",
+                  len(group.branch_sections),
+                  len(group.leaf_sections))
 
-            pkg_name = group.name
+        for bug_check in group.leaf_sections:
+            pkg_name = bug_check.parent.name
             p = PackageReleaseCheckObj(pkg_name)
-            for bug_check in group.leaf_sections:
-                bug = bug_check.name
-                message = str(bug_check.message)
-                for rel, info in dict(bug_check.releases).items():
-                    p.add_bug_check(bug, rel, info['min-broken'],
-                                    info['min-fixed'], message)
+            bug = bug_check.name
+            message = str(bug_check.message)
+            for rel, info in dict(bug_check.releases).items():
+                p.add_bug_check(bug, rel, info['min-broken'],
+                                info['min-fixed'], message)
 
             self._checks.append(p)
 
@@ -380,7 +387,7 @@ class BugChecksBase(ChecksBase):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._bug_defs = []
+        self._bug_defs = None
 
     def _load_bug_definitions(self):
         """
@@ -396,40 +403,39 @@ class BugChecksBase(ChecksBase):
             return
 
         plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
-        log.debug("loading bug searches for plugin '%s' (groups=%d)",
-                  constants.PLUGIN_NAME, len(plugin_bugs))
-
         overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage]
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
-        for name, group in plugin_bugs.items():
-            bug_group = YAMLDefSection(name, group,
-                                       override_handlers=overrides)
-            log.debug("loading bug group '%s' - sections=%s, events=%s",
-                      bug_group.name,
-                      len(bug_group.branch_sections),
-                      len(bug_group.leaf_sections))
-            for bug in bug_group.leaf_sections:
-                id = bug.name
-                message_format = bug.message_format_result_groups
-                if message_format:
-                    message_format = message_format.format_groups
+        plugin = YAMLDefSection(constants.PLUGIN_NAME, plugin_bugs,
+                                override_handlers=overrides)
+        log.debug("loading plugin '%s' bugs - sections=%s, events=%s",
+                  plugin.name,
+                  len(plugin.branch_sections),
+                  len(plugin.leaf_sections))
+        bug_defs = []
+        for bug in plugin.leaf_sections:
+            id = bug.name
+            message_format = bug.message_format_result_groups
+            if message_format:
+                message_format = message_format.format_groups
 
-                pattern = bug.expr.value
-                # NOTE: pattern can be string or list of strings
-                bdef = {'def':
-                        BugSearchDef(
-                                pattern,
-                                bug_id=str(id),
-                                hint=bug.hint.value,
-                                message=str(bug.message),
-                                message_format_result_groups=message_format)}
+            pattern = bug.expr.value
+            # NOTE: pattern can be string or list of strings
+            bdef = {'def':
+                    BugSearchDef(
+                            pattern,
+                            bug_id=str(id),
+                            hint=bug.hint.value,
+                            message=str(bug.message),
+                            message_format_result_groups=message_format)}
 
-                datasource = bug.input.path
-                log.debug("bug=%s path=%s", id, datasource)
-                bdef["datasource"] = datasource
-                self._bug_defs.append(bdef)
+            datasource = bug.input.path
+            log.debug("bug=%s path=%s", id, datasource)
+            bdef["datasource"] = datasource
+            bug_defs.append(bdef)
+
+        self._bug_defs = bug_defs
 
     @property
     def bug_definitions(self):
@@ -437,7 +443,7 @@ class BugChecksBase(ChecksBase):
         @return: dict of SearchDef objects and datasource for all entries in
         bugs.yaml under _yaml_defs_group.
         """
-        if self._bug_defs:
+        if self._bug_defs is not None:
             return self._bug_defs
 
         self._load_bug_definitions()
@@ -852,31 +858,35 @@ class ConfigChecksBase(object):
         if not yaml_defs:
             return
 
+        log.debug("loading config check definitions for plugin '%s'",
+                  constants.PLUGIN_NAME)
         overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
-                     YAMLDefRequires, YAMLDefConfig, YAMLDefSettings]
+                     YAMLDefRequires, YAMLDefConfig, YAMLDefSettings,
+                     YAMLDefIssueType]
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
         plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
-        for name, group in plugin.items():
-            group = YAMLDefSection(name, group, override_handlers=overrides)
-            log.debug("sections=%s, events=%s",
-                      len(group.branch_sections),
-                      len(group.leaf_sections))
+        group = YAMLDefSection(constants.PLUGIN_NAME, plugin,
+                               override_handlers=overrides)
+        log.debug("sections=%s, events=%s",
+                  len(group.branch_sections),
+                  len(group.leaf_sections))
 
-            for cfg_check in group.leaf_sections:
-                # This is only available if there is a section above us
-                if cfg_check.parent:
-                    group_name = cfg_check.parent.name
-                else:
-                    group_name = None
+        for cfg_check in group.leaf_sections:
+            # This is only available if there is a section above us
+            if cfg_check.parent:
+                group_name = cfg_check.parent.name
+            else:
+                group_name = None
 
-                self._check_defs[cfg_check.name] = {
-                    'group': group_name,
-                    'message': cfg_check.message,
-                    'config': cfg_check.config,
-                    'requires': cfg_check.requires,
-                    'settings': dict(cfg_check.settings)}
+            self._check_defs[cfg_check.name] = {
+                'group': group_name,
+                'message': cfg_check.message,
+                'config': cfg_check.config,
+                'requires': cfg_check.requires,
+                'settings': dict(cfg_check.settings),
+                'raises': cfg_check.raises}
 
     def run_checks(self):
         for name, cfg_check in self._check_defs.items():
@@ -912,7 +922,7 @@ class ConfigChecksBase(object):
                                                            cfg_key, op, value,
                                                            actual))
 
-                    issue = issue_types.OpenstackWarning(_message)
+                    issue = cfg_check['raises'].issue(_message)
                     issue_utils.add_issue(issue)
                     # move on to next set of checks
                     break

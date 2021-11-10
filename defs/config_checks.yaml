@@ -14,6 +14,7 @@
 # methods.
 #
 openstack:
+  raises: core.issues.issue_types.OpenstackWarning
   nova-dpdk:
     config:
       handler: core.plugins.openstack.OpenstackConfig
@@ -37,6 +38,7 @@ openstack:
         allow-unset: False
 storage:
   bcache:
+    raises: core.issues.issue_types.BcacheWarning
     requires:
       type: property
       source: core.plugins.storage.bcache.BcacheBase.bcache_enabled
@@ -64,7 +66,20 @@ storage:
         writeback_percent:
           value: 10
           operator: ge
+    lp1900438:
+      config:
+        handler: core.plugins.storage.bcache.CachesetsConfig
+      message: >-
+        bcache cache_available_percent approx. 30 which implies this node
+        could be suffering from bug LP 1900438 - please check
+      settings:
+        # The real limit is 30 but we go just above in case bcache is flapping
+        # just above and below the limit.
+        cache_available_percent:
+          value: 33
+          operator: gt
   ceph:
+    raises: core.issues.issue_types.CephWarning
     filestore-to-bluestore:
       message: >-
         bluestore is enabled yet there is a still a journal device
