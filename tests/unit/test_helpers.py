@@ -45,7 +45,7 @@ class TestCLIHelpers(utils.BaseTestCase):
         self.assertEquals(type(helper.date()), str)
 
     def test_get_date(self):
-        self.assertEquals(self.helper.date(), '1627986690\n')
+        self.assertEquals(self.helper.date(), '1627986690')
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -56,7 +56,7 @@ class TestCLIHelpers(utils.BaseTestCase):
                       'w') as fd:
                 fd.write("Thu Mar 25 10:55:05 UTC 2021")
 
-            self.assertEquals(helper.date(), '1616669705\n')
+            self.assertEquals(helper.date(), '1616669705')
 
     def test_get_date_w_invalid_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:

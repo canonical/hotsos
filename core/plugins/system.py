@@ -50,6 +50,10 @@ class SYSCtlHelper(object):
 class SystemBase(plugintools.PluginPartBase):
 
     @property
+    def date(self):
+        return CLIHelper().date(no_format=True)
+
+    @property
     def hostname(self):
         return CLIHelper().hostname()
 

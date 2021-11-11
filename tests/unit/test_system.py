@@ -14,7 +14,8 @@ from plugins.system.pyparts import (
 class TestSystemGeneral(utils.BaseTestCase):
 
     def test_get_service_info(self):
-        expected = {'hostname': 'compute4',
+        expected = {'date': 'Tue Aug 3 10:31:30 UTC 2021',
+                    'hostname': 'compute4',
                     'num-cpus': 2,
                     'os': 'ubuntu focal',
                     'virtualisation': 'kvm',

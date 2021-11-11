@@ -35,5 +35,7 @@ class SystemGeneral(SystemChecksBase):
         else:
             self._output['unattended-upgrades'] = "disabled"
 
+        self._output['date'] = self.date
+
     def __call__(self):
         self.get_system_info()
