@@ -14,6 +14,8 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.maxDiff = None
+        # ensure locale consistency wherever tests are run
+        os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
         os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, "fake_data_root")
         # If a test relies on loading info from defs yaml this needs to be set

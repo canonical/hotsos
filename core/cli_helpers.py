@@ -293,11 +293,14 @@ class DateBinCmd(BinCmd):
 
     def format_date_cmd(self, **kwargs):
         """ Add formatting to date command. """
-        f = kwargs.get('format')
-        if f is None:
-            f = '+%s'
+        no_format = kwargs.get('no_format', False)
+        format = kwargs.get('format')
+        if not no_format and format is None:
+            format = '+%s'
 
-        self.cmd = self.cmd.format(format=f)
+        self.cmd = '{} --utc'.format(self.cmd)
+        if format:
+            self.cmd = '{} {}'.format(self.cmd, format)
 
 
 class DateFileCmd(FileCmd):
@@ -308,8 +311,9 @@ class DateFileCmd(FileCmd):
 
     def format_date(self, output, **kwargs):
         """ Apply some post-processing to the date output. """
+        no_format = kwargs.get('no_format', False)
         format = kwargs.get('format')
-        if format is None:
+        if not no_format and format is None:
             format = '+%s'
 
         # if date string contains timezone string we need to remove it
@@ -322,10 +326,17 @@ class DateFileCmd(FileCmd):
             return ""
 
         date = "{}{}".format(ret[1], ret[2])
-        output = subprocess.check_output(["date", "--utc",
-                                          "--date={}".
-                                          format(date), format])
-        return output.decode('UTF-8').splitlines(keepends=True)[0]
+        cmd = ["date", "--utc", "--date={}".format(date)]
+        if format:
+            cmd.append(format)
+
+        output = subprocess.check_output(cmd)
+        # date sometimes adds multiple whitespaces between fields so collapse
+        # them.
+        output = re.compile(r"\s+").sub(' ', output.decode('UTF-8'))
+        ret = output.splitlines(keepends=True)[0]
+        # always singleline so always strip trailing newline
+        return ret.strip()
 
 
 class CephReportFileCmd(FileCmd):
@@ -468,7 +479,7 @@ class CLIHelper(object):
                                    json_decode=True),
                  ],
             'date':
-                [DateBinCmd('date --utc {format}', singleline=True),
+                [DateBinCmd('date', singleline=True),
                  DateFileCmd('sos_commands/date/date', singleline=True)],
             'df':
                 [BinCmd('df'),

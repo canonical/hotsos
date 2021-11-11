@@ -304,7 +304,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
         args = []
         kwargs = {'unit': 'neutron-l3-agent'}
         if not constants.USE_ALL_LOGS:
-            kwargs['date'] = self.cli.date(format="--iso-8601").rstrip()
+            kwargs['date'] = self.cli.date(format="--iso-8601")
 
         return args, kwargs
 
