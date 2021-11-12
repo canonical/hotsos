@@ -1,9 +1,38 @@
 import re
 
 from core.cli_helpers import CLIHelper
-from core.plugins.storage.bcache import BcacheChecksBase
+from core.plugins.storage.bcache import BcacheBase, BcacheChecksBase
+from core.plugins.juju import JujuChecksBase
+from core.issues import issue_types, issue_utils
 
 YAML_PRIORITY = 3
+
+
+class BcacheCharmChecks(BcacheChecksBase):
+
+    def bcache_tuning_unit(self):
+        """
+        Check if bcache-tuning charm is deployed for Ceph with bcache.
+        """
+        if not BcacheBase.bcache_enabled:
+            return
+
+        likely_ceph = False
+        inst = JujuChecksBase()
+        for u in inst.units:
+            if u.name.startswith('ceph-osd'):
+                likely_ceph = True
+            if u.name.startswith('bcache-tuning'):
+                return
+
+        if likely_ceph:
+            msg = ("Detected bcache devices but found no bcache-tuning unit. "
+                   "It's recommended that bcache-tuning charm is deployed to "
+                   "configure params for optimal performance.")
+            issue_utils.add_issue(issue_types.BcacheWarning(msg))
+
+    def __call__(self):
+        self.bcache_tuning_unit()
 
 
 class BcacheCSetChecks(BcacheChecksBase):
