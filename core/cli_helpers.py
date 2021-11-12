@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 
+from core.log import log
 from core import constants
 
 
@@ -14,7 +15,8 @@ def catch_exceptions(*exc_types):
         def catch_exceptions_inner2(*args, **kwargs):
             try:
                 return f(*args, **kwargs)
-            except exc_types:
+            except exc_types as exc:
+                log.debug(exc)
                 return []
 
         return catch_exceptions_inner2
@@ -480,7 +482,9 @@ class CLIHelper(object):
                  ],
             'date':
                 [DateBinCmd('date', singleline=True),
-                 DateFileCmd('sos_commands/date/date', singleline=True)],
+                 DateFileCmd('sos_commands/date/date', singleline=True),
+                 # this is for legacy sosreport versions
+                 DateFileCmd('sos_commands/general/date', singleline=True)],
             'df':
                 [BinCmd('df'),
                  FileCmd('df')],
