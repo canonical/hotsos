@@ -91,3 +91,4 @@ plugins:
       bcache:
         - BcacheDeviceChecks
         - BcacheCSetChecks
+        - BcacheCharmChecks

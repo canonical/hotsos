@@ -651,3 +651,17 @@ class TestStorageConfigChecks(StorageTestsBase):
             os.environ['DATA_ROOT'] = dtmp
             YConfigChecker()()
             self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_bcache_unit(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        inst = bcache.BcacheCharmChecks()
+        inst()
+        self.assertEqual(len(issues), 1)
+        self.assertEqual(type(issues[0]), issue_types.BcacheWarning)
+        self.assertTrue(mock_add_issue.called)

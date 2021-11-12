@@ -27,8 +27,8 @@ class CephClusterChecks(CephChecksBase):
             return
 
         if self.health_status != 'HEALTH_OK':
-            msg = ("Ceph cluster is '{}'. Please check 'ceph status' for "
-                   "details".format(self.health_status))
+            msg = ("Ceph cluster is in '{}' state. Please check 'ceph status' "
+                   "for details".format(self.health_status))
             issue_utils.add_issue(issue_types.CephHealthWarning(msg))
 
     def check_laggy_pgs(self):
