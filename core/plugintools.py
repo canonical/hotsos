@@ -17,7 +17,7 @@ class HOTSOSDumper(yaml.Dumper):
 def save_part(data, priority=0):
     """
     Save part output yaml in temporary location. These are collected and
-    aggregrated at the end of the plugin run.
+    aggregated at the end of the plugin run.
     """
     HOTSOSDumper.add_representer(
         dict,

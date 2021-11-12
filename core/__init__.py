@@ -20,6 +20,10 @@ class constants_properties(type):
         return cls._MASTER_YAML_OUT()
 
     @property
+    def OUTPUT_FORMAT(cls):
+        return cls._OUTPUT_FORMAT()
+
+    @property
     def PLUGIN_TMP_DIR(cls):
         return cls._PLUGIN_TMP_DIR()
 
@@ -77,6 +81,10 @@ class constants(object, metaclass=constants_properties):
     @classmethod
     def _MASTER_YAML_OUT(cls):
         return os.environ.get('MASTER_YAML_OUT')
+
+    @classmethod
+    def _OUTPUT_FORMAT(cls):
+        return os.environ.get('OUTPUT_FORMAT', 'yaml')
 
     @classmethod
     def _PLUGIN_TMP_DIR(cls):

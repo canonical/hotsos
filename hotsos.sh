@@ -28,6 +28,8 @@ export DATA_ROOT
 # Plugin args - prefix must be plugin name
 export SHOW_CPU_PINNING_RESULTS=false
 export AGENT_ERROR_KEY_BY_TIME=false
+# Output format - default is yaml
+export OUTPUT_FORMAT
 # Path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT
 export USE_ALL_LOGS=false
@@ -46,6 +48,7 @@ PROGRESS_PID=
 FULL_MODE_EXPLICIT=false
 MINIMAL_MODE=false
 USER_PROVIDED_SUMMARY=
+OUTPUT_FORMAT="yaml"
 MASTER_YAML_OUT=`mktemp`
 MASTER_YAML_OUT_ORIG=`mktemp`
 SAVE_OUTPUT=false
@@ -140,10 +143,10 @@ OPTIONS
     --user-summary
         Used in conjunction with --short to allow an existing (full) summary to
         to be shortened.
-
+    --json
+        Output in json format.
 
 PLUGIN OPTIONS
-
   These options only apply to specific plugins.
 
   openstack:
@@ -196,6 +199,9 @@ while (($#)); do
             ;;
         -s|--save)
             SAVE_OUTPUT=true
+            ;;
+        --json)
+            OUTPUT_FORMAT=json
             ;;
         -a|--all)
             PLUGINS[all]=true
@@ -332,9 +338,12 @@ generate_summary ()
     else
         repo_info=`get_git_rev_info` || repo_info="unknown"
     fi
-    echo "hotsos:" > $MASTER_YAML_OUT
-    echo "  version: ${SNAP_REVISION:-"development"}" >> $MASTER_YAML_OUT
-    echo "  repo-info: $repo_info" >> $MASTER_YAML_OUT
+
+    cat <<EOF > "${MASTER_YAML_OUT}"
+hotsos:
+  version: ${SNAP_REVISION:-"development"}
+  repo-info: $repo_info
+EOF
 
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
@@ -346,9 +355,9 @@ generate_summary ()
         PLUGIN_NAME=$plugin
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
-        for part in `find $CWD/plugins/$plugin -maxdepth 1 -executable -type f,l| \
-                grep -v __pycache__`; do
-            run_part $plugin `basename $part`
+        for part in $(find "$CWD/plugins/$plugin" -maxdepth 1 -executable -type f,l| \
+                grep -v __pycache__); do
+            run_part "$plugin" "$(basename "$part")"
         done
         # teardown plugin temp area
         if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
@@ -372,7 +381,7 @@ for data_root in "${SOS_PATHS[@]}"; do
         output_summary_name="`basename $USER_PROVIDED_SUMMARY`"
         output_summary_name=${output_summary_name%%.*}
     else
-        generate_summary $data_root
+        generate_summary "$data_root"
     fi
 
     if $MINIMAL_MODE; then
@@ -381,6 +390,8 @@ for data_root in "${SOS_PATHS[@]}"; do
         cp $MASTER_YAML_OUT $MASTER_YAML_OUT_ORIG
         $CWD/tools/output_filter.py
     fi
+
+    $CWD/tools/output_format_converter.py
 
     if $SAVE_OUTPUT; then
         if [[ -z $output_summary_name ]]; then
