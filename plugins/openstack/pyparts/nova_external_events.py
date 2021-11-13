@@ -1,4 +1,4 @@
-from core.checks import CallbackHelper
+from core.ycheck import CallbackHelper
 from core.searchtools import (
     SearchDef,
     FileSearcher,
@@ -19,6 +19,7 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='nova-external-events',
+                         searchobj=FileSearcher(),
                          event_results_output_key='os-server-external-events',
                          **kwargs,)
 

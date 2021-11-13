@@ -4,7 +4,7 @@ import yaml
 from core import constants
 from core.analytics import LogEventStats, SearchResultIndices
 from core.cli_helpers import CLIHelper
-from core.checks import CallbackHelper
+from core.ycheck import CallbackHelper
 from core.issues import (
     issue_types,
     issue_utils,
@@ -349,12 +349,12 @@ class AgentEventChecks(OpenstackChecksBase):
                   NovaAgentEventChecks(searchobj=s),
                   OctaviaAgentEventChecks(searchobj=s)]
         for check in checks:
-            check.register_search_terms()
+            check.load()
 
         results = s.search()
         output = {}
         for check in checks:
-            check_results = check.process_results(results)
+            check_results = check.run(results)
             if check_results:
                 output.update(check_results)
 

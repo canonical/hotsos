@@ -2,10 +2,11 @@ from core.issues import (
     issue_types,
     issue_utils,
 )
-from core.checks import CallbackHelper
+from core.ycheck import CallbackHelper
 from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
 from core.plugins.kernel import KernelEventChecksBase
+from core.searchtools import FileSearcher
 
 YAML_PRIORITY = 2
 EVENTCALLBACKS = CallbackHelper()
@@ -15,6 +16,7 @@ class KernelLogEventChecks(KernelEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='kernlog',
+                         searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
         self.cli_helper = CLIHelper()
         self.hostnet_helper = HostNetworkingHelper()

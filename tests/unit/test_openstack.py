@@ -6,9 +6,13 @@ import tempfile
 
 import utils
 
-from core import checks
-from core.issues import issue_types
 import core.plugins.openstack as openstack_core
+from core import checks
+from core.ycheck.bugs import YBugChecker
+from core.ycheck.configs import YConfigChecker
+from core.ycheck.packages import YPackageChecker
+from core.issues import issue_types
+from core.searchtools import FileSearcher
 from plugins.openstack.pyparts import (
     vm_info,
     nova_external_events,
@@ -355,22 +359,20 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
         inst()
         self.assertEquals(inst.output["docker-images"], expected)
 
-    def test_pkgbugchecks(self):
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    def test_pkgbugchecks(self, mock_add_known_bug):
         os.environ['PLUGIN_NAME'] = 'openstack'
-        with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
-            obj = service_info.OpenstackPackageBugChecks()
-            obj()
-            self.assertTrue(mock_add_known_bug.called)
+        YPackageChecker()()
+        self.assertTrue(mock_add_known_bug.called)
 
-    def test_pkgbugchecks_no_packages(self):
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    def test_pkgbugchecks_no_packages(self, mock_add_known_bug):
         os.environ['PLUGIN_NAME'] = 'openstack'
-        with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
-            with mock.patch.object(checks, 'CLIHelper') as mock_cli:
-                mock_cli.return_value = mock.MagicMock()
-                mock_cli.return_value.dpkg_l.return_value = []
-                obj = service_info.OpenstackPackageBugChecks()
-                obj()
-                self.assertFalse(mock_add_known_bug.called)
+        with mock.patch.object(checks, 'CLIHelper') as mock_cli:
+            mock_cli.return_value = mock.MagicMock()
+            mock_cli.return_value.dpkg_l.return_value = []
+            YPackageChecker()()
+            self.assertFalse(mock_add_known_bug.called)
 
     @mock.patch.object(service_info, 'CLIHelper')
     @mock.patch.object(service_info.issue_utils, "add_issue")
@@ -603,11 +605,12 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                         }
                     }
         section_key = "neutron-ovs-agent"
-        c = agent_event_checks.NeutronAgentEventChecks()
+        c = agent_event_checks.NeutronAgentEventChecks(
+                                                      searchobj=FileSearcher())
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
-    @mock.patch('core.checks.add_known_bug')
+    @mock.patch('core.ycheck.bugs.add_known_bug')
     def test_get_agents_bugs(self, mock_add_known_bug):
         bugs = []
 
@@ -615,7 +618,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
             bugs.append((args, kwargs))
 
         mock_add_known_bug.side_effect = fake_add_bug
-        checks.BugChecksBase()()
+        YBugChecker()()
         calls = [mock.call('1929832',
                            ('known neutron l3-agent bug identified that '
                             'impacts deletion of neutron routers.')),
@@ -712,7 +715,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                         }
                     }
         section_key = "neutron-l3-agent"
-        c = agent_event_checks.NeutronAgentEventChecks()
+        c = agent_event_checks.NeutronAgentEventChecks(
+                                                      searchobj=FileSearcher())
         c()
         self.assertEqual(c.output.get(section_key), expected)
 
@@ -738,7 +742,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                      }
                     }
         for section_key in ["octavia-worker", "octavia-health-manager"]:
-            c = agent_event_checks.OctaviaAgentEventChecks()
+            c = agent_event_checks.OctaviaAgentEventChecks(
+                                                      searchobj=FileSearcher())
             c()
             self.assertEqual(c.output["octavia"].get(section_key),
                              expected.get(section_key))
@@ -747,7 +752,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
         for section_key in ['connection-refused']:
-            c = agent_event_checks.ApacheEventChecks()
+            c = agent_event_checks.ApacheEventChecks(searchobj=FileSearcher())
             c()
             self.assertEqual(c.output['apache'].get(section_key),
                              expected.get(section_key))
@@ -756,7 +761,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         expected = {'PciDeviceNotFoundById': {
                         '2021-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
-        c = agent_event_checks.NovaAgentEventChecks()
+        c = agent_event_checks.NovaAgentEventChecks(searchobj=FileSearcher())
         c()
         self.assertEqual(c.output["nova"], expected)
 
@@ -770,7 +775,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                       }
                      }
                     }
-        inst = agent_event_checks.NeutronL3HAEventChecks()
+        inst = agent_event_checks.NeutronL3HAEventChecks(
+                                                      searchobj=FileSearcher())
         inst()
         self.assertEqual(inst.output["neutron-l3ha"], expected)
 
@@ -786,7 +792,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                       }
                      }
                     }
-        inst = agent_event_checks.NeutronL3HAEventChecks()
+        inst = agent_event_checks.NeutronL3HAEventChecks(
+                                                      searchobj=FileSearcher())
         inst()
         self.assertEqual(inst.output["neutron-l3ha"], expected)
         self.assertTrue(mock_add_issue.called)
@@ -868,11 +875,11 @@ class TestOpenstackConfigChecks(TestOpenstackBase):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
             ["ii  openvswitch-switch-dpdk 2.13.3-0ubuntu0.20.04.2 amd64"]
-        checks.ConfigChecksBase()()
+        YConfigChecker()()
         self.assertTrue(mock_add_issue.called)
         self.assertEquals(issues, [issue_types.OpenstackWarning])
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_config_checks_no_issue(self, mock_add_issue):
-        checks.ConfigChecksBase()()
+        YConfigChecker()()
         self.assertFalse(mock_add_issue.called)

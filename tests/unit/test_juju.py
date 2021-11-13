@@ -4,7 +4,7 @@ import mock
 
 import utils
 
-from core import checks
+from core.ycheck.bugs import YBugChecker
 from core import known_bugs_utils
 
 from plugins.juju.pyparts import (
@@ -76,7 +76,7 @@ class TestJujuKnownBugs(utils.BaseTestCase):
         os.environ["PLUGIN_NAME"] = "juju"
 
     def test_detect_known_bugs(self):
-        checks.BugChecksBase()()
+        YBugChecker()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1910958',
                       'desc':

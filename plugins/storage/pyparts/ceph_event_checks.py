@@ -1,8 +1,9 @@
 import re
 
 from core.issues import issue_types, issue_utils
-from core.checks import CallbackHelper
+from core.ycheck import CallbackHelper
 from core.plugins.storage.ceph import CephEventChecksBase
+from core.searchtools import FileSearcher
 
 YAML_PRIORITY = 2
 EVENTCALLBACKS = CallbackHelper()
@@ -12,6 +13,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='ceph',
+                         searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
 
     def get_timings(self, results, group_by_resource=False,

@@ -5,7 +5,6 @@ import re
 import yaml
 
 from core import (
-    checks,
     constants,
     plugintools,
     utils,
@@ -161,9 +160,3 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
     def plugin_runnable(self):
         # TODO: define whether this plugin should run or not.
         return True
-
-
-class JujuBugChecksBase(JujuChecksBase, checks.BugChecksBase):
-
-    def __call__(self):
-        self.run_checks()

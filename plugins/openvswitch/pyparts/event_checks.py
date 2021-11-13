@@ -1,6 +1,7 @@
 import re
 
-from core.checks import CallbackHelper
+from core.ycheck import CallbackHelper
+from core.searchtools import FileSearcher
 from core.issues import (
     issue_types,
     issue_utils,
@@ -17,6 +18,7 @@ class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='daemon-checks',
+                         searchobj=FileSearcher(),
                          event_results_output_key='daemon-checks',
                          callback_helper=EVENTCALLBACKS)
 
@@ -71,6 +73,7 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='flow-checks',
+                         searchobj=FileSearcher(),
                          event_results_output_key='flow-checks',
                          callback_helper=EVENTCALLBACKS)
 

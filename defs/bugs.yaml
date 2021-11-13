@@ -11,7 +11,7 @@
 #     BUG_ID:
 #       SETTINGS
 #
-# SETTINGS (for more info see common.checks.BugChecksBase):
+# SETTINGS (for more info see core.ycheck.YBugChecker):
 #
 #   * expr: python.re regex pattern used to match line(s). this can be a single
 #           pattern or a list of patterns.

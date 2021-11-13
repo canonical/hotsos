@@ -1,3 +1,4 @@
+from core.ycheck.events import YEventCheckerBase
 from core import (
     checks,
     plugintools,
@@ -38,7 +39,7 @@ class RabbitMQServiceChecksBase(RabbitMQChecksBase, checks.ServiceChecksBase):
                          *args, hint_range=(0, 3), **kwargs)
 
 
-class RabbitMQEventChecksBase(RabbitMQChecksBase, checks.EventChecksBase):
+class RabbitMQEventChecksBase(RabbitMQChecksBase, YEventCheckerBase):
 
     def __call__(self):
         ret = self.run_checks()

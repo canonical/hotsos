@@ -7,7 +7,10 @@ import mock
 import utils
 
 from core import checks
+from core import ycheck
+from core.ycheck import events, configs, packages
 from core.ystruct import YAMLDefSection
+from core.searchtools import FileSearcher
 
 
 YAML_DEF_W_INPUT = """
@@ -157,30 +160,37 @@ class TestChecks(utils.BaseTestCase):
         obj = checks.SnapPackageChecksBase(["core"])
         self.assertEqual(obj.all_formatted, expected)
 
-    def test_PackageBugChecksBase(self):
+    @mock.patch('core.plugins.openstack.OpenstackBase')
+    @mock.patch.object(packages, 'add_known_bug')
+    def test_YPackageChecker(self, mock_add_known_bug, mock_base):
         os.environ['PLUGIN_NAME'] = 'openstack'
-        with mock.patch.object(checks, 'add_known_bug') as mock_add_known_bug:
-            pkg_info = {'neutron-common': '2:16.4.0-0ubuntu4~cloud0'}
-            obj = checks.PackageBugChecksBase('ussuri', pkg_info)
-            obj()
-            self.assertFalse(mock_add_known_bug.called)
+        mock_ost_base = mock.MagicMock()
+        mock_base.return_value = mock_ost_base
+        mock_ost_base.release_name = 'ussuri'
+        mock_ost_base.apt_packages_all = {'neutron-common':
+                                          '2:16.4.0-0ubuntu4~cloud0'}
+        obj = packages.YPackageChecker()
+        obj()
+        self.assertFalse(mock_add_known_bug.called)
 
-            mock_add_known_bug.reset_mock()
-            pkg_info = {'neutron-common': '2:16.4.0-0ubuntu2~cloud0'}
-            obj = checks.PackageBugChecksBase('ussuri', pkg_info)
-            obj()
-            self.assertTrue(mock_add_known_bug.called)
+        mock_add_known_bug.reset_mock()
+        mock_ost_base.apt_packages_all = {'neutron-common':
+                                          '2:16.4.0-0ubuntu2~cloud0'}
+        obj = packages.YPackageChecker()
+        obj()
+        self.assertTrue(mock_add_known_bug.called)
 
-            mock_add_known_bug.reset_mock()
-            pkg_info = {'neutron-common': '2:16.2.0-0ubuntu4~cloud0'}
-            obj = checks.PackageBugChecksBase('ussuri', pkg_info)
-            obj()
-            self.assertFalse(mock_add_known_bug.called)
+        mock_add_known_bug.reset_mock()
+        mock_ost_base.apt_packages_all = {'neutron-common':
+                                          '2:16.2.0-0ubuntu4~cloud0'}
+        obj = packages.YPackageChecker()
+        obj()
+        self.assertFalse(mock_add_known_bug.called)
 
     def test_yaml_def_group_input(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT).get('pluginX')
         for name, group in plugin_checks.items():
-            overrides = [checks.YAMLDefInput, checks.YAMLDefExpr]
+            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
             group = YAMLDefSection(name, group, override_handlers=overrides)
             for entry in group.leaf_sections:
                 self.assertEquals(entry.input.type, 'filesystem')
@@ -191,7 +201,7 @@ class TestChecks(utils.BaseTestCase):
     def test_yaml_def_section_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
         for name, group in plugin_checks.get('pluginX').items():
-            overrides = [checks.YAMLDefInput, checks.YAMLDefExpr]
+            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
             group = YAMLDefSection(name, group, override_handlers=overrides)
             for entry in group.leaf_sections:
                 self.assertEquals(entry.input.type, 'filesystem')
@@ -202,7 +212,7 @@ class TestChecks(utils.BaseTestCase):
     def test_yaml_def_entry_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED2)
         for name, group in plugin_checks.get('pluginX').items():
-            overrides = [checks.YAMLDefInput, checks.YAMLDefExpr]
+            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
             group = YAMLDefSection(name, group, override_handlers=overrides)
             for entry in group.leaf_sections:
                 self.assertEquals(entry.input.type, 'filesystem')
@@ -220,8 +230,8 @@ class TestChecks(utils.BaseTestCase):
             open(data_file, 'w').write('hello\nbrave\nworld\n')
             plugin_checks = yaml.safe_load(_yaml).get('myplugin')
 
-            overrides = [checks.YAMLDefInput, checks.YAMLDefExpr,
-                         checks.YAMLDefResultsPassthrough]
+            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr,
+                         ycheck.YAMLDefResultsPassthrough]
             for name, group in plugin_checks.items():
                 group = YAMLDefSection(name, group,
                                        override_handlers=overrides)
@@ -235,11 +245,12 @@ class TestChecks(utils.BaseTestCase):
             callbacks_called = {}
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
             os.environ['PLUGIN_NAME'] = 'myplugin'
-            EVENTCALLBACKS = checks.CallbackHelper()
+            EVENTCALLBACKS = ycheck.CallbackHelper()
 
-            class MyEventHandler(checks.EventChecksBase):
+            class MyEventHandler(events.YEventCheckerBase):
                 def __init__(self):
                     super().__init__(yaml_defs_group='mygroup',
+                                     searchobj=FileSearcher(),
                                      callback_helper=EVENTCALLBACKS)
 
                 @EVENTCALLBACKS.callback
@@ -286,7 +297,7 @@ class TestChecks(utils.BaseTestCase):
                                'my_standard_search2'])
 
     @mock.patch('core.issues.issue_utils.add_issue')
-    @mock.patch.object(checks, 'APTPackageChecksBase')
+    @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_config_requires(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
         with tempfile.TemporaryDirectory() as dtmp:
@@ -296,10 +307,10 @@ class TestChecks(utils.BaseTestCase):
                 fd.write(DUMMY_CONFIG)
 
             plugin = yaml.safe_load(YAML_DEF_CONFIG_CHECK).get('myplugin')
-            overrides = [checks.YAMLDefInput, checks.YAMLDefExpr,
-                         checks.YAMLDefConfig, checks.YAMLDefRequires,
-                         checks.YAMLDefSettings, checks.YAMLDefMessage,
-                         checks.YAMLDefIssueType]
+            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr,
+                         ycheck.YAMLDefConfig, ycheck.YAMLDefRequires,
+                         ycheck.YAMLDefSettings, ycheck.YAMLDefMessage,
+                         ycheck.YAMLDefIssueType]
             group = YAMLDefSection('myplugin', plugin,
                                    override_handlers=overrides)
             for entry in group.leaf_sections:
@@ -309,5 +320,5 @@ class TestChecks(utils.BaseTestCase):
             open(os.path.join(dtmp, 'config_checks.yaml'),
                  'w').write(YAML_DEF_CONFIG_CHECK)
             os.environ['PLUGIN_NAME'] = 'myplugin'
-            checks.ConfigChecksBase()()
+            configs.YConfigChecker()()
             self.assertTrue(add_issue.called)

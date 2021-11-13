@@ -1,8 +1,9 @@
-from core.checks import CallbackHelper
+from core.ycheck import CallbackHelper
 from core.issues import (
     issue_types,
     issue_utils,
 )
+from core.searchtools import FileSearcher
 from core.plugins.rabbitmq import RabbitMQEventChecksBase
 
 YAML_PRIORITY = 1
@@ -13,6 +14,7 @@ class RabbitMQEventChecks(RabbitMQEventChecksBase):
 
     def __init__(self):
         super().__init__(yaml_defs_group='cluster-checks',
+                         searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
 
     @EVENTCALLBACKS.callback
