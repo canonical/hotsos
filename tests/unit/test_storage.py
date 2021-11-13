@@ -5,6 +5,7 @@ import tempfile
 import utils
 
 from core import checks
+from core.ycheck.configs import YConfigChecker
 from core.issues import issue_types
 from core.plugins.storage import (
     ceph as ceph_core,
@@ -612,7 +613,7 @@ class TestStorageConfigChecks(StorageTestsBase):
 
             self.setup_bcachefs(dtmp, error=True)
             os.environ['DATA_ROOT'] = dtmp
-            checks.ConfigChecksBase()()
+            YConfigChecker()()
             self.assertTrue(mock_add_issue.called)
             self.assertEquals(issues, [issue_types.BcacheWarning,
                                        issue_types.BcacheWarning])
@@ -627,5 +628,5 @@ class TestStorageConfigChecks(StorageTestsBase):
 
             self.setup_bcachefs(dtmp)
             os.environ['DATA_ROOT'] = dtmp
-            checks.ConfigChecksBase()()
+            YConfigChecker()()
             self.assertFalse(mock_add_issue.called)

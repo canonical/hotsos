@@ -18,7 +18,6 @@ plugins:
         - OpenstackInfo
         - OpenstackPackageChecks
         - OpenstackDockerImageChecks
-        - OpenstackPackageBugChecks
         - NeutronServiceChecks
         - NeutronL3HAInfo
       service_features:

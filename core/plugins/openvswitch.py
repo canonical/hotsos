@@ -2,6 +2,7 @@ import re
 
 from core import plugintools
 from core import checks
+from core.ycheck.events import YEventCheckerBase
 from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
 
@@ -111,8 +112,7 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
         return len(self.apt_check.core) > 0
 
 
-class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase,
-                                 checks.EventChecksBase):
+class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
 
     def _stats_sort(self, stats):
         stats_sorted = {}

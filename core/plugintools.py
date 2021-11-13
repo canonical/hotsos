@@ -187,10 +187,12 @@ class PluginRunner(object):
             log.debug("plugin %s has no parts to run", constants.PLUGIN_NAME)
 
         # The following are executed as part of each plugin run (but not last).
-        ALWAYS_RUN = {'default_bug_checker':
-                      {'core.checks': 'BugChecksBase'},
-                      'default_config_checker':
-                      {'core.checks': 'ConfigChecksBase'}}
+        ALWAYS_RUN = {'auto_bug_check':
+                      {'core.ycheck.bugs': 'YBugChecker'},
+                      'auto_config_check':
+                      {'core.ycheck.configs': 'YConfigChecker'},
+                      'auto_package_check':
+                      {'core.ycheck.packages': 'YPackageChecker'}}
         for part, always_parts in ALWAYS_RUN.items():
             for obj, cls in always_parts.items():
                 # update current env to reflect actual part being run

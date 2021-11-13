@@ -7,6 +7,7 @@ from core import (
     host_helpers,
     utils,
 )
+from core.ycheck.events import YEventCheckerBase
 from core.cli_helpers import get_ps_axo_flags_available
 from core.cli_helpers import CLIHelper
 from core.plugins.storage import StorageBase
@@ -641,7 +642,7 @@ class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):
         super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
 
 
-class CephEventChecksBase(CephChecksBase, checks.EventChecksBase):
+class CephEventChecksBase(CephChecksBase, YEventCheckerBase):
 
     def __call__(self):
         ret = self.run_checks()

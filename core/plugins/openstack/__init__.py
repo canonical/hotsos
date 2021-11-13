@@ -11,6 +11,7 @@ from core import (
     host_helpers,
     plugintools,
 )
+from core.ycheck.events import YEventCheckerBase
 from core.checks import DPKGVersionCompare
 from core.log import log
 from core.cli_helpers import CmdBase, CLIHelper
@@ -426,6 +427,10 @@ class OpenstackBase(object):
                                   other_pkgs=other_pkgs)
 
     @property
+    def apt_packages_all(self):
+        return self.apt_check.all
+
+    @property
     def instances(self):
         if self._instances:
             return self._instances
@@ -558,7 +563,7 @@ class OpenstackBase(object):
 
                 relnames.add(r_lt)
 
-        log.debug("release name(s) found: %s", relnames)
+        log.debug("release name(s) found: %s", ','.join(relnames))
         if relnames:
             relnames = sorted(list(relnames))
             if len(relnames) > 1:
@@ -614,7 +619,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
         return self.openstack_installed
 
 
-class OpenstackEventChecksBase(OpenstackChecksBase, checks.EventChecksBase):
+class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
 
     def __call__(self):
         ret = self.run_checks()
@@ -631,13 +636,6 @@ class OpenstackServiceChecksBase(OpenstackChecksBase,
 
 class OpenstackPackageChecksBase(OpenstackChecksBase):
     pass
-
-
-class OpenstackPackageBugChecksBase(OpenstackPackageChecksBase):
-
-    def __call__(self):
-        c = checks.PackageBugChecksBase(self.release_name, self.apt_check.all)
-        c()
 
 
 class OpenstackDockerImageChecksBase(OpenstackChecksBase,

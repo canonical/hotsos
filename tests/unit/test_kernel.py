@@ -9,7 +9,7 @@ from plugins.kernel.pyparts import (
     memory,
     log_event_checks,
 )
-from core.checks import EventCheckResult
+from core.ycheck.events import EventCheckResult
 from core.host_helpers import NetworkPort
 from core.issues import issue_types
 

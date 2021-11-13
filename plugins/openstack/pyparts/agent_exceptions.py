@@ -7,6 +7,7 @@ from core.plugins.openstack import (
     OpenstackEventChecksBase,
     AGENT_ERROR_KEY_BY_TIME,
 )
+from core.searchtools import FileSearcher
 
 YAML_PRIORITY = 7
 
@@ -16,7 +17,8 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
     def __init__(self):
         # NOTE: we are OpenstackEventChecksBase to get the call structure but
         # we dont currently use yaml to define out searches.
-        super().__init__(yaml_defs_group='agent-exceptions')
+        super().__init__(yaml_defs_group='agent-exceptions',
+                         searchobj=FileSearcher())
         # The following are expected to be WARNING
         self._agent_warnings = {
             'nova': ['MessagingTimeout',
@@ -33,7 +35,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             'neutron': [r'RuntimeError']
             }
 
-    def register_search_terms(self):
+    def load(self):
         """Register searches for exceptions as well as any other type of issue
         we might want to catch like warnings etc which may not be errors or
         exceptions.
@@ -124,7 +126,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
 
         return agent_exceptions
 
-    def process_results(self, results):
+    def run(self, results):
         """Process search results to see if we got any hits."""
         issues = {}
         for name, info in self.ost_projects.all.items():

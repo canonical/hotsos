@@ -1,6 +1,7 @@
 import os
 import re
 
+from core.ycheck.events import YEventCheckerBase
 from core import (
     checks,
     constants,
@@ -207,7 +208,7 @@ class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
         return True
 
 
-class KernelEventChecksBase(KernelChecksBase, checks.EventChecksBase):
+class KernelEventChecksBase(KernelChecksBase, YEventCheckerBase):
 
     def __call__(self):
         ret = self.run_checks()

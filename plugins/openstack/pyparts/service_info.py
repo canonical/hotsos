@@ -7,7 +7,6 @@ from core.plugins.openstack import (
     OpenstackServiceChecksBase,
     OpenstackPackageChecksBase,
     OpenstackDockerImageChecksBase,
-    OpenstackPackageBugChecksBase,
 )
 from core.issues import (
     issue_types,
@@ -77,10 +76,6 @@ class OpenstackDockerImageChecks(OpenstackDockerImageChecksBase):
         # this in the report.
         if self.core:
             self._output["docker-images"] = self.all_formatted
-
-
-class OpenstackPackageBugChecks(OpenstackPackageBugChecksBase):
-    pass
 
 
 class NeutronServiceChecks(OpenstackChecksBase):
