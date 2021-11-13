@@ -100,11 +100,13 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         self.assertEqual(inst.output, expected)
 
     def test_dp_checks(self):
-        expected = {'port-stats':
-                    {'qr-aa623763-fd':
-                     {'RX':
-                      {'dropped': 1394875,
-                       'packets': 309}}}}
+        expected = {'flow-checks': {
+                        'datapath-port-stats': {
+                            'qr-aa623763-fd': {
+                                'RX': {
+                                    'dropped': 1394875,
+                                    'packets': 309
+                                    }}}}}
         inst = event_checks.OpenvSwitchFlowEventChecks()
         inst()
         self.assertEqual(inst.output, expected)

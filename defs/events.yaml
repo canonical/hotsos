@@ -210,6 +210,12 @@ openvswitch:
               datapath: 'system@ovs-system'
         start: '\s+port \d+: (\S+) .+'
         body: '\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+)'
+      deferred-action-limit-reached:
+        input:
+          type: filesystem
+          value: 'var/log/kern.log'
+        expr: '(\S+\s+\d+\s+)\S+ .+ (\S+): deferred action limit reached, drop recirc action'
+        hint: openvswitch
 kernel:
   kernlog:
     input:

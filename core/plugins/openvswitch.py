@@ -114,6 +114,53 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
 class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase,
                                  checks.EventChecksBase):
 
+    def _stats_sort(self, stats):
+        stats_sorted = {}
+        for k, v in sorted(stats.items(),
+                           key=lambda x: x[0]):
+            stats_sorted[k] = v
+
+        return stats_sorted
+
+    def get_results_stats(self, results, key_by_date=True):
+        """
+        Collect information about how often a resource occurs. A resource can
+        be anything e.g. an interface or a loglevel string.
+
+        @param results: a list of SearchResult objects containing two groups; a
+                        date and a resource.
+        @param key_by_date: by default the results are collected by datetime
+                            i.e. for each timestamp show how many of each
+                            resource occured.
+        """
+        stats = {}
+        for r in results:
+            if key_by_date:
+                key = r.get(1)
+                value = r.get(2)
+            else:
+                key = r.get(2)
+                value = r.get(1)
+
+            if key not in stats:
+                stats[key] = {}
+
+            if value not in stats[key]:
+                stats[key][value] = 1
+            else:
+                stats[key][value] += 1
+
+            # sort each keyset
+            if not key_by_date:
+                stats[key] = self._stats_sort(stats[key])
+
+        if stats:
+            # only if sorted per key
+            if key_by_date:
+                stats = self._stats_sort(stats)
+
+            return stats
+
     def __call__(self):
         ret = self.run_checks()
         if ret:
