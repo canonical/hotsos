@@ -561,7 +561,8 @@ class OpenstackBase(object):
                             v_lt = ver
                             r_lt = rel
 
-                relnames.add(r_lt)
+                if r_lt:
+                    relnames.add(r_lt)
 
         log.debug("release name(s) found: %s", ','.join(relnames))
         if relnames:
