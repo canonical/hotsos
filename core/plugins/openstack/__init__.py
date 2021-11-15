@@ -214,8 +214,12 @@ class OSTProject(object):
         """
         Returns tuples of daemon name, log path for each agent/daemon.
         """
+        proj_manage = "{}-manage".format(self.name)
+        yield proj_manage, os.path.join('var/log', self.name,
+                                        "{}.log".format(proj_manage))
         for daemon in self.daemon_names:
-            path = os.path.join('var/log', self.name, daemon)
+            path = os.path.join('var/log', self.name,
+                                "{}.log".format(daemon))
             yield daemon, self.log_path_overrides.get(daemon, path)
 
 
