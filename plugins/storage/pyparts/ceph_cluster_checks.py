@@ -31,6 +31,24 @@ class CephClusterChecks(CephChecksBase):
                    "details".format(self.health_status))
             issue_utils.add_issue(issue_types.CephHealthWarning(msg))
 
+    def check_laggy_pgs(self):
+        pg_dump = self.cli.ceph_pg_dump_json_decoded()
+        if not pg_dump:
+            return
+
+        laggy_pgs = []
+        for pg in pg_dump['pg_map']['pg_stats']:
+            for state in ['laggy', 'wait']:
+                if state in pg['state']:
+                    laggy_pgs.append(pg)
+                    break
+
+        if laggy_pgs:
+            msg = ("Ceph cluster is reporting {} laggy/wait PGs. This "
+                   "suggests a potential network or storage issue - please "
+                   "check".format(len(laggy_pgs)))
+            issue_utils.add_issue(issue_types.CephWarning(msg))
+
     def check_osdmaps_size(self):
         """
         Check if there are too many osdmaps
@@ -358,6 +376,7 @@ class CephClusterChecks(CephChecksBase):
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
         self.check_osdmaps_size()
+        self.check_laggy_pgs()
 
 
 class CephCrushChecks(CephChecksBase):
