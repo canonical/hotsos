@@ -357,6 +357,7 @@ class NeutronRouter(object):
     def __init__(self, uuid, ha_state):
         self.uuid = uuid
         self.ha_state = ha_state
+        self.vr_id = None
 
 
 class NeutronHAInfo(object):
