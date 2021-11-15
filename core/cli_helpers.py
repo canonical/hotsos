@@ -341,21 +341,26 @@ class DateFileCmd(FileCmd):
         return ret.strip()
 
 
-class CephReportFileCmd(FileCmd):
-
-    def __init__(self, *args, **kwargs):  # pylint: disable=W0613
+class CephJSONFileCmd(FileCmd):
+    """
+    Some ceph commands that use --format json have some extra text added to the
+    end of the file (typically from stderr) which causes it to be invalid json
+    so we have to strip that final line before decoding the contents.
+    """
+    def __init__(self, *args, last_line_filter=None,
+                 **kwargs):  # pylint: disable=W0613
         super().__init__(*args, **kwargs)
-        self.register_hook("pre-exec", self.format_json_contents)
-        self.register_hook("post-exec", self.cleanup)
-        self.orig_path = None
+        if last_line_filter:
+            self.register_hook('pre-exec', self.format_json_contents)
+            self.register_hook('post-exec', self.cleanup)
+            self.orig_path = None
+            self.last_line_filter = last_line_filter
 
     def format_json_contents(self, *args, **kwargs):  # pylint: disable=W0613
         with open(self.path) as f:
             lines = f.readlines()
 
-        # Remove the last line as that makes it an invalid json.
-        # The extra line comes from the stderr of 'ceph report'.
-        if lines and lines[-1].startswith('report'):
+        if lines and lines[-1].startswith(self.last_line_filter):
             lines = lines[:-1]
             with tempfile.NamedTemporaryFile(mode='w+t', delete=False) as tmp:
                 tmp.write(''.join(lines))
@@ -364,9 +369,11 @@ class CephReportFileCmd(FileCmd):
                 self.path = tmp.name
 
     def cleanup(self, output, **kwargs):  # pylint: disable=W0613
-        if not self.orig_path:
+        if self.orig_path:
             os.unlink(self.path)
             self.path = self.orig_path
+            self.orig_path = None
+
         return output
 
 
@@ -446,6 +453,19 @@ class CLIHelper(object):
                  FileCmd('sos_commands/ceph_mon/ceph_osd_crush_dump',
                          json_decode=True),
                  ],
+            'ceph_pg_dump_json_decoded':
+                [BinCmd('ceph pg dump --format json-pretty',
+                        json_decode=True),
+                 # sosreport < 4.2
+                 CephJSONFileCmd('sos_commands/ceph/json_output/'
+                                 'ceph_pg_dump_--format_json-pretty',
+                                 json_decode=True,
+                                 last_line_filter='dumped all'),
+                 # sosreport >= 4.2
+                 CephJSONFileCmd('sos_commands/ceph_mon/json_output/'
+                                 'ceph_pg_dump_--format_json-pretty',
+                                 json_decode=True,
+                                 last_line_filter='dumped all')],
             'ceph_status_json_decoded':
                 [BinCmd('ceph status --format json-pretty', json_decode=True),
                  # sosreport < 4.2
@@ -474,11 +494,11 @@ class CLIHelper(object):
             'ceph_report_json_decoded':
                 [BinCmd('ceph report', json_decode=True),
                  # sosreport < 4.2
-                 CephReportFileCmd('sos_commands/ceph/ceph_report',
-                                   json_decode=True),
+                 CephJSONFileCmd('sos_commands/ceph/ceph_report',
+                                 json_decode=True, last_line_filter='report'),
                  # sosreport >= 4.2
-                 CephReportFileCmd('sos_commands/ceph_mon/ceph_report',
-                                   json_decode=True),
+                 CephJSONFileCmd('sos_commands/ceph_mon/ceph_report',
+                                 json_decode=True, last_line_filter='report'),
                  ],
             'date':
                 [DateBinCmd('date', singleline=True),

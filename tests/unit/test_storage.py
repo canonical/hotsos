@@ -154,6 +154,11 @@ CEPH_OSD_CRUSH_DUMP = """
     }
 """
 
+PG_DUMP_JSON_DECODED = {'pg_map': {
+                            'pg_stats': [
+                                {'pgid': '2.f',
+                                 'state': 'active+clean+laggy'}]}}
+
 
 class StorageTestsBase(utils.BaseTestCase):
 
@@ -319,7 +324,7 @@ class TestStorageCephServiceInfo(StorageTestsBase):
         self.assertEqual(_ports, expected)
 
 
-class TestStorageCephDaemonChecks(StorageTestsBase):
+class TestStorageCephClusterChecks(StorageTestsBase):
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
     def test_superblock_read_error(self, mock_issue_utils):
@@ -521,6 +526,22 @@ class TestStorageCephDaemonChecks(StorageTestsBase):
                 mock_apt_check.get_version.return_value = "15.2.13"
                 inst.check_bcache_vulnerabilities()
                 self.assertTrue(mock_add_issue.called)
+
+    @mock.patch.object(ceph_cluster_checks.issue_utils, 'add_issue')
+    def test_check_laggy_pgs_no_issue(self, mock_add_issue):
+        inst = ceph_cluster_checks.CephClusterChecks()
+        inst.check_laggy_pgs()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch.object(ceph_cluster_checks.issue_utils, 'add_issue')
+    def test_check_laggy_pgs_w_issue(self, mock_add_issue, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.ceph_pg_dump_json_decoded.return_value = \
+            PG_DUMP_JSON_DECODED
+        inst = ceph_cluster_checks.CephClusterChecks()
+        inst.check_laggy_pgs()
+        self.assertTrue(mock_add_issue.called)
 
 
 class TestStorageBcache(StorageTestsBase):

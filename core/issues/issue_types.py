@@ -12,6 +12,10 @@ class MemoryWarning(IssueTypeBase):
     pass
 
 
+class CephWarning(IssueTypeBase):
+    pass
+
+
 class CephHealthWarning(IssueTypeBase):
     pass
 
