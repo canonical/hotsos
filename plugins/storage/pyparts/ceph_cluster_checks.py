@@ -298,6 +298,73 @@ class CephClusterChecks(CephChecksBase):
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
 
+    def _is_bucket_imbalanced(self, buckets, start_bucket_id, failure_domain):
+        """
+        Recursively determine if a tree is balanced at the given failure domain
+        """
+        unbalanced = False
+        weight = -1
+
+        for item in buckets[start_bucket_id]["items"]:
+            if buckets[item["id"]]["type_name"] != failure_domain:
+                unbalanced = self._is_bucket_imbalanced(buckets,
+                                                        item["id"],
+                                                        failure_domain)
+                if unbalanced:
+                    return unbalanced
+            else:
+                if weight == -1:
+                    weight = item["weight"]
+                else:
+                    if weight != item["weight"]:
+                        unbalanced = True
+                        return unbalanced
+
+        return unbalanced
+
+    def check_crushmap_equal_buckets(self):
+        """
+        Report when buckets of the failure domain type in a
+        CRUSH rule referenced tree are unbalanced.
+
+        Uses the trees and failure domains referenced in the
+        CRUSH rules, and checks that all buckets of the failure
+        domain type in the referenced tree are equal.
+        """
+        osd_crush_dump = self.cli.ceph_osd_crush_dump_json_decoded()
+        if not osd_crush_dump:
+            return
+
+        buckets = {b['id']: b for b in osd_crush_dump["buckets"]}
+
+        to_check = []
+
+        for rule in osd_crush_dump['rules']:
+            taken = 0
+            fdomain = 0
+            for i in rule['steps']:
+                if i["op"] == "take":
+                    taken = i["item"]
+                if "type" in i and taken != 0:
+                    fdomain = i["type"]
+                if taken != 0 and fdomain != 0:
+                    to_check.append((rule["rule_id"], taken, fdomain))
+                    taken = fdomain = 0
+
+        for ruleid, tree, failure_domain in to_check:
+            unbalanced = \
+                self._is_bucket_imbalanced(buckets, tree, failure_domain)
+            if unbalanced:
+                msg = ("unbalanced crush buckets identified in CRUSH "
+                       "root '{}' using failure domain '{}'. "
+                       "Affected CRUSH rule id is '{}'. "
+                       "This can cause data distribution to become skewed - "
+                       "please check crush map".format(buckets[tree]["name"],
+                                                       failure_domain,
+                                                       ruleid))
+                issue = issue_types.CephCrushWarning(msg)
+                issue_utils.add_issue(issue)
+
     def check_bcache_vulnerabilities(self):
         has_bcache = False
         for osd in self.local_osds:
@@ -364,6 +431,7 @@ class CephClusterChecks(CephChecksBase):
         self.get_crushmap_mixed_buckets()
         self.check_laggy_pgs()
         self.check_large_omap_objects()
+        self.check_crushmap_equal_buckets()
 
 
 class CephCrushChecks(CephChecksBase):
