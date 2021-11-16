@@ -192,7 +192,9 @@ class PluginRunner(object):
                       'auto_config_check':
                       {'core.ycheck.configs': 'YConfigChecker'},
                       'auto_package_check':
-                      {'core.ycheck.packages': 'YPackageChecker'}}
+                      {'core.ycheck.packages': 'YPackageChecker'},
+                      'auto_scenario_check':
+                      {'core.ycheck.scenarios': 'YScenarioChecker'}}
         for part, always_parts in ALWAYS_RUN.items():
             for obj, cls in always_parts.items():
                 # update current env to reflect actual part being run

@@ -1,11 +1,9 @@
-import os
-import yaml
-
 from core import constants
 from core.log import log
 from core.checks import DPKGVersionCompare
 from core.known_bugs_utils import add_known_bug
 from core.ycheck import (
+    YDefsLoader,
     AutoChecksBase,
     YAMLDefInput,
     YAMLDefExpr,
@@ -43,12 +41,8 @@ class YPackageChecker(AutoChecksBase):
 
     def load(self):
         """ Load bug search definitions from yaml """
-        path = os.path.join(constants.PLUGIN_YAML_DEFS,
-                            'package_bug_checks.yaml')
-        with open(path) as fd:
-            yaml_defs = yaml.safe_load(fd.read())
-
-        if not yaml_defs:
+        plugin_checks = YDefsLoader('package_bug_checks').load_plugin_defs()
+        if not plugin_checks:
             return
 
         overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
@@ -56,10 +50,9 @@ class YPackageChecker(AutoChecksBase):
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
-        plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
-        group = YAMLDefSection(constants.PLUGIN_NAME, plugin,
+        group = YAMLDefSection(constants.PLUGIN_NAME, plugin_checks,
                                override_handlers=overrides)
-        log.debug("sections=%s, events=%s",
+        log.debug("sections=%s, checks=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
 

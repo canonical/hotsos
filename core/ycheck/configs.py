@@ -1,10 +1,8 @@
-import os
-import yaml
-
 from core import constants
 from core.issues import issue_utils
 from core.log import log
 from core.ycheck import (
+    YDefsLoader,
     AutoChecksBase,
     YAMLDefConfig,
     YAMLDefInput,
@@ -27,25 +25,19 @@ class YConfigChecker(AutoChecksBase):
         self._check_defs = {}
 
     def load(self):
-        path = os.path.join(constants.PLUGIN_YAML_DEFS, "config_checks.yaml")
-        with open(path) as fd:
-            yaml_defs = yaml.safe_load(fd.read())
-
-        if not yaml_defs:
+        plugin_checks = YDefsLoader('config_checks').load_plugin_defs()
+        if not plugin_checks:
             return
 
-        log.debug("loading config check definitions for plugin '%s'",
-                  constants.PLUGIN_NAME)
         overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
                      YAMLDefRequires, YAMLDefConfig, YAMLDefSettings,
                      YAMLDefIssueType]
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
-        plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
-        group = YAMLDefSection(constants.PLUGIN_NAME, plugin,
+        group = YAMLDefSection(constants.PLUGIN_NAME, plugin_checks,
                                override_handlers=overrides)
-        log.debug("sections=%s, events=%s",
+        log.debug("sections=%s, checks=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
 

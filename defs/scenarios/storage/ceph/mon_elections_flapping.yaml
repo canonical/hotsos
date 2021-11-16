@@ -1,0 +1,37 @@
+checks:
+  check1:
+    input:
+      type: filesystem
+      value: var/log/ceph/ceph*.log
+    expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
+    meta:
+      min: 5
+      period: 24
+  check2:
+    requires:
+      type: property
+      source: core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+conclusions:
+  cause-unknown:
+    priority: 1
+    decision: check1
+    issue:
+      type: core.issues.issue_types.CephWarning
+      message: >-
+        Ceph monitor is experiencing repeated re-elections but the cause
+        is not known - please investigate
+  network:
+    priority: 2
+    decision:
+      and:
+        - check1
+        - check2
+    issue:
+      type: core.issues.issue_types.CephWarning
+      message: >-
+        Ceph monitor is experiencing repeated re-elections. The network
+        interface(s) ({interfaces}) used by the ceph-mon are showing
+        errors - please investigate
+      format-dict:
+        interfaces: core.plugins.storage.ceph.CephChecksBase.bind_interface_names
+

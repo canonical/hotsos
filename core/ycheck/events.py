@@ -1,13 +1,10 @@
-import os
-import yaml
-
-from core import constants
 from core.log import log
 from core.searchtools import (
     SearchDef,
     SequenceSearchDef,
 )
 from core.ycheck import (
+    YDefsLoader,
     ManualChecksBase,
     YAMLDefInput,
     YAMLDefExpr,
@@ -66,23 +63,19 @@ class YEventCheckerBase(ManualChecksBase):
         Note that multi-line events can be overlapping hence why we don't use a
         SequenceSearchDef (we use core.analytics.LogEventStats).
         """
-        path = os.path.join(constants.PLUGIN_YAML_DEFS, "events.yaml")
-        with open(path) as fd:
-            yaml_defs = yaml.safe_load(fd.read())
-
-        if not yaml_defs:
+        plugin = YDefsLoader('events').load_plugin_defs()
+        if not plugin:
             return
 
-        log.debug("loading event definitions for plugin=%s group=%s",
-                  constants.PLUGIN_NAME, self._yaml_defs_group)
-        plugin = yaml_defs.get(constants.PLUGIN_NAME, {})
         group_name = self._yaml_defs_group
+        log.debug("loading defs for subgroup=%s", group_name)
+        group_defs = plugin.get(group_name)
 
         overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefResultsPassthrough]
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
-        group = YAMLDefSection(group_name, plugin.get(group_name),
+        group = YAMLDefSection(group_name, group_defs,
                                override_handlers=overrides)
         log.debug("sections=%s, events=%s",
                   len(group.branch_sections),

@@ -1,0 +1,19 @@
+input:
+  type: filesystem
+  value: 'var/log/kern.log'
+common:
+  stacktrace:
+    expr: '.*Call Trace:'
+    hint: 'Call'
+memory:
+  oom-killer-invoked:
+    expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
+    hint: 'oom'
+network:
+  over-mtu-dropped-packets:
+    expr: '.+\] (\S+): dropped over-mtu packet'
+    hint: 'dropped'
+  nf-conntrack-full:
+    expr: '.+ nf_conntrack: table full, dropping packet'
+    hint: 'conntrack'
+

@@ -2,6 +2,7 @@ import os
 
 import importlib
 import operator
+import yaml
 
 from core.checks import APTPackageChecksBase
 from core import constants
@@ -26,7 +27,85 @@ class CallbackHelper(object):
         return callback_inner
 
 
-class YAMLDefExpr(YAMLDefOverrideBase):
+class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
+
+    def get_cls(self, import_str):
+        mod = import_str.rpartition('.')[0]
+        class_name = import_str.rpartition('.')[2]
+        return getattr(importlib.import_module(mod), class_name)
+
+    def get_property(self, import_str):
+        mod = import_str.rpartition('.')[0]
+        property = import_str.rpartition('.')[2]
+        class_name = mod.rpartition('.')[2]
+        mod = mod.rpartition('.')[0]
+        cls = getattr(importlib.import_module(mod), class_name)
+        try:
+            ret = getattr(cls(), property)
+        except Exception:
+            log.debug("failed to get property %s", import_str)
+            raise
+
+        return ret
+
+
+class YAMLDefChecks(YAMLDefOverrideBaseX):
+    KEYS = ['checks']
+
+
+class YAMLDefConclusions(YAMLDefOverrideBaseX):
+    KEYS = ['conclusions']
+
+
+class YAMLDefPriority(YAMLDefOverrideBaseX):
+    KEYS = ['priority']
+
+    def __int__(self):
+        return int(self.content)
+
+
+class YAMLDefDecision(YAMLDefOverrideBaseX):
+    KEYS = ['decision']
+
+    @property
+    def is_singleton(self):
+        """
+        A decision can be based off a single check or combinations of checks.
+        If the value is a string and not a dict then it is assumed to be a
+        single check with no boolean logic applied.
+        """
+        return type(self.content) is str
+
+    def __iter__(self):
+        for _bool, val in self.content.items():
+            yield _bool, val
+
+
+class YAMLDefExpr(YAMLDefOverrideBaseX):
+    """
+    An expression can be a string or a list of strings and can be provided
+    as a single value or dict (with keys start, body, end etc) e.g.
+
+    expr: 'myexpr'
+
+    or
+
+    expr:
+      - 'myexpr1'
+      - 'myexpr2'
+
+    or
+
+    start: 'myexpr1'
+    end: 'myexpr2'
+
+    or
+
+    start:
+        expr: 'myexpr1'
+        hint: 'my'
+    end: 'myexpr2'
+    """
     KEYS = ['start', 'body', 'end', 'expr', 'hint']
 
     @property
@@ -37,15 +116,13 @@ class YAMLDefExpr(YAMLDefOverrideBase):
         """
         return self.content.get('expr', self.content)
 
-    @property
-    def hint(self):
-        return self.content.get('hint', None)
-
     def __getattr__(self, name):
         """
-        An expression can be provided in multiple ways. The simplest form is
-        where the value of the event is a pattern string hence why we override
-        this to just return the content if it is not a dict.
+        This is a fallback for when the value is not a key and we just want
+        to return the contents e.g. a string or list.
+
+        If the value is a string or list you can use a non-existant key e.g.
+        'value' to retreive it.
         """
         if type(self.content) == dict:
             return super().__getattr__(name)
@@ -53,7 +130,24 @@ class YAMLDefExpr(YAMLDefOverrideBase):
             return self.content
 
 
-class YAMLDefMessage(YAMLDefOverrideBase):
+class YAMLDefIssue(YAMLDefOverrideBaseX):
+    KEYS = ['issue']
+
+    @property
+    def format_dict(self):
+        _format_dict = self.content.get('format-dict')
+        if not _format_dict:
+            return {}
+
+        return {k: self.get_property(v) for k, v in _format_dict.items()}
+
+    @property
+    def type(self):
+        """ Imports and returns class object. """
+        return self.get_cls(self.content['type'])
+
+
+class YAMLDefMessage(YAMLDefOverrideBaseX):
     KEYS = ['message', 'message-format-result-groups']
 
     @property
@@ -64,7 +158,7 @@ class YAMLDefMessage(YAMLDefOverrideBase):
         return self.content
 
 
-class YAMLDefSettings(YAMLDefOverrideBase):
+class YAMLDefSettings(YAMLDefOverrideBaseX):
     KEYS = ['settings']
 
     def __iter__(self):
@@ -72,7 +166,7 @@ class YAMLDefSettings(YAMLDefOverrideBase):
             yield key, val
 
 
-class YAMLDefReleases(YAMLDefOverrideBase):
+class YAMLDefReleases(YAMLDefOverrideBaseX):
     KEYS = ['releases']
 
     def __iter__(self):
@@ -80,7 +174,7 @@ class YAMLDefReleases(YAMLDefOverrideBase):
             yield key, val
 
 
-class YAMLDefResultsPassthrough(YAMLDefOverrideBase):
+class YAMLDefResultsPassthrough(YAMLDefOverrideBaseX):
     KEYS = ['passthrough-results']
 
     def __bool__(self):
@@ -91,7 +185,7 @@ class YAMLDefResultsPassthrough(YAMLDefOverrideBase):
         return bool(self.content)
 
 
-class YAMLDefInput(YAMLDefOverrideBase):
+class YAMLDefInput(YAMLDefOverrideBaseX):
     KEYS = ['input']
     TYPE_COMMAND = 'command'
     TYPE_FILESYSTEM = 'filesystem'
@@ -145,7 +239,7 @@ class YAMLDefInput(YAMLDefOverrideBase):
             return self._path
 
 
-class YAMLDefContext(YAMLDefOverrideBase):
+class YAMLDefContext(YAMLDefOverrideBaseX):
     KEYS = ['context']
 
     def __getattr__(self, name):
@@ -155,35 +249,37 @@ class YAMLDefContext(YAMLDefOverrideBase):
     def _load(self):
         ctxt = {}
         for key, val in self.content.items():
-            mod = val.rpartition('.')[0]
-            property = val.rpartition('.')[2]
-            class_name = mod.rpartition('.')[2]
-            mod = mod.rpartition('.')[0]
-            cls = getattr(importlib.import_module(mod), class_name)
-            ctxt[key] = getattr(cls(), property)
+            ctxt[key] = self.get_property(val)
 
         return ctxt
 
 
-class YAMLDefRequires(YAMLDefOverrideBase):
+class YAMLDefRequires(YAMLDefOverrideBaseX):
     KEYS = ['requires']
 
     @property
+    def value(self):
+        """
+        An optional value to match against. If no value is provided this will
+        return True by default.
+        """
+        return self.content.get('value', True)
+
+    @property
     def passes(self):
+        """ Assert whether the requirement is met.
+
+        Returns True if met otherwise False.
+        """
         if self.type == 'apt':
             pkg = self.value
             result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
-            log.debug('config_check requirement:apt %s (result=%s)', pkg,
+            log.debug('requirement check: apt %s (result=%s)', pkg,
                       result)
             return result
         elif self.type == 'property':
-            mod = self.source.rpartition('.')[0]
-            property = self.source.rpartition('.')[2]
-            class_name = mod.rpartition('.')[2]
-            mod = mod.rpartition('.')[0]
-            cls = getattr(importlib.import_module(mod), class_name)
-            result = getattr(cls(), property) is self.value
-            log.debug('config_check requirement:property %s is %s (result=%s)',
+            result = self.get_property(self.source) == self.value
+            log.debug('requirement check: property %s is %s (result=%s)',
                       self.source, self.value, result)
             return result
         else:
@@ -192,23 +288,19 @@ class YAMLDefRequires(YAMLDefOverrideBase):
         return False
 
 
-class YAMLDefIssueType(YAMLDefOverrideBase):
+class YAMLDefIssueType(YAMLDefOverrideBaseX):
     KEYS = ['raises']
 
     @property
     def issue(self):
-        mod = self.content.rpartition('.')[0]
-        class_name = self.content.rpartition('.')[2]
-        return getattr(importlib.import_module(mod), class_name)
+        return self.get_cls(self.content)
 
 
-class YAMLDefConfig(YAMLDefOverrideBase):
+class YAMLDefConfig(YAMLDefOverrideBaseX):
     KEYS = ['config']
 
     def actual(self, key, section=None):
-        mod = self.handler.rpartition('.')[0]
-        cls = self.handler.rpartition('.')[2]
-        obj = getattr(importlib.import_module(mod), cls)
+        obj = self.get_cls(self.handler)
         if hasattr(self, 'path'):
             self.cfg = obj(self.path)
         else:
@@ -236,6 +328,79 @@ class YAMLDefConfig(YAMLDefOverrideBase):
             return True
 
         return False
+
+
+class YDefsLoader(object):
+    DEFS_SPECIAL_OVERLAY_NAMES = ['all']
+
+    def __init__(self, ytype):
+        self.ytype = ytype
+
+    def _is_def(self, path):
+        return path.endswith('.yaml')
+
+    def _get_yname(self, path):
+        return os.path.basename(path).partition('.yaml')[0]
+
+    def _get_defs_recursive(self, path):
+        """ Recursively find all yaml/files beneath a directory. """
+        overlays = {}
+        for entry in os.listdir(path):
+            _path = os.path.join(path, entry)
+            if os.path.isdir(_path) or not self._is_def(entry):
+                continue
+
+            if self._get_yname(_path) in self.DEFS_SPECIAL_OVERLAY_NAMES:
+                with open(_path) as fd:
+                    overlays.update(yaml.safe_load(fd.read()) or {})
+
+        defs = {}
+        for entry in os.listdir(path):
+            _path = os.path.join(path, entry)
+            if os.path.isdir(_path):
+                defs[os.path.basename(_path)] = self._get_defs_recursive(_path)
+            else:
+                if (not self._is_def(entry) or
+                        self._get_yname(_path) in
+                        self.DEFS_SPECIAL_OVERLAY_NAMES):
+                    continue
+
+                with open(_path) as fd:
+                    _content = yaml.safe_load(fd.read()) or {}
+                    _content.update(overlays)
+                    defs[self._get_yname(_path)] = _content
+
+        return defs
+
+    @property
+    def plugin_defs(self):
+        path = os.path.join(constants.PLUGIN_YAML_DEFS, self.ytype,
+                            constants.PLUGIN_NAME)
+        if os.path.isdir(path):
+            return self._get_defs_recursive(path)
+
+    @property
+    def plugin_defs_legacy(self):
+        path = os.path.join(constants.PLUGIN_YAML_DEFS,
+                            '{}.yaml'.format(self.ytype))
+        if not os.path.exists(path):
+            return {}
+
+        log.debug("using legacy defs path %s", path)
+        with open(path) as fd:
+            defs = yaml.safe_load(fd.read()) or {}
+
+        return defs.get(constants.PLUGIN_NAME, {})
+
+    def load_plugin_defs(self):
+        log.debug('loading %s definitions for plugin=%s', self.ytype,
+                  constants.PLUGIN_NAME,)
+
+        yaml_defs = self.plugin_defs
+        if not yaml_defs:
+            yaml_defs = self.plugin_defs_legacy
+
+        return yaml_defs
 
 
 class ChecksBase(object):

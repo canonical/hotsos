@@ -633,7 +633,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                            ('known neutron-ovn bug identified that impacts '
                             'OVN sbdb connections.'))]
 
-        mock_add_known_bug.assert_has_calls(calls)
+        mock_add_known_bug.assert_has_calls(calls, any_order=True)
         self.assertEqual(len(bugs), 4)
 
     def test_get_router_event_stats(self):
