@@ -337,7 +337,36 @@ class TestStorageCephClusterChecks(StorageTestsBase):
         self.assertTrue(mock_issue_utils.add_issue.called)
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
+    def test_check_crushmap_equal_buckets(self, mock_issue_utils):
+        inst = ceph_cluster_checks.CephClusterChecks()
+        inst.check_crushmap_equal_buckets()
+        self.assertFalse(mock_issue_utils.add_issue.called)
+
+    @mock.patch.object(ceph_cluster_checks, 'issue_utils')
+    def test_check_crushmap_non_equal_buckets(self, mock_issue_utils):
+        '''
+        Verifies that the check_crushmap_equal_buckets() function
+        correctly raises an issue against a known bad CRUSH map.
+        '''
+        test_data_path = ("sos_commands/ceph/json_output/"
+                          "ceph_osd_dump_--format_json-pretty_unbalanced")
+        osd_crush_dump_path = os.path.join(os.environ["DATA_ROOT"],
+                                           test_data_path)
+        osd_crush_dump = json.load(open(osd_crush_dump_path))
+        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\
+                return_value = osd_crush_dump
+            inst = ceph_cluster_checks.CephClusterChecks()
+            inst.check_crushmap_equal_buckets()
+            self.assertTrue(mock_issue_utils.add_issue.called)
+
+    @mock.patch.object(ceph_cluster_checks, 'issue_utils')
     def test_get_crushmap_mixed_buckets(self, mock_issue_utils):
+        '''
+        Verifies that the check_crushmap_equal_buckets() function
+        correctly does not raise an issue against a known good CRUSH map.
+        '''
         with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
             mock_helper.return_value = mock.MagicMock()
             mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\
