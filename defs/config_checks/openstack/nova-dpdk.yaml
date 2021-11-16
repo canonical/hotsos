@@ -1,0 +1,21 @@
+requires:
+  type: apt
+  value: openvswitch-switch-dpdk
+config:
+  handler: core.plugins.openstack.OpenstackConfig
+  path: etc/nova/nova.conf
+raises: core.issues.issue_types.OpenstackWarning
+message: >-
+  DPDK is enabled but rx_queue_size/tx_queue_size set incorrectly in
+  nova.conf (expect both to be >= 1024).
+settings:
+  rx_queue_size:
+    section: libvirt
+    value: 1024
+    operator: ge
+    allow-unset: False
+  tx_queue_size:
+    section: libvirt
+    value: 1024
+    operator: ge
+    allow-unset: False

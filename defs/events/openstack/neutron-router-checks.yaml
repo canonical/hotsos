@@ -1,0 +1,8 @@
+l3ha:
+  vrrp-transitions:
+    input:
+      type: command
+      value: journalctl
+      meta:
+        args-callback: journalctl_args
+    expr: '^([0-9-]+)T\S+ \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\(VR_(\d+)\) .+ (\S+) STATE'

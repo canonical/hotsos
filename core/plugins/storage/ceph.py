@@ -433,7 +433,7 @@ class CephChecksBase(StorageBase):
 
         return relname
 
-    def get_bind_interfaces(self, type):
+    def _get_bind_interfaces(self, type):
         """
         For the given config network type determine what interface ceph is
         binding to.
@@ -458,17 +458,25 @@ class CephChecksBase(StorageBase):
     @property
     def bind_interfaces(self):
         """
-        Determine which interfaces Ceph daemons are binding to based on their
-        ceph configuration. Return a dict keyed by network
-        config type i.e. cluster/public.
+        Returns a dict of network interfaces used by Ceph daemons on this host.
+        The dict has the form {<type>: [<port>, ...]}
         """
         interfaces = {}
         for type in ['cluster', 'public']:
-            ret = self.get_bind_interfaces(type)
+            ret = self._get_bind_interfaces(type)
             if ret:
                 interfaces.update(ret)
 
         return interfaces
+
+    @property
+    def bind_interface_names(self):
+        """
+        Returns a list of names for network interfaces used by Ceph daemons on
+        this host.
+        """
+        names = [iface.name for iface in self.bind_interfaces.values()]
+        return ', '.join(list(set(names)))
 
     def _get_cluster_osds(self):
         cluster_osds = []
@@ -632,6 +640,21 @@ class CephChecksBase(StorageBase):
             conf_val = self.ceph_config.get(key)
             if conf_val and val in conf_val:
                 return True
+
+        return False
+
+    @property
+    def has_interface_errors(self):
+        """
+        Checks if any network interfaces used by Ceph are showing packet
+        errors.
+
+        Returns True if errors found otherwise False.
+        """
+        for port in self.bind_interfaces.values():
+            for stats in port.stats.values():
+                if stats.get('errors'):
+                    return True
 
         return False
 

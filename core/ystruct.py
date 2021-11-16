@@ -19,7 +19,8 @@ class YStructException(Exception):
 class YAMLDefOverrideBase(object):
     KEYS = None
 
-    def __init__(self, content):
+    def __init__(self, name, content):
+        self._override_name = name
         self._content = content
 
     @property
@@ -75,7 +76,12 @@ class YAMLDefBase(object):
 
 class YAMLDefSection(YAMLDefBase):
     def __init__(self, name, content, overrides=None, parent=None,
-                 override_handlers=None):
+                 override_handlers=None, root=None):
+        if root is None:
+            self.root = self
+        else:
+            self.root = root
+
         self.name = name
         self.parent = parent
         self.content = content
@@ -93,13 +99,18 @@ class YAMLDefSection(YAMLDefBase):
         if type(self.content) != dict:
             raise YStructException("undefined override '{}'".format(self.name))
 
+        # first get all overrides at this level
         for name, content in self.content.items():
             if name in self.override_keys:
                 handler = self.get_override_handler(name)
-                self.overrides[name] = handler(content)
+                self.overrides[name] = handler(name, content)
+
+        for name, content in self.content.items():
+            if name in self.override_keys:
                 continue
 
-            s = YAMLDefSection(name, content, self.overrides, parent=self)
+            s = YAMLDefSection(name, content, self.overrides, parent=self,
+                               root=self.root)
             self.sections.append(s)
 
     @property

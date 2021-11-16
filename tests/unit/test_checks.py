@@ -8,9 +8,9 @@ import utils
 
 from core import checks
 from core import ycheck
-from core.ycheck import events, configs, packages
+from core.ycheck import events, configs, packages, scenarios
 from core.ystruct import YAMLDefSection
-from core.searchtools import FileSearcher
+from core.searchtools import FileSearcher, SearchDef
 
 
 YAML_DEF_W_INPUT = """
@@ -50,8 +50,8 @@ pluginX:
         value: foo/bar2
       artifactX:
         input:
-            type: filesystem
-            value: foo/bar3
+          type: filesystem
+          value: foo/bar3
         settings: True
 """
 
@@ -103,6 +103,27 @@ myplugin:
         operator: ge
         allow-unset: False
 """
+
+SCENARIO_CHECKS = r"""
+myplugin:
+  myscenario:
+    checks:
+      mycheck:
+        input:
+          type: filesystem
+          value: foo.log
+        expr: '^([0-9-]+)\S* (\S+) .+'
+        meta:
+          min: 3
+          period: 24
+    conclusions:
+      foo:
+        priority: 1
+        decision: mycheck
+        issue:
+          type: core.issues.issue_types.SystemWarning
+          message: a foo happened
+"""  # noqa
 
 
 class TestChecks(utils.BaseTestCase):
@@ -193,10 +214,10 @@ class TestChecks(utils.BaseTestCase):
             overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
             group = YAMLDefSection(name, group, override_handlers=overrides)
             for entry in group.leaf_sections:
-                self.assertEquals(entry.input.type, 'filesystem')
-                self.assertEquals(entry.input.path,
-                                  os.path.join(checks.constants.DATA_ROOT,
-                                               'foo/bar1*'))
+                self.assertEqual(entry.input.type, 'filesystem')
+                self.assertEqual(entry.input.path,
+                                 os.path.join(checks.constants.DATA_ROOT,
+                                              'foo/bar1*'))
 
     def test_yaml_def_section_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
@@ -204,10 +225,10 @@ class TestChecks(utils.BaseTestCase):
             overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
             group = YAMLDefSection(name, group, override_handlers=overrides)
             for entry in group.leaf_sections:
-                self.assertEquals(entry.input.type, 'filesystem')
-                self.assertEquals(entry.input.path,
-                                  os.path.join(checks.constants.DATA_ROOT,
-                                               'foo/bar2*'))
+                self.assertEqual(entry.input.type, 'filesystem')
+                self.assertEqual(entry.input.path,
+                                 os.path.join(checks.constants.DATA_ROOT,
+                                              'foo/bar2*'))
 
     def test_yaml_def_entry_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED2)
@@ -215,10 +236,10 @@ class TestChecks(utils.BaseTestCase):
             overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
             group = YAMLDefSection(name, group, override_handlers=overrides)
             for entry in group.leaf_sections:
-                self.assertEquals(entry.input.type, 'filesystem')
-                self.assertEquals(entry.input.path,
-                                  os.path.join(checks.constants.DATA_ROOT,
-                                               'foo/bar3*'))
+                self.assertEqual(entry.input.type, 'filesystem')
+                self.assertEqual(entry.input.path,
+                                 os.path.join(checks.constants.DATA_ROOT,
+                                              'foo/bar3*'))
 
     def test_yaml_def_entry_seq(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -236,9 +257,9 @@ class TestChecks(utils.BaseTestCase):
                 group = YAMLDefSection(name, group,
                                        override_handlers=overrides)
                 for entry in group.leaf_sections:
-                    self.assertEquals(entry.input.type, 'filesystem')
-                    self.assertEquals(entry.input.path,
-                                      '{}*'.format(data_file))
+                    self.assertEqual(entry.input.type, 'filesystem')
+                    self.assertEqual(entry.input.path,
+                                     '{}*'.format(data_file))
 
             test_self = self
             match_count = {'count': 0}
@@ -260,13 +281,13 @@ class TestChecks(utils.BaseTestCase):
                         for result in section:
                             if result.tag.endswith('-start'):
                                 match_count['count'] += 1
-                                test_self.assertEquals(result.get(0), 'hello')
+                                test_self.assertEqual(result.get(0), 'hello')
                             elif result.tag.endswith('-body'):
                                 match_count['count'] += 1
-                                test_self.assertEquals(result.get(0), 'brave')
+                                test_self.assertEqual(result.get(0), 'brave')
                             elif result.tag.endswith('-end'):
                                 match_count['count'] += 1
-                                test_self.assertEquals(result.get(0), 'world')
+                                test_self.assertEqual(result.get(0), 'world')
 
                 @EVENTCALLBACKS.callback
                 def my_standard_search(self, event):
@@ -274,27 +295,27 @@ class TestChecks(utils.BaseTestCase):
                     callbacks_called['my_standard_search'] = True
                     tag = 'my-standard-search-start'
                     start_results = event.results.find_by_tag(tag)
-                    test_self.assertEquals(start_results[0].get(0), 'hello')
+                    test_self.assertEqual(start_results[0].get(0), 'hello')
 
                 @EVENTCALLBACKS.callback
                 def my_standard_search2(self, event):
                     callbacks_called['my_standard_search2'] = True
-                    test_self.assertEquals(event.results[0].get(0), 'hello')
+                    test_self.assertEqual(event.results[0].get(0), 'hello')
 
                 @EVENTCALLBACKS.callback
                 def my_standard_search3(self, event):
                     callbacks_called['my_standard_search3'] = True
-                    test_self.assertEquals(event.results[0].get(0), 'hello')
+                    test_self.assertEqual(event.results[0].get(0), 'hello')
 
                 def __call__(self):
                     self.run_checks()
 
             MyEventHandler()()
-            self.assertEquals(match_count['count'], 3)
-            self.assertEquals(list(callbacks_called.keys()),
-                              ['my_sequence_search',
-                               'my_standard_search',
-                               'my_standard_search2'])
+            self.assertEqual(match_count['count'], 3)
+            self.assertEqual(list(callbacks_called.keys()),
+                             ['my_sequence_search',
+                              'my_standard_search',
+                              'my_standard_search2'])
 
     @mock.patch('core.issues.issue_utils.add_issue')
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
@@ -322,3 +343,145 @@ class TestChecks(utils.BaseTestCase):
             os.environ['PLUGIN_NAME'] = 'myplugin'
             configs.YConfigChecker()()
             self.assertTrue(add_issue.called)
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch.object(ycheck, 'APTPackageChecksBase')
+    def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
+        apt_check.is_installed.return_value = True
+        os.environ['PLUGIN_NAME'] = 'storage'
+        scenarios.YScenarioChecker()()
+        self.assertFalse(add_issue.called)
+
+    @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
+                lambda args: False)
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_yaml_def_scenarios_w_issue(self, add_issue, mock_cephbase):
+        os.environ['PLUGIN_NAME'] = 'storage'
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.has_interface_errors = True
+        mock_cephbase.return_value.bind_interface_names = 'ethX'
+
+        # First check not runnable
+        mock_cephbase.return_value.plugin_runnable = False
+        scenarios.YScenarioChecker()()
+        self.assertFalse(add_issue.called)
+
+        # now runnable
+        mock_cephbase.return_value.plugin_runnable = True
+        scenarios.YScenarioChecker()()
+        msg = ("Ceph monitor is experiencing repeated re-elections. The "
+               "network interface(s) (ethX) used by the ceph-mon are "
+               "showing errors - please investigate")
+        self.assertEqual(issues[0].msg, msg)
+        self.assertTrue(add_issue.called)
+
+    def test_yaml_def_scenario_check_fail(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.environ['PLUGIN_YAML_DEFS'] = dtmp
+            os.environ['PLUGIN_NAME'] = 'myplugin'
+            logfile = os.path.join(dtmp, 'foo.log')
+            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
+                                                               SCENARIO_CHECKS)
+            contents = ['2021-04-01 00:31:00.000 an event\n']
+            self._create_search_results(logfile, contents)
+            checker = scenarios.YScenarioChecker()
+            checker.load()
+            self.assertEqual(len(checker.scenarios), 1)
+            for scenario in checker.scenarios:
+                self.assertEqual(len(scenario.checks), 1)
+                for check in scenario.checks.values():
+                    self.assertFalse(check.result)
+
+    def test_yaml_def_scenario_check_pass(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.environ['PLUGIN_YAML_DEFS'] = dtmp
+            os.environ['PLUGIN_NAME'] = 'myplugin'
+            logfile = os.path.join(dtmp, 'foo.log')
+            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
+                                                               SCENARIO_CHECKS)
+            contents = ['2021-04-01 00:31:00.000 an event\n',
+                        '2021-04-01 00:32:00.000 an event\n',
+                        '2021-04-01 00:33:00.000 an event\n',
+                        '2021-04-02 00:36:00.000 an event\n',
+                        '2021-04-02 00:00:00.000 an event\n',
+                        ]
+            self._create_search_results(logfile, contents)
+            checker = scenarios.YScenarioChecker()
+            checker.load()
+            self.assertEqual(len(checker.scenarios), 1)
+            for scenario in checker.scenarios:
+                self.assertEqual(len(scenario.checks), 1)
+                for check in scenario.checks.values():
+                    self.assertTrue(check.result)
+
+    def _create_search_results(self, path, contents):
+        with open(path, 'w') as fd:
+            for line in contents:
+                fd.write(line)
+
+        s = FileSearcher()
+        s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
+        return s.search().find_by_tag('all')
+
+    def test_yaml_def_scenario_datetime(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.environ['PLUGIN_YAML_DEFS'] = dtmp
+            os.environ['PLUGIN_NAME'] = 'myplugin'
+            logfile = os.path.join(dtmp, 'foo.log')
+
+            contents = ['2021-04-01 00:01:00.000 an event\n']
+            results = self._create_search_results(logfile, contents)
+            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 1)
+            self.assertEqual(len(result), 1)
+
+            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 2)
+            self.assertEqual(len(result), 0)
+
+            contents = ['2021-04-01 00:01:00.000 an event\n',
+                        '2021-04-01 00:02:00.000 an event\n',
+                        '2021-04-03 00:01:00.000 an event\n',
+                        ]
+            results = self._create_search_results(logfile, contents)
+            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 2)
+            self.assertEqual(len(result), 2)
+
+            contents = ['2021-04-01 00:00:00.000 an event\n',
+                        '2021-04-01 00:01:00.000 an event\n',
+                        '2021-04-01 00:02:00.000 an event\n',
+                        '2021-04-02 00:00:00.000 an event\n',
+                        '2021-04-02 00:01:00.000 an event\n',
+                        ]
+            results = self._create_search_results(logfile, contents)
+            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 4)
+            self.assertEqual(len(result), 4)
+
+            contents = ['2021-04-01 00:00:00.000 an event\n',
+                        '2021-04-01 00:01:00.000 an event\n',
+                        '2021-04-02 00:01:00.000 an event\n',
+                        '2021-04-02 00:02:00.000 an event\n',
+                        ]
+            results = self._create_search_results(logfile, contents)
+            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 4)
+            self.assertEqual(len(result), 0)
+
+            contents = ['2021-04-01 00:00:00.000 an event\n',
+                        '2021-04-01 00:01:00.000 an event\n',
+                        '2021-04-02 02:00:00.000 an event\n',
+                        '2021-04-03 01:00:00.000 an event\n',
+                        '2021-04-04 02:00:00.000 an event\n',
+                        '2021-04-05 02:00:00.000 an event\n',
+                        '2021-04-06 01:00:00.000 an event\n',
+                        ]
+            results = self._create_search_results(logfile, contents)
+            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 3)
+            self.assertEqual(len(result), 3)

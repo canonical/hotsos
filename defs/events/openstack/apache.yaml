@@ -1,0 +1,8 @@
+input:
+  type: filesystem
+  value: 'var/log/apache2/error.log'
+errors:
+  connection-refused:
+    # wday month day time year
+    expr: '\[\S+ (\S+) (\S+) [\d:]+\.\d+ (\S+)\] .+Connection refused: AH00957: \S+: attempt to connect to ([\d+\.]+):(\d+) \S+ failed'
+

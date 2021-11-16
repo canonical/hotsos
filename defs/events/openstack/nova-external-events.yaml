@@ -1,0 +1,13 @@
+input:
+  type: filesystem
+  value: 'var/log/nova/nova-compute.log'
+  meta:
+    # Searching all logs can yield too many results and we don't yet have a
+    # way to override MAX_LOGROTATE_DEPTH so disabling for now.
+    allow-all-logs: False
+# Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
+events:
+  network-changed:
+    expr: '.+\[instance: (\S+)\].+Received event (network-changed)-(\S+)\s+'
+  network-vif-plugged:
+    expr: '.+\[instance: (\S+)\].+Preparing to wait for external event (network-vif-plugged)-(\S+)\s+'

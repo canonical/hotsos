@@ -1,6 +1,3 @@
-import os
-import yaml
-
 from core import constants
 from core.log import log
 from core.known_bugs_utils import (
@@ -8,6 +5,7 @@ from core.known_bugs_utils import (
     BugSearchDef,
 )
 from core.ycheck import (
+    YDefsLoader,
     AutoChecksBase,
     YAMLDefInput,
     YAMLDefExpr,
@@ -28,21 +26,17 @@ class YBugChecker(AutoChecksBase):
 
     def _load_bug_definitions(self):
         """ Load bug search definitions from yaml """
-        path = os.path.join(constants.PLUGIN_YAML_DEFS, "bugs.yaml")
-        with open(path) as fd:
-            yaml_defs = yaml.safe_load(fd.read())
-
-        if not yaml_defs:
+        plugin_bugs = YDefsLoader('bugs').load_plugin_defs()
+        if not plugin_bugs:
             return
 
-        plugin_bugs = yaml_defs.get(constants.PLUGIN_NAME, {})
         overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage]
         # TODO: need a better way to provide this instance to the input
         #       override.
         YAMLDefInput.EVENT_CHECK_OBJ = self
         plugin = YAMLDefSection(constants.PLUGIN_NAME, plugin_bugs,
                                 override_handlers=overrides)
-        log.debug("loading plugin '%s' bugs - sections=%s, events=%s",
+        log.debug("loaded plugin '%s' bugs - sections=%s, events=%s",
                   plugin.name,
                   len(plugin.branch_sections),
                   len(plugin.leaf_sections))
@@ -82,11 +76,17 @@ class YBugChecker(AutoChecksBase):
         return self._bug_defs
 
     def load(self):
+        if not self.bug_definitions:
+            return
+
         for bugsearch in self.bug_definitions:
             self.searchobj.add_search_term(bugsearch["def"],
                                            bugsearch["datasource"])
 
     def run(self, results):
+        if not self.bug_definitions:
+            return
+
         for bugsearch in self.bug_definitions:
             tag = bugsearch["def"].tag
             _results = results.find_by_tag(tag)
