@@ -201,13 +201,15 @@ openvswitch:
           value: 'var/log/openvswitch/ovsdb-server.log'
   flow-checks:
     datapath:
-      packet-drops:
-        input:
-          type: command
-          value: ovs_appctl_dpctl_show
-          meta:
-            kwargs:
-              datapath: 'system@ovs-system'
+      input:
+        type: command
+        value: ovs_appctl_dpctl_show
+        meta:
+          kwargs:
+            datapath: 'system@ovs-system'
+      lookups:
+        expr: '\s+lookups: hit:(\S+) missed:(\S+) lost:(\S+)'
+      port-stats:
         start: '\s+port \d+: (\S+) .+'
         body: '\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+)'
       deferred-action-limit-reached:
