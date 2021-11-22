@@ -102,7 +102,7 @@ OSLO_MESSAGING_EXCEPTIONS = [
     "MessageUndeliverable",
 ]
 
-# From https://github.com/libvirt/libvirt-python used by Nova 
+# From https://github.com/libvirt/libvirt-python used by Nova
 PYTHON_LIBVIRT_EXCEPTIONS = [
     "libvirtError",
 ]
