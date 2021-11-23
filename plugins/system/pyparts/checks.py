@@ -60,6 +60,11 @@ class SystemChecks(SystemChecksBase):
                 continue
 
             for conf in os.listdir(path):
+                # Only files ending in .conf are recognised by sysctl so don't
+                # count content of other files as expected.
+                if not conf.endswith('.conf'):
+                    continue
+
                 sysctl = SYSCtlHelper(os.path.join(path, conf))
                 for key, value in sysctl.all.items():
                     if key in sysctl_key_priorities:
