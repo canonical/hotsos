@@ -51,10 +51,10 @@ class TestSystemChecks(utils.BaseTestCase):
             orig_data_root = os.environ['DATA_ROOT']
             os.environ['DATA_ROOT'] = dtmp
             os.makedirs(os.path.join(dtmp, 'etc'))
-            shutil.copy(os.path.join(orig_data_root, 'etc/sysctl.conf'),
-                        os.path.join(dtmp, 'etc'))
-            shutil.copytree(os.path.join(orig_data_root, 'etc/sysctl.d'),
-                            os.path.join(dtmp, 'etc/sysctl.d'))
+            etc_sysctl_conf = os.path.join(orig_data_root, 'etc/sysctl.conf')
+            etc_sysctl_d = os.path.join(orig_data_root, 'etc/sysctl.d')
+            shutil.copy(etc_sysctl_conf, os.path.join(dtmp, 'etc'))
+            shutil.copytree(etc_sysctl_d, os.path.join(dtmp, 'etc/sysctl.d'))
             shutil.copytree(os.path.join(orig_data_root, 'usr/lib/sysctl.d'),
                             os.path.join(dtmp, 'usr/lib/sysctl.d'))
             os.makedirs(os.path.join(dtmp, 'sos_commands'))
@@ -66,6 +66,11 @@ class TestSystemChecks(utils.BaseTestCase):
             with open(os.path.join(dtmp, 'etc/sysctl.d/99-unit-test.conf'),
                       'w') as fd:
                 fd.write("kernel.pid_max = 12345678")
+
+            # inject an unset value into an invalid file
+            with open(os.path.join(dtmp, 'etc/sysctl.d/98-unit-test.conf.bak'),
+                      'w') as fd:
+                fd.write("kernel.watchdog = 0")
 
             inst = checks.SystemChecks()
             inst()
