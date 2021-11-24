@@ -31,6 +31,31 @@ class CephClusterChecks(CephChecksBase):
                    "for details".format(self.health_status))
             issue_utils.add_issue(issue_types.CephHealthWarning(msg))
 
+    def check_large_omap_objects(self):
+        """
+        Report PGs with large OMAP objects.
+
+        """
+        pg_dump = self.cli.ceph_pg_dump_json_decoded()
+        if not pg_dump:
+            return
+
+        large_omap_pgs = {}
+        for pg in pg_dump['pg_map']['pg_stats']:
+            if pg['stat_sum']['num_large_omap_objects'] > 0:
+                scrub = "last_scrub_at="+str(pg['last_scrub_stamp'])
+                deep_scrub = "last_deep_scrub_at="+str(pg['last_scrub_stamp'])
+                large_omap_pgs[pg['pgid']] = [scrub, deep_scrub]
+
+        if large_omap_pgs:
+            msg = ("Large omap objects found in the following PGs:{}. "
+                   "This is usually resolved by deep-scrubbing the PGs. Check "
+                   "'osd_deep_scrub_large_omap_object_key_threshold' and "
+                   "'osd_deep_scrub_large_omap_object_value_sum_threshold' "
+                   "to find whether the number of keys are high."
+                   .format(large_omap_pgs))
+            issue_utils.add_issue(issue_types.CephWarning(msg))
+
     def check_laggy_pgs(self):
         pg_dump = self.cli.ceph_pg_dump_json_decoded()
         if not pg_dump:
@@ -377,6 +402,7 @@ class CephClusterChecks(CephChecksBase):
         self.get_crushmap_mixed_buckets()
         self.check_osdmaps_size()
         self.check_laggy_pgs()
+        self.check_large_omap_objects()
 
 
 class CephCrushChecks(CephChecksBase):
