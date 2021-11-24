@@ -132,6 +132,12 @@ juju:
         failed since the disk has an LVM header. If you are sure the disk is
         not in active use by LVM, you may run pvremove on it before using it as
         an OSD - see LP bug for details.
+    1948906:
+      expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
+      hint: 'manifold worker returned unexpected error'
+      message: >-
+        post-series-upgrade failed, issues with unit {} - see LP bug for workaround.
+      message-format-result-groups: [1]
 rabbitmq:
   common:
     input:
