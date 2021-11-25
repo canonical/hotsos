@@ -109,7 +109,7 @@ class YAMLDefInput(YAMLDefOverrideBase):
     def meta(self):
         defaults = {'allow-all-logs': True,
                     'args': [],
-                    'kargs': {},
+                    'kwargs': {},
                     'args-callback': None}
         _meta = self.content.get('meta', defaults)
         defaults.update(_meta)
