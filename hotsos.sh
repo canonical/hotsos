@@ -52,6 +52,7 @@ OUTPUT_FORMAT="yaml"
 MASTER_YAML_OUT=`mktemp`
 MASTER_YAML_OUT_ORIG=`mktemp`
 SAVE_OUTPUT=false
+VERSION="${SNAP_REVISION:-development}"
 declare -a SOS_PATHS=()
 override_all_default=false
 # Ordering is not important here since associative arrays do not respect order.
@@ -100,6 +101,8 @@ trap cleanup KILL INT EXIT
 usage ()
 {
 cat << EOF
+hotsos (version: ${VERSION})
+
 USAGE: hotsos [OPTIONS] [SOSPATH]
 
 Run this tool on a host or against a sosreport to perform analysis of specific
@@ -124,6 +127,8 @@ OPTIONS
         when doing --short.
     -h|--help
         This message.
+    --json
+        Output in json format.
     --<plugin name>
         Use the specified plugin.
     --list-plugins
@@ -143,8 +148,8 @@ OPTIONS
     --user-summary
         Used in conjunction with --short to allow an existing (full) summary to
         to be shortened.
-    --json
-        Output in json format.
+    --version
+        Show the version.
 
 PLUGIN OPTIONS
   These options only apply to specific plugins.
@@ -173,6 +178,10 @@ while (($#)); do
             ;;
         -h|--help)
             usage
+            exit 0
+            ;;
+        -v|--version)
+            echo "${VERSION}"
             exit 0
             ;;
 ## PLUGIN OPTS ########
@@ -341,7 +350,7 @@ generate_summary ()
 
     cat <<EOF > "${MASTER_YAML_OUT}"
 hotsos:
-  version: ${SNAP_REVISION:-"development"}
+  version: "${VERSION}"
   repo-info: $repo_info
 EOF
 
