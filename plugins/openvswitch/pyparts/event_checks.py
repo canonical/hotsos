@@ -90,8 +90,8 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
         lost_packets = int(result.get(3))
         if lost_packets > 0:
             msg = ("ovs datapath is reporting a non-zero amount of \"lost\" "
-                   "packets ({}) which is when packets destined for userspace "
-                   "are dropped before they reach userspace - see "
+                   "packets ({}) which implies that packets destined for "
+                   "userspace (e.g. vm tap) are being dropped - see "
                    "ovs-appctl dpctl/show".format(lost_packets))
             issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 
