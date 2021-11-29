@@ -350,7 +350,7 @@ generate_summary ()
 
     cat <<EOF > "${MASTER_YAML_OUT}"
 hotsos:
-  version: "${VERSION}"
+  version: $VERSION
   repo-info: $repo_info
 EOF
 
