@@ -165,8 +165,8 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
         if force_by_date:
             for k, v in stats.items():
                 combined[k] = 0
-                for count in v.values(): 
-                    combined[k] += count 
+                for count in v.values():
+                    combined[k] += count
 
             stats = combined
 
