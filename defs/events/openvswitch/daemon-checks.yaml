@@ -7,7 +7,7 @@ vswitchd:
   bridge-no-such-device:
     expr: '([0-9-]+)T[0-9:\.]+Z.+\|could not open network device (\S+) \(No such device\)'
   ovs-thread-unreasonably-long-poll-interval:
-    expr: '([0-9-]+)T[0-9:\.]+Z.+\|timeval\(([a-zA-Z]+)(\d+)\)|WARN|Unreasonably long (\d+)ms poll interval'
+    expr: '([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\(([a-zA-Z]+)(\d+)\))?|WARN|Unreasonably long (\d+)ms poll interval'
   rx-packet-on-unassociated-datapath-port:
     expr: '([0-9-]+)T[0-9:\.]+Z.+\|received packet on unassociated datapath port (\d+)'
   receive-tunnel-port-not-found:

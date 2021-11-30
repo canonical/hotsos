@@ -127,12 +127,15 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
         Collect information about how often a resource occurs. A resource can
         be anything e.g. an interface or a loglevel string.
 
-        @param results: a list of SearchResult objects containing two groups; a
-                        date and a resource.
+        @param results: a list of SearchResult objects containing up to two
+                        groups; a date and a resource. If the second group
+                        (resource) is not available, all results will be
+                        grouped by date.
         @param key_by_date: by default the results are collected by datetime
                             i.e. for each timestamp show how many of each
                             resource occured.
         """
+        force_by_date = False
         stats = {}
         for r in results:
             if key_by_date:
@@ -141,6 +144,10 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
             else:
                 key = r.get(2)
                 value = r.get(1)
+
+            if value is None or force_by_date:
+                force_by_date = True
+                value = "sentinel"
 
             if key not in stats:
                 stats[key] = {}
@@ -153,6 +160,15 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
             # sort each keyset
             if not key_by_date:
                 stats[key] = self._stats_sort(stats[key])
+
+        combined = {}
+        if force_by_date:
+            for k, v in stats.items():
+                combined[k] = 0
+                for count in v.values(): 
+                    combined[k] += count 
+
+            stats = combined
 
         if stats:
             # only if sorted per key

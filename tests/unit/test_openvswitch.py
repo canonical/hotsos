@@ -81,20 +81,22 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
+
         expected = {'daemon-checks': {
-                        'logs': {
-                            'ovs-vswitchd': {'WARN': {'2021-06-29': 1,
-                                                      '2021-07-19': 1}},
-                            'ovsdb-server': {'ERR': {'2021-07-16': 1},
-                                             'WARN': {'2021-07-28': 1}}},
                         'ovs-vswitchd': {
-                            'bridge-no-such-device': {
-                                '2021-06-29': {
-                                    'tapd4b5494a-b1': 1}},
                             'netdev-linux-no-such-device': {
-                                '2021-07-19': {
-                                    'tap4b02cb1d-8b': 1}
-                                }}}}
+                                '2021-07-19': {'tap4b02cb1d-8b': 1}},
+                            'bridge-no-such-device': {'2021-06-29':
+                                                      {'tapd4b5494a-b1': 1}}},
+                        'logs': {
+                            'ovs-thread-unreasonably-long-poll-interval': {
+                                '2021-08-19': 2},
+                            'ovs-vswitchd': {
+                                'WARN': {'2021-06-29': 1,
+                                         '2021-07-19': 1,
+                                         '2021-08-19': 2}},
+                            'ovsdb-server': {'ERR': {'2021-07-16': 1},
+                                             'WARN': {'2021-07-28': 1}}}}}
         inst = event_checks.OpenvSwitchDaemonEventChecks()
         inst()
         self.assertEqual(inst.output, expected)
