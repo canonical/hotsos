@@ -291,7 +291,8 @@ class OSTProjectCatalog(object):
                          'openvswitch-agent':
                          'plugins/ml2/openvswitch_agent.ini',
                          'l3-agent': 'l3_agent.ini',
-                         'dhcp-agent': 'dhcp_agent.ini'}),
+                         'dhcp-agent': 'dhcp_agent.ini'},
+                 systemd_masked_services=['nova-api-metadata']),
         self.add('nova',
                  daemon_names=['nova-compute', 'nova-scheduler',
                                'nova-conductor', 'nova-api-os-compute',
