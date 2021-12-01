@@ -4,13 +4,15 @@
     value: 'var/log/neutron/neutron-openvswitch-agent.log'
   expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
   hint: 'OVS database'
-  message: >-
-    known neutron-ovn bug identified that impacts OVN db connections.
+  raises:
+    message: >-
+      known neutron-ovn bug identified that impacts OVN db connections.
 1928031:
   input:
     type: filesystem
     value: 'var/log/neutron/neutron-ovn-metadata-agent.log'
   expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
   hint: 'AttributeError'
-  message: >-
-    known neutron-ovn bug identified that impacts OVN sbdb connections.
+  raises:
+    message: >-
+      known neutron-ovn bug identified that impacts OVN sbdb connections.

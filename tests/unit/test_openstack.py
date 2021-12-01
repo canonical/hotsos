@@ -359,21 +359,6 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
         inst()
         self.assertEquals(inst.output["docker-images"], expected)
 
-    @mock.patch('core.ycheck.packages.add_known_bug')
-    def test_pkgbugchecks(self, mock_add_known_bug):
-        os.environ['PLUGIN_NAME'] = 'openstack'
-        YPackageChecker()()
-        self.assertTrue(mock_add_known_bug.called)
-
-    @mock.patch('core.ycheck.packages.add_known_bug')
-    def test_pkgbugchecks_no_packages(self, mock_add_known_bug):
-        os.environ['PLUGIN_NAME'] = 'openstack'
-        with mock.patch.object(checks, 'CLIHelper') as mock_cli:
-            mock_cli.return_value = mock.MagicMock()
-            mock_cli.return_value.dpkg_l.return_value = []
-            YPackageChecker()()
-            self.assertFalse(mock_add_known_bug.called)
-
     @mock.patch.object(service_info, 'CLIHelper')
     @mock.patch.object(service_info.issue_utils, "add_issue")
     def test_run_service_info(self, mock_add_issue, mock_helper):
@@ -609,32 +594,6 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                                                       searchobj=FileSearcher())
         c()
         self.assertEqual(c.output.get(section_key), expected)
-
-    @mock.patch('core.ycheck.bugs.add_known_bug')
-    def test_get_agents_bugs(self, mock_add_known_bug):
-        bugs = []
-
-        def fake_add_bug(*args, **kwargs):
-            bugs.append((args, kwargs))
-
-        mock_add_known_bug.side_effect = fake_add_bug
-        YBugChecker()()
-        calls = [mock.call('1929832',
-                           ('known neutron l3-agent bug identified that '
-                            'impacts deletion of neutron routers.')),
-                 mock.call('1927868',
-                           ('known neutron l3-agent bug identified that '
-                            'impacts HA routers and can cause router updates '
-                            'to stall.')),
-                 mock.call('1896506',
-                           ('known neutron l3-agent bug identified that '
-                            'critically impacts keepalived.')),
-                 mock.call('1928031',
-                           ('known neutron-ovn bug identified that impacts '
-                            'OVN sbdb connections.'))]
-
-        mock_add_known_bug.assert_has_calls(calls, any_order=True)
-        self.assertEqual(len(bugs), 4)
 
     def test_get_router_event_stats(self):
         updates = {0: {'start':
@@ -883,3 +842,48 @@ class TestOpenstackConfigChecks(TestOpenstackBase):
     def test_config_checks_no_issue(self, mock_add_issue):
         YConfigChecker()()
         self.assertFalse(mock_add_issue.called)
+
+
+class TestOpenstackBugChecks(TestOpenstackBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_get_agents_bugs(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        calls = [mock.call('1929832',
+                           ('known neutron l3-agent bug identified that '
+                            'impacts deletion of neutron routers.')),
+                 mock.call('1927868',
+                           ('known neutron l3-agent bug identified that '
+                            'impacts HA routers and can cause router updates '
+                            'to stall.')),
+                 mock.call('1896506',
+                           ('known neutron l3-agent bug identified that '
+                            'critically impacts keepalived.')),
+                 mock.call('1928031',
+                           ('known neutron-ovn bug identified that impacts '
+                            'OVN sbdb connections.'))]
+
+        mock_add_known_bug.assert_has_calls(calls, any_order=True)
+        self.assertEqual(len(bugs), 4)
+
+
+class TestOpenstackPackageChecks(TestOpenstackBase):
+
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    def test_pkgbugchecks(self, mock_add_known_bug):
+        YPackageChecker()()
+        self.assertTrue(mock_add_known_bug.called)
+
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    def test_pkgbugchecks_no_packages(self, mock_add_known_bug):
+        with mock.patch.object(checks, 'CLIHelper') as mock_cli:
+            mock_cli.return_value = mock.MagicMock()
+            mock_cli.return_value.dpkg_l.return_value = []
+            YPackageChecker()()
+            self.assertFalse(mock_add_known_bug.called)

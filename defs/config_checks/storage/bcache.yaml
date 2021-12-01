@@ -1,7 +1,8 @@
 requires:
   type: property
   source: core.plugins.storage.bcache.BcacheBase.bcache_enabled
-raises: core.issues.issue_types.BcacheWarning
+raises:
+  type: core.issues.issue_types.BcacheWarning
 cset:
   config:
     handler: core.plugins.storage.bcache.CachesetsConfig
@@ -28,9 +29,11 @@ bdev:
 lp1900438:
   config:
     handler: core.plugins.storage.bcache.CachesetsConfig
-  message: >-
-    bcache cache_available_percent approx. 30 which implies this node
-    could be suffering from bug LP 1900438 - please check
+  raises:
+    type: core.issues.issue_types.BcacheWarning
+    message: >-
+      bcache cache_available_percent approx. 30 which implies this node
+      could be suffering from bug LP 1900438 - please check
   settings:
     # The real limit is 30 but we go just above in case bcache is flapping
     # just above and below the limit.

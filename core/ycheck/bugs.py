@@ -6,12 +6,9 @@ from core.known_bugs_utils import (
 )
 from core.ycheck import (
     YDefsLoader,
+    YDefsSection,
     AutoChecksBase,
-    YAMLDefInput,
-    YAMLDefExpr,
-    YAMLDefMessage,
 )
-from core.ystruct import YAMLDefSection
 from core.searchtools import FileSearcher
 
 
@@ -30,12 +27,8 @@ class YBugChecker(AutoChecksBase):
         if not plugin_bugs:
             return
 
-        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage]
-        # TODO: need a better way to provide this instance to the input
-        #       override.
-        YAMLDefInput.EVENT_CHECK_OBJ = self
-        plugin = YAMLDefSection(constants.PLUGIN_NAME, plugin_bugs,
-                                override_handlers=overrides)
+        plugin = YDefsSection(constants.PLUGIN_NAME, plugin_bugs,
+                              checks_handler=self)
         log.debug("loaded plugin '%s' bugs - sections=%s, events=%s",
                   plugin.name,
                   len(plugin.branch_sections),
@@ -43,10 +36,8 @@ class YBugChecker(AutoChecksBase):
         bug_defs = []
         for bug in plugin.leaf_sections:
             id = bug.name
-            message_format = bug.message_format_result_groups
-            if message_format:
-                message_format = message_format.format_groups
-
+            message = bug.raises.message
+            message_format = bug.raises.format_groups
             pattern = bug.expr.value
             datasource = bug.input.path
             # NOTE: pattern can be string or list of strings
@@ -54,7 +45,7 @@ class YBugChecker(AutoChecksBase):
                                pattern,
                                bug_id=str(id),
                                hint=bug.hint.value,
-                               message=str(bug.message),
+                               message=message,
                                message_format_result_groups=message_format),
                     'datasource': datasource}
 
@@ -88,11 +79,13 @@ class YBugChecker(AutoChecksBase):
             return
 
         for bugsearch in self.bug_definitions:
-            tag = bugsearch["def"].tag
+            bug_def = bugsearch['def']
+            tag = bug_def.tag
             _results = results.find_by_tag(tag)
             if _results:
-                if bugsearch["def"].message_format_result_groups:
-                    message = bugsearch["def"].rendered_message(_results[0])
+                if bug_def.message_format_result_groups:
+                    # we only use the first result
+                    message = bug_def.rendered_message(_results[0])
                     add_known_bug(tag, message)
                 else:
-                    add_known_bug(tag, bugsearch["def"].message)
+                    add_known_bug(tag, bug_def.message)

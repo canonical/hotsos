@@ -15,7 +15,7 @@ conclusions:
   cause-unknown:
     priority: 1
     decision: check1
-    issue:
+    raises:
       type: core.issues.issue_types.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections but the cause
@@ -26,7 +26,7 @@ conclusions:
       and:
         - check1
         - check2
-    issue:
+    raises:
       type: core.issues.issue_types.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections. The network

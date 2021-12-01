@@ -5,6 +5,7 @@ import os
 import utils
 
 from core import checks, constants
+from core.ycheck.bugs import YBugChecker
 from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
 from plugins.rabbitmq.pyparts import (
     cluster_checks,
@@ -217,6 +218,28 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
         inst = cluster_checks.RabbitMQClusterChecks()
         inst()
         self.assertIsNone(inst.output)
+
+
+class TestRabbitmqBugChecks(TestRabbitmqBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_bug_checks(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        msg = ('Known RabbitMQ issue where queues get stuck and clients '
+               'trying to use them will just keep timing out. This stops many '
+               'services in the cloud from working correctly. Resolution '
+               'requires you to stop all RabbitMQ servers before starting '
+               'them all again at the same time. A rolling restart or '
+               'restarting them simultaneously will not work. See bug for '
+               'more detail.')
+        mock_add_known_bug.assert_has_calls([mock.call('1943937', msg)])
+        self.assertEqual(len(bugs), 1)
 
 
 class TestRabbitmqEventChecks(TestRabbitmqBase):

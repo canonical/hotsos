@@ -8,6 +8,7 @@ import utils
 
 from core import checks, constants, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
+from core.ycheck.bugs import YBugChecker
 from plugins.kubernetes.pyparts import (
     service_info,
     network_checks,
@@ -23,7 +24,14 @@ snap.kubelet.daemon.service            enabled         enabled
 """  # noqa
 
 
-class TestKubernetesServiceInfo(utils.BaseTestCase):
+class KubernetesTestsBase(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        os.environ['PLUGIN_NAME'] = 'kubernetes'
+
+
+class TestKubernetesServiceInfo(KubernetesTestsBase):
 
     def setUp(self):
         self.snaps_list = cli_helpers.CLIHelper().snap_list_all()
@@ -91,7 +99,7 @@ class TestKubernetesServiceInfo(utils.BaseTestCase):
         self.assertEqual(inst.output, {'snaps': []})
 
 
-class TestKubernetesNetworkChecks(utils.BaseTestCase):
+class TestKubernetesNetworkChecks(KubernetesTestsBase):
 
     def test_get_network_info(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -110,3 +118,19 @@ class TestKubernetesNetworkChecks(utils.BaseTestCase):
             inst = network_checks.KubernetesNetworkChecks()
             inst()
             self.assertEqual(inst.output, expected)
+
+
+class TestKubernetesBugChecks(KubernetesTestsBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_bug_checks(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        # This will need modifying once we have some storage bugs defined
+        self.assertFalse(mock_add_known_bug.called)
+        self.assertEqual(len(bugs), 0)

@@ -10,19 +10,13 @@ from core.searchtools import (
     SearchDef,
 )
 from core.log import log
-from core.ystruct import YAMLDefSection
 from core.ycheck import (
     YDefsLoader,
+    YDefsSection,
     AutoChecksBase,
+    YAMLDefInput,
     YAMLDefExpr,
     YAMLDefRequires,
-    YAMLDefInput,
-    YAMLDefIssue,
-    YAMLDefMessage,
-    YAMLDefDecision,
-    YAMLDefChecks,
-    YAMLDefConclusions,
-    YAMLDefPriority,
 )
 
 
@@ -163,10 +157,10 @@ class ScenarioCheck(object):
 
 
 class ScenarioConclusions(object):
-    def __init__(self, priority, decision=None, issue=None, checks=None):
+    def __init__(self, priority, decision=None, raises=None, checks=None):
         self.priority = priority
         self.decision = decision
-        self.issue = issue
+        self.raises = raises
         self.checks = checks
         self.issue_message = None
         self.issue_type = None
@@ -197,9 +191,9 @@ class ScenarioConclusions(object):
     def reached(self):
         """ Return true if a conclusion has been reached. """
         result = self._run_conclusion()
-        fdict = self.issue.format_dict or {}
-        self.issue_message = str(self.issue.message).format(**fdict)
-        self.issue_type = self.issue.type
+        fdict = self.raises.format_dict or {}
+        self.issue_message = str(self.raises.message).format(**fdict)
+        self.issue_type = self.raises.type
         return result
 
 
@@ -211,10 +205,8 @@ class Scenario(object):
 
     @property
     def checks(self):
-        overrides = [YAMLDefScenarioCheck]
-        section = YAMLDefSection('checks',
-                                 self._checks.content,
-                                 override_handlers=overrides)
+        section = YDefsSection('checks', self._checks.content,
+                               checks_handler=self)
         _checks = {}
         for c in section.leaf_sections:
             _checks[c.name] = ScenarioCheck(c.name, c.input, c.expr, c.meta,
@@ -224,14 +216,13 @@ class Scenario(object):
 
     @property
     def conclusions(self):
-        overrides = [YAMLDefDecision, YAMLDefIssue]
-        section = YAMLDefSection('conclusions', self._conclusions.content,
-                                 override_handlers=overrides)
+        section = YDefsSection('conclusions', self._conclusions.content,
+                               checks_handler=self)
         _conclusions = {}
         for r in section.leaf_sections:
             _conclusions[r.name] = ScenarioConclusions(int(r.priority),
                                                        r.decision,
-                                                       r.issue, self.checks)
+                                                       r.raises, self.checks)
 
         return _conclusions
 
@@ -243,17 +234,13 @@ class YScenarioChecker(AutoChecksBase):
         self._scenarios = []
 
     def load(self):
-        plugin = YDefsLoader('scenarios').load_plugin_defs()
-        if not plugin:
+        plugin_content = YDefsLoader('scenarios').load_plugin_defs()
+        if not plugin_content:
             return
 
-        overrides = [YAMLDefMessage, YAMLDefDecision, YAMLDefChecks,
-                     YAMLDefConclusions, YAMLDefPriority, YAMLDefScenarioCheck]
-        # TODO: need a better way to provide this instance to the input
-        #       override.
-        YAMLDefScenarioCheck.EVENT_CHECK_OBJ = self
-        yscenarios = YAMLDefSection(constants.PLUGIN_NAME, plugin,
-                                    override_handlers=overrides)
+        yscenarios = YDefsSection(constants.PLUGIN_NAME, plugin_content,
+                                  extra_overrides=[YAMLDefScenarioCheck],
+                                  checks_handler=self)
 
         log.debug("sections=%s, scenarios=%s",
                   len(yscenarios.branch_sections),

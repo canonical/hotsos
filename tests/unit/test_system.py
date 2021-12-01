@@ -2,16 +2,25 @@ import os
 import shutil
 import tempfile
 
+import mock
+
 import utils
 
-
+from core.ycheck.bugs import YBugChecker
 from plugins.system.pyparts import (
     checks,
     general,
 )
 
 
-class TestSystemGeneral(utils.BaseTestCase):
+class SystemTestsBase(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        os.environ['PLUGIN_NAME'] = 'system'
+
+
+class TestSystemGeneral(SystemTestsBase):
 
     def test_get_service_info(self):
         expected = {'date': 'Tue Aug 3 10:31:30 UTC 2021',
@@ -25,7 +34,7 @@ class TestSystemGeneral(utils.BaseTestCase):
         self.assertEqual(inst.output, expected)
 
 
-class TestSystemChecks(utils.BaseTestCase):
+class TestSystemChecks(SystemTestsBase):
 
     def test_sysctl_checks(self):
         expected = {'juju-charm-sysctl-mismatch': {
@@ -75,3 +84,19 @@ class TestSystemChecks(utils.BaseTestCase):
             inst = checks.SystemChecks()
             inst()
             self.assertEqual(inst.output, expected)
+
+
+class TestSystemBugChecks(SystemTestsBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_bug_checks(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        # This will need modifying once we have some storage bugs defined
+        self.assertFalse(mock_add_known_bug.called)
+        self.assertEqual(len(bugs), 0)

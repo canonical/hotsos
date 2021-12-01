@@ -1,45 +1,206 @@
-# YAML Defintions
+# YAML Defs
 
-This directory contains the configuration for yaml definitions. These
-definitons are characterised by the their top-level directory name which
-corresponds to the handler used to process them.
-
-These yaml definitions are used as a way to execute checks and analysis without
-the need to write code (other than yaml) unless for when the check you are
-writing relies on some core library code that does not yet exist.
-
-The structure of these files is as follows:
-
- * top level directory name must be the name of the plugin the checks belong
-   to.
- * contents are files whose name is the check being performed
- * contents can be grouped into directories for organisational purposes
- * content of files uses the format provided by github.com/dosaboy/ystruct
-   i.e. a tree where each level contains "overrides" and "content". Overrides
-   follow an inheritance model so that they can be defined and supersceded at
-   any level. 
+This directory contains the configuration for yaml-defined analysis.
 
 At present the following types of definitions are provided:
 
+ * events
  * bugs
- * event
- * packages_bug_checks
  * config_checks
+ * packages_bug_checks
  * scenarios  
 
-See core.ychecks for details on the implementation of each.
+See core.ycheck for details on the implementation of each.
+
+The type of definitons is characterised by the their top-level directory name
+which corresponds to the handler used to process them.
+
+These definitions are used as a way to execute checks and analysis based on an
+absolute minimum of code. In other works the majority of contributions should
+not require any code other than yaml. A tree structure is used and follows
+these rules:
+
+ * basic structure is:
+
+```
+<def-type>
+  <plugin-name>
+    <optional-group>
+      <defs-name>
+```
+
+ * first directory must use the name of the plugin the checks belong
+   to.
+ * next level is the definitions which can use any combination of files and
+   directories to organise defintions in a way that makes sense.
+ * content of files uses the format provided by github.com/dosaboy/ystruct
+   i.e. a tree where each level contains "overrides" and "content". Overrides
+   follow an inheritance model so that they can be defined and supersceded at
+   any level. The content is always found at the leaf nodes of the tree.
+ * it should always be possible to transpose the filesystem tree structure to
+   a single (file) yaml tree.
 
 TIP: to use a single quote ' inside a yaml string you need to replace it with
      two single quotes.
 
+## Overrides
+
+The following overrides are available to all types of definitions.
+
+#### input
+```
+params:
+  type: "filesystem"|"command"
+  value: path or command
+  meta: 
+    allow-all-logs: True
+    args: []
+    kwargs: {}
+    args-callback: None
+
+usage:
+  input.path
+```
+
+#### context
+```
+params:
+  <dict>
+
+usage:
+  context.<param>
+```
+
+#### requires
+```
+params:
+  type: property|apt
+  value: <value>
+
+usage:
+  requires.passes
+```
+
+#### config
+```
+params:
+  handler: <config-handler>
+  path: <config-path>
+
+usage:
+  config.actual(key, section=None)
+  config.check(actual, value, op, allow_unset=False):
+```
+
+#### checks
+```
+params:
+  none
+
+usage:
+  checks
+```
+
+#### conclusions
+```
+params:
+  none
+
+usage:
+  conclusions
+```
+
+#### priority
+```
+params:
+  <int>
+
+usage:
+  int(priority)
+```
+
+#### decision
+```
+params:
+  <int>
+
+usage:
+  int(priority)
+```
+
+#### raises
+```
+params:
+  type: core.issues.issue_types.<type>
+  message: <str>
+  format-dict: <dict>
+  format-groups: [<int>, ...]
+
+usage:
+  raises.type
+  raises.message
+  raises.format_dict
+  raises.format_groups
+```
+
+### start|body|end|expr|hint
+```
+expr|hint:
+  <str>
+start|body|end:
+  expr: <int>
+  hint: <int>
+
+usage:
+  If value is a string:
+    str(expr|hint)
+
+  If using keys start|body|end:
+    <key>.expr
+    <key>.hint
+
+Note that expressions can be a string or list of strings.
+```
+
+#### settings
+```
+params:
+  dict
+
+usage:
+  iter(settings)
+```
+
+#### releases
+```
+params:
+  dict
+
+usage:
+  iter(releases)
+```
+
+#### passthrough-results
+```
+params:
+  <bool>
+
+usage:
+  bool(passthrough-results)
+```
+
+
 ## Events
 
-Definitions for event searches. An event can be single or multi-line and
-the data source (input) can be a filesystem path or command. All event checks
-must have callback method defined in the plugin that handles them where the
-callback method name matches the name of the check.
+These checks are not currently run automatically and do require custom
+callbacks to be implemented in plugin code that are used to process the
+results.
 
-To define an event check first create a file with the name of the check you
+An event can be single or multi-line and the data source (input) can be a
+filesystem path or command. All event checks must have an eponymous callback
+method defined in the plugin that handles them.
+
+To define an event first create a file with the name of the check you
 want to perform under the directory of the plugin you are using to handle the
 event callback. 
 
@@ -55,15 +216,18 @@ searchtools.SearchDef. Single line search is defined using the "expr" key.
 
 An example single-line search on a file path could look like:
 
+```
 myeventname:
   input:
     type: filesystem
     value: path/to/my/file
   expr: <re.match pattern>
   hint: optional <re.match pattern> used as a low-cost filter
+```
 
 An example multi-line search on a file path could look like:
 
+```
 myeventname:
   input:
     type: filesystem
@@ -72,9 +236,11 @@ myeventname:
     expr: <re.match pattern>
   end:
     expr: <re.match pattern>
+```
 
 An example sequence search on a file path could look like:
 
+```
 myeventname:
   input:
     type: filesystem
@@ -85,22 +251,47 @@ myeventname:
     expr: <re.match pattern>
   end:
     expr: <re.match pattern>
+```
 
-NOTE: see core.checks.ycheck.YAMLDefInput for more info on support for input
+NOTE: see core.ycheck.YAMLDefInput for more info on support for input
       types.
 
 ## Bugs
 
-Definitions for automated bug checks.
+These checks are run automatically and do not require implementing in plugin
+code.
+
+Each plugin can have an associated set of bugs to identify by searching for a
+pattern either in a file/path or command output. When a match is found, a
+message is displayed in the 'known-bugs' section of a plugin output.
 
 ## Config checks
 
-Definitions for automated config checks.
+These checks are run automatically and do not require implementing in plugin
+code.
 
-## Package bug checks
+Each plugin can define a set of bugs to identify by searching for a
+pattern either in a file/path or command output. When a match is found, a
+message is displayed in the 'known-bugs' section of a plugin output.
 
-Definitions for automated package bug checks.
+## Package checks
+
+These checks are run automatically and do not require implementing in plugin
+code.
+
+Each plugin can define a set of packages along with associated version ranges
+that are known to contain a specific bug. If the package is found to be
+installed and fall within the defined range, a message is displayed in the
+'known-bugs' section of a plugin output.
+
 
 ## Scenarios
 
-Definitions for automated scenario checks.
+These checks are run automatically and do not require implementing in plugin
+code.
+
+Each plugin can define a set of scenarios whereby a scenario comprises of a set
+of "checks" and "conclusions". Each check is executed independently and
+conlusions are defined as decision based on the outcome of one or more checks.
+Conclusions can be given priorities so that one can be selected in the event of
+multiple positives. This is helpful for defining fallback conlusions.

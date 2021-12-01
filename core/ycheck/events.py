@@ -6,11 +6,8 @@ from core.searchtools import (
 from core.ycheck import (
     YDefsLoader,
     ManualChecksBase,
-    YAMLDefInput,
-    YAMLDefExpr,
-    YAMLDefResultsPassthrough,
+    YDefsSection,
 )
-from core.ystruct import YAMLDefSection
 
 
 class EventCheckResult(object):
@@ -70,13 +67,7 @@ class YEventCheckerBase(ManualChecksBase):
         group_name = self._yaml_defs_group
         log.debug("loading defs for subgroup=%s", group_name)
         group_defs = plugin.get(group_name)
-
-        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefResultsPassthrough]
-        # TODO: need a better way to provide this instance to the input
-        #       override.
-        YAMLDefInput.EVENT_CHECK_OBJ = self
-        group = YAMLDefSection(group_name, group_defs,
-                               override_handlers=overrides)
+        group = YDefsSection(group_name, group_defs, checks_handler=self)
         log.debug("sections=%s, events=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
