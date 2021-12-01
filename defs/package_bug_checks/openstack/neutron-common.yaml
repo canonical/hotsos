@@ -1,9 +1,10 @@
 1927868:
-  message: >-
-    installed package '{package_name}' with version {version_current} has a
-    known critical bug. If this environment is using Neutron ML2 OVS (i.e.
-    not OVN) it should be upgraded to a version >= {version_fixed} asap.
-  releases:
+  raises:
+    message: >-
+      installed package '{package_name}' with version {version_current} has a
+      known critical bug. If this environment is using Neutron ML2 OVS (i.e.
+      not OVN) it should be upgraded to a version >= {version_fixed} asap.
+  settings:
     wallaby:
       min-broken: 2:18.0.0
       min-fixed: 2:18.1.0-0ubuntu2~cloud0

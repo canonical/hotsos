@@ -8,8 +8,13 @@ import utils
 
 from core import checks
 from core import ycheck
-from core.ycheck import events, configs, packages, scenarios
-from core.ystruct import YAMLDefSection
+from core.ycheck import (
+    YDefsSection,
+    events,
+    configs,
+    packages,
+    scenarios
+)
 from core.searchtools import FileSearcher, SearchDef
 
 
@@ -86,7 +91,6 @@ a-key = 1023
 
 YAML_DEF_CONFIG_CHECK = """
 myplugin:
-  raises: core.issues.issue_types.OpenstackWarning
   mygroup:
     config:
       handler: core.plugins.openstack.OpenstackConfig
@@ -94,8 +98,10 @@ myplugin:
     requires:
       type: apt
       value: a-package
-    message: >-
-      something important.
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        something important.
     settings:
       a-key:
         section: a-section
@@ -120,7 +126,7 @@ myplugin:
       foo:
         priority: 1
         decision: mycheck
-        issue:
+        raises:
           type: core.issues.issue_types.SystemWarning
           message: a foo happened
 """  # noqa
@@ -211,8 +217,7 @@ class TestChecks(utils.BaseTestCase):
     def test_yaml_def_group_input(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT).get('pluginX')
         for name, group in plugin_checks.items():
-            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
-            group = YAMLDefSection(name, group, override_handlers=overrides)
+            group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.type, 'filesystem')
                 self.assertEqual(entry.input.path,
@@ -222,8 +227,7 @@ class TestChecks(utils.BaseTestCase):
     def test_yaml_def_section_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
         for name, group in plugin_checks.get('pluginX').items():
-            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
-            group = YAMLDefSection(name, group, override_handlers=overrides)
+            group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.type, 'filesystem')
                 self.assertEqual(entry.input.path,
@@ -233,8 +237,7 @@ class TestChecks(utils.BaseTestCase):
     def test_yaml_def_entry_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED2)
         for name, group in plugin_checks.get('pluginX').items():
-            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr]
-            group = YAMLDefSection(name, group, override_handlers=overrides)
+            group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.type, 'filesystem')
                 self.assertEqual(entry.input.path,
@@ -250,12 +253,8 @@ class TestChecks(utils.BaseTestCase):
             open(os.path.join(dtmp, 'events.yaml'), 'w').write(_yaml)
             open(data_file, 'w').write('hello\nbrave\nworld\n')
             plugin_checks = yaml.safe_load(_yaml).get('myplugin')
-
-            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr,
-                         ycheck.YAMLDefResultsPassthrough]
             for name, group in plugin_checks.items():
-                group = YAMLDefSection(name, group,
-                                       override_handlers=overrides)
+                group = YDefsSection(name, group)
                 for entry in group.leaf_sections:
                     self.assertEqual(entry.input.type, 'filesystem')
                     self.assertEqual(entry.input.path,
@@ -328,12 +327,7 @@ class TestChecks(utils.BaseTestCase):
                 fd.write(DUMMY_CONFIG)
 
             plugin = yaml.safe_load(YAML_DEF_CONFIG_CHECK).get('myplugin')
-            overrides = [ycheck.YAMLDefInput, ycheck.YAMLDefExpr,
-                         ycheck.YAMLDefConfig, ycheck.YAMLDefRequires,
-                         ycheck.YAMLDefSettings, ycheck.YAMLDefMessage,
-                         ycheck.YAMLDefIssueType]
-            group = YAMLDefSection('myplugin', plugin,
-                                   override_handlers=overrides)
+            group = YDefsSection('myplugin', plugin)
             for entry in group.leaf_sections:
                 self.assertTrue(entry.requires.passes)
 

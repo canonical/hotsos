@@ -1,8 +1,9 @@
-raises: core.issues.issue_types.CephWarning
 filestore-to-bluestore:
-  message: >-
-    bluestore is enabled yet there is a still a journal device
-    configured in ceph.conf - please check
+  raises:
+    type: core.issues.issue_types.CephWarning
+    message: >-
+      bluestore is enabled yet there is a still a journal device
+      configured in ceph.conf - please check
   requires:
     type: property
     source: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled

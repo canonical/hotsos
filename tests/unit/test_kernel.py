@@ -10,6 +10,7 @@ from plugins.kernel.pyparts import (
     log_event_checks,
 )
 from core.ycheck.events import EventCheckResult
+from core.ycheck.bugs import YBugChecker
 from core.host_helpers import NetworkPort
 from core.issues import issue_types
 
@@ -165,3 +166,19 @@ class TestKernelKernelLogEventChecks(TestKernelBase):
         ret = inst.over_mtu_dropped_packets(event)
         self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)
+
+
+class TestKubernetesBugChecks(TestKernelBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_bug_checks(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        # This will need modifying once we have some storage bugs defined
+        self.assertFalse(mock_add_known_bug.called)
+        self.assertEqual(len(bugs), 0)

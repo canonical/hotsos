@@ -9,7 +9,7 @@ from core import constants
 from core.cli_helpers import CLIHelper
 from core.log import log
 from core.utils import mktemp_dump
-from core.ystruct import YAMLDefOverrideBase
+from core.ystruct import YAMLDefOverrideBase, YAMLDefSection
 
 
 class CallbackHelper(object):
@@ -25,6 +25,36 @@ class CallbackHelper(object):
         # we don't need to return but we leave it so that we can unit test
         # these methods.
         return callback_inner
+
+
+YOverridesCollection = []
+
+
+def ydef_override(c):
+    YOverridesCollection.append(c)
+    return c
+
+
+class YDefsSection(YAMLDefSection):
+    def __init__(self, name, content, extra_overrides=None,
+                 checks_handler=None):
+        """
+        @param name: name of defs group
+        @param content: defs tree of type dict
+        @param extra_overrides: optional extra overrides
+        @param checks_handler: handler object used by some overrides to locate
+                               callback methods.
+        """
+        overrides = [] + YOverridesCollection
+        if extra_overrides:
+            overrides += extra_overrides
+
+        if checks_handler:
+            for c in overrides:
+                if hasattr(c, 'EVENT_CHECK_OBJ'):
+                    c.EVENT_CHECK_OBJ = checks_handler
+
+        super().__init__(name, content, override_handlers=overrides)
 
 
 class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
@@ -49,14 +79,17 @@ class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
         return ret
 
 
+@ydef_override
 class YAMLDefChecks(YAMLDefOverrideBaseX):
     KEYS = ['checks']
 
 
+@ydef_override
 class YAMLDefConclusions(YAMLDefOverrideBaseX):
     KEYS = ['conclusions']
 
 
+@ydef_override
 class YAMLDefPriority(YAMLDefOverrideBaseX):
     KEYS = ['priority']
 
@@ -64,6 +97,7 @@ class YAMLDefPriority(YAMLDefOverrideBaseX):
         return int(self.content)
 
 
+@ydef_override
 class YAMLDefDecision(YAMLDefOverrideBaseX):
     KEYS = ['decision']
 
@@ -81,30 +115,28 @@ class YAMLDefDecision(YAMLDefOverrideBaseX):
             yield _bool, val
 
 
+@ydef_override
 class YAMLDefExpr(YAMLDefOverrideBaseX):
     """
     An expression can be a string or a list of strings and can be provided
     as a single value or dict (with keys start, body, end etc) e.g.
 
-    expr: 'myexpr'
+    params:
+      expr|hint:
+        <str>
+      start|body|end:
+        expr: <int>
+        hint: <int>
 
-    or
+    usage:
+      If value is a string:
+        str(expr|hint)
 
-    expr:
-      - 'myexpr1'
-      - 'myexpr2'
+      If using keys start|body|end:
+        <key>.expr
+        <key>.hint
 
-    or
-
-    start: 'myexpr1'
-    end: 'myexpr2'
-
-    or
-
-    start:
-        expr: 'myexpr1'
-        hint: 'my'
-    end: 'myexpr2'
+    Note that expressions can be a string or list of strings.
     """
     KEYS = ['start', 'body', 'end', 'expr', 'hint']
 
@@ -130,11 +162,20 @@ class YAMLDefExpr(YAMLDefOverrideBaseX):
             return self.content
 
 
-class YAMLDefIssue(YAMLDefOverrideBaseX):
-    KEYS = ['issue']
+@ydef_override
+class YAMLDefRaises(YAMLDefOverrideBaseX):
+    KEYS = ['raises']
+
+    @property
+    def message(self):
+        """ Optional """
+        return self.content.get('message')
 
     @property
     def format_dict(self):
+        """
+        Optional dict of key/val pairs used to format the message string.
+        """
         _format_dict = self.content.get('format-dict')
         if not _format_dict:
             return {}
@@ -142,22 +183,17 @@ class YAMLDefIssue(YAMLDefOverrideBaseX):
         return {k: self.get_property(v) for k, v in _format_dict.items()}
 
     @property
+    def format_groups(self):
+        """ Optional """
+        return self.content.get('search-result-format-groups')
+
+    @property
     def type(self):
         """ Imports and returns class object. """
         return self.get_cls(self.content['type'])
 
 
-class YAMLDefMessage(YAMLDefOverrideBaseX):
-    KEYS = ['message', 'message-format-result-groups']
-
-    @property
-    def format_groups(self):
-        return self.content
-
-    def __str__(self):
-        return self.content
-
-
+@ydef_override
 class YAMLDefSettings(YAMLDefOverrideBaseX):
     KEYS = ['settings']
 
@@ -166,14 +202,7 @@ class YAMLDefSettings(YAMLDefOverrideBaseX):
             yield key, val
 
 
-class YAMLDefReleases(YAMLDefOverrideBaseX):
-    KEYS = ['releases']
-
-    def __iter__(self):
-        for key, val in self.content.items():
-            yield key, val
-
-
+@ydef_override
 class YAMLDefResultsPassthrough(YAMLDefOverrideBaseX):
     KEYS = ['passthrough-results']
 
@@ -185,6 +214,7 @@ class YAMLDefResultsPassthrough(YAMLDefOverrideBaseX):
         return bool(self.content)
 
 
+@ydef_override
 class YAMLDefInput(YAMLDefOverrideBaseX):
     KEYS = ['input']
     TYPE_COMMAND = 'command'
@@ -239,6 +269,7 @@ class YAMLDefInput(YAMLDefOverrideBaseX):
             return self._path
 
 
+@ydef_override
 class YAMLDefContext(YAMLDefOverrideBaseX):
     KEYS = ['context']
 
@@ -254,6 +285,7 @@ class YAMLDefContext(YAMLDefOverrideBaseX):
         return ctxt
 
 
+@ydef_override
 class YAMLDefRequires(YAMLDefOverrideBaseX):
     KEYS = ['requires']
 
@@ -288,14 +320,7 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         return False
 
 
-class YAMLDefIssueType(YAMLDefOverrideBaseX):
-    KEYS = ['raises']
-
-    @property
-    def issue(self):
-        return self.get_cls(self.content)
-
-
+@ydef_override
 class YAMLDefConfig(YAMLDefOverrideBaseX):
     KEYS = ['config']
 

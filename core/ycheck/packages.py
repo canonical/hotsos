@@ -5,13 +5,8 @@ from core.known_bugs_utils import add_known_bug
 from core.ycheck import (
     YDefsLoader,
     AutoChecksBase,
-    YAMLDefInput,
-    YAMLDefExpr,
-    YAMLDefContext,
-    YAMLDefMessage,
-    YAMLDefReleases,
+    YDefsSection,
 )
-from core.ystruct import YAMLDefSection
 
 
 class PackageReleaseCheckObj(object):
@@ -45,13 +40,8 @@ class YPackageChecker(AutoChecksBase):
         if not plugin_checks:
             return
 
-        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
-                     YAMLDefReleases, YAMLDefContext]
-        # TODO: need a better way to provide this instance to the input
-        #       override.
-        YAMLDefInput.EVENT_CHECK_OBJ = self
-        group = YAMLDefSection(constants.PLUGIN_NAME, plugin_checks,
-                               override_handlers=overrides)
+        group = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
+                             checks_handler=self)
         log.debug("sections=%s, checks=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
@@ -61,7 +51,7 @@ class YPackageChecker(AutoChecksBase):
             p = PackageReleaseCheckObj(pkg_name, bug_check.context)
             bug = bug_check.name
             message = str(bug_check.message)
-            for rel, info in dict(bug_check.releases).items():
+            for rel, info in dict(bug_check.settings).items():
                 p.add_bug_check(bug, rel,
                                 info['min-broken'],
                                 info['min-fixed'], message)
@@ -74,16 +64,20 @@ class YPackageChecker(AutoChecksBase):
             apt_info = check.context.apt_all
             # if installed do check
             if pkg not in apt_info:
+                log.debug("pkg %s not installed - skipping check", pkg)
                 return
 
             pkgver = apt_info[pkg]
             for release, bugs in check.bugs.items():
                 if release != check.context.release:
+                    log.debug("releases do not match %s:%s", release,
+                              check.context.release)
                     continue
 
                 for bug in bugs:
                     minbroken = bug['minbroken']
                     minfixed = bug['minfixed']
+                    log.debug(pkgver)
                     if (not pkgver < DPKGVersionCompare(minbroken) and
                             pkgver < DPKGVersionCompare(minfixed)):
                         log.debug("bug identified for package=%s release=%s "

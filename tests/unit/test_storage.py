@@ -5,6 +5,7 @@ import tempfile
 import utils
 
 from core import checks
+from core.ycheck.bugs import YBugChecker
 from core.ycheck.configs import YConfigChecker
 from core.issues import issue_types
 from core.plugins.storage import (
@@ -587,6 +588,22 @@ class TestStorageBcache(StorageTestsBase):
         inst = bcache.BcacheCSetChecks()
         inst()
         self.assertEqual(inst.output, expected)
+
+
+class TestStorageBugChecks(StorageTestsBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_bug_checks(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        # This will need modifying once we have some storage bugs defined
+        self.assertFalse(mock_add_known_bug.called)
+        self.assertEqual(len(bugs), 0)
 
 
 class TestStorageCephEventChecks(StorageTestsBase):

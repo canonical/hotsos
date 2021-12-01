@@ -4,15 +4,8 @@ from core.log import log
 from core.ycheck import (
     YDefsLoader,
     AutoChecksBase,
-    YAMLDefConfig,
-    YAMLDefInput,
-    YAMLDefExpr,
-    YAMLDefMessage,
-    YAMLDefRequires,
-    YAMLDefSettings,
-    YAMLDefIssueType,
+    YDefsSection,
 )
-from core.ystruct import YAMLDefSection
 
 
 class YConfigChecker(AutoChecksBase):
@@ -29,14 +22,8 @@ class YConfigChecker(AutoChecksBase):
         if not plugin_checks:
             return
 
-        overrides = [YAMLDefInput, YAMLDefExpr, YAMLDefMessage,
-                     YAMLDefRequires, YAMLDefConfig, YAMLDefSettings,
-                     YAMLDefIssueType]
-        # TODO: need a better way to provide this instance to the input
-        #       override.
-        YAMLDefInput.EVENT_CHECK_OBJ = self
-        group = YAMLDefSection(constants.PLUGIN_NAME, plugin_checks,
-                               override_handlers=overrides)
+        group = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
+                             checks_handler=self)
         log.debug("sections=%s, checks=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
@@ -50,7 +37,6 @@ class YConfigChecker(AutoChecksBase):
 
             self._check_defs[cfg_check.name] = {
                 'group': group_name,
-                'message': cfg_check.message,
                 'config': cfg_check.config,
                 'requires': cfg_check.requires,
                 'settings': dict(cfg_check.settings),
@@ -64,10 +50,7 @@ class YConfigChecker(AutoChecksBase):
                 continue
 
             log.debug("config check section=%s", name)
-            message = None
-            if cfg_check['message']:
-                message = str(cfg_check['message'])
-
+            message = cfg_check['raises'].message
             for cfg_key, settings in cfg_check['settings'].items():
                 op = settings['operator']
                 value = settings['value']
@@ -82,15 +65,13 @@ class YConfigChecker(AutoChecksBase):
                     raise_issue = True
 
                 if raise_issue:
-                    if message:
-                        _message = message
-                    else:
-                        _message = ("{} config {} expected to be {} {} "
-                                    "but actual={}".format(cfg_check['group'],
-                                                           cfg_key, op, value,
-                                                           actual))
+                    if not message:
+                        message = ("{} config {} expected to be {} {} "
+                                   "but actual={}".format(cfg_check['group'],
+                                                          cfg_key, op, value,
+                                                          actual))
 
-                    issue = cfg_check['raises'].issue(_message)
+                    issue = cfg_check['raises'].type(message)
                     issue_utils.add_issue(issue)
                     # move on to next set of checks
                     break

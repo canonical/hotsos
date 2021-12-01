@@ -5,7 +5,8 @@ import mock
 import utils
 
 from core.plugins import openvswitch
-
+from core.ycheck.bugs import YBugChecker
+from core.ycheck.packages import YPackageChecker
 from plugins.openvswitch.pyparts import (
     event_checks,
     service_info,
@@ -78,6 +79,23 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
         self.assertEqual(inst.output, expected)
 
 
+class TestOpenvswitchBugChecks(TestOpenvswitchBase):
+
+    @mock.patch('core.ycheck.bugs.add_known_bug')
+    def test_bug_checks(self, mock_add_known_bug):
+        bugs = []
+
+        def fake_add_bug(*args, **kwargs):
+            bugs.append((args, kwargs))
+
+        mock_add_known_bug.side_effect = fake_add_bug
+        YBugChecker()()
+        calls = [mock.call('1917475',
+                           'known ovn bug identified - db rbac errors')]
+        mock_add_known_bug.assert_has_calls(calls, any_order=True)
+        self.assertEqual(len(bugs), 1)
+
+
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
@@ -112,3 +130,29 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OpenvSwitchFlowEventChecks()
         inst()
         self.assertEqual(inst.output, expected)
+
+
+class TestOpenstackPackageChecks(TestOpenvswitchBase):
+
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    def test_pkgbugchecks_no_issue(self, mock_add_known_bug):
+        YPackageChecker()()
+        self.assertFalse(mock_add_known_bug.called)
+
+    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    @mock.patch('core.plugins.openstack.OpenstackBase.release_name', 'queens')
+    def test_pkgbugchecks_w_issue(self, mock_add_known_bug, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  libc-bin 2.26-3ubuntu1.3 amd64"]
+        YPackageChecker()()
+        self.assertTrue(mock_add_known_bug.called)
+
+    @mock.patch('core.cli_helpers.CLIHelper')
+    @mock.patch('core.ycheck.packages.add_known_bug')
+    def test_pkgbugchecks_no_packages(self, mock_add_known_bug, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = []
+        YPackageChecker()()
+        self.assertFalse(mock_add_known_bug.called)
