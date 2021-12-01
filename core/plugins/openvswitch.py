@@ -107,6 +107,10 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
         self.svc_check = checks.ServiceChecksBase(service_exprs=svc_exprs)
 
     @property
+    def apt_packages_all(self):
+        return self.apt_check.all
+
+    @property
     def plugin_runnable(self):
         # require at least one core package to be installed to run this plugin.
         return len(self.apt_check.core) > 0
