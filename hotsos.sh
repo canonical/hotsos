@@ -322,11 +322,10 @@ generate_summary ()
     local part
 
     if [ "$data_root" = "/" ]; then
-        msg="analysing localhost since no sosreport path provided"
-        echo -ne "INFO: $msg  " 1>&2
+        echo -ne "INFO: analysing localhost  " 1>&2
         DATA_ROOT=/
     else
-        echo -ne "INFO: analysing sosreport at $data_root  " 1>&2
+        echo -ne "INFO: analysing sosreport $data_root  " 1>&2
         DATA_ROOT=$data_root
     fi
 
@@ -364,8 +363,8 @@ EOF
         PLUGIN_NAME=$plugin
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
-        for part in $(find "$CWD/plugins/$plugin" -maxdepth 1 -executable -type f,l| \
-                grep -v __pycache__); do
+        for part in $(find "$CWD/plugins/$plugin" -maxdepth 1 -executable \
+                    -type f,l| grep -v __pycache__); do
             run_part "$plugin" "$(basename "$part")"
         done
         # teardown plugin temp area
