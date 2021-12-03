@@ -8,7 +8,7 @@ At present the following types of definitions are provided:
  * bugs
  * config_checks
  * packages_bug_checks
- * scenarios  
+ * scenarios
 
 See core.ycheck for details on the implementation of each.
 
@@ -52,7 +52,7 @@ The following overrides are available to all types of definitions.
 params:
   type: "filesystem"|"command"
   value: path or command
-  meta: 
+  meta:
     allow-all-logs: True
     args: []
     kwargs: {}
@@ -202,7 +202,7 @@ method defined in the plugin that handles them.
 
 To define an event first create a file with the name of the check you
 want to perform under the directory of the plugin you are using to handle the
-event callback. 
+event callback.
 
 Supported settings (for more details see core.ycheck.YEventCheckerBase):
 
@@ -284,6 +284,33 @@ that are known to contain a specific bug. If the package is found to be
 installed and fall within the defined range, a message is displayed in the
 'known-bugs' section of a plugin output.
 
+### Adding a new package check categories
+
+- Add a folder under `defs/package_bug_checks`
+- Add a all.yaml file with a `context` override
+
+Format:
+
+```yaml
+context:
+  release: <class.property.that.returns.the.current.release>
+  apt-all: <class.property.that.returns.the.list.of.packages>
+```
+
+Example:
+
+```yaml
+context:
+  release: core.plugins.openstack.OpenstackBase.release_name
+  apt-all: core.plugins.openvswitch.OpenvSwitchChecksBase.apt_packages_all
+```
+
+- Add a new bug definition
+
+### Adding new bug definitions
+
+- Add a new file under `defs/package_bug_checks/new_bug_check.yaml`. The file
+can have the following overrides: `raises`, `settings`.
 
 ## Scenarios
 
