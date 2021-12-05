@@ -49,10 +49,12 @@ need a way to identify that they apply to all peers and below. To achieve this
 we put the overrides into a file that has the same name as their parent
 directory e.g.
 
+```
 pluginX/groupA/groupA.yaml
 pluginX/groupA/scenarioA.yaml
 pluginX/groupA/scenarioB.yaml
 pluginX/groupA/groupB
+```
 
 where the overrides defined in groupA.yaml will apply to scenarioA.yaml,
 scenarioB.yaml (as long as they don't define overrides of the same type) and
