@@ -348,6 +348,8 @@ class TestChecks(utils.BaseTestCase):
 
     @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
                 lambda args: False)
+    @mock.patch('core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable',
+                False)
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_yaml_def_scenarios_w_issue(self, add_issue, mock_cephbase):
