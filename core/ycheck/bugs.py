@@ -27,14 +27,18 @@ class YBugChecker(AutoChecksBase):
         if not plugin_bugs:
             return
 
-        plugin = YDefsSection(constants.PLUGIN_NAME, plugin_bugs,
-                              checks_handler=self)
+        ybugchecks = YDefsSection(constants.PLUGIN_NAME, plugin_bugs,
+                                  checks_handler=self)
         log.debug("loaded plugin '%s' bugs - sections=%s, events=%s",
-                  plugin.name,
-                  len(plugin.branch_sections),
-                  len(plugin.leaf_sections))
+                  ybugchecks.name,
+                  len(ybugchecks.branch_sections),
+                  len(ybugchecks.leaf_sections))
+        if ybugchecks.requires and not ybugchecks.requires.passes:
+            log.debug("plugin not runnable - skipping bug checks")
+            return
+
         bug_defs = []
-        for bug in plugin.leaf_sections:
+        for bug in ybugchecks.leaf_sections:
             id = bug.name
             message = bug.raises.message
             message_format = bug.raises.format_groups

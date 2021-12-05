@@ -824,6 +824,8 @@ class TestOpenstackConfigChecks(TestOpenstackBase):
 
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
+                True)
     def test_config_checks_has_issue(self, mock_add_issue, mock_helper):
         issues = []
 

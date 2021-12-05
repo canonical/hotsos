@@ -1,5 +1,3 @@
-# we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
-passthrough-results: True
 neutron-ovs-agent:
   input:
     type: filesystem
@@ -17,6 +15,8 @@ neutron-ovs-agent:
     end:
       expr: '^([0-9\-]+) (\S+) .+ Agent rpc_loop - iteration:([0-9]+) completed..+'
       hint: 'Agent rpc_loop'
+    # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
+    passthrough-results: True      
 neutron-l3-agent:
   input:
     type: filesystem
@@ -29,6 +29,8 @@ neutron-l3-agent:
     end:
       expr: '^([0-9-]+) (\S+) .+ Finished a router update for (\S+), update_id (\S+). .+'
       hint: 'router update'
+    # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
+    passthrough-results: True
   # identify HA router keepalived spawn events that took the longest to complete and report the longest updates.
   router-spawn-events:
     # router state_change_monitor + keepalived spawn
@@ -38,3 +40,5 @@ neutron-l3-agent:
     end:
       expr: '^([0-9-]+) (\S+) .+ Keepalived spawned with config \S+/ha_confs/([0-9a-z-]+)/keepalived.conf .+'
       hint: 'Keepalived'
+    # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
+    passthrough-results: True

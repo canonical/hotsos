@@ -8,7 +8,7 @@ At present the following types of definitions are provided:
  * bugs
  * config_checks
  * packages_bug_checks
- * scenarios  
+ * scenarios
 
 See core.ycheck for details on the implementation of each.
 
@@ -16,11 +16,9 @@ The type of definitons is characterised by the their top-level directory name
 which corresponds to the handler used to process them.
 
 These definitions are used as a way to execute checks and analysis based on an
-absolute minimum of code. In other works the majority of contributions should
-not require any code other than yaml. A tree structure is used and follows
-these rules:
-
- * basic structure is:
+absolute minimum of code. In other words the majority of contributions should
+not require any code other than yaml. A tree structure is used and generally
+looks like:
 
 ```
 <def-type>
@@ -29,59 +27,74 @@ these rules:
       <defs-name>
 ```
 
- * first directory must use the name of the plugin the checks belong
-   to.
- * next level is the definitions which can use any combination of files and
-   directories to organise defintions in a way that makes sense.
- * content of files uses the format provided by github.com/dosaboy/ystruct
+ * first subdirectory must use the name of the plugin the checks belong to e.g.
+   openstack
+ * the next level contains definitions which can be organised using any
+   combination of files and directories e.g. you could put all definitions in
+   a single file or you could have one file per definition. You can then use
+   directories to logically group your defintions or you can use a tree
+   structure within any of the files.
+ * this structure uses the format provided by github.com/dosaboy/ystruct
    i.e. a tree where each level contains "overrides" and "content". Overrides
    follow an inheritance model so that they can be defined and supersceded at
    any level. The content is always found at the leaf nodes of the tree.
  * it should always be possible to transpose the filesystem tree structure to
    a single (file) yaml tree.
 
+Overrides can be defined at any level in the tree and apply to all
+definitions both at the same level and below. Since we have the means to define
+this within a single file or using directory to group definitions, the latter
+approach means the overrides will need to be in their own file and we therefore
+need a way to identify that they apply to all peers and below. To achieve this
+we put the overrides into a file that has the same name as their parent
+directory e.g.
+
+pluginX/groupA/groupA.yaml
+pluginX/groupA/scenarioA.yaml
+pluginX/groupA/scenarioB.yaml
+pluginX/groupA/groupB
+
+where the overrides defined in groupA.yaml will apply to scenarioA.yaml,
+scenarioB.yaml (as long as they don't define overrides of the same type) and
+any definitions under groupB.
+
 TIP: to use a single quote ' inside a yaml string you need to replace it with
      two single quotes.
 
 ## Overrides
 
-The following overrides are available to all types of definitions.
+The following overrides are available to all types of definitions. The params
+section described how they can be used in yaml definitions and the usage section
+describes how they are consumed in (Python) code.
 
-#### input
+#### checks
+This is a meta definition to indicate that everything beneath it is a tree of
+checks to be used by core.ycheck.scenarios.
+
 ```
 params:
-  type: "filesystem"|"command"
-  value: path or command
-  meta: 
-    allow-all-logs: True
-    args: []
-    kwargs: {}
-    args-callback: None
+  none
 
 usage:
-  input.path
+  checks
 ```
 
-#### context
+#### conclusions
+This is a meta definition to indicate that everything beneath it is a tree of
+conclusions to be used by core.ycheck.scenarios.
+
 ```
 params:
-  <dict>
+  none
 
 usage:
-  context.<param>
-```
-
-#### requires
-```
-params:
-  type: property|apt
-  value: <value>
-
-usage:
-  requires.passes
+  conclusions
 ```
 
 #### config
+Defines a config checker. The handler is normally a plugins' implementation of
+core.checks.SectionalConfigBase.
+
 ```
 params:
   handler: <config-handler>
@@ -92,34 +105,53 @@ usage:
   config.check(actual, value, op, allow_unset=False):
 ```
 
-#### checks
+#### context
+Defines a dictionary of settings. This is  typically defined at a high point in
+the tree so that all branches beneath it use as common context. The
+structure/content of this dictionary is handler-specific.
+
 ```
 params:
-  none
+  <dict>
 
 usage:
-  checks
-```
-
-#### conclusions
-```
-params:
-  none
-
-usage:
-  conclusions
-```
-
-#### priority
-```
-params:
-  <int>
-
-usage:
-  int(priority)
+  context.<param>
 ```
 
 #### decision
+Defines a decision as a list of boolean operators each associated with a list
+of one or more check results.
+
+```
+params:
+  <bool>: [checkresult, ...]
+
+usage:
+  <iter>
+```
+
+#### input
+Defines a type of input. Currently we support a fileysystem path or command.
+When a command is provided, the output of that command is written to a
+temporary file the path of which is returned by input.path.
+
+```
+params:
+  type: filesystem|command
+  value: <path or command>
+  meta:
+    allow-all-logs: True
+    args: []
+    kwargs: {}
+    args-callback: None
+
+usage:
+  input.path
+```
+
+#### priority
+Defines an integer priority.
+
 ```
 params:
   <int>
@@ -129,6 +161,11 @@ usage:
 ```
 
 #### raises
+Defines the issue or message we want to raise given a match. For example a
+check may want to raise an issue using type core.issues.issue_types.Foo with
+a message that is created using a template and some format input based on the
+results of a search (see expr override).
+
 ```
 params:
   type: core.issues.issue_types.<type>
@@ -143,13 +180,66 @@ usage:
   raises.format_groups
 ```
 
-### start|body|end|expr|hint
+#### requires
+Defines a requirement or list of requirements. Typically used a way to
+determine whether or not to run a check. Currently supports a Python
+property (type: property) or name of a package that must be installed for
+passes to return True (type: apt).
+
+If a list of requirements is defined, the results are ORed together i.e. if any
+return True, the requirement passes.
+
 ```
-expr|hint:
-  <str>
-start|body|end:
-  expr: <int>
-  hint: <int>
+params:
+  type: property|apt
+  value: <value>
+
+  or
+
+  - type: property|apt
+    value: <value>
+  - type: property|apt
+    value: <value>
+
+usage:
+  requires.passes
+```
+
+#### settings
+Defines a group of settings. Implementation is handler-specific. Settings are
+retreived by iterating over the result.
+
+```
+params:
+  dict
+
+usage:
+  iter(settings)
+```
+
+### start|body|end|expr|hint
+Defines a search expression. There are different types of search expression
+that can be used depending on the data being searched and how the results will
+be interpreted. For example a "simple" search involves a single expression and
+is used to match single lines. A "sequence" search is using with
+core.filesearcher.SequenceSearchDef to match (non-overlapping) sequences and
+then there is also support for analysis overlapping sequences with
+core.analytics.LogEventStats.
+
+An optional passthrough-results key is provided and used with events type
+defintions to indicate that search results should be passed to
+their handler as a raw core.searchtools.SearchResultsCollection. This is
+typically so that they can be parsed with core.analytics.LogEventStats.
+Defaults to False.
+
+```
+params:
+  expr|hint:
+    <str>
+  start|body|end:
+    expr: <int>
+    hint: <int>
+  passthrough-results: True|False
 
 usage:
   If value is a string:
@@ -160,33 +250,6 @@ usage:
     <key>.hint
 
 Note that expressions can be a string or list of strings.
-```
-
-#### settings
-```
-params:
-  dict
-
-usage:
-  iter(settings)
-```
-
-#### releases
-```
-params:
-  dict
-
-usage:
-  iter(releases)
-```
-
-#### passthrough-results
-```
-params:
-  <bool>
-
-usage:
-  bool(passthrough-results)
 ```
 
 
@@ -202,7 +265,7 @@ method defined in the plugin that handles them.
 
 To define an event first create a file with the name of the check you
 want to perform under the directory of the plugin you are using to handle the
-event callback. 
+event callback.
 
 Supported settings (for more details see core.ycheck.YEventCheckerBase):
 

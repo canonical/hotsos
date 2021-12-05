@@ -479,3 +479,48 @@ class TestChecks(utils.BaseTestCase):
             results = self._create_search_results(logfile, contents)
             result = scenarios.ScenarioCheck.filter_by_period(results, 24, 3)
             self.assertEqual(len(result), 3)
+
+    def test_fs_override_inheritance(self):
+        """
+        When a directory is used to groupo definitions and overrides are
+        provided in a <dirname>.yaml file, we need to make sure those overrides
+        do not supersceded overrides of the same type used by definitions in
+        the same directory.
+        """
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.environ['PLUGIN_YAML_DEFS'] = dtmp
+            os.environ['PLUGIN_NAME'] = 'myplugin'
+            overrides = os.path.join(dtmp, 'mytype', 'myplugin', 'mytype.yaml')
+            defs = os.path.join(dtmp, 'mytype', 'myplugin', 'defs.yaml')
+            os.makedirs(os.path.dirname(overrides))
+
+            with open(overrides, 'w') as fd:
+                fd.write("requires:\n")
+                fd.write("  type: property\n")
+                fd.write("  source: foo\n")
+
+            with open(defs, 'w') as fd:
+                fd.write("foo: bar\n")
+
+            expected = {'mytype': {
+                            'requires': {
+                                'type': 'property', 'source': 'foo'}},
+                        'defs': {'foo': 'bar'}}
+            self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
+                             expected)
+
+            with open(defs, 'a') as fd:
+                fd.write("requires:\n")
+                fd.write("  type: apt\n")
+                fd.write("  value: apackage\n")
+
+            expected = {'mytype': {
+                            'requires': {
+                                'type': 'property', 'source': 'foo'}},
+                        'defs': {
+                            'foo': 'bar',
+                            'requires': {
+                                'type': 'apt', 'value': 'apackage'}}}
+            self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
+                             expected)

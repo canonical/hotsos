@@ -22,13 +22,16 @@ class YConfigChecker(AutoChecksBase):
         if not plugin_checks:
             return
 
-        group = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
-                             checks_handler=self)
+        yconfigchecks = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
+                                     checks_handler=self)
         log.debug("sections=%s, checks=%s",
-                  len(group.branch_sections),
-                  len(group.leaf_sections))
+                  len(yconfigchecks.branch_sections),
+                  len(yconfigchecks.leaf_sections))
+        if yconfigchecks.requires and not yconfigchecks.requires.passes:
+            log.debug("plugin not runnable - skipping config checks")
+            return
 
-        for cfg_check in group.leaf_sections:
+        for cfg_check in yconfigchecks.leaf_sections:
             # This is only available if there is a section above us
             if cfg_check.parent:
                 group_name = cfg_check.parent.name

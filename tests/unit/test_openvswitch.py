@@ -132,7 +132,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         self.assertEqual(inst.output, expected)
 
 
-class TestOpenstackPackageChecks(TestOpenvswitchBase):
+class TestOpenvswitchPackageChecks(TestOpenvswitchBase):
 
     @mock.patch('core.ycheck.packages.add_known_bug')
     def test_pkgbugchecks_no_issue(self, mock_add_known_bug):
@@ -142,6 +142,8 @@ class TestOpenstackPackageChecks(TestOpenvswitchBase):
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.packages.add_known_bug')
     @mock.patch('core.plugins.openstack.OpenstackBase.release_name', 'queens')
+    @mock.patch('core.plugins.openvswitch.OpenvSwitchChecksBase.'
+                'plugin_runnable', True)
     def test_pkgbugchecks_w_issue(self, mock_add_known_bug, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \

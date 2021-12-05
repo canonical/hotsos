@@ -241,10 +241,13 @@ class YScenarioChecker(AutoChecksBase):
         yscenarios = YDefsSection(constants.PLUGIN_NAME, plugin_content,
                                   extra_overrides=[YAMLDefScenarioCheck],
                                   checks_handler=self)
-
         log.debug("sections=%s, scenarios=%s",
                   len(yscenarios.branch_sections),
                   len(yscenarios.leaf_sections))
+
+        if yscenarios.requires and not yscenarios.requires.passes:
+            log.debug("plugin not runnable - skipping scenario checks")
+            return
 
         for scenario in yscenarios.leaf_sections:
             if scenario.requires:

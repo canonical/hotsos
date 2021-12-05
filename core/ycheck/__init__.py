@@ -121,6 +121,12 @@ class YAMLDefExpr(YAMLDefOverrideBaseX):
     An expression can be a string or a list of strings and can be provided
     as a single value or dict (with keys start, body, end etc) e.g.
 
+    An optional passthrough-results key is provided and used with events type
+    defintions to indicate that search results should be passed to
+    their handler as a raw core.searchtools.SearchResultsCollection. This is
+    typically so that they can be parsed with core.analytics.LogEventStats.
+    Defaults to False.
+
     params:
       expr|hint:
         <str>
@@ -138,7 +144,7 @@ class YAMLDefExpr(YAMLDefOverrideBaseX):
 
     Note that expressions can be a string or list of strings.
     """
-    KEYS = ['start', 'body', 'end', 'expr', 'hint']
+    KEYS = ['start', 'body', 'end', 'expr', 'hint', 'passthrough-results']
 
     @property
     def expr(self):
@@ -200,18 +206,6 @@ class YAMLDefSettings(YAMLDefOverrideBaseX):
     def __iter__(self):
         for key, val in self.content.items():
             yield key, val
-
-
-@ydef_override
-class YAMLDefResultsPassthrough(YAMLDefOverrideBaseX):
-    KEYS = ['passthrough-results']
-
-    def __bool__(self):
-        """ If returns True, the master results list is passed to callbacks
-        so that they may fetch results in their own way. This is required e.g.
-        when processing results with analytics.LogEventStats.
-        """
-        return bool(self.content)
 
 
 @ydef_override
@@ -290,6 +284,11 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
     KEYS = ['requires']
 
     @property
+    def source(self):
+        """ A input source to be used with e.g. type: property. """
+        return self.content.get('source', None)
+
+    @property
     def value(self):
         """
         An optional value to match against. If no value is provided this will
@@ -297,27 +296,44 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """
         return self.content.get('value', True)
 
-    @property
-    def passes(self):
+    def _passes(self, type, source, value):
         """ Assert whether the requirement is met.
 
         Returns True if met otherwise False.
         """
-        if self.type == 'apt':
-            pkg = self.value
+        if type == 'apt':
+            pkg = value
             result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
             log.debug('requirement check: apt %s (result=%s)', pkg,
                       result)
             return result
-        elif self.type == 'property':
-            result = self.get_property(self.source) == self.value
+        elif type == 'property':
+            result = self.get_property(source) == value
             log.debug('requirement check: property %s is %s (result=%s)',
-                      self.source, self.value, result)
+                      source, value, result)
             return result
         else:
-            self.debug("unsupported yaml requires type=%s", self.type)
+            log.debug("unsupported yaml requires type=%s", type)
 
         return False
+
+    @property
+    def passes(self):
+        """
+        Content can either be a single requirement or a list of requirements.
+
+        Returns True if any requirement is met.
+        """
+        if type(self.content) != list:
+            return self._passes(self.type, self.source, self.value)
+        else:
+            for entry in self.content:
+                _result = self._passes(entry['type'], entry.get('source'),
+                                       entry.get('value', True))
+                if _result:
+                    return True
+
+            return False
 
 
 @ydef_override
@@ -356,8 +372,6 @@ class YAMLDefConfig(YAMLDefOverrideBaseX):
 
 
 class YDefsLoader(object):
-    DEFS_SPECIAL_OVERLAY_NAMES = ['all']
-
     def __init__(self, ytype):
         self.ytype = ytype
 
@@ -369,30 +383,23 @@ class YDefsLoader(object):
 
     def _get_defs_recursive(self, path):
         """ Recursively find all yaml/files beneath a directory. """
-        overlays = {}
-        for entry in os.listdir(path):
-            _path = os.path.join(path, entry)
-            if os.path.isdir(_path) or not self._is_def(entry):
-                continue
-
-            if self._get_yname(_path) in self.DEFS_SPECIAL_OVERLAY_NAMES:
-                with open(_path) as fd:
-                    overlays.update(yaml.safe_load(fd.read()) or {})
-
         defs = {}
         for entry in os.listdir(path):
             _path = os.path.join(path, entry)
             if os.path.isdir(_path):
                 defs[os.path.basename(_path)] = self._get_defs_recursive(_path)
             else:
-                if (not self._is_def(entry) or
-                        self._get_yname(_path) in
-                        self.DEFS_SPECIAL_OVERLAY_NAMES):
+                if not self._is_def(entry):
+                    continue
+
+                if self._get_yname(_path) == os.path.basename(path):
+                    with open(_path) as fd:
+                        defs.update(yaml.safe_load(fd.read()) or {})
+
                     continue
 
                 with open(_path) as fd:
                     _content = yaml.safe_load(fd.read()) or {}
-                    _content.update(overlays)
                     defs[self._get_yname(_path)] = _content
 
         return defs

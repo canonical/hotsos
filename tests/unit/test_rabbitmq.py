@@ -222,6 +222,8 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
 class TestRabbitmqBugChecks(TestRabbitmqBase):
 
+    @mock.patch('core.plugins.rabbitmq.RabbitMQChecksBase.plugin_runnable',
+                True)
     @mock.patch('core.ycheck.bugs.add_known_bug')
     def test_bug_checks(self, mock_add_known_bug):
         bugs = []

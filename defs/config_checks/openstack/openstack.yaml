@@ -2,4 +2,4 @@
 # directory including subdirectories.
 requires:
   type: property
-  source: core.plugins.juju.JujuChecksBase.plugin_runnable
+  source: core.plugins.openstack.OpenstackChecksBase.plugin_runnable

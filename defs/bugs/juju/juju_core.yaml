@@ -1,0 +1,20 @@
+input:
+  type: filesystem
+  value: 'var/log/juju/*.log'
+1910958:
+  expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
+  hint: 'manifold worker returned unexpected error'
+  raises:
+    message: >-
+      Unit {} failed to start due to members in relation {} that cannot be
+      removed.
+    search-result-format-groups: [1, 2]
+1948906:
+  expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
+  hint: 'manifold worker returned unexpected error'
+  raises:
+    message: >-
+      post-series-upgrade failed, issues with unit {} - see LP bug for
+      workaround.
+    search-result-format-groups: [1]
+

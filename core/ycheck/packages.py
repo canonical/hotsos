@@ -40,13 +40,17 @@ class YPackageChecker(AutoChecksBase):
         if not plugin_checks:
             return
 
-        group = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
-                             checks_handler=self)
+        ypackagechecks = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
+                                      checks_handler=self)
         log.debug("sections=%s, checks=%s",
-                  len(group.branch_sections),
-                  len(group.leaf_sections))
+                  len(ypackagechecks.branch_sections),
+                  len(ypackagechecks.leaf_sections))
 
-        for bug_check in group.leaf_sections:
+        if ypackagechecks.requires and not ypackagechecks.requires.passes:
+            log.debug("plugin not runnable - skipping package checks")
+            return
+
+        for bug_check in ypackagechecks.leaf_sections:
             pkg_name = bug_check.parent.name
             p = PackageReleaseCheckObj(pkg_name, bug_check.context)
             bug = bug_check.name
