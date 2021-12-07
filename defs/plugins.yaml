@@ -61,9 +61,9 @@ plugins:
   kubernetes:
     parts:
       service_info:
-        - KubernetesResourceChecks
         - KubernetesServiceChecks
         - KubernetesPackageChecks
+        - KubernetesResourceChecks
       network_checks:
         - KubernetesNetworkChecks
   rabbitmq:
