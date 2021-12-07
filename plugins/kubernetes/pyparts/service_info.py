@@ -7,14 +7,20 @@ class KubernetesPackageChecks(KubernetesChecksBase):
 
     def __call__(self):
         """ Display relevant snaps installed. """
-        self._output["snaps"] = self.snap_check.all_formatted
+        snaps = self.snap_check.all_formatted
+        if snaps:
+            self._output['snaps'] = snaps
+
+        dpkg = self.apt_check.all_formatted
+        if dpkg:
+            self._output['dpkg'] = dpkg
 
 
 class KubernetesServiceChecks(KubernetesChecksBase):
 
     def get_running_services_info(self):
         if self.services:
-            self._output["services"] = self.service_info_str
+            self._output['services'] = self.service_info_str
 
     def __call__(self):
         """ Display relevant services and their status. """

@@ -83,9 +83,9 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
         filterered_snaps = []
         for line in self.snaps_list:
             found = False
-            for snap in kubernetes_core.K8S_SNAPS:
+            for pkg in kubernetes_core.K8S_PACKAGES:
                 obj = service_info.KubernetesPackageChecks()
-                if obj.snap_check._get_snap_info_from_line(line, snap):
+                if obj.snap_check._get_snap_info_from_line(line, pkg):
                     found = True
                     break
 
@@ -96,7 +96,7 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
         inst = service_info.KubernetesPackageChecks()
         inst()
         self.assertFalse(inst.plugin_runnable)
-        self.assertEqual(inst.output, {'snaps': []})
+        self.assertEqual(inst.output, None)
 
 
 class TestKubernetesNetworkChecks(KubernetesTestsBase):
