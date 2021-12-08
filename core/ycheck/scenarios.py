@@ -220,7 +220,8 @@ class Scenario(object):
                                checks_handler=self)
         _conclusions = {}
         for r in section.leaf_sections:
-            _conclusions[r.name] = ScenarioConclusions(int(r.priority),
+            priority = r.priority or 1
+            _conclusions[r.name] = ScenarioConclusions(int(priority),
                                                        r.decision,
                                                        r.raises, self.checks)
 

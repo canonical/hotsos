@@ -1,9 +1,5 @@
 import re
 
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import OpenstackChecksBase
 
@@ -49,45 +45,33 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         """
         port_health_info = {}
         config_info = {}
-        for key, port in self.neutron_bind_interfaces.items():
-            if 'neutron' not in config_info:
-                config_info['neutron'] = {}
 
-            config_info['neutron'][key] = port.to_dict()
-            stats = self._get_port_stat_outliers(port.stats)
-            if stats:
-                port_health_info[port.name] = stats
+        for project in ['nova', 'neutron', 'octavia']:
+            _project = getattr(self, project)
+            if _project and _project.bind_interfaces:
+                config_info[project] = {name: port.to_dict() for name, port in
+                                        _project.bind_interfaces.items()}
+                for name, port in _project.bind_interfaces.items():
+                    if project not in config_info:
+                        config_info[project] = {}
 
-        if port_health_info:
-            health = {"phy-ports": port_health_info}
-            if "port-health" in self._output:
-                self._output["port-health"].update(health)
-            else:
-                self._output["port-health"] = health
+                    config_info[project][name] = port.to_dict()
+                    if port.stats:
+                        stats = self._get_port_stat_outliers(port.stats)
+                        if not stats:
+                            continue
 
-        for key, port in self.nova_bind_interfaces.items():
-            if 'nova' not in config_info:
-                config_info['nova'] = {}
-
-            config_info['nova'][key] = port.to_dict()
-
-        for key, port in self.octavia_bind_interfaces.items():
-            if 'octavia' not in config_info:
-                config_info['octavia'] = {}
-
-            if port.addresses:
-                config_info['octavia'][key] = port.to_dict()
-            else:
-                msg = ("Octavia health manager port {} does not have an ip "
-                       "address configured which means octavia services "
-                       "on this host will not have access to the "
-                       "lb-managament network and therefore will not be able "
-                       "to communicate with Amphora VMs - please investigate.".
-                       format(port.name))
-                issue_utils.add_issue(issue_types.OpenstackError(msg))
+                        port_health_info[port.name] = stats
 
         if config_info:
-            self._output["config"] = config_info
+            self._output['config'] = config_info
+
+        if port_health_info:
+            health = {'phy-ports': port_health_info}
+            if 'port-health' in self._output:
+                self._output['port-health'].update(health)
+            else:
+                self._output['port-health'] = health
 
     def get_ns_info(self):
         """Populate namespace information dict."""
@@ -106,12 +90,11 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def get_instances_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
-        instances = self.instances
-        if instances is None:
+        if not self.nova.instances:
             return
 
         port_health_info = {}
-        for guest in instances:
+        for guest in self.nova.instances:
             for port in guest.ports:
                 stats = port.stats
                 if stats:
@@ -125,7 +108,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                     port_health_info[guest.uuid][port.hwaddr] = outliers
 
         if port_health_info:
-            health = {"vm-ports": {"num-vms-checked": len(instances),
+            health = {"vm-ports": {"num-vms-checked": len(self.nova.instances),
                                    "stats": port_health_info}}
             if "port-health" in self._output:
                 self._output["port-health"].update(health)
