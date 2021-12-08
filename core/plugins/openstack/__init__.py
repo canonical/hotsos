@@ -434,24 +434,64 @@ class NeutronHAInfo(object):
         return self._routers
 
 
-class OpenstackBase(object):
+class OctaviaBase(object):
+
+    OCTAVIA_HM_PORT_NAME = 'o-hm0'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._instances = []
         self.nethelp = host_helpers.HostNetworkingHelper()
-        self.ost_projects = OSTProjectCatalog()
-        self.nova_config = self.ost_projects.nova.config['main']
-        neutron = self.ost_projects.neutron
-        self.neutron_ovs_config = neutron.config['openvswitch-agent']
-        other_pkgs = self.ost_projects.package_dependencies
-        self.apt_check = checks.APTPackageChecksBase(
-                                  core_pkgs=self.ost_projects.packages_core,
-                                  other_pkgs=other_pkgs)
 
     @property
-    def apt_packages_all(self):
-        return self.apt_check.all
+    def bind_interfaces(self):
+        """
+        Fetch interface o-hm0 used by Openstack Octavia. Returned dict is
+        keyed by config key used to identify interface.
+        """
+        interfaces = {}
+        port = self.nethelp.get_interface_with_name(self.OCTAVIA_HM_PORT_NAME)
+        if port:
+            interfaces.update({self.OCTAVIA_HM_PORT_NAME: port})
+
+        return interfaces
+
+    @property
+    def hm_port_has_address(self):
+        port = self.bind_interfaces.get(self.OCTAVIA_HM_PORT_NAME)
+        if port is None or not port.addresses:
+            return False
+
+        return True
+
+    @property
+    def hm_port_healthy(self):
+        port = self.bind_interfaces.get(self.OCTAVIA_HM_PORT_NAME)
+        if port is None:
+            return True
+
+        for counters in port.stats.values():
+            total = sum(counters.values())
+            if not total:
+                continue
+
+            pcent = int(100 / float(total) * float(counters.get('dropped', 0)))
+            if pcent > 1:
+                return False
+
+            pcent = int(100 / float(total) * float(counters.get('errors', 0)))
+            if pcent > 1:
+                return False
+
+        return True
+
+
+class NovaBase(object):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.nethelp = host_helpers.HostNetworkingHelper()
+        self._instances = []
+        self.nova_config = OSTProjectCatalog().nova.config['main']
 
     @property
     def instances(self):
@@ -492,7 +532,7 @@ class OpenstackBase(object):
         return self._instances
 
     @property
-    def nova_bind_interfaces(self):
+    def bind_interfaces(self):
         """
         Fetch interfaces used by Openstack Nova. Returned dict is keyed by
         config key used to identify interface.
@@ -512,8 +552,17 @@ class OpenstackBase(object):
 
         return interfaces
 
+
+class NeutronBase(object):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.nethelp = host_helpers.HostNetworkingHelper()
+        neutron = OSTProjectCatalog().neutron
+        self.neutron_ovs_config = neutron.config['openvswitch-agent']
+
     @property
-    def neutron_bind_interfaces(self):
+    def bind_interfaces(self):
         """
         Fetch interfaces used by Openstack Neutron. Returned dict is keyed by
         config key used to identify interface.
@@ -533,18 +582,23 @@ class OpenstackBase(object):
 
         return interfaces
 
-    @property
-    def octavia_bind_interfaces(self):
-        """
-        Fetch interface o-hm0 used by Openstack Octavia. Returned dict is
-        keyed by config key used to identify interface.
-        """
-        interfaces = {}
-        port = self.nethelp.get_interface_with_name('o-hm0')
-        if port:
-            interfaces.update({'o-hm0': port})
 
-        return interfaces
+class OpenstackBase(object):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ost_projects = OSTProjectCatalog()
+        other_pkgs = self.ost_projects.package_dependencies
+        self.apt_check = checks.APTPackageChecksBase(
+                                  core_pkgs=self.ost_projects.packages_core,
+                                  other_pkgs=other_pkgs)
+        self.nova = NovaBase()
+        self.neutron = NeutronBase()
+        self.octavia = OctaviaBase()
+
+    @property
+    def apt_packages_all(self):
+        return self.apt_check.all
 
     @property
     def bind_interfaces(self):
@@ -553,13 +607,17 @@ class OpenstackBase(object):
         """
         interfaces = {}
 
-        nova = self.nova_bind_interfaces
-        if nova:
-            interfaces.update(nova)
+        ifaces = self.nova.bind_interfaces
+        if ifaces:
+            interfaces.update(ifaces)
 
-        neutron = self.neutron_bind_interfaces
-        if neutron:
-            interfaces.update(neutron)
+        ifaces = self.neutron.bind_interfaces
+        if ifaces:
+            interfaces.update(ifaces)
+
+        ifaces = self.octavia.bind_interfaces
+        if ifaces:
+            interfaces.update(ifaces)
 
         return interfaces
 

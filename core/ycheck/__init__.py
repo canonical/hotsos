@@ -73,10 +73,45 @@ class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
         try:
             ret = getattr(cls(), property)
         except Exception:
-            log.debug("failed to get property %s", import_str)
+            if constants.DEBUG_MODE:
+                log.error("failed to get property %s", import_str)
+
             raise
 
         return ret
+
+    def get_attribute(self, import_str):
+        mod = import_str.rpartition('.')[0]
+        attr = import_str.rpartition('.')[2]
+        try:
+            ret = getattr(importlib.import_module(mod), attr)
+        except Exception as exc:
+            if constants.DEBUG_MODE:
+                log.exception("failed to get module attribute %s", import_str)
+
+            # ystruct.YAMLDefOverrideBase swallows AttributeError so need to
+            # convert to something else.
+            if type(exc) == AttributeError:
+                raise ImportError from exc
+
+            raise
+
+        return ret
+
+    def get_import(self, import_str):
+        """
+        First attempt to treat import string as a class property then try
+        module attribute.
+        """
+        try:
+            ret = self.get_property(import_str)
+        except Exception:
+            ret = None
+
+        if ret:
+            return ret
+
+        return self.get_attribute(import_str)
 
 
 @ydef_override
@@ -186,7 +221,7 @@ class YAMLDefRaises(YAMLDefOverrideBaseX):
         if not _format_dict:
             return {}
 
-        return {k: self.get_property(v) for k, v in _format_dict.items()}
+        return {k: self.get_import(v) for k, v in _format_dict.items()}
 
     @property
     def format_groups(self):
@@ -274,7 +309,7 @@ class YAMLDefContext(YAMLDefOverrideBaseX):
     def _load(self):
         ctxt = {}
         for key, val in self.content.items():
-            ctxt[key] = self.get_property(val)
+            ctxt[key] = self.get_import(val)
 
         return ctxt
 
