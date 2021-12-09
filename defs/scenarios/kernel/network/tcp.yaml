@@ -1,0 +1,196 @@
+vars:
+  incsumerr: '@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrors'
+  incsumrate_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.incsumrate_pcent'
+  outsegs: '@hotsos.core.plugins.kernel.net.SNMPTcp.OutSegs'
+  retrans: '@hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegs'
+  outretrans_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.outretrans_pcent'
+  spurrtx: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueues'
+  spurrtx_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.spurrtx_pcent'
+  prunec: '@hotsos.core.plugins.kernel.net.NetStatTCP.PruneCalled'
+  rcvcoll: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvCollapsed'
+  rcvpr: '@hotsos.core.plugins.kernel.net.NetStatTCP.RcvPruned'
+  ofopr: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
+  backlogd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPBacklogDrop'
+  rpfilterd: '@hotsos.core.plugins.kernel.net.NetStatTCP.IPReversePathFilter'
+  ldrop: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenDrops'
+  pfmemd: '@hotsos.core.plugins.kernel.net.NetStatTCP.PFMemallocDrop'
+  minttld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPMinTTLDrop'
+  deferaccd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPDeferAcceptDrop'
+  listenovf: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenOverflows'
+  ofod: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
+  zwind: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPZeroWindowDrop'
+  rcvqd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop'
+  rqfulld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop'
+  rqfullcook: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies'
+checks:
+  incsumerr_high:
+    varops: [[$incsumerr], [gt, 1000]]
+  retrans_out_rate_gt_1pcent:
+    varops: [[$outretrans_pcent], [gt, 1]]
+  incsumrate_gt_1pcent:
+    varops: [[$incsumrate_pcent], [gt, 1]]
+  mem_pressure_prunec:
+    varops: [[$prunec], [gt, 0]]
+  backlogd:
+    varops: [[$backlogd], [gt, 0]]
+  rpfilterd:
+    varops: [[$rpfilterd], [gt, 0]]
+  ldrop:
+    varops: [[$ldrop], [gt, 0]]
+  spurrtx_gt_1pcent:
+    varops: [[$spurrtx_pcent], [gt, 1]]
+  pfmemd:
+    varops: [[$pfmemd], [gt, 0]]
+  minttld:
+    varops: [[$minttld], [gt, 0]]
+  deferaccd:
+    varops: [[$deferaccd], [gt, 0]]
+  listenovf:
+    varops: [[$listenovf], [gt, 0]]
+  ofod:
+    varops: [[$ofod], [gt, 0]]
+  zwind:
+    varops: [[$zwind], [gt, 0]]
+  rcvqd:
+    varops: [[$rcvqd], [gt, 0]]
+  rqfulld:
+    varops: [[$rqfulld], [gt, 0]]
+  rqfullcook:
+    varops: [[$rqfullcook], [gt, 0]]
+conclusions:
+  # retransmissions
+  incsumerr_high:
+    decision: incsumerr_high
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp ingress checksum errors are at {count}. This could mean that one
+        or more interfaces are experiencing hardware errors.
+      format-dict:
+        count: $incsumerr
+  retrans_out_rate_gt_1pcent:
+    decision: retrans_out_rate_gt_1pcent
+    raises:
+      type: KernelWarning
+      message: tcp retransmissions ({retrans}) are at {rate}% of tx segments ({outsegs}).
+      format-dict:
+        outsegs: $outsegs
+        retrans: $retrans
+        rate: $outretrans_pcent
+  incsumrate_gt_1pcent:
+    decision: incsumrate_gt_1pcent
+    raises:
+      type: KernelWarning
+      message: tcp ingress checksum error rate is at {rate}% of rx segments.
+      format-dict:
+        rate: $incsumrate_pcent
+  # mem pressure
+  mem_pressure_prunec:
+    decision: mem_pressure_prunec
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp pruned {prunec} times: collapsed={rcvcoll} recv={rcvpr}
+        ofo={ofopr}.
+      format-dict:
+        prunec: $prunec
+        rcvcoll: $rcvcoll
+        rcvpr: $rcvpr
+        ofopr: $ofopr
+  # misc drops
+  backlogd:
+    decision: backlogd
+    raises:
+      type: KernelWarning
+      message: tcp socket backlog queue full (drops={count}).
+      format-dict:
+        count: $backlogd
+  pfmemd:
+    decision: pfmemd
+    raises:
+      type: KernelWarning
+      message: PFMEMALLOC skb to non-MEMALLOC socket (drops={count}).
+      format-dict:
+        count: $pfmemd
+  minttld:
+    decision: minttld
+    raises:
+      type: KernelWarning
+      message: IP TTL below minimum (drops={count}).
+      format-dict:
+        count: $minttld
+  deferaccd:
+    decision: deferaccd
+    raises:
+      type: KernelWarning
+      message: TCP_DEFER_ACCEPT recv ACK-only segment (drops={count})
+      format-dict:
+        count: $deferaccd
+  rpfilterd:
+    decision: rpfilterd
+    raises:
+      type: KernelWarning
+      message: Failed reverse path filter test (drops={count}).
+      format-dict:
+        count: $rpfilterd
+  listenovf:
+    decision: listenovf
+    raises:
+      type: KernelWarning
+      message: tcp accept queue overflow (drops={count}).
+      format-dict:
+        count: $listenovf
+  ldrop:
+    decision: ldrop
+    raises:
+      type: KernelWarning
+      message: tcp incoming connect request catch-all (drops={count}).
+      format-dict:
+        count: $ldrop
+  ofod:
+    decision: ofod
+    raises:
+      type: KernelWarning
+      message: tcp no rmem adding to OFO recv queue (drops={count}).
+      format-dict:
+        count: $ofod
+  zwind:
+    decision: zwind
+    raises:
+      type: KernelWarning
+      message: tcp receive window full (drops={count}).
+      format-dict:
+        count: $zwind
+  rcvqd:
+    decision: rcvqd
+    raises:
+      type: KernelWarning
+      message: tcp no rmem adding to recv queue (drops={count}).
+      format-dict:
+        count: $rcvqd
+  # synflood
+  rqfulld:
+    decision: rqfulld
+    raises:
+      type: KernelWarning
+      message: tcp request queue full, syncookies off (drops={count}).
+      format-dict:
+        count: $rqfulld
+  rqfullcook:
+    decision: rqfullcook
+    raises:
+      type: KernelWarning
+      message: tcp request queue full, syncookies on (cookies={count}).
+      format-dict:
+        count: $rqfullcook
+  # misc
+  spurrtx_gt_1pcent:
+    decision: spurrtx_gt_1pcent
+    raises:
+      type: KernelWarning
+      message: >-
+        this host has {num} tcp retransmissions ({pcent}% of total) with original still queued.
+      format-dict:
+        num: $spurrtx
+        pcent: $spurrtx_pcent
+
