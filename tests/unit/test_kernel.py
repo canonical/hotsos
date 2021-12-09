@@ -158,6 +158,29 @@ Model name:                      AMD EPYC 7502 32-Core Processor
 KERNEL_CMD_LINE_BASE = """BOOT_IMAGE=/boot/vmlinuz-5.4.0-97-generic root=UUID=51babbe8-f78f-46a4-8830-d351c3830325 ro"""  # noqa, pylint: disable=C0301
 
 
+PROC_SNMP = r"""
+Ip: Forwarding DefaultTTL InReceives InHdrErrors InAddrErrors ForwDatagrams InUnknownProtos InDiscards InDelivers OutRequests OutDiscards OutNoRoutes ReasmTimeout ReasmReqds ReasmOKs ReasmFails FragOKs FragFails FragCreates
+Ip: 1 64 2168044 0 0 0 0 0 2147625 2078344 0 15 0 0 0 0 0 0 0
+Icmp: InMsgs InErrors InCsumErrors InDestUnreachs InTimeExcds InParmProbs InSrcQuenchs InRedirects InEchos InEchoReps InTimestamps InTimestampReps InAddrMasks InAddrMaskReps OutMsgs OutErrors OutDestUnreachs OutTimeExcds OutParmProbs OutSrcQuenchs OutRedirects OutEchos OutEchoReps OutTimestamps OutTimestampReps OutAddrMasks OutAddrMaskReps
+Icmp: 10 5 0 10 0 0 0 0 0 0 0 0 0 0 10 0 10 0 0 0 0 0 0 0 0 0 0
+IcmpMsg: InType3 OutType3
+IcmpMsg: 10 10
+Tcp: RtoAlgorithm RtoMin RtoMax MaxConn ActiveOpens PassiveOpens AttemptFails EstabResets CurrEstab InSegs OutSegs RetransSegs InErrs OutRsts InCsumErrors
+Tcp: 1 200 120000 -1 18023 7525 1344 71 83 2146484 6113424 153 0 30562 0
+Udp: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
+Udp: 1704 0 1234 253 0 0 22 427
+UdpLite: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
+UdpLite: 0 0 0 0 0 0 0 0
+""".strip()  # noqa, pylint: disable=C0301
+
+
+PROC_NETSTAT = r"""TcpExt: SyncookiesSent SyncookiesRecv SyncookiesFailed EmbryonicRsts PruneCalled RcvPruned OfoPruned OutOfWindowIcmps LockDroppedIcmps ArpFilter TW TWRecycled TWKilled PAWSActive PAWSEstab DelayedACKs DelayedACKLocked DelayedACKLost ListenOverflows ListenDrops TCPHPHits TCPPureAcks TCPHPAcks TCPRenoRecovery TCPSackRecovery TCPSACKReneging TCPSACKReorder TCPRenoReorder TCPTSReorder TCPFullUndo TCPPartialUndo TCPDSACKUndo TCPLossUndo TCPLostRetransmit TCPRenoFailures TCPSackFailures TCPLossFailures TCPFastRetrans TCPSlowStartRetrans TCPTimeouts TCPLossProbes TCPLossProbeRecovery TCPRenoRecoveryFail TCPSackRecoveryFail TCPRcvCollapsed TCPBacklogCoalesce TCPDSACKOldSent TCPDSACKOfoSent TCPDSACKRecv TCPDSACKOfoRecv TCPAbortOnData TCPAbortOnClose TCPAbortOnMemory TCPAbortOnTimeout TCPAbortOnLinger TCPAbortFailed TCPMemoryPressures TCPMemoryPressuresChrono TCPSACKDiscard TCPDSACKIgnoredOld TCPDSACKIgnoredNoUndo TCPSpuriousRTOs TCPMD5NotFound TCPMD5Unexpected TCPMD5Failure TCPSackShifted TCPSackMerged TCPSackShiftFallback TCPBacklogDrop PFMemallocDrop TCPMinTTLDrop TCPDeferAcceptDrop IPReversePathFilter TCPTimeWaitOverflow TCPReqQFullDoCookies TCPReqQFullDrop TCPRetransFail TCPRcvCoalesce TCPOFOQueue TCPOFODrop TCPOFOMerge TCPChallengeACK TCPSYNChallenge TCPFastOpenActive TCPFastOpenActiveFail TCPFastOpenPassive TCPFastOpenPassiveFail TCPFastOpenListenOverflow TCPFastOpenCookieReqd TCPFastOpenBlackhole TCPSpuriousRtxHostQueues BusyPollRxPackets TCPAutoCorking TCPFromZeroWindowAdv TCPToZeroWindowAdv TCPWantZeroWindowAdv TCPSynRetrans TCPOrigDataSent TCPHystartTrainDetect TCPHystartTrainCwnd TCPHystartDelayDetect TCPHystartDelayCwnd TCPACKSkippedSynRecv TCPACKSkippedPAWS TCPACKSkippedSeq TCPACKSkippedFinWait2 TCPACKSkippedTimeWait TCPACKSkippedChallenge TCPWinProbe TCPKeepAlive TCPMTUPFail TCPMTUPSuccess TCPDelivered TCPDeliveredCE TCPAckCompressed TCPZeroWindowDrop TCPRcvQDrop TCPWqueueTooBig TCPFastOpenPassiveAltKey
+TcpExt: 0 0 0 0 0 0 0 0 0 0 12612 0 0 0 0 11157 69 2735 0 0 996916 159569 647199 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 22 173 0 0 0 0 43983 2778 788 137 0 3607 7610 0 0 0 0 0 0 0 0 96 0 0 0 0 0 0 0 0 0 0 0 2124 0 0 0 0 394407 7035 0 759 0 0 0 0 0 0 0 0 0 7 0 11001 2371 2371 1367 15 5004066 51 2568 0 0 0 0 46 0 0 0 0 23191 0 0 5010476 0 5986 0 0 0 0
+IpExt: InNoRoutes InTruncatedPkts InMcastPkts OutMcastPkts InBcastPkts OutBcastPkts InOctets OutOctets InMcastOctets OutMcastOctets InBcastOctets OutBcastOctets InCsumErrors InNoECTPkts InECT1Pkts InECT0Pkts InCEPkts ReasmOverlaps
+IpExt: 0 0 0 4 427 0 16725918298 7053634672 0 160 129353 0 0 2307638 0 0 0 0
+"""  # noqa, pylint: disable=C0301
+
+
 class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
@@ -299,7 +322,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('network.yaml'))
+                new=utils.is_def_filter('network/misc.yaml'))
     @utils.create_data_root({'var/log/kern.log': KERNLOG_NF_CONNTRACK_FULL},
                             copy_from_original=['sos_commands/date/date'])
     def test_nf_conntrack_full(self):
@@ -349,7 +372,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual(issues, [])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('network.yaml'))
+                new=utils.is_def_filter('network/misc.yaml'))
     @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG},
                             copy_from_original=['sos_commands/date/date'])
     def test_over_mtu_dropped_packets(self):
@@ -366,7 +389,7 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.plugins.kernel.kernlog.events.log')
     @mock.patch('hotsos.core.plugins.kernel.kernlog.common.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('network.yaml'))
+                new=utils.is_def_filter('network/misc.yaml'))
     @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS},
                             copy_from_original=['sos_commands/date/date'])
     def test_over_mtu_dropped_packets_w_ovs_ports(self, mock_cli, mock_log):
@@ -451,3 +474,28 @@ class TestKernelScenarioChecks(TestKernelBase):
                "present. (Module option 'qla2xxx.qlini_mode')")
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/tcp.yaml'))
+    @utils.create_data_root({'proc/net/netstat': PROC_NETSTAT,
+                             'proc/net/snmp': PROC_SNMP})
+    def test_net_checks_tcp(self):
+        YScenarioChecker()()
+        msg = ('Failed reverse path filter test (drops=2124).')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/udp.yaml'))
+    @utils.create_data_root({'proc/net/netstat': PROC_NETSTAT,
+                             'proc/net/snmp': PROC_SNMP})
+    def test_net_checks_udp(self):
+        YScenarioChecker()()
+        msgs = [
+            ('UDP ingress errors are at 1234 (72.42% of total datagrams).'),
+            ('UDP ingress checksum errors are at 22 (1.29% of total '
+             'datagrams). This could mean that one or more interfaces are '
+             'experiencing hardware errors.')]
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))

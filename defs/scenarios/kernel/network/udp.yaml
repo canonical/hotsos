@@ -1,0 +1,57 @@
+vars:
+  inerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrors'
+  inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.inerrors_pcent'
+  rcvbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors'
+  sndbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors'
+  incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
+  incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.incsumerrors_pcent'
+checks:
+  rcvbuferrors_high:
+    varops: [[$rcvbuferrors], [gt, 1000]]
+  sndbuferrors_high:
+    varops: [[$sndbuferrors], [gt, 1000]]
+  inerrs_high_pcent_or_above_limit:
+    or:
+      - varops: [[$inerrors], [gt, 1000]]
+      - varops: [[$inerrors_pcent], [gt, 1]]
+  incsumerrs_high_or_above_limit:
+    or:
+      - varops: [[$incsumerrors], [gt, 1000]]
+      - varops: [[$incsumerrors_pcent], [gt, 1]]
+conclusions:
+  inerrs_high_pcent_or_above_limit:
+    decision: inerrs_high_pcent_or_above_limit
+    raises:
+      type: KernelWarning
+      message: >-
+        UDP ingress errors are at {count} ({pcent}% of total datagrams).
+      format-dict:
+        count: $inerrors
+        pcent: $inerrors_pcent
+  incsumerrs_high_or_above_limit:
+    decision: incsumerrs_high_or_above_limit
+    raises:
+      type: KernelWarning
+      message: >-
+        UDP ingress checksum errors are at {count} ({pcent}% of total datagrams). This could
+        mean that one or more interfaces are experiencing hardware errors.
+      format-dict:
+        count: $incsumerrors
+        pcent: $incsumerrors_pcent
+  rcvbuferrors_high:
+    decision: rcvbuferrors_high
+    raises:
+      type: KernelWarning
+      message: >-
+        UDP receive buffer errors are at {count}.
+      format-dict:
+        count: $rcvbuferrors
+  sndbuferrors_high:
+    decision: sndbuferrors_high
+    raises:
+      type: KernelWarning
+      message: >-
+        UDP send buffer errors are at {count}.
+      format-dict:
+        count: $sndbuferrors
+
