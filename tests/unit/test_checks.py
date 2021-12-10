@@ -96,8 +96,7 @@ myplugin:
       handler: core.plugins.openstack.OpenstackConfig
       path: dummy.conf
     requires:
-      type: apt
-      value: a-package
+      apt: a-package
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
@@ -484,7 +483,7 @@ class TestChecks(utils.BaseTestCase):
 
     def test_fs_override_inheritance(self):
         """
-        When a directory is used to groupo definitions and overrides are
+        When a directory is used to group definitions and overrides are
         provided in a <dirname>.yaml file, we need to make sure those overrides
         do not supersceded overrides of the same type used by definitions in
         the same directory.
@@ -499,30 +498,98 @@ class TestChecks(utils.BaseTestCase):
 
             with open(overrides, 'w') as fd:
                 fd.write("requires:\n")
-                fd.write("  type: property\n")
-                fd.write("  source: foo\n")
+                fd.write("  property: foo\n")
 
             with open(defs, 'w') as fd:
                 fd.write("foo: bar\n")
 
             expected = {'mytype': {
                             'requires': {
-                                'type': 'property', 'source': 'foo'}},
+                                'property': 'foo'}},
                         'defs': {'foo': 'bar'}}
             self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
                              expected)
 
             with open(defs, 'a') as fd:
                 fd.write("requires:\n")
-                fd.write("  type: apt\n")
-                fd.write("  value: apackage\n")
+                fd.write("  apt: apackage\n")
 
             expected = {'mytype': {
                             'requires': {
-                                'type': 'property', 'source': 'foo'}},
+                                'property': 'foo'}},
                         'defs': {
                             'foo': 'bar',
                             'requires': {
-                                'type': 'apt', 'value': 'apackage'}}}
+                                'apt': 'apackage'}}}
             self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
                              expected)
+
+    @mock.patch('core.plugins.openstack.OpenstackChecksBase')
+    def test_requires_grouped(self, mock_plugin):
+        mock_plugin.return_value = mock.MagicMock()
+        r1 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r1'}
+        r2 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r2'}
+        r3 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r3'}
+        requires = {'requires': {'or': [r1, r2]}}
+
+        mock_plugin.return_value.r1 = False
+        mock_plugin.return_value.r2 = False
+        group = YDefsSection('test', requires)
+        self.assertFalse(group.leaf_sections[0].requires.passes)
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = True
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)
+
+        requires = {'requires': {'and': [r1, r2]}}
+
+        mock_plugin.return_value.r1 = False
+        mock_plugin.return_value.r2 = False
+        group = YDefsSection('test', requires)
+        self.assertFalse(group.leaf_sections[0].requires.passes)
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        group = YDefsSection('test', requires)
+        self.assertFalse(group.leaf_sections[0].requires.passes)
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = True
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)
+
+        requires = {'requires': {'and': [r1, r2],
+                                 'or': [r1, r2]}}
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        group = YDefsSection('test', requires)
+        self.assertFalse(group.leaf_sections[0].requires.passes)
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = True
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)
+
+        requires = {'requires': {'and': [r1, r2],
+                                 'or': [r1, r2]}}
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        group = YDefsSection('test', requires)
+        self.assertFalse(group.leaf_sections[0].requires.passes)
+
+        requires = {'requires': {'and': [r3],
+                                 'or': [r1, r2]}}
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        mock_plugin.return_value.r3 = True
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)

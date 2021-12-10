@@ -1,5 +1,4 @@
 # This file is used to define overrides applicable to contents of this
 # directory including subdirectories.
 requires:
-  type: property
-  source: core.plugins.openstack.OpenstackChecksBase.plugin_runnable
+  property: core.plugins.openstack.OpenstackChecksBase.plugin_runnable

@@ -104,12 +104,9 @@ class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
         module attribute.
         """
         try:
-            ret = self.get_property(import_str)
+            return self.get_property(import_str)
         except Exception:
-            ret = None
-
-        if ret:
-            return ret
+            pass
 
         return self.get_attribute(import_str)
 
@@ -319,9 +316,12 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
     KEYS = ['requires']
 
     @property
-    def source(self):
-        """ A input source to be used with e.g. type: property. """
-        return self.content.get('source', None)
+    def apt(self):
+        return self.content.get('apt', None)
+
+    @property
+    def _property(self):
+        return self.content.get('property', None)
 
     @property
     def value(self):
@@ -331,26 +331,38 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """
         return self.content.get('value', True)
 
-    def _passes(self, type, source, value):
+    def _passes(self, apt, property, value):
         """ Assert whether the requirement is met.
 
         Returns True if met otherwise False.
         """
-        if type == 'apt':
-            pkg = value
+        if apt:
+            pkg = apt
             result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
-            log.debug('requirement check: apt %s (result=%s)', pkg,
-                      result)
+            log.debug('requirement check: apt %s (result=%s)', pkg, result)
             return result
-        elif type == 'property':
-            result = self.get_property(source) == value
+        elif property:
+            result = self.get_property(property) == value
             log.debug('requirement check: property %s is %s (result=%s)',
-                      source, value, result)
+                      property, value, result)
             return result
-        else:
-            log.debug("unsupported yaml requires type=%s", type)
+
+        log.debug('unknown requirement check')
+        return False
+
+    def _has_groups(self):
+        if set(self.content.keys()).intersection(['and', 'or']):
+            return True
 
         return False
+
+    def _is_valid_requirement(self, entry):
+        apt = entry.get('apt')
+        property = entry.get('property')
+        if not any([apt, property]):
+            return False
+
+        return True
 
     @property
     def passes(self):
@@ -359,16 +371,46 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
 
         Returns True if any requirement is met.
         """
-        if type(self.content) != list:
-            return self._passes(self.type, self.source, self.value)
+        if not self._has_groups():
+            log.debug("single requirement provided")
+            if self._is_valid_requirement(self.content):
+                return self._passes(self.apt, self._property, self.value)
+            else:
+                log.debug("invalid requirement: %s - fail", self.content)
+                return False
         else:
-            for entry in self.content:
-                _result = self._passes(entry['type'], entry.get('source'),
-                                       entry.get('value', True))
-                if _result:
-                    return True
+            log.debug("requirements provided as groups")
+            results = {}
+            # list of requirements
+            for op, requirements in self.content.items():
+                if op not in results:
+                    results[op] = []
 
-            return False
+                log.debug("op=%s has %s requirement(s)", op, len(requirements))
+                for entry in requirements:
+                    if not self._is_valid_requirement(entry):
+                        log.debug("invalid requirement: %s - fail", entry)
+                        _result = False
+                    else:
+                        _result = self._passes(entry.get('apt'),
+                                               entry.get('property'),
+                                               entry.get('value', True))
+
+                    results[op].append(_result)
+                if op == 'or' and any(results[op]):
+                    return True
+                elif op == 'and' and not all(results[op]):
+                    return False
+
+            # Now AND all groups for the final result
+            final_results = []
+            for op in results:
+                if op == 'and':
+                    final_results.append(all(results[op]))
+                else:
+                    final_results.append(any(results[op]))
+
+            return all(final_results)
 
 
 @ydef_override

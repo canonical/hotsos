@@ -5,9 +5,7 @@ filestore-to-bluestore:
       bluestore is enabled yet there is a still a journal device
       configured in ceph.conf - please check
   requires:
-    type: property
-    source: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
-    value: True
+    property: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
   config:
     handler: core.plugins.storage.ceph.CephConfig
   settings:

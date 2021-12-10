@@ -9,8 +9,7 @@ checks:
       period: 24
   check2:
     requires:
-      type: property
-      source: core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+      property: core.plugins.storage.ceph.CephChecksBase.has_interface_errors
 conclusions:
   cause-unknown:
     priority: 1

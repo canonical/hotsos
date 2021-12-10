@@ -183,25 +183,27 @@ usage:
 ```
 
 #### requires
-Defines a requirement or list of requirements. Typically used a way to
-determine whether or not to run a check. Currently supports a Python
-property (type: property) or name of a package that must be installed for
-passes to return True (type: apt).
+Defines a set of requirements with a pass/fail result. Typically used a way to
+determine whether or not to run a check. Currently supports a Python property
+or name of an apt package that must be installed for _passes_ to return True.
 
-If a list of requirements is defined, the results are ORed together i.e. if any
-return True, the requirement passes.
+Can be defined as single requirement or sets of requirements grouped by a
+boolean operator used to determine the result of the group. If multiple groups
+are used, their results are ANDed together to get the final result for
+_passes_. 
 
 ```
 params:
-  type: property|apt
-  value: <value>
+  property|apt: <input>
+  value: <value>  (optional)
 
   or
 
-  - type: property|apt
-    value: <value>
-  - type: property|apt
-    value: <value>
+  or|and:
+    - params:
+      property|apt: <input>
+      value: <value>  (optional)
+    - ...
 
 usage:
   requires.passes

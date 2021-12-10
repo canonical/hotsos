@@ -1,6 +1,5 @@
 requires:
-  type: property
-  source: core.plugins.storage.bcache.BcacheBase.bcache_enabled
+  property: core.plugins.storage.bcache.BcacheBase.bcache_enabled
 raises:
   type: core.issues.issue_types.BcacheWarning
 cset:

@@ -86,7 +86,7 @@ class NetworkPort(object):
         if counters:
             self._counters = counters
 
-        return self._counters
+        return self._counters or {}
 
 
 class HostNetworkingHelper(object):

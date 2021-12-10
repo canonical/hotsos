@@ -1,6 +1,5 @@
 requires:
-  type: apt
-  value: openvswitch-switch-dpdk
+  apt: openvswitch-switch-dpdk
 config:
   handler: core.plugins.openstack.OpenstackConfig
   path: etc/nova/nova.conf

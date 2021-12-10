@@ -1,8 +1,7 @@
 # This file is used to define overrides applicable to contents of this
 # directory including subdirectories.
 requires:
-  type: property
-  source: core.plugins.openvswitch.OpenvSwitchChecksBase.plugin_runnable
+  property: core.plugins.openvswitch.OpenvSwitchChecksBase.plugin_runnable
 context:
   release: core.plugins.openstack.OpenstackBase.release_name
   apt-all: core.plugins.openvswitch.OpenvSwitchChecksBase.apt_packages_all
