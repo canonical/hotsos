@@ -1,34 +1,41 @@
-health-check:
-  checks:
-    hm-port-packet-errors-drops:
-      requires:
-        property: core.plugins.openstack.OctaviaBase.hm_port_healthy
-        value: False
-  conclusions:
-    default:
-      decision: hm-port-packet-errors-drops
-      raises:
-        type: core.issues.issue_types.OpenstackError
-        message: >-
-          Octavia health manager port {name} has some packets drops or errors -
-          please investigate
-        format-dict:
-          name: core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME
-address-check:
-  checks:
-    hm-port-address-check:
-      requires:
-        property: core.plugins.openstack.OctaviaBase.hm_port_has_address
-        value: False
-  conclusions:
-    default:
-      decision: hm-port-address-check
-      raises:
-        type: core.issues.issue_types.OpenstackError
-        message: >-
-          Octavia health manager port {name} does not have an ip address
-          configured which means octavia services on this host will not have
-          access to the lb-management network and therefore will not be able
-          to communicate with Amphora VMs - please investigate
-        format-dict:
-          name: core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME
+checks:
+  octavia-installed:
+    requires:
+      property: core.plugins.openstack.OctaviaBase.installed
+  hm-port-packet-errors-drops:
+    requires:
+      property: core.plugins.openstack.OctaviaBase.hm_port_healthy
+      value: False
+  hm-port-address-check:
+    requires:
+      property: core.plugins.openstack.OctaviaBase.hm_port_has_address
+      value: False
+conclusions:
+  no-addr-or-noexist:
+    priority: 1
+    decision:
+      and:
+        - octavia-installed
+        - hm-port-address-check
+    raises:
+      type: core.issues.issue_types.OpenstackError
+      message: >-
+        Octavia health manager port {name} does not have an ip address
+        configured which means octavia services on this host will not have
+        access to the lb-management network and therefore will not be able
+        to communicate with Amphora VMs - please investigate
+      format-dict:
+        name: core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME
+  packet-drops-errors:
+    priority: 2
+    decision:
+      and:
+        - octavia-installed
+        - hm-port-packet-errors-drops
+    raises:
+      type: core.issues.issue_types.OpenstackError
+      message: >-
+        Octavia health manager port {name} has some packets drops or errors -
+        please investigate
+      format-dict:
+        name: core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME

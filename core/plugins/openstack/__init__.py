@@ -323,6 +323,9 @@ class OSTProjectCatalog(object):
         self.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'}),
 
+    def __getitem__(self, name):
+        return self._projects[name]
+
     def __getattr__(self, name):
         return self._projects[name]
 
@@ -434,13 +437,25 @@ class NeutronHAInfo(object):
         return self._routers
 
 
-class OctaviaBase(object):
+class OSTServiceBase(object):
 
+    def __init__(self, name, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.nethelp = host_helpers.HostNetworkingHelper()
+        self.project = OSTProjectCatalog()[name]
+
+    @property
+    def installed(self):
+        """ Return True if the openstack service is installed. """
+        core_pkgs = self.project.packages_core
+        return bool(checks.APTPackageChecksBase(core_pkgs=core_pkgs).core)
+
+
+class OctaviaBase(OSTServiceBase):
     OCTAVIA_HM_PORT_NAME = 'o-hm0'
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.nethelp = host_helpers.HostNetworkingHelper()
+        super().__init__('octavia', *args, **kwargs)
 
     @property
     def bind_interfaces(self):
@@ -485,13 +500,12 @@ class OctaviaBase(object):
         return True
 
 
-class NovaBase(object):
+class NovaBase(OSTServiceBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.nethelp = host_helpers.HostNetworkingHelper()
+        super().__init__('nova', *args, **kwargs)
         self._instances = []
-        self.nova_config = OSTProjectCatalog().nova.config['main']
+        self.nova_config = self.project.config['main']
 
     @property
     def instances(self):
@@ -553,13 +567,11 @@ class NovaBase(object):
         return interfaces
 
 
-class NeutronBase(object):
+class NeutronBase(OSTServiceBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.nethelp = host_helpers.HostNetworkingHelper()
-        neutron = OSTProjectCatalog().neutron
-        self.neutron_ovs_config = neutron.config['openvswitch-agent']
+        super().__init__('neutron', *args, **kwargs)
+        self.neutron_ovs_config = self.project.config['openvswitch-agent']
 
     @property
     def bind_interfaces(self):

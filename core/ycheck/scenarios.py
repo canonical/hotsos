@@ -128,7 +128,7 @@ class ScenarioCheck(object):
                               self.input.path)
             results = s.search()
             if not results:
-                log.debug("scenario check %s: False")
+                log.debug("scenario check %s: False", self.name)
                 return False
 
             results = results.find_by_tag('all')
@@ -282,3 +282,5 @@ class YScenarioChecker(AutoChecksBase):
 
             if result:
                 issue_utils.add_issue(result.issue_type(result.issue_message))
+            else:
+                log.debug("no conlusion reached")

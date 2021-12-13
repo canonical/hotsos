@@ -11,6 +11,7 @@ from core import checks
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.configs import YConfigChecker
 from core.ycheck.packages import YPackageChecker
+from core.ycheck.scenarios import YScenarioChecker
 from core.issues import issue_types
 from core.searchtools import FileSearcher
 from plugins.openstack.pyparts import (
@@ -873,6 +874,30 @@ class TestOpenstackBugChecks(TestOpenstackBase):
 
         mock_add_known_bug.assert_has_calls(calls, any_order=True)
         self.assertEqual(len(bugs), 4)
+
+
+class TestOpenstackScenarioChecks(TestOpenstackBase):
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_none(self, mock_add_issue):
+        YScenarioChecker()()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.plugins.openstack.OctaviaBase')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_octavia(self, mock_add_issue, mock_base):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_base.return_value = mock.MagicMock()
+        mock_base.return_value.installed = True
+        mock_base.return_value.hm_port_has_address = False
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertEqual(len(issues), 1)
+        self.assertEqual(type(issues[0]), issue_types.OpenstackError)
 
 
 class TestOpenstackPackageChecks(TestOpenstackBase):
