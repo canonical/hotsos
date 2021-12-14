@@ -7,6 +7,8 @@ import mock
 import utils
 
 from core.ycheck.bugs import YBugChecker
+from core.ycheck.scenarios import YScenarioChecker
+from core.issues.issue_types import SystemWarning
 from plugins.system.pyparts import (
     checks,
     general,
@@ -100,3 +102,19 @@ class TestSystemBugChecks(SystemTestsBase):
         # This will need modifying once we have some storage bugs defined
         self.assertFalse(mock_add_known_bug.called)
         self.assertEqual(len(bugs), 0)
+
+
+class TestSystemScenarioChecks(SystemTestsBase):
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        self.assertEqual(len(issues), 1)
+        self.assertEqual(type(issues[0]), SystemWarning)

@@ -345,38 +345,6 @@ class TestChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
-    @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
-                lambda args: False)
-    @mock.patch('core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable',
-                False)
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_yaml_def_scenarios_w_issue(self, add_issue, mock_cephbase):
-        os.environ['PLUGIN_NAME'] = 'storage'
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        add_issue.side_effect = fake_add_issue
-        mock_cephbase.return_value = mock.MagicMock()
-        mock_cephbase.return_value.has_interface_errors = True
-        mock_cephbase.return_value.bind_interface_names = 'ethX'
-
-        # First check not runnable
-        mock_cephbase.return_value.plugin_runnable = False
-        scenarios.YScenarioChecker()()
-        self.assertFalse(add_issue.called)
-
-        # now runnable
-        mock_cephbase.return_value.plugin_runnable = True
-        scenarios.YScenarioChecker()()
-        msg = ("Ceph monitor is experiencing repeated re-elections. The "
-               "network interface(s) (ethX) used by the ceph-mon are "
-               "showing errors - please investigate")
-        self.assertEqual(issues[0].msg, msg)
-        self.assertTrue(add_issue.called)
-
     def test_yaml_def_scenario_check_fail(self):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp

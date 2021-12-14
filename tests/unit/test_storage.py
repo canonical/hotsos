@@ -7,6 +7,7 @@ import utils
 from core import checks
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.configs import YConfigChecker
+from core.ycheck.scenarios import YScenarioChecker
 from core.issues import issue_types
 from core.plugins.storage import (
     ceph as ceph_core,
@@ -701,3 +702,42 @@ class TestStorageConfigChecks(StorageTestsBase):
         self.assertEqual(len(issues), 1)
         self.assertEqual(type(issues[0]), issue_types.BcacheWarning)
         self.assertTrue(mock_add_issue.called)
+
+
+class TestStorageScenarioChecks(StorageTestsBase):
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_none(self, mock_add_issue):
+        YScenarioChecker()()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
+                lambda args: False)
+    @mock.patch('core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable',
+                False)
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_w_issue(self, add_issue, mock_cephbase):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.has_interface_errors = True
+        mock_cephbase.return_value.bind_interface_names = 'ethX'
+
+        # First check not runnable
+        mock_cephbase.return_value.plugin_runnable = False
+        YScenarioChecker()()
+        self.assertFalse(add_issue.called)
+
+        # now runnable
+        mock_cephbase.return_value.plugin_runnable = True
+        YScenarioChecker()()
+        msg = ("Ceph monitor is experiencing repeated re-elections. The "
+               "network interface(s) (ethX) used by the ceph-mon are "
+               "showing errors - please investigate")
+        self.assertEqual(issues[0].msg, msg)
+        self.assertTrue(add_issue.called)

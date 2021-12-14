@@ -1,0 +1,14 @@
+checks:
+  is_enabled:
+    requires:
+      property: core.plugins.system.SystemBase.unattended_upgrades_enabled
+conclusions:
+  is_enabled:
+    decision: is_enabled
+    raises:
+      type: core.issues.issue_types.SystemWarning
+      message: >-
+        Unattended upgrades are enabled which can lead to uncontrolled changes
+        to this environment. If maintenance windows are required please
+        consider disabling unattended upgrades.
+

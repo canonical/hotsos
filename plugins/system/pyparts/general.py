@@ -2,10 +2,6 @@ import re
 
 from core.cli_helpers import CLIHelper
 from core.plugins.system import SystemChecksBase
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
 
 YAML_PRIORITY = 0
 
@@ -36,11 +32,6 @@ class SystemGeneral(SystemChecksBase):
 
         if self.unattended_upgrades_enabled:
             self._output['unattended-upgrades'] = "ENABLED"
-            issue_utils.add_issue(issue_types.SystemWarning(
-                'Unattended upgrades are enabled which can lead '
-                'to uncontrolled changes to this environment. If maintenance '
-                'windows are required please consider disabling unattended '
-                'upgrades.'))
         else:
             self._output['unattended-upgrades'] = "disabled"
 
