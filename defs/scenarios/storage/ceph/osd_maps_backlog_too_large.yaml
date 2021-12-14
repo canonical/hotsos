@@ -1,0 +1,22 @@
+checks:
+  too_many_osdmaps:
+    # Check if there are too many osdmaps. By default mon_min_osdmaps_epochs
+    # (=500) osdmaps are stored by the monitors. However, if the cluster isn't
+    # healthy for a long time, the number of osdmaps stored will keep
+    # increasing which can result in more disk utilization, possibly slower
+    # mons, etc. See https://docs.ceph.com/en/latest/dev/mon-osdmap-prune/.
+    requires:
+      property: core.plugins.storage.ceph.CephMon.osdmaps_count
+      value: 500  # mon_min_osdmap_epochs default
+      op: gt
+conclusions:
+  cause-unknown:
+    decision: too_many_osdmaps
+    raises:
+      type: core.issues.issue_types.CephMapsWarning
+      message: >-
+        Found {count} pinned osdmaps. This can affect mon's performance and
+        also indicate bugs such as https://tracker.ceph.com/issues/44184 and
+        https://tracker.ceph.com/issues/47290
+      format-dict:
+        count: core.plugins.storage.ceph.CephMon.osdmaps_count

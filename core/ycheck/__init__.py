@@ -331,6 +331,11 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """
         return self.content.get('value', True)
 
+    @property
+    def op(self):
+        """ Operator used for value comparison. Default is eq. """
+        return getattr(operator, self.content.get('op', 'eq'))
+
     def _passes(self, apt, property, value):
         """ Assert whether the requirement is met.
 
@@ -342,9 +347,9 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
             log.debug('requirement check: apt %s (result=%s)', pkg, result)
             return result
         elif property:
-            result = self.get_property(property) == value
-            log.debug('requirement check: property %s is %s (result=%s)',
-                      property, value, result)
+            result = self.op(self.get_property(property), value)
+            log.debug('requirement check: property %s %s %s (result=%s)',
+                      property, self.op.__name__, value, result)
             return result
 
         log.debug('unknown requirement check')

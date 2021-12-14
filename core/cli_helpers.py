@@ -16,8 +16,11 @@ def catch_exceptions(*exc_types):
             try:
                 return f(*args, **kwargs)
             except exc_types as exc:
-                log.debug(exc)
-                return []
+                log.debug("%s: %s", type(exc), exc)
+                if type(exc) == json.JSONDecodeError:
+                    return {}
+                else:
+                    return []
 
         return catch_exceptions_inner2
 
@@ -414,18 +417,28 @@ class CLIHelper(object):
             'apt_config_dump':
                 [BinCmd('apt-config dump'),
                  FileCmd('sos_commands/apt/apt-config_dump')],
-            'ceph_mon_dump':
-                [BinCmd('ceph mon dump'),
+            'ceph_mon_dump_json_decoded':
+                [BinCmd('ceph mon dump --format json-pretty',
+                        json_decode=True),
                  # sosreport < 4.2
-                 FileCmd('sos_commands/ceph/ceph_mon_dump'),
+                 FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_mon_dump_--format_json-pretty',
+                         json_decode=True),
                  # sosreport >= 4.2
-                 FileCmd('sos_commands/ceph_mon/ceph_mon_dump')],
-            'ceph_osd_dump':
-                [BinCmd('ceph osd dump'),
+                 FileCmd('sos_commands/ceph_mon/json_output/'
+                         'ceph_mon_dump_--format_json-pretty',
+                         json_decode=True)],
+            'ceph_osd_dump_json_decoded':
+                [BinCmd('ceph osd dump --format json-pretty',
+                        json_decode=True),
                  # sosreport < 4.2
-                 FileCmd('sos_commands/ceph/ceph_osd_dump'),
+                 FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_osd_dump_--format_json-pretty',
+                         json_decode=True),
                  # sosreport >= 4.2
-                 FileCmd('sos_commands/ceph_mon/ceph_osd_dump')],
+                 FileCmd('sos_commands/ceph_mon/json_output/'
+                         'ceph_osd_dump_--format_json-pretty',
+                         json_decode=True)],
             'ceph_osd_df_tree_json_decoded':
                 [BinCmd('ceph osd df tree --format json-pretty',
                         json_decode=True),

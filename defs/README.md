@@ -196,13 +196,14 @@ _passes_.
 params:
   property|apt: <input>
   value: <value>  (optional)
+  op: <operator> (any python operator supported. default is eq.)
 
   or
 
   or|and:
-    - params:
-      property|apt: <input>
+    - property|apt: <input>
       value: <value>  (optional)
+      op: <operator>
     - ...
 
 usage:

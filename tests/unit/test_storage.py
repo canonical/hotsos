@@ -1,10 +1,12 @@
 import json
 import mock
 import os
+import shutil
 import tempfile
 import utils
 
 from core import checks
+from core import constants
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
@@ -66,14 +68,6 @@ CEPH_VERSIONS_MISMATCHED_MINOR = """
     }
 }
 """  # noqa
-
-
-OSD_V2FAIL = """
-max_osd 3
-osd.0 up   in  weight 1 up_from 651 up_thru 658 down_at 650 last_clean_interval [635,645) [v1:10.0.0.49:6801/33943] [v1:10.0.0.49:6803/33943] exists,up 51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
-osd.1 up   in  weight 1 up_from 658 up_thru 658 down_at 652 last_clean_interval [638,645) [v1:10.0.0.48:6801/24136] [v1:10.0.0.48:6803/24136] exists,up 625f0760-586e-4032-bd89-c7fc5080ed05
-osd.2 up   in  weight 1 up_from 655 up_thru 658 down_at 652 last_clean_interval [631,645) [v1:10.0.0.50:6801/31448] [v1:10.0.0.50:6803/31448] exists,up c42942cd-878c-43e7-afb3-2667f65a2e41
- """  # noqa
 
 CEPH_OSD_CRUSH_DUMP = """
 {
@@ -197,6 +191,9 @@ class TestStorageCephChecksBase(StorageTestsBase):
             enabled = ceph_core.CephChecksBase().bluestore_enabled
             self.assertFalse(enabled)
 
+    def test_check_osdmaps_size(self):
+        self.assertEqual(ceph_core.CephMon().osdmaps_count, 5496)
+
 
 class TestStorageCephDaemons(StorageTestsBase):
 
@@ -223,14 +220,6 @@ class TestStorageCephDaemons(StorageTestsBase):
     def test_mon_release_name(self):
         release_names = ceph_core.CephMon().release_names
         self.assertEqual(release_names, {'octopus': 1})
-
-    def test_mon_dump(self):
-        dump = ceph_core.CephMon().mon_dump
-        self.assertEqual(dump['min_mon_release'], '15 (octopus)')
-
-    def test_osd_dump(self):
-        dump = ceph_core.CephOSD(1, 1234, '/dev/foo').osd_dump
-        self.assertEqual(dump['require_osd_release'], 'octopus')
 
 
 class TestStorageCephServiceInfo(StorageTestsBase):
@@ -410,35 +399,30 @@ class TestStorageCephClusterChecks(StorageTestsBase):
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
     def test_check_require_osd_release(self, mock_issue_utils):
-        osd_dump = ceph_core.CLIHelper().ceph_osd_dump()
+        osd_dump = ceph_core.CLIHelper().ceph_osd_dump_json_decoded()
         with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
             mock_helper.return_value = mock.MagicMock()
             mock_helper.return_value.ceph_versions.return_value = \
                 CEPH_VERSIONS_MISMATCHED_MAJOR.split('\n')
-            mock_helper.return_value.ceph_osd_dump.return_value = osd_dump
+            mock_helper.return_value.ceph_osd_dump_json_decoded.\
+                return_value = osd_dump
             inst = ceph_cluster_checks.CephClusterChecks()
             inst.check_require_osd_release()
             self.assertTrue(mock_issue_utils.add_issue.called)
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
     def test_check_osd_v2(self, mock_issue_utils):
-        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            mock_helper.return_value.ceph_osd_dump.return_value = \
-                OSD_V2FAIL.split('\n')
+        with tempfile.TemporaryDirectory() as dtmp:
+            src = os.path.join(constants.DATA_ROOT,
+                               ('sos_commands/ceph/json_output/ceph_osd_dump_'
+                                '--format_json-pretty.v1_only_osds'))
+            dst = os.path.join(dtmp, 'sos_commands/ceph/json_output/'
+                               'ceph_osd_dump_--format_json-pretty')
+            os.makedirs(os.path.dirname(dst))
+            shutil.copy(src, dst)
+            os.environ['DATA_ROOT'] = dtmp
             inst = ceph_cluster_checks.CephClusterChecks()
             inst.check_osd_msgr_protocol_versions()
-            self.assertTrue(mock_issue_utils.add_issue.called)
-
-    @mock.patch.object(ceph_cluster_checks, 'issue_utils')
-    def test_check_osdmaps_size(self, mock_issue_utils):
-        ceph_report = ceph_core.CLIHelper().ceph_report_json_decoded()
-        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            mock_helper.return_value.ceph_report_json_decoded.return_value = \
-                ceph_report
-            inst = ceph_cluster_checks.CephClusterChecks()
-            inst.check_osdmaps_size()
             self.assertTrue(mock_issue_utils.add_issue.called)
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
@@ -708,8 +692,10 @@ class TestStorageScenarioChecks(StorageTestsBase):
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
-        YScenarioChecker()()
-        self.assertFalse(mock_add_issue.called)
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            YScenarioChecker()()
+            self.assertFalse(mock_add_issue.called)
 
     @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
                 lambda args: False)
@@ -736,8 +722,15 @@ class TestStorageScenarioChecks(StorageTestsBase):
         # now runnable
         mock_cephbase.return_value.plugin_runnable = True
         YScenarioChecker()()
+        self.assertTrue(add_issue.called)
+
+        msgs = [issue.msg for issue in issues]
         msg = ("Ceph monitor is experiencing repeated re-elections. The "
                "network interface(s) (ethX) used by the ceph-mon are "
                "showing errors - please investigate")
-        self.assertEqual(issues[0].msg, msg)
-        self.assertTrue(add_issue.called)
+        self.assertTrue(msg in msgs)
+
+        msg = ("Found 5496 pinned osdmaps. This can affect mon's performance "
+               "and also indicate bugs such as https://tracker.ceph.com/"
+               "issues/44184 and https://tracker.ceph.com/issues/47290")
+        self.assertTrue(msg in msgs)

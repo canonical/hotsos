@@ -56,9 +56,7 @@ class CephCluster(object):
     def __init__(self):
         self.cli = CLIHelper()
         # create file-based caches of useful commands so they can be searched.
-        self.cli_cache = {'ceph_mon_dump': self.cli.ceph_mon_dump(),
-                          'ceph_osd_dump': self.cli.ceph_osd_dump(),
-                          'ceph_versions': self.cli.ceph_versions()}
+        self.cli_cache = {'ceph_versions': self.cli.ceph_versions()}
         for cmd, output in self.cli_cache.items():
             self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
 
@@ -67,27 +65,6 @@ class CephCluster(object):
         for tmpfile in self.cli_cache.values():
             if os.path.exists(tmpfile):
                 os.unlink(tmpfile)
-
-    def daemon_dump(self, daemon_type):
-        """
-        @param daemon_type: daemon type e.g. mon/osd
-
-        Returns a dict where key is first word on each line of dump and value
-        is the remainder.
-        """
-        cmd = "ceph_{}_dump".format(daemon_type)
-        out = self.cli_cache[cmd]
-        if not out:
-            return
-
-        dump = {}
-        s = FileSearcher()
-        s.add_search_term(SearchDef(r"^(\S+)\s+(.+)", tag='dump'),
-                          path=self.cli_cache[cmd])
-        for result in s.search().find_by_tag('dump'):
-            dump[result.get(1)] = result.get(2)
-
-        return dump
 
     def _get_version_info(self, daemon_type=None):
         """
@@ -293,18 +270,17 @@ class CephMon(CephDaemonBase):
 
     def __init__(self):
         super().__init__('mon')
-        self._mon_dump = None
 
     @property
-    def mon_dump(self):
-        if self._mon_dump:
-            return self._mon_dump
+    def osdmaps_count(self):
+        report = self.cli.ceph_report_json_decoded()
+        if not report:
+            return 0
 
-        dump = self.cluster.daemon_dump(self.daemon_type)
-        if dump:
-            self._mon_dump = dump
-
-        return self._mon_dump
+        try:
+            return len(report['osdmap_manifest']['pinned_maps'])
+        except (ValueError, KeyError):
+            return 0
 
 
 class CephMDS(CephDaemonBase):
@@ -327,18 +303,6 @@ class CephOSD(CephDaemonBase):
         self.fsid = fsid
         self.device = device
         self._devtype = None
-        self._osd_dump = None
-
-    @property
-    def osd_dump(self):
-        if self._osd_dump:
-            return self._osd_dump
-
-        dump = self.cluster.daemon_dump(self.daemon_type)
-        if dump:
-            self._osd_dump = dump
-
-        return self._osd_dump
 
     def to_dict(self):
         d = {self.id: {
@@ -478,12 +442,14 @@ class CephChecksBase(StorageBase):
         names = [iface.name for iface in self.bind_interfaces.values()]
         return ', '.join(list(set(names)))
 
+    @property
+    def osd_dump(self):
+        return self.cli.ceph_osd_dump_json_decoded()
+
     def _get_cluster_osds(self):
         cluster_osds = []
-        for key in CephOSD(None).osd_dump:
-            ret = re.compile(r'^osd\.(\d+)').match(key)
-            if ret:
-                cluster_osds.append(CephOSD(int(ret.group(1))))
+        for osd in self.osd_dump.get('osds', {}):
+            cluster_osds.append(CephOSD(osd['osd']))
 
         return cluster_osds
 

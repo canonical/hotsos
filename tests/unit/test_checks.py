@@ -341,7 +341,7 @@ class TestChecks(utils.BaseTestCase):
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
-        os.environ['PLUGIN_NAME'] = 'storage'
+        os.environ['PLUGIN_NAME'] = 'juju'
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 

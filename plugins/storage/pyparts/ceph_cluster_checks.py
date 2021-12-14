@@ -16,7 +16,6 @@ LP1936136_BCACHE_CACHE_LIMIT = 70
 OSD_PG_MAX_LIMIT = 500
 OSD_PG_OPTIMAL_NUM = 200
 OSD_META_LIMIT_KB = (10 * 1024 * 1024)
-OSD_MAPS_LIMIT = 500  # mon_min_osdmap_epochs default
 
 
 class CephClusterChecks(CephChecksBase):
@@ -43,8 +42,9 @@ class CephClusterChecks(CephChecksBase):
         large_omap_pgs = {}
         for pg in pg_dump['pg_map']['pg_stats']:
             if pg['stat_sum']['num_large_omap_objects'] > 0:
-                scrub = "last_scrub_at="+str(pg['last_scrub_stamp'])
-                deep_scrub = "last_deep_scrub_at="+str(pg['last_scrub_stamp'])
+                scrub = "last_scrub_at={}".format(pg['last_scrub_stamp'])
+                deep_scrub = ("last_deep_scrub_at={}".
+                              format(pg['last_scrub_stamp']))
                 large_omap_pgs[pg['pgid']] = [scrub, deep_scrub]
 
         if large_omap_pgs:
@@ -74,44 +74,13 @@ class CephClusterChecks(CephChecksBase):
                    "check".format(len(laggy_pgs)))
             issue_utils.add_issue(issue_types.CephWarning(msg))
 
-    def check_osdmaps_size(self):
-        """
-        Check if there are too many osdmaps
-
-        By default mon_min_osdmaps_epochs (=500) osdmaps are stored by the
-        monitors. However, if the cluster isn't healthy for a long time,
-        the number of osdmaps stored will keep increasing which can result
-        in more disk utilization, possibly slower mons, etc.
-
-        Doc: https://docs.ceph.com/en/latest/dev/mon-osdmap-prune/
-        """
-
-        report = self.cli.ceph_report_json_decoded()
-        if not report:
-            return
-
-        try:
-            osdmaps_count = len(report['osdmap_manifest']['pinned_maps'])
-            # mon_min_osdmap_epochs (= 500) maps are held by default. Anything
-            # over the limit, we need to look at and decide whether this could
-            # be temporary or needs further investigation.
-            if osdmaps_count > OSD_MAPS_LIMIT:
-                msg = ("Found {} pinned osdmaps. This can affect mon's "
-                       "performance and also indicate bugs such as "
-                       "https://tracker.ceph.com/issues/44184 and "
-                       "https://tracker.ceph.com/issues/47290"
-                       .format(osdmaps_count))
-                issue_utils.add_issue(issue_types.CephMapsWarning(msg))
-        except (ValueError, KeyError):
-            return
-
     def check_require_osd_release(self):
-        cluster = ceph.CephCluster()
-        expected_rname = cluster.daemon_dump('osd').get('require_osd_release')
+        osd_dump = self.cli.ceph_osd_dump_json_decoded()
+        expected_rname = osd_dump.get('require_osd_release')
         if not expected_rname:
             return
 
-        for rname in cluster.daemon_release_names('osd'):
+        for rname in ceph.CephCluster().daemon_release_names('osd'):
             if expected_rname != rname:
                 msg = ("require_osd_release is {} but one or more osds is on "
                        "release {} - needs fixing".format(expected_rname,
@@ -128,28 +97,21 @@ class CephClusterChecks(CephChecksBase):
             """ v2 only available for >= Nautilus. """
             return
 
-        v1_osds = []
-        cluster = ceph.CephCluster()
-        osd_dump = cluster.daemon_dump('osd')
+        v1_only_osds = 0
+        osd_dump = self.cli.ceph_osd_dump_json_decoded()
         if not osd_dump:
             return
 
-        osd_count = int(cluster.daemon_dump('osd').get('max_osd', 0))
-        if osd_count < 1:
-            return
+        for osd in osd_dump['osds']:
+            for key, val in osd.items():
+                if key.endswith('_addrs'):
+                    vers = [info['type'] for info in val.get('addrvec', [])]
+                    if 'v2' not in vers:
+                        v1_only_osds += 1
 
-        counter = 0
-        while counter < osd_count:
-            key = "osd.{}".format(counter)
-            version_info = cluster.daemon_dump('osd').get(key)
-            if version_info and version_info.find("v2:") == -1:
-                v1_osds.append(counter+1)
-
-            counter = counter + 1
-
-        if v1_osds:
+        if v1_only_osds:
             msg = ("{} osd(s) do not bind to a v2 address".
-                   format(len(v1_osds)))
+                   format(v1_only_osds))
             issue_utils.add_issue(issue_types.CephOSDWarning(msg))
 
     def check_ceph_bluefs_size(self):
@@ -400,7 +362,6 @@ class CephClusterChecks(CephChecksBase):
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
-        self.check_osdmaps_size()
         self.check_laggy_pgs()
         self.check_large_omap_objects()
 
