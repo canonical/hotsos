@@ -54,10 +54,10 @@ class YPackageChecker(AutoChecksBase):
             pkg_name = bug_check.parent.name
             p = PackageReleaseCheckObj(pkg_name, bug_check.context)
             bug = bug_check.name
-            message = str(bug_check.message)
+            message = str(bug_check.raises.message)
             for rel, info in dict(bug_check.settings).items():
                 p.add_bug_check(bug, rel,
-                                info['min-broken'],
+                                info.get('min-broken', '0'),
                                 info['min-fixed'], message)
 
             self._checks.append(p)
@@ -69,9 +69,10 @@ class YPackageChecker(AutoChecksBase):
             # if installed do check
             if pkg not in apt_info:
                 log.debug("pkg %s not installed - skipping check", pkg)
-                return
+                continue
 
             pkgver = apt_info[pkg]
+            log.debug("checking package %s", pkg)
             for release, bugs in check.bugs.items():
                 if release != check.context.release:
                     log.debug("releases do not match %s:%s", release,

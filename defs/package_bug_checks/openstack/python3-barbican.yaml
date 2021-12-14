@@ -1,0 +1,13 @@
+1946787:
+  raises:
+    message: >-
+      installed package '{package_name}' with version {version_current} has a
+      known bug that prevents cinder from creating encrypted volumes. To fix
+      this you need to upgrade to a version >= {version_fixed}.
+  settings:
+    wallaby:
+      min-fixed: 2:12.0.0-0ubuntu2~cloud0
+    victoria:
+      min-fixed: 1:11.0.0-0ubuntu1~cloud1
+    ussuri:
+      min-fixed: 1:10.1.0-0ubuntu2~cloud0
