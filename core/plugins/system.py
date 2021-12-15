@@ -17,37 +17,54 @@ class SYSCtlHelper(object):
         return self._config.get(key)
 
     @property
-    def all(self):
-        return self._config
+    def setters(self):
+        if not self._config:
+            return {}
+
+        return self._config['set']
+
+    @property
+    def unsetters(self):
+        if not self._config:
+            return {}
+
+        return self._config['unset']
 
     def _read_conf(self):
         if not os.path.isfile(self.path):
             return
 
+        setters = {}
+        unsetters = {}
         with open(self.path) as fd:
             for line in fd.readlines():
                 if line.startswith("#"):
                     continue
 
                 split = line.partition("=")
-                if not split[1]:
+                if split[1]:
+                    key = split[0].strip()
+                    value = split[2].strip()
+
+                    # ignore wildcarded keys'
+                    if '*' in key:
+                        continue
+
+                    setters[key] = value
+                elif line.startswith('-'):
+                    key = line.partition('-')[2].strip()
+                    unsetters[key] = None
                     continue
 
-                key = split[0].strip()
-                value = split[2].strip()
-
-                # ignore wildcarded keys'
-                if '*' in key:
-                    continue
-
-                # ignore unsetters
-                if key.startswith('-'):
-                    continue
-
-                self._config[key] = value
+        self._config['set'] = setters
+        self._config['unset'] = unsetters
 
 
 class SystemBase(plugintools.PluginPartBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._sysctl_all = None
 
     @property
     def date(self):
@@ -113,6 +130,21 @@ class SystemBase(plugintools.PluginPartBase):
                     return True
 
         return False
+
+    @property
+    def sysctl_all(self):
+        if self._sysctl_all is not None:
+            return self._sysctl_all
+
+        actuals = {}
+        for kv in CLIHelper().sysctl_all():
+            k = kv.partition("=")[0].strip()
+            v = kv.partition("=")[2].strip()
+            # normalise multi-whitespace into a single
+            actuals[k] = ' '.join(v.split())
+
+        self._sysctl_all = actuals
+        return self._sysctl_all
 
 
 class SystemChecksBase(SystemBase, plugintools.PluginPartBase):

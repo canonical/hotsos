@@ -65,6 +65,7 @@ class TestSystemChecks(SystemTestsBase):
             etc_sysctl_conf = os.path.join(orig_data_root, 'etc/sysctl.conf')
             etc_sysctl_d = os.path.join(orig_data_root, 'etc/sysctl.d')
             shutil.copy(etc_sysctl_conf, os.path.join(dtmp, 'etc'))
+            etc_sysctl_conf = os.path.join(dtmp, 'etc/sysctl.conf')
             shutil.copytree(etc_sysctl_d, os.path.join(dtmp, 'etc/sysctl.d'))
             shutil.copytree(os.path.join(orig_data_root, 'usr/lib/sysctl.d'),
                             os.path.join(dtmp, 'usr/lib/sysctl.d'))
@@ -73,15 +74,31 @@ class TestSystemChecks(SystemTestsBase):
                                          'sos_commands/kernel'),
                             os.path.join(dtmp, 'sos_commands/kernel'))
 
-            # inject an unset value
+            with open(etc_sysctl_conf, 'a') as fd:
+                fd.write('-net.core.rmem_default\n')
+
+            # create a config with an unsetter
             with open(os.path.join(dtmp, 'etc/sysctl.d/99-unit-test.conf'),
                       'w') as fd:
-                fd.write("kernel.pid_max = 12345678")
+                fd.write("-net.ipv4.conf.all.rp_filter\n")
+
+            # create a config that has not been applied
+            with open(os.path.join(dtmp, 'etc/sysctl.d/98-unit-test.conf'),
+                      'w') as fd:
+                fd.write("kernel.pid_max = 12345678\n")
+                fd.write("net.ipv4.conf.all.rp_filter = 200\n")
 
             # inject an unset value into an invalid file
-            with open(os.path.join(dtmp, 'etc/sysctl.d/98-unit-test.conf.bak'),
+            with open(os.path.join(dtmp, 'etc/sysctl.d/97-unit-test.conf.bak'),
                       'w') as fd:
-                fd.write("kernel.watchdog = 0")
+                fd.write("kernel.watchdog = 0\n")
+
+            # create a config with an unsetter that wont be applied since it
+            # has a lesser priority.
+            with open(os.path.join(dtmp, 'etc/sysctl.d/96-unit-test.conf'),
+                      'w') as fd:
+                fd.write("-kernel.pid_max\n")
+                fd.write("net.core.rmem_default = 1000000000\n")
 
             inst = checks.SystemChecks()
             inst()
