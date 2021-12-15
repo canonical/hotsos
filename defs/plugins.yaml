@@ -12,6 +12,8 @@ plugins:
         - JujuMachineChecks
       units:
         - JujuUnitChecks
+      service_info:
+        - JujuServiceInfo
   openstack:
     parts:
       service_info:

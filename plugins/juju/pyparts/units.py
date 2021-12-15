@@ -1,6 +1,6 @@
 from core.plugins.juju import JujuChecksBase
 
-YAML_PRIORITY = 2
+YAML_PRIORITY = 3
 
 
 class JujuUnitChecks(JujuChecksBase):

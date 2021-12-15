@@ -11,6 +11,7 @@ from plugins.juju.pyparts import (
     machines,
     charms,
     units,
+    service_info,
 )
 
 FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-11-exec-start.sh
@@ -22,6 +23,20 @@ class JujuTestsBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
         os.environ['PLUGIN_NAME'] = 'juju'
+
+
+class TestJujuServiceInfo(JujuTestsBase):
+
+    def test_service_info(self):
+        expected = {'services': {
+                        'ps': ['jujud (6)'],
+                        'systemd': {
+                            'enabled': ['jujud-machine-1']}
+                        }
+                    }
+        inst = service_info.JujuServiceInfo()
+        inst()
+        self.assertEquals(inst.output, expected)
 
 
 class TestJujuMachines(JujuTestsBase):

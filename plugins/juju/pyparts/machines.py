@@ -7,7 +7,7 @@ from core.issues import (
 )
 from core.plugins.juju import JujuChecksBase
 
-YAML_PRIORITY = 0
+YAML_PRIORITY = 1
 
 
 class JujuMachineChecks(JujuChecksBase):

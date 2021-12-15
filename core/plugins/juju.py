@@ -10,10 +10,17 @@ from core import (
     utils,
 )
 from core.cli_helpers import CLIHelper
+from core import checks
 
 JUJU_LOG_PATH = os.path.join(constants.DATA_ROOT, "var/log/juju")
 JUJU_LIB_PATH = os.path.join(constants.DATA_ROOT, "var/lib/juju")
 CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
+SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
+JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
+                  r'jujud{}'.format(SVC_VALID_SUFFIX),
+                  # catch juju-db but filter out processes with juju-db in
+                  # their args list.
+                  r'(?:^|[^\s])juju-db{}'.format(SVC_VALID_SUFFIX)]
 
 
 class JujuMachine(object):
@@ -160,3 +167,9 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
     def plugin_runnable(self):
         # TODO: define whether this plugin should run or not.
         return True
+
+
+class JujuServiceChecksBase(JujuChecksBase, checks.ServiceChecksBase):
+
+    def __init__(self):
+        super().__init__(service_exprs=JUJU_SVC_EXPRS, hint_range=(0, 3))
