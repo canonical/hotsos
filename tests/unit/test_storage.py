@@ -338,8 +338,9 @@ class TestStorageCephClusterChecks(StorageTestsBase):
         Verifies that the check_crushmap_equal_buckets() function
         correctly raises an issue against a known bad CRUSH map.
         '''
-        test_data_path = ("sos_commands/ceph/json_output/"
-                          "ceph_osd_dump_--format_json-pretty_unbalanced")
+        test_data_path = ('sos_commands/ceph/json_output/'
+                          'ceph_osd_crush_dump_--format_'
+                          'json-pretty.unbalanced')
         osd_crush_dump_path = os.path.join(os.environ["DATA_ROOT"],
                                            test_data_path)
         osd_crush_dump = json.load(open(osd_crush_dump_path))
