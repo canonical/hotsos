@@ -67,6 +67,17 @@ section 3
 3_1
 """
 
+MULTI_SEQ_TEST = """
+sectionB 1
+1_1
+sectionA 1
+1_1
+sectionB 2
+2_2
+sectionA 2
+2_1
+"""
+
 
 class TestSearchTools(utils.BaseTestCase):
 
@@ -442,6 +453,36 @@ class TestSearchTools(utils.BaseTestCase):
                     elif r.tag == sd.body_tag:
                         self.assertTrue(r.get(0) in ["2_1"])
 
+            os.remove(ftmp.name)
+
+    def test_sequence_searcher_multi_sequence(self):
+        """
+        Test scenario:
+         * search containing multiple seqeunce definitions
+         * data containing 2 results of each where one is incomplete
+         * test that single incomplete result gets removed 
+        """
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
+            ftmp.write(MULTI_SEQ_TEST)
+            ftmp.close()
+            s = FileSearcher()
+            sdA = SequenceSearchDef(start=SearchDef(r"^sectionA (\d+)"),
+                                    body=SearchDef(r"\d_\d"),
+                                    end=SearchDef(
+                                                r"^section\S+ (\d+)"),
+                                    tag="seqA-search-test")
+            sdB = SequenceSearchDef(start=SearchDef(r"^sectionB (\d+)"),
+                                    body=SearchDef(r"\d_\d"),
+                                    end=SearchDef(
+                                                r"^section\S+ (\d+)"),
+                                    tag="seqB-search-test")
+            s.add_search_term(sdA, path=ftmp.name)
+            s.add_search_term(sdB, path=ftmp.name)
+            results = s.search()
+            sections = results.find_sequence_sections(sdA)
+            self.assertEqual(len(sections), 1)
+            sections = results.find_sequence_sections(sdB)
+            self.assertEqual(len(sections), 2)
             os.remove(ftmp.name)
 
     def test_search_filter(self):

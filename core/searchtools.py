@@ -443,10 +443,10 @@ class FileSearcher(object):
 
         if sequence_results:
             # If a sequence ending definition is provided and we reached EOF
-            # while a sequence is started, complete the sequence is s_end
-            # matches an empty string. If none is defined we just go ahead and
-            # complete the section.
-            filter_section_idx = []
+            # while a sequence is started, complete the sequence if s_end
+            # matches an empty string. If s_end is not defined we just go ahead
+            # and complete the section.
+            filter_section_idx = {}
             for s_term in self.paths[term_key]:
                 if type(s_term) == SequenceSearchDef:
                     if s_term.started:
@@ -462,15 +462,22 @@ class FileSearcher(object):
                                                  section_idx=section_idx,
                                                  sequence_obj_id=s_term.id)
                             else:
-                                filter_section_idx.append(s_term.section_idx)
+                                if s_term.id not in filter_section_idx:
+                                    filter_section_idx[s_term.id] = []
+
+                                filter_section_idx[s_term.id].append(
+                                    s_term.section_idx)
 
             # Now add sequece results to main results list, excluding any
             # incomplete sections.
             for s_results in sequence_results.values():
                 for r in s_results:
                     if filter_section_idx:
-                        if r.section_idx in filter_section_idx:
-                            continue
+                        seq_id = r.sequence_obj_id
+                        if (seq_id is not None and
+                                seq_id in filter_section_idx):
+                            if r.section_idx in filter_section_idx[seq_id]:
+                                continue
 
                     results.append(r)
 
