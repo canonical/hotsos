@@ -6,3 +6,11 @@
   hint: 'NotImplementedError'
   raises:
     message: 'known nova bug identified'
+1944619:
+  input:
+    type: filesystem
+    value: 'var/log/nova/nova-compute.log'
+  expr: '.+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
+  hint: 'libvirtError'
+  raises:
+    message: 'known nova bug identified'
