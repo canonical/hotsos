@@ -460,7 +460,7 @@ class TestSearchTools(utils.BaseTestCase):
         Test scenario:
          * search containing multiple seqeunce definitions
          * data containing 2 results of each where one is incomplete
-         * test that single incomplete result gets removed 
+         * test that single incomplete result gets removed
         """
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
             ftmp.write(MULTI_SEQ_TEST)
