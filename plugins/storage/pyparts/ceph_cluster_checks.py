@@ -76,6 +76,9 @@ class CephClusterChecks(CephChecksBase):
 
     def check_require_osd_release(self):
         osd_dump = self.cli.ceph_osd_dump_json_decoded()
+        if not osd_dump:
+            return
+
         expected_rname = osd_dump.get('require_osd_release')
         if not expected_rname:
             return
@@ -97,11 +100,11 @@ class CephClusterChecks(CephChecksBase):
             """ v2 only available for >= Nautilus. """
             return
 
-        v1_only_osds = 0
         osd_dump = self.cli.ceph_osd_dump_json_decoded()
         if not osd_dump:
             return
 
+        v1_only_osds = 0
         for osd in osd_dump['osds']:
             for key, val in osd.items():
                 if key.endswith('_addrs'):
@@ -118,11 +121,11 @@ class CephClusterChecks(CephChecksBase):
         """
         Check if the BlueFS metadata size is too large
         """
-        bad_meta_osds = []
         ceph_osd_df_tree = self.cli.ceph_osd_df_tree_json_decoded()
         if not ceph_osd_df_tree:
             return
 
+        bad_meta_osds = []
         for device in ceph_osd_df_tree['nodes']:
             if device['id'] >= 0:
                 meta_kb = device['kb_used_meta']
@@ -151,12 +154,12 @@ class CephClusterChecks(CephChecksBase):
         We also check for OSDs with excessive numbers of PGs that can cause
         them to fail.
         """
-        suboptimal_pgs = {}
-        error_pgs = {}
         ceph_osd_df_tree = self.cli.ceph_osd_df_tree_json_decoded()
         if not ceph_osd_df_tree:
             return
 
+        suboptimal_pgs = {}
+        error_pgs = {}
         for device in ceph_osd_df_tree['nodes']:
             if device['id'] >= 0:
                 osd_id = device['name']
