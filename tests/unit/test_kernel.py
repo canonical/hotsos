@@ -27,6 +27,7 @@ class TestKernelKernelInfo(TestKernelBase):
         inst = info.KernelGeneralChecks()
         inst()
         expected = {'boot': 'ro',
+                    'cpu': {'cpufreq-scaling-governor': 'unknown'},
                     'systemd': {'CPUAffinity': '0-7,32-39'},
                     'version': '5.4.0-80-generic'}
         self.assertTrue(inst.plugin_runnable)

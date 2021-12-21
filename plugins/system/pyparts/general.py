@@ -14,7 +14,7 @@ class SystemGeneral(SystemChecksBase):
             self._output["os"] = self.os_release_name
 
         if self.num_cpus:
-            self._output["num-cpus"] = int(self.num_cpus)
+            self._output["num-cpus"] = self.num_cpus
 
         if self.loadavg:
             self._output["load"] = self.loadavg

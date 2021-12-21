@@ -1,0 +1,27 @@
+checks:
+  cpufreq-not-performance-mode:
+    requires:
+      property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+      value: performance
+      op: ne
+  nova-compute-installed:
+    requires:
+      apt: nova-compute
+conclusions:
+  compute-not-performance:
+    decision:
+      and:
+        - cpufreq-not-performance-mode
+        - nova-compute-installed
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        This node is used as an Openstack hypervisor but is not using cpufreq
+        scaling_governor in "performance" mode (actual={governor}). This is not
+        recommended and can result in performance degradation. To fix this you
+        can install cpufrequtils and set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils.
+        NOTE: requires node reboot to take effect.
+      format-dict:
+        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+

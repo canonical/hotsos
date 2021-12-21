@@ -898,6 +898,8 @@ class TestOpenstackBugChecks(TestOpenstackBase):
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):
 
+    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+                'performance')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
@@ -909,15 +911,17 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            issues.append(type(issue))
 
         mock_base.return_value = mock.MagicMock()
         mock_base.return_value.installed = True
         mock_base.return_value.hm_port_has_address = False
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(len(issues), 1)
-        self.assertEqual(type(issues[0]), issue_types.OpenstackError)
+        self.assertEqual(len(issues), 2)
+        for itype in [issue_types.OpenstackError,
+                      issue_types.OpenstackWarning]:
+            self.assertTrue(itype in issues)
 
 
 class TestOpenstackPackageChecks(TestOpenstackBase):

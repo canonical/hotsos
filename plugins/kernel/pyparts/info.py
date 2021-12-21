@@ -21,6 +21,9 @@ class KernelGeneralChecks(KernelChecksBase):
         if cpu.isolated is not None and cpu.isolated != '':
             info['isolated'] = cpu.isolated
 
+        cpu_gov_all = cpu.cpufreq_scaling_governor_all
+        info['cpufreq-scaling-governor'] = cpu_gov_all
+
         return info
 
     def __call__(self):

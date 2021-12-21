@@ -8,6 +8,7 @@ from core import (
     plugintools,
 )
 from core.cli_helpers import CLIHelper
+from core.plugins.system import SystemBase
 
 BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
 SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
@@ -48,6 +49,22 @@ class CPU(SYSFSBase):
             return True
 
         return False
+
+    def cpufreq_scaling_governor(self, cpu_id):
+        return self.get('devices/system/cpu/cpu{}/cpufreq/scaling_governor'.
+                        format(cpu_id))
+
+    @property
+    def cpufreq_scaling_governor_all(self):
+        governors = set()
+        for id in range(SystemBase().num_cpus):
+            cpu_governor = self.cpufreq_scaling_governor(id)
+            if cpu_governor:
+                governors.add(cpu_governor)
+            else:
+                governors.add('unknown')
+
+        return ','.join(list(governors))
 
 
 class KernelConfig(checks.ConfigBase):
