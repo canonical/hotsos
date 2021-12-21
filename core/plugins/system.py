@@ -99,12 +99,15 @@ class SystemBase(plugintools.PluginPartBase):
 
     @property
     def num_cpus(self):
+        """ Return number of cpus or 0 if none found. """
         lscpu_output = CLIHelper().lscpu()
         if lscpu_output:
             for line in lscpu_output:
                 ret = re.compile(r"^CPU\(s\):\s+([0-9]+)\s*.*").match(line)
                 if ret:
                     return int(ret[1])
+
+        return 0
 
     @property
     def loadavg(self):
