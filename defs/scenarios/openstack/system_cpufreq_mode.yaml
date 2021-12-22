@@ -1,5 +1,10 @@
 checks:
-  cpufreq-not-performance-mode:
+  cpufreq-governor-available:
+    requires:
+      property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+      value: unknown
+      op: ne
+  cpufreq-governor-not-performance:
     requires:
       property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
       value: performance
@@ -11,7 +16,8 @@ conclusions:
   compute-not-performance:
     decision:
       and:
-        - cpufreq-not-performance-mode
+        - cpufreq-governor-available
+        - cpufreq-governor-not-performance
         - nova-compute-installed
     raises:
       type: core.issues.issue_types.OpenstackWarning

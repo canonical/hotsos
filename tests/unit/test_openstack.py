@@ -898,13 +898,13 @@ class TestOpenstackBugChecks(TestOpenstackBase):
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):
 
-    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
-                'performance')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
+    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+                'powersave')
     @mock.patch('core.plugins.openstack.OctaviaBase')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenarios_octavia(self, mock_add_issue, mock_base):
