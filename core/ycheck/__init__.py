@@ -4,7 +4,7 @@ import importlib
 import operator
 import yaml
 
-from core.checks import APTPackageChecksBase
+from core.checks import APTPackageChecksBase, SnapPackageChecksBase
 from core import constants
 from core.cli_helpers import CLIHelper
 from core.log import log
@@ -320,6 +320,10 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         return self.content.get('apt', None)
 
     @property
+    def snap(self):
+        return self.content.get('snap', None)
+
+    @property
     def _property(self):
         return self.content.get('property', None)
 
@@ -336,7 +340,7 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """ Operator used for value comparison. Default is eq. """
         return getattr(operator, self.content.get('op', 'eq'))
 
-    def _passes(self, apt, property, value):
+    def _passes(self, apt, snap, property, value):
         """ Assert whether the requirement is met.
 
         Returns True if met otherwise False.
@@ -345,6 +349,10 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
             pkg = apt
             result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
             log.debug('requirement check: apt %s (result=%s)', pkg, result)
+            return result
+        elif snap:
+            pkg = snap
+            result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
             return result
         elif property:
             result = self.op(self.get_property(property), value)
@@ -363,8 +371,9 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
 
     def _is_valid_requirement(self, entry):
         apt = entry.get('apt')
+        snap = entry.get('snap')
         property = entry.get('property')
-        if not any([apt, property]):
+        if not any([snap, apt, property]):
             return False
 
         return True
@@ -379,7 +388,8 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         if not self._has_groups():
             log.debug("single requirement provided")
             if self._is_valid_requirement(self.content):
-                return self._passes(self.apt, self._property, self.value)
+                return self._passes(self.apt, self.snap, self._property,
+                                    self.value)
             else:
                 log.debug("invalid requirement: %s - fail", self.content)
                 return False
@@ -398,6 +408,7 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
                         _result = False
                     else:
                         _result = self._passes(entry.get('apt'),
+                                               entry.get('snap'),
                                                entry.get('property'),
                                                entry.get('value', True))
 

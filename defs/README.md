@@ -194,7 +194,8 @@ raises.format_groups
 #### requires
 Defines a set of requirements with a pass/fail result. Typically used a way to
 determine whether or not to run a check. Currently supports a Python property
-or name of an apt package that must be installed for *passes* to return True.
+or name of an apt or snap package that must be installed for *passes* to return
+True.
 
 Can be defined as single requirement or sets of requirements grouped by a
 boolean operator used to determine the result of the group. If multiple groups
@@ -205,14 +206,14 @@ are used, their results are ANDed together to get the final result for
 ##### format
 ```
 requires:
-  property|apt: <input>
+  property|apt|snap: <input>
   value: <value>  (optional)
   op: <operator> (any python operator supported. default is eq.)
 
   or
 
   or|and:
-    - property|apt: <input>
+    - property|apt|snap: <input>
       value: <value>  (optional)
       op: <operator>
     - ...

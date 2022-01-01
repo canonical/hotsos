@@ -7,6 +7,7 @@ import mock
 import utils
 
 from core import checks
+from core.cli_helpers import CLIHelper
 from core import ycheck
 from core.ycheck import (
     YDefsSection,
@@ -113,7 +114,7 @@ SCENARIO_CHECKS = r"""
 myplugin:
   myscenario:
     checks:
-      mycheck:
+      logmatch:
         input:
           type: filesystem
           value: foo.log
@@ -121,13 +122,25 @@ myplugin:
         meta:
           min: 3
           period: 24
+      snapexists:
+        requires:
+          snap: core18
     conclusions:
       foo:
         priority: 1
-        decision: mycheck
+        decision: logmatch
         raises:
           type: core.issues.issue_types.SystemWarning
-          message: a foo happened
+          message: log matched
+      bar:
+        priority: 2
+        decision:
+            and:
+                - logmatched
+                - snapexists
+        raises:
+          type: core.issues.issue_types.SystemWarning
+          message: log matched and snap exists
 """  # noqa
 
 
@@ -345,7 +358,7 @@ class TestChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
-    def test_yaml_def_scenario_check_fail(self):
+    def test_yaml_def_scenario_checks_false(self):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
@@ -359,11 +372,12 @@ class TestChecks(utils.BaseTestCase):
             checker.load()
             self.assertEqual(len(checker.scenarios), 1)
             for scenario in checker.scenarios:
-                self.assertEqual(len(scenario.checks), 1)
+                self.assertEqual(len(scenario.checks), 2)
                 for check in scenario.checks.values():
                     self.assertFalse(check.result)
 
-    def test_yaml_def_scenario_check_pass(self):
+    def test_yaml_def_scenario_checks_true(self):
+        orig_snaps = CLIHelper().snap_list_all()
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
@@ -378,13 +392,16 @@ class TestChecks(utils.BaseTestCase):
                         '2021-04-02 00:00:00.000 an event\n',
                         ]
             self._create_search_results(logfile, contents)
-            checker = scenarios.YScenarioChecker()
-            checker.load()
-            self.assertEqual(len(checker.scenarios), 1)
-            for scenario in checker.scenarios:
-                self.assertEqual(len(scenario.checks), 1)
-                for check in scenario.checks.values():
-                    self.assertTrue(check.result)
+            with mock.patch('core.checks.CLIHelper') as helper:
+                helper.return_value = mock.MagicMock()
+                helper.return_value.snap_list_all.return_value = orig_snaps
+                checker = scenarios.YScenarioChecker()
+                checker.load()
+                self.assertEqual(len(checker.scenarios), 1)
+                for scenario in checker.scenarios:
+                    self.assertEqual(len(scenario.checks), 2)
+                    for check in scenario.checks.values():
+                        self.assertTrue(check.result)
 
     def _create_search_results(self, path, contents):
         with open(path, 'w') as fd:
