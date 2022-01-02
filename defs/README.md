@@ -193,9 +193,7 @@ raises.format_groups
 
 #### requires
 Defines a set of requirements with a pass/fail result. Typically used a way to
-determine whether or not to run a check. Currently supports a Python property
-or name of an apt or snap package that must be installed for *passes* to return
-True.
+determine whether or not to run a check.
 
 Can be defined as single requirement or sets of requirements grouped by a
 boolean operator used to determine the result of the group. If multiple groups
@@ -206,17 +204,48 @@ are used, their results are ANDed together to get the final result for
 ##### format
 ```
 requires:
-  property|apt|snap: <input>
+  TYPE: INPUT
   value: <value>  (optional)
   op: <operator> (any python operator supported. default is eq.)
 
   or
 
-  or|and:
-    - property|apt|snap: <input>
+  LOGICAL_OPERATOR:
+    - TYPE: INPUT
       value: <value>  (optional)
       op: <operator>
     - ...
+
+LOGICAL_OPERATOR
+  and
+    AND is applied to group.
+
+  or
+    AND is applied to group.
+
+  not
+    NOT(OR) is applied to group.
+
+  AND is then applied to results of all groups.
+
+TYPE
+  property
+    INPUT is a Python import path for a property that will be called
+    and optionally matched against a provided value: otherwise True. 
+
+  apt
+    INPUT is an apt package name. Returns True if package exists
+    otherwise False.
+
+  snap
+    INPUT is a snap package name. Returns True if package exists
+    otherwise False.
+
+  systemd
+    INPUT is a systemd service name. Returns True if service exists
+    and a service status can be optionally checked using value: in
+    which case a match is required to get True.
+
 ```
 
 ##### usage

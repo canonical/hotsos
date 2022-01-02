@@ -7,7 +7,6 @@ import mock
 import utils
 
 from core import checks
-from core.cli_helpers import CLIHelper
 from core import ycheck
 from core.ycheck import (
     YDefsSection,
@@ -28,6 +27,27 @@ pluginX:
     sectionA:
       artifactX:
         settings: True
+"""
+
+YAML_DEF_REQUIRES_GROUPED = """
+passdef:
+  requires:
+    and:
+      - apt: systemd
+    or:
+      - apt: nova-compute
+    not:
+      - apt: blah
+faildef:
+  requires:
+    and:
+      - apt: doo
+      - apt: daa
+    or:
+      - apt: nova-compute
+    not:
+      - apt: blah
+      - apt: nova-compute
 """
 
 YAML_DEF_W_INPUT_SUPERSEDED = """
@@ -122,17 +142,30 @@ myplugin:
         meta:
           min: 3
           period: 24
+      aptexists:
+        requires:
+          apt: nova-compute
       snapexists:
         requires:
           snap: core18
+      serviceexists:
+        requires:
+          systemd: nova-compute
+          value: enabled
+          op: eq
+      servicenotstatus:
+        requires:
+          systemd: nova-compute
+          value: enabled
+          op: ne
     conclusions:
-      foo:
+      justlog:
         priority: 1
         decision: logmatch
         raises:
           type: core.issues.issue_types.SystemWarning
           message: log matched
-      bar:
+      logandsnap:
         priority: 2
         decision:
             and:
@@ -141,6 +174,16 @@ myplugin:
         raises:
           type: core.issues.issue_types.SystemWarning
           message: log matched and snap exists
+      logandsnapandservice:
+        priority: 3
+        decision:
+            and:
+                - logmatched
+                - snapexists
+                - serviceexists
+        raises:
+          type: core.issues.issue_types.SystemWarning
+          message: log matched, snap and service exists
 """  # noqa
 
 
@@ -235,6 +278,20 @@ class TestChecks(utils.BaseTestCase):
                 self.assertEqual(entry.input.path,
                                  os.path.join(checks.constants.DATA_ROOT,
                                               'foo/bar1*'))
+
+    def test_yaml_def_requires_grouped(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_GROUPED))
+        tested = 0
+        for entry in mydef.leaf_sections:
+            if entry.name == 'passdef':
+                tested += 1
+                self.assertTrue(entry.requires.passes)
+            elif entry.name == 'faildef':
+                tested += 1
+                self.assertFalse(entry.requires.passes)
+
+        self.assertEqual(tested, 2)
 
     def test_yaml_def_section_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
@@ -372,12 +429,37 @@ class TestChecks(utils.BaseTestCase):
             checker.load()
             self.assertEqual(len(checker.scenarios), 1)
             for scenario in checker.scenarios:
-                self.assertEqual(len(scenario.checks), 2)
                 for check in scenario.checks.values():
                     self.assertFalse(check.result)
 
-    def test_yaml_def_scenario_checks_true(self):
-        orig_snaps = CLIHelper().snap_list_all()
+    def test_yaml_def_scenario_checks_requires(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['PLUGIN_YAML_DEFS'] = dtmp
+            os.environ['PLUGIN_NAME'] = 'myplugin'
+            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
+                                                               SCENARIO_CHECKS)
+            checker = scenarios.YScenarioChecker()
+            checker.load()
+            self.assertEqual(len(checker.scenarios), 1)
+            checked = 0
+            for scenario in checker.scenarios:
+                for check in scenario.checks.values():
+                    if check.name == 'aptexists':
+                        checked += 1
+                        self.assertTrue(check.result)
+                    elif check.name == 'snapexists':
+                        checked += 1
+                        self.assertTrue(check.result)
+                    elif check.name == 'serviceexists':
+                        checked += 1
+                        self.assertTrue(check.result)
+                    elif check.name == 'servicenotstatus':
+                        checked += 1
+                        self.assertFalse(check.result)
+
+            self.assertEquals(checked, 4)
+
+    def test_yaml_def_scenario_checks_expr(self):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
@@ -392,15 +474,12 @@ class TestChecks(utils.BaseTestCase):
                         '2021-04-02 00:00:00.000 an event\n',
                         ]
             self._create_search_results(logfile, contents)
-            with mock.patch('core.checks.CLIHelper') as helper:
-                helper.return_value = mock.MagicMock()
-                helper.return_value.snap_list_all.return_value = orig_snaps
-                checker = scenarios.YScenarioChecker()
-                checker.load()
-                self.assertEqual(len(checker.scenarios), 1)
-                for scenario in checker.scenarios:
-                    self.assertEqual(len(scenario.checks), 2)
-                    for check in scenario.checks.values():
+            checker = scenarios.YScenarioChecker()
+            checker.load()
+            self.assertEqual(len(checker.scenarios), 1)
+            for scenario in checker.scenarios:
+                for check in scenario.checks.values():
+                    if check.name == 'logmatch':
                         self.assertTrue(check.result)
 
     def _create_search_results(self, path, contents):

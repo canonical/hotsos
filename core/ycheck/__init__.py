@@ -4,7 +4,11 @@ import importlib
 import operator
 import yaml
 
-from core.checks import APTPackageChecksBase, SnapPackageChecksBase
+from core.checks import (
+    APTPackageChecksBase,
+    ServiceChecksBase,
+    SnapPackageChecksBase,
+)
 from core import constants
 from core.cli_helpers import CLIHelper
 from core.log import log
@@ -324,6 +328,10 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         return self.content.get('snap', None)
 
     @property
+    def systemd(self):
+        return self.content.get('systemd', None)
+
+    @property
     def _property(self):
         return self.content.get('property', None)
 
@@ -340,7 +348,7 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """ Operator used for value comparison. Default is eq. """
         return getattr(operator, self.content.get('op', 'eq'))
 
-    def _passes(self, apt, snap, property, value):
+    def _passes(self, apt, snap, systemd, property, value):
         """ Assert whether the requirement is met.
 
         Returns True if met otherwise False.
@@ -353,6 +361,17 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         elif snap:
             pkg = snap
             result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
+            log.debug('requirement check: snap %s (result=%s)', pkg, result)
+            return result
+        elif systemd:
+            service = systemd
+            svcs = ServiceChecksBase([service]).services
+            result = service in svcs
+            if result and value is not None:
+                result = self.op(svcs[service], value)
+
+            log.debug('requirement check: systemd %s (result=%s)', service,
+                      result)
             return result
         elif property:
             result = self.op(self.get_property(property), value)
@@ -372,8 +391,9 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
     def _is_valid_requirement(self, entry):
         apt = entry.get('apt')
         snap = entry.get('snap')
+        systemd = entry.get('systemd')
         property = entry.get('property')
-        if not any([snap, apt, property]):
+        if not any([systemd, snap, apt, property]):
             return False
 
         return True
@@ -388,8 +408,8 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         if not self._has_groups():
             log.debug("single requirement provided")
             if self._is_valid_requirement(self.content):
-                return self._passes(self.apt, self.snap, self._property,
-                                    self.value)
+                return self._passes(self.apt, self.snap, self.systemd,
+                                    self._property, self.value)
             else:
                 log.debug("invalid requirement: %s - fail", self.content)
                 return False
@@ -409,22 +429,25 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
                     else:
                         _result = self._passes(entry.get('apt'),
                                                entry.get('snap'),
+                                               entry.get('systemd'),
                                                entry.get('property'),
                                                entry.get('value', True))
 
                     results[op].append(_result)
-                if op == 'or' and any(results[op]):
-                    return True
-                elif op == 'and' and not all(results[op]):
-                    return False
 
-            # Now AND all groups for the final result
+            # Now apply op to respective groups then AND all for the final
+            # result.
             final_results = []
             for op in results:
                 if op == 'and':
                     final_results.append(all(results[op]))
-                else:
+                elif op == 'or':
                     final_results.append(any(results[op]))
+                elif op == 'not':
+                    # this is a NOR
+                    final_results.append(not any(results[op]))
+                else:
+                    log.debug("unknown operator '%s' found in requirement", op)
 
             return all(final_results)
 
