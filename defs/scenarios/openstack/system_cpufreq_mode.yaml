@@ -12,8 +12,13 @@ checks:
   nova-compute-installed:
     requires:
       apt: nova-compute
+  ondemand-installed-and-enabled:
+    requires:
+      systemd: ondemand
+      value: enabled
 conclusions:
-  compute-not-performance:
+  cpufreq-not-performance:
+    priority: 1
     decision:
       and:
         - cpufreq-governor-available
@@ -27,6 +32,26 @@ conclusions:
         recommended and can result in performance degradation. To fix this you
         can install cpufrequtils and set "GOVERNOR=performance" in
         /etc/default/cpufrequtils.
+        NOTE: requires node reboot to take effect.
+      format-dict:
+        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+  cpufreq-not-performance-with-ondemand:
+    priority: 2
+    decision:
+      and:
+        - cpufreq-governor-available
+        - cpufreq-governor-not-performance
+        - nova-compute-installed
+        - ondemand-installed-and-enabled
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        This node is used as an Openstack hypervisor but is not using cpufreq
+        scaling_governor in "performance" mode (actual={governor}). This is not
+        recommended and can result in performance degradation. To fix this you
+        can install cpufrequtils and set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils. You will also need to disable the ondemand
+        systemd service in order for changes to persist.
         NOTE: requires node reboot to take effect.
       format-dict:
         governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
