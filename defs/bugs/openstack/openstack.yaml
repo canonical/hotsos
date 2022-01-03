@@ -2,3 +2,5 @@
 # directory including subdirectories.
 requires:
   property: core.plugins.openstack.OpenstackChecksBase.plugin_runnable
+context:
+  apt-all: core.plugins.openstack.OpenstackBase.apt_packages_all

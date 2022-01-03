@@ -82,7 +82,6 @@ class YPackageChecker(AutoChecksBase):
                 for bug in bugs:
                     minbroken = bug['minbroken']
                     minfixed = bug['minfixed']
-                    log.debug(pkgver)
                     if (not pkgver < DPKGVersionCompare(minbroken) and
                             pkgver < DPKGVersionCompare(minfixed)):
                         log.debug("bug identified for package=%s release=%s "

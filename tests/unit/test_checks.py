@@ -10,6 +10,7 @@ from core import checks
 from core import ycheck
 from core.ycheck import (
     YDefsSection,
+    bugs,
     events,
     configs,
     packages,
@@ -657,3 +658,22 @@ class TestChecks(utils.BaseTestCase):
         mock_plugin.return_value.r3 = True
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
+
+    def test_bugs_handler_pkg_check(self):
+        versions = [{'min-broken': '5.0', 'min-fixed': '5.2'},
+                    {'min-broken': '4.0', 'min-fixed': '4.2'},
+                    {'min-broken': '3.0', 'min-fixed': '3.2'}]
+        self.assertTrue(bugs.YBugChecker().package_has_bugfix('2.0',
+                                                              versions))
+        self.assertFalse(bugs.YBugChecker().package_has_bugfix('3.0',
+                                                               versions))
+        self.assertFalse(bugs.YBugChecker().package_has_bugfix('4.0',
+                                                               versions))
+        self.assertFalse(bugs.YBugChecker().package_has_bugfix('5.0',
+                                                               versions))
+        self.assertTrue(bugs.YBugChecker().package_has_bugfix('5.2',
+                                                              versions))
+        self.assertTrue(bugs.YBugChecker().package_has_bugfix('5.3',
+                                                              versions))
+        self.assertTrue(bugs.YBugChecker().package_has_bugfix('6.0',
+                                                              versions))
