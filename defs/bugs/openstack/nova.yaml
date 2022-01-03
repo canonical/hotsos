@@ -6,6 +6,15 @@
   hint: 'NotImplementedError'
   raises:
     message: 'known nova bug identified'
+  settings:
+    package: 'nova-common'
+    versions-affected:
+      # train
+      - min-broken: 2:20.0.0
+        min-fixed: 2:20.6.0-0ubuntu1~cloud1
+      # ussuri
+      - min-broken: 2:21.0.0
+        min-fixed: 2:21.1.2-0ubuntu2~cloud0
 1944619:
   input:
     type: filesystem

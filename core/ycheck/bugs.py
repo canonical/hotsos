@@ -1,5 +1,6 @@
 from core import constants
 from core.log import log
+from core.checks import DPKGVersionCompare
 from core.known_bugs_utils import (
     add_known_bug,
     BugSearchDef,
@@ -51,6 +52,8 @@ class YBugChecker(AutoChecksBase):
                                hint=bug.hint.value,
                                message=message,
                                message_format_result_groups=message_format),
+                    'context': bug.context,
+                    'settings': bug.settings,
                     'datasource': datasource}
 
             log.debug("bug=%s path=%s", id, datasource)
@@ -78,18 +81,53 @@ class YBugChecker(AutoChecksBase):
             self.searchobj.add_search_term(bugsearch["def"],
                                            bugsearch["datasource"])
 
+    def package_has_bugfix(self, pkg_version, versions_affected):
+        for item in sorted(versions_affected, key=lambda i: i['min-fixed'],
+                           reverse=True):
+            min_fixed = item.get('min-fixed')
+            min_broken = item.get('min-broken')
+            lt_fixed = pkg_version < DPKGVersionCompare(min_fixed)
+            if min_broken:
+                lt_broken = pkg_version < DPKGVersionCompare(min_broken)
+            else:
+                lt_broken = None
+
+            if (min_broken and lt_broken):
+                continue
+
+            if lt_fixed:
+                return False
+            else:
+                return True
+
+        return True
+
     def run(self, results):
         if not self.bug_definitions:
             return
 
         for bugsearch in self.bug_definitions:
             bug_def = bugsearch['def']
-            tag = bug_def.tag
-            _results = results.find_by_tag(tag)
+            bug_id = bug_def.tag
+
+            settings = bugsearch['settings']
+            if settings and settings.versions_affected and settings.package:
+                pkg = settings.package
+                pkg_ver = bugsearch['context'].apt_all.get(pkg)
+                if pkg_ver:
+                    if self.package_has_bugfix(pkg_ver,
+                                               settings.versions_affected):
+                        # No need to search since the bug is fixed.
+                        log.debug('bug %s already fixed in package %s version '
+                                  '%s - skipping check', bug_id, pkg, pkg_ver)
+                        continue
+
+            _results = results.find_by_tag(bug_id)
             if _results:
+                log.debug("bug %s identified", bug_id)
                 if bug_def.message_format_result_groups:
                     # we only use the first result
                     message = bug_def.rendered_message(_results[0])
-                    add_known_bug(tag, message)
+                    add_known_bug(bug_id, message)
                 else:
-                    add_known_bug(tag, bug_def.message)
+                    add_known_bug(bug_id, bug_def.message)

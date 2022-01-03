@@ -444,10 +444,25 @@ Supported properties
   * input
   * expr
   * raises
+  * context
+  * settings - see SETTINGS
   
 Supported subdefs
   * none
 
+```
+SETTINGS
+  package
+    Optinal name of package we want to check.
+
+  versions-affected
+    List of dicts. If a package name is provided we can check its
+                   version to see if it contains the bugfix. Each
+                   element contains the following:
+      min-fixed - minimum version of the package that contains the fix.
+      min-broken - (optional) minimum version of the package that contains the
+                    bug.
+```
 
 ### Config checks
 
@@ -461,12 +476,19 @@ message is displayed in the 'known-bugs' section of a plugin output.
 Supported properties
   * requires
   * config
-  * settings
+  * settings - see SETTINGS
   * raises
   
 Supported subdefs
   * none
 
+```
+SETTINGS
+  section - Optional config file section name.
+  op - python operator to apply. Default is eq.
+  value - Expected value.
+  allow-unset - Whether the config may be unset. Default is False.
+```
 
 ### Package checks
 
