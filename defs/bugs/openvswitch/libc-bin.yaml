@@ -1,10 +1,12 @@
 1839592:
+  settings:
+    package: libc-bin
+    versions-affected:
+      # queens
+      - min-broken: 2.23-0ubuntu3
+        min-fixed: 2.27-3ubuntu1.3
   raises:
     message: >-
       installed package '{package_name}' with version {version_current} has a
       known critical bug which causes ovs deadlocks. If this environment is
-      using OVS it should be upgraded to a version >= {version_fixed} asap.
-  settings:
-    queens:
-      min-broken: 2.23-0ubuntu3
-      min-fixed: 2.27-3ubuntu1.3
+      using OVS it should be upgraded asap.

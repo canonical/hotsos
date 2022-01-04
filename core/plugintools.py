@@ -169,10 +169,10 @@ class PluginRunner(object):
     def __call__(self):
         """
         Fetch definition for current plugin and execute each of its parts. See
-        definitions file at defs/plugins.yaml for information on supported
+        definitions file at plugins.yaml for information on supported
         format.
         """
-        path = os.path.join(constants.PLUGIN_YAML_DEFS, "plugins.yaml")
+        path = os.path.join(constants.HOTSOS_ROOT, "plugins.yaml")
         with open(path) as fd:
             yaml_defs = yaml.safe_load(fd.read())
 
@@ -191,8 +191,6 @@ class PluginRunner(object):
                       {'core.ycheck.bugs': 'YBugChecker'},
                       'auto_config_check':
                       {'core.ycheck.configs': 'YConfigChecker'},
-                      'auto_package_check':
-                      {'core.ycheck.packages': 'YPackageChecker'},
                       'auto_scenario_check':
                       {'core.ycheck.scenarios': 'YScenarioChecker'}}
         for part, always_parts in ALWAYS_RUN.items():

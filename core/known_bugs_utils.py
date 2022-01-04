@@ -3,45 +3,11 @@ import yaml
 
 from core import plugintools
 from core import constants
-from core.searchtools import SearchDef
 from core.issues.issue_utils import IssueEntry
 
 LAUNCHPAD = "launchpad"
 MASTER_YAML_KNOWN_BUGS_KEY = "bugs-detected"
 KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
-
-
-class BugSearchDef(SearchDef):
-    def __init__(self, pattern, bug_id, hint, message,
-                 message_format_result_groups=None):
-        """
-        @param message: string message describing the issue and why it has been
-        flagged. This string can be a template i.e. containing {} fields that
-        can be rendered using results.
-        @param message_format_result_groups: if the message string is a
-        template, this is a list of indexes in the results that can be
-        extracted for inclusion in the message.
-        """
-        super().__init__(pattern, tag=bug_id, hint=hint)
-        self._message = message
-        if message is None:
-            self._message = ""
-
-        self.message_format_result_groups = message_format_result_groups
-
-    @property
-    def message(self):
-        return self._message
-
-    def rendered_message(self, search_result):
-        if self._message and self.message_format_result_groups:
-            values = []
-            for idx in self.message_format_result_groups:
-                values.append(search_result.get(idx))
-
-            return self._message.format(*values)
-
-        return self._message
 
 
 def _get_known_bugs():

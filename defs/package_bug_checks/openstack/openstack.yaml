@@ -1,7 +1,0 @@
-# This file is used to define overrides applicable to contents of this
-# directory including subdirectories.
-requires:
-  property: core.plugins.openstack.OpenstackChecksBase.plugin_runnable
-context:
-  release: core.plugins.openstack.OpenstackBase.release_name
-  apt-all: core.plugins.openstack.OpenstackBase.apt_packages_all

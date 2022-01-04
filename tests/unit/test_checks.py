@@ -13,7 +13,6 @@ from core.ycheck import (
     bugs,
     events,
     configs,
-    packages,
     scenarios
 )
 from core.searchtools import FileSearcher, SearchDef
@@ -244,31 +243,40 @@ class TestChecks(utils.BaseTestCase):
         self.assertEqual(obj.all_formatted, expected)
 
     @mock.patch('core.plugins.openstack.OpenstackBase')
-    @mock.patch.object(packages, 'add_known_bug')
-    def test_YPackageChecker(self, mock_add_known_bug, mock_base):
+    @mock.patch.object(bugs, 'add_known_bug')
+    def test_YBugChecker(self, mock_add_known_bug, mock_base):
+        bugs_found = []
+
+        def fake_add_known_bug(id, _msg):
+            bugs_found.append(id)
+
+        mock_add_known_bug.side_effect = fake_add_known_bug
         os.environ['PLUGIN_NAME'] = 'openstack'
         mock_ost_base = mock.MagicMock()
         mock_base.return_value = mock_ost_base
-        mock_ost_base.release_name = 'ussuri'
         mock_ost_base.apt_packages_all = {'neutron-common':
                                           '2:16.4.0-0ubuntu4~cloud0'}
-        obj = packages.YPackageChecker()
+        # reset
+        bugs_found = []
+        obj = bugs.YBugChecker()
         obj()
-        self.assertFalse(mock_add_known_bug.called)
+        self.assertFalse('1927868' in bugs_found)
 
-        mock_add_known_bug.reset_mock()
         mock_ost_base.apt_packages_all = {'neutron-common':
                                           '2:16.4.0-0ubuntu2~cloud0'}
-        obj = packages.YPackageChecker()
+        # reset
+        bugs_found = []
+        obj = bugs.YBugChecker()
         obj()
-        self.assertTrue(mock_add_known_bug.called)
+        self.assertTrue('1927868' in bugs_found)
 
-        mock_add_known_bug.reset_mock()
         mock_ost_base.apt_packages_all = {'neutron-common':
                                           '2:16.2.0-0ubuntu4~cloud0'}
-        obj = packages.YPackageChecker()
+        # reset
+        bugs_found = []
+        obj = bugs.YBugChecker()
         obj()
-        self.assertFalse(mock_add_known_bug.called)
+        self.assertFalse('1927868' in bugs_found)
 
     def test_yaml_def_group_input(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT).get('pluginX')

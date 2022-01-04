@@ -15,33 +15,8 @@ shared code should go into the core library code (see core section).
 
 ### defs
 
-In order reduce/remove the need to carry metadata such as search definitions in
-code, they are instead stored as yaml. Currently we have the following yaml
-definitions categories:
-
-* bugs - Defines search criteria used to identify bugs in files. Includes
-         information such as search expression and output message. These
-         searches do not require accompanying code and are run automatically
-         per plugin. See yaml file for full description. 
-
-* events - Defines search criteria used to identify events in files. Events
-           can be characterised as single or multi-line with the latter
-           referred to in hotsos as a "sequence". Events are defined as a
-           search expression used to identify them and are accompanied by a
-           callback method in plugin code that is used to perform some
-           operation on the information retreived.  See yaml file for full
-           description.
-
-* config_checks - Defines criteria for identifying invalid application
-                  configuration. See yaml file for full description. 
- 
-* package\_bug\_checks - Defines criteria for identifying whether installed
-                         packages contain known bugs. See yaml file for full
-                         description.
-
-* plugins - This is the high level Python plugin driver as is consumed by
-            core.plugintools.PluginRunner as a means of knowing how to execute
-            a plugin.
+This directory contains yaml-defined checks and analysis. See the
+[README](defs/README.md) for more information.
 
 ### core
 

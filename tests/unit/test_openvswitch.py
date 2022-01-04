@@ -6,7 +6,6 @@ import utils
 
 from core.plugins import openvswitch
 from core.ycheck.bugs import YBugChecker
-from core.ycheck.packages import YPackageChecker
 from plugins.openvswitch.pyparts import (
     event_checks,
     service_info,
@@ -81,19 +80,23 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
 class TestOpenvswitchBugChecks(TestOpenvswitchBase):
 
+    @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.bugs.add_known_bug')
-    def test_bug_checks(self, mock_add_known_bug):
-        bugs = []
+    @mock.patch('core.plugins.openvswitch.OpenvSwitchChecksBase.'
+                'plugin_runnable', True)
+    def test_bug_checks(self, mock_add_known_bug, mock_cli):
+        bugs_found = []
 
-        def fake_add_bug(*args, **kwargs):
-            bugs.append((args, kwargs))
+        def fake_add_known_bug(id, _msg):
+            bugs_found.append(id)
 
-        mock_add_known_bug.side_effect = fake_add_bug
+        mock_add_known_bug.side_effect = fake_add_known_bug
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  libc-bin 2.26-3ubuntu1.3 amd64"]
         YBugChecker()()
-        calls = [mock.call('1917475',
-                           'known ovn bug identified - db rbac errors')]
-        mock_add_known_bug.assert_has_calls(calls, any_order=True)
-        self.assertEqual(len(bugs), 1)
+        self.assertEqual(sorted(bugs_found),
+                         ['1839592', '1917475'])
 
 
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
@@ -130,31 +133,3 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OpenvSwitchFlowEventChecks()
         inst()
         self.assertEqual(inst.output, expected)
-
-
-class TestOpenvswitchPackageChecks(TestOpenvswitchBase):
-
-    @mock.patch('core.ycheck.packages.add_known_bug')
-    def test_pkgbugchecks_no_issue(self, mock_add_known_bug):
-        YPackageChecker()()
-        self.assertFalse(mock_add_known_bug.called)
-
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.ycheck.packages.add_known_bug')
-    @mock.patch('core.plugins.openstack.OpenstackBase.release_name', 'queens')
-    @mock.patch('core.plugins.openvswitch.OpenvSwitchChecksBase.'
-                'plugin_runnable', True)
-    def test_pkgbugchecks_w_issue(self, mock_add_known_bug, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = \
-            ["ii  libc-bin 2.26-3ubuntu1.3 amd64"]
-        YPackageChecker()()
-        self.assertTrue(mock_add_known_bug.called)
-
-    @mock.patch('core.cli_helpers.CLIHelper')
-    @mock.patch('core.ycheck.packages.add_known_bug')
-    def test_pkgbugchecks_no_packages(self, mock_add_known_bug, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = []
-        YPackageChecker()()
-        self.assertFalse(mock_add_known_bug.called)

@@ -11,13 +11,6 @@ input:
   hint: 'ProcessExecutionError'
   raises:
     message: 'known neutron l3-agent bug identified that impacts deletion of neutron routers.'
-1927868:
-  expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
-  hint: 'Gateway'
-  raises:
-    message: >-
-      known neutron l3-agent bug identified that impacts HA routers and can
-      cause router updates to stall.
 1896506:
   input:
     type: filesystem

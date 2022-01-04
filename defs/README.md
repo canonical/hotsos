@@ -8,7 +8,6 @@ associated handler:
  * events
  * bugs
  * config_checks
- * packages_bug_checks
  * scenarios
 
 See core.ycheck for details on the implementation of each.
@@ -16,9 +15,9 @@ See core.ycheck for details on the implementation of each.
 The type of definitions is characterised by the their top-level directory name
 which corresponds to the handler used to process them.
 
-These definitions provide a way to write checks and analysis while requiring
-an absolute minimum of code. In other words the majority of contributions
-should not require any code other than yaml. A tree structure is used and
+These definitions provide a way to write checks and analysis with a minimum of
+(Python) code. It also has the benefit that we don't need to maintain
+check-specific code or metadata in Python code. A tree structure is used and
 generally looks like:
 
 ```
@@ -109,7 +108,7 @@ context.<param>
 ```
 
 #### decision
-Defines a decision as a list of boolean operators each associated with a list
+Defines a decision as a list of logical operators each associated with a list
 of one or more check labels as defined in a *checks* subdef. This property is
 typically used in a *conclusions* subdef.
 
@@ -196,7 +195,7 @@ Defines a set of requirements with a pass/fail result. Typically used a way to
 determine whether or not to run a check.
 
 Can be defined as single requirement or sets of requirements grouped by a
-boolean operator used to determine the result of the group. If multiple groups
+logical operator used to determine the result of the group. If multiple groups
 are used, their results are ANDed together to get the final result for
 *passes*. 
 
@@ -206,7 +205,7 @@ are used, their results are ANDed together to get the final result for
 requires:
   TYPE: INPUT
   value: <value>  (optional)
-  op: <operator> (any python operator supported. default is eq.)
+  op: <operator> ([python operator](https://docs.python.org/3/library/operator.html). default is eq.)
 
   or
 
@@ -436,9 +435,10 @@ myeventname:
 These checks are run automatically and do not require implementing in plugin
 code.
 
-Each plugin can have an associated set of bugs to identify by searching for a
-pattern either in a file/path or command output. When a match is found, a
-message is displayed in the 'known-bugs' section of a plugin output.
+Each plugin can have an associated set of bugs to identify based on the
+contents of files, output of commands or versions of installed packages and can
+use any combination of these. If package version info is checked and the
+package is not installed, any other checks are skipped for that bug. 
 
 Supported properties
   * input
@@ -453,15 +453,15 @@ Supported subdefs
 ```
 SETTINGS
   package
-    Optinal name of package we want to check.
+    Name of package we want to check. Context must provide apt-all.
 
   versions-affected
     List of dicts. If a package name is provided we can check its
                    version to see if it contains the bugfix. Each
                    element contains the following:
       min-fixed - minimum version of the package that contains the fix.
-      min-broken - (optional) minimum version of the package that contains the
-                    bug.
+      min-broken - minimum version of the package that contains the
+                   bug.
 ```
 
 ### Config checks
@@ -485,27 +485,10 @@ Supported subdefs
 ```
 SETTINGS
   section - Optional config file section name.
-  op - python operator to apply. Default is eq.
+  op - [python operator](https://docs.python.org/3/library/operator.html) to apply. Default is eq.
   value - Expected value.
   allow-unset - Whether the config may be unset. Default is False.
 ```
-
-### Package checks
-
-These checks are run automatically and do not require implementing in plugin
-code.
-
-Each plugin can define a set of packages along with associated version ranges
-that are known to contain a specific bug. If the package is found to be
-installed and fall within the defined range, a message is displayed in the
-'known-bugs' section of a plugin output.
-
-Supported properties
-  * expr
-  * requires
-  
-Supported subdefs
-  * none
 
 ### Scenarios
 

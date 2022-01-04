@@ -42,6 +42,7 @@ export PART_NAME
 export PLUGIN_TMP_DIR
 # location if yaml defs of issues, bugs etc
 export PLUGIN_YAML_DEFS
+export HOTSOS_ROOT
 #===============================================================================
 
 PROGRESS_PID=
@@ -305,10 +306,10 @@ run_part ()
     PART_NAME=$part
 
     # Needed by python plugins
-    export PYTHONPATH="$CWD/plugins/$plugin:$CWD/plugins:$CWD"
-    export PLUGIN_YAML_DEFS="$CWD/defs"
+    export PYTHONPATH="${HOTSOS_ROOT}"
+    export PLUGIN_YAML_DEFS="${HOTSOS_ROOT}/defs"
 
-    $CWD/plugins/$plugin/$part >> $MASTER_YAML_OUT
+    ${HOTSOS_ROOT}/plugins/$plugin/$part >> $MASTER_YAML_OUT
 
     t_end=`date +%s%3N`
     delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
@@ -365,8 +366,8 @@ EOF
         PLUGIN_NAME=$plugin
         # setup plugin temp area
         PLUGIN_TMP_DIR=`mktemp -d`
-        for part in $(find "$CWD/plugins/$plugin" -maxdepth 1 -executable \
-                    -type f,l| grep -v __pycache__); do
+        for part in $(find "${HOTSOS_ROOT}/plugins/$plugin" -maxdepth 1 \
+                    -executable -type f,l| grep -v __pycache__); do
             run_part "$plugin" "$(basename "$part")"
         done
         # teardown plugin temp area
@@ -383,7 +384,7 @@ EOF
     fi
 }
 
-CWD=$(dirname `realpath $0`)
+HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     output_summary_name=""
     if [[ -r $USER_PROVIDED_SUMMARY ]] && $MINIMAL_MODE; then
@@ -398,10 +399,10 @@ for data_root in "${SOS_PATHS[@]}"; do
         # the following will overwrite the master copy so we need to make a
         # backup in case we intend to display short and full.
         cp $MASTER_YAML_OUT $MASTER_YAML_OUT_ORIG
-        $CWD/tools/output_filter.py
+        ${HOTSOS_ROOT}/tools/output_filter.py
     fi
 
-    $CWD/tools/output_format_converter.py
+    ${HOTSOS_ROOT}/tools/output_format_converter.py
 
     if $SAVE_OUTPUT; then
         if [[ -z $output_summary_name ]]; then

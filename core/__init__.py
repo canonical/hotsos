@@ -8,6 +8,10 @@ class constants_properties(type):
     """
 
     @property
+    def HOTSOS_ROOT(cls):
+        return cls._HOTSOS_ROOT()
+
+    @property
     def DEBUG_MODE(cls):
         return cls._DEBUG_MODE()
 
@@ -73,6 +77,10 @@ class constants(object, metaclass=constants_properties):
             return True
         else:
             return False
+
+    @classmethod
+    def _HOTSOS_ROOT(cls):
+        return os.environ['HOTSOS_ROOT']
 
     @classmethod
     def _DATA_ROOT(cls):
