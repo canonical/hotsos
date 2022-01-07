@@ -1,0 +1,61 @@
+checks:
+  cpufreq-governor-not-performance:
+    requires:
+      and:
+        # can we actually see the setting
+        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+          value: unknown
+          op: ne
+        # does it have the expected value
+        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+          value: performance
+          op: ne
+  kubernetes-installed:
+    requires:
+      and:
+        - snap: kubelet
+        # ignore if not running on metal
+        - property: core.plugins.system.SystemBase.virtualisation_type
+          value:
+  ondemand-installed-and-enabled:
+    requires:
+      systemd: ondemand
+      value: enabled
+conclusions:
+  cpufreq-not-performance:
+    priority: 1
+    decision:
+      and:
+        - cpufreq-governor-not-performance
+        - kubernetes-installed
+    raises:
+      type: core.issues.issue_types.KubernetesWarning
+      message: >-
+        This node is used for Kubernetes but is not using cpufreq
+        scaling_governor in "performance" mode (actual={governor}). This is not
+        recommended and can result in performance degradation. To fix this you
+        can install cpufrequtils and set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils.
+        NOTE: requires node reboot to take effect.
+      format-dict:
+        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+  cpufreq-not-performance-with-ondemand:
+    priority: 2
+    decision:
+      and:
+        - cpufreq-governor-not-performance
+        - kubernetes-installed
+        - ondemand-installed-and-enabled
+    raises:
+      type: core.issues.issue_types.KubernetesWarning
+      message: >-
+        This node is used for Kubernetes but is not using cpufreq
+        scaling_governor in "performance" mode (actual={governor}). This is not
+        recommended and can result in performance degradation. To fix this you
+        can install cpufrequtils and set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils. You will also need to disable the ondemand
+        systemd service in order for changes to persist.
+        NOTE: requires node reboot to take effect.
+      format-dict:
+        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+

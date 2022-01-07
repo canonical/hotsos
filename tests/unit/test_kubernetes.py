@@ -6,9 +6,11 @@ import tempfile
 
 import utils
 
+from core.issues.issue_types import KubernetesWarning
 from core import checks, constants, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
 from core.ycheck.bugs import YBugChecker
+from core.ycheck.scenarios import YScenarioChecker
 from plugins.kubernetes.pyparts import (
     service_info,
     network_checks,
@@ -134,3 +136,30 @@ class TestKubernetesBugChecks(KubernetesTestsBase):
         # This will need modifying once we have some storage bugs defined
         self.assertFalse(mock_add_known_bug.called)
         self.assertEqual(len(bugs), 0)
+
+
+class TestKubernetesScenarioChecks(KubernetesTestsBase):
+
+    @mock.patch('core.plugins.system.SystemBase.virtualisation_type',
+                None)
+    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+                'powersave')
+    @mock.patch('core.plugins.kubernetes.KubernetesChecksBase.plugin_runnable',
+                True)
+    @mock.patch.object(checks, 'CLIHelper')
+    @mock.patch('core.ycheck.scenarios.issue_utils.add_issue')
+    def test_scenario_checks(self, mock_add_issue, mock_cli):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(type(issue))
+
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.snap_list_all.return_value = \
+            ['kubelet 1.2.3 123\n']
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        self.assertTrue(KubernetesWarning in issues)
+        self.assertEqual(len(issues), 1)

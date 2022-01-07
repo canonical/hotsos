@@ -90,3 +90,7 @@ class SysCtlWarning(IssueTypeBase):
 
 class OpenstackError(IssueTypeBase):
     pass
+
+
+class KubernetesWarning(IssueTypeBase):
+    pass
