@@ -1,14 +1,15 @@
 checks:
-  cpufreq-governor-available:
-    requires:
-      property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-      value: unknown
-      op: ne
   cpufreq-governor-not-performance:
     requires:
-      property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-      value: performance
-      op: ne
+      and:
+        # can we actually see the setting
+        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+          value: unknown
+          op: ne
+        # does it have the expected value
+        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+          value: performance
+          op: ne
   ceph-osd-installed:
     requires:
       apt: ceph-osd
@@ -21,7 +22,6 @@ conclusions:
     priority: 1
     decision:
       and:
-        - cpufreq-governor-available
         - cpufreq-governor-not-performance
         - ceph-osd-installed
     raises:
@@ -39,7 +39,6 @@ conclusions:
     priority: 2
     decision:
       and:
-        - cpufreq-governor-available
         - cpufreq-governor-not-performance
         - ceph-osd-installed
         - ondemand-installed-and-enabled

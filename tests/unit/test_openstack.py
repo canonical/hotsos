@@ -907,7 +907,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 'powersave')
     @mock.patch('core.plugins.openstack.OctaviaBase')
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_scenarios_octavia(self, mock_add_issue, mock_base):
+    def test_scenarios(self, mock_add_issue, mock_base):
         issues = []
 
         def fake_add_issue(issue):

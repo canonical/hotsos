@@ -315,6 +315,56 @@ class YAMLDefContext(YAMLDefOverrideBaseX):
         return ctxt
 
 
+class YRequirementObj(YAMLDefOverrideBaseX):
+    def __init__(self, apt, snap, systemd, property, value, py_op):
+        self.apt = apt
+        self.snap = snap
+        self.systemd = systemd
+        self.property = property
+        self.value = value
+        self.py_op = getattr(operator, py_op or 'eq')
+
+    @property
+    def is_valid(self):
+        # need at least one
+        return any([self.systemd, self.snap, self.apt, self.property])
+
+    @property
+    def passes(self):
+        """ Assert whether the requirement is met.
+
+        Returns True if met otherwise False.
+        """
+        if self.apt:
+            pkg = self.apt
+            result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
+            log.debug('requirement check: apt %s (result=%s)', pkg, result)
+            return result
+        elif self.snap:
+            pkg = self.snap
+            result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
+            log.debug('requirement check: snap %s (result=%s)', pkg, result)
+            return result
+        elif self.systemd:
+            service = self.systemd
+            svcs = ServiceChecksBase([service]).services
+            result = service in svcs
+            if result and self.value is not None:
+                result = self.py_op(svcs[service], self.value)
+
+            log.debug('requirement check: systemd %s (result=%s)', service,
+                      result)
+            return result
+        elif self.property:
+            result = self.py_op(self.get_property(self.property), self.value)
+            log.debug('requirement check: property %s %s %s (result=%s)',
+                      self.property, self.py_op, self.value, result)
+            return result
+
+        log.debug('unknown requirement check')
+        return False
+
+
 @ydef_override
 class YAMLDefRequires(YAMLDefOverrideBaseX):
     KEYS = ['requires']
@@ -343,60 +393,11 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """
         return self.content.get('value', True)
 
-    @property
-    def op(self):
-        """ Operator used for value comparison. Default is eq. """
-        return getattr(operator, self.content.get('op', 'eq'))
-
-    def _passes(self, apt, snap, systemd, property, value):
-        """ Assert whether the requirement is met.
-
-        Returns True if met otherwise False.
-        """
-        if apt:
-            pkg = apt
-            result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
-            log.debug('requirement check: apt %s (result=%s)', pkg, result)
-            return result
-        elif snap:
-            pkg = snap
-            result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
-            log.debug('requirement check: snap %s (result=%s)', pkg, result)
-            return result
-        elif systemd:
-            service = systemd
-            svcs = ServiceChecksBase([service]).services
-            result = service in svcs
-            if result and value is not None:
-                result = self.op(svcs[service], value)
-
-            log.debug('requirement check: systemd %s (result=%s)', service,
-                      result)
-            return result
-        elif property:
-            result = self.op(self.get_property(property), value)
-            log.debug('requirement check: property %s %s %s (result=%s)',
-                      property, self.op.__name__, value, result)
-            return result
-
-        log.debug('unknown requirement check')
-        return False
-
     def _has_groups(self):
         if set(self.content.keys()).intersection(['and', 'or']):
             return True
 
         return False
-
-    def _is_valid_requirement(self, entry):
-        apt = entry.get('apt')
-        snap = entry.get('snap')
-        systemd = entry.get('systemd')
-        property = entry.get('property')
-        if not any([systemd, snap, apt, property]):
-            return False
-
-        return True
 
     @property
     def passes(self):
@@ -407,9 +408,13 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
         """
         if not self._has_groups():
             log.debug("single requirement provided")
-            if self._is_valid_requirement(self.content):
-                return self._passes(self.apt, self.snap, self.systemd,
-                                    self._property, self.value)
+            requirement = YRequirementObj(self.apt, self.snap,
+                                          self.systemd,
+                                          self._property,
+                                          self.value,
+                                          self.content.get('op'))
+            if requirement.is_valid:
+                return requirement.passes
             else:
                 log.debug("invalid requirement: %s - fail", self.content)
                 return False
@@ -423,17 +428,17 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
 
                 log.debug("op=%s has %s requirement(s)", op, len(requirements))
                 for entry in requirements:
-                    if not self._is_valid_requirement(entry):
-                        log.debug("invalid requirement: %s - fail", entry)
-                        _result = False
+                    requirement = YRequirementObj(entry.get('apt'),
+                                                  entry.get('snap'),
+                                                  entry.get('systemd'),
+                                                  entry.get('property'),
+                                                  entry.get('value', True),
+                                                  entry.get('op'))
+                    if requirement.is_valid:
+                        results[op].append(requirement.passes)
                     else:
-                        _result = self._passes(entry.get('apt'),
-                                               entry.get('snap'),
-                                               entry.get('systemd'),
-                                               entry.get('property'),
-                                               entry.get('value', True))
-
-                    results[op].append(_result)
+                        log.debug("invalid requirement: %s - fail", entry)
+                        results[op].append(False)
 
             # Now apply op to respective groups then AND all for the final
             # result.
