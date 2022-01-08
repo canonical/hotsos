@@ -53,14 +53,20 @@ class ScenarioCheckMeta(object):
           <int> hours
 
         """
-        return self._meta.period
+        if self._meta:
+            return int(self._meta.period or 0)
+
+        return 0
 
     @property
     def min(self):
         """
         Minimum search matches required for result to be True (default is 1)
         """
-        return int(self._meta.min or 1)
+        if self._meta:
+            return int(self._meta.min or 1)
+
+        return 1
 
 
 class ScenarioCheck(object):

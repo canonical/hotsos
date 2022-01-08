@@ -1,0 +1,27 @@
+checks:
+  insecure-auth-allowed:
+    input:
+      type: command
+      value: ceph_health_detail_json_decoded
+    expr: '.+''message'': ''mon is allowing insecure global_id reclaim'''
+  health-warning:
+    requires:
+      property: core.plugins.storage.ceph.CephChecksBase.health_status
+      value: HEALTH_WARN
+conclusions:
+  insecure-auth-allowed:
+    decision:
+      and:
+        - insecure-auth-allowed
+        - health-warning
+    raises:
+      type: core.issues.issue_types.CephWarning
+      message: >-
+        The status of this Ceph cluster is HEALTH_WARN and the mon is
+        configured to allow insecure global_id reclaim which means the status
+        will never go to HEALTH_OK. Action should be taken to review the
+        options discussed in the following:
+
+        https://bugs.launchpad.net/charm-ceph-mon/+bug/1929262
+
+        https://docs.ceph.com/en/latest/security/CVE-2021-20288/#fix-details
