@@ -295,7 +295,12 @@ class YAMLDefInput(YAMLDefOverrideBaseX):
             # NOTE: we dont need to delete this at the the end since they are
             # created in the plugun tmp dir which is wiped at the end of the
             # plugin run.
-            self._path = mktemp_dump(''.join(out))
+            if type(out) == list:
+                out = ''.join(out)
+            elif type(out) == dict:
+                out = str(out)
+
+            self._path = mktemp_dump(out)
             return self._path
 
 

@@ -417,6 +417,17 @@ class CLIHelper(object):
             'apt_config_dump':
                 [BinCmd('apt-config dump'),
                  FileCmd('sos_commands/apt/apt-config_dump')],
+            'ceph_health_detail_json_decoded':
+                [BinCmd('ceph health detail --format json-pretty',
+                        json_decode=True),
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_health_detail_--format_json-pretty',
+                         json_decode=True),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/json_output/'
+                         'ceph_health_detail_--format_json-pretty',
+                         json_decode=True)],
             'ceph_mon_dump_json_decoded':
                 [BinCmd('ceph mon dump --format json-pretty',
                         json_decode=True),
