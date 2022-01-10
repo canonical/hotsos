@@ -18,6 +18,7 @@ from core.plugins.kernel import (
     KernelConfig,
     SystemdConfig,
 )
+from core.plugins.system import SystemBase
 
 YAML_PRIORITY = 6
 
@@ -317,15 +318,15 @@ class CPUPinningChecker(OpenstackChecksBase):
             issue_utils.add_issue(issue)
 
         if self.isolcpus or self.cpuaffinity:
-            total_isolated = self.isolcpus.union(self.cpuaffinity)
-            nonisolated = set(total_isolated).intersection()
+            num_cpus = SystemBase().num_cpus
+            total_isolated = len(self.isolcpus.union(self.cpuaffinity))
+            nonisolated = num_cpus - total_isolated
+            pcent_unpinned = (100 - ((float(100) / num_cpus) * total_isolated))
 
-            pcent_unpinned = ((float(100) / len(total_isolated)) *
-                              len(nonisolated))
-            if pcent_unpinned < 10 or len(nonisolated) <= 4:
+            if pcent_unpinned < 10 or nonisolated <= 4:
                 msg = ("Host has only {} cores ({}%) unpinned. This might "
                        "cause unintended performance problems.".
-                       format(len(nonisolated), pcent_unpinned))
+                       format(nonisolated, pcent_unpinned))
                 self.results.add_warn(msg)
                 issue = issue_types.OpenstackWarning(msg)
                 issue_utils.add_issue(issue)
