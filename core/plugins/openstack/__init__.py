@@ -29,6 +29,14 @@ from core.plugins.openstack.exceptions import (
     OCTAVIA_EXCEPTIONS,
     OVSDBAPP_EXCEPTIONS,
 )
+from core.plugins.kernel import (
+    KernelConfig,
+    SystemdConfig,
+)
+from core.plugins.system import (
+    NUMAInfo,
+    SystemBase,
+)
 
 APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, 'etc/apt/sources.list.d')
 NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
@@ -36,9 +44,6 @@ NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
 # Plugin config opts from global
 AGENT_ERROR_KEY_BY_TIME = \
     constants.bool_str(os.environ.get('AGENT_ERROR_KEY_BY_TIME',
-                                      'False'))
-SHOW_CPU_PINNING_RESULTS = \
-    constants.bool_str(os.environ.get('SHOW_CPU_PINNING_RESULTS',
                                       'False'))
 
 OST_REL_INFO = {
@@ -575,6 +580,107 @@ class NovaBase(OSTServiceBase):
                 interfaces.update({'my_ip': port})
 
         return interfaces
+
+
+class NovaCPUPinning(NovaBase):
+
+    def __init__(self):
+        super().__init__()
+        self.numa = NUMAInfo()
+        self.systemd = SystemdConfig()
+        self.kernel = KernelConfig()
+        self.nova_cfg = OpenstackConfig(os.path.join(constants.DATA_ROOT,
+                                                     'etc/nova/nova.conf'))
+        self.isolcpus = set(self.kernel.get('isolcpus',
+                                            expand_to_list=True) or [])
+        self.cpuaffinity = set(self.systemd.get('CPUAffinity',
+                                                expand_to_list=True) or [])
+
+    @property
+    def cpu_dedicated_set(self):
+        key = 'cpu_dedicated_set'
+        return self.nova_cfg.get(key, expand_to_list=True) or []
+
+    @property
+    def cpu_shared_set(self):
+        key = 'cpu_shared_set'
+        return self.nova_cfg.get(key, expand_to_list=True) or []
+
+    @property
+    def vcpu_pin_set(self):
+        key = 'vcpu_pin_set'
+        return self.nova_cfg.get(key, expand_to_list=True) or []
+
+    @property
+    def cpu_dedicated_set_name(self):
+        """
+        If the vcpu_pin_set option has a value, we use that option as the name.
+        """
+        if self.vcpu_pin_set:
+            return 'vcpu_pin_set'
+
+        return 'cpu_dedicated_set'
+
+    @property
+    def cpu_dedicated_set_intersection_isolcpus(self):
+        if self.vcpu_pin_set:
+            pinset = set(self.vcpu_pin_set)
+        else:
+            pinset = set(self.cpu_dedicated_set)
+
+        return list(pinset.intersection(self.isolcpus))
+
+    @property
+    def cpu_dedicated_set_intersection_cpuaffinity(self):
+        if self.vcpu_pin_set:
+            pinset = set(self.vcpu_pin_set)
+        else:
+            pinset = set(self.cpu_dedicated_set)
+
+        return list(pinset.intersection(self.cpuaffinity))
+
+    @property
+    def cpu_shared_set_intersection_isolcpus(self):
+        return list(set(self.cpu_shared_set).intersection(self.isolcpus))
+
+    @property
+    def cpuaffinity_intersection_isolcpus(self):
+        return list(self.cpuaffinity.intersection(self.isolcpus))
+
+    @property
+    def cpu_shared_set_intersection_cpu_dedicated_set(self):
+        if self.vcpu_pin_set:
+            pinset = set(self.vcpu_pin_set)
+        else:
+            pinset = set(self.cpu_dedicated_set)
+
+        return list(set(self.cpu_shared_set).intersection(pinset))
+
+    @property
+    def num_unpinned_cpus(self):
+        num_cpus = SystemBase().num_cpus
+        total_isolated = len(self.isolcpus.union(self.cpuaffinity))
+        return num_cpus - total_isolated
+
+    @property
+    def unpinned_cpus_pcent(self):
+        num_cpus = SystemBase().num_cpus
+        return (float(100) / num_cpus) * self.num_unpinned_cpus
+
+    @property
+    def nova_pinning_from_multi_numa_nodes(self):
+        if self.vcpu_pin_set:
+            pinset = set(self.vcpu_pin_set)
+        else:
+            pinset = set(self.cpu_dedicated_set)
+
+        node_count = 0
+        for node in self.numa.nodes:
+            node_cores = set(self.numa.cores(node))
+            if pinset.intersection(node_cores):
+                node_count += 1
+
+        return node_count > 1
 
 
 class NeutronBase(OSTServiceBase):

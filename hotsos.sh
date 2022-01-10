@@ -26,7 +26,6 @@ export DEBUG_MODE=false
 # Root of all data which will be either host / or sosreport root.
 export DATA_ROOT
 # Plugin args - prefix must be plugin name
-export SHOW_CPU_PINNING_RESULTS=false
 export AGENT_ERROR_KEY_BY_TIME=false
 # Output format - default is yaml
 export OUTPUT_FORMAT
@@ -158,10 +157,6 @@ PLUGIN OPTIONS
   These options only apply to specific plugins.
 
   openstack:
-    --show-cpu-pinning-results
-        The Openstack plugin will check for cpu pinning configurations and
-        perform checks. By default only brief messages will be displayed when
-        issues are found. Use this flag to get more detailed results.
     --agent-error-key-by-time
         When displaying agent error counts, they will be grouped by date. This
         option will result in grouping by date and time which may be more useful
@@ -188,9 +183,6 @@ while (($#)); do
             exit 0
             ;;
 ## PLUGIN OPTS ########
-        --show-cpu-pinning-results)
-            SHOW_CPU_PINNING_RESULTS=true
-            ;;
         --agent-error-key-by-time)
             AGENT_ERROR_KEY_BY_TIME=true
             ;;

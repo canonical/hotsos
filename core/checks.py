@@ -72,9 +72,10 @@ class ConfigBase(object):
             if subrange[1] == '-':
                 expanded += range(int(subrange[0]), int(subrange[2]) + 1)
             else:
-                expanded.append(int(subrange[0]))
+                for val in subrange[0].split():
+                    expanded.append(int(val))
 
-        return expanded
+        return sorted(expanded)
 
     @property
     def exists(self):
@@ -83,7 +84,7 @@ class ConfigBase(object):
 
         return False
 
-    def get(self, key, section=None, expand_ranges=False):
+    def get(self, key, section=None, expand_to_list=False):
         raise NotImplementedError
 
 
@@ -101,14 +102,14 @@ class SectionalConfigBase(ConfigBase):
     def all(self):
         return self._sections
 
-    def get(self, key, section=None, expand_ranges=False):
+    def get(self, key, section=None, expand_to_list=False):
         """ If section is None use flattened """
         if section is None:
             value = self._flattened_config.get(key)
         else:
             value = self._sections.get(section, {}).get(key)
 
-        if expand_ranges:
+        if expand_to_list:
             return self.expand_value_ranges(value)
 
         return value
@@ -139,11 +140,17 @@ class SectionalConfigBase(ConfigBase):
                     continue
 
                 # key names may contain whitespace
-                expr = r"^\s*(\S+(?:\s+\S+)?)\s*=\s*(\S+)"
+                # values may contain whitespace
+                expr = r"^\s*(\S+(?:\s+\S+)?)\s*=\s*(.+)\s*"
                 ret = re.compile(expr).search(line)
                 if ret:
                     key = ret.group(1)
                     val = constants.bool_str(ret.group(2))
+                    if type(val) == str:
+                        val = val.strip()
+                        for char in ["'", '"']:
+                            val = val.strip(char)
+
                     self._sections[current_section][key] = val
                     self._flattened_config[key] = val
 

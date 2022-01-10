@@ -76,9 +76,9 @@ class KernelConfig(checks.ConfigBase):
         self._cfg = {}
         self._load()
 
-    def get(self, key, expand_ranges=False):
+    def get(self, key, expand_to_list=False):
         value = self._cfg.get(key)
-        if expand_ranges and value is not None:
+        if expand_to_list and value is not None:
             return self.expand_value_ranges(value)
 
         return value
@@ -108,6 +108,13 @@ class SystemdConfig(checks.SectionalConfigBase):
         path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
         super().__init__(path=path, *args, **kwargs)
 
+    @property
+    def cpuaffinity_enabled(self):
+        if self.get('CPUAffinity'):
+            return True
+
+        return False
+
 
 class KernelBase(object):
 
@@ -127,6 +134,10 @@ class KernelBase(object):
                 self._kernel_version = ret[1]
 
         return self._kernel_version
+
+    @property
+    def isolcpus_enabled(self):
+        return KernelConfig().get('isolcpus') is not None
 
     @property
     def boot_parameters(self):

@@ -60,11 +60,11 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                 vcpu_info["system-cores"] = total_cores
 
                 pinset = self._nova_config.get("vcpu_pin_set",
-                                               expand_ranges=True) or []
+                                               expand_to_list=True) or []
                 pinset += self._nova_config.get("cpu_dedicated_set",
-                                                expand_ranges=True) or []
+                                                expand_to_list=True) or []
                 pinset += self._nova_config.get("cpu_shared_set",
-                                                expand_ranges=True) or []
+                                                expand_to_list=True) or []
                 if pinset:
                     # if pinning is used, reduce total num of cores available
                     # to those included in nova cpu sets.

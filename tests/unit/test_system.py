@@ -9,6 +9,7 @@ import utils
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues.issue_types import SystemWarning
+from core.plugins.system import NUMAInfo
 from plugins.system.pyparts import (
     checks,
     general,
@@ -34,6 +35,20 @@ class TestSystemGeneral(SystemTestsBase):
         inst = general.SystemGeneral()
         inst()
         self.assertEqual(inst.output, expected)
+
+
+class TestNUMAInfo(SystemTestsBase):
+
+    def test_numainfo(self):
+        nodes = {0: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
+                     32, 34, 36, 38],
+                 1: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31,
+                     33, 35, 37, 39]}
+        info = NUMAInfo()
+        self.assertEqual(info.nodes, nodes)
+        self.assertEqual(info.cores(0), nodes[0])
+        self.assertEqual(info.cores(1), nodes[1])
+        self.assertEqual(info.cores(), nodes[0] + nodes[1])
 
 
 class TestSystemChecks(SystemTestsBase):

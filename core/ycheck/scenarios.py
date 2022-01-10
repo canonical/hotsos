@@ -273,20 +273,26 @@ class YScenarioChecker(AutoChecksBase):
 
     def run(self):
         for scenario in self.scenarios:
-            result = None
+            results = {}
             log.debug("running scenario: %s", scenario.name)
-            # run all conclusions and use highest priority result
+            # run all conclusions and use highest priority result(s). One or
+            # more conclusions may share the same priority. All conclusions
+            # that match and share the same priority will be used.
             for name, conc in scenario.conclusions.items():
                 if conc.reached:
-                    if not result:
-                        result = conc
-                    elif conc.priority > result.priority:
-                        result = conc
+                    if conc.priority in results:
+                        results[conc.priority].append(conc)
+                    else:
+                        results[conc.priority] = [conc]
 
-                    log.debug("conclusion is: %s (priority=%s)", name,
-                              result.priority)
+                    log.debug("conclusion reached: %s (priority=%s)", name,
+                              conc.priority)
 
-            if result:
-                issue_utils.add_issue(result.issue_type(result.issue_message))
+            if results:
+                highest = max(results.keys())
+                log.debug("selecting highest priority=%s conclusions (%s)",
+                          highest, len(results[highest]))
+                for conc in results[highest]:
+                    issue_utils.add_issue(conc.issue_type(conc.issue_message))
             else:
-                log.debug("no conlusion reached")
+                log.debug("no conclusions reached")

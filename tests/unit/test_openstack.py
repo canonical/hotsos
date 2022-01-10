@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import datetime
 import mock
@@ -19,7 +20,6 @@ from plugins.openstack.pyparts import (
     service_info,
     service_network_checks,
     service_features,
-    cpu_pinning_check,
     agent_event_checks,
     agent_exceptions,
 )
@@ -536,23 +536,38 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
         self.assertEqual(inst.output["features"], expected)
 
 
-class TestOpenstackCPUPinningCheck(TestOpenstackBase):
+class TestOpenstackCPUPinning(TestOpenstackBase):
 
     def test_cores_to_list(self):
         ret = checks.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
-    def test_pinning_checker(self):
-        expected = {'cpu-pinning-checks': {
-                        'input': {
-                            'systemd': {
-                                'cpuaffinity': '0-7,32-39'
-                                }
-                            }
-                        }
-                    }
-        inst = cpu_pinning_check.CPUPinningChecker()
-        self.assertEquals(inst.output, expected)
+    @mock.patch('core.plugins.system.SystemBase.num_cpus', 16)
+    @mock.patch('core.plugins.kernel.KernelConfig.get',
+                lambda *args, **kwargs: [0, 1, 2, 3])
+    @mock.patch('core.plugins.kernel.SystemdConfig.get',
+                lambda *args, **kwargs: [4, 5, 6, 7])
+    def test_nova_pinning_base(self):
+        with mock.patch('core.plugins.openstack.NovaCPUPinning.vcpu_pin_set',
+                        [0, 1, 2]):
+            inst = openstack_core.NovaCPUPinning()
+            self.assertEquals(inst.cpu_dedicated_set_name, 'vcpu_pin_set')
+
+        inst = openstack_core.NovaCPUPinning()
+        self.assertEquals(inst.cpu_shared_set, [])
+        self.assertEquals(inst.cpu_dedicated_set, [])
+        self.assertEquals(inst.vcpu_pin_set, [])
+        self.assertEquals(inst.cpu_dedicated_set_name, 'cpu_dedicated_set')
+        self.assertEquals(inst.cpu_dedicated_set_intersection_isolcpus, [])
+        self.assertEquals(inst.cpu_dedicated_set_intersection_cpuaffinity, [])
+        self.assertEquals(inst.cpu_shared_set_intersection_isolcpus, [])
+        self.assertEquals(inst.cpuaffinity_intersection_isolcpus, [])
+        self.assertEquals(inst.unpinned_cpus_pcent, 50.0)
+        self.assertEquals(inst.num_unpinned_cpus, 8)
+        self.assertEquals(inst.nova_pinning_from_multi_numa_nodes, False)
+        with mock.patch('core.plugins.openstack.NovaCPUPinning.'
+                        'cpu_dedicated_set', [0, 1, 4]):
+            self.assertEquals(inst.nova_pinning_from_multi_numa_nodes, True)
 
 
 class TestOpenstackAgentEventChecks(TestOpenstackBase):
@@ -922,3 +937,38 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         for itype in [issue_types.OpenstackError,
                       issue_types.OpenstackWarning]:
             self.assertTrue(itype in issues)
+
+    @mock.patch('core.plugins.openstack.OpenstackChecksBase.release_name',
+                'train')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenario_pinning_invalid_config(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(type(issue))
+
+        mock_add_issue.side_effect = fake_add_issue
+        with tempfile.TemporaryDirectory() as dtmp:
+            # This is to workaround fact that there is no dirs_exist_ok in py36
+            dtmp += '/data_root'
+            shutil.copytree(os.environ['DATA_ROOT'], dtmp,
+                            ignore_dangling_symlinks=True, symlinks=True)
+            os.environ['DATA_ROOT'] = dtmp
+            path = os.path.join(dtmp, 'etc/nova/nova.conf')
+            with open(path, 'w') as fd:
+                fd.write('[DEFAULT]\n')
+                fd.write('vcpu_pin_set = 1,2,3\n')
+                fd.write('cpu_dedicated_set = 1,2,3\n')
+
+            YScenarioChecker()()
+            self.assertEqual(len(issues), 2)
+            self.assertTrue(issue_types.OpenstackError in issues)
+
+            with open(path, 'w') as fd:
+                fd.write('[DEFAULT]\n')
+                fd.write('cpu_dedicated_set = 1,2,3\n')
+
+            issues = []
+            YScenarioChecker()()
+            self.assertEqual(len(issues), 1)
+            self.assertFalse(issue_types.OpenstackError in issues)

@@ -1,6 +1,7 @@
 import os
 
 import mock
+import tempfile
 
 import utils
 
@@ -9,6 +10,7 @@ from plugins.kernel.pyparts import (
     memory,
     log_event_checks,
 )
+from core.plugins.kernel import SystemdConfig
 from core.ycheck.events import EventCheckResult
 from core.ycheck.bugs import YBugChecker
 from core.host_helpers import NetworkPort
@@ -23,6 +25,33 @@ class TestKernelBase(utils.BaseTestCase):
 
 class TestKernelKernelInfo(TestKernelBase):
 
+    def test_systemd_config(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            path = os.path.join(dtmp, 'etc/systemd/system.conf')
+            os.makedirs(os.path.dirname(path))
+            with open(path, 'w') as fd:
+                fd.write("[Manager]\n")
+                fd.write("#CPUAffinity=1 2\n")
+                fd.write("CPUAffinity=0-7,32-39\n")
+
+            self.assertEqual(SystemdConfig().get('CPUAffinity'), '0-7,32-39')
+            self.assertEqual(SystemdConfig().get('CPUAffinity',
+                                                 expand_to_list=True),
+                             [0, 1, 2, 3, 4, 5, 6, 7, 32, 33, 34, 35, 36, 37,
+                              38, 39])
+            self.assertTrue(SystemdConfig().cpuaffinity_enabled)
+
+            with open(path, 'w') as fd:
+                fd.write("[Manager]\n")
+                fd.write("#CPUAffinity=1 2\n")
+                fd.write("CPUAffinity=0 1 2 3 8 9 10 11\n")
+
+            self.assertEqual(SystemdConfig().get('CPUAffinity'),
+                             '0 1 2 3 8 9 10 11')
+
+    @mock.patch('core.plugins.kernel.SystemdConfig.get',
+                lambda *args, **kwargs: '0-7,32-39')
     def test_info(self):
         inst = info.KernelGeneralChecks()
         inst()

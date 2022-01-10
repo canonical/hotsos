@@ -33,8 +33,6 @@ plugins:
         - NovaServerMigrationAnalysis
       agent_exceptions:
         - AgentExceptionChecks
-      cpu_pinning_check:
-        - CPUPinningChecker
       nova_external_events:
         - NovaExternalEventChecks
   openvswitch:

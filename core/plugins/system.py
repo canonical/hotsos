@@ -6,6 +6,66 @@ from core.cli_helpers import CLIHelper
 from core import plugintools
 
 
+class NUMAInfo(object):
+    numactl = ""
+
+    def __init__(self):
+        try:
+            self.numactl = CLIHelper().numactl() or ""
+        except OSError:
+            self.numactl = ""
+
+        self._nodes = {}
+
+    @property
+    def nodes(self):
+        """Returns dictionary of numa nodes and their associated list of cpu
+           cores.
+        """
+        if self._nodes:
+            return self._nodes
+
+        node_ids = []
+        for line in self.numactl:
+            expr = r'^available:\s+[0-9]+\s+nodes\s+\(([0-9\-]+)\)'
+            ret = re.compile(expr).match(line)
+            if ret:
+                p = ret[1].partition('-')
+                if p[1] == '-':
+                    node_ids = range(int(p[0]), int(p[2]) + 1)
+                else:
+                    node_ids = [int(p[0])]
+
+                break
+
+        for node in node_ids:
+            for line in self.numactl:
+                expr = r'^node\s+{}\s+cpus:\s([0-9\s]+)'.format(node)
+                ret = re.compile(expr).match(line)
+                if ret:
+                    self._nodes[node] = [int(e) for e in ret[1].split()]
+                    break
+
+        return self._nodes
+
+    def cores(self, node=None):
+        """Returns list of cores for a given numa node.
+
+        If no node id is provided, all cores from all numa nodes are returned.
+        """
+        if not self.nodes:
+            return []
+
+        if node is None:
+            _cores = []
+            for c in self.nodes.values():
+                _cores += c
+
+            return _cores
+
+        return self.nodes.get(node)
+
+
 class SYSCtlHelper(object):
 
     def __init__(self, path):

@@ -78,7 +78,7 @@ class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
             ret = getattr(cls(), property)
         except Exception:
             if constants.DEBUG_MODE:
-                log.error("failed to get property %s", import_str)
+                log.exception("failed to get property %s", import_str)
 
             raise
 
