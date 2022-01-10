@@ -126,7 +126,7 @@ class KernelMemoryChecks(KernelChecksBase):
             if success_count > 10000:
                 pcent = int(fail_count / (success_count / 100))
                 if pcent > 10:
-                    msg = ("failures are at {}% of successes (see {})"
+                    msg = ("failures are at {}% of successes (see {})."
                            .format(pcent, VMSTAT))
                     issue = issue_types.MemoryWarning("compaction " + msg)
                     issue_utils.add_issue(issue)

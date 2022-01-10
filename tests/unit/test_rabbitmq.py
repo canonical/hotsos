@@ -101,14 +101,14 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
             inst = cluster_checks.RabbitMQClusterChecks()
             inst()
-            issues = cluster_checks.issue_utils._get_issues()
+            issues = cluster_checks.issue_utils._get_plugin_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
                          {MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
-                                     'than 2/3 of queues for 1/5 vhost(s)'),
+                                     'than 2/3 of queues for 1/5 vhost(s).'),
                             'origin': 'rabbitmq.01part'},
                            {'desc': 'Cluster partition handling is currently '
                                     'set to ignore. This is potentially '
@@ -195,14 +195,14 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
             inst = cluster_checks.RabbitMQClusterChecks()
             inst()
-            issues = cluster_checks.issue_utils._get_issues()
+            issues = cluster_checks.issue_utils._get_plugin_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
                          {MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
                             'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
-                                     'than 2/3 of queues for 1/5 vhost(s)'),
+                                     'than 2/3 of queues for 1/5 vhost(s).'),
                             'origin': 'rabbitmq.01part'},
                            {'desc': 'Cluster partition handling is currently '
                                     'set to ignore. This is potentially '

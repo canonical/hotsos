@@ -757,10 +757,10 @@ class TestStorageScenarioChecks(StorageTestsBase):
         msgs = [issue.msg for issue in issues]
         msg = ("Ceph monitor is experiencing repeated re-elections. The "
                "network interface(s) (ethX) used by the ceph-mon are "
-               "showing errors - please investigate")
+               "showing errors - please investigate.")
         self.assertTrue(msg in msgs)
 
         msg = ("Found 5496 pinned osdmaps. This can affect mon's performance "
                "and also indicate bugs such as https://tracker.ceph.com/"
-               "issues/44184 and https://tracker.ceph.com/issues/47290")
+               "issues/44184 and https://tracker.ceph.com/issues/47290.")
         self.assertTrue(msg in msgs)

@@ -69,7 +69,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
         if ports_max:
             msg = ('apache is reporting connection refused errors for the '
                    'following ports which could mean some services are not '
-                   'working properly - {} - please check'.
+                   'working properly - {} - please check.'.
                    format(','.join(ports_max.keys())))
             issue_utils.add_issue(issue_types.OpenstackWarning(msg))
 
@@ -294,9 +294,9 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
         if warn_count:
             msg = ("{} router(s) have had more than {} vrrp transitions "
-                   "(max={}) in the last 24 hours".format(warn_count,
-                                                          threshold,
-                                                          max_transitions))
+                   "(max={}) in the last 24 hours.".format(warn_count,
+                                                           threshold,
+                                                           max_transitions))
             issue_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
 
     def journalctl_args(self):

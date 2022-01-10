@@ -40,7 +40,7 @@ class SOSReportPluginChecks(plugintools.PluginPartBase):
             plugin = r.get(1)
             timeouts.append(plugin)
             msg = ("sosreport plugin '{}' has timed out and may have "
-                   "incomplete data".format(plugin))
+                   "incomplete data.".format(plugin))
             issue_utils.add_issue(issue_types.SOSReportWarning(msg))
 
         if timeouts:

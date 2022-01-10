@@ -34,7 +34,7 @@ class KernelLogEventChecks(KernelEventChecksBase):
         process_name = results[0].get(3)
         time_oomd = "{} {}".format(results[0].get(1),
                                    results[0].get(2))
-        msg = ("oom-killer invoked for process '{}' at {}"
+        msg = ("oom-killer invoked for process '{}' at {}."
                .format(process_name, time_oomd))
         issue = issue_types.MemoryWarning(msg)
         issue_utils.add_issue(issue)
@@ -66,7 +66,7 @@ class KernelLogEventChecks(KernelEventChecksBase):
 
             if interfaces_extant:
                 msg = ("kernel has reported over-mtu dropped packets for ({}) "
-                       "interfaces".format(len(interfaces_extant)))
+                       "interfaces.".format(len(interfaces_extant)))
                 issue = issue_types.NetworkWarning(msg)
                 issue_utils.add_issue(issue)
 
@@ -81,6 +81,6 @@ class KernelLogEventChecks(KernelEventChecksBase):
     @EVENTCALLBACKS.callback
     def nf_conntrack_full(self, event):  # pylint: disable=W0613
         # TODO: consider resticting this to last 24 hours
-        msg = "kernel has reported nf_conntrack_full - please check"
+        msg = "kernel has reported nf_conntrack_full - please check."
         issue = issue_types.NetworkWarning(msg)
         issue_utils.add_issue(issue)

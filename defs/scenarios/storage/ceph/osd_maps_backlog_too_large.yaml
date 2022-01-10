@@ -17,6 +17,6 @@ conclusions:
       message: >-
         Found {count} pinned osdmaps. This can affect mon's performance and
         also indicate bugs such as https://tracker.ceph.com/issues/44184 and
-        https://tracker.ceph.com/issues/47290
+        https://tracker.ceph.com/issues/47290.
       format-dict:
         count: core.plugins.storage.ceph.CephMon.osdmaps_count

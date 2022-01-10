@@ -92,7 +92,7 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
             msg = ("ovs datapath is reporting a non-zero amount of \"lost\" "
                    "packets ({}) which implies that packets destined for "
                    "userspace (e.g. vm tap) are being dropped - see "
-                   "ovs-appctl dpctl/show".format(lost_packets))
+                   "ovs-appctl dpctl/show.".format(lost_packets))
             issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 
     @EVENTCALLBACKS.callback
@@ -164,12 +164,12 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
 
         if stats:
             if all_dropped:
-                msg = ("found {} ovs interfaces with 100% dropped packets"
+                msg = ("found {} ovs interfaces with 100% dropped packets."
                        .format(len(all_dropped)))
                 issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 
             if all_errors:
-                msg = ("found {} ovs interfaces with 100% packet errors"
+                msg = ("found {} ovs interfaces with 100% packet errors."
                        .format(len(all_errors)))
                 issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 

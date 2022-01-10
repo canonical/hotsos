@@ -23,7 +23,7 @@ conclusions:
         Octavia health manager port {name} does not have an ip address
         configured which means octavia services on this host will not have
         access to the lb-management network and therefore will not be able
-        to communicate with Amphora VMs - please investigate
+        to communicate with Amphora VMs - please investigate.
       format-dict:
         name: core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME
   packet-drops-errors:
@@ -36,6 +36,6 @@ conclusions:
       type: core.issues.issue_types.OpenstackError
       message: >-
         Octavia health manager port {name} has some packets drops or errors -
-        please investigate
+        please investigate.
       format-dict:
         name: core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME

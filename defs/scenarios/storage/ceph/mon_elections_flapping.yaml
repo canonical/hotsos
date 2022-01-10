@@ -18,7 +18,7 @@ conclusions:
       type: core.issues.issue_types.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections but the cause
-        is not known - please investigate
+        is not known - please investigate.
   network:
     priority: 2
     decision:
@@ -30,7 +30,7 @@ conclusions:
       message: >-
         Ceph monitor is experiencing repeated re-elections. The network
         interface(s) ({interfaces}) used by the ceph-mon are showing
-        errors - please investigate
+        errors - please investigate.
       format-dict:
         interfaces: core.plugins.storage.ceph.CephChecksBase.bind_interface_names
 

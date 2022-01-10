@@ -20,7 +20,7 @@ class RabbitMQEventChecks(RabbitMQEventChecksBase):
     @EVENTCALLBACKS.callback
     def cluster_partitions(self, event):  # pylint: disable=W0613
         msg = ("cluster either has or has had partitions - check "
-               "cluster_status")
+               "cluster_status.")
         issue_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
     @EVENTCALLBACKS.callback

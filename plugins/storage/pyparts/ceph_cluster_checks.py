@@ -135,7 +135,7 @@ class CephClusterChecks(CephChecksBase):
                     bad_meta_osds.append(device['name'])
 
         if bad_meta_osds:
-            msg = ("{} osd(s) have metadata size larger than 10G. This "
+            msg = ("Found {} osd(s) with metadata size larger than 10G. This "
                    "could be the result of a compaction failure/bug and this "
                    "host may be affected by "
                    "https://tracker.ceph.com/issues/45903. "
@@ -175,7 +175,7 @@ class CephClusterChecks(CephChecksBase):
         if error_pgs:
             info = sorted_dict(error_pgs, key=lambda e: e[1], reverse=True)
             self._output['osd-pgs-near-limit'] = info
-            msg = ("{} osd(s) found with > {} pgs - this is close to the hard "
+            msg = ("Found {} osd(s) with > {} pgs - this is close to the hard "
                    "limit at which point they will stop creating pgs and fail "
                    "- please investigate".
                    format(len(error_pgs), OSD_PG_MAX_LIMIT))
@@ -186,7 +186,7 @@ class CephClusterChecks(CephChecksBase):
             info = sorted_dict(suboptimal_pgs, key=lambda e: e[1],
                                reverse=True)
             self._output['osd-pgs-suboptimal'] = info
-            msg = ("{} osd(s) found with > 10% margin from optimal {} pgs.".
+            msg = ("Found {} osd(s) with > 10% margin from optimal {} pgs.".
                    format(len(suboptimal_pgs), OSD_PG_OPTIMAL_NUM))
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)

@@ -176,7 +176,7 @@ class RabbitMQClusterChecks(RabbitMQServiceChecksBase):
 
         # this should only actually ever report one node
         for node_name in issues_raised:
-            msg = ("{} holds more than 2/3 of queues for {}/{} vhost(s)".
+            msg = ("{} holds more than 2/3 of queues for {}/{} vhost(s).".
                    format(node_name, issues_raised[node_name],
                           len(vhost_queues)))
             issue_utils.add_issue(issue_types.RabbitMQWarning(msg))

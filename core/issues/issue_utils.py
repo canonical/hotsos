@@ -5,13 +5,13 @@ import yaml
 from core import plugintools
 from core import constants
 
-MASTER_YAML_ISSUES_FOUND_KEY = "potential-issues"
+MASTER_YAML_ISSUES_FOUND_KEY = 'potential-issues'
 
 
 class IssueEntry(object):
     def __init__(self, ref, desc, origin=None, key=None):
         if key is None:
-            key = "key"
+            key = 'key'
 
         self.key = key
         self.ref = ref
@@ -30,11 +30,11 @@ class IssueEntry(object):
     @property
     def data(self):
         return {self.key: self.ref,
-                "desc": self.description,
-                "origin": self.origin}
+                'desc': self.description,
+                'origin': self.origin}
 
 
-def _get_issues():
+def _get_plugin_issues():
     """
     Fetch the current plugin issues.yaml if it exists and return its
     contents or None if it doesn't exist yet.
@@ -43,7 +43,7 @@ def _get_issues():
         raise Exception("plugin tmp dir  '{}' not found".
                         format(constants.PLUGIN_TMP_DIR))
 
-    issues_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "issues.yaml")
+    issues_yaml = os.path.join(constants.PLUGIN_TMP_DIR, 'issues.yaml')
     if not os.path.exists(issues_yaml):
         return {}
 
@@ -63,14 +63,14 @@ def add_issue(issue):
         raise Exception("plugin tmp dir  '{}' not found".
                         format(constants.PLUGIN_TMP_DIR))
 
-    entry = IssueEntry(issue.name, issue.msg, key="type")
-    current = _get_issues()
+    entry = IssueEntry(issue.name, issue.msg, key='type')
+    current = _get_plugin_issues()
     if current and current.get(MASTER_YAML_ISSUES_FOUND_KEY):
         current[MASTER_YAML_ISSUES_FOUND_KEY].append(entry.data)
     else:
         current = {MASTER_YAML_ISSUES_FOUND_KEY: [entry.data]}
 
-    issues_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "issues.yaml")
+    issues_yaml = os.path.join(constants.PLUGIN_TMP_DIR, 'issues.yaml')
     with open(issues_yaml, 'w') as fd:
         fd.write(yaml.dump(current))
 
@@ -81,6 +81,19 @@ def add_issues_to_master_plugin():
     Note that this can only be called once per plugin and is typically
     performed as a final part after all others have executed.
     """
-    issues = _get_issues()
-    if issues and issues.get(MASTER_YAML_ISSUES_FOUND_KEY):
-        plugintools.save_part(issues, priority=99)
+    issues = _get_plugin_issues()
+    if not issues or MASTER_YAML_ISSUES_FOUND_KEY not in issues:
+        return
+
+    types = {}
+    for issue in issues.get(MASTER_YAML_ISSUES_FOUND_KEY):
+        # pluralise the type for display purposes
+        issue_type = "{}s".format(issue['type'])
+        if issue_type not in types:
+            types[issue_type] = []
+
+        msg = "{} (origin={})".format(issue['desc'], issue['origin'])
+        types[issue_type].append(msg)
+
+    issues = {MASTER_YAML_ISSUES_FOUND_KEY: types}
+    plugintools.save_part(issues, priority=99)

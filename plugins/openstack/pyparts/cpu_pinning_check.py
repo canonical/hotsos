@@ -244,7 +244,7 @@ class CPUPinningChecker(OpenstackChecksBase):
                              "with cpuaffinity: {}".format(intersect1,
                                                            intersect2))
                     msg = ("{} is a subset of both isolcpus AND "
-                           "cpuaffinity".format(self.cpu_dedicated_set_name))
+                           "cpuaffinity.".format(self.cpu_dedicated_set_name))
                     self.results.add_error(msg, extra)
                     issue = issue_types.OpenstackWarning(msg)
                     issue_utils.add_issue(issue)
@@ -254,7 +254,7 @@ class CPUPinningChecker(OpenstackChecksBase):
                              "with cpuaffinity: {}".format(intersect1,
                                                            intersect2))
                     msg = ("{} is a subset of both isolcpus AND "
-                           "cpuaffinity".format(self.cpu_dedicated_set_name))
+                           "cpuaffinity.".format(self.cpu_dedicated_set_name))
                     self.results.add_error(msg, extra)
                     issue = issue_types.OpenstackWarning(msg)
                     issue_utils.add_issue(issue)
@@ -270,7 +270,7 @@ class CPUPinningChecker(OpenstackChecksBase):
         intersect = self.cpu_shared_set.intersection(self.isolcpus)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
-            msg = "cpu_shared_set contains cores from isolcpus"
+            msg = "cpu_shared_set contains cores from isolcpus."
             self.results.add_error(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
             issue_utils.add_issue(issue)
@@ -287,7 +287,7 @@ class CPUPinningChecker(OpenstackChecksBase):
         intersect = self.isolcpus.intersection(self.cpuaffinity)
         if intersect:
             extra = "intersection: {}".format(list_to_str(intersect))
-            msg = "isolcpus and cpuaffinity overlap"
+            msg = "isolcpus and cpuaffinity overlap."
             self.results.add_error(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
             issue_utils.add_issue(issue)
@@ -310,7 +310,7 @@ class CPUPinningChecker(OpenstackChecksBase):
             extra += "\n{}: {}".format(self.cpu_dedicated_set_name,
                                        list_to_str(self.cpu_dedicated_set))
 
-            msg = ("{} has cores from > 1 numa node".
+            msg = ("{} has cores from > 1 numa node.".
                    format(self.cpu_dedicated_set_name))
             self.results.add_warn(msg, extra)
             issue = issue_types.OpenstackWarning(msg)
@@ -324,7 +324,7 @@ class CPUPinningChecker(OpenstackChecksBase):
                               len(nonisolated))
             if pcent_unpinned < 10 or len(nonisolated) <= 4:
                 msg = ("Host has only {} cores ({}%) unpinned. This might "
-                       "cause unintended performance problems".
+                       "cause unintended performance problems.".
                        format(len(nonisolated), pcent_unpinned))
                 self.results.add_warn(msg)
                 issue = issue_types.OpenstackWarning(msg)
