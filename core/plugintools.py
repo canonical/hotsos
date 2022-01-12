@@ -227,8 +227,8 @@ class PluginRunner(object):
                 part_obj = getattr(mod, entry)()
                 # Only run plugin if it delares itself runnable.
                 if not part_obj.plugin_runnable:
-                    log.debug("plugin=%s, part=%s not runnable - skipping",
-                              constants.PLUGIN_NAME, part)
+                    log.debug("%s.%s.%s not runnable - skipping",
+                              constants.PLUGIN_NAME, part, entry)
                     continue
 
                 log.debug("running %s.%s.%s",

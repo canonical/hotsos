@@ -1,0 +1,17 @@
+checks:
+  has-unexpected-masked:
+    requires:
+      property: core.plugins.openstack.OpenstackServiceChecksBase.unexpected_masked_services
+      value: []
+      op: ne
+conclusions:
+  has-unexpected-masked:
+    decision: has-unexpected-masked
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        The following Openstack systemd services are masked: {masked}. Please
+        ensure that this is intended otherwise these services may be
+        unavailable.
+      format-dict:
+        masked: core.plugins.openstack.OpenstackServiceChecksBase.unexpected_masked_services_str

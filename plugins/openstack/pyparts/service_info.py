@@ -21,20 +21,8 @@ class OpenstackInfo(OpenstackServiceChecksBase):
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
-            self._output["services"] = self.service_info_str
-
-    def get_masked_services(self):
-        """Get a list of masked services."""
-        if self.service_info_str['systemd']:
-            masked = self.service_info_str['systemd'].get('masked', {})
-            expected_masked = self.ost_projects.default_masked_services
-            masked = set(masked).difference(expected_masked)
-            if masked:
-                _masked = ', '.join(masked)
-                msg = ('The following Openstack systemd services are masked: '
-                       '{}. Please ensure that this is intended otherwise '
-                       'these services may be unavailable.'.format(_masked))
-                issue_utils.add_issue(issue_types.OpenstackWarning(msg))
+            self._output['services'] = {'systemd': self.service_info,
+                                        'ps': self.process_info}
 
     def get_debug_log_info(self):
         """Return dictionary of OpenStack services and the value of the debug
@@ -57,7 +45,6 @@ class OpenstackInfo(OpenstackServiceChecksBase):
         self._output["release"] = self.release_name
         self.get_running_services_info()
         self.get_debug_log_info()
-        self.get_masked_services()
 
 
 class OpenstackPackageChecks(OpenstackPackageChecksBase):

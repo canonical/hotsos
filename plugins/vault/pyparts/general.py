@@ -18,7 +18,8 @@ class VaultServiceChecks(vault.VaultServiceChecksBase):
 
     def get_running_services_info(self):
         if self.services:
-            self._output["services"] = self.service_info_str
+            self._output['services'] = {'systemd': self.service_info,
+                                        'ps': self.process_info}
 
     def __call__(self):
         if not self.vault_installed:

@@ -7,4 +7,5 @@ class JujuServiceInfo(JujuServiceChecksBase):
 
     def __call__(self):
         if self.services:
-            self._output['services'] = self.service_info_str
+            self._output['services'] = {'systemd': self.service_info,
+                                        'ps': self.process_info}

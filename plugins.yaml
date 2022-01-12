@@ -72,7 +72,7 @@ plugins:
       cluster_checks:
         - RabbitMQClusterChecks
       service_info:
-        - RabbitMQPackageChecks
+        - RabbitMQServiceChecks
       service_event_checks:
         - RabbitMQEventChecks
   sosreport:

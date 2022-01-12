@@ -11,12 +11,12 @@ from core.searchtools import (
     FileSearcher,
 )
 from core.utils import mktemp_dump, sorted_dict
-from core.plugins.rabbitmq import RabbitMQServiceChecksBase
+from core.plugins.rabbitmq import RabbitMQChecksBase
 
 YAML_PRIORITY = 1
 
 
-class RabbitMQClusterChecks(RabbitMQServiceChecksBase):
+class RabbitMQClusterChecks(RabbitMQChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,11 +29,6 @@ class RabbitMQClusterChecks(RabbitMQServiceChecksBase):
     def __del__(self):
         if os.path.exists(self.f_report):
             os.unlink(self.f_report)
-
-    def get_running_services_info(self):
-        """Get string info for running services."""
-        if self.services:
-            self._output["services"] = self.service_info_str
 
     def register_report_searches(self):
         """Register all sequence search definitions that we will execute
@@ -270,5 +265,4 @@ class RabbitMQClusterChecks(RabbitMQServiceChecksBase):
         self._output["resources"] = self.resources
 
     def __call__(self):
-        self.get_running_services_info()
         self.run_report_searches()

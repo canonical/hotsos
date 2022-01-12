@@ -230,9 +230,9 @@ class TestStorageCephServiceInfo(StorageTestsBase):
                                     'ceph-osd',
                                     ],
                                 'disabled': [
-                                    'ceph-mon',
                                     'ceph-mds',
                                     'ceph-mgr',
+                                    'ceph-mon',
                                     'ceph-radosgw',
                                     ],
                                 'indirect': ['ceph-volume'],

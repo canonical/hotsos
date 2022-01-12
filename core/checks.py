@@ -284,9 +284,21 @@ class ServiceChecksBase(object):
         return self._service_info
 
     @property
+    def masked_services(self):
+        """ Returns a list of masked services. """
+        if not self.services:
+            return []
+
+        return self.service_info.get('masked', [])
+
+    @property
     def processes(self):
         """
-        Identify running processes from ps using the provided search filter.
+        Identify running processes from ps that are associated with identified
+        systemd services. The same search pattern used for identifying systemd
+        services is used here.
+
+        Returns a dictionary of process names along with the number of each.
         """
         if self._processes:
             return self._processes
@@ -312,33 +324,30 @@ class ServiceChecksBase(object):
                     if ret:
                         svc = ret.group(1)
                         if svc not in self._processes:
-                            self._processes[svc] = []
+                            self._processes[svc] = 0
 
-                        self._processes[svc].append(ret.group(0))
+                        self._processes[svc] += 1
                         break
 
         return self._processes
 
     @property
-    def service_info_str(self):
-        """Return a dictionary of systemd services and processes.
+    def service_info(self):
+        """Return a dictionary of systemd services grouped by state. """
+        info = {}
+        for svc, state in sorted_dict(self.services).items():
+            if state not in info:
+                info[state] = []
 
-        The services under the `systemd` key are sub-keyed by service state.
-        The processes unde the `ps` key are returned as a list.
-        """
-        info = {'systemd': {},
-                'ps': []}
-        for svc, state in self.services.items():
-            if state not in info['systemd']:
-                info['systemd'][state] = []
-
-            info['systemd'][state].append(svc)
-
-        for svc in sorted(self.processes):
-            num_daemons = len(self.processes[svc])
-            info['ps'].append("{} ({})".format(svc, num_daemons))
+            info[state].append(svc)
 
         return info
+
+    @property
+    def process_info(self):
+        """Return a list of processes associated with services. """
+        return ["{} ({})".format(name, count)
+                for name, count in sorted_dict(self.processes).items()]
 
 
 class DPKGVersionCompare(object):

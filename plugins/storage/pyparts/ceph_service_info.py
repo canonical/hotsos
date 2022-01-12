@@ -30,7 +30,8 @@ class CephServiceChecks(CephServiceChecksBase):
     def get_running_services_info(self):
         """Get string info for running services."""
         if self.services:
-            self._output["services"] = self.service_info_str
+            self._output['services'] = {'systemd': self.service_info,
+                                        'ps': self.process_info}
 
     def get_config_network_info(self):
         """ Identify ports used by Ceph daemons, include them in output

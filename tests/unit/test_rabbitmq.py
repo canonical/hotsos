@@ -29,20 +29,36 @@ class TestRabbitmqBase(utils.BaseTestCase):
 
 class TestRabbitmqServiceInfo(TestRabbitmqBase):
 
-    def test_get_package_info(self):
-        inst = service_info.RabbitMQPackageChecks()
+    def test_get_service_info_none(self):
+        inst = service_info.RabbitMQServiceChecks()
         inst()
         self.assertFalse(inst.plugin_runnable)
-        self.assertEqual(inst.output, {'dpkg': []})
+        self.assertEqual(inst.output, None)
+
+    def test_get_service_info(self):
+        orig_ps = checks.CLIHelper().ps()
+        with mock.patch('core.checks.CLIHelper') as mock_helper:
+            mock_helper.return_value = mock.MagicMock()
+            helper = mock_helper.return_value
+            helper.systemctl_list_unit_files.return_value = \
+                SYSTEMD_UNITS.split('\n')
+            helper.ps.return_value = orig_ps
+
+            inst = service_info.RabbitMQServiceChecks()
+            inst()
+            self.assertFalse(inst.plugin_runnable)
+            self.assertEqual(inst.output,
+                             {'services': {
+                                 'systemd': {
+                                    'enabled': ['rabbitmq-server']},
+                                 'ps': ['beam.smp (1)', 'epmd (1)',
+                                        'rabbitmq-server (1)']}})
 
 
 class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
     def test_cluster_checks_bionic(self):
         expected = {
-            'services': {'systemd': {'enabled': ['rabbitmq-server']},
-                         'ps': ['beam.smp (1)', 'epmd (1)',
-                                'rabbitmq-server (1)']},
             'resources': {
                 'vhosts': [
                     "/",
@@ -131,9 +147,6 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
             fake_get_rabbitmqctl_report
 
         expected = {
-            'services': {'systemd': {'enabled': ['rabbitmq-server']},
-                         'ps': ['beam.smp (1)', 'epmd (1)',
-                                'rabbitmq-server (1)']},
             'resources': {
                 'vhosts': [
                     '/',
