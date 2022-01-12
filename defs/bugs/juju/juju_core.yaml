@@ -16,4 +16,16 @@ input:
       post-series-upgrade failed, issues with unit {} - see LP bug for
       workaround.
     search-result-format-groups: [1]
-
+1852502:
+  input:
+    command: journalctl
+    options:
+      kwargs:
+        unit: juju-db
+  expr: '.* CappedPositionLost: CollectionScan died due to position in capped collection being deleted'
+  hint: 'CollectionScan died'
+  raises:
+    message: >-
+      known mongodb bug identified - https://jira.mongodb.org/browse/TOOLS-1636
+      Workaround is to pass --no-logs to juju create-backup. This is an issue only with
+      Mongo 3. Mongo 4 does not have this issue. Upstream is working on migrating to Mongo 4 in the Juju 3.0 release.

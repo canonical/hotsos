@@ -18,6 +18,12 @@ FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 ba
 root       731  0.0  0.0 2981484 81644 ?       Sl   Apr06  49:01 /var/lib/juju/tools/machine-0-lxd-11/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/11 --debug"""  # noqa
 
 
+JOURNALCTL_CAPPEDPOSITIONLOST = """
+Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)
+Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] collection clone for 'juju.txns.log' failed due to QueryPlanKilled: While cloning collection 'juju.txns.log' there was an error 'PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)'
+"""  # noqa
+
+
 class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
@@ -93,13 +99,28 @@ class TestJujuUnits(JujuTestsBase):
 
 class TestJujuKnownBugs(JujuTestsBase):
 
-    def test_detect_known_bugs(self):
+    @mock.patch('core.ycheck.CLIHelper')
+    def test_detect_known_bugs(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
+            JOURNALCTL_CAPPEDPOSITIONLOST.splitlines(keepends=True)
         YBugChecker()()
+        mock_helper.return_value.journalctl.assert_called_with(unit='juju-db')
+        msg_1852502 = ('known mongodb bug identified - '
+                       'https://jira.mongodb.org/browse/TOOLS-1636 '
+                       'Workaround is to pass --no-logs to juju '
+                       'create-backup. This is an issue only with Mongo '
+                       '3. Mongo 4 does not have this issue. Upstream is '
+                       'working on migrating to Mongo 4 in the Juju 3.0 '
+                       'release.')
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1910958',
                       'desc':
                       ('Unit unit-rabbitmq-server-2 failed to start due '
                        'to members in relation 236 that cannot be '
                        'removed.'),
+                      'origin': 'juju.01part'},
+                     {'id': 'https://bugs.launchpad.net/bugs/1852502',
+                      'desc': msg_1852502,
                       'origin': 'juju.01part'}]}
         self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
