@@ -168,10 +168,9 @@ int(priority)
 ```
 
 #### raises
-Defines the issue or message we want to raise. For example a check may want to
-raise an issue using type core.issues.issue_types.Foo with a message that is
-created using a template and some format input based on the results of a search
-(see *expr* property).
+Defines the issue and message we want to raise. For example a check may want
+to raise an issue using type core.issues.issue_types.Foo with a message that
+contains format fields that need to be populated.
 
 ##### format
 ```
@@ -179,8 +178,16 @@ raises:
   type: core.issues.issue_types.<type>
   message: <str>
   format-dict: <dict>
-  format-groups: [<int>, ...]
+  search-result-format-groups: [<int>, ...]
 ```
+
+If the *message* string contains format fields these can be filled using either
+*format-dict* or *search-result-format-groups*. The former is simply a
+dictionary where the keys must match the names used in the format fields within
+the *message* string and the latter is a list of integer indexes representing
+search result group IDs from an *expr* search result. This is converted
+into a list of values and used to format the *message* string (so therefore
+fields do not need to be named when using this method). 
 
 ##### usage
 ```
