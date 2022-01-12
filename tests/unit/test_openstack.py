@@ -480,18 +480,21 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
                     'br-ens3': {
                         'addresses': ['10.0.0.49'],
                         'hwaddr': '52:54:00:e2:28:a3',
-                        'state': 'UP'}}},
+                        'state': 'UP',
+                        'speed': 'unknown'}}},
                 'neutron': {'local_ip': {
                     'br-ens3': {
                         'addresses': ['10.0.0.49'],
                         'hwaddr': '52:54:00:e2:28:a3',
-                        'state': 'UP'}}},
+                        'state': 'UP',
+                        'speed': 'unknown'}}},
                 'octavia': {'o-hm0': {
                     'o-hm0': {
                         'addresses': [
                             'fc00:2203:1448:17b7:f816:3eff:fe4f:ed8a'],
                         'hwaddr': 'fa:16:3e:4f:ed:8a',
-                        'state': 'UNKNOWN'}}}
+                        'state': 'UNKNOWN',
+                        'speed': 'unknown'}}}
             },
             'namespaces': {
                 'fip': 1,

@@ -541,6 +541,9 @@ class CLIHelper(object):
             'dpkg_l':
                 [BinCmd('dpkg -l'),
                  FileCmd('sos_commands/dpkg/dpkg_-l', safe_decode=True)],
+            'ethtool':
+                [BinCmd('ethool'),
+                 FileCmd('sos_commands/networking/ethtool_{interface}')],
             'hostname':
                 [BinCmd('hostname', singleline=True),
                  FileCmd('hostname', singleline=True)],
