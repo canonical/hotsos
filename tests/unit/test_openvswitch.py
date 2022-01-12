@@ -67,7 +67,8 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                                     {'ens7': {
                                         'addresses': [],
                                         'hwaddr': '52:54:00:78:19:c3',
-                                        'state': 'UP'}}],
+                                        'state': 'UP',
+                                        'speed': 'Unknown!'}}],
                                 'br-ex': [],
                                 'br-int': ['(7 ports)'],
                                 'br-tun': ['vxlan-0a000032',

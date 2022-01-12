@@ -1,5 +1,8 @@
+import mock
+
 import utils
 
+from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
 
 
@@ -42,7 +45,25 @@ class TestHostHelpers(utils.BaseTestCase):
     def test_get_interface_with_addr_exists(self):
         expected = {'br-ens3': {'addresses': ['10.0.0.49'],
                                 'hwaddr': '52:54:00:e2:28:a3',
-                                'state': 'UP'}}
+                                'state': 'UP',
+                                'speed': 'unknown'}}
+        helper = HostNetworkingHelper()
+        iface = helper.get_interface_with_addr('10.0.0.49')
+        self.assertEqual(iface.to_dict(), expected)
+
+    @mock.patch('core.cli_helpers.CLIHelper')
+    def test_get_interface_with_speed_exists(self, mock_cli):
+        cli = CLIHelper()
+        orig_ip_addr = cli.ip_addr()
+        orig_ip_link = cli.ip_link()
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.ethtool.return_value = ['Speed: 100000Mb/s\n']
+        mock_cli.return_value.ip_addr.return_value = orig_ip_addr
+        mock_cli.return_value.ip_link.return_value = orig_ip_link
+        expected = {'br-ens3': {'addresses': ['10.0.0.49'],
+                                'hwaddr': '52:54:00:e2:28:a3',
+                                'state': 'UP',
+                                'speed': '100000Mb/s'}}
         helper = HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.49')
         self.assertEqual(iface.to_dict(), expected)

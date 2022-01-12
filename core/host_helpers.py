@@ -40,7 +40,21 @@ class NetworkPort(object):
     def to_dict(self):
         return {self.name: {'addresses': self.addresses,
                             'hwaddr': self.hwaddr,
-                            'state': self.state}}
+                            'state': self.state,
+                            'speed': self.speed}}
+
+    @property
+    def speed(self):
+        # need to strip @* since sosreport does that too
+        name = self.name.partition('@')[0]
+        out = self.cli_helper.ethtool(interface=name)
+        if out:
+            for line in out:
+                ret = re.match(r'\s*Speed:\s+(\S+)', line)
+                if ret:
+                    return ret.group(1)
+
+        return 'unknown'
 
     @property
     def stats(self):

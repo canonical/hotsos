@@ -244,12 +244,14 @@ class TestStorageCephServiceInfo(StorageTestsBase):
                                 'br-ens3': {
                                     'addresses': ['10.0.0.49'],
                                     'hwaddr': '52:54:00:e2:28:a3',
-                                    'state': 'UP'}},
+                                    'state': 'UP',
+                                    'speed': 'unknown'}},
                             'public': {
                                 'br-ens3': {
                                     'addresses': ['10.0.0.49'],
                                     'hwaddr': '52:54:00:e2:28:a3',
-                                    'state': 'UP'}}
+                                    'state': 'UP',
+                                    'speed': 'unknown'}}
                             },
                         'services': svc_info,
                         'release': 'octopus',
@@ -267,12 +269,14 @@ class TestStorageCephServiceInfo(StorageTestsBase):
                                 'br-ens3': {
                                     'addresses': ['10.0.0.49'],
                                     'hwaddr': '52:54:00:e2:28:a3',
-                                    'state': 'UP'}},
+                                    'state': 'UP',
+                                    'speed': 'unknown'}},
                             'public': {
                                 'br-ens3': {
                                     'addresses': ['10.0.0.49'],
                                     'hwaddr': '52:54:00:e2:28:a3',
-                                    'state': 'UP'}}
+                                    'state': 'UP',
+                                    'speed': 'unknown'}}
                             },
                         'release': 'unknown',
                         'status': 'HEALTH_WARN'}}
@@ -306,10 +310,12 @@ class TestStorageCephServiceInfo(StorageTestsBase):
     def test_ceph_base_interfaces(self):
         expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.49'],
                                             'hwaddr': '52:54:00:e2:28:a3',
-                                            'state': 'UP'}},
+                                            'state': 'UP',
+                                            'speed': 'unknown'}},
                     'public': {'br-ens3': {'addresses': ['10.0.0.49'],
                                            'hwaddr': '52:54:00:e2:28:a3',
-                                           'state': 'UP'}}}
+                                           'state': 'UP',
+                                           'speed': 'unknown'}}}
         ports = ceph_core.CephChecksBase().bind_interfaces
         _ports = {}
         for config, port in ports.items():
