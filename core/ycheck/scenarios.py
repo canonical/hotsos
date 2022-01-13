@@ -85,6 +85,7 @@ class ScenarioCheck(object):
         self.expr = expr
         self.meta = ScenarioCheckMeta(meta)
         self.requires = requires
+        self.cached_result = None
 
     @classmethod
     def get_datetime_from_result(cls, result):
@@ -127,7 +128,7 @@ class ScenarioCheck(object):
         return [r[1] for r in results]
 
     @property
-    def result(self):
+    def _result(self):
         if self.expr:
             s = FileSearcher()
             s.add_search_term(SearchDef(self.expr.value, tag='all'),
@@ -161,9 +162,24 @@ class ScenarioCheck(object):
         else:
             raise Exception("unknown scenario check type")
 
+    @property
+    def result(self):
+        log.debug("executing check %s", self.name)
+        if self.cached_result is None:
+            result = self._result
+        else:
+            result = self.cached_result
+
+        log.debug("check %s result=%s (cached=%s)", self.name, result,
+                  self.cached_result is not None)
+        self.cached_result = result
+        return result
+
 
 class ScenarioConclusions(object):
-    def __init__(self, priority, decision=None, raises=None, checks=None):
+    def __init__(self, name, priority, decision=None, raises=None,
+                 checks=None):
+        self.name = name
         self.priority = priority
         self.decision = decision
         self.raises = raises
@@ -175,6 +191,9 @@ class ScenarioConclusions(object):
         result = None
         if name in self.checks:
             result = self.checks[name].result
+        else:
+            log.debug("conclusion '%s' has unknown check '%s' in decision set",
+                      self.name, name)
 
         return result
 
@@ -182,14 +201,14 @@ class ScenarioConclusions(object):
         if self.decision.is_singleton:
             return self.get_check_result(self.decision.content)
         else:
-            for _bool, checks in self.decision:
+            for op, checks in self.decision:
                 results = [self.get_check_result(c) for c in checks]
-                if _bool == 'and':
+                if op == 'and':
                     return all(results)
-                elif _bool == 'or':
+                elif op == 'or':
                     return any(results)
                 else:
-                    log.debug("unsupported boolean decsion '%s'", _bool)
+                    log.debug("decision has unsupported operator '%s'", op)
 
         return False
 
@@ -227,7 +246,8 @@ class Scenario(object):
         _conclusions = {}
         for r in section.leaf_sections:
             priority = r.priority or 1
-            _conclusions[r.name] = ScenarioConclusions(int(priority),
+            _conclusions[r.name] = ScenarioConclusions(r.name,
+                                                       int(priority),
                                                        r.decision,
                                                        r.raises, self.checks)
 
@@ -248,13 +268,14 @@ class YScenarioChecker(AutoChecksBase):
         yscenarios = YDefsSection(constants.PLUGIN_NAME, plugin_content,
                                   extra_overrides=[YAMLDefScenarioCheck],
                                   checks_handler=self)
+        if yscenarios.requires and not yscenarios.requires.passes:
+            log.debug("plugin '%s' scenarios pre-requisites not met - "
+                      "skipping", constants.PLUGIN_NAME)
+            return
+
         log.debug("sections=%s, scenarios=%s",
                   len(yscenarios.branch_sections),
                   len(yscenarios.leaf_sections))
-
-        if yscenarios.requires and not yscenarios.requires.passes:
-            log.debug("plugin not runnable - skipping scenario checks")
-            return
 
         for scenario in yscenarios.leaf_sections:
             if scenario.requires:

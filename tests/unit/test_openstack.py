@@ -898,25 +898,23 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
+    @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
+                True)
     @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
-    @mock.patch('core.plugins.openstack.OctaviaBase')
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_scenarios(self, mock_add_issue, mock_base):
-        issues = []
+    def test_scenarios_cpufreq(self, mock_add_issue):
+        issues = {}
 
         def fake_add_issue(issue):
-            issues.append(type(issue))
+            issues[type(issue)] = issue.msg
 
-        mock_base.return_value = mock.MagicMock()
-        mock_base.return_value.installed = True
-        mock_base.return_value.hm_port_has_address = False
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(len(issues), 2)
-        for itype in [issue_types.OpenstackError,
-                      issue_types.OpenstackWarning]:
-            self.assertTrue(itype in issues)
+        self.assertEqual(len(issues), 1)
+        self.assertTrue(issue_types.OpenstackWarning in issues)
+        self.assertTrue('not using cpufreq scaling_governor in "performance" '
+                        'mode' in issues[issue_types.OpenstackWarning])
 
     @mock.patch('core.plugins.openstack.OpenstackChecksBase.release_name',
                 'train')
