@@ -453,12 +453,19 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
     def test_get_network_checker(self):
         expected = {
             'config': {
-                'nova': {'my_ip': {
-                    'br-ens3': {
-                        'addresses': ['10.0.0.49'],
-                        'hwaddr': '52:54:00:e2:28:a3',
-                        'state': 'UP',
-                        'speed': 'unknown'}}},
+                'nova': {
+                    'my_ip': {
+                        'br-ens3': {
+                            'addresses': ['10.0.0.49'],
+                            'hwaddr': '52:54:00:e2:28:a3',
+                            'state': 'UP',
+                            'speed': 'unknown'}},
+                    'live_migration_inbound_addr': {
+                        'br-ens3': {
+                            'addresses': ['10.0.0.49'],
+                            'hwaddr': '52:54:00:e2:28:a3',
+                            'state': 'UP',
+                            'speed': 'unknown'}}},
                 'neutron': {'local_ip': {
                     'br-ens3': {
                         'addresses': ['10.0.0.49'],
@@ -512,8 +519,7 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                     'firewall_driver': 'openvswitch'}},
                     'nova': {'main': {
                                 'live_migration_permit_auto_converge': False,
-                                'live_migration_permit_post_copy': False,
-                                'live_migration_inbound_addr': '10.0.0.49'}}}
+                                'live_migration_permit_post_copy': False}}}
         self.assertEqual(inst.output["features"], expected)
 
 

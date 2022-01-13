@@ -24,8 +24,10 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         stats = {}
         for rxtx in counters:
             total = sum(counters[rxtx].values())
-            del counters[rxtx]["packets"]
             for key, value in counters[rxtx].items():
+                if key == "packets":
+                    continue
+
                 if value:
                     pcent = int(100 / float(total) * float(value))
                     if pcent <= 1:
@@ -49,8 +51,6 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         for project in ['nova', 'neutron', 'octavia']:
             _project = getattr(self, project)
             if _project and _project.bind_interfaces:
-                config_info[project] = {name: port.to_dict() for name, port in
-                                        _project.bind_interfaces.items()}
                 for name, port in _project.bind_interfaces.items():
                     if project not in config_info:
                         config_info[project] = {}

@@ -1,3 +1,4 @@
+import copy
 import os
 import re
 
@@ -38,7 +39,7 @@ class NetworkPort(object):
             os.unlink(self.f_ip_link_show)
 
     def to_dict(self):
-        return {self.name: {'addresses': self.addresses,
+        return {self.name: {'addresses': copy.deepcopy(self.addresses),
                             'hwaddr': self.hwaddr,
                             'state': self.state,
                             'speed': self.speed}}

@@ -562,24 +562,39 @@ class NovaBase(OSTServiceBase):
         self._instances = instances
         return self._instances
 
+    def get_nova_config_port(self, cfg_key):
+        """
+        Fetch interface used by Openstack Nova config. Returns NetworkPort.
+        """
+        addr = self.nova_config.get(cfg_key)
+        if not addr:
+            return
+
+        return self.nethelp.get_interface_with_addr(addr)
+
+    @property
+    def my_ip_port(self):
+        # NOTE: my_ip can be an address or fqdn, we currently only support
+        # searching by address.
+        return self.get_nova_config_port('my_ip')
+
+    @property
+    def live_migration_inbound_addr_port(self):
+        return self.get_nova_config_port('live_migration_inbound_addr')
+
     @property
     def bind_interfaces(self):
         """
         Fetch interfaces used by Openstack Nova. Returned dict is keyed by
         config key used to identify interface.
         """
-        my_ip = self.nova_config.get('my_ip')
-
         interfaces = {}
-        if not any([my_ip]):
-            return interfaces
+        if self.my_ip_port:
+            interfaces['my_ip'] = self.my_ip_port
 
-        if my_ip:
-            port = self.nethelp.get_interface_with_addr(my_ip)
-            # NOTE: my_ip can be an address or fqdn, we currently only support
-            # searching by address.
-            if port:
-                interfaces.update({'my_ip': port})
+        if self.live_migration_inbound_addr_port:
+            port = self.live_migration_inbound_addr_port
+            interfaces['live_migration_inbound_addr'] = port
 
         return interfaces
 
