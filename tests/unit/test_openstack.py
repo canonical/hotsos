@@ -512,7 +512,8 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                     'firewall_driver': 'openvswitch'}},
                     'nova': {'main': {
                                 'live_migration_permit_auto_converge': False,
-                                'live_migration_permit_post_copy': False}}}
+                                'live_migration_permit_post_copy': False,
+                                'live_migration_inbound_addr': '10.0.0.49'}}}
         self.assertEqual(inst.output["features"], expected)
 
 

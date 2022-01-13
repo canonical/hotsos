@@ -20,6 +20,7 @@ FEATURES = {'neutron': {'main': [
                         'cpu_dedicated_set',
                         'live_migration_permit_auto_converge',
                         'live_migration_permit_post_copy',
+                        'live_migration_inbound_addr',
                         ]}}
 
 # checked against neutron
