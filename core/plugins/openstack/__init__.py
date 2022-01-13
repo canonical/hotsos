@@ -667,7 +667,7 @@ class NovaCPUPinning(NovaBase):
     @property
     def unpinned_cpus_pcent(self):
         num_cpus = SystemBase().num_cpus
-        return (float(100) / num_cpus) * self.num_unpinned_cpus
+        return int((float(100) / num_cpus) * self.num_unpinned_cpus)
 
     @property
     def nova_pinning_from_multi_numa_nodes(self):

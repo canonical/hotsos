@@ -524,9 +524,9 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
 
     @mock.patch('core.plugins.system.SystemBase.num_cpus', 16)
     @mock.patch('core.plugins.kernel.KernelConfig.get',
-                lambda *args, **kwargs: [0, 1, 2, 3])
+                lambda *args, **kwargs: range(9, 16))
     @mock.patch('core.plugins.kernel.SystemdConfig.get',
-                lambda *args, **kwargs: [4, 5, 6, 7])
+                lambda *args, **kwargs: range(2, 9))
     def test_nova_pinning_base(self):
         with mock.patch('core.plugins.openstack.NovaCPUPinning.vcpu_pin_set',
                         [0, 1, 2]):
@@ -542,8 +542,8 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         self.assertEquals(inst.cpu_dedicated_set_intersection_cpuaffinity, [])
         self.assertEquals(inst.cpu_shared_set_intersection_isolcpus, [])
         self.assertEquals(inst.cpuaffinity_intersection_isolcpus, [])
-        self.assertEquals(inst.unpinned_cpus_pcent, 50.0)
-        self.assertEquals(inst.num_unpinned_cpus, 8)
+        self.assertEquals(inst.unpinned_cpus_pcent, 12)
+        self.assertEquals(inst.num_unpinned_cpus, 2)
         self.assertEquals(inst.nova_pinning_from_multi_numa_nodes, False)
         with mock.patch('core.plugins.openstack.NovaCPUPinning.'
                         'cpu_dedicated_set', [0, 1, 4]):
