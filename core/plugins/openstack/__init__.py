@@ -304,7 +304,9 @@ class OSTProjectCatalog(object):
                                'nova-api-wsgi', 'nova-api-metadata',
                                'nova-placement'],
                  config={'main': 'nova.conf'},
-                 systemd_masked_services=['nova-api-os-compute'],
+                 # See LP bug 1957760 for reason why neutron-server is added.
+                 systemd_masked_services=['nova-api-os-compute',
+                                          'neutron-server'],
                  log_path_overrides={'nova-api-os-compute':
                                      'var/log/apache2/nova-*.log'}),
         self.add('manila',
