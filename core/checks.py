@@ -541,16 +541,24 @@ class APTPackageChecksBase(PackageChecksBase):
         self._core_packages = {}
         self._other_packages = {}
         self._all_packages = {}
-        self._match_expr_template = r"^ii\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+        # Match any installed package status
+        self._match_expr_template = r"^.i\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
         self.cli = CLIHelper()
 
     def is_installed(self, pkg):
+        if pkg in self.all:
+            return True
+
         dpkg_l = self.cli.dpkg_l()
         if not dpkg_l:
             return
 
+        cexpr = re.compile(r"^.i\s+{}\s+.+".format(pkg))
         for line in dpkg_l:
-            if re.compile(r"^ii\s+{}\s+.+".format(pkg)).search(line):
+            # See https://man7.org/linux/man-pages/man1/dpkg-query.1.html for
+            # package states.
+            # Here we check package status not desired action.
+            if cexpr.search(line):
                 return True
 
         return False
