@@ -55,6 +55,10 @@ class constants_properties(type):
     def MAX_LOGROTATE_DEPTH(cls):
         return cls._MAX_LOGROTATE_DEPTH()
 
+    @property
+    def MINIMAL_MODE(cls):
+        return cls._MINIMAL_MODE()
+
 
 class constants(object, metaclass=constants_properties):
     """
@@ -124,3 +128,7 @@ class constants(object, metaclass=constants_properties):
     @classmethod
     def _MAX_LOGROTATE_DEPTH(cls):
         return int(os.environ.get('MAX_LOGROTATE_DEPTH', 7))
+
+    @classmethod
+    def _MINIMAL_MODE(cls):
+        return os.environ.get('MINIMAL_MODE')

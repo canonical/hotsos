@@ -28,9 +28,9 @@ export DATA_ROOT
 # Plugin args - prefix must be plugin name
 export AGENT_ERROR_KEY_BY_TIME=false
 # Output format - default is yaml
-export OUTPUT_FORMAT
+export OUTPUT_FORMAT='yaml'
 # Path to the end product that plugins can see along the way.
-export MASTER_YAML_OUT
+export MASTER_YAML_OUT=`mktemp`
 export USE_ALL_LOGS=false
 # Name of the current plugin being executed
 export PLUGIN_NAME
@@ -42,14 +42,12 @@ export PLUGIN_TMP_DIR
 # location if yaml defs of issues, bugs etc
 export PLUGIN_YAML_DEFS
 export HOTSOS_ROOT
+export MINIMAL_MODE=
 #===============================================================================
 
 PROGRESS_PID=
 FULL_MODE_EXPLICIT=false
-MINIMAL_MODE=false
 USER_PROVIDED_SUMMARY=
-OUTPUT_FORMAT="yaml"
-MASTER_YAML_OUT=`mktemp`
 MASTER_YAML_OUT_ORIG=`mktemp`
 SAVE_OUTPUT=false
 VERSION="${SNAP_REVISION:-development}"
@@ -145,6 +143,9 @@ OPTIONS
     --short
         Filters the full summary so that it only includes plugin known-bugs
         and potential-issues sections.
+    --very-short
+        Minimal version of --short where only issue types or bug ids are
+        displayed with count of each (issues only).
     -s|--save
         Save yaml output to a file.
     --user-summary
@@ -214,7 +215,10 @@ while (($#)); do
             FULL_MODE_EXPLICIT=true
             ;;
         --short)
-            MINIMAL_MODE=true
+            MINIMAL_MODE='short'
+            ;;
+        --very-short)
+            MINIMAL_MODE='very-short'
             ;;
         --user-summary)
             USER_PROVIDED_SUMMARY=$2
@@ -301,7 +305,7 @@ run_part ()
     export PYTHONPATH="${HOTSOS_ROOT}"
     export PLUGIN_YAML_DEFS="${HOTSOS_ROOT}/defs"
 
-    ${HOTSOS_ROOT}/plugins/$plugin/$part >> $MASTER_YAML_OUT
+    ${HOTSOS_ROOT}/plugins/$plugin/$part
 
     t_end=`date +%s%3N`
     delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
@@ -342,7 +346,7 @@ generate_summary ()
         repo_info=`get_git_rev_info` || repo_info="unknown"
     fi
 
-    cat <<EOF > "${MASTER_YAML_OUT}"
+    cat <<EOF
 hotsos:
   version: $VERSION
   repo-info: $repo_info
@@ -378,42 +382,38 @@ EOF
 
 HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
-    output_summary_name=""
-    if [[ -r $USER_PROVIDED_SUMMARY ]] && $MINIMAL_MODE; then
+    if [[ -r $USER_PROVIDED_SUMMARY ]]; then
         cp $USER_PROVIDED_SUMMARY $MASTER_YAML_OUT
-        output_summary_name="`basename $USER_PROVIDED_SUMMARY`"
-        output_summary_name=${output_summary_name%%.*}
     else
-        generate_summary "$data_root"
+        generate_summary "$data_root" > $MASTER_YAML_OUT
     fi
 
-    if $MINIMAL_MODE; then
-        # the following will overwrite the master copy so we need to make a
-        # backup in case we intend to display short and full.
-        cp $MASTER_YAML_OUT $MASTER_YAML_OUT_ORIG
-        ${HOTSOS_ROOT}/tools/output_filter.py
-    fi
-
-    ${HOTSOS_ROOT}/tools/output_format_converter.py
+    # the following may overwrite the master copy so we need to make a
+    # backup in case we intend to display short and full.
+    cp $MASTER_YAML_OUT $MASTER_YAML_OUT_ORIG
+    ${HOTSOS_ROOT}/tools/output_filter.py
 
     if $SAVE_OUTPUT; then
-        if [[ -z $output_summary_name ]]; then
+        if [[ -r $USER_PROVIDED_SUMMARY ]]; then
+            output_name="`basename $USER_PROVIDED_SUMMARY`"
+            output_name=${output_name%%.*}
+        else
             if [[ $data_root != "/" ]]; then
-                output_summary_name=`basename $data_root`
+                output_name=`basename $data_root`
             else
-                output_summary_name="hotsos-`hostname`"
+                output_name="hotsos-`hostname`"
             fi
         fi
-        if $MINIMAL_MODE; then
-            out=$output_summary_name.short.summary
+        if [[ -n $MINIMAL_MODE ]]; then
+            out=$output_name.short.summary
             mv $MASTER_YAML_OUT $out
             echo "INFO: short summary written to $out"
             if $FULL_MODE_EXPLICIT; then
                 cp $MASTER_YAML_OUT_ORIG $MASTER_YAML_OUT
             fi
         fi
-        if ! $MINIMAL_MODE || $FULL_MODE_EXPLICIT; then
-            out=$output_summary_name.summary
+        if [[ -z $MINIMAL_MODE ]] || $FULL_MODE_EXPLICIT; then
+            out=$output_name.summary
             mv $MASTER_YAML_OUT $out
             echo "INFO: full summary written to $out"
         fi
