@@ -1,7 +1,6 @@
 1888395:
   input:
-    type: filesystem
-    value: 'var/log/nova/nova-compute.log'
+    path: 'var/log/nova/nova-compute.log'
   expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
   hint: 'NotImplementedError'
   settings:
@@ -17,8 +16,7 @@
     message: 'known nova bug identified'
 1944619:
   input:
-    type: filesystem
-    value: 'var/log/nova/nova-compute.log'
+    path: 'var/log/nova/nova-compute.log'
   expr: '.+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
   hint: 'libvirtError'
   raises:

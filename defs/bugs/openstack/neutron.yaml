@@ -1,7 +1,6 @@
 1907686:
   input:
-    type: filesystem
-    value: 'var/log/neutron/neutron-openvswitch-agent.log'
+    path: 'var/log/neutron/neutron-openvswitch-agent.log'
   expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
   hint: 'OVS database'
   raises:
@@ -36,8 +35,7 @@
       not OVN) it should be upgraded asap.
 1928031:
   input:
-    type: filesystem
-    value: 'var/log/neutron/neutron-ovn-metadata-agent.log'
+    path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
   expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
   hint: 'AttributeError'
   raises:

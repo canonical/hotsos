@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/kern.log'
+  path: 'var/log/kern.log'
 common:
   stacktrace:
     expr: '.*Call Trace:'

@@ -22,8 +22,7 @@ class YConfigChecker(AutoChecksBase):
         if not plugin_checks:
             return
 
-        yconfigchecks = YDefsSection(constants.PLUGIN_NAME, plugin_checks,
-                                     checks_handler=self)
+        yconfigchecks = YDefsSection(constants.PLUGIN_NAME, plugin_checks)
         log.debug("sections=%s, checks=%s",
                   len(yconfigchecks.branch_sections),
                   len(yconfigchecks.leaf_sections))

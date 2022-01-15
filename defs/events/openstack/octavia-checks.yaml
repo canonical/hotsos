@@ -1,7 +1,6 @@
 octavia-health-manager:
   input:
-    type: filesystem
-    value: 'var/log/octavia/octavia-health-manager.log'
+    path: 'var/log/octavia/octavia-health-manager.log'
   amp-missed-heartbeats:
     expr: '^(\S+) \S+ .+ Amphora (\S+) health message was processed too slowly:.+'
     hint: 'Amphora'
@@ -11,7 +10,6 @@ octavia-health-manager:
 octavia-worker:
   lb-failover-manual:
     input:
-      type: filesystem
-      value: 'var/log/octavia/octavia-worker.log'
+      path: 'var/log/octavia/octavia-worker.log'
     expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
     hint: 'failover'

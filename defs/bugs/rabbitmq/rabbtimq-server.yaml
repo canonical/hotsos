@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value:  'var/log/rabbitmq/rabbit@*.log'
+  path:  'var/log/rabbitmq/rabbit@*.log'
 1943937:
   expr: 'operation queue.declare caused a channel exception not_found: failed to perform operation on queue ''\S+'' in vhost ''\S+'' due to timeout'
   hint: 'not_found'

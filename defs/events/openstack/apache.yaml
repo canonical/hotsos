@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/apache2/error.log'
+  path: 'var/log/apache2/error.log'
 errors:
   connection-refused:
     # wday month day time year

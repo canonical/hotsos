@@ -77,14 +77,16 @@ describes how they are consumed in (Python) code i.e. the handlers.
 Defines a config checker. The handler is normally a plugins' implementation of
 core.checks.SectionalConfigBase.
 
-##### format
+format
+
 ```
 config:
   handler: config.handler.import.path
   path: <relative path to config file>
 ```
 
-##### usage
+usage
+
 ```
 config.actual(key, section=None)
 config.check(actual, value, op, allow_unset=False):
@@ -95,14 +97,16 @@ Defines a dictionary of settings. This is typically defined at a high point in
 the tree so that all branches beneath it use as common context. The
 structure/content of this dictionary is handler-specific.
 
-##### format
+format
+
 ```
 context:
   <key>: <val>
   ...
 ```
 
-##### usage
+usage
+
 ```
 context.<param>
 ```
@@ -112,13 +116,15 @@ Defines a decision as a list of logical operators each associated with a list
 of one or more check labels as defined in a *checks* subdef. This property is
 typically used in a *conclusions* subdef.
 
-##### format
+format
+
 ```
 decision:
   and|or: [check1, ...]
 ```
 
-##### usage
+usage
+
 ```
 <iter>
 ```
@@ -127,28 +133,41 @@ decision:
 Defines a type of input. Currently we support a filesystem path or command.
 When a command is provided, the output of that command is written to a
 temporary file the path of which is returned by input.path. Supported commands
-are those provided by core.cli_helpers.CLIHelper.
+are those provided by core.cli_helpers.CLIHelper. Only one of *path* or
+*command* can be defined for a given input.
 
-##### format
+format
+
 ```
 input:
-  type: filesystem|command
-  value: <path or command>
-  meta:
-    # (optional) used with type=filesystem. defines whether to apply
-    #            USE_ALL_LOGS to path.
-    allow-all-logs: True
-    # (optional) used with type=command. The following are used as
-    #            input to command.
-    args: []
-    kwargs: {}
-    # (optional) used with type=command. This will be called and the
-    #            return is expected to be a tuple of <list>, <dict>
-    #            that are used as input to command.
-    args-callback: None
+  command: python import path for CLIHelpers command
+  path: filesystem path (relative to DATA_ROOT)
+  options: OPTIONS
+
+OPTIONS
+    This is a dictionary of options with the form key: value.
+
+    allow-all-logs: True|False
+      Used in combination with *path* and determines
+      whether to apply USE_ALL_LOGS to path. Default is True.
+
+    args: [arg1, ...]
+      Used in combination with *command*. This is a list of args
+      that will be provided to the command.
+       
+    kwargs: {kwarg1: val, ...}
+      Used in combination with *command*. This is a dictionary
+      of kwargs that will be provided to the command.
+
+    args-callback: import.path.to.method
+      Used in combination with *command*. This is the import path to
+      a method that will be called and the return value must be a
+      tuple of the form <list>, <dict> where the list is used as args
+      to the command and dict is kwargs.
 ```
 
-##### usage
+usage
+
 ```
 input.path
 ```
@@ -156,13 +175,15 @@ input.path
 #### priority
 Defines an integer priority.
 
-##### format
+format
+
 ```
 priority:
   <int>
 ```
 
-##### usage
+usage
+
 ```
 int(priority)
 ```
@@ -172,7 +193,8 @@ Defines the issue and message we want to raise. For example a check may want
 to raise an issue using type core.issues.issue_types.Foo with a message that
 contains format fields that need to be populated.
 
-##### format
+format
+
 ```
 raises:
   type: core.issues.issue_types.<type>
@@ -189,7 +211,8 @@ search result group IDs from an *expr* search result. This is converted
 into a list of values and used to format the *message* string (so therefore
 fields do not need to be named when using this method). 
 
-##### usage
+usage
+
 ```
 raises.type
 raises.message
@@ -207,7 +230,8 @@ are used, their results are ANDed together to get the final result for
 *passes*. 
 
 
-##### format
+format
+
 ```
 requires:
   TYPE: INPUT
@@ -254,7 +278,8 @@ TYPE
 
 ```
 
-##### usage
+usage
+
 ```
 requires.passes
 ```
@@ -263,13 +288,15 @@ requires.passes
 Defines a group of settings. Implementation is handler-specific. Settings are
 retrieved by iterating over the result.
 
-##### format
+format
+
 ```
 settings:
   <dict>
 ```
 
-##### usage
+usage
+
 ```
 iter(settings)
 ```
@@ -289,7 +316,8 @@ their handler as a raw core.searchtools.SearchResultsCollection. This is
 typically so that they can be parsed with core.analytics.LogEventStats.
 Defaults to False.
 
-##### format
+format
+
 ```
 expr|hint: <str>
 
@@ -300,7 +328,8 @@ start|body|end:
 passthrough-results: True|False
 ```
 
-##### usage
+usage
+
 ```
 If value is a string:
   str(expr|hint)
@@ -337,6 +366,11 @@ checks:
   ... 
 ```
 
+Supported properties
+  * expr
+  * requires
+  * input
+
 #### conclusions
 This indicates that everything beneath is a set of one or more conclusions to
 be used by core.ycheck.scenarios. The contents of this override are defined as
@@ -364,6 +398,11 @@ conclusions:
       format-dict:
         <key>: <value>
 ```
+
+Supported properties
+  * priority
+  * decision
+  * raises
 
 ## Handlers
 
@@ -402,8 +441,7 @@ A single-line search on a file:
 ```
 myeventname:
   input:
-    type: filesystem
-    value: path/to/my/file
+    path: path/to/my/file
   expr: <re.match pattern>
   hint: optional <re.match pattern> used as a low-cost filter
 ```
@@ -413,8 +451,7 @@ A multi-line search on a file:
 ```
 myeventname:
   input:
-    type: filesystem
-    value: path/to/my/file
+    path: path/to/my/file
   start:
     expr: <re.match pattern>
   end:
@@ -426,8 +463,7 @@ A sequence search on a file:
 ```
 myeventname:
   input:
-    type: filesystem
-    value: path/to/my/file
+    path: path/to/my/file
   start:
     expr: <re.match pattern>
   body:

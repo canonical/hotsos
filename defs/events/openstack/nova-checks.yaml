@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/nova/nova-compute.log'
+  path: 'var/log/nova/nova-compute.log'
 warnings:
   pci-dev-not-found:
     expr: '^([0-9\-]+) (\S+) .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'

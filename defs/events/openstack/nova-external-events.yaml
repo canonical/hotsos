@@ -1,7 +1,6 @@
 input:
-  type: filesystem
-  value: 'var/log/nova/nova-compute.log'
-  meta:
+  path: 'var/log/nova/nova-compute.log'
+  options:
     # Searching all logs can yield too many results and we don't yet have a
     # way to override MAX_LOGROTATE_DEPTH so disabling for now.
     allow-all-logs: False

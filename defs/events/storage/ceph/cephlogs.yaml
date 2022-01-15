@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/ceph/ceph*.log'
+  path: 'var/log/ceph/ceph*.log'
 osd-reported-failed:
   expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
   hint: 'reported failed'

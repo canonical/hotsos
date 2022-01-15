@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/rabbitmq/rabbit@*.log'
+  path: 'var/log/rabbitmq/rabbit@*.log'
 rabbitlog:
   cluster-partitions:
     expr: '.+ \S+_partitioned_network'

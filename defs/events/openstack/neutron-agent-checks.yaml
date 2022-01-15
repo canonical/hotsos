@@ -1,8 +1,7 @@
 neutron-ovs-agent:
   input:
-    type: filesystem
-    value: 'var/log/neutron/neutron-openvswitch-agent.log'
-    meta:
+    path: 'var/log/neutron/neutron-openvswitch-agent.log'
+    options:
       # Disabling all-logs for now since running against a long
       # history of logs can generate a very large amount of data that can
       # consume too much memory.
@@ -19,8 +18,7 @@ neutron-ovs-agent:
     passthrough-results: True      
 neutron-l3-agent:
   input:
-    type: filesystem
-    value: 'var/log/neutron/neutron-l3-agent.log'
+    path: 'var/log/neutron/neutron-l3-agent.log'
   # identify router updates that took the longest to complete and report the longest updates.
   router-updates:
     start:

@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/kern.log'
+  path: 'var/log/kern.log'
 denials:
   nova:
     expr: '(\S+ \d+) \d+:\S+\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'

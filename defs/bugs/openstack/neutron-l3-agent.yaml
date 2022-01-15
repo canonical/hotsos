@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/neutron/neutron-l3-agent.log'
+  path: 'var/log/neutron/neutron-l3-agent.log'
 1883089:
   expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
   hint: 'AttributeError'
@@ -13,8 +12,7 @@ input:
     message: 'known neutron l3-agent bug identified that impacts deletion of neutron routers.'
 1896506:
   input:
-    type: filesystem
-    value: 'var/log/syslog'
+    path: 'var/log/syslog'
   expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
   hint: 'no_track'
   raises:

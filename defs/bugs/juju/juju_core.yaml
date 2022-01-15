@@ -1,6 +1,5 @@
 input:
-  type: filesystem
-  value: 'var/log/juju/*.log'
+  path: 'var/log/juju/*.log'
 1910958:
   expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
   hint: 'manifold worker returned unexpected error'

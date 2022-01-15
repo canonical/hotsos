@@ -1,8 +1,7 @@
 l3ha:
   vrrp-transitions:
     input:
-      type: command
-      value: journalctl
-      meta:
-        args-callback: journalctl_args
+      command: journalctl
+      options:
+        args-callback: plugins.openstack.pyparts.agent_event_checks.NeutronL3HAEventChecks.journalctl_args
     expr: '^([0-9-]+)T\S+ \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\(VR_(\d+)\) .+ (\S+) STATE'

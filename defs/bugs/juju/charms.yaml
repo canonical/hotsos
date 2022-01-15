@@ -1,7 +1,6 @@
 1858519:
   input:
-    type: filesystem
-    value: 'var/log/juju/unit-ceph-osd*.log'
+    path: 'var/log/juju/unit-ceph-osd*.log'
   expr: '.* Cannot zap a device used by lvm'
   hint: 'Cannot zap'
   raises:

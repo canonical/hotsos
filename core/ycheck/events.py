@@ -67,7 +67,7 @@ class YEventCheckerBase(ManualChecksBase):
         group_name = self._yaml_defs_group
         log.debug("loading defs for subgroup=%s", group_name)
         group_defs = plugin.get(group_name)
-        group = YDefsSection(group_name, group_defs, checks_handler=self)
+        group = YDefsSection(group_name, group_defs)
         log.debug("sections=%s, events=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
@@ -75,7 +75,8 @@ class YEventCheckerBase(ManualChecksBase):
         for event in group.leaf_sections:
             results_passthrough = bool(event.passthrough_results)
             log.debug("event: %s", event.name)
-            log.debug("input: %s:%s", event.input.type, event.input.path)
+            log.debug("input: %s (command=%s)", event.input.path,
+                      event.input.command is not None)
             log.debug("passthrough: %s", results_passthrough)
 
             # if this is a multiline event (has a start and end), append

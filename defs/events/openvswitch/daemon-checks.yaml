@@ -1,7 +1,6 @@
 vswitchd:
   input:
-    type: filesystem
-    value: 'var/log/openvswitch/ovs-vswitchd.log'
+    path: 'var/log/openvswitch/ovs-vswitchd.log'
   netdev-linux-no-such-device:
     expr: '([0-9-]+)T[0-9:\.]+Z.+\|(\S+): .+ \S+: No such device'
   bridge-no-such-device:
@@ -18,9 +17,7 @@ errors-and-warnings:
   expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
   ovs-vswitchd:
     input:
-      type: filesystem
-      value: 'var/log/openvswitch/ovs-vswitchd.log'
+      path: 'var/log/openvswitch/ovs-vswitchd.log'
   ovsdb-server:
     input:
-      type: filesystem
-      value: 'var/log/openvswitch/ovsdb-server.log'
+      path: 'var/log/openvswitch/ovsdb-server.log'

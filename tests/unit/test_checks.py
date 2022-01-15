@@ -22,8 +22,7 @@ YAML_DEF_W_INPUT = """
 pluginX:
   groupA:
     input:
-      type: filesystem
-      value: foo/bar1
+      path: foo/bar1
     sectionA:
       artifactX:
         settings: True
@@ -54,12 +53,10 @@ YAML_DEF_W_INPUT_SUPERSEDED = """
 pluginX:
   groupA:
     input:
-      type: filesystem
-      value: foo/bar1
+      path: foo/bar1
     sectionA:
       input:
-        type: filesystem
-        value: foo/bar2
+        path: foo/bar2
       artifactX:
         settings: True
 """
@@ -68,16 +65,13 @@ YAML_DEF_W_INPUT_SUPERSEDED2 = """
 pluginX:
   groupA:
     input:
-      type: filesystem
-      value: foo/bar1
+      path: foo/bar1
     sectionA:
       input:
-        type: filesystem
-        value: foo/bar2
+        path: foo/bar2
       artifactX:
         input:
-          type: filesystem
-          value: foo/bar3
+          path: foo/bar3
         settings: True
 """
 
@@ -85,8 +79,7 @@ YAML_DEF_EXPR_TYPES = r"""
 myplugin:
   mygroup:
     input:
-      type: filesystem
-      value: {path}
+      path: {path}
     section1:
       my-sequence-search:
         start: '^hello'
@@ -136,8 +129,7 @@ myplugin:
     checks:
       logmatch:
         input:
-          type: filesystem
-          value: foo.log
+          path: foo.log
         expr: '^([0-9-]+)\S* (\S+) .+'
         meta:
           min: 3
@@ -283,7 +275,6 @@ class TestChecks(utils.BaseTestCase):
         for name, group in plugin_checks.items():
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.type, 'filesystem')
                 self.assertEqual(entry.input.path,
                                  os.path.join(checks.constants.DATA_ROOT,
                                               'foo/bar1*'))
@@ -307,7 +298,6 @@ class TestChecks(utils.BaseTestCase):
         for name, group in plugin_checks.get('pluginX').items():
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.type, 'filesystem')
                 self.assertEqual(entry.input.path,
                                  os.path.join(checks.constants.DATA_ROOT,
                                               'foo/bar2*'))
@@ -317,7 +307,6 @@ class TestChecks(utils.BaseTestCase):
         for name, group in plugin_checks.get('pluginX').items():
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.type, 'filesystem')
                 self.assertEqual(entry.input.path,
                                  os.path.join(checks.constants.DATA_ROOT,
                                               'foo/bar3*'))
@@ -334,7 +323,6 @@ class TestChecks(utils.BaseTestCase):
             for name, group in plugin_checks.items():
                 group = YDefsSection(name, group)
                 for entry in group.leaf_sections:
-                    self.assertEqual(entry.input.type, 'filesystem')
                     self.assertEqual(entry.input.path,
                                      '{}*'.format(data_file))
 

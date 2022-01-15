@@ -25,8 +25,7 @@ class YBugChecker(AutoChecksBase):
         if not plugin_bugs:
             return
 
-        ybugchecks = YDefsSection(constants.PLUGIN_NAME, plugin_bugs,
-                                  checks_handler=self)
+        ybugchecks = YDefsSection(constants.PLUGIN_NAME, plugin_bugs)
         log.debug("loaded plugin '%s' bugs - sections=%s, events=%s",
                   ybugchecks.name,
                   len(ybugchecks.branch_sections),

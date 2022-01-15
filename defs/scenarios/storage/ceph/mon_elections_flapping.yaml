@@ -1,8 +1,7 @@
 checks:
   check1:
     input:
-      type: filesystem
-      value: var/log/ceph/ceph*.log
+      path: var/log/ceph/ceph*.log
     expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
     meta:
       min: 5

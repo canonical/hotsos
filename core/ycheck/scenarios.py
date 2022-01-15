@@ -14,20 +14,21 @@ from core.ycheck import (
     YDefsLoader,
     YDefsSection,
     AutoChecksBase,
-    YAMLDefInput,
-    YAMLDefExpr,
-    YAMLDefRequires,
+    YPropertyInput,
+    YPropertyExpr,
+    YPropertyRequires,
 )
 
 
-class YAMLDefScenarioCheck(YAMLDefExpr, YAMLDefRequires, YAMLDefInput):
+class YAMLDefScenarioCheck(YPropertyExpr, YPropertyRequires, YPropertyInput):
     """
     Override grouping used by scenario checks.
 
     Adds an additional 'meta' override that can be used to provide metadata to
     the check implementation.
     """
-    KEYS = [] + YAMLDefExpr.KEYS + YAMLDefRequires.KEYS + YAMLDefInput.KEYS
+    KEYS = [] + YPropertyExpr.KEYS + YPropertyRequires.KEYS + \
+        YPropertyInput.KEYS
     KEYS.append('meta')
 
     def __getattr__(self, name):
@@ -230,8 +231,7 @@ class Scenario(object):
 
     @property
     def checks(self):
-        section = YDefsSection('checks', self._checks.content,
-                               checks_handler=self)
+        section = YDefsSection('checks', self._checks.content)
         _checks = {}
         for c in section.leaf_sections:
             _checks[c.name] = ScenarioCheck(c.name, c.input, c.expr, c.meta,
@@ -241,8 +241,7 @@ class Scenario(object):
 
     @property
     def conclusions(self):
-        section = YDefsSection('conclusions', self._conclusions.content,
-                               checks_handler=self)
+        section = YDefsSection('conclusions', self._conclusions.content)
         _conclusions = {}
         for r in section.leaf_sections:
             priority = r.priority or 1
@@ -266,8 +265,7 @@ class YScenarioChecker(AutoChecksBase):
             return
 
         yscenarios = YDefsSection(constants.PLUGIN_NAME, plugin_content,
-                                  extra_overrides=[YAMLDefScenarioCheck],
-                                  checks_handler=self)
+                                  extra_overrides=[YAMLDefScenarioCheck])
         if yscenarios.requires and not yscenarios.requires.passes:
             log.debug("plugin '%s' scenarios pre-requisites not met - "
                       "skipping", constants.PLUGIN_NAME)

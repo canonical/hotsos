@@ -103,7 +103,6 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
-
         expected = {'daemon-checks': {
                         'ovs-vswitchd': {
                             'netdev-linux-no-such-device': {

@@ -1,3 +1,2 @@
 input:
-  type: filesystem
-  value: 'var/log/nova/nova-compute.log'
+  path: 'var/log/nova/nova-compute.log'

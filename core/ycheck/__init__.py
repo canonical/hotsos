@@ -40,35 +40,29 @@ def ydef_override(c):
 
 
 class YDefsSection(YAMLDefSection):
-    def __init__(self, name, content, extra_overrides=None,
-                 checks_handler=None):
+    def __init__(self, name, content, extra_overrides=None):
         """
         @param name: name of defs group
         @param content: defs tree of type dict
         @param extra_overrides: optional extra overrides
-        @param checks_handler: handler object used by some overrides to locate
-                               callback methods.
         """
         overrides = [] + YOverridesCollection
         if extra_overrides:
             overrides += extra_overrides
 
-        if checks_handler:
-            for c in overrides:
-                if hasattr(c, 'EVENT_CHECK_OBJ'):
-                    c.EVENT_CHECK_OBJ = checks_handler
-
         super().__init__(name, content, override_handlers=overrides)
 
 
-class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
+class YPropertyOverrideBase(YAMLDefOverrideBase):
 
     def get_cls(self, import_str):
+        log.debug("instantiating class %s", import_str)
         mod = import_str.rpartition('.')[0]
         class_name = import_str.rpartition('.')[2]
         return getattr(importlib.import_module(mod), class_name)
 
     def get_property(self, import_str):
+        log.debug("calling property %s", import_str)
         mod = import_str.rpartition('.')[0]
         property = import_str.rpartition('.')[2]
         class_name = mod.rpartition('.')[2]
@@ -78,13 +72,33 @@ class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
             ret = getattr(cls(), property)
         except Exception:
             if constants.DEBUG_MODE:
-                log.exception("failed to get property %s", import_str)
+                log.exception("failed to import and call property %s",
+                              import_str)
+
+            raise
+
+        return ret
+
+    def get_method(self, import_str):
+        log.debug("calling method %s", import_str)
+        mod = import_str.rpartition('.')[0]
+        property = import_str.rpartition('.')[2]
+        class_name = mod.rpartition('.')[2]
+        mod = mod.rpartition('.')[0]
+        cls = getattr(importlib.import_module(mod), class_name)
+        try:
+            ret = getattr(cls(), property)()
+        except Exception:
+            if constants.DEBUG_MODE:
+                log.exception("failed to import and call method %s",
+                              import_str)
 
             raise
 
         return ret
 
     def get_attribute(self, import_str):
+        log.debug("fetching attribute %s", import_str)
         mod = import_str.rpartition('.')[0]
         attr = import_str.rpartition('.')[2]
         try:
@@ -116,17 +130,17 @@ class YAMLDefOverrideBaseX(YAMLDefOverrideBase):
 
 
 @ydef_override
-class YAMLDefChecks(YAMLDefOverrideBaseX):
+class YPropertyChecks(YPropertyOverrideBase):
     KEYS = ['checks']
 
 
 @ydef_override
-class YAMLDefConclusions(YAMLDefOverrideBaseX):
+class YPropertyConclusions(YPropertyOverrideBase):
     KEYS = ['conclusions']
 
 
 @ydef_override
-class YAMLDefPriority(YAMLDefOverrideBaseX):
+class YPropertyPriority(YPropertyOverrideBase):
     KEYS = ['priority']
 
     def __int__(self):
@@ -134,7 +148,7 @@ class YAMLDefPriority(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefDecision(YAMLDefOverrideBaseX):
+class YPropertyDecision(YPropertyOverrideBase):
     KEYS = ['decision']
 
     @property
@@ -152,7 +166,7 @@ class YAMLDefDecision(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefExpr(YAMLDefOverrideBaseX):
+class YPropertyExpr(YPropertyOverrideBase):
     """
     An expression can be a string or a list of strings and can be provided
     as a single value or dict (with keys start, body, end etc) e.g.
@@ -205,7 +219,7 @@ class YAMLDefExpr(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefRaises(YAMLDefOverrideBaseX):
+class YPropertyRaises(YPropertyOverrideBase):
     KEYS = ['raises']
 
     @property
@@ -236,7 +250,7 @@ class YAMLDefRaises(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefSettings(YAMLDefOverrideBaseX):
+class YPropertySettings(YPropertyOverrideBase):
     KEYS = ['settings']
 
     def __iter__(self):
@@ -245,52 +259,55 @@ class YAMLDefSettings(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefInput(YAMLDefOverrideBaseX):
+class YPropertyInput(YPropertyOverrideBase):
     KEYS = ['input']
     TYPE_COMMAND = 'command'
     TYPE_FILESYSTEM = 'filesystem'
 
-    # NOTE: this must be set by the handler object that is using the overrides.
-    #       we need a better way to do this but we can't use __init__ because
-    #       this class must be provided uninstantiated.
-    EVENT_CHECK_OBJ = None
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._path = None
+        self.cmd_tmp_path = None
 
     @property
-    def meta(self):
+    def options(self):
         defaults = {'allow-all-logs': True,
                     'args': [],
                     'kwargs': {},
                     'args-callback': None}
-        _meta = self.content.get('meta', defaults)
-        defaults.update(_meta)
+        _options = self.content.get('options', defaults)
+        defaults.update(_options)
         return defaults
 
     @property
+    def command(self):
+        return self.content.get('command')
+
+    @property
+    def fs_path(self):
+        return self.content.get('path')
+
+    @property
     def path(self):
-        if self.type == self.TYPE_FILESYSTEM:
-            path = os.path.join(constants.DATA_ROOT, self.value)
-            if constants.USE_ALL_LOGS and self.meta['allow-all-logs']:
+        if self.fs_path:
+            path = os.path.join(constants.DATA_ROOT, self.fs_path)
+            if constants.USE_ALL_LOGS and self.options['allow-all-logs']:
                 path = "{}*".format(path)
 
             return path
-        elif self.type == self.TYPE_COMMAND:
-            if self._path:
-                return self._path
+        elif self.command:
+            if self.cmd_tmp_path:
+                return self.cmd_tmp_path
 
-            args_callback = self.meta['args-callback']
+            args_callback = self.options['args-callback']
             if args_callback:
-                args, kwargs = getattr(self.EVENT_CHECK_OBJ, args_callback)()
+                args, kwargs = self.get_method(args_callback)
             else:
-                args = self.meta['args']
-                kwargs = self.meta['kwargs']
+                args = self.options['args']
+                kwargs = self.options['kwargs']
 
             # get command output
-            out = getattr(CLIHelper(), self.value)(*args,
-                                                   **kwargs)
+            out = getattr(CLIHelper(), self.command)(*args,
+                                                     **kwargs)
             # store in temp file to make it searchable
             # NOTE: we dont need to delete this at the the end since they are
             # created in the plugun tmp dir which is wiped at the end of the
@@ -300,12 +317,14 @@ class YAMLDefInput(YAMLDefOverrideBaseX):
             elif type(out) == dict:
                 out = str(out)
 
-            self._path = mktemp_dump(out)
-            return self._path
+            self.cmd_tmp_path = mktemp_dump(out)
+            return self.cmd_tmp_path
+        else:
+            log.debug("no input provided")
 
 
 @ydef_override
-class YAMLDefContext(YAMLDefOverrideBaseX):
+class YPropertyContext(YPropertyOverrideBase):
     KEYS = ['context']
 
     def __getattr__(self, name):
@@ -320,7 +339,7 @@ class YAMLDefContext(YAMLDefOverrideBaseX):
         return ctxt
 
 
-class YRequirementObj(YAMLDefOverrideBaseX):
+class YRequirementObj(YPropertyOverrideBase):
     def __init__(self, apt, snap, systemd, property, value, py_op):
         self.apt = apt
         self.snap = snap
@@ -371,7 +390,7 @@ class YRequirementObj(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefRequires(YAMLDefOverrideBaseX):
+class YPropertyRequires(YPropertyOverrideBase):
     KEYS = ['requires']
 
     @property
@@ -463,7 +482,7 @@ class YAMLDefRequires(YAMLDefOverrideBaseX):
 
 
 @ydef_override
-class YAMLDefConfig(YAMLDefOverrideBaseX):
+class YPropertyConfig(YPropertyOverrideBase):
     KEYS = ['config']
 
     def actual(self, key, section=None):
