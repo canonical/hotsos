@@ -592,7 +592,8 @@ class CLIHelper(object):
                 [BinCmd('ovs-vsctl list-br'),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br')],
             'ovs_ofctl_show':
-                [BinCmd('ovs-ofctl -O OpenFlow15 show {bridge}'),
+                [BinCmd('ovs-ofctl show {bridge}'),
+                 BinCmd('ovs-ofctl -O OpenFlow15 show {bridge}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-ofctl_-O_OpenFlow15_show_{bridge}'),
                  FileCmd('sos_commands/openvswitch/'
