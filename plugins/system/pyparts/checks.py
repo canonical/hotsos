@@ -1,10 +1,6 @@
 import os
 
 from core import constants
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
 from core.plugins.system import SystemChecksBase, SYSCtlHelper
 
 YAML_PRIORITY = 1
@@ -143,8 +139,6 @@ class SystemChecks(SystemChecksBase):
 
         if mismatch:
             self._output['sysctl-mismatch'] = mismatch
-            msg = "host sysctl not consistent with contents of systcl.d"
-            issue_utils.add_issue(issue_types.SysCtlWarning(msg))
 
         mismatch = {}
         sysctl = self._get_charm_sysctl_d()
