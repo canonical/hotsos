@@ -290,6 +290,27 @@ class OVSDPCTLFileCmd(FileCmd):
         self.path = self.path.format(datapath=datapath)
 
 
+class OVSOFCTLBinCmd(BinCmd):
+    OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13']
+
+    def __call__(self, *args, **kwargs):
+        """
+        First try without specifying protocol version then is error is raised
+        try with version.
+        """
+        self.cmd = "ovs-ofctl {}".format(self.cmd)
+        ret = super().__call__(*args, **kwargs)
+        if ret == []:
+            # The exception is caught by the base class but this could mean the
+            # the command failed so try with OF version.
+            for ver in self.OFPROTOCOL_VERSIONS:
+                log.debug("retrying ofctl command with protocol version %s",
+                          ver)
+                self.reset()
+                self.cmd = "ovs-ofctl -O {} {}".format(ver, self.cmd)
+                return super().__call__(*args, **kwargs)
+
+
 class DateBinCmd(BinCmd):
 
     def __init__(self, *args, **kwargs):
@@ -542,7 +563,7 @@ class CLIHelper(object):
                 [BinCmd('dpkg -l'),
                  FileCmd('sos_commands/dpkg/dpkg_-l', safe_decode=True)],
             'ethtool':
-                [BinCmd('ethtool'),
+                [BinCmd('ethtool {interface}'),
                  FileCmd('sos_commands/networking/ethtool_{interface}')],
             'hostname':
                 [BinCmd('hostname', singleline=True),
@@ -592,8 +613,7 @@ class CLIHelper(object):
                 [BinCmd('ovs-vsctl list-br'),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br')],
             'ovs_ofctl_show':
-                [BinCmd('ovs-ofctl show {bridge}'),
-                 BinCmd('ovs-ofctl -O OpenFlow15 show {bridge}'),
+                [OVSOFCTLBinCmd('show {bridge}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-ofctl_-O_OpenFlow15_show_{bridge}'),
                  FileCmd('sos_commands/openvswitch/'
