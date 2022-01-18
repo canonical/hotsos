@@ -6,6 +6,21 @@ checks:
       or:
         - property: core.plugins.kernel.KernelBase.isolcpus_enabled
         - property: core.plugins.kernel.SystemdConfig.cpuaffinity_enabled
+  gte_train_release:
+    requires:
+      property: core.plugins.openstack.OpenstackChecksBase.release_name
+      value: train
+      op: ge
+  has_deprecated_pinset_config:
+    # vcpu_pin_set is deprecated as of Train
+    requires:
+      and:
+        - property: core.plugins.openstack.NovaCPUPinning.vcpu_pin_set
+          op: ne
+          value: []
+        - property: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set
+          #  i.e. cpu_dedicated_set is not set
+          value: []
   conflicting_pinset_config:
     # for Train and above, if vcpu_pin_set and cpu_dedicated_set are both
     # configured Nova will raise an Error.
@@ -17,9 +32,6 @@ checks:
         - property: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set
           op: ne
           value: []
-        - property: core.plugins.openstack.OpenstackChecksBase.release_name
-          value: train
-          op: ge
   nova_pinning_from_multi_numa_nodes:
     requires:
       property: core.plugins.openstack.NovaCPUPinning.nova_pinning_from_multi_numa_nodes
@@ -62,7 +74,7 @@ conclusions:
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
-        Nova config option ''{cpu_dedicated_set_name}'' uses a subset of both
+        Nova config option '{cpu_dedicated_set_name}' uses a subset of both
         isolcpus AND systemd CPUAffinity.
       format-dict:
         cpu_dedicated_set_name: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_name
@@ -71,13 +83,13 @@ conclusions:
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
-        Nova config option ''cpu_shared_set'' is using cores from isolcpus.
+        Nova config option 'cpu_shared_set' is using cores from isolcpus.
   cpu_shared_set_and_cpu_dedicated_set_overlap:
     decision: cpu_shared_set_and_cpu_dedicated_set_overlap
     raises:
       type: core.issues.issue_types.OpenstackError
       message: >-
-        Nova config options ''cpu_shared_set'' and ''{cpu_dedicated_set_name}'' are configured
+        Nova config options 'cpu_shared_set' and '{cpu_dedicated_set_name}' are configured
         with overlapping sets of cpu cores.
       format-dict:
         cpu_dedicated_set_name: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_name
@@ -93,7 +105,7 @@ conclusions:
         - pinning_enabled
         - insufficient_unpinned_cpus
     raises:
-      type: core.issues.issue_types.OpenstackError
+      type: core.issues.issue_types.OpenstackWarning
       message: >-
         Host has only {nonisolated} cores ({pcent_unpinned}%) unpinned. This
         might have unintended performance implications.
@@ -105,16 +117,30 @@ conclusions:
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
-        Nova config option ''{cpu_dedicated_set_name}'' is configured with cores
+        Nova config option '{cpu_dedicated_set_name}' is configured with cores
         from more than one numa node. This can have performance implications and should
         be checked.
       format-dict:
         cpu_dedicated_set_name: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_name
   conflicting_pinset_config:
-    decision: conflicting_pinset_config
+    decision:
+      and:
+        - gte_train_release
+        - conflicting_pinset_config
     raises:
       type: core.issues.issue_types.OpenstackError
       message: >-
-        Nova config options ''vcpu_pin_set'' and ''cpu_dedicated_set'' are both
+        Nova config options 'vcpu_pin_set' and 'cpu_dedicated_set' are both
         set/configured which is not allowed for >= Train.
+  has_deprecated_pinset_config:
+    decision:
+      and:
+        - gte_train_release
+        - has_deprecated_pinset_config
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        Nova config option 'vcpu_pin_set' is configured yet it is deprecated as
+        of the Train release and may be ignored. Recommendation is to switch to
+        using cpu_dedicated_set and/or cpu_shared_set (see upstream docs).
 

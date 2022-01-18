@@ -914,23 +914,29 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = {}
 
         def fake_add_issue(issue):
-            issues[type(issue)] = issue.msg
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(len(issues), 1)
+        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
         self.assertTrue(issue_types.OpenstackWarning in issues)
         self.assertTrue('not using cpufreq scaling_governor in "performance" '
-                        'mode' in issues[issue_types.OpenstackWarning])
+                        'mode' in issues[issue_types.OpenstackWarning][0])
 
     @mock.patch('core.plugins.openstack.OpenstackChecksBase.release_name',
                 'train')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenario_pinning_invalid_config(self, mock_add_issue):
-        issues = []
+        issues = {}
 
         def fake_add_issue(issue):
-            issues.append(type(issue))
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
@@ -946,17 +952,47 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 fd.write('cpu_dedicated_set = 1,2,3\n')
 
             YScenarioChecker()()
-            self.assertEqual(len(issues), 2)
-            self.assertTrue(issue_types.OpenstackError in issues)
+            self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 2)
+            msg = ("Nova config options 'vcpu_pin_set' and "
+                   "'cpu_dedicated_set' are both set/configured which is not "
+                   "allowed for >= Train.")
+            self.assertEqual(issues[issue_types.OpenstackError], [msg])
+            msg = ("Nova config option 'vcpu_pin_set' is configured with "
+                   "cores from more than one numa node. This can have "
+                   "performance implications and should be checked.")
+            self.assertEqual(issues[issue_types.OpenstackWarning], [msg])
 
             with open(path, 'w') as fd:
                 fd.write('[DEFAULT]\n')
                 fd.write('cpu_dedicated_set = 1,2,3\n')
 
-            issues = []
+            issues = {}
             YScenarioChecker()()
-            self.assertEqual(len(issues), 1)
-            self.assertFalse(issue_types.OpenstackError in issues)
+            self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+            msg = issues[issue_types.OpenstackWarning]
+            msg = ("Nova config option 'cpu_dedicated_set' is configured with "
+                   "cores from more than one numa node. This can have "
+                   "performance implications and should be checked.")
+            self.assertEqual(issues[issue_types.OpenstackWarning], [msg])
+
+            with open(path, 'w') as fd:
+                fd.write('[DEFAULT]\n')
+                fd.write('vcpu_pin_set = 1,2,3\n')
+
+            issues = {}
+            YScenarioChecker()()
+            self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 2)
+            msg = issues[issue_types.OpenstackWarning]
+            msg1 = ("Nova config option 'vcpu_pin_set' is configured with "
+                    "cores from more than one numa node. This can have "
+                    "performance implications and should be checked.")
+            msg2 = ("Nova config option 'vcpu_pin_set' is configured yet it "
+                    "is deprecated as of the Train release and may be "
+                    "ignored. Recommendation is to switch to using "
+                    "cpu_dedicated_set and/or cpu_shared_set (see upstream "
+                    "docs).")
+            self.assertEqual(sorted(issues[issue_types.OpenstackWarning]),
+                             sorted([msg1, msg2]))
 
     @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
                 True)
@@ -966,14 +1002,17 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = {}
 
         def fake_add_issue(issue):
-            issues[type(issue)] = issue.msg
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
             OCTAVIA_UNIT_FILES_APACHE_MASKED.splitlines(keepends=True)
         YScenarioChecker()()
-        self.assertEqual(len(issues), 1)
+        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
         self.assertTrue(issue_types.OpenstackWarning in issues)
         self.assertTrue("masked: apache2" in
-                        issues[issue_types.OpenstackWarning])
+                        issues[issue_types.OpenstackWarning][0])
