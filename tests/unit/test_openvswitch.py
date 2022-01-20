@@ -112,10 +112,13 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                         'logs': {
                             'ovs-thread-unreasonably-long-poll-interval': {
                                 '2021-08-19': 2},
+                            'dpif-netlink-lost-packet-on-handler': {
+                                '2022-01-16': 1},
                             'ovs-vswitchd': {
                                 'WARN': {'2021-06-29': 1,
                                          '2021-07-19': 1,
-                                         '2021-08-19': 2}},
+                                         '2021-08-19': 2,
+                                         '2022-01-16': 1}},
                             'ovsdb-server': {'ERR': {'2021-07-16': 1},
                                              'WARN': {'2021-07-28': 1}}}}}
         inst = event_checks.OpenvSwitchDaemonEventChecks()

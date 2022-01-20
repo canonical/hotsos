@@ -43,6 +43,12 @@ class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
             return {event.name: ret}, 'logs'
 
     @EVENTCALLBACKS.callback
+    def dpif_netlink_lost_packet_on_handler(self, event):
+        ret = self.get_results_stats(event.results)
+        if ret:
+            return {event.name: ret}, 'logs'
+
+    @EVENTCALLBACKS.callback
     def rx_packet_on_unassociated_datapath_port(self, event):
         ret = self.get_results_stats(event.results)
         if ret:
