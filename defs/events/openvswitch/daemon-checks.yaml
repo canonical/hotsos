@@ -12,6 +12,9 @@ vswitchd:
   receive-tunnel-port-not-found:
     expr:
       - '([0-9-]+)T[0-9:\.]+Z.+\|receive tunnel port not found \((\w+),'
+  dpif-netlink-lost-packet-on-handler:
+    expr:
+      - '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
 errors-and-warnings:
   hint: '(ERR|WARN)'
   expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
