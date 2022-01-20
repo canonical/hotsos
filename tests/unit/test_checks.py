@@ -339,9 +339,9 @@ class TestChecks(utils.BaseTestCase):
                                      searchobj=FileSearcher(),
                                      callback_helper=EVENTCALLBACKS)
 
-                @EVENTCALLBACKS.callback
+                @EVENTCALLBACKS.callback()
                 def my_sequence_search(self, event):
-                    callbacks_called['my_sequence_search'] = True
+                    callbacks_called[event.name] = True
                     for section in event.results:
                         for result in section:
                             if result.tag.endswith('-start'):
@@ -354,22 +354,18 @@ class TestChecks(utils.BaseTestCase):
                                 match_count['count'] += 1
                                 test_self.assertEqual(result.get(0), 'world')
 
-                @EVENTCALLBACKS.callback
+                @EVENTCALLBACKS.callback()
                 def my_standard_search(self, event):
                     # expected to be passthough results (i.e. raw)
-                    callbacks_called['my_standard_search'] = True
+                    callbacks_called[event.name] = True
                     tag = 'my-standard-search-start'
                     start_results = event.results.find_by_tag(tag)
                     test_self.assertEqual(start_results[0].get(0), 'hello')
 
-                @EVENTCALLBACKS.callback
-                def my_standard_search2(self, event):
-                    callbacks_called['my_standard_search2'] = True
-                    test_self.assertEqual(event.results[0].get(0), 'hello')
-
-                @EVENTCALLBACKS.callback
-                def my_standard_search3(self, event):
-                    callbacks_called['my_standard_search3'] = True
+                @EVENTCALLBACKS.callback('my-standard-search2',
+                                         'my-standard-search3')
+                def my_standard_search_common(self, event):
+                    callbacks_called[event.name] = True
                     test_self.assertEqual(event.results[0].get(0), 'hello')
 
                 def __call__(self):
@@ -378,9 +374,9 @@ class TestChecks(utils.BaseTestCase):
             MyEventHandler()()
             self.assertEqual(match_count['count'], 3)
             self.assertEqual(list(callbacks_called.keys()),
-                             ['my_sequence_search',
-                              'my_standard_search',
-                              'my_standard_search2'])
+                             ['my-sequence-search',
+                              'my-standard-search',
+                              'my-standard-search2'])
 
     @mock.patch('core.issues.issue_utils.add_issue')
     @mock.patch.object(ycheck, 'APTPackageChecksBase')

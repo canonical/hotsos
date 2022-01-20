@@ -32,7 +32,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
                          yaml_defs_group='apache',
                          event_results_output_key='apache', **kwargs)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def connection_refused(self, event):
         events = {}
         ports_max = {}
@@ -97,7 +97,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         return {"top": top5,
                 "stats": stats.get_event_stats()}
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def router_updates(self, event):
         agent = event.section
         sri = SearchResultIndices(event_id_idx=4,
@@ -108,15 +108,8 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         if ret:
             return {event.name: ret}, agent
 
-    @EVENTCALLBACKS.callback
-    def router_spawn_events(self, event):
-        agent = event.section
-        ret = self._get_event_stats(event.results, event.name)
-        if ret:
-            return {event.name: ret}, agent
-
-    @EVENTCALLBACKS.callback
-    def rpc_loop(self, event):
+    @EVENTCALLBACKS.callback('rpc-loop', 'router-spawn-events')
+    def process_events(self, event):
         agent = event.section
         ret = self._get_event_stats(event.results, event.name)
         if ret:
@@ -156,19 +149,14 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
         return failovers
 
-    @EVENTCALLBACKS.callback
-    def lb_failover_auto(self, event):
+    @EVENTCALLBACKS.callback('lb-failover-auto', 'lb-failover-manual')
+    def lb_failovers(self, event):
         ret = self._get_failovers(event.results)
         if ret:
-            return {'auto': ret}, 'lb-failovers'
+            failover_type = event.name.rpartition('-')[2]
+            return {failover_type: ret}, 'lb-failovers'
 
-    @EVENTCALLBACKS.callback
-    def lb_failover_manual(self, event):
-        ret = self._get_failovers(event.results)
-        if ret:
-            return {'manual': ret}, 'lb-failovers'
-
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def amp_missed_heartbeats(self, event):
         missed_heartbeats = {}
         for r in event.results:
@@ -203,7 +191,7 @@ class NovaAgentEventChecks(OpenstackEventChecksBase):
                          yaml_defs_group='nova-checks',
                          event_results_output_key='nova', **kwargs)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def pci_dev_not_found(self, event):
         notfounds = {}
         for result in event.results:
@@ -256,15 +244,10 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
         if info:
             return info
 
-    @EVENTCALLBACKS.callback
-    def nova(self, event):
+    @EVENTCALLBACKS.callback('nova', 'neutron')
+    def openstack_apparmor(self, event):
         action = event.section
-        return self._get_aa_stats(event.results, 'nova'), action
-
-    @EVENTCALLBACKS.callback
-    def neutron(self, event):
-        action = event.section
-        return self._get_aa_stats(event.results, 'neutron'), action
+        return self._get_aa_stats(event.results, event.name), action
 
 
 class NeutronL3HAEventChecks(OpenstackEventChecksBase):
@@ -308,7 +291,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
         return args, kwargs
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def vrrp_transitions(self, event):
         transitions = {}
         for r in event.results:

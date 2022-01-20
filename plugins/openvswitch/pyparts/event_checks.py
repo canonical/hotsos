@@ -22,55 +22,24 @@ class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
                          event_results_output_key='daemon-checks',
                          callback_helper=EVENTCALLBACKS)
 
-    @EVENTCALLBACKS.callback
-    def netdev_linux_no_such_device(self, event):
-        """ Group with vswitchd section results. """
+    @EVENTCALLBACKS.callback('bridge-no-such-device',
+                             'netdev-linux-no-such-device')
+    def process_vswitchd_events(self, event):
         ret = self.get_results_stats(event.results)
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 
-    @EVENTCALLBACKS.callback
-    def bridge_no_such_device(self, event):
-        """ Group with vswitchd section results. """
-        ret = self.get_results_stats(event.results)
-        if ret:
-            return {event.name: ret}, 'ovs-vswitchd'
+    @EVENTCALLBACKS.callback('ovsdb-server', 'ovs-vswitchd',
+                             'receive-tunnel-port-not-found',
+                             'rx-packet-on-unassociated-datapath-port',
+                             'dpif-netlink-lost-packet-on-handler',
+                             'ovs-thread-unreasonably-long-poll-interval')
+    def process_log_events(self, event):
+        key_by_date = True
+        if event.name in ['ovs-vswitchd', 'ovsdb-server']:
+            key_by_date = False
 
-    @EVENTCALLBACKS.callback
-    def ovs_thread_unreasonably_long_poll_interval(self, event):
-        ret = self.get_results_stats(event.results)
-        if ret:
-            return {event.name: ret}, 'logs'
-
-    @EVENTCALLBACKS.callback
-    def dpif_netlink_lost_packet_on_handler(self, event):
-        ret = self.get_results_stats(event.results)
-        if ret:
-            return {event.name: ret}, 'logs'
-
-    @EVENTCALLBACKS.callback
-    def rx_packet_on_unassociated_datapath_port(self, event):
-        ret = self.get_results_stats(event.results)
-        if ret:
-            return {event.name: ret}, 'logs'
-
-    @EVENTCALLBACKS.callback
-    def receive_tunnel_port_not_found(self, event):
-        ret = self.get_results_stats(event.results)
-        if ret:
-            return {event.name: ret}, 'logs'
-
-    @EVENTCALLBACKS.callback
-    def ovs_vswitchd(self, event):
-        """ Group with errors-and-warnings section results. """
-        ret = self.get_results_stats(event.results, key_by_date=False)
-        if ret:
-            return {event.name: ret}, 'logs'
-
-    @EVENTCALLBACKS.callback
-    def ovsdb_server(self, event):
-        """ Group with errors-and-warnings section results. """
-        ret = self.get_results_stats(event.results, key_by_date=False)
+        ret = self.get_results_stats(event.results, key_by_date=key_by_date)
         if ret:
             return {event.name: ret}, 'logs'
 
@@ -83,13 +52,13 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
                          event_results_output_key='flow-checks',
                          callback_helper=EVENTCALLBACKS)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def deferred_action_limit_reached(self, event):
         ret = self.get_results_stats(event.results, key_by_date=False)
         output_key = "{}-{}".format(event.section, event.name)
         return ret, output_key
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def lookups(self, event):
         # expect one line/result
         result = event.results[0]
@@ -101,7 +70,7 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
                    "ovs-appctl dpctl/show.".format(lost_packets))
             issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def port_stats(self, event):
         """
         Report on interfaces that are showing packet drops or errors.

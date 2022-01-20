@@ -67,7 +67,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return info
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def slow_requests(self, event):
         slow_requests = {}
         for result in sorted(event.results, key=lambda r: r.get(1)):
@@ -80,12 +80,12 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return slow_requests
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def osd_reported_failed(self, event):
         return self.get_timings(event.results,
                                 group_by_resource=True)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def mon_elections_called(self, event):
         return self.get_timings(event.results,
                                 group_by_resource=True)
@@ -122,24 +122,24 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
             return ret
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def crc_err_bluestore(self, event):
         return self._get_crc_errors(event.results, 'bluestore')
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def crc_err_rocksdb(self, event):
         return self._get_crc_errors(event.results, 'rocksdb')
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def long_heartbeat_pings(self, event):
         return self.get_timings(event.results,
                                 resource_osd_from_source=True)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def heartbeat_no_reply(self, event):
         return self.get_timings(event.results)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def superblock_read_error(self, event):  # pylint: disable=W0613
         msg = ('Detected superblock read errors which indicates an OSD disk '
                'failure or its likely failure in the near future. This '

@@ -17,13 +17,13 @@ class RabbitMQEventChecks(RabbitMQEventChecksBase):
                          searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def cluster_partitions(self, event):  # pylint: disable=W0613
         msg = ("cluster either has or has had partitions - check "
                "cluster_status.")
         issue_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def no_sync(self, event):  # pylint: disable=W0613
         msg = ("Transient mirrored classic queues are not deleted when there "
                "are no replicas available for promotion. Please stop all "
@@ -31,7 +31,7 @@ class RabbitMQEventChecks(RabbitMQEventChecksBase):
                "a rolling restart will not work.")
         issue_utils.add_issue(issue_types.RabbitMQWarning(msg))
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def discard(self, event):  # pylint: disable=W0613
         msg = ("Messages were discarded because transient mirrored classic "
                "queues are not syncronized. Please stop all rabbitmq-server "

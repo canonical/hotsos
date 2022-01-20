@@ -161,7 +161,7 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
         return info
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def src_migration(self, event):
         """
         Source migration is defined as a sequence so that we can capture some
@@ -237,12 +237,12 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
         return results
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def src_post_live_migration(self, event):
         # section name expected to be live-migration
         return self.migration_stats_info(event), event.section
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def dst_pre_live_migration(self, event):
         # section name expected to be live-migration
         return self.migration_stats_info(event), event.section

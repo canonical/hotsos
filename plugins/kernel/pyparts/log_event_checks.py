@@ -21,14 +21,14 @@ class KernelLogEventChecks(KernelEventChecksBase):
         self.cli_helper = CLIHelper()
         self.hostnet_helper = HostNetworkingHelper()
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def stacktrace(self, event):
         msg = ("kern.log contains {} stacktraces.".
                format(len(event.results)))
         issue = issue_types.KernelError(msg)
         issue_utils.add_issue(issue)
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def oom_killer_invoked(self, event):
         results = event.results
         process_name = results[0].get(3)
@@ -40,7 +40,7 @@ class KernelLogEventChecks(KernelEventChecksBase):
         issue_utils.add_issue(issue)
         return time_oomd
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def over_mtu_dropped_packets(self, event):
         interfaces = {}
         for r in event.results:
@@ -78,7 +78,7 @@ class KernelLogEventChecks(KernelEventChecksBase):
 
                 return sorted_dict
 
-    @EVENTCALLBACKS.callback
+    @EVENTCALLBACKS.callback()
     def nf_conntrack_full(self, event):  # pylint: disable=W0613
         # TODO: consider resticting this to last 24 hours
         msg = "kernel has reported nf_conntrack_full - please check."

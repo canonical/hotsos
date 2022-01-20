@@ -21,11 +21,21 @@ class CallbackHelper(object):
     def __init__(self):
         self.callbacks = {}
 
-    def callback(self, f):
-        def callback_inner(*args, **kwargs):
-            return f(*args, **kwargs)
+    def callback(self, *event_names):
+        def callback_inner(f):
+            def callback_inner2(*args, **kwargs):
+                return f(*args, **kwargs)
 
-        self.callbacks[f.__name__] = callback_inner
+            if event_names:
+                for name in event_names:
+                    # convert event name to valid method name
+                    name = name.replace('-', '_')
+                    self.callbacks[name] = callback_inner2
+            else:
+                self.callbacks[f.__name__] = callback_inner2
+
+            return callback_inner2
+
         # we don't need to return but we leave it so that we can unit test
         # these methods.
         return callback_inner
