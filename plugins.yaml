@@ -51,6 +51,11 @@ plugins:
         - SystemGeneral
       checks:
         - SystemChecks
+  maas:
+    parts:
+      general:
+        - MAASInstallChecks
+        - MAASServiceChecks
   kernel:
     parts:
       info:

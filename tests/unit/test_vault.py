@@ -5,7 +5,7 @@ from plugins.vault.pyparts import (
 )
 
 
-class TestSystemPluginPartGeneral(utils.BaseTestCase):
+class TestVaultPluginPartGeneral(utils.BaseTestCase):
 
     def test_install(self):
         inst = general.VaultInstallChecks()
