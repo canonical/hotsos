@@ -3,6 +3,7 @@ import os
 import re
 import subprocess
 
+from core.log import log
 from core import constants
 from core.cli_helpers import CLIHelper
 from core.utils import sorted_dict
@@ -159,7 +160,8 @@ class ServiceChecksBase(object):
     """This class should be used by any plugin that wants to identify
     and check the status of running services."""
 
-    def __init__(self, service_exprs, *args, hint_range=None, **kwargs):
+    def __init__(self, service_exprs, *args, hint_range=None,
+                 ps_allow_relative=True, **kwargs):
         """
         @param service_exprs: list of python.re expressions used to match a
         service name.
@@ -167,10 +169,14 @@ class ServiceChecksBase(object):
                            extracted from any of the provided expressions and
                            used as a pre-search before doing a full search in
                            order to reduce unnecessary full searches.
+        @param ps_allow_relative: whether to allow commands to be identified
+                                  from ps as not run using an absolute binary
+                                  path e.g. mycmd as opposed to /bin/mycmd.
         """
         super().__init__(*args, **kwargs)
         self.service_exprs = []
         self.hint_range = hint_range
+        self.ps_allow_relative = ps_allow_relative
         self._processes = {}
         self._service_info = {}
         self.service_exprs = service_exprs
@@ -291,6 +297,18 @@ class ServiceChecksBase(object):
 
         return self.service_info.get('masked', [])
 
+    def get_process_cmd_from_line(self, line, expr):
+        for expr_type, expr_tmplt in SVC_EXPR_TEMPLATES.items():
+            if expr_type == 'relative' and not self.ps_allow_relative:
+                continue
+
+            ret = re.compile(expr_tmplt.format(expr)).match(line)
+            if ret:
+                svc = ret.group(1)
+                log.debug("matched process %s with %s expr", svc,
+                          expr_type)
+                return svc
+
     @property
     def processes(self):
         """
@@ -319,15 +337,12 @@ class ServiceChecksBase(object):
 
                 /var/lib/<svc> and /var/log/<svc>
                 """
-                for expr_tmplt in SVC_EXPR_TEMPLATES.values():
-                    ret = re.compile(expr_tmplt.format(expr)).match(line)
-                    if ret:
-                        svc = ret.group(1)
-                        if svc not in self._processes:
-                            self._processes[svc] = 0
+                cmd = self.get_process_cmd_from_line(line, expr)
+                if cmd:
+                    if cmd not in self._processes:
+                        self._processes[cmd] = 0
 
-                        self._processes[svc] += 1
-                        break
+                    self._processes[cmd] += 1
 
         return self._processes
 

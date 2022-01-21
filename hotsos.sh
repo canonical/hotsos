@@ -61,6 +61,7 @@ declare -A PLUGINS=(
     [storage]=false
     [juju]=false
     [kernel]=false
+    [maas]=false
     [rabbitmq]=false
     [sosreport]=false
     [system]=true  # always do system by default
@@ -79,6 +80,7 @@ declare -a PLUGIN_NAMES=(
     storage
     vault
     juju
+    maas
     kernel
 )
 
