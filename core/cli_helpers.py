@@ -300,15 +300,22 @@ class OVSOFCTLBinCmd(BinCmd):
         """
         self.cmd = "ovs-ofctl {}".format(self.cmd)
         ret = super().__call__(*args, **kwargs)
-        if ret == []:
-            # The exception is caught by the base class but this could mean the
-            # the command failed so try with OF version.
-            for ver in self.OFPROTOCOL_VERSIONS:
-                log.debug("retrying ofctl command with protocol version %s",
-                          ver)
-                self.reset()
-                self.cmd = "ovs-ofctl -O {} {}".format(ver, self.cmd)
-                return super().__call__(*args, **kwargs)
+        if ret:
+            return ret
+
+        # If the command raised an exception it will have been caught by the
+        # catch_exceptions decorator and [] returned. We have no way of knowing
+        # if that was the actual return or an exception was raised so we just
+        # go ahead and retry with specific OF versions until we get a result.
+        for ver in self.OFPROTOCOL_VERSIONS:
+            log.debug("retrying ofctl command with protocol version %s", ver)
+            self.reset()
+            self.cmd = "ovs-ofctl -O {} {}".format(ver, self.cmd)
+            ret = super().__call__(*args, **kwargs)
+            if ret:
+                return ret
+
+        return ret
 
 
 class DateBinCmd(BinCmd):
