@@ -655,17 +655,17 @@ class TestChecks(utils.BaseTestCase):
         versions = [{'min-broken': '5.0', 'min-fixed': '5.2'},
                     {'min-broken': '4.0', 'min-fixed': '4.2'},
                     {'min-broken': '3.0', 'min-fixed': '3.2'}]
-        self.assertTrue(bugs.YBugChecker().package_has_bugfix('2.0',
-                                                              versions))
-        self.assertFalse(bugs.YBugChecker().package_has_bugfix('3.0',
+        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('2.0',
                                                                versions))
-        self.assertFalse(bugs.YBugChecker().package_has_bugfix('4.0',
+        self.assertFalse(bugs.YBugChecker()._package_has_bugfix('3.0',
+                                                                versions))
+        self.assertFalse(bugs.YBugChecker()._package_has_bugfix('4.0',
+                                                                versions))
+        self.assertFalse(bugs.YBugChecker()._package_has_bugfix('5.0',
+                                                                versions))
+        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('5.2',
                                                                versions))
-        self.assertFalse(bugs.YBugChecker().package_has_bugfix('5.0',
+        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('5.3',
                                                                versions))
-        self.assertTrue(bugs.YBugChecker().package_has_bugfix('5.2',
-                                                              versions))
-        self.assertTrue(bugs.YBugChecker().package_has_bugfix('5.3',
-                                                              versions))
-        self.assertTrue(bugs.YBugChecker().package_has_bugfix('6.0',
-                                                              versions))
+        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('6.0',
+                                                               versions))

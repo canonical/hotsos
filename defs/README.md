@@ -484,10 +484,14 @@ use any combination of these. If package version info is checked and the
 package is not installed, any other checks are skipped for that bug. 
 
 Supported properties
-  * input
-  * expr
-  * raises
-  * context
+  * input - this is required by *expr*
+  * expr - optional pattern search in file or command (see *input*)
+  * raises - used to define message displayed when bug identified. Note that
+             *raises.type* is ignored here since we are always raising a bug.
+  * requires - this must "pass" for the bugcheck to complete
+  * context - currently supports *apt_all* - an import path to a
+              *checks.APTPackageChecksBase* implementation that can be used with
+              SETTINGS. 
   * settings - see SETTINGS
   
 Supported subdefs

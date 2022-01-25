@@ -11,16 +11,13 @@ from core.searchtools import FileSearcher, SearchDef
 
 
 class YBugChecker(AutoChecksBase):
-    """
-    Class used to identify bugs by matching content from files or commands.
-    Searches are defined in defs/bugs.yaml per plugin and run automatically.
-    """
+    """ Class used to identify bugs by matching criteria defined in yaml. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, searchobj=FileSearcher(), **kwargs)
-        self._bug_defs = None
+        self._checks = None
 
-    def _load_bug_definitions(self):
-        """ Load bug search definitions from yaml """
+    def _load_bug_checks(self):
+        """ Load bug check definitions from yaml. """
         plugin_bugs = YDefsLoader('bugs').load_plugin_defs()
         if not plugin_bugs:
             return
@@ -31,52 +28,46 @@ class YBugChecker(AutoChecksBase):
                   len(ybugchecks.branch_sections),
                   len(ybugchecks.leaf_sections))
         if ybugchecks.requires and not ybugchecks.requires.passes:
-            log.debug("plugin not runnable - skipping bug checks")
+            log.debug("plugin '%s' bugchecks pre-requisites not met - "
+                      "skipping", constants.PLUGIN_NAME)
             return
 
-        bug_defs = []
+        checks = []
         for bug in ybugchecks.leaf_sections:
-            bdef = {'bug_id': str(bug.name),
-                    'context': bug.context,
-                    'settings': bug.settings,
-                    'message': bug.raises.message,
-                    'message_format_result_groups': bug.raises.format_groups}
+            bugcheck = {'bug_id': str(bug.name),
+                        'context': bug.context,
+                        'requires': bug.requires,
+                        'settings': bug.settings,
+                        'message': bug.raises.message,
+                        'message_format_result_groups':
+                            bug.raises.format_groups}
             if bug.expr:
                 pattern = bug.expr.value
                 datasource = bug.input.path
                 searchdef = SearchDef(pattern,
-                                      tag=bdef['bug_id'],
+                                      tag=bugcheck['bug_id'],
                                       hint=bug.hint.value)
-                bdef['searchdef'] = searchdef
-                bdef['datasource'] = datasource
+                bugcheck['searchdef'] = searchdef
+                bugcheck['datasource'] = datasource
 
-            log.debug("bug=%s path=%s", bdef['bug_id'], bdef.get('datasource'))
-            bug_defs.append(bdef)
+            log.debug("bug=%s path=%s", bugcheck['bug_id'],
+                      bugcheck.get('datasource'))
+            checks.append(bugcheck)
 
-        self._bug_defs = bug_defs
+        return checks
 
     @property
-    def bug_definitions(self):
+    def _bug_checks(self):
         """
-        @return: dict of SearchDef objects and datasource for all entries in
-        bugs.yaml under _yaml_defs_group.
+        @return: list of bug check defintions.
         """
-        if self._bug_defs is not None:
-            return self._bug_defs
+        if self._checks is not None:
+            return self._checks
 
-        self._load_bug_definitions()
-        return self._bug_defs
+        self._checks = self._load_bug_checks()
+        return self._checks
 
-    def load(self):
-        if not self.bug_definitions:
-            return
-
-        for bugsearch in self.bug_definitions:
-            if 'searchdef' in bugsearch:
-                self.searchobj.add_search_term(bugsearch['searchdef'],
-                                               bugsearch['datasource'])
-
-    def package_has_bugfix(self, pkg_version, versions_affected):
+    def _package_has_bugfix(self, pkg_version, versions_affected):
         for item in sorted(versions_affected, key=lambda i: i['min-fixed'],
                            reverse=True):
             min_fixed = item['min-fixed']
@@ -97,28 +88,52 @@ class YBugChecker(AutoChecksBase):
 
         return True
 
-    def get_format_list(self, result_group_indexes, search_result):
+    def _get_format_list(self, result_group_indexes, search_result):
+        """
+        Extract results from search result at given indexes and return as list.
+
+        @param result_group_indexes: list of int indexes
+        @param search_result: filesearcher search result
+        """
         values = []
         for idx in result_group_indexes:
             values.append(search_result.get(idx))
 
         return values
 
-    def run(self, results):
-        if not self.bug_definitions:
+    def load(self):
+        """
+        Load definitions and register search patterns if any.
+        """
+        if not self._bug_checks:
             return
 
-        for bugsearch in self.bug_definitions:
+        for check in self._bug_checks:
+            if 'searchdef' in check:
+                self.searchobj.add_search_term(check['searchdef'],
+                                               check['datasource'])
+
+    def run(self, results):
+        if not self._bug_checks:
+            return
+
+        for bugsearch in self._bug_checks:
             format_dict = {}
             format_list = []
             bug_id = bugsearch['bug_id']
+            requires = bugsearch['requires']
+            if requires and not requires.passes:
+                log.debug("bugcheck '%s' requirement not met - skipping check",
+                          bug_id)
+                continue
+
             settings = bugsearch['settings']
             if settings and settings.versions_affected and settings.package:
                 pkg = settings.package
                 pkg_ver = bugsearch['context'].apt_all.get(pkg)
                 if pkg_ver:
-                    if self.package_has_bugfix(pkg_ver,
-                                               settings.versions_affected):
+                    if self._package_has_bugfix(pkg_ver,
+                                                settings.versions_affected):
                         # No need to search since the bug is fixed.
                         log.debug('bug %s already fixed in package %s version '
                                   '%s - skipping check', bug_id, pkg, pkg_ver)
@@ -140,8 +155,8 @@ class YBugChecker(AutoChecksBase):
                 if indexes:
                     # we only use the first result
                     first_match = bug_matches[0]
-                    format_list = self.get_format_list(indexes,
-                                                       first_match)
+                    format_list = self._get_format_list(indexes,
+                                                        first_match)
 
             log.debug("bug %s identified", bug_id)
             if format_list:

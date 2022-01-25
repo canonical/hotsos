@@ -1,4 +1,6 @@
 1907686:
+  requires:
+    property: core.plugins.kernel.KernelBase.isolcpus_enabled
   input:
     path: 'var/log/neutron/neutron-openvswitch-agent.log'
   expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
