@@ -1,6 +1,7 @@
 import os
 
 import mock
+import subprocess
 import tempfile
 import utils
 
@@ -68,3 +69,28 @@ class TestCLIHelpers(utils.BaseTestCase):
                 fd.write("Thu Mar 25 10:55:05 123UTC 2021")
 
             self.assertEquals(helper.date(), "")
+
+    def test_ovs_ofctl_bin_w_errors(self):
+
+        def fake_check_output(cmd, *_args, **_kwargs):
+            if 'OpenFlow13' in cmd:
+                return 'testdata'.encode(encoding='utf_8', errors='strict')
+            else:
+                raise subprocess.CalledProcessError(1, 'ofctl')
+
+        os.environ['DATA_ROOT'] = '/'
+        with mock.patch('core.cli_helpers.subprocess.check_output') as \
+                mock_check_output:
+            mock_check_output.side_effect = fake_check_output
+
+            # Test errors with eventual success
+            helper = cli_helpers.CLIHelper()
+            self.assertEqual(helper.ovs_ofctl_show(bridge='br-int'),
+                             ['testdata'])
+
+            mock_check_output.side_effect = \
+                subprocess.CalledProcessError(1, 'ofctl')
+
+            # Ensure that if all fails the result is always iterable
+            helper = cli_helpers.CLIHelper()
+            self.assertEqual(helper.ovs_ofctl_show(bridge='br-int'), [])
