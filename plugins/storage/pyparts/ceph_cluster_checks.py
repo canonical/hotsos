@@ -305,8 +305,11 @@ class CephClusterChecks(CephChecksBase):
             issue_utils.add_issue(issue)
 
     def _is_bucket_imbalanced(self, buckets, start_bucket_id, failure_domain):
-        """
-        Recursively determine if a tree is balanced at the given failure domain
+        """Return whether a tree is unbalanced
+
+        Recursively determine if a given tree (start_bucket_id) is
+        balanced at the given failure domain (failure_domain) in the
+        CRUSH tree(s) provided by the buckets parameter.
         """
         unbalanced = False
         weight = -1
@@ -318,7 +321,11 @@ class CephClusterChecks(CephChecksBase):
                                                         failure_domain)
                 if unbalanced:
                     return unbalanced
-            else:
+            # Handle items/buckets with 0 weight correctly, by
+            # ignoring them.
+            # These are excluded from placement consideration,
+            # and therefore do not unbalance a tree.
+            elif item["weight"] > 0:
                 if weight == -1:
                     weight = item["weight"]
                 else:
