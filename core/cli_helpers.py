@@ -291,7 +291,8 @@ class OVSDPCTLFileCmd(FileCmd):
 
 
 class OVSOFCTLBinCmd(BinCmd):
-    OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13']
+    OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13',
+                           'OpenFlow12', 'OpenFlow11', 'OpenFlow10']
 
     def __call__(self, *args, **kwargs):
         """
@@ -627,6 +628,12 @@ class CLIHelper(object):
                          'ovs-ofctl_-O_OpenFlow14_show_{bridge}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-ofctl_-O_OpenFlow13_show_{bridge}'),
+                 FileCmd('sos_commands/openvswitch/'
+                         'ovs-ofctl_-O_OpenFlow12_show_{bridge}'),
+                 FileCmd('sos_commands/openvswitch/'
+                         'ovs-ofctl_-O_OpenFlow11_show_{bridge}'),
+                 FileCmd('sos_commands/openvswitch/'
+                         'ovs-ofctl_-O_OpenFlow10_show_{bridge}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-ofctl_show_{bridge}')],
             'ps':
