@@ -814,6 +814,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         }
         nova_expected = {
             'nova-compute': {
+                'libvirtError': {'2020-01-24': 1},
                 'nova.exception.DiskNotFound': {
                     '2021-09-11': 1
                     },
@@ -895,7 +896,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                            "not OVN) it should be upgraded asap.")]
 
         mock_add_known_bug.assert_has_calls(calls, any_order=True)
-        self.assertEqual(len(bugs), 4)
+        self.assertEqual(len(bugs), 5)
 
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):

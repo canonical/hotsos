@@ -21,3 +21,10 @@
   hint: 'libvirtError'
   raises:
     message: 'known nova bug identified'
+1860743:
+  input:
+    path: 'var/log/nova/nova-compute.log'
+  expr: '.+Live Migration failure: operation failed: Failed to connect to remote libvirt URI .+Cannot recv data: Host key verification failed\.: Connection reset by peer: libvirtError: operation failed: Failed to connect to remote libvirt URI.+Cannot recv data: Host key verification failed\.: Connection reset by peer'
+  hint: 'libvirtError'
+  raises:
+    message: 'known nova compute charm bug identified which affects live migrations with cached keys'
