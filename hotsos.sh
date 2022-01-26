@@ -151,8 +151,9 @@ OPTIONS
     -s|--save
         Save yaml output to a file.
     --user-summary
-        Used in conjunction with --short to allow an existing (full) summary to
-        to be shortened.
+        Provide an existing summary so that it can be post-procesed e.g.
+        --json or --short. An alternative is to simply pipe the summary
+	contents to stdin.
     --version
         Show the version.
 
@@ -381,6 +382,11 @@ EOF
         wait &>/dev/null
     fi
 }
+
+# Allow a summary to be piped in
+if [[ -z $USER_PROVIDED_SUMMARY ]] && [[ ! -t 0 ]]; then
+    USER_PROVIDED_SUMMARY=/dev/stdin
+fi
 
 HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
