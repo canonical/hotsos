@@ -14,7 +14,8 @@ from core.plugins.kernel import KernelChecksBase
 YAML_PRIORITY = 1
 LP1936136_BCACHE_CACHE_LIMIT = 70
 OSD_PG_MAX_LIMIT = 500
-OSD_PG_OPTIMAL_NUM = 200
+OSD_PG_OPTIMAL_NUM_MAX = 200
+OSD_PG_OPTIMAL_NUM_MIN = 50
 OSD_META_LIMIT_KB = (10 * 1024 * 1024)
 
 
@@ -167,9 +168,10 @@ class CephClusterChecks(CephChecksBase):
                 if pgs > OSD_PG_MAX_LIMIT:
                     error_pgs[osd_id] = pgs
 
-                margin = abs(100 - (100.0 / OSD_PG_OPTIMAL_NUM * pgs))
-                # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM value
-                if margin > 30:
+                # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM_* values
+                margin_high = OSD_PG_OPTIMAL_NUM_MAX * 1.3
+                margin_low = OSD_PG_OPTIMAL_NUM_MIN * .7
+                if margin_high < pgs or margin_low > pgs:
                     suboptimal_pgs[osd_id] = pgs
 
         if error_pgs:
@@ -186,8 +188,9 @@ class CephClusterChecks(CephChecksBase):
             info = sorted_dict(suboptimal_pgs, key=lambda e: e[1],
                                reverse=True)
             self._output['osd-pgs-suboptimal'] = info
-            msg = ("Found {} osd(s) with > 10% margin from optimal {} pgs.".
-                   format(len(suboptimal_pgs), OSD_PG_OPTIMAL_NUM))
+            msg = ("Found {} osd(s) with > 30% margin from optimal {}-{} pgs."
+                   .format(len(suboptimal_pgs), OSD_PG_OPTIMAL_NUM_MIN,
+                           OSD_PG_OPTIMAL_NUM_MAX))
             issue = issue_types.CephCrushWarning(msg)
             issue_utils.add_issue(issue)
 
