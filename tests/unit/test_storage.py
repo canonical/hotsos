@@ -194,6 +194,23 @@ class TestStorageCephChecksBase(StorageTestsBase):
     def test_check_osdmaps_size(self):
         self.assertEqual(ceph_core.CephMon().osdmaps_count, 5496)
 
+    def test_daemon_osd_config(self):
+        config = ceph_core.CephDaemonConfigShow(osd_id=0)
+        with self.assertRaises(AttributeError):
+            config.foo
+
+        self.assertEqual(config.bluefs_buffered_io, 'true')
+
+    def test_daemon_osd_config_no_exist(self):
+        config = ceph_core.CephDaemonConfigShow(osd_id=100)
+        with self.assertRaises(AttributeError):
+            config.bluefs_buffered_io
+
+    def test_daemon_osd_all_config(self):
+        config = ceph_core.CephDaemonConfigShowAllOSDs()
+        self.assertEqual(config.foo, [])
+        self.assertEqual(config.bluefs_buffered_io, ['true'])
+
 
 class TestStorageCephDaemons(StorageTestsBase):
 

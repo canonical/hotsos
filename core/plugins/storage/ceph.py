@@ -625,6 +625,56 @@ class CephChecksBase(StorageBase):
         return False
 
 
+class CephDaemonConfigShow(object):
+    """
+    This class is used to lookup config for a given OSD using Ceph admin
+    admin socket. Config values are obtained by getting an attribute with
+    the name of the config key.
+
+    Config are accessed as attributes on the class object so that they may be
+    accessed like properties rather than having to call a method.
+    """
+
+    def __init__(self, osd_id):
+        self.cli = CLIHelper()
+        self.config = {}
+        cexpr = re.compile(r'\s*"(\S+)":\s+"(\S+)".*')
+        for line in self.cli.ceph_daemon_config_show(osd_id=osd_id):
+            ret = re.match(cexpr, line)
+            if ret:
+                self.config[ret.group(1)] = ret.group(2)
+
+    def __getattr__(self, name):
+        if name not in self.config:
+            raise AttributeError(name)
+
+        return self.config[name]
+
+
+class CephDaemonConfigShowAllOSDs(object):
+    """
+    This class is used to lookup config for all OSDs. When a config value
+    is requested, the value for that key is fetch from all OSDs and a
+    list of unique values is returned. This can be used to determine whether
+    all OSDs are using the same value.
+
+    Config are accessed as attributes on the class object so that they may be
+    accessed like properties rather than having to call a method.
+    """
+
+    def __init__(self):
+        self.ceph_base = CephChecksBase()
+
+    def __getattr__(self, name):
+        vals = set()
+        for osd in self.ceph_base.local_osds:
+            config = CephDaemonConfigShow(osd_id=osd.id)
+            if hasattr(config, name):
+                vals.add(getattr(config, name))
+
+        return list(vals)
+
+
 class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):

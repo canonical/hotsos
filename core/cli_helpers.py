@@ -445,6 +445,11 @@ class CLIHelper(object):
             'apt_config_dump':
                 [BinCmd('apt-config dump'),
                  FileCmd('sos_commands/apt/apt-config_dump')],
+            'ceph_daemon_config_show':
+                [BinCmd('ceph daemon osd.{osd_id} config show'),
+                 # requires sosreport 4.3 or above
+                 FileCmd('sos_commands/ceph_osd/'
+                         'ceph_daemon_osd.{osd_id}_config_show')],
             'ceph_health_detail_json_decoded':
                 [BinCmd('ceph health detail --format json-pretty',
                         json_decode=True),
