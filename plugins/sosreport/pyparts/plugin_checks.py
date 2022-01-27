@@ -1,9 +1,7 @@
 import os
 
-from core import (
-    constants,
-    plugintools,
-)
+from core import constants
+from core.plugins.sosreport import SOSReportChecksBase
 from core.issues import (
     issue_types,
     issue_utils,
@@ -13,28 +11,20 @@ from core.searchtools import (
     FileSearcher,
 )
 
-YAML_PRIORITY = 0
+YAML_PRIORITY = 1
 
 
-class SOSReportPluginChecks(plugintools.PluginPartBase):
-
-    def __init__(self):
-        super().__init__()
-        self.searcher = FileSearcher()
-
-    @property
-    def plugin_runnable(self):
-        # Always run
-        return True
+class SOSReportPluginChecks(SOSReportChecksBase):
 
     def check_plugin_timeouts(self):
         if not os.path.exists(os.path.join(constants.DATA_ROOT, 'sos_logs')):
             return
 
+        searcher = FileSearcher()
         path = os.path.join(constants.DATA_ROOT, 'sos_logs/ui.log')
-        self.searcher.add_search_term(SearchDef(r".* Plugin (\S+) timed out.*",
-                                                tag="timeouts"), path=path)
-        results = self.searcher.search()
+        searcher.add_search_term(SearchDef(r".* Plugin (\S+) timed out.*",
+                                           tag="timeouts"), path=path)
+        results = searcher.search()
         timeouts = []
         for r in results.find_by_tag("timeouts"):
             plugin = r.get(1)

@@ -82,6 +82,8 @@ plugins:
         - RabbitMQEventChecks
   sosreport:
     parts:
+      general:
+        - SOSReportInfo
       plugin_checks:
         - SOSReportPluginChecks
   storage:

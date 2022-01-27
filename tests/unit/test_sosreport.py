@@ -4,10 +4,20 @@ import tempfile
 
 import utils
 
-from plugins.sosreport.pyparts import plugin_checks
+from plugins.sosreport.pyparts import (
+    general,
+    plugin_checks,
+)
 
 
 class TestSOSReportPluginChecks(utils.BaseTestCase):
+
+    def test_version(self):
+        inst = general.SOSReportInfo()
+        inst()
+        expected = {'version': '4.1',
+                    'dpkg': ['sosreport 4.1-1ubuntu0.20.04.3']}
+        self.assertEqual(inst.output, expected)
 
     def test_check_plugin_timouts_none(self):
         inst = plugin_checks.SOSReportPluginChecks()
