@@ -1,10 +1,10 @@
 1839592:
-  settings:
-    package: libc-bin
-    versions-affected:
-      # queens
-      - min-broken: 2.23-0ubuntu3
-        min-fixed: 2.27-3ubuntu1.3
+  requires:
+    apt:
+      libc-bin:
+        # queens
+        - min: 2.23-0ubuntu3
+          max: 2.27-3ubuntu1.2
   raises:
     message: >-
       installed package '{package_name}' with version {version_current} has a

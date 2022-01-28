@@ -9,21 +9,21 @@
     message: >-
       known neutron-ovn bug identified that impacts OVN db connections.
 1927868:
-  settings:
-    package: 'neutron-common'
-    versions-affected:
-      # wallaby
-      - min-broken: 2:18.0.0
-        min-fixed: 2:18.1.0-0ubuntu2~cloud0
-      # victoria
-      - min-broken: 2:17.0.0
-        min-fixed: 2:17.2.0-0ubuntu1~cloud1
-      # ussuri
-      - min-broken: 2:16.3.0
-        min-fixed: 2:16.4.0-0ubuntu3~cloud0
-      # train
-      - min-broken: 2:15.3.3
-        min-fixed: 2:15.3.4-0ubuntu1~cloud1
+  requires:
+    apt:
+      neutron-common:
+        # wallaby
+        - min: 2:18.0.0
+          max: 2:18.1.0-0ubuntu1
+        # victoria
+        - min: 2:17.0.0
+          max: 2:17.2.0-0ubuntu0
+        # ussuri
+        - min: 2:16.3.0
+          max: 2:16.4.0-0ubuntu2
+        # train
+        - min: 2:15.3.3
+          max: 2:15.3.4-0ubuntu0
   #expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
   #hint: 'Gateway'
   #raises:

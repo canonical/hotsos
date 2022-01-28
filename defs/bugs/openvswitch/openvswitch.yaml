@@ -2,5 +2,4 @@
 # directory including subdirectories.
 requires:
   property: core.plugins.openvswitch.OpenvSwitchChecksBase.plugin_runnable
-context:
-  apt-all: core.plugins.openvswitch.OpenvSwitchChecksBase.apt_packages_all
+

@@ -1,6 +1,5 @@
 from core import constants
 from core.log import log
-from core.checks import DPKGVersionCompare
 from core.known_bugs_utils import add_known_bug
 from core.ycheck import (
     YDefsLoader,
@@ -35,9 +34,7 @@ class YBugChecker(AutoChecksBase):
         checks = []
         for bug in ybugchecks.leaf_sections:
             bugcheck = {'bug_id': str(bug.name),
-                        'context': bug.context,
                         'requires': bug.requires,
-                        'settings': bug.settings,
                         'message': bug.raises.message,
                         'message_format_result_groups':
                             bug.raises.format_groups}
@@ -66,27 +63,6 @@ class YBugChecker(AutoChecksBase):
 
         self._checks = self._load_bug_checks()
         return self._checks
-
-    def _package_has_bugfix(self, pkg_version, versions_affected):
-        for item in sorted(versions_affected, key=lambda i: i['min-fixed'],
-                           reverse=True):
-            min_fixed = item['min-fixed']
-            min_broken = item['min-broken']
-            lt_fixed = pkg_version < DPKGVersionCompare(min_fixed)
-            if min_broken:
-                lt_broken = pkg_version < DPKGVersionCompare(min_broken)
-            else:
-                lt_broken = None
-
-            if lt_broken:
-                continue
-
-            if lt_fixed:
-                return False
-            else:
-                return True
-
-        return True
 
     def _get_format_list(self, result_group_indexes, search_result):
         """
@@ -122,28 +98,17 @@ class YBugChecker(AutoChecksBase):
             format_list = []
             bug_id = bugsearch['bug_id']
             requires = bugsearch['requires']
-            if requires and not requires.passes:
-                log.debug("bugcheck '%s' requirement not met - skipping check",
-                          bug_id)
-                continue
-
-            settings = bugsearch['settings']
-            if settings and settings.versions_affected and settings.package:
-                pkg = settings.package
-                pkg_ver = bugsearch['context'].apt_all.get(pkg)
-                if pkg_ver:
-                    if self._package_has_bugfix(pkg_ver,
-                                                settings.versions_affected):
-                        # No need to search since the bug is fixed.
-                        log.debug('bug %s already fixed in package %s version '
-                                  '%s - skipping check', bug_id, pkg, pkg_ver)
-                        continue
-
-                    format_dict = {'package_name': pkg,
-                                   'version_current': pkg_ver}
-                else:
-                    log.debug("package %s not installed - skipping check", pkg)
+            if requires:
+                if not requires.passes:
+                    log.debug("bugcheck '%s' requirement not met - "
+                              "skipping check", bug_id)
                     continue
+
+                # save this for the message
+                format_dict = {'package_name':
+                               requires.cache.get('apt.pkg'),
+                               'version_current':
+                               requires.cache.get('apt.pkg_version')}
 
             message = bugsearch['message']
             if 'searchdef' in bugsearch:

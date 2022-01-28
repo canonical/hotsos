@@ -3,15 +3,15 @@
     path: 'var/log/nova/nova-compute.log'
   expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
   hint: 'NotImplementedError'
-  settings:
-    package: 'nova-common'
-    versions-affected:
-      # train
-      - min-broken: 2:20.0.0
-        min-fixed: 2:20.6.0-0ubuntu1~cloud1
-      # ussuri
-      - min-broken: 2:21.0.0
-        min-fixed: 2:21.1.2-0ubuntu2~cloud0
+  requires:
+    apt:
+      nova-common:
+        # train
+        - min: 2:20.0.0
+          max: 2:20.6.0-0ubuntu0
+        # ussuri
+        - min: 2:21.0.0
+          max: 2:21.1.2-0ubuntu1
   raises:
     message: 'known nova bug identified'
 1944619:

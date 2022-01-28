@@ -1,16 +1,16 @@
 1946787:
-  settings:
-    package: python3-barbican
-    versions-affected:
-      # wallaby:
-      - min-fixed: 2:12.0.0-0ubuntu2~cloud0
-        min-broken: 2:12.0.0
-      # victoria:
-      - min-fixed: 1:11.0.0-0ubuntu1~cloud1
-        min-broken: 1:11.0.0
-      # ussuri:
-      - min-fixed: 1:10.1.0-0ubuntu2~cloud0
-        min-broken: 1:10.1.0
+  requires:
+    apt:
+      python3-barbican:
+        # wallaby:
+        - min: 2:12.0.0
+          max: 2:12.0.0-0ubuntu1
+        # victoria:
+        - min: 1:11.0.0
+          max: 1:11.0.0-0ubuntu0
+        # ussuri:
+        - min: 1:10.0.0
+          max: 1:10.1.0-0ubuntu1
   raises:
     message: >-
       installed package '{package_name}' with version {version_current} has a

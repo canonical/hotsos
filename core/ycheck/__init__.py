@@ -6,6 +6,7 @@ import yaml
 
 from core.checks import (
     APTPackageChecksBase,
+    DPKGVersionCompare,
     ServiceChecksBase,
     SnapPackageChecksBase,
 )
@@ -333,22 +334,6 @@ class YPropertyInput(YPropertyOverrideBase):
             log.debug("no input provided")
 
 
-@ydef_override
-class YPropertyContext(YPropertyOverrideBase):
-    KEYS = ['context']
-
-    def __getattr__(self, name):
-        name = name.replace('_', '-')
-        return self._load()[name]
-
-    def _load(self):
-        ctxt = {}
-        for key, val in self.content.items():
-            ctxt[key] = self.get_import(val)
-
-        return ctxt
-
-
 class YRequirementObj(YPropertyOverrideBase):
     def __init__(self, apt, snap, systemd, property, value, py_op):
         self.apt = apt
@@ -357,11 +342,37 @@ class YRequirementObj(YPropertyOverrideBase):
         self.property = property
         self.value = value
         self.py_op = getattr(operator, py_op or 'eq')
+        self._cache = {}
+
+    @property
+    def cache(self):
+        return self._cache
 
     @property
     def is_valid(self):
         # need at least one
         return any([self.systemd, self.snap, self.apt, self.property])
+
+    def _package_version_within_ranges(self, pkg_version, versions):
+        for item in sorted(versions, key=lambda i: i['max'],
+                           reverse=True):
+            v_max = str(item['max'])
+            v_min = str(item['min'])
+            lte_max = pkg_version <= DPKGVersionCompare(v_max)
+            if v_min:
+                lt_broken = pkg_version < DPKGVersionCompare(v_min)
+            else:
+                lt_broken = None
+
+            if lt_broken:
+                continue
+
+            if lte_max:
+                return True
+            else:
+                return False
+
+        return False
 
     @property
     def passes(self):
@@ -370,8 +381,31 @@ class YRequirementObj(YPropertyOverrideBase):
         Returns True if met otherwise False.
         """
         if self.apt:
-            pkg = self.apt
-            result = APTPackageChecksBase(core_pkgs=[pkg]).is_installed(pkg)
+            versions = []
+            # Value can be a package name or dict that provides more
+            # information about the package.
+            if type(self.apt) == dict:
+                # NOTE: we only support one package for now but done this way
+                # to make extensible.
+                for _name, _versions in self.apt.items():
+                    self._cache['apt.pkg'] = _name
+                    pkg = _name
+                    versions = _versions
+            else:
+                pkg = self.apt
+
+            apt_info = APTPackageChecksBase([pkg])
+            result = apt_info.is_installed(pkg)
+            log.debug("installed=%s", result)
+            if result:
+                if versions:
+                    pkg_ver = apt_info.get_version(pkg)
+                    self._cache['apt.pkg_version'] = pkg_ver
+                    result = self._package_version_within_ranges(pkg_ver,
+                                                                 versions)
+                    log.debug("package %s=%s within version ranges %s "
+                              "(result=%s)", pkg, pkg_ver, versions, result)
+
             log.debug('requirement check: apt %s (result=%s)', pkg, result)
             return result
         elif self.snap:
@@ -402,6 +436,14 @@ class YRequirementObj(YPropertyOverrideBase):
 @ydef_override
 class YPropertyRequires(YPropertyOverrideBase):
     KEYS = ['requires']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._cache = {}
+
+    @property
+    def cache(self):
+        return self._cache
 
     @property
     def apt(self):
@@ -448,7 +490,10 @@ class YPropertyRequires(YPropertyOverrideBase):
                                           self.value,
                                           self.content.get('op'))
             if requirement.is_valid:
-                return requirement.passes
+                # NOTE: only currently support caching for single requirement
+                result = requirement.passes
+                self._cache = requirement.cache
+                return result
             else:
                 log.debug("invalid requirement: %s - fail", self.content)
                 return False

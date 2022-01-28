@@ -92,25 +92,6 @@ config.actual(key, section=None)
 config.check(actual, value, op, allow_unset=False):
 ```
 
-#### context
-Defines a dictionary of settings. This is typically defined at a high point in
-the tree so that all branches beneath it use as common context. The
-structure/content of this dictionary is handler-specific.
-
-format
-
-```
-context:
-  <key>: <val>
-  ...
-```
-
-usage
-
-```
-context.<param>
-```
-
 #### decision
 Defines a decision as a list of logical operators each associated with a list
 of one or more check labels as defined in a *checks* subdef. This property is
@@ -264,8 +245,8 @@ TYPE
     and optionally matched against a provided value: otherwise True. 
 
   apt
-    INPUT is an apt package name. Returns True if package exists
-    otherwise False.
+    INPUT is an apt package name or APT_INFO. Returns True if package
+    exists and version is within ranges (if provided) otherwise False.
 
   snap
     INPUT is a snap package name. Returns True if package exists
@@ -276,6 +257,16 @@ TYPE
     and a service status can be optionally checked using value: in
     which case a match is required to get True.
 
+APT_INFO
+  dictionary of package name and version ranges e.g.
+  
+  a-package-name:
+    - min: 0.0
+      max: 1.0
+    - min: 4.0
+      max: 5.0
+
+  NOTE: we currently only support a single package.
 ```
 
 usage
@@ -489,27 +480,10 @@ Supported properties
   * raises - used to define message displayed when bug identified. Note that
              *raises.type* is ignored here since we are always raising a bug.
   * requires - this must "pass" for the bugcheck to complete
-  * context - currently supports *apt_all* - an import path to a
-              *checks.APTPackageChecksBase* implementation that can be used with
-              SETTINGS. 
-  * settings - see SETTINGS
   
 Supported subdefs
   * none
 
-```
-SETTINGS
-  package
-    Name of package we want to check. Context must provide apt-all.
-
-  versions-affected
-    List of dicts. If a package name is provided we can check its
-                   version to see if it contains the bugfix. Each
-                   element contains the following:
-      min-fixed - minimum version of the package that contains the fix.
-      min-broken - minimum version of the package that contains the
-                   bug.
-```
 
 ### Config checks
 

@@ -28,6 +28,23 @@ pluginX:
         settings: True
 """
 
+YAML_DEF_REQUIRES_APT = """
+pluginX:
+  groupA:
+    requires:
+      apt:
+        mypackage:
+          - min: '3.0'
+            max: '3.2'
+          - min: '4.0'
+            max: '4.2'
+          - min: '5.0'
+            max: '5.2'
+    sectionA:
+      artifactX:
+        settings: True
+"""
+
 YAML_DEF_REQUIRES_GROUPED = """
 passdef:
   requires:
@@ -234,9 +251,9 @@ class TestChecks(utils.BaseTestCase):
         obj = checks.SnapPackageChecksBase(["core"])
         self.assertEqual(obj.all_formatted, expected)
 
-    @mock.patch('core.plugins.openstack.OpenstackBase')
+    @mock.patch('core.ycheck.APTPackageChecksBase')
     @mock.patch.object(bugs, 'add_known_bug')
-    def test_YBugChecker(self, mock_add_known_bug, mock_base):
+    def test_YBugChecker(self, mock_add_known_bug, mock_apt):
         bugs_found = []
 
         def fake_add_known_bug(id, _msg):
@@ -244,26 +261,26 @@ class TestChecks(utils.BaseTestCase):
 
         mock_add_known_bug.side_effect = fake_add_known_bug
         os.environ['PLUGIN_NAME'] = 'openstack'
-        mock_ost_base = mock.MagicMock()
-        mock_base.return_value = mock_ost_base
-        mock_ost_base.apt_packages_all = {'neutron-common':
-                                          '2:16.4.0-0ubuntu4~cloud0'}
+        mock_apt.return_value = mock.MagicMock()
+        mock_apt.return_value.is_installed.return_value = True
+        mock_apt.return_value.get_version.return_value = \
+            '2:16.4.0-0ubuntu4~cloud0'
         # reset
         bugs_found = []
         obj = bugs.YBugChecker()
         obj()
         self.assertFalse('1927868' in bugs_found)
 
-        mock_ost_base.apt_packages_all = {'neutron-common':
-                                          '2:16.4.0-0ubuntu2~cloud0'}
+        mock_apt.return_value.get_version.return_value = \
+            '2:16.4.0-0ubuntu2~cloud0'
         # reset
         bugs_found = []
         obj = bugs.YBugChecker()
         obj()
         self.assertTrue('1927868' in bugs_found)
 
-        mock_ost_base.apt_packages_all = {'neutron-common':
-                                          '2:16.2.0-0ubuntu4~cloud0'}
+        mock_apt.return_value.get_version.return_value = \
+            '2:16.2.0-0ubuntu4~cloud0'
         # reset
         bugs_found = []
         obj = bugs.YBugChecker()
@@ -651,21 +668,25 @@ class TestChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-    def test_bugs_handler_pkg_check(self):
-        versions = [{'min-broken': '5.0', 'min-fixed': '5.2'},
-                    {'min-broken': '4.0', 'min-fixed': '4.2'},
-                    {'min-broken': '3.0', 'min-fixed': '3.2'}]
-        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('2.0',
-                                                               versions))
-        self.assertFalse(bugs.YBugChecker()._package_has_bugfix('3.0',
-                                                                versions))
-        self.assertFalse(bugs.YBugChecker()._package_has_bugfix('4.0',
-                                                                versions))
-        self.assertFalse(bugs.YBugChecker()._package_has_bugfix('5.0',
-                                                                versions))
-        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('5.2',
-                                                               versions))
-        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('5.3',
-                                                               versions))
-        self.assertTrue(bugs.YBugChecker()._package_has_bugfix('6.0',
-                                                               versions))
+    @mock.patch('core.ycheck.APTPackageChecksBase')
+    def test_yaml_def_requires_apt(self, mock_apt):
+        tested = 0
+        expected = {'2.0': False,
+                    '3.0': True,
+                    '3.1': True,
+                    '4.0': True,
+                    '5.0': True,
+                    '5.2': True,
+                    '5.3': False,
+                    '6.0': False}
+        mock_apt.return_value = mock.MagicMock()
+        mock_apt.return_value.is_installed.return_value = True
+        for ver, result in expected.items():
+            mock_apt.return_value.get_version.return_value = ver
+            mydef = YDefsSection('mydef',
+                                 yaml.safe_load(YAML_DEF_REQUIRES_APT))
+            for entry in mydef.leaf_sections:
+                tested += 1
+                self.assertEqual(entry.requires.passes, result)
+
+        self.assertEqual(tested, len(expected))
