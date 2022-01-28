@@ -384,9 +384,9 @@ EOF
 }
 
 # Allow a summary to be piped in
-if [[ -z $USER_PROVIDED_SUMMARY ]] && [[ ! -t 0 ]]; then
-    USER_PROVIDED_SUMMARY=/dev/stdin
-fi
+#if [[ -z $USER_PROVIDED_SUMMARY ]] && [[ ! -t 0 ]]; then
+#    USER_PROVIDED_SUMMARY=/dev/stdin
+#fi
 
 HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
