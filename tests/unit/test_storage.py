@@ -21,6 +21,11 @@ from plugins.storage.pyparts import (
     ceph_service_info,
 )
 
+JOURNALCTL_BLUEFS_SPILLOVER= """
+Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)
+Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] collection clone for 'juju.txns.log' failed due to QueryPlanKilled: While cloning collection 'juju.txns.log' there was an error 'PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)'
+"""  # noqa
+
 CEPH_CONF_NO_BLUESTORE = """
 [global]
 [osd]
@@ -68,6 +73,7 @@ CEPH_VERSIONS_MISMATCHED_MINOR = """
     }
 }
 """  # noqa
+
 
 CEPH_OSD_CRUSH_DUMP = """
 {
@@ -630,18 +636,27 @@ class TestStorageBcache(StorageTestsBase):
 
 class TestStorageBugChecks(StorageTestsBase):
 
+    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
     @mock.patch('core.ycheck.bugs.add_known_bug')
-    def test_bug_checks(self, mock_add_known_bug):
+    def test_bug_checks(self, mock_add_known_bug, mock_cephdaemon,
+                        mock_helper):
         bugs = []
 
         def fake_add_bug(*args, **kwargs):
             bugs.append((args, kwargs))
 
         mock_add_known_bug.side_effect = fake_add_bug
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            ["ii  ceph-osd 15.2.7-0ubuntu0.20.04.2 amd64"]
+        mock_cephdaemon.return_value = mock.MagicMock()
+        mock_cephdaemon.return_value.bluestore_volume_selection_policy = \
+            ['rocksdb_original']
         YBugChecker()()
         # This will need modifying once we have some storage bugs defined
-        self.assertFalse(mock_add_known_bug.called)
-        self.assertEqual(len(bugs), 0)
+        self.assertTrue(mock_add_known_bug.called)
+        self.assertEqual(len(bugs), 1)
 
 
 class TestStorageCephEventChecks(StorageTestsBase):
@@ -750,13 +765,15 @@ class TestStorageScenarioChecks(StorageTestsBase):
             YScenarioChecker()()
             self.assertFalse(mock_add_issue.called)
 
+    @mock.patch('core.ycheck.CLIHelper')
     @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
                 lambda args: False)
     @mock.patch('core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable',
                 False)
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_scenarios_w_issue(self, add_issue, mock_cephbase):
+    def test_scenarios_w_issue(self, add_issue, mock_cephbase,
+                               mock_helper):
         issues = []
 
         def fake_add_issue(issue):
@@ -786,4 +803,17 @@ class TestStorageScenarioChecks(StorageTestsBase):
         msg = ("Found 5496 pinned osdmaps. This can affect mon's performance "
                "and also indicate bugs such as https://tracker.ceph.com/"
                "issues/44184 and https://tracker.ceph.com/issues/47290.")
+        self.assertTrue(msg in msgs)
+        mock_cephbase.return_value.health_status = "HEALTH_WARN"
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ceph_health_detail_json_decoded.return_value \
+            = JOURNALCTL_BLUEFS_SPILLOVER
+        issues = []
+        YScenarioChecker()()
+        self.assertTrue(add_issue.called)
+        msgs = [issue.msg for issue in issues]
+        msg = ('Known ceph bug https://tracker.ceph.com/issues/38745 '
+               'detected. RocksDB needs more space than the leveled '
+               'space available. See '
+               'www.mail-archive.com/ceph-users@ceph.io/msg05782.html')
         self.assertTrue(msg in msgs)
