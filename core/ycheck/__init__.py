@@ -396,7 +396,6 @@ class YRequirementObj(YPropertyOverrideBase):
 
             apt_info = APTPackageChecksBase([pkg])
             result = apt_info.is_installed(pkg)
-            log.debug("installed=%s", result)
             if result:
                 if versions:
                     pkg_ver = apt_info.get_version(pkg)
@@ -470,7 +469,7 @@ class YPropertyRequires(YPropertyOverrideBase):
         return self.content.get('value', True)
 
     def _has_groups(self):
-        if set(self.content.keys()).intersection(['and', 'or']):
+        if set(self.content.keys()).intersection(['and', 'or', 'not']):
             return True
 
         return False
@@ -533,7 +532,9 @@ class YPropertyRequires(YPropertyOverrideBase):
                 else:
                     log.debug("unknown operator '%s' found in requirement", op)
 
-            return all(final_results)
+            result = all(final_results)
+            log.debug("requirement group result=%s", result)
+            return result
 
 
 @ydef_override
