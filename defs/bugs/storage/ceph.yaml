@@ -1,0 +1,18 @@
+1959649:
+  requires:
+    - apt:
+        ceph-osd:
+          - min: 15.2.6
+            max: 15.2.10
+    - property: core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
+      value: [use_some_extra]
+      op: ne
+    - property: core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
+      value: []
+      op: ne
+  raises:
+    message: >-
+      Vulnerability to a known bug https://tracker.ceph.com/issues/38745.
+      RocksDB needs more space than the leveled space available so it is using
+      storage from the data disk.
+      Please set bluestore_volume_selection_policy of all OSDs to use_some_extra

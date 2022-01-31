@@ -1,0 +1,21 @@
+checks:
+  bluefs_spillover:
+    input:
+      command: ceph_health_detail_json_decoded
+    expr: '.+experiencing BlueFS spillover'
+  health_warning:
+    requires:
+      property: core.plugins.storage.ceph.CephChecksBase.health_status
+      value: HEALTH_WARN
+conclusions:
+  bluefs_spillover:
+    decision:
+      and:
+        - bluefs_spillover
+        - health_warning
+    raises:
+      type: core.issues.issue_types.CephWarning
+      message: >-
+        Known ceph bug https://tracker.ceph.com/issues/38745 detected.
+        RocksDB needs more space than the leveled space available.
+        See www.mail-archive.com/ceph-users@ceph.io/msg05782.html
