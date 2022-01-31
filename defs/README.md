@@ -202,40 +202,48 @@ raises.format_groups
 ```
 
 #### requires
-Defines a set of requirements with a pass/fail result. Typically used a way to
-determine whether or not to run a check.
+Defines one or more requirements with a pass/fail result. Typically used a way
+to determine whether or not to run a check.
 
-Can be defined as single requirement or sets of requirements grouped by a
-logical operator used to determine the result of the group. If multiple groups
-are used, their results are ANDed together to get the final result for
-*passes*. 
-
+If the result is based on the outcome of more than one requirement they
+must be grouped using logical operators used to determine the result of each
+group. The result of all groups are ANDed together to get the final result for
+*passes*. Note that each logical operator can only be used once since groups
+are defined as a dictionary (not a list).
 
 format
 
 ```
 requires:
+  REQ_DEF | REQ_GROUPS
+
+REQ_DEF
+  A single requirement is defined as a dictionary with the following
+  key/value pairs:
+
   TYPE: INPUT
-  value: <value>  (optional)
-  op: <operator> ([python operator](https://docs.python.org/3/library/operator.html). default is eq.)
+  value: <value> (optional. Default is boolean True.)
+  op: <operator> ([python operator](https://docs.python.org/3/library/operator.html). Default is eq.)
 
-  or
+REQ_GROUPS
+  Multiple requirements can be grouped using a dictionary of
+  LOGICAL_OPERATOR key whose values are a list of requirements to
+  which the oeprator is to be a applied e.g.
 
-  LOGICAL_OPERATOR:
-    - TYPE: INPUT
-      value: <value>  (optional)
-      op: <operator>
+  LOGICAL_OPERATOR1:
+    - REQ_DEF1
+    - REQ_DEF2
     - ...
-
+  LOGICAL_OPERATOR2:
+    - REQ_DEF3
+    - ...
+  
 LOGICAL_OPERATOR
-  and
-    AND is applied to group.
+  The following logical operators can be used as group keys for a list
+  of REQ_DEF and will be applied to the results of all requirements
+  within the group.
 
-  or
-    AND is applied to group.
-
-  not
-    NOT(OR) is applied to group.
+  and|or|not
 
   AND is then applied to results of all groups.
 
