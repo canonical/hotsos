@@ -498,9 +498,10 @@ class YPropertyRequires(YPropertyOverrideBase):
                 return False
         else:
             log.debug("requirements provided as groups")
-            results = {}
+            final_results = []
             # list of requirements
             for op, requirements in self.content.items():
+                results = {}
                 if op not in results:
                     results[op] = []
 
@@ -518,16 +519,12 @@ class YPropertyRequires(YPropertyOverrideBase):
                         log.debug("invalid requirement: %s - fail", entry)
                         results[op].append(False)
 
-            # Now apply op to respective groups then AND all for the final
-            # result.
-            final_results = []
-            for op in results:
+                # Now apply op to respective groups
                 if op == 'and':
                     final_results.append(all(results[op]))
                 elif op == 'or':
                     final_results.append(any(results[op]))
                 elif op == 'not':
-                    # this is a NOR
                     final_results.append(not any(results[op]))
                 else:
                     log.debug("unknown operator '%s' found in requirement", op)
