@@ -1,0 +1,81 @@
+potential-issues:
+  system:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+  storage:
+    BcacheWarnings:
+      - bcache config sequential_cutoff expected to be eq 0.0k but actual=None (origin=storage.auto_config_check)
+      - Detected bcache devices but found no bcache-tuning unit. It's recommended
+        that bcache-tuning charm is deployed to configure params for optimal performance.
+        (origin=storage.bcache)
+    CephWarnings:
+      - 'The status of this Ceph cluster is HEALTH_WARN and the mon is configured
+        to allow insecure global_id reclaim which means the status will never go to
+        HEALTH_OK. Action should be taken to review the options discussed in the following:
+
+        https://bugs.launchpad.net/charm-ceph-mon/+bug/1929262
+
+        https://docs.ceph.com/en/latest/security/CVE-2021-20288/#fix-details. (origin=storage.auto_scenario_check)'
+    CephMapsWarnings:
+      - Found 5496 pinned osdmaps. This can affect mon's performance and also indicate
+        bugs such as https://tracker.ceph.com/issues/44184 and https://tracker.ceph.com/issues/47290.
+        (origin=storage.auto_scenario_check)
+    CephHealthWarnings:
+      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details
+        (origin=storage.ceph_cluster_checks)
+    CephOSDWarnings:
+      - Found 1 osd(s) with metadata size larger than 10G. This could be the result
+        of a compaction failure/bug and this host may be affected by https://tracker.ceph.com/issues/45903.
+        A workaround (>= Nautilus) is to manually compact using 'ceph-bluestore-tool'
+        (origin=storage.ceph_cluster_checks)
+    CephCrushErrors:
+      - Found 1 osd(s) with > 500 pgs - this is close to the hard limit at which point
+        they will stop creating pgs and fail - please investigate (origin=storage.ceph_cluster_checks)
+    CephCrushWarnings:
+      - Found 2 osd(s) with > 30% margin from optimal 50-200 pgs. (origin=storage.ceph_cluster_checks)
+    CephOSDErrors:
+      - Detected superblock read errors which indicates an OSD disk failure or its
+        likely failure in the near future. This drive needs to be inspected further
+        using sar/smartctl. (origin=storage.ceph_event_checks)
+  kernel:
+    MemoryWarnings:
+      - compaction failures are at 29% of successes (see ./tests/unit/fake_data_root/proc/vmstat).
+        (origin=kernel.memory)
+      - oom-killer invoked for process 'nice' at Aug  3 08:32:23. (origin=kernel.log_event_checks)
+    KernelErrors:
+      - kern.log contains 1 stacktraces. (origin=kernel.log_event_checks)
+    NetworkWarnings:
+      - kernel has reported over-mtu dropped packets for (1) interfaces. (origin=kernel.log_event_checks)
+      - kernel has reported nf_conntrack_full - please check. (origin=kernel.log_event_checks)
+bugs-detected:
+  openstack:
+    - desc: known nova compute charm bug identified which affects live migrations
+        with cached keys
+      id: https://bugs.launchpad.net/bugs/1860743
+      origin: openstack.auto_bug_check
+    - desc: known neutron l3-agent bug identified that impacts deletion of neutron
+        routers.
+      id: https://bugs.launchpad.net/bugs/1929832
+      origin: openstack.auto_bug_check
+    - desc: known neutron l3-agent bug identified that critically impacts keepalived.
+      id: https://bugs.launchpad.net/bugs/1896506
+      origin: openstack.auto_bug_check
+    - desc: installed package 'neutron-common' with version 2:16.4.0-0ubuntu2 has
+        a known critical bug. If this environment is using Neutron ML2 OVS (i.e. not
+        OVN) it should be upgraded asap.
+      id: https://bugs.launchpad.net/bugs/1927868
+      origin: openstack.auto_bug_check
+    - desc: known neutron-ovn bug identified that impacts OVN sbdb connections.
+      id: https://bugs.launchpad.net/bugs/1928031
+      origin: openstack.auto_bug_check
+  openvswitch:
+    - desc: known ovn bug identified - db rbac errors
+      id: https://bugs.launchpad.net/bugs/1917475
+      origin: openvswitch.auto_bug_check
+  juju:
+    - desc: Unit unit-rabbitmq-server-2 failed to start due to members in relation
+        236 that cannot be removed.
+      id: https://bugs.launchpad.net/bugs/1910958
+      origin: juju.auto_bug_check

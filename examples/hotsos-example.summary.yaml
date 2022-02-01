@@ -1,0 +1,670 @@
+hotsos:
+  version: development
+  repo-info: 55986e5
+system:
+  hostname: compute4
+  os: ubuntu focal
+  num-cpus: 2
+  virtualisation: kvm
+  unattended-upgrades: ENABLED
+  date: Tue 3 Aug 10:31:30 UTC 2021
+  juju-charm-sysctl-mismatch:
+    kernel.pid_max:
+      conf: 50-ceph-osd-charm.conf
+      actual: '4194304'
+      expected: '2097152'
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+sosreport:
+  version: '4.1'
+  dpkg:
+    - sosreport 4.1-1ubuntu0.20.04.3
+openstack:
+  release: ussuri
+  services:
+    systemd:
+      enabled:
+        - haproxy
+        - keepalived
+        - neutron-dhcp-agent
+        - neutron-l3-agent
+        - neutron-metadata-agent
+        - neutron-openvswitch-agent
+        - neutron-ovs-cleanup
+        - nova-compute
+      masked:
+        - nova-api-metadata
+      disabled:
+        - radvd
+      indirect:
+        - vaultlocker-decrypt
+    ps:
+      - apache2 (6)
+      - dnsmasq (1)
+      - glance-api (5)
+      - haproxy (7)
+      - keepalived (2)
+      - mysqld (1)
+      - neutron-dhcp-agent (1)
+      - neutron-keepalived-state-change (2)
+      - neutron-l3-agent (1)
+      - neutron-metadata-agent (5)
+      - neutron-openvswitch-agent (1)
+      - neutron-server (11)
+      - nova-api-metadata (5)
+      - nova-compute (1)
+      - qemu-system-x86_64 (2)
+      - vault (1)
+  debug-logging-enabled:
+    neutron: true
+    nova: true
+  dpkg:
+    - conntrack 1:1.4.5-2
+    - dnsmasq-base 2.80-1.1ubuntu1.4
+    - dnsmasq-utils 2.80-1.1ubuntu1.4
+    - haproxy 2.0.13-2ubuntu0.1
+    - keepalived 1:2.0.19-2
+    - keystone-common 2:17.0.0-0ubuntu0.20.04.1
+    - libvirt-daemon 6.0.0-0ubuntu8.11
+    - libvirt-daemon-driver-qemu 6.0.0-0ubuntu8.11
+    - libvirt-daemon-driver-storage-rbd 6.0.0-0ubuntu8.11
+    - libvirt-daemon-system 6.0.0-0ubuntu8.11
+    - libvirt-daemon-system-systemd 6.0.0-0ubuntu8.11
+    - mysql-common 5.8+1.0.5ubuntu2
+    - neutron-common 2:16.4.0-0ubuntu2
+    - neutron-dhcp-agent 2:16.4.0-0ubuntu2
+    - neutron-fwaas-common 1:16.0.0-0ubuntu0.20.04.1
+    - neutron-l3-agent 2:16.4.0-0ubuntu2
+    - neutron-metadata-agent 2:16.4.0-0ubuntu2
+    - neutron-openvswitch-agent 2:16.4.0-0ubuntu2
+    - nova-api-metadata 2:21.2.1-0ubuntu1
+    - nova-common 2:21.2.1-0ubuntu1
+    - nova-compute 2:21.2.1-0ubuntu1
+    - nova-compute-kvm 2:21.2.1-0ubuntu1
+    - nova-compute-libvirt 2:21.2.1-0ubuntu1
+    - python3-barbicanclient 4.10.0-0ubuntu1
+    - python3-cinderclient 1:7.0.0-0ubuntu1
+    - python3-designateclient 2.11.0-0ubuntu2
+    - python3-glanceclient 1:3.1.1-0ubuntu1
+    - python3-keystone 2:17.0.0-0ubuntu0.20.04.1
+    - python3-keystoneauth1 4.0.0-0ubuntu1
+    - python3-keystoneclient 1:4.0.0-0ubuntu1
+    - python3-keystonemiddleware 9.0.0-0ubuntu1
+    - python3-neutron 2:16.4.0-0ubuntu2
+    - python3-neutron-fwaas 1:16.0.0-0ubuntu0.20.04.1
+    - python3-neutron-lib 2.3.0-0ubuntu1
+    - python3-neutronclient 1:7.1.1-0ubuntu1
+    - python3-nova 2:21.2.1-0ubuntu1
+    - python3-novaclient 2:17.0.0-0ubuntu1
+    - python3-oslo.cache 2.3.0-0ubuntu1
+    - python3-oslo.concurrency 4.0.2-0ubuntu1
+    - python3-oslo.config 1:8.0.2-0ubuntu1
+    - python3-oslo.context 1:3.0.2-0ubuntu1
+    - python3-oslo.db 8.1.0-0ubuntu1
+    - python3-oslo.i18n 4.0.1-0ubuntu1
+    - python3-oslo.log 4.1.1-0ubuntu1
+    - python3-oslo.messaging 12.1.0-0ubuntu1
+    - python3-oslo.middleware 4.0.2-0ubuntu1
+    - python3-oslo.policy 3.1.0-0ubuntu1.1
+    - python3-oslo.privsep 2.1.1-0ubuntu1
+    - python3-oslo.reports 2.0.1-0ubuntu1
+    - python3-oslo.rootwrap 6.0.2-0ubuntu1
+    - python3-oslo.serialization 3.1.1-0ubuntu1
+    - python3-oslo.service 2.1.1-0ubuntu1.1
+    - python3-oslo.upgradecheck 1.0.1-0ubuntu1
+    - python3-oslo.utils 4.1.1-0ubuntu1
+    - python3-oslo.versionedobjects 2.0.1-0ubuntu1
+    - python3-oslo.vmware 3.3.1-0ubuntu1
+    - qemu-kvm 1:4.2-3ubuntu6.17
+    - radvd 1:2.17-2
+  docker-images:
+    - libvirt-exporter 1.1.0
+    - ubuntu-source-ceilometer-compute 10.2.0
+    - ubuntu-source-chrony 10.2.0
+    - ubuntu-source-cron 10.2.0
+    - ubuntu-source-iscsid 10.2.0
+    - ubuntu-source-kolla-toolbox 10.2.0
+    - ubuntu-source-masakari-monitors 10.2.0
+    - ubuntu-source-multipathd 10.2.0
+    - ubuntu-source-neutron-dhcp-agent 10.2.0
+    - ubuntu-source-neutron-metadata-agent 10.2.0
+    - ubuntu-source-neutron-openvswitch-agent 10.2.0
+    - ubuntu-source-nova-compute 10.2.0
+    - ubuntu-source-nova-libvirt 10.2.0
+    - ubuntu-source-nova-ssh 10.2.0
+    - ubuntu-source-openvswitch-db-server 10.2.0
+    - ubuntu-source-openvswitch-vswitchd 10.2.0
+    - ubuntu-source-prometheus-node-exporter 10.2.0
+  neutron-l3ha:
+    master:
+      - 1e086be2-93c2-4740-921d-3e3237f23959
+  os-server-external-events:
+    network-changed:
+      succeeded:
+        - port: 03c4d61b-60b0-4f1e-b29c-2554e0c78afd
+          instance: 29bcaff8-3d85-43cb-b76f-01bad0e1d568
+        - port: 0906171f-17bb-478f-b8fa-9904983b26af
+          instance: c050e183-c808-43f9-bdb4-02e95fad58e2
+    network-vif-plugged:
+      succeeded:
+        - port: 03c4d61b-60b0-4f1e-b29c-2554e0c78afd
+          instance: 29bcaff8-3d85-43cb-b76f-01bad0e1d568
+        - port: 0906171f-17bb-478f-b8fa-9904983b26af
+          instance: c050e183-c808-43f9-bdb4-02e95fad58e2
+  vm-info:
+    running:
+      - 29bcaff8-3d85-43cb-b76f-01bad0e1d568
+      - c050e183-c808-43f9-bdb4-02e95fad58e2
+    vcpu-info:
+      used: 2
+      system-cores: 2
+      available-cores: 2
+      overcommit-factor: 1.0
+  nova-migrations:
+    live-migration:
+      c050e183-c808-43f9-bdb4-02e95fad58e2:
+        - start: '2021-09-14 08:21:07'
+          end: '2021-09-14 08:22:24'
+          duration: 77.0
+          resources:
+            memory_mbytes: 2048
+          regressions:
+            memory: 1
+            disk: 0
+          iterations: 4
+  network:
+    namespaces:
+      fip: 1
+      qrouter: 1
+      snat: 1
+      qdhcp: 1
+    config:
+      nova:
+        my_ip:
+          br-ens3:
+            addresses:
+              - 10.0.0.49
+            hwaddr: 52:54:00:e2:28:a3
+            state: UP
+            speed: unknown
+        live_migration_inbound_addr:
+          br-ens3:
+            addresses:
+              - 10.0.0.49
+            hwaddr: 52:54:00:e2:28:a3
+            state: UP
+            speed: unknown
+      neutron:
+        local_ip:
+          br-ens3:
+            addresses:
+              - 10.0.0.49
+            hwaddr: 52:54:00:e2:28:a3
+            state: UP
+            speed: unknown
+      octavia:
+        o-hm0:
+          o-hm0:
+            addresses:
+              - fc00:2203:1448:17b7:f816:3eff:fe4f:ed8a
+            hwaddr: fa:16:3e:4f:ed:8a
+            state: UNKNOWN
+            speed: unknown
+    port-health:
+      phy-ports:
+        br-ens3:
+          rx:
+            dropped: 131579 (36%)
+  features:
+    neutron:
+      main:
+        availability_zone: nova
+      openvswitch-agent:
+        l2_population: true
+        firewall_driver: openvswitch
+      l3-agent:
+        agent_mode: dvr_snat
+      dhcp-agent:
+        enable_metadata_network: true
+        enable_isolated_metadata: true
+        ovs_use_veth: false
+    nova:
+      main:
+        live_migration_permit_auto_converge: false
+        live_migration_permit_post_copy: false
+  agent-exceptions:
+    barbican:
+      barbican-api:
+        UnicodeDecodeError:
+          '2021-05-04': 1
+    neutron:
+      neutron-openvswitch-agent:
+        RuntimeError:
+          '2021-03-29': 3
+        OVS is dead:
+          '2021-03-29': 1
+        oslo_messaging.exceptions.MessagingTimeout:
+          '2021-08-02': 6
+          '2021-08-03': 32
+      neutron-l3-agent:
+        neutron_lib.exceptions.ProcessExecutionError:
+          '2021-05-18': 1
+          '2021-05-26': 1
+        oslo_messaging.exceptions.MessagingTimeout:
+          '2021-08-02': 6
+          '2021-08-03': 32
+    nova:
+      nova-compute:
+        oslo_messaging.exceptions.MessagingTimeout:
+          '2021-08-16': 35
+        nova.exception.DiskNotFound:
+          '2021-09-11': 1
+        libvirtError:
+          '2020-01-24': 1
+      nova-api-wsgi:
+        'OSError: Server unexpectedly closed connection':
+          '2021-03-15': 1
+        AMQP server on 10.5.1.98:5672 is unreachable:
+          '2021-03-15': 1
+        amqp.exceptions.ConnectionForced:
+          '2021-03-15': 1
+  agent-checks:
+    apache:
+      connection-refused:
+        '2021-10-26':
+          127.0.0.1:8981: 3
+    neutron-l3ha:
+      keepalived:
+        transitions:
+          1e086be2-93c2-4740-921d-3e3237f23959:
+            '2021-08-03': 2
+    neutron-ovs-agent:
+      rpc-loop:
+        top:
+          '1329':
+            start: 2021-08-03 10:29:51.272000
+            end: 2021-08-03 10:29:56.861000
+            duration: 5.59
+          '1328':
+            start: 2021-08-03 10:29:48.591000
+            end: 2021-08-03 10:29:51.271000
+            duration: 2.68
+          '55':
+            start: 2021-08-03 09:47:20.938000
+            end: 2021-08-03 09:47:22.166000
+            duration: 1.23
+          '41':
+            start: 2021-08-03 09:46:52.597000
+            end: 2021-08-03 09:46:54.923000
+            duration: 2.33
+          '40':
+            start: 2021-08-03 09:46:50.151000
+            end: 2021-08-03 09:46:52.596000
+            duration: 2.44
+        stats:
+          min: 0.0
+          max: 5.59
+          stdev: 0.2
+          avg: 0.02
+          samples: 1389
+          incomplete: 2
+    neutron-l3-agent:
+      router-updates:
+        top:
+          0339c98d-13d9-4fb1-ab57-3874a3e56c3e:
+            start: 2021-08-03 09:46:44.593000
+            end: 2021-08-03 09:47:00.692000
+            duration: 16.1
+            router: 1e086be2-93c2-4740-921d-3e3237f23959
+          93350e2d-c717-44fd-a10f-cb6019cce18b:
+            start: 2021-08-02 21:53:58.516000
+            end: 2021-08-02 21:54:10.683000
+            duration: 12.17
+            router: 1e086be2-93c2-4740-921d-3e3237f23959
+          caa3629f-e401-43d3-a2bf-aa3e6a3bfb6a:
+            start: 2021-08-02 21:51:00.306000
+            end: 2021-08-02 21:51:16.760000
+            duration: 16.45
+            router: 1e086be2-93c2-4740-921d-3e3237f23959
+          2e401a45-c471-4472-8425-86bdc6ff27b3:
+            start: 2021-08-02 21:50:36.610000
+            end: 2021-08-02 21:51:00.305000
+            duration: 23.7
+            router: 1e086be2-93c2-4740-921d-3e3237f23959
+          d30df808-c11e-401f-824d-b6f313658455:
+            start: 2021-08-02 21:47:53.325000
+            end: 2021-08-02 21:48:18.406000
+            duration: 25.08
+            router: 1e086be2-93c2-4740-921d-3e3237f23959
+        stats:
+          min: 6.97
+          max: 25.08
+          stdev: 5.88
+          avg: 15.43
+          samples: 8
+      router-spawn-events:
+        top:
+          1e086be2-93c2-4740-921d-3e3237f23959:
+            start: 2021-08-03 09:46:48.066000
+            end: 2021-08-03 09:47:07.617000
+            duration: 19.55
+        stats:
+          min: 19.55
+          max: 19.55
+          stdev: 0.0
+          avg: 19.55
+          samples: 1
+    nova:
+      PciDeviceNotFoundById:
+        '2021-09-17':
+          0000:3b:10.0: 1
+          0000:3b:0f.7: 1
+    octavia:
+      amp-missed-heartbeats:
+        '2021-06-01':
+          3604bf2a-ee51-4135-97e2-ec08ed9321db: 1
+      lb-failovers:
+        auto:
+          '2021-03-09':
+            7a3b90ed-020e-48f0-ad6f-b28443fa2277: 1
+            9cd90142-5501-4362-93ef-1ad219baf45a: 1
+            e9cb98af-9c21-4cf6-9661-709179ce5733: 1
+            98aefcff-60e5-4087-8ca6-5087ae970440: 1
+  bugs-detected:
+    - desc: known nova compute charm bug identified which affects live migrations
+        with cached keys
+      id: https://bugs.launchpad.net/bugs/1860743
+      origin: openstack.auto_bug_check
+    - desc: known neutron l3-agent bug identified that impacts deletion of neutron
+        routers.
+      id: https://bugs.launchpad.net/bugs/1929832
+      origin: openstack.auto_bug_check
+    - desc: known neutron l3-agent bug identified that critically impacts keepalived.
+      id: https://bugs.launchpad.net/bugs/1896506
+      origin: openstack.auto_bug_check
+    - desc: installed package 'neutron-common' with version 2:16.4.0-0ubuntu2 has
+        a known critical bug. If this environment is using Neutron ML2 OVS (i.e. not
+        OVN) it should be upgraded asap.
+      id: https://bugs.launchpad.net/bugs/1927868
+      origin: openstack.auto_bug_check
+    - desc: known neutron-ovn bug identified that impacts OVN sbdb connections.
+      id: https://bugs.launchpad.net/bugs/1928031
+      origin: openstack.auto_bug_check
+openvswitch:
+  dpkg:
+    - libc-bin 2.31-0ubuntu9.2
+    - openvswitch-switch 2.13.3-0ubuntu0.20.04.1
+  services:
+    systemd:
+      enabled:
+        - openvswitch-switch
+      static:
+        - ovs-vswitchd
+        - ovsdb-server
+    ps:
+      - ovs-vswitchd (1)
+      - ovsdb-client (1)
+      - ovsdb-server (1)
+  bridges:
+    br-data:
+      - ens7:
+          addresses: []
+          hwaddr: 52:54:00:78:19:c3
+          state: UP
+          speed: Unknown!
+    br-ex: []
+    br-int:
+      - (7 ports)
+    br-tun:
+      - vxlan-0a000032
+      - vxlan-0a000030
+  daemon-checks:
+    ovs-vswitchd:
+      netdev-linux-no-such-device:
+        '2021-07-19':
+          tap4b02cb1d-8b: 1
+      bridge-no-such-device:
+        '2021-06-29':
+          tapd4b5494a-b1: 1
+    logs:
+      ovs-thread-unreasonably-long-poll-interval:
+        '2021-08-19': 2
+      dpif-netlink-lost-packet-on-handler:
+        '2022-01-16': 1
+      ovs-vswitchd:
+        WARN:
+          '2021-06-29': 1
+          '2021-07-19': 1
+          '2021-08-19': 2
+          '2022-01-16': 1
+      ovsdb-server:
+        ERR:
+          '2021-07-16': 1
+        WARN:
+          '2021-07-28': 1
+  flow-checks:
+    datapath-port-stats:
+      qr-aa623763-fd:
+        RX:
+          packets: 309
+          dropped: 1394875
+  bugs-detected:
+    - desc: known ovn bug identified - db rbac errors
+      id: https://bugs.launchpad.net/bugs/1917475
+      origin: openvswitch.auto_bug_check
+kubernetes:
+  snaps:
+    - conjure-up 2.6.14-20200716.2107
+    - core 16-2.48.2
+    - core18 20201210
+    - docker 19.03.11
+    - go 1.15.6
+    - helm 3.5.0
+    - kubectl 1.20.2
+    - vault 1.5.4
+  dpkg:
+    - vaultlocker 1.0.6-0ubuntu1
+storage:
+  ceph:
+    release: octopus
+    status: HEALTH_WARN
+    services:
+      systemd:
+        enabled:
+          - ceph-crash
+          - ceph-osd
+        disabled:
+          - ceph-mds
+          - ceph-mgr
+          - ceph-mon
+          - ceph-radosgw
+        indirect:
+          - ceph-volume
+        generated:
+          - radosgw
+      ps:
+        - ceph-crash (1)
+        - ceph-osd (1)
+    network:
+      cluster:
+        br-ens3:
+          addresses:
+            - 10.0.0.49
+          hwaddr: 52:54:00:e2:28:a3
+          state: UP
+          speed: unknown
+      public:
+        br-ens3:
+          addresses:
+            - 10.0.0.49
+          hwaddr: 52:54:00:e2:28:a3
+          state: UP
+          speed: unknown
+    dpkg:
+      - ceph 15.2.13-0ubuntu0.20.04.1
+      - ceph-base 15.2.13-0ubuntu0.20.04.1
+      - ceph-common 15.2.13-0ubuntu0.20.04.1
+      - ceph-mds 15.2.13-0ubuntu0.20.04.1
+      - ceph-mgr 15.2.13-0ubuntu0.20.04.1
+      - ceph-mgr-modules-core 15.2.13-0ubuntu0.20.04.1
+      - ceph-mon 15.2.13-0ubuntu0.20.04.1
+      - ceph-osd 15.2.13-0ubuntu0.20.04.1
+      - python3-ceph-argparse 15.2.13-0ubuntu0.20.04.1
+      - python3-ceph-common 15.2.13-0ubuntu0.20.04.1
+      - python3-cephfs 15.2.13-0ubuntu0.20.04.1
+      - python3-rados 15.2.13-0ubuntu0.20.04.1
+      - python3-rbd 15.2.13-0ubuntu0.20.04.1
+      - radosgw 15.2.13-0ubuntu0.20.04.1
+    local-osds:
+      0:
+        fsid: 51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+        dev: /dev/mapper/crypt-51f1b834-3c8f-4cd1-8c0a-81a6f75ba2ea
+        devtype: ssd
+        rss: 639M
+    osd-pgs-near-limit:
+      osd.1: 501
+    osd-pgs-suboptimal:
+      osd.1: 501
+      osd.0: 295
+    versions:
+      mon:
+        - 15.2.13
+      mgr:
+        - 15.2.13
+      osd:
+        - 15.2.13
+    crush_rules:
+      replicated_rule:
+        id: 0
+        type: replicated
+        pools:
+          - device_health_metrics (1)
+          - glance (2)
+    osd-reported-failed:
+      osd.41:
+        '2021-02-13': 23
+      osd.85:
+        '2021-02-13': 4
+    crc-err-bluestore:
+      '2021-04-01': 2
+    long-heartbeat-pings:
+      '2021-02-09': 42
+  bcache:
+    devices:
+      bcache:
+        bcache0:
+          dname: bcache1
+        bcache1:
+          dname: bcache0
+    cachesets:
+      - uuid: 2bb274af-a015-4496-9455-43393ea06aa2
+        cache_available_percent: 95
+  potential-issues:
+    BcacheWarnings:
+      - bcache config sequential_cutoff expected to be eq 0.0k but actual=None (origin=storage.auto_config_check)
+      - Detected bcache devices but found no bcache-tuning unit. It's recommended
+        that bcache-tuning charm is deployed to configure params for optimal performance.
+        (origin=storage.bcache)
+    CephWarnings:
+      - 'The status of this Ceph cluster is HEALTH_WARN and the mon is configured
+        to allow insecure global_id reclaim which means the status will never go to
+        HEALTH_OK. Action should be taken to review the options discussed in the following:
+
+        https://bugs.launchpad.net/charm-ceph-mon/+bug/1929262
+
+        https://docs.ceph.com/en/latest/security/CVE-2021-20288/#fix-details. (origin=storage.auto_scenario_check)'
+    CephMapsWarnings:
+      - Found 5496 pinned osdmaps. This can affect mon's performance and also indicate
+        bugs such as https://tracker.ceph.com/issues/44184 and https://tracker.ceph.com/issues/47290.
+        (origin=storage.auto_scenario_check)
+    CephHealthWarnings:
+      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details
+        (origin=storage.ceph_cluster_checks)
+    CephOSDWarnings:
+      - Found 1 osd(s) with metadata size larger than 10G. This could be the result
+        of a compaction failure/bug and this host may be affected by https://tracker.ceph.com/issues/45903.
+        A workaround (>= Nautilus) is to manually compact using 'ceph-bluestore-tool'
+        (origin=storage.ceph_cluster_checks)
+    CephCrushErrors:
+      - Found 1 osd(s) with > 500 pgs - this is close to the hard limit at which point
+        they will stop creating pgs and fail - please investigate (origin=storage.ceph_cluster_checks)
+    CephCrushWarnings:
+      - Found 2 osd(s) with > 30% margin from optimal 50-200 pgs. (origin=storage.ceph_cluster_checks)
+    CephOSDErrors:
+      - Detected superblock read errors which indicates an OSD disk failure or its
+        likely failure in the near future. This drive needs to be inspected further
+        using sar/smartctl. (origin=storage.ceph_event_checks)
+vault:
+  snaps:
+    - vault 1.5.4
+  services:
+    systemd:
+      indirect:
+        - vaultlocker-decrypt
+    ps:
+      - vault (1)
+juju:
+  services:
+    systemd:
+      enabled:
+        - jujud-machine-1
+    ps:
+      - jujud (6)
+  version: 2.9.8
+  machine: '1'
+  charms:
+    - ceph-osd-495
+    - neutron-openvswitch-443
+    - nova-compute-564
+  units:
+    local:
+      - ceph-osd-1
+      - neutron-openvswitch-1
+      - nova-compute-0
+  bugs-detected:
+    - desc: Unit unit-rabbitmq-server-2 failed to start due to members in relation
+        236 that cannot be removed.
+      id: https://bugs.launchpad.net/bugs/1910958
+      origin: juju.auto_bug_check
+kernel:
+  version: 5.4.0-80-generic
+  boot: ro
+  cpu:
+    cpufreq-scaling-governor: unknown
+  memory-checks:
+    node1-normal:
+      - zones:
+          10: 0
+          9: 0
+          8: 0
+          7: 0
+          6: 0
+          5: 0
+          4: 0
+          3: 1
+          2: 54089
+          1: 217700
+          0: 220376
+      - limited high order memory - check ./tests/unit/fake_data_root/proc/buddyinfo
+    slab-top-consumers:
+      - buffer_head (44081.2734375k)
+      - anon_vma_chain (6580.0k)
+      - anon_vma (5617.390625k)
+      - radix_tree_node (30156.984375k)
+      - vmap_area (1612.0k)
+  oom-killer-invoked: Aug  3 08:32:23
+  over-mtu-dropped-packets:
+    tap0906171f-17: 5
+  potential-issues:
+    MemoryWarnings:
+      - compaction failures are at 29% of successes (see ./tests/unit/fake_data_root/proc/vmstat).
+        (origin=kernel.memory)
+      - oom-killer invoked for process 'nice' at Aug  3 08:32:23. (origin=kernel.log_event_checks)
+    KernelErrors:
+      - kern.log contains 1 stacktraces. (origin=kernel.log_event_checks)
+    NetworkWarnings:
+      - kernel has reported over-mtu dropped packets for (1) interfaces. (origin=kernel.log_event_checks)
+      - kernel has reported nf_conntrack_full - please check. (origin=kernel.log_event_checks)
