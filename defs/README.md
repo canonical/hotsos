@@ -208,49 +208,55 @@ to determine whether or not to run a check.
 If the result is based on the outcome of more than one requirement they
 must be grouped using logical operators used to determine the result of each
 group. The result of all groups are ANDed together to get the final result for
-*passes*. Note that each logical operator can only be used once since groups
-are defined as a dictionary (not a list).
+*passes*.
 
 format
 
 ```
 requires:
-  REQ_DEF | REQ_GROUPS
+  REQ_DEFS
+
+REQ_DEFS
+  This must be one (and only one) of the following:
+    * single REQ_DEF
+    * dictionary of unique REQ_GROUP
+    * list of one or more REQ_GROUP and REQ_DEF
+
+  The final result of a list is formed of AND applied to the
+  individual results.
 
 REQ_DEF
-  A single requirement is defined as a dictionary with the following
+  A single requirement defined as a dictionary with the following
   key/value pairs:
 
   TYPE: INPUT
   value: <value> (optional. Default is boolean True.)
-  op: <operator> ([python operator](https://docs.python.org/3/library/operator.html). Default is eq.)
+  op: <operator> (optional [python standard operator](https://docs.python.org/3/library/operator.html). Default is eq.)
 
-REQ_GROUPS
-  Multiple requirements can be grouped using a dictionary of
-  LOGICAL_OPERATOR key whose values are a list of requirements to
-  which the oeprator is to be a applied e.g.
+REQ_GROUP
+  Requirements can be grouped using a dictionary of LOGICAL_OPERATOR
+  keys whose values are lists of requirements to which the operator is
+  applied e.g.
 
-  LOGICAL_OPERATOR1:
+  and:
     - REQ_DEF1
     - REQ_DEF2
     - ...
-  LOGICAL_OPERATOR2:
+  or:
     - REQ_DEF3
     - ...
-  
+
+  The final result of a group is formed of AND applied to the
+  result of each subgroup.
+
 LOGICAL_OPERATOR
-  The following logical operators can be used as group keys for a list
-  of REQ_DEF and will be applied to the results of all requirements
-  within the group.
-
   and|or|not
-
-  AND is then applied to results of all groups.
 
 TYPE
   property
     INPUT is a Python import path for a property that will be called
-    and optionally matched against a provided value: otherwise True. 
+    and optionally matched against a provided value. If no value is
+    provided a boolean value of True is results. 
 
   apt
     INPUT is an apt package name or APT_INFO. Returns True if package

@@ -341,7 +341,7 @@ class YRequirementObj(YPropertyOverrideBase):
         self.systemd = systemd
         self.property = property
         self.value = value
-        self.py_op = getattr(operator, py_op or 'eq')
+        self.py_op = getattr(operator, py_op)
         self._cache = {}
 
     @property
@@ -435,6 +435,10 @@ class YRequirementObj(YPropertyOverrideBase):
 @ydef_override
 class YPropertyRequires(YPropertyOverrideBase):
     KEYS = ['requires']
+    # these must be logical operators
+    VALID_GROUP_KEYS = ['and', 'or', 'not']
+    FINAL_RESULT_OP = 'and'
+    DEFAULT_STD_OP = 'eq'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -468,73 +472,150 @@ class YPropertyRequires(YPropertyOverrideBase):
         """
         return self.content.get('value', True)
 
-    def _has_groups(self):
-        if set(self.content.keys()).intersection(['and', 'or', 'not']):
+    @property
+    def op(self):
+        return self.content.get('op', self.DEFAULT_STD_OP)
+
+    def process_requirement(self, requirement, cache=False):
+        """ Process a single requirement and return its boolean result.
+
+        @param requirement: a YRequirementObj object.
+        @param cache: if set to True the cached info from the requirement will
+        be saved locally. This can only be done for a single requirement.
+        """
+        if requirement.is_valid:
+            result = requirement.passes
+            if cache:
+                # NOTE: only currently support caching for single requirement
+                self._cache = requirement.cache
+
+            return result
+
+        log.debug("invalid requirement: %s - fail", self.content)
+        return False
+
+    def _is_groups(self, item):
+        """ Return True if the dictionary item contains groups keys.
+
+        Note that the dictionary must *only* contain group keys.
+        """
+        if set(list(item.keys())).intersection(self.VALID_GROUP_KEYS):
             return True
 
         return False
 
-    @property
-    def passes(self):
+    def process_requirement_group(self, item):
         """
-        Content can either be a single requirement or a list of requirements.
+        Process a requirements group (dict) which can contain one or more
+        groups each named by the boolean operator to apply to the results of
+        the list of requirements that it contains.
 
-        Returns True if any requirement is met.
+        @param item: dict of YRequirementObj objects keyed by bool opt.
         """
-        if not self._has_groups():
-            log.debug("single requirement provided")
-            requirement = YRequirementObj(self.apt, self.snap,
-                                          self.systemd,
-                                          self._property,
-                                          self.value,
-                                          self.content.get('op'))
-            if requirement.is_valid:
-                # NOTE: only currently support caching for single requirement
-                result = requirement.passes
-                self._cache = requirement.cache
-                return result
-            else:
-                log.debug("invalid requirement: %s - fail", self.content)
-                return False
-        else:
-            log.debug("requirements provided as groups")
-            results = {}
-            # list of requirements
-            for op, requirements in self.content.items():
+        results = {}
+        for group_op, group_items in item.items():
+            if group_op not in results:
+                results[group_op] = []
+
+            log.debug("op=%s has %s requirement(s)", group_op,
+                      len(group_items))
+            for entry in group_items:
+                r_op = entry.get('op', self.DEFAULT_STD_OP)
+                requirement = YRequirementObj(entry.get('apt'),
+                                              entry.get('snap'),
+                                              entry.get('systemd'),
+                                              entry.get('property'),
+                                              entry.get('value', True), r_op)
+                result = self.process_requirement(requirement)
+                if group_op not in results:
+                    results[group_op] = []
+
+                results[group_op].append(result)
+
+        return results
+
+    def process_multi_requirements_list(self, items):
+        """
+        If requirements are provided as a list, each item can be a requirement
+        or a group of requirements.
+
+        @param item: list of YRequirementObj objects or groups of objects.
+        """
+        log.debug("requirements provided as groups")
+        results = {}
+        for item in items:
+            if not self._is_groups(item):
+                r_op = item.get('op', self.DEFAULT_STD_OP)
+                requirement = YRequirementObj(item.get('apt'),
+                                              item.get('snap'),
+                                              item.get('systemd'),
+                                              item.get('property'),
+                                              item.get('value', True),
+                                              item.get('op', r_op))
+                result = self.process_requirement(requirement)
+                # final results always get anded.
+                op = self.FINAL_RESULT_OP
                 if op not in results:
                     results[op] = []
 
-                log.debug("op=%s has %s requirement(s)", op, len(requirements))
-                for entry in requirements:
-                    requirement = YRequirementObj(entry.get('apt'),
-                                                  entry.get('snap'),
-                                                  entry.get('systemd'),
-                                                  entry.get('property'),
-                                                  entry.get('value', True),
-                                                  entry.get('op'))
-                    if requirement.is_valid:
-                        results[op].append(requirement.passes)
-                    else:
-                        log.debug("invalid requirement: %s - fail", entry)
-                        results[op].append(False)
+                results[op].append(result)
+                break
 
-            # Now apply op to respective groups then AND all for the final
-            # result.
-            final_results = []
-            for op in results:
-                if op == 'and':
-                    final_results.append(all(results[op]))
-                elif op == 'or':
-                    final_results.append(any(results[op]))
-                elif op == 'not':
-                    # this is a NOR
-                    final_results.append(not any(results[op]))
-                else:
-                    log.debug("unknown operator '%s' found in requirement", op)
+            group_results = self.process_requirement_group(item)
+            for group_op, grp_op_results in group_results.items():
+                if group_op not in results:
+                    results[group_op] = []
 
-            result = all(final_results)
-            log.debug("requirement group result=%s", result)
-            return result
+                results[group_op] += grp_op_results
+
+        return results
+
+    def finalise_result(self, results):
+        """
+        Apply group ops to respective groups then AND all for the final result.
+        """
+        final_results = []
+        for op in results:
+            if op == 'and':
+                final_results.append(all(results[op]))
+            elif op == 'or':
+                final_results.append(any(results[op]))
+            elif op == 'not':
+                # this is a NOR
+                final_results.append(not any(results[op]))
+            else:
+                log.debug("unknown operator '%s' found in requirement", op)
+
+        result = all(final_results)
+        log.debug("final result=%s", result)
+        return result
+
+    @property
+    def passes(self):
+        """
+        Content can either be a single requirement, dict of requirement groups
+        or list of requirements. List may contain individual requirements or
+        groups.
+        """
+        if type(self.content) == dict:
+            if not self._is_groups(self.content):
+                log.debug("single requirement provided")
+                requirement = YRequirementObj(self.apt, self.snap,
+                                              self.systemd,
+                                              self._property,
+                                              self.value,
+                                              self.op)
+                results = {self.FINAL_RESULT_OP:
+                           [self.process_requirement(requirement, cache=True)]}
+            else:
+                log.debug("requirement groups provided")
+                results = self.process_requirement_group(self.content)
+
+        elif type(self.content) == list:
+            log.debug("list of requirements provided")
+            results = self.process_multi_requirements_list(self.content)
+
+        return self.finalise_result(results)
 
 
 @ydef_override

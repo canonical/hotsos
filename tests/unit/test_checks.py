@@ -46,7 +46,16 @@ pluginX:
 """
 
 YAML_DEF_REQUIRES_GROUPED = """
-passdef:
+passdef1:
+  requires:
+    - apt: python3.8
+    - and:
+        - apt: systemd
+      or:
+        - apt: nova-compute
+      not:
+        - apt: blah
+passdef2:
   requires:
     and:
       - apt: systemd
@@ -56,14 +65,14 @@ passdef:
       - apt: blah
 faildef:
   requires:
-    and:
-      - apt: doo
-      - apt: daa
-    or:
-      - apt: nova-compute
-    not:
-      - apt: blah
-      - apt: nova-compute
+    - and:
+        - apt: doo
+        - apt: daa
+      or:
+        - apt: nova-compute
+      not:
+        - apt: blah
+        - apt: nova-compute
 """
 
 YAML_DEF_W_INPUT_SUPERSEDED = """
@@ -301,14 +310,17 @@ class TestChecks(utils.BaseTestCase):
                              yaml.safe_load(YAML_DEF_REQUIRES_GROUPED))
         tested = 0
         for entry in mydef.leaf_sections:
-            if entry.name == 'passdef':
+            if entry.name == 'passdef1':
+                tested += 1
+                self.assertTrue(entry.requires.passes)
+            elif entry.name == 'passdef2':
                 tested += 1
                 self.assertTrue(entry.requires.passes)
             elif entry.name == 'faildef':
                 tested += 1
                 self.assertFalse(entry.requires.passes)
 
-        self.assertEqual(tested, 2)
+        self.assertEqual(tested, 3)
 
     def test_yaml_def_section_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
@@ -604,7 +616,7 @@ class TestChecks(utils.BaseTestCase):
         r1 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r1'}
         r2 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r2'}
         r3 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r3'}
-        requires = {'requires': {'or': [r1, r2]}}
+        requires = {'requires': [{'or': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = False
         mock_plugin.return_value.r2 = False
@@ -621,7 +633,7 @@ class TestChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-        requires = {'requires': {'and': [r1, r2]}}
+        requires = {'requires': [{'and': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = False
         mock_plugin.return_value.r2 = False
@@ -638,8 +650,8 @@ class TestChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-        requires = {'requires': {'and': [r1, r2],
-                                 'or': [r1, r2]}}
+        requires = {'requires': [{'and': [r1, r2],
+                                  'or': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
@@ -651,14 +663,33 @@ class TestChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-        requires = {'requires': {'and': [r1, r2],
-                                 'or': [r1, r2]}}
+        requires = {'requires': [{'and': [r1, r2],
+                                  'or': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
         self.assertFalse(group.leaf_sections[0].requires.passes)
 
+        requires = {'requires': [r1, {'and': [r3],
+                                      'or': [r1, r2]}]}
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        mock_plugin.return_value.r3 = True
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)
+
+        requires = {'requires': [{'and': [r3],
+                                  'or': [r1, r2]}]}
+
+        mock_plugin.return_value.r1 = True
+        mock_plugin.return_value.r2 = False
+        mock_plugin.return_value.r3 = True
+        group = YDefsSection('test', requires)
+        self.assertTrue(group.leaf_sections[0].requires.passes)
+
+        # same as prev test but with dict instead list
         requires = {'requires': {'and': [r3],
                                  'or': [r1, r2]}}
 
