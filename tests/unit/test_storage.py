@@ -21,11 +21,6 @@ from plugins.storage.pyparts import (
     ceph_service_info,
 )
 
-JOURNALCTL_BLUEFS_SPILLOVER= """
-Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)
-Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] collection clone for 'juju.txns.log' failed due to QueryPlanKilled: While cloning collection 'juju.txns.log' there was an error 'PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)'
-"""  # noqa
-
 CEPH_CONF_NO_BLUESTORE = """
 [global]
 [osd]
@@ -33,6 +28,14 @@ osd objectstore = filestore
 osd journal size = 1024
 filestore xattr use omap = true
 """
+
+MON_ELECTION_LOGS = """
+2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-02 06:26:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-02 06:27:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-02 06:28:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-02 06:29:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+"""  # noqa
 
 CEPH_VERSIONS_MISMATCHED_MAJOR = """
 {
@@ -765,55 +768,107 @@ class TestStorageScenarioChecks(StorageTestsBase):
             YScenarioChecker()()
             self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.ycheck.CLIHelper')
-    @mock.patch('core.ycheck.scenarios.ScenarioCheck.result',
-                lambda args: False)
-    @mock.patch('core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable',
-                False)
+    @mock.patch('core.ycheck.YDefsLoader._is_def')
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_scenarios_w_issue(self, add_issue, mock_cephbase,
-                               mock_helper):
+    def test_scenario_mon_reelections(self, mock_add_issue, mock_cephbase,
+                                      mock_is_def):
         issues = []
 
         def fake_add_issue(issue):
             issues.append(issue)
 
-        add_issue.side_effect = fake_add_issue
+        def fake_is_def(path):
+            """ Ensure we only run the scenario we are testing. """
+            if os.path.basename(path) == 'mon_elections_flapping.yaml':
+                return True
+
+            return False
+
+        mock_is_def.side_effect = fake_is_def
+        mock_add_issue.side_effect = fake_add_issue
         mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
         mock_cephbase.return_value.has_interface_errors = True
         mock_cephbase.return_value.bind_interface_names = 'ethX'
 
-        # First check not runnable
-        mock_cephbase.return_value.plugin_runnable = False
-        YScenarioChecker()()
-        self.assertFalse(add_issue.called)
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'var/log/ceph')
+            os.makedirs(path)
+            with open(os.path.join(path, 'ceph.log'), 'w') as fd:
+                fd.write(MON_ELECTION_LOGS)
 
-        # now runnable
-        mock_cephbase.return_value.plugin_runnable = True
-        YScenarioChecker()()
-        self.assertTrue(add_issue.called)
+            os.environ['DATA_ROOT'] = dtmp
+            YScenarioChecker()()
 
-        msgs = [issue.msg for issue in issues]
+        self.assertTrue(mock_add_issue.called)
         msg = ("Ceph monitor is experiencing repeated re-elections. The "
                "network interface(s) (ethX) used by the ceph-mon are "
                "showing errors - please investigate.")
-        self.assertTrue(msg in msgs)
+        self.assertEqual([issue.msg for issue in issues], [msg])
 
-        msg = ("Found 5496 pinned osdmaps. This can affect mon's performance "
-               "and also indicate bugs such as https://tracker.ceph.com/"
-               "issues/44184 and https://tracker.ceph.com/issues/47290.")
-        self.assertTrue(msg in msgs)
-        mock_cephbase.return_value.health_status = "HEALTH_WARN"
+    @mock.patch('core.ycheck.YDefsLoader._is_def')
+    @mock.patch('core.ycheck.CLIHelper')
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenario_bluefs_spillover(self, mock_add_issue, mock_cephbase,
+                                       mock_helper, mock_is_def):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        def fake_is_def(path):
+            """ Ensure we only run the scenario we are testing. """
+            if os.path.basename(path) == 'bluefs_spillover.yaml':
+                return True
+
+            return False
+
+        mock_is_def.side_effect = fake_is_def
+        mock_add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+        mock_cephbase.return_value.health_status = 'HEALTH_WARN'
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_health_detail_json_decoded.return_value \
-            = JOURNALCTL_BLUEFS_SPILLOVER
-        issues = []
+            = " experiencing BlueFS spillover"
+
         YScenarioChecker()()
-        self.assertTrue(add_issue.called)
-        msgs = [issue.msg for issue in issues]
+        self.assertTrue(mock_add_issue.called)
         msg = ('Known ceph bug https://tracker.ceph.com/issues/38745 '
                'detected. RocksDB needs more space than the leveled '
                'space available. See '
                'www.mail-archive.com/ceph-users@ceph.io/msg05782.html')
-        self.assertTrue(msg in msgs)
+        self.assertEqual([issue.msg for issue in issues], [msg])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def')
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenario_osd_maps_backlog_too_large(self, mock_add_issue,
+                                                 mock_cephbase,
+                                                 mock_is_def):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        def fake_is_def(path):
+            """ Ensure we only run the scenario we are testing. """
+            if os.path.basename(path) == 'osd_maps_backlog_too_large.yaml':
+                return True
+
+            return False
+
+        mock_is_def.side_effect = fake_is_def
+        mock_add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        msg = ("Found 5496 pinned osdmaps. This can affect mon's performance "
+               "and also indicate bugs such as "
+               "https://tracker.ceph.com/issues/44184 and "
+               "https://tracker.ceph.com/issues/47290.")
+        self.assertEqual([issue.msg for issue in issues], [msg])
