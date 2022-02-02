@@ -544,7 +544,14 @@ class YPropertyRequires(YPropertyOverrideBase):
         log.debug("requirements provided as groups")
         results = {}
         for item in items:
-            if not self._is_groups(item):
+            if self._is_groups(item):
+                group_results = self.process_requirement_group(item)
+                for group_op, grp_op_results in group_results.items():
+                    if group_op not in results:
+                        results[group_op] = []
+
+                    results[group_op] += grp_op_results
+            else:
                 r_op = item.get('op', self.DEFAULT_STD_OP)
                 requirement = YRequirementObj(item.get('apt'),
                                               item.get('snap'),
@@ -559,14 +566,6 @@ class YPropertyRequires(YPropertyOverrideBase):
                     results[op] = []
 
                 results[op].append(result)
-                break
-
-            group_results = self.process_requirement_group(item)
-            for group_op, grp_op_results in group_results.items():
-                if group_op not in results:
-                    results[group_op] = []
-
-                results[group_op] += grp_op_results
 
         return results
 

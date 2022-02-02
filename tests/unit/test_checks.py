@@ -63,7 +63,7 @@ passdef2:
       - apt: nova-compute
     not:
       - apt: blah
-faildef:
+faildef1:
   requires:
     - and:
         - apt: doo
@@ -73,6 +73,10 @@ faildef:
       not:
         - apt: blah
         - apt: nova-compute
+faildef2:
+  requires:
+    - apt: python3.8
+    - apt: python1.0
 """
 
 YAML_DEF_W_INPUT_SUPERSEDED = """
@@ -316,11 +320,14 @@ class TestChecks(utils.BaseTestCase):
             elif entry.name == 'passdef2':
                 tested += 1
                 self.assertTrue(entry.requires.passes)
-            elif entry.name == 'faildef':
+            elif entry.name == 'faildef1':
+                tested += 1
+                self.assertFalse(entry.requires.passes)
+            elif entry.name == 'faildef2':
                 tested += 1
                 self.assertFalse(entry.requires.passes)
 
-        self.assertEqual(tested, 3)
+        self.assertEqual(tested, 4)
 
     def test_yaml_def_section_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
