@@ -1,6 +1,5 @@
 import os
 
-import datetime
 import tempfile
 
 import utils
@@ -59,10 +58,10 @@ SEQ_TEST_6 = """2021-07-19 09:01:58.498 iteration:0 start
 class TestAnalytics(utils.BaseTestCase):
 
     def test_ordered_complete(self):
-        start0 = datetime.datetime(2021, 7, 19, 9, 1, 58, 498000)
-        end0 = datetime.datetime(2021, 7, 19, 9, 2, 58, 498000)
-        start1 = datetime.datetime(2021, 7, 19, 9, 3, 58, 498000)
-        end1 = datetime.datetime(2021, 7, 19, 9, 4, 58, 498000)
+        start0 = '2021-07-19 09:01:58.498000'
+        end0 = '2021-07-19 09:02:58.498000'
+        start1 = '2021-07-19 09:03:58.498000'
+        end1 = '2021-07-19 09:04:58.498000'
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
@@ -88,10 +87,10 @@ class TestAnalytics(utils.BaseTestCase):
         self.assertEqual(stats, expected)
 
     def test_unordered_complete(self):
-        start0 = datetime.datetime(2021, 7, 19, 9, 3, 58, 498000)
-        end0 = datetime.datetime(2021, 7, 19, 9, 4, 58, 498000)
-        start1 = datetime.datetime(2021, 7, 19, 9, 1, 58, 498000)
-        end1 = datetime.datetime(2021, 7, 19, 9, 2, 58, 498000)
+        start0 = '2021-07-19 09:03:58.498000'
+        end0 = '2021-07-19 09:04:58.498000'
+        start1 = '2021-07-19 09:01:58.498000'
+        end1 = '2021-07-19 09:02:58.498000'
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
@@ -117,10 +116,10 @@ class TestAnalytics(utils.BaseTestCase):
         self.assertEqual(stats, expected)
 
     def test_ordered_complete_clobbered(self):
-        start0 = datetime.datetime(2021, 7, 19, 9, 5, 58, 498000)
-        end0 = datetime.datetime(2021, 7, 19, 9, 6, 58, 498000)
-        start1 = datetime.datetime(2021, 7, 19, 9, 3, 58, 498000)
-        end1 = datetime.datetime(2021, 7, 19, 9, 4, 58, 498000)
+        start0 = '2021-07-19 09:05:58.498000'
+        end0 = '2021-07-19 09:06:58.498000'
+        start1 = '2021-07-19 09:03:58.498000'
+        end1 = '2021-07-19 09:04:58.498000'
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
@@ -149,10 +148,10 @@ class TestAnalytics(utils.BaseTestCase):
         self.assertEqual(stats, expected)
 
     def test_ordered_incomplete_clobbered(self):
-        start0 = datetime.datetime(2021, 7, 19, 9, 6, 58, 498000)
-        end0 = datetime.datetime(2021, 7, 19, 9, 7, 58, 498000)
-        start1 = datetime.datetime(2021, 7, 19, 9, 3, 58, 498000)
-        end1 = datetime.datetime(2021, 7, 19, 9, 4, 58, 498000)
+        start0 = '2021-07-19 09:06:58.498000'
+        end0 = '2021-07-19 09:07:58.498000'
+        start1 = '2021-07-19 09:03:58.498000'
+        end1 = '2021-07-19 09:04:58.498000'
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
@@ -182,10 +181,10 @@ class TestAnalytics(utils.BaseTestCase):
         self.assertEqual(stats, expected)
 
     def test_ordered_incomplete_clobbered2(self):
-        start0 = datetime.datetime(2021, 7, 19, 9, 5, 58, 498000)
-        end0 = datetime.datetime(2021, 7, 19, 9, 7, 58, 498000)
-        start1 = datetime.datetime(2021, 7, 19, 9, 3, 58, 498000)
-        end1 = datetime.datetime(2021, 7, 19, 9, 4, 58, 498000)
+        start0 = '2021-07-19 09:05:58.498000'
+        end0 = '2021-07-19 09:07:58.498000'
+        start1 = '2021-07-19 09:03:58.498000'
+        end1 = '2021-07-19 09:04:58.498000'
         expected = {'0': {'duration': 120.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
@@ -211,10 +210,10 @@ class TestAnalytics(utils.BaseTestCase):
         self.assertEqual(stats, expected)
 
     def test_ordered_multiple(self):
-        start0 = datetime.datetime(2021, 7, 19, 9, 8, 58, 498000)
-        end0 = datetime.datetime(2021, 7, 19, 9, 9, 58, 498000)
-        start1 = datetime.datetime(2021, 7, 19, 9, 3, 58, 498000)
-        end1 = datetime.datetime(2021, 7, 19, 9, 4, 58, 498000)
+        start0 = '2021-07-19 09:08:58.498000'
+        end0 = '2021-07-19 09:09:58.498000'
+        start1 = '2021-07-19 09:03:58.498000'
+        end1 = '2021-07-19 09:04:58.498000'
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}

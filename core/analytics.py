@@ -241,8 +241,8 @@ class LogEventStats(object):
         for event_id, item in sorted(top_n.items(),
                                      key=lambda x: x[1]["start"],
                                      reverse=reverse):
-            top_n_sorted[event_id] = {"start": item["start"],
-                                      "end": item["end"],
+            top_n_sorted[event_id] = {"start": str(item["start"]),
+                                      "end": str(item["end"]),
                                       "duration": item["duration"]}
 
             # include metadata in results if it is available.

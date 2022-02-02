@@ -1,7 +1,6 @@
 import os
 import shutil
 
-import datetime
 import mock
 import tempfile
 
@@ -563,44 +562,24 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         expected = {'rpc-loop': {
                         'top': {
                             '1329': {
-                                'start':
-                                    datetime.datetime(2021, 8, 3, 10, 29, 51,
-                                                      272000),
-                                'end':
-                                    datetime.datetime(2021, 8, 3, 10, 29, 56,
-                                                      861000),
+                                'start': '2021-08-03 10:29:51.272000',
+                                'end': '2021-08-03 10:29:56.861000',
                                 'duration': 5.59},
                             '1328': {
-                                'start':
-                                    datetime.datetime(2021, 8, 3, 10, 29, 48,
-                                                      591000),
-                                'end':
-                                    datetime.datetime(2021, 8, 3, 10, 29, 51,
-                                                      271000),
+                                'start': '2021-08-03 10:29:48.591000',
+                                'end': '2021-08-03 10:29:51.271000',
                                 'duration': 2.68},
                             '55': {
-                                'start':
-                                    datetime.datetime(2021, 8, 3, 9, 47, 20,
-                                                      938000),
-                                'end':
-                                    datetime.datetime(2021, 8, 3, 9, 47, 22,
-                                                      166000),
+                                'start': '2021-08-03 09:47:20.938000',
+                                'end': '2021-08-03 09:47:22.166000',
                                 'duration': 1.23},
                             '41': {
-                                'start':
-                                    datetime.datetime(2021, 8, 3, 9, 46, 52,
-                                                      597000),
-                                'end':
-                                    datetime.datetime(2021, 8, 3, 9, 46, 54,
-                                                      923000),
+                                'start': '2021-08-03 09:46:52.597000',
+                                'end': '2021-08-03 09:46:54.923000',
                                 'duration': 2.33},
                             '40': {
-                                'start':
-                                    datetime.datetime(2021, 8, 3, 9, 46, 50,
-                                                      151000),
-                                'end':
-                                    datetime.datetime(2021, 8, 3, 9, 46, 52,
-                                                      596000),
+                                'start': '2021-08-03 09:46:50.151000',
+                                'end': '2021-08-03 09:46:52.596000',
                                 'duration': 2.44}},
                         'stats': {
                             'min': 0.0,
@@ -618,28 +597,18 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         self.assertEqual(c.output.get(section_key), expected)
 
     def test_get_router_event_stats(self):
-        updates = {0: {'start':
-                       datetime.datetime(2021, 8, 3, 9, 46, 44, 593000),
-                       'end':
-                       datetime.datetime(2021, 8, 3, 9, 47, 0, 692000)},
-                   1: {'start':
-                       datetime.datetime(2021, 8, 2, 21, 53, 58, 516000),
-                       'end':
-                       datetime.datetime(2021, 8, 2, 21, 54, 10, 683000)},
-                   2: {'start':
-                       datetime.datetime(2021, 8, 2, 21, 51, 0, 306000),
-                       'end':
-                       datetime.datetime(2021, 8, 2, 21, 51, 16, 760000)},
-                   3: {'start':
-                       datetime.datetime(2021, 8, 2, 21, 50, 36, 610000),
-                       'end':
-                       datetime.datetime(2021, 8, 2, 21, 51, 0, 305000)},
-                   4: {'start':
-                       datetime.datetime(2021, 8, 2, 21, 47, 53, 325000),
-                       'end':
-                       datetime.datetime(2021, 8, 2, 21, 48, 18, 406000)}}
-        spawn_start = datetime.datetime(2021, 8, 3, 9, 46, 48, 66000)
-        spawn_end = datetime.datetime(2021, 8, 3, 9, 47, 7, 617000)
+        updates = {0: {'start': '2021-08-03 09:46:44.593000',
+                       'end': '2021-08-03 09:47:00.692000'},
+                   1: {'start': '2021-08-02 21:53:58.516000',
+                       'end': '2021-08-02 21:54:10.683000'},
+                   2: {'start': '2021-08-02 21:51:00.306000',
+                       'end': '2021-08-02 21:51:16.760000'},
+                   3: {'start': '2021-08-02 21:50:36.610000',
+                       'end': '2021-08-02 21:51:00.305000'},
+                   4: {'start': '2021-08-02 21:47:53.325000',
+                       'end': '2021-08-02 21:48:18.406000'}}
+        spawn_start = '2021-08-03 09:46:48.066000'
+        spawn_end = '2021-08-03 09:47:07.617000'
         expected = {'router-updates': {
                         'top': {
                             '0339c98d-13d9-4fb1-ab57-3874a3e56c3e': {
