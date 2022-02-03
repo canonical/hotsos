@@ -431,6 +431,4 @@ for data_root in "${SOS_PATHS[@]}"; do
         echo "" 1>&2
         rm $MASTER_YAML_OUT
     fi
-
-    echo "INFO: see --help for more options" 1>&2
 done
