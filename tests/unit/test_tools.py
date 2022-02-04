@@ -1,8 +1,9 @@
 import os
-
 import tempfile
-import utils
+
 import yaml
+
+from tests.unit import utils
 
 from tools import output_filter
 from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY

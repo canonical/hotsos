@@ -1,10 +1,10 @@
 import os
 import shutil
-
-import mock
 import tempfile
 
-import utils
+import mock
+
+from tests.unit import utils
 
 import core.plugins.openstack as openstack_core
 from core import checks

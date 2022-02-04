@@ -1,8 +1,7 @@
 import os
-
 import tempfile
 
-import utils
+from tests.unit import utils
 
 from core import analytics
 from core.searchtools import FileSearcher, SearchDef

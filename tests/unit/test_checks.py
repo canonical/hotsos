@@ -1,10 +1,10 @@
 import os
 import tempfile
-import yaml
 
 import mock
+import yaml
 
-import utils
+from tests.unit import utils
 
 from core import checks
 from core import ycheck
@@ -217,9 +217,6 @@ class TestChecks(utils.BaseTestCase):
         # test scenario where no data root is set (i.e. no sosreport) you need
         # to unset it as part of the test.
         super().setUp()
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_APTPackageChecksBase_core_only(self):
         expected = {'systemd': '245.4-4ubuntu3.11',

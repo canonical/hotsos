@@ -1,7 +1,8 @@
 import os
 
-import utils
 import yaml
+
+from tests.unit import utils
 
 from core.issues import (
     issue_types,

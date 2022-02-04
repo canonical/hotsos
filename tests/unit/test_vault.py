@@ -1,8 +1,6 @@
-import utils
+from tests.unit import utils
 
-from plugins.vault.pyparts import (
-    general,
-)
+from plugins.vault.pyparts import general
 
 
 class TestVaultPluginPartGeneral(utils.BaseTestCase):

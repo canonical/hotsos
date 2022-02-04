@@ -1,9 +1,10 @@
 import os
-
-import mock
 import subprocess
 import tempfile
-import utils
+
+import mock
+
+from tests.unit import utils
 
 from core import cli_helpers
 

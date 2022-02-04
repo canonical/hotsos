@@ -2,11 +2,10 @@ import os
 
 import mock
 
-import utils
+from tests.unit import utils
 
 from core.ycheck.bugs import YBugChecker
 from core import known_bugs_utils
-
 from plugins.juju.pyparts import (
     machines,
     charms,

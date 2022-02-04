@@ -1,9 +1,9 @@
 import os
-
-import mock
 import tempfile
 
-import utils
+import mock
+
+from tests.unit import utils
 
 from plugins.kernel.pyparts import (
     info,
@@ -23,7 +23,7 @@ class TestKernelBase(utils.BaseTestCase):
         os.environ["PLUGIN_NAME"] = "kernel"
 
 
-class TestKernelKernelInfo(TestKernelBase):
+class TestKernelInfo(TestKernelBase):
 
     def test_systemd_config(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -63,7 +63,7 @@ class TestKernelKernelInfo(TestKernelBase):
         self.assertEqual(inst.output, expected)
 
 
-class TestKernelKernelMemoryInfo(TestKernelBase):
+class TestKernelMemoryInfo(TestKernelBase):
 
     def test_numa_nodes(self):
         ret = memory.KernelMemoryChecks().numa_nodes
@@ -137,7 +137,7 @@ class TestKernelKernelMemoryInfo(TestKernelBase):
         self.assertEqual(inst.output, expected)
 
 
-class TestKernelKernelLogEventChecks(TestKernelBase):
+class TestKernelLogEventChecks(TestKernelBase):
 
     @mock.patch.object(log_event_checks.issue_utils, "add_issue")
     def test_run_log_event_checks(self, mock_add_issue):
@@ -198,7 +198,7 @@ class TestKernelKernelLogEventChecks(TestKernelBase):
         self.assertEqual(ret, expected)
 
 
-class TestKubernetesBugChecks(TestKernelBase):
+class TestKernelBugChecks(TestKernelBase):
 
     @mock.patch('core.ycheck.bugs.add_known_bug')
     def test_bug_checks(self, mock_add_known_bug):

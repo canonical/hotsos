@@ -2,7 +2,7 @@ import os
 
 import yaml
 
-import utils
+from tests.unit import utils
 
 from core import known_bugs_utils
 

@@ -1,9 +1,11 @@
-import json
-import mock
 import os
 import shutil
 import tempfile
-import utils
+
+import mock
+import json
+
+from tests.unit import utils
 
 from core import checks
 from core import constants

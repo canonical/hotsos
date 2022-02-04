@@ -2,7 +2,7 @@ import os
 
 import mock
 
-import utils
+from tests.unit import utils
 
 from core.plugins import openvswitch
 from core.ycheck.bugs import YBugChecker

@@ -1,12 +1,12 @@
 import mock
 
-import utils
+from tests.unit import utils
 
 from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
 
 
-class TestHostHelpers(utils.BaseTestCase):
+class TestHostNetworkingHelper(utils.BaseTestCase):
 
     def test_get_host_interfaces(self):
         expected = ['lo', 'ens3', 'ens4', 'ens5', 'ens6', 'ens7',

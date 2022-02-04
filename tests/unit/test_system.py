@@ -4,7 +4,7 @@ import tempfile
 
 import mock
 
-import utils
+from tests.unit import utils
 
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker

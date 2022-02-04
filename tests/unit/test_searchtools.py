@@ -1,10 +1,10 @@
 import glob
 import os
-
-import mock
 import tempfile
 
-import utils
+import mock
+
+from tests.unit import utils
 
 from core import constants
 from core.searchtools import (

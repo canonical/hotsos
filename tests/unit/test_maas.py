@@ -1,6 +1,6 @@
 import mock
 
-import utils
+from tests.unit import utils
 
 from plugins.maas.pyparts import (
     general,
@@ -48,7 +48,7 @@ ii  python3-maas-provisioningserver        2.7.3-8291-g.384e521e6         all   
 """  # noqa
 
 
-class TestMAASPluginPartGeneral(utils.BaseTestCase):
+class TestMAASGeneral(utils.BaseTestCase):
 
     @mock.patch('core.checks.CLIHelper')
     def test_install(self, mock_helper):

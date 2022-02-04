@@ -1,8 +1,8 @@
-import mock
-
 import os
 
-import utils
+import mock
+
+from tests.unit import utils
 
 from core import checks, constants
 from core.ycheck.bugs import YBugChecker

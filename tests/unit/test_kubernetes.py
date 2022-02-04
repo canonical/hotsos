@@ -1,10 +1,10 @@
 import os
-
-import mock
 import shutil
 import tempfile
 
-import utils
+import mock
+
+from tests.unit import utils
 
 from core.issues.issue_types import KubernetesWarning
 from core import checks, constants, cli_helpers
