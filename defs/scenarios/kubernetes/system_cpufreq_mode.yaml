@@ -1,5 +1,5 @@
 checks:
-  cpufreq-governor-not-performance:
+  cpufreq_governor_not_performance:
     requires:
       and:
         # can we actually see the setting
@@ -10,14 +10,14 @@ checks:
         - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: performance
           op: ne
-  kubernetes-installed:
+  kubernetes_installed:
     requires:
       and:
         - snap: kubelet
         # ignore if not running on metal
         - property: core.plugins.system.SystemBase.virtualisation_type
           value:
-  ondemand-installed-and-enabled:
+  ondemand_installed_and_enabled:
     requires:
       systemd: ondemand
       value: enabled
@@ -26,8 +26,8 @@ conclusions:
     priority: 1
     decision:
       and:
-        - cpufreq-governor-not-performance
-        - kubernetes-installed
+        - cpufreq_governor_not_performance
+        - kubernetes_installed
     raises:
       type: core.issues.issue_types.KubernetesWarning
       message: >-
@@ -43,9 +43,9 @@ conclusions:
     priority: 2
     decision:
       and:
-        - cpufreq-governor-not-performance
-        - kubernetes-installed
-        - ondemand-installed-and-enabled
+        - cpufreq_governor_not_performance
+        - kubernetes_installed
+        - ondemand_installed_and_enabled
     raises:
       type: core.issues.issue_types.KubernetesWarning
       message: >-

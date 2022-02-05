@@ -1,9 +1,9 @@
 checks:
-  insecure-auth-allowed:
+  insecure_auth_allowed:
     input:
       command: ceph_health_detail_json_decoded
     expr: '.+''message'': ''mon is allowing insecure global_id reclaim'''
-  health-warning:
+  health_warning:
     requires:
       property: core.plugins.storage.ceph.CephChecksBase.health_status
       value: HEALTH_WARN
@@ -11,8 +11,8 @@ conclusions:
   insecure-auth-allowed:
     decision:
       and:
-        - insecure-auth-allowed
-        - health-warning
+        - insecure_auth_allowed
+        - health_warning
     raises:
       type: core.issues.issue_types.CephWarning
       message: >-

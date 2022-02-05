@@ -1,5 +1,5 @@
 checks:
-  cpufreq-governor-not-performance:
+  cpufreq_governor_not_performance:
     requires:
       and:
         # can we actually see the setting
@@ -10,10 +10,10 @@ checks:
         - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: performance
           op: ne
-  nova-compute-installed:
+  nova_compute_installed:
     requires:
       apt: nova-compute
-  ondemand-installed-and-enabled:
+  ondemand_installed_and_enabled:
     requires:
       systemd: ondemand
       value: enabled
@@ -22,8 +22,8 @@ conclusions:
     priority: 1
     decision:
       and:
-        - cpufreq-governor-not-performance
-        - nova-compute-installed
+        - cpufreq_governor_not_performance
+        - nova_compute_installed
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
@@ -39,9 +39,9 @@ conclusions:
     priority: 2
     decision:
       and:
-        - cpufreq-governor-not-performance
-        - nova-compute-installed
-        - ondemand-installed-and-enabled
+        - cpufreq_governor_not_performance
+        - nova_compute_installed
+        - ondemand_installed_and_enabled
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-

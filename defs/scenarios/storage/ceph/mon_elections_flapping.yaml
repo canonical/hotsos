@@ -1,18 +1,19 @@
 checks:
-  check1:
+  ceph_log_has_election_calls:
     input:
       path: var/log/ceph/ceph*.log
     expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
     meta:
+      # i.e. must occur 5 times within same 24 hour period
       min: 5
       period: 24
-  check2:
+  ceph_interfaces_have_errors:
     requires:
       property: core.plugins.storage.ceph.CephChecksBase.has_interface_errors
 conclusions:
   cause-unknown:
     priority: 1
-    decision: check1
+    decision: ceph_log_has_election_calls
     raises:
       type: core.issues.issue_types.CephWarning
       message: >-
@@ -22,8 +23,8 @@ conclusions:
     priority: 2
     decision:
       and:
-        - check1
-        - check2
+        - ceph_log_has_election_calls
+        - ceph_interfaces_have_errors
     raises:
       type: core.issues.issue_types.CephWarning
       message: >-

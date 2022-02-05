@@ -1,12 +1,12 @@
 checks:
-  has-unexpected-masked:
+  has_unexpected_masked:
     requires:
       property: core.plugins.openstack.OpenstackServiceChecksBase.unexpected_masked_services
       value: []
       op: ne
 conclusions:
   has-unexpected-masked:
-    decision: has-unexpected-masked
+    decision: has_unexpected_masked
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-

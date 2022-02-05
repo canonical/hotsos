@@ -69,7 +69,7 @@ checks:
           value: 5
           op: lt
 conclusions:
-  cpu_dedicated_set_mixed_sources:
+  cpu-dedicated-set-mixed-sources:
     decision: cpu_dedicated_set_mixed_sources
     raises:
       type: core.issues.issue_types.OpenstackWarning
@@ -78,13 +78,13 @@ conclusions:
         isolcpus AND systemd CPUAffinity.
       format-dict:
         cpu_dedicated_set_name: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_name
-  cpu_shared_set_has_isolcpus:
+  cpu-shared-set-has-isolcpus:
     decision: cpu_shared_set_has_isolcpus
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
         Nova config option 'cpu_shared_set' is using cores from isolcpus.
-  cpu_shared_set_and_cpu_dedicated_set_overlap:
+  cpu-shared-set-and-cpu-dedicated-set-overlap:
     decision: cpu_shared_set_and_cpu_dedicated_set_overlap
     raises:
       type: core.issues.issue_types.OpenstackError
@@ -93,13 +93,13 @@ conclusions:
         with overlapping sets of cpu cores.
       format-dict:
         cpu_dedicated_set_name: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_name
-  isolcpus_and_cpuaffinity_overlap:
+  isolcpus-and-cpuaffinity-overlap:
     decision: isolcpus_and_cpuaffinity_overlap
     raises:
       type: core.issues.issue_types.OpenstackError
       message: >-
         The cpu ranges configured in isolcpus and systemd CPUAffinity overlap.
-  not_enough_system_cores:
+  not-enough-system-cores:
     decision:
       and:
         - pinning_enabled
@@ -112,7 +112,7 @@ conclusions:
       format-dict:
         pcent_unpinned: core.plugins.openstack.NovaCPUPinning.num_unpinned_cpus
         nonisolated: core.plugins.openstack.NovaCPUPinning.unpinned_cpus_pcent
-  nova_pinning_from_multi_numa_nodes:
+  nova-pinning-from-multi-numa-nodes:
     decision: nova_pinning_from_multi_numa_nodes
     raises:
       type: core.issues.issue_types.OpenstackWarning
@@ -122,7 +122,7 @@ conclusions:
         be checked.
       format-dict:
         cpu_dedicated_set_name: core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_name
-  conflicting_pinset_config:
+  conflicting-pinset-config:
     decision:
       and:
         - gte_train_release
@@ -132,7 +132,7 @@ conclusions:
       message: >-
         Nova config options 'vcpu_pin_set' and 'cpu_dedicated_set' are both
         set/configured which is not allowed for >= Train.
-  has_deprecated_pinset_config:
+  has-deprecated-pinset-config:
     decision:
       and:
         - gte_train_release

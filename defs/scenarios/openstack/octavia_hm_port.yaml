@@ -1,14 +1,14 @@
 checks:
-  octavia-worker-installed:
+  octavia_worker_installed:
     requires:
       and:
         - property: core.plugins.openstack.OctaviaBase.installed
         - systemd: octavia-worker
-  hm-port-packet-errors-drops:
+  hm_port_packet_errors_drops:
     requires:
       property: core.plugins.openstack.OctaviaBase.hm_port_healthy
       value: False
-  hm-port-address-check:
+  hm_port_address_check:
     requires:
       property: core.plugins.openstack.OctaviaBase.hm_port_has_address
       value: False
@@ -17,8 +17,8 @@ conclusions:
     priority: 1
     decision:
       and:
-        - octavia-worker-installed
-        - hm-port-address-check
+        - octavia_worker_installed
+        - hm_port_address_check
     raises:
       type: core.issues.issue_types.OpenstackError
       message: >-
@@ -32,8 +32,8 @@ conclusions:
     priority: 2
     decision:
       and:
-        - octavia-worker-installed
-        - hm-port-packet-errors-drops
+        - octavia_worker_installed
+        - hm_port_packet_errors_drops
     raises:
       type: core.issues.issue_types.OpenstackError
       message: >-
