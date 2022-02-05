@@ -495,13 +495,6 @@ class CLIHelper(object):
                  FileCmd('sos_commands/ceph_mon/json_output/'
                          'ceph_osd_df_tree_--format_json-pretty',
                          json_decode=True)],
-            'ceph_osd_tree':
-                [BinCmd('ceph osd tree'),
-                 # sosreport < 4.2
-                 FileCmd('sos_commands/ceph/ceph_osd_tree'),
-                 # sosreport >= 4.2
-                 FileCmd('sos_commands/ceph_mon/ceph_osd_tree'),
-                 ],
             'ceph_osd_crush_dump_json_decoded':
                 [BinCmd('ceph osd crush dump', json_decode=True),
                  # sosreport < 4.2

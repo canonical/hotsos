@@ -325,9 +325,10 @@ class CephOSD(CephDaemonBase):
         if self._devtype:
             return self._devtype
 
-        for line in self.cli.ceph_osd_tree():
-            if line.split()[3] == "osd.{}".format(self.id):
-                self._devtype = line.split()[1]
+        osd_tree = self.cli.ceph_osd_df_tree_json_decoded()
+        for node in osd_tree.get('nodes'):
+            if node.get('type') == 'osd' and node['id'] == self.id:
+                self._devtype = node['device_class']
 
         return self._devtype
 
