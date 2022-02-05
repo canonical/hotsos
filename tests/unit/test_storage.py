@@ -683,6 +683,24 @@ class TestStorageCephEventChecks(StorageTestsBase):
 class TestCephConfigChecks(StorageTestsBase):
 
     @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
+                    'ssd_osds_no_discard.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_ssd_osds_no_discard(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        YConfigChecker()()
+        self.assertTrue(mock_add_issue.called)
+
+        msgs = [("This host has osds with device_class 'ssd' but Bluestore "
+                 "discard is not enabled. The recommendation is to set 'bdev "
+                 "enable discard true'.")]
+        self.assertEqual([issue.msg for issue in issues], msgs)
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
                     'filestore_to_bluestore_upgrade.yaml'))
     @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
                 True)
