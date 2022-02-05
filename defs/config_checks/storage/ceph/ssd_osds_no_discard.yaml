@@ -1,0 +1,13 @@
+requires:
+  property: core.plugins.storage.ceph.CephChecksBase.local_osds_have_ssd_type
+config:
+  handler: core.plugins.storage.ceph.CephConfig
+settings:
+  bdev enable_discard:
+    value: true
+    operator: ne
+raises:
+  type: core.issues.issue_types.CephWarning
+  message: >-
+    This host has osds with device_class 'ssd' but Bluestore discard is not
+    enabled. The recommendation is to set 'bdev enable discard true'.
