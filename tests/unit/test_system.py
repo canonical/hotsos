@@ -138,15 +138,27 @@ class TestSystemBugChecks(SystemTestsBase):
 
 class TestSystemScenarioChecks(SystemTestsBase):
 
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_scenarios(self, mock_add_issue):
-        issues = []
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('unattended_upgrades.yaml'))
+    @mock.patch('core.plugins.system.SystemBase.unattended_upgrades_enabled',
+                True)
+    @mock.patch('core.plugins.system.SystemChecksBase.plugin_runnable',
+                True)
+    @mock.patch('core.ycheck.scenarios.issue_utils.add_issue')
+    def test_unattended_upgrades(self, mock_add_issue):
+        issues = {}
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
-        self.assertEqual(len(issues), 1)
-        self.assertEqual(type(issues[0]), SystemWarning)
+        msg = ('Unattended upgrades are enabled which can lead to '
+               'uncontrolled changes to this environment. If maintenance '
+               'windows are required please consider disabling unattended '
+               'upgrades.')
+        self.assertEqual(issues[SystemWarning], [msg])

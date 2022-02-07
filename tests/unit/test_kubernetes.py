@@ -140,6 +140,8 @@ class TestKubernetesBugChecks(KubernetesTestsBase):
 
 class TestKubernetesScenarioChecks(KubernetesTestsBase):
 
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('system_cpufreq_mode.yaml'))
     @mock.patch('core.plugins.system.SystemBase.virtualisation_type',
                 None)
     @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
@@ -148,11 +150,14 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                 True)
     @mock.patch.object(checks, 'CLIHelper')
     @mock.patch('core.ycheck.scenarios.issue_utils.add_issue')
-    def test_scenario_checks(self, mock_add_issue, mock_cli):
-        issues = []
+    def test_system_cpufreq_mode(self, mock_add_issue, mock_cli):
+        issues = {}
 
         def fake_add_issue(issue):
-            issues.append(type(issue))
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
 
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.snap_list_all.return_value = \
@@ -161,5 +166,11 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
-        self.assertTrue(KubernetesWarning in issues)
-        self.assertEqual(len(issues), 1)
+        msg = ('This node is used for Kubernetes but is not using '
+               'cpufreq scaling_governor in "performance" mode '
+               '(actual=powersave). This is not recommended and can result in '
+               'performance degradation. To fix this you can install '
+               'cpufrequtils and set "GOVERNOR=performance" in '
+               '/etc/default/cpufrequtils. NOTE: requires node reboot to '
+               'take effect.')
+        self.assertEqual(issues[KubernetesWarning], [msg])

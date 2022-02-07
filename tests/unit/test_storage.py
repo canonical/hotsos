@@ -680,20 +680,57 @@ class TestStorageCephEventChecks(StorageTestsBase):
         self.assertEqual(inst.output["ceph"], result)
 
 
-class TestStorageConfigChecks(StorageTestsBase):
+class TestCephConfigChecks(StorageTestsBase):
 
-    def setup_bcachefs(self, path, error=False):
+    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
+                    'filestore_to_bluestore_upgrade.yaml'))
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
+                True)
+    @mock.patch('core.plugins.storage.ceph.CephConfig')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
+                                            mock_ceph_config):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_ceph_config.return_value = mock.MagicMock()
+        mock_ceph_config.return_value.get = lambda args: '/journal/path'
+        mock_add_issue.side_effect = fake_add_issue
+        YConfigChecker()()
+        self.assertTrue(mock_add_issue.called)
+
+        msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
+                 "device configured in ceph.conf - please check")]
+        self.assertEqual([issue.msg for issue in issues], msgs)
+
+
+class TestBcacheConfigChecks(StorageTestsBase):
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_no_issue(self, mock_add_issue):
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp)
+            os.environ['DATA_ROOT'] = dtmp
+            YConfigChecker()()
+            self.assertFalse(mock_add_issue.called)
+
+    def setup_bcachefs(self, path, bdev_error=False, cacheset_error=False):
         cset = os.path.join(path, 'sys/fs/bcache/1234')
         os.makedirs(cset)
         for cfg, val in {'congested_read_threshold_us': '0',
                          'congested_write_threshold_us': '0'}.items():
             with open(os.path.join(cset, cfg), 'w') as fd:
+                if cacheset_error:
+                    val = '100'
+
                 fd.write(val)
 
         for cfg, val in {'cache_available_percent': '34'}.items():
-            if error:
+            if cacheset_error:
                 if cfg == 'cache_available_percent':
-                    # i.e. >= 33 for lplp1900438 check
+                    # i.e. >= 33 for lp1900438 check
                     val = '33'
 
             with open(os.path.join(cset, cfg), 'w') as fd:
@@ -705,60 +742,57 @@ class TestStorageConfigChecks(StorageTestsBase):
                          'cache_mode':
                          'writethrough [writeback] writearound none',
                          'writeback_percent': '10'}.items():
-            if error:
+            if bdev_error:
                 if cfg == 'writeback_percent':
                     val = '1'
 
             with open(os.path.join(bdev, cfg), 'w') as fd:
                 fd.write(val)
 
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('cacheset.yaml'))
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_config_checks_has_issue(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(type(issue))
-
-        mock_add_issue.side_effect = fake_add_issue
-        ceph_conf = ceph_core.CephConfig().dump
-        with tempfile.TemporaryDirectory() as dtmp:
-            os.makedirs(os.path.join(dtmp, 'etc/ceph'))
-            with open(os.path.join(dtmp, 'etc/ceph/ceph.conf'), 'w') as fd:
-                fd.write(ceph_conf)
-
-            self.setup_bcachefs(dtmp, error=True)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertTrue(mock_add_issue.called)
-            self.assertEquals(issues, [issue_types.BcacheWarning,
-                                       issue_types.BcacheWarning])
-
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_config_checks_no_issue(self, mock_add_issue):
-        ceph_conf = ceph_core.CephConfig().dump
-        with tempfile.TemporaryDirectory() as dtmp:
-            os.makedirs(os.path.join(dtmp, 'etc/ceph'))
-            with open(os.path.join(dtmp, 'etc/ceph/ceph.conf'), 'w') as fd:
-                fd.write(ceph_conf)
-
-            self.setup_bcachefs(dtmp)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertFalse(mock_add_issue.called)
-
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_bcache_unit(self, mock_add_issue):
+    def test_cacheset(self, mock_add_issue):
         issues = []
 
         def fake_add_issue(issue):
             issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
-        inst = bcache.BcacheCharmChecks()
-        inst()
-        self.assertEqual(len(issues), 1)
-        self.assertEqual(type(issues[0]), issue_types.BcacheWarning)
-        self.assertTrue(mock_add_issue.called)
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp, cacheset_error=True)
+            os.environ['DATA_ROOT'] = dtmp
+            YConfigChecker()()
+            self.assertTrue(mock_add_issue.called)
+
+            msgs = [('bcache cache_available_percent is approx. 30 which '
+                     'implies this node could be suffering from bug LP '
+                     '1900438 - please check'),
+                    ('cacheset config congested_read_threshold_us expected '
+                     'to be eq 0 but actual=100')]
+            actual = sorted([issue.msg for issue in issues])
+            self.assertEqual(actual, sorted(msgs))
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('bdev.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_bdev(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp, bdev_error=True)
+            os.environ['DATA_ROOT'] = dtmp
+            YConfigChecker()()
+            self.assertTrue(mock_add_issue.called)
+
+            msgs = [('bcache config writeback_percent expected to be ge 10 '
+                     'but actual=1')]
+            actual = sorted([issue.msg for issue in issues])
+            self.assertEqual(actual, sorted(msgs))
 
 
 class TestStorageScenarioChecks(StorageTestsBase):
@@ -770,24 +804,16 @@ class TestStorageScenarioChecks(StorageTestsBase):
             YScenarioChecker()()
             self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('mon_elections_flapping.yaml'))
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('core.issues.issue_utils.add_issue')
-    def test_scenario_mon_reelections(self, mock_add_issue, mock_cephbase,
-                                      mock_is_def):
+    def test_scenario_mon_reelections(self, mock_add_issue, mock_cephbase):
         issues = []
 
         def fake_add_issue(issue):
             issues.append(issue)
 
-        def fake_is_def(path):
-            """ Ensure we only run the scenario we are testing. """
-            if os.path.basename(path) == 'mon_elections_flapping.yaml':
-                return True
-
-            return False
-
-        mock_is_def.side_effect = fake_is_def
         mock_add_issue.side_effect = fake_add_issue
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -809,25 +835,18 @@ class TestStorageScenarioChecks(StorageTestsBase):
                "showing errors - please investigate.")
         self.assertEqual([issue.msg for issue in issues], [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('bluefs_spillover.yaml'))
     @mock.patch('core.ycheck.CLIHelper')
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenario_bluefs_spillover(self, mock_add_issue, mock_cephbase,
-                                       mock_helper, mock_is_def):
+                                       mock_helper):
         issues = []
 
         def fake_add_issue(issue):
             issues.append(issue)
 
-        def fake_is_def(path):
-            """ Ensure we only run the scenario we are testing. """
-            if os.path.basename(path) == 'bluefs_spillover.yaml':
-                return True
-
-            return False
-
-        mock_is_def.side_effect = fake_is_def
         mock_add_issue.side_effect = fake_add_issue
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -844,25 +863,18 @@ class TestStorageScenarioChecks(StorageTestsBase):
                'www.mail-archive.com/ceph-users@ceph.io/msg05782.html')
         self.assertEqual([issue.msg for issue in issues], [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter(
+                    'osd_maps_backlog_too_large.yaml'))
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenario_osd_maps_backlog_too_large(self, mock_add_issue,
-                                                 mock_cephbase,
-                                                 mock_is_def):
+                                                 mock_cephbase):
         issues = []
 
         def fake_add_issue(issue):
             issues.append(issue)
 
-        def fake_is_def(path):
-            """ Ensure we only run the scenario we are testing. """
-            if os.path.basename(path) == 'osd_maps_backlog_too_large.yaml':
-                return True
-
-            return False
-
-        mock_is_def.side_effect = fake_is_def
         mock_add_issue.side_effect = fake_add_issue
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True

@@ -814,11 +814,18 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
 class TestOpenstackConfigChecks(TestOpenstackBase):
 
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_config_checks_no_issue(self, mock_add_issue):
+        YConfigChecker()()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova-dpdk.yaml'))
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.issues.issue_utils.add_issue')
     @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
                 True)
-    def test_config_checks_has_issue(self, mock_add_issue, mock_helper):
+    def test_nova_dpdk(self, mock_add_issue, mock_helper):
         issues = []
 
         def fake_add_issue(issue):
@@ -828,14 +835,11 @@ class TestOpenstackConfigChecks(TestOpenstackBase):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
             ["ii  openvswitch-switch-dpdk 2.13.3-0ubuntu0.20.04.2 amd64"]
+        # no need to mock the config since the fact it doesnt exist will
+        # trigger the alert.
         YConfigChecker()()
         self.assertTrue(mock_add_issue.called)
         self.assertEquals(issues, [issue_types.OpenstackWarning])
-
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_config_checks_no_issue(self, mock_add_issue):
-        YConfigChecker()()
-        self.assertFalse(mock_add_issue.called)
 
 
 class TestOpenstackBugChecks(TestOpenstackBase):
@@ -939,7 +943,6 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
             issues = {}
             YScenarioChecker()()
             self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
-            msg = issues[issue_types.OpenstackWarning]
             msg = ("Nova config option 'cpu_dedicated_set' is configured with "
                    "cores from more than one numa node. This can have "
                    "performance implications and should be checked.")
@@ -952,7 +955,6 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
             issues = {}
             YScenarioChecker()()
             self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 2)
-            msg = issues[issue_types.OpenstackWarning]
             msg1 = ("Nova config option 'vcpu_pin_set' is configured with "
                     "cores from more than one numa node. This can have "
                     "performance implications and should be checked.")

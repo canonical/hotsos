@@ -10,6 +10,27 @@ TESTS_DIR = os.environ["TESTS_DIR"]
 os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, "fake_data_root")
 
 
+def is_def_filter(def_filename):
+    """
+    This is used to filter core.ycheck.YDefsLoader._is_def to only match the
+    yaml def with the given filename so that e.g. a unit will only run that set
+    of checks so as to make it easier to know that the result is from a
+    specific check(s).
+
+    NOTE: this will omit directory-global defs e.g. for a dir foo containing
+    foo.yaml and mycheck.yaml, globals in foo.yaml will not be applied (unless
+    of course name=="foo.yaml")
+    """
+    def inner(_inst, path):
+        """ Ensure we only load/run the yaml def with the given name. """
+        if os.path.basename(path) == def_filename:
+            return True
+
+        return False
+
+    return inner
+
+
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
