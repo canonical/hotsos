@@ -1,14 +1,13 @@
-config:
-  handler: core.plugins.storage.bcache.BdevsConfig
-settings:
-  sequential_cutoff:
-    value: '0.0k'
-    operator: eq
-  cache_mode:
-    value: 'writethrough [writeback] writearound none'
-    operator: eq
-  writeback_percent:
-    value: 10
-    operator: ge
+requires:
+  config:
+    handler: core.plugins.storage.bcache.BdevsConfig
+    assertions:
+      sequential_cutoff:
+        value: '0.0k'
+      cache_mode:
+        value: 'writethrough [writeback] writearound none'
+      writeback_percent:
+        value: 10
+        op: ge
 raises:
   type: core.issues.issue_types.BcacheWarning

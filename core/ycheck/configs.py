@@ -41,39 +41,21 @@ class YConfigChecker(AutoChecksBase):
                 'group': group_name,
                 'config': cfg_check.config,
                 'requires': cfg_check.requires,
-                'settings': dict(cfg_check.settings),
                 'raises': cfg_check.raises}
 
     def run(self):
         for name, cfg_check in self._check_defs.items():
-            # this is optional
-            requires = cfg_check['requires']
-            if requires and not cfg_check['requires'].passes:
-                continue
-
             log.debug("config check section=%s", name)
-            message = cfg_check['raises'].message
-            for cfg_key, settings in cfg_check['settings'].items():
-                op = settings['operator']
-                value = settings['value']
-                section = settings.get('section')
-                allow_unset = bool(settings.get('allow-unset', False))
-                raise_issue = False
-                actual = cfg_check['config'].actual(cfg_key, section=section)
-                log.debug("checking config %s %s %s (actual=%s)", cfg_key, op,
-                          value, actual)
-                if not cfg_check['config'].check(actual, value, op,
-                                                 allow_unset=allow_unset):
-                    raise_issue = True
+            if not cfg_check['requires'].passes:
+                message = cfg_check['raises'].message
+                if not message:
+                    rcache = cfg_check['requires'].cache
+                    message = ("{} config {} expected to be {} {} "
+                               "but actual={}".format(cfg_check['group'],
+                                                      rcache['config.key'],
+                                                      rcache['config.op'],
+                                                      rcache['config.value'],
+                                                      rcache['config.actual']))
 
-                if raise_issue:
-                    if not message:
-                        message = ("{} config {} expected to be {} {} "
-                                   "but actual={}".format(cfg_check['group'],
-                                                          cfg_key, op, value,
-                                                          actual))
-
-                    issue = cfg_check['raises'].type(message)
-                    issue_utils.add_issue(issue)
-                    # move on to next set of checks
-                    break
+                issue = cfg_check['raises'].type(message)
+                issue_utils.add_issue(issue)

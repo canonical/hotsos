@@ -261,15 +261,6 @@ class YPropertyRaises(YPropertyOverrideBase):
 
 
 @ydef_override
-class YPropertySettings(YPropertyOverrideBase):
-    KEYS = ['settings']
-
-    def __iter__(self):
-        for key, val in self.content.items():
-            yield key, val
-
-
-@ydef_override
 class YPropertyInput(YPropertyOverrideBase):
     KEYS = ['input']
     TYPE_COMMAND = 'command'
@@ -335,11 +326,12 @@ class YPropertyInput(YPropertyOverrideBase):
 
 
 class YRequirementObj(YPropertyOverrideBase):
-    def __init__(self, apt, snap, systemd, property, value, py_op):
+    def __init__(self, apt, snap, systemd, property, config, value, py_op):
         self.apt = apt
         self.snap = snap
         self.systemd = systemd
         self.property = property
+        self.config = config
         self.value = value
         self.py_op = getattr(operator, py_op)
         self._cache = {}
@@ -351,7 +343,8 @@ class YRequirementObj(YPropertyOverrideBase):
     @property
     def is_valid(self):
         # need at least one
-        return any([self.systemd, self.snap, self.apt, self.property])
+        return any([self.systemd, self.snap, self.apt, self.property,
+                    self.config])
 
     def _package_version_within_ranges(self, pkg_version, versions):
         for item in sorted(versions, key=lambda i: i['max'],
@@ -374,6 +367,111 @@ class YRequirementObj(YPropertyOverrideBase):
 
         return False
 
+    def _apt_handler(self):
+        versions = []
+        # Value can be a package name or dict that provides more
+        # information about the package.
+        if type(self.apt) == dict:
+            # NOTE: we only support one package for now but done this way
+            # to make extensible.
+            for _name, _versions in self.apt.items():
+                self._cache['apt.pkg'] = _name
+                pkg = _name
+                versions = _versions
+        else:
+            pkg = self.apt
+            self._cache['apt.pkg'] = pkg
+
+        apt_info = APTPackageChecksBase([pkg])
+        result = apt_info.is_installed(pkg)
+        if result:
+            if versions:
+                pkg_ver = apt_info.get_version(pkg)
+                self._cache['apt.pkg_version'] = pkg_ver
+                result = self._package_version_within_ranges(pkg_ver,
+                                                             versions)
+                log.debug("package %s=%s within version ranges %s "
+                          "(result=%s)", pkg, pkg_ver, versions, result)
+
+        log.debug('requirement check: apt %s (result=%s)', pkg, result)
+        return result
+
+    def _snap_handler(self):
+        pkg = self.snap
+        result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
+        log.debug('requirement check: snap %s (result=%s)', pkg, result)
+        self._cache['snap.pkg'] = pkg
+        return result
+
+    def _systemd_handler(self):
+        service = self.systemd
+        svcs = ServiceChecksBase([service]).services
+        result = service in svcs
+        if result and self.value is not None:
+            result = self.py_op(svcs[service], self.value)
+
+        log.debug('requirement check: systemd %s (result=%s)', service,
+                  result)
+        self._cache['systemd.service'] = service
+        self._cache['systemd.state'] = self.value
+        self._cache['systemd.op'] = self.py_op
+        return result
+
+    def _property_handler(self):
+        actual = self.get_property(self.property)
+        result = self.py_op(actual, self.value)
+        log.debug('requirement check: property %s %s %s (result=%s)',
+                  self.property, self.py_op, self.value, result)
+        self._cache['property.actual'] = actual
+        self._cache['property.value'] = self.value
+        self._cache['property.op'] = self.py_op
+        return result
+
+    def _config_handler(self):
+        handler = self.config['handler']
+        obj = self.get_cls(handler)
+        path = self.config.get('path')
+        if path:
+            path = os.path.join(constants.DATA_ROOT, path)
+            cfg = obj(path)
+        else:
+            cfg = obj()
+
+        for key, assertion in self.config['assertions'].items():
+            value = assertion.get('value')
+            op = assertion.get('op', 'eq')
+            section = assertion.get('section')
+            if section:
+                actual = cfg.get(key, section=section)
+            else:
+                actual = cfg.get(key)
+
+            log.debug("requirement check: config %s %s %s (actual=%s)", key,
+                      op, value, actual)
+            result = False
+            if value is not None:
+                if actual is None:
+                    result = assertion.get('allow-unset', False)
+                else:
+                    if type(value) != type(actual):
+                        # Apply the type from the yaml to that of the
+                        # config.
+                        actual = type(value)(actual)
+
+                    result = getattr(operator, op)(actual, value)
+            elif actual is None:
+                result = True
+
+            # return on first fail
+            if not result:
+                self._cache['config.key'] = key
+                self._cache['config.value'] = value
+                self._cache['config.op'] = op
+                self._cache['config.actual'] = actual
+                return False
+
+        return True
+
     @property
     def passes(self):
         """ Assert whether the requirement is met.
@@ -381,54 +479,17 @@ class YRequirementObj(YPropertyOverrideBase):
         Returns True if met otherwise False.
         """
         if self.apt:
-            versions = []
-            # Value can be a package name or dict that provides more
-            # information about the package.
-            if type(self.apt) == dict:
-                # NOTE: we only support one package for now but done this way
-                # to make extensible.
-                for _name, _versions in self.apt.items():
-                    self._cache['apt.pkg'] = _name
-                    pkg = _name
-                    versions = _versions
-            else:
-                pkg = self.apt
-
-            apt_info = APTPackageChecksBase([pkg])
-            result = apt_info.is_installed(pkg)
-            if result:
-                if versions:
-                    pkg_ver = apt_info.get_version(pkg)
-                    self._cache['apt.pkg_version'] = pkg_ver
-                    result = self._package_version_within_ranges(pkg_ver,
-                                                                 versions)
-                    log.debug("package %s=%s within version ranges %s "
-                              "(result=%s)", pkg, pkg_ver, versions, result)
-
-            log.debug('requirement check: apt %s (result=%s)', pkg, result)
-            return result
+            return self._apt_handler()
         elif self.snap:
-            pkg = self.snap
-            result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
-            log.debug('requirement check: snap %s (result=%s)', pkg, result)
-            return result
+            return self._snap_handler()
         elif self.systemd:
-            service = self.systemd
-            svcs = ServiceChecksBase([service]).services
-            result = service in svcs
-            if result and self.value is not None:
-                result = self.py_op(svcs[service], self.value)
-
-            log.debug('requirement check: systemd %s (result=%s)', service,
-                      result)
-            return result
+            return self._systemd_handler()
         elif self.property:
-            result = self.py_op(self.get_property(self.property), self.value)
-            log.debug('requirement check: property %s %s %s (result=%s)',
-                      self.property, self.py_op, self.value, result)
-            return result
+            return self._property_handler()
+        elif self.config:
+            return self._config_handler()
 
-        log.debug('unknown requirement check')
+        log.debug('unknown requirement check - passes=False')
         return False
 
 
@@ -449,6 +510,13 @@ class YPropertyRequires(YPropertyOverrideBase):
         return self._cache
 
     @property
+    def depends_on(self):
+        if not type(self.content) == dict:
+            return
+
+        return self.content.get('depends-on', None)
+
+    @property
     def apt(self):
         return self.content.get('apt', None)
 
@@ -459,6 +527,10 @@ class YPropertyRequires(YPropertyOverrideBase):
     @property
     def systemd(self):
         return self.content.get('systemd', None)
+
+    @property
+    def config(self):
+        return self.content.get('config', None)
 
     @property
     def _property(self):
@@ -525,6 +597,7 @@ class YPropertyRequires(YPropertyOverrideBase):
                                               entry.get('snap'),
                                               entry.get('systemd'),
                                               entry.get('property'),
+                                              entry.get('config'),
                                               entry.get('value', True), r_op)
                 result = self.process_requirement(requirement)
                 if group_op not in results:
@@ -557,6 +630,7 @@ class YPropertyRequires(YPropertyOverrideBase):
                                               item.get('snap'),
                                               item.get('systemd'),
                                               item.get('property'),
+                                              item.get('config'),
                                               item.get('value', True),
                                               item.get('op', r_op))
                 result = self.process_requirement(requirement)
@@ -596,13 +670,29 @@ class YPropertyRequires(YPropertyOverrideBase):
         or list of requirements. List may contain individual requirements or
         groups.
         """
+        if self.depends_on:
+            log.debug("depends-on provided")
+            entry = self.depends_on
+            requirement = YRequirementObj(entry.get('apt'),
+                                          entry.get('snap'),
+                                          entry.get('systemd'),
+                                          entry.get('property'),
+                                          entry.get('config'),
+                                          entry.get('value', True),
+                                          self.DEFAULT_STD_OP)
+            if not self.process_requirement(requirement):
+                log.debug("depends-on is False - skipping requirenent check "
+                          "and returning passes=True")
+                return True
+
+            log.debug("depends-on passed - continuing")
+
         if type(self.content) == dict:
             if not self._is_groups(self.content):
                 log.debug("single requirement provided")
                 requirement = YRequirementObj(self.apt, self.snap,
-                                              self.systemd,
-                                              self._property,
-                                              self.value,
+                                              self.systemd, self._property,
+                                              self.config, self.value,
                                               self.op)
                 results = {self.FINAL_RESULT_OP:
                            [self.process_requirement(requirement, cache=True)]}
@@ -615,41 +705,6 @@ class YPropertyRequires(YPropertyOverrideBase):
             results = self.process_multi_requirements_list(self.content)
 
         return self.finalise_result(results)
-
-
-@ydef_override
-class YPropertyConfig(YPropertyOverrideBase):
-    KEYS = ['config']
-
-    def actual(self, key, section=None):
-        obj = self.get_cls(self.handler)
-        if hasattr(self, 'path'):
-            self.cfg = obj(self.path)
-        else:
-            self.cfg = obj()
-
-        if section:
-            actual = self.cfg.get(key, section=section)
-        else:
-            actual = self.cfg.get(key)
-
-        return actual
-
-    def check(self, actual, value, op, allow_unset=False):
-        if value is not None and actual is None:
-            if allow_unset:
-                return True
-            else:
-                return False
-
-        # Apply the type from the yaml to that of the config
-        if value is not None and type(value) != type(actual):
-            actual = type(value)(actual)
-
-        if getattr(operator, op)(actual, value):
-            return True
-
-        return False
 
 
 class YDefsLoader(object):

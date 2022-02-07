@@ -1,13 +1,13 @@
 # Check that if bluestore is enabled, there is no journal device configured.
 # This can happen e.g. after an upgrade from Filestore to Bluestore.
 requires:
-  property: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
-config:
-  handler: core.plugins.storage.ceph.CephConfig
-settings:
-  osd_journal:
-    value:
-    operator: eq
+  depends-on:
+    property: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
+  config:
+    handler: core.plugins.storage.ceph.CephConfig
+    assertions:
+      osd_journal:
+        value:
 raises:
   type: core.issues.issue_types.CephWarning
   message: >-

@@ -73,24 +73,6 @@ definitions provided that their handler supports them. The format section
 describes how they can be used in yaml definitions and the usage section
 describes how they are consumed in (Python) code i.e. the handlers.
 
-#### config
-Defines a config checker. The handler is normally a plugins' implementation of
-core.checks.SectionalConfigBase.
-
-format
-
-```
-config:
-  handler: config.handler.import.path
-  path: <relative path to config file>
-```
-
-usage
-
-```
-config.actual(key, section=None)
-config.check(actual, value, op, allow_unset=False):
-```
 
 #### decision
 Defines a decision as a list of logical operators each associated with a list
@@ -214,13 +196,24 @@ format
 
 ```
 requires:
+  REQ_DEPENDS_ON
   REQ_DEFS
+
+REQ_DEPENDS_ON
+  An optional dict with format:
+  
+  depends-on: REQ_DEF
+
+  This allows for a single REQ_DEF to be run before any other as a
+  condition for running REQ_DEFS which are only checked if the
+  outcome is True otherwise they are skipped and *passes* returns
+  True.  
 
 REQ_DEFS
   This must be one (and only one) of the following:
     * single REQ_DEF
-    * dictionary of unique REQ_GROUP
-    * list of one or more REQ_GROUP and REQ_DEF
+    * a single REQ_GROUP
+    * list of one or more REQ_GROUP and/or REQ_DEF
 
   The final result of a list is formed of AND applied to the
   individual results.
@@ -271,6 +264,27 @@ TYPE
     and a service status can be optionally checked using value: in
     which case a match is required to get True.
 
+  config
+    Defines a config checker where INPUT is CONFIG_INFO.
+    
+CONFIG_INFO
+  A dictionary containing the information required to perform some
+  config checks. The handler is typically a .
+
+  handler: import path to plugins' implementation of
+           core.checks.SectionalConfigBase.
+  path: optional path to use as argument to handler.
+  assertions: CONFIG_ASSERTIONS
+
+CONFIG_ASSERTIONS
+  A list of assertions to be used with CONFIG_INFO where each item
+  contains:
+
+  section - optional config file section name.
+  op - [python operator](https://docs.python.org/3/library/operator.html) to apply. Default is eq.
+  value - expected value. Default is None.
+  allow-unset - whether the config may be unset. Default is False.
+
 APT_INFO
   dictionary of package name and version ranges e.g.
   
@@ -287,23 +301,6 @@ usage
 
 ```
 requires.passes
-```
-
-#### settings
-Defines a group of settings. Implementation is handler-specific. Settings are
-retrieved by iterating over the result.
-
-format
-
-```
-settings:
-  <dict>
-```
-
-usage
-
-```
-iter(settings)
 ```
 
 ### expr|hint|start|body|end
@@ -411,6 +408,24 @@ Supported properties
 
 ## Handlers
 
+### Scenarios
+
+These checks are run automatically and do not require implementing in plugin
+code.
+
+Each plugin can define a set of scenarios whereby a scenario comprises of a set
+of *checks* and *conclusions*. Each check is executed independently and
+conclusions are defined as decision based on the outcome of one or more checks.
+Conclusions can be given priorities so that one can be selected in the event of
+multiple positives. This is helpful for defining fallback conclusions.
+
+Supported properties
+  * none
+  
+Supported subdefs
+  * checks
+  * conclusions
+
 ### Events
 
 These checks are not currently run automatically and do require custom
@@ -489,11 +504,11 @@ use any combination of these. If package version info is checked and the
 package is not installed, any other checks are skipped for that bug. 
 
 Supported properties
+  * requires - this must "pass" for the bugcheck to complete
   * input - this is required by *expr*
   * expr - optional pattern search in file or command (see *input*)
   * raises - used to define message displayed when bug identified. Note that
              *raises.type* is ignored here since we are always raising a bug.
-  * requires - this must "pass" for the bugcheck to complete
   
 Supported subdefs
   * none
@@ -504,41 +519,13 @@ Supported subdefs
 These checks are run automatically and do not require implementing in plugin
 code.
 
-Each plugin can define a set of bugs to identify by searching for a
-pattern either in a file/path or command output. When a match is found, a
-message is displayed in the 'known-bugs' section of a plugin output.
+These checks are lightweight scenarios in that they don't use the *checks* or
+*conclusions* properties and are typically used to perform checks on config.
 
 Supported properties
   * requires
-  * config
-  * settings - see SETTINGS
   * raises
   
 Supported subdefs
   * none
 
-```
-SETTINGS
-  section - Optional config file section name.
-  op - [python operator](https://docs.python.org/3/library/operator.html) to apply. Default is eq.
-  value - Expected value.
-  allow-unset - Whether the config may be unset. Default is False.
-```
-
-### Scenarios
-
-These checks are run automatically and do not require implementing in plugin
-code.
-
-Each plugin can define a set of scenarios whereby a scenario comprises of a set
-of *checks* and *conclusions*. Each check is executed independently and
-conclusions are defined as decision based on the outcome of one or more checks.
-Conclusions can be given priorities so that one can be selected in the event of
-multiple positives. This is helpful for defining fallback conclusions.
-
-Supported properties
-  * none
-  
-Supported subdefs
-  * checks
-  * conclusions

@@ -25,7 +25,8 @@ pluginX:
       path: foo/bar1
     sectionA:
       artifactX:
-        settings: True
+        requires:
+          apt: foo
 """
 
 YAML_DEF_REQUIRES_APT = """
@@ -40,9 +41,6 @@ pluginX:
             max: '4.2'
           - min: '5.0'
             max: '5.2'
-    sectionA:
-      artifactX:
-        settings: True
 """
 
 YAML_DEF_REQUIRES_GROUPED = """
@@ -88,7 +86,8 @@ pluginX:
       input:
         path: foo/bar2
       artifactX:
-        settings: True
+        requires:
+          apt: foo
 """
 
 YAML_DEF_W_INPUT_SUPERSEDED2 = """
@@ -102,7 +101,8 @@ pluginX:
       artifactX:
         input:
           path: foo/bar3
-        settings: True
+        requires:
+          apt: foo
 """
 
 YAML_DEF_EXPR_TYPES = r"""
@@ -136,21 +136,22 @@ a-key = 1023
 YAML_DEF_CONFIG_CHECK = """
 myplugin:
   mygroup:
-    config:
-      handler: core.plugins.openstack.OpenstackConfig
-      path: dummy.conf
     requires:
-      apt: a-package
+      depends-on:
+        apt: a-package
+      config:
+        handler: core.plugins.openstack.OpenstackConfig
+        path: dummy.conf
+        assertions:
+          a-key:
+            section: a-section
+            value: 1024
+            op: ge
+            allow-unset: False
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
         something important.
-    settings:
-      a-key:
-        section: a-section
-        value: 1024
-        operator: ge
-        allow-unset: False
 """
 
 SCENARIO_CHECKS = r"""
@@ -412,7 +413,7 @@ class TestChecks(utils.BaseTestCase):
                               'my-standard-search2'])
 
     @mock.patch('core.issues.issue_utils.add_issue')
-    @mock.patch.object(ycheck, 'APTPackageChecksBase')
+    @mock.patch('core.ycheck.APTPackageChecksBase')
     def test_yaml_def_config_requires(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
         with tempfile.TemporaryDirectory() as dtmp:
@@ -424,7 +425,7 @@ class TestChecks(utils.BaseTestCase):
             plugin = yaml.safe_load(YAML_DEF_CONFIG_CHECK).get('myplugin')
             group = YDefsSection('myplugin', plugin)
             for entry in group.leaf_sections:
-                self.assertTrue(entry.requires.passes)
+                self.assertFalse(entry.requires.passes)
 
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
             open(os.path.join(dtmp, 'config_checks.yaml'),

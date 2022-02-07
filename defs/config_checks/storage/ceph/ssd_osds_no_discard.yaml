@@ -1,11 +1,12 @@
 requires:
-  property: core.plugins.storage.ceph.CephChecksBase.local_osds_have_ssd_type
-config:
-  handler: core.plugins.storage.ceph.CephConfig
-settings:
-  bdev enable_discard:
-    value: true
-    operator: ne
+  depends-on:
+    property: core.plugins.storage.ceph.CephChecksBase.local_osds_have_ssd_type
+  config:
+    handler: core.plugins.storage.ceph.CephConfig
+    assertions:
+      bdev enable_discard:
+        value: true
+        op: ne
 raises:
   type: core.issues.issue_types.CephWarning
   message: >-
