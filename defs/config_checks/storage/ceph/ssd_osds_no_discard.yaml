@@ -1,6 +1,8 @@
 requires:
   depends-on:
-    property: core.plugins.storage.ceph.CephChecksBase.local_osds_have_ssd_type
+    property: core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
+    op: contains
+    value: ssd
   config:
     handler: core.plugins.storage.ceph.CephConfig
     assertions:

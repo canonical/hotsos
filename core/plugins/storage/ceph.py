@@ -503,12 +503,8 @@ class CephChecksBase(StorageBase):
         return self._local_osds
 
     @property
-    def local_osds_have_ssd_type(self):
-        devtypes = [osd.devtype for osd in self.local_osds]
-        if 'ssd' in devtypes:
-            return True
-
-        return False
+    def local_osds_devtypes(self):
+        return [osd.devtype for osd in self.local_osds]
 
     def _filter_pools_by_rule(self, pools, crush_rule):
         res_pool = []

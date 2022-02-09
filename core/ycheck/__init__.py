@@ -679,7 +679,7 @@ class YPropertyRequires(YPropertyOverrideBase):
                                           entry.get('property'),
                                           entry.get('config'),
                                           entry.get('value', True),
-                                          self.DEFAULT_STD_OP)
+                                          entry.get('op', self.DEFAULT_STD_OP))
             if not self.process_requirement(requirement):
                 log.debug("depends-on is False - skipping requirenent check "
                           "and returning passes=True")
