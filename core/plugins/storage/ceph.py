@@ -163,6 +163,44 @@ class CephCluster(object):
 
         return _releases
 
+    @property
+    def require_osd_release(self):
+        osd_dump = self.cli.ceph_osd_dump_json_decoded()
+        if not osd_dump:
+            return
+
+        return osd_dump.get('require_osd_release')
+
+    @property
+    def osd_daemon_release_names_mismatch(self):
+        required_rname = self.require_osd_release
+        if not required_rname:
+            return False
+
+        rnames = list(self.daemon_release_names('osd').keys())
+        diff = set(rnames).symmetric_difference(
+            [required_rname])
+        return len(diff) != 0
+
+    @property
+    def laggy_pgs(self):
+        pg_dump = self.cli.ceph_pg_dump_json_decoded()
+        if not pg_dump:
+            return []
+
+        laggy_pgs = []
+        for pg in pg_dump['pg_map']['pg_stats']:
+            for state in ['laggy', 'wait']:
+                if state in pg['state']:
+                    laggy_pgs.append(pg)
+                    break
+
+        return laggy_pgs
+
+    @property
+    def num_laggy_pgs(self):
+        return len(self.laggy_pgs)
+
 
 class CephDaemonBase(object):
 

@@ -21,16 +21,6 @@ OSD_META_LIMIT_KB = (10 * 1024 * 1024)
 
 class CephClusterChecks(CephChecksBase):
 
-    def check_health_status(self):
-        if not self.health_status:
-            # only available from a ceph-mon
-            return
-
-        if self.health_status != 'HEALTH_OK':
-            msg = ("Ceph cluster is in '{}' state. Please check 'ceph status' "
-                   "for details".format(self.health_status))
-            issue_utils.add_issue(issue_types.CephHealthWarning(msg))
-
     def check_large_omap_objects(self):
         """
         Report PGs with large OMAP objects.
@@ -56,40 +46,6 @@ class CephClusterChecks(CephChecksBase):
                    "to find whether the number of keys are high."
                    .format(large_omap_pgs))
             issue_utils.add_issue(issue_types.CephWarning(msg))
-
-    def check_laggy_pgs(self):
-        pg_dump = self.cli.ceph_pg_dump_json_decoded()
-        if not pg_dump:
-            return
-
-        laggy_pgs = []
-        for pg in pg_dump['pg_map']['pg_stats']:
-            for state in ['laggy', 'wait']:
-                if state in pg['state']:
-                    laggy_pgs.append(pg)
-                    break
-
-        if laggy_pgs:
-            msg = ("Ceph cluster is reporting {} laggy/wait PGs. This "
-                   "suggests a potential network or storage issue - please "
-                   "check".format(len(laggy_pgs)))
-            issue_utils.add_issue(issue_types.CephWarning(msg))
-
-    def check_require_osd_release(self):
-        osd_dump = self.cli.ceph_osd_dump_json_decoded()
-        if not osd_dump:
-            return
-
-        expected_rname = osd_dump.get('require_osd_release')
-        if not expected_rname:
-            return
-
-        for rname in ceph.CephCluster().daemon_release_names('osd'):
-            if expected_rname != rname:
-                msg = ("require_osd_release is {} but one or more osds is on "
-                       "release {} - needs fixing".format(expected_rname,
-                                                          rname))
-                issue_utils.add_issue(issue_types.CephOSDError(msg))
 
     def check_osd_msgr_protocol_versions(self):
         """Check if any OSDs are not using the messenger v2 protocol
@@ -435,14 +391,11 @@ class CephClusterChecks(CephChecksBase):
 
             self.check_bcache_vulnerabilities()
 
-        self.check_health_status()
-        self.check_require_osd_release()
         self.check_osd_msgr_protocol_versions()
         self.check_ceph_bluefs_size()
         self.get_ceph_pg_imbalance()
         self.get_ceph_versions_mismatch()
         self.get_crushmap_mixed_buckets()
-        self.check_laggy_pgs()
         self.check_large_omap_objects()
         self.check_crushmap_equal_buckets()
 

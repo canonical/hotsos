@@ -462,19 +462,6 @@ class TestStorageCephClusterChecks(StorageTestsBase):
         self.assertIsNone(inst.output)
 
     @mock.patch.object(ceph_cluster_checks, 'issue_utils')
-    def test_check_require_osd_release(self, mock_issue_utils):
-        osd_dump = ceph_core.CLIHelper().ceph_osd_dump_json_decoded()
-        with mock.patch.object(ceph_core, 'CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            mock_helper.return_value.ceph_versions.return_value = \
-                CEPH_VERSIONS_MISMATCHED_MAJOR.split('\n')
-            mock_helper.return_value.ceph_osd_dump_json_decoded.\
-                return_value = osd_dump
-            inst = ceph_cluster_checks.CephClusterChecks()
-            inst.check_require_osd_release()
-            self.assertTrue(mock_issue_utils.add_issue.called)
-
-    @mock.patch.object(ceph_cluster_checks, 'issue_utils')
     def test_check_osd_v2(self, mock_issue_utils):
         with tempfile.TemporaryDirectory() as dtmp:
             src = os.path.join(constants.DATA_ROOT,
@@ -579,22 +566,6 @@ class TestStorageCephClusterChecks(StorageTestsBase):
                 mock_apt_check.get_version.return_value = "15.2.13"
                 inst.check_bcache_vulnerabilities()
                 self.assertTrue(mock_add_issue.called)
-
-    @mock.patch.object(ceph_cluster_checks.issue_utils, 'add_issue')
-    def test_check_laggy_pgs_no_issue(self, mock_add_issue):
-        inst = ceph_cluster_checks.CephClusterChecks()
-        inst.check_laggy_pgs()
-        self.assertFalse(mock_add_issue.called)
-
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch.object(ceph_cluster_checks.issue_utils, 'add_issue')
-    def test_check_laggy_pgs_w_issue(self, mock_add_issue, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.ceph_pg_dump_json_decoded.return_value = \
-            PG_DUMP_JSON_DECODED
-        inst = ceph_cluster_checks.CephClusterChecks()
-        inst.check_laggy_pgs()
-        self.assertTrue(mock_add_issue.called)
 
     @mock.patch.object(ceph_cluster_checks.issue_utils, 'add_issue')
     def test_check_large_omap_objects_no_issue(self, mock_add_issue):
@@ -903,4 +874,50 @@ class TestStorageScenarioChecks(StorageTestsBase):
                "and also indicate bugs such as "
                "https://tracker.ceph.com/issues/44184 and "
                "https://tracker.ceph.com/issues/47290.")
+        self.assertEqual([issue.msg for issue in issues], [msg])
+
+    @mock.patch('core.plugins.storage.ceph.CephCluster.require_osd_release',
+                'octopus')
+    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('required_osd_release_mismatch.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_required_osd_release(self, mock_add_issue, mock_helper):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ceph_versions.return_value = \
+            CEPH_VERSIONS_MISMATCHED_MAJOR.split('\n')
+        mock_add_issue.side_effect = fake_add_issue
+
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        msg = ('require_osd_release is octopus but not all OSDs are on that '
+               'version - please check.')
+        self.assertEqual([issue.msg for issue in issues], [msg])
+
+    @mock.patch('core.plugins.storage.ceph.CephCluster.require_osd_release',
+                'octopus')
+    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('laggy_pgs.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_laggy_pgs(self, mock_add_issue, mock_helper):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ceph_pg_dump_json_decoded.return_value = \
+            PG_DUMP_JSON_DECODED
+        mock_add_issue.side_effect = fake_add_issue
+
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        msg = ('Ceph cluster is reporting 1 laggy/wait PGs. This suggests a '
+               'potential network or storage issue - please check.')
         self.assertEqual([issue.msg for issue in issues], [msg])

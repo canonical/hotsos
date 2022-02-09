@@ -1,0 +1,14 @@
+checks:
+  osd-versions-mismatch:
+    requires:
+      property: core.plugins.storage.ceph.CephCluster.osd_daemon_release_names_mismatch
+conclusions:
+  osd_versions_mismatch:
+    decision: osd-versions-mismatch
+    raises:
+      type: core.issues.issue_types.CephOSDError
+      message: >-
+        require_osd_release is {require_osd_release} but not all OSDs are on
+        that version - please check.
+      format-dict:
+        require_osd_release: core.plugins.storage.ceph.CephCluster.require_osd_release 
