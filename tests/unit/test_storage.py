@@ -921,3 +921,44 @@ class TestStorageScenarioChecks(StorageTestsBase):
         msg = ('Ceph cluster is reporting 1 laggy/wait PGs. This suggests a '
                'potential network or storage issue - please check.')
         self.assertEqual([issue.msg for issue in issues], [msg])
+
+    @mock.patch('core.ycheck.ServiceChecksBase.services',
+                {'ceph-mon': 'enabled'})
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase.health_status',
+                'HEALTH_WARN')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph_cluster_health.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_ceph_cluster_health(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        msg = ("Ceph cluster is in 'HEALTH_WARN' state. Please check "
+               "'ceph status' for details.")
+        self.assertEqual([issue.msg for issue in issues], [msg])
+
+    @mock.patch('core.ycheck.ServiceChecksBase.services',
+                {'ceph-mon': 'enabled'})
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase.health_status',
+                'HEALTH_OK')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph_cluster_health.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_ceph_cluster_health_ok(self, mock_add_issue):
+        YScenarioChecker()()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.ycheck.ServiceChecksBase.services',
+                {'ceph-osd': 'enabled'})
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph_cluster_health.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_ceph_cluster_health_not_ceph_mon(self, mock_add_issue):
+        YScenarioChecker()()
+        self.assertFalse(mock_add_issue.called)

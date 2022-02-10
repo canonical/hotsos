@@ -1,9 +1,12 @@
 checks:
   cluster-unhealthy:
     requires:
-      property: core.plugins.storage.ceph.CephChecksBase.health_status
-      value: HEALTH_OK
-      op: ne
+      and:
+        - systemd: ceph-mon
+          value: enabled
+        - property: core.plugins.storage.ceph.CephChecksBase.health_status
+          value: HEALTH_OK
+          op: ne
 conclusions:
   heath_not_ok:
     decision: cluster-unhealthy
