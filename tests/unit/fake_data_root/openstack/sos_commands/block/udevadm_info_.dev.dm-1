@@ -1,0 +1,30 @@
+P: /devices/virtual/block/dm-1
+N: dm-1
+L: 0
+S: disk/by-id/dm-uuid-LVM-2cdQud7F2us8HJODrfDsLi4HznhzONYcOCGMeIgyEjlLdyHQNsFpg6FRTFHLWoR7
+S: mapper/ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749
+S: disk/by-id/dm-name-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749
+S: ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: DEVPATH=/devices/virtual/block/dm-1
+E: DEVNAME=/dev/dm-1
+E: DEVTYPE=disk
+E: MAJOR=253
+E: MINOR=1
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=656788104
+E: DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG=1
+E: DM_UDEV_PRIMARY_SOURCE_FLAG=1
+E: DM_UDEV_RULES=1
+E: DM_UDEV_RULES_VSN=2
+E: DM_NAME=ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749
+E: DM_UUID=LVM-2cdQud7F2us8HJODrfDsLi4HznhzONYcOCGMeIgyEjlLdyHQNsFpg6FRTFHLWoR7
+E: DM_SUSPENDED=0
+E: DM_VG_NAME=ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: DM_LV_NAME=osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: ID_FS_TYPE=ceph_bluestore
+E: ID_FS_USAGE=other
+E: DM_TABLE_STATE=LIVE
+E: DM_STATE=ACTIVE
+E: DEVLINKS=/dev/disk/by-id/dm-uuid-LVM-2cdQud7F2us8HJODrfDsLi4HznhzONYcOCGMeIgyEjlLdyHQNsFpg6FRTFHLWoR7 /dev/mapper/ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 /dev/disk/by-id/dm-name-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: TAGS=:systemd:
+

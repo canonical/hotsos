@@ -1,0 +1,17 @@
+-- Logs begin at Fri 2022-02-04 09:41:48 UTC, end at Thu 2022-02-10 09:51:42 UTC. --
+Feb 04 09:44:53 juju-04f1e3-0-lxd-5 systemd[1]: Started juju agent for machine-0-lxd-5.
+Feb 04 09:56:38 juju-04f1e3-0-lxd-5 groupadd[11757]: group added to /etc/group: name=haclient, GID=119
+Feb 04 09:56:38 juju-04f1e3-0-lxd-5 groupadd[11757]: group added to /etc/gshadow: name=haclient
+Feb 04 09:56:38 juju-04f1e3-0-lxd-5 groupadd[11757]: new group: name=haclient, GID=119
+Feb 04 09:56:39 juju-04f1e3-0-lxd-5 useradd[11764]: new user: name=hacluster, UID=113, GID=119, home=/var/lib/pacemaker, shell=/usr/sbin/nologin, from=none
+Feb 04 09:56:39 juju-04f1e3-0-lxd-5 usermod[11772]: change user 'hacluster' password
+Feb 04 09:56:39 juju-04f1e3-0-lxd-5 chage[11779]: changed password expiry for hacluster
+Feb 04 10:02:38 juju-04f1e3-0-lxd-5 groupadd[15674]: group added to /etc/group: name=mysql, GID=120
+Feb 04 10:02:38 juju-04f1e3-0-lxd-5 groupadd[15674]: group added to /etc/gshadow: name=mysql
+Feb 04 10:02:38 juju-04f1e3-0-lxd-5 groupadd[15674]: new group: name=mysql, GID=120
+Feb 04 10:02:38 juju-04f1e3-0-lxd-5 useradd[15684]: new user: name=mysql, UID=997, GID=120, home=/var/lib/mysql, shell=/bin/sh, from=none
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 systemd[1]: Stopping juju agent for machine-0-lxd-5...
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 systemd[1]: jujud-machine-0-lxd-5.service: Succeeded.
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 systemd[1]: Stopped juju agent for machine-0-lxd-5.
+-- Reboot --
+Feb 09 22:33:34 juju-04f1e3-0-lxd-5 systemd[1]: Started juju agent for machine-0-lxd-5.

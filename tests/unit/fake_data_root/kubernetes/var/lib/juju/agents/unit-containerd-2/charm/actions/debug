@@ -1,0 +1,102 @@
+#!/usr/local/sbin/charm-env python3
+
+import os
+import subprocess
+import tarfile
+import tempfile
+import traceback
+from contextlib import contextmanager
+from datetime import datetime
+from charmhelpers.core.hookenv import action_set, local_unit
+
+archive_dir = None
+log_file = None
+
+
+@contextmanager
+def archive_context():
+    """ Open a context with a new temporary directory.
+
+    When the context closes, the directory is archived, and the archive
+    location is added to Juju action output. """
+    global archive_dir
+    global log_file
+    with tempfile.TemporaryDirectory() as temp_dir:
+        name = "debug-" + datetime.now().strftime("%Y%m%d%H%M%S")
+        archive_dir = os.path.join(temp_dir, name)
+        os.makedirs(archive_dir)
+        with open("%s/debug.log" % archive_dir, "w") as log_file:
+            yield
+        os.chdir(temp_dir)
+        tar_path = "/home/ubuntu/%s.tar.gz" % name
+        with tarfile.open(tar_path, "w:gz") as f:
+            f.add(name)
+        action_set({
+            "path": tar_path,
+            "command": "juju scp %s:%s ." % (local_unit(), tar_path),
+            "message": " ".join([
+                "Archive has been created on unit %s." % local_unit(),
+                "Use the juju scp command to copy it to your local machine."
+            ])
+        })
+
+
+def log(msg):
+    """ Log a message that will be included in the debug archive.
+
+    Must be run within archive_context """
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    for line in str(msg).splitlines():
+        log_file.write(timestamp + " | " + line.rstrip() + "\n")
+
+
+def run_script(script):
+    """ Run a single script. Must be run within archive_context """
+    log("Running script: " + script)
+    script_dir = os.path.join(archive_dir, script)
+    os.makedirs(script_dir)
+    env = os.environ.copy()
+    env["PYTHONPATH"] = "lib"  # allow same imports as reactive code
+    env["DEBUG_SCRIPT_DIR"] = script_dir
+    with open(script_dir + "/stdout", "w") as stdout:
+        with open(script_dir + "/stderr", "w") as stderr:
+            process = subprocess.Popen(
+                "debug-scripts/" + script,
+                stdout=stdout, stderr=stderr, env=env
+            )
+            try:
+                exit_code = process.wait(timeout=300)
+            except subprocess.TimeoutExpired:
+                log("ERROR: still running, terminating")
+                process.terminate()
+                try:
+                    exit_code = process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    log("ERROR: still running, killing")
+                    process.kill()
+                    exit_code = process.wait(timeout=10)
+    if exit_code != 0:
+        log("ERROR: %s failed with exit code %d" % (script, exit_code))
+
+
+def run_all_scripts():
+    """ Run all scripts. For the sake of robustness, log and ignore any
+    exceptions that occur.
+
+    Must be run within archive_context """
+    scripts = os.listdir("debug-scripts")
+    for script in scripts:
+        try:
+            run_script(script)
+        except:
+            log(traceback.format_exc())
+
+
+def main():
+    """ Open an archive context and run all scripts. """
+    with archive_context():
+        run_all_scripts()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,114 @@
+duration=63605s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=65535,vlan_tci=0x0fff/0x1fff,actions=drop
+duration=62956s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=5,in_port=1,dl_dst=fa:16:3f:9a:5d:e2,actions=goto_table:4
+duration=62956s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=5,in_port=2,dl_dst=fa:16:3f:9a:5d:e2,actions=goto_table:3
+duration=62956s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=4,in_port=1,dl_src=fa:16:3f:0a:04:80,actions=goto_table:2
+duration=62956s, n_packets=8, n_bytes=616, n_offload_packets=0, n_offload_bytes=0, priority=2,in_port=2,dl_src=fa:16:3f:0a:04:80,actions=goto_table:1
+duration=62956s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=4,in_port=1,dl_src=fa:16:3f:a4:e2:e2,actions=goto_table:2
+duration=62956s, n_packets=8, n_bytes=601, n_offload_packets=0, n_offload_bytes=0, priority=2,in_port=2,dl_src=fa:16:3f:a4:e2:e2,actions=goto_table:1
+duration=581s, n_packets=336, n_bytes=40169, n_offload_packets=0, n_offload_bytes=0, priority=3,in_port=1,vlan_tci=0x0000/0x1fff,actions=push_vlan:0x8100,set_field:4098->vlan_vid,goto_table:60
+duration=62957s, n_packets=5696, n_bytes=1513768, n_offload_packets=0, n_offload_bytes=0, priority=2,in_port=1,actions=drop
+duration=63605s, n_packets=2305, n_bytes=227685, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=goto_table:60
+table_id=1, duration=503s, n_packets=1, n_bytes=111, n_offload_packets=0, n_offload_bytes=0, priority=20,dl_vlan=3,dl_dst=fa:16:3e:87:45:fc,actions=set_field:fa:16:3e:76:19:dd->eth_src,goto_table:60
+table_id=1, duration=57s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=20,dl_vlan=3,dl_dst=fa:16:3e:a7:45:cb,actions=set_field:fa:16:3e:76:19:dd->eth_src,goto_table:60
+table_id=1, duration=62957s, n_packets=14, n_bytes=1008, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=drop
+table_id=2, duration=62957s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=drop
+table_id=3, duration=433s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=5,dl_vlan=3,dl_dst=fa:16:3f:9a:5d:e2,actions=set_field:fa:16:3e:76:19:dd->eth_dst,pop_vlan,output:6
+table_id=23, duration=62957s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=24, duration=63605s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=60, duration=598s, n_packets=24, n_bytes=1608, n_offload_packets=0, n_offload_bytes=0, priority=100,in_port=3,actions=set_field:0x3->reg5,set_field:0x1->reg6,resubmit(,73)
+table_id=60, duration=563s, n_packets=271, n_bytes=27643, n_offload_packets=0, n_offload_bytes=0, priority=100,in_port=4,actions=set_field:0x4->reg5,set_field:0x2->reg6,resubmit(,73)
+table_id=60, duration=490s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=100,in_port=7,actions=set_field:0x7->reg5,set_field:0x3->reg6,resubmit(,73)
+table_id=60, duration=483s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=100,in_port=5,actions=set_field:0x5->reg5,set_field:0x2->reg6,resubmit(,73)
+table_id=60, duration=433s, n_packets=248, n_bytes=25293, n_offload_packets=0, n_offload_bytes=0, priority=100,in_port=6,actions=set_field:0x6->reg5,set_field:0x3->reg6,resubmit(,73)
+table_id=60, duration=53s, n_packets=164, n_bytes=17100, n_offload_packets=0, n_offload_bytes=0, priority=100,in_port=9,actions=set_field:0x9->reg5,set_field:0x3->reg6,resubmit(,71)
+table_id=60, duration=503s, n_packets=1, n_bytes=111, n_offload_packets=0, n_offload_bytes=0, priority=20,dl_vlan=3,dl_dst=fa:16:3e:87:45:fc,actions=pop_vlan,output:7
+table_id=60, duration=57s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=20,dl_vlan=3,dl_dst=fa:16:3e:a7:45:cb,actions=pop_vlan,output:9
+table_id=60, duration=53s, n_packets=2, n_bytes=84, n_offload_packets=0, n_offload_bytes=0, priority=90,dl_vlan=3,dl_dst=fa:16:3e:a7:45:cb,actions=set_field:0x9->reg5,set_field:0x3->reg6,pop_vlan,resubmit(,81)
+table_id=60, duration=63605s, n_packets=709, n_bytes=63877, n_offload_packets=0, n_offload_bytes=0, priority=3,actions=NORMAL
+table_id=62, duration=63605s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=3,actions=NORMAL
+table_id=71, duration=62953s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=110,ct_state=+trk,actions=ct_clear,resubmit(,71)
+table_id=71, duration=53s, n_packets=2, n_bytes=84, n_offload_packets=0, n_offload_bytes=0, priority=95,arp,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,arp_spa=192.168.21.18,actions=resubmit(,94)
+table_id=71, duration=53s, n_packets=162, n_bytes=17016, n_offload_packets=0, n_offload_bytes=0, priority=65,ip,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,nw_src=192.168.21.18,actions=ct(table=72,zone=NXM_NX_REG6[0..15])
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=95,icmp6,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,ipv6_src=fe80::f816:3eff:fea7:45cb,icmp_type=130,actions=resubmit(,94)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=95,icmp6,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,ipv6_src=fe80::f816:3eff:fea7:45cb,icmp_type=133,actions=resubmit(,94)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=95,icmp6,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,ipv6_src=fe80::f816:3eff:fea7:45cb,icmp_type=135,actions=resubmit(,94)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=95,icmp6,reg5=0x9,in_port=9,icmp_type=136,nd_target=fe80::f816:3eff:fea7:45cb,actions=resubmit(,94)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,udp,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,nw_src=192.168.21.18,tp_src=68,tp_dst=67,actions=resubmit(,73)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,udp,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,nw_src=0.0.0.0,tp_src=68,tp_dst=67,actions=resubmit(,73)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,udp6,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,ipv6_src=fe80::f816:3eff:fea7:45cb,tp_src=546,tp_dst=547,actions=resubmit(,73)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,udp,reg5=0x9,in_port=9,tp_src=67,tp_dst=68,actions=resubmit(,93)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,udp6,reg5=0x9,in_port=9,tp_src=547,tp_dst=546,actions=resubmit(,93)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,icmp6,reg5=0x9,in_port=9,icmp_type=134,actions=resubmit(,93)
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=65,ipv6,reg5=0x9,in_port=9,dl_src=fa:16:3e:a7:45:cb,ipv6_src=fe80::f816:3eff:fea7:45cb,actions=ct(table=72,zone=NXM_NX_REG6[0..15])
+table_id=71, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=10,reg5=0x9,in_port=9,actions=ct_clear,resubmit(,93)
+table_id=71, duration=62955s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=74,ct_state=+est-rel-rpl,ipv6,reg5=0x9,actions=resubmit(,73)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=74,ct_state=+est-rel-rpl,ip,reg5=0x9,actions=resubmit(,73)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=74,ct_state=+new-est,ipv6,reg5=0x9,actions=resubmit(,73)
+table_id=72, duration=53s, n_packets=162, n_bytes=17016, n_offload_packets=0, n_offload_bytes=0, priority=74,ct_state=+new-est,ip,reg5=0x9,actions=resubmit(,73)
+table_id=72, duration=53s, n_packets=4, n_bytes=360, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_state=+inv+trk,actions=resubmit(,93)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_mark=0x1,reg5=0x9,actions=resubmit(,93)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_state=+est-rel+rpl,ct_zone=3,ct_mark=0,reg5=0x9,actions=resubmit(,94)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_state=-new-est+rel-inv,ct_zone=3,ct_mark=0,reg5=0x9,actions=resubmit(,94)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=40,ct_state=-est,reg5=0x9,actions=resubmit(,93)
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=40,ct_state=+est,ip,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15],exec(set_field:0x1->ct_mark))
+table_id=72, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=40,ct_state=+est,ipv6,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15],exec(set_field:0x1->ct_mark))
+table_id=72, duration=62954s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=73, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=100,reg6=0x3,dl_dst=fa:16:3e:a7:45:cb,actions=set_field:0x9->reg5,resubmit(,81)
+table_id=73, duration=53s, n_packets=162, n_bytes=17016, n_offload_packets=0, n_offload_bytes=0, priority=90,ct_state=+new-est,ip,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15]),resubmit(,91)
+table_id=73, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=90,ct_state=+new-est,ipv6,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15]),resubmit(,91)
+table_id=73, duration=598s, n_packets=24, n_bytes=1608, n_offload_packets=0, n_offload_bytes=0, priority=80,reg5=0x3,actions=resubmit(,94)
+table_id=73, duration=563s, n_packets=271, n_bytes=27643, n_offload_packets=0, n_offload_bytes=0, priority=80,reg5=0x4,actions=resubmit(,94)
+table_id=73, duration=490s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,reg5=0x7,actions=resubmit(,94)
+table_id=73, duration=483s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,reg5=0x5,actions=resubmit(,94)
+table_id=73, duration=433s, n_packets=12, n_bytes=784, n_offload_packets=0, n_offload_bytes=0, priority=80,reg5=0x6,actions=resubmit(,94)
+table_id=73, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,reg5=0x9,actions=resubmit(,94)
+table_id=73, duration=62954s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=81, duration=53s, n_packets=2, n_bytes=84, n_offload_packets=0, n_offload_bytes=0, priority=100,arp,reg5=0x9,actions=output:9
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=100,icmp6,reg5=0x9,icmp_type=130,actions=output:9
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=100,icmp6,reg5=0x9,icmp_type=135,actions=output:9
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=100,icmp6,reg5=0x9,icmp_type=136,actions=output:9
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=95,udp,reg5=0x9,tp_src=67,tp_dst=68,actions=output:9
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=95,udp6,reg5=0x9,tp_src=547,tp_dst=546,actions=output:9
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=90,ct_state=-trk,ip,reg5=0x9,actions=ct(table=82,zone=NXM_NX_REG6[0..15])
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=90,ct_state=-trk,ipv6,reg5=0x9,actions=ct(table=82,zone=NXM_NX_REG6[0..15])
+table_id=81, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=80,ct_state=+trk,reg5=0x9,actions=resubmit(,82)
+table_id=81, duration=62953s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+est-rel-rpl,tcp,reg5=0x9,tp_dst=22,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+est-rel-rpl,tcp,reg5=0x9,tp_dst=53,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+est-rel-rpl,tcp,reg5=0x9,tp_dst=80,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+est-rel-rpl,tcp,reg5=0x9,tp_dst=443,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+new-est,tcp,reg5=0x9,tp_dst=22,actions=ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+new-est,tcp,reg5=0x9,tp_dst=53,actions=ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+new-est,tcp,reg5=0x9,tp_dst=80,actions=ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=77,ct_state=+new-est,tcp,reg5=0x9,tp_dst=443,actions=ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=75,ct_state=+est-rel-rpl,icmp,reg5=0x9,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=75,ct_state=+new-est,icmp,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+est-rel-rpl,ipv6,reg5=0x9,actions=conjunction(8,2/2)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+est-rel-rpl,ip,reg5=0x9,actions=conjunction(16,2/2)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+new-est,ipv6,reg5=0x9,actions=conjunction(9,2/2)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+new-est,ip,reg5=0x9,actions=conjunction(17,2/2)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,conj_id=8,ct_state=+est-rel-rpl,ipv6,reg5=0x9,actions=set_field:0x8->reg7,output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,conj_id=16,ct_state=+est-rel-rpl,ip,reg5=0x9,actions=set_field:0x10->reg7,output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,conj_id=9,ct_state=+new-est,ipv6,reg5=0x9,actions=set_field:0x9->reg7,ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,conj_id=17,ct_state=+new-est,ip,reg5=0x9,actions=set_field:0x11->reg7,ct(commit,zone=NXM_NX_REG6[0..15]),output:9,resubmit(,92)
+table_id=82, duration=323s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+est-rel-rpl,ip,reg6=0x3,nw_src=192.168.21.4,actions=conjunction(16,1/2)
+table_id=82, duration=323s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+est-rel-rpl,ip,reg6=0x3,nw_src=192.168.21.18,actions=conjunction(16,1/2)
+table_id=82, duration=323s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+new-est,ip,reg6=0x3,nw_src=192.168.21.4,actions=conjunction(17,1/2)
+table_id=82, duration=323s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=70,ct_state=+new-est,ip,reg6=0x3,nw_src=192.168.21.18,actions=conjunction(17,1/2)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_state=+inv+trk,actions=resubmit(,93)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_mark=0x1,reg5=0x9,actions=resubmit(,93)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_state=+est-rel+rpl,ct_zone=3,ct_mark=0,reg5=0x9,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=50,ct_state=-new-est+rel-inv,ct_zone=3,ct_mark=0,reg5=0x9,actions=output:9
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=40,ct_state=-est,reg5=0x9,actions=resubmit(,93)
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=40,ct_state=+est,ip,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15],exec(set_field:0x1->ct_mark))
+table_id=82, duration=53s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=40,ct_state=+est,ipv6,reg5=0x9,actions=ct(commit,zone=NXM_NX_REG6[0..15],exec(set_field:0x1->ct_mark))
+table_id=82, duration=62953s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=91, duration=62952s, n_packets=859, n_bytes=89167, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=resubmit(,94)
+table_id=92, duration=62952s, n_packets=3, n_bytes=270, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=93, duration=62952s, n_packets=10, n_bytes=892, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=94, duration=62953s, n_packets=1559, n_bytes=162053, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=NORMAL
+table_id=254, duration=63675s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,recirc_id=0,actions=drop
+table_id=254, duration=63675s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x1,actions=controller(reason=)
+table_id=254, duration=63675s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x2,actions=drop
+table_id=254, duration=63675s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x3,actions=drop

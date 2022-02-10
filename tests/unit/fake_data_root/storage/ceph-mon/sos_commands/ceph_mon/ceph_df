@@ -1,0 +1,11 @@
+--- RAW STORAGE ---
+CLASS  SIZE     AVAIL    USED     RAW USED  %RAW USED
+ssd    300 GiB  297 GiB  1.2 MiB   3.0 GiB       1.00
+TOTAL  300 GiB  297 GiB  1.2 MiB   3.0 GiB       1.00
+ 
+--- POOLS ---
+POOL                   ID  PGS  STORED  OBJECTS  USED  %USED  MAX AVAIL
+device_health_metrics   1    1     0 B        0   0 B      0     94 GiB
+glance                  2    4     0 B        0   0 B      0     94 GiB
+cinder-ceph             3   32     0 B        0   0 B      0     94 GiB
+nova                    4   32     0 B        0   0 B      0     94 GiB

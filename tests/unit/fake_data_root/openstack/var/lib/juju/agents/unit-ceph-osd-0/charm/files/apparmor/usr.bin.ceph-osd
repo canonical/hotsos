@@ -1,0 +1,51 @@
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/bin/ceph-osd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/python>
+
+  /usr/bin/ceph-osd mr,
+
+  capability setgid,
+  capability setuid,
+  capability dac_override,
+  capability dac_read_search,
+
+  network inet stream,
+  network inet6 stream,
+
+  /etc/ceph/* r,
+  /var/lib/charm/*/ceph.conf r,
+
+  owner @{PROC}/@{pids}/auxv r,
+  owner @{PROC}/@{pids}/net/dev r,
+  owner @{PROC}/@{pids}/task/*/comm rw,
+
+  @{PROC}/loadavg r,
+  @{PROC}/1/cmdline r,
+  @{PROC}/partitions r,
+  @{PROC}/sys/kernel/random/uuid r,
+
+  /var/lib/ceph/** rwkl,
+  /srv/ceph/** rwkl,
+
+  /var/log/ceph/* rwk,
+
+  /{,var/}run/ceph/* rwk,
+  /{,var/}tmp/ r,
+
+  /dev/ r,
+  /dev/** rw,
+  /sys/devices/** r,
+
+  /run/blkid/blkid.tab r,
+
+  /bin/dash rix,
+
+  /usr/bin/lsb_release rix,
+  /usr/share/distro-info/** r,
+  /etc/lsb-release r,
+  /etc/debian_version r,
+}

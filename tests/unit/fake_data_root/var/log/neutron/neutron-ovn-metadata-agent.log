@@ -1,9 +1,0 @@
-2021-08-26 05:47:01.797 1331200 INFO neutron.agent.ovn.metadata.agent [-] Port dce9e651-df28-4f82-9b14-d4bf6e5f0c5b in datapath a8ac9a81-b114-4dd5-928c-b959522be069 bound to our chassis
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server [-] Unexpected error.: AttributeError: 'MetadataProxyHandler' object has no attribute 'sb_idl'
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server Traceback (most recent call last):
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server   File "/usr/lib/python3/dist-packages/neutron/agent/ovn/metadata/server.py", line 67, in __call__
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server     instance_id, project_id = self._get_instance_and_project_id(req)
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server   File "/usr/lib/python3/dist-packages/neutron/agent/ovn/metadata/server.py", line 84, in _get_instance_and_project_id
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server     ports = self.sb_idl.get_network_port_bindings_by_ip(network_id,
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server AttributeError: 'MetadataProxyHandler' object has no attribute 'sb_idl'
-2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server 

@@ -1,10 +1,11 @@
 import os
+import tempfile
 
 import mock
 
 from tests.unit import utils
 
-from core import checks, constants
+from core import constants
 from core.ycheck.bugs import YBugChecker
 from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
 from plugins.rabbitmq.pyparts import (
@@ -13,10 +14,12 @@ from plugins.rabbitmq.pyparts import (
     service_event_checks,
 )
 
+RABBITMQ_LOGS = """
+Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdown since no synchronised slave is available
 
-SYSTEMD_UNITS = """
-UNIT FILE                                               STATE
-rabbitmq-server.service                enabled
+Discarding message {'$gen_call',{<0.753.0>,#Ref<0.989368845.173015041.56949>},{info,[name,pid,slave_pids,synchronised_slave_pids]}} from <0.753.0> to <0.943.0> in an old incarnation (3) of this node (1)
+
+2020-05-18 06:55:37.324 [error] <0.341.0> Mnesia(rabbit@warp10): ** ERROR ** mnesia_event got {inconsistent_database, running_partitioned_network, rabbit@hostname2}
 """  # noqa
 
 
@@ -24,11 +27,15 @@ class TestRabbitmqBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        os.environ["PLUGIN_NAME"] = "rabbitmq"
+        os.environ['PLUGIN_NAME'] = 'rabbitmq'
+        os.environ['DATA_ROOT'] = os.path.join(utils.TESTS_DIR,
+                                               'fake_data_root/rabbitmq')
 
 
 class TestRabbitmqServiceInfo(TestRabbitmqBase):
 
+    @mock.patch('core.plugins.rabbitmq.RabbitMQChecksBase.plugin_runnable',
+                False)
     def test_get_service_info_none(self):
         inst = service_info.RabbitMQServiceChecks()
         inst()
@@ -36,28 +43,33 @@ class TestRabbitmqServiceInfo(TestRabbitmqBase):
         self.assertEqual(inst.output, None)
 
     def test_get_service_info(self):
-        orig_ps = checks.CLIHelper().ps()
-        with mock.patch('core.checks.CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            helper = mock_helper.return_value
-            helper.systemctl_list_unit_files.return_value = \
-                SYSTEMD_UNITS.split('\n')
-            helper.ps.return_value = orig_ps
-
-            inst = service_info.RabbitMQServiceChecks()
-            inst()
-            self.assertFalse(inst.plugin_runnable)
-            self.assertEqual(inst.output,
-                             {'services': {
-                                 'systemd': {
-                                    'enabled': ['rabbitmq-server']},
-                                 'ps': ['beam.smp (1)', 'epmd (1)',
-                                        'rabbitmq-server (1)']}})
+        inst = service_info.RabbitMQServiceChecks()
+        inst()
+        self.assertTrue(inst.plugin_runnable)
+        self.assertEqual(inst.output,
+                         {'dpkg': ['rabbitmq-server 3.8.2-0ubuntu1.3'],
+                          'services': {
+                             'systemd': {
+                                'enabled': ['epmd', 'rabbitmq-server']},
+                             'ps': ['beam.smp (1)', 'epmd (1)',
+                                    'rabbitmq-server (1)']}})
 
 
 class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
-    def test_cluster_checks_bionic(self):
+    @mock.patch.object(cluster_checks, 'CLIHelper')
+    def test_cluster_checks_bionic(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+
+        def fake_get_rabbitmqctl_report():
+            path = os.path.join(constants.DATA_ROOT,
+                                "sos_commands/rabbitmq/rabbitmqctl_report."
+                                "bionic")
+            return open(path, 'r').readlines()
+
+        mock_helper.return_value.rabbitmqctl_report.side_effect = \
+            fake_get_rabbitmqctl_report
+
         expected = {
             'resources': {
                 'vhosts': [
@@ -107,17 +119,9 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
             },
         }
 
-        orig_ps = checks.CLIHelper().ps()
-        with mock.patch('core.checks.CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            helper = mock_helper.return_value
-            helper.systemctl_list_unit_files.return_value = \
-                SYSTEMD_UNITS.split('\n')
-            helper.ps.return_value = orig_ps
-
-            inst = cluster_checks.RabbitMQClusterChecks()
-            inst()
-            issues = cluster_checks.issue_utils._get_plugin_issues()
+        inst = cluster_checks.RabbitMQClusterChecks()
+        inst()
+        issues = cluster_checks.issue_utils._get_plugin_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
@@ -133,89 +137,40 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
                             'origin': 'rabbitmq.01part',
                             'type': 'RabbitMQWarning'}]})
 
-    @mock.patch.object(cluster_checks, 'CLIHelper')
-    def test_cluster_checks_focal(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
+    def test_cluster_checks_focal(self):
+        expected = {'resources': {
+                        'vhosts': [
+                            '/',
+                            'openstack'],
+                        'vhost-queue-distributions': {
+                            'openstack': {
+                                'rabbit@juju-04f1e3-1-lxd-5': '194 (100.00%)'
+                                }},
+                        'connections-per-host': {
+                            'rabbit@juju-04f1e3-1-lxd-5': 159},
+                        'client-connections': {
+                            'neutron': {
+                                'neutron-openvswitch-agent': 39,
+                                'neutron-server': 37,
+                                'neutron-l3-agent': 15,
+                                'neutron-dhcp-agent': 12,
+                                'neutron-metadata-agent': 6},
+                            'nova': {'nova-api-metadata': 24,
+                                     'nova-compute': 11,
+                                     'nova-conductor': 11,
+                                     'nova-scheduler': 4}},
+                        'cluster-partition-handling': 'ignore'}}
 
-        def fake_get_rabbitmqctl_report():
-            path = os.path.join(constants.DATA_ROOT,
-                                "sos_commands/rabbitmq/rabbitmqctl_report."
-                                "focal")
-            return open(path, 'r').readlines()
-
-        mock_helper.return_value.rabbitmqctl_report.side_effect = \
-            fake_get_rabbitmqctl_report
-
-        expected = {
-            'resources': {
-                'vhosts': [
-                    '/',
-                    'nagios-rabbitmq-server-0',
-                    'nagios-rabbitmq-server-1',
-                    'nagios-rabbitmq-server-2',
-                    'openstack'
-                    ],
-                'vhost-queue-distributions': {
-                    'nagios-rabbitmq-server-0': {
-                        'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
-                        },
-                    'openstack': {
-                        'rabbit@juju-ba2deb-7-lxd-9': '1495 (100.00%)'
-                        },
-                    'nagios-rabbitmq-server-2': {
-                        'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
-                        },
-                    'nagios-rabbitmq-server-1': {
-                        'rabbit@juju-ba2deb-7-lxd-9': '1 (100.00%)'
-                        }
-                },
-                'connections-per-host': {
-                    'rabbit@juju-ba2deb-7-lxd-9': 292
-                },
-                'client-connections': {'aodh': {'aodh-listener': 1,
-                                                'aodh-notifier': 1},
-                                       'ceilometer': {'ceilometer-polling': 1},
-                                       'designate': {'designate-agent': 1,
-                                                     'designate-api': 2,
-                                                     'designate-central': 9,
-                                                     'designate-mdns': 2,
-                                                     'designate-producer': 7,
-                                                     'designate-sink': 1,
-                                                     'designate-worker': 3},
-                                       'neutron': {
-                                           'neutron-dhcp-agent': 4,
-                                           'neutron-l3-agent': 6,
-                                           'neutron-metadata-agent': 4,
-                                           'neutron-openvswitch-agent': 27,
-                                           'neutron-server': 131},
-                                       'nova': {'nova-api-metadata': 33,
-                                                'nova-compute': 6,
-                                                'nova-conductor': 35,
-                                                'nova-scheduler': 16},
-                                       'octavia': {'octavia-worker': 2},
-                                       },
-                'cluster-partition-handling': 'ignore',
-            }
-        }
-
-        orig_ps = checks.CLIHelper().ps()
-        with mock.patch('core.checks.CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            helper = mock_helper.return_value
-            helper.systemctl_list_unit_files.return_value = \
-                SYSTEMD_UNITS.split('\n')
-            helper.ps.return_value = orig_ps
-
-            inst = cluster_checks.RabbitMQClusterChecks()
-            inst()
-            issues = cluster_checks.issue_utils._get_plugin_issues()
+        inst = cluster_checks.RabbitMQClusterChecks()
+        inst()
+        issues = cluster_checks.issue_utils._get_plugin_issues()
 
         self.assertEqual(inst.output, expected)
         self.assertEqual(issues,
                          {MASTER_YAML_ISSUES_FOUND_KEY:
                           [{'type': 'RabbitMQWarning',
-                            'desc': ('rabbit@juju-ba2deb-7-lxd-9 holds more '
-                                     'than 2/3 of queues for 1/5 vhost(s).'),
+                            'desc': ('rabbit@juju-04f1e3-1-lxd-5 holds more '
+                                     'than 2/3 of queues for 1/2 vhost(s).'),
                             'origin': 'rabbitmq.01part'},
                            {'desc': 'Cluster partition handling is currently '
                                     'set to ignore. This is potentially '
@@ -235,33 +190,44 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
 
 class TestRabbitmqBugChecks(TestRabbitmqBase):
 
-    @mock.patch('core.plugins.rabbitmq.RabbitMQChecksBase.plugin_runnable',
-                True)
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('rabbtimq-server.yaml'))
     @mock.patch('core.ycheck.bugs.add_known_bug')
-    def test_bug_checks(self, mock_add_known_bug):
-        bugs = []
+    def test_1943937(self, mock_add_known_bug):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write("operation queue.declare caused a channel exception "
+                         "not_found: failed to perform operation on queue "
+                         "'test_exchange_queue' in vhost "
+                         "'nagios-rabbitmq-server-0' due to timeout")
 
-        def fake_add_bug(*args, **kwargs):
-            bugs.append((args, kwargs))
-
-        mock_add_known_bug.side_effect = fake_add_bug
-        YBugChecker()()
-        msg = ('Known RabbitMQ issue where queues get stuck and clients '
-               'trying to use them will just keep timing out. This stops many '
-               'services in the cloud from working correctly. Resolution '
-               'requires you to stop all RabbitMQ servers before starting '
-               'them all again at the same time. A rolling restart or '
-               'restarting them simultaneously will not work. See bug for '
-               'more detail.')
-        mock_add_known_bug.assert_has_calls([mock.call('1943937', msg)])
-        self.assertEqual(len(bugs), 1)
+            YBugChecker()()
+            self.assertTrue(mock_add_known_bug.called)
+            msg = ('Known RabbitMQ issue where queues get stuck and clients '
+                   'trying to use them will just keep timing out. This stops '
+                   'many services in the cloud from working correctly. '
+                   'Resolution requires you to stop all RabbitMQ servers '
+                   'before starting them all again at the same time. A '
+                   'rolling restart or restarting them simultaneously will '
+                   'not work. See bug for more detail.')
+            mock_add_known_bug.assert_has_calls([mock.call('1943937', msg)])
 
 
 class TestRabbitmqEventChecks(TestRabbitmqBase):
 
     @mock.patch.object(service_event_checks.issue_utils, 'add_issue')
     def test_service_event_checks(self, mock_add_issue):
-        inst = service_event_checks.RabbitMQEventChecks()
-        inst()
-        self.assertEqual(inst.output, None)
-        self.assertTrue(mock_add_issue.called)
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(RABBITMQ_LOGS)
+
+            inst = service_event_checks.RabbitMQEventChecks()
+            inst()
+            self.assertEqual(inst.output, None)
+            self.assertTrue(mock_add_issue.called)

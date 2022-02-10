@@ -389,6 +389,9 @@ class CephJSONFileCmd(FileCmd):
             self.last_line_filter = last_line_filter
 
     def format_json_contents(self, *args, **kwargs):  # pylint: disable=W0613
+        if not os.path.exists(self.path):
+            raise SourceNotFound
+
         with open(self.path) as f:
             lines = f.readlines()
 

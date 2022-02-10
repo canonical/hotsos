@@ -1,0 +1,10 @@
+site_name: 'VaultLocker Block Device Encryption Layer'
+
+generate:
+  - vaultlocker.md:
+    - charms.layer.vaultlocker+
+
+pages:
+  - VaultLocker Block Device Encryption Layer: vaultlocker.md
+
+gens_dir: docs

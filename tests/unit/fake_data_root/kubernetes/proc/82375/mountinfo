@@ -1,0 +1,89 @@
+888 1025 252:1 / /var/lib/snapd/hostfs rw,relatime master:1 - ext4 /dev/vda1 rw
+911 888 0:26 / /var/lib/snapd/hostfs/run rw,nosuid,nodev,noexec,relatime master:5 - tmpfs tmpfs rw,size=402604k,mode=755
+912 911 0:28 / /var/lib/snapd/hostfs/run/lock rw,nosuid,nodev,noexec,relatime master:6 - tmpfs tmpfs rw,size=5120k
+913 911 0:26 /snapd/ns /var/lib/snapd/hostfs/run/snapd/ns rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw,size=402604k,mode=755
+938 888 7:0 / /var/lib/snapd/hostfs/snap/core20/1328 ro,nodev,relatime master:68 - squashfs /dev/loop0 ro
+939 888 7:1 / /var/lib/snapd/hostfs/snap/lxd/21835 ro,nodev,relatime master:70 - squashfs /dev/loop1 ro
+940 888 7:2 / /var/lib/snapd/hostfs/snap/snapd/14549 ro,nodev,relatime master:72 - squashfs /dev/loop2 ro
+941 888 252:15 / /var/lib/snapd/hostfs/boot/efi rw,relatime master:74 - vfat /dev/vda15 rw,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro
+942 888 0:53 / /var/lib/snapd/hostfs/var/snap/lxd/common/ns rw,relatime - tmpfs tmpfs rw,size=1024k,mode=700
+943 888 7:3 / /var/lib/snapd/hostfs/snap/core/12603 ro,nodev,relatime master:382 - squashfs /dev/loop3 ro
+944 888 7:4 / /var/lib/snapd/hostfs/snap/core18/2284 ro,nodev,relatime master:399 - squashfs /dev/loop4 ro
+945 888 7:5 / /var/lib/snapd/hostfs/snap/kubectl/2308 ro,nodev,relatime master:407 - squashfs /dev/loop5 ro
+946 888 7:6 / /var/lib/snapd/hostfs/snap/kube-apiserver/2599 ro,nodev,relatime master:415 - squashfs /dev/loop6 ro
+966 887 7:4 / / ro,nodev,relatime master:399 - squashfs /dev/loop4 ro
+967 966 0:6 / /dev rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=1995872k,nr_inodes=498968,mode=755
+968 967 0:25 / /dev/pts rw,nosuid,noexec,relatime master:3 - devpts devpts rw,gid=5,mode=620,ptmxmode=000
+969 967 0:27 / /dev/shm rw,nosuid,nodev master:4 - tmpfs tmpfs rw
+970 967 0:46 / /dev/hugepages rw,relatime master:27 - hugetlbfs hugetlbfs rw,pagesize=2M
+971 967 0:21 / /dev/mqueue rw,nosuid,nodev,noexec,relatime master:28 - mqueue mqueue rw
+972 966 252:1 /etc /etc rw,relatime master:1 - ext4 /dev/vda1 rw
+973 966 252:1 /home /home rw,relatime master:1 - ext4 /dev/vda1 rw
+974 966 252:1 /root /root rw,relatime master:1 - ext4 /dev/vda1 rw
+975 966 0:5 / /proc rw,nosuid,nodev,noexec,relatime master:14 - proc proc rw
+976 975 0:45 / /proc/sys/fs/binfmt_misc rw,relatime master:26 - autofs systemd-1 rw,fd=28,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=13907
+977 966 0:24 / /sys rw,nosuid,nodev,noexec,relatime master:7 - sysfs sysfs rw
+978 977 0:7 / /sys/kernel/security rw,nosuid,nodev,noexec,relatime master:8 - securityfs securityfs rw
+979 977 0:29 / /sys/fs/cgroup ro,nosuid,nodev,noexec master:9 - tmpfs tmpfs ro,mode=755
+980 979 0:30 / /sys/fs/cgroup/unified rw,nosuid,nodev,noexec,relatime master:10 - cgroup2 cgroup2 rw
+981 979 0:31 / /sys/fs/cgroup/systemd rw,nosuid,nodev,noexec,relatime master:11 - cgroup cgroup rw,xattr,name=systemd
+982 979 0:34 / /sys/fs/cgroup/blkio rw,nosuid,nodev,noexec,relatime master:15 - cgroup cgroup rw,blkio
+983 979 0:35 / /sys/fs/cgroup/cpu,cpuacct rw,nosuid,nodev,noexec,relatime master:16 - cgroup cgroup rw,cpu,cpuacct
+984 979 0:36 / /sys/fs/cgroup/net_cls,net_prio rw,nosuid,nodev,noexec,relatime master:17 - cgroup cgroup rw,net_cls,net_prio
+985 979 0:37 / /sys/fs/cgroup/perf_event rw,nosuid,nodev,noexec,relatime master:18 - cgroup cgroup rw,perf_event
+986 979 0:38 / /sys/fs/cgroup/memory rw,nosuid,nodev,noexec,relatime master:19 - cgroup cgroup rw,memory
+987 979 0:39 / /sys/fs/cgroup/devices rw,nosuid,nodev,noexec,relatime master:20 - cgroup cgroup rw,devices
+988 979 0:40 / /sys/fs/cgroup/pids rw,nosuid,nodev,noexec,relatime master:21 - cgroup cgroup rw,pids
+989 979 0:41 / /sys/fs/cgroup/cpuset rw,nosuid,nodev,noexec,relatime master:22 - cgroup cgroup rw,cpuset,clone_children
+990 979 0:42 / /sys/fs/cgroup/freezer rw,nosuid,nodev,noexec,relatime master:23 - cgroup cgroup rw,freezer
+991 979 0:43 / /sys/fs/cgroup/rdma rw,nosuid,nodev,noexec,relatime master:24 - cgroup cgroup rw,rdma
+992 979 0:44 / /sys/fs/cgroup/hugetlb rw,nosuid,nodev,noexec,relatime master:25 - cgroup cgroup rw,hugetlb
+993 977 0:32 / /sys/fs/pstore rw,nosuid,nodev,noexec,relatime master:12 - pstore pstore rw
+994 977 0:33 / /sys/fs/bpf rw,nosuid,nodev,noexec,relatime master:13 - bpf none rw,mode=700
+995 977 0:8 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime master:29 - debugfs debugfs rw
+996 977 0:12 / /sys/kernel/tracing rw,nosuid,nodev,noexec,relatime master:30 - tracefs tracefs rw
+997 977 0:22 / /sys/kernel/config rw,nosuid,nodev,noexec,relatime master:31 - configfs configfs rw
+998 977 0:47 / /sys/fs/fuse/connections rw,nosuid,nodev,noexec,relatime master:32 - fusectl fusectl rw
+999 966 252:1 /tmp /tmp rw,relatime master:1 - ext4 /dev/vda1 rw
+1000 966 252:1 /var/snap /var/snap rw,relatime master:1 - ext4 /dev/vda1 rw
+1001 1000 0:53 / /var/snap/lxd/common/ns rw,relatime - tmpfs tmpfs rw,size=1024k,mode=700
+1002 966 252:1 /var/lib/snapd /var/lib/snapd rw,relatime master:1 - ext4 /dev/vda1 rw
+1003 966 252:1 /var/tmp /var/tmp rw,relatime master:1 - ext4 /dev/vda1 rw
+1004 966 0:26 / /run rw,nosuid,nodev,noexec,relatime master:5 - tmpfs tmpfs rw,size=402604k,mode=755
+1005 1004 0:28 / /run/lock rw,nosuid,nodev,noexec,relatime master:6 - tmpfs tmpfs rw,size=5120k
+1006 1004 0:26 /snapd/ns /run/snapd/ns rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw,size=402604k,mode=755
+1007 966 252:1 /usr/lib/modules /lib/modules rw,relatime master:1 - ext4 /dev/vda1 rw
+1008 966 252:1 /usr/src /usr/src rw,relatime master:1 - ext4 /dev/vda1 rw
+1009 966 252:1 /var/log /var/log rw,relatime master:1 - ext4 /dev/vda1 rw
+1010 966 252:1 /media /media rw,relatime shared:1 - ext4 /dev/vda1 rw
+1011 1004 0:26 /netns /run/netns rw,nosuid,nodev,noexec,relatime shared:5 - tmpfs tmpfs rw,size=402604k,mode=755
+1012 966 252:1 /mnt /mnt rw,relatime master:1 - ext4 /dev/vda1 rw
+1013 972 7:4 /etc/nsswitch.conf /etc/nsswitch.conf ro,nodev,relatime master:399 - squashfs /dev/loop4 ro
+1014 972 7:4 /etc/apparmor /etc/apparmor ro,nodev,relatime master:399 - squashfs /dev/loop4 ro
+1015 972 7:4 /etc/apparmor.d /etc/apparmor.d ro,nodev,relatime master:399 - squashfs /dev/loop4 ro
+1016 966 252:1 /usr/lib/snapd /usr/lib/snapd rw,relatime master:1 - ext4 /dev/vda1 rw
+1017 966 252:1 /snap /snap rw,relatime master:1 - ext4 /dev/vda1 rw
+1018 1017 7:0 / /snap/core20/1328 ro,nodev,relatime master:68 - squashfs /dev/loop0 ro
+1019 1017 7:1 / /snap/lxd/21835 ro,nodev,relatime master:70 - squashfs /dev/loop1 ro
+1020 1017 7:2 / /snap/snapd/14549 ro,nodev,relatime master:72 - squashfs /dev/loop2 ro
+1021 1017 7:3 / /snap/core/12603 ro,nodev,relatime master:382 - squashfs /dev/loop3 ro
+1022 1017 7:4 / /snap/core18/2284 ro,nodev,relatime master:399 - squashfs /dev/loop4 ro
+1023 1017 7:5 / /snap/kubectl/2308 ro,nodev,relatime master:407 - squashfs /dev/loop5 ro
+1024 1017 7:6 / /snap/kube-apiserver/2599 ro,nodev,relatime master:415 - squashfs /dev/loop6 ro
+1025 1002 252:1 /var/lib/snapd/hostfs /var/lib/snapd/hostfs rw,relatime - ext4 /dev/vda1 rw
+889 999 252:1 /tmp/snap.kube-apiserver/tmp /tmp rw,relatime - ext4 /dev/vda1 rw
+907 968 0:62 / /dev/pts rw,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
+908 967 0:62 /ptmx /dev/ptmx rw,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
+931 888 7:7 / /var/lib/snapd/hostfs/snap/kube-controller-manager/2407 ro,nodev,relatime master:423 - squashfs /dev/loop7 ro
+930 1017 7:7 / /snap/kube-controller-manager/2407 ro,nodev,relatime master:423 - squashfs /dev/loop7 ro
+1031 888 7:8 / /var/lib/snapd/hostfs/snap/kube-scheduler/2327 ro,nodev,relatime master:431 - squashfs /dev/loop8 ro
+1029 1017 7:8 / /snap/kube-scheduler/2327 ro,nodev,relatime master:431 - squashfs /dev/loop8 ro
+1135 888 7:9 / /var/lib/snapd/hostfs/snap/cdk-addons/9030 ro,nodev,relatime master:439 - squashfs /dev/loop9 ro
+1132 1017 7:9 / /snap/cdk-addons/9030 ro,nodev,relatime master:439 - squashfs /dev/loop9 ro
+1243 888 7:10 / /var/lib/snapd/hostfs/snap/kube-proxy/2360 ro,nodev,relatime master:447 - squashfs /dev/loop10 ro
+1239 1017 7:10 / /snap/kube-proxy/2360 ro,nodev,relatime master:447 - squashfs /dev/loop10 ro
+1357 1004 0:66 / /run/containerd/io.containerd.runtime.v2.task/default/calico-node/rootfs rw,relatime master:455 - overlay overlay rw,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/11/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/10/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/9/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/8/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/7/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/6/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/5/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/4/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/3/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/2/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/work,xino=off
+1356 911 0:66 / /var/lib/snapd/hostfs/run/containerd/io.containerd.runtime.v2.task/default/calico-node/rootfs rw,relatime master:455 - overlay overlay rw,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/11/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/10/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/9/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/8/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/7/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/6/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/5/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/4/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/3/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/2/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/work,xino=off
+1386 1004 0:74 / /run/user/1000 rw,nosuid,nodev,relatime master:463 - tmpfs tmpfs rw,size=402600k,mode=700,uid=1000,gid=1000
+1385 911 0:74 / /var/lib/snapd/hostfs/run/user/1000 rw,nosuid,nodev,relatime master:463 - tmpfs tmpfs rw,size=402600k,mode=700,uid=1000,gid=1000
+1424 995 0:12 / /sys/kernel/debug/tracing rw,nosuid,nodev,noexec,relatime master:471 - tracefs tracefs rw

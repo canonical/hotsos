@@ -1,0 +1,1901 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 175184 17464 ?        -    Feb09   0:38 /sbin/init
+root           -  0.0    -      -     - -        Ss   Feb09   0:38 -
+root           2  0.0  0.0      0     0 ?        -    Feb09   0:00 [kthreadd]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root           3  0.0  0.0      0     0 ?        -    Feb09   0:00 [rcu_gp]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root           4  0.0  0.0      0     0 ?        -    Feb09   0:00 [rcu_par_gp]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root           6  0.0  0.0      0     0 ?        -    Feb09   0:00 [kworker/0:0H-kblockd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root           9  0.0  0.0      0     0 ?        -    Feb09   0:00 [mm_percpu_wq]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          10  0.1  0.0      0     0 ?        -    Feb09   1:38 [ksoftirqd/0]
+root           -  0.1    -      -     - -        S    Feb09   1:38 -
+root          11  0.1  0.0      0     0 ?        -    Feb09   1:24 [rcu_sched]
+root           -  0.1    -      -     - -        I    Feb09   1:24 -
+root          12  0.0  0.0      0     0 ?        -    Feb09   0:00 [migration/0]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          13  0.0  0.0      0     0 ?        -    Feb09   0:00 [idle_inject/0]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          14  0.0  0.0      0     0 ?        -    Feb09   0:00 [cpuhp/0]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          15  0.0  0.0      0     0 ?        -    Feb09   0:00 [cpuhp/1]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          16  0.0  0.0      0     0 ?        -    Feb09   0:00 [idle_inject/1]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          17  0.0  0.0      0     0 ?        -    Feb09   0:00 [migration/1]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          18  0.0  0.0      0     0 ?        -    Feb09   0:13 [ksoftirqd/1]
+root           -  0.0    -      -     - -        S    Feb09   0:13 -
+root          20  0.0  0.0      0     0 ?        -    Feb09   0:00 [kworker/1:0H-kblockd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          21  0.0  0.0      0     0 ?        -    Feb09   0:00 [kdevtmpfs]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          22  0.0  0.0      0     0 ?        -    Feb09   0:00 [netns]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          23  0.0  0.0      0     0 ?        -    Feb09   0:00 [rcu_tasks_kthre]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          24  0.0  0.0      0     0 ?        -    Feb09   0:00 [kauditd]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          25  0.0  0.0      0     0 ?        -    Feb09   0:00 [khungtaskd]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          26  0.0  0.0      0     0 ?        -    Feb09   0:00 [oom_reaper]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          27  0.0  0.0      0     0 ?        -    Feb09   0:00 [writeback]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          28  0.0  0.0      0     0 ?        -    Feb09   0:00 [kcompactd0]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          29  0.0  0.0      0     0 ?        -    Feb09   0:00 [ksmd]
+root           -  0.0    -      -     - -        SN   Feb09   0:00 -
+root          30  0.0  0.0      0     0 ?        -    Feb09   0:00 [khugepaged]
+root           -  0.0    -      -     - -        SN   Feb09   0:00 -
+root          77  0.0  0.0      0     0 ?        -    Feb09   0:00 [kintegrityd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          78  0.0  0.0      0     0 ?        -    Feb09   0:00 [kblockd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          79  0.0  0.0      0     0 ?        -    Feb09   0:00 [blkcg_punt_bio]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          80  0.0  0.0      0     0 ?        -    Feb09   0:00 [tpm_dev_wq]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          81  0.0  0.0      0     0 ?        -    Feb09   0:00 [ata_sff]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          82  0.0  0.0      0     0 ?        -    Feb09   0:00 [md]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          83  0.0  0.0      0     0 ?        -    Feb09   0:00 [edac-poller]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          84  0.0  0.0      0     0 ?        -    Feb09   0:00 [devfreq_wq]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          85  0.0  0.0      0     0 ?        -    Feb09   0:00 [watchdogd]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          88  0.0  0.0      0     0 ?        -    Feb09   0:04 [kswapd0]
+root           -  0.0    -      -     - -        S    Feb09   0:04 -
+root          89  0.0  0.0      0     0 ?        -    Feb09   0:00 [ecryptfs-kthrea]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          91  0.0  0.0      0     0 ?        -    Feb09   0:00 [kthrotld]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          92  0.0  0.0      0     0 ?        -    Feb09   0:00 [acpi_thermal_pm]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          93  0.0  0.0      0     0 ?        -    Feb09   0:00 [scsi_eh_0]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          94  0.0  0.0      0     0 ?        -    Feb09   0:00 [scsi_tmf_0]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          95  0.0  0.0      0     0 ?        -    Feb09   0:00 [scsi_eh_1]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root          96  0.0  0.0      0     0 ?        -    Feb09   0:00 [scsi_tmf_1]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root          98  0.0  0.0      0     0 ?        -    Feb09   0:00 [vfio-irqfd-clea]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         100  0.0  0.0      0     0 ?        -    Feb09   0:00 [ipv6_addrconf]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         109  0.0  0.0      0     0 ?        -    Feb09   0:00 [kstrp]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         112  0.0  0.0      0     0 ?        -    Feb09   0:00 [kworker/u5:0]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         125  0.0  0.0      0     0 ?        -    Feb09   0:00 [charger_manager]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         170  0.0  0.0      0     0 ?        -    Feb09   0:00 [cryptd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         171  0.0  0.0      0     0 ?        -    Feb09   0:33 [kworker/0:1H-kblockd]
+root           -  0.0    -      -     - -        I<   Feb09   0:33 -
+root         211  0.0  0.0      0     0 ?        -    Feb09   0:00 [bch_btree_io]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         212  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         213  0.0  0.0      0     0 ?        -    Feb09   0:00 [bch_journal]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         218  0.0  0.0      0     0 ?        -    Feb09   0:00 [bioset]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         219  0.0  0.0      0     0 ?        -    Feb09   0:00 [bioset]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         226  0.0  0.0      0     0 ?        -    Feb09   0:27 [kworker/1:1H-kblockd]
+root           -  0.0    -      -     - -        I<   Feb09   0:27 -
+root         227  0.0  0.0      0     0 ?        -    Feb09   0:00 [bioset]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         228  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_gc]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         229  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_allocato]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root         230  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_gc]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root         231  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_writebac]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         232  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_writebac]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root         233  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_status_u]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root         234  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_writebac]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         235  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_writebac]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root         236  0.0  0.0      0     0 ?        -    Feb09   0:00 [bcache_status_u]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root         276  0.0  0.0      0     0 ?        -    Feb09   0:00 [raid5wq]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         319  0.1  0.0      0     0 ?        -    Feb09   1:22 [jbd2/vda2-8]
+root           -  0.1    -      -     - -        S    Feb09   1:22 -
+root         320  0.0  0.0      0     0 ?        -    Feb09   0:00 [ext4-rsv-conver]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         397  0.0  0.1  69508 31704 ?        -    Feb09   0:01 /lib/systemd/systemd-journald
+root           -  0.0    -      -     - -        S<s  Feb09   0:01 -
+root         401  0.0  0.0      0     0 ?        -    Feb09   0:00 [rpciod]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         404  0.0  0.0      0     0 ?        -    Feb09   0:00 [xprtiod]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         428  0.0  0.0  21504  5428 ?        -    Feb09   0:18 /lib/systemd/systemd-udevd
+root           -  0.0    -      -     - -        Ss   Feb09   0:18 -
+root         629  0.0  0.0      0     0 ?        -    Feb09   0:00 [kaluad]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         630  0.0  0.0      0     0 ?        -    Feb09   0:00 [kmpath_rdacd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         631  0.0  0.0      0     0 ?        -    Feb09   0:00 [kmpathd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         632  0.0  0.0      0     0 ?        -    Feb09   0:00 [kmpath_handlerd]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root         633  0.0  0.1 345672 17940 ?        -    Feb09   0:03 /sbin/multipathd -d -s
+root           -  0.0    -      -     - -        SLsl Feb09   0:00 -
+root           -  0.0    -      -     - -        SLsl Feb09   0:00 -
+root           -  0.0    -      -     - -        SLsl Feb09   0:00 -
+root           -  0.0    -      -     - -        SLsl Feb09   0:00 -
+root           -  0.0    -      -     - -        SLsl Feb09   0:02 -
+root           -  0.0    -      -     - -        SLsl Feb09   0:00 -
+root           -  0.0    -      -     - -        SLsl Feb09   0:00 -
+root         643  0.0  0.0      0     0 ?        -    Feb09   0:00 [loop0]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+root         647  0.0  0.0      0     0 ?        -    Feb09   0:00 [loop2]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+root         648  0.0  0.0      0     0 ?        -    Feb09   0:00 [loop3]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+_rpc         674  0.0  0.0   7104  3780 ?        -    Feb09   0:00 /sbin/rpcbind -f -w
+_rpc           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+systemd+     678  0.0  0.0  90004  5712 ?        -    Feb09   0:00 /lib/systemd/systemd-timesyncd
+systemd+       -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+systemd+       -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+systemd+     721  0.0  0.0  18672  7800 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+systemd+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+systemd+     761  0.0  0.0  23900 11980 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+systemd+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         762  0.0  0.0  10120  5420 ?        -    Feb09   0:11 ovsdb-server /etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/run/openvswitch/db.sock --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --no-chdir --log-file=/var/log/openvswitch/ovsdb-server.log --pidfile=/var/run/openvswitch/ovsdb-server.pid --detach
+root           -  0.0    -      -     - -        S<s  Feb09   0:11 -
+root         819  0.0  0.2 235792 39400 ?        -    Feb09   0:53 ovs-vswitchd unix:/var/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --mlockall --no-chdir --log-file=/var/log/openvswitch/ovs-vswitchd.log --pidfile=/var/run/openvswitch/ovs-vswitchd.pid --detach
+root           -  0.0    -      -     - -        S<Lsl Feb09   0:33 -
+root           -  0.0    -      -     - -        S<Lsl Feb09   0:00 -
+root           -  0.0    -      -     - -        S<Lsl Feb09   0:00 -
+root           -  0.0    -      -     - -        S<Lsl Feb09   0:19 -
+root         908  0.0  0.0 241036  9256 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         909  0.0  0.0  18928 12040 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/ceph-crash
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+message+     914  0.0  0.0   7836  4764 ?        -    Feb09   0:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+message+       -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root         920  0.0  0.0  81928  3596 ?        -    Feb09   0:01 /usr/sbin/irqbalance --foreground
+root           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         921  0.0  0.1  29600 18220 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+syslog       923  0.0  0.0 224348  4604 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         924  0.0  0.0  10396  5140 ?        -    Feb09   0:00 /usr/sbin/smartd -n
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         926  0.0  0.2 1020864 42468 ?       -    Feb09   0:26 /usr/lib/snapd/snapd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:07 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+root         927  0.0  0.0  16856  7752 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         928  0.0  0.0  16460  6992 ?        -    Feb09   0:00 /lib/systemd/systemd-machined
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         930  0.0  0.0 395044 14960 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         975  0.0  0.0   8536  3028 ?        -    Feb09   0:00 /usr/sbin/cron -f
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+neutron      977  0.0  0.6 126436 108292 ?       -    Feb09   0:15 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+neutron        -  0.0    -      -     - -        Ss   Feb09   0:15 -
+nova         984  1.0  0.6 119604 101528 ?       -    Feb09  11:34 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+nova           -  1.0    -      -     - -        Ss   Feb09  11:34 -
+daemon       991  0.0  0.0   3792  2240 ?        -    Feb09   0:00 /usr/sbin/atd -f
+daemon         -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        1012  0.0  0.0   5828  1748 tty1     -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+root           -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+root        1028  0.0  0.0  12176  7296 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        1030  0.0  0.0  15304  9024 ?        -    Feb09   0:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+root           -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root        1043  0.0  0.0 236424  9044 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+haproxy     1053  0.0  0.0  89036  3048 ?        -    Feb09   0:02 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+haproxy        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+haproxy        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+root        1074  0.0  0.2 1362340 36424 ?       -    Feb09   0:37 /usr/sbin/libvirtd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:23 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:07 -
+root           -  0.0    -      -     - -        Ssl  16:14   0:00 -
+root        1075  0.0  0.1 108136 20480 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root        1201  0.0  0.0   2488   456 ?        -    Feb09   0:00 bpfilter_umh
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root        1546  0.0  0.0 446616  2764 ?        -    Feb09   0:34 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:06 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:06 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:06 -
+root           -  0.0    -      -     - -        Sl   00:00   0:05 -
+root           -  0.0    -      -     - -        Sl   00:00   0:05 -
+root           -  0.0    -      -     - -        Sl   00:00   0:05 -
+uuidd       1554  0.0  0.0   9748  1088 ?        -    Feb09   0:00 /usr/sbin/uuidd --socket-activation
+uuidd          -  0.0    -      -     - -        Ss   Feb09   0:00 -
+neutron     1590  0.1  0.6 131544 113528 ?       -    Feb09   1:28 /usr/bin/python3 /usr/bin/neutron-dhcp-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini --log-file=/var/log/neutron/neutron-dhcp-agent.log
+neutron        -  0.1    -      -     - -        Ss   Feb09   1:28 -
+neutron     1591  0.0  0.8 150772 132612 ?       -    Feb09   0:25 /usr/bin/python3 /usr/bin/neutron-l3-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini --config-file=/etc/neutron/fwaas_driver.ini --log-file=/var/log/neutron/neutron-l3-agent.log
+neutron        -  0.0    -      -     - -        Ss   Feb09   0:25 -
+neutron     1603  0.2  0.8 150604 131276 ?       -    Feb09   2:38 /usr/bin/python3 /usr/bin/neutron-openvswitch-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/plugins/ml2/openvswitch_agent.ini --log-file=/var/log/neutron/neutron-openvswitch-agent.log
+neutron        -  0.2    -      -     - -        Ss   Feb09   2:38 -
+root        1618  0.0  0.0      0     0 ?        -    Feb09   0:00 [dio/vda2]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root        1650  0.0  0.0      0     0 ?        -    Feb09   0:00 [spl_system_task]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+root        1651  0.0  0.0      0     0 ?        -    Feb09   0:00 [spl_delay_taskq]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+root        1652  0.0  0.0      0     0 ?        -    Feb09   0:00 [spl_dynamic_tas]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+root        1653  0.0  0.0      0     0 ?        -    Feb09   0:00 [spl_kmem_cache]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+neutron     1654  0.0  0.5 123720 94344 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+neutron        -  0.0    -      -     - -        S    Feb09   0:00 -
+neutron     1655  0.0  0.5 123720 94528 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+neutron        -  0.0    -      -     - -        S    Feb09   0:00 -
+neutron     1656  0.0  0.5 123720 94528 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+neutron        -  0.0    -      -     - -        S    Feb09   0:00 -
+neutron     1657  0.0  0.5 123720 94480 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+neutron        -  0.0    -      -     - -        S    Feb09   0:00 -
+root        1659  0.0  0.0      0     0 ?        -    Feb09   0:00 [zvol]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+root        1660  0.0  0.0      0     0 ?        -    Feb09   0:00 [arc_prune]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root        1661  0.0  0.0      0     0 ?        -    Feb09   0:00 [zthr_procedure]
+root           -  0.0    -      -     - -        SN   Feb09   0:00 -
+root        1662  0.0  0.0      0     0 ?        -    Feb09   0:00 [zthr_procedure]
+root           -  0.0    -      -     - -        SN   Feb09   0:00 -
+root        1663  0.0  0.0      0     0 ?        -    Feb09   0:00 [dbu_evict]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root        1664  0.0  0.0      0     0 ?        -    Feb09   0:00 [dbuf_evict]
+root           -  0.0    -      -     - -        SN   Feb09   0:00 -
+root        1672  0.0  0.0      0     0 ?        -    Feb09   0:00 [z_vdev_file]
+root           -  0.0    -      -     - -        SN   Feb09   0:00 -
+root        1673  0.0  0.0      0     0 ?        -    Feb09   0:01 [l2arc_feed]
+root           -  0.0    -      -     - -        S    Feb09   0:01 -
+root        1747  0.0  0.0 1202660 13592 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-0
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     1758  0.0  0.0 105192 14700 ?        -    Feb09   0:09 /sbin/init
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:09 -
+root        1811  0.0  0.0 1128928 14728 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-1
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     1856  0.0  0.0 104812 12232 ?        -    Feb09   0:05 /sbin/init
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:05 -
+1000000     1927  0.0  0.1  51472 18276 ?        -    Feb09   0:00 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        1930  0.0  0.0 1128928 14596 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-2
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     1987  0.0  0.0  11884  4704 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     1989  0.0  0.0 170352 10616 ?        -    Feb09   0:04 /sbin/init
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     1997  0.0  0.1  58972 30536 ?        -    Feb09   0:01 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     2038  0.0  0.0   3748  1756 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     2039  0.0  0.0   3760  1888 ?        -    Feb09   0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     2040  0.0  0.0   3732  1808 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     2071  0.0  0.0  11884  4880 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        2152  0.0  0.0 1055452 14512 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-3
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2191  0.0  0.0 104812 11888 ?        -    Feb09   0:04 /sbin/init
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     2215  0.0  0.0   4516  1384 ?        -    Feb09   0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2216  0.0  0.0   4752  1556 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/etcd_230.snap /snap/etcd/230 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     2217  0.0  0.0   5028  1696 ?        -    Feb09   0:09 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:09 -
+1000000     2218  0.0  0.0   4896  1712 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     2222  0.0  0.0   4940  1540 ?        -    Feb09   0:04 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     2223  0.0  0.0   4856  1696 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     2255  0.0  0.0  35076 11320 ?        -    Feb09   0:01 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root        2369  0.0  0.0 1276648 14772 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-4
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2398  0.0  0.0  11884  3796 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2403  0.0  0.0 104816 11196 ?        -    Feb09   0:04 /sbin/init
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     2412  0.0  0.0  35048 13820 ?        -    Feb09   0:00 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2434  0.0  0.0   3724  1552 ?        -    Feb09   0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     2436  0.0  0.0   3904  1796 ?        -    Feb09   0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     2437  0.0  0.0   3996  1588 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     2529  0.0  0.0  11884  4740 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        2557  0.0  0.0 1128928 14612 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-5
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2600  0.0  0.0 170480 14528 ?        -    Feb09   0:15 /sbin/init
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:15 -
+1000000     2641  0.0  0.0   5092  1692 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     2642  0.0  0.0   4712  1580 ?        -    Feb09   0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     2643  0.4  0.0   4780  1632 ?        -    Feb09   5:01 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1000000        -  0.4    -      -     - -        Ss   Feb09   5:01 -
+1000000     2646  0.0  0.0   4780  1584 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     2649  0.0  0.0   5012  1680 ?        -    Feb09   0:09 squashfuse /var/lib/snapd/snaps/mysql-shell_29.snap /snap/mysql-shell/29 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:09 -
+1000000     2665  0.0  0.2  67832 38100 ?        -    Feb09   0:04 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+root        2736  0.0  0.0 1128928 14448 ?       -    Feb09   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-6
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2776  0.0  0.0  11884  4416 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2780  0.2  0.0 170568 12668 ?        -    Feb09   2:55 /sbin/init
+1000000        -  0.2    -      -     - -        Ss   Feb09   2:55 -
+1000101     2790  0.0  0.0  23964 12272 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2867  0.0  0.2  84248 45340 ?        -    Feb09   0:03 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     2887  0.0  0.0   3748  1660 ?        -    Feb09   0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     2888  0.0  0.0   3912  1800 ?        -    Feb09   0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     2892  0.0  0.0   3768  1536 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000101     2916  0.0  0.0  23964 12212 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2980  0.0  0.0  11884  4644 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     2993  0.0  0.0  35084 12340 ?        -    Feb09   0:00 /lib/systemd/systemd-journald
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3033  0.0  0.0   3740  1752 ?        -    Feb09   0:05 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:05 -
+1000000     3034  0.0  0.0   3812  1820 ?        -    Feb09   0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     3035  0.0  0.0   3812  1752 ?        -    Feb09   0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     3058  0.0  0.0  11884  4664 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3144  0.0  0.0   4636  1448 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     3145  0.0  0.0   4516  1392 ?        -    Feb09   0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3146  0.0  0.0   4752  1636 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     3148  0.0  0.0   4664  1408 ?        -    Feb09   0:02 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     3150  0.0  0.0   4824  1620 ?        -    Feb09   0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     3151  0.0  0.0   4744  1512 ?        -    Feb09   0:00 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000101     3234  0.0  0.0  23964 10668 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000101     3235  0.0  0.0  23964 12132 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000101     3288  0.0  0.0  23964 11564 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000101     3290  0.0  0.0  23964 12108 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000101     3377  0.0  0.0  23964 12156 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+1000101        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000100     3423  0.0  0.0  18416  6484 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000100     3431  0.0  0.0  18416  6440 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3488  0.0  0.0 241036  9100 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3489  0.0  0.0  18808  7940 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/ceph-crash
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1064045     3515  0.0  1.0 499716 171360 ?       -    Feb09   0:45 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:03 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:10 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:16 -
+1064045     3516  0.6  5.7 1421340 939416 ?      -    Feb09   7:13 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:07 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:27 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:35 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:05 -
+1064045        -  0.1    -      -     - -        Ssl  Feb09   1:35 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:24 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:06 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.3    -      -     - -        Ssl  Feb09   3:39 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1064045        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000103     3518  0.0  0.0   7716  4376 ?        -    Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3530  0.0  0.0  29272 13820 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000104     3541  0.0  0.0 154864  4152 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3542  0.0  0.0 241036  9136 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3543  0.0  0.0  10396  5372 ?        -    Feb09   0:00 /usr/sbin/smartd -n
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3559  0.0  0.2 947132 37300 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3564  0.0  0.0   8536  2868 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000103     3565  0.0  0.0   7568  4252 ?        -    Feb09   0:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     3566  0.0  0.0  16848  7652 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3572  0.0  0.0 394572 12308 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3579  0.0  0.0  29280 13840 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000104     3586  0.0  0.0 154864  4160 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3588  1.2  0.3 11356148 52296 ?      -    Feb09  13:22 /snap/etcd/230/bin/etcd --config-file /var/snap/etcd/common/etcd.conf.yml
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:47 -
+1000000        -  0.2    -      -     - -        Ssl  Feb09   2:07 -
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:40 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:13 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:29 -
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:46 -
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:46 -
+1000000        -  0.1    -      -     - -        Ssl  Feb09   1:31 -
+1000000     3594  0.0  0.2 873400 38072 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3598  0.0  0.0  16480  6188 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3602  0.0  0.0 394572 12464 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3608  0.0  0.0   8536  2912 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000001     3614  0.0  0.0   3792  2340 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000001     3623  0.0  0.0   3792  2184 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3632  0.0  0.0   8696  3332 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-1-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3643  0.0  0.0   8696  2512 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000100     3670  0.0  0.0  18416  6240 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3672  0.0  0.0   7352  2124 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000000     3680  0.0  0.0   7352  2128 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000100     3683  0.0  0.0  18416  4584 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3687  1.9  0.4 866328 76776 ?        -    Feb09  20:11 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.6    -      -     - -        SLl  Feb09   6:24 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:58 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:31 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:31 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   3:06 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:38 -
+1000000     3692  0.0  0.0  12176  5668 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3706  1.9  0.5 866072 96672 ?        -    Feb09  20:37 /var/lib/juju/tools/machine-1-lxd-1/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/1 --debug
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.6    -      -     - -        SLl  Feb09   6:32 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:35 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:38 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:49 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:53 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   3:07 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000     3743  0.0  0.0  12176  6148 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3777  0.0  0.0 236424  8828 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3780  0.0  0.0 241036  9148 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3790  0.0  0.0   8536  2976 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000103     3792  0.0  0.0   7568  4256 ?        -    Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3799  0.0  0.0 236424  8876 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3806  0.0  0.0 241036  8068 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3813  0.0  0.0  29280 13756 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3814  0.0  0.0   8536  2712 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000104     3815  0.0  0.0 154864  4144 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000103     3817  0.0  0.0   7564  2788 ?        -    Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3824  0.0  0.2 873400 37328 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113     3828  0.0  0.0 419020  4880 ?        -    Feb09   0:27 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:05 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:19 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3830  0.0  0.0  16480  6388 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3836  0.0  0.0  29500  9352 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000104     3890  0.0  0.0 154864  2948 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3899  0.0  0.0 394572 12520 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     3909  0.0  0.2 873400 35392 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000001     3919  0.0  0.0   3792  2216 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3925  0.0  0.0  16480  5672 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     3978  0.0  0.0 394572 10472 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000001     4004  0.0  0.0   3792  1992 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4050  0.0  0.0   8696  3348 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-3-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000100     4055  0.0  0.0  18416  6216 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4066  0.0  0.0   8696  3196 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-2-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4085  0.0  0.0   7352  2212 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000000     4092  1.8  0.6 866328 98536 ?        -    Feb09  19:55 /var/lib/juju/tools/machine-1-lxd-3/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/3 --debug
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.5    -      -     - -        SLl  Feb09   6:16 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:43 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:29 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:50 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:50 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:44 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000     4097  0.0  0.0   7352  1968 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000997     4118  0.6  0.0 761464 12004 ?        -    Feb09   6:42 /usr/bin/mysqlrouter -c /var/lib/mysql/keystone-mysql-router/mysqlrouter.conf
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:02 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:05 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.6    -      -     - -        Sl   Feb09   6:34 -
+1000000     4138  0.0  0.0  12176  5728 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4168  1.9  0.4 866328 75484 ?        -    Feb09  20:53 /var/lib/juju/tools/machine-1-lxd-2/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/2 --debug
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:25 -
+1000000        -  0.6    -      -     - -        SLl  Feb09   6:34 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.1    -      -     - -        SLl  Feb09   1:57 -
+1000000        -  0.1    -      -     - -        SLl  Feb09   2:04 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:46 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   3:01 -
+1000000        -  0.1    -      -     - -        SLl  Feb09   2:03 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000     4172  0.0  0.0  18920  8220 ?        -    Feb09   0:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     4183  0.0  0.0 236424  8928 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4195  0.0  0.0 108112 16368 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000115     4252  0.0  0.0  92956  4064 ?        -    Feb09   0:11 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+1000115        -  0.0    -      -     - -        Sl   Feb09   0:05 -
+1000115        -  0.0    -      -     - -        Sl   Feb09   0:05 -
+1000000     4325  0.0  0.0 236424  7504 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000100     4405  0.0  0.0  18416  6328 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4414  0.0  0.0 238068  9012 ?        -    Feb09   0:01 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000100     4420  0.0  0.0  18416  5604 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+1000100        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4431  0.0  0.0   5568  2872 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000103     4432  0.0  0.0   7844  4608 ?        -    Feb09   0:04 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:04 -
+1000000     4436  0.0  0.0  12176  4292 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000113     4442  0.0  0.0   8308  4968 ?        -    Feb09   0:00 /usr/bin/epmd -systemd
+1000113        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4445  0.0  0.0  26312 13904 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000114     4446  0.0  0.0   2608   536 ?        -    Feb09   0:00 /bin/sh /usr/sbin/rabbitmq-server
+1000114        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000104     4454  0.0  0.0 154712  3864 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4462  0.0  0.2 873400 35884 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4472  0.0  0.0  16804  7508 ?        -    Feb09   0:02 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     4478  0.0  0.0 394572 12244 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000001     4496  0.0  0.0   3792  2120 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4508  0.0  0.0   5728  2892 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4527  0.0  0.0   4384  2088 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000114     4586  4.8  1.1 2279728 181496 ?      -    Feb09  51:40 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  2.4    -      -     - -        Sl   Feb09  25:46 -
+1000114        -  2.3    -      -     - -        Sl   Feb09  25:01 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:02 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:05 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:18 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:08 -
+1000114        -  0.0    -      -     - -        Sl   Feb09   0:12 -
+1000000     4600  1.8  0.1 866072 29988 ?        -    Feb09  19:47 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:17 -
+1000000        -  0.5    -      -     - -        SLl  Feb09   6:14 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:52 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:42 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:45 -
+1000000        -  0.1    -      -     - -        SLl  Feb09   2:01 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:53 -
+1000113     4616  3.1 11.4 5151276 1873100 ?     -    Feb09  33:32 /usr/sbin/mysqld
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:06 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:22 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:10 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:10 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+1000113        -  0.1    -      -     - -        Ssl  Feb09   2:06 -
+1000113        -  0.2    -      -     - -        Ssl  Feb09   2:58 -
+1000113        -  0.1    -      -     - -        Ssl  Feb09   1:58 -
+1000113        -  0.2    -      -     - -        Ssl  Feb09   3:01 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  Feb09   1:03 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:32 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:07 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:06 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:06 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:15 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:15 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:16 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:18 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:15 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:17 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:17 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:09 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:06 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.6    -      -     - -        Ssl  Feb09   6:27 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:15 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:10 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:16 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:09 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:10 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:16 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:11 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:15 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:25 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:12 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:16 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:21 -
+1000113        -  0.0    -      -     - -        Ssl  Feb09   0:17 -
+1000113        -  0.1    -      -     - -        Ssl  16:08   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:09   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:10   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:10   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:10   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:11   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:12   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:13   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:13   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:14   0:00 -
+1000113        -  0.1    -      -     - -        Ssl  16:14   0:00 -
+1000113        -  0.2    -      -     - -        Ssl  16:15   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:15   0:00 -
+1000113        -  0.4    -      -     - -        Ssl  16:18   0:00 -
+1000113        -  0.0    -      -     - -        Ssl  16:18   0:00 -
+1000000     4641  0.0  0.0  12176  6608 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4657  0.0  0.0 241036  9260 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4676  0.4  0.2 161040 46420 ?        -    Feb09   4:50 /usr/sbin/corosync -f
+1000000        -  0.4    -      -     - -        Ssl  Feb09   4:50 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4684  0.0  0.0 241036  8688 ?        -    Feb09   0:01 /usr/lib/accountsservice/accounts-daemon
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4685  0.0  0.0   8536  2984 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000103     4688  0.0  0.0   7700  4368 ?        -    Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4712  0.0  0.0   8536  2772 ?        -    Feb09   0:00 /usr/sbin/cron -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000103     4716  0.0  0.0   7568  3824 ?        -    Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000103        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4719  0.0  0.0  29272 14008 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000104     4722  0.0  0.0 154864  4056 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4738  0.0  0.1 108108 16540 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114     4749  0.0  0.0 410796  4224 ?        -    Feb09   0:12 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:05 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:05 -
+1000114        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4754  0.0  0.2 947132 37520 ?        -    Feb09   0:04 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4755  0.0  0.0  29480 11696 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4757  0.0  0.0 236424  8716 ?        -    Feb09   0:01 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104     4764  0.0  0.0 154864  3720 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000104        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4765  0.0  0.0  16480  6264 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4784  0.0  0.0 394572 12540 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4801  0.0  0.2 873400 35292 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4820  0.0  0.1 108108 16804 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4846  0.0  0.0  16480  5428 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000001     4858  0.0  0.0   3792  2160 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4859  0.0  0.0   4784  3084 ?        -    Feb09   0:02 ha_logd: read process
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:02 -
+1000000     4879  0.0  0.0 394572 11892 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     4880  0.0  0.0   8696  2532 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-6-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000001     4897  0.0  0.0   3792  2036 ?        -    Feb09   0:00 /usr/sbin/atd -f
+1000001        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     4954  0.0  0.0   7352  2060 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000997     4962  0.6  0.0 761464 12184 ?        -    Feb09   6:37 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:02 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.6    -      -     - -        Sl   Feb09   6:32 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000     4970  0.0  0.0   8696  2272 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-4-exec-start.sh
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000997     4971  0.5  0.0 761464 12948 ?        -    Feb09   6:18 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrouter.conf
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.5    -      -     - -        Sl   Feb09   6:16 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000997        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000     4987  0.0  0.0   4784   232 ?        -    Feb09   0:02 ha_logd: write process
+1000000        -  0.0    -      -     - -        S    Feb09   0:02 -
+1000000     5038  0.0  0.0   7352  2016 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1000000        -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+1000000     5057  1.9  0.2 866328 45820 ?        -    Feb09  21:02 /var/lib/juju/tools/machine-1-lxd-4/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/4 --debug
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.6    -      -     - -        SLl  Feb09   6:33 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:27 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:15 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:25 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:30 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:13 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:35 -
+1000000     5064  1.9  0.6 866328 102088 ?       -    Feb09  20:56 /var/lib/juju/tools/machine-1-lxd-6/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/6 --debug
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.6    -      -     - -        SLl  Feb09   6:35 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:34 -
+1000000        -  0.1    -      -     - -        SLl  Feb09   1:11 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:27 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:43 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:49 -
+1000000        -  0.2    -      -     - -        SLl  Feb09   2:33 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        SLl  Feb09   0:00 -
+1000000     5068  0.0  0.0  12176  5652 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     5074  0.0  0.0  18784  9744 ?        -    Feb09   0:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     5090  0.0  0.0  12176  5256 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000115     5188  0.0  0.0  92820  6248 ?        -    Feb09   0:07 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+1000115        -  0.0    -      -     - -        Sl   Feb09   0:04 -
+1000115        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000     5260  0.0  0.0 236424  8444 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     5375  0.0  0.0  18688  6248 ?        -    Feb09   0:01 /usr/sbin/apache2 -k start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000     5429  0.0  0.0 236424  8972 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     5430  0.0  0.0 108136 13292 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     5466  0.0  0.0  74376 14928 ?        -    Feb09   0:03 /usr/sbin/pacemakerd -f
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     5635  0.0  0.1 105140 16556 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     5652  0.0  0.0   2616   472 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000113     5682  0.0  0.1  74852 23880 ?        -    Feb09   0:07 /usr/lib/pacemaker/pacemaker-based
+1000113        -  0.0    -      -     - -        Ss   Feb09   0:07 -
+1000000     5683  0.0  0.0  65944 15916 ?        -    Feb09   0:03 /usr/lib/pacemaker/pacemaker-fenced
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000000     5684  0.0  0.0  50424 10740 ?        -    Feb09   0:03 /usr/lib/pacemaker/pacemaker-execd
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000113     5687  0.0  0.0  63316 13164 ?        -    Feb09   0:03 /usr/lib/pacemaker/pacemaker-attrd
+1000113        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000113     5691  0.0  0.0  50784  9984 ?        -    Feb09   0:03 /usr/lib/pacemaker/pacemaker-schedulerd
+1000113        -  0.0    -      -     - -        Ss   Feb09   0:03 -
+1000113     5694  0.0  0.1  74776 16784 ?        -    Feb09   0:05 /usr/lib/pacemaker/pacemaker-controld
+1000113        -  0.0    -      -     - -        Ss   Feb09   0:05 -
+1000000     5696  0.0  0.0 108140 15920 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     5697  0.0  0.1 108108 16632 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000     5858  0.0  0.0   2616  1488 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     5892  0.0  0.0   2616  1540 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     5920  0.0  0.0   2616  1860 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     5960  0.0  0.0   2616   444 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     6092  0.0  0.0   2616  1204 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000000     6236  0.0  0.0   2616  1716 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        6281  0.0  0.4 160160 73252 ?        -    Feb09   0:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmpc_qcyzs5/privsep.sock
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000114     7985  0.0  0.0   2492  1408 ?        -    Feb09   0:01 erl_child_setup 65536
+1000114        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+1000000    11933  0.0  0.1 1524036 28580 ?       -    Feb09   0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000    12313  0.0  0.2 1597768 41296 ?       -    Feb09   0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000    12616  0.0  0.1 1524036 26020 ?       -    Feb09   0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000    12775  0.0  0.1 1524036 30692 ?       -    Feb09   0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000    14488  0.0  0.2 1671500 42332 ?       -    Feb09   0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000    15345  0.0  0.2 1524036 43804 ?       -    Feb09   0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000    15480  0.0  0.2 1524036 45096 ?       -    Feb09   0:13 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:03 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+1000000        -  0.0    -      -     - -        Sl   Feb09   0:01 -
+root       15932  0.0  0.0      0     0 ?        -    Feb09   0:00 [loop4]
+root           -  0.0    -      -     - -        S<   Feb09   0:00 -
+1000114    17252  0.0  0.0   3880   912 ?        -    Feb09   0:00 inet_gethost 4
+1000114        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000114    17254  0.0  0.0   3960  1604 ?        -    Feb09   0:00 inet_gethost 4
+1000114        -  0.0    -      -     - -        S    Feb09   0:00 -
+root       18866  0.0  0.0   2616  1752 ?        -    Feb09   0:00 /bin/sh /snap/lxd/22358/commands/daemon.start
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root       19026  0.2  0.3 1758336 64280 ?       -    Feb09   2:19 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:49 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:11 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:11 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:12 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:13 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:13 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:10 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:01 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:11 -
+root           -  0.0    -      -     - -        Sl   13:48   0:02 -
+lxd        19086  0.0  0.0   8928  3544 ?        -    Feb09   0:00 dnsmasq --keep-in-foreground --strict-order --bind-interfaces --except-interface=lo --pid-file= --no-ping --interface=lxdbr0 --dhcp-rapid-commit --quiet-dhcp --quiet-dhcp6 --quiet-ra --listen-address=10.50.99.1 --dhcp-no-override --dhcp-authoritative --dhcp-leasefile=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.leases --dhcp-hostsfile=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.hosts --dhcp-range 10.50.99.2,10.50.99.254,1h -s lxd --interface-name _gateway.lxd,lxdbr0 -S /lxd/ --conf-file=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.raw -u lxd -g lxd
+lxd            -  0.0    -      -     - -        Ss   Feb09   0:00 -
+nova       35743  0.0  0.5 121108 93568 ?        -    Feb09   0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+nova           -  0.0    -      -     - -        S    Feb09   0:03 -
+nova       35744  0.0  0.5 121108 93564 ?        -    Feb09   0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+nova           -  0.0    -      -     - -        S    Feb09   0:03 -
+nova       35746  0.0  0.5 121104 93624 ?        -    Feb09   0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+nova           -  0.0    -      -     - -        S    Feb09   0:03 -
+nova       35747  0.0  0.5 121112 93532 ?        -    Feb09   0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+nova           -  0.0    -      -     - -        S    Feb09   0:03 -
+1000000    35758  0.1  0.4 878640 68252 ?        -    Feb09   1:41 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/vault.hcl
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:17 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:13 -
+1000000        -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+root       36865  0.0  0.0      0     0 ?        -    Feb09   0:00 [kdmflush]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36876  0.0  0.0      0     0 ?        -    Feb09   0:00 [kcryptd_io/253:]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36877  0.0  0.0      0     0 ?        -    Feb09   0:00 [kcryptd/253:0]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36878  0.0  0.0      0     0 ?        -    Feb09   0:02 [dmcrypt_write/2]
+root           -  0.0    -      -     - -        S    Feb09   0:02 -
+root       36910  0.0  0.0      0     0 ?        -    Feb09   0:00 [kdmflush]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36968  0.0  0.0      0     0 ?        -    Feb09   0:00 [kdmflush]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36969  0.0  0.0      0     0 ?        -    Feb09   0:00 [kcryptd_io/253:]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36971  0.0  0.0      0     0 ?        -    Feb09   0:00 [kcryptd/253:2]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       36972  0.0  0.0      0     0 ?        -    Feb09   0:00 [dmcrypt_write/2]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+root       44277  0.0  0.4 238752 80980 ?        -    Feb09   0:03 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmp7duwkf2h/privsep.sock
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:02 -
+root           -  0.2    -      -     - -        Sl   16:09   0:01 -
+neutron    45486  0.0  0.0   9236  3984 ?        -    Feb09   0:00 ovsdb-client monitor tcp:127.0.0.1:6640 Interface name,ofport,external_ids --format=json
+neutron        -  0.0    -      -     - -        S    Feb09   0:00 -
+1000000    46251  0.0  0.0  18728  4792 ?        -    Feb09   0:01 /usr/sbin/apache2 -k start
+1000000        -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root       51494  0.0  0.0   8696  2472 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-exec-start.sh
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root       51515  1.8  0.6 866328 103756 ?       -    Feb09  19:34 /var/lib/juju/tools/machine-1/jujud machine --data-dir /var/lib/juju --machine-id 1 --debug
+root           -  0.1    -      -     - -        SLl  Feb09   1:55 -
+root           -  0.5    -      -     - -        SLl  Feb09   6:04 -
+root           -  0.1    -      -     - -        SLl  Feb09   1:50 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.2    -      -     - -        SLl  Feb09   2:09 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.1    -      -     - -        SLl  Feb09   2:03 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.2    -      -     - -        SLl  Feb09   2:09 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:56 -
+root           -  0.2    -      -     - -        SLl  Feb09   2:25 -
+root       53075  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfsalloc]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53076  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs_mru_cache]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53077  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs-buf/dm-2]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53078  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs-conv/dm-2]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53079  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs-cil/dm-2]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53080  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs-reclaim/dm-]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53082  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs-eofblocks/d]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53083  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfs-log/dm-2]
+root           -  0.0    -      -     - -        I<   Feb09   0:00 -
+root       53084  0.0  0.0      0     0 ?        -    Feb09   0:00 [xfsaild/dm-2]
+root           -  0.0    -      -     - -        S    Feb09   0:00 -
+nova       53085  0.2  1.0 1570956 170472 ?      -    Feb09   2:27 /usr/bin/python3 /usr/bin/nova-compute --config-file=/etc/nova/nova.conf --config-file=/etc/nova/nova-compute.conf --log-file=/var/log/nova/nova-compute.log
+nova           -  0.2    -      -     - -        Ssl  Feb09   2:10 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:03 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+nova           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+1000107   135899  0.0  0.0   9748  1016 ?        -    Feb09   0:00 /usr/sbin/uuidd --socket-activation
+1000107        -  0.0    -      -     - -        Ss   Feb09   0:00 -
+1000113   171572  0.0  0.5 232544 82828 ?        -    00:00   0:21 (wsgi:placement)  -k start
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:19 -
+1000113   171573  0.0  0.5 232544 82732 ?        -    00:00   0:21 (wsgi:placement)  -k start
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:19 -
+1000113   171575  0.0  0.5 232544 82684 ?        -    00:00   0:21 (wsgi:placement)  -k start
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:19 -
+1000113   171577  0.0  0.5 232800 82800 ?        -    00:00   0:21 (wsgi:placement)  -k start
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000113        -  0.0    -      -     - -        Sl   00:00   0:19 -
+1000033   171621  0.0  0.0 1226996 11968 ?       -    00:00   0:02 /usr/sbin/apache2 -k start
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033   171622  0.0  0.0 1227068 12332 ?       -    00:00   0:02 /usr/sbin/apache2 -k start
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114   171719  0.1  0.6 254424 99372 ?        -    00:00   1:28 (wsgi:keystone-ad -k start
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000114        -  0.1    -      -     - -        Sl   00:00   1:26 -
+1000114   171720  0.0  0.6 252120 102376 ?       -    00:00   0:20 (wsgi:keystone-pu -k start
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:19 -
+1000114   171721  0.0  0.6 251608 101528 ?       -    00:00   0:13 (wsgi:keystone-pu -k start
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:11 -
+1000114   171722  0.0  0.6 251864 102072 ?       -    00:00   0:19 (wsgi:keystone-pu -k start
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:01 -
+1000114        -  0.0    -      -     - -        Sl   00:00   0:17 -
+1000033   171736  0.0  0.0 1228292 6528 ?        -    00:00   0:01 /usr/sbin/apache2 -k start
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033   171737  0.0  0.0 1228196 3972 ?        -    00:00   0:01 /usr/sbin/apache2 -k start
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+1000033        -  0.0    -      -     - -        Sl   00:00   0:00 -
+root      782960  0.0  0.0 251232  9448 ?        -    06:14   0:00 /usr/lib/upower/upowerd
+root           -  0.0    -      -     - -        Ssl  06:14   0:00 -
+root           -  0.0    -      -     - -        Ssl  06:14   0:00 -
+root           -  0.0    -      -     - -        Ssl  06:14   0:00 -
+1000107   829236  0.0  0.0   9748  1128 ?        -    06:42   0:00 /usr/sbin/uuidd --socket-activation
+1000107        -  0.0    -      -     - -        Ss   06:42   0:00 -
+1000107   844660  0.0  0.0   6780   928 ?        -    06:50   0:00 /usr/sbin/uuidd --socket-activation
+1000107        -  0.0    -      -     - -        Ss   06:50   0:00 -
+ceph     1113152  0.5  1.9 1068464 325384 ?      -    09:32   2:07 /usr/bin/ceph-osd -f --cluster ceph --id 0 --setuser ceph --setgroup ceph
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:11 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:04 -
+ceph           -  0.1    -      -     - -        Ssl  09:32   0:36 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:03 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:03 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:03 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:02 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:02 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.1    -      -     - -        Ssl  09:32   0:27 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  09:32   0:01 -
+1000000  1734261  0.0  0.1 384016 17276 ?        -    15:46   0:00 /usr/libexec/fwupd/fwupd
+1000000        -  0.0    -      -     - -        Ssl  15:46   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  15:46   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  15:46   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  15:46   0:00 -
+1000000        -  0.0    -      -     - -        Ssl  15:46   0:00 -
+root     1734274  0.0  0.0      0     0 ?        -    15:46   0:01 [kworker/0:1-events]
+root           -  0.0    -      -     - -        I    15:46   0:01 -
+root     1737737  0.2  0.0      0     0 ?        -    15:48   0:04 [kworker/u4:1-kcryptd/253:0]
+root           -  0.2    -      -     - -        I    15:48   0:04 -
+root     1754162  0.0  0.0      0     0 ?        -    15:58   0:00 [kworker/1:2-events]
+root           -  0.0    -      -     - -        I    15:58   0:00 -
+root     1759107  0.2  0.0      0     0 ?        -    16:02   0:02 [kworker/u4:2-events_power_efficient]
+root           -  0.2    -      -     - -        I    16:02   0:02 -
+root     1769198  0.0  0.0      0     0 ?        -    16:08   0:00 [kworker/1:3-cgroup_destroy]
+root           -  0.0    -      -     - -        I    16:08   0:00 -
+root     1769485  0.0  0.0      0     0 ?        -    16:08   0:00 [kworker/0:2-mm_percpu_wq]
+root           -  0.0    -      -     - -        I    16:08   0:00 -
+root     1773272  0.0  0.5 337656 90976 ?        -    16:09   0:00 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+root           -  0.0    -      -     - -        Sl   16:09   0:00 -
+root           -  0.0    -      -     - -        Sl   16:09   0:00 -
+root           -  0.0    -      -     - -        Sl   16:09   0:00 -
+root           -  0.0    -      -     - -        Sl   16:09   0:00 -
+root     1773285  0.0  0.5 337400 88004 ?        -    16:09   0:00 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+root           -  0.0    -      -     - -        S    16:09   0:00 -
+neutron  1773297  0.0  0.0  89032  3060 ?        -    16:09   0:00 haproxy -f /var/lib/neutron/ns-metadata-proxy/984c22fd-64b3-4fa1-8ddd-87090f401ce5.conf
+neutron        -  0.0    -      -     - -        Ssl  16:09   0:00 -
+neutron        -  0.0    -      -     - -        Ssl  16:09   0:00 -
+root     1775813  0.0  0.0  25176  3108 ?        -    16:10   0:00 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+root           -  0.0    -      -     - -        Ss   16:10   0:00 -
+root     1775814  0.0  0.0  25308  2832 ?        -    16:10   0:00 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+root           -  0.0    -      -     - -        S    16:10   0:00 -
+root     1775867  0.4  0.0      0     0 ?        -    16:10   0:02 [kworker/u4:3-kcryptd/253:0]
+root           -  0.4    -      -     - -        I    16:10   0:02 -
+root     1778728  0.0  0.0      0     0 ?        -    16:12   0:00 [kworker/1:4-cgroup_destroy]
+root           -  0.0    -      -     - -        I    16:12   0:00 -
+root     1778729  0.0  0.0      0     0 ?        -    16:12   0:00 [kworker/1:5-events]
+root           -  0.0    -      -     - -        I    16:12   0:00 -
+root     1778734  0.0  0.0      0     0 ?        -    16:12   0:00 [kworker/1:10-events]
+root           -  0.0    -      -     - -        I    16:12   0:00 -
+root     1778821  0.0  0.0      0     0 ?        -    16:13   0:00 [kworker/0:4-events]
+root           -  0.0    -      -     - -        I    16:13   0:00 -
+root     1779130  0.1  0.0      0     0 ?        -    16:13   0:00 [kworker/0:10-cgroup_pidlist_destroy]
+root           -  0.1    -      -     - -        I    16:13   0:00 -
+root     1779945  0.1  0.0      0     0 ?        -    16:13   0:00 [kworker/1:13-events]
+root           -  0.1    -      -     - -        I    16:13   0:00 -
+root     1780281  0.0  0.0  13796  8764 ?        -    16:13   0:00 sshd: ubuntu [priv]
+root           -  0.0    -      -     - -        Ss   16:13   0:00 -
+ubuntu   1780287  0.0  0.0  18648  9756 ?        -    16:13   0:00 /lib/systemd/systemd --user
+ubuntu         -  0.0    -      -     - -        Ss   16:13   0:00 -
+ubuntu   1780288  0.0  0.0 176400  9200 ?        -    16:13   0:00 (sd-pam)
+ubuntu         -  0.0    -      -     - -        S    16:13   0:00 -
+ubuntu   1780382  0.0  0.0  13928  5676 ?        -    16:13   0:00 sshd: ubuntu@pts/0
+ubuntu         -  0.0    -      -     - -        S    16:13   0:00 -
+root     1780383  0.0  0.0  11020  4376 pts/0    -    16:13   0:00 sudo -s
+root           -  0.0    -      -     - -        Ss   16:13   0:00 -
+root     1780385  0.0  0.0   8960  3740 pts/0    -    16:13   0:00 /bin/bash
+root           -  0.0    -      -     - -        S    16:13   0:00 -
+root     1780834  0.0  0.0  13800  9092 ?        -    16:13   0:00 sshd: ubuntu [priv]
+root           -  0.0    -      -     - -        Ss   16:13   0:00 -
+ubuntu   1780968  0.0  0.0  13932  5432 ?        -    16:13   0:00 sshd: ubuntu@pts/1
+ubuntu         -  0.0    -      -     - -        S    16:13   0:00 -
+root     1780986  0.0  0.0  11024  4728 pts/1    -    16:13   0:00 sudo -s
+root           -  0.0    -      -     - -        Ss   16:13   0:00 -
+root     1780989  0.0  0.0   8960  4052 pts/1    -    16:13   0:00 /bin/bash
+root           -  0.0    -      -     - -        S+   16:13   0:00 -
+root     1781387  0.0  0.2 142856 48688 ?        -    16:14   0:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context vif_plug_ovs.privsep.vif_plug --privsep_sock_path /tmp/tmp__akp505/privsep.sock
+root           -  0.0    -      -     - -        Sl   16:14   0:00 -
+root           -  0.0    -      -     - -        Sl   16:14   0:00 -
+root     1781495  0.3  0.1  72672 17496 ?        -    16:14   0:01 /usr/sbin/virtlogd
+root           -  0.3    -      -     - -        Ss   16:14   0:01 -
+root     1785959  0.2  0.1 384240 29864 ?        -    16:16   0:00 /usr/libexec/fwupd/fwupd
+root           -  0.1    -      -     - -        Ssl  16:16   0:00 -
+root           -  0.0    -      -     - -        Ssl  16:16   0:00 -
+root           -  0.0    -      -     - -        Ssl  16:16   0:00 -
+root           -  0.0    -      -     - -        Ssl  16:16   0:00 -
+root           -  0.0    -      -     - -        Ssl  16:16   0:00 -
+root     1790385  0.1  0.2 124932 35352 ?        -    16:17   0:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context os_brick.privileged.default --privsep_sock_path /tmp/tmpeu23eurh/privsep.sock
+root           -  0.0    -      -     - -        Sl   16:17   0:00 -
+root           -  0.1    -      -     - -        Sl   16:17   0:00 -
+libvirt+ 1791722  2.5  3.6 3423732 600704 ?      -    16:18   0:02 /usr/bin/qemu-system-x86_64 -name guest=instance-00000001,debug-threads=on -S -object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-2-instance-00000001/master-key.aes -machine pc-i440fx-4.2,accel=kvm,usb=off,dump-guest-core=off -cpu Skylake-Client-IBRS,ss=on,vmx=on,hypervisor=on,tsc-adjust=on,clflushopt=on,umip=on,md-clear=on,arch-capabilities=on,ssbd=on,xsaves=on,pdpe1gb=on,ibpb=on,ibrs=on,amd-ssbd=on,skip-l1dfl-vmentry=on,pschange-mc-no=on,mpx=off -m 2048 -overcommit mem-lock=off -smp 1,sockets=1,cores=1,threads=1 -uuid d1d75e2f-ada4-49bc-a963-528d89dfda25 -smbios type=1,manufacturer=OpenStack Foundation,product=OpenStack Nova,version=21.2.3,serial=d1d75e2f-ada4-49bc-a963-528d89dfda25,uuid=d1d75e2f-ada4-49bc-a963-528d89dfda25,family=Virtual Machine -display none -no-user-config -nodefaults -chardev socket,id=charmonitor,fd=33,server,nowait -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc,driftfix=slew -global kvm-pit.lost_tick_policy=delay -no-hpet -no-shutdown -boot strict=on -device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2 -object secret,id=libvirt-1-storage-secret0,data=XAPibndN+4AnDL8fOeRgBGGcl9O4v+eEhhiAHdImV0Q=,keyid=masterKey0,iv=NiTD9GloeE3G64Y40Qf+lg==,format=base64 -blockdev {"driver":"rbd","pool":"nova","image":"d1d75e2f-ada4-49bc-a963-528d89dfda25_disk","server":[{"host":"10.0.0.120","port":"6789"},{"host":"10.0.0.123","port":"6789"},{"host":"10.0.0.131","port":"6789"}],"user":"nova-compute","auth-client-required":["cephx","none"],"key-secret":"libvirt-1-storage-secret0","node-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-1-format","read-only":false,"discard":"unmap","cache":{"direct":true,"no-flush":false},"driver":"raw","file":"libvirt-1-storage"} -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=libvirt-1-format,id=virtio-disk0,bootindex=1,write-cache=on -netdev tap,fd=35,id=hostnet0,vhost=on,vhostfd=36 -device virtio-net-pci,host_mtu=1450,netdev=hostnet0,id=net0,mac=fa:16:3e:a7:45:cb,bus=pci.0,addr=0x2 -add-fd set=3,fd=38 -chardev pty,id=charserial0,logfile=/dev/fdset/3,logappend=on -device isa-serial,chardev=charserial0,id=serial0 -incoming defer -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x4 -object rng-random,id=objrng0,filename=/dev/urandom -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.0,addr=0x5 -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny -msg timestamp=on
+libvirt+       -  1.4    -      -     - -        Sl   16:18   0:01 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.0    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.2    -      -     - -        Sl   16:18   0:00 -
+libvirt+       -  0.7    -      -     - -        Sl   16:18   0:00 -
+root     1791746  0.0  0.0      0     0 ?        -    16:18   0:00 [kvm-nx-lpage-re]
+root           -  0.0    -      -     - -        S    16:18   0:00 -
+root     1791747  0.0  0.0      0     0 ?        -    16:18   0:00 [vhost-1791722]
+root           -  0.0    -      -     - -        S    16:18   0:00 -
+root     1791750  0.0  0.0      0     0 ?        -    16:18   0:00 [kvm-pit/1791722]
+root           -  0.0    -      -     - -        S    16:18   0:00 -
+root     1795431 61.2  0.7 991508 118632 pts/0   -    16:19   0:18 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+root           - 12.5    -      -     - -        Sl+  16:19   0:03 -
+root           -  0.0    -      -     - -        Sl+  16:19   0:00 -
+root           -  0.0    -      -     - -        Sl+  16:19   0:00 -
+root           -  0.0    -      -     - -        Sl+  16:19   0:00 -
+root           -  0.0    -      -     - -        Sl+  16:19   0:00 -
+root           - 30.0    -      -     - -        Rl+  16:19   0:06 -
+root           - 16.0    -      -     - -        Sl+  16:19   0:01 -
+root           - 29.0    -      -     - -        Sl+  16:19   0:02 -
+root           - 11.0    -      -     - -        Sl+  16:19   0:00 -
+root           -  0.0    -      -     - -        Sl+  16:19   0:00 -
+root     1796388  0.4  0.0  16260  5780 ?        -    16:19   0:00 /lib/systemd/systemd-hostnamed
+root           -  0.4    -      -     - -        Ss   16:19   0:00 -
+root     1796621  0.0  0.0      0     0 ?        -    16:19   0:00 [kworker/0:0]
+root           -  0.0    -      -     - -        I    16:19   0:00 -
+root     1798111  0.0  0.0   2712   592 pts/0    -    16:19   0:00 timeout 300s ps auxwwwm
+root           -  0.0    -      -     - -        S    16:19   0:00 -
+root     1798115  0.0  0.0   6264  3232 pts/0    -    16:19   0:00 ps auxwwwm
+root           -  0.0    -      -     - -        R    16:19   0:00 -

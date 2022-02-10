@@ -1,0 +1,465 @@
+options:
+  loglevel:
+    type: int
+    default: 1
+    description: OSD debug level. Max is 20.
+  source:
+    type: string
+    default:
+    description: |
+      Optional configuration to support use of additional sources such as:
+      .
+        - ppa:myteam/ppa
+        - cloud:bionic-ussuri
+        - cloud:xenial-proposed/queens
+        - http://my.archive.com/ubuntu main
+      .
+      The last option should be used in conjunction with the key configuration
+      option.
+  key:
+    type: string
+    default:
+    description: |
+      Key ID to import to the apt keyring to support use with arbitrary source
+      configuration from outside of Launchpad archives or PPA's.
+      The accepted formats should be a GPG key in ASCII armor format, 
+      including  -----SCRUBBED markers or a keyid.
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      If set to True, supporting services will log to syslog.
+  harden:
+    type: string
+    default:
+    description: |
+      Apply system hardening. Supports a space-delimited list of modules
+      to run. Supported modules currently include os, ssh, apache and mysql.
+  config-flags:
+    type: string
+    default:
+    description: |
+      User provided Ceph configuration. Supports a string representation of
+      a python dictionary where each top-level key represents a section in
+      the ceph.conf template. You may only use sections supported in the
+      template.
+      .
+      WARNING: this is not the recommended way to configure the underlying
+      services that this charm installs and is used at the user's own risk.
+      This option is mainly provided as a stop-gap for users that either
+      want to test the effect of modifying some config or who have found
+      a critical bug in the way the charm has configured their services
+      and need it fixed immediately. We ask that whenever this is used,
+      that the user consider opening a bug on this charm at
+      http://bugs.launchpad.net/charms providing an explanation of why the
+      config was needed so that we may consider it for inclusion as a
+      natively supported config in the charm.
+  osd-devices:
+    type: string
+    default:
+    description: |
+      The devices to format and set up as OSD volumes.
+      .
+      These devices are the range of devices that will be checked for and
+      used across all service units, in addition to any volumes attached
+      via the --storage flag during deployment.
+      .
+      For ceph < 14.2.0 (Nautilus) these can also be directories instead of
+      devices. If the value does not start with "/dev" then it will be
+      interpreted as a directory.
+  bdev-enable-discard:
+    type: string
+    default: auto
+    description: |
+      Enables async discard on devices. This option will enable/disable both
+      bdev-enable-discard and bdev-async-discard options in ceph configuration
+      at the same time. The default value "auto" will try to autodetect and
+      should work in most cases. If you need to force a behaviour you can
+      set it to "enable" or "disable". Only applies for Ceph Mimic or later.
+  osd-journal:
+    type: string
+    default:
+    description: |
+      The device to use as a shared journal drive for all OSDs on a node. By
+      default a journal partition will be created on each OSD volume device for
+      use by that OSD. The default behaviour is also the fallback for the case
+      where the specified journal device does not exist on a node.
+      .
+      Only supported with ceph >= 0.48.3.
+  bluestore:
+    type: boolean
+    default: True
+    description: |
+      Enable BlueStore storage backend for OSD devices.
+      .
+      Only supported with ceph >= 12.2.0.
+      .
+      Setting to 'False' will use FileStore as the storage format.
+  bluestore-wal:
+    type: string
+    default:
+    description: |
+      Path to a BlueStore WAL block device or file. Should only be set if using
+      a separate physical device that is faster than the DB device (such as an
+      NVDIMM or faster SSD). Otherwise BlueStore automatically maintains the
+      WAL inside of the DB device. This block device is used as an LVM PV and
+      then space is allocated for each block device as needed based on the
+      bluestore-block-wal-size setting.
+  bluestore-db:
+    type: string
+    default:
+    description: |
+      Path to a BlueStore WAL db block device or file. If you have a separate
+      physical device faster than the block device this will store all of the
+      filesystem metadata (RocksDB) there and also integrates the Write Ahead
+      Log (WAL) unless a further separate bluestore-wal device is configured
+      which is not needed unless it is faster again than the bluestore-db
+      device. This block device is used as an LVM PV and then space is
+      allocated for each block device as needed based on the
+      bluestore-block-db-size setting.
+  osd-journal-size:
+    type: int
+    default: 1024
+    description: |
+      Ceph OSD journal size. The journal size should be at least twice the
+      product of the expected drive speed multiplied by filestore max sync
+      interval. However, the most common practice is to partition the journal
+      drive (often an SSD), and mount it such that Ceph uses the entire
+      partition for the journal.
+      .
+      Only supported with ceph >= 0.48.3.
+  bluestore-block-wal-size:
+    type: int
+    default: 0
+    description: |
+      Size (in bytes) of a partition, file or LV to use for
+      BlueStore WAL (RocksDB WAL), provided on a per backend device basis.
+      .
+      Example: 128 GB device, 8 data devices provided in "osd-devices"
+      gives 128 / 8 GB = 16 GB = 16000000000 bytes per device.
+      .
+      A default value is not set as it is calculated by ceph-disk (before Luminous)
+      or the charm itself, when ceph-volume is used (Luminous and above).
+  bluestore-block-db-size:
+    type: int
+    default: 0
+    description: |
+      Size (in bytes) of a partition, file or LV to use for BlueStore
+      metadata or RocksDB SSTs, provided on a per backend device basis.
+      .
+      Example: 128 GB device, 8 data devices provided in "osd-devices"
+      gives 128 / 8 GB = 16 GB = 16000000000 bytes per device.
+      .
+      A default value is not set as it is calculated by ceph-disk (before Luminous)
+      or the charm itself, when ceph-volume is used (Luminous and above).
+  osd-format:
+    type: string
+    default: xfs
+    description: |
+      Format of filesystem to use for OSD devices. Supported formats include:
+      .
+        xfs (Default with >= ceph 0.48.3)
+        ext4 (Only option < ceph 0.48.3)
+        btrfs (experimental and not recommended)
+      .
+      Only supported with >= ceph 0.48.3.
+      .
+      Used with FileStore storage backend.
+      .
+      Always applies prior to ceph 12.2.0. Otherwise, only applies when the
+      "bluestore" option is False.
+  osd-encrypt:
+    type: boolean
+    default: False
+    description: |
+      By default, the charm will not encrypt Ceph OSD devices; however, by
+      setting osd-encrypt to True, Ceph's dmcrypt support will be used to
+      encrypt OSD devices.
+      .
+      Specifying this option on a running Ceph OSD node will have no effect
+      until new disks are added, at which point new disks will be encrypted.
+  osd-encrypt-keymanager:
+    type: string
+    default: ceph
+    description: |
+      Keymanager to use for storage of dm-crypt keys used for OSD devices;
+      by default 'ceph' itself will be used for storage of keys, making use
+      of the key/value storage provided by the ceph-mon cluster.
+      .
+      Alternatively 'vault' may be used for storage of dm-crypt keys.  Both
+      approaches ensure that keys are never written to the local filesystem.
+      This also requires a relation to the vault charm.
+  crush-initial-weight:
+    type: float
+    default:
+    description: |
+      The initial crush weight for newly added osds into crushmap.  Use this
+      option only if you wish to set the weight for newly added OSDs in order
+      to gradually increase the weight over time.  Be very aware that setting
+      this overrides the default setting, which can lead to imbalance in the
+      cluster, especially if there are OSDs of different sizes in use.  By
+      default, the initial crush weight for the newly added osd is set to its
+      volume size in TB.  Leave this option unset to use the default provided
+      by Ceph itself. This option only affects NEW OSDs, not existing ones.
+  osd-max-backfills:
+    type: int
+    default:
+    description: |
+      The maximum number of backfills allowed to or from a single OSD.
+      .
+      Setting this option on a running Ceph OSD node will not affect running
+      OSD devices, but will add the setting to ceph.conf for the next restart.
+  osd-recovery-max-active:
+    type: int
+    default:
+    description: |
+      The number of active recovery requests per OSD at one time. More requests
+      will accelerate recovery, but the requests places an increased load on the
+      cluster.
+      .
+      Setting this option on a running Ceph OSD node will not affect running
+      OSD devices, but will add the setting to ceph.conf for the next restart.
+  ignore-device-errors:
+    type: boolean
+    default: False
+    description: |
+      By default, the charm will raise errors if a whitelisted device is found,
+      but for some reason the charm is unable to initialize the device for use
+      by Ceph.
+      .
+      Setting this option to 'True' will result in the charm classifying such
+      problems as warnings only and will not result in a hook error.
+  ephemeral-unmount:
+    type: string
+    default:
+    description: |
+      Cloud instances provide ephemeral storage which is normally mounted
+      on /mnt.
+      .
+      Setting this option to the path of the ephemeral mountpoint will force
+      an unmount of the corresponding device so that it can be used as a OSD
+      storage device. This is useful for testing purposes (cloud deployment
+      is not a typical use case).
+  ceph-public-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the public (front-side) network (e.g.,
+      192.168.0.0/24)
+      .
+      If multiple networks are to be used, a space-delimited list of a.b.c.d/x
+      can be provided.
+  ceph-cluster-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the cluster (back-side) network (e.g.,
+      192.168.0.0/24)
+      .
+      If multiple networks are to be used, a space-delimited list of a.b.c.d/x
+      can be provided.
+  prefer-ipv6:
+    type: boolean
+    default: False
+    description: |
+      If True enables IPv6 support. The charm will expect network interfaces
+      to be configured with an IPv6 address. If set to False (default) IPv4
+      is expected.
+      .
+      NOTE: these charms do not currently support IPv6 privacy extension. In
+      order for this charm to function correctly, the privacy extension must be
+      disabled and a non-temporary address must be configured/available on
+      your network interface.
+  sysctl:
+    type: string
+    default: '{ kernel.pid_max : 2097152, vm.max_map_count : 524288,
+                kernel.threads-max: 2097152 }'
+    description: |
+      YAML-formatted associative array of sysctl key/value pairs to be set
+      persistently. By default we set pid_max, max_map_count and
+      threads-max to a high value to avoid problems with large numbers (>20)
+      of OSDs recovering. very large clusters should set those values even
+      higher (e.g. max for kernel.pid_max is 4194303).
+  customize-failure-domain:
+    type: boolean
+    default: false
+    description: |
+      Setting this to true will tell Ceph to replicate across Juju's
+      Availability Zone instead of specifically by host.
+  availability_zone:
+    type: string
+    default:
+    description: |
+      Custom availability zone to provide to Ceph for the OSD placement
+  max-sectors-kb:
+    type: int
+    default: 1048576
+    description: |
+      This parameter will adjust every block device in your server to allow
+      greater IO operation sizes. If you have a RAID card with cache on it
+      consider tuning this much higher than the 1MB default. 1MB is a safe
+      default for spinning HDDs that don't have much cache.
+  nagios_context:
+    type: string
+    default: "juju"
+    description: |
+      Used by the nrpe-external-master subordinate charm.
+      A string that will be prepended to instance name to set the hostname
+      in nagios. So for instance the hostname would be something like:
+      .
+          juju-myservice-0
+      .
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  nagios_servicegroups:
+    type: string
+    default: ""
+    description: |
+      A comma-separated list of nagios servicegroups.
+      If left empty, the nagios_context will be used as the servicegroup
+  use-direct-io:
+    type: boolean
+    default: True
+    description: Configure use of direct IO for OSD journals.
+  autotune:
+    type: boolean
+    default: False
+    description: |
+      Enabling this option will attempt to tune your network card sysctls and
+      hard drive settings. This changes hard drive read ahead settings and
+      max_sectors_kb. For the network card this will detect the link speed
+      and make appropriate sysctl changes.
+      WARNING: This option is DEPRECATED and will be removed in the next release.
+      Exercise caution when enabling this feature; examine and
+      confirm sysctl values are appropriate for your environment. See
+      http://pad.lv/1798794 for a full discussion.
+  aa-profile-mode:
+    type: string
+    default: 'disable'
+    description: |
+      Enable apparmor profile. Valid settings: 'complain', 'enforce' or
+      'disable'.
+      .
+      NOTE: changing the value of this option is disruptive to a running Ceph
+      cluster as all ceph-osd processes must be restarted as part of changing
+      the apparmor profile enforcement mode.  Always test in pre-production
+      before enabling AppArmor on a live cluster.
+  bluestore-compression-algorithm:
+    type: string
+    default: lz4
+    description: |
+      The default compressor to use (if any) if the per-pool property
+      compression_algorithm is not set.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-mode:
+    type: string
+    default:
+    description: |
+      The default policy for using compression if the per-pool property
+      compression_mode is not set. 'none' means never use compression.
+      'passive' means use compression when clients hint that data is
+      compressible. 'aggressive' means use compression unless clients hint that
+      data is not compressible. 'force' means use compression under all
+      circumstances even if the clients hint that the data is not compressible.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-required-ratio:
+    type: float
+    default:
+    description: |
+      The ratio of the size of the data chunk after compression relative to the
+      original size must be at least this small in order to store the
+      compressed version. The per-pool property `compression-required-ratio`
+      overrides this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-min-blob-size:
+    type: int
+    default:
+    description: |
+      Chunks smaller than this are never compressed. The per-pool property
+      `compression_min_blob_size` overrides this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-min-blob-size-hdd:
+    type: int
+    default:
+    description: |
+      Default value of bluestore compression min blob size for rotational
+      media. The per-pool property `compression-min-blob-size-hdd` overrides
+      this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-min-blob-size-ssd:
+    type: int
+    default:
+    description: |
+      Default value of bluestore compression min blob size for solid state
+      media. The per-pool property `compression-min-blob-size-ssd` overrides
+      this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-max-blob-size:
+    type: int
+    default:
+    description: |
+      Chunks larger than this are broken into smaller blobs sizing bluestore
+      compression max blob size before being compressed. The per-pool property
+      `compression_max_blob_size` overrides this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-max-blob-size-hdd:
+    type: int
+    default:
+    description: |
+      Default value of bluestore compression max blob size for rotational
+      media. The per-pool property `compression-max-blob-size-hdd` overrides
+      this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.
+  bluestore-compression-max-blob-size-ssd:
+    type: int
+    default:
+    description: |
+      Default value of bluestore compression max blob size for solid state
+      media. The per-pool property `compression-max-blob-size-ssd` overrides
+      this setting.
+      .
+      NOTE: The recommended approach is to adjust this configuration option on
+      the charm responsible for creating the specific pool you are interested
+      in tuning. Changing the configuration option on the ceph-osd charm will
+      affect ALL pools on the OSDs managed by the named application of the
+      ceph-osd charm in the Juju model.

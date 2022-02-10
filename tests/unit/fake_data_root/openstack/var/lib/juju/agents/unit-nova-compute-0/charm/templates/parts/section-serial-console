@@ -1,0 +1,4 @@
+[serial_console]
+enabled = {{ enable_serial_console }}
+proxyclient_address = {{ console_listen_addr }}
+base_url = {{ serial_console_base_url }}

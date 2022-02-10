@@ -1,0 +1,12 @@
+# tracer: nop
+#
+#
+# * Snapshot is freed *
+#
+# Snapshot commands:
+# echo 0 > snapshot : Clears and frees snapshot buffer
+# echo 1 > snapshot : Allocates snapshot buffer, if not already allocated.
+#                      Takes a snapshot of the main buffer.
+# echo 2 > snapshot : Clears snapshot buffer (but does not allocate or free)
+#                      (Doesn't have to be '2' works with any number that
+#                       is not a '0' or '1')

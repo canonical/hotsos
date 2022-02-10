@@ -1,0 +1,145 @@
+00:00.0 Host bridge [0600]: Intel Corporation 440FX - 82441FX PMC [Natoma] [8086:1237] (rev 02)
+	Subsystem: Red Hat, Inc. Qemu virtual machine [1af4:1100]
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+
+00:01.0 ISA bridge [0601]: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II] [8086:7000]
+	Subsystem: Red Hat, Inc. Qemu virtual machine [1af4:1100]
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+
+00:01.1 IDE interface [0101]: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II] [8086:7010] (prog-if 80 [ISA Compatibility mode-only controller, supports bus mastering])
+	Subsystem: Red Hat, Inc. Qemu virtual machine [1af4:1100]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Region 0: Memory at 000001f0 (32-bit, non-prefetchable) [virtual] [size=8]
+	Region 1: Memory at 000003f0 (type 3, non-prefetchable) [virtual]
+	Region 2: Memory at 00000170 (32-bit, non-prefetchable) [virtual] [size=8]
+	Region 3: Memory at 00000370 (type 3, non-prefetchable) [virtual]
+	Region 4: I/O ports at c120 [virtual] [size=16]
+	Kernel driver in use: ata_piix
+
+00:01.2 USB controller [0c03]: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] [8086:7020] (rev 01) (prog-if 00 [UHCI])
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine [1af4:1100]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin D routed to IRQ 11
+	Region 4: I/O ports at c0c0 [size=32]
+	Kernel driver in use: uhci_hcd
+
+00:01.3 Bridge [0680]: Intel Corporation 82371AB/EB/MB PIIX4 ACPI [8086:7113] (rev 03)
+	Subsystem: Red Hat, Inc. Qemu virtual machine [1af4:1100]
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 9
+
+00:02.0 VGA compatible controller [0300]: Red Hat, Inc. QXL paravirtual graphic card [1b36:0100] (rev 04) (prog-if 00 [VGA controller])
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine [1af4:1100]
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 10
+	Region 0: Memory at f4000000 (32-bit, non-prefetchable) [size=64M]
+	Region 1: Memory at f8000000 (32-bit, non-prefetchable) [size=64M]
+	Region 2: Memory at fc090000 (32-bit, non-prefetchable) [size=8K]
+	Region 3: I/O ports at c0e0 [size=32]
+	Expansion ROM at 000c0000 [disabled] [size=128K]
+
+00:03.0 Ethernet controller [0200]: Red Hat, Inc. Virtio network device [1af4:1000]
+	Subsystem: Red Hat, Inc. Virtio network device [1af4:0001]
+	Physical Slot: 3
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 10
+	Region 0: I/O ports at c000 [size=64]
+	Region 1: Memory at fc092000 (32-bit, non-prefetchable) [size=4K]
+	Region 4: Memory at febf0000 (64-bit, prefetchable) [size=16K]
+	Expansion ROM at fc000000 [disabled] [size=512K]
+	Capabilities: [98] MSI-X: Enable+ Count=3 Masked-
+		Vector table: BAR=1 offset=00000000
+		PBA: BAR=1 offset=00000800
+	Capabilities: [84] Vendor Specific Information: VirtIO: <unknown>
+		BAR=0 offset=00000000 size=00000000
+	Capabilities: [70] Vendor Specific Information: VirtIO: Notify
+		BAR=4 offset=00003000 size=00001000 multiplier=00000004
+	Capabilities: [60] Vendor Specific Information: VirtIO: DeviceCfg
+		BAR=4 offset=00002000 size=00001000
+	Capabilities: [50] Vendor Specific Information: VirtIO: ISR
+		BAR=4 offset=00001000 size=00001000
+	Capabilities: [40] Vendor Specific Information: VirtIO: CommonCfg
+		BAR=4 offset=00000000 size=00001000
+	Kernel driver in use: virtio-pci
+
+00:04.0 Communication controller [0780]: Red Hat, Inc. Virtio console [1af4:1003]
+	Subsystem: Red Hat, Inc. Virtio console [1af4:0003]
+	Physical Slot: 4
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 11
+	Region 0: I/O ports at c040 [size=64]
+	Region 1: Memory at fc093000 (32-bit, non-prefetchable) [size=4K]
+	Region 4: Memory at febf4000 (64-bit, prefetchable) [size=16K]
+	Capabilities: [98] MSI-X: Enable+ Count=2 Masked-
+		Vector table: BAR=1 offset=00000000
+		PBA: BAR=1 offset=00000800
+	Capabilities: [84] Vendor Specific Information: VirtIO: <unknown>
+		BAR=0 offset=00000000 size=00000000
+	Capabilities: [70] Vendor Specific Information: VirtIO: Notify
+		BAR=4 offset=00003000 size=00001000 multiplier=00000004
+	Capabilities: [60] Vendor Specific Information: VirtIO: DeviceCfg
+		BAR=4 offset=00002000 size=00001000
+	Capabilities: [50] Vendor Specific Information: VirtIO: ISR
+		BAR=4 offset=00001000 size=00001000
+	Capabilities: [40] Vendor Specific Information: VirtIO: CommonCfg
+		BAR=4 offset=00000000 size=00001000
+	Kernel driver in use: virtio-pci
+
+00:05.0 SCSI storage controller [0100]: Red Hat, Inc. Virtio block device [1af4:1001]
+	Subsystem: Red Hat, Inc. Virtio block device [1af4:0002]
+	Physical Slot: 5
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 10
+	Region 0: I/O ports at c080 [size=64]
+	Region 1: Memory at fc094000 (32-bit, non-prefetchable) [size=4K]
+	Region 4: Memory at febf8000 (64-bit, prefetchable) [size=16K]
+	Capabilities: [98] MSI-X: Enable+ Count=2 Masked-
+		Vector table: BAR=1 offset=00000000
+		PBA: BAR=1 offset=00000800
+	Capabilities: [84] Vendor Specific Information: VirtIO: <unknown>
+		BAR=0 offset=00000000 size=00000000
+	Capabilities: [70] Vendor Specific Information: VirtIO: Notify
+		BAR=4 offset=00003000 size=00001000 multiplier=00000004
+	Capabilities: [60] Vendor Specific Information: VirtIO: DeviceCfg
+		BAR=4 offset=00002000 size=00001000
+	Capabilities: [50] Vendor Specific Information: VirtIO: ISR
+		BAR=4 offset=00001000 size=00001000
+	Capabilities: [40] Vendor Specific Information: VirtIO: CommonCfg
+		BAR=4 offset=00000000 size=00001000
+	Kernel driver in use: virtio-pci
+
+00:06.0 Unclassified device [00ff]: Red Hat, Inc. Virtio memory balloon [1af4:1002]
+	Subsystem: Red Hat, Inc. Virtio memory balloon [1af4:0005]
+	Physical Slot: 6
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 11
+	Region 0: I/O ports at c100 [size=32]
+	Region 4: Memory at febfc000 (64-bit, prefetchable) [size=16K]
+	Capabilities: [84] Vendor Specific Information: VirtIO: <unknown>
+		BAR=0 offset=00000000 size=00000000
+	Capabilities: [70] Vendor Specific Information: VirtIO: Notify
+		BAR=4 offset=00003000 size=00001000 multiplier=00000004
+	Capabilities: [60] Vendor Specific Information: VirtIO: DeviceCfg
+		BAR=4 offset=00002000 size=00001000
+	Capabilities: [50] Vendor Specific Information: VirtIO: ISR
+		BAR=4 offset=00001000 size=00001000
+	Capabilities: [40] Vendor Specific Information: VirtIO: CommonCfg
+		BAR=4 offset=00000000 size=00001000
+	Kernel driver in use: virtio-pci
+

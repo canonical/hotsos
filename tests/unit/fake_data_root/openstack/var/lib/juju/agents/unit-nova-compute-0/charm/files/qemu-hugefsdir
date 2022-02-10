@@ -1,0 +1,12 @@
+#! /bin/sh
+#
+### -----SCRUBBED INIT INFO
+
+mkdir -p /run/hugepages/kvm/libvirt/qemu || true
+
+libvirt_group="libvirtd"
+if getent group libvirt >/dev/null; then
+    libvirt_group="libvirt"
+fi
+
+chown libvirt-qemu:$libvirt_group /run/hugepages/kvm/libvirt/qemu

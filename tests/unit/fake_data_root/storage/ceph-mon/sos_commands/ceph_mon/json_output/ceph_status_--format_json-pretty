@@ -1,0 +1,79 @@
+
+{
+    "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+    "health": {
+        "status": "HEALTH_WARN",
+        "checks": {
+            "AUTH_INSECURE_GLOBAL_ID_RECLAIM_ALLOWED": {
+                "severity": "HEALTH_WARN",
+                "summary": {
+                    "message": "mons are allowing insecure global_id reclaim",
+                    "count": 3
+                },
+                "muted": false
+            }
+        },
+        "mutes": []
+    },
+    "election_epoch": 28,
+    "quorum": [
+        0,
+        1,
+        2
+    ],
+    "quorum_names": [
+        "juju-04f1e3-0-lxd-0",
+        "juju-04f1e3-1-lxd-0",
+        "juju-04f1e3-2-lxd-0"
+    ],
+    "quorum_age": 38854,
+    "monmap": {
+        "epoch": 1,
+        "min_mon_release_name": "octopus",
+        "num_mons": 3
+    },
+    "osdmap": {
+        "epoch": 49,
+        "num_osds": 3,
+        "num_up_osds": 3,
+        "osd_up_since": 1644485567,
+        "num_in_osds": 3,
+        "osd_in_since": 1644485567,
+        "num_remapped_pgs": 0
+    },
+    "pgmap": {
+        "pgs_by_state": [
+            {
+                "state_name": "active+clean",
+                "count": 69
+            }
+        ],
+        "num_pgs": 69,
+        "num_pools": 4,
+        "num_objects": 0,
+        "data_bytes": 0,
+        "bytes_used": 3222478848,
+        "bytes_avail": 318837153792,
+        "bytes_total": 322059632640
+    },
+    "fsmap": {
+        "epoch": 1,
+        "by_rank": [],
+        "up:standby": 0
+    },
+    "mgrmap": {
+        "available": true,
+        "num_standbys": 2,
+        "modules": [
+            "iostat",
+            "restful"
+        ],
+        "services": {}
+    },
+    "servicemap": {
+        "epoch": 270,
+        "modified": "2022-02-10T09:46:31.240599+0000",
+        "services": {}
+    },
+    "progress_events": {}
+}

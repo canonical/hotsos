@@ -1,0 +1,10 @@
+# Ensure that snap mount directory is mounted "shared" so snaps can be refreshed correctly (LP: #1668759).
+[Unit]
+Description=Ensure that the snap directory shares mount events.
+[Mount]
+What=/snap
+Where=/snap
+Type=none
+Options=bind,shared
+[Install]
+WantedBy=local-fs.target

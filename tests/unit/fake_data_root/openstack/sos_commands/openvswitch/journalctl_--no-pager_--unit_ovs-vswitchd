@@ -1,0 +1,24 @@
+-- Logs begin at Fri 2022-02-04 09:34:04 UTC, end at Thu 2022-02-10 16:19:27 UTC. --
+Feb 04 09:38:32 compute4 systemd[1]: Starting Open vSwitch Forwarding Unit...
+Feb 04 09:38:32 compute4 ovs-ctl[23313]:  * Inserting openvswitch module
+Feb 04 09:38:32 compute4 ovs-ctl[23283]:  * Starting ovs-vswitchd
+Feb 04 09:38:32 compute4 ovs-ctl[23283]:  * Enabling remote OVSDB managers
+Feb 04 09:38:32 compute4 systemd[1]: Started Open vSwitch Forwarding Unit.
+Feb 04 09:39:39 compute4 systemd[1]: Stopping Open vSwitch Forwarding Unit...
+Feb 04 09:39:39 compute4 ovs-ctl[26427]:  * Exiting ovs-vswitchd (23324)
+Feb 04 09:39:39 compute4 systemd[1]: ovs-vswitchd.service: Succeeded.
+Feb 04 09:39:39 compute4 systemd[1]: Stopped Open vSwitch Forwarding Unit.
+Feb 04 09:39:39 compute4 systemd[1]: Starting Open vSwitch Forwarding Unit...
+Feb 04 09:39:39 compute4 ovs-ctl[26528]:  * Starting ovs-vswitchd
+Feb 04 09:39:39 compute4 ovs-ctl[26528]:  * Enabling remote OVSDB managers
+Feb 04 09:39:39 compute4 systemd[1]: Started Open vSwitch Forwarding Unit.
+Feb 04 11:33:06 compute4 systemd[1]: Stopping Open vSwitch Forwarding Unit...
+Feb 04 11:33:06 compute4 ovs-ctl[466083]:  * Exiting ovs-vswitchd (26568)
+Feb 04 11:33:06 compute4 systemd[1]: ovs-vswitchd.service: Succeeded.
+Feb 04 11:33:06 compute4 systemd[1]: Stopped Open vSwitch Forwarding Unit.
+-- Reboot --
+Feb 09 22:38:14 compute4 systemd[1]: Starting Open vSwitch Forwarding Unit...
+Feb 09 22:38:14 compute4 ovs-ctl[803]:  * Inserting openvswitch module
+Feb 09 22:38:14 compute4 ovs-ctl[773]:  * Starting ovs-vswitchd
+Feb 09 22:38:14 compute4 ovs-ctl[773]:  * Enabling remote OVSDB managers
+Feb 09 22:38:14 compute4 systemd[1]: Started Open vSwitch Forwarding Unit.

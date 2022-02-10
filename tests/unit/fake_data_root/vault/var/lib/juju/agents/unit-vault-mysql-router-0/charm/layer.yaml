@@ -1,0 +1,25 @@
+"includes":
+- "layer:options"
+- "layer:basic"
+- "interface:tls-certificates"
+- "layer:openstack"
+- "interface:mysql-shared"
+- "interface:mysql-router"
+"exclude": [".travis.yml", "tests", "tox.ini", "test-requirements.txt", "unit_tests",
+  ".gitignore", ".gitreview", ".zuul.yaml", "README.md", "requirements.txt"]
+"options":
+  "basic":
+    "use_venv": !!bool "true"
+    "packages": ["libmysqlclient-dev"]
+    "python_packages": []
+    "include_system_packages": !!bool "false"
+  "mysql-router": {}
+  "openstack": {}
+"repo": "https://opendev.org/openstack/charm-mysql-router"
+"config":
+  "deletes":
+  - "verbose"
+  - "openstack-origin"
+  - "use-internal-endpoints"
+  - "debug"
+"is": "mysql-router"

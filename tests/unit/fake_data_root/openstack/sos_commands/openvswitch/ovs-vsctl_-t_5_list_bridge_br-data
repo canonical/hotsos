@@ -1,0 +1,23 @@
+_uuid               : 116afe1c-3476-42d4-b5e6-ae699137b62f
+auto_attach         : []
+controller          : [d2247792-f579-4fa5-b0aa-1ac492608aa2]
+datapath_id         : "00001efe6a11d442"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {charm-neutron-openvswitch=managed}
+fail_mode           : secure
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-data
+netflow             : []
+other_config        : {mac-table-size="50000"}
+ports               : [335b5e26-01f4-48e9-bbe5-94b642451301, 92c894d5-dbb1-4187-b237-86a1775c496d, e86eeaab-b63e-4e91-b84d-cd9d06d4b6d4]
+protocols           : [OpenFlow10, OpenFlow13, OpenFlow14]
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false

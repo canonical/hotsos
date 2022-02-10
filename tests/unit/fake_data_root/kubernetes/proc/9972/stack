@@ -1,0 +1,7 @@
+[<0>] __cv_timedwait_hires+0x12d/0x210 [spl]
+[<0>] cv_timedwait_hires_common+0x56/0x60 [spl]
+[<0>] cv_timedwait_sig_hires+0x14/0x20 [spl]
+[<0>] zthr_procedure+0xda/0x130 [zfs]
+[<0>] thread_generic_wrapper+0x83/0xa0 [spl]
+[<0>] kthread+0x104/0x140
+[<0>] ret_from_fork+0x35/0x40

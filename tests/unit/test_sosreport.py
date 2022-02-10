@@ -14,8 +14,8 @@ class TestSOSReportGeneral(utils.BaseTestCase):
     def test_version(self):
         inst = general.SOSReportInfo()
         inst()
-        expected = {'version': '4.1',
-                    'dpkg': ['sosreport 4.1-1ubuntu0.20.04.3']}
+        expected = {'version': '4.2',
+                    'dpkg': ['sosreport 4.2-1ubuntu0.20.04.1']}
         self.assertEqual(inst.output, expected)
 
 

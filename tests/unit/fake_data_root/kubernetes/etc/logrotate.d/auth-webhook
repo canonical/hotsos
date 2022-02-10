@@ -1,0 +1,11 @@
+/var/log/kubernetes/cdk.master.auth-webhook.log {
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        kill -USR1 $(cat /run/cdk.master.auth-webhook.pid)
+    endscript
+}

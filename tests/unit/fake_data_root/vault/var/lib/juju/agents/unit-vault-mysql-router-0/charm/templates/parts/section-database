@@ -1,0 +1,5 @@
+{% if shared_db.host -%}
+[database]
+
+connection = {{ shared_db.uri }}
+{% endif -%}

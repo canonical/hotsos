@@ -1,0 +1,31 @@
+-- Logs begin at Fri 2022-02-04 09:34:04 UTC, end at Thu 2022-02-10 16:19:27 UTC. --
+Feb 04 09:34:10 compute4 systemd[1]: Starting Snap Daemon...
+Feb 04 09:34:10 compute4 snapd[1077]: AppArmor status: apparmor is enabled and all features are available
+Feb 04 09:34:11 compute4 snapd[1077]: AppArmor status: apparmor is enabled and all features are available
+Feb 04 09:34:11 compute4 snapd[1077]: patch.go:63: Patching system state level 6 to sublevel 1...
+Feb 04 09:34:11 compute4 snapd[1077]: patch.go:63: Patching system state level 6 to sublevel 2...
+Feb 04 09:34:11 compute4 snapd[1077]: patch.go:63: Patching system state level 6 to sublevel 3...
+Feb 04 09:34:11 compute4 snapd[1077]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-97-generic.
+Feb 04 09:34:11 compute4 snapd[1077]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 04 09:34:11 compute4 systemd[1]: Started Snap Daemon.
+Feb 04 09:35:04 compute4 snapd[1077]: storehelpers.go:721: cannot refresh snap "lxd": snap has no updates available
+Feb 04 11:32:31 compute4 snapd[1077]: main.go:155: Exiting on terminated signal.
+Feb 04 11:32:31 compute4 systemd[1]: Stopping Snap Daemon...
+Feb 04 11:32:32 compute4 systemd[1]: snapd.service: Succeeded.
+Feb 04 11:32:32 compute4 systemd[1]: Stopped Snap Daemon.
+-- Reboot --
+Feb 09 22:38:17 compute4 systemd[1]: Starting Snap Daemon...
+Feb 09 22:38:17 compute4 snapd[926]: AppArmor status: apparmor is enabled and all features are available
+Feb 09 22:38:21 compute4 snapd[926]: AppArmor status: apparmor is enabled and all features are available
+Feb 09 22:38:21 compute4 snapd[926]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-97-generic.
+Feb 09 22:38:21 compute4 snapd[926]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 09 22:38:21 compute4 systemd[1]: Started Snap Daemon.
+Feb 09 22:38:23 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "snapd"
+Feb 09 22:38:41 compute4 snapd[926]: udevmon.go:149: udev event error: Unable to parse uevent, err: no buffer space available
+Feb 09 22:41:24 compute4 snapd[926]: storehelpers.go:721: cannot refresh snap "lxd": snap has no updates available
+Feb 10 00:43:21 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 00:43:21 compute4 snapd[926]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 11:08:21 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 11:08:21 compute4 snapd[926]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 13:18:21 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 13:18:21 compute4 snapd[926]: autorefresh.go:536: auto-refresh: all snaps are up-to-date

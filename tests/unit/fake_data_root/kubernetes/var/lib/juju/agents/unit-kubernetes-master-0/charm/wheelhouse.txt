@@ -1,0 +1,36 @@
+# layer:basic
+# pip is pinned to <19.0 to avoid https://github.com/pypa/pip/issues/6164
+# even with installing setuptools before upgrading pip ends up with pip seeing
+# the older setuptools at the system level if include_system_packages is true
+pip>=18.1,<19.0
+# pin Jinja2, PyYAML and MarkupSafe to the last versions supporting python 3.5
+# for trusty
+Jinja2<=2.10.1
+PyYAML<=5.2
+MarkupSafe<2.0.0
+setuptools<42
+setuptools-scm<=1.17.0
+charmhelpers>=0.4.0,<1.0.0
+charms.reactive>=0.1.0,<2.0.0
+wheel<0.34
+# pin netaddr to avoid pulling importlib-resources
+netaddr<=0.7.19
+
+# layer:snap
+# Newer versions of tenacity rely on `typing` which is in stdlib in
+# python3.5 but not python3.4. We want to continue to support
+# python3.4 (Trusty)
+tenacity<5.0.4
+
+# layer:vault-kv
+hvac
+# needed to prevent apt installs during import
+netifaces
+psutil
+
+# kubernetes-master
+aiohttp>=3.7.4,<3.8.0
+gunicorn>=20.0.0,<21.0.0
+loadbalancer-interface
+typing_extensions<4.0
+

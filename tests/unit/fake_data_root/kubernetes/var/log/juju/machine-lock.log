@@ -1,0 +1,69 @@
+2022-02-11 18:59:38 === agent unit-kubernetes-master-0 started ===
+2022-02-11 18:59:38 unit-kubernetes-master-0: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-11 19:03:52 unit-kubernetes-master-0: kubernetes-master/0 uniter (run install hook), waited 0s, held 4m6s
+2022-02-11 19:03:54 === agent unit-canal-2 started ===
+2022-02-11 19:03:55 unit-canal-2: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-11 19:03:55 === agent unit-containerd-2 started ===
+2022-02-11 19:03:55 unit-containerd-2: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-11 19:04:06 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (20; app: containerd) hook), waited 0s, held 10s
+2022-02-11 19:04:33 unit-canal-2: canal/2 uniter (run install hook), waited 10s, held 27s
+2022-02-11 19:05:12 unit-containerd-2: containerd/2 uniter (run install hook), waited 36s, held 39s
+2022-02-11 19:05:22 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (8; app: kubernetes-worker) hook), waited 1m6s, held 10s
+2022-02-11 19:05:41 unit-canal-2: canal/2 uniter (run relation-created (18; app: etcd) hook), waited 48s, held 19s
+2022-02-11 19:05:42 unit-containerd-2: containerd/2 uniter (run relation-created (20; app: kubernetes-master) hook), waited 29s, held 1s
+2022-02-11 19:05:51 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (9; app: openstack-integrator) hook), waited 20s, held 9s
+2022-02-11 19:05:53 unit-canal-2: canal/2 uniter (run relation-created (16; app: kubernetes-master) hook), waited 10s, held 1s
+2022-02-11 19:05:54 unit-containerd-2: containerd/2 uniter (run leader-settings-changed hook), waited 10s, held 1s
+2022-02-11 19:06:03 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (2; app: kubernetes-master) hook), waited 2s, held 9s
+2022-02-11 19:06:05 unit-canal-2: canal/2 uniter (run leader-settings-changed hook), waited 10s, held 1s
+2022-02-11 19:06:06 unit-containerd-2: containerd/2 uniter (run config-changed hook), waited 11s, held 1s
+2022-02-11 19:06:16 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (29; app: keystone) hook), waited 3s, held 10s
+2022-02-11 19:06:17 unit-canal-2: canal/2 uniter (run config-changed hook), waited 12s, held 1s
+2022-02-11 19:06:18 unit-containerd-2: containerd/2 uniter (run start hook), waited 12s, held 1s
+2022-02-11 19:06:27 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (14; app: kubeapi-load-balancer) hook), waited 2s, held 9s
+2022-02-11 19:06:29 unit-canal-2: canal/2 uniter (run start hook), waited 10s, held 1s
+2022-02-11 19:06:30 unit-containerd-2: containerd/2 uniter (run relation-joined (20; unit: kubernetes-master/0) hook), waited 10s, held 2s
+2022-02-11 19:06:40 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (12; app: etcd) hook), waited 3s, held 10s
+2022-02-11 19:06:42 unit-canal-2: canal/2 uniter (run relation-joined (16; unit: kubernetes-master/0) hook), waited 12s, held 1s
+2022-02-11 19:06:43 unit-containerd-2: containerd/2 uniter (run relation-changed (20; unit: kubernetes-master/0) hook), waited 11s, held 1s
+2022-02-11 19:06:52 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (25; app: vault) hook), waited 3s, held 10s
+2022-02-11 19:06:54 unit-canal-2: canal/2 uniter (run relation-changed (16; unit: kubernetes-master/0) hook), waited 11s, held 1s
+2022-02-11 19:07:03 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (3; app: kubernetes-master) hook), waited 1s, held 9s
+2022-02-11 19:07:08 unit-canal-2: canal/2 uniter (run relation-joined (18; unit: etcd/0) hook), waited 9s, held 5s
+2022-02-11 19:07:17 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (16; app: canal) hook), waited 5s, held 9s
+2022-02-11 19:07:19 unit-canal-2: canal/2 uniter (run relation-changed (18; unit: etcd/0) hook), waited 10s, held 1s
+2022-02-11 19:07:27 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-created (13; app: kubeapi-load-balancer) hook), waited 1s, held 9s
+2022-02-11 19:07:35 unit-kubernetes-master-0: kubernetes-master/0 uniter (run leader-elected hook), waited 0s, held 8s
+2022-02-11 19:07:45 unit-kubernetes-master-0: kubernetes-master/0 uniter (run config-changed hook), waited 0s, held 10s
+2022-02-11 19:07:54 unit-kubernetes-master-0: kubernetes-master/0 uniter (run start hook), waited 0s, held 9s
+2022-02-11 19:08:04 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (29; unit: keystone/0) hook), waited 0s, held 10s
+2022-02-11 19:08:14 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (12; unit: etcd/0) hook), waited 0s, held 10s
+2022-02-11 19:08:23 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (29; unit: keystone/0) hook), waited 0s, held 10s
+2022-02-11 19:08:35 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (9; unit: openstack-integrator/0) hook), waited 0s, held 12s
+2022-02-11 19:08:46 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (25; unit: vault/0) hook), waited 0s, held 11s
+2022-02-11 19:09:00 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (8; unit: kubernetes-worker/0) hook), waited 0s, held 13s
+2022-02-11 19:09:12 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (25; unit: vault/0) hook), waited 0s, held 13s
+2022-02-11 19:09:14 unit-canal-2: canal/2 uniter (run update-status hook), waited 6s, held 1s
+2022-02-11 19:09:15 unit-containerd-2: containerd/2 uniter (run update-status hook), waited 7s, held 1s
+2022-02-11 19:09:29 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (16; unit: canal/2) hook), waited 3s, held 14s
+2022-02-11 19:09:29 unit-kubernetes-master-0: meterstatus (meter-status-changed), waited 15s, held 0s
+2022-02-11 19:09:42 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (16; unit: canal/2) hook), waited 0s, held 13s
+2022-02-11 19:09:54 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (29; unit: keystone/0) hook), waited 0s, held 12s
+2022-02-11 19:10:06 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (8; unit: kubernetes-worker/0) hook), waited 0s, held 13s
+2022-02-11 19:10:19 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (8; unit: kubernetes-worker/1) hook), waited 0s, held 13s
+2022-02-11 19:10:32 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (20; unit: containerd/2) hook), waited 0s, held 13s
+2022-02-11 19:10:44 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (20; unit: containerd/2) hook), waited 0s, held 12s
+2022-02-11 19:10:56 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (12; unit: etcd/0) hook), waited 0s, held 12s
+2022-02-11 19:11:08 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (13; unit: kubeapi-load-balancer/0) hook), waited 0s, held 12s
+2022-02-11 19:11:21 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (13; unit: kubeapi-load-balancer/0) hook), waited 0s, held 13s
+2022-02-11 19:11:35 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-joined (14; unit: kubeapi-load-balancer/0) hook), waited 0s, held 14s
+2022-02-11 19:11:47 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (9; unit: openstack-integrator/0) hook), waited 0s, held 13s
+2022-02-11 19:12:00 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (8; unit: kubernetes-worker/1) hook), waited 0s, held 13s
+2022-02-11 19:16:08 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (25; unit: vault/0) hook), waited 0s, held 4m9s
+2022-02-11 19:16:10 unit-canal-2: canal/2 uniter (run update-status hook), waited 1m40s, held 1s
+2022-02-11 19:16:11 unit-containerd-2: containerd/2 uniter (run update-status hook), waited 1m40s, held 1s
+2022-02-11 19:16:39 unit-kubernetes-master-0: kubernetes-master/0 uniter (run relation-changed (14; unit: kubeapi-load-balancer/0) hook), waited 3s, held 28s
+2022-02-11 19:16:41 unit-canal-2: canal/2 uniter (run relation-changed (16; unit: kubernetes-master/0) hook), waited 29s, held 2s
+2022-02-11 19:19:22 unit-canal-2: canal/2 uniter (run update-status hook), waited 0s, held 1s
+2022-02-11 19:19:23 unit-containerd-2: containerd/2 uniter (run update-status hook), waited 1s, held 1s
+2022-02-11 19:19:55 unit-kubernetes-master-0: kubernetes-master/0 uniter (run update-status hook), waited 0s, held 25s

@@ -1,0 +1,14 @@
+<!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh nwfilter-edit no-arp-mac-spoofing
+or other application using the libvirt API.
+-->
+
+<filter name='no-arp-mac-spoofing' chain='arp-mac' priority='-520'>
+  <uuid>ee6672f7-3a44-4f92-ab52-a0efc4998597</uuid>
+  <rule action='return' direction='out' priority='350'>
+    <arp arpsrcmacaddr='$MAC'/>
+  </rule>
+  <rule action='drop' direction='out' priority='1000'/>
+</filter>

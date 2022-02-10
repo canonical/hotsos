@@ -1,0 +1,21 @@
+#!/usr/local/sbin/charm-env python3
+
+import os
+import subprocess
+import yaml
+import debug_script
+
+with open('metadata.yaml') as f:
+    metadata = yaml.load(f)
+
+relations = []
+for key in ['requires', 'provides', 'peers']:
+    relations += list(metadata.get(key, {}).keys())
+
+os.mkdir(os.path.join(debug_script.dir, 'relations'))
+
+for relation in relations:
+    path = 'relations/' + relation
+    with debug_script.open_file(path, 'w') as f:
+        cmd = ['network-get', relation]
+        subprocess.call(cmd, stdout=f, stderr=subprocess.STDOUT)

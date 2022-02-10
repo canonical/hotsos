@@ -1,0 +1,171 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 promiscuity 0 minmtu 0 maxmtu 0 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    846861610  559647   0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    846861610  559647   0       0       0       0       
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:e2:28:a3 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    bridge_slave state forwarding priority 32 cost 100 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8001 port_no 0x1 designated_port 32769 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode none numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    23781208158 25929812 0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    12454456325 25565252 0       0       0       0       
+3: ens4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:bb:47:e2 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    3187847    37609    0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    2336       32       0       0       0       0       
+4: ens5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:5c:d9:47 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    3187763    37609    0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    2336       32       0       0       0       0       
+5: ens6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:e6:14:19 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    3187851    37607    0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    2336       32       0       0       0       0       
+6: ens7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master ovs-system state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:78:19:c3 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    openvswitch_slave addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    3215988    37915    0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    29979      303      0       0       0       0       
+7: ens8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:fa:50:95 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    3187795    37608    0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    2336       32       0       0       0       0       
+8: ens9: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 52:54:00:5c:a7:e0 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    3231015    38592    0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    2336       32       0       0       0       0       
+9: br-ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 22:c2:7b:1c:12:1b brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 
+    bridge forward_delay 1500 hello_time 200 max_age 2000 ageing_time 30000 stp_state 0 priority 32768 vlan_filtering 0 vlan_protocol 802.1Q bridge_id 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b root_port 0 root_path_cost 0 topology_change 0 topology_change_detected 0 hello_timer    0.00 tcn_timer    0.00 topology_change_timer    0.00 gc_timer   46.39 vlan_default_pvid 1 vlan_stats_enabled 0 vlan_stats_per_port 0 group_fwd_mask 0 group_address 01:80:c2:00:00:00 mcast_snooping 1 mcast_router 1 mcast_query_use_ifaddr 0 mcast_querier 0 mcast_hash_elasticity 16 mcast_hash_max 4096 mcast_last_member_count 2 mcast_startup_query_count 2 mcast_last_member_interval 100 mcast_membership_interval 26000 mcast_querier_interval 25500 mcast_query_interval 12500 mcast_query_response_interval 1000 mcast_startup_query_interval 3124 mcast_stats_enabled 0 mcast_igmp_version 2 mcast_mld_version 1 nf_call_iptables 0 nf_call_ip6tables 0 nf_call_arptables 0 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    15876658982 1628707  0       0       0       37865   
+    TX: bytes  packets  errors  dropped carrier collsns 
+    6228143259 1520974  0       0       0       0       
+10: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 1a:d8:a5:27:9b:61 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    openvswitch addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    0          0        0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    0          0        0       0       0       0       
+11: br-tun: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 82:72:c4:83:d8:47 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    openvswitch addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    0          0        0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    0          0        0       0       0       0       
+12: br-int: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 2e:13:35:c8:26:46 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    openvswitch addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    0          0        0       1533    0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    0          0        0       0       0       0       
+13: br-ex: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 52:b5:78:b8:fe:41 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    openvswitch addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    0          0        0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    0          0        0       0       0       0       
+14: br-data: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 1e:fe:6a:11:d4:42 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    openvswitch addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    0          0        0       5801    0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    0          0        0       0       0       0       
+15: lxdbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DEFAULT group default qlen 1000
+    link/ether 00:16:3e:19:ce:1b brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 
+    bridge forward_delay 1500 hello_time 200 max_age 2000 ageing_time 30000 stp_state 0 priority 32768 vlan_filtering 1 vlan_protocol 802.1Q bridge_id 8000.0:16:3e:19:ce:1b designated_root 8000.0:16:3e:19:ce:1b root_port 0 root_path_cost 0 topology_change 0 topology_change_detected 0 hello_timer    0.00 tcn_timer    0.00 topology_change_timer    0.00 gc_timer  146.74 vlan_default_pvid 1 vlan_stats_enabled 0 vlan_stats_per_port 0 group_fwd_mask 0 group_address 01:80:c2:00:00:00 mcast_snooping 1 mcast_router 1 mcast_query_use_ifaddr 0 mcast_querier 0 mcast_hash_elasticity 16 mcast_hash_max 4096 mcast_last_member_count 2 mcast_startup_query_count 2 mcast_last_member_interval 100 mcast_membership_interval 26000 mcast_querier_interval 25500 mcast_query_interval 12500 mcast_query_response_interval 1000 mcast_startup_query_interval 3124 mcast_stats_enabled 0 mcast_igmp_version 2 mcast_mld_version 1 nf_call_iptables 0 nf_call_ip6tables 0 nf_call_arptables 0 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    0          0        0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    0          0        0       0       0       0       
+17: veth1883dceb@if16: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether 4e:68:29:1e:ed:52 brd ff:ff:ff:ff:ff:ff link-netnsid 0 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8002 port_no 0x2 designated_port 32770 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    2351991109 2046828  0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    3354822328 2049117  0       0       0       0       
+19: veth5cc250bc@if18: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether 4e:3e:ac:ed:dc:bb brd ff:ff:ff:ff:ff:ff link-netnsid 1 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8003 port_no 0x3 designated_port 32771 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    389143425  2720039  0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    399595078  2816214  0       0       0       0       
+21: veth396824c3@if20: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether a6:3a:fe:ef:e9:e3 brd ff:ff:ff:ff:ff:ff link-netnsid 2 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8004 port_no 0x4 designated_port 32772 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    621956883  4760784  0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    1147122696 4497986  0       0       0       0       
+23: vethe7aaf6c3@if22: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether 26:71:db:34:0b:fb brd ff:ff:ff:ff:ff:ff link-netnsid 3 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8005 port_no 0x5 designated_port 32773 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    2110020094 6718473  0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    1202685252 7761178  0       0       0       0       
+25: veth59e22e6f@if24: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether a2:8c:4d:b5:9d:2b brd ff:ff:ff:ff:ff:ff link-netnsid 4 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8006 port_no 0x6 designated_port 32774 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    611009677  4771093  0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    1150524400 4496571  0       0       0       0       
+27: veth8aa19e05@if26: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether 22:c2:7b:1c:12:1b brd ff:ff:ff:ff:ff:ff link-netnsid 5 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8007 port_no 0x7 designated_port 32775 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    280067199  820837   0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    244557670  856950   0       0       0       0       
+29: veth0d284c32@if28: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-ens3 state UP mode DEFAULT group default qlen 1000
+    link/ether 4e:78:0a:18:65:d4 brd ff:ff:ff:ff:ff:ff link-netnsid 6 promiscuity 1 minmtu 68 maxmtu 65535 
+    veth 
+    bridge_slave state forwarding priority 32 cost 2 hairpin off guard off root_block off fastleave off learning on flood on port_id 0x8008 port_no 0x8 designated_port 32776 designated_cost 0 designated_bridge 8000.22:c2:7b:1c:12:1b designated_root 8000.22:c2:7b:1c:12:1b hold_timer    0.00 message_age_timer    0.00 forward_delay_timer    0.00 topology_change_ack 0 config_pending 0 proxy_arp off proxy_arp_wifi off mcast_router 1 mcast_fast_leave off mcast_flood on mcast_to_unicast off neigh_suppress off group_fwd_mask 0 group_fwd_mask_str 0x0 vlan_tunnel off isolated off addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    653125223  5321598  0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    1195752018 5202095  0       0       0       0       
+31: vxlan_sys_4789: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 65000 qdisc noqueue master ovs-system state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether 5a:bc:16:3c:d0:f0 brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65535 
+    vxlan external 
+    openvswitch_slave addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    29316      451      0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    95111      1070     0       0       0       0       
+37: tap0e778df8-ca: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc fq_codel master ovs-system state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether fe:16:3e:a7:45:cb brd ff:ff:ff:ff:ff:ff promiscuity 1 minmtu 68 maxmtu 65521 
+    tun type tap pi off vnet_hdr on persist off 
+    openvswitch_slave addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    RX: bytes  packets  errors  dropped overrun mcast   
+    21320      210      0       0       0       0       
+    TX: bytes  packets  errors  dropped carrier collsns 
+    10379      108      0       0       0       0       

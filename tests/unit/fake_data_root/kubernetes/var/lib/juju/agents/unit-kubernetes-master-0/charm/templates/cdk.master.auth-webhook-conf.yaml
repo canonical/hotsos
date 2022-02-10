@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Config
+clusters:
+  - name: authn
+    cluster:
+      certificate-authority: /root/cdk/ca.crt
+      server: https://{{ host }}:{{ port }}/{{ api_ver }}
+users:
+  - name: kube-apiserver
+contexts:
+- context:
+    cluster: authn
+    user: kube-apiserver
+  name: authn
+current-context: authn

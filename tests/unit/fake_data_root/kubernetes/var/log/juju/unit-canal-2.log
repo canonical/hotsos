@@ -1,0 +1,177 @@
+2022-02-11 19:03:54 INFO juju unit_agent.go:276 Starting unit workers for "canal/2"
+2022-02-11 19:03:54 INFO juju.worker.apicaller connect.go:158 [2c616d] "unit-canal-2" successfully connected to "10.5.0.126:17070"
+2022-02-11 19:03:54 INFO juju.worker.apicaller connect.go:255 [2c616d] password changed for "unit-canal-2"
+2022-02-11 19:03:54 INFO juju.worker.apicaller connect.go:158 [2c616d] "unit-canal-2" successfully connected to "10.5.0.126:17070"
+2022-02-11 19:03:55 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-11 19:03:55 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-11 19:03:55 ERROR juju.worker.meterstatus runner.go:91 error running "meter-status-changed": charm missing from disk
+2022-02-11 19:03:55 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-11 19:03:55 INFO juju.worker.uniter uniter.go:333 unit "canal/2" started
+2022-02-11 19:03:55 INFO juju.worker.uniter uniter.go:636 resuming charm install
+2022-02-11 19:03:55 INFO juju.worker.uniter.charm bundles.go:79 downloading cs:~containers/canal-859 from API server
+2022-02-11 19:03:56 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-11 19:03:56 INFO juju.worker.uniter.storage resolver.go:127 initial storage attachments ready
+2022-02-11 19:03:56 INFO juju.worker.uniter resolver.go:154 found queued "install" hook
+2022-02-11 19:04:29 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook install
+2022-02-11 19:04:29 INFO unit.canal/2.juju-log server.go:327 Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-canal-2/charm/reactive/calico.py", line 31, in <module>
+    CTL = getContainerRuntimeCtl()
+  File "/var/lib/juju/agents/unit-canal-2/.venv/lib/python3.8/site-packages/conctl/__init__.py", line 49, in getContainerRuntimeCtl
+    runtime = _detectContainerRuntime()
+  File "/var/lib/juju/agents/unit-canal-2/.venv/lib/python3.8/site-packages/conctl/__init__.py", line 31, in _detectContainerRuntime
+    raise RuntimeError('Cannot detect a container runtime')
+RuntimeError: Cannot detect a container runtime
+
+2022-02-11 19:04:29 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:04:29 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:97:repull_calico_node_image
+2022-02-11 19:04:29 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:168:install_calico_binaries
+2022-02-11 19:04:30 INFO unit.canal/2.juju-log server.go:327 status-set: maintenance: Unpacking calico resource.
+2022-02-11 19:04:30 INFO unit.canal/2.juju-log server.go:327 ['tar', 'xfz', '/var/lib/juju/agents/unit-canal-2/resources/calico/calico.tar.gz', '-C', '/var/lib/juju/agents/unit-canal-2/charm/files/calico']
+2022-02-11 19:04:32 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:295:ignore_loose_rpf_changed
+2022-02-11 19:04:32 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:27:install_flannel_binaries
+2022-02-11 19:04:32 INFO unit.canal/2.juju-log server.go:327 status-set: maintenance: Unpacking flannel resource.
+2022-02-11 19:04:32 INFO unit.canal/2.juju-log server.go:327 ['tar', 'xfz', '/var/lib/juju/agents/unit-canal-2/resources/flannel/flannel.tar.gz', '-C', '/var/lib/juju/agents/unit-canal-2/charm/files/flannel']
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:141:reconfigure_flannel_service
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:189:reconfigure_network
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:28:broken:cni
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/canal.py:74:set_canal_version
+2022-02-11 19:04:33 INFO unit.canal/2.juju-log server.go:327 status-set: blocked: Waiting for relation to etcd
+2022-02-11 19:04:33 INFO juju.worker.uniter.operation runhook.go:152 ran "install" hook (via explicit, bespoke hook script)
+2022-02-11 19:05:23 INFO unit.canal/2.juju-log server.go:327 etcd:18: Reactive main running for hook etcd-relation-created
+2022-02-11 19:05:23 INFO unit.canal/2.juju-log server.go:327 etcd:18: Initializing Leadership Layer (is follower)
+2022-02-11 19:05:23 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:76:pull_calico_node_image
+2022-02-11 19:05:23 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Pulling calico-node image
+2022-02-11 19:05:40 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:05:40 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:05:40 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:28:broken:cni
+2022-02-11 19:05:40 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:05:41 INFO juju.worker.uniter.operation runhook.go:152 ran "etcd-relation-created" hook (via explicit, bespoke hook script)
+2022-02-11 19:05:52 INFO unit.canal/2.juju-log server.go:327 cni:16: Reactive main running for hook cni-relation-created
+2022-02-11 19:05:52 INFO unit.canal/2.juju-log server.go:327 cni:16: Initializing Leadership Layer (is follower)
+2022-02-11 19:05:52 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:05:52 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:05:52 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:28:broken:cni
+2022-02-11 19:05:52 INFO unit.canal/2.juju-log server.go:327 cni:16: status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:05:53 INFO juju.worker.uniter.operation runhook.go:152 ran "cni-relation-created" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:04 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook leader-settings-changed
+2022-02-11 19:06:04 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:06:04 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:06:04 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:06:04 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:28:broken:cni
+2022-02-11 19:06:04 INFO unit.canal/2.juju-log server.go:327 status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:06:04 INFO juju.worker.uniter.operation runhook.go:152 ran "leader-settings-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:17 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook config-changed
+2022-02-11 19:06:17 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:06:17 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:06:17 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:06:17 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:28:broken:cni
+2022-02-11 19:06:17 INFO unit.canal/2.juju-log server.go:327 status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:06:17 INFO juju.worker.uniter.operation runhook.go:152 ran "config-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:17 INFO juju.worker.uniter resolver.go:154 found queued "start" hook
+2022-02-11 19:06:28 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook start
+2022-02-11 19:06:28 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:06:28 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:06:28 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:06:28 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:28:broken:cni
+2022-02-11 19:06:28 INFO unit.canal/2.juju-log server.go:327 status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:06:29 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: Reactive main running for hook cni-relation-joined
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: Initializing Leadership Layer (is follower)
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:06:41 INFO unit.canal/2.juju-log server.go:327 cni:16: status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:06:42 INFO juju.worker.uniter.operation runhook.go:152 ran "cni-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:53 INFO unit.canal/2.juju-log server.go:327 cni:16: Reactive main running for hook cni-relation-changed
+2022-02-11 19:06:53 INFO unit.canal/2.juju-log server.go:327 cni:16: Initializing Leadership Layer (is follower)
+2022-02-11 19:06:53 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/calico.py:224:blocked_without_etcd
+2022-02-11 19:06:53 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/flannel.py:208:halt_execution
+2022-02-11 19:06:53 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:06:53 INFO unit.canal/2.juju-log server.go:327 cni:16: status-set: blocked: Waiting for etcd relation.
+2022-02-11 19:06:54 INFO juju.worker.uniter.operation runhook.go:152 ran "cni-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:07:03 INFO unit.canal/2.juju-log server.go:327 etcd:18: Reactive main running for hook etcd-relation-joined
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: Initializing Leadership Layer (is follower)
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: hooks/relations/etcd/requires.py:24:changed
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:230:install_etcd_credentials
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:74:install_etcd_credentials
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:260:install_calico_service
+2022-02-11 19:07:04 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Installing calico-node service.
+2022-02-11 19:07:04 WARNING unit.canal/2.etcd-relation-joined logger.go:60 Created symlink /etc/systemd/system/multi-user.target.wants/calico-node.service → /lib/systemd/system/calico-node.service.
+2022-02-11 19:07:05 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:300:configure_calico_pool
+2022-02-11 19:07:05 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Configuring Calico IP pool
+2022-02-11 19:07:06 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:118:install_flannel_service
+2022-02-11 19:07:06 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Installing flannel service.
+2022-02-11 19:07:06 WARNING unit.canal/2.etcd-relation-joined logger.go:60 Created symlink /etc/systemd/system/multi-user.target.wants/flannel.service → /lib/systemd/system/flannel.service.
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:147:invoke_configure_network
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Negotiating flannel network subnet.
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:195:start_flannel_service
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Starting flannel service.
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:214:ensure_etcd_connections
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/canal.py:45:configure_cni
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Configuring Calico CNI
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-canal-2/charm/reactive/canal.py", line 167, in get_flannel_subnet
+    with open('/run/flannel/subnet.env') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/run/flannel/subnet.env'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-canal-2/charm/reactive/canal.py", line 52, in configure_cni
+    subnet = get_flannel_subnet()
+  File "/var/lib/juju/agents/unit-canal-2/charm/reactive/canal.py", line 171, in get_flannel_subnet
+    raise FlannelSubnetNotFound() from e
+reactive.canal.FlannelSubnetNotFound
+
+2022-02-11 19:07:07 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: waiting: Waiting for Flannel
+2022-02-11 19:07:07 INFO juju.worker.uniter.operation runhook.go:152 ran "etcd-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Reactive main running for hook etcd-relation-changed
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Initializing Leadership Layer (is follower)
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: hooks/relations/etcd/requires.py:24:changed
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/canal.py:45:configure_cni
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: maintenance: Configuring Calico CNI
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/flannel.py:214:ensure_etcd_connections
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: Invoking reactive handler: reactive/canal.py:103:ready
+2022-02-11 19:07:18 INFO unit.canal/2.juju-log server.go:327 etcd:18: status-set: active: Flannel subnet 10.1.84.1/24
+2022-02-11 19:07:19 INFO juju.worker.uniter.operation runhook.go:152 ran "etcd-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook update-status
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/canal.py:103:ready
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:214:ensure_etcd_connections
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:09:13 INFO unit.canal/2.juju-log server.go:327 status-set: active: Flannel subnet 10.1.84.1/24
+2022-02-11 19:09:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook update-status
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/canal.py:103:ready
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:214:ensure_etcd_connections
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:16:09 INFO unit.canal/2.juju-log server.go:327 status-set: active: Flannel subnet 10.1.84.1/24
+2022-02-11 19:16:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Reactive main running for hook cni-relation-changed
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Initializing Leadership Layer (is follower)
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/canal.py:103:ready
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: reactive/flannel.py:214:ensure_etcd_connections
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:16:40 INFO unit.canal/2.juju-log server.go:327 cni:16: status-set: active: Flannel subnet 10.1.84.1/24
+2022-02-11 19:16:41 INFO juju.worker.uniter.operation runhook.go:152 ran "cni-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:19:21 INFO unit.canal/2.juju-log server.go:327 Reactive main running for hook update-status
+2022-02-11 19:19:22 INFO unit.canal/2.juju-log server.go:327 Initializing Leadership Layer (is follower)
+2022-02-11 19:19:22 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/calico.py:373:ensure_etcd_connections
+2022-02-11 19:19:22 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/canal.py:103:ready
+2022-02-11 19:19:22 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: reactive/flannel.py:214:ensure_etcd_connections
+2022-02-11 19:19:22 INFO unit.canal/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/kubernetes-cni/requires.py:21:changed:cni
+2022-02-11 19:19:22 INFO unit.canal/2.juju-log server.go:327 status-set: active: Flannel subnet 10.1.84.1/24
+2022-02-11 19:19:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)

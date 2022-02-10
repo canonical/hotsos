@@ -1,0 +1,64 @@
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: new group: name=ubuntu, GID=1000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'adm'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'dialout'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'cdrom'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'floppy'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'sudo'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'audio'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'dip'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'video'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'plugdev'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'netdev'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'adm'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'dialout'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'cdrom'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'floppy'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'sudo'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'audio'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'dip'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'video'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'plugdev'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'netdev'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 passwd[665]: password for 'ubuntu' changed by 'root'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 systemd-logind[699]: Watching system buttons on /dev/input/event0 (Power Button)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 systemd-logind[699]: Watching system buttons on /dev/input/event1 (AT Translated Set 2 keyboard)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 systemd-logind[699]: New seat seat0.
+Feb 11 18:58:33 juju-110cc2-k8stest-4 sshd[855]: Server listening on 0.0.0.0 port 22.
+Feb 11 18:58:33 juju-110cc2-k8stest-4 sshd[855]: Server listening on :: port 22.
+Feb 11 18:58:37 juju-110cc2-k8stest-4 useradd[1142]: new user: name=lxd, UID=998, GID=100, home=/var/snap/lxd/common/lxd, shell=/bin/false, from=none
+Feb 11 18:59:09 juju-110cc2-k8stest-4 systemd-logind[699]: Watching system buttons on /dev/input/event0 (Power Button)
+Feb 11 18:59:09 juju-110cc2-k8stest-4 systemd-logind[699]: Watching system buttons on /dev/input/event1 (AT Translated Set 2 keyboard)
+Feb 11 18:59:29 juju-110cc2-k8stest-4 useradd[8228]: new user: name=dnsmasq, UID=112, GID=65534, home=/var/lib/misc, shell=/usr/sbin/nologin, from=none
+Feb 11 18:59:29 juju-110cc2-k8stest-4 usermod[8236]: change user 'dnsmasq' password
+Feb 11 18:59:29 juju-110cc2-k8stest-4 chage[8243]: changed password expiry for dnsmasq
+Feb 11 18:59:29 juju-110cc2-k8stest-4 chfn[8247]: changed user 'dnsmasq' information
+Feb 11 19:17:01 juju-110cc2-k8stest-4 CRON[86767]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 19:17:01 juju-110cc2-k8stest-4 CRON[86767]: pam_unix(cron:session): session closed for user root
+Feb 11 19:20:05 juju-110cc2-k8stest-4 sshd[92805]: Connection closed by 10.5.0.5 port 47244 [preauth]
+Feb 11 19:20:05 juju-110cc2-k8stest-4 sshd[92812]: Accepted publickey for ubuntu from 10.5.0.5 port 47246 ssh2: RSA SHA256:Yb4LTvq5SJaV08y1JTUB+DKX47Bye9lR4kGHl62vLhk
+Feb 11 19:20:05 juju-110cc2-k8stest-4 sshd[92812]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 11 19:20:05 juju-110cc2-k8stest-4 systemd-logind[699]: New session 2 of user ubuntu.
+Feb 11 19:20:05 juju-110cc2-k8stest-4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 11 19:20:07 juju-110cc2-k8stest-4 sshd[92946]: Received disconnect from 10.5.0.5 port 47246:11: disconnected by user
+Feb 11 19:20:07 juju-110cc2-k8stest-4 sshd[92946]: Disconnected from user ubuntu 10.5.0.5 port 47246
+Feb 11 19:20:07 juju-110cc2-k8stest-4 sshd[92812]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 11 19:20:07 juju-110cc2-k8stest-4 systemd-logind[699]: Session 2 logged out. Waiting for processes to exit.
+Feb 11 19:20:07 juju-110cc2-k8stest-4 systemd-logind[699]: Removed session 2.
+Feb 11 19:20:41 juju-110cc2-k8stest-4 sshd[93582]: Connection closed by 10.5.0.5 port 47344 [preauth]
+Feb 11 19:20:41 juju-110cc2-k8stest-4 sshd[93584]: Accepted publickey for ubuntu from 10.5.0.5 port 47346 ssh2: RSA SHA256:Yb4LTvq5SJaV08y1JTUB+DKX47Bye9lR4kGHl62vLhk
+Feb 11 19:20:41 juju-110cc2-k8stest-4 sshd[93584]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 11 19:20:41 juju-110cc2-k8stest-4 systemd-logind[699]: New session 4 of user ubuntu.
+Feb 11 19:20:41 juju-110cc2-k8stest-4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 11 19:20:41 juju-110cc2-k8stest-4 sshd[93689]: Received disconnect from 10.5.0.5 port 47346:11: disconnected by user
+Feb 11 19:20:41 juju-110cc2-k8stest-4 sshd[93689]: Disconnected from user ubuntu 10.5.0.5 port 47346
+Feb 11 19:20:41 juju-110cc2-k8stest-4 sshd[93584]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 11 19:20:41 juju-110cc2-k8stest-4 systemd-logind[699]: Session 4 logged out. Waiting for processes to exit.
+Feb 11 19:20:41 juju-110cc2-k8stest-4 systemd-logind[699]: Removed session 4.
+Feb 11 19:22:53 juju-110cc2-k8stest-4 sshd[95623]: Connection closed by 10.5.0.5 port 47562 [preauth]
+Feb 11 19:22:53 juju-110cc2-k8stest-4 sshd[95625]: Accepted publickey for ubuntu from 10.5.0.5 port 47564 ssh2: RSA SHA256:Yb4LTvq5SJaV08y1JTUB+DKX47Bye9lR4kGHl62vLhk
+Feb 11 19:22:53 juju-110cc2-k8stest-4 sshd[95625]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 11 19:22:53 juju-110cc2-k8stest-4 systemd-logind[699]: New session 6 of user ubuntu.
+Feb 11 19:22:53 juju-110cc2-k8stest-4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 11 19:22:55 juju-110cc2-k8stest-4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 11 19:22:55 juju-110cc2-k8stest-4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)

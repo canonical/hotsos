@@ -1,0 +1,74 @@
+  Parsing: vgscan -vvv --config=global{metadata_read_only=1} --nolocking
+  Recognised command vgscan_general (id 151 / enum 135).
+  Reloading config files
+  Syncing device names
+  Dropping VG info
+  Freeing VG #orphans_lvm2 at 0x556c562af7a0.
+  Loading config file: /etc/lvm/lvm.conf
+  Opened /etc/lvm/lvm.conf RO
+  Closed /etc/lvm/lvm.conf
+  DEGRADED MODE. Incomplete RAID LVs will be processed.
+  Processing command: vgscan -vvv --config=global{metadata_read_only=1} --nolocking
+  Command pid: 124532
+  System ID: 
+  O_DIRECT will be used
+  global/locking_type not found in config: defaulting to 1
+  WARNING: File locking is disabled.
+  devices/md_component_checks not found in config: defaulting to auto
+  Using md_component_checks auto use_full_md_check 0
+  Processing each VG
+  Finding VG info
+  Sysfs filter initialised.
+  Internal filter initialised.
+  LVM type filter initialised.
+  Usable device filter initialised (scan_lvs 0).
+  mpath filter initialised.
+  Partitioned filter initialised.
+  signature filter initialised.
+  MD filter initialised.
+  Composite filter initialised.
+  Persistent filter initialised.
+  Finding devices to scan
+  Creating list of system devices.
+  /dev/vda: stat failed: No such file or directory
+  /dev/vda1: stat failed: No such file or directory
+  /dev/vda2: stat failed: No such file or directory
+  /dev/vdb: stat failed: No such file or directory
+  /dev/vdb1: stat failed: No such file or directory
+  /dev/vdb2: stat failed: No such file or directory
+  /dev/vdc: stat failed: No such file or directory
+  /dev/vdd: stat failed: No such file or directory
+  /dev/bcache0: stat failed: No such file or directory
+  /dev/bcache1: stat failed: No such file or directory
+  /dev/loop0: stat failed: No such file or directory
+  /dev/loop1: stat failed: No such file or directory
+  /dev/loop2: stat failed: No such file or directory
+  /dev/loop3: stat failed: No such file or directory
+  /dev/loop4: stat failed: No such file or directory
+  /dev/loop5: stat failed: No such file or directory
+  /dev/loop6: stat failed: No such file or directory
+  /dev/loop7: stat failed: No such file or directory
+  /dev/dm-0: stat failed: No such file or directory
+  /dev/dm-1: stat failed: No such file or directory
+  /dev/dm-2: stat failed: No such file or directory
+  /dev: Failed to insert devices from udev-managed directory to device cache fully
+  Filtering devices to scan
+  Will scan 0 devices skip 0
+  Checking fd limit for num_devs 0 want 32 soft 1024 hard 1048576
+  Scanning 0 devices for VG info
+  Scanning submitted 0 reads
+  Scanned devices: read errors 0 process errors 0 failed 0
+  Found VG info for 0 VGs
+  Obtaining the complete list of VGs to process
+  No volume groups found.
+  Dropping VG info
+  lvmcache has no info for vgname "#orphans_lvm2" with VGID #orphans_lvm2.
+  lvmcache has no info for vgname "#orphans_lvm2".
+  lvmcache: Initialised VG #orphans_lvm2.
+  Reloading config files
+  Syncing device names
+  Dropping VG info
+  Freeing VG #orphans_lvm2 at 0x556c562c0870.
+  Loading config file: /etc/lvm/lvm.conf
+  Opened /etc/lvm/lvm.conf RO
+  Closed /etc/lvm/lvm.conf

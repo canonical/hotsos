@@ -1,0 +1,33 @@
+[up 1.33s] ds-identify 
+policy loaded: mode=search report=false found=all maybe=all notfound=disabled
+/etc/cloud/cloud.cfg.d/90_dpkg.cfg set datasource_list: [ NoCloud, ConfigDrive, LXD, OpenNebula, DigitalOcean, Azure, AltCloud, OVF, MAAS, GCE, OpenStack, CloudSigma, SmartOS, Bigstep, Scaleway, AliYun, Ec2, CloudStack, Hetzner, IBMCloud, Oracle, Exoscale, RbxCloud, UpCloud, VMware, Vultr, None ]
+DMI_PRODUCT_NAME=Standard PC (i440FX + PIIX, 1996)
+DMI_SYS_VENDOR=QEMU
+DMI_PRODUCT_SERIAL=unavailable
+DMI_PRODUCT_UUID=unavailable
+PID_1_PRODUCT_NAME=unavailable
+DMI_CHASSIS_ASSET_TAG=
+FS_LABELS=unavailable:container
+ISO9660_DEVS=unavailable:container
+KERNEL_CMDLINE=/sbin/init 
+VIRT=lxc
+UNAME_KERNEL_NAME=Linux
+UNAME_KERNEL_RELEASE=5.4.0-97-generic
+UNAME_KERNEL_VERSION=#110-Ubuntu SMP Thu Jan 13 18:22:13 UTC 2022
+UNAME_MACHINE=x86_64
+UNAME_NODENAME=juju-04f1e3-1-lxd-0
+UNAME_OPERATING_SYSTEM=GNU/Linux
+DSNAME=
+DSLIST=NoCloud ConfigDrive LXD OpenNebula DigitalOcean Azure AltCloud OVF MAAS GCE OpenStack CloudSigma SmartOS Bigstep Scaleway AliYun Ec2 CloudStack Hetzner IBMCloud Oracle Exoscale RbxCloud UpCloud VMware Vultr None
+MODE=search
+ON_FOUND=all
+ON_MAYBE=all
+ON_NOTFOUND=disabled
+pid=54 ppid=31
+is_container=true
+check for 'NoCloud' returned found
+is_ds_enabled(IBMCloud) = true.
+check for 'LXD' returned found
+is_ds_enabled(IBMCloud) = true.
+Found 2 datasources found=all: NoCloud LXD
+[up 1.39s] returning 0

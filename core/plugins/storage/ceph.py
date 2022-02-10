@@ -364,6 +364,9 @@ class CephOSD(CephDaemonBase):
             return self._devtype
 
         osd_tree = self.cli.ceph_osd_df_tree_json_decoded()
+        if not osd_tree:
+            return self._devtype
+
         for node in osd_tree.get('nodes'):
             if node.get('type') == 'osd' and node['id'] == self.id:
                 self._devtype = node['device_class']

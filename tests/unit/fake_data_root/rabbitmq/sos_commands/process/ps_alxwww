@@ -1,0 +1,48 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+4     0       1       0  20   0 170348 12576 ep_pol Ss   ?          0:10 /sbin/init
+4     0      63       1  20   0  59668 33268 ep_pol Ss   ?          0:01 /lib/systemd/systemd-journald
+4     0      96       1  20   0  11884  4664 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+1     0     117       1  20   0   3716  1716 fuse_d Ss   ?          0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1     0     118       1  20   0   4052  1864 -      Rs   ?          0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1     0     119       1  20   0   3748  1688 fuse_d Ss   ?          0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4   101     170       1  20   0  23964 12108 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4   100     228       1  20   0  18416  6216 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4     0     235       1  20   0 238068  9232 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4     0     240       1  20   0   5568  2872 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4   103     241       1  20   0   7708  4684 ep_pol Ss   ?          0:03 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4   113     246       1  20   0   8308  5016 poll_s Ss   ?          0:00 /usr/bin/epmd -systemd
+0     0     247       1  20   0  26312 13976 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4   114     248       1  20   0   2608   536 do_wai Ss   ?          0:00 /bin/sh /usr/sbin/rabbitmq-server
+4   104     249       1  20   0 154712  3912 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+0     0     251       1  20   0 873400 37236 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4     0     253       1  20   0  16804  7544 ep_pol Ss   ?          0:01 /lib/systemd/systemd-logind
+0     0     256       1  20   0 394572 12412 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4     1     265       1  20   0   3792  2120 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4     0     266       1  20   0   5728  3288 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+4     0     274       1  20   0   4384  2088 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0   114     282     248  20   0 2281776 169380 poll_s Sl ?         32:23 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+4     0     287     266  20   0 866072 59920 futex_ SLl  ?         12:12 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+4     0     298       1  20   0  12176  6636 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0     0     334       1  20   0 236424  8880 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+0     0     610       1  20   0 105140 16644 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4     0     635       1  20   0   2616   444 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+0   114    1077     282  20   0   2492  1408 poll_s Ss   ?          0:00 erl_child_setup 65536
+4     0    1683     635  20   0 1524036 19588 futex_ Sl  ?          0:05 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+0   114    2394    1077  20   0   3880   912 poll_s Ss   ?          0:00 inet_gethost 4
+1   114    2395    2394  20   0   3960  1640 pipe_w S    ?          0:00 inet_gethost 4
+4   107   91894       1  20   0   6780   976 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4     0  123714     298  20   0  13800  8560 poll_s Ss   ?          0:00 sshd: ubuntu [priv]
+4  1000  123717       1  20   0  18292  9312 ep_pol Ss   ?          0:00 /lib/systemd/systemd --user
+5  1000  123718  123717  20   0 171560  5304 do_sig S    ?          0:00 (sd-pam)
+5  1000  123778  123714  20   0  13932  5364 poll_s S    ?          0:00 sshd: ubuntu@pts/1
+4     0  123779  123778  20   0   8044  4300 poll_s Ss   pts/1      0:00 sudo -s
+4     0  123780  123779  20   0   5992  3852 do_wai S    pts/1      0:00 /bin/bash
+4     0  123803  123780  20   0 894496 89376 futex_ Sl+  pts/1      0:10 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4     0  124386       1  20   0 381048 29032 poll_s Ssl  ?          0:00 /usr/libexec/fwupd/fwupd
+4     0  124435       1  20   0  16260  5984 ep_pol Ss   ?          0:00 /lib/systemd/systemd-hostnamed
+4     0  124571  123803  20   0   2712   648 sigsus S    pts/1      0:00 timeout 300s lxd.buginfo
+4     0  124573  124571  20   0   2616   540 pipe_w S    pts/1      0:00 /bin/sh /snap/lxd/21835/commands/buginfo
+0     0  124847  124573  20   0  45232   988 generi D    pts/1      0:00 lxd --version
+4     0  124863  123803  20   0   2712   640 sigsus S    pts/1      0:00 timeout 300s ps alxwww
+4     0  124864  123803  20   0   2596   308 -      R+   pts/1      0:00 timeout 300s tc -s filter show dev lo ingress
+4     0  124866  124863  20   0   5816  1084 -      R    pts/1      0:00 ps alxwww

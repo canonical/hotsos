@@ -1,0 +1,12 @@
+[Install]
+RequiredBy=vaultlocker-decrypt@%i.service
+
+[Unit]
+Description=Ensure loop device for VaultLocker %i
+Before=vaultlocker-decrypt@%i.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+EnvironmentFile=/etc/vaultlocker/loop-envs/%i
+ExecStart=/sbin/losetup -f ${BACK_FILE}

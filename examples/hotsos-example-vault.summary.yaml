@@ -1,0 +1,27 @@
+hotsos:
+  version: development
+  repo-info: 0e374261
+system:
+  hostname: juju-04f1e3-0-lxd-5
+  os: ubuntu focal
+  num-cpus: 2
+  load: 6.42, 4.37, 3.94
+  virtualisation: lxc
+  rootfs: /dev/vda2        308585260 24171768 268668880   9% /
+  unattended-upgrades: ENABLED
+  date: Thu 10 Feb 09:51:32 UTC 2022
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+vault:
+  snaps:
+    - vault 1.5.9
+  services:
+    systemd:
+      enabled:
+        - vault
+        - vault-mysql-router
+    ps:
+      - vault (1)

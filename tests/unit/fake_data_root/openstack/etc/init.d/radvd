@@ -1,0 +1,94 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          radvd
+# Required-Start:    $syslog $remote_fs $network
+# Required-Stop:     $syslog $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Router Advertising Daemon
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/radvd
+NAME=radvd
+DESC=radvd
+CONFIG=/etc/radvd.conf
+PIDDIR=/var/run/radvd
+PIDFILE=$PIDDIR/radvd.pid
+OPTIONS="-u radvd -p $PIDFILE"
+PROC_SYS_IP6_FORWARDING=/proc/sys/net/ipv6/conf/all/forwarding
+
+. /lib/lsb/init-functions
+
+test -x $DAEMON || exit 0
+
+set -e
+
+# Check for IPv6 support in kernel
+if [ "$(uname -s)" != "GNU/kFreeBSD" ]; then
+  if test \! -e /proc/sys/net/ipv6; then
+    echo "IPv6 support must be enabled in the kernel for $DESC to work."
+    exit
+  fi
+fi
+
+chkconfig() {
+  if [ "$(uname -s)" != "GNU/kFreeBSD" ]; then
+    if [ ! -e $CONFIG -o ! -s $CONFIG ]; then
+        echo ""
+	echo "* $CONFIG does not exist or is empty."
+	echo "* See /usr/share/doc/radvd/README.Debian"
+	echo "* radvd will *not* be started."
+	exit 0
+    elif [ ! -e $PROC_SYS_IP6_FORWARDING -o \
+	"$(cat $PROC_SYS_IP6_FORWARDING)" = "0" ]; then
+        echo ""
+	echo "* IPv6 forwarding seems to be disabled."
+	echo "* See /usr/share/doc/radvd/README.Debian"
+	echo "* radvd will *not* be started."
+	exit 0
+    fi
+  fi
+}
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	chkconfig
+
+	# Anything under /var/run can go away on reboot
+	[ -e $PIDDIR ] || install -d -o radvd -g root -m 4755 $PIDDIR
+
+	if ! start-stop-daemon --oknodo --start --pidfile $PIDFILE \
+		--exec $DAEMON -- $OPTIONS; then
+	  echo "failed." && exit 1
+	fi
+	echo "$NAME."
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	start-stop-daemon --oknodo --stop --pidfile $PIDFILE \
+		--exec $DAEMON
+	echo "$NAME."
+	;;
+  reload|force-reload)
+	echo "Reloading $DESC configuration files."
+	start-stop-daemon --stop --signal HUP --quiet --pidfile \
+	    $PIDFILE --exec $DAEMON
+	;;
+  restart)
+	invoke-rc.d $NAME stop
+	invoke-rc.d $NAME start
+	;;
+  status)
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+        ;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

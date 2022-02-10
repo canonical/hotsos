@@ -1,0 +1,10 @@
+Disk /dev/vdb: 100 GiB, 107374182400 bytes, 209715200 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 1B6F2960-8C11-4418-BA03-6D0C3A514815
+
+Device     Start       End   Sectors  Size Type
+/dev/vdb1   2048      4095      2048    1M BIOS boot
+/dev/vdb2   4096 209702911 209698816  100G Linux filesystem

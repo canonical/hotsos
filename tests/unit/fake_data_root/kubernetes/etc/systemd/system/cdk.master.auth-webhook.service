@@ -1,0 +1,25 @@
+[Unit]
+Description=CDK master auth webhook
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+User=root
+WorkingDirectory=/root/cdk/auth-webhook
+ExecStart=/var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn \
+    --bind 10.6.3.201:5000 \
+    --capture-output \
+    --certfile /root/cdk/server.crt \
+    --keyfile /root/cdk/server.key \
+    --disable-redirect-access-to-syslog \
+    --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log \
+    --log-level debug \
+    --pid /run/cdk.master.auth-webhook.pid \
+    --workers 5 \
+    --worker-class aiohttp.worker.GunicornWebWorker \
+    auth-webhook:app
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

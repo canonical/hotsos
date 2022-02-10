@@ -1,13 +1,11 @@
 import os
-import shutil
-import tempfile
 
 import mock
 
 from tests.unit import utils
 
 from core.issues.issue_types import KubernetesWarning
-from core import checks, constants, cli_helpers
+from core import checks, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
@@ -16,21 +14,14 @@ from plugins.kubernetes.pyparts import (
     network_checks,
 )
 
-SYSTEMD_UNITS = """
-UNIT FILE                                               STATE           VENDOR PRESET
-calico-node.service                    enabled         enabled      
-containerd.service                     enabled         enabled      
-flannel.service                        enabled         enabled      
-snap.kube-proxy.daemon.service         enabled         enabled      
-snap.kubelet.daemon.service            enabled         enabled      
-"""  # noqa
-
 
 class KubernetesTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
         os.environ['PLUGIN_NAME'] = 'kubernetes'
+        os.environ["DATA_ROOT"] = \
+            os.path.join(utils.TESTS_DIR, 'fake_data_root/kubernetes')
 
 
 class TestKubernetesServiceInfo(KubernetesTestsBase):
@@ -40,41 +31,40 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
         super().setUp()
 
     def test_get_service_info(self):
-        orig_ps = checks.CLIHelper().ps()
-        with mock.patch('core.checks.CLIHelper') as mock_helper:
-            mock_helper.return_value = mock.MagicMock()
-            helper = mock_helper.return_value
-            helper.systemctl_list_unit_files.return_value = \
-                SYSTEMD_UNITS.split('\n')
-            helper.ps.return_value = orig_ps
-            expected = {'systemd': {
-                            'enabled': [
-                                'calico-node',
-                                'containerd',
-                                'flannel',
-                                'snap.kube-proxy.daemon',
-                                'snap.kubelet.daemon']
-                            },
-                        'ps': [
-                            'calico-node (3)',
-                            'containerd (17)',
-                            'containerd-shim-runc-v2 (1)',
-                            'flanneld (1)',
-                            'kube-proxy (1)',
-                            'kubelet (1)']}
-            inst = service_info.KubernetesServiceChecks()
-            inst()
-            self.assertEqual(inst.output['services'], expected)
+        expected = {'systemd': {
+                        'enabled': [
+                            'calico-node',
+                            'containerd',
+                            'flannel',
+                            'kube-proxy-iptables-fix',
+                            'snap.kube-apiserver.daemon',
+                            'snap.kube-controller-manager.daemon',
+                            'snap.kube-proxy.daemon',
+                            'snap.kube-scheduler.daemon']
+                        },
+                    'ps': [
+                        'calico-node (3)',
+                        'containerd (1)',
+                        'containerd-shim-runc-v2 (1)',
+                        'flanneld (1)',
+                        'kube-apiserver (1)',
+                        'kube-controller-manager (1)',
+                        'kube-proxy (1)',
+                        'kube-scheduler (1)']}
+        inst = service_info.KubernetesServiceChecks()
+        inst()
+        self.assertEqual(inst.output['services'], expected)
 
     def test_get_snap_info_from_line(self):
-        result = ['conjure-up 2.6.14-20200716.2107',
-                  'core 16-2.48.2',
-                  'core18 20201210',
-                  'docker 19.03.11',
-                  'go 1.15.6',
-                  'helm 3.5.0',
-                  'kubectl 1.20.2',
-                  'vault 1.5.4']
+        result = ['cdk-addons 1.23.0',
+                  'core 16-2.54.2',
+                  'core18 20211215',
+                  'core20 20220114',
+                  'kube-apiserver 1.23.3',
+                  'kube-controller-manager 1.23.3',
+                  'kube-proxy 1.23.3',
+                  'kube-scheduler 1.23.3',
+                  'kubectl 1.23.3']
         inst = service_info.KubernetesPackageChecks()
         inst()
         self.assertEqual(inst.output['snaps'], result)
@@ -104,22 +94,14 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
 class TestKubernetesNetworkChecks(KubernetesTestsBase):
 
     def test_get_network_info(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            dst = os.path.join(dtmp, "sos_commands/networking")
-            os.makedirs(dst)
-            dst = os.path.join(dst, "ip_-d_address")
-            src = os.path.join(constants.DATA_ROOT,
-                               "sos_commands/networking/ip_-d_address.k8s")
-            shutil.copy(src, dst)
-            os.environ['DATA_ROOT'] = dtmp
-            expected = {'flannel':
-                        {'flannel.1': {'addr': '58.49.23.0',
-                                       'vxlan': {'dev': 'enp6s0f0.1604',
-                                                 'id': '1',
-                                                 'local_ip': '10.78.2.176'}}}}
-            inst = network_checks.KubernetesNetworkChecks()
-            inst()
-            self.assertEqual(inst.output, expected)
+        expected = {'flannel':
+                    {'flannel.1': {'addr': '10.1.84.0',
+                                   'vxlan': {'dev': 'ens3',
+                                             'id': '1',
+                                             'local_ip': '10.6.3.201'}}}}
+        inst = network_checks.KubernetesNetworkChecks()
+        inst()
+        self.assertEqual(inst.output, expected)
 
 
 class TestKubernetesBugChecks(KubernetesTestsBase):

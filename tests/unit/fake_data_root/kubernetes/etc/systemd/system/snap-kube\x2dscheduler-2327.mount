@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for kube-scheduler, revision 2327
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/kube-scheduler_2327.snap
+Where=/snap/kube-scheduler/2327
+Type=squashfs
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

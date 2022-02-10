@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for core, revision 12603
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/core_12603.snap
+Where=/snap/core/12603
+Type=fuse.squashfuse
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide,allow_other
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

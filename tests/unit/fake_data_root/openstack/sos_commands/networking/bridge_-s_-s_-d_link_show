@@ -1,0 +1,18 @@
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 100 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off ens3
+9: br-ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 br-ens3
+15: lxdbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 master lxdbr0 lxdbr0
+17: veth1883dceb@if16: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off veth1883dceb
+19: veth5cc250bc@if18: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off veth5cc250bc
+21: veth396824c3@if20: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off veth396824c3
+23: vethe7aaf6c3@if22: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off vethe7aaf6c3
+25: veth59e22e6f@if24: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off veth59e22e6f
+27: veth8aa19e05@if26: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off veth8aa19e05
+29: veth0d284c32@if28: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-ens3 state forwarding priority 32 cost 2 
+    hairpin off guard off root_block off fastleave off learning on flood on mcast_flood on mcast_to_unicast off neigh_suppress off vlan_tunnel off isolated off veth0d284c32

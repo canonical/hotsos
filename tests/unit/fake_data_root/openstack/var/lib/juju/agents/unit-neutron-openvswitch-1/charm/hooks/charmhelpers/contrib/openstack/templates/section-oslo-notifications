@@ -1,0 +1,15 @@
+{% if transport_url -%}
+[oslo_messaging_notifications]
+driver = {{ oslo_messaging_driver }}
+transport_url = {{ transport_url }}
+{% if send_notifications_to_logs %}
+driver = log
+{% endif %}
+{% if notification_topics -%}
+topics = {{ notification_topics }}
+{% endif -%}
+{% if notification_format -%}
+[notifications]
+notification_format = {{ notification_format }}
+{% endif -%}
+{% endif -%}

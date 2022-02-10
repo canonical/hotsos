@@ -1,0 +1,23 @@
+#!.tox/py3/bin/python
+
+import sys
+import importlib
+from pathlib import Path
+from shutil import rmtree
+from unittest.mock import patch
+
+import pydocmd.__main__
+
+
+with patch('charmhelpers.core.hookenv.metadata') as metadata:
+    metadata.return_value = {
+        'requires': {'cert': {'interface': 'tls-certificates'}},
+        'provides': {'cert': {'interface': 'tls-certificates'}},
+    }
+    sys.path.append('..')
+    sys.modules[''] = importlib.import_module(Path.cwd().name)
+    print(sys.argv)
+    if len(sys.argv) == 1:
+        sys.argv.extend(['build'])
+    pydocmd.__main__.main()
+    rmtree('_build')

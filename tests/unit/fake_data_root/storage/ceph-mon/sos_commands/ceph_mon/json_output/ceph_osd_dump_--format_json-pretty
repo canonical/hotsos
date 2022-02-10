@@ -1,0 +1,607 @@
+
+{
+    "epoch": 49,
+    "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+    "created": "2022-02-04T09:55:18.498364+0000",
+    "modified": "2022-02-10T09:32:48.744296+0000",
+    "last_up_change": "2022-02-10T09:32:47.734773+0000",
+    "last_in_change": "2022-02-10T09:32:47.734773+0000",
+    "flags": "sortbitwise,recovery_deletes,purged_snapdirs,pglog_hardlimit",
+    "flags_num": 5799936,
+    "flags_set": [
+        "pglog_hardlimit",
+        "purged_snapdirs",
+        "recovery_deletes",
+        "sortbitwise"
+    ],
+    "crush_version": 11,
+    "full_ratio": 0.94999998807907104,
+    "backfillfull_ratio": 0.89999997615814209,
+    "nearfull_ratio": 0.85000002384185791,
+    "cluster_snapshot": "",
+    "pool_max": 4,
+    "max_osd": 3,
+    "require_min_compat_client": "jewel",
+    "min_compat_client": "jewel",
+    "require_osd_release": "octopus",
+    "pools": [
+        {
+            "pool": 1,
+            "pool_name": "device_health_metrics",
+            "create_time": "2022-02-04T10:46:32.222731+0000",
+            "flags": 1,
+            "flags_names": "hashpspool",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 1,
+            "pg_placement_num": 1,
+            "pg_placement_num_target": 1,
+            "pg_num_target": 1,
+            "pg_num_pending": 1,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "27",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 0,
+            "snap_epoch": 0,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 1
+            },
+            "application_metadata": {
+                "mgr_devicehealth": {}
+            }
+        },
+        {
+            "pool": 2,
+            "pool_name": "glance",
+            "create_time": "2022-02-04T10:47:46.878655+0000",
+            "flags": 1,
+            "flags_names": "hashpspool",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 4,
+            "pg_placement_num": 4,
+            "pg_placement_num_target": 4,
+            "pg_num_target": 4,
+            "pg_num_pending": 4,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "15",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 0,
+            "snap_epoch": 0,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 4,
+                "target_size_ratio": 0.050000000000000003
+            },
+            "application_metadata": {
+                "rbd": {}
+            }
+        },
+        {
+            "pool": 3,
+            "pool_name": "cinder-ceph",
+            "create_time": "2022-02-04T10:48:29.569121+0000",
+            "flags": 1,
+            "flags_names": "hashpspool",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 32,
+            "pg_placement_num": 32,
+            "pg_placement_num_target": 32,
+            "pg_num_target": 32,
+            "pg_num_pending": 32,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "19",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 0,
+            "snap_epoch": 0,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 32,
+                "target_size_ratio": 0.40000000000000002
+            },
+            "application_metadata": {
+                "rbd": {}
+            }
+        },
+        {
+            "pool": 4,
+            "pool_name": "nova",
+            "create_time": "2022-02-04T10:49:12.540849+0000",
+            "flags": 1,
+            "flags_names": "hashpspool",
+            "type": 1,
+            "size": 3,
+            "min_size": 2,
+            "crush_rule": 0,
+            "object_hash": 2,
+            "pg_autoscale_mode": "on",
+            "pg_num": 32,
+            "pg_placement_num": 32,
+            "pg_placement_num_target": 32,
+            "pg_num_target": 32,
+            "pg_num_pending": 32,
+            "last_pg_merge_meta": {
+                "source_pgid": "0.0",
+                "ready_epoch": 0,
+                "last_epoch_started": 0,
+                "last_epoch_clean": 0,
+                "source_version": "0'0",
+                "target_version": "0'0"
+            },
+            "last_change": "23",
+            "last_force_op_resend": "0",
+            "last_force_op_resend_prenautilus": "0",
+            "last_force_op_resend_preluminous": "0",
+            "auid": 0,
+            "snap_mode": "selfmanaged",
+            "snap_seq": 0,
+            "snap_epoch": 0,
+            "pool_snaps": [],
+            "removed_snaps": "[]",
+            "quota_max_bytes": 0,
+            "quota_max_objects": 0,
+            "tiers": [],
+            "tier_of": -1,
+            "read_tier": -1,
+            "write_tier": -1,
+            "cache_mode": "none",
+            "target_max_bytes": 0,
+            "target_max_objects": 0,
+            "cache_target_dirty_ratio_micro": 400000,
+            "cache_target_dirty_high_ratio_micro": 600000,
+            "cache_target_full_ratio_micro": 800000,
+            "cache_min_flush_age": 0,
+            "cache_min_evict_age": 0,
+            "erasure_code_profile": "",
+            "hit_set_params": {
+                "type": "none"
+            },
+            "hit_set_period": 0,
+            "hit_set_count": 0,
+            "use_gmt_hitset": true,
+            "min_read_recency_for_promote": 0,
+            "min_write_recency_for_promote": 0,
+            "hit_set_grade_decay_rate": 0,
+            "hit_set_search_last_n": 0,
+            "grade_table": [],
+            "stripe_width": 0,
+            "expected_num_objects": 0,
+            "fast_read": false,
+            "options": {
+                "pg_num_min": 32,
+                "target_size_ratio": 0.29999999999999999
+            },
+            "application_metadata": {
+                "rbd": {}
+            }
+        }
+    ],
+    "osds": [
+        {
+            "osd": 0,
+            "uuid": "48858aa1-71a3-4f0e-95f3-a07d1d9a6749",
+            "up": 1,
+            "in": 1,
+            "weight": 1,
+            "primary_affinity": 1,
+            "last_clean_begin": 7,
+            "last_clean_end": 25,
+            "up_from": 44,
+            "up_thru": 48,
+            "down_at": 31,
+            "lost_at": 0,
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.128:6800",
+                        "nonce": 1113152
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.128:6801",
+                        "nonce": 1113152
+                    }
+                ]
+            },
+            "cluster_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.128:6802",
+                        "nonce": 1113152
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.128:6803",
+                        "nonce": 1113152
+                    }
+                ]
+            },
+            "heartbeat_back_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.128:6806",
+                        "nonce": 1113152
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.128:6807",
+                        "nonce": 1113152
+                    }
+                ]
+            },
+            "heartbeat_front_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.128:6804",
+                        "nonce": 1113152
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.128:6805",
+                        "nonce": 1113152
+                    }
+                ]
+            },
+            "public_addr": "10.0.0.128:6801/1113152",
+            "cluster_addr": "10.0.0.128:6803/1113152",
+            "heartbeat_back_addr": "10.0.0.128:6807/1113152",
+            "heartbeat_front_addr": "10.0.0.128:6805/1113152",
+            "state": [
+                "exists",
+                "up"
+            ]
+        },
+        {
+            "osd": 1,
+            "uuid": "46e943c3-9e7b-4022-a841-9f50fd9dfa9d",
+            "up": 1,
+            "in": 1,
+            "weight": 1,
+            "primary_affinity": 1,
+            "last_clean_begin": 37,
+            "last_clean_end": 38,
+            "up_from": 41,
+            "up_thru": 48,
+            "down_at": 40,
+            "lost_at": 0,
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.114:6800",
+                        "nonce": 891530
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.114:6801",
+                        "nonce": 891530
+                    }
+                ]
+            },
+            "cluster_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.114:6802",
+                        "nonce": 891530
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.114:6803",
+                        "nonce": 891530
+                    }
+                ]
+            },
+            "heartbeat_back_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.114:6806",
+                        "nonce": 891530
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.114:6807",
+                        "nonce": 891530
+                    }
+                ]
+            },
+            "heartbeat_front_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.114:6804",
+                        "nonce": 891530
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.114:6805",
+                        "nonce": 891530
+                    }
+                ]
+            },
+            "public_addr": "10.0.0.114:6801/891530",
+            "cluster_addr": "10.0.0.114:6803/891530",
+            "heartbeat_back_addr": "10.0.0.114:6807/891530",
+            "heartbeat_front_addr": "10.0.0.114:6805/891530",
+            "state": [
+                "exists",
+                "up"
+            ]
+        },
+        {
+            "osd": 2,
+            "uuid": "a4d2b042-4e4e-4aec-81c4-67a92a874244",
+            "up": 1,
+            "in": 1,
+            "weight": 1,
+            "primary_affinity": 1,
+            "last_clean_begin": 10,
+            "last_clean_end": 25,
+            "up_from": 48,
+            "up_thru": 48,
+            "down_at": 31,
+            "lost_at": 0,
+            "public_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.133:6800",
+                        "nonce": 1205711
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.133:6801",
+                        "nonce": 1205711
+                    }
+                ]
+            },
+            "cluster_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.133:6802",
+                        "nonce": 1205711
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.133:6803",
+                        "nonce": 1205711
+                    }
+                ]
+            },
+            "heartbeat_back_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.133:6806",
+                        "nonce": 1205711
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.133:6807",
+                        "nonce": 1205711
+                    }
+                ]
+            },
+            "heartbeat_front_addrs": {
+                "addrvec": [
+                    {
+                        "type": "v2",
+                        "addr": "10.0.0.133:6804",
+                        "nonce": 1205711
+                    },
+                    {
+                        "type": "v1",
+                        "addr": "10.0.0.133:6805",
+                        "nonce": 1205711
+                    }
+                ]
+            },
+            "public_addr": "10.0.0.133:6801/1205711",
+            "cluster_addr": "10.0.0.133:6803/1205711",
+            "heartbeat_back_addr": "10.0.0.133:6807/1205711",
+            "heartbeat_front_addr": "10.0.0.133:6805/1205711",
+            "state": [
+                "exists",
+                "up"
+            ]
+        }
+    ],
+    "osd_xinfo": [
+        {
+            "osd": 0,
+            "down_stamp": "0.000000",
+            "laggy_probability": 0,
+            "laggy_interval": 0,
+            "features": 4540138292840890367,
+            "old_weight": 0,
+            "last_purged_snaps_scrub": "2022-02-10T09:32:08.063882+0000",
+            "dead_epoch": 31
+        },
+        {
+            "osd": 1,
+            "down_stamp": "2022-02-10T09:19:19.134352+0000",
+            "laggy_probability": 0,
+            "laggy_interval": 0,
+            "features": 4540138292840890367,
+            "old_weight": 0,
+            "last_purged_snaps_scrub": "2022-02-09T22:59:36.116399+0000",
+            "dead_epoch": 24
+        },
+        {
+            "osd": 2,
+            "down_stamp": "0.000000",
+            "laggy_probability": 0,
+            "laggy_interval": 0,
+            "features": 4540138292840890367,
+            "old_weight": 0,
+            "last_purged_snaps_scrub": "2022-02-10T09:32:47.675479+0000",
+            "dead_epoch": 31
+        }
+    ],
+    "pg_upmap": [],
+    "pg_upmap_items": [],
+    "pg_temp": [],
+    "primary_temp": [],
+    "blacklist": {
+        "10.0.0.120:0/1885113033": "2022-02-10T22:34:22.722058+0000",
+        "10.0.0.120:6801/16477": "2022-02-10T22:34:22.722058+0000",
+        "10.0.0.120:6800/16477": "2022-02-10T22:34:22.722058+0000",
+        "10.0.0.120:0/2088306009": "2022-02-10T22:34:22.722058+0000"
+    },
+    "erasure_code_profiles": {
+        "default": {
+            "k": "2",
+            "m": "2",
+            "plugin": "jerasure",
+            "technique": "reed_sol_van"
+        }
+    },
+    "removed_snaps_queue": [],
+    "new_removed_snaps": [],
+    "new_purged_snaps": [],
+    "crush_node_flags": {},
+    "device_class_flags": {}
+}

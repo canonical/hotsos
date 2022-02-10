@@ -1,0 +1,55 @@
+Name:	lxcfs
+Umask:	0022
+State:	S (sleeping)
+Tgid:	9840
+Ngid:	0
+Pid:	9840
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	9840
+NSpid:	9840
+NSpgid:	9679
+NSsid:	9679
+VmPeak:	  142812 kB
+VmSize:	   85608 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    1948 kB
+VmRSS:	     140 kB
+RssAnon:	     140 kB
+RssFile:	       0 kB
+RssShmem:	       0 kB
+VmData:	   17216 kB
+VmStk:	     132 kB
+VmExe:	      24 kB
+VmLib:	    2008 kB
+VmPTE:	      56 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	3
+SigQ:	4/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000001006
+SigCgt:	0000000180004a01
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	thread vulnerable
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	12
+nonvoluntary_ctxt_switches:	55

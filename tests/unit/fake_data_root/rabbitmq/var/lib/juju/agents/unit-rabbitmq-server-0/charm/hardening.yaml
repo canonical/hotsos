@@ -1,0 +1,5 @@
+# Overrides file for contrib.hardening. See README.hardening in
+# contrib.hardening for info on how to use this file.
+ssh:
+  server:
+    use_pam: 'yes' # juju requires this

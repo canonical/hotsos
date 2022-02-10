@@ -1,0 +1,62 @@
+name: nova-compute
+summary: OpenStack Compute - Nova compute hypervisor
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+description: |
+  OpenStack Compute, codenamed Nova, is a cloud computing fabric controller. In
+  addition to its "native" API (the OpenStack API), it also supports the Amazon
+  EC2 API.
+  .
+  This charm provides the Nova Compute hypervisor service and should be deployed
+  directly to physical servers.
+tags:
+- openstack
+series:
+- focal
+- impish
+provides:
+  cloud-compute:
+    interface: nova-compute
+  nrpe-external-master:
+    interface: nrpe-external-master
+    scope: container
+extra-bindings:
+  # Used for console access to instances
+  internal:
+  # Used for live/cold migration of instances
+  migration:
+requires:
+  amqp:
+    interface: rabbitmq
+  image-service:
+    interface: glance
+  ceph:
+    interface: ceph-client
+  lxd:
+    interface: containers
+    scope: container
+  nova-ceilometer:
+    interface: nova-ceilometer
+    scope: container
+  neutron-plugin:
+    interface: neutron-plugin
+    scope: container
+  ephemeral-backend:
+    interface: ephemeral-backend
+    scope: container
+  ceph-access:
+    interface: cinder-ceph-key
+  cloud-credentials:
+    interface: keystone-credentials
+  secrets-storage:
+    interface: vault-kv
+  ironic-api:
+    interface: baremetal
+peers:
+  compute-peer:
+    interface: nova
+storage:
+  ephemeral-device:
+    type: block
+    multiple:
+      range: 0-1
+    minimum-size: 10G

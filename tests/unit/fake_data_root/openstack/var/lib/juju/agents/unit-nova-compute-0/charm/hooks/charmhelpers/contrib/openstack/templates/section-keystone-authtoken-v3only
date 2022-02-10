@@ -1,0 +1,9 @@
+{% if auth_host -%}
+[keystone_authtoken]
+{% for option_name, option_value in keystone_authtoken.items() -%}
+{{ option_name }} = {{ option_value }}
+{% endfor -%}
+{% if use_memcache == true %}
+memcached_servers = {{ memcache_url }}
+{% endif -%}
+{% endif -%}

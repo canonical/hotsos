@@ -1,0 +1,107 @@
+#!/bin/bash
+
+VERSION="1.0.0"
+
+
+find_charm_dirs() {
+    # Hopefully, $JUJU_CHARM_DIR is set so which venv to use in unambiguous.
+    if [[ -n "$JUJU_CHARM_DIR" || -n "$CHARM_DIR" ]]; then
+        if [[ -z "$JUJU_CHARM_DIR" ]]; then
+            # accept $CHARM_DIR to be more forgiving
+            export JUJU_CHARM_DIR="$CHARM_DIR"
+        fi
+        if [[ -z "$CHARM_DIR" ]]; then
+            # set CHARM_DIR as well to help with backwards compatibility
+            export CHARM_DIR="$JUJU_CHARM_DIR"
+        fi
+        return
+    fi
+    # Try to guess the value for JUJU_CHARM_DIR by looking for a non-subordinate
+    # (because there's got to be at least one principle) charm directory;
+    # if there are several, pick the first by alpha order.
+    agents_dir="/var/lib/juju/agents"
+    if [[ -d "$agents_dir" ]]; then
+        desired_charm="$1"
+        found_charm_dir=""
+        if [[ -n "$desired_charm" ]]; then
+            for charm_dir in $(/bin/ls -d "$agents_dir"/unit-*/charm); do
+                charm_name="$(grep -o '^['\''"]\?name['\''"]\?:.*' $charm_dir/metadata.yaml 2> /dev/null | sed -e 's/.*: *//' -e 's/['\''"]//g')"
+                if [[ "$charm_name" == "$desired_charm" ]]; then
+                    if [[ -n "$found_charm_dir" ]]; then
+                        >&2 echo "Ambiguous possibilities for JUJU_CHARM_DIR matching '$desired_charm'; please run within a Juju hook context"
+                        exit 1
+                    fi
+                    found_charm_dir="$charm_dir"
+                fi
+            done
+            if [[ -z "$found_charm_dir" ]]; then
+                >&2 echo "Unable to determine JUJU_CHARM_DIR matching '$desired_charm'; please run within a Juju hook context"
+                exit 1
+            fi
+            export JUJU_CHARM_DIR="$found_charm_dir"
+            export CHARM_DIR="$found_charm_dir"
+            return
+        fi
+        # shellcheck disable=SC2126
+        non_subordinates="$(grep -L 'subordinate"\?:.*true' "$agents_dir"/unit-*/charm/metadata.yaml | wc -l)"
+        if [[ "$non_subordinates" -gt 1 ]]; then
+            >&2 echo 'Ambiguous possibilities for JUJU_CHARM_DIR; please use --charm or run within a Juju hook context'
+            exit 1
+        elif [[ "$non_subordinates" -eq 1 ]]; then
+            for charm_dir in $(/bin/ls -d "$agents_dir"/unit-*/charm); do
+                if grep -q 'subordinate"\?:.*true' "$charm_dir/metadata.yaml"; then
+                    continue
+                fi
+                export JUJU_CHARM_DIR="$charm_dir"
+                export CHARM_DIR="$charm_dir"
+                return
+            done
+        fi
+    fi
+    >&2 echo 'Unable to determine JUJU_CHARM_DIR; please run within a Juju hook context'
+    exit 1
+}
+
+try_activate_venv() {
+    if [[ -d "$JUJU_CHARM_DIR/../.venv" ]]; then
+        . "$JUJU_CHARM_DIR/../.venv/bin/activate"
+    fi
+}
+
+find_wrapped() {
+    PATH="${PATH/\/usr\/local\/sbin:}" which "$(basename "$0")"
+}
+
+
+if [[ "$1" == "--version" || "$1" == "-v" ]]; then
+    echo "$VERSION"
+    exit 0
+fi
+
+
+# allow --charm option to hint which JUJU_CHARM_DIR to choose when ambiguous
+# NB: --charm option must come first
+# NB: option must be processed outside find_charm_dirs to modify $@
+charm_name=""
+if [[ "$1" == "--charm" ]]; then
+    charm_name="$2"
+    shift; shift
+fi
+
+find_charm_dirs "$charm_name"
+try_activate_venv
+export PYTHONPATH="$JUJU_CHARM_DIR/lib:$PYTHONPATH"
+
+if [[ "$(basename "$0")" == "charm-env" ]]; then
+    # being used as a shebang
+    exec "$@"
+elif [[ "$0" == "$BASH_SOURCE" ]]; then
+    # being invoked as a symlink wrapping something to find in the venv
+    exec "$(find_wrapped)" "$@"
+elif [[ "$(basename "$BASH_SOURCE")" == "charm-env" ]]; then
+    # being sourced directly; do nothing
+    /bin/true
+else
+    # being sourced for wrapped bash helpers
+    . "$(find_wrapped)"
+fi

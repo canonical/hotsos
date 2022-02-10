@@ -1,0 +1,127 @@
+2022-02-04 09:46:27 INFO juju.cmd supercommand.go:56 running jujud [2.9.22 0 07164c4b2c6a9f5b576b1c151bd85dd3a699be16 gc go1.14.15]
+2022-02-04 09:46:27 DEBUG juju.cmd supercommand.go:57   args: []string{"/var/lib/juju/tools/machine-1-lxd-5/jujud", "machine", "--data-dir", "/var/lib/juju", "--machine-id", "1/lxd/5", "--debug"}
+2022-02-04 09:46:27 DEBUG juju.utils gomaxprocs.go:24 setting GOMAXPROCS to 2
+2022-02-04 09:46:27 DEBUG juju.agent agent.go:578 read agent config, format "2.0"
+2022-02-04 09:46:27 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 2.9.22 have already been run.
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "agent" manifold worker started at 2022-02-04 09:46:27.608481554 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "state-config-watcher" manifold worker started at 2022-02-04 09:46:27.652517604 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "api-config-watcher" manifold worker started at 2022-02-04 09:46:27.653483382 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.apicaller connect.go:128 connecting with old password
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "termination-signal-handler" manifold worker started at 2022-02-04 09:46:27.713704742 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "upgrade-check-gate" manifold worker started at 2022-02-04 09:46:27.713749686 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "upgrade-steps-gate" manifold worker started at 2022-02-04 09:46:27.713945843 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "clock" manifold worker started at 2022-02-04 09:46:27.726667424 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "upgrade-steps-flag" manifold worker started at 2022-02-04 09:46:27.751127144 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.dependency engine.go:578 "upgrade-check-flag" manifold worker started at 2022-02-04 09:46:27.751264466 +0000 UTC
+2022-02-04 09:46:27 DEBUG juju.worker.introspection worker.go:132 introspection worker listening on "@jujud-machine-1-lxd-5"
+2022-02-04 09:46:27 DEBUG juju.worker.introspection worker.go:158 stats worker now serving
+2022-02-04 09:46:27 DEBUG juju.api apiclient.go:1149 successfully dialed "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-04 09:46:27 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-04 09:46:27 INFO juju.worker.apicaller connect.go:158 [68a1f1] "machine-1-lxd-5" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:46:27 DEBUG juju.worker.apicaller connect.go:250 changing password...
+2022-02-04 09:46:28 INFO juju.worker.apicaller connect.go:255 [68a1f1] password changed for "machine-1-lxd-5"
+2022-02-04 09:46:28 DEBUG juju.api monitor.go:35 RPC connection died
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:616 "api-caller" manifold worker stopped: restart immediately
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/vendor/github.com/juju/worker/v3/dependency/interface.go:124: restart immediately
+2022-02-04 09:46:28 DEBUG juju.worker.apicaller connect.go:115 connecting with current password
+2022-02-04 09:46:28 DEBUG juju.api apiclient.go:1149 successfully dialed "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-04 09:46:28 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-04 09:46:28 INFO juju.worker.apicaller connect.go:158 [68a1f1] "machine-1-lxd-5" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "api-caller" manifold worker started at 2022-02-04 09:46:28.428003565 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "upgrader" manifold worker started at 2022-02-04 09:46:28.443500617 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "upgrade-steps-runner" manifold worker started at 2022-02-04 09:46:28.472536837 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "migration-inactive-flag" manifold worker started at 2022-02-04 09:46:28.472991522 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:601 "upgrade-steps-runner" manifold worker completed successfully
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "valid-credential-flag" manifold worker started at 2022-02-04 09:46:28.523879352 +0000 UTC
+2022-02-04 09:46:28 INFO juju.worker.upgrader upgrader.go:244 desired agent binary version: 2.9.22
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:616 "upgrade-check-flag" manifold worker stopped: gate unlocked
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/worker/gate/flag.go:95: gate unlocked
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "upgrade-check-flag" manifold worker started at 2022-02-04 09:46:28.618727673 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "migration-fortress" manifold worker started at 2022-02-04 09:46:28.629987014 +0000 UTC
+2022-02-04 09:46:28 INFO juju.worker.deployer nested.go:158 new context: units "", stopped ""
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "deployer" manifold worker started at 2022-02-04 09:46:28.630329666 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "migration-minion" manifold worker started at 2022-02-04 09:46:28.640595435 +0000 UTC
+2022-02-04 09:46:28 INFO juju.worker.deployer deployer.go:161 checking unit "rabbitmq-server/0"
+2022-02-04 09:46:28 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "log-sender" manifold worker started at 2022-02-04 09:46:28.711083711 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "ssh-authkeys-updater" manifold worker started at 2022-02-04 09:46:28.711154212 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "host-key-reporter" manifold worker started at 2022-02-04 09:46:28.711204035 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.logger logger.go:65 initial log config: "<root>=DEBUG"
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "logging-config-updater" manifold worker started at 2022-02-04 09:46:28.711287225 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "storage-provisioner" manifold worker started at 2022-02-04 09:46:28.731864734 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "reboot-executor" manifold worker started at 2022-02-04 09:46:28.73191695 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "api-address-updater" manifold worker started at 2022-02-04 09:46:28.750240936 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "machine-action-runner" manifold worker started at 2022-02-04 09:46:28.750290115 +0000 UTC
+2022-02-04 09:46:28 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-04 09:46:28 DEBUG juju.worker.fanconfigurer fanconfigurer.go:43 Processing new fan config
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "disk-manager" manifold worker started at 2022-02-04 09:46:28.750321769 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:616 "agent-config-updater" manifold worker stopped: resource permanently unavailable
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/vendor/github.com/juju/worker/v3/dependency/interface.go:129: resource permanently unavailable
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/worker/fortress/occupy.go:63: 
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/cmd/jujud/agent/engine/housing.go:93: 
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "proxy-config-updater" manifold worker started at 2022-02-04 09:46:28.907354669 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:578 "upgrade-series" manifold worker started at 2022-02-04 09:46:28.907385728 +0000 UTC
+2022-02-04 09:46:28 DEBUG juju.utils.ssh authorisedkeys.go:92 reading authorised keys file /home/ubuntu/.ssh/authorized_keys
+2022-02-04 09:46:28 DEBUG juju.utils.ssh authorisedkeys.go:92 reading authorised keys file /home/ubuntu/.ssh/authorized_keys
+2022-02-04 09:46:28 DEBUG juju.utils.ssh authorisedkeys.go:129 writing authorised keys file /home/ubuntu/.ssh/authorized_keys
+2022-02-04 09:46:28 DEBUG juju.worker.hostkeyreporter worker.go:82 4 SSH host keys reported for machine 1/lxd/5
+2022-02-04 09:46:28 DEBUG juju.worker.dependency engine.go:616 "host-key-reporter" manifold worker stopped: resource permanently unavailable
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/vendor/github.com/juju/worker/v3/dependency/interface.go:129: resource permanently unavailable
+2022-02-04 09:46:29 INFO juju.worker.authenticationworker worker.go:103 "machine-1-lxd-5" key updater worker started
+2022-02-04 09:46:29 WARNING juju.cmd.jujud machine.go:903 determining kvm support: INFO: /dev/kvm does not exist
+HINT:   sudo modprobe kvm_intel
+modprobe: FATAL: Module msr not found in directory /lib/modules/5.4.0-97-generic
+: exit status 1
+no kvm containers possible
+2022-02-04 09:46:29 INFO juju.worker.deployer deployer.go:204 deploying unit "rabbitmq-server/0"
+2022-02-04 09:46:29 DEBUG juju.worker.logger logger.go:93 reconfiguring logging from "<root>=DEBUG" to "<root>=INFO"
+2022-02-04 09:46:29 INFO juju.worker.upgradeseries worker.go:161 no series upgrade lock present
+2022-02-04 09:46:29 ERROR juju.worker.dependency engine.go:693 "broker-tracker" manifold worker returned unexpected error: no container types determined
+2022-02-04 09:46:29 INFO juju.worker.deployer unit_agent.go:125 creating new agent config for "rabbitmq-server/0"
+2022-02-04 09:46:29 INFO juju.worker.deployer nested.go:354 starting workers for "rabbitmq-server/0"
+2022-02-04 09:46:29 INFO juju.worker.machiner machiner.go:162 setting addresses for "machine-1-lxd-5" to [local-machine:127.0.0.1 local-cloud:10.0.0.116 local-machine:::1]
+2022-02-04 09:46:29 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-04 09:46:30 INFO juju.worker.machiner machiner.go:112 "machine-1-lxd-5" started
+2022-02-04 09:46:30 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-04 09:46:30 INFO juju.worker.leadership tracker.go:194 rabbitmq-server/0 promoted to leadership of rabbitmq-server
+2022-02-04 09:46:31 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-server-0
+2022-02-04 09:46:31 INFO juju.agent.tools symlinks.go:40 was a symlink, now looking at /var/lib/juju/tools/2.9.22-ubuntu-amd64
+2022-02-04 09:46:31 INFO juju.downloader download.go:111 downloading from cs:~openstack-charmers-next/rabbitmq-server-454
+2022-02-04 09:46:32 INFO juju.downloader download.go:94 download complete ("cs:~openstack-charmers-next/rabbitmq-server-454")
+2022-02-04 09:46:32 INFO juju.downloader download.go:174 download verified ("cs:~openstack-charmers-next/rabbitmq-server-454")
+2022-02-09 22:38:56 INFO juju.cmd supercommand.go:56 running jujud [2.9.22 0 07164c4b2c6a9f5b576b1c151bd85dd3a699be16 gc go1.14.15]
+2022-02-09 22:38:56 DEBUG juju.cmd supercommand.go:57   args: []string{"/var/lib/juju/tools/machine-1-lxd-5/jujud", "machine", "--data-dir", "/var/lib/juju", "--machine-id", "1/lxd/5", "--debug"}
+2022-02-09 22:38:56 DEBUG juju.utils gomaxprocs.go:24 setting GOMAXPROCS to 2
+2022-02-09 22:38:56 DEBUG juju.agent agent.go:578 read agent config, format "2.0"
+2022-02-09 22:38:56 INFO juju.agent.setup agentconf.go:128 setting logging config to "<root>=INFO"
+2022-02-09 22:38:56 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 2.9.22 have already been run.
+2022-02-09 22:38:57 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-09 22:38:57 INFO juju.worker.apicaller connect.go:158 [68a1f1] "machine-1-lxd-5" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:38:57 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-09 22:38:57 INFO juju.worker.apicaller connect.go:158 [68a1f1] "machine-1-lxd-5" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:38:57 INFO juju.worker.upgrader upgrader.go:244 desired agent binary version: 2.9.22
+2022-02-09 22:38:57 INFO juju.worker.deployer nested.go:158 new context: units "rabbitmq-server/0", stopped ""
+2022-02-09 22:38:57 INFO juju.worker.deployer unit_agent.go:125 creating new agent config for "rabbitmq-server/0"
+2022-02-09 22:38:57 INFO juju.worker.deployer nested.go:354 starting workers for "rabbitmq-server/0"
+2022-02-09 22:38:57 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-09 22:38:57 INFO juju.worker.deployer deployer.go:161 checking unit "rabbitmq-server/0"
+2022-02-09 22:38:57 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-09 22:38:57 INFO juju.worker.deployer deployer.go:161 checking unit "rabbitmq-server/0"
+2022-02-09 22:38:57 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-09 22:38:58 INFO juju.worker.upgradeseries worker.go:161 no series upgrade lock present
+2022-02-09 22:38:58 INFO juju.api apiclient.go:680 connection established to "wss://10.0.0.217:17070/model/68a1f1ae-87fd-4676-82e3-9dbf9604f1e3/api"
+2022-02-09 22:38:58 INFO juju.worker.machiner machiner.go:162 setting addresses for "machine-1-lxd-5" to [local-machine:127.0.0.1 local-cloud:10.0.0.116 local-machine:::1]
+2022-02-09 22:38:58 INFO juju.worker.machiner machiner.go:112 "machine-1-lxd-5" started
+2022-02-09 22:38:58 INFO juju.worker.leadership tracker.go:194 rabbitmq-server/0 promoted to leadership of rabbitmq-server
+2022-02-09 22:38:58 INFO juju.worker.authenticationworker worker.go:103 "machine-1-lxd-5" key updater worker started
+2022-02-09 22:38:58 WARNING juju.cmd.jujud machine.go:903 determining kvm support: INFO: /dev/kvm does not exist
+HINT:   sudo modprobe kvm_intel
+modprobe: FATAL: Module msr not found in directory /lib/modules/5.4.0-97-generic
+: exit status 1
+no kvm containers possible
+2022-02-09 22:38:58 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-server-0
+2022-02-09 22:38:58 INFO juju.agent.tools symlinks.go:40 was a symlink, now looking at /var/lib/juju/tools/2.9.22-ubuntu-amd64

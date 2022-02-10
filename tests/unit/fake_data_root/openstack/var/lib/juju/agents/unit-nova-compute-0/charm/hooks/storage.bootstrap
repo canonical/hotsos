@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if ! dpkg -s nova-compute > /dev/null 2>&1; then
+    juju-log "Nova not yet installed."
+    exit 0
+fi
+
+./hooks/storage.real

@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system:monitoring
+rules:
+- apiGroups: [""]
+  resources:
+  - "endpoints"
+  - "nodes"
+  - "nodes/proxy"
+  - "pods"
+  - "services"
+  - "services/proxy"
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:monitoring
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: system:monitoring

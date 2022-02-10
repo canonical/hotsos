@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: proxy-clusterrole-cdk-{{ juju_application }}
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes/metrics
+  - nodes/proxy
+  verbs: ["get", "list", "watch", "create", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: proxy-role-binding-cdk-{{ juju_application }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: proxy-clusterrole-cdk-{{ juju_application }}
+subjects: {% for proxy_user in proxy_users %}
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: {{ proxy_user }}
+{% endfor %}

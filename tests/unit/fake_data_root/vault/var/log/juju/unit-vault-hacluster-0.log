@@ -1,0 +1,290 @@
+2022-02-04 09:54:57 INFO juju unit_agent.go:276 Starting unit workers for "vault-hacluster/0"
+2022-02-04 09:54:57 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-vault-hacluster-0" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:54:57 INFO juju.worker.apicaller connect.go:255 [68a1f1] password changed for "unit-vault-hacluster-0"
+2022-02-04 09:54:57 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-vault-hacluster-0" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:54:57 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-04 09:54:57 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-04 09:54:57 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-04 09:54:57 ERROR juju.worker.meterstatus runner.go:91 error running "meter-status-changed": charm missing from disk
+2022-02-04 09:54:57 INFO juju.worker.uniter uniter.go:333 unit "vault-hacluster/0" started
+2022-02-04 09:54:57 INFO juju.worker.uniter uniter.go:636 resuming charm install
+2022-02-04 09:54:57 INFO juju.worker.uniter.charm bundles.go:79 downloading cs:~openstack-charmers-next/hacluster-200 from API server
+2022-02-04 09:54:58 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-04 09:54:58 INFO juju.worker.uniter.storage resolver.go:127 initial storage attachments ready
+2022-02-04 09:54:58 INFO juju.worker.uniter resolver.go:154 found queued "install" hook
+2022-02-04 09:55:41 INFO unit.vault-hacluster/0.juju-log server.go:327 Installing ['crmsh', 'corosync', 'pacemaker', 'ipmitool', 'libmonitoring-plugin-perl', 'python3-requests-oauthlib', 'python3-libmaas'] with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 Making dir /usr/lib/ocf/resource.d/ceph root:root 555
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 Making dir /usr/lib/ocf/resource.d/maas root:root 555
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 Making dir /etc/corosync/uidgid.d root:root 555
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/ceph/rbd /usr/lib/ocf/resource.d/ceph/rbd
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/dns /usr/lib/ocf/resource.d/maas/dns
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/maas_dns.py /usr/lib/heartbeat/maas_dns.py
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/maasclient/ /usr/lib/heartbeat/maasclient/
+2022-02-04 09:57:53 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/maas_stonith_plugin.py /usr/lib/stonith/plugins/external/maas
+2022-02-04 09:59:56 ERROR unit.vault-hacluster/0.juju-log server.go:327 Pacemaker is down. Please manually start it. Pacemaker or Corosync are still not fully up after waiting for 12 retries. This looks like lp:1874719. Last output: node1(1): member
+2022-02-04 09:59:57 INFO juju.worker.uniter.operation runhook.go:152 ran "install" hook (via explicit, bespoke hook script)
+2022-02-04 10:02:43 INFO juju.worker.uniter.operation runhook.go:155 skipped "hanode-relation-created" hook (missing)
+2022-02-04 10:02:44 INFO juju.worker.uniter.operation runhook.go:155 skipped "ha-relation-created" hook (missing)
+2022-02-04 10:02:44 INFO juju.worker.uniter resolver.go:154 found queued "leader-elected" hook
+2022-02-04 10:02:44 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-elected" hook (missing)
+2022-02-04 10:02:49 INFO unit.vault-hacluster/0.juju-log server.go:327 Making dir /usr/lib/ocf/resource.d/ceph root:root 555
+2022-02-04 10:02:49 INFO unit.vault-hacluster/0.juju-log server.go:327 Making dir /usr/lib/ocf/resource.d/maas root:root 555
+2022-02-04 10:02:49 INFO unit.vault-hacluster/0.juju-log server.go:327 Making dir /etc/corosync/uidgid.d root:root 555
+2022-02-04 10:02:49 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/ceph/rbd /usr/lib/ocf/resource.d/ceph/rbd
+2022-02-04 10:02:49 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/dns /usr/lib/ocf/resource.d/maas/dns
+2022-02-04 10:02:50 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/maas_dns.py /usr/lib/heartbeat/maas_dns.py
+2022-02-04 10:02:50 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/maasclient/ /usr/lib/heartbeat/maasclient/
+2022-02-04 10:02:50 INFO unit.vault-hacluster/0.juju-log server.go:327 /usr/bin/rsync -r --delete --executability files/ocf/maas/maas_stonith_plugin.py /usr/lib/stonith/plugins/external/maas
+2022-02-04 10:03:21 INFO unit.vault-hacluster/0.juju-log server.go:327 Corosync and Pacemaker are validated as up and running.
+2022-02-04 10:03:27 INFO unit.vault-hacluster/0.juju-log server.go:327 Disabling STONITH
+2022-02-04 10:03:29 INFO unit.vault-hacluster/0.juju-log server.go:327 Installing python-dbus with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 10:03:52 INFO unit.vault-hacluster/0.juju-log server.go:327 Setting maintenance-mode to False
+2022-02-04 10:03:59 INFO juju.worker.uniter.operation runhook.go:152 ran "config-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:03:59 INFO juju.worker.uniter resolver.go:154 found queued "start" hook
+2022-02-04 10:04:05 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-04 10:04:12 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-04 10:04:17 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:04:18 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:04:18 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:04:20 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:04:25 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:04:27 INFO juju.worker.uniter.operation runhook.go:152 ran "ha-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-04 10:04:35 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:04:37 INFO juju.worker.uniter.operation runhook.go:152 ran "ha-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:05:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:06:32 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:06:32 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:06:33 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:06:34 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:06:48 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-04 10:06:57 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:06:58 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:06:58 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:07:01 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:07:10 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:07:10 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:07:11 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:07:14 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:07:57 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:07:57 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:07:58 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Not enough nodes in cluster, deferring configuration
+2022-02-04 10:08:01 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:08:11 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:08:12 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:08:19 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Corosync and Pacemaker are validated as up and running.
+2022-02-04 10:08:24 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Disabling STONITH
+2022-02-04 10:08:25 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Setting cluster symmetry
+2022-02-04 10:08:25 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Inconsistent or absent enable-resources setting []
+2022-02-04 10:08:25 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Unable to calculated desired symmetric-cluster setting
+2022-02-04 10:08:26 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Deferring configuration of any remote nodes
+2022-02-04 10:08:29 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:08:36 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:08:37 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:08:44 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Disabling STONITH
+2022-02-04 10:08:45 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Setting cluster symmetry
+2022-02-04 10:08:45 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Inconsistent or absent enable-resources setting []
+2022-02-04 10:08:45 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Unable to calculated desired symmetric-cluster setting
+2022-02-04 10:08:46 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Deferring configuration of any remote nodes
+2022-02-04 10:08:49 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:09:03 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Checking if any units have notified about a series upgrade
+2022-02-04 10:09:04 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: No units have notified a series upgrade
+2022-02-04 10:09:10 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Disabling STONITH
+2022-02-04 10:09:11 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Setting cluster symmetry
+2022-02-04 10:09:11 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Inconsistent or absent enable-resources setting []
+2022-02-04 10:09:11 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Unable to calculated desired symmetric-cluster setting
+2022-02-04 10:09:11 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Configuring any remote nodes
+2022-02-04 10:09:11 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Inconsistent or absent enable-resources setting []
+2022-02-04 10:09:11 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Unable to calculate whether resources should run on remotes
+2022-02-04 10:09:11 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Inconsistent or absent enable-resources setting []
+2022-02-04 10:09:11 WARNING unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Unable to calculate whether resources should run on remotes
+2022-02-04 10:09:11 INFO unit.vault-hacluster/0.juju-log server.go:327 hanode:13: Disabling STONITH
+2022-02-04 10:09:15 INFO juju.worker.uniter.operation runhook.go:152 ran "hanode-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:10:06 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Disabling STONITH
+2022-02-04 10:10:07 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Setting cluster symmetry
+2022-02-04 10:10:07 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Inconsistent or absent enable-resources setting []
+2022-02-04 10:10:07 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Unable to calculated desired symmetric-cluster setting
+2022-02-04 10:10:14 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:10:14 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Configuring any remote nodes
+2022-02-04 10:10:14 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Inconsistent or absent enable-resources setting []
+2022-02-04 10:10:14 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Unable to calculate whether resources should run on remotes
+2022-02-04 10:10:14 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Inconsistent or absent enable-resources setting []
+2022-02-04 10:10:14 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Unable to calculate whether resources should run on remotes
+2022-02-04 10:10:14 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Disabling STONITH
+2022-02-04 10:10:18 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:10:26 INFO juju.worker.uniter.operation runhook.go:152 ran "ha-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:10:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:10:59 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:11:03 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:11:07 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:11:10 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Disabling STONITH
+2022-02-04 10:11:14 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Setting cluster symmetry
+2022-02-04 10:11:14 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Inconsistent or absent enable-resources setting []
+2022-02-04 10:11:14 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Unable to calculated desired symmetric-cluster setting
+2022-02-04 10:11:18 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Updating resource res_vault-ext_f2687f5_vip
+2022-02-04 10:11:18 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Update command: crm configure load update /tmp/tmpyjteg8wg
+2022-02-04 10:11:31 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:11:32 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Configuring any remote nodes
+2022-02-04 10:11:32 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Inconsistent or absent enable-resources setting []
+2022-02-04 10:11:32 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Unable to calculate whether resources should run on remotes
+2022-02-04 10:11:32 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Inconsistent or absent enable-resources setting []
+2022-02-04 10:11:32 WARNING unit.vault-hacluster/0.juju-log server.go:327 ha:52: Unable to calculate whether resources should run on remotes
+2022-02-04 10:11:33 INFO unit.vault-hacluster/0.juju-log server.go:327 ha:52: Disabling STONITH
+2022-02-04 10:11:37 WARNING unit.vault-hacluster/0.ha-relation-changed logger.go:60 ERROR: (unpack_config) 	warning: Blind faith: not fencing unseen nodes
+2022-02-04 10:11:44 INFO juju.worker.uniter.operation runhook.go:152 ran "ha-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:15:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:21:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:25:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:29:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:35:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:39:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:45:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:50:12 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:54:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:33:40 INFO juju unit_agent.go:276 Starting unit workers for "vault-hacluster/0"
+2022-02-09 22:33:40 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-vault-hacluster-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:33:41 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-09 22:33:41 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-09 22:33:41 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-09 22:33:41 INFO juju.worker.uniter uniter.go:333 unit "vault-hacluster/0" started
+2022-02-09 22:33:41 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-09 22:33:42 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2022-02-09 22:34:05 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-09 22:34:06 WARNING juju.worker.uniter.operation leader.go:123 we should run a leader-deposed hook here, but we can't yet
+2022-02-09 22:35:02 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-settings-changed" hook (missing)
+2022-02-09 22:38:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:42:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:48:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:52:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:57:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:59:31 INFO juju.worker.uniter resolver.go:154 found queued "leader-elected" hook
+2022-02-09 22:59:37 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-elected" hook (missing)
+2022-02-09 23:01:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:06:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:10:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:15:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:20:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:24:39 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:28:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:32:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:37:39 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:42:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:46:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:51:40 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:57:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:03:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:08:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:14:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:19:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:23:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:27:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:32:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:36:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:42:00 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:47:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:52:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:57:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:01:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:07:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:13:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:17:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:22:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:28:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:34:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:39:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:43:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:48:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:53:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:59:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:04:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:08:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:13:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:18:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:23:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:28:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:32:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:38:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:43:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:49:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:53:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:58:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:03:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:08:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:14:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:19:24 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:24:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:29:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:34:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:38:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:44:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:48:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:54:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:59:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:03:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:08:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:12:48 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:17:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:22:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:28:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:33:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:38:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:43:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:48:45 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:54:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:58:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:03:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:09:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:15:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:20:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:26:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:31:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:37:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:43:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:48:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:53:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:57:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:01:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:07:48 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:13:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:18:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:24:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:28:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:33:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:39:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:44:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:48:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:53:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:58:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:03:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:08:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:13:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:19:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:23:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:28:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:34:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:39:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:44:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:49:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:55:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:00:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:05:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:10:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:16:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:21:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:25:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:30:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:34:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:38:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:44:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:49:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:54:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:58:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:04:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:08:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:14:06 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:19:00 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:23:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:27:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:33:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:38:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:42:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:48:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)

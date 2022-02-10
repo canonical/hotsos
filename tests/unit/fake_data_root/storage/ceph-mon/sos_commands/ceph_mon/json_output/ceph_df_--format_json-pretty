@@ -1,0 +1,72 @@
+
+{
+    "stats": {
+        "total_bytes": 322059632640,
+        "total_avail_bytes": 318837153792,
+        "total_used_bytes": 1253376,
+        "total_used_raw_bytes": 3222478848,
+        "total_used_raw_ratio": 0.010005845688283443,
+        "num_osds": 3,
+        "num_per_pool_osds": 3,
+        "num_per_pool_omap_osds": 3
+    },
+    "stats_by_class": {
+        "ssd": {
+            "total_bytes": 322059632640,
+            "total_avail_bytes": 318837153792,
+            "total_used_bytes": 1253376,
+            "total_used_raw_bytes": 3222478848,
+            "total_used_raw_ratio": 0.010005845688283443
+        }
+    },
+    "pools": [
+        {
+            "name": "device_health_metrics",
+            "id": 1,
+            "stats": {
+                "stored": 0,
+                "objects": 0,
+                "kb_used": 0,
+                "bytes_used": 0,
+                "percent_used": 0,
+                "max_avail": 100911382528
+            }
+        },
+        {
+            "name": "glance",
+            "id": 2,
+            "stats": {
+                "stored": 0,
+                "objects": 0,
+                "kb_used": 0,
+                "bytes_used": 0,
+                "percent_used": 0,
+                "max_avail": 100911382528
+            }
+        },
+        {
+            "name": "cinder-ceph",
+            "id": 3,
+            "stats": {
+                "stored": 0,
+                "objects": 0,
+                "kb_used": 0,
+                "bytes_used": 0,
+                "percent_used": 0,
+                "max_avail": 100911382528
+            }
+        },
+        {
+            "name": "nova",
+            "id": 4,
+            "stats": {
+                "stored": 0,
+                "objects": 0,
+                "kb_used": 0,
+                "bytes_used": 0,
+                "percent_used": 0,
+                "max_avail": 100911382528
+            }
+        }
+    ]
+}

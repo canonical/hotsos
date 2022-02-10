@@ -1,0 +1,11 @@
+/var/log/kubernetes/{{logfile}} {
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        kill -USR1 $(cat /run/{{ pidfile }})
+    endscript
+}

@@ -1,0 +1,74 @@
+3383 3325 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs / ro,relatime shared:1555 master:337 - ext4 /dev/vda2 rw
+3400 3383 0:117 / /proc rw,nosuid,nodev,noexec,relatime shared:1556 - proc proc rw
+3401 3400 0:68 / /proc/sys/fs/binfmt_misc rw,nosuid,nodev,noexec,relatime shared:1557 master:458 - binfmt_misc binfmt_misc rw
+3402 3400 0:60 /proc/cpuinfo /proc/cpuinfo rw,nosuid,nodev,relatime shared:1558 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3403 3400 0:60 /proc/diskstats /proc/diskstats rw,nosuid,nodev,relatime shared:1559 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3404 3400 0:60 /proc/loadavg /proc/loadavg rw,nosuid,nodev,relatime shared:1560 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3405 3400 0:60 /proc/meminfo /proc/meminfo rw,nosuid,nodev,relatime shared:1561 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3406 3400 0:60 /proc/stat /proc/stat rw,nosuid,nodev,relatime shared:1562 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3407 3400 0:60 /proc/swaps /proc/swaps rw,nosuid,nodev,relatime shared:1563 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3408 3400 0:60 /proc/uptime /proc/uptime rw,nosuid,nodev,relatime shared:1564 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3409 3400 0:124 /.lxc-boot-id /proc/sys/kernel/random/boot_id ro,nosuid,nodev,noexec,relatime shared:1565 - tmpfs none rw,size=492k,mode=755,uid=1000000,gid=1000000
+3410 3383 0:125 / /sys ro,relatime shared:1579 - sysfs sysfs rw
+3411 3410 0:49 / /sys/fs/fuse/connections ro,nosuid,nodev,noexec,relatime shared:1580 master:32 - fusectl fusectl rw
+3412 3410 0:33 / /sys/fs/pstore ro,nosuid,nodev,noexec,relatime shared:1581 master:12 - pstore pstore rw
+3413 3410 0:22 / /sys/kernel/config ro,nosuid,nodev,noexec,relatime shared:1582 master:33 - configfs configfs rw
+3414 3410 0:8 / /sys/kernel/debug ro,nosuid,nodev,noexec,relatime shared:1583 master:29 - debugfs debugfs rw
+3415 3410 0:7 / /sys/kernel/security ro,nosuid,nodev,noexec,relatime shared:1584 master:8 - securityfs securityfs rw
+3416 3410 0:12 / /sys/kernel/tracing ro,nosuid,nodev,noexec,relatime shared:1585 master:30 - tracefs tracefs rw
+3417 3410 0:60 /sys/devices/system/cpu/online /sys/devices/system/cpu/online ro,nosuid,nodev,relatime shared:1586 master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+3418 3410 0:130 / /sys/fs/cgroup ro,nosuid,nodev,noexec shared:1587 - tmpfs tmpfs ro,mode=755,uid=1000000,gid=1000000
+3419 3418 0:31 / /sys/fs/cgroup/unified ro,nosuid,nodev,noexec,relatime shared:1588 - cgroup2 cgroup2 rw
+3420 3418 0:32 / /sys/fs/cgroup/systemd ro,nosuid,nodev,noexec,relatime shared:1589 - cgroup cgroup rw,xattr,name=systemd
+3421 3418 0:43 / /sys/fs/cgroup/cpuset ro,nosuid,nodev,noexec,relatime shared:1590 - cgroup cgroup rw,cpuset,clone_children
+3422 3418 0:36 / /sys/fs/cgroup/pids ro,nosuid,nodev,noexec,relatime shared:1591 - cgroup cgroup rw,pids
+3423 3418 0:35 / /sys/fs/cgroup/net_cls,net_prio ro,nosuid,nodev,noexec,relatime shared:1592 - cgroup cgroup rw,net_cls,net_prio
+3424 3418 0:42 / /sys/fs/cgroup/cpu,cpuacct ro,nosuid,nodev,noexec,relatime shared:1593 - cgroup cgroup rw,cpu,cpuacct
+3425 3418 0:41 / /sys/fs/cgroup/hugetlb ro,nosuid,nodev,noexec,relatime shared:1594 - cgroup cgroup rw,hugetlb
+3426 3418 0:40 / /sys/fs/cgroup/freezer ro,nosuid,nodev,noexec,relatime shared:1595 - cgroup cgroup rw,freezer
+3427 3418 0:38 / /sys/fs/cgroup/memory ro,nosuid,nodev,noexec,relatime shared:1596 - cgroup cgroup rw,memory
+3428 3418 0:39 / /sys/fs/cgroup/rdma ro,nosuid,nodev,noexec,relatime shared:1597 - cgroup cgroup rw,rdma
+3429 3418 0:37 / /sys/fs/cgroup/blkio ro,nosuid,nodev,noexec,relatime shared:1598 - cgroup cgroup rw,blkio
+3430 3418 0:45 / /sys/fs/cgroup/devices ro,nosuid,nodev,noexec,relatime shared:1599 - cgroup cgroup rw,devices
+3431 3418 0:44 / /sys/fs/cgroup/perf_event ro,nosuid,nodev,noexec,relatime shared:1600 - cgroup cgroup rw,perf_event
+3432 3383 0:128 / /run ro,nosuid,nodev shared:1602 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3433 3432 0:129 / /run/lock ro,nosuid,nodev,noexec,relatime shared:1603 - tmpfs tmpfs rw,size=5120k,uid=1000000,gid=1000000
+3434 3383 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/snap /snap ro,relatime shared:1606 master:875 - ext4 /dev/vda2 rw
+3435 3434 0:140 / /snap/core20/1328 ro,nodev,relatime shared:1607 master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+3436 3434 0:142 / /snap/snapd/14549 ro,nodev,relatime shared:1608 master:877 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+3437 3434 0:143 / /snap/core/12603 ro,nodev,relatime shared:1609 master:878 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+3438 3434 0:141 / /snap/vault/2012 ro,nodev,relatime shared:1610 master:879 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+3439 3434 0:145 / /snap/core18/2284 ro,nodev,relatime shared:1611 master:880 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+3440 3434 0:144 / /snap/lxd/21835 ro,nodev,relatime shared:1612 master:881 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+3441 3383 0:150 / /dev ro,nosuid,noexec shared:1613 - tmpfs tmpfs rw,mode=755,uid=1000000,gid=1000000
+3442 3441 0:126 / /dev/pts rw,nosuid,noexec,relatime shared:1614 - devpts /proc/self/fd/43 rw,gid=1000005,mode=620,ptmxmode=666,max=1024
+3443 3441 0:126 /ptmx /dev/ptmx rw,nosuid,noexec,relatime shared:1615 - devpts /proc/self/fd/43 rw,gid=1000005,mode=620,ptmxmode=666,max=1024
+3444 3441 0:127 / /dev/shm rw,nosuid,nodev shared:1616 - tmpfs tmpfs rw,uid=1000000,gid=1000000
+3445 3441 0:21 / /dev/mqueue rw,nosuid,nodev,noexec,relatime shared:1617 master:28 - mqueue mqueue rw
+3446 3441 0:6 /null /dev/null rw,nosuid,noexec,relatime shared:1618 master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+3447 3441 0:6 /zero /dev/zero rw,nosuid,noexec,relatime shared:1619 master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+3448 3441 0:6 /full /dev/full rw,nosuid,noexec,relatime shared:1620 master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+3449 3441 0:6 /random /dev/random rw,nosuid,noexec,relatime shared:1621 master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+3450 3441 0:6 /urandom /dev/urandom rw,nosuid,noexec,relatime shared:1622 master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+3451 3441 0:6 /tty /dev/tty rw,nosuid,noexec,relatime shared:1623 master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+3384 3383 0:128 /systemd/inaccessible/dir /home ro,nosuid,nodev shared:1624 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3385 3400 0:117 /acpi /proc/acpi ro,nosuid,nodev,noexec,relatime shared:1566 - proc proc rw
+3386 3400 0:117 /bus /proc/bus ro,nosuid,nodev,noexec,relatime shared:1567 - proc proc rw
+3387 3400 0:117 /fs /proc/fs ro,nosuid,nodev,noexec,relatime shared:1568 - proc proc rw
+3388 3400 0:117 /irq /proc/irq ro,nosuid,nodev,noexec,relatime shared:1569 - proc proc rw
+3389 3400 0:128 /systemd/inaccessible/reg /proc/kallsyms ro,nosuid,nodev shared:1570 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3390 3400 0:128 /systemd/inaccessible/reg /proc/kcore ro,nosuid,nodev shared:1571 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3391 3400 0:128 /systemd/inaccessible/reg /proc/kmsg ro,nosuid,nodev shared:1572 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3392 3400 0:117 /mtrr /proc/mtrr ro,nosuid,nodev,noexec,relatime shared:1573 - proc proc rw
+3393 3400 0:117 /scsi /proc/scsi ro,nosuid,nodev,noexec,relatime shared:1574 - proc proc rw
+3394 3400 0:117 /sys /proc/sys ro,nosuid,nodev,noexec,relatime shared:1575 - proc proc rw
+3395 3394 0:68 / /proc/sys/fs/binfmt_misc ro,nosuid,nodev,noexec,relatime shared:1576 master:458 - binfmt_misc binfmt_misc rw
+3396 3394 0:124 /.lxc-boot-id /proc/sys/kernel/random/boot_id ro,nosuid,nodev,noexec,relatime shared:1577 - tmpfs none rw,size=492k,mode=755,uid=1000000,gid=1000000
+3397 3400 0:117 /sysrq-trigger /proc/sysrq-trigger ro,nosuid,nodev,noexec,relatime shared:1578 - proc proc rw
+3398 3383 0:128 /systemd/inaccessible/dir /root ro,nosuid,nodev shared:1625 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3399 3432 0:128 /systemd/resolve /run/systemd/resolve rw,nosuid,nodev shared:1604 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3452 3432 0:128 /systemd/inaccessible/dir /run/user ro,nosuid,nodev shared:1605 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3453 3410 0:125 /fs/bpf /sys/fs/bpf ro,relatime shared:1601 - sysfs sysfs rw
+3454 3383 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/tmp/systemd-private-84a5538e48014d98b44db680c8b924f6-systemd-resolved.service-qc7iyi/tmp /tmp rw,relatime shared:1626 master:337 - ext4 /dev/vda2 rw
+3455 3383 0:128 /systemd/inaccessible/dir /usr/lib/modules ro,nosuid,nodev shared:1627 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+3456 3383 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/tmp/systemd-private-84a5538e48014d98b44db680c8b924f6-systemd-resolved.service-8np5Wf/tmp /var/tmp rw,relatime shared:1628 master:337 - ext4 /dev/vda2 rw

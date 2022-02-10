@@ -1,0 +1,156 @@
+2022-02-11 18:59:36 INFO juju.cmd supercommand.go:56 running jujud [2.9.22 0 07164c4b2c6a9f5b576b1c151bd85dd3a699be16 gc go1.14.15]
+2022-02-11 18:59:36 DEBUG juju.cmd supercommand.go:57   args: []string{"/var/lib/juju/tools/machine-4/jujud", "machine", "--data-dir", "/var/lib/juju", "--machine-id", "4", "--debug"}
+2022-02-11 18:59:36 DEBUG juju.utils gomaxprocs.go:24 setting GOMAXPROCS to 2
+2022-02-11 18:59:36 DEBUG juju.agent agent.go:578 read agent config, format "2.0"
+2022-02-11 18:59:36 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 2.9.22 have already been run.
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "agent" manifold worker started at 2022-02-11 18:59:36.919711195 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "clock" manifold worker started at 2022-02-11 18:59:36.920173915 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "api-config-watcher" manifold worker started at 2022-02-11 18:59:36.920309385 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "upgrade-steps-gate" manifold worker started at 2022-02-11 18:59:36.92378152 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "state-config-watcher" manifold worker started at 2022-02-11 18:59:36.923986129 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.apicaller connect.go:128 connecting with old password
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "termination-signal-handler" manifold worker started at 2022-02-11 18:59:36.926121117 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.introspection worker.go:132 introspection worker listening on "@jujud-machine-4"
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "upgrade-check-gate" manifold worker started at 2022-02-11 18:59:36.928804728 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.introspection worker.go:158 stats worker now serving
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "upgrade-steps-flag" manifold worker started at 2022-02-11 18:59:36.933134658 +0000 UTC
+2022-02-11 18:59:36 DEBUG juju.worker.dependency engine.go:578 "upgrade-check-flag" manifold worker started at 2022-02-11 18:59:36.939402887 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.api apiclient.go:1149 successfully dialed "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:37 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:37 INFO juju.worker.apicaller connect.go:158 [2c616d] "machine-4" successfully connected to "10.5.0.126:17070"
+2022-02-11 18:59:37 DEBUG juju.worker.apicaller connect.go:250 changing password...
+2022-02-11 18:59:37 INFO juju.worker.apicaller connect.go:255 [2c616d] password changed for "machine-4"
+2022-02-11 18:59:37 DEBUG juju.api monitor.go:35 RPC connection died
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:616 "api-caller" manifold worker stopped: restart immediately
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/vendor/github.com/juju/worker/v3/dependency/interface.go:124: restart immediately
+2022-02-11 18:59:37 DEBUG juju.worker.apicaller connect.go:115 connecting with current password
+2022-02-11 18:59:37 DEBUG juju.api apiclient.go:1149 successfully dialed "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:37 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:37 INFO juju.worker.apicaller connect.go:158 [2c616d] "machine-4" successfully connected to "10.5.0.126:17070"
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "api-caller" manifold worker started at 2022-02-11 18:59:37.596101089 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "upgrader" manifold worker started at 2022-02-11 18:59:37.605848165 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "migration-inactive-flag" manifold worker started at 2022-02-11 18:59:37.612035427 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "upgrade-steps-runner" manifold worker started at 2022-02-11 18:59:37.61614197 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:601 "upgrade-steps-runner" manifold worker completed successfully
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "valid-credential-flag" manifold worker started at 2022-02-11 18:59:37.637975292 +0000 UTC
+2022-02-11 18:59:37 INFO juju.worker.upgrader upgrader.go:244 desired agent binary version: 2.9.22
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:616 "upgrade-check-flag" manifold worker stopped: gate unlocked
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/worker/gate/flag.go:95: gate unlocked
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "upgrade-check-flag" manifold worker started at 2022-02-11 18:59:37.698001273 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "migration-fortress" manifold worker started at 2022-02-11 18:59:37.707232838 +0000 UTC
+2022-02-11 18:59:37 INFO juju.worker.deployer nested.go:158 new context: units "", stopped ""
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "deployer" manifold worker started at 2022-02-11 18:59:37.709421463 +0000 UTC
+2022-02-11 18:59:37 INFO juju.worker.deployer deployer.go:161 checking unit "kubernetes-master/0"
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "migration-minion" manifold worker started at 2022-02-11 18:59:37.717584563 +0000 UTC
+2022-02-11 18:59:37 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "machine-action-runner" manifold worker started at 2022-02-11 18:59:37.732462569 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "host-key-reporter" manifold worker started at 2022-02-11 18:59:37.732518583 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "upgrade-series" manifold worker started at 2022-02-11 18:59:37.732577985 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "proxy-config-updater" manifold worker started at 2022-02-11 18:59:37.732627898 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "storage-provisioner" manifold worker started at 2022-02-11 18:59:37.732699252 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.fanconfigurer fanconfigurer.go:43 Processing new fan config
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "disk-manager" manifold worker started at 2022-02-11 18:59:37.732924965 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "api-address-updater" manifold worker started at 2022-02-11 18:59:37.733053576 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "log-sender" manifold worker started at 2022-02-11 18:59:37.733103694 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "ssh-authkeys-updater" manifold worker started at 2022-02-11 18:59:37.733145717 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.logger logger.go:65 initial log config: "<root>=DEBUG"
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "logging-config-updater" manifold worker started at 2022-02-11 18:59:37.733309835 +0000 UTC
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "reboot-executor" manifold worker started at 2022-02-11 18:59:37.734514765 +0000 UTC
+2022-02-11 18:59:37 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:616 "agent-config-updater" manifold worker stopped: resource permanently unavailable
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/vendor/github.com/juju/worker/v3/dependency/interface.go:129: resource permanently unavailable
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/worker/fortress/occupy.go:63: 
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/cmd/jujud/agent/engine/housing.go:93: 
+2022-02-11 18:59:37 DEBUG juju.worker.fanconfigurer fanconfigurer.go:58 Adding config for 0: 10.5.0.0/16 252.0.0.0/8
+2022-02-11 18:59:37 DEBUG juju.container.kvm kvm.go:90 kvm-ok output:
+INFO: /dev/kvm exists
+KVM acceleration can be used
+
+2022-02-11 18:59:37 INFO juju.worker.diskmanager diskmanager.go:67 block devices changed: []storage.BlockDevice{storage.BlockDevice{DeviceName:"loop0", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x3d, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core20/1328", SerialId:""}, storage.BlockDevice{DeviceName:"loop1", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x43, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/lxd/21835", SerialId:""}, storage.BlockDevice{DeviceName:"loop2", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x2b, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/snapd/14549", SerialId:""}, storage.BlockDevice{DeviceName:"vda", DeviceLinks:[]string{"/dev/disk/by-path/pci-0000:00:05.0", "/dev/disk/by-path/virtio-pci-0000:00:05.0"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa000, FilesystemType:"", InUse:true, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda1", DeviceLinks:[]string{"/dev/disk/by-label/cloudimg-rootfs", "/dev/disk/by-partuuid/c54e865e-0946-44df-a1aa-f22fda64b2d9", "/dev/disk/by-path/pci-0000:00:05.0-part1", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part1", "/dev/disk/by-uuid/6b71fef2-f2a2-4af3-bb37-172e5cfd41b2"}, Label:"cloudimg-rootfs", UUID:"6b71fef2-f2a2-4af3-bb37-172e5cfd41b2", HardwareId:"", WWN:"", BusAddress:"", Size:0x9f90, FilesystemType:"ext4", InUse:true, MountPoint:"/", SerialId:""}, storage.BlockDevice{DeviceName:"vda14", DeviceLinks:[]string{"/dev/disk/by-partuuid/1d4d7dd0-6ecc-445a-86b5-c637f7414347", "/dev/disk/by-path/pci-0000:00:05.0-part14", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part14"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x4, FilesystemType:"", InUse:false, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda15", DeviceLinks:[]string{"/dev/disk/by-label/UEFI", "/dev/disk/by-partuuid/308279b9-81a5-4aa9-9ac4-35f670ae129c", "/dev/disk/by-path/pci-0000:00:05.0-part15", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part15", "/dev/disk/by-uuid/BA49-3E54"}, Label:"UEFI", UUID:"BA49-3E54", HardwareId:"", WWN:"", BusAddress:"", Size:0x6a, FilesystemType:"vfat", InUse:true, MountPoint:"/boot/efi", SerialId:""}}
+2022-02-11 18:59:37 INFO juju.worker.deployer deployer.go:204 deploying unit "kubernetes-master/0"
+2022-02-11 18:59:37 DEBUG juju.worker.fanconfigurer fanconfigurer.go:61 Launched fanatic enable-fan -u 10.5.0.0/16 -o 252.0.0.0/8 - result configuring fan underlay:10.5.0.0/16 overlay:252.0.0.0/8
+  0
+2022-02-11 18:59:37 DEBUG juju.worker.fanconfigurer fanconfigurer.go:69 Launched fanctl up -a - result   0
+2022-02-11 18:59:37 DEBUG juju.worker.dependency engine.go:578 "fan-configurer" manifold worker started at 2022-02-11 18:59:37.961932796 +0000 UTC
+2022-02-11 18:59:38 DEBUG juju.worker.dependency engine.go:578 "machiner" manifold worker started at 2022-02-11 18:59:38.306060717 +0000 UTC
+2022-02-11 18:59:38 DEBUG juju.network network.go:142 no lxc bridge addresses to filter for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:178 cannot get "lxdbr0" addresses: route ip+net: no such network interface (ignoring)
+2022-02-11 18:59:38 DEBUG juju.network network.go:178 cannot get "virbr0" addresses: route ip+net: no such network interface (ignoring)
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-cloud:10.5.0.126 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-fan:252.0.126.1 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-machine:127.0.0.1 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-machine:::1 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:196 addresses after filtering: [local-cloud:10.5.0.126 local-fan:252.0.126.1 local-machine:127.0.0.1 local-machine:::1]
+2022-02-11 18:59:38 DEBUG juju.worker.apiaddressupdater apiaddressupdater.go:98 updating API hostPorts to [[10.5.0.126:17070 252.0.126.1:17070 127.0.0.1:17070 [::1]:17070]]
+2022-02-11 18:59:38 DEBUG juju.agent agent.go:629 API server address details [["10.5.0.126:17070" "252.0.126.1:17070" "127.0.0.1:17070" "[::1]:17070"]] written to agent config as ["10.5.0.126:17070" "252.0.126.1:17070"]
+2022-02-11 18:59:38 DEBUG juju.worker.reboot reboot.go:64 Reboot worker got action: noop
+2022-02-11 18:59:38 DEBUG juju.worker.fanconfigurer fanconfigurer.go:43 Processing new fan config
+2022-02-11 18:59:38 DEBUG juju.worker.proxyupdater proxyupdater.go:176 applying in-process legacy proxy settings proxy.Settings{Http:"", Https:"", Ftp:"", NoProxy:"10.5.0.126,127.0.0.1,252.0.126.1,::1,localhost", AutoNoProxy:""}
+2022-02-11 18:59:38 DEBUG juju.service discovery.go:68 discovered init system "systemd" from series "focal"
+2022-02-11 18:59:38 DEBUG juju.worker.hostkeyreporter worker.go:82 4 SSH host keys reported for machine 4
+2022-02-11 18:59:38 DEBUG juju.worker.dependency engine.go:616 "host-key-reporter" manifold worker stopped: resource permanently unavailable
+stack trace:
+/home/jenkins/workspace/BuildJuju-amd64/_build/src/github.com/juju/juju/vendor/github.com/juju/worker/v3/dependency/interface.go:129: resource permanently unavailable
+2022-02-11 18:59:38 INFO juju.worker.deployer unit_agent.go:125 creating new agent config for "kubernetes-master/0"
+2022-02-11 18:59:38 DEBUG juju.agent agent.go:578 read agent config, format "2.0"
+2022-02-11 18:59:38 INFO juju.worker.deployer nested.go:354 starting workers for "kubernetes-master/0"
+2022-02-11 18:59:38 DEBUG juju.worker.introspection worker.go:132 introspection worker listening on "@jujud-unit-kubernetes-master-0"
+2022-02-11 18:59:38 DEBUG juju.worker.introspection worker.go:158 stats worker now serving
+2022-02-11 18:59:38 DEBUG juju.api apiclient.go:1149 successfully dialed "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:38 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:38 DEBUG juju.api monitor.go:35 RPC connection died
+2022-02-11 18:59:38 DEBUG juju.api apiclient.go:1149 successfully dialed "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:38 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 18:59:38 DEBUG juju.worker.leadership tracker.go:125 kubernetes-master/0 making initial claim for kubernetes-master leadership
+2022-02-11 18:59:38 DEBUG juju.network network.go:142 no lxc bridge addresses to filter for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:178 cannot get "lxdbr0" addresses: route ip+net: no such network interface (ignoring)
+2022-02-11 18:59:38 DEBUG juju.network network.go:178 cannot get "virbr0" addresses: route ip+net: no such network interface (ignoring)
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-cloud:10.5.0.126 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-fan:252.0.126.1 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-machine:127.0.0.1 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:127 including address local-machine:::1 for machine
+2022-02-11 18:59:38 DEBUG juju.network network.go:196 addresses after filtering: [local-cloud:10.5.0.126 local-fan:252.0.126.1 local-machine:127.0.0.1 local-machine:::1]
+2022-02-11 18:59:38 DEBUG juju.agent agent.go:629 API server address details [["10.5.0.126:17070" "252.0.126.1:17070" "127.0.0.1:17070" "[::1]:17070"]] written to agent config as ["10.5.0.126:17070" "252.0.126.1:17070"]
+2022-02-11 18:59:38 INFO juju.worker.leadership tracker.go:194 kubernetes-master/0 promoted to leadership of kubernetes-master
+2022-02-11 18:59:38 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-kubernetes-master-0
+2022-02-11 18:59:38 INFO juju.agent.tools symlinks.go:40 was a symlink, now looking at /var/lib/juju/tools/2.9.22-ubuntu-amd64
+2022-02-11 18:59:38 DEBUG juju.agent.tools symlinks.go:50 target tools path /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+2022-02-11 18:59:38 DEBUG juju.worker.logger logger.go:93 reconfiguring logging from "<root>=DEBUG" to "<root>=INFO"
+2022-02-11 18:59:38 ERROR juju.worker.dependency engine.go:693 "broker-tracker" manifold worker returned unexpected error: no container types determined
+2022-02-11 18:59:38 INFO juju.worker.machiner machiner.go:162 setting addresses for "machine-4" to [local-machine:127.0.0.1 local-cloud:10.6.3.201 local-machine:::1]
+2022-02-11 18:59:38 INFO juju.worker.upgradeseries worker.go:161 no series upgrade lock present
+2022-02-11 18:59:38 INFO juju.downloader download.go:111 downloading from cs:~containers/kubernetes-master-1106
+2022-02-11 18:59:38 INFO juju.worker.authenticationworker worker.go:103 "machine-4" key updater worker started
+2022-02-11 18:59:39 INFO juju.worker.machiner machiner.go:112 "machine-4" started
+2022-02-11 18:59:40 INFO juju.downloader download.go:94 download complete ("cs:~containers/kubernetes-master-1106")
+2022-02-11 18:59:40 INFO juju.downloader download.go:174 download verified ("cs:~containers/kubernetes-master-1106")
+2022-02-11 19:02:39 INFO juju.worker.diskmanager diskmanager.go:67 block devices changed: []storage.BlockDevice{storage.BlockDevice{DeviceName:"loop0", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x3d, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core20/1328", SerialId:""}, storage.BlockDevice{DeviceName:"loop1", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x43, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/lxd/21835", SerialId:""}, storage.BlockDevice{DeviceName:"loop2", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x2b, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/snapd/14549", SerialId:""}, storage.BlockDevice{DeviceName:"loop3", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x6e, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core/12603", SerialId:""}, storage.BlockDevice{DeviceName:"loop4", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x37, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core18/2284", SerialId:""}, storage.BlockDevice{DeviceName:"loop5", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kubectl/2308", SerialId:""}, storage.BlockDevice{DeviceName:"vda", DeviceLinks:[]string{"/dev/disk/by-path/pci-0000:00:05.0", "/dev/disk/by-path/virtio-pci-0000:00:05.0"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa000, FilesystemType:"", InUse:true, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda1", DeviceLinks:[]string{"/dev/disk/by-label/cloudimg-rootfs", "/dev/disk/by-partuuid/c54e865e-0946-44df-a1aa-f22fda64b2d9", "/dev/disk/by-path/pci-0000:00:05.0-part1", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part1", "/dev/disk/by-uuid/6b71fef2-f2a2-4af3-bb37-172e5cfd41b2"}, Label:"cloudimg-rootfs", UUID:"6b71fef2-f2a2-4af3-bb37-172e5cfd41b2", HardwareId:"", WWN:"", BusAddress:"", Size:0x9f90, FilesystemType:"ext4", InUse:true, MountPoint:"/", SerialId:""}, storage.BlockDevice{DeviceName:"vda14", DeviceLinks:[]string{"/dev/disk/by-partuuid/1d4d7dd0-6ecc-445a-86b5-c637f7414347", "/dev/disk/by-path/pci-0000:00:05.0-part14", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part14"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x4, FilesystemType:"", InUse:false, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda15", DeviceLinks:[]string{"/dev/disk/by-label/UEFI", "/dev/disk/by-partuuid/308279b9-81a5-4aa9-9ac4-35f670ae129c", "/dev/disk/by-path/pci-0000:00:05.0-part15", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part15", "/dev/disk/by-uuid/BA49-3E54"}, Label:"UEFI", UUID:"BA49-3E54", HardwareId:"", WWN:"", BusAddress:"", Size:0x6a, FilesystemType:"vfat", InUse:true, MountPoint:"/boot/efi", SerialId:""}}
+2022-02-11 19:03:09 INFO juju.worker.diskmanager diskmanager.go:67 block devices changed: []storage.BlockDevice{storage.BlockDevice{DeviceName:"loop0", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x3d, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core20/1328", SerialId:""}, storage.BlockDevice{DeviceName:"loop1", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x43, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/lxd/21835", SerialId:""}, storage.BlockDevice{DeviceName:"loop2", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x2b, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/snapd/14549", SerialId:""}, storage.BlockDevice{DeviceName:"loop3", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x6e, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core/12603", SerialId:""}, storage.BlockDevice{DeviceName:"loop4", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x37, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core18/2284", SerialId:""}, storage.BlockDevice{DeviceName:"loop5", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kubectl/2308", SerialId:""}, storage.BlockDevice{DeviceName:"loop6", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x16, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kube-apiserver/2599", SerialId:""}, storage.BlockDevice{DeviceName:"loop7", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x40, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kube-controller-manager/2407", SerialId:""}, storage.BlockDevice{DeviceName:"vda", DeviceLinks:[]string{"/dev/disk/by-path/pci-0000:00:05.0", "/dev/disk/by-path/virtio-pci-0000:00:05.0"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa000, FilesystemType:"", InUse:true, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda1", DeviceLinks:[]string{"/dev/disk/by-label/cloudimg-rootfs", "/dev/disk/by-partuuid/c54e865e-0946-44df-a1aa-f22fda64b2d9", "/dev/disk/by-path/pci-0000:00:05.0-part1", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part1", "/dev/disk/by-uuid/6b71fef2-f2a2-4af3-bb37-172e5cfd41b2"}, Label:"cloudimg-rootfs", UUID:"6b71fef2-f2a2-4af3-bb37-172e5cfd41b2", HardwareId:"", WWN:"", BusAddress:"", Size:0x9f90, FilesystemType:"ext4", InUse:true, MountPoint:"/", SerialId:""}, storage.BlockDevice{DeviceName:"vda14", DeviceLinks:[]string{"/dev/disk/by-partuuid/1d4d7dd0-6ecc-445a-86b5-c637f7414347", "/dev/disk/by-path/pci-0000:00:05.0-part14", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part14"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x4, FilesystemType:"", InUse:false, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda15", DeviceLinks:[]string{"/dev/disk/by-label/UEFI", "/dev/disk/by-partuuid/308279b9-81a5-4aa9-9ac4-35f670ae129c", "/dev/disk/by-path/pci-0000:00:05.0-part15", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part15", "/dev/disk/by-uuid/BA49-3E54"}, Label:"UEFI", UUID:"BA49-3E54", HardwareId:"", WWN:"", BusAddress:"", Size:0x6a, FilesystemType:"vfat", InUse:true, MountPoint:"/boot/efi", SerialId:""}}
+2022-02-11 19:03:39 INFO juju.worker.diskmanager diskmanager.go:67 block devices changed: []storage.BlockDevice{storage.BlockDevice{DeviceName:"loop0", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x3d, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core20/1328", SerialId:""}, storage.BlockDevice{DeviceName:"loop1", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x43, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/lxd/21835", SerialId:""}, storage.BlockDevice{DeviceName:"loop10", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x9, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kube-proxy/2360", SerialId:""}, storage.BlockDevice{DeviceName:"loop2", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x2b, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/snapd/14549", SerialId:""}, storage.BlockDevice{DeviceName:"loop3", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x6e, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core/12603", SerialId:""}, storage.BlockDevice{DeviceName:"loop4", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x37, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/core18/2284", SerialId:""}, storage.BlockDevice{DeviceName:"loop5", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kubectl/2308", SerialId:""}, storage.BlockDevice{DeviceName:"loop6", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x16, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kube-apiserver/2599", SerialId:""}, storage.BlockDevice{DeviceName:"loop7", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x40, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kube-controller-manager/2407", SerialId:""}, storage.BlockDevice{DeviceName:"loop8", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/kube-scheduler/2327", SerialId:""}, storage.BlockDevice{DeviceName:"loop9", DeviceLinks:[]string(nil), Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa, FilesystemType:"squashfs", InUse:true, MountPoint:"/snap/cdk-addons/9030", SerialId:""}, storage.BlockDevice{DeviceName:"vda", DeviceLinks:[]string{"/dev/disk/by-path/pci-0000:00:05.0", "/dev/disk/by-path/virtio-pci-0000:00:05.0"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0xa000, FilesystemType:"", InUse:true, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda1", DeviceLinks:[]string{"/dev/disk/by-label/cloudimg-rootfs", "/dev/disk/by-partuuid/c54e865e-0946-44df-a1aa-f22fda64b2d9", "/dev/disk/by-path/pci-0000:00:05.0-part1", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part1", "/dev/disk/by-uuid/6b71fef2-f2a2-4af3-bb37-172e5cfd41b2"}, Label:"cloudimg-rootfs", UUID:"6b71fef2-f2a2-4af3-bb37-172e5cfd41b2", HardwareId:"", WWN:"", BusAddress:"", Size:0x9f90, FilesystemType:"ext4", InUse:true, MountPoint:"/", SerialId:""}, storage.BlockDevice{DeviceName:"vda14", DeviceLinks:[]string{"/dev/disk/by-partuuid/1d4d7dd0-6ecc-445a-86b5-c637f7414347", "/dev/disk/by-path/pci-0000:00:05.0-part14", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part14"}, Label:"", UUID:"", HardwareId:"", WWN:"", BusAddress:"", Size:0x4, FilesystemType:"", InUse:false, MountPoint:"", SerialId:""}, storage.BlockDevice{DeviceName:"vda15", DeviceLinks:[]string{"/dev/disk/by-label/UEFI", "/dev/disk/by-partuuid/308279b9-81a5-4aa9-9ac4-35f670ae129c", "/dev/disk/by-path/pci-0000:00:05.0-part15", "/dev/disk/by-path/virtio-pci-0000:00:05.0-part15", "/dev/disk/by-uuid/BA49-3E54"}, Label:"UEFI", UUID:"BA49-3E54", HardwareId:"", WWN:"", BusAddress:"", Size:0x6a, FilesystemType:"vfat", InUse:true, MountPoint:"/boot/efi", SerialId:""}}
+2022-02-11 19:03:54 INFO juju.worker.deployer deployer.go:161 checking unit "canal/2"
+2022-02-11 19:03:54 INFO juju.worker.deployer deployer.go:204 deploying unit "canal/2"
+2022-02-11 19:03:54 INFO juju.worker.deployer unit_agent.go:125 creating new agent config for "canal/2"
+2022-02-11 19:03:54 INFO juju.worker.deployer nested.go:354 starting workers for "canal/2"
+2022-02-11 19:03:54 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 19:03:54 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 19:03:55 INFO juju.worker.leadership tracker.go:217 canal leadership for canal/2 denied
+2022-02-11 19:03:55 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-canal-2
+2022-02-11 19:03:55 INFO juju.agent.tools symlinks.go:40 was a symlink, now looking at /var/lib/juju/tools/2.9.22-ubuntu-amd64
+2022-02-11 19:03:55 INFO juju.downloader download.go:111 downloading from cs:~containers/canal-859
+2022-02-11 19:03:55 INFO juju.worker.deployer deployer.go:161 checking unit "containerd/2"
+2022-02-11 19:03:55 INFO juju.worker.deployer deployer.go:204 deploying unit "containerd/2"
+2022-02-11 19:03:55 INFO juju.worker.deployer unit_agent.go:125 creating new agent config for "containerd/2"
+2022-02-11 19:03:55 INFO juju.worker.deployer nested.go:354 starting workers for "containerd/2"
+2022-02-11 19:03:55 INFO juju.downloader download.go:94 download complete ("cs:~containers/canal-859")
+2022-02-11 19:03:55 INFO juju.downloader download.go:174 download verified ("cs:~containers/canal-859")
+2022-02-11 19:03:55 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 19:03:55 INFO juju.api apiclient.go:680 connection established to "wss://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/api"
+2022-02-11 19:03:55 INFO juju.worker.leadership tracker.go:217 containerd leadership for containerd/2 denied
+2022-02-11 19:03:56 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-containerd-2
+2022-02-11 19:03:56 INFO juju.agent.tools symlinks.go:40 was a symlink, now looking at /var/lib/juju/tools/2.9.22-ubuntu-amd64
+2022-02-11 19:03:56 INFO juju.downloader download.go:111 downloading from cs:~containers/containerd-200
+2022-02-11 19:03:56 INFO juju.downloader download.go:94 download complete ("cs:~containers/containerd-200")
+2022-02-11 19:03:56 INFO juju.downloader download.go:174 download verified ("cs:~containers/containerd-200")

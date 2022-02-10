@@ -1,0 +1,33 @@
+[up 3.80s] ds-identify 
+policy loaded: mode=search report=false found=all maybe=all notfound=disabled
+/etc/cloud/cloud.cfg.d/90_dpkg.cfg set datasource_list: [ NoCloud, ConfigDrive, LXD, OpenNebula, DigitalOcean, Azure, AltCloud, OVF, MAAS, GCE, OpenStack, CloudSigma, SmartOS, Bigstep, Scaleway, AliYun, Ec2, CloudStack, Hetzner, IBMCloud, Oracle, Exoscale, RbxCloud, UpCloud, VMware, Vultr, None ]
+DMI_PRODUCT_NAME=OpenStack Nova
+DMI_SYS_VENDOR=OpenStack Foundation
+DMI_PRODUCT_SERIAL=f9a1477e-7b80-4398-a25d-3710d4e796ba
+DMI_PRODUCT_UUID=f9a1477e-7b80-4398-a25d-3710d4e796ba
+PID_1_PRODUCT_NAME=unavailable
+DMI_CHASSIS_ASSET_TAG=
+FS_LABELS=cloudimg-rootfs,UEFI,UEFI
+ISO9660_DEVS=
+KERNEL_CMDLINE=BOOT_IMAGE=/boot/vmlinuz-5.4.0-99-generic root=LABEL=cloudimg-rootfs ro console=tty1 console=ttyS0
+VIRT=kvm
+UNAME_KERNEL_NAME=Linux
+UNAME_KERNEL_RELEASE=5.4.0-99-generic
+UNAME_KERNEL_VERSION=#112-Ubuntu SMP Thu Feb 3 13:50:55 UTC 2022
+UNAME_MACHINE=x86_64
+UNAME_NODENAME=ubuntu
+UNAME_OPERATING_SYSTEM=GNU/Linux
+DSNAME=
+DSLIST=NoCloud ConfigDrive LXD OpenNebula DigitalOcean Azure AltCloud OVF MAAS GCE OpenStack CloudSigma SmartOS Bigstep Scaleway AliYun Ec2 CloudStack Hetzner IBMCloud Oracle Exoscale RbxCloud UpCloud VMware Vultr None
+MODE=search
+ON_FOUND=all
+ON_MAYBE=all
+ON_NOTFOUND=disabled
+pid=338 ppid=316
+is_container=false
+is_ds_enabled(IBMCloud) = true.
+is_ds_enabled(IBMCloud) = true.
+check for 'OpenStack' returned found
+ec2 platform is 'Unknown'.
+Found single datasource: OpenStack
+[up 3.90s] returning 0

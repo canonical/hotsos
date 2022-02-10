@@ -1,0 +1,10 @@
+OFPST_FLOW reply (OF1.3) (xid=0x2):
+ cookie=0x44fcf97831a1288e, duration=62956.655s, table=0, n_packets=1699, n_bytes=159974, priority=2,in_port=2 actions=goto_table:1
+ cookie=0x44fcf97831a1288e, duration=63603.724s, table=0, n_packets=380, n_bytes=31013, priority=0 actions=NORMAL
+ cookie=0x44fcf97831a1288e, duration=62956.652s, table=0, n_packets=37454, n_bytes=3176628, priority=1 actions=goto_table:3
+ cookie=0x44fcf97831a1288e, duration=62956.648s, table=1, n_packets=1699, n_bytes=159974, priority=0 actions=goto_table:2
+ cookie=0x44fcf97831a1288e, duration=580.809s, table=2, n_packets=271, n_bytes=27643, priority=4,in_port=2,dl_vlan=2 actions=pop_vlan,NORMAL
+ cookie=0x44fcf97831a1288e, duration=62956.644s, table=2, n_packets=1428, n_bytes=132331, priority=2,in_port=2 actions=drop
+ cookie=0x44fcf97831a1288e, duration=62955.574s, table=3, n_packets=0, n_bytes=0, priority=2,dl_src=fa:16:3f:0a:04:80 actions=output:2
+ cookie=0x44fcf97831a1288e, duration=62955.549s, table=3, n_packets=0, n_bytes=0, priority=2,dl_src=fa:16:3f:a4:e2:e2 actions=output:2
+ cookie=0x44fcf97831a1288e, duration=62956.641s, table=3, n_packets=37454, n_bytes=3176628, priority=1 actions=NORMAL

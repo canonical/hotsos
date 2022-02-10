@@ -1,0 +1,15 @@
+[Unit]
+Description=vaultlocker retrieve: %i
+DefaultDependencies=no
+After=networking.service
+After=nss-lookup.target
+
+[Service]
+Type=oneshot
+KillMode=none
+Environment=VAULTLOCKER_TIMEOUT=10000
+ExecStart=/bin/sh -c 'vaultlocker --retry $VAULTLOCKER_TIMEOUT decrypt %i'
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+repo: https://github.com/juju/charm-helpers
+destination: hooks/charmhelpers
+include:
+    - core
+    - cli
+    - osplatform
+    - fetch
+    - contrib.hahelpers:
+        - apache
+        - cluster
+    - contrib.python
+    - contrib.storage.linux
+    - contrib.openstack
+    - contrib.network.ip
+    - contrib.openstack:
+        - alternatives
+        - audits
+        - context
+        - exceptions
+        - ip
+        - neutron
+        - utils
+    - contrib.charmsupport
+    - contrib.hardening|inc=*
+    - contrib.openstack.policyd
+    - contrib.openstack.templates|inc=*/section-ceph-bluestore-compression

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+[ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ] || exit 0
+
+sleep_then_check() {
+    # Sleep for up to an hour to spread the load of checking for updates on
+    # the Ubuntu infrastructure
+    sleep $(shuf -i 1-3600 -n 1)
+    # Check to see whether there is a new version of Ubuntu available
+    /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+}
+
+sleep_then_check &

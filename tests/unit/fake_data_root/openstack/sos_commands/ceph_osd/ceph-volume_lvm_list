@@ -1,0 +1,19 @@
+
+
+====== osd.0 =======
+
+  [block]       /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+
+      block device              /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+      block uuid                OCGMeI-gyEj-lLdy-HQNs-Fpg6-FRTF-HLWoR7
+      cephx lockbox secret      
+      cluster fsid              eccf3d48-859f-11ec-9de2-d72b3e8a3058
+      cluster name              ceph
+      crush device class        None
+      encrypted                 0
+      osd fsid                  48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+      osd id                    0
+      osdspec affinity          
+      type                      block
+      vdo                       0
+      devices                   /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749

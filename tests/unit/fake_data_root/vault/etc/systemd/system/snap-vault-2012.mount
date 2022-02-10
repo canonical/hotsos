@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for vault, revision 2012
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/vault_2012.snap
+Where=/snap/vault/2012
+Type=fuse.squashfuse
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide,allow_other
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

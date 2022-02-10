@@ -1,0 +1,11 @@
+[Unit]
+Description=Apply iptables rule for KUBE-MARK-DROP
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/kube-proxy-iptables-fix.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

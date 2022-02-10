@@ -1,0 +1,55 @@
+Name:	containerd-shim
+Umask:	0022
+State:	S (sleeping)
+Tgid:	35149
+Ngid:	0
+Pid:	35149
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	35149
+NSpid:	35149
+NSpgid:	35149
+NSsid:	32062
+VmPeak:	  112692 kB
+VmSize:	  112692 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    8156 kB
+VmRSS:	    7692 kB
+RssAnon:	     928 kB
+RssFile:	    6764 kB
+RssShmem:	       0 kB
+VmData:	  102248 kB
+VmStk:	     132 kB
+VmExe:	    4968 kB
+VmLib:	       4 kB
+VmPTE:	      84 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	13
+SigQ:	5/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	fffffffe3bfa2800
+SigIgn:	0000000000000000
+SigCgt:	fffffffe7fc1feff
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	thread vulnerable
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	8
+nonvoluntary_ctxt_switches:	5

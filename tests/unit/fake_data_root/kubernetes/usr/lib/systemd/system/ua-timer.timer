@@ -1,0 +1,10 @@
+[Unit]
+Description=Ubuntu Advantage Timer for running repeated jobs
+
+[Timer]
+OnUnitActiveSec=6h
+RandomizedDelaySec=1h
+OnStartupSec=1min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+
+auto lo {eth00_16_3e_3f_d9_1c}
+
+iface lo inet loopback
+  dns-nameservers 10.0.0.2
+  dns-search mylab.home
+
+iface {eth00_16_3e_3f_d9_1c} inet static
+  address 10.0.0.121/24
+  gateway 10.0.0.2
+

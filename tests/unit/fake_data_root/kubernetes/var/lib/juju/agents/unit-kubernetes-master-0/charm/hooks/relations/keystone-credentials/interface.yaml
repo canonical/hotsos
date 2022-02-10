@@ -1,0 +1,16 @@
+name: keystone-credentials
+summary: >
+         Interface for integrating with Keystone identity credentials
+         Charms use this relation to obtain keystone credentials
+         without creating a service catalog entry. Set 'username'
+         only on the relation and keystone will set defaults and
+         return authentication details. Possible relation settings:
+           username: Username to be created.
+           project: Project (tenant) name to be created. Defaults to services
+                    project.
+           requested_roles: Comma delimited list of roles to be created
+           requested_grants: Comma delimited list of roles to be granted.
+                             Defaults to Admin role.
+           domain: Keystone v3 domain the user will be created in. Defaults
+                   to the Default domain.
+maintainer: OpenStack Charmers <openstack-discuss@lists.openstack.org>

@@ -1,0 +1,10 @@
+job_name: 'kube-state-telemetry'
+scrape_interval: 30s
+scheme: https
+tls_config:
+  ca_file: __placeholder__
+bearer_token: {{k8s_token}}
+metrics_path: /api/v1/namespaces/kube-system/services/kube-state-metrics:8081/proxy/metrics
+static_configs:
+  - targets:
+    - {{k8s_api_address}}:{{k8s_api_port}}

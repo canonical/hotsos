@@ -1,0 +1,13 @@
+default via 10.0.0.2 dev eth0 proto static 
+10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.116 
+broadcast 10.0.0.0 dev eth0 table local proto kernel scope link src 10.0.0.116 
+local 10.0.0.116 dev eth0 table local proto kernel scope host src 10.0.0.116 
+broadcast 10.0.0.255 dev eth0 table local proto kernel scope link src 10.0.0.116 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+fe80::/64 dev eth0 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::216:3eff:fe93:7628 dev eth0 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev eth0 table local proto kernel metric 256 pref medium

@@ -1,0 +1,102 @@
+#!/bin/sh
+#
+#
+# logd     	    Start logd (non-blocking log service)
+#
+# Author:       Dejan Muhamedagic <dmuhamedagic@suse.de>
+#               (After the heartbeat init script)
+# License:      GNU General Public License (GPL)
+#
+#		This script works correctly under SuSE, Debian,
+#		Conectiva, Red Hat and a few others.  Please let me know if it
+#		doesn't work under your distribution, and we'll fix it.
+#		We don't hate anyone, and like for everyone to use
+#		our software, no matter what OS or distribution you're using.
+#
+# chkconfig: 2345 @LOGD_INITSTARTPRI@ @LOGD_INITSTOPPRI@
+# description: Startup script logd service.
+# processname: ha_logd
+# pidfile: /var/run/logd.pid
+# config: /etc/logd.cf
+#
+### BEGIN INIT INFO
+# Description: ha_logd is a non-blocking logging daemon.
+#	It can log messages either to a file or through syslog
+#	daemon.
+# Short-Description: ha_logd logging daemon
+# Provides: ha_logd logd
+# Required-Start: $network $syslog $remote_fs
+# Required-Stop: $network $syslog $remote_fs
+# X-Start-Before: heartbeat openais
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+LOGD_CFG=/etc/logd.cf
+LOGD_OPT=""
+[ -f "$LOGD_CFG" ] && LOGD_OPT="-c $LOGD_CFG"
+LOGD_BIN="/usr/lib/heartbeat/ha_logd"
+
+if [ ! -f $LOGD_BIN ]; then
+  echo -n "ha_logd not installed."
+  exit 5
+fi
+
+StartLogd() {
+    echo -n "Starting ha_logd: "
+    $LOGD_BIN -s >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+	echo "logd is already running" 
+	return 0
+    fi
+    
+    $LOGD_BIN -d $LOGD_OPT >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	echo "starting logd failed"
+	exit 1
+    fi
+    echo "ok"
+    exit 0
+}
+
+StopLogd() {
+    echo -n "Stopping ha_logd: "
+
+    $LOGD_BIN -s >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	   echo "logd is already stopped" 
+	   return 0
+    fi
+
+    $LOGD_BIN -k >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	echo "stopping logd failed"
+	exit 1
+    fi
+    echo "stopped"
+    exit 0
+}
+
+StatusLogd() {
+  $LOGD_BIN -s
+  exit $?
+}
+
+case "$1" in
+  start) StartLogd ;;
+  status) StatusLogd ;;
+  stop) StopLogd ;;
+  restart|force-reload)
+        sleeptime=1
+	$0 stop && sleep $sleeptime && $0 start
+	echo
+	;;
+
+  *)
+	echo "Usage: $0 {start|stop|status|restart}"
+	exit 1
+esac
+
+

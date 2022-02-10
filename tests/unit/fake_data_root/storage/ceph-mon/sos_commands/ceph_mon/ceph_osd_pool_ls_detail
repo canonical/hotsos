@@ -1,0 +1,5 @@
+pool 1 'device_health_metrics' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 1 pgp_num 1 autoscale_mode on last_change 27 flags hashpspool stripe_width 0 pg_num_min 1 application mgr_devicehealth
+pool 2 'glance' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 4 pgp_num 4 autoscale_mode on last_change 15 flags hashpspool stripe_width 0 pg_num_min 4 target_size_ratio 0.05 application rbd
+pool 3 'cinder-ceph' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode on last_change 19 flags hashpspool stripe_width 0 pg_num_min 32 target_size_ratio 0.4 application rbd
+pool 4 'nova' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode on last_change 23 flags hashpspool stripe_width 0 pg_num_min 32 target_size_ratio 0.3 application rbd
+

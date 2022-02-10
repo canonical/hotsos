@@ -1,0 +1,699 @@
+2022-02-04 09:46:29 INFO juju unit_agent.go:276 Starting unit workers for "rabbitmq-server/0"
+2022-02-04 09:46:29 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-rabbitmq-server-0" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:46:30 INFO juju.worker.apicaller connect.go:255 [68a1f1] password changed for "unit-rabbitmq-server-0"
+2022-02-04 09:46:30 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-rabbitmq-server-0" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:46:30 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-04 09:46:30 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-04 09:46:30 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-04 09:46:30 ERROR juju.worker.meterstatus runner.go:91 error running "meter-status-changed": charm missing from disk
+2022-02-04 09:46:31 INFO juju.worker.uniter uniter.go:333 unit "rabbitmq-server/0" started
+2022-02-04 09:46:31 INFO juju.worker.uniter uniter.go:636 resuming charm install
+2022-02-04 09:46:31 INFO juju.worker.uniter.charm bundles.go:79 downloading cs:~openstack-charmers-next/rabbitmq-server-454 from API server
+2022-02-04 09:46:36 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-04 09:46:36 INFO juju.worker.uniter.storage resolver.go:127 initial storage attachments ready
+2022-02-04 09:46:36 INFO juju.worker.uniter resolver.go:154 found queued "install" hook
+2022-02-04 09:50:21 INFO unit.rabbitmq-server/0.juju-log server.go:327 Installing python3-psutil with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 09:50:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown source: ''
+2022-02-04 09:50:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Setting cluster-partition-handling to ignore for installation phase.
+2022-02-04 09:50:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Installing ['rabbitmq-server', 'python3-amqplib', 'lockfile-progs', 'python3-croniter'] with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 09:53:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 09:53:44 INFO juju.worker.uniter.operation runhook.go:152 ran "install" hook (via explicit, bespoke hook script)
+2022-02-04 09:53:45 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-created" hook (missing)
+2022-02-04 09:53:46 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-created" hook (missing)
+2022-02-04 09:53:46 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-created" hook (missing)
+2022-02-04 09:53:46 INFO juju.worker.uniter.operation runhook.go:155 skipped "cluster-relation-created" hook (missing)
+2022-02-04 09:53:46 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-created" hook (missing)
+2022-02-04 09:53:46 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-created" hook (missing)
+2022-02-04 09:53:47 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-created" hook (missing)
+2022-02-04 09:53:47 INFO juju.worker.uniter resolver.go:154 found queued "leader-elected" hook
+2022-02-04 09:54:20 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 09:54:24 INFO juju.worker.uniter.operation runhook.go:152 ran "leader-elected" hook (via explicit, bespoke hook script)
+2022-02-04 09:54:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Making dir /var/lib/charm/rabbitmq-server root:root 555
+2022-02-04 09:54:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Making dir /etc/policy-rc.d root:root 555
+2022-02-04 09:54:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating hosts file with: {'10.0.0.116': 'juju-04f1e3-1-lxd-5'} (current: ['127.0.0.1 localhost\n', '\n', '# The following lines are desirable for IPv6 capable hosts\n', '::1 ip6-localhost ip6-loopback\n', 'fe00::0 ip6-localnet\n', 'ff00::0 ip6-mcastprefix\n', 'ff02::1 ip6-allnodes\n', 'ff02::2 ip6-allrouters\n', 'ff02::3 ip6-allhosts\n'])
+2022-02-04 09:54:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown source: ''
+2022-02-04 09:54:27 INFO unit.rabbitmq-server/0.juju-log server.go:327 Changing ownership of path /var/lib/rabbitmq to rabbitmq:rabbitmq
+2022-02-04 09:54:27 INFO unit.rabbitmq-server/0.juju-log server.go:327 Changing perms of path /var/lib/rabbitmq 
+2022-02-04 09:55:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Setting HA policy to vhost '/'
+2022-02-04 09:58:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 09:58:32 INFO juju.worker.uniter.operation runhook.go:152 ran "config-changed" hook (via explicit, bespoke hook script)
+2022-02-04 09:58:32 INFO juju.worker.uniter resolver.go:154 found queued "start" hook
+2022-02-04 09:58:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-04 09:58:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 09:59:02 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-04 09:59:02 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 09:59:02 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 09:59:02 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 09:59:02 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 09:59:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Created new vhost (openstack).
+2022-02-04 09:59:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: configure_ttl: ttlname=None ttlreg=None ttl=None
+2022-02-04 09:59:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Creating new user (neutron).
+2022-02-04 09:59:35 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Adding tags [] to user neutron
+2022-02-04 09:59:48 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Setting HA policy to vhost 'openstack'
+2022-02-04 10:00:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Unit is ready
+2022-02-04 10:00:16 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:00:17 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 10:00:39 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Unit is ready
+2022-02-04 10:00:41 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:00:41 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 10:00:41 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 10:00:42 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 10:01:05 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:25: Unit is ready
+2022-02-04 10:01:09 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:01:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:16: Unit is ready
+2022-02-04 10:01:32 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:01:49 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: configure_ttl: ttlname=None ttlreg=None ttl=None
+2022-02-04 10:01:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Creating new user (nova).
+2022-02-04 10:02:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Adding tags [] to user nova
+2022-02-04 10:02:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Setting HA policy to vhost 'openstack'
+2022-02-04 10:02:44 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Unit is ready
+2022-02-04 10:02:47 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:02:47 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 10:03:10 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:27: Unit is ready
+2022-02-04 10:03:12 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:03:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:31: configure_ttl: ttlname=None ttlreg=None ttl=None
+2022-02-04 10:03:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:31: Adding tags [] to user neutron
+2022-02-04 10:03:48 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:31: Setting HA policy to vhost 'openstack'
+2022-02-04 10:04:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:31: Unit is ready
+2022-02-04 10:04:21 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:04:41 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Unit is ready
+2022-02-04 10:04:43 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:05:01 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Unit is ready
+2022-02-04 10:05:03 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:05:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Unit is ready
+2022-02-04 10:05:25 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:05:38 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:25: configure_ttl: ttlname=None ttlreg=None ttl=None
+2022-02-04 10:05:41 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:25: Creating new user (glance).
+2022-02-04 10:05:46 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:25: Adding tags [] to user glance
+2022-02-04 10:05:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:25: Setting HA policy to vhost 'openstack'
+2022-02-04 10:06:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:25: Unit is ready
+2022-02-04 10:06:12 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:06:13 INFO juju.worker.uniter.operation runhook.go:155 skipped "amqp-relation-joined" hook (missing)
+2022-02-04 10:06:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:36: Unit is ready
+2022-02-04 10:06:32 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:08:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:16: configure_ttl: ttlname=None ttlreg=None ttl=None
+2022-02-04 10:08:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:16: Adding tags [] to user nova
+2022-02-04 10:08:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:16: Setting HA policy to vhost 'openstack'
+2022-02-04 10:08:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:16: Unit is ready
+2022-02-04 10:08:36 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:08:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:08:49 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:08:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:13:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:13:24 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:13:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:14:13 INFO unit.rabbitmq-server/0.juju-log server.go:327 amqp:20: Unit is ready
+2022-02-04 10:14:15 INFO juju.worker.uniter.operation runhook.go:152 ran "amqp-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:17:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:18:07 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:18:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:23:39 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:23:51 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:23:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:28:21 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:28:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:28:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:33:38 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:33:45 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:33:45 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:38:01 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:38:07 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:38:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:42:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:42:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:42:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:47:51 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:48:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:48:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:52:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:52:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:52:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:57:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 10:57:21 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 10:57:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:01:25 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:01:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:01:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:05:48 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:05:52 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:05:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:10:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:10:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:10:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:14:58 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:15:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:15:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:20:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:20:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:20:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:25:55 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:26:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:26:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:31:13 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-04 11:31:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-04 11:31:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:38:57 INFO juju unit_agent.go:276 Starting unit workers for "rabbitmq-server/0"
+2022-02-09 22:38:57 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-rabbitmq-server-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:38:58 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-rabbitmq-server-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:38:58 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-09 22:38:58 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-09 22:38:58 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-09 22:39:00 INFO juju.worker.uniter uniter.go:333 unit "rabbitmq-server/0" started
+2022-02-09 22:39:00 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-09 22:39:01 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2022-02-09 22:39:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 Error: unable to perform an operation on node 'rabbit@juju-04f1e3-1-lxd-5'. Please see diagnostics information and suggestions below.
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 Most common reasons for this are:
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * Target node is not running
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 In addition to the diagnostics info below:
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * Consult server logs on node rabbit@juju-04f1e3-1-lxd-5
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 DIAGNOSTICS
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 ===========
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 attempted to contact: ['rabbit@juju-04f1e3-1-lxd-5']
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 rabbit@juju-04f1e3-1-lxd-5:
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60   * connected to epmd (port 4369) on juju-04f1e3-1-lxd-5
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60   * epmd reports: node 'rabbit' not running at all
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60                   no other nodes on juju-04f1e3-1-lxd-5
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60   * suggestion: start the node
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 Current node details:
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * node name: 'rabbitmqcli-899-rabbit@juju-04f1e3-1-lxd-5'
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * effective user's home directory: /var/lib/rabbitmq
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60  * Erlang cookie hash: wZffIBcR5ZtH/ZpzQ0PIjg==
+2022-02-09 22:39:24 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60 Traceback (most recent call last):
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/start", line 967, in <module>
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     rabbit.assess_status(rabbit.ConfigRenderer(rabbit.CONFIG_FILES()))
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1151, in assess_status
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     assess_status_func(configs)()
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1172, in _assess_status_func
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message = _determine_os_workload_status(
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1038, in _determine_os_workload_status
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message = _ows_check_charm_func(
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1202, in _ows_check_charm_func
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     charm_state, charm_message = charm_func_with_configs()
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1039, in <lambda>
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message, lambda: charm_func(configs))
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1085, in assess_cluster_status
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     departed_node = check_cluster_memberships()
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 740, in check_cluster_memberships
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     for node in nodes():
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/core/hookenv.py", line 92, in wrapper
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     res = func(*args, **kwargs)
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 980, in nodes
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     status = get_cluster_status()
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 965, in get_cluster_status
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     output = subprocess.check_output(
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/usr/lib/python3.8/subprocess.py", line 415, in check_output
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/usr/lib/python3.8/subprocess.py", line 516, in run
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60     raise CalledProcessError(retcode, process.args,
+2022-02-09 22:39:26 WARNING unit.rabbitmq-server/0.start logger.go:60 subprocess.CalledProcessError: Command '['/usr/sbin/rabbitmqctl', 'cluster_status', '--formatter=json']' returned non-zero exit status 69.
+2022-02-09 22:39:27 ERROR juju.worker.uniter.operation runhook.go:146 hook "start" (via explicit, bespoke hook script) failed: exit status 1
+2022-02-09 22:39:27 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "start" hook
+2022-02-09 22:39:32 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "start" hook
+2022-02-09 22:39:37 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 Error: this command requires the 'rabbit' app to be running on the target node. Start it with 'rabbitmqctl start_app'.
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 Arguments given:
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 	cluster_status --formatter=json
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 [1mUsage[0m
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:39:59 WARNING unit.rabbitmq-server/0.start logger.go:60 rabbitmqctl [--node <node>] [--longnames] [--quiet] cluster_status [--timeout <timeout>]
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60 Traceback (most recent call last):
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/start", line 967, in <module>
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     rabbit.assess_status(rabbit.ConfigRenderer(rabbit.CONFIG_FILES()))
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1151, in assess_status
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     assess_status_func(configs)()
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1172, in _assess_status_func
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message = _determine_os_workload_status(
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1038, in _determine_os_workload_status
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message = _ows_check_charm_func(
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1202, in _ows_check_charm_func
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     charm_state, charm_message = charm_func_with_configs()
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1039, in <lambda>
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message, lambda: charm_func(configs))
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1085, in assess_cluster_status
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     departed_node = check_cluster_memberships()
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 740, in check_cluster_memberships
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     for node in nodes():
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/core/hookenv.py", line 92, in wrapper
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     res = func(*args, **kwargs)
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 980, in nodes
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     status = get_cluster_status()
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 965, in get_cluster_status
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     output = subprocess.check_output(
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/usr/lib/python3.8/subprocess.py", line 415, in check_output
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/usr/lib/python3.8/subprocess.py", line 516, in run
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60     raise CalledProcessError(retcode, process.args,
+2022-02-09 22:40:01 WARNING unit.rabbitmq-server/0.start logger.go:60 subprocess.CalledProcessError: Command '['/usr/sbin/rabbitmqctl', 'cluster_status', '--formatter=json']' returned non-zero exit status 64.
+2022-02-09 22:40:02 ERROR juju.worker.uniter.operation runhook.go:146 hook "start" (via explicit, bespoke hook script) failed: exit status 1
+2022-02-09 22:40:02 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "start" hook
+2022-02-09 22:40:13 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "start" hook
+2022-02-09 22:40:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 Error: this command requires the 'rabbit' app to be running on the target node. Start it with 'rabbitmqctl start_app'.
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 Arguments given:
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 	cluster_status --formatter=json
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 [1mUsage[0m
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 
+2022-02-09 22:40:33 WARNING unit.rabbitmq-server/0.start logger.go:60 rabbitmqctl [--node <node>] [--longnames] [--quiet] cluster_status [--timeout <timeout>]
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60 Traceback (most recent call last):
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/start", line 967, in <module>
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     rabbit.assess_status(rabbit.ConfigRenderer(rabbit.CONFIG_FILES()))
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1151, in assess_status
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     assess_status_func(configs)()
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1172, in _assess_status_func
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message = _determine_os_workload_status(
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1038, in _determine_os_workload_status
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message = _ows_check_charm_func(
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1202, in _ows_check_charm_func
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     charm_state, charm_message = charm_func_with_configs()
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/contrib/openstack/utils.py", line 1039, in <lambda>
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     state, message, lambda: charm_func(configs))
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 1085, in assess_cluster_status
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     departed_node = check_cluster_memberships()
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 740, in check_cluster_memberships
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     for node in nodes():
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/charmhelpers/core/hookenv.py", line 92, in wrapper
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     res = func(*args, **kwargs)
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 980, in nodes
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     status = get_cluster_status()
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/var/lib/juju/agents/unit-rabbitmq-server-0/charm/hooks/rabbit_utils.py", line 965, in get_cluster_status
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     output = subprocess.check_output(
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/usr/lib/python3.8/subprocess.py", line 415, in check_output
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60   File "/usr/lib/python3.8/subprocess.py", line 516, in run
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60     raise CalledProcessError(retcode, process.args,
+2022-02-09 22:40:36 WARNING unit.rabbitmq-server/0.start logger.go:60 subprocess.CalledProcessError: Command '['/usr/sbin/rabbitmqctl', 'cluster_status', '--formatter=json']' returned non-zero exit status 64.
+2022-02-09 22:40:37 ERROR juju.worker.uniter.operation runhook.go:146 hook "start" (via explicit, bespoke hook script) failed: exit status 1
+2022-02-09 22:40:37 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "start" hook
+2022-02-09 22:40:57 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "start" hook
+2022-02-09 22:40:58 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-09 22:41:10 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 22:41:10 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-09 22:43:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 22:43:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 22:43:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:47:59 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 22:48:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 22:48:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:53:49 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 22:53:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 22:53:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:58:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 22:58:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 22:58:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:03:25 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:03:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:03:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:09:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:09:20 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:09:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:13:46 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:13:49 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:13:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:18:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:18:37 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:18:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:22:35 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:22:38 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:22:39 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:27:13 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:27:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:27:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:31:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:31:27 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:31:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:36:16 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:36:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:36:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:42:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:42:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:42:17 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:46:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:46:45 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:46:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:51:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:51:32 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:51:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:56:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-09 23:56:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-09 23:56:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:01:44 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:01:47 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:01:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:06:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:06:32 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:06:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:12:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:12:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:12:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:16:39 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:16:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:16:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:20:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:20:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:20:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:24:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:24:58 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:24:59 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:29:47 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:29:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:29:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:34:04 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:34:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:34:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:38:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:38:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:38:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:43:40 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:43:43 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:43:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:47:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:47:45 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:47:45 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:53:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:53:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:53:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:57:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 00:57:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 00:57:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:03:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:03:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:03:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:08:47 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:08:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:08:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:13:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:13:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:13:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:18:05 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:18:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:18:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:24:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:24:05 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:24:06 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:29:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:29:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:29:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:34:20 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:34:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:34:24 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:39:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:39:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:39:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:44:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:44:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:44:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:49:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:49:31 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:49:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:55:16 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:55:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:55:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:59:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 01:59:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 01:59:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:04:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:04:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:04:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:08:21 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:08:24 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:08:24 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:14:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:14:04 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:14:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:18:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:18:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:18:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:23:31 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:23:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:23:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:27:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:27:59 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:28:00 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:33:17 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:33:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:33:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:37:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:37:39 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:37:40 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:42:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:42:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:42:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:47:55 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:48:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:48:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:53:41 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:53:43 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:53:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:58:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 02:58:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 02:58:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:04:22 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:04:24 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:04:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:09:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:09:32 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:09:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:13:48 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:13:51 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:13:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:19:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:19:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:19:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:24:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:24:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:24:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:28:51 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:28:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:28:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:32:58 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:33:02 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:33:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:38:27 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:38:31 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:38:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:43:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:43:06 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:43:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:48:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:48:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:48:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:53:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:53:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:53:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:59:07 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 03:59:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 03:59:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:04:05 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:04:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:04:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:08:28 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:08:31 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:08:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:13:38 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:13:41 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:13:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:18:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:18:22 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:18:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:24:01 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:24:04 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:24:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:28:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:28:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:28:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:34:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:34:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:34:12 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:39:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:39:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:39:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:43:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:43:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:43:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:49:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:49:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:49:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:53:47 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:53:52 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:53:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:59:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 04:59:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 04:59:12 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:04:37 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:04:40 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:04:40 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:10:07 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:10:10 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:10:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:15:51 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:15:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:15:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:20:32 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:20:35 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:20:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:26:13 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:26:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:26:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:31:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:31:37 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:31:38 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:36:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:36:56 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:36:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:42:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:42:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:42:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:47:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:47:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:47:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:51:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:51:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:51:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:56:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 05:56:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 05:56:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:00:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:00:56 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:00:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:05:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:05:22 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:05:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:10:53 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:10:58 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:10:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:16:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:16:45 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:16:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:21:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:21:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:21:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:26:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:26:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:26:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:31:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:31:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:31:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:37:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:37:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:37:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:42:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:42:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:42:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:46:42 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:46:45 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:46:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:51:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:52:01 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:52:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:57:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 06:57:34 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 06:57:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:02:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:02:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:02:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:06:43 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:06:46 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:06:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:12:05 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:12:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:12:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:16:54 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:16:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:16:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:21:46 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:21:51 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:21:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:25:47 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:25:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:25:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:31:23 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:31:25 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:31:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:37:04 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:37:07 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:37:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:42:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:42:12 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:42:12 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:47:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:47:33 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:47:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:53:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:53:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:53:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:58:46 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 07:58:49 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 07:58:49 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:03:14 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:03:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:03:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:07:38 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:07:41 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:07:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:12:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:12:39 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:12:39 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:18:05 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:18:09 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:18:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:23:46 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:23:49 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:23:49 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:28:26 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:28:30 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:28:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:34:15 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:34:18 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:34:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:40:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:40:11 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:40:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:45:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:45:04 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:45:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:50:57 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:51:00 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:51:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:56:36 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 08:56:40 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 08:56:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:02:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:02:35 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:02:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:08:03 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:08:08 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:08:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:12:24 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:12:29 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:12:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:16:47 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:16:50 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:16:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:21:16 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:21:19 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:21:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:26:31 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:26:35 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:26:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:31:31 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:31:35 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:31:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:36:06 INFO unit.rabbitmq-server/0.juju-log server.go:327 Updating status.
+2022-02-10 09:36:10 INFO unit.rabbitmq-server/0.juju-log server.go:327 Unit is ready
+2022-02-10 09:36:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)

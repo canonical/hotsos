@@ -1,0 +1,11 @@
+* jujud-machine-0-lxd-5.service - juju agent for machine-0-lxd-5
+     Loaded: loaded (/etc/systemd/system/jujud-machine-0-lxd-5.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:33:34 UTC; 11h ago
+   Main PID: 299 (bash)
+      Tasks: 13 (limit: 314572)
+     Memory: 163.2M
+     CGroup: /system.slice/jujud-machine-0-lxd-5.service
+             |-299 bash /etc/systemd/system/jujud-machine-0-lxd-5-exec-start.sh
+             `-310 /var/lib/juju/tools/machine-0-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/5 --debug
+
+Feb 09 22:33:34 juju-04f1e3-0-lxd-5 systemd[1]: Started juju agent for machine-0-lxd-5.

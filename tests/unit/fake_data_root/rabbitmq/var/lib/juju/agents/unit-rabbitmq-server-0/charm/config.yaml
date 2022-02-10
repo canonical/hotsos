@@ -1,0 +1,343 @@
+options:
+  source:
+    type: string
+    default:
+    description: |
+      Optional configuration to support use of additional sources such as:
+      .
+        - ppa:myteam/ppa
+        - cloud:xenial-proposed/ocata
+        - http://my.archive.com/ubuntu main
+      .
+      The last option should be used in conjunction with the key configuration
+      option.
+      .
+      Changing the source option on already deployed service/application will
+      trigger the upgrade.
+  key:
+    type: string
+    default:
+    description: |
+      Key ID to import to the apt keyring to support use with arbitary source
+      configuration from outside of Launchpad archives or PPA's.
+  harden:
+    type: string
+    default:
+    description: |
+      Apply system hardening. Supports a space-delimited list of modules
+      to run. Supported modules currently include os, ssh, apache and mysql.
+  management_plugin:
+    type: boolean
+    default: True
+    description: |
+      Enable the management plugin. This only applys to deployments using
+      Focal or later.
+  mirroring-queues:
+    type: boolean
+    default: True
+    description: |
+      When set to True the 'ha-mode: all' policy is applied to all the
+      exchanges that match the expression '^(?!amq\.).*'
+  cluster-partition-handling:
+    type: string
+    default: ignore
+    description: |
+      RabbitMQ offers three ways to deal with network partitions automatically.
+      Available modes:
+      .
+      ignore - Your network is reliable. All your nodes are in a rack,
+      connected with a switch, and that switch is also the route to the outside
+      world. You don't want to run any risk of any of your cluster shutting
+      down if any other part of it fails (or you have a two node cluster).
+      .
+      pause_minority - Your network is maybe less reliable. You have clustered
+      across 3 AZs in EC2, and you assume that only one AZ will fail at once.
+      In that scenario you want the remaining two AZs to continue working and
+      the nodes from the failed AZ to rejoin automatically and without fuss
+      when the AZ comes back.
+      .
+      autoheal - Your network may not be reliable. You are more concerned with
+      continuity of service than with data integrity. You may have a two node
+      cluster.
+      .
+      For more information see http://www.rabbitmq.com/partitions.html
+  mnesia-table-loading-retry-timeout:
+    type: int
+    default: 30000
+    description: |
+      Timeout in milliseconds used when waiting for Mnesia tables in a
+      cluster to become available.
+      .
+      https://www.rabbitmq.com/configure.html#config-items
+  mnesia-table-loading-retry-limit:
+    type: int
+    default: 10
+    description: |
+      Retries when waiting for Mnesia tables during cluster startup.
+      Note that this setting is not applied to Mnesia upgrades or node
+      deletions.
+      .
+      https://www.rabbitmq.com/configure.html#config-items
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      If True, services that support it will log to syslog instead of their
+      normal log location.
+  max-cluster-tries:
+    type: int
+    default: 3
+    description: |
+      Number of tries to cluster with other units before giving up and throwing
+      a hook error.
+  min-cluster-size:
+    type: int
+    default:
+    description: |
+      Minimum number of units expected to exist before charm will attempt to
+      form a rabbitmq cluster.
+  stats_cron_schedule:
+    type: string
+    default: '*/5 * * * *'
+    description: |
+      Cron schedule used to generate rabbitmq stats. To disable,
+      either unset this config option or set it to an empty string ('').
+  cron-timeout:
+    type: int
+    default: 300
+    description: |
+      Run a command with a time limit specified in seconds in cron.
+      This timeout will govern to the rabbitmq stats capture, and that once
+      the timeout is reached a SIGINT is sent to the program, if it doesn't
+      exits before 10 seconds a SIGKILL is sent. Note that from xenial onwards
+      the nrpe queue check will alert if stats are not updated as expected
+  queue_thresholds:
+    type: string
+    default: "[['\\*', '\\*', 100, 200]]"
+    description: |
+      List of RabbitMQ queue size check thresholds. Interpreted as YAML in
+      format [<vhost>, <queue>, <warn>, <crit>]
+      Per-queue thresholds can be expressed as a multi-line YAML array:
+      - ['/', 'queue1', 10, 20]
+      - ['/', 'queue2', 200, 300]
+      Or as a list of lists:
+      [['/', 'queue1', 10, 20], ['/', 'queue2', 200, 300]]
+      Wildcards '*' are accepted to monitor all vhosts and/or queues.
+      In case of multiple matches, only the first will apply: wildcards should
+      therefore be used last in order to avoid unexpected behavior.
+  exclude_queues:
+    type: string
+    default: "[]"
+    description: |
+      List of RabbitMQ queues that should be skipped when checking thresholds.
+      Interpreted as YAML in format [<vhost>, <queue>]
+      Per-queue thresholds can be expressed as a multi-line YAML array:
+      - ['/', 'queue1']
+      - ['/', 'queue2']
+      Or as a list of lists:
+      [['/', 'queue1'], ['/', 'queue2']]
+      Wildcards '*' are accepted to exclude, for example, single queue on all
+      hosts. Note that the wildcard asterisk must be double-escaped. Example:
+      [['\\*', 'queue1']]
+  busiest_queues:
+    type: int
+    default: 0
+    description: |
+      Number of the busiest RabbitMQ queues to display when warning and
+      critical checking thresholds are exceeded. Queues are displayed in
+      decreasing message count order.
+  connection-backlog:
+    type: int
+    default:
+    description: |
+      Overrides the size of the connection backlog maintained by the server.
+      Environments with large numbers of clients will want to set this value
+      higher than the default (default value varies with rabbtimq version, see
+      https://www.rabbitmq.com/networking.html for more info).
+  erl-vm-io-thread-multiplier:
+    type: int
+    default:
+    description: |
+      Multiplier used to calculate the number of threads used in the erl vm
+      worker thread pool using the number of CPU cores extant in
+      the host system. The upstream docs recommend that this multiplier be
+      > 12 per core - we use 24 as default so that we end up with roughly the
+      same as current rabbitmq package defaults and that is what is used
+      internally to the charm if no value is set here. Also, if this value is
+      left unset and this application is running inside a container, the number
+      of threads will be capped based on a maximum of 2 cores.
+  # SSL configuration
+  ssl:
+    type: string
+    default: "off"
+    description: |
+      Enable SSL for client communication. Valid values are 'off', 'on', and
+      'only'. If ssl_key, ssl_cert, ssl_ca are provided then those values will
+      be used. Otherwise the service will act as its own certificate authority
+      and pass its CA certificate to clients. For clustered RabbitMQ, ssl_key
+      and ssl_cert must be provided.
+      .
+      Vault can be used instead of the ssl_* config values and works for
+      clustered and non-clustered cases.
+  ssl_enabled:
+    type: boolean
+    default: False
+    description: |
+      (DEPRECATED see 'ssl' config option.) enable SSL
+  ssl_port:
+    type: int
+    default: 5671
+    description: SSL port
+  ssl_key:
+    type: string
+    description: |
+      Private unencrypted key in base64 PEM format (i.e. starts with
+      "-----BEGIN RSA PRIVATE KEY-----")
+    default:
+  ssl_cert:
+    type: string
+    description: |
+      X.509 certificate in base64 PEM format (i.e. starts with
+      "-----BEGIN CERTIFICATE-----")
+    default:
+  ssl_ca:
+    type: string
+    description: |
+      Certificate authority cert that the cert. Optional if the ssl_cert is
+      signed by a ca recognized by the os. Format is base64 PEM (concatenated
+      certs if needed).
+    default:
+  # Network configuration (by default all access is over 'private-address')
+  access-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the 'access' network (e.g. 192.168.0.0/24)
+      .
+      This network will be used for access to RabbitMQ messaging services.
+  cluster-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the 'cluster' network (e.g. 192.168.0.0/24)
+      .
+      This network will be used for RabbitMQ to cluster.
+  prefer-ipv6:
+    type: boolean
+    default: False
+    description: |
+      If True enables IPv6 support. The charm will expect network interfaces
+      to be configured with an IPv6 address. If set to False (default) IPv4
+      is expected.
+      .
+      NOTE: these charms do not currently support IPv6 privacy extension. In
+      order for this charm to function correctly, the privacy extension must be
+      disabled and a non-temporary address must be configured/available on
+      your network interface.
+  # Monitoring
+  nagios_context:
+    type: string
+    default: "juju"
+    description: |
+      Used by the nrpe-external-master subordinate charm.
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+      .
+          juju-myservice-0
+      .
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  nagios_servicegroups:
+    type: string
+    default: ""
+    description: |
+      A comma-separated list of nagios servicegroups.
+      If left empty, the nagios_context will be used as the servicegroup.
+  # HA configuration (DEPRECATED)
+  vip:
+    type: string
+    description: "Virtual IP to use to front rabbitmq in ha configuration"
+    default:
+  vip_iface:
+    type: string
+    default: eth0
+    description: "Network Interface where to place the Virtual IP"
+  vip_cidr:
+    type: int
+    default: 24
+    description: "Netmask that will be used for the Virtual IP"
+  ha-bindiface:
+    type: string
+    default: eth0
+    description: |
+      Default network interface on which HA cluster will bind to communication
+      with the other members of the HA Cluster.
+  ha-mcastport:
+    type: int
+    default: 5406
+    description: |
+      Default multicast port number that will be used to communicate between
+      HA Cluster nodes.
+  ha-vip-only:
+    type: boolean
+    default: False
+    description: |
+      By default, without pairing with hacluster charm, rabbitmq will deploy
+      in active/active/active... HA. When pairied with hacluster charm, it
+      will deploy as active/passive. By enabling this option, pairing with
+      hacluster charm will keep rabbit in active/active setup, but in addition
+      it will deploy a VIP that can be used by services that cannot work
+      with mutiple AMQPs (like Glance in pre-Icehouse).
+  modulo-nodes:
+    type: int
+    default:
+    description: |
+      This config option is rarely required but is provided for fine tuning, it
+      is safe to leave unset. Modulo nodes is used to help avoid restart
+      collisions as well as distribute load on the cloud at larger scale.
+      During restarts and cluster joins rabbitmq needs to execute these
+      operations serially. By setting modulo-nodes to the size of the cluster
+      and known-wait to a reasonable value, the charm will distribute the
+      operations serially. If this value is unset, the charm will check
+      min-cluster-size or else finally default to the size of the cluster
+      based on peer relations. Setting this value to 0 will execute operations
+      with no wait time. Setting this value to less than the cluster size will
+      distribute load but may lead to restart collisions.
+  known-wait:
+    type: int
+    default: 30
+    description: |
+      Known wait along with modulo nodes is used to help avoid restart
+      collisions. Known wait is the amount of time between one node executing
+      an operation and another. On slower hardware this value may need to be
+      larger than the default of 30 seconds.
+  notification-ttl:
+    type: int
+    default: 3600000
+    description: |
+      TTL in MS for notification queues in the openstack vhost. Defaults to
+      1 hour, but can be tuned up or down depending on deployment requirements.
+      This ensures that any un-consumed notifications don't build up over
+      time, causing disk capacity issues.
+  check-vhosts:
+    type: string
+    default:
+    description: |
+      When using nrpe to monitor the Rabbitmq host, we monitor functionality on
+      one vhost.  This option configures additional vhost name(s) to check.
+      Space separated list.
+  queue-master-locator:
+    type: string
+    default: min-masters
+    description: |
+      Queue master location strategy. Available strategies are:
+         - min-masters, Pick the node hosting the minimum number of bound masters.
+         - client-local, Pick the node the client that declares the queue is connected to.
+         - random, Pick a random node.
+      This option is only available for RabbitMQ >= 3.6
+  enable-auto-restarts:
+    type: boolean
+    default: True
+    description: |
+      Allow the charm and packages to restart services automatically when
+      required.

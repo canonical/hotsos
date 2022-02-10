@@ -1,0 +1,208 @@
+-- Logs begin at Fri 2022-02-11 18:58:10 UTC, end at Fri 2022-02-11 19:23:42 UTC. --
+Feb 11 19:03:31 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:03:31 juju-110cc2-k8stest-4 kube-proxy.daemon[23365]: cat: /var/snap/kube-proxy/2360/args: No such file or directory
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23328]: I0211 19:03:32.472695   23328 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23328]: I0211 19:03:32.507727   23328 server.go:560] "Neither kubeconfig file nor master URL was specified, falling back to in-cluster config"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23328]: E0211 19:03:32.507782   23328 server.go:495] "Error running ProxyServer" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23328]: E0211 19:03:32.507796   23328 run.go:74] "command failed" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 1.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23885]: I0211 19:03:32.714189   23885 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23885]: I0211 19:03:32.722566   23885 server.go:560] "Neither kubeconfig file nor master URL was specified, falling back to in-cluster config"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23885]: E0211 19:03:32.722594   23885 server.go:495] "Error running ProxyServer" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23885]: E0211 19:03:32.722605   23885 run.go:74] "command failed" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 2.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23915]: I0211 19:03:32.943448   23915 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23915]: I0211 19:03:32.953109   23915 server.go:560] "Neither kubeconfig file nor master URL was specified, falling back to in-cluster config"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23915]: E0211 19:03:32.953150   23915 server.go:495] "Error running ProxyServer" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kube-proxy.daemon[23915]: E0211 19:03:32.953161   23915 run.go:74] "command failed" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:03:32 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 3.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23948]: I0211 19:03:33.195708   23948 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23948]: I0211 19:03:33.204096   23948 server.go:560] "Neither kubeconfig file nor master URL was specified, falling back to in-cluster config"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23948]: E0211 19:03:33.204279   23948 server.go:495] "Error running ProxyServer" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23948]: E0211 19:03:33.204428   23948 run.go:74] "command failed" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 4.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23979]: I0211 19:03:33.437071   23979 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23979]: I0211 19:03:33.446217   23979 server.go:560] "Neither kubeconfig file nor master URL was specified, falling back to in-cluster config"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23979]: E0211 19:03:33.446255   23979 server.go:495] "Error running ProxyServer" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 kube-proxy.daemon[23979]: E0211 19:03:33.446273   23979 run.go:74] "command failed" err="unable to load in-cluster configuration, KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT must be defined"
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 5.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Start request repeated too quickly.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:03:33 juju-110cc2-k8stest-4 systemd[1]: Failed to start Service for snap application kube-proxy.daemon.
+Feb 11 19:12:24 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:12:25 juju-110cc2-k8stest-4 kube-proxy.daemon[67177]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:12:25 juju-110cc2-k8stest-4 kube-proxy.daemon[67177]: I0211 19:12:25.118819   67177 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:12:25 juju-110cc2-k8stest-4 kube-proxy.daemon[67177]: E0211 19:12:25.133070   67177 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:25 juju-110cc2-k8stest-4 kube-proxy.daemon[67177]: E0211 19:12:25.133326   67177 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:25 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:12:25 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:12:35 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 1.
+Feb 11 19:12:35 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:12:35 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:12:35 juju-110cc2-k8stest-4 kube-proxy.daemon[68946]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:12:35 juju-110cc2-k8stest-4 kube-proxy.daemon[68946]: I0211 19:12:35.533960   68946 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:12:35 juju-110cc2-k8stest-4 kube-proxy.daemon[68946]: E0211 19:12:35.544900   68946 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:35 juju-110cc2-k8stest-4 kube-proxy.daemon[68946]: E0211 19:12:35.544919   68946 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:35 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:12:35 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:12:45 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 2.
+Feb 11 19:12:45 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:12:45 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:12:45 juju-110cc2-k8stest-4 kube-proxy.daemon[69699]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:12:45 juju-110cc2-k8stest-4 kube-proxy.daemon[69699]: I0211 19:12:45.742036   69699 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:12:45 juju-110cc2-k8stest-4 kube-proxy.daemon[69699]: E0211 19:12:45.753542   69699 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:45 juju-110cc2-k8stest-4 kube-proxy.daemon[69699]: E0211 19:12:45.753570   69699 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:45 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:12:45 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:12:55 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 3.
+Feb 11 19:12:55 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:12:55 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:12:55 juju-110cc2-k8stest-4 kube-proxy.daemon[70420]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:12:55 juju-110cc2-k8stest-4 kube-proxy.daemon[70420]: I0211 19:12:55.970113   70420 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:12:55 juju-110cc2-k8stest-4 kube-proxy.daemon[70420]: E0211 19:12:55.979952   70420 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:55 juju-110cc2-k8stest-4 kube-proxy.daemon[70420]: E0211 19:12:55.980213   70420 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:12:55 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:12:55 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:13:06 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 4.
+Feb 11 19:13:06 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:13:06 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:13:06 juju-110cc2-k8stest-4 kube-proxy.daemon[70587]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:13:06 juju-110cc2-k8stest-4 kube-proxy.daemon[70587]: I0211 19:13:06.257471   70587 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:13:06 juju-110cc2-k8stest-4 kube-proxy.daemon[70587]: E0211 19:13:06.282464   70587 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:06 juju-110cc2-k8stest-4 kube-proxy.daemon[70587]: E0211 19:13:06.282494   70587 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:06 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:13:06 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:13:16 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 5.
+Feb 11 19:13:16 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:13:16 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:13:16 juju-110cc2-k8stest-4 kube-proxy.daemon[70770]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:13:16 juju-110cc2-k8stest-4 kube-proxy.daemon[70770]: I0211 19:13:16.456444   70770 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:13:16 juju-110cc2-k8stest-4 kube-proxy.daemon[70770]: E0211 19:13:16.469879   70770 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:16 juju-110cc2-k8stest-4 kube-proxy.daemon[70770]: E0211 19:13:16.469907   70770 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:16 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:13:16 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:13:26 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 6.
+Feb 11 19:13:26 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:13:26 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:13:26 juju-110cc2-k8stest-4 kube-proxy.daemon[71041]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:13:26 juju-110cc2-k8stest-4 kube-proxy.daemon[71041]: I0211 19:13:26.732159   71041 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:13:26 juju-110cc2-k8stest-4 kube-proxy.daemon[71041]: E0211 19:13:26.742920   71041 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:26 juju-110cc2-k8stest-4 kube-proxy.daemon[71041]: E0211 19:13:26.742943   71041 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:26 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:13:26 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:13:36 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 7.
+Feb 11 19:13:36 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:13:36 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:13:36 juju-110cc2-k8stest-4 kube-proxy.daemon[71210]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:13:36 juju-110cc2-k8stest-4 kube-proxy.daemon[71210]: I0211 19:13:36.977704   71210 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:13:36 juju-110cc2-k8stest-4 kube-proxy.daemon[71210]: E0211 19:13:36.985745   71210 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:36 juju-110cc2-k8stest-4 kube-proxy.daemon[71210]: E0211 19:13:36.985899   71210 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:36 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:13:36 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:13:47 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 8.
+Feb 11 19:13:47 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:13:47 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:13:47 juju-110cc2-k8stest-4 kube-proxy.daemon[71403]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:13:47 juju-110cc2-k8stest-4 kube-proxy.daemon[71403]: I0211 19:13:47.196201   71403 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:13:47 juju-110cc2-k8stest-4 kube-proxy.daemon[71403]: E0211 19:13:47.216365   71403 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:47 juju-110cc2-k8stest-4 kube-proxy.daemon[71403]: E0211 19:13:47.216618   71403 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:47 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:13:47 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:13:57 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 9.
+Feb 11 19:13:57 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:13:57 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:13:57 juju-110cc2-k8stest-4 kube-proxy.daemon[71540]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:13:57 juju-110cc2-k8stest-4 kube-proxy.daemon[71540]: I0211 19:13:57.565584   71540 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:13:57 juju-110cc2-k8stest-4 kube-proxy.daemon[71540]: E0211 19:13:57.577995   71540 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:57 juju-110cc2-k8stest-4 kube-proxy.daemon[71540]: E0211 19:13:57.578139   71540 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:13:57 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:13:57 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:14:07 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 10.
+Feb 11 19:14:07 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:14:07 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:14:07 juju-110cc2-k8stest-4 kube-proxy.daemon[72027]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:14:07 juju-110cc2-k8stest-4 kube-proxy.daemon[72027]: I0211 19:14:07.864430   72027 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:14:07 juju-110cc2-k8stest-4 kube-proxy.daemon[72027]: E0211 19:14:07.878639   72027 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:14:07 juju-110cc2-k8stest-4 kube-proxy.daemon[72027]: E0211 19:14:07.878884   72027 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:14:07 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:14:07 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:14:17 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 11.
+Feb 11 19:14:17 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:14:17 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:14:18 juju-110cc2-k8stest-4 kube-proxy.daemon[72838]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:14:18 juju-110cc2-k8stest-4 kube-proxy.daemon[72838]: I0211 19:14:18.050314   72838 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:14:18 juju-110cc2-k8stest-4 kube-proxy.daemon[72838]: E0211 19:14:18.058698   72838 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:14:18 juju-110cc2-k8stest-4 kube-proxy.daemon[72838]: E0211 19:14:18.058717   72838 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:14:18 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:14:18 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:14:23 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:14:23 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:14:24 juju-110cc2-k8stest-4 kube-proxy.daemon[75672]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:14:24 juju-110cc2-k8stest-4 kube-proxy.daemon[75672]: I0211 19:14:24.004016   75672 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:14:24 juju-110cc2-k8stest-4 kube-proxy.daemon[75672]: E0211 19:14:24.052624   75672 server.go:495] "Error running ProxyServer" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:14:24 juju-110cc2-k8stest-4 kube-proxy.daemon[75672]: E0211 19:14:24.052659   75672 run.go:74] "command failed" err="stat /root/cdk/kubeproxyconfig: no such file or directory"
+Feb 11 19:14:24 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Main process exited, code=exited, status=1/FAILURE
+Feb 11 19:14:24 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Failed with result 'exit-code'.
+Feb 11 19:14:34 juju-110cc2-k8stest-4 systemd[1]: snap.kube-proxy.daemon.service: Scheduled restart job, restart counter is at 12.
+Feb 11 19:14:34 juju-110cc2-k8stest-4 systemd[1]: Stopped Service for snap application kube-proxy.daemon.
+Feb 11 19:14:34 juju-110cc2-k8stest-4 systemd[1]: Started Service for snap application kube-proxy.daemon.
+Feb 11 19:14:34 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: Flag --logtostderr has been deprecated, will be removed in a future release, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-instrumentation/2845-deprecate-klog-specific-flags-in-k8s-components
+Feb 11 19:14:34 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:14:34.233128   77707 server.go:225] "Warning, all flags other than --config, --write-config-to, and --cleanup are deprecated, please begin using a config file ASAP"
+Feb 11 19:14:35 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:14:35.591756   77707 node.go:152] Failed to retrieve node info: nodes "juju-110cc2-k8stest-4" not found
+Feb 11 19:14:38 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:14:38.915333   77707 node.go:152] Failed to retrieve node info: nodes "juju-110cc2-k8stest-4" not found
+Feb 11 19:14:41 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:14:41.288490   77707 node.go:152] Failed to retrieve node info: nodes "juju-110cc2-k8stest-4" not found
+Feb 11 19:14:46 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:14:46.017091   77707 node.go:152] Failed to retrieve node info: nodes "juju-110cc2-k8stest-4" not found
+Feb 11 19:14:55 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:14:55.754873   77707 node.go:152] Failed to retrieve node info: nodes "juju-110cc2-k8stest-4" not found
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:13.064525   77707 node.go:152] Failed to retrieve node info: Get "https://10.6.3.201:6443/api/v1/nodes/juju-110cc2-k8stest-4": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.064605   77707 server.go:843] "Can't determine this node's IP, assuming 127.0.0.1; if this is incorrect, please set the --bind-address flag"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.064617   77707 server_others.go:138] "Detected node IP" address="127.0.0.1"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.066110   77707 server_others.go:561] "Unknown proxy mode, assuming iptables proxy" proxyMode=""
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.090702   77707 server_others.go:206] "Using iptables Proxier"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.090949   77707 server_others.go:213] "kube-proxy running in dual-stack mode" ipFamily=IPv4
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.091051   77707 server_others.go:214] "Creating dualStackProxier for iptables"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.091162   77707 server_others.go:491] "Detect-local-mode set to ClusterCIDR, but no IPv6 cluster CIDR defined, , defaulting to no-op detect-local for IPv6"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.094686   77707 server.go:656] "Version info" version="v1.23.3"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.097603   77707 conntrack.go:100] "Set sysctl" entry="net/netfilter/nf_conntrack_max" value=131072
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.097779   77707 conntrack.go:52] "Setting nf_conntrack_max" nf_conntrack_max=131072
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.116948   77707 conntrack.go:83] "Setting conntrack hashsize" conntrack hashsize=32768
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.133415   77707 conntrack.go:100] "Set sysctl" entry="net/netfilter/nf_conntrack_tcp_timeout_close_wait" value=3600
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.138162   77707 config.go:317] "Starting service config controller"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.138376   77707 config.go:226] "Starting endpoint slice config controller"
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.139541   77707 shared_informer.go:240] Waiting for caches to sync for service config
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:13.139543   77707 shared_informer.go:240] Waiting for caches to sync for endpoint slice config
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: W0211 19:15:13.141671   77707 reflector.go:324] k8s.io/client-go/informers/factory.go:134: failed to list *v1.EndpointSlice: Get "https://10.6.3.201:6443/apis/discovery.k8s.io/v1/endpointslices?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:13.141739   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.EndpointSlice: failed to list *v1.EndpointSlice: Get "https://10.6.3.201:6443/apis/discovery.k8s.io/v1/endpointslices?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: W0211 19:15:13.141826   77707 reflector.go:324] k8s.io/client-go/informers/factory.go:134: failed to list *v1.Service: Get "https://10.6.3.201:6443/api/v1/services?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:13.141972   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.Service: failed to list *v1.Service: Get "https://10.6.3.201:6443/api/v1/services?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:13 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:13.151945   77707 event_broadcaster.go:262] Unable to write event: 'Post "https://10.6.3.201:6443/apis/events.k8s.io/v1/namespaces/default/events": dial tcp 10.6.3.201:6443: connect: connection refused' (may retry after sleeping)
+Feb 11 19:15:14 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: W0211 19:15:14.047952   77707 reflector.go:324] k8s.io/client-go/informers/factory.go:134: failed to list *v1.Service: Get "https://10.6.3.201:6443/api/v1/services?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:14 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:14.048219   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.Service: failed to list *v1.Service: Get "https://10.6.3.201:6443/api/v1/services?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:14 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: W0211 19:15:14.293837   77707 reflector.go:324] k8s.io/client-go/informers/factory.go:134: failed to list *v1.EndpointSlice: Get "https://10.6.3.201:6443/apis/discovery.k8s.io/v1/endpointslices?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:14 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:14.294473   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.EndpointSlice: failed to list *v1.EndpointSlice: Get "https://10.6.3.201:6443/apis/discovery.k8s.io/v1/endpointslices?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:16 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: W0211 19:15:16.960692   77707 reflector.go:324] k8s.io/client-go/informers/factory.go:134: failed to list *v1.Service: Get "https://10.6.3.201:6443/api/v1/services?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:16 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:16.960748   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.Service: failed to list *v1.Service: Get "https://10.6.3.201:6443/api/v1/services?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:17 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: W0211 19:15:17.177860   77707 reflector.go:324] k8s.io/client-go/informers/factory.go:134: failed to list *v1.EndpointSlice: Get "https://10.6.3.201:6443/apis/discovery.k8s.io/v1/endpointslices?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:17 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:15:17.177930   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.EndpointSlice: failed to list *v1.EndpointSlice: Get "https://10.6.3.201:6443/apis/discovery.k8s.io/v1/endpointslices?labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&limit=500&resourceVersion=0": dial tcp 10.6.3.201:6443: connect: connection refused
+Feb 11 19:15:24 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:24.839652   77707 shared_informer.go:247] Caches are synced for endpoint slice config
+Feb 11 19:15:24 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: I0211 19:15:24.841238   77707 shared_informer.go:247] Caches are synced for service config
+Feb 11 19:16:03 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:16:03.194442   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.Service: an error on the server ("Internal Server Error: \"/api/v1/services?allowWatchBookmarks=true&amp;labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&amp;resourceVersion=498&amp;timeout=7m53s&amp;timeoutSeconds=473&amp;watch=true\": Post \"https://10.152.183.38:8443/webhook?timeout=30s\": dial tcp 10.152.183.38:8443: connect: connection refused") has prevented the request from succeeding (get services)
+Feb 11 19:16:03 juju-110cc2-k8stest-4 kube-proxy.daemon[77707]: E0211 19:16:03.196651   77707 reflector.go:138] k8s.io/client-go/informers/factory.go:134: Failed to watch *v1.EndpointSlice: an error on the server ("Internal Server Error: \"/apis/discovery.k8s.io/v1/endpointslices?allowWatchBookmarks=true&amp;labelSelector=%21service.kubernetes.io%2Fheadless%2C%21service.kubernetes.io%2Fservice-proxy-name&amp;resourceVersion=498&amp;timeout=7m9s&amp;timeoutSeconds=429&amp;watch=true\": Post \"https://10.152.183.38:8443/webhook?timeout=30s\": dial tcp 10.152.183.38:8443: connect: connection refused") has prevented the request from succeeding (get endpointslices.discovery.k8s.io)

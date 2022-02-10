@@ -1,0 +1,162 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: calico-kube-controllers
+  namespace: kube-system
+---
+# Include a clusterrole for the kube-controllers component,
+# and bind it to the calico-kube-controllers serviceaccount.
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: calico-kube-controllers
+rules:
+  # Pods are monitored for changing labels.
+  # The node controller monitors Kubernetes nodes.
+  # Namespace and serviceaccount labels are used for policy.
+  - apiGroups:
+    - ""
+    - extensions
+    resources:
+      - pods
+      - nodes
+      - namespaces
+      - serviceaccounts
+      - networkpolicies
+    verbs:
+      - watch
+      - list
+  - apiGroups:
+    - ""
+    - extensions
+    resources:
+      - namespaces
+    verbs:
+      - get
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+      - networkpolicies
+    verbs:
+      - watch
+      - list
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: calico-kube-controllers
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: calico-kube-controllers
+subjects:
+- kind: ServiceAccount
+  name: calico-kube-controllers
+  namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calico-kube-controllers
+  namespace: kube-system
+  labels:
+    k8s-app: calico-kube-controllers
+    cdk-restart-on-ca-change: "true"
+spec:
+  # Only a single instance of the this pod should be
+  # active at a time.  Since this pod is run as a Deployment,
+  # Kubernetes will ensure the pod is recreated in case of failure,
+  # removing the need for passive backups.
+  selector:
+    matchLabels:
+      k8s-app: calico-kube-controllers
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: calico-kube-controllers
+      namespace: kube-system
+      labels:
+        k8s-app: calico-kube-controllers
+      annotations:
+        # annotate etcd cert modification time, so that when it changes, k8s
+        # will restart the pod
+        cdk-etcd-cert-last-modified: "{{ etcd_cert_last_modified }}"
+    spec:
+      hostNetwork: true
+      serviceAccountName: calico-kube-controllers
+      containers:
+        - name: calico-kube-controllers
+          image: {{ calico_policy_image }}
+          env:
+            - name: ETCD_ENDPOINTS
+              value: {{ connection_string }}
+            - name: ETCD_CA_CERT_FILE
+              value: {{ etcd_ca_path }}
+            - name: ETCD_CERT_FILE
+              value: {{ etcd_cert_path }}
+            - name: ETCD_KEY_FILE
+              value: {{ etcd_key_path }}
+          volumeMounts:
+            - name: calicoctl
+              mountPath: /opt/calicoctl
+      volumes:
+        - name: calicoctl
+          hostPath:
+            path: /opt/calicoctl
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: calico-node
+rules:
+  - apiGroups:
+    - ""
+    resources:
+      - pods
+      - nodes
+      - namespaces
+    verbs:
+      - get
+  - apiGroups:
+    - ""
+    resources:
+      - nodes/status
+    verbs:
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: calico-node
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: calico-node
+subjects:
+- kind: ServiceAccount
+  name: calico-node
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nodes-namespace-reader
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:nodes
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: namespace-reader
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: namespace-reader
+rules:
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get"]

@@ -1,0 +1,11 @@
+[Match]
+MACAddress=52:54:00:e2:28:a3
+Name=ens3
+Type=!vlan bond bridge
+
+[Link]
+MTUBytes=1500
+
+[Network]
+LinkLocalAddressing=no
+Bridge=br-ens3

@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<crm_mon version="1.1.18">
+    <summary>
+        <stack type="corosync" />
+        <current_dc present="true" version="1.1.18-2b07d5c5a9" name="juju-2eebcf-0" id="1000" with_quorum="true" />
+        <last_update time="Mon Jul 20 09:15:49 2020" />
+        <last_change time="Mon Jul 20 09:09:40 2020" user="hacluster" client="crmd" origin="juju-2eebcf-2" />
+        <nodes_configured number="3" expected_votes="unknown" />
+        <resources_configured number="5" disabled="0" blocked="0" />
+        <cluster_options stonith-enabled="false" symmetric-cluster="true" no-quorum-policy="stop" maintenance-mode="false" />
+    </summary>
+    <nodes>
+        <node name="juju-2eebcf-0" id="1000" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="true" resources_running="2" type="member" />
+        <node name="juju-2eebcf-2" id="1001" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="2" type="member" />
+        <node name="juju-2eebcf-3" id="1002" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="1" type="member" />
+    </nodes>
+    <resources>
+        <group id="grp_ks_vips" number_resources="1" >
+             <resource id="res_ks_0dd3a53_vip" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="juju-2eebcf-0" id="1000" cached="false"/>
+             </resource>
+        </group>
+        <clone id="cl_ks_haproxy" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="res_ks_haproxy" resource_agent="lsb:haproxy" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="juju-2eebcf-2" id="1001" cached="false"/>
+            </resource>
+            <resource id="res_ks_haproxy" resource_agent="lsb:haproxy" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="juju-2eebcf-0" id="1000" cached="false"/>
+            </resource>
+            <resource id="res_ks_haproxy" resource_agent="lsb:haproxy" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="juju-2eebcf-3" id="1002" cached="false"/>
+            </resource>
+        </clone>
+        <resource id="res_ks_bc84550_vip" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="juju-2eebcf-2" id="1001" cached="false"/>
+        </resource>
+    </resources>
+    <node_attributes>
+        <node name="juju-2eebcf-0">
+        </node>
+        <node name="juju-2eebcf-2">
+        </node>
+        <node name="juju-2eebcf-3">
+        </node>
+    </node_attributes>
+    <node_history>
+        <node name="juju-2eebcf-2">
+            <resource_history id="res_ks_bc84550_vip" orphan="false" migration-threshold="1000000">
+                <operation_history call="56" task="start" last-rc-change="Mon Jul 20 09:09:37 2020" last-run="Mon Jul 20 09:09:37 2020" exec-time="548ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="57" task="monitor" interval="10000ms" last-rc-change="Mon Jul 20 09:09:38 2020" exec-time="534ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="res_ks_haproxy" orphan="false" migration-threshold="1000000">
+                <operation_history call="64" task="probe" last-rc-change="Mon Jul 20 09:09:40 2020" last-run="Mon Jul 20 09:09:40 2020" exec-time="554ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="64" task="probe" last-rc-change="Mon Jul 20 09:09:40 2020" last-run="Mon Jul 20 09:09:40 2020" exec-time="554ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="70" task="monitor" interval="5000ms" last-rc-change="Mon Jul 20 09:09:41 2020" exec-time="804ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="juju-2eebcf-0">
+            <resource_history id="res_ks_haproxy" orphan="false" migration-threshold="1000000">
+                <operation_history call="80" task="start" last-rc-change="Mon Jul 20 09:09:41 2020" last-run="Mon Jul 20 09:09:41 2020" exec-time="824ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="82" task="monitor" interval="5000ms" last-rc-change="Mon Jul 20 09:09:42 2020" exec-time="534ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="res_ks_0dd3a53_vip" orphan="false" migration-threshold="1000000">
+                <operation_history call="79" task="probe" last-rc-change="Mon Jul 20 09:09:41 2020" last-run="Mon Jul 20 09:09:41 2020" exec-time="753ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="79" task="probe" last-rc-change="Mon Jul 20 09:09:41 2020" last-run="Mon Jul 20 09:09:41 2020" exec-time="753ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="81" task="monitor" interval="10000ms" last-rc-change="Mon Jul 20 09:09:42 2020" exec-time="542ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="juju-2eebcf-3">
+            <resource_history id="res_ks_haproxy" orphan="false" migration-threshold="1000000">
+                <operation_history call="62" task="probe" last-rc-change="Mon Jul 20 09:09:40 2020" last-run="Mon Jul 20 09:09:40 2020" exec-time="547ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="62" task="probe" last-rc-change="Mon Jul 20 09:09:40 2020" last-run="Mon Jul 20 09:09:40 2020" exec-time="547ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="68" task="monitor" interval="5000ms" last-rc-change="Mon Jul 20 09:09:41 2020" exec-time="751ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+    </node_history>
+    <tickets>
+    </tickets>
+    <bans>
+    </bans>
+</crm_mon>

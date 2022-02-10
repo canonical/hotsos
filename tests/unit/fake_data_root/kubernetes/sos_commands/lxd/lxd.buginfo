@@ -1,0 +1,631 @@
+# Base information
+ - Distribution: Ubuntu
+ - Distribution version: 20.04.3 LTS (Focal Fossa)
+ - Kernel version: Linux juju-110cc2-k8stest-4 5.4.0-99-generic #112-Ubuntu SMP Thu Feb 3 13:50:55 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+ - LXC version: 4.0.8
+ - LXD version: 4.0.8
+ - Snap revision: 21835
+
+# Detailed snap information
+```
+name:      lxd
+summary:   LXD - container and VM manager
+publisher: Canonical*
+store-url: https://snapcraft.io/lxd
+license:   unset
+description: |
+  LXD is a system container and virtual machine manager.
+  
+  It offers a simple CLI and REST API to manage local or remote instances,
+  uses an image based workflow and support for a variety of advanced
+  features.
+  
+  Images are available for all Ubuntu releases and architectures as well
+  as for a wide number of other Linux distributions. Existing
+  integrations with many deployment and operation tools, makes it work
+  just like a public cloud, except everything is under your control.
+  
+  LXD containers are lightweight, secure by default and a great
+  alternative to virtual machines when running Linux on Linux.
+  
+  LXD virtual machines are modern and secure, using UEFI and secure-boot
+  by default and a great choice when a different kernel or operating
+  system is needed.
+  
+  With clustering, up to 50 LXD servers can be easily joined and managed
+  together with the same tools and APIs and without needing any external
+  dependencies.
+  
+  
+  Supported configuration options for the snap (snap set lxd
+  [<key>=<value>...]):
+  
+    - ceph.builtin: Use snap-specific Ceph configuration [default=false]
+    - ceph.external: Use the system's ceph tools (ignores ceph.builtin)
+    [default=false]
+    - criu.enable: Enable experimental live-migration support [default=false]
+    - daemon.debug: Increase logging to debug level [default=false]
+    - daemon.group: Set group of users that can interact with LXD
+    [default=lxd]
+    - daemon.preseed: Pass a YAML configuration to `lxd init` on initial
+    start
+    - daemon.syslog: Send LXD log events to syslog [default=false]
+    - lvm.external: Use the system's LVM tools [default=false]
+    - lxcfs.pidfd: Start per-container process tracking [default=false]
+    - lxcfs.loadavg: Start tracking per-container load average
+    [default=false]
+    - lxcfs.cfs: Consider CPU shares for CPU usage [default=false]
+    - openvswitch.builtin: Run a snap-specific OVS daemon [default=false]
+    - shiftfs.enable: Enable shiftfs support [default=auto]
+commands:
+  - lxd.benchmark
+  - lxd.buginfo
+  - lxd.check-kernel
+  - lxd.lxc
+  - lxd.lxc-to-lxd
+  - lxd
+  - lxd.migrate
+services:
+  lxd.activate: oneshot, enabled, inactive
+  lxd.daemon:   simple, enabled, active
+snap-id:      J60k4JY0HppjwOjW8dZdYc8obXKxujRu
+tracking:     4.0/stable/ubuntu-20.04
+refresh-date: 4 days ago, at 15:32 UTC
+channels:
+  latest/stable:    4.22        2022-02-09 (22358) 79MB -
+  latest/candidate: 4.23        2022-02-11 (22414) 80MB -
+  latest/beta:      ^                                   
+  latest/edge:      git-7bf2c99 2022-02-11 (22417) 80MB -
+  4.23/stable:      --                                  
+  4.23/candidate:   4.23        2022-02-11 (22414) 80MB -
+  4.23/beta:        ^                                   
+  4.23/edge:        ^                                   
+  4.22/stable:      4.22        2022-02-09 (22358) 79MB -
+  4.22/candidate:   4.22        2022-02-11 (22407) 79MB -
+  4.22/beta:        ^                                   
+  4.22/edge:        ^                                   
+  4.21/stable:      4.21        2022-01-07 (22162) 77MB -
+  4.21/candidate:   4.21        2022-01-02 (22162) 77MB -
+  4.21/beta:        ^                                   
+  4.21/edge:        ^                                   
+  4.20/stable:      4.20        2021-11-18 (21902) 76MB -
+  4.20/candidate:   4.20        2021-11-14 (21902) 76MB -
+  4.20/beta:        ^                                   
+  4.20/edge:        ^                                   
+  4.0/stable:       4.0.8       2021-11-06 (21835) 70MB -
+  4.0/candidate:    4.0.9       2022-02-11 (22426) 70MB -
+  4.0/beta:         ^                                   
+  4.0/edge:         git-5628fc6 2022-02-11 (22422) 70MB -
+  3.0/stable:       3.0.4       2019-10-10 (11348) 55MB -
+  3.0/candidate:    3.0.4       2019-10-10 (11348) 55MB -
+  3.0/beta:         ^                                   
+  3.0/edge:         git-81b81b9 2019-10-10 (11362) 55MB -
+  2.0/stable:       2.0.12      2020-08-18 (16879) 38MB -
+  2.0/candidate:    2.0.12      2021-03-22 (19859) 39MB -
+  2.0/beta:         ^                                   
+  2.0/edge:         git-82c7d62 2021-03-22 (19857) 39MB -
+installed:          4.0.8                  (21835) 70MB -
+```
+
+# Detailed LXD information
+## Daemon configuration
+```
+config: {}
+api_extensions:
+- storage_zfs_remove_snapshots
+- container_host_shutdown_timeout
+- container_stop_priority
+- container_syscall_filtering
+- auth_pki
+- container_last_used_at
+- etag
+- patch
+- usb_devices
+- https_allowed_credentials
+- image_compression_algorithm
+- directory_manipulation
+- container_cpu_time
+- storage_zfs_use_refquota
+- storage_lvm_mount_options
+- network
+- profile_usedby
+- container_push
+- container_exec_recording
+- certificate_update
+- container_exec_signal_handling
+- gpu_devices
+- container_image_properties
+- migration_progress
+- id_map
+- network_firewall_filtering
+- network_routes
+- storage
+- file_delete
+- file_append
+- network_dhcp_expiry
+- storage_lvm_vg_rename
+- storage_lvm_thinpool_rename
+- network_vlan
+- image_create_aliases
+- container_stateless_copy
+- container_only_migration
+- storage_zfs_clone_copy
+- unix_device_rename
+- storage_lvm_use_thinpool
+- storage_rsync_bwlimit
+- network_vxlan_interface
+- storage_btrfs_mount_options
+- entity_description
+- image_force_refresh
+- storage_lvm_lv_resizing
+- id_map_base
+- file_symlinks
+- container_push_target
+- network_vlan_physical
+- storage_images_delete
+- container_edit_metadata
+- container_snapshot_stateful_migration
+- storage_driver_ceph
+- storage_ceph_user_name
+- resource_limits
+- storage_volatile_initial_source
+- storage_ceph_force_osd_reuse
+- storage_block_filesystem_btrfs
+- resources
+- kernel_limits
+- storage_api_volume_rename
+- macaroon_authentication
+- network_sriov
+- console
+- restrict_devlxd
+- migration_pre_copy
+- infiniband
+- maas_network
+- devlxd_events
+- proxy
+- network_dhcp_gateway
+- file_get_symlink
+- network_leases
+- unix_device_hotplug
+- storage_api_local_volume_handling
+- operation_description
+- clustering
+- event_lifecycle
+- storage_api_remote_volume_handling
+- nvidia_runtime
+- container_mount_propagation
+- container_backup
+- devlxd_images
+- container_local_cross_pool_handling
+- proxy_unix
+- proxy_udp
+- clustering_join
+- proxy_tcp_udp_multi_port_handling
+- network_state
+- proxy_unix_dac_properties
+- container_protection_delete
+- unix_priv_drop
+- pprof_http
+- proxy_haproxy_protocol
+- network_hwaddr
+- proxy_nat
+- network_nat_order
+- container_full
+- candid_authentication
+- backup_compression
+- candid_config
+- nvidia_runtime_config
+- storage_api_volume_snapshots
+- storage_unmapped
+- projects
+- candid_config_key
+- network_vxlan_ttl
+- container_incremental_copy
+- usb_optional_vendorid
+- snapshot_scheduling
+- snapshot_schedule_aliases
+- container_copy_project
+- clustering_server_address
+- clustering_image_replication
+- container_protection_shift
+- snapshot_expiry
+- container_backup_override_pool
+- snapshot_expiry_creation
+- network_leases_location
+- resources_cpu_socket
+- resources_gpu
+- resources_numa
+- kernel_features
+- id_map_current
+- event_location
+- storage_api_remote_volume_snapshots
+- network_nat_address
+- container_nic_routes
+- rbac
+- cluster_internal_copy
+- seccomp_notify
+- lxc_features
+- container_nic_ipvlan
+- network_vlan_sriov
+- storage_cephfs
+- container_nic_ipfilter
+- resources_v2
+- container_exec_user_group_cwd
+- container_syscall_intercept
+- container_disk_shift
+- storage_shifted
+- resources_infiniband
+- daemon_storage
+- instances
+- image_types
+- resources_disk_sata
+- clustering_roles
+- images_expiry
+- resources_network_firmware
+- backup_compression_algorithm
+- ceph_data_pool_name
+- container_syscall_intercept_mount
+- compression_squashfs
+- container_raw_mount
+- container_nic_routed
+- container_syscall_intercept_mount_fuse
+- container_disk_ceph
+- virtual-machines
+- image_profiles
+- clustering_architecture
+- resources_disk_id
+- storage_lvm_stripes
+- vm_boot_priority
+- unix_hotplug_devices
+- api_filtering
+- instance_nic_network
+- clustering_sizing
+- firewall_driver
+- projects_limits
+- container_syscall_intercept_hugetlbfs
+- limits_hugepages
+- container_nic_routed_gateway
+- projects_restrictions
+- custom_volume_snapshot_expiry
+- volume_snapshot_scheduling
+- trust_ca_certificates
+- snapshot_disk_usage
+- clustering_edit_roles
+- container_nic_routed_host_address
+- container_nic_ipvlan_gateway
+- resources_usb_pci
+- resources_cpu_threads_numa
+- resources_cpu_core_die
+- api_os
+- resources_system
+- usedby_consistency
+- resources_gpu_mdev
+- console_vga_type
+- projects_limits_disk
+- storage_rsync_compression
+- gpu_mdev
+- resources_pci_iommu
+- resources_network_usb
+- resources_disk_address
+- network_state_vlan
+- gpu_sriov
+- migration_stateful
+- disk_state_quota
+- storage_ceph_features
+- gpu_mig
+- clustering_join_token
+- clustering_description
+- server_trusted_proxy
+- clustering_update_cert
+- storage_api_project
+- server_instance_driver_operational
+- server_supported_storage_drivers
+- event_lifecycle_requestor_address
+- resources_gpu_usb
+- network_counters_errors_dropped
+- image_source_project
+api_status: stable
+api_version: "1.0"
+auth: trusted
+public: false
+auth_methods:
+- tls
+environment:
+  addresses: []
+  architectures:
+  - x86_64
+  - i686
+  certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICLzCCAbagAwIBAgIQHpHsi7tMXbYFB58dwd/L/TAKBggqhkjOPQQDAzBDMRww
+    GgYDVQQKExNsaW51eGNvbnRhaW5lcnMub3JnMSMwIQYDVQQDDBpyb290QGp1anUt
+    MTEwY2MyLWs4c3Rlc3QtNDAeFw0yMjAyMTExODU5NDdaFw0zMjAyMDkxODU5NDda
+    MEMxHDAaBgNVBAoTE2xpbnV4Y29udGFpbmVycy5vcmcxIzAhBgNVBAMMGnJvb3RA
+    anVqdS0xMTBjYzItazhzdGVzdC00MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEpYwU
+    plGBYvrC2mOqU4c63WaPZWQwWLrBRHLFz+himkLOvfKAmCOZJGYMxtLaizYAw64X
+    OFARzwVGph8wRSptN6MWLGpgBO8pSOT7FqjoPK36SoJKR6lz+d05UCdO4b9Do28w
+    bTAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwDAYDVR0TAQH/
+    BAIwADA4BgNVHREEMTAvghVqdWp1LTExMGNjMi1rOHN0ZXN0LTSHBH8AAAGHEAAA
+    AAAAAAAAAAAAAAAAAAEwCgYIKoZIzj0EAwMDZwAwZAIwf6LXAyTBBALo4n9ydSPY
+    LOss7iPdhPlapaN2tuE1ol/ohdUlV5DwMh1+8x53rSV1AjBEbDAY6aF97jpMnAJE
+    Fip9Vrg9xs2j4HEEHdTv4X08q0UtJ9CRKoWOuQKViA1MEzo=
+    -----END CERTIFICATE-----
+  certificate_fingerprint: f3858e94b1b792cb75276ecc6405a31058ba8ab194e64666ac0286316ea94b4b
+  driver: lxc | qemu
+  driver_version: 4.0.11 | 6.1.0
+  firewall: nftables
+  kernel: Linux
+  kernel_architecture: x86_64
+  kernel_features:
+    netnsid_getifaddrs: "true"
+    seccomp_listener: "true"
+    seccomp_listener_continue: "true"
+    shiftfs: "false"
+    uevent_injection: "true"
+    unpriv_fscaps: "true"
+  kernel_version: 5.4.0-99-generic
+  lxc_features:
+    cgroup2: "true"
+    core_scheduling: "true"
+    devpts_fd: "true"
+    idmapped_mounts_v2: "true"
+    mount_injection_file: "true"
+    network_gateway_device_route: "true"
+    network_ipvlan: "true"
+    network_l2proxy: "true"
+    network_phys_macvlan_mtu: "true"
+    network_veth_router: "true"
+    pidfd: "true"
+    seccomp_allow_deny_syntax: "true"
+    seccomp_notify: "true"
+    seccomp_proxy_send_notify_fd: "true"
+  os_name: Ubuntu
+  os_version: "20.04"
+  project: default
+  server: lxd
+  server_clustered: false
+  server_name: juju-110cc2-k8stest-4
+  server_pid: 9851
+  server_version: 4.0.8
+  storage: ""
+  storage_version: ""
+  storage_supported_drivers:
+  - name: btrfs
+    version: 5.4.1
+    remote: false
+  - name: cephfs
+    version: 15.2.14
+    remote: true
+  - name: dir
+    version: "1"
+    remote: false
+  - name: lvm
+    version: 2.03.07(2) (2019-11-30) / 1.02.167 (2019-11-30) / 4.41.0
+    remote: false
+  - name: zfs
+    version: 0.8.3-1ubuntu12.13
+    remote: false
+  - name: ceph
+    version: 15.2.14
+    remote: true
+```
+
+## Instances
+```
++------+-------+------+------+------+-----------+
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS |
++------+-------+------+------+------+-----------+
+```
+
+## Images
+```
++-------+-------------+--------+-------------+--------------+------+------+-------------+
+| ALIAS | FINGERPRINT | PUBLIC | DESCRIPTION | ARCHITECTURE | TYPE | SIZE | UPLOAD DATE |
++-------+-------------+--------+-------------+--------------+------+------+-------------+
+```
+
+## Storage pools
+```
++------+-------------+--------+--------+---------+
+| NAME | DESCRIPTION | DRIVER | SOURCE | USED BY |
++------+-------------+--------+--------+---------+
+```
+
+## Networks
+```
++------+----------+---------+-------------+---------+
+| NAME |   TYPE   | MANAGED | DESCRIPTION | USED BY |
++------+----------+---------+-------------+---------+
+| ens3 | physical | NO      |             | 0       |
++------+----------+---------+-------------+---------+
+```
+
+## Projects
+```
++-------------------+--------+----------+-----------------+---------+
+|       NAME        | IMAGES | PROFILES | STORAGE VOLUMES | USED BY |
++-------------------+--------+----------+-----------------+---------+
+| default (current) | YES    | YES      | YES             | 1       |
++-------------------+--------+----------+-----------------+---------+
+```
+
+## Profiles
+```
++---------+---------+
+|  NAME   | USED BY |
++---------+---------+
+| default | 0       |
++---------+---------+
+```
+
+## Default profile
+```
+config: {}
+description: Default LXD profile
+devices: {}
+name: default
+used_by: []
+```
+
+# Kernel log (last 50 lines)
+```
+[  949.412565] audit: type=1400 audit(1644606835.981:203): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71471 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  949.413418] audit: type=1400 audit(1644606835.981:204): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=71472 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  952.132092] audit: type=1400 audit(1644606838.701:205): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=71633 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  952.278326] audit: type=1400 audit(1644606838.849:206): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=71656 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  952.454023] audit: type=1400 audit(1644606839.025:207): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=71693 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  959.627013] audit: type=1400 audit(1644606846.197:208): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71985 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  961.208443] audit: type=1400 audit(1644606847.777:209): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=72028 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  969.915235] audit: type=1400 audit(1644606856.486:210): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=72644 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  970.900360] audit: type=1400 audit(1644606857.470:211): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=72750 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  971.046312] audit: type=1400 audit(1644606857.618:212): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=72780 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  973.449166] audit: type=1400 audit(1644606860.022:213): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=73072 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  975.624004] audit: type=1400 audit(1644606862.194:214): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.kube-scheduler" pid=74437 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  975.637571] audit: type=1400 audit(1644606862.210:215): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=74436 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  976.483164] audit: type=1400 audit(1644606863.054:216): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=75083 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  985.925237] audit: type=1400 audit(1644606872.498:217): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=77461 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  988.612503] audit: type=1400 audit(1644606875.186:218): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=77746 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  988.754483] audit: type=1400 audit(1644606875.326:219): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=77770 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  988.918418] audit: type=1400 audit(1644606875.490:220): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=77807 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[  989.429871] audit: type=1400 audit(1644606876.002:221): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=78023 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1019.735469] audit: type=1400 audit(1644606906.311:222): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=78416 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1033.239467] audit: type=1400 audit(1644606919.816:223): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=80000 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1033.513095] audit: type=1400 audit(1644606920.088:224): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=80069 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1033.693871] audit: type=1400 audit(1644606920.268:225): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=80102 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1038.884369] audit: type=1400 audit(1644606925.460:226): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=80447 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1042.858634] audit: type=1400 audit(1644606929.436:227): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=81900 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1043.157985] audit: type=1400 audit(1644606929.732:228): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=81925 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1053.870280] audit: type=1400 audit(1644606940.443:229): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=82073 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1064.875723] audit: type=1400 audit(1644606951.451:230): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=82270 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1070.909975] audit: type=1400 audit(1644606957.483:231): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=82375 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1071.102107] audit: type=1400 audit(1644606957.675:232): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=82502 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1075.419035] audit: type=1400 audit(1644606961.991:233): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=82610 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1099.227031] audit: type=1400 audit(1644606985.798:234): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84109 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1100.131300] audit: type=1400 audit(1644606986.702:235): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84250 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1100.321333] audit: type=1400 audit(1644606986.894:236): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84283 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1101.427059] audit: type=1400 audit(1644606987.998:237): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84513 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1101.552218] audit: type=1400 audit(1644606988.122:238): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84537 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1101.783947] audit: type=1400 audit(1644606988.354:239): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84602 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1111.166891] audit: type=1400 audit(1644606997.737:240): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=85951 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1111.331199] audit: type=1400 audit(1644606997.901:241): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=85995 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1111.707995] audit: type=1400 audit(1644606998.277:242): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=86111 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1297.096280] audit: type=1400 audit(1644607183.667:243): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90674 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1297.420825] audit: type=1400 audit(1644607183.991:244): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90804 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1297.580699] audit: type=1400 audit(1644607184.151:245): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90837 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1298.152888] audit: type=1400 audit(1644607184.723:246): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90955 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1298.312452] audit: type=1400 audit(1644607184.883:247): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90983 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1298.538110] audit: type=1400 audit(1644607185.107:248): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=91052 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1307.457684] audit: type=1400 audit(1644607194.027:249): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=92414 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1307.602821] audit: type=1400 audit(1644607194.171:250): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=92447 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1307.992099] audit: type=1400 audit(1644607194.563:251): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=92565 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+[ 1530.811848] blk_update_request: I/O error, dev loop11, sector 0 op 0x1:(WRITE) flags 0x800 phys_seg 0 prio class 0
+```
+
+# Daemon log (last 50 lines)
+```
+t=2022-02-11T18:59:45+0000 lvl=info msg=" - u 0 1000000 1000000000" 
+t=2022-02-11T18:59:45+0000 lvl=info msg=" - g 0 1000000 1000000000" 
+t=2022-02-11T18:59:46+0000 lvl=info msg="Kernel features:" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - closing multiple file descriptors efficiently: no" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - netnsid-based network retrieval: yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - pidfds: yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - core scheduling: no" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - uevent injection: yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - seccomp listener: yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - seccomp listener continue syscalls: yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - seccomp listener add file descriptors: no" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - attach to namespaces via pidfds: no" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - safe native terminal allocation : yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - unprivileged file capabilities: yes" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - cgroup layout: hybrid" 
+t=2022-02-11T18:59:46+0000 lvl=warn msg=" - Couldn't find the CGroup blkio.weight, disk priority will be ignored" 
+t=2022-02-11T18:59:46+0000 lvl=warn msg=" - Couldn't find the CGroup memory swap accounting, swap limits will be ignored" 
+t=2022-02-11T18:59:46+0000 lvl=info msg=" - shiftfs support: disabled" 
+t=2022-02-11T18:59:47+0000 lvl=info msg="Initializing local database" 
+t=2022-02-11T18:59:47+0000 lvl=info msg="Set client certificate to server certificate" fingerprint=f3858e94b1b792cb75276ecc6405a31058ba8ab194e64666ac0286316ea94b4b
+t=2022-02-11T18:59:47+0000 lvl=info msg="Starting database node" address=1 id=1 role=voter
+t=2022-02-11T18:59:47+0000 lvl=info msg="Starting /dev/lxd handler:" 
+t=2022-02-11T18:59:47+0000 lvl=info msg=" - binding devlxd socket" socket=/var/snap/lxd/common/lxd/devlxd/sock
+t=2022-02-11T18:59:47+0000 lvl=info msg="REST API daemon:" 
+t=2022-02-11T18:59:47+0000 lvl=info msg=" - binding Unix socket" inherited=true socket=/var/snap/lxd/common/lxd/unix.socket
+t=2022-02-11T18:59:47+0000 lvl=info msg="Initializing global database" 
+t=2022-02-11T18:59:47+0000 lvl=info msg="Connecting to global database" 
+t=2022-02-11T18:59:47+0000 lvl=info msg="Connected to global database" 
+t=2022-02-11T18:59:48+0000 lvl=info msg="Initialized global database" 
+t=2022-02-11T18:59:48+0000 lvl=info msg="Firewall loaded driver" driver=nftables
+t=2022-02-11T18:59:48+0000 lvl=info msg="Initializing storage pools" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Initializing daemon storage mounts" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Loading daemon configuration" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Initializing networks" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Pruning leftover image files" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Done pruning leftover image files" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Starting device monitor" 
+t=2022-02-11T18:59:50+0000 lvl=warn msg="Failed to initialize fanotify, falling back on fsnotify" err="Failed to initialize fanotify: invalid argument"
+t=2022-02-11T18:59:50+0000 lvl=info msg="Started seccomp handler" path=/var/snap/lxd/common/lxd/seccomp.socket
+t=2022-02-11T18:59:50+0000 lvl=info msg="Pruning expired images" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Done pruning expired images" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Expiring log files" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Updating images" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Done expiring log files" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Daemon started" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Updating instance types" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Done updating images" 
+t=2022-02-11T18:59:50+0000 lvl=info msg="Done updating instance types" 
+```
+
+# Systemd log (last 50 lines)
+```
+-- Logs begin at Fri 2022-02-11 18:58:10 UTC, end at Fri 2022-02-11 19:23:51 UTC. --
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Preparing a clean copy of /usr/share/misc
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Setting up ceph configuration
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Setting up LVM configuration
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Rotating logs
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Setting up ZFS (0.8)
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Escaping the systemd cgroups
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ====> Detected cgroup V1
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Escaping the systemd process resource limits
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Increasing the number of inotify user instances
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Increasing the number of keys for a nonroot user
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: ==> Disabling shiftfs on this kernel (auto)
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9679]: => Starting LXCFS
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: Running constructor lxcfs_init to reload liblxcfs
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: mount namespace: 4
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: hierarchies:
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   0: fd:   5:
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   1: fd:   6: name=systemd
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   2: fd:   7: blkio
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   3: fd:   8: cpu,cpuacct
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   4: fd:   9: net_cls,net_prio
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   5: fd:  10: perf_event
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   6: fd:  11: memory
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   7: fd:  12: devices
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   8: fd:  13: pids
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:   9: fd:  14: cpuset
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:  10: fd:  15: freezer
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:  11: fd:  16: rdma
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]:  12: fd:  17: hugetlb
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: Kernel supports pidfds
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: Kernel does not support swap accounting
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: api_extensions:
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - cgroups
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - sys_cpu_online
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_cpuinfo
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_diskstats
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_loadavg
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_meminfo
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_stat
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_swaps
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - proc_uptime
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - shared_pidns
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - cpuview_daemon
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - loadavg_daemon
+Feb 11 18:59:43 juju-110cc2-k8stest-4 lxd.daemon[9840]: - pidfds
+Feb 11 18:59:44 juju-110cc2-k8stest-4 lxd.daemon[9679]: => Starting LXD
+Feb 11 18:59:46 juju-110cc2-k8stest-4 lxd.daemon[9851]: t=2022-02-11T18:59:46+0000 lvl=warn msg=" - Couldn't find the CGroup blkio.weight, disk priority will be ignored"
+Feb 11 18:59:46 juju-110cc2-k8stest-4 lxd.daemon[9851]: t=2022-02-11T18:59:46+0000 lvl=warn msg=" - Couldn't find the CGroup memory swap accounting, swap limits will be ignored"
+Feb 11 18:59:50 juju-110cc2-k8stest-4 lxd.daemon[9851]: t=2022-02-11T18:59:50+0000 lvl=warn msg="Failed to initialize fanotify, falling back on fsnotify" err="Failed to initialize fanotify: invalid argument"
+Feb 11 18:59:51 juju-110cc2-k8stest-4 lxd.daemon[9679]: => First LXD execution on this system
+Feb 11 18:59:51 juju-110cc2-k8stest-4 lxd.daemon[9679]: => LXD is ready
+```

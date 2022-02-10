@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# injected by curtin installer
+
+[ "${IFACE}" != "lo" ] || exit 0
+
+# Trigger only if MTU configured
+[ -n "${IF_MTU}" ] || exit 0
+
+read CUR_DEV_MTU </sys/class/net/${IFACE}/mtu ||:
+read CUR_IPV6_MTU </proc/sys/net/ipv6/conf/${IFACE}/mtu ||:
+[ -n "${CUR_DEV_MTU}" ] && echo ${CUR_DEV_MTU} > /run/network/${IFACE}_dev.mtu
+[ -n "${CUR_IPV6_MTU}" ] &&
+  echo ${CUR_IPV6_MTU} > /run/network/${IFACE}_ipv6.mtu
+exit 0

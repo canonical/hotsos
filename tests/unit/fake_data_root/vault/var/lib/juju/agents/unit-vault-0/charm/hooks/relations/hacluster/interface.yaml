@@ -1,0 +1,16 @@
+name: hacluster
+summary: |
+ Provides the hacluster interface used for configuring Corosync
+ and Pacemaker services.
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+ignore:
+  - '.gitignore'
+  - '.gitreview'
+  - '.testr.conf'
+  - 'test-requirements'
+  - 'tox.ini'
+  - 'unit_tests'
+  - '.zuul.yaml'
+  - 'setup.cfg'
+  - 'setup.py'
+  - '**/ops_ha_interface.py'

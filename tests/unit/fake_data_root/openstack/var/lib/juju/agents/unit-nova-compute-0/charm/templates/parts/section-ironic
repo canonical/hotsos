@@ -1,0 +1,15 @@
+{% if virt_type == 'ironic' and auth_host and ironic_api_ready -%}
+{% if api_version and api_version == "3" -%}
+{% set auth_ver = "v3" -%}
+{% else -%}
+{% set auth_ver = "v2.0" -%}
+{% endif -%}
+[ironic]
+auth_type = password
+auth_url = {{auth_protocol}}://{{auth_host}}:{{auth_port}}/{{auth_ver}}
+project_name = {{ admin_tenant_name }}
+username = {{ admin_user }}
+password = {{ admin_password }}
+project_domain_name = {{ admin_domain_name }}
+user_domain_name = {{ admin_domain_name }}
+{% endif -%}

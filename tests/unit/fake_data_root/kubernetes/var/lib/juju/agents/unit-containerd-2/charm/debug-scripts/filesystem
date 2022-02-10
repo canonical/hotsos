@@ -1,0 +1,17 @@
+#!/bin/sh
+set -ux
+
+# report file system disk space usage
+df -hT > $DEBUG_SCRIPT_DIR/df-hT
+# estimate file space usage
+du -h / 2>&1 > $DEBUG_SCRIPT_DIR/du-h
+# list the mounted filesystems
+mount > $DEBUG_SCRIPT_DIR/mount
+# list the mounted systems with ascii trees
+findmnt -A > $DEBUG_SCRIPT_DIR/findmnt
+# list block devices
+lsblk > $DEBUG_SCRIPT_DIR/lsblk
+# list open files
+lsof 2>&1 > $DEBUG_SCRIPT_DIR/lsof
+# list local system locks
+lslocks > $DEBUG_SCRIPT_DIR/lslocks

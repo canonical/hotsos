@@ -1,0 +1,1088 @@
+Feb  4 09:34:10 compute4 useradd[1035]: new group: name=ubuntu, GID=1000
+Feb  4 09:34:10 compute4 useradd[1035]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'adm'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'dialout'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'cdrom'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'floppy'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'sudo'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'audio'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'dip'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'video'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'plugdev'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to group 'netdev'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'adm'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'dialout'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'cdrom'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'floppy'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'sudo'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'audio'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'dip'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'video'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'plugdev'
+Feb  4 09:34:10 compute4 useradd[1035]: add 'ubuntu' to shadow group 'netdev'
+Feb  4 09:34:10 compute4 passwd[1044]: password for 'ubuntu' changed by 'root'
+Feb  4 09:34:10 compute4 systemd-logind[1079]: New seat seat0.
+Feb  4 09:34:10 compute4 systemd-logind[1079]: Watching system buttons on /dev/input/event0 (Power Button)
+Feb  4 09:34:10 compute4 systemd-logind[1079]: Watching system buttons on /dev/input/event1 (AT Translated Set 2 keyboard)
+Feb  4 09:34:10 compute4 sshd[1181]: Server listening on 0.0.0.0 port 22.
+Feb  4 09:34:10 compute4 sshd[1181]: Server listening on :: port 22.
+Feb  4 09:34:13 compute4 useradd[1500]: new user: name=lxd, UID=998, GID=100, home=/var/snap/lxd/common/lxd, shell=/bin/false, from=none
+Feb  4 09:34:20 compute4 systemd-logind[1079]: Watching system buttons on /dev/input/event0 (Power Button)
+Feb  4 09:34:20 compute4 systemd-logind[1079]: Watching system buttons on /dev/input/event1 (AT Translated Set 2 keyboard)
+Feb  4 09:34:24 compute4 useradd[2949]: new user: name=dnsmasq, UID=113, GID=65534, home=/var/lib/misc, shell=/usr/sbin/nologin, from=none
+Feb  4 09:34:24 compute4 usermod[2957]: change user 'dnsmasq' password
+Feb  4 09:34:24 compute4 chage[2964]: changed password expiry for dnsmasq
+Feb  4 09:34:24 compute4 chfn[2968]: changed user 'dnsmasq' information
+Feb  4 09:35:43 compute4 groupadd[11611]: group added to /etc/group: name=rdma, GID=119
+Feb  4 09:35:43 compute4 groupadd[11611]: group added to /etc/gshadow: name=rdma
+Feb  4 09:35:43 compute4 groupadd[11611]: new group: name=rdma, GID=119
+Feb  4 09:35:44 compute4 groupadd[11669]: group added to /etc/group: name=ceph, GID=64045
+Feb  4 09:35:44 compute4 groupadd[11669]: group added to /etc/gshadow: name=ceph
+Feb  4 09:35:44 compute4 groupadd[11669]: new group: name=ceph, GID=64045
+Feb  4 09:35:44 compute4 useradd[11678]: new user: name=ceph, UID=64045, GID=64045, home=/home/ceph, shell=/usr/sbin/nologin, from=none
+Feb  4 09:35:44 compute4 usermod[11686]: change user 'ceph' password
+Feb  4 09:35:44 compute4 chage[11693]: changed password expiry for ceph
+Feb  4 09:35:44 compute4 usermod[11697]: change user 'ceph' home from '/home/ceph' to '/var/lib/ceph'
+Feb  4 09:36:48 compute4 groupadd[17094]: group added to /etc/group: name=zvmsdk, GID=120
+Feb  4 09:36:48 compute4 groupadd[17094]: group added to /etc/gshadow: name=zvmsdk
+Feb  4 09:36:48 compute4 groupadd[17094]: new group: name=zvmsdk, GID=120
+Feb  4 09:36:48 compute4 useradd[17102]: new user: name=zvmsdk, UID=114, GID=120, home=/var/lib/zvmsdk, shell=/bin/false, from=none
+Feb  4 09:36:48 compute4 usermod[17110]: change user 'zvmsdk' password
+Feb  4 09:36:48 compute4 chage[17117]: changed password expiry for zvmsdk
+Feb  4 09:36:58 compute4 groupadd[17679]: group added to /etc/group: name=keystone, GID=121
+Feb  4 09:36:58 compute4 groupadd[17679]: group added to /etc/gshadow: name=keystone
+Feb  4 09:36:58 compute4 groupadd[17679]: new group: name=keystone, GID=121
+Feb  4 09:36:58 compute4 useradd[17687]: new user: name=keystone, UID=115, GID=121, home=/var/lib/keystone, shell=/bin/false, from=none
+Feb  4 09:36:58 compute4 usermod[17695]: change user 'keystone' password
+Feb  4 09:36:58 compute4 chage[17702]: changed password expiry for keystone
+Feb  4 09:37:02 compute4 groupadd[18007]: group added to /etc/group: name=nova, GID=64060
+Feb  4 09:37:02 compute4 groupadd[18007]: group added to /etc/gshadow: name=nova
+Feb  4 09:37:02 compute4 groupadd[18007]: new group: name=nova, GID=64060
+Feb  4 09:37:02 compute4 useradd[18015]: new user: name=nova, UID=64060, GID=64060, home=/var/lib/nova, shell=/bin/false, from=none
+Feb  4 09:37:02 compute4 usermod[18023]: change user 'nova' password
+Feb  4 09:37:02 compute4 chage[18030]: changed password expiry for nova
+Feb  4 09:37:05 compute4 useradd[18192]: new user: name=_rpc, UID=116, GID=65534, home=/run/rpcbind, shell=/usr/sbin/nologin, from=none
+Feb  4 09:37:05 compute4 usermod[18200]: change user '_rpc' password
+Feb  4 09:37:05 compute4 chage[18207]: changed password expiry for _rpc
+Feb  4 09:37:09 compute4 useradd[18680]: new user: name=statd, UID=117, GID=65534, home=/var/lib/nfs, shell=/usr/sbin/nologin, from=none
+Feb  4 09:37:09 compute4 usermod[18688]: change user 'statd' password
+Feb  4 09:37:09 compute4 chage[18695]: changed password expiry for statd
+Feb  4 09:37:22 compute4 groupadd[19393]: group added to /etc/group: name=libvirt, GID=122
+Feb  4 09:37:22 compute4 groupadd[19393]: group added to /etc/gshadow: name=libvirt
+Feb  4 09:37:23 compute4 groupadd[19393]: new group: name=libvirt, GID=122
+Feb  4 09:37:23 compute4 useradd[19403]: new user: name=libvirt-qemu, UID=64055, GID=108, home=/var/lib/libvirt, shell=/usr/sbin/nologin, from=none
+Feb  4 09:37:23 compute4 chage[19411]: changed password expiry for libvirt-qemu
+Feb  4 09:37:23 compute4 chfn[19415]: changed user 'libvirt-qemu' information
+Feb  4 09:37:23 compute4 groupadd[19424]: group added to /etc/group: name=libvirt-qemu, GID=64055
+Feb  4 09:37:23 compute4 groupadd[19424]: group added to /etc/gshadow: name=libvirt-qemu
+Feb  4 09:37:23 compute4 groupadd[19424]: new group: name=libvirt-qemu, GID=64055
+Feb  4 09:37:23 compute4 gpasswd[19431]: user libvirt-qemu added by root to group libvirt-qemu
+Feb  4 09:37:23 compute4 gpasswd[19441]: user ubuntu added by root to group libvirt
+Feb  4 09:37:23 compute4 groupadd[19449]: group added to /etc/group: name=libvirt-dnsmasq, GID=123
+Feb  4 09:37:23 compute4 groupadd[19449]: group added to /etc/gshadow: name=libvirt-dnsmasq
+Feb  4 09:37:23 compute4 groupadd[19449]: new group: name=libvirt-dnsmasq, GID=123
+Feb  4 09:37:23 compute4 useradd[19457]: new user: name=libvirt-dnsmasq, UID=118, GID=123, home=/var/lib/libvirt/dnsmasq, shell=/usr/sbin/nologin, from=none
+Feb  4 09:37:23 compute4 chage[19465]: changed password expiry for libvirt-dnsmasq
+Feb  4 09:37:23 compute4 chfn[19469]: changed user 'libvirt-dnsmasq' information
+Feb  4 09:37:46 compute4 gpasswd[21421]: user nova added by root to group libvirt
+Feb  4 09:38:15 compute4 groupadd[22390]: group added to /etc/group: name=neutron, GID=124
+Feb  4 09:38:15 compute4 groupadd[22390]: group added to /etc/gshadow: name=neutron
+Feb  4 09:38:15 compute4 groupadd[22390]: new group: name=neutron, GID=124
+Feb  4 09:38:15 compute4 useradd[22398]: new user: name=neutron, UID=119, GID=124, home=/var/lib/neutron, shell=/bin/false, from=none
+Feb  4 09:38:15 compute4 usermod[22406]: change user 'neutron' password
+Feb  4 09:38:16 compute4 chage[22413]: changed password expiry for neutron
+Feb  4 09:38:33 compute4 groupadd[23423]: group added to /etc/group: name=haproxy, GID=125
+Feb  4 09:38:33 compute4 groupadd[23423]: group added to /etc/gshadow: name=haproxy
+Feb  4 09:38:33 compute4 groupadd[23423]: new group: name=haproxy, GID=125
+Feb  4 09:38:33 compute4 useradd[23429]: new user: name=haproxy, UID=120, GID=125, home=/var/lib/haproxy, shell=/usr/sbin/nologin, from=none
+Feb  4 09:38:33 compute4 chage[23437]: changed password expiry for haproxy
+Feb  4 09:38:45 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-vsctl --timeout=5 --id=@manager -- create Manager target="ptcp:6640:127.0.0.1" -- add Open_vSwitch . manager_options @manager
+Feb  4 09:38:45 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 09:38:45 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 09:39:55 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmpljlhqfhi/privsep.sock
+Feb  4 09:39:55 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 09:39:56 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 09:40:39 compute4 usermod[28906]: change user 'nova' shell from '/bin/false' to '/bin/bash'
+Feb  4 09:41:50 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmp5x0sftqn/privsep.sock
+Feb  4 09:41:50 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 09:41:53 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:02:31 compute4 sudo:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-osd-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph-authtool /var/lib/ceph/bootstrap-osd/ceph.keyring --create-keyring --name=client.bootstrap-osd --add-key=AQAG+PxhPGy5HRAAUJZgIR7Yac2+6o6GoLND3g==
+Feb  4 10:02:31 compute4 sudo: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb  4 10:02:31 compute4 sudo: pam_unix(sudo:session): session closed for user ceph
+Feb  4 10:02:31 compute4 sudo:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-osd-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph-authtool /var/lib/ceph/osd/ceph.client.osd-upgrade.keyring --create-keyring --name=client.osd-upgrade --add-key=AQAr+PxhaeWjGxAAnEfg/U34cU/tbVHj1OaxvA==
+Feb  4 10:02:31 compute4 sudo: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb  4 10:02:31 compute4 sudo: pam_unix(sudo:session): session closed for user ceph
+Feb  4 10:05:22 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmp7savd971/privsep.sock
+Feb  4 10:05:22 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:05:28 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:07:45 compute4 useradd[208458]: new user: name=radvd, UID=121, GID=65534, home=/var/run/radvd, shell=/usr/sbin/nologin, from=none
+Feb  4 10:07:45 compute4 usermod[208481]: change user 'radvd' password
+Feb  4 10:07:45 compute4 chage[208492]: changed password expiry for radvd
+Feb  4 10:09:40 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmppztidnxz/privsep.sock
+Feb  4 10:09:40 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:09:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:13:17 compute4 sshd[256886]: Connection closed by 10.0.0.126 port 38792 [preauth]
+Feb  4 10:13:17 compute4 sshd[256908]: Connection closed by 10.0.0.126 port 38796 [preauth]
+Feb  4 10:13:17 compute4 sshd[256933]: Connection closed by 10.0.0.126 port 38800 [preauth]
+Feb  4 10:13:18 compute4 sshd[256970]: Connection closed by 10.0.0.126 port 38804 [preauth]
+Feb  4 10:13:18 compute4 sshd[257019]: Connection closed by 10.0.0.126 port 38806 [preauth]
+Feb  4 10:13:18 compute4 sshd[257043]: Connection closed by 10.0.0.126 port 38810 [preauth]
+Feb  4 10:17:01 compute4 CRON[278324]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb  4 10:17:01 compute4 CRON[278324]: pam_unix(cron:session): session closed for user root
+Feb  4 10:35:56 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmplb6qip9j/privsep.sock
+Feb  4 10:35:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:35:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:31 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:31 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 10:37:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-vsctl --timeout=5 --id=@manager -- create Manager target="ptcp:6640:127.0.0.1" -- add Open_vSwitch . manager_options @manager
+Feb  4 10:37:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  4 10:37:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  4 11:17:01 compute4 CRON[440498]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb  4 11:17:01 compute4 CRON[440498]: pam_unix(cron:session): session closed for user root
+Feb  4 11:32:31 compute4 systemd-logind[1079]: Power key pressed.
+Feb  4 11:32:31 compute4 systemd-logind[1079]: Powering Off...
+Feb  4 11:32:31 compute4 systemd-logind[1079]: System is powering down.
+Feb  4 11:32:31 compute4 sshd[1181]: Received signal 15; terminating.
+Feb  9 22:38:17 compute4 sshd[1028]: Server listening on 0.0.0.0 port 22.
+Feb  9 22:38:17 compute4 sshd[1028]: Server listening on :: port 22.
+Feb  9 22:38:17 compute4 systemd-logind[927]: New seat seat0.
+Feb  9 22:38:17 compute4 systemd-logind[927]: Watching system buttons on /dev/input/event0 (Power Button)
+Feb  9 22:38:17 compute4 systemd-logind[927]: Watching system buttons on /dev/input/event1 (AT Translated Set 2 keyboard)
+Feb  9 22:38:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmpc_qcyzs5/privsep.sock
+Feb  9 22:38:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:39:13 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:49:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmp7duwkf2h/privsep.sock
+Feb  9 22:49:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:49:59 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:13 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:13 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:13 compute4 sshd[45209]: Connection closed by 10.0.0.2 port 48882 [preauth]
+Feb  9 22:50:13 compute4 sshd[45215]: Accepted publickey for ubuntu from 10.0.0.2 port 48884 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb  9 22:50:13 compute4 sshd[45215]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:50:13 compute4 systemd-logind[927]: New session 10 of user ubuntu.
+Feb  9 22:50:13 compute4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:50:14 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:14 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:15 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:15 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:15 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:15 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb  9 22:50:15 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb  9 22:50:15 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:15 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:15 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:16 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:16 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:16 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:16 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:17 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:17 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int -
+Feb  9 22:50:17 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:17 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:50:17 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-vsctl --timeout=5 --id=@manager -- create Manager target="ptcp:6640:127.0.0.1" -- add Open_vSwitch . manager_options @manager
+Feb  9 22:50:17 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb  9 22:50:17 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:51:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:51:18 compute4 sshd[45374]: Received disconnect from 10.0.0.2 port 48884:11: disconnected by user
+Feb  9 22:51:18 compute4 sshd[45374]: Disconnected from user ubuntu 10.0.0.2 port 48884
+Feb  9 22:51:18 compute4 sshd[45215]: pam_unix(sshd:session): session closed for user ubuntu
+Feb  9 22:51:18 compute4 systemd-logind[927]: Session 10 logged out. Waiting for processes to exit.
+Feb  9 22:51:18 compute4 systemd-logind[927]: Removed session 10.
+Feb  9 22:51:25 compute4 sshd[48696]: Connection closed by 10.0.0.2 port 48904 [preauth]
+Feb  9 22:51:25 compute4 sshd[48698]: Accepted publickey for ubuntu from 10.0.0.2 port 48906 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb  9 22:51:25 compute4 sshd[48698]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:51:25 compute4 systemd-logind[927]: New session 12 of user ubuntu.
+Feb  9 22:51:26 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb  9 22:51:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb  9 22:51:49 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:51:49 compute4 sshd[48790]: Received disconnect from 10.0.0.2 port 48906:11: disconnected by user
+Feb  9 22:51:49 compute4 sshd[48790]: Disconnected from user ubuntu 10.0.0.2 port 48906
+Feb  9 22:51:49 compute4 sshd[48698]: pam_unix(sshd:session): session closed for user ubuntu
+Feb  9 22:51:49 compute4 systemd-logind[927]: Session 12 logged out. Waiting for processes to exit.
+Feb  9 22:51:49 compute4 systemd-logind[927]: Removed session 12.
+Feb  9 22:52:00 compute4 sshd[48904]: Connection closed by 10.0.0.2 port 48922 [preauth]
+Feb  9 22:52:00 compute4 sshd[48906]: Accepted publickey for ubuntu from 10.0.0.2 port 48924 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb  9 22:52:00 compute4 sshd[48906]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:52:00 compute4 systemd-logind[927]: New session 13 of user ubuntu.
+Feb  9 22:52:00 compute4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:52:01 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb  9 22:52:01 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb  9 22:52:02 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:52:02 compute4 sshd[48984]: Received disconnect from 10.0.0.2 port 48924:11: disconnected by user
+Feb  9 22:52:02 compute4 sshd[48984]: Disconnected from user ubuntu 10.0.0.2 port 48924
+Feb  9 22:52:02 compute4 sshd[48906]: pam_unix(sshd:session): session closed for user ubuntu
+Feb  9 22:52:02 compute4 systemd-logind[927]: Session 13 logged out. Waiting for processes to exit.
+Feb  9 22:52:02 compute4 systemd-logind[927]: Removed session 13.
+Feb  9 22:52:06 compute4 sshd[49031]: Connection closed by 10.0.0.2 port 48934 [preauth]
+Feb  9 22:52:06 compute4 sshd[49033]: Accepted publickey for ubuntu from 10.0.0.2 port 48936 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb  9 22:52:06 compute4 sshd[49033]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:52:06 compute4 systemd-logind[927]: New session 15 of user ubuntu.
+Feb  9 22:52:07 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb  9 22:52:07 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb  9 22:52:42 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:52:42 compute4 sshd[49132]: Received disconnect from 10.0.0.2 port 48936:11: disconnected by user
+Feb  9 22:52:42 compute4 sshd[49132]: Disconnected from user ubuntu 10.0.0.2 port 48936
+Feb  9 22:52:42 compute4 sshd[49033]: pam_unix(sshd:session): session closed for user ubuntu
+Feb  9 22:52:42 compute4 systemd-logind[927]: Session 15 logged out. Waiting for processes to exit.
+Feb  9 22:52:42 compute4 systemd-logind[927]: Removed session 15.
+Feb  9 22:52:52 compute4 sshd[51847]: Connection closed by 10.0.0.2 port 48954 [preauth]
+Feb  9 22:52:52 compute4 sshd[51849]: Accepted publickey for ubuntu from 10.0.0.2 port 48956 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb  9 22:52:52 compute4 sshd[51849]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:52:52 compute4 systemd-logind[927]: New session 16 of user ubuntu.
+Feb  9 22:52:53 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb  9 22:52:53 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb  9 22:52:54 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:52:54 compute4 sshd[52056]: Received disconnect from 10.0.0.2 port 48956:11: disconnected by user
+Feb  9 22:52:54 compute4 sshd[52056]: Disconnected from user ubuntu 10.0.0.2 port 48956
+Feb  9 22:52:54 compute4 sshd[51849]: pam_unix(sshd:session): session closed for user ubuntu
+Feb  9 22:52:54 compute4 systemd-logind[927]: Session 16 logged out. Waiting for processes to exit.
+Feb  9 22:52:54 compute4 systemd-logind[927]: Removed session 16.
+Feb  9 22:53:50 compute4 sshd[55633]: Connection closed by 10.0.0.2 port 48982 [preauth]
+Feb  9 22:53:51 compute4 sshd[55635]: Accepted publickey for ubuntu from 10.0.0.2 port 48984 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb  9 22:53:51 compute4 sshd[55635]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:53:51 compute4 systemd-logind[927]: New session 20 of user ubuntu.
+Feb  9 22:53:51 compute4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb  9 22:53:51 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb  9 22:53:51 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb  9 22:53:53 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb  9 22:53:53 compute4 sshd[55840]: Received disconnect from 10.0.0.2 port 48984:11: disconnected by user
+Feb  9 22:53:53 compute4 sshd[55840]: Disconnected from user ubuntu 10.0.0.2 port 48984
+Feb  9 22:53:53 compute4 sshd[55635]: pam_unix(sshd:session): session closed for user ubuntu
+Feb  9 22:53:53 compute4 systemd-logind[927]: Session 20 logged out. Waiting for processes to exit.
+Feb  9 22:53:53 compute4 systemd-logind[927]: Removed session 20.
+Feb  9 22:54:03 compute4 systemd: pam_unix(systemd-user:session): session closed for user ubuntu
+Feb  9 23:17:01 compute4 CRON[96267]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb  9 23:17:01 compute4 CRON[96267]: pam_unix(cron:session): session closed for user root
+Feb 10 00:17:01 compute4 CRON[199491]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 00:17:01 compute4 CRON[199491]: pam_unix(cron:session): session closed for user root
+Feb 10 01:17:01 compute4 CRON[298889]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 01:17:01 compute4 CRON[298889]: pam_unix(cron:session): session closed for user root
+Feb 10 02:17:01 compute4 CRON[397810]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 02:17:01 compute4 CRON[397810]: pam_unix(cron:session): session closed for user root
+Feb 10 03:10:01 compute4 CRON[484505]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 03:10:01 compute4 CRON[484505]: pam_unix(cron:session): session closed for user root
+Feb 10 03:17:01 compute4 CRON[494843]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 03:17:01 compute4 CRON[494843]: pam_unix(cron:session): session closed for user root
+Feb 10 04:17:01 compute4 CRON[594227]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 04:17:01 compute4 CRON[594227]: pam_unix(cron:session): session closed for user root
+Feb 10 05:17:01 compute4 CRON[689793]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 05:17:01 compute4 CRON[689793]: pam_unix(cron:session): session closed for user root
+Feb 10 06:17:01 compute4 CRON[787750]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 06:17:01 compute4 CRON[787750]: pam_unix(cron:session): session closed for user root
+Feb 10 06:25:01 compute4 CRON[800563]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 06:25:02 compute4 CRON[800563]: pam_unix(cron:session): session closed for user root
+Feb 10 07:17:01 compute4 CRON[892880]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 07:17:01 compute4 CRON[892880]: pam_unix(cron:session): session closed for user root
+Feb 10 08:17:01 compute4 CRON[989666]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 08:17:01 compute4 CRON[989666]: pam_unix(cron:session): session closed for user root
+Feb 10 09:08:50 compute4 sshd[1074530]: Connection closed by 10.0.0.2 port 53174 [preauth]
+Feb 10 09:08:50 compute4 sshd[1074532]: Accepted publickey for ubuntu from 10.0.0.2 port 53176 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 09:08:50 compute4 sshd[1074532]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 09:08:50 compute4 systemd-logind[927]: New session 367 of user ubuntu.
+Feb 10 09:08:50 compute4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 10 09:08:51 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 09:08:51 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 09:11:55 compute4 sshd[1079810]: Connection closed by 10.0.0.2 port 53254 [preauth]
+Feb 10 09:11:56 compute4 sshd[1079812]: Accepted publickey for ubuntu from 10.0.0.2 port 53256 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 09:11:56 compute4 sshd[1079812]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 09:11:56 compute4 systemd-logind[927]: New session 370 of user ubuntu.
+Feb 10 09:11:56 compute4 sudo:   ubuntu : TTY=pts/1 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 09:11:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 09:11:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 09:11:58 compute4 sshd[1079885]: Received disconnect from 10.0.0.2 port 53256:11: disconnected by user
+Feb 10 09:11:58 compute4 sshd[1079885]: Disconnected from user ubuntu 10.0.0.2 port 53256
+Feb 10 09:11:58 compute4 sshd[1079812]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 10 09:11:58 compute4 systemd-logind[927]: Session 370 logged out. Waiting for processes to exit.
+Feb 10 09:11:58 compute4 systemd-logind[927]: Removed session 370.
+Feb 10 09:17:01 compute4 CRON[1088885]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 09:17:01 compute4 CRON[1088885]: pam_unix(cron:session): session closed for user root
+Feb 10 09:32:21 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 09:32:21 compute4 sshd[1074654]: Received disconnect from 10.0.0.2 port 53176:11: disconnected by user
+Feb 10 09:32:21 compute4 sshd[1074654]: Disconnected from user ubuntu 10.0.0.2 port 53176
+Feb 10 09:32:21 compute4 sshd[1074532]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 10 09:32:21 compute4 systemd-logind[927]: Session 367 logged out. Waiting for processes to exit.
+Feb 10 09:32:21 compute4 systemd-logind[927]: Removed session 367.
+Feb 10 09:32:24 compute4 sshd[1114396]: Connection closed by 10.0.0.2 port 53444 [preauth]
+Feb 10 09:32:24 compute4 sshd[1114398]: Accepted publickey for ubuntu from 10.0.0.2 port 53446 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 09:32:24 compute4 sshd[1114398]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 09:32:24 compute4 systemd-logind[927]: New session 388 of user ubuntu.
+Feb 10 09:32:24 compute4 sshd[1114492]: Received disconnect from 10.0.0.2 port 53446:11: disconnected by user
+Feb 10 09:32:24 compute4 sshd[1114492]: Disconnected from user ubuntu 10.0.0.2 port 53446
+Feb 10 09:32:24 compute4 sshd[1114398]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 10 09:32:24 compute4 systemd-logind[927]: Session 388 logged out. Waiting for processes to exit.
+Feb 10 09:32:24 compute4 systemd-logind[927]: Removed session 388.
+Feb 10 10:17:01 compute4 CRON[1196401]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 10:17:01 compute4 CRON[1196401]: pam_unix(cron:session): session closed for user root
+Feb 10 11:17:01 compute4 CRON[1292198]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 11:17:01 compute4 CRON[1292198]: pam_unix(cron:session): session closed for user root
+Feb 10 12:17:01 compute4 CRON[1391195]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 12:17:01 compute4 CRON[1391195]: pam_unix(cron:session): session closed for user root
+Feb 10 13:17:01 compute4 CRON[1486426]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 13:17:01 compute4 CRON[1486426]: pam_unix(cron:session): session closed for user root
+Feb 10 13:47:27 compute4 sshd[1537082]: Connection closed by 10.0.0.2 port 54826 [preauth]
+Feb 10 13:47:27 compute4 sshd[1537113]: Accepted publickey for ubuntu from 10.0.0.2 port 54828 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 13:47:27 compute4 sshd[1537113]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 13:47:27 compute4 systemd-logind[927]: New session 540 of user ubuntu.
+Feb 10 13:47:27 compute4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 10 13:47:28 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 13:47:28 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 13:51:06 compute4 sudo:     root : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/rm -rf sosreport-compute4-2022-02-10-kmtdgvz/
+Feb 10 13:51:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 13:51:06 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 13:51:36 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 13:51:36 compute4 sshd[1537464]: Received disconnect from 10.0.0.2 port 54828:11: disconnected by user
+Feb 10 13:51:36 compute4 sshd[1537464]: Disconnected from user ubuntu 10.0.0.2 port 54828
+Feb 10 13:51:36 compute4 sshd[1537113]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 10 13:51:36 compute4 systemd-logind[927]: Session 540 logged out. Waiting for processes to exit.
+Feb 10 13:51:36 compute4 systemd-logind[927]: Removed session 540.
+Feb 10 13:51:44 compute4 sshd[1547428]: Connection closed by 10.0.0.2 port 54854 [preauth]
+Feb 10 13:51:44 compute4 sshd[1547430]: Accepted publickey for ubuntu from 10.0.0.2 port 54856 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 13:51:44 compute4 sshd[1547430]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 13:51:44 compute4 systemd-logind[927]: New session 544 of user ubuntu.
+Feb 10 13:51:45 compute4 sshd[1547519]: Received disconnect from 10.0.0.2 port 54856:11: disconnected by user
+Feb 10 13:51:45 compute4 sshd[1547519]: Disconnected from user ubuntu 10.0.0.2 port 54856
+Feb 10 13:51:45 compute4 sshd[1547430]: pam_unix(sshd:session): session closed for user ubuntu
+Feb 10 13:51:45 compute4 systemd-logind[927]: Session 544 logged out. Waiting for processes to exit.
+Feb 10 13:51:45 compute4 systemd-logind[927]: Removed session 544.
+Feb 10 14:17:01 compute4 CRON[1588868]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 14:17:01 compute4 CRON[1588868]: pam_unix(cron:session): session closed for user root
+Feb 10 15:17:01 compute4 CRON[1686367]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 15:17:01 compute4 CRON[1686367]: pam_unix(cron:session): session closed for user root
+Feb 10 16:09:13 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.promote_secondaries=1
+Feb 10 16:09:13 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:14 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.ip_forward=1
+Feb 10 16:09:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:15 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:15 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.arp_ignore=1
+Feb 10 16:09:15 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:15 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:15 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.arp_announce=2
+Feb 10 16:09:15 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:15 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:15 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv6.conf.all.forwarding=1
+Feb 10 16:09:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:16 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.ip_nonlocal_bind=0
+Feb 10 16:09:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:16 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.netfilter.nf_conntrack_tcp_loose=0
+Feb 10 16:09:16 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:17 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:17 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.promote_secondaries=1
+Feb 10 16:09:17 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:17 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:17 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.ip_forward=1
+Feb 10 16:09:17 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:17 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:17 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.arp_ignore=1
+Feb 10 16:09:17 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.arp_announce=2
+Feb 10 16:09:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv6.conf.all.forwarding=0
+Feb 10 16:09:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.ip_nonlocal_bind=0
+Feb 10 16:09:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:09:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+Feb 10 16:09:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:20 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:22 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:23 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 haproxy -f /var/lib/neutron/ns-metadata-proxy/984c22fd-64b3-4fa1-8ddd-87090f401ce5.conf
+Feb 10 16:09:23 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:23 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:09:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:43 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv4.conf.all.promote_secondaries=1
+Feb 10 16:09:43 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:43 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:43 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv4.ip_forward=1
+Feb 10 16:09:43 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:44 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv4.conf.all.arp_ignore=1
+Feb 10 16:09:44 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:44 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv4.conf.all.arp_announce=2
+Feb 10 16:09:44 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:44 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv6.conf.all.forwarding=1
+Feb 10 16:09:44 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:45 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:45 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv4.ip_nonlocal_bind=1
+Feb 10 16:09:45 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:45 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:45 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d iptables-save
+Feb 10 16:09:45 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:45 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:45 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d iptables-restore -n
+Feb 10 16:09:45 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:46 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:46 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d ip6tables-save
+Feb 10 16:09:46 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:46 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:46 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d ip6tables-restore -n
+Feb 10 16:09:46 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:46 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:47 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d sysctl -w net.ipv4.conf.fg-c8dcce74-c4.proxy_arp=1
+Feb 10 16:09:47 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:47 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:47 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:09:47 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:48 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:48 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.206
+Feb 10 16:09:48 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:48 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.all.send_redirects=0
+Feb 10 16:09:48 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:49 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:49 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv6.conf.qg-14f81a43-69.accept_ra=0
+Feb 10 16:09:49 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:50 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:50 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:50 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.206
+Feb 10 16:09:50 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:50 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf iptables --version
+Feb 10 16:09:50 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:51 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:51 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:09:51 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:51 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:51 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:09:51 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:51 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:51 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:09:51 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:52 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:52 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:52 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-restore -n
+Feb 10 16:09:52 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:52 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:52 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:09:52 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:53 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:53 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:09:53 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:53 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:53 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:09:53 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:53 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:53 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:09:53 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:54 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:54 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:09:54 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:54 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.206
+Feb 10 16:09:54 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:54 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:54 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-restore -n
+Feb 10 16:09:54 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:55 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:55 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:09:55 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:55 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:55 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:09:55 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:55 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:55 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.206
+Feb 10 16:09:55 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:56 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:56 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:09:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:56 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:56 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:09:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:09:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:09:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:58 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:09:58 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:58 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:09:58 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:59 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:59 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:09:59 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:09:59 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:09:59 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.206
+Feb 10 16:09:59 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:01 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:01 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.206
+Feb 10 16:10:01 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:02 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:05 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:10:05 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:05 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:25 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 arping -U -I qr-3a70b31c-3f -c 1 -w 2 192.168.21.1
+Feb 10 16:10:25 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:27 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv4.conf.qr-3a70b31c-3f.send_redirects=0
+Feb 10 16:10:27 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:27 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 arping -A -I qr-3a70b31c-3f -c 1 -w 2 192.168.21.1
+Feb 10 16:10:27 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:28 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 sysctl -w net.ipv6.conf.sg-189f4c40-9d.accept_ra=0
+Feb 10 16:10:28 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:28 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:10:28 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:28 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:28 compute4 sudo: message repeated 2 times: [ pam_unix(sudo:session): session closed for user root]
+Feb 10 16:10:29 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:10:29 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:29 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:29 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:10:29 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:30 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:10:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:30 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:10:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:31 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 arping -U -I qr-3a70b31c-3f -c 1 -w 2 192.168.21.1
+Feb 10 16:10:31 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:31 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:10:31 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:31 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:10:31 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:10:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 arping -A -I qr-3a70b31c-3f -c 1 -w 2 192.168.21.1
+Feb 10 16:10:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:10:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:10:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:10:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+Feb 10 16:10:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:35 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:36 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 arping -U -I qr-3a70b31c-3f -c 1 -w 2 192.168.21.1
+Feb 10 16:10:36 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:37 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:37 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 arping -A -I qr-3a70b31c-3f -c 1 -w 2 192.168.21.1
+Feb 10 16:10:37 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:38 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:10:46 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:10:46 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:10:47 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:06 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:11:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:07 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:11:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:11:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:20 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:20 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:11:20 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:20 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:20 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:11:20 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:21 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:21 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:11:21 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:22 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:22 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:11:22 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:22 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:22 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:11:22 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:23 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:23 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:11:23 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:24 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:24 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:11:24 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:24 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:24 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:11:24 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:25 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:25 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:11:25 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:25 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:11:25 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:26 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:11:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:11:26 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:11:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:12:15 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:12:15 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:12:16 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:39 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:13:39 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:40 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:40 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:13:40 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:40 compute4 sshd[1780255]: Connection closed by 10.0.0.2 port 55808 [preauth]
+Feb 10 16:13:40 compute4 sshd[1780281]: Accepted publickey for ubuntu from 10.0.0.2 port 55810 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 16:13:40 compute4 sshd[1780281]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 16:13:41 compute4 systemd-logind[927]: New session 618 of user ubuntu.
+Feb 10 16:13:41 compute4 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 10 16:13:41 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:41 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:13:41 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:41 compute4 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 16:13:41 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 16:13:42 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:42 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:13:42 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:42 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:42 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:13:42 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:42 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:42 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:13:42 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:43 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:43 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:13:43 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:43 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:43 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:13:43 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:44 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:13:44 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:44 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:13:44 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:44 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:44 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:13:44 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:13:45 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:13:58 compute4 sshd[1780830]: Connection closed by 10.0.0.2 port 55832 [preauth]
+Feb 10 16:13:58 compute4 sshd[1780834]: Accepted publickey for ubuntu from 10.0.0.2 port 55834 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 16:13:58 compute4 sshd[1780834]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 16:13:58 compute4 systemd-logind[927]: New session 620 of user ubuntu.
+Feb 10 16:13:59 compute4 sudo:   ubuntu : TTY=pts/1 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 16:13:59 compute4 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 16:13:59 compute4 sudo:     nova : TTY=unknown ; PWD=/var/lib/nova ; USER=root ; COMMAND=/usr/bin/nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context vif_plug_ovs.privsep.vif_plug --privsep_sock_path /tmp/tmp__akp505/privsep.sock
+Feb 10 16:13:59 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:01 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:01 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:14:01 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:01 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:01 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:14:01 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:02 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:02 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:14:02 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:02 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:02 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:14:02 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:03 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:03 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:14:03 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:03 compute4 systemd-machined[928]: New machine qemu-1-instance-00000002.
+Feb 10 16:14:03 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:03 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:14:03 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:04 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:04 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:14:04 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:04 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -d 192.168.21.4 -w 3
+Feb 10 16:14:04 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:04 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:14:04 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:04 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -s 192.168.21.4 -w 3
+Feb 10 16:14:04 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:05 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:05 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:14:05 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:05 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:06 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:14:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:06 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:06 compute4 sudo: message repeated 3 times: [ pam_unix(sudo:session): session closed for user root]
+Feb 10 16:14:06 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:14:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:07 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:07 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:14:07 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:07 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:09 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:14:09 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:09 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:10 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:14:10 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:10 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:10 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:14:10 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:11 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:11 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:14:11 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:13 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:14:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -d 192.168.21.4 -w 3
+Feb 10 16:14:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -s 192.168.21.4 -w 3
+Feb 10 16:14:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:14:18 compute4 sudo: message repeated 2 times: [ pam_unix(sudo:session): session closed for user root]
+Feb 10 16:14:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:14:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:14:20 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:15:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:26 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:15:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:27 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:15:27 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:27 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:15:27 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:27 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:15:27 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:28 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:28 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:15:28 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:28 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:28 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:15:28 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:28 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:29 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.226
+Feb 10 16:15:29 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.226
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:30 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:15:30 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:31 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:15:31 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:31 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:15:31 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:31 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.226
+Feb 10 16:15:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.226
+Feb 10 16:15:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:36 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:38 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.226
+Feb 10 16:15:38 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:39 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:15:39 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.226
+Feb 10 16:15:39 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:15:40 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:17:01 compute4 CRON[1788418]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 16:17:01 compute4 CRON[1788418]: pam_unix(cron:session): session closed for user root
+Feb 10 16:17:53 compute4 sudo:     nova : TTY=unknown ; PWD=/var/lib/nova ; USER=root ; COMMAND=/usr/bin/nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context os_brick.privileged.default --privsep_sock_path /tmp/tmpeu23eurh/privsep.sock
+Feb 10 16:17:53 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:17:54 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:02 compute4 sshd[1791211]: Accepted publickey for root from 10.0.0.133 port 36962 ssh2: RSA SHA256:XluHzCXV44mbMwKzzlcSUnyqe1rkxPHd6HPkc8gVT2g
+Feb 10 16:18:02 compute4 sshd[1791211]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Feb 10 16:18:02 compute4 systemd-logind[927]: New session 631 of user root.
+Feb 10 16:18:02 compute4 systemd: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+Feb 10 16:18:04 compute4 systemd-machined[928]: New machine qemu-2-instance-00000001.
+Feb 10 16:18:06 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:06 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:06 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:06 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:06 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:06 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:07 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:07 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:07 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:07 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:07 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:07 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:08 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:08 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:18:08 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:08 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:08 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:08 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:09 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:09 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.203
+Feb 10 16:18:09 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:09 compute4 sshd[1791211]: Received disconnect from 10.0.0.133 port 36962:11: disconnected by user
+Feb 10 16:18:09 compute4 sshd[1791211]: Disconnected from user root 10.0.0.133 port 36962
+Feb 10 16:18:09 compute4 sshd[1791211]: pam_unix(sshd:session): session closed for user root
+Feb 10 16:18:09 compute4 systemd-logind[927]: Session 631 logged out. Waiting for processes to exit.
+Feb 10 16:18:09 compute4 systemd-logind[927]: Removed session 631.
+Feb 10 16:18:09 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:09 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:10 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.203
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:10 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:10 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:10 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:10 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:11 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:11 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:18:11 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:11 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:11 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:13 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.203
+Feb 10 16:18:13 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:14 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:14 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.203
+Feb 10 16:18:14 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:15 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:17 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -U -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.203
+Feb 10 16:18:17 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d arping -A -I fg-c8dcce74-c4 -c 1 -w 2 10.100.0.203
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -d 192.168.21.18 -w 3
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -s 192.168.21.18 -w 3
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:18 compute4 sudo: message repeated 2 times: [ pam_unix(sudo:session): session closed for user root]
+Feb 10 16:18:18 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:18 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -d 192.168.21.4 -w 3
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:19 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -s 192.168.21.4 -w 3
+Feb 10 16:18:19 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:20 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:20 compute4 sudo: message repeated 2 times: [ pam_unix(sudo:session): session closed for user root]
+Feb 10 16:18:20 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:20 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:20 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:24 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:24 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:24 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:24 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:24 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:24 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:24 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:24 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:25 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:25 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:25 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:25 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:26 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:26 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:27 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:18:27 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:27 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:32 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:32 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:32 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:33 compute4 systemd-machined[928]: Machine qemu-1-instance-00000002 terminated.
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -d 192.168.21.18 -w 3
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:33 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf conntrack -D -f ipv4 -m 0x1 -s 192.168.21.18 -w 3
+Feb 10 16:18:33 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:34 compute4 sudo: message repeated 2 times: [ pam_unix(sudo:session): session closed for user root]
+Feb 10 16:18:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:34 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:34 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --strict -
+Feb 10 16:18:34 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:35 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:35 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:35 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:35 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:35 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl add-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:35 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:35 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:35 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-ofctl del-flows -O OpenFlow10 br-int --bundle -
+Feb 10 16:18:35 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:36 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:37 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:37 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:37 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:37 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:37 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:37 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:37 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:37 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:38 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:38 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:38 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:38 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:38 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:39 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:39 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:39 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:39 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:39 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:39 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:40 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:40 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:40 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:40 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:40 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:18:40 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:40 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:56 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:56 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:56 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:56 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:56 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:56 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:57 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:57 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-restore -n
+Feb 10 16:18:57 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:58 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:58 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d conntrack -D -d 10.100.0.226
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:58 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec fip-32981f34-497a-4fae-914a-8576055c8d0d conntrack -D -q 10.100.0.226
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:58 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:59 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:18:59 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:18:59 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:18:59 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:18:59 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:19:00 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 iptables-save
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:19:00 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ip netns exec snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 ip6tables-save
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session closed for user root
+Feb 10 16:19:00 compute4 sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf kill -HUP 1775813
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Feb 10 16:19:00 compute4 sudo: pam_unix(sudo:session): session closed for user root

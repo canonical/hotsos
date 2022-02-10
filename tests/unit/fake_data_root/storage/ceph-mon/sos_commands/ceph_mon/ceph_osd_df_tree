@@ -1,0 +1,10 @@
+ID  CLASS  WEIGHT   REWEIGHT  SIZE     RAW USE  DATA     OMAP    META      AVAIL    %USE  VAR   PGS  STATUS  TYPE NAME        
+-1         0.29279         -  300 GiB  3.0 GiB  1.2 MiB  15 KiB   3.0 GiB  297 GiB  1.00  1.00    -          root default     
+-5         0.09760         -  100 GiB  1.0 GiB  400 KiB   5 KiB  1024 MiB   99 GiB  1.00  1.00    -              host compute1
+ 1    ssd  0.09760   1.00000  100 GiB  1.0 GiB  400 KiB   5 KiB  1024 MiB   99 GiB  1.00  1.00   69      up          osd.1    
+-7         0.09760         -  100 GiB  1.0 GiB  400 KiB   4 KiB  1024 MiB   99 GiB  1.00  1.00    -              host compute2
+ 2    ssd  0.09760   1.00000  100 GiB  1.0 GiB  400 KiB   4 KiB  1024 MiB   99 GiB  1.00  1.00   69      up          osd.2    
+-3         0.09760         -  100 GiB  1.0 GiB  400 KiB   6 KiB  1024 MiB   99 GiB  1.00  1.00    -              host compute4
+ 0    ssd  0.09760   1.00000  100 GiB  1.0 GiB  400 KiB   6 KiB  1024 MiB   99 GiB  1.00  1.00   69      up          osd.0    
+                       TOTAL  300 GiB  3.0 GiB  1.2 MiB  18 KiB   3.0 GiB  297 GiB  1.00                                      
+MIN/MAX VAR: 1.00/1.00  STDDEV: 0

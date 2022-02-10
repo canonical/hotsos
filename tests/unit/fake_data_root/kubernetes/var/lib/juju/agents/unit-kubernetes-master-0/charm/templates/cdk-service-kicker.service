@@ -1,0 +1,10 @@
+[Unit]
+Description=cdk-service-kicker
+
+[Service]
+ExecStart=/usr/bin/cdk-service-kicker
+Restart=on-failure
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

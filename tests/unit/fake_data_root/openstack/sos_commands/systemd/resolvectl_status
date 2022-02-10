@@ -1,0 +1,243 @@
+Global
+       LLMNR setting: no                  
+MulticastDNS setting: no                  
+  DNSOverTLS setting: no                  
+      DNSSEC setting: no                  
+    DNSSEC supported: no                  
+          DNSSEC NTA: 10.in-addr.arpa     
+                      16.172.in-addr.arpa 
+                      168.192.in-addr.arpa
+                      17.172.in-addr.arpa 
+                      18.172.in-addr.arpa 
+                      19.172.in-addr.arpa 
+                      20.172.in-addr.arpa 
+                      21.172.in-addr.arpa 
+                      22.172.in-addr.arpa 
+                      23.172.in-addr.arpa 
+                      24.172.in-addr.arpa 
+                      25.172.in-addr.arpa 
+                      26.172.in-addr.arpa 
+                      27.172.in-addr.arpa 
+                      28.172.in-addr.arpa 
+                      29.172.in-addr.arpa 
+                      30.172.in-addr.arpa 
+                      31.172.in-addr.arpa 
+                      corp                
+                      d.f.ip6.arpa        
+                      home                
+                      internal            
+                      intranet            
+                      lan                 
+                      local               
+                      private             
+                      test                
+
+Link 37 (tap0e778df8-ca)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 31 (vxlan_sys_4789)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 29 (veth0d284c32)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 27 (veth8aa19e05)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 25 (veth59e22e6f)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 23 (vethe7aaf6c3)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 21 (veth396824c3)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 19 (veth5cc250bc)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 17 (veth1883dceb)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 15 (lxdbr0)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 14 (br-data)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 13 (br-ex)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 12 (br-int)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 11 (br-tun)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 10 (ovs-system)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 9 (br-ens3)
+      Current Scopes: DNS       
+DefaultRoute setting: yes       
+       LLMNR setting: yes       
+MulticastDNS setting: no        
+  DNSOverTLS setting: no        
+      DNSSEC setting: no        
+    DNSSEC supported: no        
+  Current DNS Server: 10.0.0.2  
+         DNS Servers: 10.0.0.2  
+          DNS Domain: mylab.home
+
+Link 8 (ens9)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 7 (ens8)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 6 (ens7)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 5 (ens6)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 4 (ens5)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 3 (ens4)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  
+
+Link 2 (ens3)
+      Current Scopes: none
+DefaultRoute setting: no  
+       LLMNR setting: yes 
+MulticastDNS setting: no  
+  DNSOverTLS setting: no  
+      DNSSEC setting: no  
+    DNSSEC supported: no  

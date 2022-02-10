@@ -1,0 +1,23 @@
+Quorum information
+------------------
+Date:             Thu Feb 10 09:51:29 2022
+Quorum provider:  corosync_votequorum
+Nodes:            3
+Node ID:          1000
+Ring ID:          3e8.2b
+Quorate:          Yes
+
+Votequorum information
+----------------------
+Expected votes:   3
+Highest expected: 3
+Total votes:      3
+Quorum:           2  
+Flags:            Quorate 
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+      1000          1 juju-04f1e3-0-lxd-5.mylab.home (local)
+      1001          1 juju-04f1e3-2-lxd-6.mylab.home
+      1002          1 juju-04f1e3-1-lxd-6.mylab.home

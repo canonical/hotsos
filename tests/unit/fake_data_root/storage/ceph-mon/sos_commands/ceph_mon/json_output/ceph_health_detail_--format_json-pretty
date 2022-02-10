@@ -1,0 +1,26 @@
+
+{
+    "status": "HEALTH_WARN",
+    "checks": {
+        "AUTH_INSECURE_GLOBAL_ID_RECLAIM_ALLOWED": {
+            "severity": "HEALTH_WARN",
+            "summary": {
+                "message": "mons are allowing insecure global_id reclaim",
+                "count": 3
+            },
+            "detail": [
+                {
+                    "message": "mon.juju-04f1e3-0-lxd-0 has auth_allow_insecure_global_id_reclaim set to true"
+                },
+                {
+                    "message": "mon.juju-04f1e3-1-lxd-0 has auth_allow_insecure_global_id_reclaim set to true"
+                },
+                {
+                    "message": "mon.juju-04f1e3-2-lxd-0 has auth_allow_insecure_global_id_reclaim set to true"
+                }
+            ],
+            "muted": false
+        }
+    },
+    "mutes": []
+}

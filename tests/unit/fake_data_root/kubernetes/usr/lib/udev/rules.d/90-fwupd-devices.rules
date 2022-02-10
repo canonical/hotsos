@@ -1,0 +1,8 @@
+########################################################################
+# Copyright (C) 2015 Richard Hughes <richard@hughsie.com>
+#
+# SPDX-License-Identifier: LGPL-2.1+
+#
+
+# NVMe hardware
+SUBSYSTEM=="nvme", ENV{ID_VENDOR_FROM_DATABASE}=="", IMPORT{builtin}="hwdb --subsystem=pci"

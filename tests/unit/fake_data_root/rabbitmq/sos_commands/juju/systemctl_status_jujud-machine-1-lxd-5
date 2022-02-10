@@ -1,0 +1,20 @@
+* jujud-machine-1-lxd-5.service - juju agent for machine-1-lxd-5
+     Loaded: loaded (/etc/systemd/system/jujud-machine-1-lxd-5.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Main PID: 266 (bash)
+      Tasks: 13 (limit: 314572)
+     Memory: 86.0M
+     CGroup: /system.slice/jujud-machine-1-lxd-5.service
+             |-266 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+             `-287 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123131]: pam_unix(su:session): session opened for user rabbitmq by (uid=0)
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123131]: pam_unix(su:session): session closed for user rabbitmq
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123266]: (to rabbitmq) root on none
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123266]: pam_limits(su:session): Could not set limit for 'nofile' to soft=1024, hard=1048576: Operation not permitted; uid=0,euid=0
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123266]: pam_unix(su:session): session opened for user rabbitmq by (uid=0)
+Feb 10 09:36:08 juju-04f1e3-1-lxd-5 su[123266]: pam_unix(su:session): session closed for user rabbitmq
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: (to rabbitmq) root on none
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: pam_limits(su:session): Could not set limit for 'nofile' to soft=1024, hard=1048576: Operation not permitted; uid=0,euid=0
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: pam_unix(su:session): session opened for user rabbitmq by (uid=0)
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: pam_unix(su:session): session closed for user rabbitmq

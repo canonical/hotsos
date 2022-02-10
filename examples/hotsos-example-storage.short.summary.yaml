@@ -1,0 +1,10 @@
+potential-issues:
+  system:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+  storage:
+    CephWarnings:
+      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details.
+        (origin=storage.auto_scenario_check)

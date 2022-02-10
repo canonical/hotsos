@@ -1,0 +1,97 @@
+"includes":
+- "layer:options"
+- "layer:basic"
+- "layer:debug"
+- "interface:tls-certificates"
+- "interface:nrpe-external-master"
+- "layer:cis-benchmark"
+- "layer:coordinator"
+- "layer:kubernetes-common"
+- "interface:container-runtime"
+- "interface:vault-kv"
+- "layer:status"
+- "layer:apt"
+- "layer:vault-kv"
+- "interface:hacluster"
+- "layer:snap"
+- "layer:tls-client"
+- "layer:leadership"
+- "layer:metrics"
+- "layer:nagios"
+- "layer:cdk-service-kicker"
+- "layer:kubernetes-master-worker-base"
+- "layer:vaultlocker"
+- "layer:hacluster"
+- "interface:ceph-admin"
+- "interface:ceph-client"
+- "interface:etcd"
+- "interface:http"
+- "interface:kubernetes-cni"
+- "interface:kube-dns"
+- "interface:kube-control"
+- "interface:kube-masters"
+- "interface:public-address"
+- "interface:aws-integration"
+- "interface:gcp-integration"
+- "interface:openstack-integration"
+- "interface:vsphere-integration"
+- "interface:azure-integration"
+- "interface:keystone-credentials"
+- "interface:prometheus-manual"
+- "interface:grafana-dashboard"
+- "interface:aws-iam"
+"exclude": [".travis.yml", "tests", "tox.ini", "test-requirements.txt", "unit_tests",
+  ".tox", "__pycache__", "Makefile", "conftest.py"]
+"options":
+  "coordinator":
+        # Absolute path to the charmhelpers.coordinator.BaseCoordinator to use.
+    "class": "charms.coordinator.SimpleCoordinator"
+        # Layer log level (debug, info, warning, error, critical)
+    "log_level": "info"
+  "basic":
+    "packages":
+    - "socat"
+    "python_packages": []
+    "use_venv": !!bool "true"
+    "include_system_packages": !!bool "false"
+  "tls-client":
+    "ca_certificate_path": "/root/cdk/ca.crt"
+    "server_certificate_path": ""
+    "server_key_path": ""
+    "client_certificate_path": ""
+    "client_key_path": ""
+  "cdk-service-kicker":
+    "services":
+    - "snap.kube-apiserver.daemon"
+    - "snap.kube-controller-manager.daemon"
+    - "snap.kube-scheduler.daemon"
+    - "snap.kube-proxy.daemon"
+  "hacluster":
+    "binding_address": "kube-api-endpoint"
+  "snap": {}
+  "debug": {}
+  "leadership": {}
+  "nagios": {}
+  "cis-benchmark": {}
+  "kubernetes-common": {}
+  "kubernetes-master-worker-base": {}
+  "vault-kv": {}
+  "status":
+    "patch-hookenv": !!bool "true"
+  "apt":
+    "packages": []
+    "version_package": ""
+    "full_version": !!bool "false"
+    "keys": []
+  "vaultlocker": {}
+  "kubernetes-master": {}
+"repo": "https://github.com/kubernetes/kubernetes.git"
+"proof":
+  "storage":
+  - "name": "vaultlocker-encrypt"
+    "type": "Boolean"
+    "missing": !!bool "false"
+  - "name": "vaultlocker-mountbase"
+    "type": "String"
+    "missing": ""
+"is": "kubernetes-master"

@@ -1,0 +1,459 @@
+options:
+  debug:
+    type: boolean
+    default: False
+    description: Enable debug logging.
+  verbose:
+    type: boolean
+    default: False
+    description: Enable verbose logging.
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      Setting this to True will allow supporting services to log to syslog.
+  rabbit-user:
+    type: string
+    default: neutron
+    description: Username used to access RabbitMQ queue
+  rabbit-vhost:
+    type: string
+    default: openstack
+    description: RabbitMQ vhost
+  data-port:
+    type: string
+    default:
+    description: |
+      Space-delimited list of bridge:port mappings. Specified ports will be
+      added to their corresponding specified bridge. The bridges will allow
+      usage of flat or VLAN network types with Neutron and should match this
+      defined in bridge-mappings.
+      .
+      Ports can be specified through the name or MAC address of the interface
+      to be added to the bridge. If MAC addresses are used, you may provide
+      multiple bridge:mac for the same bridge so as to be able to configure
+      multiple units. In this case the charm will run through the provided MAC
+      addresses for each bridge until it finds one it can resolve to an
+      interface name.
+      Port can also be a linuxbridge bridge. In this case a veth pair will be
+      created, the ovs bridge and the linuxbridge bridge will be connected. It
+      can be useful to connect the ovs bridge to juju bridge.
+      .
+      Any changes (subsequent to the initial setting) made to the value of this
+      option will merely add the new values along with the existing ones. If
+      removal of old values is desired, they have to be done manually through
+      the command "ovs-vsctl" in the affected units. If the new values conflict
+      with the previous ones, it may cause a network outage as seen in bug
+      https://pad.lv/1915967
+  dpdk-bond-mappings:
+    type: string
+    default:
+    description: |
+      Space-delimited list of bond:port mappings. The DPDK assigned ports will
+      be added to their corresponding bond, which in turn will be put into the
+      bridge as specified in data-port.
+      .
+      This option is supported only when enable-dpdk is true.
+  dpdk-bond-config:
+    type: string
+    default: ":balance-tcp:active:fast"
+    description: |
+      Space delimited list of bond:mode:lacp:lacp-time, where the arguments meaning is:
+      .
+          * bond - the bond name. If not specified the configuration applies to all bonds
+          * mode - the bond mode of operation. Possible values are:
+            - active-backup - No load balancing is offered in this mode and only one of
+                              the member ports is active/used at a time.
+            - balance-slb - Considered as a static load-balancing mode. Traffic is load
+                            balanced between member ports based on the source MAC and VLAN.
+            - balance-tcp - This is the preferred bonding mode. It offers traffic load
+                            balancing based on 5-tuple header fields. LACP must be enabled
+                            at both endpoints to use this mode. The aggregate link will
+                            fall back to default mode (active-passive) in the event of LACP
+                            negotiation failure.
+          * lacp - active, passive or off
+          * lacp-time - fast or slow. LACP negotiation time interval - 30 ms or 1 second
+  disable-security-groups:
+    type: boolean
+    default: false
+    description: |
+      Disable neutron based security groups - setting this configuration option
+      will override any settings configured via the neutron-api charm.
+      .
+      BE CAREFUL - this option allows you to disable all port level security
+      within an OpenStack cloud.
+  bridge-mappings:
+    type: string
+    default: 'physnet1:br-data'
+    description: |
+      Space-delimited list of ML2 data bridge mappings with format
+      <provider>:<bridge>.
+  flat-network-providers:
+    type: string
+    default:
+    description: |
+      Space-delimited list of Neutron flat network providers.
+  vlan-ranges:
+    type: string
+    default: "physnet1:1000:2000"
+    description: |
+      Space-delimited list of <physical_network>:<vlan_min>:<vlan_max> or
+      <physical_network> specifying physical_network names usable for VLAN
+      provider and tenant networks, as well as ranges of VLAN tags on each
+      available for allocation to tenant networks.
+  firewall-driver:
+    type: string
+    default:
+    description: |
+      Firewall driver to use to support use of security groups with
+      instances; valid values include iptables_hybrid (default) and
+      openvswitch (>= Mitaka on Ubuntu 16.04 or later).
+  ext-port:
+    type: string
+    default:
+    description: |
+      Deprecated: Use bridge-mappings and data-port to create a network
+      which can be used for external connectivity. You can call the network
+      external and the bridge br-ex by convention, but neither is required
+
+      A space-separated list of external ports to use for routing of instance
+      traffic to the external public network. Valid values are either MAC
+      addresses (in which case only MAC addresses for interfaces without an IP
+      address already assigned will be used), or interfaces (eth0)
+  enable-local-dhcp-and-metadata:
+    type: boolean
+    default: false
+    description: |
+      Enable local Neutron DHCP and Metadata Agents. This is useful for
+      deployments which do not include a neutron-gateway (do not require l3,
+      lbaas or vpnaas services) and should only be used in-conjunction with
+      flat or VLAN provider networks configurations.
+
+      NOTE: This configuration option will be ignored when deployed in a LXD
+      container.
+  dnsmasq-flags:
+    type: string
+    default:
+    description: |
+      Comma-separated list of key=value config flags with the additional dhcp
+      options for neutron dnsmasq. Note, this option is only valid when
+      enable-local-dhcp-and-metadata option is set to True.
+
+      NOTE: This configuration option will be ignored when deployed in a LXD
+      container.
+  instance-mtu:
+    type: int
+    default:
+    description: |
+      Configure DHCP services to provide MTU configuration to instances
+      within the cloud. This is useful in deployments where its not
+      possible to increase MTU on switches and physical servers to
+      accommodate the packet overhead of using GRE tunnels.
+
+      NOTE: This configuration option will be ignored when deployed in a LXD
+      container.
+  dns-servers:
+    type: string
+    default:
+    description: |
+      A comma-separated list of DNS servers which will be used by dnsmasq as
+      forwarders. This option only applies when the enable-local-dhcp-and-metadata
+      options is set to True.
+
+      NOTE: This configuration option will be ignored when deployed in a LXD
+      container.
+  prevent-arp-spoofing:
+    type: boolean
+    default: true
+    description: |
+      Enable suppression of ARP responses that don't match an IP address that
+      belongs to the port from which they originate.
+      .
+      Only supported in OpenStack Liberty or newer, which has the required
+      minimum version of Open vSwitch.
+      .
+      NOTE: this feature is deprecated and removed in Openstack >= Ocata. As of
+      that point the only way to disable protection will be via the port
+      security extension (see LP 1691080 for info).
+  enable-dpdk:
+    type: boolean
+    default: false
+    description: |
+      Enable DPDK fast userspace networking; this requires use of DPDK
+      supported network interface drivers and must be used in conjunction with
+      the data-port configuration option to configure each bridge with an
+      appropriate DPDK enabled network device.
+  dpdk-socket-memory:
+    type: int
+    default: 1024
+    description: |
+      Amount of hugepage memory in MB to allocate per NUMA socket in deployed
+      systems.
+      .
+      Only used when DPDK is enabled.
+  dpdk-socket-cores:
+    type: int
+    default: 1
+    description: |
+      Number of cores to allocate to non-datapath DPDK threads per NUMA
+      socket in deployed systems.
+      .
+      Only used when DPDK is enabled.
+  dpdk-driver:
+    type: string
+    default:
+    description: |
+      Kernel userspace device driver to use for DPDK devices, valid values
+      include:
+      .
+        vfio-pci
+        uio_pci_generic
+      .
+      Only used when DPDK is enabled.
+  enable-sriov:
+    type: boolean
+    default: false
+    description: |
+      Enable SR-IOV NIC agent on deployed units; use with sriov-device-mappings
+      to map SR-IOV devices to underlying provider networks. Enabling this
+      option allows instances to be plugged into directly into SR-IOV VF
+      devices connected to underlying provider networks alongside the default
+      Open vSwitch networking options.
+      .
+      NOTE: This configuration option will be ignored on Trusty and older.
+      .
+      NOTE: Changing this value will have no effect on runtime configuration. A
+      manual restart of the `sriov-netplan-shim` service or reboot of the
+      system is required to apply configuration.
+  sriov-device-mappings:
+    type: string
+    default:
+    description: |
+      Space-delimited list of SR-IOV device mappings with format
+      .
+        <provider>:<interface>
+      .
+      Multiple mappings can be provided, delimited by spaces.
+      .
+      NOTE: This configuration option will be ignored if enable-sriov is false.
+  sriov-numvfs:
+    type: string
+    default: auto
+    description: |
+      Number of VF's to configure each PF with; by default, each SR-IOV PF will
+      be configured with the maximum number of VF's it can support. In the case
+      sriov-device-mappings is set, only the devices in the mapping are configured.
+      Either use a single integer to apply the same VF configuration to all
+      detected SR-IOV devices or use a per-device configuration in the following
+      format
+      .
+        <device>:<numvfs>
+      .
+      Multiple devices can be configured by providing multi values delimited by
+      spaces.
+      .
+      NOTE: Changing this value will disrupt networking on all SR-IOV capable
+      interfaces for blanket configuration or listed interfaces when per-device
+      configuration is used.
+  enable-hardware-offload:
+    type: boolean
+    default: false
+    description: |
+      Enable support for hardware offload of flows from Open vSwitch to supported
+      network adapters.  This requires use of OpenStack Stein or later and has
+      only been tested on Mellanox ConnectX 5 adapters.
+      .
+      Enabling this option will make use of the sriov-numvfs option to configure
+      the VF functions of the physical network adapters detected in each unit.
+      .
+      Enabling this option also requires that the firewall-driver option be
+      set to 'openvswitch'; this will allow security groups to be applied to
+      hardware offloaded ports (note that this feature is currently not
+      supported by OVS or the Linux kernel).
+      .
+      This option must not be enabled with either enable-sriov or enable-dpdk.
+      .
+      NOTE: Changing this value will not perform hardware specific adaption. A
+      manual restart of the hardware specific adaption service or reboot of the
+      system is required to apply configuration.
+  networking-tools-source:
+    type: string
+    default: ppa:openstack-charmers/networking-tools
+    description: |
+      Package archive source to use for utilities associated with configuring
+      SR-IOV VF's and switchdev mode in Mellanox network adapters.
+      .
+      This PPA can be mirrored for offline deployments.
+      .
+      NOTE: This configuration option will be ignored if enable-sriov and
+      enable-hardware-offload are both false.
+  worker-multiplier:
+    type: float
+    default:
+    description: |
+      The CPU core multiplier to use when configuring worker processes for
+      this services e.g. metadata-agent. By default, the number of workers for
+      each daemon is set to twice the number of CPU cores a service unit has.
+      This default value will be capped to 4 workers unless this
+      configuration option is set.
+  # Network config (by default all access is over 'private-address')
+  os-data-network:
+    type: string
+    default: ""
+    description: |
+      The IP address and netmask of the OpenStack Data network (e.g.,
+      192.168.0.0/24)
+      .
+      This network will be used for tenant network traffic in overlay
+      networks.
+      .
+      In order to support service zones spanning multiple network
+      segments, a space-delimited list of a.b.c.d/x can be provided
+      The address of the first network found to have an address
+      configured will be used.
+  ipfix-target:
+    type: string
+    default:
+    description: |
+      IPFIX target wit the format "IP_Address:Port". This will enable IPFIX
+      exporting on all OVS bridges to the target, including br-int and br-ext.
+  security-group-log-output-base:
+    type: string
+    default:
+    description: |
+      This option allows setting a path for Network Security Group logs.
+      A valid file system path must be provided. If this option is not
+      provided Neutron will use syslog as a destination.
+      (Available from Queens)
+  security-group-log-rate-limit:
+    type: int
+    default:
+    description: |
+      Log entries are queued for writing to a log file when a packet rate
+      exceeds the limit set by this option.
+      Possible values: null (no rate limitation), integer values greater than 100.
+      WARNING: Should be NOT LESS than 100, if set
+      (or, if null, logging will log unlimited.)
+  security-group-log-burst-limit:
+    type: int
+    default: 25
+    description: |
+      This option sets the maximum queue size for log entries.
+      Can be used to avoid excessive memory consumption.
+      WARNING: Should be NOT LESS than 25.
+  use-dvr-snat:
+    type: boolean
+    default: False
+    description: |
+      This option controls a mode of the l3 agent when DVR is used. There are
+      2 modes 'dvr' (default) and dvr_snat (gateway mode). Neutron server
+      (deployed by neutron-api charm) will schedule a network:router_centralized_snat port
+      and a (centralized) snat namespace to dvr_snat mode agents only. If this option
+      is enabled, all neutron-openvswitch nodes become candidates for being centralized
+      snat nodes. If l3ha is enabled on neutron-api, relevant packages are also installed
+      on every unit making them capable of hosting parts of an L3HA router. The min and max
+      numbers of L3 agents per router need to be taken into account in this case
+      (see max_l3_agents_per_router and min_l3_agents_per_router Neutron options).
+      Practically, this option can be used to allow DVR routers (L3HA or not) to
+      be scheduled without a requirement for a dedicated network node to host
+      centralized SNAT. This is especially important if only floating IPs are
+      used in the network design and SNAT traffic is minimal or non-existent.
+
+      NOTE: This configuration option will be ignored when deployed in a LXD
+      container.
+  sysctl:
+    type: string
+    default: |
+      { net.ipv4.neigh.default.gc_thresh1 : 128,
+        net.ipv4.neigh.default.gc_thresh2 : 28672,
+        net.ipv4.neigh.default.gc_thresh3 : 32768,
+        net.ipv6.neigh.default.gc_thresh1 : 128,
+        net.ipv6.neigh.default.gc_thresh2 : 28672,
+        net.ipv6.neigh.default.gc_thresh3 : 32768,
+        net.nf_conntrack_max : 1000000,
+        net.netfilter.nf_conntrack_buckets : 204800,
+        net.netfilter.nf_conntrack_max : 1000000 }
+    description: |
+      YAML-formatted associative array of sysctl key/value pairs to be set
+      persistently e.g. '{ kernel.pid_max : 4194303 }'.
+  firewall-group-log-output-base:
+    type: string
+    default:
+    description: |
+      This option allows setting a path for Firewall Group logs.
+      A valid file system path must be provided. If this option is not
+      provided Neutron will use syslog as a destination.
+      (Available from Stein)
+  firewall-group-log-rate-limit:
+    type: int
+    default:
+    description: |
+      Log entries are queued for writing to a log file when a packet rate
+      exceeds the limit set by this option.
+      Possible values: null (no rate limitation), integer values greater than 100.
+      WARNING: Should be NOT LESS than 100, if set (if null logging will not be
+      rate limited).
+      (Available from Stein)
+  firewall-group-log-burst-limit:
+    type: int
+    default: 25
+    description: |
+      This option sets the maximum queue size for log entries.
+      Can be used to avoid excessive memory consumption.
+      WARNING: Should be NOT LESS than 25.
+      (Available from Stein)
+  ovs-use-veth:
+    type: string
+    default:
+    description: |
+      "True" or "False" string value. It is safe to leave this option unset.
+      This option allows the DHCP agent to use a veth interface for OVS in
+      order to support kernels with limited namespace support. i.e. Trusty.
+      Changing the value after neutron DHCP agents are created will break
+      access. The charm will go into a blocked state if this is attempted.
+  keepalived-healthcheck-interval:
+    type: int
+    default: 0
+    description: |
+      Specifies the frequency (in seconds) at which HA routers will check
+      their external network gateway by performing an ICMP ping between the
+      virtual routers. When the ping check fails, this will trigger the HA
+      routers to failover to another node. A value of 0 will disable this
+      check. This setting only applies when using l3ha and dvr_snat.
+      .
+      WARNING: Enabling the health checks should be done with caution as it
+      may lead to rapid failovers of HA routers. ICMP pings are low priority
+      and may be dropped or take longer than the 1 second afforded by neutron,
+      which leads to routers failing over to other nodes.
+  of-inactivity-probe:
+    type: int
+    default: 10
+    description: |
+      The inactivity_probe interval in seconds for the local switch connection
+      to the controller. A value of 0 disables inactivity probes. Used only
+      for 'native' driver. The default value is 10 seconds.
+  disable-mlockall:
+    type: boolean
+    default:
+    description: |
+      Disable Open vSwitch use of mlockall().
+      .
+      When mlockall() is enabled, all of ovs-vswitchd's process memory is
+      locked into physical RAM and prevented from paging. This avoids network
+      interruptions but can lead to memory exhaustion in memory-constrained
+      environments.
+      .
+      By default, the charm will disable mlockall() if it is running in a
+      container. Otherwise, the charm will default to mlockall() enabled if
+      it is not running in a container.
+      .
+      Changing this config option will restart openvswitch-switch, resulting
+      in an expected data plane outage while the service restarts.
+      .
+      (Available from Mitaka)
+  enable-auto-restarts:
+    type: boolean
+    default: True
+    description: |
+      Allow the charm and packages to restart services automatically when
+      required.

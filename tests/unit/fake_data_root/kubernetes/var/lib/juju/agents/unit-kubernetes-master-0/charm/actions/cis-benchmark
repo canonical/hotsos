@@ -1,0 +1,360 @@
+#!/usr/local/sbin/charm-env python3
+import os
+import json
+import shlex
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+import charms.layer
+import charms.reactive
+from charmhelpers.core import hookenv, unitdata
+from charmhelpers.fetch.archiveurl import ArchiveUrlFetchHandler
+from charms.layer import snap
+from charms.reactive import clear_flag, is_flag_set, set_flag
+
+
+BENCH_HOME = '/home/ubuntu/kube-bench'
+BENCH_BIN = '{}/kube-bench'.format(BENCH_HOME)
+BENCH_CFG = '{}/cfg-ck'.format(BENCH_HOME)
+GO_PKG = 'github.com/aquasecurity/kube-bench'
+RESULTS_DIR = '/home/ubuntu/kube-bench-results'
+
+# Remediation dicts associate a failing test with a tuple to fix it.
+# Conservative fixes will probably leave the cluster in a good state.
+# Dangerous fixes will likely break the cluster.
+# Tuple examples:
+#  {'1.2.3': ('manual -- we don't know how to auto fix this', None, None)}
+#  {'1.2.3': ('cli', 'command to run', None)}
+#  {'1.2.3': ('kv', 'snap', {cfg_key: value})}
+CONSERVATIVE = {
+    '0.0.0': ('cli', 'echo "this is fine"', None),
+
+    # etcd (no known failures with a default install)
+
+    # k8s-master (no known failures with a default install)
+
+    # k8s-worker (no known failures with a default install)
+}
+ADMISSION_PLUGINS = {'enable-admission-plugins': ('PersistentVolumeLabel',
+                                                  'PodSecurityPolicy,'
+                                                  'AlwaysPullImages',
+                                                  'NodeRestriction')}
+DANGEROUS = {
+    '0.0.0': ('cli', 'echo "this is fine"', None),
+
+    # etcd (no known warnings with a default install)
+
+    # k8s-master
+    '1.1.21': ('cli', 'chmod -R 600 /root/cdk/*.key', None),
+    '1.2.9': ('manual', None, None),
+    '1.2.11': ('kv', 'kube-apiserver', ADMISSION_PLUGINS),
+    '1.2.25': ('manual', None, None),
+    '1.2.33': ('manual', None, None),
+    '1.2.34': ('manual', None, None),
+
+    # k8s-worker
+    '4.2.9': ('kv', 'kubelet', {'event-qps': 0}),
+    '4.2.13': ('kv', 'kubelet',
+               {'tls-cipher-suites': 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256'}),
+}
+
+
+def _fail(msg):
+    '''Fail the action with a given message.'''
+    hookenv.action_fail(msg)
+    sys.exit()
+
+
+def _move_matching_parent(dirpath, filename, dest):
+    '''Move a parent directory that contains a specific file.
+
+    Helper function that walks a directory looking for a given file. If found,
+    the file's parent directory is moved to the given destination.
+
+    :param: dirpath: String path to search
+    :param: filename: String file to find
+    :param: dest: String destination of the found parent directory
+    '''
+    for root, _, files in os.walk(dirpath):
+        for name in files:
+            if name == filename:
+                hookenv.log('Moving {} to {}'.format(root, dest))
+                shutil.move(root, dest)
+                return
+    else:
+        _fail('Could not find {} in {}'.format(filename, dirpath))
+
+
+def _restart_charm():
+    '''Set charm-specific flags and call reactive.main().'''
+    app = hookenv.charm_name() or 'unknown'
+    if 'master' in app:
+        hookenv.log('Restarting master')
+        clear_flag('kubernetes-master.components.started')
+    elif 'worker' in app:
+        hookenv.log('Restarting worker')
+        set_flag('kubernetes-worker.restart-needed')
+    elif 'etcd' in app:
+        hookenv.log('No-op: etcd does not need to be restarted')
+        return
+    else:
+        _fail('Unable to determine the charm to restart: {}'.format(app))
+
+    # Invoke reactive so the charm will react to the flags we just managed
+    charms.layer.import_layer_libs()
+    charms.reactive.main()
+
+
+def install(release, config):
+    '''Install kube-bench and related configuration.
+
+    Release and configuration are set via action params. If installing an
+    upstream release, this method will also install 'go' if needed.
+
+    :param: release: Archive URI or 'upstream'
+    :param: config: Archive URI of configuration files
+    '''
+    if Path(BENCH_HOME).exists():
+        shutil.rmtree(BENCH_HOME)
+    fetcher = ArchiveUrlFetchHandler()
+
+    if release == 'upstream':
+        Path(BENCH_HOME).mkdir(parents=True, exist_ok=True)
+
+        # Setup the 'go' environment
+        env = os.environ.copy()
+        go_bin = shutil.which('go', path='{}:/snap/bin'.format(env['PATH']))
+        if not go_bin:
+            snap.install('go', channel='stable', classic=True)
+            go_bin = '/snap/bin/go'
+        go_cache = os.getenv('GOCACHE', '/var/snap/go/common/cache')
+        go_path = os.getenv('GOPATH', '/var/snap/go/common')
+        env['GOCACHE'] = go_cache
+        env['GOPATH'] = go_path
+        Path(go_path).mkdir(parents=True, exist_ok=True)
+
+        # From https://github.com/aquasecurity/kube-bench#installing-from-sources
+        go_cmd = ('{bin} get {pkg} '
+                  'github.com/golang/dep/cmd/dep'.format(bin=go_bin, pkg=GO_PKG))
+        try:
+            subprocess.check_call(shlex.split(go_cmd), cwd=go_path, env=env)
+        except subprocess.CalledProcessError:
+            _fail('Failed to run: {}'.format(go_cmd))
+
+        go_cmd = ('{bin} build -o {out} {base}/src/{pkg}'.format(
+            bin=go_bin, out=BENCH_BIN, base=go_path, pkg=GO_PKG))
+        try:
+            subprocess.check_call(shlex.split(go_cmd), cwd=go_path, env=env)
+        except subprocess.CalledProcessError:
+            _fail('Failed to run: {}'.format(go_cmd))
+    else:
+        # Fetch the release URI and put it in the right place.
+        archive_path = fetcher.install(source=release)
+        # NB: We may not know the structure of the archive, but we know the
+        # directory containing 'kube-bench' belongs in our BENCH_HOME.
+        _move_matching_parent(
+            dirpath=archive_path, filename='kube-bench', dest=BENCH_HOME)
+
+    # Fetch the config URI and put it in the right place.
+    archive_dir = fetcher.install(source=config)
+    # NB: We may not know the structure of the archive, but we know the
+    # directory containing 'config.yaml' belongs in our BENCH_CFG.
+    _move_matching_parent(
+        dirpath=archive_dir, filename='config.yaml', dest=BENCH_CFG)
+
+
+def apply(remediations=None):
+    '''Apply remediations to address benchmark failures.
+
+    :param: remediations: either 'conservative' or 'dangerous'
+    '''
+    applied_fixes = 0
+    danger = True if remediations == 'dangerous' else False
+    db = unitdata.kv()
+
+    json_log = report(log_format='json')
+    hookenv.log('Loading JSON from: {}'.format(json_log))
+    try:
+        with open(json_log, 'r') as f:
+            full_json = json.load(f)
+    except Exception:
+        _fail('Failed to load: {}'.format(json_log))
+
+    full_json = full_json.get('Controls')[0] if 'Controls' in full_json else full_json
+    for test in full_json.get('tests', {}):
+        for result in test.get('results', {}):
+            test_num = result.get('test_number')
+            test_remediation = result.get('remediation')
+            test_status = result.get('status', '')
+
+            if test_status.lower() in ('fail', 'warn'):
+                test_remedy = CONSERVATIVE.get(test_num)
+                if not test_remedy and danger:
+                    # no conservative remedy, check dangerous if user wants
+                    test_remedy = DANGEROUS.get(test_num)
+                if isinstance(test_remedy, tuple):
+                    if test_remedy[0] == 'manual':
+                        # we don't know how to autofix; log remediation text
+                        hookenv.log('Test {}: unable to auto-apply remedy.\n'
+                                    'Manual steps:\n{}'.format(test_num,
+                                                               test_remediation))
+                    elif test_remedy[0] == 'cli':
+                        cmd = shlex.split(test_remedy[1])
+                        try:
+                            out = subprocess.check_output(cmd)
+                        except subprocess.CalledProcessError:
+                            _fail('Test {}: failed to run: {}'.format(test_num, cmd))
+                        else:
+                            hookenv.log('Test {}: applied remedy: {}\n'
+                                        'Output: {}'.format(test_num, cmd, out))
+                            applied_fixes += 1
+                    elif test_remedy[0] == 'kv':
+                        cfg_key = 'cis-' + test_remedy[1]
+                        cfg = db.get(cfg_key) or {}
+                        cfg.update(test_remedy[2])
+                        db.set(cfg_key, cfg)
+
+                        hookenv.log('Test {}: updated configuration: {}\n'.format(
+                            test_num, cfg))
+                        applied_fixes += 1
+                else:
+                    hookenv.log('Test {}: remediation is missing'.format(test_num))
+
+    # CLI and KV changes will require a charm restart; do it.
+    if applied_fixes > 0:
+        _restart_charm()
+
+    msg = ('Applied {} remediations. Re-run with "apply=none" to generate a '
+           'new report.').format(applied_fixes)
+    hookenv.action_set({'summary': msg})
+
+
+def reset():
+    '''Reset any remediations we applied to unitdata.kv().
+
+    This action does not track individual remediations to reset. Therefore,
+    this function unconditionally unsets all 'cis-' prefixed arguments that
+    this action may have set and restarts the relevant charm.
+    '''
+    db = unitdata.kv()
+
+    db.unset('cis-kube-apiserver')
+    db.unset('cis-kube-scheduler')
+    db.unset('cis-kube-controller-manager')
+    db.unset('cis-kubelet')
+    _restart_charm()
+
+    hookenv.action_set({'summary': ('Reset is complete. Re-run with '
+                                    '"apply=none" to generate a new report.')})
+
+
+def report(log_format='text'):
+    '''Run kube-bench and report results.
+
+    By default, save the full plain-text results to our RESULTS_DIR and set
+    action output with a summary. This function can also save full results in
+    a machine-friendly json format.
+
+    :param: log_format: String determines if output is text or json
+    :returns: Path to results log
+    '''
+    Path(RESULTS_DIR).mkdir(parents=True, exist_ok=True)
+
+    # Node type is different depending on the charm
+    app = hookenv.charm_name() or 'unknown'
+    version = 'cis-1.20'
+    if 'master' in app:
+        target = 'master'
+    elif 'worker' in app:
+        target = 'node'
+    elif 'etcd' in app:
+        target = 'etcd'
+    else:
+        _fail('Unable to determine the target to benchmark: {}'.format(app))
+
+    # Commands and log names are different depending on the format
+    if log_format == 'json':
+        log_prefix = 'results-json-'
+        verbose_cmd = ('{bin} -D {cfg} --benchmark {ver} --json run '
+                       '--targets {target}').format(
+            bin=BENCH_BIN, cfg=BENCH_CFG, ver=version, target=target)
+    else:
+        log_prefix = 'results-text-'
+        verbose_cmd = ('{bin} -D {cfg} --benchmark {ver} run '
+                       '--targets {target}').format(
+            bin=BENCH_BIN, cfg=BENCH_CFG, ver=version, target=target)
+
+    summary_cmd = ('{bin} -D {cfg} --benchmark {ver} '
+                   '--noremediations --noresults run --targets {target}').format(
+        bin=BENCH_BIN, cfg=BENCH_CFG, ver=version, target=target)
+
+    # Store full results for future consumption
+    with tempfile.NamedTemporaryFile(mode='w+b', prefix=log_prefix,
+                                     dir=RESULTS_DIR, delete=False) as res_file:
+        try:
+            subprocess.call(shlex.split(verbose_cmd),
+                            stdout=res_file,
+                            stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError:
+            _fail('Failed to run: {}'.format(verbose_cmd))
+        else:
+            # remember the filename for later (and make it readable, why not?)
+            Path(res_file.name).chmod(0o644)
+            log = res_file.name
+
+    # When making a summary, we also have a verbose report. Set action output
+    # so operators can see everything related to this run.
+    try:
+        out = subprocess.check_output(shlex.split(summary_cmd),
+                                      universal_newlines=True,
+                                      stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError:
+        _fail('Failed to run: {}'.format(summary_cmd))
+    else:
+        fetch_cmd = 'juju scp {unit}:{file} .'.format(unit=hookenv.local_unit(),
+                                                      file=log)
+        hookenv.action_set({'cmd': summary_cmd,
+                            'report': fetch_cmd,
+                            'summary': out})
+
+    return log or None
+
+
+if __name__ == '__main__':
+    if not (is_flag_set('snap.installed.etcd') or
+            is_flag_set('kubernetes-master.snaps.installed') or
+            is_flag_set('kubernetes-worker.snaps.installed')):
+        msg = 'Snaps are not yet installed on this unit.'
+        _fail(msg)
+
+    # Validate action params
+    release = hookenv.action_get('release') or 'upstream'
+    config = hookenv.action_get('config')
+    if not config:
+        msg = 'Missing "config" parameter'
+        _fail(msg)
+    remediations = hookenv.action_get('apply')
+    if remediations not in ['none', 'conservative', 'dangerous', 'reset']:
+        msg = 'Invalid "apply" parameter: {}'.format(remediations)
+        _fail(msg)
+
+    # TODO: may want an option to overwrite an existing install
+    if Path(BENCH_BIN).exists() and Path(BENCH_CFG).exists():
+        hookenv.log('{} exists; skipping install'.format(BENCH_HOME))
+    else:
+        hookenv.log('Installing benchmark from: {}'.format(release))
+        install(release, config)
+
+    # Reset, remediate, or report
+    if remediations == 'reset':
+        hookenv.log('Attempting to remove all remediations')
+        reset()
+    elif remediations != 'none':
+        hookenv.log('Applying "{}" remediations'.format(remediations))
+        apply(remediations)
+    else:
+        hookenv.log('Report only; no remediations were requested')
+        report(log_format='text')

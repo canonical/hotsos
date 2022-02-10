@@ -1,0 +1,10 @@
+Disk /dev/vda: 300 GiB, 322122547200 bytes, 629145600 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: B4C61D73-A996-47D9-89B0-77A85527D798
+
+Device     Start       End   Sectors  Size Type
+/dev/vda1   2048      4095      2048    1M BIOS boot
+/dev/vda2   4096 629145566 629141471  300G Linux filesystem

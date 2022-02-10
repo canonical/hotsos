@@ -1,0 +1,497 @@
+apparmor module is loaded.
+253 profiles are loaded.
+253 profiles are in enforce mode.
+   /snap/snapd/14549/usr/lib/snapd/snap-confine
+   /snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/bin/man
+   /usr/lib/NetworkManager/nm-dhcp-client.action
+   /usr/lib/NetworkManager/nm-dhcp-helper
+   /usr/lib/connman/scripts/dhclient-script
+   /usr/lib/snapd/snap-confine
+   /usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/sbin/tcpdump
+   /{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/snap/core/12603/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/snap/core/12603/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap-update-ns.core
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap-update-ns.etcd
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.core.hook.configure
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.etcd.etcd
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.etcd.etcdctl
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/sbin/mysqld
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap-update-ns.mysql-shell
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:snap.mysql-shell.mysqlsh
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/snap/core/12603/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/snap/core/12603/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/bin/man
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-client.action
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/lib/NetworkManager/nm-dhcp-helper
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/lib/connman/scripts/dhclient-script
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/usr/sbin/tcpdump
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:/{,usr/}sbin/dhclient
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:lsb_release
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:man_filter
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:man_groff
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:nvidia_modprobe
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:nvidia_modprobe//kmod
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap-update-ns.core
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap-update-ns.lxd
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap-update-ns.vault
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.core.hook.configure
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.activate
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.benchmark
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.buginfo
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.check-kernel
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.daemon
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.hook.configure
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.hook.install
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.hook.remove
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.lxc
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.lxc-to-lxd
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.lxd
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.lxd.migrate
+   :lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.vault.vault
+   libvirt-d1d75e2f-ada4-49bc-a963-528d89dfda25
+   libvirtd
+   libvirtd//qemu_bridge_helper
+   lsb_release
+   lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>
+   lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>
+   lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>
+   lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>
+   lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>
+   lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>
+   lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>
+   lxd_dnsmasq-lxdbr0_</var/snap/lxd/common/lxd>
+   man_filter
+   man_groff
+   nvidia_modprobe
+   nvidia_modprobe//kmod
+   snap-update-ns.lxd
+   snap.lxd.activate
+   snap.lxd.benchmark
+   snap.lxd.buginfo
+   snap.lxd.check-kernel
+   snap.lxd.daemon
+   snap.lxd.hook.configure
+   snap.lxd.hook.install
+   snap.lxd.hook.remove
+   snap.lxd.lxc
+   snap.lxd.lxc-to-lxd
+   snap.lxd.lxd
+   snap.lxd.migrate
+   snap.lxd.user-daemon
+   virt-aa-helper
+0 profiles are in complain mode.
+236 processes have profiles defined.
+236 processes are in enforce mode.
+   /usr/bin/qemu-system-x86_64 (1791722) libvirt-d1d75e2f-ada4-49bc-a963-528d89dfda25
+   /usr/sbin/libvirtd (1074) libvirtd
+   /usr/lib/systemd/systemd (1758) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (1927) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (1987) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2038) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2039) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2040) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (2790) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (3431) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (3488) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (3489) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/ceph-mgr (3515) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/ceph-mon (3516) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (3518) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (3530) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (3541) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/smartd (3543) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (3559) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (3566) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (3572) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (3608) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (3623) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (3643) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (deleted) (3680) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (3687) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (3743) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (3799) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (4195) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (5858) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (12313) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/uuidd (135899) lxd-juju-04f1e3-1-lxd-0_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-0_<var-snap-lxd-common-lxd>:unconfined
+   /snap/etcd/230/bin/etcd (3588) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:snap.etcd.etcd
+   /usr/lib/systemd/systemd (1856) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (1997) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (2071) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2215) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2216) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2217) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2218) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2222) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2223) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (2916) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (3423) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (3542) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (3564) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (3565) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (3579) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (3586) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (3594) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (3598) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (3602) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (3614) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (3632) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (3672) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (3692) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (3706) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (3777) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (4820) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (5892) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (14488) lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd (1989) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (2255) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (2398) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2434) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2436) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2437) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (3234) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (3683) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (3806) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (3814) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (3817) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/memcached (3828) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (3836) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (3890) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (3909) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (3925) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (3978) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (4004) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (4066) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (4097) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/mysqlrouter (4118) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (4168) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/haproxy (4172) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/haproxy (4252) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (4325) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (4436) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (5430) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (5652) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (12616) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (46251) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171719) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171720) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171721) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171722) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171736) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171737) lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-2_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/mysqld (4616) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:/usr/sbin/mysqld
+   /usr/lib/systemd/systemd (2191) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (2412) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (2529) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2641) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2642) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2643) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2646) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (2649) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (3235) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (3670) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (3780) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (3790) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (3792) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (3813) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (3815) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (3824) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (3830) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (3899) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (3919) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (4050) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (4085) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (4092) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (4138) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (4183) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (4738) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (5920) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (15345) lxd-juju-04f1e3-1-lxd-3_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-3_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd (2403) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (2665) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (2776) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2887) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2888) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (2892) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (3288) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (4420) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (4684) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (4712) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (4716) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/memcached (4749) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (4755) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (4764) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (4801) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (4846) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (4879) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (4897) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/mysqlrouter (4962) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (4970) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (5038) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (5057) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/haproxy (5074) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (5090) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/haproxy (5188) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (5260) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (5375) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (5696) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (6092) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (11933) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171572) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171573) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171575) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171577) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171621) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/apache2 (171622) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/libexec/fwupd/fwupd (1734261) lxd-juju-04f1e3-1-lxd-4_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-4_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd (2600) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (2867) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (2980) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (3033) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (3034) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/snapfuse (3035) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (3290) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (4055) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (4414) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (4431) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (4432) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/erlang/erts-10.6.4/bin/epmd (4442) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (4445) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (4446) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (4454) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (4462) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (4472) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (4478) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (4496) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (4508) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (deleted) (4527) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/erlang/erts-10.6.4/bin/beam.smp (4586) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (4600) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (4641) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (4757) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (5635) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (5960) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/erlang/erts-10.6.4/bin/erl_child_setup (7985) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (12775) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/erlang/erts-10.6.4/bin/inet_gethost (17252) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/erlang/erts-10.6.4/bin/inet_gethost (17254) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/uuidd (844660) lxd-juju-04f1e3-1-lxd-5_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-5_<var-snap-lxd-common-lxd>:unconfined
+   /snap/vault/2012/bin/vault (35758) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:snap.vault.vault
+   /usr/lib/systemd/systemd (2780) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-journald (2993) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-udevd (3058) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (3144) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (3145) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (3146) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (3148) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (3150) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/squashfuse (3151) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-resolved (3377) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-networkd (4405) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/accountsservice/accounts-daemon (4657) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/corosync (4676) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/cron (4685) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dbus-daemon (4688) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (4719) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/rsyslogd (4722) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /snap/snapd/14549/usr/lib/snapd/snapd (4754) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/systemd/systemd-logind (4765) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/udisks2/udisksd (4784) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/atd (4858) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/heartbeat/ha_logd (4859) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/bash (4880) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/agetty (deleted) (4954) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/mysqlrouter (4971) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/heartbeat/ha_logd (4987) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujud (5064) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/sshd (5068) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/policykit-1/polkitd (5429) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/pacemakerd (5466) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/pacemaker/pacemaker-based (5682) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/pacemaker/pacemaker-fenced (5683) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/pacemaker/pacemaker-execd (5684) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/pacemaker/pacemaker-attrd (5687) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/pacemaker/pacemaker-schedulerd (5691) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/lib/pacemaker/pacemaker-controld (5694) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/python3.8 (5697) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/bin/dash (6236) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/21835/bin/lxd (15480) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /usr/sbin/uuidd (829236) lxd-juju-04f1e3-1-lxd-6_</var/snap/lxd/common/lxd>//&:lxd-juju-04f1e3-1-lxd-6_<var-snap-lxd-common-lxd>:unconfined
+   /snap/lxd/22358/bin/dnsmasq (19086) lxd_dnsmasq-lxdbr0_</var/snap/lxd/common/lxd>
+0 processes are in complain mode.
+0 processes are unconfined but have a profile defined.

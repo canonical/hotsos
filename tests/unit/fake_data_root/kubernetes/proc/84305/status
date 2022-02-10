@@ -1,0 +1,55 @@
+Name:	gunicorn
+Umask:	0022
+State:	S (sleeping)
+Tgid:	84305
+Ngid:	0
+Pid:	84305
+PPid:	84191
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	84305
+NSpid:	84305
+NSpgid:	84191
+NSsid:	84191
+VmPeak:	  180068 kB
+VmSize:	  115488 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   33740 kB
+VmRSS:	   33528 kB
+RssAnon:	   24616 kB
+RssFile:	    8912 kB
+RssShmem:	       0 kB
+VmData:	   32664 kB
+VmStk:	     132 kB
+VmExe:	    2784 kB
+VmLib:	    5356 kB
+VmPTE:	     132 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	4/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000001001000
+SigCgt:	0000000188304a27
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	thread vulnerable
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	669
+nonvoluntary_ctxt_switches:	249

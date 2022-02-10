@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for kubectl, revision 2308
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/kubectl_2308.snap
+Where=/snap/kubectl/2308
+Type=squashfs
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

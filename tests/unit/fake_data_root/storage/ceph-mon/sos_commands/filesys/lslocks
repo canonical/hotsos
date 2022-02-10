@@ -1,0 +1,4 @@
+COMMAND           PID  TYPE SIZE MODE  M START END PATH
+ceph-mon          237 POSIX      WRITE 0     0   0 /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/store.db/LOCK
+cron              265 FLOCK   4B WRITE 0     0   0 /run/crond.pid
+atd               270 POSIX   4B WRITE 0     0   0 /run/atd.pid

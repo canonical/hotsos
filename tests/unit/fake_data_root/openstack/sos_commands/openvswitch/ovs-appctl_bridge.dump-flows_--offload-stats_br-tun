@@ -1,0 +1,43 @@
+duration=62959s, n_packets=1226, n_bytes=130651, n_offload_packets=0, n_offload_bytes=0, priority=1,in_port=1,actions=goto_table:1
+duration=608s, n_packets=419, n_bytes=32400, n_offload_packets=0, n_offload_bytes=0, priority=1,in_port=2,actions=goto_table:4
+duration=593s, n_packets=34, n_bytes=3338, n_offload_packets=0, n_offload_bytes=0, priority=1,in_port=3,actions=goto_table:4
+duration=63606s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=1, duration=436s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_vlan=3,dl_dst=fa:16:3e:76:19:dd,actions=drop
+table_id=1, duration=436s, n_packets=12, n_bytes=784, n_offload_packets=0, n_offload_bytes=0, priority=1,dl_vlan=3,dl_src=fa:16:3e:76:19:dd,actions=set_field:fa:16:3f:9a:5d:e2->eth_src,goto_table:2
+table_id=1, duration=62959s, n_packets=1214, n_bytes=129867, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=goto_table:2
+table_id=2, duration=63606s, n_packets=65, n_bytes=2730, n_offload_packets=0, n_offload_bytes=0, priority=1,arp,dl_dst=ff:ff:ff:ff:ff:ff,actions=goto_table:21
+table_id=2, duration=63606s, n_packets=1036, n_bytes=107515, n_offload_packets=0, n_offload_bytes=0, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=goto_table:20
+table_id=2, duration=63606s, n_packets=125, n_bytes=20406, n_offload_packets=0, n_offload_bytes=0, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=goto_table:22
+table_id=3, duration=63606s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=4, duration=612s, n_packets=296, n_bytes=15924, n_offload_packets=0, n_offload_bytes=0, priority=1,tun_id=0x3e9,actions=push_vlan:0x8100,set_field:4097->vlan_vid,goto_table:9
+table_id=4, duration=545s, n_packets=157, n_bytes=19814, n_offload_packets=0, n_offload_bytes=0, priority=1,tun_id=0x4d1,actions=push_vlan:0x8100,set_field:4099->vlan_vid,goto_table:9
+table_id=4, duration=63606s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=6, duration=63606s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=9, duration=62958s, n_packets=8, n_bytes=616, n_offload_packets=0, n_offload_bytes=0, priority=1,dl_src=fa:16:3f:0a:04:80,actions=output:1
+table_id=9, duration=62958s, n_packets=8, n_bytes=601, n_offload_packets=0, n_offload_bytes=0, priority=1,dl_src=fa:16:3f:a4:e2:e2,actions=output:1
+table_id=9, duration=62959s, n_packets=437, n_bytes=34521, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=goto_table:10
+table_id=10, duration=63606s, n_packets=437, n_bytes=34521, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=learn(table=20,hard_timeout=300,priority=1,cookie=0x5f3e4140959dac5a,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:OXM_OF_IN_PORT[]),output:1
+table_id=20, duration=571s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_vlan=1,dl_dst=fa:16:3e:9f:c2:64,actions=pop_vlan,set_field:0x3e9->tun_id,output:3
+table_id=20, duration=568s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_vlan=1,dl_dst=fa:16:3e:7b:53:a9,actions=pop_vlan,set_field:0x3e9->tun_id,output:2
+table_id=20, duration=489s, n_packets=998, n_bytes=103409, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_vlan=3,dl_dst=fa:16:3e:50:61:70,actions=pop_vlan,set_field:0x4d1->tun_id,output:2
+table_id=20, duration=33s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_vlan=3,dl_dst=fa:16:3e:06:b5:50,actions=pop_vlan,set_field:0x4d1->tun_id,output:3
+table_id=20, duration=539s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,vlan_tci=0x0001/0x0fff,dl_dst=fa:16:3e:7b:53:a9,actions=load:0->NXM_OF_VLAN_TCI[],load:0x3e9->NXM_NX_TUN_ID[],output:2
+table_id=20, duration=426s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,vlan_tci=0x0001/0x0fff,dl_dst=fa:16:3e:9f:c2:64,actions=load:0->NXM_OF_VLAN_TCI[],load:0x3e9->NXM_NX_TUN_ID[],output:3
+table_id=20, duration=280s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,vlan_tci=0x0003/0x0fff,dl_dst=fa:16:3e:50:61:70,actions=load:0->NXM_OF_VLAN_TCI[],load:0x4d1->NXM_NX_TUN_ID[],output:2
+table_id=20, duration=259s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,vlan_tci=0x0003/0x0fff,dl_dst=fa:16:3e:87:45:fc,actions=load:0->NXM_OF_VLAN_TCI[],load:0x4d1->NXM_NX_TUN_ID[],output:2
+table_id=20, duration=250s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,vlan_tci=0x0003/0x0fff,dl_dst=fa:16:3e:a7:45:cb,actions=load:0->NXM_OF_VLAN_TCI[],load:0x4d1->NXM_NX_TUN_ID[],output:3
+table_id=20, duration=10s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,vlan_tci=0x0003/0x0fff,dl_dst=fa:16:3e:06:b5:50,actions=load:0->NXM_OF_VLAN_TCI[],load:0x4d1->NXM_NX_TUN_ID[],output:3
+table_id=20, duration=63606s, n_packets=38, n_bytes=4106, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=goto_table:22
+table_id=21, duration=571s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,arp,dl_vlan=1,arp_tpa=169.254.192.62,actions=set_field:2->arp_op,move:NXM_NX_ARP_SHA[]->NXM_NX_ARP_THA[],move:NXM_OF_ARP_SPA[]->NXM_OF_ARP_TPA[],set_field:fa:16:3e:9f:c2:64->arp_sha,set_field:169.254.192.62->arp_spa,move:NXM_OF_ETH_SRC[]->NXM_OF_ETH_DST[],set_field:fa:16:3e:9f:c2:64->eth_src,IN_PORT
+table_id=21, duration=568s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,arp,dl_vlan=1,arp_tpa=169.254.194.252,actions=set_field:2->arp_op,move:NXM_NX_ARP_SHA[]->NXM_NX_ARP_THA[],move:NXM_OF_ARP_SPA[]->NXM_OF_ARP_TPA[],set_field:fa:16:3e:7b:53:a9->arp_sha,set_field:169.254.194.252->arp_spa,move:NXM_OF_ETH_SRC[]->NXM_OF_ETH_DST[],set_field:fa:16:3e:7b:53:a9->eth_src,IN_PORT
+table_id=21, duration=489s, n_packets=1, n_bytes=42, n_offload_packets=0, n_offload_bytes=0, priority=1,arp,dl_vlan=3,arp_tpa=192.168.21.2,actions=set_field:2->arp_op,move:NXM_NX_ARP_SHA[]->NXM_NX_ARP_THA[],move:NXM_OF_ARP_SPA[]->NXM_OF_ARP_TPA[],set_field:fa:16:3e:50:61:70->arp_sha,set_field:192.168.21.2->arp_spa,move:NXM_OF_ETH_SRC[]->NXM_OF_ETH_DST[],set_field:fa:16:3e:50:61:70->eth_src,IN_PORT
+table_id=21, duration=33s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=1,arp,dl_vlan=3,arp_tpa=192.168.21.4,actions=set_field:2->arp_op,move:NXM_NX_ARP_SHA[]->NXM_NX_ARP_THA[],move:NXM_OF_ARP_SPA[]->NXM_OF_ARP_TPA[],set_field:fa:16:3e:06:b5:50->arp_sha,set_field:192.168.21.4->arp_spa,move:NXM_OF_ETH_SRC[]->NXM_OF_ETH_DST[],set_field:fa:16:3e:06:b5:50->eth_src,IN_PORT
+table_id=21, duration=63606s, n_packets=64, n_bytes=2688, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=goto_table:22
+table_id=22, duration=436s, n_packets=5, n_bytes=210, n_offload_packets=0, n_offload_bytes=0, priority=3,arp,dl_vlan=3,arp_tpa=192.168.21.1,actions=drop
+table_id=22, duration=568s, n_packets=18, n_bytes=972, n_offload_packets=0, n_offload_bytes=0, priority=1,dl_vlan=1,actions=pop_vlan,set_field:0x3e9->tun_id,output:2,output:3
+table_id=22, duration=432s, n_packets=20, n_bytes=2550, n_offload_packets=0, n_offload_bytes=0, priority=1,dl_vlan=3,actions=pop_vlan,set_field:0x4d1->tun_id,output:2,output:3
+table_id=22, duration=63606s, n_packets=184, n_bytes=23468, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=254, duration=63677s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,recirc_id=0,actions=drop
+table_id=254, duration=63677s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x1,actions=controller(reason=)
+table_id=254, duration=63677s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x2,actions=drop
+table_id=254, duration=63677s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x3,actions=drop

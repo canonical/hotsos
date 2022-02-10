@@ -1,0 +1,10 @@
+#!/bin/bash
+# Ensure that git is installed for trusty due to bug: 1767328
+# This can be removed when trusty support is dropped.
+# Note we can't test the env JUJU_HOOK_NAME var as it isn't set for this script
+# so this ensures that we only actually do it once.
+if [[ ! -f "./.is-git-installed" ]]; then
+	juju-log -l 'DEBUG' "Running the apt-get install command as .is-git-installed not set"
+	apt-get install -y git
+	touch ./.is-git-installed
+fi

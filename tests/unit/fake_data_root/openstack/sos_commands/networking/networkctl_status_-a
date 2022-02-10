@@ -1,0 +1,474 @@
+* 1: lo                                                         
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: loopback                                
+                 State: carrier (unmanaged)                     
+                   MTU: 65536                                   
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: 127.0.0.1                               
+                        ::1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+* 2: ens3                                                           
+             Link File: /run/systemd/network/10-netplan-ens3.link   
+          Network File: /run/systemd/network/10-netplan-ens3.network
+                  Type: ether                                       
+                 State: enslaved (configured)                       
+                  Path: pci-0000:00:03.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:e2:28:a3                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+     Activation Policy: up                                          
+   Required For Online: yes                                         
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens3: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens3: Gained carrier
+
+* 3: ens4                                                           
+             Link File: /run/systemd/network/10-netplan-ens4.link   
+          Network File: /run/systemd/network/10-netplan-ens4.network
+                  Type: ether                                       
+                 State: degraded (configured)                       
+                  Path: pci-0000:00:04.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:bb:47:e2                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: fe80::5054:ff:febb:47e2                     
+     Activation Policy: up                                          
+   Required For Online: no                                          
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens4: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens4: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens4: Gained carrier
+Feb 09 22:38:15 compute4 systemd-networkd[721]: ens4: Gained IPv6LL
+
+* 4: ens5                                                           
+             Link File: /run/systemd/network/10-netplan-ens5.link   
+          Network File: /run/systemd/network/10-netplan-ens5.network
+                  Type: ether                                       
+                 State: degraded (configured)                       
+                  Path: pci-0000:00:05.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:5c:d9:47                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: fe80::5054:ff:fe5c:d947                     
+     Activation Policy: up                                          
+   Required For Online: no                                          
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens5: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens5: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens5: Gained carrier
+Feb 09 22:38:15 compute4 systemd-networkd[721]: ens5: Gained IPv6LL
+
+* 5: ens6                                                           
+             Link File: /run/systemd/network/10-netplan-ens6.link   
+          Network File: /run/systemd/network/10-netplan-ens6.network
+                  Type: ether                                       
+                 State: degraded (configured)                       
+                  Path: pci-0000:00:06.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:e6:14:19                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: fe80::5054:ff:fee6:1419                     
+     Activation Policy: up                                          
+   Required For Online: no                                          
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens6: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens6: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens6: Gained carrier
+Feb 09 22:38:15 compute4 systemd-networkd[721]: ens6: Gained IPv6LL
+
+* 6: ens7                                                           
+             Link File: /run/systemd/network/10-netplan-ens7.link   
+          Network File: /run/systemd/network/10-netplan-ens7.network
+                  Type: ether                                       
+                 State: degraded (configured)                       
+                  Path: pci-0000:00:07.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:78:19:c3                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: fe80::5054:ff:fe78:19c3                     
+     Activation Policy: up                                          
+   Required For Online: no                                          
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens7: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens7: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens7: Gained carrier
+Feb 09 22:38:16 compute4 systemd-networkd[721]: ens7: Gained IPv6LL
+
+* 7: ens8                                                           
+             Link File: /run/systemd/network/10-netplan-ens8.link   
+          Network File: /run/systemd/network/10-netplan-ens8.network
+                  Type: ether                                       
+                 State: degraded (configured)                       
+                  Path: pci-0000:00:08.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:fa:50:95                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: fe80::5054:ff:fefa:5095                     
+     Activation Policy: up                                          
+   Required For Online: no                                          
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens8: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens8: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens8: Gained carrier
+Feb 09 22:38:15 compute4 systemd-networkd[721]: ens8: Gained IPv6LL
+
+* 8: ens9                                                           
+             Link File: /run/systemd/network/10-netplan-ens9.link   
+          Network File: /run/systemd/network/10-netplan-ens9.network
+                  Type: ether                                       
+                 State: degraded (configured)                       
+                  Path: pci-0000:00:09.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: 52:54:00:5c:a7:e0                           
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: fe80::5054:ff:fe5c:a7e0                     
+     Activation Policy: up                                          
+   Required For Online: yes                                         
+
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens9: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens9: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: ens9: Gained carrier
+Feb 09 22:38:15 compute4 systemd-networkd[721]: ens9: Gained IPv6LL
+
+* 9: br-ens3                                                             
+               Link File: /usr/lib/systemd/network/99-default.link       
+            Network File: /run/systemd/network/10-netplan-br-ens3.network
+                    Type: bridge                                         
+                   State: routable (configured)                          
+                  Driver: bridge                                         
+              HW Address: 22:c2:7b:1c:12:1b                              
+                     MTU: 1500 (min: 68, max: 65535)                     
+           Forward Delay: 15s                                            
+              Hello Time: 2s                                             
+                 Max Age: 20s                                            
+             Ageing Time: 5min                                           
+                Priority: 32768                                          
+                     STP: no                                             
+  Multicast IGMP Version: 2                                              
+    Queue Length (Tx/Rx): 1/1                                            
+                 Address: 10.0.0.128                                     
+                          fe80::98a5:d0ff:fe3f:6793                      
+                 Gateway: 10.0.0.2                                       
+                     DNS: 10.0.0.2                                       
+          Search Domains: mylab.home                                     
+       Activation Policy: up                                             
+     Required For Online: yes                                            
+
+Feb 09 22:38:14 compute4 systemd-udevd[434]: br-ens3: Could not generate persistent MAC: No data available
+Feb 09 22:38:14 compute4 systemd-networkd[721]: br-ens3: netdev ready
+Feb 09 22:38:14 compute4 systemd-networkd[721]: br-ens3: IPv6 successfully enabled
+Feb 09 22:38:14 compute4 systemd-networkd[721]: br-ens3: Link UP
+Feb 09 22:38:14 compute4 systemd-networkd[721]: br-ens3: Gained carrier
+Feb 09 22:38:14 compute4 systemd-networkd[721]: br-ens3: Lost carrier
+Feb 09 22:38:14 compute4 systemd-networkd[721]: br-ens3: Gained carrier
+Feb 09 22:38:15 compute4 systemd-networkd[721]: br-ens3: Gained IPv6LL
+
+* 10: ovs-system                                                
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: off (unmanaged)                         
+                Driver: openvswitch                             
+            HW Address: 1a:d8:a5:27:9b:61                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:14 compute4 systemd-udevd[433]: ovs-system: Could not generate persistent MAC: No data available
+
+* 11: br-tun                                                    
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: off (unmanaged)                         
+                Driver: openvswitch                             
+            HW Address: 82:72:c4:83:d8:47                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:14 compute4 systemd-udevd[433]: br-tun: Could not generate persistent MAC: No data available
+
+* 12: br-int                                                    
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: off (unmanaged)                         
+                Driver: openvswitch                             
+            HW Address: 2e:13:35:c8:26:46                       
+                   MTU: 1450 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:14 compute4 systemd-udevd[434]: br-int: Could not generate persistent MAC: No data available
+
+* 13: br-ex                                                     
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: off (unmanaged)                         
+                Driver: openvswitch                             
+            HW Address: 52:b5:78:b8:fe:41                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:14 compute4 systemd-udevd[441]: br-ex: Could not generate persistent MAC: No data available
+
+* 14: br-data                                                   
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: off (unmanaged)                         
+                Driver: openvswitch                             
+            HW Address: 1e:fe:6a:11:d4:42                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+* 15: lxdbr0                                                      
+               Link File: /usr/lib/systemd/network/99-default.link
+            Network File: n/a                                     
+                    Type: bridge                                  
+                   State: no-carrier (unmanaged)                  
+                  Driver: bridge                                  
+              HW Address: 00:16:3e:19:ce:1b (Xensource, Inc.)     
+                     MTU: 1500 (min: 68, max: 65535)              
+           Forward Delay: 15s                                     
+              Hello Time: 2s                                      
+                 Max Age: 20s                                     
+             Ageing Time: 5min                                    
+                Priority: 32768                                   
+                     STP: no                                      
+  Multicast IGMP Version: 2                                       
+    Queue Length (Tx/Rx): 1/1                                     
+                 Address: 10.50.99.1                              
+       Activation Policy: up                                      
+     Required For Online: yes                                     
+
+Feb 09 22:38:29 compute4 systemd-udevd[433]: lxdbr0: Could not generate persistent MAC: No data available
+Feb 09 22:38:29 compute4 systemd-networkd[721]: lxdbr0: Link UP
+
+* 17: veth1883dceb                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: 4e:68:29:1e:ed:52                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:30 compute4 systemd-udevd[441]: veth1883dceb: Could not generate persistent MAC: No data available
+Feb 09 22:38:30 compute4 systemd-networkd[721]: veth1883dceb: Link UP
+Feb 09 22:38:30 compute4 systemd-networkd[721]: veth1883dceb: Gained carrier
+
+* 19: veth5cc250bc                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: 4e:3e:ac:ed:dc:bb                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:31 compute4 systemd-networkd[721]: veth5cc250bc: Link UP
+Feb 09 22:38:31 compute4 systemd-udevd[434]: veth5cc250bc: Could not generate persistent MAC: No data available
+Feb 09 22:38:31 compute4 systemd-networkd[721]: veth5cc250bc: Gained carrier
+
+* 21: veth396824c3                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: a6:3a:fe:ef:e9:e3                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:32 compute4 systemd-networkd[721]: veth396824c3: Link UP
+Feb 09 22:38:32 compute4 systemd-udevd[435]: veth396824c3: Could not generate persistent MAC: No data available
+Feb 09 22:38:32 compute4 systemd-networkd[721]: veth396824c3: Gained carrier
+
+* 23: vethe7aaf6c3                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: 26:71:db:34:0b:fb                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:32 compute4 systemd-networkd[721]: vethe7aaf6c3: Link UP
+Feb 09 22:38:33 compute4 systemd-networkd[721]: vethe7aaf6c3: Gained carrier
+Feb 09 22:38:53 compute4 systemd-udevd[4560]: vethe7aaf6c3: Could not generate persistent MAC: No data available
+
+* 25: veth59e22e6f                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: a2:8c:4d:b5:9d:2b                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:33 compute4 systemd-networkd[721]: veth59e22e6f: Link UP
+Feb 09 22:38:34 compute4 systemd-networkd[721]: veth59e22e6f: Gained carrier
+Feb 09 22:39:05 compute4 systemd-udevd[4555]: veth59e22e6f: Could not generate persistent MAC: No data available
+
+* 27: veth8aa19e05                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: 22:c2:7b:1c:12:1b                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:34 compute4 systemd-networkd[721]: veth8aa19e05: Link UP
+Feb 09 22:38:35 compute4 systemd-networkd[721]: veth8aa19e05: Gained carrier
+Feb 09 22:39:17 compute4 systemd-udevd[4560]: veth8aa19e05: Could not generate persistent MAC: No data available
+
+* 29: veth0d284c32                                              
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: carrier (unmanaged)                     
+                Driver: veth                                    
+            HW Address: 4e:78:0a:18:65:d4                       
+                   MTU: 1500 (min: 68, max: 65535)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Gbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 09 22:38:35 compute4 systemd-networkd[721]: veth0d284c32: Link UP
+Feb 09 22:38:36 compute4 systemd-networkd[721]: veth0d284c32: Gained carrier
+Feb 09 22:39:26 compute4 systemd-udevd[4561]: veth0d284c32: Could not generate persistent MAC: No data available
+
+* 31: vxlan_sys_4789                                            
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: vxlan                                   
+                 State: degraded (unmanaged)                    
+                Driver: vxlan                                   
+            HW Address: 5a:bc:16:3c:d0:f0                       
+                   MTU: 65000 (min: 68, max: 65535)             
+      Destination Port: 4789                                    
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: fe80::58bc:16ff:fe3c:d0f0               
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 10 16:09:23 compute4 systemd-networkd[721]: vxlan_sys_4789: Link UP
+Feb 10 16:09:23 compute4 systemd-networkd[721]: vxlan_sys_4789: Gained carrier
+Feb 10 16:09:23 compute4 systemd-udevd[1773234]: vxlan_sys_4789: Could not generate persistent MAC: No data available
+Feb 10 16:09:24 compute4 systemd-networkd[721]: vxlan_sys_4789: Gained IPv6LL
+
+* 37: tap0e778df8-ca                                            
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: ether                                   
+                 State: degraded (unmanaged)                    
+                Driver: tun                                     
+            HW Address: fe:16:3e:a7:45:cb                       
+                   MTU: 1450 (min: 68, max: 65521)              
+  Queue Length (Tx/Rx): 1/1                                     
+      Auto negotiation: no                                      
+                 Speed: 10Mbps                                  
+                Duplex: full                                    
+                  Port: tp                                      
+               Address: fe80::fc16:3eff:fea7:45cb               
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 10 16:18:04 compute4 systemd-udevd[1790652]: tap0e778df8-ca: Could not generate persistent MAC: No data available
+Feb 10 16:18:04 compute4 systemd-networkd[721]: tap0e778df8-ca: Link UP
+Feb 10 16:18:04 compute4 systemd-networkd[721]: tap0e778df8-ca: Gained carrier
+Feb 10 16:18:05 compute4 systemd-networkd[721]: tap0e778df8-ca: Gained IPv6LL

@@ -1,0 +1,36 @@
+/etc/lvm:
+total 132
+drwxr-xr-x   5 root root   4096 Feb  4 10:46 .
+drwxr-xr-x 129 root root  12288 Feb  4 10:08 ..
+drwx------   2 root root   4096 Feb  4 10:46 archive
+drwx------   2 root root   4096 Feb  4 10:46 backup
+-rw-r--r--   1 root root 102257 Feb 13  2020 lvm.conf
+-rw-r--r--   1 root root   2301 Feb 13  2020 lvmlocal.conf
+drwxr-xr-x   2 root root   4096 Feb  1 00:15 profile
+
+/etc/lvm/archive:
+total 20
+drwx------ 2 root root 4096 Feb  4 10:46 .
+drwxr-xr-x 5 root root 4096 Feb  4 10:46 ..
+-rw------- 1 root root 1038 Feb  4 10:46 ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749_00000-615001.vg
+-rw------- 1 root root 1051 Feb  4 10:46 ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749_00001-16434676.vg
+-rw------- 1 root root 2052 Feb  4 10:46 ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749_00002-705273818.vg
+
+/etc/lvm/backup:
+total 12
+drwx------ 2 root root 4096 Feb  4 10:46 .
+drwxr-xr-x 5 root root 4096 Feb  4 10:46 ..
+-rw------- 1 root root 2531 Feb  4 10:46 ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+
+/etc/lvm/profile:
+total 40
+drwxr-xr-x 2 root root 4096 Feb  1 00:15 .
+drwxr-xr-x 5 root root 4096 Feb  4 10:46 ..
+-rw-r--r-- 1 root root  531 Feb 13  2020 cache-mq.profile
+-rw-r--r-- 1 root root  339 Feb 13  2020 cache-smq.profile
+-rw-r--r-- 1 root root 3020 Feb 13  2020 command_profile_template.profile
+-rw-r--r-- 1 root root 2309 Feb 13  2020 lvmdbusd.profile
+-rw-r--r-- 1 root root  828 Feb 13  2020 metadata_profile_template.profile
+-rw-r--r-- 1 root root   76 Feb 13  2020 thin-generic.profile
+-rw-r--r-- 1 root root   80 Feb 13  2020 thin-performance.profile
+-rw-r--r-- 1 root root  563 Feb 13  2020 vdo-small.profile

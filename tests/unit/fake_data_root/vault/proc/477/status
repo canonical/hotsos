@@ -1,0 +1,55 @@
+Name:	pacemaker-sched
+Umask:	0026
+State:	S (sleeping)
+Tgid:	477
+Ngid:	0
+Pid:	477
+PPid:	429
+TracerPid:	0
+Uid:	113	113	113	113
+Gid:	119	119	119	119
+FDSize:	64
+Groups:	119 
+NStgid:	477
+NSpid:	477
+NSpgid:	477
+NSsid:	477
+VmPeak:	   91320 kB
+VmSize:	   87096 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   27484 kB
+VmRSS:	   27464 kB
+RssAnon:	    1608 kB
+RssFile:	   10436 kB
+RssShmem:	   15420 kB
+VmData:	    6552 kB
+VmStk:	     132 kB
+VmExe:	      16 kB
+VmLib:	   12584 kB
+VmPTE:	     136 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	0/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000001000
+SigCgt:	0000000180004a10
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	81399
+nonvoluntary_ctxt_switches:	4014

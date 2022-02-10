@@ -1,0 +1,360 @@
+default.target
+* |-accounts-daemon.service
+* |-apport.service
+* |-display-manager.service
+* |-e2scrub_reap.service
+* |-ipvsadm.service
+* |-radosgw.service
+* |-systemd-update-utmp-runlevel.service
+* |-udisks2.service
+* `-multi-user.target
+*   |-apport.service
+*   |-atd.service
+*   |-ceph-volume@lvm-0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749.service
+*   |-console-setup.service
+*   |-cron.service
+*   |-dbus.service
+*   |-dmesg.service
+*   |-grub-common.service
+*   |-grub-initrd-fallback.service
+*   |-haproxy.service
+*   |-ipvsadm.service
+*   |-irqbalance.service
+*   |-jujud-machine-1.service
+*   |-keepalived.service
+*   |-libvirt-guests.service
+*   |-libvirtd.service
+*   |-lxd-agent-9p.service
+*   |-lxd-agent.service
+*   |-networkd-dispatcher.service
+*   |-neutron-dhcp-agent.service
+*   |-neutron-l3-agent.service
+*   |-neutron-metadata-agent.service
+*   |-neutron-openvswitch-agent.service
+*   |-neutron-ovs-cleanup.service
+*   |-nova-api-metadata.service
+*   |-nova-compute.service
+*   |-ondemand.service
+*   |-open-vm-tools.service
+*   |-openvswitch-switch.service
+*   |-plymouth-quit-wait.service
+*   |-plymouth-quit.service
+*   |-pollinate.service
+*   |-qemu-kvm.service
+*   |-radosgw.service
+*   |-rbdmap.service
+*   |-rpcbind.service
+*   |-rsync.service
+*   |-rsyslog.service
+*   |-secureboot-db.service
+*   |-smartmontools.service
+*   |-snap-core20-1328.mount
+*   |-snap-lxd-22340.mount
+*   |-snap-lxd-22358.mount
+*   |-snap-snapd-14549.mount
+*   |-snap.lxd.activate.service
+*   |-snapd.apparmor.service
+*   |-snapd.autoimport.service
+*   |-snapd.core-fixup.service
+*   |-snapd.recovery-chooser-trigger.service
+*   |-snapd.seeded.service
+*   |-snapd.service
+*   |-ssh.service
+*   |-systemd-ask-password-wall.path
+*   |-systemd-logind.service
+*   |-systemd-networkd.service
+*   |-systemd-resolved.service
+*   |-systemd-update-utmp-runlevel.service
+*   |-systemd-user-sessions.service
+*   |-thermald.service
+*   |-ua-license-check.path
+*   |-ua-reboot-cmds.service
+*   |-ubuntu-fan.service
+*   |-ufw.service
+*   |-unattended-upgrades.service
+*   |-vaultlocker-decrypt@48858aa1-71a3-4f0e-95f3-a07d1d9a6749.service
+*   |-vaultlocker-decrypt@88244ad9-372d-427e-9d82-c411c73d900a.service
+*   |-basic.target
+*   | |--.mount
+*   | |-tmp.mount
+*   | |-paths.target
+*   | | `-apport-autoreport.path
+*   | |-slices.target
+*   | | |--.slice
+*   | | `-system.slice
+*   | |-sockets.target
+*   | | |-apport-forward.socket
+*   | | |-dbus.socket
+*   | | |-dm-event.socket
+*   | | |-iscsid.socket
+*   | | |-libvirtd-admin.socket
+*   | | |-libvirtd-ro.socket
+*   | | |-libvirtd.socket
+*   | | |-multipathd.socket
+*   | | |-rpcbind.socket
+*   | | |-snap.lxd.daemon.unix.socket
+*   | | |-snap.lxd.user-daemon.unix.socket
+*   | | |-snapd.socket
+*   | | |-systemd-initctl.socket
+*   | | |-systemd-journald-audit.socket
+*   | | |-systemd-journald-dev-log.socket
+*   | | |-systemd-journald.socket
+*   | | |-systemd-networkd.socket
+*   | | |-systemd-udevd-control.socket
+*   | | |-systemd-udevd-kernel.socket
+*   | | |-uuidd.socket
+*   | | |-virtlockd-admin.socket
+*   | | |-virtlockd.socket
+*   | | |-virtlogd-admin.socket
+*   | | `-virtlogd.socket
+*   | |-sysinit.target
+*   | | |-apparmor.service
+*   | | |-blk-availability.service
+*   | | |-dev-hugepages.mount
+*   | | |-dev-mqueue.mount
+*   | | |-finalrd.service
+*   | | |-keyboard-setup.service
+*   | | |-kmod-static-nodes.service
+*   | | |-lvm2-lvmpolld.socket
+*   | | |-lvm2-monitor.service
+*   | | |-multipathd.service
+*   | | |-open-iscsi.service
+*   | | |-plymouth-read-write.service
+*   | | |-plymouth-start.service
+*   | | |-proc-sys-fs-binfmt_misc.automount
+*   | | |-setvtrgb.service
+*   | | |-sys-fs-fuse-connections.mount
+*   | | |-sys-kernel-config.mount
+*   | | |-sys-kernel-debug.mount
+*   | | |-sys-kernel-tracing.mount
+*   | | |-systemd-ask-password-console.path
+*   | | |-systemd-binfmt.service
+*   | | |-systemd-boot-system-token.service
+*   | | |-systemd-hwdb-update.service
+*   | | |-systemd-journal-flush.service
+*   | | |-systemd-journald.service
+*   | | |-systemd-machine-id-commit.service
+*   | | |-systemd-modules-load.service
+*   | | |-systemd-pstore.service
+*   | | |-systemd-random-seed.service
+*   | | |-systemd-sysctl.service
+*   | | |-systemd-sysusers.service
+*   | | |-systemd-timesyncd.service
+*   | | |-systemd-tmpfiles-setup-dev.service
+*   | | |-systemd-tmpfiles-setup.service
+*   | | |-systemd-udev-trigger.service
+*   | | |-systemd-udevd.service
+*   | | |-systemd-update-utmp.service
+*   | | |-cryptsetup.target
+*   | | |-local-fs.target
+*   | | | |--.mount
+*   | | | |-systemd-remount-fs.service
+*   | | | `-var-lib-nova-instances.mount
+*   | | `-swap.target
+*   | |   `-swap.img.swap
+*   | `-timers.target
+*   |   |-apt-daily-upgrade.timer
+*   |   |-apt-daily.timer
+*   |   |-e2scrub_all.timer
+*   |   |-fstrim.timer
+*   |   |-fwupd-refresh.timer
+*   |   |-logrotate.timer
+*   |   |-man-db.timer
+*   |   |-motd-news.timer
+*   |   |-snapd.snap-repair.timer
+*   |   |-systemd-tmpfiles-clean.timer
+*   |   `-ua-timer.timer
+*   |-ceph-mds.target
+*   | |-ceph-mon.target
+*   | | `-ceph.target
+*   | |   |-ceph-crash.service
+    | |   | `-...
+*   | |   |-ceph-mgr.target
+    | |   | | `-...
+    | |   |   `-...
+    | |   | `-...
+*   | |   |-ceph-osd.target
+*   | |   | |-ceph-osd@0.service
+    | |   | | `-...
+    | |   |   `-...
+*   | |   `-ceph-radosgw.target
+    | |     | `-...
+    | |       `-...
+*   | `-ceph.target
+*   |   |-ceph-crash.service
+    |   | `-...
+*   |   |-ceph-mgr.target
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   |-ceph-mon.target
+    |   |   `-...
+*   |   |-ceph-osd.target
+*   |   | |-ceph-osd@0.service
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   `-ceph-radosgw.target
+*   |     |-ceph-mon.target
+    |     |   `-...
+    |       `-...
+*   |-ceph-mgr.target
+*   | |-ceph-mon.target
+*   | | `-ceph.target
+*   | |   |-ceph-crash.service
+*   | |   |-ceph-mds.target
+    | |   | | `-...
+    | |   |   `-...
+    | |   | `-...
+    | |   | `-...
+*   | |   |-ceph-osd.target
+*   | |   | |-ceph-osd@0.service
+    | |   | | `-...
+    | |   |   `-...
+*   | |   `-ceph-radosgw.target
+    | |     | `-...
+    | |       `-...
+*   | `-ceph.target
+*   |   |-ceph-crash.service
+*   |   |-ceph-mds.target
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+    |   | `-...
+*   |   |-ceph-mon.target
+    |   |   `-...
+*   |   |-ceph-osd.target
+*   |   | |-ceph-osd@0.service
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   `-ceph-radosgw.target
+*   |     |-ceph-mon.target
+    |     |   `-...
+    |       `-...
+*   |-ceph-mon.target
+*   | `-ceph.target
+*   |   |-ceph-crash.service
+*   |   |-ceph-mds.target
+    |   | | `-...
+    |   |   `-...
+*   |   |-ceph-mgr.target
+    |   | | `-...
+    |   |   `-...
+    |   | `-...
+*   |   |-ceph-osd.target
+*   |   | |-ceph-osd@0.service
+    |   | | `-...
+    |   |   `-...
+*   |   `-ceph-radosgw.target
+    |     | `-...
+    |       `-...
+*   |-ceph-osd.target
+*   | |-ceph-osd@0.service
+*   | |-ceph-mon.target
+*   | | `-ceph.target
+*   | |   |-ceph-crash.service
+*   | |   |-ceph-mds.target
+    | |   | | `-...
+    | |   |   `-...
+*   | |   |-ceph-mgr.target
+    | |   | | `-...
+    | |   |   `-...
+    | |   | `-...
+    | |   | `-...
+*   | |   `-ceph-radosgw.target
+    | |     | `-...
+    | |       `-...
+*   | `-ceph.target
+*   |   |-ceph-crash.service
+*   |   |-ceph-mds.target
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   |-ceph-mgr.target
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   |-ceph-mon.target
+    |   |   `-...
+    |   | `-...
+*   |   `-ceph-radosgw.target
+*   |     |-ceph-mon.target
+    |     |   `-...
+    |       `-...
+*   |-ceph-radosgw.target
+*   | |-ceph-mon.target
+*   | | `-ceph.target
+*   | |   |-ceph-crash.service
+*   | |   |-ceph-mds.target
+    | |   | | `-...
+    | |   |   `-...
+*   | |   |-ceph-mgr.target
+    | |   | | `-...
+    | |   |   `-...
+    | |   | `-...
+*   | |   |-ceph-osd.target
+*   | |   | |-ceph-osd@0.service
+    | |   | | `-...
+    | |   |   `-...
+    | |     `-...
+*   | `-ceph.target
+*   |   |-ceph-crash.service
+*   |   |-ceph-mds.target
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   |-ceph-mgr.target
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+*   |   |-ceph-mon.target
+    |   |   `-...
+*   |   |-ceph-osd.target
+*   |   | |-ceph-osd@0.service
+*   |   | |-ceph-mon.target
+    |   | |   `-...
+    |   |   `-...
+    |     `-...
+*   |-ceph.target
+*   | |-ceph-crash.service
+*   | |-ceph-mds.target
+*   | | |-ceph-mon.target
+    | | |   `-...
+    | |   `-...
+*   | |-ceph-mgr.target
+*   | | |-ceph-mon.target
+    | | |   `-...
+    | |   `-...
+*   | |-ceph-mon.target
+    | |   `-...
+*   | |-ceph-osd.target
+*   | | |-ceph-osd@0.service
+*   | | |-ceph-mon.target
+    | | |   `-...
+    | |   `-...
+*   | `-ceph-radosgw.target
+*   |   |-ceph-mon.target
+    |   |   `-...
+    |     `-...
+*   |-cloud-init.target
+*   | |-cloud-config.service
+*   | |-cloud-final.service
+*   | |-cloud-init-hotplugd.socket
+*   | |-cloud-init-local.service
+*   | `-cloud-init.service
+*   |-getty.target
+*   | |-getty-static.service
+*   | `-getty@tty1.service
+*   |-machines.target
+*   | `-var-lib-machines.mount
+*   |-nfs-client.target
+*   | |-nfs-blkmap.service
+*   | |-rpc-gssd.service
+*   | `-remote-fs-pre.target
+*   `-remote-fs.target
+*     |-var-lib-machines.mount
+*     `-nfs-client.target
+*       |-nfs-blkmap.service
+*       |-rpc-gssd.service
+*       `-remote-fs-pre.target

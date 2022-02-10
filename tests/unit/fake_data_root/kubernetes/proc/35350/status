@@ -1,0 +1,55 @@
+Name:	flanneld
+Umask:	0022
+State:	S (sleeping)
+Tgid:	35350
+Ngid:	0
+Pid:	35350
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	128
+Groups:	 
+NStgid:	35350
+NSpid:	35350
+NSpgid:	35350
+NSsid:	35350
+VmPeak:	  319456 kB
+VmSize:	  319456 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   27428 kB
+VmRSS:	   26544 kB
+RssAnon:	    5740 kB
+RssFile:	   20804 kB
+RssShmem:	       0 kB
+VmData:	   86864 kB
+VmStk:	     132 kB
+VmExe:	   33996 kB
+VmLib:	    1676 kB
+VmPTE:	     196 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	10
+SigQ:	5/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	ffffffffffc1feff
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	thread vulnerable
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	1453
+nonvoluntary_ctxt_switches:	89

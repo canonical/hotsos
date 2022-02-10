@@ -1,0 +1,66 @@
+hotsos:
+  version: development
+  repo-info: 0e374261
+system:
+  hostname: compute4
+  os: ubuntu focal
+  num-cpus: 2
+  load: 3.58, 3.27, 2.58
+  virtualisation: kvm
+  rootfs: /dev/vda2      308585260 25514372 267326276   9% /
+  unattended-upgrades: ENABLED
+  date: Thu 10 Feb 16:19:17 UTC 2022
+  juju-charm-sysctl-mismatch:
+    kernel.pid_max:
+      conf: 50-ceph-osd-charm.conf
+      actual: '4194304'
+      expected: '2097152'
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+openvswitch:
+  config:
+    external-ids:
+      hostname: compute4.mylab.home
+      rundir: /var/run/openvswitch
+  dpkg:
+    - libc-bin 2.31-0ubuntu9.2
+    - openvswitch-switch 2.13.3-0ubuntu0.20.04.2
+  services:
+    systemd:
+      enabled:
+        - openvswitch-switch
+      static:
+        - ovs-vswitchd
+        - ovsdb-server
+    ps:
+      - ovs-vswitchd (1)
+      - ovsdb-client (1)
+      - ovsdb-server (1)
+  bridges:
+    br-data:
+      - ens7:
+          addresses: []
+          hwaddr: 52:54:00:78:19:c3
+          state: UP
+          speed: Unknown!
+    br-ex: []
+    br-int:
+      - (6 ports)
+    br-tun:
+      - vxlan-0a000072
+      - vxlan-0a000085
+  daemon-checks:
+    ovs-vswitchd:
+      bridge-no-such-device:
+        '2022-02-10':
+          tap6a0486f9-82: 1
+    logs:
+      ovs-vswitchd:
+        WARN:
+          '2022-02-10': 6
+      ovsdb-server:
+        WARN:
+          '2022-02-10': 4

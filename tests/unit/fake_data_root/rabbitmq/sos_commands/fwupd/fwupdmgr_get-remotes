@@ -1,0 +1,52 @@
+[31m[1mWARNING:[0m UEFI firmware can not be updated in legacy BIOS mode
+  See https://github.com/fwupd/fwupd/wiki/PluginFlag:legacy-bios for more information.
+Unknown Product
+?
+??Linux Vendor Firmware Service (testing):
+?     Remote ID:          lvfs-testing
+?     Type:               download
+?     Keyring:            jcat
+?     Enabled:            false
+?     Priority:           1
+?     Filename:           /var/lib/fwupd/remotes.d/lvfs-testing/metadata.xml.gz
+?     Filename Signature: /var/lib/fwupd/remotes.d/lvfs-testing/metadata.xml.gz.jcat
+?     Metadata URI:       https://cdn.fwupd.org/downloads/firmware-testing.xml.gz
+?     Metadata Signature: https://cdn.fwupd.org/downloads/firmware-testing.xml.gz.jcat
+?     Report URI:         https://fwupd.org/lvfs/firmware/report
+?     Automatic Reporting:false
+?   
+??Enable UEFI capsule updates on Dell systems:
+?     Remote ID:          dell-esrt
+?     Type:               local
+?     Keyring:            none
+?     Enabled:            true
+?     Filename:           /usr/share/fwupd/remotes.d/dell-esrt/metadata.xml
+?   
+??Linux Vendor Firmware Service:
+?     Remote ID:          lvfs
+?     Type:               download
+?     Keyring:            jcat
+?     Enabled:            true
+?     Checksum:           109b3f9ecca0f51ab5ad0e430e5c3df9673b23174125c28f02e4b0c41d8b305b
+?     Age:                6.26h
+?     Filename:           /var/lib/fwupd/remotes.d/lvfs/metadata.xml.gz
+?     Filename Signature: /var/lib/fwupd/remotes.d/lvfs/metadata.xml.gz.jcat
+?     Metadata URI:       https://cdn.fwupd.org/downloads/firmware.xml.gz
+?     Metadata Signature: https://cdn.fwupd.org/downloads/firmware.xml.gz.jcat
+?     Report URI:         https://fwupd.org/lvfs/firmware/report
+?     Automatic Reporting:false
+?   
+??Vendor:
+?     Remote ID:          vendor
+?     Type:               local
+?     Keyring:            none
+?     Enabled:            false
+?     Filename:           /usr/share/fwupd/remotes.d/vendor/vendor.xml.gz
+?   
+??Vendor (Automatic):
+      Remote ID:          vendor-directory
+      Type:               directory
+      Keyring:            none
+      Enabled:            false
+      Filename:           /usr/share/fwupd/remotes.d/vendor/firmware
+    

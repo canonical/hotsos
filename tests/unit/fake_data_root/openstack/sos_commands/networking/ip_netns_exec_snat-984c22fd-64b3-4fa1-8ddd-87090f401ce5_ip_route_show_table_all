@@ -1,0 +1,14 @@
+169.254.192.0/18 dev ha-550dc175-c0 proto kernel scope link src 169.254.194.79 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+broadcast 169.254.192.0 dev ha-550dc175-c0 table local proto kernel scope link src 169.254.194.79 
+local 169.254.194.79 dev ha-550dc175-c0 table local proto kernel scope host src 169.254.194.79 
+broadcast 169.254.255.255 dev ha-550dc175-c0 table local proto kernel scope link src 169.254.194.79 
+fe80::/64 dev ha-550dc175-c0 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+anycast fe80:: dev ha-550dc175-c0 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fead:2590 dev ha-550dc175-c0 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev ha-550dc175-c0 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev sg-189f4c40-9d table local proto kernel metric 256 pref medium

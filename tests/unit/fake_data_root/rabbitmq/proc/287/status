@@ -1,0 +1,55 @@
+Name:	jujud
+Umask:	0022
+State:	S (sleeping)
+Tgid:	287
+Ngid:	0
+Pid:	287
+PPid:	266
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	256
+Groups:	 
+NStgid:	287
+NSpid:	287
+NSpgid:	266
+NSsid:	266
+VmPeak:	  866072 kB
+VmSize:	  866072 kB
+VmLck:	      48 kB
+VmPin:	       0 kB
+VmHWM:	   95036 kB
+VmRSS:	   59920 kB
+RssAnon:	   13176 kB
+RssFile:	   46744 kB
+RssShmem:	       0 kB
+VmData:	  105860 kB
+VmStk:	     132 kB
+VmExe:	   76596 kB
+VmLib:	       4 kB
+VmPTE:	     400 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	12
+SigQ:	5/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffe7fc1feff
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	5558306
+nonvoluntary_ctxt_switches:	348158

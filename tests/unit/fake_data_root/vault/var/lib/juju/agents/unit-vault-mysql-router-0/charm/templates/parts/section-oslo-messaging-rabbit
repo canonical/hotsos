@@ -1,0 +1,22 @@
+# This template supersedes section-rabbitmq-oslo which uses deprecated
+# settings. The section-rabbitmq-oslo will remain available until the
+# transition is complete.
+#
+# For a complete messaging queue configuration the template
+# section-transport-url must also be used under the [DEFAULT] section.
+
+{% if amqp.host or amqp.hosts -%}
+[oslo_messaging_rabbit]
+
+{% if amqp.ha_queues -%}
+rabbit_ha_queues = True
+rabbit_durable_queues = False
+{% endif -%}
+
+{% if amqp.ssl_data_complete == True -%}
+ssl = True 
+{% if amqp.ssl_ca -%}
+ssl_ca_file = {{ amqp.ssl_ca_file }}
+{% endif -%}
+{% endif -%}
+{% endif -%}

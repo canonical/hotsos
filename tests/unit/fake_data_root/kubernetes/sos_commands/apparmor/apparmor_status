@@ -1,0 +1,65 @@
+apparmor module is loaded.
+53 profiles are loaded.
+49 profiles are in enforce mode.
+   /snap/core/12603/usr/lib/snapd/snap-confine
+   /snap/core/12603/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /snap/snapd/14549/usr/lib/snapd/snap-confine
+   /snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/bin/man
+   /usr/lib/NetworkManager/nm-dhcp-client.action
+   /usr/lib/NetworkManager/nm-dhcp-helper
+   /usr/lib/connman/scripts/dhclient-script
+   /usr/lib/snapd/snap-confine
+   /usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/sbin/tcpdump
+   /{,usr/}sbin/dhclient
+   lsb_release
+   man_filter
+   man_groff
+   nvidia_modprobe
+   nvidia_modprobe//kmod
+   snap-update-ns.cdk-addons
+   snap-update-ns.core
+   snap-update-ns.kube-apiserver
+   snap-update-ns.kube-controller-manager
+   snap-update-ns.kube-proxy
+   snap-update-ns.kube-scheduler
+   snap-update-ns.kubectl
+   snap-update-ns.lxd
+   snap.cdk-addons.apply
+   snap.cdk-addons.hook.configure
+   snap.core.hook.configure
+   snap.kube-apiserver.daemon
+   snap.kube-apiserver.hook.configure
+   snap.kube-apiserver.kube-apiserver
+   snap.kube-controller-manager.daemon
+   snap.kube-controller-manager.hook.configure
+   snap.kube-controller-manager.kube-controller-manager
+   snap.kube-scheduler.daemon
+   snap.kube-scheduler.hook.configure
+   snap.kube-scheduler.kube-scheduler
+   snap.lxd.activate
+   snap.lxd.benchmark
+   snap.lxd.buginfo
+   snap.lxd.check-kernel
+   snap.lxd.daemon
+   snap.lxd.hook.configure
+   snap.lxd.hook.install
+   snap.lxd.hook.remove
+   snap.lxd.lxc
+   snap.lxd.lxc-to-lxd
+   snap.lxd.lxd
+   snap.lxd.migrate
+4 profiles are in complain mode.
+   snap.kube-proxy.daemon
+   snap.kube-proxy.hook.configure
+   snap.kube-proxy.kube-proxy
+   snap.kubectl.kubectl
+4 processes have profiles defined.
+3 processes are in enforce mode.
+   /snap/kube-apiserver/2599/kube-apiserver (82375) snap.kube-apiserver.daemon
+   /snap/kube-controller-manager/2407/kube-controller-manager (82610) snap.kube-controller-manager.daemon
+   /snap/kube-scheduler/2327/kube-scheduler (81900) snap.kube-scheduler.daemon
+1 processes are in complain mode.
+   /snap/kube-proxy/2360/kube-proxy (77707) snap.kube-proxy.daemon
+0 processes are unconfined but have a profile defined.

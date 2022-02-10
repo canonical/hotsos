@@ -1,0 +1,57 @@
+hotsos:
+  version: development
+  repo-info: 0e374261
+system:
+  hostname: juju-110cc2-k8stest-4
+  os: ubuntu focal
+  num-cpus: 2
+  load: 0.83, 0.73, 0.76
+  virtualisation: kvm
+  rootfs: /dev/vda1       40470732 3590360  36863988   9% /
+  unattended-upgrades: ENABLED
+  date: Fri 11 Feb 19:23:39 UTC 2022
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+kubernetes:
+  services:
+    systemd:
+      enabled:
+        - calico-node
+        - containerd
+        - flannel
+        - kube-proxy-iptables-fix
+        - snap.kube-apiserver.daemon
+        - snap.kube-controller-manager.daemon
+        - snap.kube-proxy.daemon
+        - snap.kube-scheduler.daemon
+    ps:
+      - calico-node (3)
+      - containerd (1)
+      - containerd-shim-runc-v2 (1)
+      - flanneld (1)
+      - kube-apiserver (1)
+      - kube-controller-manager (1)
+      - kube-proxy (1)
+      - kube-scheduler (1)
+  snaps:
+    - cdk-addons 1.23.0
+    - core 16-2.54.2
+    - core18 20211215
+    - core20 20220114
+    - kube-apiserver 1.23.3
+    - kube-controller-manager 1.23.3
+    - kube-proxy 1.23.3
+    - kube-scheduler 1.23.3
+    - kubectl 1.23.3
+  dpkg:
+    - vaultlocker 1.0.6-0ubuntu1
+  flannel:
+    flannel.1:
+      vxlan:
+        id: '1'
+        local_ip: 10.6.3.201
+        dev: ens3
+      addr: 10.1.84.0

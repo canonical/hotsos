@@ -1,0 +1,44 @@
+Main:
+  +-- 0.0.0.0/1 2 0 2
+     +-- 0.0.0.0/4 2 0 2
+        |-- 0.0.0.0
+           /0 universe UNICAST
+        +-- 10.0.0.0/24 2 0 1
+           |-- 10.0.0.0
+              /32 link BROADCAST
+              /24 link UNICAST
+           |-- 10.0.0.116
+              /32 host LOCAL
+           |-- 10.0.0.255
+              /32 link BROADCAST
+     +-- 127.0.0.0/8 2 0 2
+        +-- 127.0.0.0/31 1 0 0
+           |-- 127.0.0.0
+              /32 link BROADCAST
+              /8 host LOCAL
+           |-- 127.0.0.1
+              /32 host LOCAL
+        |-- 127.255.255.255
+           /32 link BROADCAST
+Local:
+  +-- 0.0.0.0/1 2 0 2
+     +-- 0.0.0.0/4 2 0 2
+        |-- 0.0.0.0
+           /0 universe UNICAST
+        +-- 10.0.0.0/24 2 0 1
+           |-- 10.0.0.0
+              /32 link BROADCAST
+              /24 link UNICAST
+           |-- 10.0.0.116
+              /32 host LOCAL
+           |-- 10.0.0.255
+              /32 link BROADCAST
+     +-- 127.0.0.0/8 2 0 2
+        +-- 127.0.0.0/31 1 0 0
+           |-- 127.0.0.0
+              /32 link BROADCAST
+              /8 host LOCAL
+           |-- 127.0.0.1
+              /32 host LOCAL
+        |-- 127.255.255.255
+           /32 link BROADCAST

@@ -1,0 +1,23 @@
+NAME                                                                                                        MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+loop0                                                                                                         7:0    0 61.9M  1 loop  /snap/core20/1328
+loop2                                                                                                         7:2    0 76.2M  1 loop  /snap/lxd/22340
+loop3                                                                                                         7:3    0 43.4M  1 loop  /snap/snapd/14549
+loop4                                                                                                         7:4    0 76.3M  1 loop  /snap/lxd/22358
+vda                                                                                                         252:0    0  300G  0 disk  
+|-vda1                                                                                                      252:1    0    1M  0 part  
+`-vda2                                                                                                      252:2    0  300G  0 part  /
+vdb                                                                                                         252:16   0  100G  0 disk  
+|-vdb1                                                                                                      252:17   0    1M  0 part  
+`-vdb2                                                                                                      252:18   0  100G  0 part  
+  |-bcache0                                                                                                 251:0    0  100G  0 disk  
+  | `-crypt-88244ad9-372d-427e-9d82-c411c73d900a                                                            253:2    0  100G  0 crypt /var/lib/nova/instances
+  `-bcache1                                                                                                 251:128  0  100G  0 disk  
+    `-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749                                                            253:0    0  100G  0 crypt 
+      `-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 253:1    0  100G  0 lvm   
+vdc                                                                                                         252:32   0  100G  0 disk  
+`-bcache1                                                                                                   251:128  0  100G  0 disk  
+  `-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749                                                              253:0    0  100G  0 crypt 
+    `-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749   253:1    0  100G  0 lvm   
+vdd                                                                                                         252:48   0  100G  0 disk  
+`-bcache0                                                                                                   251:0    0  100G  0 disk  
+  `-crypt-88244ad9-372d-427e-9d82-c411c73d900a                                                              253:2    0  100G  0 crypt /var/lib/nova/instances

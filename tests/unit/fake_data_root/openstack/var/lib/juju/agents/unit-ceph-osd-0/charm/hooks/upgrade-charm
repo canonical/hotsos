@@ -1,0 +1,7 @@
+#!/bin/bash -e
+# Wrapper to ensure that old python bytecode isn't hanging around
+# after we upgrade the charm with newer libraries
+find . -iname '*.pyc' -delete
+find . -name '__pycache__' -prune -exec rm -rf "{}" \;
+./hooks/install_deps
+exec ./hooks/upgrade-charm.real

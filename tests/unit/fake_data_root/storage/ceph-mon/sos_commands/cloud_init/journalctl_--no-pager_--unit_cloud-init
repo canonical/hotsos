@@ -1,0 +1,147 @@
+-- Logs begin at Fri 2022-02-04 09:42:52 UTC, end at Thu 2022-02-10 09:46:51 UTC. --
+Feb 04 09:43:10 juju-04f1e3-1-lxd-0 systemd[1]: Starting Initial cloud-init job (metadata service crawler)...
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Fri, 04 Feb 2022 09:43:14 +0000. Up 24.44 seconds.
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: ++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +--------+------+-----------------------------+-----------+-------+-------------------+
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: | Device |  Up  |           Address           |    Mask   | Scope |     Hw-Address    |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +--------+------+-----------------------------+-----------+-------+-------------------+
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: |  eth0  | True | fe80::216:3eff:feae:9e44/64 |     .     |  link | 00:16:3e:ae:9e:44 |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: |   lo   | True |          127.0.0.1          | 255.0.0.0 |  host |         .         |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: |   lo   | True |           ::1/128           |     .     |  host |         .         |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +--------+------+-----------------------------+-----------+-------+-------------------+
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 04 09:43:16 juju-04f1e3-1-lxd-0 cloud-init[294]: No /sbin/ifup, applying netplan configuration.
+Feb 04 09:43:17 juju-04f1e3-1-lxd-0 cloud-init[294]: active
+Feb 04 09:43:17 juju-04f1e3-1-lxd-0 cloud-init[294]: active
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: new group: name=ubuntu, GID=1000
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'adm'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'dialout'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'cdrom'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'floppy'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'sudo'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'audio'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'dip'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'video'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'plugdev'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to group 'netdev'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'adm'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'dialout'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'cdrom'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'floppy'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'sudo'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'audio'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'dip'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'video'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'plugdev'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 useradd[352]: add 'ubuntu' to shadow group 'netdev'
+Feb 04 09:43:19 juju-04f1e3-1-lxd-0 passwd[361]: password for 'ubuntu' changed by 'root'
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Generating public/private rsa key pair.
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key fingerprint is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: SHA256:IsGh383Mw+kZtTOPTBJcby8rOedPvI8/z+D1nSngaTU root@juju-04f1e3-1-lxd-0
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key's randomart image is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +---[RSA 3072]----+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    .     .      |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |   o . . . .     |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |  . o   o . o    |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |   . o * + o .   |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    o o S = . .  |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |     . o B B E   |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |        o B B = .|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |           O + B=|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |          . ..*=X|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +----[SHA256]-----+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Generating public/private dsa key pair.
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your identification has been saved in /etc/ssh/ssh_host_dsa_key
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your public key has been saved in /etc/ssh/ssh_host_dsa_key.pub
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key fingerprint is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: SHA256:lgC6RqldRDQqPN5/CJ0N+X+nEswaKpU78JV6bAd2i1M root@juju-04f1e3-1-lxd-0
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key's randomart image is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +---[DSA 1024]----+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |   o*            |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |.  = o.          |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |.o= .o.          |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |.=oo. =. .       |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |..+o o.oS        |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: | . .oo.B.E       |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    +oB.B.o. .   |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |   . *.B +. o    |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    . + o ..     |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +----[SHA256]-----+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Generating public/private ecdsa key pair.
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key fingerprint is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: SHA256:6JaLanMoe3SxzpO+pJhV1+QDviY1O785TXfIVYXxjbA root@juju-04f1e3-1-lxd-0
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key's randomart image is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +---[ECDSA 256]---+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |            . .oo|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |             o.oo|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |      . .   E ..o|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    .. *      .  |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    .o* S  . o   |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |  ..o+ = .. + .  |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: | ..=o.O  o . .   |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |.+=o*= +...      |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |+=o=+o. +o       |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +----[SHA256]-----+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Generating public/private ed25519 key pair.
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key fingerprint is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: SHA256:xLKmTPCvMCNgJmPSc873H2zFveMlSf/heQX/jTlabDc root@juju-04f1e3-1-lxd-0
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: The key's randomart image is:
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +--[ED25519 256]--+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |                 |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |       .         |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |  .   . o        |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: | . o   +   . ..  |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |=+o + o S   o oo |
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |B. B +   . . o +o|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |. + = o   +   OEB|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: | . + o . . . +==O|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: |    .   ... ...+o|
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 cloud-init[294]: +----[SHA256]-----+
+Feb 04 09:43:21 juju-04f1e3-1-lxd-0 systemd[1]: Finished Initial cloud-init job (metadata service crawler).
+Feb 04 11:32:39 juju-04f1e3-1-lxd-0 systemd[1]: cloud-init.service: Succeeded.
+Feb 04 11:32:39 juju-04f1e3-1-lxd-0 systemd[1]: Stopped Initial cloud-init job (metadata service crawler).
+-- Reboot --
+Feb 09 22:38:36 juju-04f1e3-1-lxd-0 systemd[1]: Starting Initial cloud-init job (metadata service crawler)...
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Wed, 09 Feb 2022 22:38:38 +0000. Up 7.81 seconds.
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info+++++++++++++++++++++++++++++++++++++++
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +--------+------+-----------------------------+---------------+--------+-------------------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: | Device |  Up  |           Address           |      Mask     | Scope  |     Hw-Address    |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +--------+------+-----------------------------+---------------+--------+-------------------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |  eth0  | True |          10.0.0.123         | 255.255.255.0 | global | 00:16:3e:ae:9e:44 |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |  eth0  | True | fe80::216:3eff:feae:9e44/64 |       .       |  link  | 00:16:3e:ae:9e:44 |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   lo   | True |          127.0.0.1          |   255.0.0.0   |  host  |         .         |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   lo   | True |           ::1/128           |       .       |  host  |         .         |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +--------+------+-----------------------------+---------------+--------+-------------------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +++++++++++++++++++++++++++Route IPv4 info++++++++++++++++++++++++++++
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: | Route | Destination | Gateway  |    Genmask    | Interface | Flags |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   0   |   0.0.0.0   | 10.0.0.2 |    0.0.0.0    |    eth0   |   UG  |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   1   |   10.0.0.0  | 0.0.0.0  | 255.255.255.0 |    eth0   |   U   |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: No /sbin/ifup, applying netplan configuration.
+Feb 09 22:38:40 juju-04f1e3-1-lxd-0 cloud-init[175]: active
+Feb 09 22:38:41 juju-04f1e3-1-lxd-0 cloud-init[175]: active
+Feb 09 22:38:43 juju-04f1e3-1-lxd-0 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

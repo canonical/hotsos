@@ -1,0 +1,207 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.6 105000 12736 ?        -    Feb09   0:05 /sbin/init
+root           -  0.0    -      -     - -        Ss   Feb09   0:05 -
+root          63  0.0  0.8  51472 17912 ?        -    Feb09   0:00 /lib/systemd/systemd-journald
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root          93  0.0  0.2  11884  4704 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         117  0.0  0.0   3804  1804 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+root           -  0.0    -      -     - -        Ss   Feb09   0:03 -
+root         118  0.0  0.0   3812  1908 ?        -    Feb09   0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+root           -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root         119  0.0  0.0   3940  1804 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+root           -  0.0    -      -     - -        Ss   Feb09   0:03 -
+systemd+     170  0.0  0.5  23964 12272 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+systemd+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+systemd+     230  0.0  0.3  18416  6440 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+systemd+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         234  0.0  0.4 241036  9144 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         235  0.0  0.3  18808  8336 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/ceph-crash
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+ceph         236  0.0  8.2 499716 173692 ?       -    Feb09   0:29 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:03 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:06 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:10 -
+ceph         237  0.6 39.9 1231708 836784 ?      -    Feb09   4:21 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:16 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:02 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:21 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+ceph           -  0.1    -      -     - -        Ssl  Feb09   0:59 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:14 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:04 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.3    -      -     - -        Ssl  Feb09   2:12 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:01 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+ceph           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+message+     238  0.0  0.2   7572  4264 ?        -    Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+message+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         241  0.0  0.6  29272 13840 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+syslog       243  0.0  0.1 154864  4152 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         244  0.0  0.2  10396  5372 ?        -    Feb09   0:00 /usr/sbin/smartd -n
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         248  0.0  1.7 947132 37308 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         250  0.0  0.3  16848  7660 ?        -    Feb09   0:00 /lib/systemd/systemd-logind
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         252  0.0  0.5 394572 12352 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         265  0.0  0.1   8536  2912 ?        -    Feb09   0:00 /usr/sbin/cron -f
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+daemon       270  0.0  0.1   3792  2184 ?        -    Feb09   0:00 /usr/sbin/atd -f
+daemon         -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         275  0.0  0.1   8696  2512 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         283  0.0  0.1   7352  2128 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+root           -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+root         286  1.8  4.5 866072 95796 ?        -    Feb09  12:35 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.5    -      -     - -        SLl  Feb09   3:54 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:53 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:33 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:34 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:48 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:50 -
+root         294  0.0  0.2  12176  6172 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         311  0.0  0.4 236424  8928 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         396  0.0  0.7 108112 16400 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         515  0.0  0.0   2616  1724 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        1380  0.0  2.1 1597768 44304 ?       -    Feb09   0:05 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:02 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+uuidd       9019  0.0  0.0   9748  1016 ?        -    Feb09   0:00 /usr/sbin/uuidd --socket-activation
+uuidd          -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root       50615  0.0  0.3  13800  7512 ?        -    09:46   0:00 sshd: ubuntu [priv]
+root           -  0.0    -      -     - -        Ss   09:46   0:00 -
+ubuntu     50618  0.1  0.4  18292  8752 ?        -    09:46   0:00 /lib/systemd/systemd --user
+ubuntu         -  0.1    -      -     - -        Ss   09:46   0:00 -
+ubuntu     50619  0.0  0.2 106212  5388 ?        -    09:46   0:00 (sd-pam)
+ubuntu         -  0.0    -      -     - -        S    09:46   0:00 -
+ubuntu     50673  0.0  0.1  13932  4112 ?        -    09:46   0:00 sshd: ubuntu@pts/1
+ubuntu         -  0.0    -      -     - -        S    09:46   0:00 -
+root       50674  0.0  0.2  11168  4412 pts/1    -    09:46   0:00 sudo -s
+root           -  0.0    -      -     - -        Ss   09:46   0:00 -
+root       50675  0.0  0.1   8960  2788 pts/1    -    09:46   0:00 /bin/bash
+root           -  0.0    -      -     - -        S    09:46   0:00 -
+root       50682  114  3.9 973088 82576 pts/1    -    09:46   0:12 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+root           - 15.2    -      -     - -        Sl+  09:46   0:01 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Rl+  09:47   0:05 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:47   0:00 -
+root       51649  0.0  1.3 384008 29160 ?        -    09:47   0:00 /usr/libexec/fwupd/fwupd
+root           -  0.0    -      -     - -        Ssl  09:47   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:47   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:47   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:47   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:47   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:47   0:00 -
+root       51731  0.0  0.2  16260  5944 ?        -    09:47   0:00 /lib/systemd/systemd-hostnamed
+root           -  0.0    -      -     - -        Ss   09:47   0:00 -
+root       52431  0.0  0.0   2712   648 pts/1    -    09:47   0:00 timeout 300s ceph health detail --format json-pretty
+root           -  0.0    -      -     - -        S    09:47   0:00 -
+root       52433  0.0  1.7 697148 36896 pts/1    -    09:47   0:00 /usr/bin/python3 /usr/bin/ceph health detail --format json-pretty
+root           -  0.0    -      -     - -        Rl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root           -  0.0    -      -     - -        Sl   09:47   0:00 -
+root       52516  0.0  0.0   2712   640 pts/1    -    09:47   0:00 timeout 300s ps auxwwwm
+root           -  0.0    -      -     - -        S    09:47   0:00 -
+root       52518  0.0  0.1   5896  2852 pts/1    -    09:47   0:00 ps auxwwwm
+root           -  0.0    -      -     - -        R    09:47   0:00 -

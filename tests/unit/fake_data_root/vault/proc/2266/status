@@ -1,0 +1,55 @@
+Name:	lxd
+Umask:	0022
+State:	S (sleeping)
+Tgid:	2266
+Ngid:	0
+Pid:	2266
+PPid:	503
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	2266
+NSpid:	2266
+NSpgid:	503
+NSsid:	503
+VmPeak:	 1524048 kB
+VmSize:	 1524036 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   45908 kB
+VmRSS:	   45908 kB
+RssAnon:	   19156 kB
+RssFile:	   26752 kB
+RssShmem:	       0 kB
+VmData:	  180828 kB
+VmStk:	     132 kB
+VmExe:	   13672 kB
+VmLib:	    6856 kB
+VmPTE:	     308 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	15
+SigQ:	3/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	fffffffc1bfa3a00
+SigIgn:	0000000000001000
+SigCgt:	fffffffdffc1eeff
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	1837
+nonvoluntary_ctxt_switches:	39

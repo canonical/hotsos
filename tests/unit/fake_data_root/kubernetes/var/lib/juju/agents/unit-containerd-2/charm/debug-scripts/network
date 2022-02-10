@@ -1,0 +1,11 @@
+#!/bin/sh
+set -ux
+
+ifconfig -a > $DEBUG_SCRIPT_DIR/ifconfig
+cp -v /etc/resolv.conf $DEBUG_SCRIPT_DIR/resolv.conf
+cp -v /etc/network/interfaces $DEBUG_SCRIPT_DIR/interfaces
+netstat -planut > $DEBUG_SCRIPT_DIR/netstat
+route -n > $DEBUG_SCRIPT_DIR/route
+iptables-save > $DEBUG_SCRIPT_DIR/iptables-save
+dig google.com > $DEBUG_SCRIPT_DIR/dig-google
+ping -w 2 -i 0.1 google.com > $DEBUG_SCRIPT_DIR/ping-google

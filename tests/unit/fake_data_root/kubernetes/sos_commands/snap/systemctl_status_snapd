@@ -1,0 +1,20 @@
+* snapd.service - Snap Daemon
+     Loaded: loaded (/lib/systemd/system/snapd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-02-11 19:03:34 UTC; 20min ago
+TriggeredBy: * snapd.socket
+   Main PID: 24050 (snapd)
+      Tasks: 12 (limit: 4677)
+     Memory: 22.9M
+     CGroup: /system.slice/snapd.service
+             `-24050 /usr/lib/snapd/snapd
+
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[24050]: AppArmor status: apparmor is enabled and all features are available
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[24050]: daemon.go:246: started snapd/2.54.2+20.04ubuntu2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-99-generic.
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[24050]: daemon.go:339: adjusting startup timeout by 1m25s (pessimistic estimate of 30s plus 5s per snap)
+Feb 11 19:03:34 juju-110cc2-k8stest-4 systemd[1]: Started Snap Daemon.
+Feb 11 19:03:46 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:48 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:48 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:49 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:50 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:51 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"

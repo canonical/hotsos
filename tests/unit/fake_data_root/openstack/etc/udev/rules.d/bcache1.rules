@@ -1,0 +1,2 @@
+# Written by curtin
+SUBSYSTEM=="block", ACTION=="add|change", ENV{CACHED_UUID}=="f254d188-e81b-493f-9f26-a377af56cb32", SYMLINK+="disk/by-dname/bcache1"

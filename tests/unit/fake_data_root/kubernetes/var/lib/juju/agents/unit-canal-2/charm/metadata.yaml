@@ -1,0 +1,60 @@
+"name": "canal"
+"summary": "A Software Defined Network based on Flannel and Calico"
+"maintainers":
+- "Tim Van Steenburgh <tim.van.steenburgh@canonical.com>"
+- "George Kraft <george.kraft@canonical.com>"
+- "Konstantinos Tsakalozos <kos.tsakalozos@canonical.com>"
+- "Mike Wilson <mike.wilson@canonical.com>"
+- "Kevin Monroe <kevin.monroe@canonical.com>"
+"description": |
+  Canal is a community-driven initiative that aims to allow users to easily
+  deploy Calico and flannel networking together as a unified networking
+  solution - combining Calico's industry-leading network policy enforcement
+  with the rich superset of Calico and flannel overlay and non-overlay network
+  connectivity options.
+"tags":
+- "networking"
+"series":
+- "focal"
+- "bionic"
+- "xenial"
+"requires":
+  "etcd":
+    "interface": "etcd"
+  "cni":
+    "interface": "kubernetes-cni"
+    "scope": "container"
+"provides":
+  "nrpe-external-master":
+    "interface": "nrpe-external-master"
+    "scope": "container"
+"resources":
+  "flannel":
+    "type": "file"
+    "filename": "flannel.tar.gz"
+    "description": "Flannel resource tarball for amd64"
+  "flannel-arm64":
+    "type": "file"
+    "filename": "flannel.tar.gz"
+    "description": "Flannel resource tarball for arm64"
+  "calico":
+    "type": "file"
+    "filename": "calico.tar.gz"
+    "description": "Calico resource tarball for amd64"
+  "calico-arm64":
+    "type": "file"
+    "filename": "calico.tar.gz"
+    "description": "Calico resource tarball for arm64"
+  "calico-upgrade":
+    "type": "file"
+    "filename": "calico-upgrade.tar.gz"
+    "description": "calico-upgrade tool for amd64"
+  "calico-upgrade-arm64":
+    "type": "file"
+    "filename": "calico-upgrade.tar.gz"
+    "description": "calico-upgrade tool for arm64"
+  "calico-node-image":
+    "type": "file"
+    "filename": "calico-node-image.tar.gz"
+    "description": "calico-node container image"
+"subordinate": !!bool "true"

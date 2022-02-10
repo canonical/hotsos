@@ -1,0 +1,16 @@
+2022-02-09 22:53:09,666 INFO Starting unattended upgrades script
+2022-02-09 22:53:09,667 INFO Allowed origins are: o=Ubuntu,a=focal, o=Ubuntu,a=focal-security, o=UbuntuESMApps,a=focal-apps-security, o=UbuntuESM,a=focal-infra-security
+2022-02-09 22:53:09,667 INFO Initial blacklist: 
+2022-02-09 22:53:09,667 INFO Initial whitelist (not strict): 
+2022-02-09 22:53:11,014 INFO No packages found that can be upgraded unattended and no pending auto-removals
+2022-02-10 02:39:14,498 INFO Starting unattended upgrades script
+2022-02-10 02:39:14,499 INFO Allowed origins are: o=Ubuntu,a=focal, o=Ubuntu,a=focal-security, o=UbuntuESMApps,a=focal-apps-security, o=UbuntuESM,a=focal-infra-security
+2022-02-10 02:39:14,499 INFO Initial blacklist: 
+2022-02-10 02:39:14,499 INFO Initial whitelist (not strict): 
+2022-02-10 06:04:04,201 INFO Starting unattended upgrades script
+2022-02-10 06:04:04,202 INFO Allowed origins are: o=Ubuntu,a=focal, o=Ubuntu,a=focal-security, o=UbuntuESMApps,a=focal-apps-security, o=UbuntuESM,a=focal-infra-security
+2022-02-10 06:04:04,202 INFO Initial blacklist: 
+2022-02-10 06:04:04,202 INFO Initial whitelist (not strict): 
+2022-02-10 06:04:09,423 INFO Packages that will be upgraded: bsdutils fdisk libblkid1 libfdisk1 libmount1 libsmartcols1 libuuid1 linux-libc-dev mount util-linux uuid-runtime
+2022-02-10 06:04:09,423 INFO Writing dpkg log to /var/log/unattended-upgrades/unattended-upgrades-dpkg.log
+2022-02-10 06:04:52,233 INFO All upgrades installed

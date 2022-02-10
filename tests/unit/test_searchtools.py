@@ -96,16 +96,14 @@ class TestSearchTools(utils.BaseTestCase):
         self.assertEquals(s.num_cpus, 2)
 
     def test_filesearcher_logs(self):
-        expected = {4: '2021-02-25 14:22:18.861',
-                    16: '2021-02-25 14:22:19.587',
-                    8389: '2021-08-03 09:45:30.106',
-                    8493: '2021-08-03 09:45:32.091'}
+        expected = {9891: '2022-02-09 22:50:18.131',
+                    9892: '2022-02-09 22:50:19.703'}
 
         logs_root = "var/log/neutron/"
         filepath = os.path.join(os.environ["DATA_ROOT"], logs_root,
-                                'neutron-openvswitch-agent.log')
+                                'neutron-openvswitch-agent.log.2.gz')
         globpath = os.path.join(os.environ["DATA_ROOT"], logs_root,
-                                'neutron-l3-agent.log*')
+                                'neutron-l3-agent.log')
         globpath_file1 = os.path.join(os.environ["DATA_ROOT"], logs_root,
                                       'neutron-l3-agent.log')
         globpath_file2 = os.path.join(os.environ["DATA_ROOT"], logs_root,
@@ -116,41 +114,37 @@ class TestSearchTools(utils.BaseTestCase):
         s.add_search_term(sd, filepath)
         sd = SearchDef(r'^(\S+\s+[0-9:\.]+)\s+.+ERROR.+', tag="T2")
         s.add_search_term(sd, filepath)
-        sd = SearchDef((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router '
-                        '1e086be2-93c2-4740-921d-3e3237f23959.+'), tag="T3")
+        sd = SearchDef((r'^(\S+\s+[0-9:\.]+)\s+.+ INFO .+ Router [0-9a-f\-]+'
+                        '.+'), tag="T3")
         s.add_search_term(sd, globpath)
         sd = SearchDef(r'non-existant-pattern', tag="T4")
         # search for something that doesn't exist to test that code path
         s.add_search_term(sd, globpath)
 
         results = s.search()
-        self.assertEquals(set(results.files), set([filepath,
-                                                   globpath_file1]))
+        self.assertEquals(set(results.files), set([filepath, globpath]))
 
-        self.assertEquals(len(results.find_by_path(filepath)), 127)
+        self.assertEquals(len(results.find_by_path(filepath)), 1220)
 
         tag_results = results.find_by_tag("T1", path=filepath)
-        self.assertEquals(len(tag_results), 4)
+        self.assertEquals(len(tag_results), 2)
         for result in tag_results:
             ln = result.linenumber
             self.assertEquals(result.tag, "T1")
             self.assertEquals(result.get(1), expected[ln])
 
         tag_results = results.find_by_tag("T1")
-        self.assertEquals(len(tag_results), 4)
+        self.assertEquals(len(tag_results), 2)
         for result in tag_results:
             ln = result.linenumber
             self.assertEquals(result.tag, "T1")
             self.assertEquals(result.get(1), expected[ln])
 
-        self.assertEquals(len(results.find_by_path(globpath_file1)), 4)
+        self.assertEquals(len(results.find_by_path(globpath_file1)), 1)
         self.assertEquals(len(results.find_by_path(globpath_file2)), 0)
 
         # these files have the same content so expect same result from both
-        expected = {986: '2021-08-02 21:48:03.684',
-                    1932: '2021-08-02 21:59:57.366',
-                    2929: '2021-08-03 09:46:48.252',
-                    3370: '2021-08-03 09:47:17.221'}
+        expected = {5380: '2022-02-10 16:09:22.641'}
         path_results = results.find_by_path(globpath_file1)
         for result in path_results:
             ln = result.linenumber
@@ -168,8 +162,8 @@ class TestSearchTools(utils.BaseTestCase):
                                 'networking', 'ip_-d_address')
         filepath2 = os.path.join(os.environ["DATA_ROOT"], 'sos_commands',
                                  'networking', 'ip_-s_-d_link')
-        ip = "10.10.101.33"
-        mac = "ac:1f:6b:9e:d8:44"
+        ip = "10.0.0.128"
+        mac = "22:c2:7b:1c:12:1b"
         s = FileSearcher()
         sd = SearchDef(r".+({}).+".format(ip))
         s.add_search_term(sd, filepath)
@@ -179,15 +173,14 @@ class TestSearchTools(utils.BaseTestCase):
         results = s.search()
         self.assertEquals(set(results.files), set([filepath, filepath2]))
         self.assertEquals(len(results.find_by_path(filepath)), 1)
-        self.assertEquals(len(results.find_by_path(filepath2)), 3)
+        self.assertEquals(len(results.find_by_path(filepath2)), 2)
 
-        self.assertEquals(results.find_by_path(filepath)[0].linenumber, 106)
+        self.assertEquals(results.find_by_path(filepath)[0].linenumber, 38)
         for result in results.find_by_path(filepath):
             self.assertEquals(result.get(1), ip)
 
-        expected = {158: mac,
-                    165: mac,
-                    172: mac}
+        expected = {52: mac,
+                    141: mac}
 
         for result in results.find_by_path(filepath2):
             ln = result.linenumber

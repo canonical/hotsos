@@ -1,0 +1,43 @@
+# This file is managed centrally by release-tools and should not be modified
+# within individual charm repos.  See the 'global' dir contents for available
+# choices of *requirements.txt files for OpenStack Charms:
+#     https://github.com/openstack-charmers/release-tools
+#
+# TODO: Distill the func test requirements from the lint/unit test
+#       requirements.  They are intertwined.  Also, Zaza itself should specify
+#       all of its own requirements and if it doesn't, fix it there.
+#
+pyparsing<3.0.0  # aodhclient is pinned in zaza and needs pyparsing < 3.0.0, but cffi also needs it, so pin here.
+cffi==1.14.6; python_version < '3.6'  # cffi 1.15.0 drops support for py35.
+setuptools<50.0.0  # https://github.com/pypa/setuptools/commit/04e3df22df840c6bb244e9b27bc56750c44b7c85
+
+requests>=2.18.4
+
+stestr>=2.2.0
+
+# Dependency of stestr. Workaround for
+# https://github.com/mtreinish/stestr/issues/145
+cliff<3.0.0
+
+# Dependencies of stestr. Newer versions use keywords that didn't exist in
+# python 3.5 yet (e.g. "ModuleNotFoundError")
+importlib-metadata<3.0.0; python_version < '3.6'
+importlib-resources<3.0.0; python_version < '3.6'
+
+# Some Zuul nodes sometimes pull newer versions of these dependencies which
+# dropped support for python 3.5:
+osprofiler<2.7.0;python_version<'3.6'
+stevedore<1.31.0;python_version<'3.6'
+debtcollector<1.22.0;python_version<'3.6'
+oslo.utils<=3.41.0;python_version<'3.6'
+
+coverage>=4.5.2
+pyudev              # for ceph-* charm unit tests (need to fix the ceph-* charm unit tests/mocking)
+git+https://github.com/openstack-charmers/zaza.git#egg=zaza
+git+https://github.com/openstack-charmers/zaza-openstack-tests.git#egg=zaza.openstack
+
+# Needed for charm-glance:
+git+https://opendev.org/openstack/tempest.git#egg=tempest;python_version>='3.6'
+tempest<24.0.0;python_version<'3.6'
+
+croniter            # needed for charm-rabbitmq-server unit tests

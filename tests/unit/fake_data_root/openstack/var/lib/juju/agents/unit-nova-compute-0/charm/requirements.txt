@@ -1,0 +1,24 @@
+# This file is managed centrally by release-tools and should not be modified
+# within individual charm repos.  See the 'global' dir contents for available
+# choices of *requirements.txt files for OpenStack Charms:
+#     https://github.com/openstack-charmers/release-tools
+#
+# TODO: Distill the func test requirements from the lint/unit test
+#       requirements.  They are intertwined.  Also, Zaza itself should specify
+#       all of its own requirements and if it doesn't, fix it there.
+#
+pbr==5.6.0
+simplejson>=2.2.0
+netifaces>=0.10.4
+
+# Strange import error with newer netaddr:
+netaddr>0.7.16,<0.8.0
+
+Jinja2>=2.6  # BSD License (3 clause)
+six>=1.9.0
+
+# dnspython 2.0.0 dropped py3.5 support
+dnspython<2.0.0; python_version < '3.6'
+dnspython; python_version >= '3.6'
+
+psutil>=1.1.1,<2.0.0

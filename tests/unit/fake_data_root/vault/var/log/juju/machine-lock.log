@@ -1,0 +1,565 @@
+2022-02-04 09:44:56 === agent unit-vault-0 started ===
+2022-02-04 09:44:57 unit-vault-0: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-04 09:54:55 unit-vault-0: vault/0 uniter (run install hook), waited 0s, held 9m51s
+2022-02-04 09:54:57 === agent unit-vault-hacluster-0 started ===
+2022-02-04 09:54:57 unit-vault-hacluster-0: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-04 09:54:58 === agent unit-vault-mysql-router-0 started ===
+2022-02-04 09:54:58 unit-vault-mysql-router-0: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-04 09:59:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run install hook), waited 0s, held 4m58s
+2022-02-04 09:59:57 unit-vault-0: vault/0 uniter (run relation-created (55; app: mysql) hook), waited 4m58s, held 0s
+2022-02-04 10:02:42 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run install hook), waited 4m56s, held 2m45s
+2022-02-04 10:02:42 unit-vault-0: vault/0 uniter (run relation-created (47; app: keystone) hook), waited 2m45s, held 0s
+2022-02-04 10:02:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-created (13; app: vault-hacluster) hook), waited 2m46s, held 0s
+2022-02-04 10:02:43 unit-vault-0: vault/0 uniter (run relation-created (44; app: nova-compute) hook), waited 0s, held 0s
+2022-02-04 10:02:43 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-created (43; app: vault) hook), waited 1s, held 0s
+2022-02-04 10:02:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-created (52; app: vault) hook), waited 0s, held 0s
+2022-02-04 10:02:44 unit-vault-0: vault/0 uniter (run relation-created (45; app: cinder) hook), waited 0s, held 0s
+2022-02-04 10:02:44 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-created (62; app: mysql) hook), waited 0s, held 0s
+2022-02-04 10:02:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run leader-elected hook), waited 0s, held 0s
+2022-02-04 10:02:45 unit-vault-0: vault/0 uniter (run relation-created (43; app: vault-mysql-router) hook), waited 1s, held 0s
+2022-02-04 10:02:48 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run leader-elected hook), waited 1s, held 4s
+2022-02-04 10:03:59 unit-vault-hacluster-0: vault-hacluster/0 uniter (run config-changed hook), waited 4s, held 1m11s
+2022-02-04 10:04:00 unit-vault-0: vault/0 uniter (run relation-created (48; app: neutron-api) hook), waited 1m14s, held 0s
+2022-02-04 10:04:03 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run config-changed hook), waited 1m11s, held 3s
+2022-02-04 10:04:06 unit-vault-hacluster-0: vault-hacluster/0 uniter (run start hook), waited 4s, held 3s
+2022-02-04 10:04:06 unit-vault-0: vault/0 uniter (run relation-created (12; app: vault) hook), waited 6s, held 0s
+2022-02-04 10:04:09 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run start hook), waited 3s, held 3s
+2022-02-04 10:04:12 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-joined (13; unit: vault-hacluster/1) hook), waited 4s, held 3s
+2022-02-04 10:04:12 unit-vault-0: vault/0 uniter (run relation-created (54; app: etcd) hook), waited 6s, held 0s
+2022-02-04 10:04:16 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-joined (43; unit: vault/0) hook), waited 3s, held 4s
+2022-02-04 10:04:20 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/1) hook), waited 4s, held 4s
+2022-02-04 10:04:20 unit-vault-0: vault/0 uniter (run relation-created (52; app: vault-hacluster) hook), waited 8s, held 0s
+2022-02-04 10:04:24 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (43; unit: vault/0) hook), waited 4s, held 3s
+2022-02-04 10:04:27 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-joined (52; unit: vault/0) hook), waited 4s, held 4s
+2022-02-04 10:04:27 unit-vault-0: vault/0 uniter (run relation-created (50; app: placement) hook), waited 7s, held 0s
+2022-02-04 10:04:34 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-joined (62; unit: mysql/0) hook), waited 4s, held 6s
+2022-02-04 10:04:37 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (52; unit: vault/0) hook), waited 6s, held 3s
+2022-02-04 10:04:37 unit-vault-0: vault/0 uniter (run relation-created (46; app: glance) hook), waited 9s, held 0s
+2022-02-04 10:04:43 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/0) hook), waited 4s, held 6s
+2022-02-04 10:04:43 unit-vault-0: vault/0 uniter (run relation-created (51; app: ceph-osd) hook), waited 6s, held 0s
+2022-02-04 10:04:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-joined (62; unit: mysql/1) hook), waited 1s, held 6s
+2022-02-04 10:04:50 unit-vault-0: vault/0 uniter (run relation-created (49; app: nova-cloud-controller) hook), waited 7s, held 0s
+2022-02-04 10:04:56 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/1) hook), waited 0s, held 6s
+2022-02-04 10:05:03 unit-vault-0: vault/0 uniter (run leader-elected hook), waited 6s, held 7s
+2022-02-04 10:05:08 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-joined (62; unit: mysql/2) hook), waited 7s, held 6s
+2022-02-04 10:05:15 unit-vault-0: vault/0 uniter (run config-changed hook), waited 6s, held 7s
+2022-02-04 10:05:21 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/2) hook), waited 7s, held 6s
+2022-02-04 10:05:28 unit-vault-0: vault/0 uniter (run start hook), waited 6s, held 7s
+2022-02-04 10:05:32 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 7s, held 3s
+2022-02-04 10:05:39 unit-vault-0: vault/0 uniter (run relation-joined (44; unit: nova-compute/0) hook), waited 3s, held 8s
+2022-02-04 10:05:47 unit-vault-0: vault/0 uniter (run relation-joined (48; unit: neutron-api/0) hook), waited 0s, held 7s
+2022-02-04 10:05:55 unit-vault-0: vault/0 uniter (run relation-joined (54; unit: etcd/0) hook), waited 0s, held 8s
+2022-02-04 10:06:01 unit-vault-0: vault/0 uniter (run relation-changed (54; unit: etcd/0) hook), waited 0s, held 6s
+2022-02-04 10:06:08 unit-vault-0: vault/0 uniter (run relation-joined (55; unit: mysql/0) hook), waited 0s, held 7s
+2022-02-04 10:06:16 unit-vault-0: vault/0 uniter (run relation-joined (50; unit: placement/0) hook), waited 0s, held 8s
+2022-02-04 10:06:24 unit-vault-0: vault/0 uniter (run relation-joined (49; unit: nova-cloud-controller/0) hook), waited 0s, held 8s
+2022-02-04 10:06:31 unit-vault-0: vault/0 uniter (run relation-changed (49; unit: nova-cloud-controller/0) hook), waited 0s, held 7s
+2022-02-04 10:06:35 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/1) hook), waited 7s, held 4s
+2022-02-04 10:06:43 unit-vault-0: vault/0 uniter (run relation-joined (12; unit: vault/1) hook), waited 4s, held 8s
+2022-02-04 10:06:48 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-joined (13; unit: vault-hacluster/2) hook), waited 7s, held 6s
+2022-02-04 10:06:56 unit-vault-0: vault/0 uniter (run relation-changed (12; unit: vault/1) hook), waited 6s, held 8s
+2022-02-04 10:07:01 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/2) hook), waited 8s, held 5s
+2022-02-04 10:07:09 unit-vault-0: vault/0 uniter (run relation-changed (55; unit: mysql/0) hook), waited 6s, held 7s
+2022-02-04 10:07:14 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/1) hook), waited 8s, held 5s
+2022-02-04 10:07:22 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/0) hook), waited 10s, held 8s
+2022-02-04 10:07:31 unit-vault-0: vault/0 uniter (run relation-joined (45; unit: cinder/0) hook), waited 13s, held 8s
+2022-02-04 10:07:38 unit-vault-0: vault/0 uniter (run relation-joined (55; unit: mysql/1) hook), waited 0s, held 8s
+2022-02-04 10:07:47 unit-vault-0: vault/0 uniter (run relation-joined (54; unit: etcd/1) hook), waited 0s, held 9s
+2022-02-04 10:07:56 unit-vault-0: vault/0 uniter (run relation-joined (51; unit: ceph-osd/0) hook), waited 0s, held 9s
+2022-02-04 10:08:02 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/2) hook), waited 7s, held 6s
+2022-02-04 10:08:10 unit-vault-0: vault/0 uniter (run relation-changed (54; unit: etcd/1) hook), waited 6s, held 9s
+2022-02-04 10:08:29 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/2) hook), waited 7s, held 19s
+2022-02-04 10:08:36 unit-vault-0: vault/0 uniter (run relation-changed (55; unit: mysql/1) hook), waited 19s, held 6s
+2022-02-04 10:08:50 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/1) hook), waited 6s, held 14s
+2022-02-04 10:08:56 unit-vault-0: vault/0 uniter (run relation-joined (54; unit: etcd/2) hook), waited 14s, held 6s
+2022-02-04 10:09:03 unit-vault-0: vault/0 uniter (run relation-joined (43; unit: vault-mysql-router/0) hook), waited 0s, held 7s
+2022-02-04 10:09:15 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (13; unit: vault-hacluster/2) hook), waited 1s, held 13s
+2022-02-04 10:09:21 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (43; unit: vault/0) hook), waited 13s, held 6s
+2022-02-04 10:09:28 unit-vault-0: vault/0 uniter (run relation-joined (12; unit: vault/2) hook), waited 18s, held 7s
+2022-02-04 10:09:33 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/0) hook), waited 7s, held 5s
+2022-02-04 10:09:43 unit-vault-0: vault/0 uniter (run relation-changed (54; unit: etcd/2) hook), waited 5s, held 9s
+2022-02-04 10:09:49 unit-vault-0: vault/0 uniter (run relation-joined (55; unit: mysql/2) hook), waited 0s, held 7s
+2022-02-04 10:09:57 unit-vault-0: vault/0 uniter (run relation-joined (52; unit: vault-hacluster/0) hook), waited 0s, held 7s
+2022-02-04 10:10:26 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (52; unit: vault/0) hook), waited 0s, held 29s
+2022-02-04 10:10:32 unit-vault-0: vault/0 uniter (run relation-changed (52; unit: vault-hacluster/0) hook), waited 29s, held 6s
+2022-02-04 10:10:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 6s, held 10s
+2022-02-04 10:10:51 unit-vault-0: vault/0 uniter (run relation-changed (44; unit: nova-compute/0) hook), waited 11s, held 8s
+2022-02-04 10:11:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run relation-changed (52; unit: vault/0) hook), waited 8s, held 53s
+2022-02-04 10:11:51 unit-vault-0: vault/0 uniter (run relation-changed (49; unit: nova-cloud-controller/0) hook), waited 53s, held 8s
+2022-02-04 10:11:59 unit-vault-0: vault/0 uniter (run relation-changed (43; unit: vault-mysql-router/0) hook), waited 0s, held 7s
+2022-02-04 10:12:05 unit-vault-0: vault/0 uniter (run relation-changed (50; unit: placement/0) hook), waited 0s, held 6s
+2022-02-04 10:12:11 unit-vault-0: vault/0 uniter (run relation-joined (46; unit: glance/0) hook), waited 0s, held 7s
+2022-02-04 10:12:19 unit-vault-0: vault/0 uniter (run relation-changed (55; unit: mysql/2) hook), waited 0s, held 7s
+2022-02-04 10:12:27 unit-vault-0: vault/0 uniter (run relation-changed (51; unit: ceph-osd/0) hook), waited 0s, held 9s
+2022-02-04 10:12:34 unit-vault-0: vault/0 uniter (run relation-joined (47; unit: keystone/0) hook), waited 0s, held 7s
+2022-02-04 10:12:42 unit-vault-0: vault/0 uniter (run relation-changed (48; unit: neutron-api/0) hook), waited 0s, held 7s
+2022-02-04 10:12:48 unit-vault-0: vault/0 uniter (run relation-changed (12; unit: vault/2) hook), waited 0s, held 7s
+2022-02-04 10:12:55 unit-vault-0: vault/0 uniter (run relation-changed (45; unit: cinder/0) hook), waited 0s, held 7s
+2022-02-04 10:13:00 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/0) hook), waited 3s, held 5s
+2022-02-04 10:13:07 unit-vault-0: vault/0 uniter (run relation-changed (47; unit: keystone/0) hook), waited 5s, held 8s
+2022-02-04 10:13:14 unit-vault-0: vault/0 uniter (run relation-changed (43; unit: vault-mysql-router/0) hook), waited 0s, held 7s
+2022-02-04 10:13:23 unit-vault-0: vault/0 uniter (run relation-joined (44; unit: nova-compute/1) hook), waited 0s, held 8s
+2022-02-04 10:13:31 unit-vault-0: vault/0 uniter (run relation-changed (44; unit: nova-compute/1) hook), waited 0s, held 8s
+2022-02-04 10:13:39 unit-vault-0: vault/0 uniter (run relation-joined (44; unit: nova-compute/2) hook), waited 0s, held 8s
+2022-02-04 10:13:46 unit-vault-0: vault/0 uniter (run relation-changed (44; unit: nova-compute/2) hook), waited 0s, held 7s
+2022-02-04 10:13:53 unit-vault-0: vault/0 uniter (run relation-changed (46; unit: glance/0) hook), waited 0s, held 7s
+2022-02-04 10:13:58 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/0) hook), waited 1s, held 5s
+2022-02-04 10:14:07 unit-vault-0: vault/0 uniter (run relation-joined (51; unit: ceph-osd/1) hook), waited 5s, held 9s
+2022-02-04 10:14:33 unit-vault-0: vault/0 uniter (run relation-changed (43; unit: vault-mysql-router/0) hook), waited 0s, held 26s
+2022-02-04 10:14:39 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 1s, held 6s
+2022-02-04 10:14:49 unit-vault-0: vault/0 uniter (run relation-changed (51; unit: ceph-osd/1) hook), waited 7s, held 10s
+2022-02-04 10:14:59 unit-vault-0: vault/0 uniter (run relation-joined (51; unit: ceph-osd/2) hook), waited 0s, held 9s
+2022-02-04 10:15:08 unit-vault-0: vault/0 uniter (run relation-changed (44; unit: nova-compute/0) hook), waited 0s, held 9s
+2022-02-04 10:15:18 unit-vault-0: vault/0 uniter (run relation-changed (44; unit: nova-compute/1) hook), waited 0s, held 10s
+2022-02-04 10:15:26 unit-vault-0: vault/0 uniter (run relation-changed (51; unit: ceph-osd/2) hook), waited 0s, held 8s
+2022-02-04 10:15:35 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 8s
+2022-02-04 10:17:56 unit-vault-0: vault/0 uniter (run relation-changed (48; unit: neutron-api/0) hook), waited 0s, held 10s
+2022-02-04 10:18:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/0) hook), waited 0s, held 4s
+2022-02-04 10:18:58 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-04 10:20:25 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-04 10:21:29 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-04 10:23:33 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-04 10:25:32 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-04 10:25:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-04 10:28:03 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-04 10:29:33 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 10:30:44 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-04 10:33:11 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-04 10:34:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-04 10:35:02 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-04 10:38:14 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-04 10:39:22 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-04 10:39:30 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-04 10:44:11 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-04 10:45:05 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-04 10:45:11 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-04 10:46:02 unit-vault-0: vault/0 uniter (run action 2), waited 0s, held 11s
+2022-02-04 10:49:30 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 7s
+2022-02-04 10:49:37 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 7s
+2022-02-04 10:50:12 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 10s
+2022-02-04 10:54:46 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 0s, held 9s
+2022-02-04 10:54:53 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 7s
+2022-02-04 10:55:11 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 22:33:40 === agent unit-vault-hacluster-0 started ===
+2022-02-09 22:34:06 unit-vault-hacluster-0: vault-hacluster/0 uniter (run start hook), waited 0s, held 23s
+2022-02-09 22:33:40 === agent unit-vault-mysql-router-0 started ===
+2022-02-09 22:34:33 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run start hook), waited 23s, held 27s
+2022-02-09 22:33:40 === agent unit-vault-0 started ===
+2022-02-09 22:35:02 unit-vault-0: vault/0 uniter (run start hook), waited 49s, held 29s
+2022-02-09 22:35:02 unit-vault-hacluster-0: vault-hacluster/0 uniter (run leader-settings-changed hook), waited 56s, held 0s
+2022-02-09 22:35:12 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run leader-settings-changed hook), waited 29s, held 10s
+2022-02-09 22:35:19 unit-vault-0: vault/0 uniter (run leader-settings-changed hook), waited 11s, held 6s
+2022-02-09 22:35:21 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/2) hook), waited 6s, held 3s
+2022-02-09 22:38:15 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 22:38:19 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-09 22:38:22 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-09 22:42:39 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 22:42:42 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-09 22:42:44 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 2s
+2022-02-09 22:48:25 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 22:48:29 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-09 22:48:29 unit-vault-0: vault/0 uniter (run action 6), waited 5s, held 0s
+2022-02-09 22:48:32 unit-vault-0: vault/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 22:48:36 unit-vault-0: vault/0 uniter (run action 10), waited 0s, held 4s
+2022-02-09 22:49:47 unit-vault-0: vault/0 uniter (run action 16), waited 0s, held 8s
+2022-02-09 22:49:55 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run relation-changed (62; unit: mysql/1) hook), waited 0s, held 5s
+2022-02-09 22:52:26 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 22:52:30 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-09 22:52:34 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-09 22:57:19 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 22:57:23 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-09 22:57:26 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-09 22:59:37 unit-vault-0: vault/0 uniter (run leader-elected hook), waited 0s, held 6s
+2022-02-09 22:59:37 unit-vault-hacluster-0: vault-hacluster/0 uniter (run leader-elected hook), waited 6s, held 0s
+2022-02-09 23:01:23 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:01:27 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 4s
+2022-02-09 23:01:31 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 4s
+2022-02-09 23:05:59 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-09 23:06:02 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-09 23:06:05 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-09 23:10:32 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:10:36 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-09 23:10:39 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-09 23:15:39 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:15:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-09 23:15:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 2s
+2022-02-09 23:20:29 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:20:32 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-09 23:20:35 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-09 23:24:36 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:24:39 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-09 23:24:41 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-09 23:28:41 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:28:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-09 23:28:47 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-09 23:32:43 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:32:46 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-09 23:32:48 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-09 23:37:36 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:37:39 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-09 23:37:42 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-09 23:42:35 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:42:38 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-09 23:42:40 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-09 23:46:42 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-09 23:46:46 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-09 23:46:48 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-09 23:51:37 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-09 23:51:40 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-09 23:51:43 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-09 23:57:37 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-09 23:57:41 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-09 23:57:44 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 00:03:05 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 00:03:09 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 00:03:11 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 00:08:48 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:08:51 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:08:54 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 00:14:33 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 00:14:36 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 00:14:39 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 00:19:00 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 00:19:02 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:19:05 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 00:23:13 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:23:16 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:23:19 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 00:27:30 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:27:33 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:27:35 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 00:32:34 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:32:37 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:32:39 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 00:36:54 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:36:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:37:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 00:41:57 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:42:00 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:42:04 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 4s
+2022-02-10 00:47:51 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 00:47:54 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 00:47:56 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 00:52:46 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 00:52:50 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 00:52:53 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 00:57:33 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 00:57:36 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 00:57:39 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 01:01:47 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 01:01:50 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 01:01:53 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 01:07:34 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:07:37 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 01:07:40 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 01:13:22 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:13:26 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 01:13:28 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 01:17:54 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:17:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 01:18:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 01:22:54 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:22:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 01:23:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 01:28:22 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:28:25 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 01:28:28 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 01:34:06 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:34:09 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 01:34:12 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 01:39:27 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:39:30 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 01:39:33 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 01:43:27 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:43:31 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 01:43:33 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 01:48:28 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 01:48:31 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 01:48:34 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 01:53:01 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 01:53:04 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 01:53:07 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 01:58:58 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:59:03 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 5s
+2022-02-10 01:59:06 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 3s
+2022-02-10 02:04:17 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 02:04:20 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 02:04:22 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 02:08:19 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:08:22 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 02:08:25 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:13:24 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:13:27 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 02:13:29 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:18:22 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:18:25 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 02:18:28 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:23:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:23:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 02:23:47 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:28:23 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:28:26 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 02:28:29 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 02:32:47 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:32:51 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 02:32:55 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:38:15 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:38:19 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 02:38:22 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:43:53 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:43:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 02:44:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 02:49:04 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:49:07 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 02:49:10 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:53:30 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:53:34 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 02:53:37 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 02:58:03 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 02:58:07 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 02:58:10 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 03:03:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:03:54 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 03:03:58 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 03:08:06 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:08:08 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 03:08:11 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 03:13:59 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:14:03 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 03:14:07 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 03:19:20 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:19:24 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 03:19:28 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 03:24:27 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:24:31 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 03:24:33 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 03:29:29 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:29:33 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 03:29:36 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 3s
+2022-02-10 03:34:53 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:34:56 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 03:34:59 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 03:38:53 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:38:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 03:38:59 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 2s
+2022-02-10 03:44:28 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:44:32 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 03:44:34 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 2s
+2022-02-10 03:48:53 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:48:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 03:49:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 03:54:28 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 03:54:31 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 03:54:34 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 03:59:01 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 03:59:04 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 03:59:07 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 04:03:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:03:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 04:03:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 04:07:58 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:08:01 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 04:08:05 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 04:12:45 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:12:48 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 04:12:52 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 04:17:32 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:17:35 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 04:17:38 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 2s
+2022-02-10 04:22:47 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 04:22:50 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 04:22:52 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 04:28:33 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 04:28:37 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 04:28:39 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 04:33:49 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:33:52 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 04:33:55 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 04:37:58 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:38:02 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 04:38:05 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 2s
+2022-02-10 04:43:20 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 04:43:23 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 04:43:26 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 04:48:42 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 04:48:45 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 04:48:47 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 04:54:13 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:54:16 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 04:54:18 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 04:58:28 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 04:58:32 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 04:58:34 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 05:03:49 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:03:53 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 05:03:55 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 05:09:13 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 05:09:16 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 05:09:19 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 05:15:01 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:15:04 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 05:15:07 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 05:20:39 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:20:42 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 05:20:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 05:26:20 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:26:23 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 05:26:26 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 05:31:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 05:31:53 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 05:31:55 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 05:37:38 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:37:41 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 05:37:43 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 05:43:07 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 05:43:10 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 05:43:12 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 05:48:51 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:48:54 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 05:48:57 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 05:53:08 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 05:53:11 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 05:53:14 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 05:57:14 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 05:57:18 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 05:57:21 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 06:01:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 06:01:53 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 06:01:57 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 06:07:45 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 06:07:48 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 06:07:51 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 06:13:33 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 06:13:36 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 06:13:38 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 06:18:54 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:18:56 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 06:19:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 06:24:18 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:24:21 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 06:24:24 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 06:28:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:28:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 06:28:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 06:33:18 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:33:21 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 06:33:24 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 06:39:06 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 06:39:09 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 06:39:12 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 06:44:04 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 06:44:07 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 06:44:10 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 06:48:18 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:48:22 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 06:48:25 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 06:53:35 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:53:38 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 06:53:40 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-10 06:58:48 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 06:58:52 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 06:58:56 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 07:03:27 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:03:31 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 07:03:35 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 3s
+2022-02-10 07:08:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 07:08:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 07:08:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 07:13:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 07:13:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 07:13:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 07:19:03 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 07:19:07 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 07:19:09 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 07:23:47 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 07:23:51 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 07:23:54 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 07:28:22 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 07:28:25 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 07:28:28 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 07:34:14 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 07:34:18 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 07:34:21 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 07:39:08 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 07:39:11 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 07:39:13 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 07:44:34 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 07:44:38 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 07:44:41 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 07:49:38 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 07:49:41 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 07:49:44 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 07:55:01 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 07:55:04 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 07:55:07 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 08:00:01 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:00:04 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 08:00:08 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 4s
+2022-02-10 08:05:04 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 08:05:07 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:05:09 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 08:10:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:10:55 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 08:10:59 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 08:16:40 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:16:44 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 08:16:47 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 08:21:10 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 08:21:13 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:21:16 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 08:25:48 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 08:25:51 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:25:54 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 08:30:35 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:30:38 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:30:40 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 08:34:50 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 08:34:53 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:34:56 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 2s
+2022-02-10 08:38:54 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:38:57 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:39:00 unit-vault-0: vault/0 uniter (run update-status hook), waited 4s, held 3s
+2022-02-10 08:43:57 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:44:01 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 3s
+2022-02-10 08:44:03 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 08:49:17 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:49:21 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 5s
+2022-02-10 08:49:25 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 3s
+2022-02-10 08:54:25 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:54:28 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 3s
+2022-02-10 08:54:31 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 2s
+2022-02-10 08:58:53 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 08:58:56 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 08:58:59 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 09:04:09 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 09:04:14 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 5s
+2022-02-10 09:04:19 unit-vault-0: vault/0 uniter (run update-status hook), waited 8s, held 4s
+2022-02-10 09:08:39 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 09:08:43 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 09:08:46 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 09:14:02 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 09:14:06 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 2s, held 4s
+2022-02-10 09:14:09 unit-vault-0: vault/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-10 09:18:55 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 09:19:00 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 5s
+2022-02-10 09:19:04 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 4s
+2022-02-10 09:23:04 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 09:23:08 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 5s
+2022-02-10 09:23:12 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 4s
+2022-02-10 09:27:34 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 09:27:38 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 3s, held 4s
+2022-02-10 09:27:42 unit-vault-0: vault/0 uniter (run update-status hook), waited 6s, held 3s
+2022-02-10 09:33:26 unit-vault-0: vault/0 uniter (run action 24), waited 0s, held 5s
+2022-02-10 09:33:31 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 09:33:37 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 6s
+2022-02-10 09:33:40 unit-vault-0: vault/0 uniter (run update-status hook), waited 9s, held 3s
+2022-02-10 09:37:17 unit-vault-0: vault/0 uniter (run action 26), waited 0s, held 6s
+2022-02-10 09:38:41 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 09:38:46 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 5s
+2022-02-10 09:38:51 unit-vault-0: vault/0 uniter (run update-status hook), waited 8s, held 5s
+2022-02-10 09:42:49 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 09:42:53 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 4s
+2022-02-10 09:42:57 unit-vault-0: vault/0 uniter (run update-status hook), waited 7s, held 4s
+2022-02-10 09:47:58 unit-vault-mysql-router-0: vault-mysql-router/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 09:48:03 unit-vault-hacluster-0: vault-hacluster/0 uniter (run update-status hook), waited 4s, held 5s
+2022-02-10 09:48:07 unit-vault-0: vault/0 uniter (run update-status hook), waited 8s, held 4s

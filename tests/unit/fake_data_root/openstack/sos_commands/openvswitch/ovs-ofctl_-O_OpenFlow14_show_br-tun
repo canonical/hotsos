@@ -1,0 +1,21 @@
+OFPT_FEATURES_REPLY (OF1.4) (xid=0x2): dpid:00008272c483d847
+n_tables:254, n_buffers:0
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS GROUP_STATS QUEUE_STATS BUNDLES
+OFPST_PORT_DESC reply (OF1.4) (xid=0x3):
+ 1(patch-int): addr:fe:d2:9d:1a:7f:11
+     config:     0
+     state:      LIVE
+     speed: 0 Mbps now, 0 Mbps max
+ 2(vxlan-0a000072): addr:06:c5:64:0e:a6:c2
+     config:     0
+     state:      LIVE
+     speed: 0 Mbps now, 0 Mbps max
+ 3(vxlan-0a000085): addr:e6:6e:c0:11:c9:9d
+     config:     0
+     state:      LIVE
+     speed: 0 Mbps now, 0 Mbps max
+ LOCAL(br-tun): addr:82:72:c4:83:d8:47
+     config:     PORT_DOWN
+     state:      LINK_DOWN
+     speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (OF1.4) (xid=0x5): frags=normal miss_send_len=0

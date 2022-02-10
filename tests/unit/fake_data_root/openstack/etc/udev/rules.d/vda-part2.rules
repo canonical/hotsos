@@ -1,0 +1,2 @@
+# Written by curtin
+SUBSYSTEM=="block", ACTION=="add|change", ENV{DEVTYPE}=="partition", ENV{ID_PART_ENTRY_UUID}=="4f113e54-1529-45aa-bc10-56b37c42a92d", SYMLINK+="disk/by-dname/vda-part2"

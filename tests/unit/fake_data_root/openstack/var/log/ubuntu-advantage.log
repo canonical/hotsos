@@ -1,0 +1,1610 @@
+2022-02-10 13:48:38,127 - cli.py:(1525) [DEBUG]: Executed with sys.argv: ['/usr/bin/ua', 'status', '--format=json']
+2022-02-10 13:48:38,127 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,128 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,128 - util.py:(548) [DEBUG]: URL [GET]: https://contracts.canonical.com/v1/resources?architecture=amd64&kernel=5.4.0-97-generic&series=focal, headers: {'accept': 'application/json', 'content-type': 'application/json', 'user-agent': 'UA-Client/27.5~20.04.1'}, data: None
+2022-02-10 13:48:38,190 - util.py:(572) [DEBUG]: URL [GET] response: https://contracts.canonical.com/v1/resources?architecture=amd64&kernel=5.4.0-97-generic&series=focal, headers: {'Cache-Control': 'no-store, max-age=0', 'Connection': 'close', 'Content-Length': '789', 'Content-Type': 'application/json', 'Date': 'Thu, 10 Feb 2022 13:48:38 GMT', 'Server': 'openresty/1.15.8.2', 'Strict-Transport-Security': 'max-age=15724800; includeSubDomains', 'Vary': 'Accept-Encoding', 'X-Trace-Id': '7a4d3d6d-61a7-4153-a833-56b2e1662a10'}, data: {'resources': [{'available': True, 'name': 'anbox-cloud'}, {'available': True, 'name': 'anbox-images'}, {'available': True, 'name': 'cc'}, {'available': False, 'name': 'cc-eal'}, {'available': True, 'name': 'cis', 'presentedAs': 'usg'}, {'available': False, 'name': 'esm'}, {'available': True, 'name': 'esm-apps'}, {'available': True, 'name': 'esm-apps-python'}, {'available': True, 'name': 'esm-infra'}, {'available': True, 'name': 'esm-python'}, {'available': False, 'name': 'esm-ros'}, {'available': True, 'name': 'fips'}, {'available': True, 'name': 'fips-preview'}, {'available': True, 'name': 'fips-updates'}, {'available': True, 'name': 'landscape'}, {'available': True, 'name': 'livepatch'}, {'available': True, 'name': 'livepatch-onprem'}, {'available': False, 'name': 'ros'}, {'available': False, 'name': 'ros-updates'}, {'available': True, 'name': 'support'}]}
+2022-02-10 13:48:38,190 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,190 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,193 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,193 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,193 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,194 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,199 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,200 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,200 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,200 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,203 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,203 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,203 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,204 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,206 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,206 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,206 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,206 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,209 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,209 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,210 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,210 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,213 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,213 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,213 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,213 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,216 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,216 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,216 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,216 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,218 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,218 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,218 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,218 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,220 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,220 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,220 - config.py:(655) [DEBUG]: Ignoring availability of unknown service anbox-cloud from contract server
+2022-02-10 13:48:38,220 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,220 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,222 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,223 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,223 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,223 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,224 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,224 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,225 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,225 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,227 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,227 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,227 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,227 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,228 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,228 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,228 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,229 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,230 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,230 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,230 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,230 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,232 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,232 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,232 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,232 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,233 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,234 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,234 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,234 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,235 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,235 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,235 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,236 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,237 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,237 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,237 - config.py:(655) [DEBUG]: Ignoring availability of unknown service anbox-images from contract server
+2022-02-10 13:48:38,237 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,237 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,239 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,239 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,239 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,239 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,240 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,240 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,240 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,240 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,242 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,242 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,242 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,242 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,244 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,244 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,244 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,244 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,245 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,246 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,246 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,246 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,247 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,247 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,247 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,247 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,249 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,249 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,249 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,249 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,250 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,250 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,250 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,251 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,253 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,253 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,253 - config.py:(655) [DEBUG]: Ignoring availability of unknown service cc from contract server
+2022-02-10 13:48:38,253 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,253 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,254 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,254 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,254 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,254 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,256 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,256 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,256 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,256 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,258 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,258 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,258 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,258 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,259 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,259 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,259 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,260 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,261 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,261 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,261 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,261 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,263 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,263 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,263 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,263 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,264 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,264 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,264 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,264 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,266 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,266 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,266 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,266 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,268 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,268 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,268 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,268 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,270 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,270 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,270 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,270 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,271 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,271 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,271 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,271 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,273 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,273 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,273 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm from contract server
+2022-02-10 13:48:38,273 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,273 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,275 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,275 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,275 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,275 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,276 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,277 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,277 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,277 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,278 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,278 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,278 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,278 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,282 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,283 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,283 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,283 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,285 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,285 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,286 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,286 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,288 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,289 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,289 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,289 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,290 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,290 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,290 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,290 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,292 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,292 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,292 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,292 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,294 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,294 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,294 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,294 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,295 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,296 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,296 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,296 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,298 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,298 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,298 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,298 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,299 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,299 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,299 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm-apps-python from contract server
+2022-02-10 13:48:38,299 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,300 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,301 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,301 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,301 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,301 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,303 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,303 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,303 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,303 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,305 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,305 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,305 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,305 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,306 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,306 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,307 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,307 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,308 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,308 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,308 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,309 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,310 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,310 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,310 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,310 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,312 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,312 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,312 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,312 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,314 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,314 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,314 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,314 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,315 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,315 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,316 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,316 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,317 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,317 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,317 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,317 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,319 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,319 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,319 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,319 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,321 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,321 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,321 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,321 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,323 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,323 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,323 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm-python from contract server
+2022-02-10 13:48:38,323 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,323 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,324 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,324 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,324 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,325 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,326 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,326 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,326 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,326 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,328 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,328 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,328 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,328 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,330 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,330 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,330 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,330 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,332 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,332 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,332 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,332 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,333 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,334 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,334 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,334 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,335 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,335 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,335 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,335 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,337 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,337 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,337 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,337 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,339 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,339 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,339 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm-ros from contract server
+2022-02-10 13:48:38,339 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,339 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,340 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,340 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,340 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,340 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,342 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,342 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,342 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,342 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,344 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,344 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,344 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,344 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,346 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,346 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,346 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,346 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,348 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,348 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,348 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,348 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,349 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,350 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,350 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,350 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,351 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,351 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,351 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,352 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,353 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,353 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,353 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,353 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,355 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,355 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,355 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,355 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,358 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,358 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,358 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,358 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,360 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,360 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,360 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,360 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,362 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,363 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,363 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,363 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,365 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,365 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,365 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,365 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,367 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,367 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,367 - config.py:(655) [DEBUG]: Ignoring availability of unknown service fips-preview from contract server
+2022-02-10 13:48:38,367 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,367 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,369 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,369 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,369 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,369 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,370 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,370 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,370 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,370 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,372 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,372 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,373 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,373 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,374 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,374 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,374 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,374 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,376 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,376 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,376 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,376 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,377 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,378 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,378 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,378 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,379 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,379 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,379 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,379 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,381 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,381 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,381 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,381 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,382 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,382 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,382 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,382 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,384 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,384 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,384 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,384 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,385 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,386 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,386 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,386 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,387 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,387 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,387 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,387 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,389 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,389 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,389 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,389 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,391 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,391 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,391 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,391 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,392 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,392 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,392 - config.py:(655) [DEBUG]: Ignoring availability of unknown service landscape from contract server
+2022-02-10 13:48:38,392 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,393 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,394 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,394 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,394 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,394 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,396 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,396 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,396 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,396 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,397 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,398 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,398 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,398 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,399 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,400 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,400 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,400 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,402 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,402 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,402 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,402 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,403 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,403 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,404 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,404 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,405 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,405 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,405 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,405 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,407 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,407 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,407 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,407 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,409 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,409 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,409 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,409 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,411 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,411 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,411 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,411 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,413 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,414 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,414 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,414 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,416 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,416 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,416 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,416 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,418 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,418 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,418 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,418 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,420 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,421 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,421 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,421 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,423 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,423 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,423 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,423 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,426 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,426 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,426 - config.py:(655) [DEBUG]: Ignoring availability of unknown service livepatch-onprem from contract server
+2022-02-10 13:48:38,426 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,426 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,429 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,429 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,429 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,430 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,431 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,431 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,431 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,431 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,434 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,434 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,434 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,434 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,436 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,436 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,436 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,436 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,438 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,438 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,438 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,438 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,440 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,440 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,440 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,441 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,442 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,442 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,442 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,442 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,444 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,444 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,444 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,444 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,446 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,446 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,446 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,446 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,448 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,448 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,448 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,448 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,450 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,450 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,450 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,450 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,452 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,452 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,452 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,452 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,455 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,455 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,455 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,455 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,457 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,457 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,457 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,457 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,459 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,459 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,459 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,459 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,461 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,461 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,461 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,461 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,462 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,463 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,463 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,463 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,464 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,464 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,464 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,465 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,466 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,466 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,466 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,466 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,468 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,468 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,468 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,468 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,470 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,470 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,470 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,470 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,472 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,472 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,472 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,472 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,474 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,474 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,474 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,474 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,476 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,476 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,476 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,476 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,478 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,478 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,478 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,478 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,480 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,480 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,480 - config.py:(655) [DEBUG]: Ignoring availability of unknown service support from contract server
+2022-02-10 13:48:38,480 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:38,480 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:38,480 - util.py:(716) [DEBUG]: Writing file: /var/lib/ubuntu-advantage/status.json
+2022-02-10 13:48:38,480 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:38,480 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:38,480 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,480 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,482 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,482 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,482 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,482 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,484 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,484 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,484 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,484 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,485 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,486 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,486 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,486 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,488 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,488 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,488 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,488 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,490 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,490 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,490 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,490 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,491 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,492 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,492 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,492 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,493 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,493 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,494 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,494 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,496 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,496 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,496 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,496 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,497 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,497 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,498 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,498 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,499 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,499 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,499 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,499 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,501 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,501 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,501 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,501 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,504 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,504 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,504 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,504 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,505 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,505 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,506 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,506 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,507 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,507 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,507 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,507 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,509 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,509 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,509 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,509 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,511 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,511 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,511 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,511 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,513 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,514 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,514 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,514 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,516 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,516 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,516 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,517 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,519 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,519 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,519 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,519 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,522 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,522 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,522 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,522 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,524 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,524 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,524 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,524 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,526 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,526 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,526 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,526 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,528 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,528 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,528 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,528 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,530 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,530 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,530 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,530 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,531 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,531 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,531 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,531 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,533 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,533 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,533 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,533 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,535 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,535 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,535 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,535 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,536 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,536 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,536 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,536 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,538 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,538 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,538 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,538 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,539 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,539 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,540 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,540 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,541 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,541 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,541 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,541 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,543 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,543 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,543 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,543 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,544 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,545 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,545 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,545 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,546 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,546 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,546 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,546 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,548 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,548 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,548 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,548 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,550 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,550 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,550 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,550 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,551 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,551 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,552 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,552 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,553 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,553 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,553 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,553 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,555 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,555 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,555 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,555 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,556 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,556 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,556 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,556 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,558 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,558 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,558 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,558 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,560 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,560 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,560 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,561 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,563 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,563 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,563 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,563 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,564 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,564 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,564 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,564 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,566 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,566 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,566 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,566 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,568 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,568 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,568 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,568 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,569 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,569 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,569 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,569 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,571 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,571 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,571 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,571 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,573 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,573 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,573 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,573 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,574 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,574 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,574 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,574 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,576 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,576 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,576 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,576 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:38,578 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:38,578 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,717 - cli.py:(1525) [DEBUG]: Executed with sys.argv: ['/usr/bin/ua', 'status']
+2022-02-10 13:48:39,717 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,717 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,717 - util.py:(548) [DEBUG]: URL [GET]: https://contracts.canonical.com/v1/resources?architecture=amd64&kernel=5.4.0-97-generic&series=focal, headers: {'accept': 'application/json', 'content-type': 'application/json', 'user-agent': 'UA-Client/27.5~20.04.1'}, data: None
+2022-02-10 13:48:39,777 - util.py:(572) [DEBUG]: URL [GET] response: https://contracts.canonical.com/v1/resources?architecture=amd64&kernel=5.4.0-97-generic&series=focal, headers: {'Cache-Control': 'no-store, max-age=0', 'Connection': 'close', 'Content-Length': '789', 'Content-Type': 'application/json', 'Date': 'Thu, 10 Feb 2022 13:48:39 GMT', 'Server': 'openresty/1.15.8.2', 'Strict-Transport-Security': 'max-age=15724800; includeSubDomains', 'Vary': 'Accept-Encoding', 'X-Trace-Id': '0ade3007-5d40-4bef-a39d-0a641998f944'}, data: {'resources': [{'available': True, 'name': 'anbox-cloud'}, {'available': True, 'name': 'anbox-images'}, {'available': True, 'name': 'cc'}, {'available': False, 'name': 'cc-eal'}, {'available': True, 'name': 'cis', 'presentedAs': 'usg'}, {'available': False, 'name': 'esm'}, {'available': True, 'name': 'esm-apps'}, {'available': True, 'name': 'esm-apps-python'}, {'available': True, 'name': 'esm-infra'}, {'available': True, 'name': 'esm-python'}, {'available': False, 'name': 'esm-ros'}, {'available': True, 'name': 'fips'}, {'available': True, 'name': 'fips-preview'}, {'available': True, 'name': 'fips-updates'}, {'available': True, 'name': 'landscape'}, {'available': True, 'name': 'livepatch'}, {'available': True, 'name': 'livepatch-onprem'}, {'available': False, 'name': 'ros'}, {'available': False, 'name': 'ros-updates'}, {'available': True, 'name': 'support'}]}
+2022-02-10 13:48:39,777 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,777 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,781 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,781 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,781 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,781 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,785 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,785 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,785 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,785 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,788 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,789 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,789 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,789 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,792 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,792 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,792 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,792 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,795 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,796 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,796 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,796 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,799 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,799 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,799 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,799 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,803 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,803 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,803 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,803 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,807 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,807 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,807 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,807 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,810 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,810 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,810 - config.py:(655) [DEBUG]: Ignoring availability of unknown service anbox-cloud from contract server
+2022-02-10 13:48:39,810 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,810 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,814 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,814 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,814 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,814 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,818 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,818 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,818 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,818 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,822 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,822 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,822 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,822 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,835 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,835 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,835 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,835 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,840 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,840 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,841 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,841 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,846 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,846 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,846 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,846 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,850 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,850 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,851 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,851 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,854 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,855 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,855 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,855 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,857 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,857 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,858 - config.py:(655) [DEBUG]: Ignoring availability of unknown service anbox-images from contract server
+2022-02-10 13:48:39,858 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,858 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,861 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,861 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,861 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,862 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,865 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,866 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,866 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,866 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,871 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,872 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,872 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,872 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,877 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,877 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,878 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,878 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,881 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,882 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,882 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,882 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,886 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,886 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,886 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,886 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,889 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,889 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,889 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,889 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,893 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,893 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,893 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,893 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,897 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,897 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,897 - config.py:(655) [DEBUG]: Ignoring availability of unknown service cc from contract server
+2022-02-10 13:48:39,897 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,897 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,900 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,900 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,901 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,901 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,904 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,904 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,904 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,904 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,908 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,908 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,908 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,908 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,917 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,917 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,917 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,917 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,919 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,919 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,919 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,919 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,930 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,930 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,931 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,931 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,941 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,941 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,942 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,942 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,944 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,944 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,944 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,944 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,946 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,946 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,946 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,946 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,948 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,948 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,948 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,948 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,950 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,950 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,950 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,950 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,952 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,952 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,952 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm from contract server
+2022-02-10 13:48:39,952 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,952 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,954 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,954 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,954 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,954 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,956 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,957 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,957 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,957 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,960 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,960 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,960 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,960 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,961 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,961 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,961 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,961 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,964 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,964 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,964 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,964 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,968 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,968 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,968 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,968 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,971 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,971 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,971 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,971 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,973 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,973 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,973 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,973 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,976 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,976 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,977 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,977 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,980 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,980 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,980 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,980 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,981 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,981 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,981 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,981 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,983 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,984 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,984 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm-apps-python from contract server
+2022-02-10 13:48:39,984 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,984 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,986 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,986 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,986 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,986 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,987 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,987 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,987 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,987 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,990 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,990 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,990 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,990 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,991 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,991 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,991 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,992 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,993 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,993 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,993 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,993 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,995 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,995 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,995 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,995 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,997 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,997 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,997 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,997 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,999 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,999 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:39,999 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:39,999 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,001 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,001 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,001 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,001 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,003 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,003 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,003 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,003 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,005 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,005 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,005 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,005 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,006 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,007 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,007 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,007 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,008 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,008 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,008 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm-python from contract server
+2022-02-10 13:48:40,008 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,008 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,011 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,011 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,011 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,011 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,012 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,012 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,012 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,012 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,014 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,015 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,015 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,015 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,016 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,017 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,017 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,017 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,019 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,020 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,020 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,020 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,022 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,022 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,023 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,023 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,025 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,026 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,026 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,026 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,028 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,028 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,028 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,028 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,030 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,030 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,031 - config.py:(655) [DEBUG]: Ignoring availability of unknown service esm-ros from contract server
+2022-02-10 13:48:40,031 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,031 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,033 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,033 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,033 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,033 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,036 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,036 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,036 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,036 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,038 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,038 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,038 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,038 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,041 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,041 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,041 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,041 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,044 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,044 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,044 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,044 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,049 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,049 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,049 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,049 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,053 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,054 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,054 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,054 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,058 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,058 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,058 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,058 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,061 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,061 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,061 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,061 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,064 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,064 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,064 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,064 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,066 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,066 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,066 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,066 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,069 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,069 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,069 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,069 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,071 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,071 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,071 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,071 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,073 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,073 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,073 - config.py:(655) [DEBUG]: Ignoring availability of unknown service fips-preview from contract server
+2022-02-10 13:48:40,073 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,074 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,075 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,076 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,076 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,076 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,078 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,078 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,078 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,078 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,080 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,080 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,080 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,080 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,082 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,082 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,082 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,083 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,084 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,084 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,085 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,085 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,087 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,087 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,087 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,087 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,089 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,089 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,089 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,089 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,091 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,091 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,091 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,091 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,093 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,093 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,093 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,093 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,095 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,095 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,095 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,095 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,097 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,097 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,097 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,097 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,099 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,099 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,099 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,099 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,101 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,101 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,101 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,101 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,103 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,103 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,103 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,103 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,105 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,105 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,105 - config.py:(655) [DEBUG]: Ignoring availability of unknown service landscape from contract server
+2022-02-10 13:48:40,105 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,105 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,108 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,108 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,108 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,108 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,110 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,110 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,110 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,110 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,112 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,112 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,112 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,112 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,114 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,114 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,114 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,114 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,116 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,117 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,117 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,117 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,119 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,119 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,119 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,119 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,120 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,120 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,121 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,121 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,125 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,125 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,125 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,125 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,128 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,128 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,128 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,128 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,130 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,130 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,130 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,130 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,132 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,132 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,132 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,132 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,134 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,135 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,135 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,135 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,137 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,137 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,137 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,137 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,139 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,139 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,139 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,139 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,140 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,140 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,141 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,141 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,143 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,143 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,143 - config.py:(655) [DEBUG]: Ignoring availability of unknown service livepatch-onprem from contract server
+2022-02-10 13:48:40,143 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,143 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,145 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,145 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,145 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,145 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,148 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,148 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,148 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,148 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,153 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,153 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,153 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,153 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,156 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,156 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,156 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,156 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,158 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,159 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,159 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,159 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,161 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,161 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,161 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,161 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,163 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,163 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,163 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,163 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,165 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,165 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,165 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,165 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,168 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,168 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,169 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,169 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,170 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,170 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,170 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,170 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,172 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,172 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,172 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,172 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,174 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,174 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,174 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,174 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,176 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,176 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,176 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,176 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,178 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,178 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,178 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,178 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,180 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,180 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,180 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,180 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,181 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,182 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,182 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,182 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,184 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,184 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,184 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,184 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,186 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,186 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,186 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,186 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,188 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,188 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,188 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,188 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,190 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,190 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,190 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,190 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,191 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,192 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,192 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,192 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,194 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,194 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,194 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,194 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,196 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,196 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,196 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,196 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,198 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,198 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,198 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,198 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,200 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,200 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,200 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,200 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,201 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,201 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,201 - config.py:(655) [DEBUG]: Ignoring availability of unknown service support from contract server
+2022-02-10 13:48:40,201 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:40,201 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:40,202 - util.py:(716) [DEBUG]: Writing file: /var/lib/ubuntu-advantage/status.json
+2022-02-10 13:48:40,202 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:40,202 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/notices.json
+2022-02-10 13:48:40,202 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,202 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,204 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,204 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,205 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,205 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,206 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,206 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,206 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,206 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,208 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,208 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,208 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,208 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,210 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,210 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,210 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,210 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,212 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,212 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,212 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,212 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,214 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,214 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,214 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,214 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,216 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,216 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,216 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,216 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,218 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,218 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,218 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,218 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,220 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,220 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,220 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,220 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,221 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,221 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,222 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,222 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,224 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,224 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,224 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,224 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,226 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,226 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,226 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,226 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,228 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,228 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,228 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,228 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,230 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,230 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,230 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,230 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,232 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,232 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,232 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,232 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,236 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,236 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,236 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,236 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,239 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,239 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,239 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,239 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,241 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,244 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,244 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,244 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,246 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,246 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,246 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,246 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,247 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,247 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,247 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,248 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,249 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,250 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,250 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,250 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,251 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,252 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,252 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,252 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,253 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,253 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,253 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,253 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,255 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,255 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,255 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,255 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,257 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,257 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,257 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,257 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,259 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,259 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,259 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,259 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,261 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,261 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,261 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,261 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,262 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,263 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,263 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,263 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,265 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,265 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,265 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,266 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,267 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,268 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,268 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,268 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,270 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,270 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,270 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,270 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,272 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,272 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,272 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,272 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,274 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,274 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,274 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,274 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,277 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,277 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,277 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,277 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,280 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,280 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,280 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,280 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,282 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,282 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,282 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,282 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,285 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,285 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,285 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,285 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,287 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,287 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,287 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,287 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,289 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,289 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,289 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,289 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,291 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,291 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,291 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,292 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,293 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,293 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,293 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,293 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,296 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,296 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,296 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,296 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,298 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,298 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,298 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,298 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,300 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,300 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,300 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,300 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,302 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,302 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,302 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,302 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,303 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,304 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,304 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,304 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,306 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,306 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,306 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,306 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,307 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,307 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,307 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,308 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,309 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,309 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,309 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,309 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,311 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,311 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,312 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,312 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,313 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,313 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,313 - config.py:(1098) [DEBUG]: Using UA client configuration file at /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,313 - util.py:(434) [DEBUG]: Reading file: /etc/ubuntu-advantage/uaclient.conf
+2022-02-10 13:48:40,315 - util.py:(434) [DEBUG]: Reading file: /var/lib/ubuntu-advantage/private/machine-token.json
+2022-02-10 13:48:40,315 - config.py:(530) [DEBUG]: File does not exist: /var/lib/ubuntu-advantage/private/machine-token.json

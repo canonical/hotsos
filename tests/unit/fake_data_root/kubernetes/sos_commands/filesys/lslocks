@@ -1,0 +1,11 @@
+COMMAND           PID   TYPE SIZE MODE  M START END PATH
+multipathd        460  POSIX   3B WRITE 0     0   0 /run/multipathd.pid
+cron              681  FLOCK   4B WRITE 0     0   0 /run/crond.pid
+lxcfs            9840  POSIX   5B WRITE 0     0   0 /var/snap/lxd/common/lxcfs.pid
+containerd      32062  FLOCK  64K WRITE 0     0   0 /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/metadata.db
+runsv           35419  FLOCK      WRITE 0     0   0 /etc/service/enabled/felix/supervise/lock
+runsv           35419  FLOCK      WRITE 0     0   0 /etc/service/enabled/felix/log/supervise/lock
+atd               702  POSIX   4B WRITE 0     0   0 /run/atd.pid
+containerd      32062  FLOCK 256K WRITE 0     0   0 /var/lib/containerd/io.containerd.metadata.v1.bolt/meta.db
+(undefined)        -1 OFDLCK      READ  0     0   0 /dev...
+svlogd          35420  FLOCK      WRITE 0     0   0 /var/log/calico/felix/lock

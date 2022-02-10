@@ -1,0 +1,330 @@
+#!/bin/sh
+#
+# Copyright 2016 Canonical Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# OCF instance parameters
+#       OCF_RESKEY_logfile
+#       OCF_RESKEY_errlogfile
+#
+# This RA starts $binfile with $cmdline_options as $user in $workdir and writes a $pidfile from that.
+# If you want it to, it logs:
+# - stdout to $logfile, stderr to $errlogfile or
+# - stdout and stderr to $logfile
+# - or to will be captured by lrmd if these options are omitted.
+# Monitoring is done through $pidfile or your custom $monitor_hook script.
+# The RA expects the program to keep running "daemon-like" and
+# not just quit and exit. So this is NOT (yet - feel free to
+# enhance) a way to just run a single one-shot command which just
+# does something and then exits.
+
+
+# XXX Update all comments
+
+# Initialization:
+: ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
+. ${OCF_FUNCTIONS_DIR}/ocf-shellfuncs
+
+#    OCF parameters are as below
+#    OCF_RESKEY_fqdn
+#    OCF_RESKEY_ip_address
+#    OCF_RESKEY_ttl
+#    OCF_RESKEY_maas_url
+#    OCF_RESKEY_maas_credentials
+#    OCF_RESKEY_cfg_dir
+
+# Defaults
+OCF_RESKEY_cfg_dir_default="/etc/maas_dns"
+OCF_RESKEY_logfile_default="/var/log/maas_dns_${OCF_RESOURCE_INSTANCE}.log"
+OCF_RESKEY_errlogfile_default="/var/log/maas_dns_${OCF_RESOURCE_INSTANCE}_error.log"
+
+: ${OCF_RESKEY_cfg_dir=${OCF_RESKEY_cfg_dir_default}}
+: ${OCF_RESKEY_logfile=${OCF_RESKEY_logfile_default}}
+: ${OCF_RESKEY_errlogfile=${OCF_RESKEY_errlogfile_default}}
+
+
+maas_dns_usage() {
+cat <<END
+usage: $0 {start|stop|monitor|validate-all|meta-data}
+Expects to have a fully populated OCF RA-compliant environment set.
+END
+}
+
+# Retrieve the local IP for the current resource
+#
+# returns:
+# ip address contained in $OCF_RESKEY_cfg_dir/$OCF_RESOURCE_INSTANCE
+# no = nothing or no file
+my_ip() {
+	if [ ! -r $ipaddrfile ]
+	then
+		echo "no"
+		return 0
+	fi
+
+	ip_addr=`cat $OCF_RESKEY_cfg_dir/$OCF_RESOURCE_INSTANCE`
+	if [ "x$ip_addr" != "x" ]
+	then
+		echo $ip_addr
+		return 0
+	else
+		echo "no"
+		return 0
+	fi
+}
+
+# Do we already serve this IP address on the given $NIC?
+#
+# returns:
+# ok = served (for CIP: + hash bucket)
+# partial = served and no hash bucket (CIP only)
+# partial2 = served and no CIP iptables rule
+# no = nothing
+#
+dns_served() {
+	target=`dig +short $OCF_RESKEY_fqdn`
+	if [ "x$target" != "x" ]
+	then
+		ip_address=`my_ip`
+		# The $ip_address should be set as it is ensured in the validate
+		# function, but this is a sanity check. The maas_dns.log file should
+		# contain the error that the $ip_address file is not found.
+		if test "$ip_address" = "no"
+		then
+			echo "no"
+			return 0
+		fi
+
+		if test "$ip_address" = "$target"
+		then
+			echo "ok"
+			return 0
+		else
+			echo "no"
+			return 0
+		fi
+
+	else
+		echo "no"
+		return 0
+	fi
+}
+
+maas_dns_status() {
+	local dns_status=`dns_served`
+	if [ "$dns_status" = "ok" ]; then
+		return 0
+	fi
+
+}
+
+maas_dns_start() {
+	echo "maas_dns_start"
+	local dns_status=`dns_served`
+	if [ "$dns_status" = "ok" ]; then
+		exit $OCF_SUCCESS
+	fi
+	local myipaddr=`my_ip`
+	if [ "$myipaddr" = "no" ]; then
+		ocf_log err "No ip address found in $ipaddrfile"
+		exit $OCF_ERR_GENERIC
+	fi
+
+	cmd="python3 $binfile --fqdn=$OCF_RESKEY_fqdn --ip_address=$myipaddr --maas_server=$OCF_RESKEY_maas_url --maas_credentials=$OCF_RESKEY_maas_credentials "
+	if [ -n "$OCF_RESKEY_ttl" ]; then
+		cmd="$cmd --ttl=$OCF_RESKEY_ttl"
+	fi
+	ocf_log debug "Executing: $cmd"
+	# Execute the command as created above
+	eval $cmd
+	if [ $? -ne 0 ]; then
+		ocf_log err "$CMD failed."
+		exit $OCF_ERR_GENERIC
+	fi
+
+	exit $OCF_SUCCESS
+}
+
+maas_dns_stop() {
+	echo "maas_dns_stop"
+	local dns_status=`dns_served`
+	if [ $dns_status = "no" ]; then
+		: Requested interface not in use
+		exit $OCF_SUCCESS
+	fi
+
+	#XXX Should we remove the Entry?
+	# Code to "stop" the dns entry
+	sed -i "/$OCF_RESKEY_fqdn/d" /etc/hosts
+	exit $OCF_SUCCESS
+}
+
+maas_dns_monitor() {
+	echo "maas_dns_monitor"
+	local dns_status=`dns_served`
+	case $dns_status in
+	ok)
+		return $OCF_SUCCESS
+		;;
+	no)
+		exit $OCF_NOT_RUNNING
+		;;
+	*)
+		# Errors
+		return $OCF_ERR_GENERIC
+		;;
+	esac
+
+}
+
+binfile="${HA_BIN}/maas_dns.py"
+logfile="$OCF_RESKEY_logfile"
+errlogfile="$OCF_RESKEY_errlogfile"
+user="$OCF_RESKEY_user"
+ipaddrfile="${OCF_RESKEY_cfg_dir}/${OCF_RESOURCE_INSTANCE}"
+[ -z "$user" ] && user=root
+
+maas_dns_validate() {
+	echo "maas_dns_validate"
+	if ! su - $user -c "test -x $binfile"
+	then
+		ocf_log err "$binfile does not exist or is not executable."
+		exit $OCF_ERR_INSTALLED
+	fi
+	if ! getent passwd $user >/dev/null 2>&1
+	then
+		ocf_log err "user $user does not exist."
+		exit $OCF_ERR_INSTALLED
+	fi
+	for logfilename in "$logfile" "$errlogfile"
+	do
+		if [ -n "$logfilename" ]; then
+			mkdir -p `dirname $logfilename` || {
+				ocf_log err "cannot create $(dirname $logfilename)"
+				exit $OCF_ERR_INSTALLED
+			}
+		fi
+	done
+	if [ ! -r $ipaddrfile ]
+	then
+		ocf_log err "$ipaddrfile does not exist or cannot be read"
+		exit $OCF_ERR_INSTALLED
+	fi
+	if [ `my_ip` = "no" ]
+	then
+		ocf_log err "IP address is not found in $ipaddrfile"
+		exit $OCF_ERR_INSTALLED
+	fi
+	return $OCF_SUCCESS
+}
+
+maas_dns_meta() {
+cat <<END
+<?xml version="1.0"?>
+<!DOCTYPE resource-agent SYSTEM "ra-api-1.dtd">
+<resource-agent name="maas_dns">
+<version>1.0</version>
+<longdesc lang="en">
+OCF RA to manage MAAS DNS entries. This will call out to maas_dns.py with the command name, fqdn, ip_address, maas_url and maas_credentials
+</longdesc>
+<shortdesc lang="en">OCF RA to manage MAAS DNS entries</shortdesc>
+<parameters>
+<parameter name="fqdn" required="1">
+<longdesc lang="en">
+The fully qualified domain name for the DNS entry.
+</longdesc>
+<shortdesc lang="en">Fully qualified domain name</shortdesc>
+<content type="string" default=""/>
+</parameter>
+<parameter name="ip_address" required="0">
+<longdesc lang="en">
+The IP address for the DNS entry. Deprecated option, do not use.
+</longdesc>
+<shortdesc lang="en">IP Address</shortdesc>
+<content type="string" />
+</parameter>
+<parameter name="maas_url" required="1">
+<longdesc lang="en">
+The URL to the MAAS host where the DNS entry will be updated.
+</longdesc>
+<shortdesc lang="en">MAAS URL</shortdesc>
+<content type="string" default=""/>
+</parameter>
+<parameter name="maas_credentials" required="1">
+<longdesc lang="en">
+MAAS Oauth credentials for the MAAS API
+</longdesc>
+<shortdesc lang="en">MAAS Credentials</shortdesc>
+<content type="string" default=""/>
+</parameter>
+<parameter name="logfile" required="0">
+<longdesc lang="en">
+File to write STDOUT to
+</longdesc>
+<shortdesc lang="en">File to write STDOUT to</shortdesc>
+<content type="string" default="${OCF_RESKEY_logfile_default_default}"/>
+</parameter>
+<parameter name="errlogfile" required="0">
+<longdesc lang="en">
+File to write STDERR to
+</longdesc>
+<shortdesc lang="en">File to write STDERR to</shortdesc>
+<content type="string" default="${OCF_RESKEY_errlogfile_default_default}"/>
+</parameter>
+<parameter name="cfg_dir" required="0">
+<longdesc lang="en">
+Directory containing resource config files containing IP address information
+for the resource running on the local server.
+</longdesc>
+<shortdesc lang="en">IP address config file directory</shortdesc>
+<content type="string" default="${OCF_RESKEY_cfg_dir_default}"/>
+</parameter>
+</parameters>
+<actions>
+<action name="start"   timeout="20s" />
+<action name="stop"    timeout="20s" />
+<action name="monitor" depth="0"  timeout="20s" interval="10" />
+<action name="meta-data"  timeout="5" />
+<action name="validate-all"  timeout="5" />
+</actions>
+</resource-agent>
+END
+exit 0
+}
+
+case "$1" in
+	meta-data|metadata|meta_data)
+		maas_dns_meta
+	;;
+	start)
+		maas_dns_start
+	;;
+	stop)
+		maas_dns_stop
+	;;
+	monitor)
+		maas_dns_monitor
+	;;
+	status)
+		maas_dns_status
+	;;
+	validate-all)
+		maas_dns_validate
+	;;
+	*)
+		maas_dns_usage
+		ocf_log err "$0 was called with unsupported arguments: $*"
+		exit $OCF_ERR_UNIMPLEMENTED
+	;;
+esac

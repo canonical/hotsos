@@ -1,0 +1,6 @@
+[cache]
+{% if memcache_url %}
+enabled = true
+backend = oslo_cache.memcache_pool
+memcache_servers = {{ memcache_url }}
+{% endif %}

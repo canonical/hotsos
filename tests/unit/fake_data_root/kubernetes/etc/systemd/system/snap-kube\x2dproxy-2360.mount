@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for kube-proxy, revision 2360
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/kube-proxy_2360.snap
+Where=/snap/kube-proxy/2360
+Type=squashfs
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

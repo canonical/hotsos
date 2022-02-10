@@ -1,0 +1,22 @@
+{% if identity_service.auth_host -%}
+[keystone_authtoken]
+auth_uri = {{ identity_service.service_protocol }}://{{ identity_service.service_host }}:{{ identity_service.service_port }}
+auth_url = {{ identity_service.auth_protocol }}://{{ identity_service.auth_host }}:{{ identity_service.auth_port }}
+auth_type = password
+{% if identity_service.service_domain -%}
+project_domain_name = {{ identity_service.service_domain }}
+user_domain_name = {{ identity_service.service_domain }}
+{% else %}
+project_domain_name = default
+user_domain_name = default
+{% endif -%}
+project_name = {{ identity_service.service_tenant }}
+username = {{ identity_service.service_username }}
+password = {{ identity_service.service_password }}
+{% if identity_service.signing_dir -%}
+signing_dir = {{ identity_service.signing_dir }}
+{% endif -%}
+{% if options.use_memcache == true -%}
+memcached_servers = {{ options.memcache_url }}
+{% endif -%}
+{% endif -%}

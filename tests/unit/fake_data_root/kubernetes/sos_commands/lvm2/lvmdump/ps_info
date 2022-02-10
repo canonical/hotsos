@@ -1,0 +1,176 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+4     0       1       0  20   0 105868 13604 ep_pol Ss   ?          0:22 /sbin/init
+1     0       2       0  20   0      0     0 kthrea S    ?          0:00 [kthreadd]
+1     0       3       2   0 -20      0     0 rescue I<   ?          0:00 [rcu_gp]
+1     0       4       2   0 -20      0     0 rescue I<   ?          0:00 [rcu_par_gp]
+1     0       6       2   0 -20      0     0 worker I<   ?          0:00 [kworker/0:0H-kblockd]
+1     0       7       2  20   0      0     0 worker I    ?          0:00 [kworker/0:1-cgroup_destroy]
+1     0       9       2   0 -20      0     0 rescue I<   ?          0:00 [mm_percpu_wq]
+1     0      10       2  20   0      0     0 smpboo S    ?          0:00 [ksoftirqd/0]
+1     0      11       2  20   0      0     0 rcu_gp I    ?          0:01 [rcu_sched]
+1     0      12       2 -100  -      0     0 smpboo S    ?          0:00 [migration/0]
+5     0      13       2 -51   -      0     0 smpboo S    ?          0:00 [idle_inject/0]
+1     0      14       2  20   0      0     0 smpboo S    ?          0:00 [cpuhp/0]
+1     0      15       2  20   0      0     0 smpboo S    ?          0:00 [cpuhp/1]
+5     0      16       2 -51   -      0     0 smpboo S    ?          0:00 [idle_inject/1]
+1     0      17       2 -100  -      0     0 smpboo S    ?          0:00 [migration/1]
+1     0      18       2  20   0      0     0 smpboo S    ?          0:00 [ksoftirqd/1]
+1     0      20       2   0 -20      0     0 worker I<   ?          0:00 [kworker/1:0H-kblockd]
+5     0      21       2  20   0      0     0 devtmp S    ?          0:00 [kdevtmpfs]
+1     0      22       2   0 -20      0     0 rescue I<   ?          0:00 [netns]
+1     0      23       2  20   0      0     0 rcu_ta S    ?          0:00 [rcu_tasks_kthre]
+1     0      24       2  20   0      0     0 kaudit S    ?          0:00 [kauditd]
+1     0      25       2  20   0      0     0 watchd S    ?          0:00 [khungtaskd]
+1     0      26       2  20   0      0     0 oom_re S    ?          0:00 [oom_reaper]
+1     0      27       2   0 -20      0     0 rescue I<   ?          0:00 [writeback]
+1     0      28       2  20   0      0     0 kcompa S    ?          0:00 [kcompactd0]
+1     0      29       2  25   5      0     0 ksm_sc SN   ?          0:00 [ksmd]
+1     0      30       2  39  19      0     0 khugep SN   ?          0:00 [khugepaged]
+1     0      35       2  20   0      0     0 worker I    ?          0:00 [kworker/1:1-events]
+1     0      77       2   0 -20      0     0 rescue I<   ?          0:00 [kintegrityd]
+1     0      78       2   0 -20      0     0 rescue I<   ?          0:00 [kblockd]
+1     0      79       2   0 -20      0     0 rescue I<   ?          0:00 [blkcg_punt_bio]
+1     0      80       2   0 -20      0     0 rescue I<   ?          0:00 [tpm_dev_wq]
+1     0      81       2   0 -20      0     0 rescue I<   ?          0:00 [ata_sff]
+1     0      82       2   0 -20      0     0 rescue I<   ?          0:00 [md]
+1     0      83       2   0 -20      0     0 rescue I<   ?          0:00 [edac-poller]
+1     0      84       2   0 -20      0     0 rescue I<   ?          0:00 [devfreq_wq]
+1     0      85       2 -100  -      0     0 kthrea S    ?          0:00 [watchdogd]
+1     0      86       2  20   0      0     0 worker I    ?          0:00 [kworker/u4:1-events_power_efficient]
+1     0      88       2  20   0      0     0 kswapd S    ?          0:00 [kswapd0]
+1     0      89       2  20   0      0     0 ecrypt S    ?          0:00 [ecryptfs-kthrea]
+1     0      91       2   0 -20      0     0 rescue I<   ?          0:00 [kthrotld]
+1     0      92       2   0 -20      0     0 rescue I<   ?          0:00 [acpi_thermal_pm]
+1     0      93       2  20   0      0     0 scsi_e S    ?          0:00 [scsi_eh_0]
+1     0      94       2   0 -20      0     0 rescue I<   ?          0:00 [scsi_tmf_0]
+1     0      95       2  20   0      0     0 scsi_e S    ?          0:00 [scsi_eh_1]
+1     0      96       2   0 -20      0     0 rescue I<   ?          0:00 [scsi_tmf_1]
+1     0      98       2   0 -20      0     0 rescue I<   ?          0:00 [vfio-irqfd-clea]
+1     0     100       2   0 -20      0     0 rescue I<   ?          0:00 [ipv6_addrconf]
+1     0     109       2   0 -20      0     0 rescue I<   ?          0:00 [kstrp]
+1     0     112       2   0 -20      0     0 worker I<   ?          0:00 [kworker/u5:0]
+1     0     125       2   0 -20      0     0 rescue I<   ?          0:00 [charger_manager]
+1     0     170       2   0 -20      0     0 rescue I<   ?          0:00 [cryptd]
+1     0     202       2   0 -20      0     0 worker I<   ?          0:00 [kworker/0:1H-kblockd]
+1     0     205       2  20   0      0     0 worker I    ?          0:00 [kworker/1:3-events]
+1     0     206       2   0 -20      0     0 worker I<   ?          0:00 [kworker/1:1H-kblockd]
+1     0     236       2   0 -20      0     0 rescue I<   ?          0:00 [raid5wq]
+1     0     277       2  20   0      0     0 kjourn S    ?          0:00 [jbd2/vda1-8]
+1     0     278       2   0 -20      0     0 rescue I<   ?          0:00 [ext4-rsv-conver]
+4     0     350       1  19  -1 124384 64852 ep_pol S<s  ?          0:04 /lib/systemd/systemd-journald
+4     0     381       1  20   0  19216  5544 ep_pol Ss   ?          0:03 /lib/systemd/systemd-udevd
+1     0     456       2   0 -20      0     0 rescue I<   ?          0:00 [kaluad]
+1     0     457       2   0 -20      0     0 rescue I<   ?          0:00 [kmpath_rdacd]
+1     0     458       2   0 -20      0     0 rescue I<   ?          0:00 [kmpathd]
+1     0     459       2   0 -20      0     0 rescue I<   ?          0:00 [kmpath_handlerd]
+4     0     460       1 -100  - 280144 17948 futex_ SLsl ?          0:00 /sbin/multipathd -d -s
+1     0     468       2   0 -20      0     0 kthrea S<   ?          0:00 [loop0]
+1     0     473       2   0 -20      0     0 kthrea S<   ?          0:00 [loop1]
+1     0     475       2   0 -20      0     0 kthrea S<   ?          0:00 [loop2]
+4   102     494       1  20   0  90232  6008 ep_pol Ssl  ?          0:00 /lib/systemd/systemd-timesyncd
+4   100     567       1  20   0  26740  7576 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4   101     588       1  20   0  23900 11984 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4     0     678       1  20   0 241036  9132 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4     0     681       1  20   0   8536  2876 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4   103     683       1  20   0   7840  5084 ep_pol Ss   ?          0:03 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4     0     690       1  20   0  81896  3744 poll_s Ssl  ?          0:00 /usr/sbin/irqbalance --foreground
+4     0     692       1  20   0  29196 16856 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4   104     694       1  20   0 224500  4808 poll_s Ssl  ?          0:01 /usr/sbin/rsyslogd -n -iNONE
+4     0     699       1  20   0  16868  7796 ep_pol Ss   ?          0:01 /lib/systemd/systemd-logind
+4     0     701       1  20   0 394816 13756 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4     1     702       1  20   0   3792  2220 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4     0     738       1  20   0   7352  2140 poll_s Ss+  ttyS0      0:00 /sbin/agetty -o -p -- \u --keep-baud 115200,38400,9600 ttyS0 vt220
+4     0     743       1  20   0   5828  1948 poll_s Ss+  tty1       0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+4     0     754       1  20   0 108108 19584 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4     0     776       1  20   0 236424  8728 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+4     0     855       1  20   0  12176  6908 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4   107    2646       1  20   0   9748  1092 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4     0    8796       1  20   0   8696  2604 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-4-exec-start.sh
+4     0    8800    8796  20   0 866072 102588 futex_ SLl ?          0:28 /var/lib/juju/tools/machine-4/jujud machine --data-dir /var/lib/juju --machine-id 4 --debug
+4     0    9679       1  20   0   2616   136 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4     0    9840       1  20   0  85608   140 futex_ Sl   ?          0:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+4     0    9851    9679  20   0 1524224 43628 futex_ Sl  ?          0:03 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1     0    9908       2   0 -20      0     0 rescue I<   ?          0:00 [dio/vda1]
+0     0    9934       2  20   0   2488   592 pipe_w S    ?          0:00 bpfilter_umh
+1     0    9964       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_system_task]
+1     0    9965       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_delay_taskq]
+1     0    9966       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_dynamic_tas]
+1     0    9967       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_kmem_cache]
+1     0    9969       2   0 -20      0     0 taskq_ S<   ?          0:00 [zvol]
+1     0    9970       2  20   0      0     0 taskq_ S    ?          0:00 [arc_prune]
+1     0    9971       2  39  19      0     0 cv_wai SN   ?          0:00 [zthr_procedure]
+1     0    9972       2  39  19      0     0 cv_tim SN   ?          0:00 [zthr_procedure]
+1     0    9973       2  20   0      0     0 taskq_ S    ?          0:00 [dbu_evict]
+1     0    9974       2  39  19      0     0 cv_tim SN   ?          0:00 [dbuf_evict]
+1     0    9996       2  39  19      0     0 taskq_ SN   ?          0:00 [z_vdev_file]
+1     0    9997       2  20   0      0     0 cv_tim S    ?          0:00 [l2arc_feed]
+1     0   17868       2   0 -20      0     0 kthrea S<   ?          0:00 [loop3]
+1     0   18034       2   0 -20      0     0 kthrea S<   ?          0:00 [loop4]
+1     0   18150       2   0 -20      0     0 kthrea S<   ?          0:00 [loop5]
+1     0   18327       2   0 -20      0     0 kthrea S<   ?          0:00 [loop6]
+1     0   20078       2   0 -20      0     0 kthrea S<   ?          0:00 [loop7]
+1     0   21699       2   0 -20      0     0 kthrea S<   ?          0:00 [loop8]
+1     0   22861       2   0 -20      0     0 kthrea S<   ?          0:00 [loop9]
+1     0   23223       2   0 -20      0     0 kthrea S<   ?          0:00 [loop10]
+4     0   24050       1  20   0 947112 41164 futex_ Ssl  ?          0:08 /usr/lib/snapd/snapd
+4     0   32062       1  20   0 975960 53228 futex_ Ssl  ?          0:00 /usr/bin/containerd
+4     0   35059       1  20   0  18600 11296 do_wai Ss   ?          0:00 /var/lib/juju/agents/unit-canal-2/.venv/bin/python /var/lib/juju/agents/unit-canal-2/.venv/bin/conctl run --rm --net-host --privileged --env ETCD_ENDPOINTS=https://10.6.1.60:2379 --env ETCD_CA_CERT_FILE=/opt/calicoctl/etcd-ca --env ETCD_CERT_FILE=/opt/calicoctl/etcd-cert --env ETCD_KEY_FILE=/opt/calicoctl/etcd-key --env NODENAME=juju-110cc2-k8stest-4 --env IP=10.6.3.201 --env NO_DEFAULT_POOLS=true --env AS= --env CALICO_LIBNETWORK_ENABLED=true --env IP6= --env CALICO_NETWORKING_BACKEND=none --env FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT --env FELIX_IGNORELOOSERPF=false --mount /lib/modules:/lib/modules --mount /var/run/calico:/var/run/calico --mount /var/log/calico:/var/log/calico --mount /var/lib/calico:/var/lib/calico --mount /opt/calicoctl:/opt/calicoctl --name calico-node rocks.canonical.com:443/cdk/calico/node:v3.10.1
+0     0   35079   35059  20   0 800148 30740 futex_ Sl   ?          0:00 ctr run --mount type=bind,src=/lib/modules,dst=/lib/modules,options=rbind:rw --mount type=bind,src=/var/run/calico,dst=/var/run/calico,options=rbind:rw --mount type=bind,src=/var/log/calico,dst=/var/log/calico,options=rbind:rw --mount type=bind,src=/var/lib/calico,dst=/var/lib/calico,options=rbind:rw --mount type=bind,src=/opt/calicoctl,dst=/opt/calicoctl,options=rbind:rw --env ETCD_ENDPOINTS=https://10.6.1.60:2379 --env ETCD_CA_CERT_FILE=/opt/calicoctl/etcd-ca --env ETCD_CERT_FILE=/opt/calicoctl/etcd-cert --env ETCD_KEY_FILE=/opt/calicoctl/etcd-key --env NODENAME=juju-110cc2-k8stest-4 --env IP=10.6.3.201 --env NO_DEFAULT_POOLS=true --env AS= --env CALICO_LIBNETWORK_ENABLED=true --env IP6= --env CALICO_NETWORKING_BACKEND=none --env FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT --env FELIX_IGNORELOOSERPF=false --net-host --privileged --rm rocks.canonical.com:443/cdk/calico/node:v3.10.1 calico-node
+0     0   35149       1  20   0 112692  7692 futex_ Sl   ?          0:00 /usr/bin/containerd-shim-runc-v2 -namespace default -id calico-node -address /run/containerd/containerd.sock
+4     0   35171   35149  20   0   2308   748 poll_s Ss   ?          0:00 /usr/bin/runsvdir -P /etc/service/enabled
+4     0   35350       1  20   0 319456 26544 futex_ Ssl  ?          0:00 /usr/local/bin/flanneld -iface=ens3 -etcd-endpoints=https://10.6.1.60:2379 -etcd-certfile=/etc/ssl/flannel/client-cert.pem -etcd-keyfile=/etc/ssl/flannel/client-key.pem -etcd-cafile=/etc/ssl/flannel/client-ca.pem --ip-masq
+4     0   35419   35171  20   0   2156  1256 hrtime Ss   ?          0:00 runsv felix
+4     0   35420   35419  20   0   2300   744 poll_s S    ?          0:00 svlogd /var/log/calico/felix
+1     0   64289       2  20   0      0     0 worker I    ?          0:00 [kworker/u4:2-events_unbound]
+1     0   64418       2  20   0      0     0 worker I    ?          0:00 [kworker/1:0-cgroup_destroy]
+1     0   67247       2  20   0      0     0 worker I    ?          0:00 [kworker/0:3-events]
+4     0   77707       1  20   0 748512 39924 futex_ Ssl  ?          0:00 /snap/kube-proxy/2360/kube-proxy --cluster-cidr=10.1.0.0/16 --kubeconfig=/root/cdk/kubeproxyconfig --logtostderr=true --v=0 --master=https://10.6.3.201:6443 --hostname-override=juju-110cc2-k8stest-4 --feature-gates=
+4     0   81900       1  20   0 754400 48516 ep_pol Ssl  ?          0:02 /snap/kube-scheduler/2327/kube-scheduler --v=2 --logtostderr=true --profiling=false --config=/root/cdk/kube-scheduler-config.yaml --feature-gates=
+4     0   82375       1  20   0 1111500 383096 ep_pol Ssl ?         0:34 /snap/kube-apiserver/2599/kube-apiserver --allow-privileged=true --service-cluster-ip-range=10.152.183.0/24 --min-request-timeout=300 --v=4 --tls-cert-file=/root/cdk/server.crt --tls-private-key-file=/root/cdk/server.key --kubelet-certificate-authority=/root/cdk/ca.crt --kubelet-client-certificate=/root/cdk/client.crt --kubelet-client-key=/root/cdk/client.key --logtostderr=true --storage-backend=etcd3 --insecure-port=0 --profiling=false --anonymous-auth=false --authentication-token-webhook-cache-ttl=1m0s --authentication-token-webhook-config-file=/root/cdk/auth-webhook/auth-webhook-conf.yaml --service-account-issuer=https://kubernetes.default.svc --service-account-signing-key-file=/root/cdk/serviceaccount.key --service-account-key-file=/root/cdk/serviceaccount.key --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP --encryption-provider-config=/var/snap/kube-apiserver/common/encryption/encryption_config.yaml --advertise-address=10.6.3.201 --etcd-cafile=/root/cdk/etcd/client-ca.pem --etcd-keyfile=/root/cdk/etcd/client-key.pem --etcd-certfile=/root/cdk/etcd/client-cert.pem --etcd-servers=https://10.6.1.60:2379 --authorization-webhook-config-file=/root/cdk/keystone/webhook.yaml --authorization-mode=Node,RBAC,Webhook --enable-admission-plugins=PersistentVolumeLabel,PodSecurityPolicy,NodeRestriction --requestheader-client-ca-file=/root/cdk/ca.crt --requestheader-allowed-names=system:kube-apiserver,client --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --proxy-client-cert-file=/root/cdk/client.crt --proxy-client-key-file=/root/cdk/client.key --enable-aggregator-routing=true --client-ca-file=/root/cdk/ca.crt --feature-gates=StreamingProxyRedirects=true --audit-log-path=/root/cdk/audit/audit.log --audit-log-maxage=30 --audit-log-maxsize=100 --audit-log-maxbackup=10 --audit-policy-file=/root/cdk/audit/audit-policy.yaml
+4     0   82610       1  20   0 825508 105748 futex_ Ssl ?          0:06 /snap/kube-controller-manager/2407/kube-controller-manager --min-resync-period=3m --v=2 --root-ca-file=/root/cdk/ca.crt --logtostderr=true --kubeconfig=/root/cdk/kubecontrollermanagerconfig --authorization-kubeconfig=/root/cdk/kubecontrollermanagerconfig --authentication-kubeconfig=/root/cdk/kubecontrollermanagerconfig --use-service-account-credentials=true --service-account-private-key-file=/root/cdk/serviceaccount.key --tls-cert-file=/root/cdk/server.crt --tls-private-key-file=/root/cdk/server.key --cluster-name=kubernetes-hj3unlbjkigib5zcl3f7bolxfkvxvcxe --terminated-pod-gc-threshold=12500 --profiling=false --service-cluster-ip-range=10.152.183.0/24 --cluster-cidr=10.1.0.0/16 --feature-gates=RotateKubeletServerCertificate=true
+4     0   84191       1  20   0  40132 31372 poll_s Ss   ?          0:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1     0   84304   84191  20   0 115612 33584 ep_pol S    ?          0:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1     0   84305   84191  20   0 115488 33452 ep_pol S    ?          0:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1     0   84319   84191  20   0 123908 33664 ep_pol S    ?          0:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1     0   84357   84191  20   0 115816 33788 ep_pol S    ?          0:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1     0   84383   84191  20   0 115488 33440 ep_pol S    ?          0:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1     0   92831       2  20   0      0     0 worker I    ?          0:00 [kworker/1:2-events]
+1     0   95212       2  20   0      0     0 worker I    ?          0:00 [kworker/0:0-events]
+4     0   95625     855  20   0  13800  9068 poll_s Ss   ?          0:00 sshd: ubuntu [priv]
+4  1000   95631       1  20   0  18544  9620 ep_pol Ss   ?          0:00 /lib/systemd/systemd --user
+5  1000   95642   95631  20   0 105036  5300 do_sig S    ?          0:00 (sd-pam)
+5  1000   95735   95625  20   0  13932  5332 poll_s S    ?          0:00 sshd: ubuntu@pts/0
+0  1000   95736   95735  20   0  10144  5256 do_wai Ss   pts/0      0:00 -bash
+4     0   95760   95736  20   0  11168  4636 poll_s S    pts/0      0:00 sudo -s
+4     0   95763   95760  20   0   8960  3992 do_wai S    pts/0      0:00 /bin/bash
+4     0   96008   95763  20   0 899380 106436 futex_ Sl+ pts/0      0:08 /usr/bin/python3 /usr/bin/sos report -a --all-logs
+5     0   96105     381  20   0  19252  3796 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96148     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96149     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96150     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96151     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96152     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96153     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96154     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96155     381  20   0  19216  3680 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96156     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96161     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96162     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96163     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96164     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96165     381  20   0  19216  3312 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96166     381  20   0  19216  3308 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96187     381  20   0  19216  3248 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96188     381  20   0  19216  3680 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96189     381  20   0  19216  3248 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+5     0   96190     381  20   0  19216  3248 ep_pol S    ?          0:00 /lib/systemd/systemd-udevd
+1     0   97373       2  20   0      0     0 worker I    ?          0:00 [kworker/u4:0-events_unbound]
+4     0   98565       1  20   0 380536 26392 poll_s Ssl  ?          0:00 /usr/libexec/fwupd/fwupd
+4     0   98613       1  20   0  16260  5816 ep_pol Ss   ?          0:00 /lib/systemd/systemd-hostnamed
+4     0   99308   96008  20   0   2712   660 sigsus S    pts/0      0:00 timeout 300s journalctl --no-pager --catalog --boot
+0     0   99311   99308  20   0  57384 19284 -      R    pts/0      0:00 journalctl --no-pager --catalog --boot
+4     0   99340   96008  20   0   2712   656 sigsus S    pts/0      0:00 timeout 300s kubectl --kubeconfig=/root/cdk/cdk_addons_kubectl_config get --raw /metrics
+4     0   99342   99340  20   0 750872 38436 ep_pol Sl   pts/0      0:00 /snap/kubectl/2308/kubectl --kubeconfig=/root/cdk/cdk_addons_kubectl_config get --raw /metrics
+4     0   99356   96008  20   0   2712   588 sigsus S    pts/0      0:00 timeout 300s lvmdump -d /tmp/sos.1rix973x/sosreport-juju-110cc2-k8stest-4-2022-02-11-ipxjpkg/sos_commands/lvm2/lvmdump
+0     0   99361   99356  20   0   3896  2920 do_wai S    pts/0      0:00 /bin/bash /usr/sbin/lvmdump -d /tmp/sos.1rix973x/sosreport-juju-110cc2-k8stest-4-2022-02-11-ipxjpkg/sos_commands/lvm2/lvmdump
+4     0   99378   99361  20   0   5816  2796 -      R    pts/0      0:00 ps alx

@@ -1,0 +1,20 @@
+* snapd.service - Snap Daemon
+     Loaded: loaded (/lib/systemd/system/snapd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:39:28 UTC; 11h ago
+TriggeredBy: * snapd.socket
+   Main PID: 251 (snapd)
+      Tasks: 11 (limit: 314572)
+     Memory: 41.6M
+     CGroup: /system.slice/snapd.service
+             `-251 /usr/lib/snapd/snapd
+
+Feb 09 22:39:23 juju-04f1e3-1-lxd-5 snapd[251]: AppArmor status: apparmor is enabled and all features are available
+Feb 09 22:39:26 juju-04f1e3-1-lxd-5 snapd[251]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-97-generic.
+Feb 09 22:39:27 juju-04f1e3-1-lxd-5 snapd[251]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 09 22:39:28 juju-04f1e3-1-lxd-5 systemd[1]: Started Snap Daemon.
+Feb 09 22:39:38 juju-04f1e3-1-lxd-5 snapd[251]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 09 22:39:39 juju-04f1e3-1-lxd-5 snapd[251]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 03:39:28 juju-04f1e3-1-lxd-5 snapd[251]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 03:39:28 juju-04f1e3-1-lxd-5 snapd[251]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 08:59:28 juju-04f1e3-1-lxd-5 snapd[251]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 08:59:28 juju-04f1e3-1-lxd-5 snapd[251]: autorefresh.go:536: auto-refresh: all snaps are up-to-date

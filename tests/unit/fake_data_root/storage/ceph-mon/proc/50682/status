@@ -1,0 +1,55 @@
+Name:	sosreport
+Umask:	0022
+State:	S (sleeping)
+Tgid:	50682
+Ngid:	0
+Pid:	50682
+PPid:	50675
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	256
+Groups:	0 
+NStgid:	50682
+NSpid:	50682
+NSpgid:	50682
+NSsid:	50674
+VmPeak:	 1035040 kB
+VmSize:	  972832 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   84688 kB
+VmRSS:	   82388 kB
+RssAnon:	   74940 kB
+RssFile:	    7448 kB
+RssShmem:	       0 kB
+VmData:	  174088 kB
+VmStk:	     132 kB
+VmExe:	    2784 kB
+VmLib:	    5672 kB
+VmPTE:	     308 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	11
+SigQ:	4/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000001001000
+SigCgt:	0000000180004002
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	830
+nonvoluntary_ctxt_switches:	7437

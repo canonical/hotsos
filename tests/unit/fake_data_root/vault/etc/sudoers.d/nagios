@@ -1,0 +1,5 @@
+Defaults:nagios !requiretty
+
+nagios  ALL=(ALL) NOPASSWD: /usr/sbin/corosync-cfgtool -s
+nagios  ALL=(ALL) NOPASSWD: /usr/sbin/crm_mon -1 -r -f
+nagios  ALL=(ALL) NOPASSWD: /usr/sbin/crm configure show

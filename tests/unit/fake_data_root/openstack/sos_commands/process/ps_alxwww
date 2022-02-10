@@ -1,0 +1,449 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+4     0       1       0  20   0 175184 17464 ep_pol Ss   ?          0:38 /sbin/init
+1     0       2       0  20   0      0     0 kthrea S    ?          0:00 [kthreadd]
+1     0       3       2   0 -20      0     0 rescue I<   ?          0:00 [rcu_gp]
+1     0       4       2   0 -20      0     0 rescue I<   ?          0:00 [rcu_par_gp]
+1     0       6       2   0 -20      0     0 worker I<   ?          0:00 [kworker/0:0H-kblockd]
+1     0       9       2   0 -20      0     0 rescue I<   ?          0:00 [mm_percpu_wq]
+1     0      10       2  20   0      0     0 smpboo S    ?          1:38 [ksoftirqd/0]
+1     0      11       2  20   0      0     0 rcu_gp I    ?          1:24 [rcu_sched]
+1     0      12       2 -100  -      0     0 smpboo S    ?          0:00 [migration/0]
+5     0      13       2 -51   -      0     0 smpboo S    ?          0:00 [idle_inject/0]
+1     0      14       2  20   0      0     0 smpboo S    ?          0:00 [cpuhp/0]
+1     0      15       2  20   0      0     0 smpboo S    ?          0:00 [cpuhp/1]
+5     0      16       2 -51   -      0     0 smpboo S    ?          0:00 [idle_inject/1]
+1     0      17       2 -100  -      0     0 smpboo S    ?          0:00 [migration/1]
+1     0      18       2  20   0      0     0 smpboo S    ?          0:13 [ksoftirqd/1]
+1     0      20       2   0 -20      0     0 worker I<   ?          0:00 [kworker/1:0H-kblockd]
+5     0      21       2  20   0      0     0 devtmp S    ?          0:00 [kdevtmpfs]
+1     0      22       2   0 -20      0     0 rescue I<   ?          0:00 [netns]
+1     0      23       2  20   0      0     0 rcu_ta S    ?          0:00 [rcu_tasks_kthre]
+1     0      24       2  20   0      0     0 kaudit S    ?          0:00 [kauditd]
+1     0      25       2  20   0      0     0 watchd S    ?          0:00 [khungtaskd]
+1     0      26       2  20   0      0     0 oom_re S    ?          0:00 [oom_reaper]
+1     0      27       2   0 -20      0     0 rescue I<   ?          0:00 [writeback]
+1     0      28       2  20   0      0     0 kcompa S    ?          0:00 [kcompactd0]
+1     0      29       2  25   5      0     0 ksm_sc SN   ?          0:00 [ksmd]
+1     0      30       2  39  19      0     0 khugep SN   ?          0:00 [khugepaged]
+1     0      77       2   0 -20      0     0 rescue I<   ?          0:00 [kintegrityd]
+1     0      78       2   0 -20      0     0 rescue I<   ?          0:00 [kblockd]
+1     0      79       2   0 -20      0     0 rescue I<   ?          0:00 [blkcg_punt_bio]
+1     0      80       2   0 -20      0     0 rescue I<   ?          0:00 [tpm_dev_wq]
+1     0      81       2   0 -20      0     0 rescue I<   ?          0:00 [ata_sff]
+1     0      82       2   0 -20      0     0 rescue I<   ?          0:00 [md]
+1     0      83       2   0 -20      0     0 rescue I<   ?          0:00 [edac-poller]
+1     0      84       2   0 -20      0     0 rescue I<   ?          0:00 [devfreq_wq]
+1     0      85       2 -100  -      0     0 kthrea S    ?          0:00 [watchdogd]
+1     0      88       2  20   0      0     0 kswapd S    ?          0:04 [kswapd0]
+1     0      89       2  20   0      0     0 ecrypt S    ?          0:00 [ecryptfs-kthrea]
+1     0      91       2   0 -20      0     0 rescue I<   ?          0:00 [kthrotld]
+1     0      92       2   0 -20      0     0 rescue I<   ?          0:00 [acpi_thermal_pm]
+1     0      93       2  20   0      0     0 scsi_e S    ?          0:00 [scsi_eh_0]
+1     0      94       2   0 -20      0     0 rescue I<   ?          0:00 [scsi_tmf_0]
+1     0      95       2  20   0      0     0 scsi_e S    ?          0:00 [scsi_eh_1]
+1     0      96       2   0 -20      0     0 rescue I<   ?          0:00 [scsi_tmf_1]
+1     0      98       2   0 -20      0     0 rescue I<   ?          0:00 [vfio-irqfd-clea]
+1     0     100       2   0 -20      0     0 rescue I<   ?          0:00 [ipv6_addrconf]
+1     0     109       2   0 -20      0     0 rescue I<   ?          0:00 [kstrp]
+1     0     112       2   0 -20      0     0 worker I<   ?          0:00 [kworker/u5:0]
+1     0     125       2   0 -20      0     0 rescue I<   ?          0:00 [charger_manager]
+1     0     170       2   0 -20      0     0 rescue I<   ?          0:00 [cryptd]
+1     0     171       2   0 -20      0     0 worker I<   ?          0:33 [kworker/0:1H-kblockd]
+1     0     211       2   0 -20      0     0 rescue I<   ?          0:00 [bch_btree_io]
+1     0     212       2   0 -20      0     0 rescue I<   ?          0:00 [bcache]
+1     0     213       2   0 -20      0     0 rescue I<   ?          0:00 [bch_journal]
+1     0     218       2   0 -20      0     0 rescue I<   ?          0:00 [bioset]
+1     0     219       2   0 -20      0     0 rescue I<   ?          0:00 [bioset]
+1     0     226       2   0 -20      0     0 worker I<   ?          0:27 [kworker/1:1H-kblockd]
+1     0     227       2   0 -20      0     0 rescue I<   ?          0:00 [bioset]
+1     0     228       2   0 -20      0     0 rescue I<   ?          0:00 [bcache_gc]
+1     0     229       2  20   0      0     0 bch_al S    ?          0:00 [bcache_allocato]
+1     0     230       2  20   0      0     0 bch_gc S    ?          0:00 [bcache_gc]
+1     0     231       2   0 -20      0     0 rescue I<   ?          0:00 [bcache_writebac]
+1     0     232       2  20   0      0     0 read_d S    ?          0:00 [bcache_writebac]
+1     0     233       2  20   0      0     0 cached S    ?          0:00 [bcache_status_u]
+1     0     234       2   0 -20      0     0 rescue I<   ?          0:00 [bcache_writebac]
+1     0     235       2  20   0      0     0 read_d S    ?          0:00 [bcache_writebac]
+1     0     236       2  20   0      0     0 cached S    ?          0:00 [bcache_status_u]
+1     0     276       2   0 -20      0     0 rescue I<   ?          0:00 [raid5wq]
+1     0     319       2  20   0      0     0 kjourn S    ?          1:22 [jbd2/vda2-8]
+1     0     320       2   0 -20      0     0 rescue I<   ?          0:00 [ext4-rsv-conver]
+4     0     397       1  19  -1  69508 31704 ep_pol S<s  ?          0:01 /lib/systemd/systemd-journald
+1     0     401       2   0 -20      0     0 rescue I<   ?          0:00 [rpciod]
+1     0     404       2   0 -20      0     0 rescue I<   ?          0:00 [xprtiod]
+4     0     428       1  20   0  21504  5428 ep_pol Ss   ?          0:18 /lib/systemd/systemd-udevd
+1     0     629       2   0 -20      0     0 rescue I<   ?          0:00 [kaluad]
+1     0     630       2   0 -20      0     0 rescue I<   ?          0:00 [kmpath_rdacd]
+1     0     631       2   0 -20      0     0 rescue I<   ?          0:00 [kmpathd]
+1     0     632       2   0 -20      0     0 rescue I<   ?          0:00 [kmpath_handlerd]
+4     0     633       1 -100  - 345672 17940 futex_ SLsl ?          0:03 /sbin/multipathd -d -s
+1     0     643       2   0 -20      0     0 kthrea S<   ?          0:00 [loop0]
+1     0     647       2   0 -20      0     0 kthrea S<   ?          0:00 [loop2]
+1     0     648       2   0 -20      0     0 kthrea S<   ?          0:00 [loop3]
+4   116     674       1  20   0   7104  3780 poll_s Ss   ?          0:00 /sbin/rpcbind -f -w
+4   102     678       1  20   0  90004  5712 ep_pol Ssl  ?          0:00 /lib/systemd/systemd-timesyncd
+4   100     721       1  20   0  18672  7800 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4   101     761       1  20   0  23900 11980 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+5     0     762       1  10 -10  10120  5420 poll_s S<s  ?          0:11 ovsdb-server /etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/run/openvswitch/db.sock --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --no-chdir --log-file=/var/log/openvswitch/ovsdb-server.log --pidfile=/var/run/openvswitch/ovsdb-server.pid --detach
+5     0     819       1  10 -10 235792 39400 poll_s S<Lsl ?         0:53 ovs-vswitchd unix:/var/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --mlockall --no-chdir --log-file=/var/log/openvswitch/ovs-vswitchd.log --pidfile=/var/run/openvswitch/ovs-vswitchd.pid --detach
+4     0     908       1  20   0 241036  9256 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4     0     909       1  20   0  18928 12040 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/ceph-crash
+4   103     914       1  20   0   7836  4764 ep_pol Ss   ?          0:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4     0     920       1  20   0  81928  3596 poll_s Ssl  ?          0:01 /usr/sbin/irqbalance --foreground
+4     0     921       1  20   0  29600 18220 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4   104     923       1  20   0 224348  4604 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+4     0     924       1  20   0  10396  5140 hrtime Ss   ?          0:00 /usr/sbin/smartd -n
+4     0     926       1  20   0 1020864 42468 futex_ Ssl ?          0:26 /usr/lib/snapd/snapd
+4     0     927       1  20   0  16856  7752 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+4     0     928       1  20   0  16460  6992 ep_pol Ss   ?          0:00 /lib/systemd/systemd-machined
+4     0     930       1  20   0 395044 14960 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4     0     975       1  20   0   8536  3028 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4   119     977       1  20   0 126436 108292 ep_pol Ss  ?          0:15 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+4 64060     984       1  20   0 119604 101528 poll_s Ss  ?         11:34 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+4     1     991       1  20   0   3792  2240 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4     0    1012       1  20   0   5828  1748 poll_s Ss+  tty1       0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+4     0    1028       1  20   0  12176  7296 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4     0    1030       1  20   0  15304  9024 ep_pol Ss   ?          0:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4     0    1043       1  20   0 236424  9044 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+5   120    1053    1030  20   0  89036  3048 ep_pol Sl   ?          0:02 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4     0    1074       1  20   0 1362340 36424 poll_s Ssl ?          0:37 /usr/sbin/libvirtd
+4     0    1075       1  20   0 108136 20480 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+0     0    1201       2  20   0   2488   456 pipe_w S    ?          0:00 bpfilter_umh
+4     0    1546       1  20   0 446616  2764 futex_ Sl   ?          0:34 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+4   107    1554       1  20   0   9748  1088 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4   119    1590       1  20   0 131544 113528 ep_pol Ss  ?          1:28 /usr/bin/python3 /usr/bin/neutron-dhcp-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini --log-file=/var/log/neutron/neutron-dhcp-agent.log
+4   119    1591       1  20   0 150772 132612 ep_pol Ss  ?          0:25 /usr/bin/python3 /usr/bin/neutron-l3-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini --config-file=/etc/neutron/fwaas_driver.ini --log-file=/var/log/neutron/neutron-l3-agent.log
+4   119    1603       1  20   0 150604 131276 ep_pol Ss  ?          2:38 /usr/bin/python3 /usr/bin/neutron-openvswitch-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/plugins/ml2/openvswitch_agent.ini --log-file=/var/log/neutron/neutron-openvswitch-agent.log
+1     0    1618       2   0 -20      0     0 rescue I<   ?          0:00 [dio/vda2]
+1     0    1650       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_system_task]
+1     0    1651       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_delay_taskq]
+1     0    1652       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_dynamic_tas]
+1     0    1653       2   0 -20      0     0 taskq_ S<   ?          0:00 [spl_kmem_cache]
+1   119    1654     977  20   0 123720 94344 ep_pol S    ?          0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1   119    1655     977  20   0 123720 94528 ep_pol S    ?          0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1   119    1656     977  20   0 123720 94528 ep_pol S    ?          0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1   119    1657     977  20   0 123720 94480 ep_pol S    ?          0:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1     0    1659       2   0 -20      0     0 taskq_ S<   ?          0:00 [zvol]
+1     0    1660       2  20   0      0     0 taskq_ S    ?          0:00 [arc_prune]
+1     0    1661       2  39  19      0     0 cv_wai SN   ?          0:00 [zthr_procedure]
+1     0    1662       2  39  19      0     0 cv_tim SN   ?          0:00 [zthr_procedure]
+1     0    1663       2  20   0      0     0 taskq_ S    ?          0:00 [dbu_evict]
+1     0    1664       2  39  19      0     0 cv_tim SN   ?          0:00 [dbuf_evict]
+1     0    1672       2  39  19      0     0 taskq_ SN   ?          0:00 [z_vdev_file]
+1     0    1673       2  20   0      0     0 cv_tim S    ?          0:01 [l2arc_feed]
+5     0    1747       1  20   0 1202660 13592 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-0
+4 1000000  1758    1747  20   0 105192 14700 ep_pol Ss   ?          0:09 /sbin/init
+5     0    1811       1  20   0 1128928 14728 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-1
+4 1000000  1856    1811  20   0 104812 12232 ep_pol Ss   ?          0:05 /sbin/init
+4 1000000  1927    1758  20   0  51472 18276 ep_pol Ss   ?          0:00 /lib/systemd/systemd-journald
+5     0    1930       1  20   0 1128928 14596 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-2
+4 1000000  1987    1758  20   0  11884  4704 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+4 1000000  1989    1930  20   0 170352 10616 ep_pol Ss   ?          0:04 /sbin/init
+4 1000000  1997    1856  20   0  58972 30536 ep_pol Ss   ?          0:01 /lib/systemd/systemd-journald
+1 1000000  2038    1758  20   0   3748  1756 fuse_d Ss   ?          0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 1000000  2039    1758  20   0   3760  1888 fuse_d Ss   ?          0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  2040    1758  20   0   3732  1808 fuse_d Ss   ?          0:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4 1000000  2071    1856  20   0  11884  4880 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+5     0    2152       1  20   0 1055452 14512 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-3
+4 1000000  2191    2152  20   0 104812 11888 ep_pol Ss   ?          0:04 /sbin/init
+1 1000000  2215    1856  20   0   4516  1384 fuse_d Ss   ?          0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1 1000000  2216    1856  20   0   4752  1556 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/etcd_230.snap /snap/etcd/230 -o ro,nodev,allow_other,suid
+1 1000000  2217    1856  20   0   5028  1696 fuse_d Ss   ?          0:09 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1 1000000  2218    1856  20   0   4896  1712 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  2222    1856  20   0   4940  1540 fuse_d Ss   ?          0:04 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 1000000  2223    1856  20   0   4856  1696 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4 1000000  2255    1989  20   0  35076 11320 ep_pol Ss   ?          0:01 /lib/systemd/systemd-journald
+5     0    2369       1  20   0 1276648 14772 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-4
+4 1000000  2398    1989  20   0  11884  3796 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+4 1000000  2403    2369  20   0 104816 11196 ep_pol Ss   ?          0:04 /sbin/init
+4 1000000  2412    2191  20   0  35048 13820 ep_pol Ss   ?          0:00 /lib/systemd/systemd-journald
+1 1000000  2434    1989  20   0   3724  1552 fuse_d Ss   ?          0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 1000000  2436    1989  20   0   3904  1796 fuse_d Ss   ?          0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  2437    1989  20   0   3996  1588 fuse_d Ss   ?          0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4 1000000  2529    2191  20   0  11884  4740 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+5     0    2557       1  20   0 1128928 14612 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-5
+4 1000000  2600    2557  20   0 170480 14528 ep_pol Ss   ?          0:15 /sbin/init
+1 1000000  2641    2191  20   0   5092  1692 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  2642    2191  20   0   4712  1580 fuse_d Ss   ?          0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 1000000  2643    2191  20   0   4780  1632 fuse_d Ss   ?          5:01 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1 1000000  2646    2191  20   0   4780  1584 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 1000000  2649    2191  20   0   5012  1680 fuse_d Ss   ?          0:09 squashfuse /var/lib/snapd/snaps/mysql-shell_29.snap /snap/mysql-shell/29 -o ro,nodev,allow_other,suid
+4 1000000  2665    2403  20   0  67832 38100 ep_pol Ss   ?          0:04 /lib/systemd/systemd-journald
+5     0    2736       1  20   0 1128928 14448 ep_pol Ss  ?          0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-6
+4 1000000  2776    2403  20   0  11884  4416 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+4 1000000  2780    2736  20   0 170568 12668 ep_pol Ss   ?          2:55 /sbin/init
+4 1000101  2790    1758  20   0  23964 12272 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000000  2867    2600  20   0  84248 45340 ep_pol Ss   ?          0:03 /lib/systemd/systemd-journald
+1 1000000  2887    2403  20   0   3748  1660 fuse_d Ss   ?          0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 1000000  2888    2403  20   0   3912  1800 fuse_d Ss   ?          0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  2892    2403  20   0   3768  1536 fuse_d Ss   ?          0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4 1000101  2916    1856  20   0  23964 12212 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000000  2980    2600  20   0  11884  4644 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+4 1000000  2993    2780  20   0  35084 12340 ep_pol Ss   ?          0:00 /lib/systemd/systemd-journald
+1 1000000  3033    2600  20   0   3740  1752 fuse_d Ss   ?          0:05 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 1000000  3034    2600  20   0   3812  1820 fuse_d Ss   ?          0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  3035    2600  20   0   3812  1752 fuse_d Ss   ?          0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4 1000000  3058    2780  20   0  11884  4664 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+1 1000000  3144    2780  20   0   4636  1448 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 1000000  3145    2780  20   0   4516  1392 fuse_d Ss   ?          0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1 1000000  3146    2780  20   0   4752  1636 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 1000000  3148    2780  20   0   4664  1408 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o ro,nodev,allow_other,suid
+1 1000000  3150    2780  20   0   4824  1620 fuse_d Ss   ?          0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 1000000  3151    2780  20   0   4744  1512 fuse_d Ss   ?          0:00 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+4 1000101  3234    1989  20   0  23964 10668 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000101  3235    2191  20   0  23964 12132 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000101  3288    2403  20   0  23964 11564 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000101  3290    2600  20   0  23964 12108 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000101  3377    2780  20   0  23964 12156 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4 1000100  3423    1856  20   0  18416  6484 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000100  3431    1758  20   0  18416  6440 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000000  3488    1758  20   0 241036  9100 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4 1000000  3489    1758  20   0  18808  7940 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/ceph-crash
+4 1064045  3515    1758  20   0 499716 171360 futex_ Ssl ?          0:45 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 1064045  3516    1758  20   0 1421340 939416 futex_ Ssl ?         7:13 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 1000103  3518    1758  20   0   7716  4376 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 1000000  3530    1758  20   0  29272 13820 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 1000104  3541    1758  20   0 154864  4152 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+4 1000000  3542    1856  20   0 241036  9136 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+0 1000000  3543    1758  20   0  10396  5372 hrtime Ss   ?          0:00 /usr/sbin/smartd -n
+0 1000000  3559    1758  20   0 947132 37300 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4 1000000  3564    1856  20   0   8536  2868 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000103  3565    1856  20   0   7568  4252 ep_pol Ss   ?          0:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 1000000  3566    1758  20   0  16848  7652 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0 1000000  3572    1758  20   0 394572 12308 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+0 1000000  3579    1856  20   0  29280 13840 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 1000104  3586    1856  20   0 154864  4160 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+4 1000000  3588    1856  20   0 11356148 52296 futex_ Ssl ?        13:22 /snap/etcd/230/bin/etcd --config-file /var/snap/etcd/common/etcd.conf.yml
+0 1000000  3594    1856  20   0 873400 38072 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4 1000000  3598    1856  20   0  16480  6188 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0 1000000  3602    1856  20   0 394572 12464 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4 1000000  3608    1758  20   0   8536  2912 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000001  3614    1856  20   0   3792  2340 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4 1000001  3623    1758  20   0   3792  2184 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4 1000000  3632    1856  20   0   8696  3332 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-1-exec-start.sh
+4 1000000  3643    1758  20   0   8696  2512 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+4 1000100  3670    2191  20   0  18416  6240 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000000  3672    1856  20   0   7352  2124 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 1000000  3680    1758  20   0   7352  2128 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 1000100  3683    1989  20   0  18416  4584 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000000  3687    3643  20   0 866328 76776 futex_ SLl  ?         20:11 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+4 1000000  3692    1856  20   0  12176  5668 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 1000000  3706    3632  20   0 866072 96672 futex_ SLl  ?         20:37 /var/lib/juju/tools/machine-1-lxd-1/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/1 --debug
+4 1000000  3743    1758  20   0  12176  6148 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0 1000000  3777    1856  20   0 236424  8828 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+4 1000000  3780    2191  20   0 241036  9148 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4 1000000  3790    2191  20   0   8536  2976 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000103  3792    2191  20   0   7568  4256 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 1000000  3799    1758  20   0 236424  8876 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+4 1000000  3806    1989  20   0 241036  8068 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+0 1000000  3813    2191  20   0  29280 13756 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 1000000  3814    1989  20   0   8536  2712 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000104  3815    2191  20   0 154864  4144 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+4 1000103  3817    1989  20   0   7564  2788 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 1000000  3824    2191  20   0 873400 37328 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4 1000113  3828    1989  20   0 419020  4880 ep_pol Ssl  ?          0:27 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+4 1000000  3830    2191  20   0  16480  6388 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0 1000000  3836    1989  20   0  29500  9352 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 1000104  3890    1989  20   0 154864  2948 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+0 1000000  3899    2191  20   0 394572 12520 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+0 1000000  3909    1989  20   0 873400 35392 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4 1000001  3919    2191  20   0   3792  2216 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4 1000000  3925    1989  20   0  16480  5672 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0 1000000  3978    1989  20   0 394572 10472 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4 1000001  4004    1989  20   0   3792  1992 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4 1000000  4050    2191  20   0   8696  3348 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-3-exec-start.sh
+4 1000100  4055    2600  20   0  18416  6216 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000000  4066    1989  20   0   8696  3196 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-2-exec-start.sh
+4 1000000  4085    2191  20   0   7352  2212 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 1000000  4092    4050  20   0 866328 98536 futex_ SLl  ?         19:55 /var/lib/juju/tools/machine-1-lxd-3/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/3 --debug
+4 1000000  4097    1989  20   0   7352  1968 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0 1000997  4118    1989  20   0 761464 12004 futex_ Sl   ?          6:42 /usr/bin/mysqlrouter -c /var/lib/mysql/keystone-mysql-router/mysqlrouter.conf
+4 1000000  4138    2191  20   0  12176  5728 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 1000000  4168    4066  20   0 866328 75484 futex_ SLl  ?         20:53 /var/lib/juju/tools/machine-1-lxd-2/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/2 --debug
+4 1000000  4172    1989  20   0  18920  8220 ep_pol Ss   ?          0:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+0 1000000  4183    2191  20   0 236424  8928 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+0 1000000  4195    1758  20   0 108112 16368 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+5 1000115  4252    4172  20   0  92956  4064 ep_pol Sl   ?          0:11 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+0 1000000  4325    1989  20   0 236424  7504 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+4 1000100  4405    2780  20   0  18416  6328 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000000  4414    2600  20   0 238068  9012 poll_s Ssl  ?          0:01 /usr/lib/accountsservice/accounts-daemon
+4 1000100  4420    2403  20   0  18416  5604 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4 1000000  4431    2600  20   0   5568  2872 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000103  4432    2600  20   0   7844  4608 ep_pol Ss   ?          0:04 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 1000000  4436    1989  20   0  12176  4292 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 1000113  4442    2600  20   0   8308  4968 poll_s Ss   ?          0:00 /usr/bin/epmd -systemd
+0 1000000  4445    2600  20   0  26312 13904 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 1000114  4446    2600  20   0   2608   536 do_wai Ss   ?          0:00 /bin/sh /usr/sbin/rabbitmq-server
+4 1000104  4454    2600  20   0 154712  3864 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+0 1000000  4462    2600  20   0 873400 35884 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4 1000000  4472    2600  20   0  16804  7508 ep_pol Ss   ?          0:02 /lib/systemd/systemd-logind
+0 1000000  4478    2600  20   0 394572 12244 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4 1000001  4496    2600  20   0   3792  2120 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4 1000000  4508    2600  20   0   5728  2892 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+4 1000000  4527    2600  20   0   4384  2088 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0 1000114  4586    4446  20   0 2279728 181496 poll_s Sl ?         51:40 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+4 1000000  4600    4508  20   0 866072 29988 futex_ SLl  ?         19:47 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+4 1000113  4616    2191  20   0 5151276 1873100 poll_s Ssl ?       33:32 /usr/sbin/mysqld
+4 1000000  4641    2600  20   0  12176  6608 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 1000000  4657    2780  20   0 241036  9260 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4 1000000  4676    2780  20   0 161040 46420 ep_pol Ssl  ?          4:50 /usr/sbin/corosync -f
+4 1000000  4684    2403  20   0 241036  8688 poll_s Ssl  ?          0:01 /usr/lib/accountsservice/accounts-daemon
+4 1000000  4685    2780  20   0   8536  2984 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000103  4688    2780  20   0   7700  4368 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 1000000  4712    2403  20   0   8536  2772 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4 1000103  4716    2403  20   0   7568  3824 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 1000000  4719    2780  20   0  29272 14008 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 1000104  4722    2780  20   0 154864  4056 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+0 1000000  4738    2191  20   0 108108 16540 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 1000114  4749    2403  20   0 410796  4224 ep_pol Ssl  ?          0:12 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+0 1000000  4754    2780  20   0 947132 37520 futex_ Ssl  ?          0:04 /usr/lib/snapd/snapd
+0 1000000  4755    2403  20   0  29480 11696 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+0 1000000  4757    2600  20   0 236424  8716 poll_s Ssl  ?          0:01 /usr/lib/policykit-1/polkitd --no-debug
+4 1000104  4764    2403  20   0 154864  3720 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+4 1000000  4765    2780  20   0  16480  6264 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0 1000000  4784    2780  20   0 394572 12540 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+0 1000000  4801    2403  20   0 873400 35292 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+0 1000000  4820    1856  20   0 108108 16804 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 1000000  4846    2403  20   0  16480  5428 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+4 1000001  4858    2780  20   0   3792  2160 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+0 1000000  4859    2780  20   0   4784  3084 poll_s Ss   ?          0:02 ha_logd: read process
+0 1000000  4879    2403  20   0 394572 11892 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4 1000000  4880    2780  20   0   8696  2532 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-6-exec-start.sh
+4 1000001  4897    2403  20   0   3792  2036 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4 1000000  4954    2780  20   0   7352  2060 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0 1000997  4962    2403  20   0 761464 12184 futex_ Sl   ?          6:37 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+4 1000000  4970    2403  20   0   8696  2272 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-4-exec-start.sh
+0 1000997  4971    2780  20   0 761464 12948 futex_ Sl   ?          6:18 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrouter.conf
+1 1000000  4987    4859  20   0   4784   232 poll_s S    ?          0:02 ha_logd: write process
+4 1000000  5038    2403  20   0   7352  2016 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 1000000  5057    4970  20   0 866328 45820 futex_ SLl  ?         21:02 /var/lib/juju/tools/machine-1-lxd-4/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/4 --debug
+0 1000000  5064    4880  20   0 866328 102088 futex_ SLl ?         20:56 /var/lib/juju/tools/machine-1-lxd-6/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/6 --debug
+4 1000000  5068    2780  20   0  12176  5652 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 1000000  5074    2403  20   0  18784  9744 ep_pol Ss   ?          0:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4 1000000  5090    2403  20   0  12176  5256 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+5 1000115  5188    5074  20   0  92820  6248 ep_pol Sl   ?          0:07 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+0 1000000  5260    2403  20   0 236424  8444 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+5 1000000  5375    2403  20   0  18688  6248 poll_s Ss   ?          0:01 /usr/sbin/apache2 -k start
+0 1000000  5429    2780  20   0 236424  8972 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+0 1000000  5430    1989  20   0 108136 13292 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 1000000  5466    2780  20   0  74376 14928 poll_s Ss   ?          0:03 /usr/sbin/pacemakerd -f
+0 1000000  5635    2600  20   0 105140 16556 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 1000000  5652    1989  20   0   2616   472 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 1000113  5682    5466  20   0  74852 23880 poll_s Ss   ?          0:07 /usr/lib/pacemaker/pacemaker-based
+4 1000000  5683    5466  20   0  65944 15916 poll_s Ss   ?          0:03 /usr/lib/pacemaker/pacemaker-fenced
+4 1000000  5684    5466  20   0  50424 10740 poll_s Ss   ?          0:03 /usr/lib/pacemaker/pacemaker-execd
+4 1000113  5687    5466  20   0  63316 13164 poll_s Ss   ?          0:03 /usr/lib/pacemaker/pacemaker-attrd
+4 1000113  5691    5466  20   0  50784  9984 poll_s Ss   ?          0:03 /usr/lib/pacemaker/pacemaker-schedulerd
+4 1000113  5694    5466  20   0  74776 16784 poll_s Ss   ?          0:05 /usr/lib/pacemaker/pacemaker-controld
+0 1000000  5696    2403  20   0 108140 15920 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+0 1000000  5697    2780  20   0 108108 16632 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 1000000  5858    1758  20   0   2616  1488 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 1000000  5892    1856  20   0   2616  1540 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 1000000  5920    2191  20   0   2616  1860 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 1000000  5960    2600  20   0   2616   444 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 1000000  6092    2403  20   0   2616  1204 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 1000000  6236    2780  20   0   2616  1716 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1     0    6281       1  20   0 160160 73252 unix_s Sl   ?          0:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmpc_qcyzs5/privsep.sock
+0 1000114  7985    4586  20   0   2492  1408 poll_s Ss   ?          0:01 erl_child_setup 65536
+4 1000000 11933    6092  20   0 1524036 28580 futex_ Sl  ?          0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 1000000 12313    5858  20   0 1597768 41296 futex_ Sl  ?          0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 1000000 12616    5652  20   0 1524036 26020 futex_ Sl  ?          0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 1000000 12775    5960  20   0 1524036 30692 futex_ Sl  ?          0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 1000000 14488    5892  20   0 1671500 42332 futex_ Sl  ?          0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 1000000 15345    5920  20   0 1524036 43804 futex_ Sl  ?          0:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 1000000 15480    6236  20   0 1524036 45096 futex_ Sl  ?          0:13 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1     0   15932       2   0 -20      0     0 kthrea S<   ?          0:00 [loop4]
+0 1000114 17252    7985  20   0   3880   912 poll_s Ss   ?          0:00 inet_gethost 4
+1 1000114 17254   17252  20   0   3960  1604 pipe_w S    ?          0:00 inet_gethost 4
+4     0   18866       1  20   0   2616  1752 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/22358/commands/daemon.start
+4     0   19026   18866  20   0 1758336 64280 futex_ Sl  ?          2:19 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4   998   19086   19026  20   0   8928  3544 poll_s Ss   ?          0:00 dnsmasq --keep-in-foreground --strict-order --bind-interfaces --except-interface=lo --pid-file= --no-ping --interface=lxdbr0 --dhcp-rapid-commit --quiet-dhcp --quiet-dhcp6 --quiet-ra --listen-address=10.50.99.1 --dhcp-no-override --dhcp-authoritative --dhcp-leasefile=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.leases --dhcp-hostsfile=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.hosts --dhcp-range 10.50.99.2,10.50.99.254,1h -s lxd --interface-name _gateway.lxd,lxdbr0 -S /lxd/ --conf-file=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.raw -u lxd -g lxd
+1 64060   35743     984  20   0 121108 93568 ep_pol S    ?          0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+1 64060   35744     984  20   0 121108 93564 ep_pol S    ?          0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+1 64060   35746     984  20   0 121104 93624 ep_pol S    ?          0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+1 64060   35747     984  20   0 121112 93532 ep_pol S    ?          0:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+4 1000000 35758    2780  20   0 878640 68252 futex_ Ssl  ?          1:41 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/vault.hcl
+1     0   36865       2   0 -20      0     0 rescue I<   ?          0:00 [kdmflush]
+1     0   36876       2   0 -20      0     0 rescue I<   ?          0:00 [kcryptd_io/253:]
+1     0   36877       2   0 -20      0     0 rescue I<   ?          0:00 [kcryptd/253:0]
+1     0   36878       2  20   0      0     0 dmcryp S    ?          0:02 [dmcrypt_write/2]
+1     0   36910       2   0 -20      0     0 rescue I<   ?          0:00 [kdmflush]
+1     0   36968       2   0 -20      0     0 rescue I<   ?          0:00 [kdmflush]
+1     0   36969       2   0 -20      0     0 rescue I<   ?          0:00 [kcryptd_io/253:]
+1     0   36971       2   0 -20      0     0 rescue I<   ?          0:00 [kcryptd/253:2]
+1     0   36972       2  20   0      0     0 dmcryp S    ?          0:00 [dmcrypt_write/2]
+1     0   44277       1  20   0 238752 80980 unix_s Sl   ?          0:03 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmp7duwkf2h/privsep.sock
+0   119   45486    1603  20   0   9236  3984 poll_s S    ?          0:00 ovsdb-client monitor tcp:127.0.0.1:6640 Interface name,ofport,external_ids --format=json
+5 1000000 46251    1989  20   0  18728  4792 poll_s Ss   ?          0:01 /usr/sbin/apache2 -k start
+4     0   51494       1  20   0   8696  2472 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-exec-start.sh
+4     0   51515   51494  20   0 866328 103756 futex_ SLl ?         19:34 /var/lib/juju/tools/machine-1/jujud machine --data-dir /var/lib/juju --machine-id 1 --debug
+1     0   53075       2   0 -20      0     0 rescue I<   ?          0:00 [xfsalloc]
+1     0   53076       2   0 -20      0     0 rescue I<   ?          0:00 [xfs_mru_cache]
+1     0   53077       2   0 -20      0     0 rescue I<   ?          0:00 [xfs-buf/dm-2]
+1     0   53078       2   0 -20      0     0 rescue I<   ?          0:00 [xfs-conv/dm-2]
+1     0   53079       2   0 -20      0     0 rescue I<   ?          0:00 [xfs-cil/dm-2]
+1     0   53080       2   0 -20      0     0 rescue I<   ?          0:00 [xfs-reclaim/dm-]
+1     0   53082       2   0 -20      0     0 rescue I<   ?          0:00 [xfs-eofblocks/d]
+1     0   53083       2   0 -20      0     0 rescue I<   ?          0:00 [xfs-log/dm-2]
+1     0   53084       2  20   0      0     0 xfsail S    ?          0:00 [xfsaild/dm-2]
+4 64060   53085       1  20   0 1570956 170472 ep_pol Ssl ?         2:27 /usr/bin/python3 /usr/bin/nova-compute --config-file=/etc/nova/nova.conf --config-file=/etc/nova/nova-compute.conf --log-file=/var/log/nova/nova-compute.log
+4 1000107 135899   1758  20   0   9748  1016 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+5 1000113 171572   5375  20   0 232544 82828 poll_s Sl   ?          0:21 (wsgi:placement)  -k start
+5 1000113 171573   5375  20   0 232544 82732 poll_s Sl   ?          0:21 (wsgi:placement)  -k start
+5 1000113 171575   5375  20   0 232544 82684 poll_s Sl   ?          0:21 (wsgi:placement)  -k start
+5 1000113 171577   5375  20   0 232800 82800 poll_s Sl   ?          0:21 (wsgi:placement)  -k start
+5 1000033 171621   5375  20   0 1226996 11968 pipe_w Sl  ?          0:02 /usr/sbin/apache2 -k start
+5 1000033 171622   5375  20   0 1227068 12332 pipe_w Sl  ?          0:02 /usr/sbin/apache2 -k start
+5 1000114 171719  46251  20   0 254424 99372 poll_s Sl   ?          1:28 (wsgi:keystone-ad -k start
+5 1000114 171720  46251  20   0 252120 102376 poll_s Sl  ?          0:20 (wsgi:keystone-pu -k start
+5 1000114 171721  46251  20   0 251608 101528 poll_s Sl  ?          0:13 (wsgi:keystone-pu -k start
+5 1000114 171722  46251  20   0 251864 102072 poll_s Sl  ?          0:19 (wsgi:keystone-pu -k start
+5 1000033 171736  46251  20   0 1228292 6528 pipe_w Sl   ?          0:01 /usr/sbin/apache2 -k start
+5 1000033 171737  46251  20   0 1228196 3972 pipe_w Sl   ?          0:01 /usr/sbin/apache2 -k start
+4     0  782960       1  20   0 251232  9448 poll_s Ssl  ?          0:00 /usr/lib/upower/upowerd
+4 1000107 829236   2780  20   0   9748  1128 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4 1000107 844660   2600  20   0   6780   928 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4 64045 1113152       1  20   0 1068464 325384 futex_ Ssl ?         2:07 /usr/bin/ceph-osd -f --cluster ceph --id 0 --setuser ceph --setgroup ceph
+4 1000000 1734261  2403  20   0 384016 17276 poll_s Ssl  ?          0:00 /usr/libexec/fwupd/fwupd
+1     0 1734274       2  20   0      0     0 worker I    ?          0:01 [kworker/0:1-events]
+1     0 1737737       2  20   0      0     0 worker I    ?          0:04 [kworker/u4:1-kcryptd/253:0]
+1     0 1754162       2  20   0      0     0 worker I    ?          0:00 [kworker/1:2-events]
+1     0 1759107       2  20   0      0     0 worker I    ?          0:02 [kworker/u4:2-events_power_efficient]
+1     0 1769198       2  20   0      0     0 worker I    ?          0:00 [kworker/1:3-cgroup_destroy]
+1     0 1769485       2  20   0      0     0 worker I    ?          0:00 [kworker/0:2-mm_percpu_wq]
+1     0 1773272       1  20   0 337656 90976 futex_ Sl   ?          0:00 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+5     0 1773285 1773272  20   0 337400 88004 poll_s S    ?          0:00 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+5   119 1773297       1  20   0  89032  3060 ep_pol Ssl  ?          0:00 haproxy -f /var/lib/neutron/ns-metadata-proxy/984c22fd-64b3-4fa1-8ddd-87090f401ce5.conf
+5     0 1775813       1  20   0  25176  3108 ep_pol Ss   ?          0:00 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+5     0 1775814 1775813  20   0  25308  2832 ep_pol S    ?          0:00 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+1     0 1775867       2  20   0      0     0 worker I    ?          0:02 [kworker/u4:3-kcryptd/253:0]
+1     0 1778728       2  20   0      0     0 worker I    ?          0:00 [kworker/1:4-cgroup_destroy]
+1     0 1778729       2  20   0      0     0 worker I    ?          0:00 [kworker/1:5-events]
+1     0 1778734       2  20   0      0     0 worker I    ?          0:00 [kworker/1:10-events]
+1     0 1778821       2  20   0      0     0 worker I    ?          0:00 [kworker/0:4-events]
+1     0 1779130       2  20   0      0     0 worker I    ?          0:00 [kworker/0:10-events]
+1     0 1779945       2  20   0      0     0 worker I    ?          0:00 [kworker/1:13-events]
+4     0 1780281    1028  20   0  13796  8764 poll_s Ss   ?          0:00 sshd: ubuntu [priv]
+4  1000 1780287       1  20   0  18648  9756 ep_pol Ss   ?          0:00 /lib/systemd/systemd --user
+5  1000 1780288 1780287  20   0 176400  9200 do_sig S    ?          0:00 (sd-pam)
+5  1000 1780382 1780281  20   0  13928  5676 poll_s S    ?          0:00 sshd: ubuntu@pts/0
+4     0 1780383 1780382  20   0  11020  4376 poll_s Ss   pts/0      0:00 sudo -s
+4     0 1780385 1780383  20   0   8960  3740 do_wai S    pts/0      0:00 /bin/bash
+4     0 1780834    1028  20   0  13800  9092 poll_s Ss   ?          0:00 sshd: ubuntu [priv]
+5  1000 1780968 1780834  20   0  13932  5432 poll_s S    ?          0:00 sshd: ubuntu@pts/1
+4     0 1780986 1780968  20   0  11024  4728 poll_s Ss   pts/1      0:00 sudo -s
+4     0 1780989 1780986  20   0   8960  4052 poll_s S+   pts/1      0:00 /bin/bash
+1     0 1781387       1  20   0 142856 48688 unix_s Sl   ?          0:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context vif_plug_ovs.privsep.vif_plug --privsep_sock_path /tmp/tmp__akp505/privsep.sock
+4     0 1781495       1  20   0  72672 17496 poll_s Ss   ?          0:01 /usr/sbin/virtlogd
+4     0 1785959       1  20   0 384240 29864 poll_s Ssl  ?          0:00 /usr/libexec/fwupd/fwupd
+1     0 1790385       1  20   0 124932 35352 unix_s Sl   ?          0:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context os_brick.privileged.default --privsep_sock_path /tmp/tmpeu23eurh/privsep.sock
+6 64055 1791722       1  20   0 3423732 600704 poll_s Sl ?          0:02 /usr/bin/qemu-system-x86_64 -name guest=instance-00000001,debug-threads=on -S -object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-2-instance-00000001/master-key.aes -machine pc-i440fx-4.2,accel=kvm,usb=off,dump-guest-core=off -cpu Skylake-Client-IBRS,ss=on,vmx=on,hypervisor=on,tsc-adjust=on,clflushopt=on,umip=on,md-clear=on,arch-capabilities=on,ssbd=on,xsaves=on,pdpe1gb=on,ibpb=on,ibrs=on,amd-ssbd=on,skip-l1dfl-vmentry=on,pschange-mc-no=on,mpx=off -m 2048 -overcommit mem-lock=off -smp 1,sockets=1,cores=1,threads=1 -uuid d1d75e2f-ada4-49bc-a963-528d89dfda25 -smbios type=1,manufacturer=OpenStack Foundation,product=OpenStack Nova,version=21.2.3,serial=d1d75e2f-ada4-49bc-a963-528d89dfda25,uuid=d1d75e2f-ada4-49bc-a963-528d89dfda25,family=Virtual Machine -display none -no-user-config -nodefaults -chardev socket,id=charmonitor,fd=33,server,nowait -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc,driftfix=slew -global kvm-pit.lost_tick_policy=delay -no-hpet -no-shutdown -boot strict=on -device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2 -object secret,id=libvirt-1-storage-secret0,data=XAPibndN+4AnDL8fOeRgBGGcl9O4v+eEhhiAHdImV0Q=,keyid=masterKey0,iv=NiTD9GloeE3G64Y40Qf+lg==,format=base64 -blockdev {"driver":"rbd","pool":"nova","image":"d1d75e2f-ada4-49bc-a963-528d89dfda25_disk","server":[{"host":"10.0.0.120","port":"6789"},{"host":"10.0.0.123","port":"6789"},{"host":"10.0.0.131","port":"6789"}],"user":"nova-compute","auth-client-required":["cephx","none"],"key-secret":"libvirt-1-storage-secret0","node-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-1-format","read-only":false,"discard":"unmap","cache":{"direct":true,"no-flush":false},"driver":"raw","file":"libvirt-1-storage"} -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=libvirt-1-format,id=virtio-disk0,bootindex=1,write-cache=on -netdev tap,fd=35,id=hostnet0,vhost=on,vhostfd=36 -device virtio-net-pci,host_mtu=1450,netdev=hostnet0,id=net0,mac=fa:16:3e:a7:45:cb,bus=pci.0,addr=0x2 -add-fd set=3,fd=38 -chardev pty,id=charserial0,logfile=/dev/fdset/3,logappend=on -device isa-serial,chardev=charserial0,id=serial0 -incoming defer -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x4 -object rng-random,id=objrng0,filename=/dev/urandom -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.0,addr=0x5 -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny -msg timestamp=on
+1     0 1791746       2  20   0      0     0 kvm_nx S    ?          0:00 [kvm-nx-lpage-re]
+1     0 1791747       2  20   0      0     0 vhost_ S    ?          0:00 [vhost-1791722]
+1     0 1791750       2  20   0      0     0 kthrea S    ?          0:00 [kvm-pit/1791722]
+4     0 1795431 1780385  20   0 991508 118720 futex_ Sl+ pts/0      0:19 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4     0 1796388       1  20   0  16260  5780 ep_pol Ss   ?          0:00 /lib/systemd/systemd-hostnamed
+1     0 1796621       2  20   0      0     0 worker I    ?          0:00 [kworker/0:0]
+4     0 1798172 1795431  20   0   2712   656 sigsus S    pts/0      0:00 timeout 300s ps alxwww
+4     0 1798174 1795431  20   0      0     0 -      Z    pts/0      0:00 [timeout] <defunct>
+4     0 1798177 1798172  20   0   5816  1164 -      R    pts/0      0:00 ps alxwww

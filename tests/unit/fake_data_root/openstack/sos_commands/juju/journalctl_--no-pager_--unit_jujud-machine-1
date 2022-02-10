@@ -1,0 +1,133 @@
+-- Logs begin at Fri 2022-02-04 09:34:04 UTC, end at Thu 2022-02-10 16:19:19 UTC. --
+Feb 04 09:34:38 compute4 systemd[1]: Started juju agent for machine-1.
+Feb 04 09:35:43 compute4 groupadd[11611]: group added to /etc/group: name=rdma, GID=119
+Feb 04 09:35:43 compute4 groupadd[11611]: group added to /etc/gshadow: name=rdma
+Feb 04 09:35:43 compute4 groupadd[11611]: new group: name=rdma, GID=119
+Feb 04 09:35:44 compute4 groupadd[11669]: group added to /etc/group: name=ceph, GID=64045
+Feb 04 09:35:44 compute4 groupadd[11669]: group added to /etc/gshadow: name=ceph
+Feb 04 09:35:44 compute4 groupadd[11669]: new group: name=ceph, GID=64045
+Feb 04 09:35:44 compute4 useradd[11678]: new user: name=ceph, UID=64045, GID=64045, home=/home/ceph, shell=/usr/sbin/nologin, from=none
+Feb 04 09:35:44 compute4 usermod[11686]: change user 'ceph' password
+Feb 04 09:35:44 compute4 chage[11693]: changed password expiry for ceph
+Feb 04 09:35:44 compute4 usermod[11697]: change user 'ceph' home from '/home/ceph' to '/var/lib/ceph'
+Feb 04 09:36:48 compute4 groupadd[17094]: group added to /etc/group: name=zvmsdk, GID=120
+Feb 04 09:36:48 compute4 groupadd[17094]: group added to /etc/gshadow: name=zvmsdk
+Feb 04 09:36:48 compute4 groupadd[17094]: new group: name=zvmsdk, GID=120
+Feb 04 09:36:48 compute4 useradd[17102]: new user: name=zvmsdk, UID=114, GID=120, home=/var/lib/zvmsdk, shell=/bin/false, from=none
+Feb 04 09:36:48 compute4 usermod[17110]: change user 'zvmsdk' password
+Feb 04 09:36:48 compute4 chage[17117]: changed password expiry for zvmsdk
+Feb 04 09:36:58 compute4 groupadd[17679]: group added to /etc/group: name=keystone, GID=121
+Feb 04 09:36:58 compute4 groupadd[17679]: group added to /etc/gshadow: name=keystone
+Feb 04 09:36:58 compute4 groupadd[17679]: new group: name=keystone, GID=121
+Feb 04 09:36:58 compute4 useradd[17687]: new user: name=keystone, UID=115, GID=121, home=/var/lib/keystone, shell=/bin/false, from=none
+Feb 04 09:36:58 compute4 usermod[17695]: change user 'keystone' password
+Feb 04 09:36:58 compute4 chage[17702]: changed password expiry for keystone
+Feb 04 09:37:02 compute4 groupadd[18007]: group added to /etc/group: name=nova, GID=64060
+Feb 04 09:37:02 compute4 groupadd[18007]: group added to /etc/gshadow: name=nova
+Feb 04 09:37:02 compute4 groupadd[18007]: new group: name=nova, GID=64060
+Feb 04 09:37:02 compute4 useradd[18015]: new user: name=nova, UID=64060, GID=64060, home=/var/lib/nova, shell=/bin/false, from=none
+Feb 04 09:37:02 compute4 usermod[18023]: change user 'nova' password
+Feb 04 09:37:02 compute4 chage[18030]: changed password expiry for nova
+Feb 04 09:37:05 compute4 useradd[18192]: new user: name=_rpc, UID=116, GID=65534, home=/run/rpcbind, shell=/usr/sbin/nologin, from=none
+Feb 04 09:37:05 compute4 usermod[18200]: change user '_rpc' password
+Feb 04 09:37:05 compute4 chage[18207]: changed password expiry for _rpc
+Feb 04 09:37:09 compute4 useradd[18680]: new user: name=statd, UID=117, GID=65534, home=/var/lib/nfs, shell=/usr/sbin/nologin, from=none
+Feb 04 09:37:09 compute4 usermod[18688]: change user 'statd' password
+Feb 04 09:37:09 compute4 chage[18695]: changed password expiry for statd
+Feb 04 09:37:22 compute4 groupadd[19393]: group added to /etc/group: name=libvirt, GID=122
+Feb 04 09:37:22 compute4 groupadd[19393]: group added to /etc/gshadow: name=libvirt
+Feb 04 09:37:23 compute4 groupadd[19393]: new group: name=libvirt, GID=122
+Feb 04 09:37:23 compute4 useradd[19403]: new user: name=libvirt-qemu, UID=64055, GID=108, home=/var/lib/libvirt, shell=/usr/sbin/nologin, from=none
+Feb 04 09:37:23 compute4 chage[19411]: changed password expiry for libvirt-qemu
+Feb 04 09:37:23 compute4 chfn[19415]: changed user 'libvirt-qemu' information
+Feb 04 09:37:23 compute4 groupadd[19424]: group added to /etc/group: name=libvirt-qemu, GID=64055
+Feb 04 09:37:23 compute4 groupadd[19424]: group added to /etc/gshadow: name=libvirt-qemu
+Feb 04 09:37:23 compute4 groupadd[19424]: new group: name=libvirt-qemu, GID=64055
+Feb 04 09:37:23 compute4 gpasswd[19431]: user libvirt-qemu added by root to group libvirt-qemu
+Feb 04 09:37:23 compute4 gpasswd[19441]: user ubuntu added by root to group libvirt
+Feb 04 09:37:23 compute4 groupadd[19449]: group added to /etc/group: name=libvirt-dnsmasq, GID=123
+Feb 04 09:37:23 compute4 groupadd[19449]: group added to /etc/gshadow: name=libvirt-dnsmasq
+Feb 04 09:37:23 compute4 groupadd[19449]: new group: name=libvirt-dnsmasq, GID=123
+Feb 04 09:37:23 compute4 useradd[19457]: new user: name=libvirt-dnsmasq, UID=118, GID=123, home=/var/lib/libvirt/dnsmasq, shell=/usr/sbin/nologin, from=none
+Feb 04 09:37:23 compute4 chage[19465]: changed password expiry for libvirt-dnsmasq
+Feb 04 09:37:23 compute4 chfn[19469]: changed user 'libvirt-dnsmasq' information
+Feb 04 09:37:46 compute4 gpasswd[21421]: user nova added by root to group libvirt
+Feb 04 09:38:15 compute4 groupadd[22390]: group added to /etc/group: name=neutron, GID=124
+Feb 04 09:38:15 compute4 groupadd[22390]: group added to /etc/gshadow: name=neutron
+Feb 04 09:38:15 compute4 groupadd[22390]: new group: name=neutron, GID=124
+Feb 04 09:38:15 compute4 useradd[22398]: new user: name=neutron, UID=119, GID=124, home=/var/lib/neutron, shell=/bin/false, from=none
+Feb 04 09:38:15 compute4 usermod[22406]: change user 'neutron' password
+Feb 04 09:38:15 compute4 chage[22413]: changed password expiry for neutron
+Feb 04 09:38:33 compute4 groupadd[23423]: group added to /etc/group: name=haproxy, GID=125
+Feb 04 09:38:33 compute4 groupadd[23423]: group added to /etc/gshadow: name=haproxy
+Feb 04 09:38:33 compute4 groupadd[23423]: new group: name=haproxy, GID=125
+Feb 04 09:38:33 compute4 useradd[23429]: new user: name=haproxy, UID=120, GID=125, home=/var/lib/haproxy, shell=/usr/sbin/nologin, from=none
+Feb 04 09:38:33 compute4 chage[23437]: changed password expiry for haproxy
+Feb 04 09:39:40 compute4 ovs-vsctl[26605]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:39:40 compute4 ovs-vsctl[26611]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:39:42 compute4 ovs-vsctl[26671]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:39:42 compute4 ovs-vsctl[26691]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 09:39:42 compute4 ovs-vsctl[26702]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 09:39:42 compute4 ovs-vsctl[26703]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 09:39:42 compute4 ovs-vsctl[26704]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 09:40:39 compute4 usermod[28906]: change user 'nova' shell from '/bin/false' to '/bin/bash'
+Feb 04 09:41:28 compute4 ovs-vsctl[30494]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:41:28 compute4 ovs-vsctl[30500]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:41:29 compute4 ovs-vsctl[30530]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:41:29 compute4 ovs-vsctl[30539]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 09:41:30 compute4 ovs-vsctl[30550]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 09:41:30 compute4 ovs-vsctl[30551]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 09:41:30 compute4 ovs-vsctl[30552]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 09:43:07 compute4 ovs-vsctl[34982]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:43:07 compute4 ovs-vsctl[34990]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:43:19 compute4 ovs-vsctl[35664]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 09:43:19 compute4 ovs-vsctl[35710]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 09:43:31 compute4 ovs-vsctl[36447]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 09:43:31 compute4 ovs-vsctl[36454]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 09:43:31 compute4 ovs-vsctl[36459]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 10:01:13 compute4 ovs-vsctl[155668]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:01:13 compute4 ovs-vsctl[155677]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:01:18 compute4 ovs-vsctl[156167]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:01:18 compute4 ovs-vsctl[156190]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 10:01:22 compute4 ovs-vsctl[156523]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 10:01:22 compute4 ovs-vsctl[156524]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 10:01:22 compute4 ovs-vsctl[156526]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 10:02:31 compute4 sudo[163704]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-osd-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph-authtool /var/lib/ceph/bootstrap-osd/ceph.keyring --create-keyring --name=client.bootstrap-osd --add-key=AQAG+PxhPGy5HRAAUJZgIR7Yac2+6o6GoLND3g==
+Feb 04 10:02:31 compute4 sudo[163704]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:02:31 compute4 sudo[163704]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:02:31 compute4 sudo[163739]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-osd-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph-authtool /var/lib/ceph/osd/ceph.client.osd-upgrade.keyring --create-keyring --name=client.osd-upgrade --add-key=AQAr+PxhaeWjGxAAnEfg/U34cU/tbVHj1OaxvA==
+Feb 04 10:02:31 compute4 sudo[163739]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:02:31 compute4 sudo[163739]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:07:45 compute4 useradd[208458]: new user: name=radvd, UID=121, GID=65534, home=/var/run/radvd, shell=/usr/sbin/nologin, from=none
+Feb 04 10:07:45 compute4 usermod[208481]: change user 'radvd' password
+Feb 04 10:07:45 compute4 chage[208492]: changed password expiry for radvd
+Feb 04 10:09:08 compute4 ovs-vsctl[220364]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:09:08 compute4 ovs-vsctl[220380]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:09:09 compute4 ovs-vsctl[220539]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:09:09 compute4 ovs-vsctl[220592]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 10:09:11 compute4 ovs-vsctl[220836]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 10:09:11 compute4 ovs-vsctl[220837]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 10:09:11 compute4 ovs-vsctl[220838]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 10:23:59 compute4 ovs-vsctl[302611]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:23:59 compute4 ovs-vsctl[302617]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:24:00 compute4 ovs-vsctl[302651]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:24:00 compute4 ovs-vsctl[302662]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 10:24:01 compute4 ovs-vsctl[302674]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 10:24:01 compute4 ovs-vsctl[302675]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 10:24:01 compute4 ovs-vsctl[302676]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 10:54:35 compute4 ovs-vsctl[389077]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-int -- set bridge br-int datapath-type=system -- set bridge br-int external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:54:35 compute4 ovs-vsctl[389084]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-ex -- set bridge br-ex datapath-type=system -- set bridge br-ex external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:54:36 compute4 ovs-vsctl[389112]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-br br-data -- set bridge br-data datapath-type=system -- set bridge br-data external-ids:charm-neutron-openvswitch=managed
+Feb 04 10:54:36 compute4 ovs-vsctl[389123]: ovs|00001|vsctl|INFO|Called as ovs-vsctl -- --may-exist add-port br-data ens7 -- set Interface ens7 external-ids:charm-neutron-openvswitch=br-data -- set Port ens7 external-ids:charm-neutron-openvswitch=br-data
+Feb 04 10:54:37 compute4 ovs-vsctl[389134]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-int ipfix
+Feb 04 10:54:37 compute4 ovs-vsctl[389135]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-ex ipfix
+Feb 04 10:54:37 compute4 ovs-vsctl[389136]: ovs|00001|vsctl|INFO|Called as ovs-vsctl clear Bridge br-data ipfix
+Feb 04 11:32:31 compute4 systemd[1]: Stopping juju agent for machine-1...
+Feb 04 11:32:31 compute4 systemd[1]: jujud-machine-1.service: Succeeded.
+Feb 04 11:32:31 compute4 systemd[1]: Stopped juju agent for machine-1.
+-- Reboot --
+Feb 09 22:38:17 compute4 systemd[1]: Started juju agent for machine-1.
+Feb 09 22:52:39 compute4 systemd[1]: Stopping juju agent for machine-1...
+Feb 09 22:52:39 compute4 systemd[1]: jujud-machine-1.service: Succeeded.
+Feb 09 22:52:39 compute4 systemd[1]: Stopped juju agent for machine-1.
+Feb 09 22:52:39 compute4 systemd[1]: Started juju agent for machine-1.

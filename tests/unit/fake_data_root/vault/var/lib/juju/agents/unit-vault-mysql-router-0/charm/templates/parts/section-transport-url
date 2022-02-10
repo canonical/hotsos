@@ -1,0 +1,7 @@
+# This template must be included under the [DEFAULT] section
+
+{% if amqp.transport_url -%}
+transport_url = {{ amqp.transport_url }}
+{% endif -%}
+
+

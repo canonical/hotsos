@@ -1,0 +1,48 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+4     0       1       0  20   0 105000 12736 ep_pol Ss   ?          0:05 /sbin/init
+4     0      63       1  20   0  51472 17896 ep_pol Ss   ?          0:00 /lib/systemd/systemd-journald
+4     0      93       1  20   0  11884  4704 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+1     0     117       1  20   0   3964  1664 -      Rs   ?          0:02 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1     0     118       1  20   0   3864  1760 fuse_d Ss   ?          0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1     0     119       1  20   0   3740  1816 fuse_d Ss   ?          0:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4   101     170       1  20   0  23964 12272 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4   100     230       1  20   0  18416  6440 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4     0     234       1  20   0 241036  9144 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4     0     235       1  20   0  18808  8336 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/ceph-crash
+4 64045     236       1  20   0 499716 173692 futex_ Ssl ?          0:29 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 64045     237       1  20   0 1231708 844444 futex_ Ssl ?         4:21 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4   103     238       1  20   0   7572  4264 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0     0     241       1  20   0  29272 13840 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4   104     243       1  20   0 154864  4152 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+0     0     244       1  20   0  10396  5372 hrtime Ss   ?          0:00 /usr/sbin/smartd -n
+0     0     248       1  20   0 947132 37308 futex_ Ssl  ?          0:01 /usr/lib/snapd/snapd
+4     0     250       1  20   0  16848  7660 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0     0     252       1  20   0 394572 12352 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4     0     265       1  20   0   8536  2912 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4     1     270       1  20   0   3792  2184 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+4     0     275       1  20   0   8696  2512 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+4     0     283       1  20   0   7352  2128 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4     0     286     275  20   0 866072 95796 futex_ SLl  ?         12:35 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+4     0     294       1  20   0  12176  6172 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0     0     311       1  20   0 236424  8928 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+0     0     396       1  20   0 108112 16400 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4     0     515       1  20   0   2616  1724 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4     0    1380     515  20   0 1597768 43564 futex_ Sl  ?          0:05 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4   107    9019       1  20   0   9748  1016 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4     0   50615     294  20   0  13800  7512 poll_s Ss   ?          0:00 sshd: ubuntu [priv]
+4  1000   50618       1  20   0  18292  8752 ep_pol Ss   ?          0:00 /lib/systemd/systemd --user
+5  1000   50619   50618  20   0 106212  5388 do_sig S    ?          0:00 (sd-pam)
+5  1000   50673   50615  20   0  13932  4112 poll_s S    ?          0:00 sshd: ubuntu@pts/1
+4     0   50674   50673  20   0  11168  4412 poll_s Ss   pts/1      0:00 sudo -s
+4     0   50675   50674  20   0   8960  2788 do_wai S    pts/1      0:00 /bin/bash
+4     0   50682   50675  20   0 971808 81240 futex_ Sl+  pts/1      0:10 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4     0   51649       1  20   0 384008 29160 poll_s Ssl  ?          0:00 /usr/libexec/fwupd/fwupd
+4     0   51731       1  20   0  16260  5944 ep_pol Ss   ?          0:00 /lib/systemd/systemd-hostnamed
+4     0   51946   50682  20   0   2712   652 sigsus S    pts/1      0:00 timeout 300s ceph osd crush show-tunables
+0     0   51948   51946  20   0 705340 37012 futex_ Sl   pts/1      0:00 /usr/bin/python3 /usr/bin/ceph osd crush show-tunables
+4     0   51954   50682  20   0   2712   584 sigsus S    pts/1      0:00 timeout 300s lxd.buginfo
+4     0   51956   51954  20   0   2616   608 pipe_w S    pts/1      0:00 /bin/sh /snap/lxd/21835/commands/buginfo
+0     0   52021   51956  20   0 716172  2492 lock_p D    pts/1      0:00 lxc --version
+4     0   52022   50682  20   0   2712   584 sigsus S    pts/1      0:00 timeout 300s lvmdump -d /tmp/sos.r7g5_we3/sosreport-juju-04f1e3-1-lxd-0-2022-02-10-aguuhsx/sos_commands/lvm2/lvmdump
+0     0   52023   52022  20   0   3896  2852 do_wai S    pts/1      0:00 /bin/bash /usr/sbin/lvmdump -d /tmp/sos.r7g5_we3/sosreport-juju-04f1e3-1-lxd-0-2022-02-10-aguuhsx/sos_commands/lvm2/lvmdump
+4     0   52035   52023  20   0   5816  2760 -      R    pts/1      0:00 ps alx

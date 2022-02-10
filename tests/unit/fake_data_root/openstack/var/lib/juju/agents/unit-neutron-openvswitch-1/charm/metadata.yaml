@@ -1,0 +1,40 @@
+name: neutron-openvswitch
+subordinate: true
+summary: OpenStack Networking - Open vSwitch Agent
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+description: |
+  Neutron is a virtual network service for Openstack, and a part of
+  Netstack. Just like OpenStack Nova provides an API to dynamically
+  request and configure virtual servers, Neutron provides an API to
+  dynamically request and configure virtual networks. These networks
+  connect "interfaces" from other OpenStack services (e.g., virtual NICs
+  from Nova VMs). The Neutron API supports extensions to provide
+  advanced network capabilities (e.g., QoS, ACLs, network monitoring,
+  etc.)
+  .
+  This charm provides the OpenStack Neutron Open vSwitch agent, managing
+  L2 connectivity on nova-compute services.
+tags:
+- openstack
+series:
+- bionic
+- focal
+- groovy
+- hirsute
+- impish
+extra-bindings:
+  data:
+provides:
+  neutron-plugin:
+    interface: neutron-plugin
+    scope: container
+  neutron-control:
+    interface: service-control
+requires:
+  juju-info:
+    interface: juju-info
+    scope: container
+  amqp:
+    interface: rabbitmq
+  neutron-plugin-api:
+    interface: neutron-plugin-api

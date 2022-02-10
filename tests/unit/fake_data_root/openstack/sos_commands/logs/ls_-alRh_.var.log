@@ -1,0 +1,181 @@
+/var/log/:
+total 3.5M
+drwxrwxr-x  17 root      syslog          4.0K Feb 10 13:48 .
+drwxr-xr-x  13 root      root            4.0K Feb  1 00:15 ..
+-rw-r--r--   1 root      root             56K Feb 10 16:18 alternatives.log
+drwxr-xr-x   2 root      root            4.0K May 19  2020 apparmor
+drwxr-xr-x   2 root      root            4.0K Feb  4 10:07 apt
+-rw-r-----   1 syslog    adm             133K Feb 10 16:19 auth.log
+-rw-rw----   1 root      utmp               0 Feb  1 00:15 btmp
+drwxrws--T   2 ceph      ceph            4.0K Feb 10 00:00 ceph
+-rw-r-----   1 root      adm              26K Feb  9 22:42 cloud-init-output.log
+-rw-r--r--   1 syslog    adm             420K Feb  9 22:42 cloud-init.log
+drwxr-xr-x   2 root      root            4.0K Aug  4  2021 dist-upgrade
+-rw-r--r--   1 root      adm              54K Feb  9 22:38 dmesg
+-rw-r--r--   1 root      adm              50K Feb  4 09:34 dmesg.0
+-rw-r--r--   1 root      root            286K Feb  4 10:08 dpkg.log
+-rw-r--r--   1 root      root             484 Feb  4 09:37 fontconfig.log
+-rw-r-----   1 syslog    adm              119 Feb 10 16:09 haproxy.log
+-rw-r-----   1 syslog    adm              432 Feb  9 22:38 haproxy.log.1
+drwxr-sr-x+  3 root      systemd-journal 4.0K Feb  4 09:34 journal
+drwxr-xr-x   2 syslog    adm             4.0K Feb  4 09:37 juju
+-rw-r-----   1 syslog    adm             585K Feb 10 16:19 kern.log
+drwxr-x---   2 keystone  adm             4.0K Sep 17 10:05 keystone
+drwxr-xr-x   2 landscape landscape       4.0K Feb  9 22:51 landscape
+-rw-rw-r--   1 root      utmp             18M Feb 10 16:13 lastlog
+drwxr-xr-x   5 root      root            4.0K Feb  4 09:36 libvirt
+drwxr-x---   2 neutron   neutron         4.0K Feb 10 00:00 neutron
+drwxr-x---   2 nova      adm             4.0K Feb 10 16:14 nova
+drwxr-xr-x   2 root      root            4.0K Feb 10 00:00 openvswitch
+-rw-r--r--   1 root      root             458 Feb  4 10:08 policy-rc.d.log
+drwx------   2 root      root            4.0K Feb  4 09:34 private
+-rw-r-----   1 syslog    adm             337K Feb 10 16:19 syslog
+-rw-r-----   1 syslog    adm             1.3M Feb 10 00:00 syslog.1
+-rw-------   1 root      root             551 Feb 10 11:50 ubuntu-advantage-timer.log
+-rw-------   1 root      root            187K Feb 10 13:48 ubuntu-advantage.log
+drwxr-x---   2 root      adm             4.0K Feb  9 22:58 unattended-upgrades
+-rw-rw-r--   1 root      utmp             12K Feb 10 16:13 wtmp
+drwxr-x---   2 zvmsdk    adm             4.0K Mar 27  2020 zvmsdk
+
+/var/log/apparmor:
+total 8.0K
+drwxr-xr-x  2 root root   4.0K May 19  2020 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+
+/var/log/apt:
+total 228K
+drwxr-xr-x  2 root root   4.0K Feb  4 10:07 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+-rw-r--r--  1 root root    39K Feb  4 10:07 eipp.log.xz
+-rw-r--r--  1 root root    30K Feb  4 10:08 history.log
+-rw-r-----  1 root adm    141K Feb  4 10:08 term.log
+
+/var/log/ceph:
+total 616K
+drwxrws--T  2 ceph ceph   4.0K Feb 10 00:00 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+-rw-r--r--  1 ceph ceph   535K Feb 10 16:12 ceph-osd.0.log
+-rw-r--r--  1 ceph ceph    34K Feb  4 11:32 ceph-osd.0.log.1.gz
+-rw-r--r--  1 root ceph    14K Feb  9 22:42 ceph-volume-systemd.log
+-rw-r--r--  1 root ceph    16K Feb 10 16:19 ceph-volume.log
+-rw-r--r--  1 root ceph   3.9K Feb  9 22:42 ceph-volume.log.1.gz
+
+/var/log/dist-upgrade:
+total 8.0K
+drwxr-xr-x  2 root root   4.0K Aug  4  2021 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+
+/var/log/journal:
+total 12K
+drwxr-sr-x+  3 root systemd-journal 4.0K Feb  4 09:34 .
+drwxrwxr-x  17 root syslog          4.0K Feb 10 13:48 ..
+drwxr-sr-x+  2 root systemd-journal 4.0K Feb  9 22:50 d22e39617b3341ccbc225ca6ee6a973d
+
+/var/log/journal/d22e39617b3341ccbc225ca6ee6a973d:
+total 33M
+drwxr-sr-x+ 2 root systemd-journal 4.0K Feb  9 22:50 .
+drwxr-sr-x+ 3 root systemd-journal 4.0K Feb  4 09:34 ..
+-rw-r-----+ 1 root systemd-journal  16M Feb 10 16:19 system.journal
+-rw-r-----+ 1 root systemd-journal 8.0M Feb  4 09:34 system@d7c586f1511f4dbfa2c9920c2c66a197-0000000000000001-0005d72df39a9f23.journal
+-rw-r-----+ 1 root systemd-journal 8.0M Feb 10 16:18 user-1000.journal
+
+/var/log/juju:
+total 2.0M
+drwxr-xr-x  2 syslog adm    4.0K Feb  4 09:37 .
+drwxrwxr-x 17 root   syslog 4.0K Feb 10 13:48 ..
+-rw-r-----  1 syslog adm     86K Feb  9 22:59 machine-1.log
+-rw-r-----  1 syslog adm     91K Feb 10 16:18 machine-lock.log
+-rw-r-----  1 syslog adm    152K Feb 10 16:18 unit-ceph-osd-0.log
+-rw-r-----  1 syslog adm    708K Feb 10 16:18 unit-neutron-openvswitch-1.log
+-rw-r-----  1 syslog adm    953K Feb 10 16:18 unit-nova-compute-0.log
+
+/var/log/keystone:
+total 8.0K
+drwxr-x---  2 keystone adm    4.0K Sep 17 10:05 .
+drwxrwxr-x 17 root     syslog 4.0K Feb 10 13:48 ..
+
+/var/log/landscape:
+total 8.0K
+drwxr-xr-x  2 landscape landscape 4.0K Feb  9 22:51 .
+drwxrwxr-x 17 root      syslog    4.0K Feb 10 13:48 ..
+-rw-r--r--  1 root      root         0 Feb  9 22:51 sysinfo.log
+
+/var/log/libvirt:
+total 20K
+drwxr-xr-x  5 root root   4.0K Feb  4 09:36 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+drwxr-xr-x  2 root root   4.0K Feb  4 09:37 lxc
+drwxr-xr-x  2 root root   4.0K Feb 10 16:18 qemu
+drwxr-xr-x  2 root root   4.0K Feb  4 09:37 uml
+
+/var/log/libvirt/lxc:
+total 8.0K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:37 .placeholder
+
+/var/log/libvirt/qemu:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb 10 16:18 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:37 .placeholder
+-rw------- 1 root root 3.6K Feb 10 16:18 instance-00000001.log
+-rw------- 1 root root 3.8K Feb 10 16:18 instance-00000002.log
+
+/var/log/libvirt/uml:
+total 8.0K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:37 .placeholder
+
+/var/log/neutron:
+total 57M
+drwxr-x---  2 neutron neutron 4.0K Feb 10 00:00 .
+drwxrwxr-x 17 root    syslog  4.0K Feb 10 13:48 ..
+-rw-r--r--  1 neutron neutron 521K Feb 10 16:18 neutron-dhcp-agent.log
+-rw-r--r--  1 neutron neutron 679K Feb 10 00:00 neutron-dhcp-agent.log.1
+-rw-r--r--  1 neutron neutron 2.5M Feb 10 16:19 neutron-l3-agent.log
+-rw-r--r--  1 neutron neutron 638K Feb 10 00:00 neutron-l3-agent.log.1
+-rw-r--r--  1 neutron neutron    0 Feb 10 00:00 neutron-metadata-agent.log
+-rw-r--r--  1 neutron neutron 732K Feb 10 00:00 neutron-metadata-agent.log.1
+-rw-r--r--  1 neutron neutron  46M Feb 10 16:19 neutron-openvswitch-agent.log
+-rw-r--r--  1 neutron neutron 6.5M Feb 10 00:00 neutron-openvswitch-agent.log.1
+-rw-r--r--  1 neutron neutron    0 Feb 10 00:00 neutron-ovs-cleanup.log
+-rw-r--r--  1 neutron neutron 1.5K Feb 10 00:00 neutron-ovs-cleanup.log.1
+
+/var/log/nova:
+total 24M
+drwxr-x---  2 nova adm    4.0K Feb 10 16:14 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+-rw-r--r--  1 nova nova      0 Feb 10 00:00 nova-api-metadata.log
+-rw-r--r--  1 nova nova   2.4M Feb 10 00:00 nova-api-metadata.log.1
+-rw-r--r--  1 nova nova    18M Feb 10 16:19 nova-compute.log
+-rw-r--r--  1 nova nova   3.8M Feb 10 00:00 nova-compute.log.1
+-rw-r--r--  1 root root      0 Feb 10 16:14 privsep-helper.log
+
+/var/log/openvswitch:
+total 32K
+drwxr-xr-x  2 root root   4.0K Feb 10 00:00 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+-rw-r-----  1 root adm    6.8K Feb 10 16:19 ovs-vswitchd.log
+-rw-r-----  1 root root   4.3K Feb  9 22:50 ovs-vswitchd.log.1.gz
+-rw-r-----  1 root adm     483 Feb 10 16:19 ovsdb-server.log
+-rw-r-----  1 root root    503 Feb  9 22:38 ovsdb-server.log.1.gz
+
+/var/log/private:
+total 8.0K
+drwx------  2 root root   4.0K Feb  4 09:34 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+
+/var/log/unattended-upgrades:
+total 12K
+drwxr-x---  2 root adm    4.0K Feb  9 22:58 .
+drwxrwxr-x 17 root syslog 4.0K Feb 10 13:48 ..
+-rw-r--r--  1 root root      0 Feb  9 22:58 unattended-upgrades-dpkg.log
+-rw-r--r--  1 root root      0 Feb  4 09:34 unattended-upgrades-shutdown.log
+-rw-r--r--  1 root root   1.3K Feb 10 07:12 unattended-upgrades.log
+
+/var/log/zvmsdk:
+total 8.0K
+drwxr-x---  2 zvmsdk adm    4.0K Mar 27  2020 .
+drwxrwxr-x 17 root   syslog 4.0K Feb 10 13:48 ..

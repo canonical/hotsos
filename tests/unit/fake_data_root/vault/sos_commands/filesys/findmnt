@@ -1,0 +1,65 @@
+TARGET                                SOURCE                                                                                               FSTYPE          OPTIONS
+/                                     /dev/vda2[/var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs]      ext4            rw,relatime
+|-/run                                tmpfs                                                                                                tmpfs           rw,nosuid,nodev,size=1639320k,mode=755,uid=1000000,gid=1000000
+| |-/run/lock                         tmpfs                                                                                                tmpfs           rw,nosuid,nodev,noexec,relatime,size=5120k,uid=1000000,gid=1000000
+| |-/run/snapd/ns                     tmpfs[/snapd/ns]                                                                                     tmpfs           rw,nosuid,nodev,size=1639320k,mode=755,uid=1000000,gid=1000000
+| | |-/run/snapd/ns/vault.mnt         nsfs[mnt:[4026533039]]                                                                               nsfs            rw
+| | `-/run/snapd/ns/lxd.mnt           nsfs[mnt:[4026533037]]                                                                               nsfs            rw
+| `-/run/user/1000                    tmpfs                                                                                                tmpfs           rw,nosuid,nodev,relatime,size=1639316k,mode=700,uid=1001000,gid=1001000
+|-/dev                                none                                                                                                 tmpfs           rw,relatime,size=492k,mode=755,uid=1000000,gid=1000000
+| |-/dev/shm                          tmpfs                                                                                                tmpfs           rw,nosuid,nodev,uid=1000000,gid=1000000
+| |-/dev/fuse                         udev[/fuse]                                                                                          devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/net/tun                      udev[/net/tun]                                                                                       devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/mqueue                       mqueue                                                                                               mqueue          rw,nosuid,nodev,noexec,relatime
+| |-/dev/lxd                          tmpfs                                                                                                tmpfs           rw,relatime,size=100k,mode=755
+| |-/dev/.lxd-mounts                  tmpfs[/juju-04f1e3-0-lxd-5]                                                                          tmpfs           rw,relatime,size=100k,mode=711
+| |-/dev/full                         udev[/full]                                                                                          devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/null                         udev[/null]                                                                                          devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/random                       udev[/random]                                                                                        devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/tty                          udev[/tty]                                                                                           devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/urandom                      udev[/urandom]                                                                                       devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/zero                         udev[/zero]                                                                                          devtmpfs        rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755
+| |-/dev/pts                          /proc/self/fd/43                                                                                     devpts          rw,nosuid,noexec,relatime,gid=1000005,mode=620,ptmxmode=666,max=1024
+| |-/dev/ptmx                         /proc/self/fd/43[/ptmx]                                                                              devpts          rw,nosuid,noexec,relatime,gid=1000005,mode=620,ptmxmode=666,max=1024
+| `-/dev/console                      /proc/self/fd/43[/0]                                                                                 devpts          rw,nosuid,noexec,relatime,gid=1000005,mode=620,ptmxmode=666,max=1024
+|-/proc                               proc                                                                                                 proc            rw,nosuid,nodev,noexec,relatime
+| |-/proc/sys/fs/binfmt_misc          binfmt_misc                                                                                          binfmt_misc     rw,nosuid,nodev,noexec,relatime
+| |-/proc/cpuinfo                     lxcfs[/proc/cpuinfo]                                                                                 fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/proc/diskstats                   lxcfs[/proc/diskstats]                                                                               fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/proc/loadavg                     lxcfs[/proc/loadavg]                                                                                 fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/proc/meminfo                     lxcfs[/proc/meminfo]                                                                                 fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/proc/stat                        lxcfs[/proc/stat]                                                                                    fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/proc/swaps                       lxcfs[/proc/swaps]                                                                                   fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/proc/uptime                      lxcfs[/proc/uptime]                                                                                  fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+| `-/proc/sys/kernel/random/boot_id   none[/.lxc-boot-id]                                                                                  tmpfs           ro,nosuid,nodev,noexec,relatime,size=492k,mode=755,uid=1000000,gid=1000000
+|-/sys                                sysfs                                                                                                sysfs           rw,relatime
+| |-/sys/fs/cgroup                    tmpfs                                                                                                tmpfs           ro,nosuid,nodev,noexec,mode=755,uid=1000000,gid=1000000
+| | |-/sys/fs/cgroup/unified          cgroup2                                                                                              cgroup2         rw,nosuid,nodev,noexec,relatime
+| | |-/sys/fs/cgroup/systemd          cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,xattr,name=systemd
+| | |-/sys/fs/cgroup/cpuset           cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,cpuset,clone_children
+| | |-/sys/fs/cgroup/pids             cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,pids
+| | |-/sys/fs/cgroup/net_cls,net_prio cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,net_cls,net_prio
+| | |-/sys/fs/cgroup/cpu,cpuacct      cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,cpu,cpuacct
+| | |-/sys/fs/cgroup/hugetlb          cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,hugetlb
+| | |-/sys/fs/cgroup/freezer          cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,freezer
+| | |-/sys/fs/cgroup/memory           cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,memory
+| | |-/sys/fs/cgroup/rdma             cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,rdma
+| | |-/sys/fs/cgroup/blkio            cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,blkio
+| | |-/sys/fs/cgroup/devices          cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,devices
+| | `-/sys/fs/cgroup/perf_event       cgroup                                                                                               cgroup          rw,nosuid,nodev,noexec,relatime,perf_event
+| |-/sys/fs/fuse/connections          fusectl                                                                                              fusectl         rw,nosuid,nodev,noexec,relatime
+| |-/sys/fs/pstore                    pstore                                                                                               pstore          rw,nosuid,nodev,noexec,relatime
+| |-/sys/kernel/config                configfs                                                                                             configfs        rw,nosuid,nodev,noexec,relatime
+| |-/sys/kernel/debug                 debugfs                                                                                              debugfs         rw,nosuid,nodev,noexec,relatime
+| |-/sys/kernel/security              securityfs                                                                                           securityfs      rw,nosuid,nodev,noexec,relatime
+| |-/sys/kernel/tracing               tracefs                                                                                              tracefs         rw,nosuid,nodev,noexec,relatime
+| `-/sys/devices/system/cpu/online    lxcfs[/sys/devices/system/cpu/online]                                                                fuse.lxcfs      rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other
+|-/snap                               /dev/vda2[/var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/snap] ext4            rw,relatime
+| |-/snap/core20/1328                 squashfuse                                                                                           fuse.squashfuse ro,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/snap/snapd/14549                 squashfuse                                                                                           fuse.squashfuse ro,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/snap/core/12603                  squashfuse                                                                                           fuse.squashfuse ro,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/snap/vault/2012                  squashfuse                                                                                           fuse.squashfuse ro,nodev,relatime,user_id=0,group_id=0,allow_other
+| |-/snap/core18/2284                 squashfuse                                                                                           fuse.squashfuse ro,nodev,relatime,user_id=0,group_id=0,allow_other
+| `-/snap/lxd/21835                   squashfuse                                                                                           fuse.squashfuse ro,nodev,relatime,user_id=0,group_id=0,allow_other
+`-/var/snap/lxd/common/ns             tmpfs                                                                                                tmpfs           rw,relatime,size=1024k,mode=700,uid=1000000,gid=1000000
+  `-/var/snap/lxd/common/ns/shmounts  nsfs[mnt:[4026533043]]                                                                               nsfs            rw

@@ -1,0 +1,23 @@
+_uuid               : 83c47283-c44c-47d8-9ba0-4defed666505
+auto_attach         : []
+controller          : [5ddca42c-5dc4-4c48-8988-f5c3d805e9a4]
+datapath_id         : "00008272c483d847"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {}
+fail_mode           : secure
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-tun
+netflow             : []
+other_config        : {mac-table-size="50000"}
+ports               : [0c21bdac-958c-4f15-b058-ff4013b143e2, 23f4eae9-7903-454d-a4a7-899c8614a7bd, e61a550a-2964-4b3c-9123-17a28ff95a7d, f0bd7470-add1-436c-9c89-edc8dbd8bb7b]
+protocols           : [OpenFlow10, OpenFlow13, OpenFlow14]
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false

@@ -1,0 +1,109 @@
+"debug":
+  "description": "Collect debug data"
+"cis-benchmark":
+  "description": |
+    Run the CIS Kubernetes Benchmark against snap-based components.
+  "params":
+    "apply":
+      "type": "string"
+      "default": "none"
+      "description": |
+        Apply remediations to address benchmark failures. The default, 'none',
+        will not attempt to fix any reported failures. Set to 'conservative'
+        to resolve simple failures. Set to 'dangerous' to attempt to resolve
+        all failures.
+
+        Note: Applying any remediation may result in an unusable cluster.
+    "config":
+      "type": "string"
+      "default": "https://github.com/charmed-kubernetes/kube-bench-config/archive/cis-1.20.zip#sha1=138c7f5e9c10aac0aeabd14b4e1109b1dcfe3038"
+      "description": |
+        Archive containing configuration files to use when running kube-bench.
+        The default value is known to be compatible with snap components. When
+        using a custom URL, append '#<hash_type>=<checksum>' to verify the
+        archive integrity when downloaded.
+    "release":
+      "type": "string"
+      "default": "https://github.com/aquasecurity/kube-bench/releases/download/v0.6.5/kube-bench_0.6.5_linux_amd64.tar.gz#sha256=944a3d0f95518c2e02d7449af3f9114cf5d125d5b507efbf16c6cde10d4e598c"
+      "description": |
+        Archive containing the 'kube-bench' binary to run. The default value
+        points to a stable upstream release. When using a custom URL, append
+        '#<hash_type>=<checksum>' to verify the archive integrity when
+        downloaded.
+
+        This may also be set to the special keyword 'upstream'. In this case,
+        the action will compile and use a local kube-bench binary built from
+        the master branch of the upstream repository:
+          https://github.com/aquasecurity/kube-bench
+
+"restart":
+  "description": "Restart the Kubernetes master services on demand."
+"namespace-list":
+  "description": "List existing k8s namespaces"
+"namespace-create":
+  "description": "Create new namespace"
+  "params":
+    "name":
+      "type": "string"
+      "description": "Namespace name eg. staging"
+      "minLength": !!int "2"
+  "required":
+  - "name"
+"namespace-delete":
+  "description": "Delete namespace"
+  "params":
+    "name":
+      "type": "string"
+      "description": "Namespace name eg. staging"
+      "minLength": !!int "2"
+  "required":
+  - "name"
+"upgrade":
+  "description": "Upgrade the kubernetes snaps"
+  "params":
+    "fix-cluster-name":
+      "type": "boolean"
+      "default": !!bool "true"
+      "description": >-
+        If using the OpenStack cloud provider, whether to fix the cluster
+        name sent to it to include the cluster tag. This fixes an issue
+        with load balancers conflicting with other clusters in the same
+        project but will cause new load balancers to be created which will
+        require manual intervention to resolve.
+"user-create":
+  "description": "Create a new user"
+  "params":
+    "name":
+      "type": "string"
+      "description": |
+        Username for the new user. This value must only contain alphanumeric
+        characters, ':', '@', '-' or '.'.
+      "minLength": !!int "2"
+    "groups":
+      "type": "string"
+      "description": |
+        Optional comma-separated list of groups eg. 'system:masters,managers'
+  "required":
+  - "name"
+"user-delete":
+  "description": "Delete an existing user"
+  "params":
+    "name":
+      "type": "string"
+      "description": "Username of the user to delete"
+      "minLength": !!int "2"
+  "required":
+  - "name"
+"user-list":
+  "description": "List existing users"
+"get-kubeconfig":
+  "description": "Retrieve Kubernetes cluster config, including credentials"
+"apply-manifest":
+  "description": "Apply JSON formatted Kubernetes manifest to cluster"
+  "params":
+    "json":
+      "type": "string"
+      "description": "The content of the manifest to deploy in JSON format"
+      "minLength": !!int "2"
+  "required":
+  - "json"

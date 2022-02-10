@@ -1,0 +1,137 @@
+devices {
+	# hints="all"
+	# filter=["a|.*|"]
+	# global_filter=["a|.*|"]
+	# md_component_checks="auto"
+	# default_data_alignment=1
+}
+allocation {
+	# raid_stripe_all_devices=0
+	# cache_metadata_format=0
+	# cache_mode="writethrough"
+	# thin_pool_zero=1
+	# thin_pool_discards="passdown"
+	# thin_pool_chunk_size_policy="generic"
+	# physical_extent_size=4096
+	# vdo_use_compression=1
+	# vdo_use_deduplication=1
+	# vdo_use_metadata_hints=1
+	# vdo_minimum_io_size=4096
+	# vdo_block_map_cache_size_mb=128
+	# vdo_block_map_period=16380
+	# vdo_check_point_frequency=0
+	# vdo_use_sparse_index=0
+	# vdo_index_memory_size_mb=256
+	# vdo_slab_size_mb=2048
+	# vdo_ack_threads=1
+	# vdo_bio_threads=4
+	# vdo_bio_rotation=64
+	# vdo_cpu_threads=2
+	# vdo_hash_zone_threads=1
+	# vdo_logical_threads=1
+	# vdo_physical_threads=1
+	# vdo_write_policy="auto"
+	# vdo_max_discard=1
+}
+log {
+	# report_command_log=0
+	# command_log_sort="log_seq_num"
+	# command_log_cols="log_seq_num,log_type,log_context,log_object_type,log_object_name,log_object_id,log_object_group,log_object_group_id,log_message,log_errno,log_ret_code"
+	# command_log_selection="!(log_type=status && message=success)"
+	# indent=0
+	# debug_file_fields=["time","command","fileline","message"]
+	# debug_output_fields=["time","command","fileline","message"]
+}
+global {
+	# lvdisplay_shows_full_device_path=0
+	# use_aio=1
+	# lvmlockd_lock_retries=3
+	# sanlock_lv_extend=256
+	# thin_check_executable="/usr/sbin/thin_check"
+	# thin_dump_executable="/usr/sbin/thin_dump"
+	# thin_repair_executable="/usr/sbin/thin_repair"
+	# thin_check_options=["-q","--clear-needs-check-flag"]
+	# thin_repair_options=[""]
+	# cache_check_executable="/usr/sbin/cache_check"
+	# cache_dump_executable="/usr/sbin/cache_dump"
+	# cache_repair_executable="/usr/sbin/cache_repair"
+	# cache_check_options=["-q","--clear-needs-check-flag"]
+	# cache_repair_options=[""]
+	# vdo_format_executable="autodetect"
+	# vdo_format_options=[""]
+	# fsadm_executable="/sbin/fsadm"
+	# io_memory_size=8192
+}
+activation {
+	# error_when_full=0
+	# vdo_pool_autoextend_percent=20
+	# auto_set_activation_skip=1
+}
+# metadata {
+	# check_pv_device_sizes=1
+	# record_lvs_history=0
+	# lvs_history_retention_time=0
+	# pvmetadatacopies=1
+	# vgmetadatacopies=0
+	# pvmetadataignore=0
+	# stripesize=64
+# }
+# report {
+	# output_format="basic"
+	# compact_output=0
+	# compact_output_cols=""
+	# aligned=1
+	# buffered=1
+	# headings=1
+	# separator=" "
+	# list_item_separator=","
+	# prefixes=0
+	# quoted=1
+	# columns_as_rows=0
+	# binary_values_as_numeric=0
+	# time_format="%Y-%m-%d %T %z"
+	# devtypes_sort="devtype_name"
+	# devtypes_cols="devtype_name,devtype_max_partitions,devtype_description"
+	# devtypes_cols_verbose="devtype_name,devtype_max_partitions,devtype_description"
+	# lvs_sort="vg_name,lv_name"
+	# lvs_cols="lv_name,vg_name,lv_attr,lv_size,pool_lv,origin,data_percent,metadata_percent,move_pv,mirror_log,copy_percent,convert_lv"
+	# lvs_cols_verbose="lv_name,vg_name,seg_count,lv_attr,lv_size,lv_major,lv_minor,lv_kernel_major,lv_kernel_minor,pool_lv,origin,data_percent,metadata_percent,move_pv,copy_percent,mirror_log,convert_lv,lv_uuid,lv_profile"
+	# vgs_sort="vg_name"
+	# vgs_cols="vg_name,pv_count,lv_count,snap_count,vg_attr,vg_size,vg_free"
+	# vgs_cols_verbose="vg_name,vg_attr,vg_extent_size,pv_count,lv_count,snap_count,vg_size,vg_free,vg_uuid,vg_profile"
+	# pvs_sort="pv_name"
+	# pvs_cols="pv_name,vg_name,pv_fmt,pv_attr,pv_size,pv_free"
+	# pvs_cols_verbose="pv_name,vg_name,pv_fmt,pv_attr,pv_size,pv_free,dev_size,pv_uuid"
+	# segs_sort="vg_name,lv_name,seg_start"
+	# segs_cols="lv_name,vg_name,lv_attr,stripes,segtype,seg_size"
+	# segs_cols_verbose="lv_name,vg_name,lv_attr,seg_start,seg_size,stripes,segtype,stripesize,chunksize"
+	# pvsegs_sort="pv_name,pvseg_start"
+	# pvsegs_cols="pv_name,vg_name,pv_fmt,pv_attr,pv_size,pv_free,pvseg_start,pvseg_size"
+	# pvsegs_cols_verbose="pv_name,vg_name,pv_fmt,pv_attr,pv_size,pv_free,pvseg_start,pvseg_size,lv_name,seg_start_pe,segtype,seg_pe_ranges"
+	# vgs_cols_full="vg_all"
+	# pvs_cols_full="pv_all"
+	# lvs_cols_full="lv_all"
+	# pvsegs_cols_full="pvseg_all,pv_uuid,lv_uuid"
+	# segs_cols_full="seg_all,lv_uuid"
+	# vgs_sort_full="vg_name"
+	# pvs_sort_full="pv_name"
+	# lvs_sort_full="vg_name,lv_name"
+	# pvsegs_sort_full="pv_uuid,pvseg_start"
+	# segs_sort_full="lv_uuid,seg_start"
+	# mark_hidden_devices=1
+	# two_word_unknown_device=0
+# }
+dmeventd {
+	# raid_library="libdevmapper-event-lvm2raid.so"
+	# thin_command="lvm lvextend --use-policies"
+	# vdo_library="libdevmapper-event-lvm2vdo.so"
+	# vdo_command="lvm lvextend --use-policies"
+	# executable="/sbin/dmeventd"
+}
+# tags {
+	# hosttags=0
+# }
+local {
+	# system_id=""
+	# host_id=0
+}

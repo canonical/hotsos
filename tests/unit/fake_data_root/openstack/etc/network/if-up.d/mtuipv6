@@ -1,0 +1,33 @@
+#!/bin/bash -e
+# injected by curtin installer
+
+[ "${IFACE}" != "lo" ] || exit 0
+
+# Trigger only if MTU configured
+[ -n "${IF_MTU}" ] || exit 0
+
+read PRE_DEV_MTU </run/network/${IFACE}_dev.mtu ||:
+read CUR_DEV_MTU </sys/class/net/${IFACE}/mtu ||:
+read PRE_IPV6_MTU </run/network/${IFACE}_ipv6.mtu ||:
+read CUR_IPV6_MTU </proc/sys/net/ipv6/conf/${IFACE}/mtu ||:
+
+if [ "${ADDRFAM}" = "inet6" ]; then
+  # We need to check the underlying interface MTU and
+  # raise it if the IPV6 mtu is larger
+  if [ ${CUR_DEV_MTU} -lt ${IF_MTU} ]; then
+      ip link set ${IFACE} mtu ${IF_MTU}
+  fi
+  # sysctl -q -e -w net.ipv6.conf.${IFACE}.mtu=${IF_MTU}
+  echo ${IF_MTU} >/proc/sys/net/ipv6/conf/${IFACE}/mtu ||:
+
+elif [ "${ADDRFAM}" = "inet" ]; then
+  # handle the clobber case where inet mtu changes v6 mtu.
+  # ifupdown will already have set dev mtu, so lower mtu
+  # if needed.  If v6 mtu was larger, it get's clamped down
+  # to the dev MTU value.
+  if [ ${PRE_IPV6_MTU} -lt ${CUR_IPV6_MTU} ]; then
+    # sysctl -q -e -w net.ipv6.conf.${IFACE}.mtu=${PRE_IPV6_MTU}
+    echo ${PRE_IPV6_MTU} >/proc/sys/net/ipv6/conf/${IFACE}/mtu ||:
+  fi
+fi
+exit 0

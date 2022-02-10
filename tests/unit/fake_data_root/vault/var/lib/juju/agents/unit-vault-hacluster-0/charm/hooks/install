@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+./hooks/install_deps
+exec ./hooks/install.real

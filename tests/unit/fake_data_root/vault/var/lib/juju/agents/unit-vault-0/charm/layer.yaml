@@ -1,0 +1,26 @@
+"includes":
+- "layer:options"
+- "layer:basic"
+- "layer:snap"
+- "layer:leadership"
+- "interface:nrpe-external-master"
+- "interface:pgsql"
+- "interface:mysql-shared"
+- "interface:etcd"
+- "interface:hacluster"
+- "interface:vault-kv"
+- "interface:tls-certificates"
+"exclude": [".travis.yml", "tests", "tox.ini", "test-requirements.txt", "unit_tests"]
+"options":
+  "basic":
+    "use_venv": !!bool "true"
+    "include_system_packages": !!bool "false"
+    "packages":
+    - "libffi-dev"
+    - "libpq-dev"
+    "python_packages": []
+  "leadership": {}
+  "vault": {}
+  "snap": {}
+"repo": "https://opendev.org/openstack/charm-vault.git"
+"is": "vault"

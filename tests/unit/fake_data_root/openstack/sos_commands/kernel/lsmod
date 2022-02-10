@@ -1,0 +1,120 @@
+Module                  Size  Used by
+vhost_net              32768  1
+tap                    24576  1 vhost_net
+xt_REDIRECT            20480  1
+xt_tcpudp              20480  3
+xt_nat                 16384  4
+xt_conntrack           16384  3
+xt_mark                16384  11
+xt_connmark            16384  14
+xt_CT                  16384  1
+xt_comment             16384  3
+vxlan                  69632  0
+ip6_udp_tunnel         16384  1 vxlan
+udp_tunnel             16384  1 vxlan
+nf_conntrack_netlink    45056  0
+xfs                  1282048  1
+dm_crypt               40960  2
+unix_diag              16384  0
+binfmt_misc            24576  1
+veth                   28672  0
+nf_tables_set          28672  2
+nft_masq               16384  1
+nft_chain_nat          16384  1
+zfs                  4034560  0
+zunicode              331776  1 zfs
+zlua                  147456  1 zfs
+zavl                   16384  1 zfs
+icp                   303104  1 zfs
+zcommon                90112  2 zfs,icp
+znvpair                81920  2 zfs,zcommon
+spl                   126976  5 zfs,icp,znvpair,zcommon,zavl
+ebtable_filter         16384  0
+ebtables               36864  1 ebtable_filter
+ip6table_raw           16384  3
+ip6table_mangle        16384  3
+ip6table_nat           16384  0
+iptable_raw            16384  3
+iptable_mangle         16384  3
+iptable_nat            16384  3
+br_netfilter           28672  0
+vhost_vsock            24576  0
+vmw_vsock_virtio_transport_common    32768  1 vhost_vsock
+vhost                  49152  2 vhost_vsock,vhost_net
+vsock                  36864  2 vmw_vsock_virtio_transport_common,vhost_vsock
+nf_tables             139264  85 nft_masq,nft_chain_nat,nf_tables_set
+ip6table_filter        16384  3
+ip6_tables             32768  4 ip6table_filter,ip6table_raw,ip6table_nat,ip6table_mangle
+iptable_filter         16384  3
+bpfilter               32768  0
+nfnetlink_cttimeout    16384  0
+nfnetlink              16384  4 nfnetlink_cttimeout,nf_conntrack_netlink,nf_tables
+openvswitch           135168  13
+nsh                    16384  1 openvswitch
+nf_conncount           24576  1 openvswitch
+nf_nat                 45056  7 ip6table_nat,xt_nat,openvswitch,nft_masq,nft_chain_nat,iptable_nat,xt_REDIRECT
+bridge                176128  1 br_netfilter
+stp                    16384  1 bridge
+llc                    16384  2 bridge,stp
+dm_multipath           32768  0
+scsi_dh_rdac           16384  0
+scsi_dh_emc            16384  0
+scsi_dh_alua           20480  0
+intel_rapl_msr         20480  0
+intel_rapl_common      24576  1 intel_rapl_msr
+kvm_intel             282624  3
+kvm                   663552  1 kvm_intel
+joydev                 24576  0
+input_leds             16384  0
+serio_raw              20480  0
+mac_hid                16384  0
+qemu_fw_cfg            20480  0
+sch_fq_codel           20480  9
+nf_conntrack          139264  11 xt_conntrack,nf_nat,nfnetlink_cttimeout,xt_nat,openvswitch,nf_conntrack_netlink,xt_connmark,xt_CT,nft_masq,nf_conncount,xt_REDIRECT
+nf_defrag_ipv6         24576  2 nf_conntrack,openvswitch
+nf_defrag_ipv4         16384  1 nf_conntrack
+msr                    16384  0
+sunrpc                393216  1
+ip_tables              32768  4 iptable_filter,iptable_raw,iptable_nat,iptable_mangle
+x_tables               40960  17 ebtables,ip6table_filter,xt_conntrack,ip6table_raw,iptable_filter,xt_tcpudp,xt_nat,xt_comment,ip6_tables,xt_connmark,xt_CT,iptable_raw,ip_tables,ip6table_mangle,iptable_mangle,xt_REDIRECT,xt_mark
+autofs4                45056  2
+btrfs                1261568  0
+zstd_compress         167936  1 btrfs
+raid10                 61440  0
+raid456               155648  0
+async_raid6_recov      24576  1 raid456
+async_memcpy           20480  2 raid456,async_raid6_recov
+async_pq               24576  2 raid456,async_raid6_recov
+async_xor              20480  3 async_pq,raid456,async_raid6_recov
+async_tx               20480  5 async_pq,async_memcpy,async_xor,raid456,async_raid6_recov
+xor                    24576  2 async_xor,btrfs
+raid6_pq              114688  4 async_pq,btrfs,raid456,async_raid6_recov
+libcrc32c              16384  6 nf_conntrack,nf_nat,openvswitch,btrfs,xfs,raid456
+raid1                  45056  0
+raid0                  24576  0
+multipath              20480  0
+linear                 20480  0
+bcache                245760  6
+crc64                  16384  1 bcache
+crct10dif_pclmul       16384  1
+crc32_pclmul           16384  0
+ghash_clmulni_intel    16384  0
+cirrus                 16384  0
+aesni_intel           372736  4
+crypto_simd            16384  1 aesni_intel
+drm_kms_helper        184320  3 cirrus
+cryptd                 24576  4 crypto_simd,ghash_clmulni_intel
+syscopyarea            16384  1 drm_kms_helper
+glue_helper            16384  1 aesni_intel
+sysfillrect            16384  1 drm_kms_helper
+psmouse               155648  0
+sysimgblt              16384  1 drm_kms_helper
+fb_sys_fops            16384  1 drm_kms_helper
+virtio_blk             20480  6
+drm                   491520  3 drm_kms_helper,cirrus
+virtio_net             57344  0
+net_failover           20480  1 virtio_net
+failover               16384  1 net_failover
+pata_acpi              16384  0
+i2c_piix4              28672  0
+floppy                 81920  0

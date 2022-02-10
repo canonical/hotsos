@@ -1,0 +1,14 @@
+Chain PREROUTING (policy ACCEPT 3340K packets, 742M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain INPUT (policy ACCEPT 3339K packets, 741M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 3827K packets, 416M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain POSTROUTING (policy ACCEPT 3827K packets, 416M bytes)
+ pkts bytes target     prot opt in     out     source               destination         

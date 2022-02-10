@@ -1,0 +1,37 @@
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-SERVICES  all      *      *       ::/0                 ::/0                 /* kubernetes service portals */
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 4 packets, 320 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    4   320 KUBE-SERVICES  all      *      *       ::/0                 ::/0                 /* kubernetes service portals */
+
+Chain POSTROUTING (policy ACCEPT 4 packets, 320 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    4   320 KUBE-POSTROUTING  all      *      *       ::/0                 ::/0                 /* kubernetes postrouting rules */
+
+Chain KUBE-MARK-DROP (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-MARK-MASQ (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 MARK       all      *      *       ::/0                 ::/0                 MARK or 0x4000
+
+Chain KUBE-NODEPORTS (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-POSTROUTING (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    4   320 RETURN     all      *      *       ::/0                 ::/0                 mark match ! 0x4000/0x4000
+    0     0 MARK       all      *      *       ::/0                 ::/0                 MARK xor 0x4000
+    0     0 MASQUERADE  all      *      *       ::/0                 ::/0                 /* kubernetes service traffic requiring SNAT */ random-fully
+
+Chain KUBE-PROXY-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-SERVICES (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    4   320 KUBE-NODEPORTS  all      *      *       ::/0                 ::/0                 /* kubernetes service nodeports; NOTE: this must be the last rule in this chain */ ADDRTYPE match dst-type LOCAL

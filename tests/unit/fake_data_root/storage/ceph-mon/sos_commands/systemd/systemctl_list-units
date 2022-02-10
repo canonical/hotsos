@@ -1,0 +1,172 @@
+  UNIT                                  LOAD   ACTIVE     SUB       DESCRIPTION                                                                   
+  dev-vda2.device                       loaded activating tentative /dev/vda2                                                                     
+  sys-devices-virtual-net-eth0.device   loaded active     plugged   /sys/devices/virtual/net/eth0                                                 
+  sys-subsystem-net-devices-eth0.device loaded active     plugged   /sys/subsystem/net/devices/eth0                                               
+  -.mount                               loaded active     mounted   Root Mount                                                                    
+  dev-.lxd\x2dmounts.mount              loaded active     mounted   /dev/.lxd-mounts                                                              
+  dev-full.mount                        loaded active     mounted   /dev/full                                                                     
+  dev-fuse.mount                        loaded active     mounted   /dev/fuse                                                                     
+  dev-lxd.mount                         loaded active     mounted   /dev/lxd                                                                      
+  dev-mqueue.mount                      loaded active     mounted   POSIX Message Queue File System                                               
+  dev-net-tun.mount                     loaded active     mounted   /dev/net/tun                                                                  
+  dev-null.mount                        loaded active     mounted   /dev/null                                                                     
+  dev-ptmx.mount                        loaded active     mounted   /dev/ptmx                                                                     
+  dev-random.mount                      loaded active     mounted   /dev/random                                                                   
+  dev-tty.mount                         loaded active     mounted   /dev/tty                                                                      
+  dev-urandom.mount                     loaded active     mounted   /dev/urandom                                                                  
+  dev-zero.mount                        loaded active     mounted   /dev/zero                                                                     
+  proc-cpuinfo.mount                    loaded active     mounted   /proc/cpuinfo                                                                 
+  proc-diskstats.mount                  loaded active     mounted   /proc/diskstats                                                               
+  proc-loadavg.mount                    loaded active     mounted   /proc/loadavg                                                                 
+  proc-meminfo.mount                    loaded active     mounted   /proc/meminfo                                                                 
+  proc-stat.mount                       loaded active     mounted   /proc/stat                                                                    
+  proc-swaps.mount                      loaded active     mounted   /proc/swaps                                                                   
+  proc-sys-fs-binfmt_misc.mount         loaded active     mounted   Arbitrary Executable File Formats File System                                 
+  proc-sys-kernel-random-boot_id.mount  loaded active     mounted   /proc/sys/kernel/random/boot_id                                               
+  proc-uptime.mount                     loaded active     mounted   /proc/uptime                                                                  
+  run-snapd-ns-lxd.mnt.mount            loaded active     mounted   /run/snapd/ns/lxd.mnt                                                         
+  run-snapd-ns.mount                    loaded active     mounted   /run/snapd/ns                                                                 
+  run-user-1000.mount                   loaded active     mounted   /run/user/1000                                                                
+  snap-core20-1328.mount                loaded active     mounted   Mount unit for core20, revision 1328                                          
+  snap-lxd-21835.mount                  loaded active     mounted   Mount unit for lxd, revision 21835                                            
+  snap-snapd-14549.mount                loaded active     mounted   Mount unit for snapd, revision 14549                                          
+  snap.mount                            loaded active     mounted   Ensure that the snap directory shares mount events.                           
+  sys-devices-system-cpu-online.mount   loaded active     mounted   /sys/devices/system/cpu/online                                                
+  sys-fs-fuse-connections.mount         loaded active     mounted   FUSE Control File System                                                      
+  sys-kernel-config.mount               loaded active     mounted   Kernel Configuration File System                                              
+  sys-kernel-debug.mount                loaded active     mounted   Kernel Debug File System                                                      
+  sys-kernel-tracing.mount              loaded active     mounted   Kernel Trace File System                                                      
+  var-snap-lxd-common-ns-shmounts.mount loaded active     mounted   /var/snap/lxd/common/ns/shmounts                                              
+  var-snap-lxd-common-ns.mount          loaded active     mounted   /var/snap/lxd/common/ns                                                       
+  systemd-ask-password-console.path     loaded active     waiting   Dispatch Password Requests to Console Directory Watch                         
+  systemd-ask-password-wall.path        loaded active     waiting   Forward Password Requests to Wall Directory Watch                             
+  ua-license-check.path                 loaded active     waiting   Trigger to poll for Ubuntu Pro licenses (Only enabled on GCP LTS non-pro)     
+  init.scope                            loaded active     running   System and Service Manager                                                    
+  session-408.scope                     loaded active     running   Session 408 of user ubuntu                                                    
+  accounts-daemon.service               loaded active     running   Accounts Service                                                              
+  apparmor.service                      loaded active     exited    Load AppArmor profiles                                                        
+  apport.service                        loaded active     exited    LSB: automatic crash report generation                                        
+  atd.service                           loaded active     running   Deferred execution scheduler                                                  
+  blk-availability.service              loaded active     exited    Availability of block devices                                                 
+  ceph-crash.service                    loaded active     running   Ceph crash dump collector                                                     
+  ceph-mgr@juju-04f1e3-1-lxd-0.service  loaded active     running   Ceph cluster manager daemon                                                   
+  ceph-mon@juju-04f1e3-1-lxd-0.service  loaded active     running   Ceph cluster monitor daemon                                                   
+  cloud-config.service                  loaded active     exited    Apply the settings specified in cloud-config                                  
+  cloud-final.service                   loaded active     exited    Execute cloud user/final scripts                                              
+  cloud-init-local.service              loaded active     exited    Initial cloud-init job (pre-networking)                                       
+  cloud-init.service                    loaded active     exited    Initial cloud-init job (metadata service crawler)                             
+  console-getty.service                 loaded active     running   Console Getty                                                                 
+  console-setup.service                 loaded active     exited    Set console font and keymap                                                   
+  cron.service                          loaded active     running   Regular background program processing daemon                                  
+  dbus.service                          loaded active     running   D-Bus System Message Bus                                                      
+  finalrd.service                       loaded active     exited    Create final runtime dir for shutdown pivot root                              
+  fwupd.service                         loaded active     running   Firmware update daemon                                                        
+  jujud-machine-1-lxd-0.service         loaded active     running   juju agent for machine-1-lxd-0                                                
+  keyboard-setup.service                loaded active     exited    Set the console keyboard layout                                               
+  networkd-dispatcher.service           loaded active     running   Dispatcher daemon for systemd-networkd                                        
+  polkit.service                        loaded active     running   Authorization Manager                                                         
+  radosgw.service                       loaded active     exited    LSB: radosgw RESTful rados gateway                                            
+  rbdmap.service                        loaded active     exited    Map RBD devices                                                               
+  rsyslog.service                       loaded active     running   System Logging Service                                                        
+  smartmontools.service                 loaded active     running   Self Monitoring and Reporting Technology (SMART) Daemon                       
+  snap.lxd.daemon.service               loaded active     running   Service for snap application lxd.daemon                                       
+  snap.lxd.workaround.service           loaded active     exited    /bin/true                                                                     
+  snapd.apparmor.service                loaded active     exited    Load AppArmor profiles managed internally by snapd                            
+  snapd.seeded.service                  loaded active     exited    Wait until snapd is fully seeded                                              
+  snapd.service                         loaded active     running   Snap Daemon                                                                   
+  ssh.service                           loaded active     running   OpenBSD Secure Shell server                                                   
+  systemd-hostnamed.service             loaded active     running   Hostname Service                                                              
+  systemd-journal-flush.service         loaded active     exited    Flush Journal to Persistent Storage                                           
+  systemd-journald.service              loaded active     running   Journal Service                                                               
+  systemd-logind.service                loaded active     running   Login Service                                                                 
+  systemd-networkd.service              loaded active     running   Network Service                                                               
+* systemd-remount-fs.service            loaded failed     failed    Remount Root and Kernel File Systems                                          
+  systemd-resolved.service              loaded active     running   Network Name Resolution                                                       
+  systemd-sysctl.service                loaded active     exited    Apply Kernel Variables                                                        
+  systemd-sysusers.service              loaded active     exited    Create System Users                                                           
+  systemd-tmpfiles-setup-dev.service    loaded active     exited    Create Static Device Nodes in /dev                                            
+  systemd-tmpfiles-setup.service        loaded active     exited    Create Volatile Files and Directories                                         
+  systemd-udev-settle.service           loaded active     exited    udev Wait for Complete Device Initialization                                  
+  systemd-udev-trigger.service          loaded active     exited    udev Coldplug all Devices                                                     
+  systemd-udevd.service                 loaded active     running   udev Kernel Device Manager                                                    
+  systemd-update-utmp.service           loaded active     exited    Update UTMP about System Boot/Shutdown                                        
+  systemd-user-sessions.service         loaded active     exited    Permit User Sessions                                                          
+  ubuntu-fan.service                    loaded active     exited    Ubuntu FAN network setup                                                      
+  udisks2.service                       loaded active     running   Disk Manager                                                                  
+  ufw.service                           loaded active     exited    Uncomplicated firewall                                                        
+  unattended-upgrades.service           loaded active     running   Unattended Upgrades Shutdown                                                  
+  user-runtime-dir@1000.service         loaded active     exited    User Runtime Directory /run/user/1000                                         
+  user@1000.service                     loaded active     running   User Manager for UID 1000                                                     
+  uuidd.service                         loaded active     running   Daemon for generating UUIDs                                                   
+  -.slice                               loaded active     active    Root Slice                                                                    
+  system-ceph\x2dmgr.slice              loaded active     active    system-ceph\x2dmgr.slice                                                      
+  system-ceph\x2dmon.slice              loaded active     active    system-ceph\x2dmon.slice                                                      
+  system-getty.slice                    loaded active     active    system-getty.slice                                                            
+  system-modprobe.slice                 loaded active     active    system-modprobe.slice                                                         
+  system.slice                          loaded active     active    System Slice                                                                  
+  user-1000.slice                       loaded active     active    User Slice of UID 1000                                                        
+  user.slice                            loaded active     active    User and Session Slice                                                        
+  apport-forward.socket                 loaded active     listening Unix socket for apport crash forwarding                                       
+  cloud-init-hotplugd.socket            loaded active     listening cloud-init hotplug hook socket                                                
+  dbus.socket                           loaded active     running   D-Bus System Message Bus Socket                                               
+  dm-event.socket                       loaded active     listening Device-mapper event daemon FIFOs                                              
+  iscsid.socket                         loaded active     listening Open-iSCSI iscsid Socket                                                      
+  lvm2-lvmpolld.socket                  loaded active     listening LVM2 poll daemon socket                                                       
+* multipathd.socket                     loaded failed     failed    multipathd control socket                                                     
+  snap.lxd.daemon.unix.socket           loaded active     running   Socket unix for snap application lxd.daemon                                   
+  snapd.socket                          loaded active     running   Socket activation for snappy daemon                                           
+  syslog.socket                         loaded active     running   Syslog Socket                                                                 
+  systemd-fsckd.socket                  loaded active     listening fsck to fsckd communication Socket                                            
+  systemd-initctl.socket                loaded active     listening initctl Compatibility Named Pipe                                              
+  systemd-journald-dev-log.socket       loaded active     running   Journal Socket (/dev/log)                                                     
+  systemd-journald.socket               loaded active     running   Journal Socket                                                                
+  systemd-networkd.socket               loaded active     running   Network Service Netlink Socket                                                
+  systemd-udevd-control.socket          loaded active     running   udev Control Socket                                                           
+  systemd-udevd-kernel.socket           loaded active     running   udev Kernel Socket                                                            
+  uuidd.socket                          loaded active     running   UUID daemon activation socket                                                 
+  basic.target                          loaded active     active    Basic System                                                                  
+  ceph-mds.target                       loaded active     active    ceph target allowing to start/stop all ceph-mds@.service instances at once    
+  ceph-mgr.target                       loaded active     active    ceph target allowing to start/stop all ceph-mgr@.service instances at once    
+  ceph-mon.target                       loaded active     active    ceph target allowing to start/stop all ceph-mon@.service instances at once    
+  ceph-osd.target                       loaded active     active    ceph target allowing to start/stop all ceph-osd@.service instances at once    
+  ceph-radosgw.target                   loaded active     active    ceph target allowing to start/stop all ceph-radosgw@.service instances at once
+  ceph.target                           loaded active     active    ceph target allowing to start/stop all ceph*@.service instances at once       
+  cloud-config.target                   loaded active     active    Cloud-config availability                                                     
+  cloud-init.target                     loaded active     active    Cloud-init target                                                             
+  cryptsetup.target                     loaded active     active    Local Encrypted Volumes                                                       
+  getty.target                          loaded active     active    Login Prompts                                                                 
+  graphical.target                      loaded active     active    Graphical Interface                                                           
+  local-fs-pre.target                   loaded active     active    Local File Systems (Pre)                                                      
+  local-fs.target                       loaded active     active    Local File Systems                                                            
+  multi-user.target                     loaded active     active    Multi-User System                                                             
+  network-online.target                 loaded active     active    Network is Online                                                             
+  network-pre.target                    loaded active     active    Network (Pre)                                                                 
+  network.target                        loaded active     active    Network                                                                       
+  nss-lookup.target                     loaded active     active    Host and Network Name Lookups                                                 
+  nss-user-lookup.target                loaded active     active    User and Group Name Lookups                                                   
+  paths.target                          loaded active     active    Paths                                                                         
+  remote-fs-pre.target                  loaded active     active    Remote File Systems (Pre)                                                     
+  remote-fs.target                      loaded active     active    Remote File Systems                                                           
+  slices.target                         loaded active     active    Slices                                                                        
+  sockets.target                        loaded active     active    Sockets                                                                       
+  swap.target                           loaded active     active    Swap                                                                          
+  sysinit.target                        loaded active     active    System Initialization                                                         
+  time-set.target                       loaded active     active    System Time Set                                                               
+  time-sync.target                      loaded active     active    System Time Synchronized                                                      
+  timers.target                         loaded active     active    Timers                                                                        
+  apt-daily-upgrade.timer               loaded active     waiting   Daily apt upgrade and clean activities                                        
+  apt-daily.timer                       loaded active     waiting   Daily apt download activities                                                 
+  e2scrub_all.timer                     loaded active     waiting   Periodic ext4 Online Metadata Check for All Filesystems                       
+  fwupd-refresh.timer                   loaded active     waiting   Refresh fwupd metadata regularly                                              
+  logrotate.timer                       loaded active     waiting   Daily rotation of log files                                                   
+  man-db.timer                          loaded active     waiting   Daily man-db regeneration                                                     
+  motd-news.timer                       loaded active     waiting   Message of the Day                                                            
+  systemd-tmpfiles-clean.timer          loaded active     waiting   Daily Cleanup of Temporary Directories                                        
+  ua-timer.timer                        loaded active     waiting   Ubuntu Advantage Timer for running repeated jobs                              
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+164 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.

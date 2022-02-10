@@ -1,0 +1,47 @@
+pause:
+  description: Put hacluster unit in crm standby mode which migrates resources
+               from this unit to another unit in the hacluster
+resume:
+  descrpition: Take hacluster unit out of standby mode
+cleanup:
+  description: Trigger cluster resource cleanup
+  params:
+    resource:
+      default: "all"
+      type: string
+      description: Resource name to cleanup
+status:
+  description: Show cluster status
+  params:
+    resources:
+      default: true
+      type: boolean
+      description: Show cluster resources
+    history:
+      default: false
+      type: boolean
+      description: Show cluster status history
+update-ring:
+  description: |
+        Trigger corosync node members cleanup.
+
+        WARNING This action updates the corosync cluster members by adding or
+        removing nodes, which may lead to a loss of quorum and other unexpected
+        side-effects. It is strongly encouraged to manually remove nodes
+        individually using the delete-node-from-ring action.
+  params:
+    i-really-mean-it:
+      type: boolean
+      description: |
+        This must be toggled to enable actually performing this action.
+  required:
+    - i-really-mean-it
+delete-node-from-ring:
+  description: Delete a node from the corosync ring. Must be run on the hacluster leader node.
+  params:
+    node:
+      type: string
+      description: |
+        Node name to be removed. i.e. hostname of the node
+  required:
+    - node

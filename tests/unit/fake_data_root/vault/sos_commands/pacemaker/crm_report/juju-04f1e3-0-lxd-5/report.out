@@ -1,0 +1,28 @@
+juju-04f1e3-0-lxd-5:  Debug: Located corosync config file: /etc/corosync/corosync.conf
+juju-04f1e3-0-lxd-5:  Debug: Reading corosync log settings from /etc/corosync/corosync.conf
+juju-04f1e3-0-lxd-5:  Debug: Pattern 'Mark:pcmk:1644486713' found in: [ /var/log/syslog ]
+juju-04f1e3-0-lxd-5:  Debug: Config: corosync (/etc/corosync/corosync.conf) /var/log/syslog
+juju-04f1e3-0-lxd-5:  Debug: Using lsb_release for distribution info
+juju-04f1e3-0-lxd-5:  Debug: The package manager is: deb
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: pacemaker
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: pacemaker-remote
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: corosync
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: resource-agents
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: cluster-glue
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: ocfs2-tools
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: lvm2
+juju-04f1e3-0-lxd-5:  Debug: Verifying installation of: lighttpd
+juju-04f1e3-0-lxd-5:  Debug: found 4 scheduler input files in /var/lib/pacemaker/pengine
+juju-04f1e3-0-lxd-5:  Debug: Looking for backtraces: 1644224527 1644486722
+juju-04f1e3-0-lxd-5:  Debug: Sanitizing files: passw.* passw.*
+juju-04f1e3-0-lxd-5:  Debug: Gathering logs from 2022-02-07 09:02:07 to 2022-02-10 09:52:02:
+juju-04f1e3-0-lxd-5:  Debug:    /var/log/syslog journalctl
+juju-04f1e3-0-lxd-5:  Debug: Found log /var/log/syslog
+juju-04f1e3-0-lxd-5:  Debug: Found log /var/log/syslog.1
+juju-04f1e3-0-lxd-5:  Including all logs after line 1711 from /var/log/syslog.1
+juju-04f1e3-0-lxd-5:  Including segment [1-3724] from /var/log/syslog
+juju-04f1e3-0-lxd-5:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Feb 10 09:52 backtraces.txt
+juju-04f1e3-0-lxd-5:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Feb 10 09:52 dlm_dump.txt
+juju-04f1e3-0-lxd-5:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Feb 10 09:52 drbd_info.txt
+juju-04f1e3-0-lxd-5:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Feb 10 09:51 permissions.txt
+juju-04f1e3-0-lxd-5:  Debug: Localhost: juju-04f1e3-0-lxd-5 juju-04f1e3-0-lxd-5

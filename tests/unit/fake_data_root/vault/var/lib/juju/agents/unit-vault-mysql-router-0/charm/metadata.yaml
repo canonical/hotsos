@@ -1,0 +1,24 @@
+"name": "mysql-router"
+"summary": "MySQL Router"
+"maintainer": "OpenStack Charmers <openstack-charmers@lists.ubuntu.com>"
+"description": |
+  MySQL Router proxying communication between application clients and MySQL InnoDB Clusters.
+"tags":
+- "openstack"
+- "databases"
+"series":
+- "focal"
+- "impish"
+"requires":
+  "certificates":
+    "interface": "tls-certificates"
+  "juju-info":
+    "interface": "juju-info"
+    "scope": "container"
+  "db-router":
+    "interface": "mysql-router"
+"provides":
+  "shared-db":
+    "interface": "mysql-shared"
+    "scope": "container"
+"subordinate": !!bool "true"

@@ -1,0 +1,69 @@
+system@ovs-system:
+  lookups: hit:36830 missed:4948 lost:0
+  flows: 7
+  masks: hit:101155 total:7 hit/pkt:2.42
+  port 0: ovs-system (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 1: br-tun (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 2: br-int (internal)
+    RX packets:0 errors:0 dropped:1533 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 3: br-ex (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 4: ens7
+    RX packets:37915 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:303 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:3215988 (3.1 MiB)  TX bytes:29979 (29.3 KiB)
+  port 5: br-data (internal)
+    RX packets:0 errors:0 dropped:5801 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 6: ha-550dc175-c0 (internal)
+    RX packets:294 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:25 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:11700 (11.4 KiB)  TX bytes:1718 (1.7 KiB)
+  port 7: vxlan_sys_4789 (vxlan: packet_type=ptap)
+    RX packets:0 errors:? dropped:? overruns:? frame:?
+    TX packets:0 errors:? dropped:? aborted:? carrier:?
+    collisions:?
+    RX bytes:0  TX bytes:0
+  port 8: fg-c8dcce74-c4 (internal)
+    RX packets:336 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:274 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:35465 (34.6 KiB)  TX bytes:27949 (27.3 KiB)
+  port 9: qg-14f81a43-69 (internal)
+    RX packets:0 errors:0 dropped:93 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+  port 10: qr-3a70b31c-3f (internal)
+    RX packets:1260 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:256 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:115720 (113.0 KiB)  TX bytes:25893 (25.3 KiB)
+  port 11: sg-189f4c40-9d (internal)
+    RX packets:1031 errors:0 dropped:1 overruns:0 frame:0
+    TX packets:5 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:93404 (91.2 KiB)  TX bytes:486
+  port 13: tap0e778df8-ca
+    RX packets:210 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:108 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:21320 (20.8 KiB)  TX bytes:10379 (10.1 KiB)

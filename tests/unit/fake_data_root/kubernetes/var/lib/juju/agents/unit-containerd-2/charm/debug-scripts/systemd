@@ -1,0 +1,9 @@
+#!/bin/sh
+set -ux
+
+systemctl --all > $DEBUG_SCRIPT_DIR/systemctl
+journalctl > $DEBUG_SCRIPT_DIR/journalctl
+systemd-analyze time > $DEBUG_SCRIPT_DIR/systemd-analyze-time
+systemd-analyze blame > $DEBUG_SCRIPT_DIR/systemd-analyze-blame
+systemd-analyze critical-chain > $DEBUG_SCRIPT_DIR/systemd-analyze-critical-chain
+systemd-analyze dump > $DEBUG_SCRIPT_DIR/systemd-analyze-dump

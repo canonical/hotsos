@@ -1,0 +1,2 @@
+# Written by curtin
+SUBSYSTEM=="block", ACTION=="add|change", ENV{DEVTYPE}=="partition", ENV{ID_PART_ENTRY_UUID}=="5c1ca2b8-cecb-4123-a8b9-84ee2b456d44", SYMLINK+="disk/by-dname/vdb-part2"

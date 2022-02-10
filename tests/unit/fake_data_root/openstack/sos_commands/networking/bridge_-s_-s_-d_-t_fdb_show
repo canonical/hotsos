@@ -1,0 +1,107 @@
+12:7e:61:46:05:b0 dev ens3 used 0/0 master br-ens3 
+00:16:3e:3a:20:be dev ens3 used 23504/25 master br-ens3 
+00:16:3e:92:d6:95 dev ens3 used 0/0 master br-ens3 
+00:16:3e:b7:f1:3a dev ens3 used 0/0 master br-ens3 
+52:54:00:d6:16:aa dev ens3 used 0/0 master br-ens3 
+00:16:3e:4b:32:cc dev ens3 used 0/0 master br-ens3 
+00:16:3e:d5:d0:a4 dev ens3 used 0/0 master br-ens3 
+00:16:3e:5a:74:65 dev ens3 used 0/0 master br-ens3 
+fe:54:00:e2:28:a3 dev ens3 used 63688/0 master br-ens3 
+00:16:3e:2d:06:81 dev ens3 used 1/0 master br-ens3 
+1a:22:68:c4:5b:3b dev ens3 used 1/1 master br-ens3 
+00:16:3e:3f:d9:1c dev ens3 used 0/0 master br-ens3 
+00:16:3e:d6:29:2d dev ens3 used 0/0 master br-ens3 
+00:16:3e:0d:5f:ee dev ens3 used 0/0 master br-ens3 
+52:54:00:23:38:7f dev ens3 used 45/0 master br-ens3 
+00:16:3e:16:04:1f dev ens3 used 0/0 master br-ens3 
+00:16:3e:27:b2:5e dev ens3 used 4/4 master br-ens3 
+52:54:00:e2:28:a3 dev ens3 vlan 1 used 63688/63688 master br-ens3 permanent
+52:54:00:e2:28:a3 dev ens3 used 63688/63688 master br-ens3 permanent
+33:33:00:00:00:01 dev ens3 self permanent
+01:00:5e:00:00:01 dev ens3 self permanent
+01:80:c2:00:00:00 dev ens3 self permanent
+01:80:c2:00:00:03 dev ens3 self permanent
+01:80:c2:00:00:0e dev ens3 self permanent
+33:33:00:00:00:01 dev ens4 self permanent
+01:00:5e:00:00:01 dev ens4 self permanent
+33:33:ff:bb:47:e2 dev ens4 self permanent
+01:80:c2:00:00:00 dev ens4 self permanent
+01:80:c2:00:00:03 dev ens4 self permanent
+01:80:c2:00:00:0e dev ens4 self permanent
+33:33:00:00:00:01 dev ens5 self permanent
+01:00:5e:00:00:01 dev ens5 self permanent
+33:33:ff:5c:d9:47 dev ens5 self permanent
+01:80:c2:00:00:00 dev ens5 self permanent
+01:80:c2:00:00:03 dev ens5 self permanent
+01:80:c2:00:00:0e dev ens5 self permanent
+33:33:00:00:00:01 dev ens6 self permanent
+01:00:5e:00:00:01 dev ens6 self permanent
+33:33:ff:e6:14:19 dev ens6 self permanent
+01:80:c2:00:00:00 dev ens6 self permanent
+01:80:c2:00:00:03 dev ens6 self permanent
+01:80:c2:00:00:0e dev ens6 self permanent
+33:33:00:00:00:01 dev ens7 self permanent
+01:00:5e:00:00:01 dev ens7 self permanent
+33:33:ff:78:19:c3 dev ens7 self permanent
+01:80:c2:00:00:00 dev ens7 self permanent
+01:80:c2:00:00:03 dev ens7 self permanent
+01:80:c2:00:00:0e dev ens7 self permanent
+33:33:00:00:00:01 dev ens8 self permanent
+01:00:5e:00:00:01 dev ens8 self permanent
+33:33:ff:fa:50:95 dev ens8 self permanent
+01:80:c2:00:00:00 dev ens8 self permanent
+01:80:c2:00:00:03 dev ens8 self permanent
+01:80:c2:00:00:0e dev ens8 self permanent
+33:33:00:00:00:01 dev ens9 self permanent
+01:00:5e:00:00:01 dev ens9 self permanent
+33:33:ff:5c:a7:e0 dev ens9 self permanent
+01:80:c2:00:00:00 dev ens9 self permanent
+01:80:c2:00:00:03 dev ens9 self permanent
+01:80:c2:00:00:0e dev ens9 self permanent
+33:33:00:00:00:01 dev br-ens3 self permanent
+01:00:5e:00:00:6a dev br-ens3 self permanent
+33:33:00:00:00:6a dev br-ens3 self permanent
+01:00:5e:00:00:01 dev br-ens3 self permanent
+33:33:ff:3f:67:93 dev br-ens3 self permanent
+33:33:00:00:00:01 dev ovs-system self permanent
+33:33:00:00:00:01 dev br-tun self permanent
+33:33:00:00:00:01 dev br-int self permanent
+33:33:00:00:00:01 dev br-ex self permanent
+33:33:00:00:00:01 dev br-data self permanent
+33:33:00:00:00:01 dev lxdbr0 self permanent
+01:00:5e:00:00:6a dev lxdbr0 self permanent
+33:33:00:00:00:6a dev lxdbr0 self permanent
+01:00:5e:00:00:01 dev lxdbr0 self permanent
+00:16:3e:19:ce:1b dev lxdbr0 vlan 1 used 63673/63673 master lxdbr0 permanent
+00:16:3e:19:ce:1b dev lxdbr0 used 63673/63673 master lxdbr0 permanent
+00:16:3e:ae:9e:44 dev veth1883dceb used 0/0 master br-ens3 
+4e:68:29:1e:ed:52 dev veth1883dceb vlan 1 used 63672/63672 master br-ens3 permanent
+4e:68:29:1e:ed:52 dev veth1883dceb used 63672/63672 master br-ens3 permanent
+01:00:5e:00:00:01 dev veth1883dceb self permanent
+00:16:3e:c4:36:80 dev veth5cc250bc used 0/0 master br-ens3 
+4e:3e:ac:ed:dc:bb dev veth5cc250bc vlan 1 used 63671/63671 master br-ens3 permanent
+4e:3e:ac:ed:dc:bb dev veth5cc250bc used 63671/63671 master br-ens3 permanent
+01:00:5e:00:00:01 dev veth5cc250bc self permanent
+00:16:3e:1a:cb:58 dev veth396824c3 used 0/0 master br-ens3 
+a6:3a:fe:ef:e9:e3 dev veth396824c3 vlan 1 used 63670/63670 master br-ens3 permanent
+a6:3a:fe:ef:e9:e3 dev veth396824c3 used 63670/63670 master br-ens3 permanent
+01:00:5e:00:00:01 dev veth396824c3 self permanent
+00:16:3e:b7:f0:b6 dev vethe7aaf6c3 used 0/0 master br-ens3 
+26:71:db:34:0b:fb dev vethe7aaf6c3 vlan 1 used 63669/63669 master br-ens3 permanent
+26:71:db:34:0b:fb dev vethe7aaf6c3 used 63669/63669 master br-ens3 permanent
+01:00:5e:00:00:01 dev vethe7aaf6c3 self permanent
+00:16:3e:63:ff:84 dev veth59e22e6f used 0/0 master br-ens3 
+a2:8c:4d:b5:9d:2b dev veth59e22e6f vlan 1 used 63669/63669 master br-ens3 permanent
+a2:8c:4d:b5:9d:2b dev veth59e22e6f used 63669/63669 master br-ens3 permanent
+01:00:5e:00:00:01 dev veth59e22e6f self permanent
+00:16:3e:93:76:28 dev veth8aa19e05 used 0/0 master br-ens3 
+22:c2:7b:1c:12:1b dev veth8aa19e05 vlan 1 used 63668/63668 master br-ens3 permanent
+22:c2:7b:1c:12:1b dev veth8aa19e05 used 63668/63668 master br-ens3 permanent
+01:00:5e:00:00:01 dev veth8aa19e05 self permanent
+00:16:3e:bd:a1:e3 dev veth0d284c32 used 0/0 master br-ens3 
+4e:78:0a:18:65:d4 dev veth0d284c32 vlan 1 used 63667/63667 master br-ens3 permanent
+4e:78:0a:18:65:d4 dev veth0d284c32 used 63667/63667 master br-ens3 permanent
+01:00:5e:00:00:01 dev veth0d284c32 self permanent
+33:33:00:00:00:01 dev tap0e778df8-ca self permanent
+01:00:5e:00:00:01 dev tap0e778df8-ca self permanent
+33:33:ff:a7:45:cb dev tap0e778df8-ca self permanent

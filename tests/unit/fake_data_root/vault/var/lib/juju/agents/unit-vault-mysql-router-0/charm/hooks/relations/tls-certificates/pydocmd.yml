@@ -1,0 +1,19 @@
+site_name: 'TLS Certificates Interface'
+
+generate:
+  - requires.md:
+    - requires
+    - requires.TlsRequires+
+  - provides.md:
+    - provides
+    - provides.TlsProvides+
+  - common.md:
+    - tls_certificates_common.CertificateRequest+
+    - tls_certificates_common.Certificate+
+
+pages:
+  - Requires: requires.md
+  - Provides: provides.md
+  - Common: common.md
+
+gens_dir: docs

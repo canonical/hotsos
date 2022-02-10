@@ -1,0 +1,17 @@
+Chain PREROUTING (policy ACCEPT 101K packets, 40M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain INPUT (policy ACCEPT 101K packets, 40M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 98836 packets, 31M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain POSTROUTING (policy ACCEPT 98830 packets, 31M bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-PROXY-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         

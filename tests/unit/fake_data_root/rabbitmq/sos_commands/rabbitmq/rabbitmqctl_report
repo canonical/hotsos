@@ -1,0 +1,1436 @@
+Reporting server status of node rabbit@juju-04f1e3-1-lxd-5 ...
+
+Status of node rabbit@juju-04f1e3-1-lxd-5 ...
+[1mRuntime[0m
+
+OS PID: 282
+OS: Linux
+Uptime (seconds): 39648
+RabbitMQ version: 3.8.2
+Node name: rabbit@juju-04f1e3-1-lxd-5
+Erlang configuration: Erlang/OTP 22 [erts-10.6.4] [source] [64-bit] [smp:2:2] [ds:2:2:10] [async-threads:48]
+Erlang processes: 2958 used, 1048576 limit
+Scheduler run queue: 1
+Cluster heartbeat timeout (net_ticktime): 60
+
+[1mPlugins[0m
+
+Enabled plugin file: /etc/rabbitmq/enabled_plugins
+Enabled plugins:
+
+ * rabbitmq_management
+ * rabbitmq_web_dispatch
+ * rabbitmq_management_agent
+ * amqp_client
+ * cowboy
+ * cowlib
+
+[1mData directory[0m
+
+Node data directory: /var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5
+
+[1mConfig files[0m
+
+ * /etc/rabbitmq/rabbitmq.conf
+
+[1mLog file(s)[0m
+
+ * /var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log
+ * /var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log
+
+[1mAlarms[0m
+
+(none)
+
+[1mMemory[0m
+
+Calculation strategy: rss
+Memory high watermark setting: 0.4 of available memory, computed to: 0.4295 gb
+allocated_unused: 0.0587 gb (28.52 %)
+code: 0.03 gb (14.59 %)
+other_proc: 0.0256 gb (12.47 %)
+binary: 0.0221 gb (10.76 %)
+connection_other: 0.0142 gb (6.89 %)
+other_system: 0.0128 gb (6.24 %)
+plugins: 0.0112 gb (5.44 %)
+mgmt_db: 0.0099 gb (4.82 %)
+queue_procs: 0.0061 gb (2.98 %)
+connection_readers: 0.0052 gb (2.52 %)
+other_ets: 0.0035 gb (1.71 %)
+connection_channels: 0.002 gb (0.95 %)
+metrics: 0.0017 gb (0.82 %)
+atom: 0.0015 gb (0.74 %)
+mnesia: 0.0008 gb (0.37 %)
+connection_writers: 0.0003 gb (0.13 %)
+msg_index: 0.0001 gb (0.03 %)
+quorum_ets: 0.0 gb (0.02 %)
+queue_slave_procs: 0.0 gb (0.0 %)
+quorum_queue_procs: 0.0 gb (0.0 %)
+reserved_unallocated: 0.0 gb (0.0 %)
+
+[1mFile Descriptors[0m
+
+Total: 163, limit: 65439
+Sockets: 159, limit: 58893
+
+[1mFree Disk Space[0m
+
+Low free disk space watermark: 0.05 gb
+Free disk space: 274.3389 gb
+
+[1mTotals[0m
+
+Connection count: 159
+Queue count: 194
+Virtual host count: 2
+
+[1mListeners[0m
+
+Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+Interface: [::], port: 15672, protocol: http, purpose: HTTP API
+
+Cluster status of node rabbit@juju-04f1e3-1-lxd-5 ...
+[1mBasics[0m
+
+Cluster name: rabbit@juju-04f1e3-1-lxd-5.mylab.home
+
+[1mDisk Nodes[0m
+
+rabbit@juju-04f1e3-1-lxd-5
+
+[1mRunning Nodes[0m
+
+rabbit@juju-04f1e3-1-lxd-5
+
+[1mVersions[0m
+
+rabbit@juju-04f1e3-1-lxd-5: RabbitMQ 3.8.2 on Erlang 22.2.7
+
+[1mAlarms[0m
+
+(none)
+
+[1mNetwork Partitions[0m
+
+(none)
+
+[1mListeners[0m
+
+Node: rabbit@juju-04f1e3-1-lxd-5, interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Node: rabbit@juju-04f1e3-1-lxd-5, interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+Node: rabbit@juju-04f1e3-1-lxd-5, interface: [::], port: 15672, protocol: http, purpose: HTTP API
+
+[1mFeature flags[0m
+
+Flag: drop_unroutable_metric, state: disabled
+Flag: empty_basic_get_metric, state: disabled
+Flag: implicit_default_bindings, state: enabled
+Flag: quorum_queue, state: enabled
+Flag: virtual_host_metadata, state: enabled
+
+Application environment of node rabbit@juju-04f1e3-1-lxd-5 ...
+[{amqp_client,[{prefer_ipv6,false},{ssl_options,[]}]},
+ {asn1,[]},
+ {aten,
+     [{detection_threshold,0.99},
+      {heartbeat_interval,100},
+      {poll_interval,1000}]},
+ {compiler,[]},
+ {cowboy,[]},
+ {cowlib,[]},
+ {credentials_obfuscation,
+     [{enabled,true},{ets_table_name,credentials_obfuscation}]},
+ {crypto,[{fips_mode,false},{rand_cache_size,896}]},
+ {gen_batch_server,[]},
+ {goldrush,[]},
+ {inets,[]},
+ {jsx,[]},
+ {kernel,
+     [{inet_default_connect_options,[{nodelay,true}]},
+      {inet_dist_listen_max,25672},
+      {inet_dist_listen_min,25672},
+      {logger,
+          [{handler,default,logger_std_h,
+               #{config => #{type => standard_io},
+                 formatter =>
+                     {logger_formatter,
+                         #{legacy_header => true,single_line => false}}}}]},
+      {logger_level,notice},
+      {logger_sasl_compatible,false}]},
+ {lager,
+     [{async_threshold,20},
+      {async_threshold_window,5},
+      {colored,false},
+      {colors,
+          [{debug,"\e[0;38m"},
+           {info,"\e[1;37m"},
+           {notice,"\e[1;36m"},
+           {warning,"\e[1;33m"},
+           {error,"\e[1;31m"},
+           {critical,"\e[1;35m"},
+           {alert,"\e[1;44m"},
+           {emergency,"\e[1;41m"}]},
+      {crash_log,"log/crash.log"},
+      {crash_log_count,5},
+      {crash_log_date,"$D0"},
+      {crash_log_msg_size,65536},
+      {crash_log_rotator,lager_rotator_default},
+      {crash_log_size,10485760},
+      {error_logger_format_raw,true},
+      {error_logger_hwm,50},
+      {error_logger_hwm_original,50},
+      {error_logger_redirect,true},
+      {extra_sinks,
+          [{error_logger_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_channel_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_connection_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_ldap_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_mirroring_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_queue_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_ra_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_federation_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_shovel_lager_event,
+               [{handlers,[{lager_forwarder_backend,[lager_event,inherit]}]},
+                {rabbit_handlers,
+                    [{lager_forwarder_backend,[lager_event,inherit]}]}]},
+           {rabbit_log_upgrade_lager_event,
+               [{handlers,
+                    [{lager_file_backend,
+                         [{date,[]},
+                          {file,
+                              "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log"},
+                          {formatter_config,
+                              [date," ",time," ",color,"[",severity,"] ",
+                               {pid,[]},
+                               " ",message,"\n"]},
+                          {level,info},
+                          {size,0}]}]},
+                {rabbit_handlers,
+                    [{lager_file_backend,
+                         [{date,[]},
+                          {file,
+                              "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log"},
+                          {formatter_config,
+                              [date," ",time," ",color,"[",severity,"] ",
+                               {pid,[]},
+                               " ",message,"\n"]},
+                          {level,info},
+                          {size,0}]}]}]}]},
+      {handlers,
+          [{lager_file_backend,
+               [{date,[]},
+                {file,"/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log"},
+                {formatter_config,
+                    [date," ",time," ",color,"[",severity,"] ",
+                     {pid,[]},
+                     " ",message,"\n"]},
+                {level,info},
+                {size,0}]}]},
+      {log_root,"/var/log/rabbitmq"},
+      {rabbit_handlers,
+          [{lager_file_backend,
+               [{date,[]},
+                {file,"/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log"},
+                {formatter_config,
+                    [date," ",time," ",color,"[",severity,"] ",
+                     {pid,[]},
+                     " ",message,"\n"]},
+                {level,info},
+                {size,0}]}]}]},
+ {mnesia,[{dir,"/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5"}]},
+ {observer_cli,[{plugins,[]}]},
+ {os_mon,
+     [{start_cpu_sup,false},
+      {start_disksup,false},
+      {start_memsup,false},
+      {start_os_sup,false}]},
+ {public_key,[]},
+ {ra,[{data_dir,"/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum"},
+      {logger_module,rabbit_log_ra_shim},
+      {segment_max_entries,32768},
+      {wal_max_size_bytes,536870912}]},
+ {rabbit,
+     [{auth_backends,[rabbit_auth_backend_internal]},
+      {auth_mechanisms,['PLAIN','AMQPLAIN']},
+      {autocluster,
+          [{peer_discovery_backend,rabbit_peer_discovery_classic_config}]},
+      {background_gc_enabled,false},
+      {background_gc_target_interval,60000},
+      {backing_queue_module,rabbit_priority_queue},
+      {channel_max,2047},
+      {channel_operation_timeout,15000},
+      {channel_tick_interval,60000},
+      {cluster_keepalive_interval,10000},
+      {cluster_nodes,{[],disc}},
+      {cluster_partition_handling,ignore},
+      {collect_statistics,fine},
+      {collect_statistics_interval,30000},
+      {config_entry_decoder,[{passphrase,undefined}]},
+      {connection_max,infinity},
+      {credit_flow_default_credit,{400,200}},
+      {default_consumer_prefetch,{false,0}},
+      {default_permissions,[<<".*">>,<<".*">>,<<".*">>]},
+      {default_user,<<"guest">>},
+      {default_user_tags,[administrator]},
+      {default_vhost,<<"/">>},
+      {delegate_count,16},
+      {disk_free_limit,50000000},
+      {disk_monitor_failure_retries,10},
+      {disk_monitor_failure_retry_interval,120000},
+      {enabled_plugins_file,"/etc/rabbitmq/enabled_plugins"},
+      {feature_flags_file,
+          "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags"},
+      {fhc_read_buffering,false},
+      {fhc_write_buffering,true},
+      {frame_max,131072},
+      {halt_on_upgrade_failure,true},
+      {handshake_timeout,10000},
+      {heartbeat,60},
+      {hipe_compile,false},
+      {hipe_modules,
+          [rabbit_reader,rabbit_channel,gen_server2,rabbit_exchange,
+           rabbit_command_assembler,rabbit_framing_amqp_0_9_1,rabbit_basic,
+           rabbit_event,lists,queue,priority_queue,rabbit_router,rabbit_trace,
+           rabbit_misc,rabbit_binary_parser,rabbit_exchange_type_direct,
+           rabbit_guid,rabbit_net,rabbit_amqqueue_process,
+           rabbit_variable_queue,rabbit_binary_generator,rabbit_writer,
+           delegate,gb_sets,lqueue,sets,orddict,rabbit_amqqueue,
+           rabbit_limiter,gb_trees,rabbit_queue_index,
+           rabbit_exchange_decorator,gen,dict,ordsets,file_handle_cache,
+           rabbit_msg_store,array,rabbit_msg_store_ets_index,rabbit_msg_file,
+           rabbit_exchange_type_fanout,rabbit_exchange_type_topic,mnesia,
+           mnesia_lib,rpc,mnesia_tm,qlc,sofs,proplists,credit_flow,pmon,
+           ssl_connection,tls_connection,ssl_record,tls_record,gen_fsm,ssl]},
+      {lager_default_file,"/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log"},
+      {lager_extra_sinks,
+          [rabbit_log_lager_event,rabbit_log_channel_lager_event,
+           rabbit_log_connection_lager_event,rabbit_log_ldap_lager_event,
+           rabbit_log_mirroring_lager_event,rabbit_log_queue_lager_event,
+           rabbit_log_ra_lager_event,rabbit_log_federation_lager_event,
+           rabbit_log_shovel_lager_event,rabbit_log_upgrade_lager_event]},
+      {lager_log_root,"/var/log/rabbitmq"},
+      {lager_upgrade_file,
+          "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log"},
+      {lazy_queue_explicit_gc_run_operation_threshold,1000},
+      {log,
+          [{file,[{file,"/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log"}]},
+           {categories,
+               [{upgrade,
+                    [{file,
+                         "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log"}]}]}]},
+      {loopback_users,[<<"guest">>]},
+      {max_message_size,134217728},
+      {memory_monitor_interval,2500},
+      {mirroring_flow_control,true},
+      {mirroring_sync_batch_size,4096},
+      {mnesia_table_loading_retry_limit,10},
+      {mnesia_table_loading_retry_timeout,30000},
+      {msg_store_credit_disc_bound,{4000,800}},
+      {msg_store_file_size_limit,16777216},
+      {msg_store_index_module,rabbit_msg_store_ets_index},
+      {msg_store_io_batch_size,4096},
+      {num_ssl_acceptors,10},
+      {num_tcp_acceptors,10},
+      {password_hashing_module,rabbit_password_hashing_sha256},
+      {plugins_dir,
+          "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins"},
+      {plugins_expand_dir,
+          "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand"},
+      {proxy_protocol,false},
+      {queue_explicit_gc_run_operation_threshold,1000},
+      {queue_index_embed_msgs_below,4096},
+      {queue_index_max_journal_entries,32768},
+      {queue_master_locator,<<"min-masters">>},
+      {quorum_cluster_size,5},
+      {quorum_commands_soft_limit,256},
+      {reverse_dns_lookups,false},
+      {server_properties,[]},
+      {ssl_allow_poodle_attack,false},
+      {ssl_apps,[asn1,crypto,public_key,ssl]},
+      {ssl_cert_login_from,distinguished_name},
+      {ssl_handshake_timeout,5000},
+      {ssl_listeners,[]},
+      {ssl_options,[]},
+      {tcp_listen_options,
+          [{backlog,128},
+           {nodelay,true},
+           {linger,{true,0}},
+           {exit_on_close,false}]},
+      {tcp_listeners,[5672]},
+      {trace_vhosts,[]},
+      {vhost_restart_strategy,continue},
+      {vm_memory_calculation_strategy,rss},
+      {vm_memory_high_watermark,0.4},
+      {vm_memory_high_watermark_paging_ratio,0.5}]},
+ {rabbit_common,[]},
+ {rabbitmq_management,
+     [{content_security_policy,"default-src 'self'"},
+      {cors_allow_origins,[]},
+      {cors_max_age,1800},
+      {http_log_dir,none},
+      {load_definitions,none},
+      {management_db_cache_multiplier,5},
+      {process_stats_gc_timeout,300000},
+      {stats_event_max_backlog,250}]},
+ {rabbitmq_management_agent,
+     [{rates_mode,basic},
+      {sample_retention_policies,
+          [{global,[{605,5},{3660,60},{29400,600},{86400,1800}]},
+           {basic,[{605,5},{3600,60}]},
+           {detailed,[{605,5}]}]}]},
+ {rabbitmq_web_dispatch,[]},
+ {ranch,[]},
+ {recon,[]},
+ {sasl,[{errlog_type,error},{sasl_error_logger,false}]},
+ {ssl,[]},
+ {stdlib,[]},
+ {stdout_formatter,[]},
+ {syntax_tools,[]},
+ {sysmon_handler,
+     [{busy_dist_port,true},
+      {busy_port,false},
+      {gc_ms_limit,0},
+      {heap_word_limit,0},
+      {port_limit,100},
+      {process_limit,100},
+      {schedule_ms_limit,0}]},
+ {tools,[{file_util_search_methods,[{[],[]},{"ebin","esrc"},{"ebin","src"}]}]},
+ {xmerl,[]}]
+
+Listing connections ...
+pid	name	port	host	peer_port	peer_host	ssl	ssl_protocol	ssl_key_exchange	ssl_cipher	ssl_hash	peer_cert_subject	peer_cert_issuer	peer_cert_validity	state	channels	protocol	auth_mechanism	user	vhost	timeout	frame_max	channel_max	client_properties	recv_oct	recv_cnt	send_oct	send_cnt	send_pend	connected_at
+<rabbit@juju-04f1e3-1-lxd-5.3.730.0>	10.0.0.128:54228 -> 10.0.0.116:5672	5672	10.0.0.116	54228	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-metadata-agent:977:07e93fcf-cf0b-4b3b-9f3a-f00a0b373b86"}]	4079	446	11504	1323	0	1644446473227
+<rabbit@juju-04f1e3-1-lxd-5.3.749.0>	10.0.0.128:54230 -> 10.0.0.116:5672	5672	10.0.0.116	54230	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-metadata-agent:977:0aa8c7c4-737a-40c8-a3b0-00f1c00e6059"}]	2007553	1318	28190	1325	0	1644446473254
+<rabbit@juju-04f1e3-1-lxd-5.3.824.0>	10.0.0.133:51454 -> 10.0.0.116:5672	5672	10.0.0.116	51454	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-metadata-agent:975:ea36fcb3-c48e-497c-99ea-3f56ab84e2fc"}]	4079	446	11504	1323	0	1644446474569
+<rabbit@juju-04f1e3-1-lxd-5.3.873.0>	10.0.0.133:51458 -> 10.0.0.116:5672	5672	10.0.0.116	51458	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-metadata-agent:975:0a269c3c-1523-4462-873e-05c2f3572036"}]	2007553	1318	28190	1325	0	1644446474639
+<rabbit@juju-04f1e3-1-lxd-5.3.884.0>	10.0.0.133:51460 -> 10.0.0.116:5672	5672	10.0.0.116	51460	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:d0af679d-fd10-4177-85a0-58f725fb6cd5"}]	4723	455	11401	1333	0	1644446474671
+<rabbit@juju-04f1e3-1-lxd-5.3.923.0>	10.0.0.133:51462 -> 10.0.0.116:5672	5672	10.0.0.116	51462	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:ef3ee49b-361a-4aa8-8d5b-755a5ea63140"}]	4873	457	11428	1333	0	1644446474736
+<rabbit@juju-04f1e3-1-lxd-5.3.1060.0>	10.0.0.133:51478 -> 10.0.0.116:5672	5672	10.0.0.116	51478	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:87ccb2d3-c389-4ec5-a4c9-ebe73a94c913"}]	4913	456	11440	1333	0	1644446474809
+<rabbit@juju-04f1e3-1-lxd-5.3.1119.0>	10.0.0.133:51484 -> 10.0.0.116:5672	5672	10.0.0.116	51484	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:60747f67-2077-477a-b422-6f257e4eec0e"}]	4773	456	11410	1333	0	1644446474869
+<rabbit@juju-04f1e3-1-lxd-5.3.1190.0>	10.0.0.133:51496 -> 10.0.0.116:5672	5672	10.0.0.116	51496	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:0794d209-596c-4eef-a5ba-e99bf6b341f9"}]	4775	457	11407	1333	0	1644446474936
+<rabbit@juju-04f1e3-1-lxd-5.3.1229.0>	10.0.0.133:51498 -> 10.0.0.116:5672	5672	10.0.0.116	51498	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:d727ae0f-600a-4e57-9215-1aba63ac044f"}]	28032	1318	432523	1328	0	1644446475003
+<rabbit@juju-04f1e3-1-lxd-5.3.1248.0>	10.0.0.133:51500 -> 10.0.0.116:5672	5672	10.0.0.116	51500	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:878b15d8-dee2-4198-abb9-cb19e9dc1084"}]	3203494	1322	28196	1329	0	1644446475026
+<rabbit@juju-04f1e3-1-lxd-5.3.1261.0>	10.0.0.128:54408 -> 10.0.0.116:5672	5672	10.0.0.116	54408	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:65572b38-d9ad-4b3c-a749-db76b03d04b8"}]	4731	456	11401	1333	0	1644446476901
+<rabbit@juju-04f1e3-1-lxd-5.3.1291.0>	10.0.0.128:54414 -> 10.0.0.116:5672	5672	10.0.0.116	54414	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:c21dc360-5b96-4aaa-b366-0cd9a9d5f83b"}]	4865	457	11428	1333	0	1644446476945
+<rabbit@juju-04f1e3-1-lxd-5.3.1321.0>	10.0.0.128:54418 -> 10.0.0.116:5672	5672	10.0.0.116	54418	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:c9d9c14f-306e-4414-bc50-a32e7520acb1"}]	4913	456	11440	1333	0	1644446476972
+<rabbit@juju-04f1e3-1-lxd-5.3.1351.0>	10.0.0.128:54422 -> 10.0.0.116:5672	5672	10.0.0.116	54422	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:537ea12e-760d-4b45-921c-34e927622dd7"}]	4773	456	11410	1333	0	1644446477009
+<rabbit@juju-04f1e3-1-lxd-5.3.1381.0>	10.0.0.128:54428 -> 10.0.0.116:5672	5672	10.0.0.116	54428	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:fd120c77-9ad3-40eb-a9b6-cec7bbc3942c"}]	4759	456	11407	1333	0	1644446477058
+<rabbit@juju-04f1e3-1-lxd-5.3.1411.0>	10.0.0.128:54432 -> 10.0.0.116:5672	5672	10.0.0.116	54432	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:82f2e0fd-8e98-4dc8-a7f8-59d21ec15414"}]	28011	1318	432201	1328	0	1644446477094
+<rabbit@juju-04f1e3-1-lxd-5.3.1430.0>	10.0.0.128:54434 -> 10.0.0.116:5672	5672	10.0.0.116	54434	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:1f464f49-8291-4ce5-a75c-adf4733f5fc3"}]	3201040	1321	28183	1329	0	1644446477127
+<rabbit@juju-04f1e3-1-lxd-5.3.1446.0>	10.0.0.133:51770 -> 10.0.0.116:5672	5672	10.0.0.116	51770	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1602:d933d4cb-9099-43f3-98bf-8f913459cee8"}]	27981	1317	431079	1326	0	1644446481778
+<rabbit@juju-04f1e3-1-lxd-5.3.1465.0>	10.0.0.133:51774 -> 10.0.0.116:5672	5672	10.0.0.116	51774	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1602:d390dcda-a8ad-4e5b-b124-bef6cd9ef326"}]	2317851	1318	28154	1327	0	1644446481837
+<rabbit@juju-04f1e3-1-lxd-5.3.1478.0>	10.0.0.128:54732 -> 10.0.0.116:5672	5672	10.0.0.116	54732	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1590:c6c2e837-8ca9-4ada-82d3-a6a2af937632"}]	27988	1316	431401	1325	0	1644446484085
+<rabbit@juju-04f1e3-1-lxd-5.3.1497.0>	10.0.0.128:54736 -> 10.0.0.116:5672	5672	10.0.0.116	54736	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1590:9cde6835-be96-4a2b-aee7-ef6988190e11"}]	6392	534	11152	1324	0	1644446484127
+<rabbit@juju-04f1e3-1-lxd-5.3.1500.0>	10.0.0.128:54740 -> 10.0.0.116:5672	5672	10.0.0.116	54740	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1590:055b8010-d71d-4d67-8cb4-4f657a00434d"}]	2227567	1319	28211	1326	0	1644446484149
+<rabbit@juju-04f1e3-1-lxd-5.3.1521.0>	10.0.0.128:54810 -> 10.0.0.116:5672	5672	10.0.0.116	54810	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1591:17c1ee90-bea0-4c9f-980b-063e2e2310e4"}]	27973	1316	431079	1326	0	1644446485652
+<rabbit@juju-04f1e3-1-lxd-5.3.1540.0>	10.0.0.128:54812 -> 10.0.0.116:5672	5672	10.0.0.116	54812	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1591:d74c9910-857d-4b5d-9103-f1d5418c95c7"}]	2317873	1319	28154	1327	0	1644446485682
+<rabbit@juju-04f1e3-1-lxd-5.3.1554.0>	10.0.0.133:52056 -> 10.0.0.116:5672	5672	10.0.0.116	52056	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1601:872ad10b-aedc-4357-b3fc-237391123d73"}]	27988	1316	431396	1325	0	1644446488670
+<rabbit@juju-04f1e3-1-lxd-5.3.1573.0>	10.0.0.133:52058 -> 10.0.0.116:5672	5672	10.0.0.116	52058	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1601:4fff0c60-ad06-40e3-82d1-f654b76ef50d"}]	2228003	1318	28211	1326	0	1644446488685
+<rabbit@juju-04f1e3-1-lxd-5.3.1576.0>	10.0.0.133:52060 -> 10.0.0.116:5672	5672	10.0.0.116	52060	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1601:81863a18-1619-4809-b70f-055f118b0bb1"}]	5956	534	11152	1324	0	1644446488692
+<rabbit@juju-04f1e3-1-lxd-5.3.2480.0>	10.0.0.128:58342 -> 10.0.0.116:5672	5672	10.0.0.116	58342	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1590:2f981684-8123-4f35-98bc-34c1b1fcf7d8"}]	4606	457	11350	1330	0	1644446564978
+<rabbit@juju-04f1e3-1-lxd-5.3.2569.0>	10.0.0.133:55962 -> 10.0.0.116:5672	5672	10.0.0.116	55962	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:1601:19485de0-619d-4e5d-9c6f-fc3a30b479b7"}]	4606	457	11350	1330	0	1644446583957
+<rabbit@juju-04f1e3-1-lxd-5.3.6033.0>	10.0.0.128:43534 -> 10.0.0.116:5672	5672	10.0.0.116	43534	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35743:46119141-2d15-4973-b388-3afbd5a41370"}]	4025	440	11895	1310	0	1644446894615
+<rabbit@juju-04f1e3-1-lxd-5.3.6052.0>	10.0.0.128:43536 -> 10.0.0.116:5672	5672	10.0.0.116	43536	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35743:5de2a0d4-7e03-4e76-ab47-84a3263a2bf9"}]	6203	529	11040	1310	0	1644446894637
+<rabbit@juju-04f1e3-1-lxd-5.3.6078.0>	10.0.0.128:43542 -> 10.0.0.116:5672	5672	10.0.0.116	43542	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35744:716fdb80-8f0f-4af5-ba64-9abeb78edc58"}]	4025	440	11895	1310	0	1644446894764
+<rabbit@juju-04f1e3-1-lxd-5.3.6097.0>	10.0.0.128:43544 -> 10.0.0.116:5672	5672	10.0.0.116	43544	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35744:f1a663bc-f8cf-4848-94ca-2dff9cb67602"}]	6203	528	11040	1310	0	1644446894784
+<rabbit@juju-04f1e3-1-lxd-5.3.6135.0>	10.0.0.128:43552 -> 10.0.0.116:5672	5672	10.0.0.116	43552	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35746:fae3ce8c-dfaf-4919-8ff8-4c0cef4d96a1"}]	4017	439	11895	1310	0	1644446895100
+<rabbit@juju-04f1e3-1-lxd-5.3.6154.0>	10.0.0.128:43554 -> 10.0.0.116:5672	5672	10.0.0.116	43554	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35746:f3c279ab-ff76-425f-83f9-854b20c6d5ea"}]	6203	529	11040	1310	0	1644446895124
+<rabbit@juju-04f1e3-1-lxd-5.3.6180.0>	10.0.0.128:43560 -> 10.0.0.116:5672	5672	10.0.0.116	43560	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35747:d34da35d-ed93-48e2-b3bb-f01648f99163"}]	4017	439	11895	1310	0	1644446895253
+<rabbit@juju-04f1e3-1-lxd-5.3.6199.0>	10.0.0.128:43562 -> 10.0.0.116:5672	5672	10.0.0.116	43562	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:35747:166fcc5e-4fe9-487b-840d-f8dc45fff97c"}]	6203	529	11040	1310	0	1644446895274
+<rabbit@juju-04f1e3-1-lxd-5.3.6225.0>	10.0.0.133:39744 -> 10.0.0.116:5672	5672	10.0.0.116	39744	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41240:44aab44e-8047-43c0-b8b3-a536a2ec2722"}]	4009	438	11895	1310	0	1644446895351
+<rabbit@juju-04f1e3-1-lxd-5.3.6244.0>	10.0.0.133:39746 -> 10.0.0.116:5672	5672	10.0.0.116	39746	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41240:59bd66e4-ac7d-4519-a551-e75948ea048a"}]	6203	529	11040	1310	0	1644446895367
+<rabbit@juju-04f1e3-1-lxd-5.3.6259.0>	10.0.0.133:39750 -> 10.0.0.116:5672	5672	10.0.0.116	39750	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41241:d27073c7-4f59-4784-8a55-6330f3d92bcb"}]	4025	440	11895	1310	0	1644446895543
+<rabbit@juju-04f1e3-1-lxd-5.3.6278.0>	10.0.0.133:39752 -> 10.0.0.116:5672	5672	10.0.0.116	39752	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41241:12528e11-5615-4eaa-bb57-e8a4524f6db4"}]	6203	528	11040	1310	0	1644446895557
+<rabbit@juju-04f1e3-1-lxd-5.3.6297.0>	10.0.0.133:39756 -> 10.0.0.116:5672	5672	10.0.0.116	39756	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41243:7471e502-0061-4762-85cc-920d66b5442c"}]	4009	438	11895	1310	0	1644446895705
+<rabbit@juju-04f1e3-1-lxd-5.3.6316.0>	10.0.0.133:39758 -> 10.0.0.116:5672	5672	10.0.0.116	39758	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41244:07816266-ddee-4fc7-9f95-02082ed99180"}]	4009	437	11895	1310	0	1644446895726
+<rabbit@juju-04f1e3-1-lxd-5.3.6319.0>	10.0.0.133:39760 -> 10.0.0.116:5672	5672	10.0.0.116	39760	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41243:bbb191ca-2502-465c-95da-efe9f082aec0"}]	6203	528	11040	1310	0	1644446895729
+<rabbit@juju-04f1e3-1-lxd-5.3.6346.0>	10.0.0.133:39762 -> 10.0.0.116:5672	5672	10.0.0.116	39762	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:41244:0bb0e33a-a42f-4353-b94f-49cb09818c9e"}]	6203	529	11040	1310	0	1644446895752
+<rabbit@juju-04f1e3-1-lxd-5.3.6744.0>	10.0.0.133:41338 -> 10.0.0.116:5672	5672	10.0.0.116	41338	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:6d39e45c-185d-4c7b-9470-2ec2e128b952"}]	4997	456	20562	1322	0	1644446982015
+<rabbit@juju-04f1e3-1-lxd-5.3.6783.0>	10.0.0.133:41340 -> 10.0.0.116:5672	5672	10.0.0.116	41340	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:b5007e8e-fc2b-4906-90e5-521a22673c52"}]	4845	450	11298	1316	0	1644446982086
+<rabbit@juju-04f1e3-1-lxd-5.3.6822.0>	10.0.0.133:41344 -> 10.0.0.116:5672	5672	10.0.0.116	41344	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:deceee9a-26a7-47e2-9b24-3345704d0921"}]	4795	449	11289	1316	0	1644446982169
+<rabbit@juju-04f1e3-1-lxd-5.3.6861.0>	10.0.0.133:41348 -> 10.0.0.116:5672	5672	10.0.0.116	41348	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:1c4cc938-05c3-4f06-810e-2c6a9132ed3a"}]	4929	450	11316	1316	0	1644446982236
+<rabbit@juju-04f1e3-1-lxd-5.3.6900.0>	10.0.0.133:41350 -> 10.0.0.116:5672	5672	10.0.0.116	41350	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:e08cebee-869a-4851-9a81-4f6cc07303c1"}]	4725	450	11274	1316	0	1644446982309
+<rabbit@juju-04f1e3-1-lxd-5.3.6939.0>	10.0.0.133:41352 -> 10.0.0.116:5672	5672	10.0.0.116	41352	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1614:88fd6e84-52be-4754-ab0c-877462c02138"}]	4705	451	11268	1316	0	1644446982375
+<rabbit@juju-04f1e3-1-lxd-5.3.7004.0>	10.0.0.133:41458 -> 10.0.0.116:5672	5672	10.0.0.116	41458	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1602:8093f670-cc9e-4e4c-8ee2-e0897f01cdfa"}]	4540	441	11250	1316	0	1644446988864
+<rabbit@juju-04f1e3-1-lxd-5.3.7072.0>	10.0.0.133:41462 -> 10.0.0.116:5672	5672	10.0.0.116	41462	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1602:43651a0b-7df1-4e6c-9b5f-20950c7a9efe"}]	4834	448	11301	1316	0	1644446988969
+<rabbit@juju-04f1e3-1-lxd-5.3.7221.0>	10.0.0.133:41472 -> 10.0.0.116:5672	5672	10.0.0.116	41472	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1602:8d65ee8a-c8c8-4921-b6ab-40b6ff2b3fda"}]	4536	451	11232	1316	0	1644446989461
+<rabbit@juju-04f1e3-1-lxd-5.3.7255.0>	10.0.0.128:45514 -> 10.0.0.116:5672	5672	10.0.0.116	45514	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1591:dafe868a-929d-4db0-98d8-b129def27542"}]	4516	439	11250	1316	0	1644446993396
+<rabbit@juju-04f1e3-1-lxd-5.3.7285.0>	10.0.0.128:45516 -> 10.0.0.116:5672	5672	10.0.0.116	45516	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1591:89a3de23-aad4-4b1e-a859-1c9970de0dd1"}]	4842	450	11301	1316	0	1644446993484
+<rabbit@juju-04f1e3-1-lxd-5.3.7315.0>	10.0.0.128:45532 -> 10.0.0.116:5672	5672	10.0.0.116	45532	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:1591:d88db944-6161-458f-b8a8-981dd35f7879"}]	4536	452	11232	1316	0	1644446993840
+<rabbit@juju-04f1e3-1-lxd-5.3.7431.0>	10.0.0.122:50198 -> 10.0.0.116:5672	5672	10.0.0.116	50198	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6236:9472d428-4fff-4a9a-b693-fd82bcad6721"}]	4574	449	11236	1315	0	1644447008391
+<rabbit@juju-04f1e3-1-lxd-5.3.7454.0>	10.0.0.122:50224 -> 10.0.0.116:5672	5672	10.0.0.116	50224	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:c01bf110-c64e-429b-9555-fcfd93bd04ac"}]	4530	445	16378	1317	0	1644447009890
+<rabbit@juju-04f1e3-1-lxd-5.3.7465.0>	10.0.0.122:50230 -> 10.0.0.116:5672	5672	10.0.0.116	50230	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:8393286c-402b-4c42-bddd-e293b63e9f49"}]	4533	447	14977	1317	0	1644447009967
+<rabbit@juju-04f1e3-1-lxd-5.3.7469.0>	10.0.0.122:50228 -> 10.0.0.116:5672	5672	10.0.0.116	50228	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:7b0e51ba-2872-4dbe-b21a-97b590d8ce6a"}]	4541	447	15015	1317	0	1644447009976
+<rabbit@juju-04f1e3-1-lxd-5.3.7490.0>	10.0.0.122:50232 -> 10.0.0.116:5672	5672	10.0.0.116	50232	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:c6d35104-6056-4cea-8c8a-06a35f749579"}]	4554	448	16374	1317	0	1644447010023
+<rabbit@juju-04f1e3-1-lxd-5.3.7502.0>	10.0.0.122:50234 -> 10.0.0.116:5672	5672	10.0.0.116	50234	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6362:7468ce3e-da76-4f43-be78-689570b5eb3e"}]	4332	410	11251	1315	0	1644447010042
+<rabbit@juju-04f1e3-1-lxd-5.3.7513.0>	10.0.0.122:50236 -> 10.0.0.116:5672	5672	10.0.0.116	50236	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6361:73e301ff-49b1-4f0a-a57d-f4015a126634"}]	66749	3140	5845698	3138	0	1644447010056
+<rabbit@juju-04f1e3-1-lxd-5.3.7545.0>	10.0.0.122:50238 -> 10.0.0.116:5672	5672	10.0.0.116	50238	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6362:cc361423-2476-4ba0-a63c-3c3f02a12112"}]	4423	427	14998	1315	0	1644447010090
+<rabbit@juju-04f1e3-1-lxd-5.3.7561.0>	10.0.0.122:50242 -> 10.0.0.116:5672	5672	10.0.0.116	50242	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:c0dcc942-8ca9-4df1-8a4b-6466706c6850"}]	4833	453	15710	1317	0	1644447010127
+<rabbit@juju-04f1e3-1-lxd-5.3.7565.0>	10.0.0.122:50244 -> 10.0.0.116:5672	5672	10.0.0.116	50244	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:3be54ac1-47ca-4ea3-b068-ca768c387697"}]	4833	452	15710	1317	0	1644447010139
+<rabbit@juju-04f1e3-1-lxd-5.3.7584.0>	10.0.0.122:50248 -> 10.0.0.116:5672	5672	10.0.0.116	50248	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6362:7f339c5b-4b80-4766-8301-3213382d80a4"}]	4652	451	11251	1315	0	1644447010171
+<rabbit@juju-04f1e3-1-lxd-5.3.7592.0>	10.0.0.122:50250 -> 10.0.0.116:5672	5672	10.0.0.116	50250	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:f0598da7-a18a-4d40-8404-1eccd99bfdd1"}]	4825	452	15710	1317	0	1644447010181
+<rabbit@juju-04f1e3-1-lxd-5.3.7608.0>	10.0.0.122:50252 -> 10.0.0.116:5672	5672	10.0.0.116	50252	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:de7af775-8689-46ce-a292-b5a5bc02ee56"}]	4825	451	15710	1317	0	1644447010203
+<rabbit@juju-04f1e3-1-lxd-5.3.7681.0>	10.0.0.122:50254 -> 10.0.0.116:5672	5672	10.0.0.116	50254	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:ecf76c4c-385d-4943-9a59-2c4beece4328"}]	66665	3135	5840956	3136	0	1644447010302
+<rabbit@juju-04f1e3-1-lxd-5.3.7710.0>	10.0.0.122:50256 -> 10.0.0.116:5672	5672	10.0.0.116	50256	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:669d570b-8cc8-4dd3-ac29-0d737681acc5"}]	66665	3135	5840078	3136	0	1644447010339
+<rabbit@juju-04f1e3-1-lxd-5.3.7752.0>	10.0.0.122:50258 -> 10.0.0.116:5672	5672	10.0.0.116	50258	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:3e880366-b8f5-418e-92ca-a8652b4a8b1a"}]	66665	3136	5840166	3136	0	1644447010451
+<rabbit@juju-04f1e3-1-lxd-5.3.7755.0>	10.0.0.122:50260 -> 10.0.0.116:5672	5672	10.0.0.116	50260	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:98e2e486-4c87-4748-82b8-c6e017575a74"}]	66644	3135	5838071	3135	0	1644447010467
+<rabbit@juju-04f1e3-1-lxd-5.3.7758.0>	10.0.0.122:50264 -> 10.0.0.116:5672	5672	10.0.0.116	50264	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6361:e5bc4a1e-fd38-4a27-ae1f-9933d88cdc75"}]	755431	2348	49764	2348	0	1644447010479
+<rabbit@juju-04f1e3-1-lxd-5.3.7774.0>	10.0.0.122:50266 -> 10.0.0.116:5672	5672	10.0.0.116	50266	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:0e96abff-c0df-4c65-896f-8f057eb220eb"}]	4581	450	12479	1315	0	1644447010509
+<rabbit@juju-04f1e3-1-lxd-5.3.7806.0>	10.0.0.122:50268 -> 10.0.0.116:5672	5672	10.0.0.116	50268	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6361:65a85968-867a-4da3-a028-186d9f90d25c"}]	4896	525	10996	1305	0	1644447010586
+<rabbit@juju-04f1e3-1-lxd-5.3.7834.0>	10.0.0.122:50272 -> 10.0.0.116:5672	5672	10.0.0.116	50272	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:bf84a3e4-25d8-4f33-83f6-776803434be8"}]	4568	450	11233	1315	0	1644447010652
+<rabbit@juju-04f1e3-1-lxd-5.3.7838.0>	10.0.0.122:50278 -> 10.0.0.116:5672	5672	10.0.0.116	50278	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6361:c081807d-0b41-41c7-a4d0-5d45d9ae923b"}]	4896	525	10996	1305	0	1644447010702
+<rabbit@juju-04f1e3-1-lxd-5.3.7849.0>	10.0.0.122:50280 -> 10.0.0.116:5672	5672	10.0.0.116	50280	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:d558144d-ebe9-4972-8e1c-1f31abd94d21"}]	4552	449	11233	1315	0	1644447010746
+<rabbit@juju-04f1e3-1-lxd-5.3.7864.0>	10.0.0.122:50282 -> 10.0.0.116:5672	5672	10.0.0.116	50282	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:894eefa5-fd5f-4b5a-bfdf-b6230d6f1c19"}]	4560	449	11233	1315	0	1644447010768
+<rabbit@juju-04f1e3-1-lxd-5.3.7880.0>	10.0.0.122:50284 -> 10.0.0.116:5672	5672	10.0.0.116	50284	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:8021f9c4-5479-4d77-83e7-fca8bac88026"}]	4644	450	11251	1315	0	1644447010774
+<rabbit@juju-04f1e3-1-lxd-5.3.7948.0>	10.0.0.122:50286 -> 10.0.0.116:5672	5672	10.0.0.116	50286	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:1246061b-6ada-4915-a64e-a488cd6e1704"}]	4628	448	11251	1315	0	1644447010921
+<rabbit@juju-04f1e3-1-lxd-5.3.7953.0>	10.0.0.122:50288 -> 10.0.0.116:5672	5672	10.0.0.116	50288	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:1a9ed986-1236-41e2-a712-c546b0b70378"}]	4644	449	11251	1315	0	1644447010958
+<rabbit@juju-04f1e3-1-lxd-5.3.7965.0>	10.0.0.122:50290 -> 10.0.0.116:5672	5672	10.0.0.116	50290	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:ae26deb2-1e80-457a-b7c8-286d110d027c"}]	4644	449	11251	1315	0	1644447011031
+<rabbit@juju-04f1e3-1-lxd-5.3.7968.0>	10.0.0.122:50292 -> 10.0.0.116:5672	5672	10.0.0.116	50292	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:f0f6047f-5a2f-4d49-b75e-c4a77744d9d0"}]	4644	449	11251	1315	0	1644447011032
+<rabbit@juju-04f1e3-1-lxd-5.3.8009.0>	10.0.0.122:50298 -> 10.0.0.116:5672	5672	10.0.0.116	50298	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:a56ebf26-89a1-4d95-a42b-bcd5a02fdfd4"}]	4644	449	11251	1315	0	1644447011203
+<rabbit@juju-04f1e3-1-lxd-5.3.8020.0>	10.0.0.122:50304 -> 10.0.0.116:5672	5672	10.0.0.116	50304	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:fa04e4a8-9760-4b63-b3ef-e9a8152156bf"}]	4644	449	11251	1315	0	1644447011260
+<rabbit@juju-04f1e3-1-lxd-5.3.8063.0>	10.0.0.122:50328 -> 10.0.0.116:5672	5672	10.0.0.116	50328	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6359:f99a1eeb-d520-4dc9-936e-a295e14832a4"}]	759573	2354	49902	2355	0	1644447011876
+<rabbit@juju-04f1e3-1-lxd-5.3.8066.0>	10.0.0.122:50330 -> 10.0.0.116:5672	5672	10.0.0.116	50330	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:37691743-41ad-4e0e-a22b-901fc5e68ce5"}]	758170	2352	49869	2353	0	1644447011880
+<rabbit@juju-04f1e3-1-lxd-5.3.8105.0>	10.0.0.122:50332 -> 10.0.0.116:5672	5672	10.0.0.116	50332	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6351:2fde5d85-b437-42f1-bfdd-7b2be6d776a1"}]	4644	449	11251	1315	0	1644447011936
+<rabbit@juju-04f1e3-1-lxd-5.3.8128.0>	10.0.0.122:50352 -> 10.0.0.116:5672	5672	10.0.0.116	50352	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6353:359e8ab5-6b7d-4eca-ac7f-e072815978f3"}]	756742	2350	49827	2351	0	1644447012796
+<rabbit@juju-04f1e3-1-lxd-5.3.8139.0>	10.0.0.122:50362 -> 10.0.0.116:5672	5672	10.0.0.116	50362	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6358:952efe6e-3605-466c-865a-e7bc71d990cc"}]	757863	2351	49839	2352	0	1644447012958
+<rabbit@juju-04f1e3-1-lxd-5.3.8151.0>	10.0.0.122:50366 -> 10.0.0.116:5672	5672	10.0.0.116	50366	10.0.0.122	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-server:6362:78897458-bfde-46ca-b3a9-671b5904864e"}]	5523	528	11030	1306	0	1644447013253
+<rabbit@juju-04f1e3-1-lxd-5.3.8346.0>	10.0.0.128:45922 -> 10.0.0.116:5672	5672	10.0.0.116	45922	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:b73e38b0-3393-4762-8c60-f0f1ae4732cc"}]	4913	453	15922	1318	0	1644447017262
+<rabbit@juju-04f1e3-1-lxd-5.3.8376.0>	10.0.0.128:45928 -> 10.0.0.116:5672	5672	10.0.0.116	45928	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:856678b3-4622-40ee-b004-bf3fff39b477"}]	4837	450	11290	1315	0	1644447017300
+<rabbit@juju-04f1e3-1-lxd-5.3.8406.0>	10.0.0.128:45930 -> 10.0.0.116:5672	5672	10.0.0.116	45930	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:738dae95-a7a3-468a-8eb9-e2ad505b1bea"}]	4803	450	11281	1315	0	1644447017332
+<rabbit@juju-04f1e3-1-lxd-5.3.8436.0>	10.0.0.128:45934 -> 10.0.0.116:5672	5672	10.0.0.116	45934	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:9433572e-dc4c-4721-b48d-2dc372159e2a"}]	4921	449	11308	1315	0	1644447017362
+<rabbit@juju-04f1e3-1-lxd-5.3.8466.0>	10.0.0.128:45940 -> 10.0.0.116:5672	5672	10.0.0.116	45940	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:f40ba06f-3708-46b1-9651-ff36504aeb7f"}]	4733	450	11266	1315	0	1644447017398
+<rabbit@juju-04f1e3-1-lxd-5.3.8496.0>	10.0.0.128:45942 -> 10.0.0.116:5672	5672	10.0.0.116	45942	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:1603:0e70243b-fa39-4bfd-bbf1-4c0960a8dcc3"}]	4697	449	11260	1315	0	1644447017427
+<rabbit@juju-04f1e3-1-lxd-5.3.8815.0>	10.0.0.128:49002 -> 10.0.0.116:5672	5672	10.0.0.116	49002	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:53085:e0700286-4e22-4a1c-8988-f6e336791b28"}]	164611	7820	7534757	7822	0	1644447190163
+<rabbit@juju-04f1e3-1-lxd-5.3.8834.0>	10.0.0.128:49004 -> 10.0.0.116:5672	5672	10.0.0.116	49004	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:53085:10e50355-284b-4b54-bf87-7a14228472a7"}]	15790689	8140	171387	8140	0	1644447190185
+<rabbit@juju-04f1e3-1-lxd-5.3.8876.0>	10.0.0.128:49076 -> 10.0.0.116:5672	5672	10.0.0.116	49076	10.0.0.128	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:53085:3470f48c-5a5a-414c-8917-e6f817c981ee"}]	4464	447	11173	1309	0	1644447191922
+<rabbit@juju-04f1e3-1-lxd-5.3.8953.0>	10.0.0.133:44940 -> 10.0.0.116:5672	5672	10.0.0.116	44940	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:58885:8a4eb1e5-2a52-4a03-af11-df542e3b2960"}]	164939	7836	7537531	7839	0	1644447201098
+<rabbit@juju-04f1e3-1-lxd-5.3.8972.0>	10.0.0.133:44942 -> 10.0.0.116:5672	5672	10.0.0.116	44942	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:58885:df050f25-56c7-44be-9ed5-40b51e098957"}]	8654081	4695	98858	5049	0	1644447201111
+<rabbit@juju-04f1e3-1-lxd-5.3.8986.0>	10.0.0.133:45014 -> 10.0.0.116:5672	5672	10.0.0.116	45014	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:58885:91ccdd97-062a-45e3-903b-9c35413add97"}]	4464	447	11173	1309	0	1644447203189
+<rabbit@juju-04f1e3-1-lxd-5.3.9611.0>	10.0.0.114:58674 -> 10.0.0.116:5672	5672	10.0.0.116	58674	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-metadata-agent:1149:8f126d3b-62df-46d2-a7c5-3e8c1b1c151b"}]	3992	435	11222	1288	0	1644447577183
+<rabbit@juju-04f1e3-1-lxd-5.3.9630.0>	10.0.0.114:58676 -> 10.0.0.116:5672	5672	10.0.0.116	58676	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-metadata-agent:1149:09386e13-43ad-44b2-8eee-87d34ef45397"}]	1960555	1287	27512	1289	0	1644447577224
+<rabbit@juju-04f1e3-1-lxd-5.3.9776.0>	10.0.0.114:58746 -> 10.0.0.116:5672	5672	10.0.0.116	58746	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:2054:0e01a897-7a2a-45e6-8f28-8f9af1bacde2"}]	27513	1290	424357	1291	0	1644447591756
+<rabbit@juju-04f1e3-1-lxd-5.3.9795.0>	10.0.0.114:58748 -> 10.0.0.116:5672	5672	10.0.0.116	58748	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:2053:aee19ed4-1b37-46e2-a07c-bc607c442666"}]	27494	1289	424030	1290	0	1644447591919
+<rabbit@juju-04f1e3-1-lxd-5.3.9814.0>	10.0.0.114:58750 -> 10.0.0.116:5672	5672	10.0.0.116	58750	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:2054:3b8abf51-747c-406a-9577-33ced1f23d46"}]	2278537	1290	27567	1291	0	1644447592001
+<rabbit@juju-04f1e3-1-lxd-5.3.9817.0>	10.0.0.114:58752 -> 10.0.0.116:5672	5672	10.0.0.116	58752	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:2053:f3cca22d-23a1-40e5-8029-5213c1dfbfcb"}]	6280	519	10856	1287	0	1644447592049
+<rabbit@juju-04f1e3-1-lxd-5.3.9828.0>	10.0.0.114:58754 -> 10.0.0.116:5672	5672	10.0.0.116	58754	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:2053:9707dc72-f570-4901-a75b-ecf7f5ca7ee3"}]	2176472	1288	27525	1289	0	1644447592192
+<rabbit@juju-04f1e3-1-lxd-5.3.9848.0>	10.0.0.114:58770 -> 10.0.0.116:5672	5672	10.0.0.116	58770	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-dhcp-agent:2053:fc5e6b79-a045-4733-a8ef-d7b97b18961e"}]	4510	444	11078	1296	0	1644447592789
+<rabbit@juju-04f1e3-1-lxd-5.3.9859.0>	10.0.0.114:58780 -> 10.0.0.116:5672	5672	10.0.0.116	58780	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:2054:92b48cb0-eea7-4450-8ab7-f4ba3b7154cc"}]	4524	440	11090	1296	0	1644447592897
+<rabbit@juju-04f1e3-1-lxd-5.3.9892.0>	10.0.0.114:58796 -> 10.0.0.116:5672	5672	10.0.0.116	58796	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:2054:8b1f11c8-cb06-459d-a737-cbb1d1fe8aa5"}]	4786	443	11141	1296	0	1644447593544
+<rabbit@juju-04f1e3-1-lxd-5.3.9917.0>	10.0.0.114:58886 -> 10.0.0.116:5672	5672	10.0.0.116	58886	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-l3-agent:2054:0a2db9db-a15b-4beb-978b-097c9964bdc1"}]	4464	442	11072	1296	0	1644447596507
+<rabbit@juju-04f1e3-1-lxd-5.3.9944.0>	10.0.0.114:58960 -> 10.0.0.116:5672	5672	10.0.0.116	58960	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:2056:159a8a6c-4a53-4711-a0e8-1f84ecb365fe"}]	163145	7749	7460062	7750	0	1644447600883
+<rabbit@juju-04f1e3-1-lxd-5.3.9963.0>	10.0.0.114:58964 -> 10.0.0.116:5672	5672	10.0.0.116	58964	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:2056:01268746-843e-4486-bd89-d6c3c2cd37ae"}]	8853682	4794	100928	5129	0	1644447601165
+<rabbit@juju-04f1e3-1-lxd-5.3.9996.0>	10.0.0.114:59370 -> 10.0.0.116:5672	5672	10.0.0.116	59370	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:69506b6e-1200-4081-ae3b-9c13f99709a7"}]	4627	442	11097	1295	0	1644447623503
+<rabbit@juju-04f1e3-1-lxd-5.3.10019.0>	10.0.0.114:59372 -> 10.0.0.116:5672	5672	10.0.0.116	59372	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:48962850-4f1b-4485-827f-08cb6d0184df"}]	4761	443	11124	1295	0	1644447623617
+<rabbit@juju-04f1e3-1-lxd-5.3.10041.0>	10.0.0.114:59380 -> 10.0.0.116:5672	5672	10.0.0.116	59380	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:63540493-259e-4e91-b00d-00b6b545ea66"}]	4817	444	11136	1295	0	1644447623812
+<rabbit@juju-04f1e3-1-lxd-5.3.10063.0>	10.0.0.114:59384 -> 10.0.0.116:5672	5672	10.0.0.116	59384	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:1829543f-f4ed-43f2-8ad9-f3438c71c908"}]	4677	444	11106	1295	0	1644447624024
+<rabbit@juju-04f1e3-1-lxd-5.3.10085.0>	10.0.0.114:59388 -> 10.0.0.116:5672	5672	10.0.0.116	59388	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:661f136d-3755-4ce4-af3f-66525af91c00"}]	4655	442	11103	1295	0	1644447624185
+<rabbit@juju-04f1e3-1-lxd-5.3.10107.0>	10.0.0.114:59390 -> 10.0.0.116:5672	5672	10.0.0.116	59390	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:5d33a2fd-3e45-45b7-8d44-b8ce5b5e2111"}]	27522	1291	425143	1291	0	1644447624389
+<rabbit@juju-04f1e3-1-lxd-5.3.10126.0>	10.0.0.114:59394 -> 10.0.0.116:5672	5672	10.0.0.116	59394	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:4ba89985-669d-43a4-b0fa-786238c97cf6"}]	3145771	1290	27567	1291	0	1644447624506
+<rabbit@juju-04f1e3-1-lxd-5.3.10169.0>	10.0.0.114:59724 -> 10.0.0.116:5672	5672	10.0.0.116	59724	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8864:401ff2ee-c481-470b-99b3-843a395363d7"}]	3952	430	11695	1285	0	1644447639787
+<rabbit@juju-04f1e3-1-lxd-5.3.10172.0>	10.0.0.114:59730 -> 10.0.0.116:5672	5672	10.0.0.116	59730	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8903:123836c1-8f80-43b0-a9f3-7d1e35d71db2"}]	3960	431	11695	1285	0	1644447639884
+<rabbit@juju-04f1e3-1-lxd-5.3.10179.0>	10.0.0.114:59732 -> 10.0.0.116:5672	5672	10.0.0.116	59732	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8886:1c1ea314-cc9b-4086-9459-20c6f4d959c6"}]	3960	432	11695	1285	0	1644447639929
+<rabbit@juju-04f1e3-1-lxd-5.3.10218.0>	10.0.0.114:59736 -> 10.0.0.116:5672	5672	10.0.0.116	59736	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8918:14311ffe-fb76-45c0-8f87-9147792713c8"}]	3952	431	11695	1285	0	1644447640198
+<rabbit@juju-04f1e3-1-lxd-5.3.10246.0>	10.0.0.114:59746 -> 10.0.0.116:5672	5672	10.0.0.116	59746	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8864:cf4d139b-5d87-47e0-bb89-69bfae9d312b"}]	6122	518	10840	1285	0	1644447640682
+<rabbit@juju-04f1e3-1-lxd-5.3.10249.0>	10.0.0.114:59748 -> 10.0.0.116:5672	5672	10.0.0.116	59748	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8886:c3af022f-55f6-405b-b04e-e7ac3bfe3550"}]	6122	518	10840	1285	0	1644447640709
+<rabbit@juju-04f1e3-1-lxd-5.3.10268.0>	10.0.0.114:59758 -> 10.0.0.116:5672	5672	10.0.0.116	59758	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8918:6dfd7977-61af-479a-b282-524b31088b8a"}]	6122	518	10840	1285	0	1644447640901
+<rabbit@juju-04f1e3-1-lxd-5.3.10271.0>	10.0.0.114:59760 -> 10.0.0.116:5672	5672	10.0.0.116	59760	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-api-metadata:8903:842c8a6e-0dcc-4381-9e7c-fa3486a78618"}]	6122	519	10840	1285	0	1644447641095
+<rabbit@juju-04f1e3-1-lxd-5.3.10298.0>	10.0.0.126:55648 -> 10.0.0.116:5672	5672	10.0.0.116	55648	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:885:76bc8324-f172-42cd-8c36-a9e65132ba54"}]	123251	5835	11509968	5834	0	1644447648712
+<rabbit@juju-04f1e3-1-lxd-5.3.10312.0>	10.0.0.126:55682 -> 10.0.0.116:5672	5672	10.0.0.116	55682	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:887:842e0464-ea1c-4d56-945d-fc0f6d71c55f"}]	123062	5826	11467009	5827	0	1644447649621
+<rabbit@juju-04f1e3-1-lxd-5.3.10324.0>	10.0.0.126:55686 -> 10.0.0.116:5672	5672	10.0.0.116	55686	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:889:7265aa24-5ca1-4cfc-88c2-b4291660e7a4"}]	123041	5825	11496186	5826	0	1644447649767
+<rabbit@juju-04f1e3-1-lxd-5.3.10343.0>	10.0.0.126:55690 -> 10.0.0.116:5672	5672	10.0.0.116	55690	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-scheduler:897:ed94f4e3-3bf7-430a-a528-bee377d2dedd"}]	23122	1244	1167241	1573	0	1644447649973
+<rabbit@juju-04f1e3-1-lxd-5.3.10347.0>	10.0.0.126:55694 -> 10.0.0.116:5672	5672	10.0.0.116	55694	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:886:9f77cdaf-a8a4-44cb-b034-007d0141cfbc"}]	123041	5825	11506666	5826	0	1644447650146
+<rabbit@juju-04f1e3-1-lxd-5.3.10414.0>	10.0.0.126:55766 -> 10.0.0.116:5672	5672	10.0.0.116	55766	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-scheduler:901:484c7d75-cf29-4109-a65a-722a187a7db1"}]	23186	1253	1167273	1577	0	1644447652621
+<rabbit@juju-04f1e3-1-lxd-5.3.10418.0>	10.0.0.126:55768 -> 10.0.0.116:5672	5672	10.0.0.116	55768	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-scheduler:905:1318001d-c387-450b-bdde-3221ff3d2489"}]	23186	1252	1167273	1577	0	1644447652646
+<rabbit@juju-04f1e3-1-lxd-5.3.10425.0>	10.0.0.126:55776 -> 10.0.0.116:5672	5672	10.0.0.116	55776	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-scheduler:900:2b6daa6c-0fe2-4a4e-b88e-3d213a496fb3"}]	23186	1252	1167273	1577	0	1644447652792
+<rabbit@juju-04f1e3-1-lxd-5.3.10496.0>	10.0.0.126:55846 -> 10.0.0.116:5672	5672	10.0.0.116	55846	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:885:c4edc148-89de-4923-8c0e-28b14ea287c3"}]	5330	517	10828	1284	0	1644447655267
+<rabbit@juju-04f1e3-1-lxd-5.3.10512.0>	10.0.0.126:55860 -> 10.0.0.116:5672	5672	10.0.0.116	55860	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:885:3f632d78-75b1-4265-b020-305c0db48046"}]	5407977	5815	122601	5816	0	1644447656140
+<rabbit@juju-04f1e3-1-lxd-5.3.10520.0>	10.0.0.126:55880 -> 10.0.0.116:5672	5672	10.0.0.116	55880	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:885:de4f0dc9-9c48-4fc2-939b-5157f57aa0f1"}]	5330	518	10828	1284	0	1644447657196
+<rabbit@juju-04f1e3-1-lxd-5.3.10523.0>	10.0.0.114:60188 -> 10.0.0.116:5672	5672	10.0.0.116	60188	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:c2af45e4-3d50-4f44-aed5-d7639f66c442"}]	4831	446	13442	1296	0	1644447657503
+<rabbit@juju-04f1e3-1-lxd-5.3.10546.0>	10.0.0.114:60196 -> 10.0.0.116:5672	5672	10.0.0.116	60196	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:15eb2c06-9a45-4f83-bd88-73b254a874c0"}]	4781	443	11122	1294	0	1644447657782
+<rabbit@juju-04f1e3-1-lxd-5.3.10576.0>	10.0.0.114:60200 -> 10.0.0.116:5672	5672	10.0.0.116	60200	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:e59eb7cf-1e55-4634-82b3-07dd464ed2f2"}]	4739	442	11113	1294	0	1644447658024
+<rabbit@juju-04f1e3-1-lxd-5.3.10602.0>	10.0.0.114:60206 -> 10.0.0.116:5672	5672	10.0.0.116	60206	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:40d9352a-fd9a-4809-a55c-42a5500a3ff2"}]	4857	442	11140	1294	0	1644447658299
+<rabbit@juju-04f1e3-1-lxd-5.3.10636.0>	10.0.0.114:60210 -> 10.0.0.116:5672	5672	10.0.0.116	60210	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:03583aa5-7cec-4d06-b43a-5e73d4c7db72"}]	4677	444	11098	1294	0	1644447658616
+<rabbit@juju-04f1e3-1-lxd-5.3.10659.0>	10.0.0.114:60220 -> 10.0.0.116:5672	5672	10.0.0.116	60220	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	neutron	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","neutron-openvswitch-agent:2070:3295732d-26ad-4f38-bb51-7811f45c7bde"}]	4649	444	11092	1294	0	1644447658845
+<rabbit@juju-04f1e3-1-lxd-5.3.10697.0>	10.0.0.126:56000 -> 10.0.0.116:5672	5672	10.0.0.116	56000	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:889:2b49fcb4-ee85-4bdd-872c-e51968659988"}]	5601281	5815	122580	5815	0	1644447661747
+<rabbit@juju-04f1e3-1-lxd-5.3.10700.0>	10.0.0.126:56002 -> 10.0.0.116:5672	5672	10.0.0.116	56002	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:887:5930adc0-4dc5-40cb-8c0a-ca05f01d70cc"}]	4944	517	10828	1284	0	1644447661779
+<rabbit@juju-04f1e3-1-lxd-5.3.10712.0>	10.0.0.126:56032 -> 10.0.0.116:5672	5672	10.0.0.116	56032	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:886:e34708d7-ae3a-4008-8f24-11d64671f525"}]	5681557	5814	122580	5815	0	1644447662792
+<rabbit@juju-04f1e3-1-lxd-5.3.10732.0>	10.0.0.126:56064 -> 10.0.0.116:5672	5672	10.0.0.116	56064	10.0.0.126	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-conductor:887:1a3ca5e3-6036-4ceb-a1f7-192a9c5aca63"}]	5484546	5814	122580	5815	0	1644447663952
+<rabbit@juju-04f1e3-1-lxd-5.3.10762.0>	10.0.0.114:60806 -> 10.0.0.116:5672	5672	10.0.0.116	60806	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:2056:24240f5a-3702-4384-9aeb-a157dec2c28c"}]	4423	441	11045	1293	0	1644447682833
+<rabbit@juju-04f1e3-1-lxd-5.3.17783.0>	10.0.0.133:35702 -> 10.0.0.116:5672	5672	10.0.0.116	35702	10.0.0.133	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:58885:c1496062-5bda-4395-baec-c0f0b7efc177"}]	7159801	3898	82115	4196	0	1644453492096
+<rabbit@juju-04f1e3-1-lxd-5.3.3062.1>	10.0.0.114:46722 -> 10.0.0.116:5672	5672	10.0.0.116	46722	10.0.0.114	false								running	1	{0,9,1}	AMQPLAIN	nova	openstack	60	131072	2047	[{"product","py-amqp"},{"product_version","2.5.2"},{"capabilities",[{"authentication_failure_close",true},{"connection.blocked",true},{"consumer_cancel_notify",true}]},{"connection_name","nova-compute:2056:210a3d32-f1c1-46c7-aa80-8c68dbeabf90"}]	6790086	3503	74010	3503	0	1644469311530
+
+Listing channels ...
+pid	connection	name	number	user	vhost	transactional	confirm	consumer_count	messages_unacknowledged	messages_uncommitted	acks_uncommitted	messages_unconfirmed	prefetch_count	global_prefetch_count
+<rabbit@juju-04f1e3-1-lxd-5.3.738.0>	<rabbit@juju-04f1e3-1-lxd-5.3.730.0>	10.0.0.128:54228 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.757.0>	<rabbit@juju-04f1e3-1-lxd-5.3.749.0>	10.0.0.128:54230 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.843.0>	<rabbit@juju-04f1e3-1-lxd-5.3.824.0>	10.0.0.133:51454 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.881.0>	<rabbit@juju-04f1e3-1-lxd-5.3.873.0>	10.0.0.133:51458 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.892.0>	<rabbit@juju-04f1e3-1-lxd-5.3.884.0>	10.0.0.133:51460 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.938.0>	<rabbit@juju-04f1e3-1-lxd-5.3.923.0>	10.0.0.133:51462 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1072.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1060.0>	10.0.0.133:51478 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1137.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1119.0>	10.0.0.133:51484 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1198.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1190.0>	10.0.0.133:51496 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1237.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1229.0>	10.0.0.133:51498 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1256.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1248.0>	10.0.0.133:51500 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1269.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1261.0>	10.0.0.128:54408 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1299.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1291.0>	10.0.0.128:54414 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1329.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1321.0>	10.0.0.128:54418 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1359.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1351.0>	10.0.0.128:54422 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1389.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1381.0>	10.0.0.128:54428 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1419.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1411.0>	10.0.0.128:54432 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1438.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1430.0>	10.0.0.128:54434 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1454.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1446.0>	10.0.0.133:51770 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1473.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1465.0>	10.0.0.133:51774 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1486.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1478.0>	10.0.0.128:54732 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1512.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1497.0>	10.0.0.128:54736 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1516.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1500.0>	10.0.0.128:54740 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1529.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1521.0>	10.0.0.128:54810 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1548.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1540.0>	10.0.0.128:54812 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1562.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1554.0>	10.0.0.133:52056 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1588.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1573.0>	10.0.0.133:52058 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.1592.0>	<rabbit@juju-04f1e3-1-lxd-5.3.1576.0>	10.0.0.133:52060 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.2488.0>	<rabbit@juju-04f1e3-1-lxd-5.3.2480.0>	10.0.0.128:58342 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.2577.0>	<rabbit@juju-04f1e3-1-lxd-5.3.2569.0>	10.0.0.133:55962 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6041.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6033.0>	10.0.0.128:43534 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6060.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6052.0>	10.0.0.128:43536 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6086.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6078.0>	10.0.0.128:43542 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6105.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6097.0>	10.0.0.128:43544 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6143.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6135.0>	10.0.0.128:43552 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6162.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6154.0>	10.0.0.128:43554 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6188.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6180.0>	10.0.0.128:43560 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6207.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6199.0>	10.0.0.128:43562 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6233.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6225.0>	10.0.0.133:39744 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6252.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6244.0>	10.0.0.133:39746 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6267.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6259.0>	10.0.0.133:39750 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6286.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6278.0>	10.0.0.133:39752 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6305.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6297.0>	10.0.0.133:39756 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6331.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6319.0>	10.0.0.133:39760 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6335.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6316.0>	10.0.0.133:39758 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6354.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6346.0>	10.0.0.133:39762 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6752.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6744.0>	10.0.0.133:41338 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6791.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6783.0>	10.0.0.133:41340 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6830.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6822.0>	10.0.0.133:41344 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6869.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6861.0>	10.0.0.133:41348 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6908.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6900.0>	10.0.0.133:41350 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.6947.0>	<rabbit@juju-04f1e3-1-lxd-5.3.6939.0>	10.0.0.133:41352 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7025.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7004.0>	10.0.0.133:41458 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7114.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7072.0>	10.0.0.133:41462 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7229.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7221.0>	10.0.0.133:41472 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7263.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7255.0>	10.0.0.128:45514 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7293.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7285.0>	10.0.0.128:45516 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7323.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7315.0>	10.0.0.128:45532 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7439.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7431.0>	10.0.0.122:50198 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7462.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7454.0>	10.0.0.122:50224 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7483.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7469.0>	10.0.0.122:50228 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7487.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7465.0>	10.0.0.122:50230 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7514.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7490.0>	10.0.0.122:50232 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7535.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7513.0>	10.0.0.122:50236 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7589.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7561.0>	10.0.0.122:50242 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7596.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7565.0>	10.0.0.122:50244 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7621.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7545.0>	10.0.0.122:50238 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7629.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7502.0>	10.0.0.122:50234 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7630.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7584.0>	10.0.0.122:50248 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7643.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7608.0>	10.0.0.122:50252 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7657.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7592.0>	10.0.0.122:50250 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7705.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7681.0>	10.0.0.122:50254 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7749.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7710.0>	10.0.0.122:50256 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7771.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7752.0>	10.0.0.122:50258 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7778.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7755.0>	10.0.0.122:50260 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7810.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7774.0>	10.0.0.122:50266 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7846.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7834.0>	10.0.0.122:50272 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7870.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7838.0>	10.0.0.122:50278 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7873.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7806.0>	10.0.0.122:50268 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7886.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7849.0>	10.0.0.122:50280 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7889.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7758.0>	10.0.0.122:50264 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7912.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7864.0>	10.0.0.122:50282 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7916.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7880.0>	10.0.0.122:50284 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7962.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7953.0>	10.0.0.122:50288 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7991.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7965.0>	10.0.0.122:50290 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.7995.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7968.0>	10.0.0.122:50292 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8017.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8009.0>	10.0.0.122:50298 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8030.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8020.0>	10.0.0.122:50304 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8058.0>	<rabbit@juju-04f1e3-1-lxd-5.3.7948.0>	10.0.0.122:50286 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8091.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8063.0>	10.0.0.122:50328 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8092.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8066.0>	10.0.0.122:50330 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8113.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8105.0>	10.0.0.122:50332 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8136.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8128.0>	10.0.0.122:50352 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8148.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8139.0>	10.0.0.122:50362 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8159.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8151.0>	10.0.0.122:50366 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8354.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8346.0>	10.0.0.128:45922 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8384.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8376.0>	10.0.0.128:45928 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8414.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8406.0>	10.0.0.128:45930 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8444.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8436.0>	10.0.0.128:45934 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8474.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8466.0>	10.0.0.128:45940 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8504.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8496.0>	10.0.0.128:45942 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8823.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8815.0>	10.0.0.128:49002 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8842.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8834.0>	10.0.0.128:49004 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8884.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8876.0>	10.0.0.128:49076 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8961.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8953.0>	10.0.0.133:44940 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8980.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8972.0>	10.0.0.133:44942 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.8994.0>	<rabbit@juju-04f1e3-1-lxd-5.3.8986.0>	10.0.0.133:45014 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9619.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9611.0>	10.0.0.114:58674 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9638.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9630.0>	10.0.0.114:58676 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9784.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9776.0>	10.0.0.114:58746 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9803.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9795.0>	10.0.0.114:58748 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9825.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9814.0>	10.0.0.114:58750 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9840.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9817.0>	10.0.0.114:58752 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9844.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9828.0>	10.0.0.114:58754 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9856.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9848.0>	10.0.0.114:58770 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9868.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9859.0>	10.0.0.114:58780 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9901.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9892.0>	10.0.0.114:58796 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9926.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9917.0>	10.0.0.114:58886 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9952.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9944.0>	10.0.0.114:58960 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.9971.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9963.0>	10.0.0.114:58964 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10004.0>	<rabbit@juju-04f1e3-1-lxd-5.3.9996.0>	10.0.0.114:59370 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10027.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10019.0>	10.0.0.114:59372 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10049.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10041.0>	10.0.0.114:59380 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10071.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10063.0>	10.0.0.114:59384 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10093.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10085.0>	10.0.0.114:59388 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10115.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10107.0>	10.0.0.114:59390 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10134.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10126.0>	10.0.0.114:59394 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10183.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10169.0>	10.0.0.114:59724 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10203.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10179.0>	10.0.0.114:59732 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10207.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10172.0>	10.0.0.114:59730 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10226.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10218.0>	10.0.0.114:59736 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	1	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10264.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10249.0>	10.0.0.114:59748 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10265.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10246.0>	10.0.0.114:59746 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10279.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10271.0>	10.0.0.114:59760 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10287.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10268.0>	10.0.0.114:59758 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10306.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10298.0>	10.0.0.126:55648 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10336.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10312.0>	10.0.0.126:55682 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10340.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10324.0>	10.0.0.126:55686 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10355.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10343.0>	10.0.0.126:55690 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10376.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10347.0>	10.0.0.126:55694 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10433.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10418.0>	10.0.0.126:55768 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10437.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10414.0>	10.0.0.126:55766 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10445.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10425.0>	10.0.0.126:55776 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10531.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10523.0>	10.0.0.114:60188 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10554.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10546.0>	10.0.0.114:60196 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10584.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10576.0>	10.0.0.114:60200 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10613.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10512.0>	10.0.0.126:55860 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10618.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10602.0>	10.0.0.114:60206 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10645.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10636.0>	10.0.0.114:60210 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10667.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10496.0>	10.0.0.126:55846 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10671.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10659.0>	10.0.0.114:60220 -> 10.0.0.116:5672 (1)	1	neutron	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10690.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10520.0>	10.0.0.126:55880 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10708.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10697.0>	10.0.0.126:56000 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10724.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10712.0>	10.0.0.126:56032 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10728.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10700.0>	10.0.0.126:56002 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10740.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10732.0>	10.0.0.126:56064 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.10770.0>	<rabbit@juju-04f1e3-1-lxd-5.3.10762.0>	10.0.0.114:60806 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	false	3	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.17791.0>	<rabbit@juju-04f1e3-1-lxd-5.3.17783.0>	10.0.0.133:35702 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+<rabbit@juju-04f1e3-1-lxd-5.3.3070.1>	<rabbit@juju-04f1e3-1-lxd-5.3.3062.1>	10.0.0.114:46722 -> 10.0.0.116:5672 (1)	1	nova	openstack	false	true	0	0	0	0	0	0	0
+
+Command line arguments of node rabbit@juju-04f1e3-1-lxd-5 ...
+[{root,["/usr/lib/erlang"]},
+ {progname,["erl"]},
+ {home,["/var/lib/rabbitmq"]},
+ {pa,["/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin",[]]},
+ {noshell,[]},
+ {noinput,[]},
+ {sname,["rabbit@juju-04f1e3-1-lxd-5"]},
+ {boot,["start_sasl"]},
+ {conf,["/etc/rabbitmq/rabbitmq.conf"]},
+ {conf_dir,["/var/lib/rabbitmq/config"]},
+ {conf_script_dir,["/usr/lib/rabbitmq/bin"]},
+ {conf_schema_dir,["/var/lib/rabbitmq/schema"]},
+ {conf_advanced,["/etc/rabbitmq/advanced.config"]},
+ {kernel,["inet_default_connect_options","[{nodelay,true}]"]},
+ {sasl,["errlog_type","error"]},
+ {sasl,["sasl_error_logger","false"]},
+ {rabbit,["lager_log_root","\"/var/log/rabbitmq\""]},
+ {rabbit,["lager_default_file",
+          "\"/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log\""]},
+ {rabbit,["lager_upgrade_file",
+          "\"/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log\""]},
+ {rabbit,["feature_flags_file",
+          "\"/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags\""]},
+ {rabbit,["enabled_plugins_file","\"/etc/rabbitmq/enabled_plugins\""]},
+ {rabbit,["plugins_dir",
+          "\"/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins\""]},
+ {rabbit,["plugins_expand_dir",
+          "\"/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand\""]},
+ {os_mon,["start_cpu_sup","false"]},
+ {os_mon,["start_disksup","false"]},
+ {os_mon,["start_memsup","false"]},
+ {mnesia,["dir","\"/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5\""]},
+ {ra,["data_dir",
+      "\"/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum\""]},
+ {kernel,["inet_dist_listen_min","25672"]},
+ {kernel,["inet_dist_listen_max","25672"]}]
+
+Timeout: 60.0 seconds ...
+Listing queues for vhost / ...
+
+Listing exchanges for vhost / ...
+name	type	durable	auto_delete	internal	arguments	policy
+amq.match	headers	true	false	false	[]	
+amq.rabbitmq.trace	topic	true	false	true	[]	
+amq.direct	direct	true	false	false	[]	
+amq.headers	headers	true	false	false	[]	
+amq.topic	topic	true	false	false	[]	
+amq.fanout	fanout	true	false	false	[]	
+	direct	true	false	false	[]	HA
+
+Listing bindings for vhost /...
+
+Listing permissions for vhost "/" ...
+user	configure	write	read
+guest	.*	.*	.*
+
+Listing policies for vhost "/" ...
+vhost	name	pattern	apply-to	definition	priority
+/	HA	^(?!amq\.).*	all	{"ha-mode":"all","ha-sync-mode":"automatic"}	0
+
+Listing global runtime parameters ...
+name	value
+cluster_name	"rabbit@juju-04f1e3-1-lxd-5.mylab.home"
+
+Listing runtime parameters for vhost "/" ...
+
+
+Timeout: 60.0 seconds ...
+Listing queues for vhost openstack ...
+name	durable	auto_delete	arguments	policy	pid	owner_pid	exclusive	exclusive_consumer_pid	exclusive_consumer_tag	messages_ready	messages_unacknowledged	messages	messages_ready_ram	messages_unacknowledged_ram	messages_ram	messages_persistent	message_bytes	message_bytes_ready	message_bytes_unacknowledged	message_bytes_ram	message_bytes_persistent	head_message_timestamp	disk_reads	disk_writes	consumers	consumer_utilisation	memory	slave_pids	synchronised_slave_pids	state	type
+q-bgp-plugin	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.4823.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-network-update	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6625.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+q-agent-notifier-network-update.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7297.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1088.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_da7b45b40ceb4b20a89ec19e28d61d7c	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1422.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+neutron-vo-SubPort-1.0_fanout_e3ef99cc71f8406790eea37739152905	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10650.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Network-1.1	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1140.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.948.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+dhcp_agent.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.2500.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-plugin_fanout_d0079ca4c94b4bd28200ea2827364c5a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7551.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_4a7c4e3d840b40b8a4b9a42e93e073bc	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6338.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+reply_a5aba3ef755349fbb2aa68fe3d34f072	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9806.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+l3_agent.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6673.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-plugin.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.4946.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	35288	[]	[]	running	classic
+q-plugin_fanout_e9e6e437b7da4b459b672f688d5cad8d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7538.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+conductor_fanout_ebd6b44d25b9481db2c87ca5fb35fafc	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10381.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1819.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_d738505210424542b9852c9137709ad7	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9622.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35028	[]	[]	running	classic
+q-agent-notifier-tunnel-update.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8177.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-server-resource-versions_fanout_451b17e52f754dfa810d13be784fc779	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7670.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35348	[]	[]	running	classic
+neutron-vo-Network-1.1_fanout_02ccfdb91bbe435e867392f35d3b4c6a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1372.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_6a96bea4944242fba5801a6a09dc15d3	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10194.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35028	[]	[]	running	classic
+q-reports-plugin	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5111.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	112420	[]	[]	running	classic
+q-agent-notifier-l2population-update_fanout_26191e4e49e24605824019b56d49f547	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6891.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-update	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6755.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+q-firewall-plugin_fanout_0a3ff1de54a94585894e36f0718665b6	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7932.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-l3-plugin.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5230.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35408	[]	[]	running	classic
+reply_39b30d8a3f684a469954d277f2a6a502	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9955.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	123140	[]	[]	running	classic
+q-bgp-plugin_fanout_99ff32dd00804602b3389c4f782be338	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7444.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+dhcp_agent_fanout_e932f9c97bcc4752b57224ffedc7b278	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.2510.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-reports-plugin_fanout_9f51c2de37e3472f9e2097b57be74810	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7782.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+l3_agent_fanout_f5b4990af7be4663adcc0922cf4a93d3	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7242.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-network-update.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7126.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-metering-plugin	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5330.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35408	[]	[]	running	classic
+reply_1566d428913e46c3b74f80ace9b8b4d2	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1240.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2_fanout_e16f796f70db4d80acb6b883e8506ec8	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10032.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Subnet-1.1.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1879.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Network-1.1.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1363.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-network-update.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6634.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-firewall-plugin_fanout_70f6ddb74072440bb394f281326ad514	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7716.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-server-resource-versions	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5060.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	35288	[]	[]	running	classic
+l3_agent.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7327.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-delete.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8207.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_85d9d60c2e4043d9b428cb38756f2dac	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6044.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+dhcp_agent.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.2549.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+dhcp_agent_fanout_a696981c8444409999e6e4a9eb5f0c5a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9874.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Port-1.5_fanout_2df4348bb40a457b87c5ba08db7c6d34	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10009.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+compute_fanout_ed745874d019460799c4e4476dc8ba09	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10775.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-firewall-plugin_fanout_81e18fcad2f0464ca685d19131ce1fda	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8000.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Subnet-1.1.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1210.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+scheduler_fanout_99c7e70e7bca4386afd4e482fefb9d02	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10462.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+reply_c445333b598e45f4858c56b51a6b90d5	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1532.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35708	[]	[]	running	classic
+firewall_agent.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6595.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Trunk-1.1	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6950.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+conductor.juju-04f1e3-2-lxd-5	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5756.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	35288	[]	[]	running	classic
+scheduler_fanout_30c030e4f66e4568a6a44d673334585b	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10453.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+neutron-vo-Trunk-1.1_fanout_829b29ecd23a448fb2e32204741001bd	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8517.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_aedb01dbab3e44d384c21c861f17e673	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1489.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+q-firewall-plugin.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5336.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35408	[]	[]	running	classic
+compute	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8718.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+neutron-vo-Port-1.5.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.904.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+scheduler_fanout_4cdfb9f4e4324dd695caada0d92be420	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10390.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+neutron-vo-SubPort-1.0_fanout_abe81cede6244d1e8b0633da2e3bfd74	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6930.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+firewall_agent.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7029.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_8aca1bdab6a54c7bbb2e3727cd83e373	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.741.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+q-reports-plugin_fanout_a60c5152c95a473199685b2335044b5a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7815.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_fd42a728b8634f27b4953602614ed851	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10118.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2_fanout_c041f8a0f1534a70853df0f53962c45f	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1312.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+conductor_fanout_1c3eade283ca4d69bc555f6908d42819	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10401.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-metering-plugin_fanout_67ad3c4653ed4eed819a362e2107bf67	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8044.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_872a70cc31614117961ca6ebfe1b3575	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6236.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+neutron-vo-Subnet-1.1_fanout_0de70a05e4db4795822b69f8e3e8c2e9	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10098.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_99b67a2b60734829984a63c66a9846bd	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10210.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35028	[]	[]	running	classic
+neutron-vo-SubPort-1.0.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6920.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-reports-plugin.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5123.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35408	[]	[]	running	classic
+dhcp_agent	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.2491.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+reply_eac1e25db544451c9845f278f34cf447	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10229.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35028	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.968.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Network-1.1_fanout_54a70b88ce794d2d99db89fc53719694	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10076.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Port-1.5_fanout_737cdd0bc47f48d6b4d6038a76220913	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1282.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_e78e64e6562c4ccea0ebb241a51c74e4	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6146.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+q-agent-notifier-tunnel-delete.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8388.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-reports-plugin_fanout_3474118693ae449cacc79f626e5dc952	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7798.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-dvr-update.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8418.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-reports-plugin_fanout_d409a65b87df4381a9cf209fb6e6edef	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7568.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-l2population-update.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8267.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Network-1.1.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1849.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-update_fanout_1fc59b1e3a454b9299d4750e759a1a82	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6774.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35468	[]	[]	running	classic
+q-agent-notifier-dvr-update.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6842.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Network-1.1_fanout_c425c2fa4ab94af78696c93c2b46b8d0	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1169.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+firewall_agent	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6586.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+neutron-vo-Trunk-1.1_fanout_be5217bcced040e0af1d0049bcf73de8	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10680.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-l2population-update_fanout_4bf44850dc074f289924adad9eb1bde5	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10623.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-metering-plugin_fanout_1cfd0c2ee9de4138a0909a0f56ea6e7a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8119.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-dvr-update_fanout_3d2c6a0c238440929a8d59c41f55d060	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8427.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+l3_agent_fanout_97e708fa836b473ab4016272cdb091a2	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7336.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-update.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8358.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-server-resource-versions_fanout_d62e966611794684aee6aa40e0c862ef	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7634.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35348	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1303.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-delete.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6803.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_e6989e138e004ccea04f727bce77690d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6191.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+neutron-vo-Network-1.1.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1155.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2_fanout_c6a5c79adda3419e8789981fba587ba1	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.984.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-dvr-update.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8237.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0_fanout_079b37b632bc4719868a8985e48b0c1d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1098.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+firewall_agent_fanout_18b5898e7e834a6d88a021ea33c8f313	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7276.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-dvr-update	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6833.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+conductor_fanout_6dfaca2cba224dd48db1617d70f969d3	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10364.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Port-1.5.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1273.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+compute.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8727.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_81e1bfa666f34a51abacece7b0a6c9f4	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8964.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	123140	[]	[]	running	classic
+dhcp_agent_fanout_cbee35100c544d158d35150e8204480f	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.2590.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+l3_agent_fanout_7f9acdbce3ef418f8b24f20c8bc9728f	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9931.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Trunk-1.1.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8327.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroup-1.2.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1767.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+l3_agent.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7233.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-server-resource-versions.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5073.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	35288	[]	[]	running	classic
+dhcp_agent.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.2581.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-dvr-update_fanout_22d2ff756f6d434c840af0524dadd65e	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6852.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_a2d1e9e4b998423b85e0926ed398810d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6089.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1333.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+scheduler	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5854.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	35288	[]	[]	running	classic
+compute_fanout_7877ca7b31214966aafd73399c5e343d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8897.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Trunk-1.1_fanout_25c9aa21030e447ca32c345c5459c54f	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6969.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+scheduler.juju-04f1e3-2-lxd-5	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5863.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	35288	[]	[]	running	classic
+q-agent-notifier-tunnel-update_fanout_fb36baec6b354140a37b2b8f1be1339d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10537.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35228	[]	[]	running	classic
+reply_b180acce9be74bf890081b2920427cfb	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10237.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+q-agent-notifier-l2population-update	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6872.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+q-l3-plugin	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5221.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35888	[]	[]	running	classic
+q-firewall-plugin_fanout_95cff20c905346ab97141af1c5db8f15	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8070.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-update.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6764.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Subnet-1.1_fanout_4123945f0d1b4e6383c25a4ac604b86b	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1402.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+compute.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8920.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-l3-plugin_fanout_3e5c42ce701b4e3383330f7ee3f96bc4	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7826.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-firewall-plugin_fanout_52f2232e65dc43679d5b61fd8d6899ea	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7981.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-l2population-update_fanout_09650d07ce064821b69ccd9e2dd9bf28	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8457.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+compute_fanout_be0e45a317f943cf8ac566d99412ab38	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8999.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+l3_agent	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6664.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+neutron-vo-SubPort-1.0	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6911.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+q-agent-notifier-dvr-update_fanout_76bf5048c25443c4a065acee8c455e56	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10589.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-l2population-update.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6881.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+conductor	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5747.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	112720	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0_fanout_755af19e81f248b5ba8c2e8e6f095a05	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10054.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Port-1.5	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.895.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+q-metering-plugin_fanout_82df5c6f3bcb433f9f0a74d5dc641640	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7735.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-delete_fanout_6391e64b8fa34c6eaf30facc2941208e	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6813.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-update_fanout_e43795b4faca488597e1b7cd0131cbba	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8367.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35468	[]	[]	running	classic
+q-metering-plugin.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5420.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35408	[]	[]	running	classic
+reply_cbd55cffd49d43bc9d4bcc5bdad5d70d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6308.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+neutron-vo-SubPort-1.0.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8297.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+conductor_fanout_833121af993f4e55af918ca4d4af6993	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10315.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-server-resource-versions_fanout_fb53905df6834667abd39775d84771d5	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7651.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35348	[]	[]	running	classic
+q-plugin_fanout_872a56528cd0460ea430f1bd9f100575	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7526.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Subnet-1.1	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1201.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+neutron-vo-SubPort-1.0_fanout_ffc881116d1d459893838712b668337d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8487.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-plugin_fanout_008177a233704b9cbb41fa5286b33f6a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7493.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-network-update_fanout_912da6f0dad841449a6092832f2407c4	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7306.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-metering-plugin_fanout_e29ac99c4ca8462d81b870edf91ed9ea	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8033.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-delete	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6794.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+q-l3-plugin_fanout_21955c9189f74e2c9e366e6826a6c91d	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7686.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+scheduler_fanout_5e4494d7df064a7d84f55e780eaa8aa5	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10475.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+neutron-vo-Port-1.5_fanout_67d35d5bbeb34ae49aaf4d3352cd78a5	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.914.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_02ebd041f16f4b8184220686ab4d5088	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9787.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35708	[]	[]	running	classic
+neutron-vo-Trunk-1.1.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8508.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1079.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	3	1.0	35088	[]	[]	running	classic
+reply_466d90753b9140b6bd055fd8b9a5d3d3	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1565.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35588	[]	[]	running	classic
+q-agent-notifier-tunnel-delete_fanout_4514835b497c40bda4208d0fefb5dc9e	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.10567.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_8fd10baa2c104a7584bcfa2b33ac9f29	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6270.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+q-metering-plugin_fanout_cfd34ee086944889a5885acb801c6bba	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8096.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-plugin	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.4907.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	4	1.0	36408	[]	[]	running	classic
+q-l3-plugin_fanout_33a431b43ab041fda5b174dd74a7301a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7892.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-network-update_fanout_4c0872681eac4d938d7f706937083c01	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7135.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-network-update_fanout_a4f7791e07e542b6b95af60cf40b1418	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9906.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-l3-plugin_fanout_f2d768ab8c4f4c2da0293adc1bb4dce8	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7919.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SecurityGroupRule-1.0_fanout_dbf2634e41f34f359fdd233e7553bedb	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1342.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Port-1.5.compute1.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1650.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+compute.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8888.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_85c41fa7cb3a43eb9612dce5b51c1f7c	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1457.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35708	[]	[]	running	classic
+neutron-vo-Subnet-1.1_fanout_03e8f12d981648689b86f090834f9ecb	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1220.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-agent-notifier-tunnel-delete_fanout_2a2e5eea6a194e45a4beea5fffcb69ac	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8397.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+firewall_agent.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7267.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Subnet-1.1.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.1393.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-SubPort-1.0.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8478.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-l3-plugin_fanout_5dc7efc24a3f4c839f359cb63a233200	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7936.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+reply_ce85711434a64e53b73778d779b39b45	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.854.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34988	[]	[]	running	classic
+reply_c59b4469d42248bf94cd19e56e0f4696	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8826.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	76980	[]	[]	running	classic
+q-firewall-plugin	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.5302.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	5	1.0	35408	[]	[]	running	classic
+firewall_agent_fanout_4920c252f6b14043bae93e8d5a2ba0c5	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7038.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+firewall_agent_fanout_f5cf6ac77a8540e6b571cc2c3e1215c3	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.9882.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-bgp-plugin.juju-04f1e3-0-lxd-4	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.4832.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-reports-plugin_fanout_95b4e7765e35404e8b0d4108317b661a	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7725.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+q-server-resource-versions_fanout_db1c57941e9f4a58833ec3848fb44c63	false	false	[{"x-expires",1800000}]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.7694.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	35348	[]	[]	running	classic
+q-agent-notifier-l2population-update.compute4.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.8448.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+neutron-vo-Trunk-1.1.compute2.mylab.home	false	false	[]	HA	<rabbit@juju-04f1e3-1-lxd-5.3.6959.0>		false			0	0	0	0	0	0	0	0	0	0	0	0		0	0	1	1.0	34832	[]	[]	running	classic
+
+Listing exchanges for vhost openstack ...
+name	type	durable	auto_delete	internal	arguments	policy
+q-plugin_fanout	fanout	false	true	false	[]	HA
+q-l3-plugin_fanout	fanout	false	true	false	[]	HA
+q-server-resource-versions_fanout	fanout	false	true	false	[]	HA
+neutron-vo-SubPort-1.0_fanout	fanout	false	true	false	[]	HA
+conductor_fanout	fanout	false	true	false	[]	HA
+q-agent-notifier-network-update_fanout	fanout	false	true	false	[]	HA
+	direct	true	false	false	[]	HA
+nova	topic	false	false	false	[]	HA
+q-bgp-plugin_fanout	fanout	false	true	false	[]	HA
+q-metering-plugin_fanout	fanout	false	true	false	[]	HA
+neutron-vo-Network-1.1_fanout	fanout	false	true	false	[]	HA
+neutron-vo-Subnet-1.1_fanout	fanout	false	true	false	[]	HA
+q-firewall-plugin_fanout	fanout	false	true	false	[]	HA
+q-agent-notifier-tunnel-update_fanout	fanout	false	true	false	[]	HA
+neutron	topic	false	false	false	[]	HA
+neutron-vo-SecurityGroup-1.2_fanout	fanout	false	true	false	[]	HA
+amq.rabbitmq.trace	topic	true	false	true	[]	
+q-agent-notifier-tunnel-delete_fanout	fanout	false	true	false	[]	HA
+scheduler_fanout	fanout	false	true	false	[]	HA
+compute_fanout	fanout	false	true	false	[]	HA
+firewall_agent_fanout	fanout	false	true	false	[]	HA
+dhcp_agent_fanout	fanout	false	true	false	[]	HA
+neutron-vo-SecurityGroupRule-1.0_fanout	fanout	false	true	false	[]	HA
+l3_agent_fanout	fanout	false	true	false	[]	HA
+amq.topic	topic	true	false	false	[]	
+q-agent-notifier-l2population-update_fanout	fanout	false	true	false	[]	HA
+q-reports-plugin_fanout	fanout	false	true	false	[]	HA
+amq.match	headers	true	false	false	[]	
+q-agent-notifier-dvr-update_fanout	fanout	false	true	false	[]	HA
+neutron-vo-Trunk-1.1_fanout	fanout	false	true	false	[]	HA
+amq.fanout	fanout	true	false	false	[]	
+neutron-vo-Port-1.5_fanout	fanout	false	true	false	[]	HA
+amq.headers	headers	true	false	false	[]	
+amq.direct	direct	true	false	false	[]	
+
+Listing bindings for vhost openstack...
+source_name	source_kind	destination_name	destination_kind	routing_key	arguments
+	exchange	q-bgp-plugin	queue	q-bgp-plugin	[]
+	exchange	q-agent-notifier-network-update	queue	q-agent-notifier-network-update	[]
+	exchange	q-agent-notifier-network-update.compute4.mylab.home	queue	q-agent-notifier-network-update.compute4.mylab.home	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0.compute2.mylab.home	queue	neutron-vo-SecurityGroupRule-1.0.compute2.mylab.home	[]
+	exchange	reply_da7b45b40ceb4b20a89ec19e28d61d7c	queue	reply_da7b45b40ceb4b20a89ec19e28d61d7c	[]
+	exchange	neutron-vo-SubPort-1.0_fanout_e3ef99cc71f8406790eea37739152905	queue	neutron-vo-SubPort-1.0_fanout_e3ef99cc71f8406790eea37739152905	[]
+	exchange	neutron-vo-Network-1.1	queue	neutron-vo-Network-1.1	[]
+	exchange	neutron-vo-SecurityGroup-1.2	queue	neutron-vo-SecurityGroup-1.2	[]
+	exchange	dhcp_agent.compute4.mylab.home	queue	dhcp_agent.compute4.mylab.home	[]
+	exchange	q-plugin_fanout_d0079ca4c94b4bd28200ea2827364c5a	queue	q-plugin_fanout_d0079ca4c94b4bd28200ea2827364c5a	[]
+	exchange	reply_4a7c4e3d840b40b8a4b9a42e93e073bc	queue	reply_4a7c4e3d840b40b8a4b9a42e93e073bc	[]
+	exchange	reply_a5aba3ef755349fbb2aa68fe3d34f072	queue	reply_a5aba3ef755349fbb2aa68fe3d34f072	[]
+	exchange	l3_agent.compute1.mylab.home	queue	l3_agent.compute1.mylab.home	[]
+	exchange	q-plugin.juju-04f1e3-0-lxd-4	queue	q-plugin.juju-04f1e3-0-lxd-4	[]
+	exchange	q-plugin_fanout_e9e6e437b7da4b459b672f688d5cad8d	queue	q-plugin_fanout_e9e6e437b7da4b459b672f688d5cad8d	[]
+	exchange	conductor_fanout_ebd6b44d25b9481db2c87ca5fb35fafc	queue	conductor_fanout_ebd6b44d25b9481db2c87ca5fb35fafc	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0.compute1.mylab.home	queue	neutron-vo-SecurityGroupRule-1.0.compute1.mylab.home	[]
+	exchange	reply_d738505210424542b9852c9137709ad7	queue	reply_d738505210424542b9852c9137709ad7	[]
+	exchange	q-agent-notifier-tunnel-update.compute1.mylab.home	queue	q-agent-notifier-tunnel-update.compute1.mylab.home	[]
+	exchange	q-server-resource-versions_fanout_451b17e52f754dfa810d13be784fc779	queue	q-server-resource-versions_fanout_451b17e52f754dfa810d13be784fc779	[]
+	exchange	neutron-vo-Network-1.1_fanout_02ccfdb91bbe435e867392f35d3b4c6a	queue	neutron-vo-Network-1.1_fanout_02ccfdb91bbe435e867392f35d3b4c6a	[]
+	exchange	reply_6a96bea4944242fba5801a6a09dc15d3	queue	reply_6a96bea4944242fba5801a6a09dc15d3	[]
+	exchange	q-reports-plugin	queue	q-reports-plugin	[]
+	exchange	q-agent-notifier-l2population-update_fanout_26191e4e49e24605824019b56d49f547	queue	q-agent-notifier-l2population-update_fanout_26191e4e49e24605824019b56d49f547	[]
+	exchange	q-agent-notifier-tunnel-update	queue	q-agent-notifier-tunnel-update	[]
+	exchange	q-firewall-plugin_fanout_0a3ff1de54a94585894e36f0718665b6	queue	q-firewall-plugin_fanout_0a3ff1de54a94585894e36f0718665b6	[]
+	exchange	q-l3-plugin.juju-04f1e3-0-lxd-4	queue	q-l3-plugin.juju-04f1e3-0-lxd-4	[]
+	exchange	reply_39b30d8a3f684a469954d277f2a6a502	queue	reply_39b30d8a3f684a469954d277f2a6a502	[]
+	exchange	q-bgp-plugin_fanout_99ff32dd00804602b3389c4f782be338	queue	q-bgp-plugin_fanout_99ff32dd00804602b3389c4f782be338	[]
+	exchange	dhcp_agent_fanout_e932f9c97bcc4752b57224ffedc7b278	queue	dhcp_agent_fanout_e932f9c97bcc4752b57224ffedc7b278	[]
+	exchange	q-reports-plugin_fanout_9f51c2de37e3472f9e2097b57be74810	queue	q-reports-plugin_fanout_9f51c2de37e3472f9e2097b57be74810	[]
+	exchange	l3_agent_fanout_f5b4990af7be4663adcc0922cf4a93d3	queue	l3_agent_fanout_f5b4990af7be4663adcc0922cf4a93d3	[]
+	exchange	q-agent-notifier-network-update.compute2.mylab.home	queue	q-agent-notifier-network-update.compute2.mylab.home	[]
+	exchange	q-metering-plugin	queue	q-metering-plugin	[]
+	exchange	reply_1566d428913e46c3b74f80ace9b8b4d2	queue	reply_1566d428913e46c3b74f80ace9b8b4d2	[]
+	exchange	neutron-vo-SecurityGroup-1.2_fanout_e16f796f70db4d80acb6b883e8506ec8	queue	neutron-vo-SecurityGroup-1.2_fanout_e16f796f70db4d80acb6b883e8506ec8	[]
+	exchange	neutron-vo-Subnet-1.1.compute1.mylab.home	queue	neutron-vo-Subnet-1.1.compute1.mylab.home	[]
+	exchange	neutron-vo-Network-1.1.compute4.mylab.home	queue	neutron-vo-Network-1.1.compute4.mylab.home	[]
+	exchange	q-agent-notifier-network-update.compute1.mylab.home	queue	q-agent-notifier-network-update.compute1.mylab.home	[]
+	exchange	q-firewall-plugin_fanout_70f6ddb74072440bb394f281326ad514	queue	q-firewall-plugin_fanout_70f6ddb74072440bb394f281326ad514	[]
+	exchange	q-server-resource-versions	queue	q-server-resource-versions	[]
+	exchange	l3_agent.compute4.mylab.home	queue	l3_agent.compute4.mylab.home	[]
+	exchange	q-agent-notifier-tunnel-delete.compute1.mylab.home	queue	q-agent-notifier-tunnel-delete.compute1.mylab.home	[]
+	exchange	reply_85d9d60c2e4043d9b428cb38756f2dac	queue	reply_85d9d60c2e4043d9b428cb38756f2dac	[]
+	exchange	dhcp_agent.compute1.mylab.home	queue	dhcp_agent.compute1.mylab.home	[]
+	exchange	dhcp_agent_fanout_a696981c8444409999e6e4a9eb5f0c5a	queue	dhcp_agent_fanout_a696981c8444409999e6e4a9eb5f0c5a	[]
+	exchange	neutron-vo-Port-1.5_fanout_2df4348bb40a457b87c5ba08db7c6d34	queue	neutron-vo-Port-1.5_fanout_2df4348bb40a457b87c5ba08db7c6d34	[]
+	exchange	compute_fanout_ed745874d019460799c4e4476dc8ba09	queue	compute_fanout_ed745874d019460799c4e4476dc8ba09	[]
+	exchange	q-firewall-plugin_fanout_81e18fcad2f0464ca685d19131ce1fda	queue	q-firewall-plugin_fanout_81e18fcad2f0464ca685d19131ce1fda	[]
+	exchange	neutron-vo-Subnet-1.1.compute2.mylab.home	queue	neutron-vo-Subnet-1.1.compute2.mylab.home	[]
+	exchange	scheduler_fanout_99c7e70e7bca4386afd4e482fefb9d02	queue	scheduler_fanout_99c7e70e7bca4386afd4e482fefb9d02	[]
+	exchange	reply_c445333b598e45f4858c56b51a6b90d5	queue	reply_c445333b598e45f4858c56b51a6b90d5	[]
+	exchange	firewall_agent.compute1.mylab.home	queue	firewall_agent.compute1.mylab.home	[]
+	exchange	neutron-vo-Trunk-1.1	queue	neutron-vo-Trunk-1.1	[]
+	exchange	conductor.juju-04f1e3-2-lxd-5	queue	conductor.juju-04f1e3-2-lxd-5	[]
+	exchange	scheduler_fanout_30c030e4f66e4568a6a44d673334585b	queue	scheduler_fanout_30c030e4f66e4568a6a44d673334585b	[]
+	exchange	neutron-vo-Trunk-1.1_fanout_829b29ecd23a448fb2e32204741001bd	queue	neutron-vo-Trunk-1.1_fanout_829b29ecd23a448fb2e32204741001bd	[]
+	exchange	reply_aedb01dbab3e44d384c21c861f17e673	queue	reply_aedb01dbab3e44d384c21c861f17e673	[]
+	exchange	q-firewall-plugin.juju-04f1e3-0-lxd-4	queue	q-firewall-plugin.juju-04f1e3-0-lxd-4	[]
+	exchange	compute	queue	compute	[]
+	exchange	neutron-vo-Port-1.5.compute2.mylab.home	queue	neutron-vo-Port-1.5.compute2.mylab.home	[]
+	exchange	scheduler_fanout_4cdfb9f4e4324dd695caada0d92be420	queue	scheduler_fanout_4cdfb9f4e4324dd695caada0d92be420	[]
+	exchange	neutron-vo-SubPort-1.0_fanout_abe81cede6244d1e8b0633da2e3bfd74	queue	neutron-vo-SubPort-1.0_fanout_abe81cede6244d1e8b0633da2e3bfd74	[]
+	exchange	firewall_agent.compute2.mylab.home	queue	firewall_agent.compute2.mylab.home	[]
+	exchange	reply_8aca1bdab6a54c7bbb2e3727cd83e373	queue	reply_8aca1bdab6a54c7bbb2e3727cd83e373	[]
+	exchange	q-reports-plugin_fanout_a60c5152c95a473199685b2335044b5a	queue	q-reports-plugin_fanout_a60c5152c95a473199685b2335044b5a	[]
+	exchange	reply_fd42a728b8634f27b4953602614ed851	queue	reply_fd42a728b8634f27b4953602614ed851	[]
+	exchange	neutron-vo-SecurityGroup-1.2_fanout_c041f8a0f1534a70853df0f53962c45f	queue	neutron-vo-SecurityGroup-1.2_fanout_c041f8a0f1534a70853df0f53962c45f	[]
+	exchange	conductor_fanout_1c3eade283ca4d69bc555f6908d42819	queue	conductor_fanout_1c3eade283ca4d69bc555f6908d42819	[]
+	exchange	q-metering-plugin_fanout_67ad3c4653ed4eed819a362e2107bf67	queue	q-metering-plugin_fanout_67ad3c4653ed4eed819a362e2107bf67	[]
+	exchange	reply_872a70cc31614117961ca6ebfe1b3575	queue	reply_872a70cc31614117961ca6ebfe1b3575	[]
+	exchange	neutron-vo-Subnet-1.1_fanout_0de70a05e4db4795822b69f8e3e8c2e9	queue	neutron-vo-Subnet-1.1_fanout_0de70a05e4db4795822b69f8e3e8c2e9	[]
+	exchange	reply_99b67a2b60734829984a63c66a9846bd	queue	reply_99b67a2b60734829984a63c66a9846bd	[]
+	exchange	neutron-vo-SubPort-1.0.compute2.mylab.home	queue	neutron-vo-SubPort-1.0.compute2.mylab.home	[]
+	exchange	q-reports-plugin.juju-04f1e3-0-lxd-4	queue	q-reports-plugin.juju-04f1e3-0-lxd-4	[]
+	exchange	dhcp_agent	queue	dhcp_agent	[]
+	exchange	reply_eac1e25db544451c9845f278f34cf447	queue	reply_eac1e25db544451c9845f278f34cf447	[]
+	exchange	neutron-vo-SecurityGroup-1.2.compute2.mylab.home	queue	neutron-vo-SecurityGroup-1.2.compute2.mylab.home	[]
+	exchange	neutron-vo-Network-1.1_fanout_54a70b88ce794d2d99db89fc53719694	queue	neutron-vo-Network-1.1_fanout_54a70b88ce794d2d99db89fc53719694	[]
+	exchange	neutron-vo-Port-1.5_fanout_737cdd0bc47f48d6b4d6038a76220913	queue	neutron-vo-Port-1.5_fanout_737cdd0bc47f48d6b4d6038a76220913	[]
+	exchange	reply_e78e64e6562c4ccea0ebb241a51c74e4	queue	reply_e78e64e6562c4ccea0ebb241a51c74e4	[]
+	exchange	q-agent-notifier-tunnel-delete.compute4.mylab.home	queue	q-agent-notifier-tunnel-delete.compute4.mylab.home	[]
+	exchange	q-reports-plugin_fanout_3474118693ae449cacc79f626e5dc952	queue	q-reports-plugin_fanout_3474118693ae449cacc79f626e5dc952	[]
+	exchange	q-agent-notifier-dvr-update.compute4.mylab.home	queue	q-agent-notifier-dvr-update.compute4.mylab.home	[]
+	exchange	q-reports-plugin_fanout_d409a65b87df4381a9cf209fb6e6edef	queue	q-reports-plugin_fanout_d409a65b87df4381a9cf209fb6e6edef	[]
+	exchange	q-agent-notifier-l2population-update.compute1.mylab.home	queue	q-agent-notifier-l2population-update.compute1.mylab.home	[]
+	exchange	neutron-vo-Network-1.1.compute1.mylab.home	queue	neutron-vo-Network-1.1.compute1.mylab.home	[]
+	exchange	q-agent-notifier-tunnel-update_fanout_1fc59b1e3a454b9299d4750e759a1a82	queue	q-agent-notifier-tunnel-update_fanout_1fc59b1e3a454b9299d4750e759a1a82	[]
+	exchange	q-agent-notifier-dvr-update.compute2.mylab.home	queue	q-agent-notifier-dvr-update.compute2.mylab.home	[]
+	exchange	neutron-vo-Network-1.1_fanout_c425c2fa4ab94af78696c93c2b46b8d0	queue	neutron-vo-Network-1.1_fanout_c425c2fa4ab94af78696c93c2b46b8d0	[]
+	exchange	firewall_agent	queue	firewall_agent	[]
+	exchange	neutron-vo-Trunk-1.1_fanout_be5217bcced040e0af1d0049bcf73de8	queue	neutron-vo-Trunk-1.1_fanout_be5217bcced040e0af1d0049bcf73de8	[]
+	exchange	q-agent-notifier-l2population-update_fanout_4bf44850dc074f289924adad9eb1bde5	queue	q-agent-notifier-l2population-update_fanout_4bf44850dc074f289924adad9eb1bde5	[]
+	exchange	q-metering-plugin_fanout_1cfd0c2ee9de4138a0909a0f56ea6e7a	queue	q-metering-plugin_fanout_1cfd0c2ee9de4138a0909a0f56ea6e7a	[]
+	exchange	q-agent-notifier-dvr-update_fanout_3d2c6a0c238440929a8d59c41f55d060	queue	q-agent-notifier-dvr-update_fanout_3d2c6a0c238440929a8d59c41f55d060	[]
+	exchange	l3_agent_fanout_97e708fa836b473ab4016272cdb091a2	queue	l3_agent_fanout_97e708fa836b473ab4016272cdb091a2	[]
+	exchange	q-agent-notifier-tunnel-update.compute4.mylab.home	queue	q-agent-notifier-tunnel-update.compute4.mylab.home	[]
+	exchange	q-server-resource-versions_fanout_d62e966611794684aee6aa40e0c862ef	queue	q-server-resource-versions_fanout_d62e966611794684aee6aa40e0c862ef	[]
+	exchange	neutron-vo-SecurityGroup-1.2.compute4.mylab.home	queue	neutron-vo-SecurityGroup-1.2.compute4.mylab.home	[]
+	exchange	q-agent-notifier-tunnel-delete.compute2.mylab.home	queue	q-agent-notifier-tunnel-delete.compute2.mylab.home	[]
+	exchange	reply_e6989e138e004ccea04f727bce77690d	queue	reply_e6989e138e004ccea04f727bce77690d	[]
+	exchange	neutron-vo-Network-1.1.compute2.mylab.home	queue	neutron-vo-Network-1.1.compute2.mylab.home	[]
+	exchange	neutron-vo-SecurityGroup-1.2_fanout_c6a5c79adda3419e8789981fba587ba1	queue	neutron-vo-SecurityGroup-1.2_fanout_c6a5c79adda3419e8789981fba587ba1	[]
+	exchange	q-agent-notifier-dvr-update.compute1.mylab.home	queue	q-agent-notifier-dvr-update.compute1.mylab.home	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0_fanout_079b37b632bc4719868a8985e48b0c1d	queue	neutron-vo-SecurityGroupRule-1.0_fanout_079b37b632bc4719868a8985e48b0c1d	[]
+	exchange	firewall_agent_fanout_18b5898e7e834a6d88a021ea33c8f313	queue	firewall_agent_fanout_18b5898e7e834a6d88a021ea33c8f313	[]
+	exchange	q-agent-notifier-dvr-update	queue	q-agent-notifier-dvr-update	[]
+	exchange	conductor_fanout_6dfaca2cba224dd48db1617d70f969d3	queue	conductor_fanout_6dfaca2cba224dd48db1617d70f969d3	[]
+	exchange	neutron-vo-Port-1.5.compute4.mylab.home	queue	neutron-vo-Port-1.5.compute4.mylab.home	[]
+	exchange	compute.compute2.mylab.home	queue	compute.compute2.mylab.home	[]
+	exchange	reply_81e1bfa666f34a51abacece7b0a6c9f4	queue	reply_81e1bfa666f34a51abacece7b0a6c9f4	[]
+	exchange	dhcp_agent_fanout_cbee35100c544d158d35150e8204480f	queue	dhcp_agent_fanout_cbee35100c544d158d35150e8204480f	[]
+	exchange	l3_agent_fanout_7f9acdbce3ef418f8b24f20c8bc9728f	queue	l3_agent_fanout_7f9acdbce3ef418f8b24f20c8bc9728f	[]
+	exchange	neutron-vo-Trunk-1.1.compute1.mylab.home	queue	neutron-vo-Trunk-1.1.compute1.mylab.home	[]
+	exchange	neutron-vo-SecurityGroup-1.2.compute1.mylab.home	queue	neutron-vo-SecurityGroup-1.2.compute1.mylab.home	[]
+	exchange	l3_agent.compute2.mylab.home	queue	l3_agent.compute2.mylab.home	[]
+	exchange	q-server-resource-versions.juju-04f1e3-0-lxd-4	queue	q-server-resource-versions.juju-04f1e3-0-lxd-4	[]
+	exchange	dhcp_agent.compute2.mylab.home	queue	dhcp_agent.compute2.mylab.home	[]
+	exchange	q-agent-notifier-dvr-update_fanout_22d2ff756f6d434c840af0524dadd65e	queue	q-agent-notifier-dvr-update_fanout_22d2ff756f6d434c840af0524dadd65e	[]
+	exchange	reply_a2d1e9e4b998423b85e0926ed398810d	queue	reply_a2d1e9e4b998423b85e0926ed398810d	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0.compute4.mylab.home	queue	neutron-vo-SecurityGroupRule-1.0.compute4.mylab.home	[]
+	exchange	scheduler	queue	scheduler	[]
+	exchange	compute_fanout_7877ca7b31214966aafd73399c5e343d	queue	compute_fanout_7877ca7b31214966aafd73399c5e343d	[]
+	exchange	neutron-vo-Trunk-1.1_fanout_25c9aa21030e447ca32c345c5459c54f	queue	neutron-vo-Trunk-1.1_fanout_25c9aa21030e447ca32c345c5459c54f	[]
+	exchange	scheduler.juju-04f1e3-2-lxd-5	queue	scheduler.juju-04f1e3-2-lxd-5	[]
+	exchange	q-agent-notifier-tunnel-update_fanout_fb36baec6b354140a37b2b8f1be1339d	queue	q-agent-notifier-tunnel-update_fanout_fb36baec6b354140a37b2b8f1be1339d	[]
+	exchange	reply_b180acce9be74bf890081b2920427cfb	queue	reply_b180acce9be74bf890081b2920427cfb	[]
+	exchange	q-agent-notifier-l2population-update	queue	q-agent-notifier-l2population-update	[]
+	exchange	q-l3-plugin	queue	q-l3-plugin	[]
+	exchange	q-firewall-plugin_fanout_95cff20c905346ab97141af1c5db8f15	queue	q-firewall-plugin_fanout_95cff20c905346ab97141af1c5db8f15	[]
+	exchange	q-agent-notifier-tunnel-update.compute2.mylab.home	queue	q-agent-notifier-tunnel-update.compute2.mylab.home	[]
+	exchange	neutron-vo-Subnet-1.1_fanout_4123945f0d1b4e6383c25a4ac604b86b	queue	neutron-vo-Subnet-1.1_fanout_4123945f0d1b4e6383c25a4ac604b86b	[]
+	exchange	compute.compute1.mylab.home	queue	compute.compute1.mylab.home	[]
+	exchange	q-l3-plugin_fanout_3e5c42ce701b4e3383330f7ee3f96bc4	queue	q-l3-plugin_fanout_3e5c42ce701b4e3383330f7ee3f96bc4	[]
+	exchange	q-firewall-plugin_fanout_52f2232e65dc43679d5b61fd8d6899ea	queue	q-firewall-plugin_fanout_52f2232e65dc43679d5b61fd8d6899ea	[]
+	exchange	q-agent-notifier-l2population-update_fanout_09650d07ce064821b69ccd9e2dd9bf28	queue	q-agent-notifier-l2population-update_fanout_09650d07ce064821b69ccd9e2dd9bf28	[]
+	exchange	compute_fanout_be0e45a317f943cf8ac566d99412ab38	queue	compute_fanout_be0e45a317f943cf8ac566d99412ab38	[]
+	exchange	l3_agent	queue	l3_agent	[]
+	exchange	neutron-vo-SubPort-1.0	queue	neutron-vo-SubPort-1.0	[]
+	exchange	q-agent-notifier-dvr-update_fanout_76bf5048c25443c4a065acee8c455e56	queue	q-agent-notifier-dvr-update_fanout_76bf5048c25443c4a065acee8c455e56	[]
+	exchange	q-agent-notifier-l2population-update.compute2.mylab.home	queue	q-agent-notifier-l2population-update.compute2.mylab.home	[]
+	exchange	conductor	queue	conductor	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0_fanout_755af19e81f248b5ba8c2e8e6f095a05	queue	neutron-vo-SecurityGroupRule-1.0_fanout_755af19e81f248b5ba8c2e8e6f095a05	[]
+	exchange	neutron-vo-Port-1.5	queue	neutron-vo-Port-1.5	[]
+	exchange	q-metering-plugin_fanout_82df5c6f3bcb433f9f0a74d5dc641640	queue	q-metering-plugin_fanout_82df5c6f3bcb433f9f0a74d5dc641640	[]
+	exchange	q-agent-notifier-tunnel-delete_fanout_6391e64b8fa34c6eaf30facc2941208e	queue	q-agent-notifier-tunnel-delete_fanout_6391e64b8fa34c6eaf30facc2941208e	[]
+	exchange	q-agent-notifier-tunnel-update_fanout_e43795b4faca488597e1b7cd0131cbba	queue	q-agent-notifier-tunnel-update_fanout_e43795b4faca488597e1b7cd0131cbba	[]
+	exchange	q-metering-plugin.juju-04f1e3-0-lxd-4	queue	q-metering-plugin.juju-04f1e3-0-lxd-4	[]
+	exchange	reply_cbd55cffd49d43bc9d4bcc5bdad5d70d	queue	reply_cbd55cffd49d43bc9d4bcc5bdad5d70d	[]
+	exchange	neutron-vo-SubPort-1.0.compute1.mylab.home	queue	neutron-vo-SubPort-1.0.compute1.mylab.home	[]
+	exchange	conductor_fanout_833121af993f4e55af918ca4d4af6993	queue	conductor_fanout_833121af993f4e55af918ca4d4af6993	[]
+	exchange	q-server-resource-versions_fanout_fb53905df6834667abd39775d84771d5	queue	q-server-resource-versions_fanout_fb53905df6834667abd39775d84771d5	[]
+	exchange	q-plugin_fanout_872a56528cd0460ea430f1bd9f100575	queue	q-plugin_fanout_872a56528cd0460ea430f1bd9f100575	[]
+	exchange	neutron-vo-Subnet-1.1	queue	neutron-vo-Subnet-1.1	[]
+	exchange	neutron-vo-SubPort-1.0_fanout_ffc881116d1d459893838712b668337d	queue	neutron-vo-SubPort-1.0_fanout_ffc881116d1d459893838712b668337d	[]
+	exchange	q-plugin_fanout_008177a233704b9cbb41fa5286b33f6a	queue	q-plugin_fanout_008177a233704b9cbb41fa5286b33f6a	[]
+	exchange	q-agent-notifier-network-update_fanout_912da6f0dad841449a6092832f2407c4	queue	q-agent-notifier-network-update_fanout_912da6f0dad841449a6092832f2407c4	[]
+	exchange	q-metering-plugin_fanout_e29ac99c4ca8462d81b870edf91ed9ea	queue	q-metering-plugin_fanout_e29ac99c4ca8462d81b870edf91ed9ea	[]
+	exchange	q-agent-notifier-tunnel-delete	queue	q-agent-notifier-tunnel-delete	[]
+	exchange	q-l3-plugin_fanout_21955c9189f74e2c9e366e6826a6c91d	queue	q-l3-plugin_fanout_21955c9189f74e2c9e366e6826a6c91d	[]
+	exchange	scheduler_fanout_5e4494d7df064a7d84f55e780eaa8aa5	queue	scheduler_fanout_5e4494d7df064a7d84f55e780eaa8aa5	[]
+	exchange	neutron-vo-Port-1.5_fanout_67d35d5bbeb34ae49aaf4d3352cd78a5	queue	neutron-vo-Port-1.5_fanout_67d35d5bbeb34ae49aaf4d3352cd78a5	[]
+	exchange	reply_02ebd041f16f4b8184220686ab4d5088	queue	reply_02ebd041f16f4b8184220686ab4d5088	[]
+	exchange	neutron-vo-Trunk-1.1.compute4.mylab.home	queue	neutron-vo-Trunk-1.1.compute4.mylab.home	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0	queue	neutron-vo-SecurityGroupRule-1.0	[]
+	exchange	reply_466d90753b9140b6bd055fd8b9a5d3d3	queue	reply_466d90753b9140b6bd055fd8b9a5d3d3	[]
+	exchange	q-agent-notifier-tunnel-delete_fanout_4514835b497c40bda4208d0fefb5dc9e	queue	q-agent-notifier-tunnel-delete_fanout_4514835b497c40bda4208d0fefb5dc9e	[]
+	exchange	reply_8fd10baa2c104a7584bcfa2b33ac9f29	queue	reply_8fd10baa2c104a7584bcfa2b33ac9f29	[]
+	exchange	q-metering-plugin_fanout_cfd34ee086944889a5885acb801c6bba	queue	q-metering-plugin_fanout_cfd34ee086944889a5885acb801c6bba	[]
+	exchange	q-plugin	queue	q-plugin	[]
+	exchange	q-l3-plugin_fanout_33a431b43ab041fda5b174dd74a7301a	queue	q-l3-plugin_fanout_33a431b43ab041fda5b174dd74a7301a	[]
+	exchange	q-agent-notifier-network-update_fanout_4c0872681eac4d938d7f706937083c01	queue	q-agent-notifier-network-update_fanout_4c0872681eac4d938d7f706937083c01	[]
+	exchange	q-agent-notifier-network-update_fanout_a4f7791e07e542b6b95af60cf40b1418	queue	q-agent-notifier-network-update_fanout_a4f7791e07e542b6b95af60cf40b1418	[]
+	exchange	q-l3-plugin_fanout_f2d768ab8c4f4c2da0293adc1bb4dce8	queue	q-l3-plugin_fanout_f2d768ab8c4f4c2da0293adc1bb4dce8	[]
+	exchange	neutron-vo-SecurityGroupRule-1.0_fanout_dbf2634e41f34f359fdd233e7553bedb	queue	neutron-vo-SecurityGroupRule-1.0_fanout_dbf2634e41f34f359fdd233e7553bedb	[]
+	exchange	neutron-vo-Port-1.5.compute1.mylab.home	queue	neutron-vo-Port-1.5.compute1.mylab.home	[]
+	exchange	compute.compute4.mylab.home	queue	compute.compute4.mylab.home	[]
+	exchange	reply_85c41fa7cb3a43eb9612dce5b51c1f7c	queue	reply_85c41fa7cb3a43eb9612dce5b51c1f7c	[]
+	exchange	neutron-vo-Subnet-1.1_fanout_03e8f12d981648689b86f090834f9ecb	queue	neutron-vo-Subnet-1.1_fanout_03e8f12d981648689b86f090834f9ecb	[]
+	exchange	q-agent-notifier-tunnel-delete_fanout_2a2e5eea6a194e45a4beea5fffcb69ac	queue	q-agent-notifier-tunnel-delete_fanout_2a2e5eea6a194e45a4beea5fffcb69ac	[]
+	exchange	firewall_agent.compute4.mylab.home	queue	firewall_agent.compute4.mylab.home	[]
+	exchange	neutron-vo-Subnet-1.1.compute4.mylab.home	queue	neutron-vo-Subnet-1.1.compute4.mylab.home	[]
+	exchange	neutron-vo-SubPort-1.0.compute4.mylab.home	queue	neutron-vo-SubPort-1.0.compute4.mylab.home	[]
+	exchange	q-l3-plugin_fanout_5dc7efc24a3f4c839f359cb63a233200	queue	q-l3-plugin_fanout_5dc7efc24a3f4c839f359cb63a233200	[]
+	exchange	reply_ce85711434a64e53b73778d779b39b45	queue	reply_ce85711434a64e53b73778d779b39b45	[]
+	exchange	reply_c59b4469d42248bf94cd19e56e0f4696	queue	reply_c59b4469d42248bf94cd19e56e0f4696	[]
+	exchange	q-firewall-plugin	queue	q-firewall-plugin	[]
+	exchange	firewall_agent_fanout_4920c252f6b14043bae93e8d5a2ba0c5	queue	firewall_agent_fanout_4920c252f6b14043bae93e8d5a2ba0c5	[]
+	exchange	firewall_agent_fanout_f5cf6ac77a8540e6b571cc2c3e1215c3	queue	firewall_agent_fanout_f5cf6ac77a8540e6b571cc2c3e1215c3	[]
+	exchange	q-bgp-plugin.juju-04f1e3-0-lxd-4	queue	q-bgp-plugin.juju-04f1e3-0-lxd-4	[]
+	exchange	q-reports-plugin_fanout_95b4e7765e35404e8b0d4108317b661a	queue	q-reports-plugin_fanout_95b4e7765e35404e8b0d4108317b661a	[]
+	exchange	q-server-resource-versions_fanout_db1c57941e9f4a58833ec3848fb44c63	queue	q-server-resource-versions_fanout_db1c57941e9f4a58833ec3848fb44c63	[]
+	exchange	q-agent-notifier-l2population-update.compute4.mylab.home	queue	q-agent-notifier-l2population-update.compute4.mylab.home	[]
+	exchange	neutron-vo-Trunk-1.1.compute2.mylab.home	queue	neutron-vo-Trunk-1.1.compute2.mylab.home	[]
+compute_fanout	exchange	compute_fanout_7877ca7b31214966aafd73399c5e343d	queue	compute	[]
+compute_fanout	exchange	compute_fanout_be0e45a317f943cf8ac566d99412ab38	queue	compute	[]
+compute_fanout	exchange	compute_fanout_ed745874d019460799c4e4476dc8ba09	queue	compute	[]
+conductor_fanout	exchange	conductor_fanout_1c3eade283ca4d69bc555f6908d42819	queue	conductor	[]
+conductor_fanout	exchange	conductor_fanout_6dfaca2cba224dd48db1617d70f969d3	queue	conductor	[]
+conductor_fanout	exchange	conductor_fanout_833121af993f4e55af918ca4d4af6993	queue	conductor	[]
+conductor_fanout	exchange	conductor_fanout_ebd6b44d25b9481db2c87ca5fb35fafc	queue	conductor	[]
+dhcp_agent_fanout	exchange	dhcp_agent_fanout_a696981c8444409999e6e4a9eb5f0c5a	queue	dhcp_agent	[]
+dhcp_agent_fanout	exchange	dhcp_agent_fanout_cbee35100c544d158d35150e8204480f	queue	dhcp_agent	[]
+dhcp_agent_fanout	exchange	dhcp_agent_fanout_e932f9c97bcc4752b57224ffedc7b278	queue	dhcp_agent	[]
+firewall_agent_fanout	exchange	firewall_agent_fanout_18b5898e7e834a6d88a021ea33c8f313	queue	firewall_agent	[]
+firewall_agent_fanout	exchange	firewall_agent_fanout_4920c252f6b14043bae93e8d5a2ba0c5	queue	firewall_agent	[]
+firewall_agent_fanout	exchange	firewall_agent_fanout_f5cf6ac77a8540e6b571cc2c3e1215c3	queue	firewall_agent	[]
+l3_agent_fanout	exchange	l3_agent_fanout_7f9acdbce3ef418f8b24f20c8bc9728f	queue	l3_agent	[]
+l3_agent_fanout	exchange	l3_agent_fanout_97e708fa836b473ab4016272cdb091a2	queue	l3_agent	[]
+l3_agent_fanout	exchange	l3_agent_fanout_f5b4990af7be4663adcc0922cf4a93d3	queue	l3_agent	[]
+neutron	exchange	dhcp_agent	queue	dhcp_agent	[]
+neutron	exchange	dhcp_agent.compute1.mylab.home	queue	dhcp_agent.compute1.mylab.home	[]
+neutron	exchange	dhcp_agent.compute2.mylab.home	queue	dhcp_agent.compute2.mylab.home	[]
+neutron	exchange	dhcp_agent.compute4.mylab.home	queue	dhcp_agent.compute4.mylab.home	[]
+neutron	exchange	firewall_agent	queue	firewall_agent	[]
+neutron	exchange	firewall_agent.compute1.mylab.home	queue	firewall_agent.compute1.mylab.home	[]
+neutron	exchange	firewall_agent.compute2.mylab.home	queue	firewall_agent.compute2.mylab.home	[]
+neutron	exchange	firewall_agent.compute4.mylab.home	queue	firewall_agent.compute4.mylab.home	[]
+neutron	exchange	l3_agent	queue	l3_agent	[]
+neutron	exchange	l3_agent.compute1.mylab.home	queue	l3_agent.compute1.mylab.home	[]
+neutron	exchange	l3_agent.compute2.mylab.home	queue	l3_agent.compute2.mylab.home	[]
+neutron	exchange	l3_agent.compute4.mylab.home	queue	l3_agent.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-Network-1.1	queue	neutron-vo-Network-1.1	[]
+neutron	exchange	neutron-vo-Network-1.1.compute1.mylab.home	queue	neutron-vo-Network-1.1.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-Network-1.1.compute2.mylab.home	queue	neutron-vo-Network-1.1.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-Network-1.1.compute4.mylab.home	queue	neutron-vo-Network-1.1.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-Port-1.5	queue	neutron-vo-Port-1.5	[]
+neutron	exchange	neutron-vo-Port-1.5.compute1.mylab.home	queue	neutron-vo-Port-1.5.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-Port-1.5.compute2.mylab.home	queue	neutron-vo-Port-1.5.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-Port-1.5.compute4.mylab.home	queue	neutron-vo-Port-1.5.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-SecurityGroup-1.2	queue	neutron-vo-SecurityGroup-1.2	[]
+neutron	exchange	neutron-vo-SecurityGroup-1.2.compute1.mylab.home	queue	neutron-vo-SecurityGroup-1.2.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-SecurityGroup-1.2.compute2.mylab.home	queue	neutron-vo-SecurityGroup-1.2.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-SecurityGroup-1.2.compute4.mylab.home	queue	neutron-vo-SecurityGroup-1.2.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-SecurityGroupRule-1.0	queue	neutron-vo-SecurityGroupRule-1.0	[]
+neutron	exchange	neutron-vo-SecurityGroupRule-1.0.compute1.mylab.home	queue	neutron-vo-SecurityGroupRule-1.0.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-SecurityGroupRule-1.0.compute2.mylab.home	queue	neutron-vo-SecurityGroupRule-1.0.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-SecurityGroupRule-1.0.compute4.mylab.home	queue	neutron-vo-SecurityGroupRule-1.0.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-SubPort-1.0	queue	neutron-vo-SubPort-1.0	[]
+neutron	exchange	neutron-vo-SubPort-1.0.compute1.mylab.home	queue	neutron-vo-SubPort-1.0.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-SubPort-1.0.compute2.mylab.home	queue	neutron-vo-SubPort-1.0.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-SubPort-1.0.compute4.mylab.home	queue	neutron-vo-SubPort-1.0.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-Subnet-1.1	queue	neutron-vo-Subnet-1.1	[]
+neutron	exchange	neutron-vo-Subnet-1.1.compute1.mylab.home	queue	neutron-vo-Subnet-1.1.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-Subnet-1.1.compute2.mylab.home	queue	neutron-vo-Subnet-1.1.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-Subnet-1.1.compute4.mylab.home	queue	neutron-vo-Subnet-1.1.compute4.mylab.home	[]
+neutron	exchange	neutron-vo-Trunk-1.1	queue	neutron-vo-Trunk-1.1	[]
+neutron	exchange	neutron-vo-Trunk-1.1.compute1.mylab.home	queue	neutron-vo-Trunk-1.1.compute1.mylab.home	[]
+neutron	exchange	neutron-vo-Trunk-1.1.compute2.mylab.home	queue	neutron-vo-Trunk-1.1.compute2.mylab.home	[]
+neutron	exchange	neutron-vo-Trunk-1.1.compute4.mylab.home	queue	neutron-vo-Trunk-1.1.compute4.mylab.home	[]
+neutron	exchange	q-agent-notifier-dvr-update	queue	q-agent-notifier-dvr-update	[]
+neutron	exchange	q-agent-notifier-dvr-update.compute1.mylab.home	queue	q-agent-notifier-dvr-update.compute1.mylab.home	[]
+neutron	exchange	q-agent-notifier-dvr-update.compute2.mylab.home	queue	q-agent-notifier-dvr-update.compute2.mylab.home	[]
+neutron	exchange	q-agent-notifier-dvr-update.compute4.mylab.home	queue	q-agent-notifier-dvr-update.compute4.mylab.home	[]
+neutron	exchange	q-agent-notifier-l2population-update	queue	q-agent-notifier-l2population-update	[]
+neutron	exchange	q-agent-notifier-l2population-update.compute1.mylab.home	queue	q-agent-notifier-l2population-update.compute1.mylab.home	[]
+neutron	exchange	q-agent-notifier-l2population-update.compute2.mylab.home	queue	q-agent-notifier-l2population-update.compute2.mylab.home	[]
+neutron	exchange	q-agent-notifier-l2population-update.compute4.mylab.home	queue	q-agent-notifier-l2population-update.compute4.mylab.home	[]
+neutron	exchange	q-agent-notifier-network-update	queue	q-agent-notifier-network-update	[]
+neutron	exchange	q-agent-notifier-network-update.compute1.mylab.home	queue	q-agent-notifier-network-update.compute1.mylab.home	[]
+neutron	exchange	q-agent-notifier-network-update.compute2.mylab.home	queue	q-agent-notifier-network-update.compute2.mylab.home	[]
+neutron	exchange	q-agent-notifier-network-update.compute4.mylab.home	queue	q-agent-notifier-network-update.compute4.mylab.home	[]
+neutron	exchange	q-agent-notifier-tunnel-delete	queue	q-agent-notifier-tunnel-delete	[]
+neutron	exchange	q-agent-notifier-tunnel-delete.compute1.mylab.home	queue	q-agent-notifier-tunnel-delete.compute1.mylab.home	[]
+neutron	exchange	q-agent-notifier-tunnel-delete.compute2.mylab.home	queue	q-agent-notifier-tunnel-delete.compute2.mylab.home	[]
+neutron	exchange	q-agent-notifier-tunnel-delete.compute4.mylab.home	queue	q-agent-notifier-tunnel-delete.compute4.mylab.home	[]
+neutron	exchange	q-agent-notifier-tunnel-update	queue	q-agent-notifier-tunnel-update	[]
+neutron	exchange	q-agent-notifier-tunnel-update.compute1.mylab.home	queue	q-agent-notifier-tunnel-update.compute1.mylab.home	[]
+neutron	exchange	q-agent-notifier-tunnel-update.compute2.mylab.home	queue	q-agent-notifier-tunnel-update.compute2.mylab.home	[]
+neutron	exchange	q-agent-notifier-tunnel-update.compute4.mylab.home	queue	q-agent-notifier-tunnel-update.compute4.mylab.home	[]
+neutron	exchange	q-bgp-plugin	queue	q-bgp-plugin	[]
+neutron	exchange	q-bgp-plugin.juju-04f1e3-0-lxd-4	queue	q-bgp-plugin.juju-04f1e3-0-lxd-4	[]
+neutron	exchange	q-firewall-plugin	queue	q-firewall-plugin	[]
+neutron	exchange	q-firewall-plugin.juju-04f1e3-0-lxd-4	queue	q-firewall-plugin.juju-04f1e3-0-lxd-4	[]
+neutron	exchange	q-l3-plugin	queue	q-l3-plugin	[]
+neutron	exchange	q-l3-plugin.juju-04f1e3-0-lxd-4	queue	q-l3-plugin.juju-04f1e3-0-lxd-4	[]
+neutron	exchange	q-metering-plugin	queue	q-metering-plugin	[]
+neutron	exchange	q-metering-plugin.juju-04f1e3-0-lxd-4	queue	q-metering-plugin.juju-04f1e3-0-lxd-4	[]
+neutron	exchange	q-plugin	queue	q-plugin	[]
+neutron	exchange	q-plugin.juju-04f1e3-0-lxd-4	queue	q-plugin.juju-04f1e3-0-lxd-4	[]
+neutron	exchange	q-reports-plugin	queue	q-reports-plugin	[]
+neutron	exchange	q-reports-plugin.juju-04f1e3-0-lxd-4	queue	q-reports-plugin.juju-04f1e3-0-lxd-4	[]
+neutron	exchange	q-server-resource-versions	queue	q-server-resource-versions	[]
+neutron	exchange	q-server-resource-versions.juju-04f1e3-0-lxd-4	queue	q-server-resource-versions.juju-04f1e3-0-lxd-4	[]
+neutron-vo-Network-1.1_fanout	exchange	neutron-vo-Network-1.1_fanout_02ccfdb91bbe435e867392f35d3b4c6a	queue	neutron-vo-Network-1.1	[]
+neutron-vo-Network-1.1_fanout	exchange	neutron-vo-Network-1.1_fanout_54a70b88ce794d2d99db89fc53719694	queue	neutron-vo-Network-1.1	[]
+neutron-vo-Network-1.1_fanout	exchange	neutron-vo-Network-1.1_fanout_c425c2fa4ab94af78696c93c2b46b8d0	queue	neutron-vo-Network-1.1	[]
+neutron-vo-Port-1.5_fanout	exchange	neutron-vo-Port-1.5_fanout_2df4348bb40a457b87c5ba08db7c6d34	queue	neutron-vo-Port-1.5	[]
+neutron-vo-Port-1.5_fanout	exchange	neutron-vo-Port-1.5_fanout_67d35d5bbeb34ae49aaf4d3352cd78a5	queue	neutron-vo-Port-1.5	[]
+neutron-vo-Port-1.5_fanout	exchange	neutron-vo-Port-1.5_fanout_737cdd0bc47f48d6b4d6038a76220913	queue	neutron-vo-Port-1.5	[]
+neutron-vo-SecurityGroup-1.2_fanout	exchange	neutron-vo-SecurityGroup-1.2_fanout_c041f8a0f1534a70853df0f53962c45f	queue	neutron-vo-SecurityGroup-1.2	[]
+neutron-vo-SecurityGroup-1.2_fanout	exchange	neutron-vo-SecurityGroup-1.2_fanout_c6a5c79adda3419e8789981fba587ba1	queue	neutron-vo-SecurityGroup-1.2	[]
+neutron-vo-SecurityGroup-1.2_fanout	exchange	neutron-vo-SecurityGroup-1.2_fanout_e16f796f70db4d80acb6b883e8506ec8	queue	neutron-vo-SecurityGroup-1.2	[]
+neutron-vo-SecurityGroupRule-1.0_fanout	exchange	neutron-vo-SecurityGroupRule-1.0_fanout_079b37b632bc4719868a8985e48b0c1d	queue	neutron-vo-SecurityGroupRule-1.0	[]
+neutron-vo-SecurityGroupRule-1.0_fanout	exchange	neutron-vo-SecurityGroupRule-1.0_fanout_755af19e81f248b5ba8c2e8e6f095a05	queue	neutron-vo-SecurityGroupRule-1.0	[]
+neutron-vo-SecurityGroupRule-1.0_fanout	exchange	neutron-vo-SecurityGroupRule-1.0_fanout_dbf2634e41f34f359fdd233e7553bedb	queue	neutron-vo-SecurityGroupRule-1.0	[]
+neutron-vo-SubPort-1.0_fanout	exchange	neutron-vo-SubPort-1.0_fanout_abe81cede6244d1e8b0633da2e3bfd74	queue	neutron-vo-SubPort-1.0	[]
+neutron-vo-SubPort-1.0_fanout	exchange	neutron-vo-SubPort-1.0_fanout_e3ef99cc71f8406790eea37739152905	queue	neutron-vo-SubPort-1.0	[]
+neutron-vo-SubPort-1.0_fanout	exchange	neutron-vo-SubPort-1.0_fanout_ffc881116d1d459893838712b668337d	queue	neutron-vo-SubPort-1.0	[]
+neutron-vo-Subnet-1.1_fanout	exchange	neutron-vo-Subnet-1.1_fanout_03e8f12d981648689b86f090834f9ecb	queue	neutron-vo-Subnet-1.1	[]
+neutron-vo-Subnet-1.1_fanout	exchange	neutron-vo-Subnet-1.1_fanout_0de70a05e4db4795822b69f8e3e8c2e9	queue	neutron-vo-Subnet-1.1	[]
+neutron-vo-Subnet-1.1_fanout	exchange	neutron-vo-Subnet-1.1_fanout_4123945f0d1b4e6383c25a4ac604b86b	queue	neutron-vo-Subnet-1.1	[]
+neutron-vo-Trunk-1.1_fanout	exchange	neutron-vo-Trunk-1.1_fanout_25c9aa21030e447ca32c345c5459c54f	queue	neutron-vo-Trunk-1.1	[]
+neutron-vo-Trunk-1.1_fanout	exchange	neutron-vo-Trunk-1.1_fanout_829b29ecd23a448fb2e32204741001bd	queue	neutron-vo-Trunk-1.1	[]
+neutron-vo-Trunk-1.1_fanout	exchange	neutron-vo-Trunk-1.1_fanout_be5217bcced040e0af1d0049bcf73de8	queue	neutron-vo-Trunk-1.1	[]
+nova	exchange	compute	queue	compute	[]
+nova	exchange	compute.compute1.mylab.home	queue	compute.compute1.mylab.home	[]
+nova	exchange	compute.compute2.mylab.home	queue	compute.compute2.mylab.home	[]
+nova	exchange	compute.compute4.mylab.home	queue	compute.compute4.mylab.home	[]
+nova	exchange	conductor	queue	conductor	[]
+nova	exchange	conductor.juju-04f1e3-2-lxd-5	queue	conductor.juju-04f1e3-2-lxd-5	[]
+nova	exchange	scheduler	queue	scheduler	[]
+nova	exchange	scheduler.juju-04f1e3-2-lxd-5	queue	scheduler.juju-04f1e3-2-lxd-5	[]
+q-agent-notifier-dvr-update_fanout	exchange	q-agent-notifier-dvr-update_fanout_22d2ff756f6d434c840af0524dadd65e	queue	q-agent-notifier-dvr-update	[]
+q-agent-notifier-dvr-update_fanout	exchange	q-agent-notifier-dvr-update_fanout_3d2c6a0c238440929a8d59c41f55d060	queue	q-agent-notifier-dvr-update	[]
+q-agent-notifier-dvr-update_fanout	exchange	q-agent-notifier-dvr-update_fanout_76bf5048c25443c4a065acee8c455e56	queue	q-agent-notifier-dvr-update	[]
+q-agent-notifier-l2population-update_fanout	exchange	q-agent-notifier-l2population-update_fanout_09650d07ce064821b69ccd9e2dd9bf28	queue	q-agent-notifier-l2population-update	[]
+q-agent-notifier-l2population-update_fanout	exchange	q-agent-notifier-l2population-update_fanout_26191e4e49e24605824019b56d49f547	queue	q-agent-notifier-l2population-update	[]
+q-agent-notifier-l2population-update_fanout	exchange	q-agent-notifier-l2population-update_fanout_4bf44850dc074f289924adad9eb1bde5	queue	q-agent-notifier-l2population-update	[]
+q-agent-notifier-network-update_fanout	exchange	q-agent-notifier-network-update_fanout_4c0872681eac4d938d7f706937083c01	queue	q-agent-notifier-network-update	[]
+q-agent-notifier-network-update_fanout	exchange	q-agent-notifier-network-update_fanout_912da6f0dad841449a6092832f2407c4	queue	q-agent-notifier-network-update	[]
+q-agent-notifier-network-update_fanout	exchange	q-agent-notifier-network-update_fanout_a4f7791e07e542b6b95af60cf40b1418	queue	q-agent-notifier-network-update	[]
+q-agent-notifier-tunnel-delete_fanout	exchange	q-agent-notifier-tunnel-delete_fanout_2a2e5eea6a194e45a4beea5fffcb69ac	queue	q-agent-notifier-tunnel-delete	[]
+q-agent-notifier-tunnel-delete_fanout	exchange	q-agent-notifier-tunnel-delete_fanout_4514835b497c40bda4208d0fefb5dc9e	queue	q-agent-notifier-tunnel-delete	[]
+q-agent-notifier-tunnel-delete_fanout	exchange	q-agent-notifier-tunnel-delete_fanout_6391e64b8fa34c6eaf30facc2941208e	queue	q-agent-notifier-tunnel-delete	[]
+q-agent-notifier-tunnel-update_fanout	exchange	q-agent-notifier-tunnel-update_fanout_1fc59b1e3a454b9299d4750e759a1a82	queue	q-agent-notifier-tunnel-update	[]
+q-agent-notifier-tunnel-update_fanout	exchange	q-agent-notifier-tunnel-update_fanout_e43795b4faca488597e1b7cd0131cbba	queue	q-agent-notifier-tunnel-update	[]
+q-agent-notifier-tunnel-update_fanout	exchange	q-agent-notifier-tunnel-update_fanout_fb36baec6b354140a37b2b8f1be1339d	queue	q-agent-notifier-tunnel-update	[]
+q-bgp-plugin_fanout	exchange	q-bgp-plugin_fanout_99ff32dd00804602b3389c4f782be338	queue	q-bgp-plugin	[]
+q-firewall-plugin_fanout	exchange	q-firewall-plugin_fanout_0a3ff1de54a94585894e36f0718665b6	queue	q-firewall-plugin	[]
+q-firewall-plugin_fanout	exchange	q-firewall-plugin_fanout_52f2232e65dc43679d5b61fd8d6899ea	queue	q-firewall-plugin	[]
+q-firewall-plugin_fanout	exchange	q-firewall-plugin_fanout_70f6ddb74072440bb394f281326ad514	queue	q-firewall-plugin	[]
+q-firewall-plugin_fanout	exchange	q-firewall-plugin_fanout_81e18fcad2f0464ca685d19131ce1fda	queue	q-firewall-plugin	[]
+q-firewall-plugin_fanout	exchange	q-firewall-plugin_fanout_95cff20c905346ab97141af1c5db8f15	queue	q-firewall-plugin	[]
+q-l3-plugin_fanout	exchange	q-l3-plugin_fanout_21955c9189f74e2c9e366e6826a6c91d	queue	q-l3-plugin	[]
+q-l3-plugin_fanout	exchange	q-l3-plugin_fanout_33a431b43ab041fda5b174dd74a7301a	queue	q-l3-plugin	[]
+q-l3-plugin_fanout	exchange	q-l3-plugin_fanout_3e5c42ce701b4e3383330f7ee3f96bc4	queue	q-l3-plugin	[]
+q-l3-plugin_fanout	exchange	q-l3-plugin_fanout_5dc7efc24a3f4c839f359cb63a233200	queue	q-l3-plugin	[]
+q-l3-plugin_fanout	exchange	q-l3-plugin_fanout_f2d768ab8c4f4c2da0293adc1bb4dce8	queue	q-l3-plugin	[]
+q-metering-plugin_fanout	exchange	q-metering-plugin_fanout_1cfd0c2ee9de4138a0909a0f56ea6e7a	queue	q-metering-plugin	[]
+q-metering-plugin_fanout	exchange	q-metering-plugin_fanout_67ad3c4653ed4eed819a362e2107bf67	queue	q-metering-plugin	[]
+q-metering-plugin_fanout	exchange	q-metering-plugin_fanout_82df5c6f3bcb433f9f0a74d5dc641640	queue	q-metering-plugin	[]
+q-metering-plugin_fanout	exchange	q-metering-plugin_fanout_cfd34ee086944889a5885acb801c6bba	queue	q-metering-plugin	[]
+q-metering-plugin_fanout	exchange	q-metering-plugin_fanout_e29ac99c4ca8462d81b870edf91ed9ea	queue	q-metering-plugin	[]
+q-plugin_fanout	exchange	q-plugin_fanout_008177a233704b9cbb41fa5286b33f6a	queue	q-plugin	[]
+q-plugin_fanout	exchange	q-plugin_fanout_872a56528cd0460ea430f1bd9f100575	queue	q-plugin	[]
+q-plugin_fanout	exchange	q-plugin_fanout_d0079ca4c94b4bd28200ea2827364c5a	queue	q-plugin	[]
+q-plugin_fanout	exchange	q-plugin_fanout_e9e6e437b7da4b459b672f688d5cad8d	queue	q-plugin	[]
+q-reports-plugin_fanout	exchange	q-reports-plugin_fanout_3474118693ae449cacc79f626e5dc952	queue	q-reports-plugin	[]
+q-reports-plugin_fanout	exchange	q-reports-plugin_fanout_95b4e7765e35404e8b0d4108317b661a	queue	q-reports-plugin	[]
+q-reports-plugin_fanout	exchange	q-reports-plugin_fanout_9f51c2de37e3472f9e2097b57be74810	queue	q-reports-plugin	[]
+q-reports-plugin_fanout	exchange	q-reports-plugin_fanout_a60c5152c95a473199685b2335044b5a	queue	q-reports-plugin	[]
+q-reports-plugin_fanout	exchange	q-reports-plugin_fanout_d409a65b87df4381a9cf209fb6e6edef	queue	q-reports-plugin	[]
+q-server-resource-versions_fanout	exchange	q-server-resource-versions_fanout_451b17e52f754dfa810d13be784fc779	queue	q-server-resource-versions	[]
+q-server-resource-versions_fanout	exchange	q-server-resource-versions_fanout_d62e966611794684aee6aa40e0c862ef	queue	q-server-resource-versions	[]
+q-server-resource-versions_fanout	exchange	q-server-resource-versions_fanout_db1c57941e9f4a58833ec3848fb44c63	queue	q-server-resource-versions	[]
+q-server-resource-versions_fanout	exchange	q-server-resource-versions_fanout_fb53905df6834667abd39775d84771d5	queue	q-server-resource-versions	[]
+scheduler_fanout	exchange	scheduler_fanout_30c030e4f66e4568a6a44d673334585b	queue	scheduler	[]
+scheduler_fanout	exchange	scheduler_fanout_4cdfb9f4e4324dd695caada0d92be420	queue	scheduler	[]
+scheduler_fanout	exchange	scheduler_fanout_5e4494d7df064a7d84f55e780eaa8aa5	queue	scheduler	[]
+scheduler_fanout	exchange	scheduler_fanout_99c7e70e7bca4386afd4e482fefb9d02	queue	scheduler	[]
+
+Listing permissions for vhost "openstack" ...
+user	configure	write	read
+glance	.*	.*	.*
+neutron	.*	.*	.*
+nova	.*	.*	.*
+
+Listing policies for vhost "openstack" ...
+vhost	name	pattern	apply-to	definition	priority
+openstack	HA	^(?!amq\.).*	all	{"ha-mode":"all","ha-sync-mode":"automatic"}	0
+openstack	TTL	^(versioned_)?notifications.*	queues	{"message-ttl":3600000}	1
+
+Listing global runtime parameters ...
+name	value
+cluster_name	"rabbit@juju-04f1e3-1-lxd-5.mylab.home"
+
+Listing runtime parameters for vhost "openstack" ...
+

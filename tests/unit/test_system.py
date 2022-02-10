@@ -15,6 +15,20 @@ from plugins.system.pyparts import (
     general,
 )
 
+NUMACTL = """
+available: 2 nodes (0-1)
+node 0 cpus: 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38
+node 0 size: 96640 MB
+node 0 free: 72733 MB
+node 1 cpus: 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39
+node 1 size: 96762 MB
+node 1 free: 67025 MB
+node distances:
+node   0   1 
+  0:  10  21 
+  1:  21  10
+""".splitlines(keepends=True)  # noqa
+
 
 class SystemTestsBase(utils.BaseTestCase):
 
@@ -26,10 +40,13 @@ class SystemTestsBase(utils.BaseTestCase):
 class TestSystemGeneral(SystemTestsBase):
 
     def test_get_service_info(self):
-        expected = {'date': 'Tue Aug 3 10:31:30 UTC 2021',
+        expected = {'date': 'Thu Feb 10 16:19:17 UTC 2022',
+                    'load': '3.58, 3.27, 2.58',
                     'hostname': 'compute4',
                     'num-cpus': 2,
                     'os': 'ubuntu focal',
+                    'rootfs': ('/dev/vda2      308585260 25514372 267326276 '
+                               '  9% /'),
                     'virtualisation': 'kvm',
                     'unattended-upgrades': 'ENABLED'}
         inst = general.SystemGeneral()
@@ -39,7 +56,10 @@ class TestSystemGeneral(SystemTestsBase):
 
 class TestNUMAInfo(SystemTestsBase):
 
-    def test_numainfo(self):
+    @mock.patch('core.plugins.system.CLIHelper')
+    def test_numainfo(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.numactl.return_value = NUMACTL
         nodes = {0: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
                      32, 34, 36, 38],
                  1: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31,

@@ -1,0 +1,110 @@
+4886 5000 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs /var/lib/snapd/hostfs rw,relatime master:2509 - ext4 /dev/vda2 rw
+4935 4886 0:128 / /var/lib/snapd/hostfs/run rw,nosuid,nodev master:2558 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+4936 4935 0:129 / /var/lib/snapd/hostfs/run/lock rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw,size=5120k,uid=1000000,gid=1000000
+4937 4935 0:128 /snapd/ns /var/lib/snapd/hostfs/run/snapd/ns rw,nosuid,nodev - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+4938 4886 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/snap /var/lib/snapd/hostfs/snap rw,relatime master:875 - ext4 /dev/vda2 rw
+4939 4938 0:140 / /var/lib/snapd/hostfs/snap/core20/1328 ro,nodev,relatime master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4956 4938 0:142 / /var/lib/snapd/hostfs/snap/snapd/14549 ro,nodev,relatime master:877 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4957 4938 0:143 / /var/lib/snapd/hostfs/snap/core/12603 ro,nodev,relatime master:878 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4958 4938 0:141 / /var/lib/snapd/hostfs/snap/vault/2012 ro,nodev,relatime master:879 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4959 4938 0:145 / /var/lib/snapd/hostfs/snap/core18/2284 ro,nodev,relatime master:880 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4960 4938 0:144 / /var/lib/snapd/hostfs/snap/lxd/21835 ro,nodev,relatime master:881 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4962 4885 0:140 / / ro,nodev,relatime master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4963 4962 0:124 / /dev rw,relatime - tmpfs none rw,size=492k,mode=755,uid=1000000,gid=1000000
+4964 4963 0:6 /fuse /dev/fuse rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4965 4963 0:6 /net/tun /dev/net/tun rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4966 4963 0:21 / /dev/mqueue rw,nosuid,nodev,noexec,relatime master:28 - mqueue mqueue rw
+4967 4963 0:63 / /dev/lxd rw,relatime - tmpfs tmpfs rw,size=100k,mode=755
+4968 4963 0:62 /juju-04f1e3-0-lxd-5 /dev/.lxd-mounts rw,relatime master:457 - tmpfs tmpfs rw,size=100k,mode=711
+4969 4963 0:6 /full /dev/full rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4970 4963 0:6 /null /dev/null rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4971 4963 0:6 /random /dev/random rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4972 4963 0:6 /tty /dev/tty rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4973 4963 0:6 /urandom /dev/urandom rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4974 4963 0:6 /zero /dev/zero rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=8151596k,nr_inodes=2037899,mode=755
+4975 4963 0:126 / /dev/pts rw,nosuid,noexec,relatime - devpts /proc/self/fd/43 rw,gid=1000005,mode=620,ptmxmode=666,max=1024
+4976 4963 0:126 /ptmx /dev/ptmx rw,nosuid,noexec,relatime - devpts /proc/self/fd/43 rw,gid=1000005,mode=620,ptmxmode=666,max=1024
+4977 4963 0:126 /0 /dev/console rw,nosuid,noexec,relatime - devpts /proc/self/fd/43 rw,gid=1000005,mode=620,ptmxmode=666,max=1024
+4978 4963 0:127 / /dev/shm rw,nosuid,nodev - tmpfs tmpfs rw,uid=1000000,gid=1000000
+5172 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/etc /etc rw,relatime master:2509 - ext4 /dev/vda2 rw
+5189 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/home /home rw,relatime master:2509 - ext4 /dev/vda2 rw
+5191 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/root /root rw,relatime master:2509 - ext4 /dev/vda2 rw
+5192 4962 0:117 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+5193 5192 0:68 / /proc/sys/fs/binfmt_misc rw,nosuid,nodev,noexec,relatime master:458 - binfmt_misc binfmt_misc rw
+5194 5192 0:60 /proc/cpuinfo /proc/cpuinfo rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5195 5192 0:60 /proc/diskstats /proc/diskstats rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5196 5192 0:60 /proc/loadavg /proc/loadavg rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5197 5192 0:60 /proc/meminfo /proc/meminfo rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5198 5192 0:60 /proc/stat /proc/stat rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5199 5192 0:60 /proc/swaps /proc/swaps rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5200 5192 0:60 /proc/uptime /proc/uptime rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5201 5192 0:124 /.lxc-boot-id /proc/sys/kernel/random/boot_id ro,nosuid,nodev,noexec,relatime - tmpfs none rw,size=492k,mode=755,uid=1000000,gid=1000000
+5202 4962 0:125 / /sys rw,relatime - sysfs sysfs rw
+5203 5202 0:49 / /sys/fs/fuse/connections rw,nosuid,nodev,noexec,relatime master:32 - fusectl fusectl rw
+5204 5202 0:33 / /sys/fs/pstore rw,nosuid,nodev,noexec,relatime master:12 - pstore pstore rw
+5205 5202 0:22 / /sys/kernel/config rw,nosuid,nodev,noexec,relatime master:33 - configfs configfs rw
+5206 5202 0:8 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime master:29 - debugfs debugfs rw
+5207 5202 0:7 / /sys/kernel/security rw,nosuid,nodev,noexec,relatime master:8 - securityfs securityfs rw
+5208 5202 0:12 / /sys/kernel/tracing rw,nosuid,nodev,noexec,relatime master:30 - tracefs tracefs rw
+5209 5202 0:60 /sys/devices/system/cpu/online /sys/devices/system/cpu/online rw,nosuid,nodev,relatime master:339 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+5210 5202 0:130 / /sys/fs/cgroup ro,nosuid,nodev,noexec - tmpfs tmpfs ro,mode=755,uid=1000000,gid=1000000
+5211 5210 0:31 / /sys/fs/cgroup/unified rw,nosuid,nodev,noexec,relatime - cgroup2 cgroup2 rw
+5212 5210 0:32 / /sys/fs/cgroup/systemd rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,xattr,name=systemd
+5213 5210 0:43 / /sys/fs/cgroup/cpuset rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,cpuset,clone_children
+5220 5210 0:36 / /sys/fs/cgroup/pids rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,pids
+5221 5210 0:35 / /sys/fs/cgroup/net_cls,net_prio rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,net_cls,net_prio
+5222 5210 0:42 / /sys/fs/cgroup/cpu,cpuacct rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,cpu,cpuacct
+5223 5210 0:41 / /sys/fs/cgroup/hugetlb rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,hugetlb
+5224 5210 0:40 / /sys/fs/cgroup/freezer rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,freezer
+5225 5210 0:38 / /sys/fs/cgroup/memory rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,memory
+5226 5210 0:39 / /sys/fs/cgroup/rdma rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,rdma
+5227 5210 0:37 / /sys/fs/cgroup/blkio rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,blkio
+5228 5210 0:45 / /sys/fs/cgroup/devices rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,devices
+5229 5210 0:44 / /sys/fs/cgroup/perf_event rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,perf_event
+5230 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/tmp /tmp rw,relatime master:2509 - ext4 /dev/vda2 rw
+5272 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/snap /var/snap rw,relatime master:2509 - ext4 /dev/vda2 rw
+5274 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/lib/snapd /var/lib/snapd rw,relatime master:2509 - ext4 /dev/vda2 rw
+5275 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/tmp /var/tmp rw,relatime master:2509 - ext4 /dev/vda2 rw
+5277 4962 0:128 / /run rw,nosuid,nodev master:2558 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+5278 5277 0:129 / /run/lock rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw,size=5120k,uid=1000000,gid=1000000
+5279 5277 0:128 /snapd/ns /run/snapd/ns rw,nosuid,nodev - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+5287 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/usr/lib/modules /usr/lib/modules rw,relatime master:2509 - ext4 /dev/vda2 rw
+4984 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/usr/src /usr/src rw,relatime master:2509 - ext4 /dev/vda2 rw
+4985 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/log /var/log rw,relatime master:2509 - ext4 /dev/vda2 rw
+4986 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/media /media rw,relatime shared:2509 master:337 - ext4 /dev/vda2 rw
+4987 5277 0:128 /netns /run/netns rw,nosuid,nodev shared:2558 - tmpfs tmpfs rw,size=1639320k,mode=755,uid=1000000,gid=1000000
+4988 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/mnt /mnt rw,relatime master:2509 - ext4 /dev/vda2 rw
+4989 5172 0:140 /etc/nsswitch.conf /etc/nsswitch.conf ro,nodev,relatime master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4990 5172 0:140 /etc/apparmor /etc/apparmor ro,nodev,relatime master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4991 5172 0:140 /etc/apparmor.d /etc/apparmor.d ro,nodev,relatime master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4992 4962 0:142 /usr/lib/snapd /usr/lib/snapd ro,nodev,relatime master:877 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4993 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/snap /snap rw,relatime master:875 - ext4 /dev/vda2 rw
+4994 4993 0:140 / /snap/core20/1328 ro,nodev,relatime master:876 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4995 4993 0:142 / /snap/snapd/14549 ro,nodev,relatime master:877 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4996 4993 0:143 / /snap/core/12603 ro,nodev,relatime master:878 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4997 4993 0:141 / /snap/vault/2012 ro,nodev,relatime master:879 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4998 4993 0:145 / /snap/core18/2284 ro,nodev,relatime master:880 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+4999 4993 0:144 / /snap/lxd/21835 ro,nodev,relatime master:881 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+5000 5274 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/lib/snapd/hostfs /var/lib/snapd/hostfs rw,relatime - ext4 /dev/vda2 rw
+4887 5230 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/tmp/snap.lxd/tmp /tmp rw,relatime - ext4 /dev/vda2 rw
+4888 4975 0:157 / /dev/pts rw,relatime - devpts devpts rw,gid=1000005,mode=620,ptmxmode=666
+4889 4976 0:157 /ptmx /dev/ptmx rw,relatime - devpts devpts rw,gid=1000005,mode=620,ptmxmode=666
+6663 5272 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/snap/lxd/common/lxd/storage-pools /var/snap/lxd/common/lxd/storage-pools rw,relatime shared:2923 master:2509 - ext4 /dev/vda2 rw
+4691 5272 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/var/snap/lxd/common/lxd/devices /var/snap/lxd/common/lxd/devices rw,relatime shared:247 master:2509 - ext4 /dev/vda2 rw
+5754 5272 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/media/.lxd-shmounts /var/snap/lxd/common/shmounts rw,relatime shared:2509 master:337 - ext4 /dev/vda2 rw
+5761 5754 0:185 / /var/snap/lxd/common/shmounts rw,relatime shared:251 - tmpfs tmpfs rw,size=1024k,mode=711,uid=1000000,gid=1000000
+5763 4886 0:185 / /var/lib/snapd/hostfs/media/.lxd-shmounts rw,relatime master:251 - tmpfs tmpfs rw,size=1024k,mode=711,uid=1000000,gid=1000000
+5762 4986 0:185 / /media/.lxd-shmounts rw,relatime shared:251 - tmpfs tmpfs rw,size=1024k,mode=711,uid=1000000,gid=1000000
+5795 4962 0:144 /wrappers/kmod /usr/bin/kmod ro,nodev,relatime master:881 - fuse.squashfuse squashfuse ro,user_id=0,group_id=0,allow_other
+5798 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/boot /boot rw,relatime master:2509 - ext4 /dev/vda2 rw
+5799 5277 0:190 / /run rw,nosuid,nodev,relatime - tmpfs tmpfs rw,mode=755,uid=1000000,gid=1000000
+5810 5172 0:195 / /etc rw,relatime - tmpfs tmpfs rw,mode=755,uid=1000000,gid=1000000
+5959 4962 252:2 /var/snap/lxd/common/lxd/storage-pools/default/containers/juju-04f1e3-0-lxd-5/rootfs/usr/share/ca-certificates /usr/share/ca-certificates rw,relatime master:2509 - ext4 /dev/vda2 rw
+5960 4962 0:202 / /usr/share/misc rw,relatime - tmpfs tmpfs rw,mode=755,uid=1000000,gid=1000000
+5961 4886 0:124 / /var/lib/snapd/hostfs/dev rw,relatime - tmpfs none rw,size=492k,mode=755,uid=1000000,gid=1000000
+5962 4886 0:117 / /var/lib/snapd/hostfs/proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+5963 4886 0:125 / /var/lib/snapd/hostfs/sys rw,relatime - sysfs sysfs rw
+5964 5761 0:203 / /var/snap/lxd/common/shmounts/instances rw,relatime shared:2521 - tmpfs tmpfs rw,size=100k,mode=711,uid=1000000,gid=1000000
+5966 5763 0:203 / /var/lib/snapd/hostfs/media/.lxd-shmounts/instances rw,relatime master:2521 - tmpfs tmpfs rw,size=100k,mode=711,uid=1000000,gid=1000000
+5965 5762 0:203 / /media/.lxd-shmounts/instances rw,relatime shared:2521 - tmpfs tmpfs rw,size=100k,mode=711,uid=1000000,gid=1000000
+5967 5272 0:204 / /var/snap/lxd/common/lxd/devlxd rw,relatime - tmpfs tmpfs rw,size=100k,mode=755,uid=1000000,gid=1000000

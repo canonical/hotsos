@@ -1,0 +1,10 @@
+{
+    "autotune": "true",
+    "cephx.groups.images": "{\"pools\": [\"glance\"], \"services\": []}",
+    "cephx.groups.vms": "{\"pools\": [\"nova\"], \"services\": []}",
+    "cephx.groups.volumes": "{\"pools\": [\"cinder-ceph\"], \"services\": []}",
+    "config-history/1/": "<<< binary blob of length 12 >>>",
+    "mgr/devicehealth/last_scrape": "20220210-000946",
+    "mgr/telemetry/report_id": "434446e3-58fb-41e9-bee6-43ed5ae1292a",
+    "mgr/telemetry/salt": "54aa5e47-0815-46f9-8878-55e869c0bd4f"
+}

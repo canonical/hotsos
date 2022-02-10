@@ -1,0 +1,55 @@
+{%- if api_addr %}
+api_addr = "{{ api_addr }}"
+{%- endif %}
+{%- if cluster_addr %}
+cluster_addr = "{{ cluster_addr }}"
+{%- endif %}
+{%- if disable_mlock %}
+disable_mlock = true
+{%- endif %}
+{%- if storage_name == 'psql' %}
+storage "postgresql" {
+  connection_url = "{{ psql_db_conn.uri }}"
+}
+{% elif storage_name == 'mysql' %}
+storage "mysql" {
+  username = "{{ mysql_db_relation.username() }}"
+  password = "{{ mysql_db_relation.password() }}"
+  database = "{{ mysql_db_relation.database() }}"
+  address = "{{ mysql_db_relation.db_host() }}:3306"
+  max_connection_lifetime = "3600"
+  {%- if tls_ca_file %}
+  tls_ca_file = "{{ tls_ca_file }}"
+  {%- endif %}
+}
+{%- endif %}
+{%- if etcd_conn %}
+ha_storage "etcd" {
+  ha_enabled = "true"
+  address = "{{ etcd_conn }}"
+  tls_ca_file = "{{ etcd_tls_ca_file }}"
+  tls_cert_file = "{{ etcd_tls_cert_file }}"
+  tls_key_file = "{{ etcd_tls_key_file }}"
+  # Use tls_insecure_skip_verify due to https://github.com/hashicorp/vault/issues/4961
+  # tls_insecure_skip_verify is currently only supported in the snap version of vault.
+  tls_insecure_skip_verify = "true"
+  etcd_api = "v3"
+}
+
+
+{%- endif %}
+listener "tcp" {
+  address = "[::]:8200"
+{%- if ssl_available %}
+  tls_cert_file = "/var/snap/vault/common/vault.crt"
+  tls_key_file  = "/var/snap/vault/common/vault.key"
+{%- else %}
+  tls_disable = 1
+{%- endif %}
+}
+
+# Localhost only listener for charm access to vault.
+listener "tcp" {
+  address = "127.0.0.1:8220"
+  tls_disable = 1
+}

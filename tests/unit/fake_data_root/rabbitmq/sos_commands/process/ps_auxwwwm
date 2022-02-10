@@ -1,0 +1,218 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  1.1 170348 12576 ?        -    Feb09   0:10 /sbin/init
+root           -  0.0    -      -     - -        Ss   Feb09   0:10 -
+root          63  0.0  3.1  59668 33268 ?        -    Feb09   0:01 /lib/systemd/systemd-journald
+root           -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root          96  0.0  0.4  11884  4664 ?        -    Feb09   0:00 /lib/systemd/systemd-udevd
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         117  0.0  0.1   4000  1836 ?        -    Feb09   0:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+root           -  0.0    -      -     - -        Rs   Feb09   0:03 -
+root         118  0.0  0.1   3796  1748 ?        -    Feb09   0:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+root           -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root         119  0.0  0.1   3748  1688 ?        -    Feb09   0:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+root           -  0.0    -      -     - -        Ss   Feb09   0:04 -
+systemd+     170  0.0  1.1  23964 12108 ?        -    Feb09   0:00 /lib/systemd/systemd-resolved
+systemd+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+systemd+     228  0.0  0.5  18416  6216 ?        -    Feb09   0:00 /lib/systemd/systemd-networkd
+systemd+       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         235  0.0  0.8 238068  9232 ?        -    Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         240  0.0  0.2   5568  2872 ?        -    Feb09   0:00 /usr/sbin/cron -f
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+message+     241  0.0  0.4   7708  4684 ?        -    Feb09   0:03 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+message+       -  0.0    -      -     - -        Ss   Feb09   0:03 -
+epmd         246  0.0  0.4   8308  5016 ?        -    Feb09   0:00 /usr/bin/epmd -systemd
+epmd           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         247  0.0  1.3  26312 13976 ?        -    Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+rabbitmq     248  0.0  0.0   2608   536 ?        -    Feb09   0:00 /bin/sh /usr/sbin/rabbitmq-server
+rabbitmq       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+syslog       249  0.0  0.3 154712  3912 ?        -    Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+syslog         -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         251  0.0  3.5 873400 37236 ?        -    Feb09   0:02 /usr/lib/snapd/snapd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         253  0.0  0.7  16804  7544 ?        -    Feb09   0:01 /lib/systemd/systemd-logind
+root           -  0.0    -      -     - -        Ss   Feb09   0:01 -
+root         256  0.0  1.1 394572 12412 ?        -    Feb09   0:00 /usr/lib/udisks2/udisksd
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+daemon       265  0.0  0.2   3792  2120 ?        -    Feb09   0:00 /usr/sbin/atd -f
+daemon         -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         266  0.0  0.3   5728  3288 ?        -    Feb09   0:00 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         274  0.0  0.1   4384  2088 pts/0    -    Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+root           -  0.0    -      -     - -        Ss+  Feb09   0:00 -
+rabbitmq     282  4.9 16.1 2281776 169380 ?      -    Feb09  32:23 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  2.4    -      -     - -        Sl   Feb09  16:12 -
+rabbitmq       -  2.3    -      -     - -        Sl   Feb09  15:37 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:01 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:05 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:09 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:01 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:01 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:05 -
+rabbitmq       -  0.0    -      -     - -        Sl   Feb09   0:07 -
+root         287  1.8  5.7 866072 59920 ?        -    Feb09  12:12 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+root           -  0.2    -      -     - -        SLl  Feb09   1:31 -
+root           -  0.5    -      -     - -        SLl  Feb09   3:46 -
+root           -  0.1    -      -     - -        SLl  Feb09   0:52 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.0    -      -     - -        SLl  Feb09   0:00 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:47 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:40 -
+root           -  0.1    -      -     - -        SLl  Feb09   0:49 -
+root           -  0.2    -      -     - -        SLl  Feb09   1:46 -
+root         298  0.0  0.6  12176  6636 ?        -    Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root         334  0.0  0.8 236424  8880 ?        -    Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         610  0.0  1.5 105140 16644 ?        -    Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root           -  0.0    -      -     - -        Ssl  Feb09   0:00 -
+root         635  0.0  0.0   2616   444 ?        -    Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+root           -  0.0    -      -     - -        Ss   Feb09   0:00 -
+rabbitmq    1077  0.0  0.1   2492  1408 ?        -    Feb09   0:00 erl_child_setup 65536
+rabbitmq       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+root        1683  0.0  1.8 1524036 19588 ?       -    Feb09   0:05 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:02 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+root           -  0.0    -      -     - -        Sl   Feb09   0:00 -
+rabbitmq    2394  0.0  0.0   3880   912 ?        -    Feb09   0:00 inet_gethost 4
+rabbitmq       -  0.0    -      -     - -        Ss   Feb09   0:00 -
+rabbitmq    2395  0.0  0.1   3960  1640 ?        -    Feb09   0:00 inet_gethost 4
+rabbitmq       -  0.0    -      -     - -        S    Feb09   0:00 -
+uuidd      91894  0.0  0.0   6780   976 ?        -    06:50   0:00 /usr/sbin/uuidd --socket-activation
+uuidd          -  0.0    -      -     - -        Ss   06:50   0:00 -
+root      123714  0.0  0.8  13800  8560 ?        -    09:39   0:00 sshd: ubuntu [priv]
+root           -  0.0    -      -     - -        Ss   09:39   0:00 -
+ubuntu    123717  0.1  0.8  18292  9312 ?        -    09:39   0:00 /lib/systemd/systemd --user
+ubuntu         -  0.1    -      -     - -        Ss   09:39   0:00 -
+ubuntu    123718  0.0  0.5 171560  5304 ?        -    09:39   0:00 (sd-pam)
+ubuntu         -  0.0    -      -     - -        S    09:39   0:00 -
+ubuntu    123778  0.0  0.5  13932  5364 ?        -    09:39   0:00 sshd: ubuntu@pts/1
+ubuntu         -  0.0    -      -     - -        S    09:39   0:00 -
+root      123779  0.0  0.4   8044  4300 pts/1    -    09:39   0:00 sudo -s
+root           -  0.0    -      -     - -        Ss   09:39   0:00 -
+root      123780  0.0  0.3   5992  3852 pts/1    -    09:39   0:00 /bin/bash
+root           -  0.0    -      -     - -        S    09:39   0:00 -
+root      123803  0.0  8.5 894496 89356 pts/1    -    09:39   0:10 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+root           -  0.0    -      -     - -        Sl+  09:39   0:01 -
+root           -  0.0    -      -     - -        Sl+  09:39   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:39   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:39   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:39   0:00 -
+root           -  0.0    -      -     - -        Rl+  09:39   0:03 -
+root           -  0.0    -      -     - -        Sl+  09:39   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:39   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:40   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:40   0:00 -
+root           -  0.0    -      -     - -        Sl+  09:40   0:00 -
+root      124386  0.0  2.7 381048 29032 ?        -    09:39   0:00 /usr/libexec/fwupd/fwupd
+root           -  0.0    -      -     - -        Ssl  09:39   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:39   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:39   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:39   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:39   0:00 -
+root           -  0.0    -      -     - -        Ssl  09:39   0:00 -
+root      124435  0.0  0.5  16260  5984 ?        -    09:39   0:00 /lib/systemd/systemd-hostnamed
+root           -  0.0    -      -     - -        Ss   09:39   0:00 -
+root      124571  0.0  0.0   2712   648 pts/1    -    09:39   0:00 timeout 300s lxd.buginfo
+root           -  0.0    -      -     - -        S    09:39   0:00 -
+root      124573  0.0  0.0   2616   540 pts/1    -    09:39   0:00 /bin/sh /snap/lxd/21835/commands/buginfo
+root           -  0.0    -      -     - -        S    09:39   0:00 -
+root      124839  0.0  0.0   2712   652 pts/1    -    09:40   0:00 timeout 300s ps auxwwwm
+root           -  0.0    -      -     - -        S    09:40   0:00 -
+root      124844  0.0  0.2   5896  2848 pts/1    -    09:40   0:00 ps auxwwwm
+root           -  0.0    -      -     - -        R    09:40   0:00 -

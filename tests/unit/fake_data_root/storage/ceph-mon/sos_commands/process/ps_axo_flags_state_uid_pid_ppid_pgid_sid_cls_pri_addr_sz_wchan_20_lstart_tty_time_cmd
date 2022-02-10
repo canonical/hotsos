@@ -1,0 +1,45 @@
+F S   UID     PID    PPID    PGID     SID CLS PRI ADDR    SZ WCHAN                                 STARTED TT           TIME CMD
+4 S     0       1       0       1       1  TS  19    - 26250 ep_poll              Wed Feb  9 22:38:30 2022 ?        00:00:05 /sbin/init
+4 S     0      63       1      63      63  TS  19    - 12868 ep_poll              Wed Feb  9 22:38:31 2022 ?        00:00:00 /lib/systemd/systemd-journald
+4 S     0      93       1      93      93  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:32 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+1 S     0     117       1     117     117  TS  19    -   951 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 S     0     118       1     118     118  TS  19    -   953 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S     0     119       1     119     119  TS  19    -   985 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4 S   101     170       1     170     170  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:35 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S   100     230       1     230     230  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:42 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S     0     234       1     234     234  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S     0     235       1     235     235  TS  19    -  4702 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/ceph-crash
+4 S 64045     236       1     236     236  TS  19    - 124929 futex_wait_queue_me Wed Feb  9 22:38:43 2022 ?        00:00:29 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 S 64045     237       1     237     237  TS  19    - 307927 futex_wait_queue_me Wed Feb  9 22:38:43 2022 ?        00:04:21 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 S   103     238       1     238     238  TS  19    -  1893 ep_poll              Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 S     0     241       1     241     241  TS  19    -  7318 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S   104     243       1     243     243  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+0 S     0     244       1     244     244  TS  19    -  2599 hrtimer_nanosleep    Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/sbin/smartd -n
+0 S     0     248       1     248     248  TS  19    - 236783 futex_wait_queue_me Wed Feb  9 22:38:43 2022 ?        00:00:02 /usr/lib/snapd/snapd
+4 S     0     250       1     250     250  TS  19    -  4212 ep_poll              Wed Feb  9 22:38:44 2022 ?        00:00:00 /lib/systemd/systemd-logind
+0 S     0     252       1     252     252  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S     0     265       1     265     265  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S     1     270       1     270     270  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S     0     275       1     275     275  TS  19    -  2174 do_wait              Wed Feb  9 22:38:44 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+4 S     0     283       1     283     283  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:44 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 S     0     286     275     275     275  TS  19    - 216518 futex_wait_queue_me Wed Feb  9 22:38:44 2022 ?        00:12:35 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+4 S     0     294       1     294     294  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0 S     0     311       1     311     311  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+0 S     0     396       1     396     396  TS  19    - 27028 poll_schedule_timeou Wed Feb  9 22:38:47 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S     0     515       1     515     515  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:00 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S     0    1380     515     515     515  TS  19    - 399442 futex_wait_queue_me Wed Feb  9 22:40:10 2022 ?        00:00:05 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S   107    9019       1    9019    9019  TS  19    -  2437 poll_schedule_timeou Wed Feb  9 23:38:35 2022 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+4 S     0   50615     294   50615   50615  TS  19    -  3450 poll_schedule_timeou Thu Feb 10 09:46:50 2022 ?        00:00:00 sshd: ubuntu [priv]
+4 S  1000   50618       1   50618   50618  TS  19    -  4573 ep_poll              Thu Feb 10 09:46:50 2022 ?        00:00:00 /lib/systemd/systemd --user
+5 S  1000   50619   50618   50618   50618  TS  19    - 26553 do_sigtimedwait.isra Thu Feb 10 09:46:50 2022 ?        00:00:00 (sd-pam)
+5 S  1000   50673   50615   50615   50615  TS  19    -  3483 poll_schedule_timeou Thu Feb 10 09:46:50 2022 ?        00:00:00 sshd: ubuntu@pts/1
+4 S     0   50674   50673   50674   50674  TS  19    -  2792 poll_schedule_timeou Thu Feb 10 09:46:50 2022 pts/1    00:00:00 sudo -s
+4 S     0   50675   50674   50675   50674  TS  19    -  2240 do_wait              Thu Feb 10 09:46:50 2022 pts/1    00:00:00 /bin/bash
+4 S     0   50682   50675   50682   50674  TS  19    - 243272 futex_wait_queue_me Thu Feb 10 09:46:57 2022 pts/1    00:00:12 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4 S     0   51649       1   51649   51649  TS  19    - 96002 poll_schedule_timeou Thu Feb 10 09:47:18 2022 ?        00:00:00 /usr/libexec/fwupd/fwupd
+4 S     0   51731       1   51731   51731  TS  19    -  4065 ep_poll              Thu Feb 10 09:47:20 2022 ?        00:00:00 /lib/systemd/systemd-hostnamed
+4 S     0   52534   50682   52534   50674  TS  19    -   678 sigsuspend           Thu Feb 10 09:47:31 2022 pts/1    00:00:00 timeout 300s ceph device ls --format json-pretty
+0 R     0   52538   52534   52534   50674  TS  19    - 43040 -                    Thu Feb 10 09:47:31 2022 pts/1    00:00:00 /usr/bin/python3 /usr/bin/ceph device ls --format json-pretty
+4 S     0   52560   50682   52560   50674  TS  19    -   678 sigsuspend           Thu Feb 10 09:47:31 2022 pts/1    00:00:00 timeout 300s ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd
+1 R     0   52562   50682   50682   50674  TS  19    - 243272 -                   Thu Feb 10 09:47:31 2022 pts/1    00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4 R     0   52563   52560   52560   50674  TS  19    -  1454 -                    Thu Feb 10 09:47:31 2022 pts/1    00:00:00 ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd

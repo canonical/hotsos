@@ -1,0 +1,21 @@
+default via 10.100.0.1 dev fg-c8dcce74-c4 table 2852018311 proto static 
+10.100.0.0/24 dev fg-c8dcce74-c4 proto kernel scope link src 10.100.0.206 
+10.100.0.203 via 169.254.88.134 dev fpr-984c22fd-6 proto static 
+169.254.88.134/31 dev fpr-984c22fd-6 proto kernel scope link src 169.254.88.135 
+broadcast 10.100.0.0 dev fg-c8dcce74-c4 table local proto kernel scope link src 10.100.0.206 
+local 10.100.0.206 dev fg-c8dcce74-c4 table local proto kernel scope host src 10.100.0.206 
+broadcast 10.100.0.255 dev fg-c8dcce74-c4 table local proto kernel scope link src 10.100.0.206 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+local 169.254.88.135 dev fpr-984c22fd-6 table local proto kernel scope host src 169.254.88.135 
+fe80::/64 dev fg-c8dcce74-c4 proto kernel metric 256 pref medium
+fe80::/64 dev fpr-984c22fd-6 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+anycast fe80:: dev fg-c8dcce74-c4 table local proto kernel metric 0 pref medium
+anycast fe80:: dev fpr-984c22fd-6 table local proto kernel metric 0 pref medium
+local fe80::100e:b9ff:fefe:c022 dev fpr-984c22fd-6 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe89:399e dev fg-c8dcce74-c4 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev fg-c8dcce74-c4 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev fpr-984c22fd-6 table local proto kernel metric 256 pref medium

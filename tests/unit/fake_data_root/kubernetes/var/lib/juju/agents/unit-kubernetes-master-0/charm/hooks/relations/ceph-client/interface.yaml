@@ -1,0 +1,13 @@
+name: ceph-client
+summary: Ceph Client Interface
+version: 1
+maintainer: OpenStack Charmers <openstack-discuss@lists.openstack.org>
+ignore:
+  - 'unit_tests'
+  - 'Makefile'
+  - '.testr.conf'
+  - 'test-requirements.txt'
+  - 'tox.ini'
+  - '.gitignore'
+  - '.gitreview'
+  - '.unit-state.db'

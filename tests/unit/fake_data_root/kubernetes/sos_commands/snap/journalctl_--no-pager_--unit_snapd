@@ -1,0 +1,44 @@
+-- Logs begin at Fri 2022-02-11 18:58:10 UTC, end at Fri 2022-02-11 19:23:56 UTC. --
+Feb 11 18:58:28 juju-110cc2-k8stest-4 systemd[1]: Starting Snap Daemon...
+Feb 11 18:58:28 juju-110cc2-k8stest-4 snapd[698]: AppArmor status: apparmor is enabled and all features are available
+Feb 11 18:58:29 juju-110cc2-k8stest-4 snapd[698]: AppArmor status: apparmor is enabled and all features are available
+Feb 11 18:58:32 juju-110cc2-k8stest-4 snapd[698]: patch.go:63: Patching system state level 6 to sublevel 1...
+Feb 11 18:58:32 juju-110cc2-k8stest-4 snapd[698]: patch.go:63: Patching system state level 6 to sublevel 2...
+Feb 11 18:58:32 juju-110cc2-k8stest-4 snapd[698]: patch.go:63: Patching system state level 6 to sublevel 3...
+Feb 11 18:58:32 juju-110cc2-k8stest-4 snapd[698]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-99-generic.
+Feb 11 18:58:32 juju-110cc2-k8stest-4 snapd[698]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 11 18:58:33 juju-110cc2-k8stest-4 systemd[1]: Started Snap Daemon.
+Feb 11 18:58:57 juju-110cc2-k8stest-4 systemd[1]: Stopping Snap Daemon...
+Feb 11 18:58:57 juju-110cc2-k8stest-4 snapd[698]: main.go:155: Exiting on terminated signal.
+Feb 11 18:58:57 juju-110cc2-k8stest-4 systemd[1]: snapd.service: Succeeded.
+Feb 11 18:58:57 juju-110cc2-k8stest-4 systemd[1]: Stopped Snap Daemon.
+Feb 11 18:59:04 juju-110cc2-k8stest-4 systemd[1]: Starting Snap Daemon...
+Feb 11 18:59:04 juju-110cc2-k8stest-4 snapd[2411]: AppArmor status: apparmor is enabled and all features are available
+Feb 11 18:59:04 juju-110cc2-k8stest-4 snapd[2411]: patch.go:63: Patching system state level 6 to sublevel 1...
+Feb 11 18:59:04 juju-110cc2-k8stest-4 snapd[2411]: patch.go:63: Patching system state level 6 to sublevel 2...
+Feb 11 18:59:04 juju-110cc2-k8stest-4 snapd[2411]: patch.go:63: Patching system state level 6 to sublevel 3...
+Feb 11 18:59:04 juju-110cc2-k8stest-4 snapd[2411]: daemon.go:246: started snapd/2.54.2+20.04ubuntu2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-99-generic.
+Feb 11 18:59:04 juju-110cc2-k8stest-4 snapd[2411]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 11 18:59:05 juju-110cc2-k8stest-4 systemd[1]: Started Snap Daemon.
+Feb 11 19:02:19 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "core" revision unset
+Feb 11 19:02:32 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "kubectl" revision unset
+Feb 11 19:02:41 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "kube-apiserver" revision unset
+Feb 11 19:02:51 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "kube-controller-manager" revision unset
+Feb 11 19:03:06 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "kube-scheduler" revision unset
+Feb 11 19:03:19 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "cdk-addons" revision unset
+Feb 11 19:03:27 juju-110cc2-k8stest-4 snapd[2411]: api_snaps.go:307: Installing snap "kube-proxy" revision unset
+Feb 11 19:03:34 juju-110cc2-k8stest-4 systemd[1]: Stopping Snap Daemon...
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[2411]: main.go:155: Exiting on terminated signal.
+Feb 11 19:03:34 juju-110cc2-k8stest-4 systemd[1]: snapd.service: Succeeded.
+Feb 11 19:03:34 juju-110cc2-k8stest-4 systemd[1]: Stopped Snap Daemon.
+Feb 11 19:03:34 juju-110cc2-k8stest-4 systemd[1]: Starting Snap Daemon...
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[24050]: AppArmor status: apparmor is enabled and all features are available
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[24050]: daemon.go:246: started snapd/2.54.2+20.04ubuntu2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-99-generic.
+Feb 11 19:03:34 juju-110cc2-k8stest-4 snapd[24050]: daemon.go:339: adjusting startup timeout by 1m25s (pessimistic estimate of 30s plus 5s per snap)
+Feb 11 19:03:34 juju-110cc2-k8stest-4 systemd[1]: Started Snap Daemon.
+Feb 11 19:03:46 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:48 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:48 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:49 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:50 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"
+Feb 11 19:03:51 juju-110cc2-k8stest-4 snapd[24050]: storehelpers.go:721: cannot refresh: snap has no updates available: "cdk-addons", "core", "core18", "core20", "kube-apiserver", "kube-controller-manager", "kube-proxy", "kube-scheduler", "kubectl", "lxd", "snapd"

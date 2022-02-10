@@ -1,0 +1,16 @@
+total 8
+drwxr-xr-x  2 root root ?  300 Feb  9 22:38 .
+drwxr-xr-x 40 root root ? 1260 Feb 10 16:19 ..
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-data.mgmt
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-data.snoop
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-ex.mgmt
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-ex.snoop
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-int.mgmt
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-int.snoop
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-tun.mgmt
+srwxr-x---  1 root root ?    0 Feb  9 22:38 br-tun.snoop
+srwxr-x---  1 root root ?    0 Feb  9 22:38 db.sock
+srwxr-x---  1 root root ?    0 Feb  9 22:38 ovs-vswitchd.819.ctl
+-rw-r--r--  1 root root ?    4 Feb  9 22:38 ovs-vswitchd.pid
+srwxr-x---  1 root root ?    0 Feb  9 22:38 ovsdb-server.762.ctl
+-rw-r--r--  1 root root ?    4 Feb  9 22:38 ovsdb-server.pid

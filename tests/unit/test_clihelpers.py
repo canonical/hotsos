@@ -22,7 +22,7 @@ class TestCLIHelpers(utils.BaseTestCase):
         self.helper = cli_helpers.CLIHelper()
 
     def test_ns_ip_addr(self):
-        ns = "qrouter-4a39d0f7-77ab-4c79-97e1-652cc80c52e2"
+        ns = "qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5"
         out = self.helper.ns_ip_addr(namespace=ns)
         self.assertEquals(type(out), list)
         self.assertEquals(len(out), 18)
@@ -47,7 +47,7 @@ class TestCLIHelpers(utils.BaseTestCase):
         self.assertEquals(type(helper.date()), str)
 
     def test_get_date(self):
-        self.assertEquals(self.helper.date(), '1627986690')
+        self.assertEquals(self.helper.date(), '1644509957')
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:

@@ -1,0 +1,55 @@
+Name:	ha_logd
+Umask:	0022
+State:	S (sleeping)
+Tgid:	312
+Ngid:	0
+Pid:	312
+PPid:	286
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	312
+NSpid:	312
+NSpgid:	286
+NSsid:	286
+VmPeak:	    4784 kB
+VmSize:	    4784 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	     232 kB
+VmRSS:	     232 kB
+RssAnon:	     228 kB
+RssFile:	       4 kB
+RssShmem:	       0 kB
+VmData:	     300 kB
+VmStk:	     132 kB
+VmExe:	      20 kB
+VmLib:	    2764 kB
+VmPTE:	      44 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	3/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000001000
+SigCgt:	0000000180004001
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	40663
+nonvoluntary_ctxt_switches:	120

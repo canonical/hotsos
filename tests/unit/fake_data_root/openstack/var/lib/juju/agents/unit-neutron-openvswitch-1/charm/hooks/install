@@ -1,0 +1,27 @@
+#!/bin/bash -e
+# Wrapper to ensure that python dependencies are installed before we get into
+# the python part of the hook execution.
+
+check_and_install() {
+    pkg="${1}"
+    if ! dpkg -s ${pkg} 2>&1 > /dev/null; then
+        apt-get -y install ${pkg}
+    fi
+}
+
+# NOTE: If any of enable-dpdk, enable-sriov and enable-hardware-offload config
+# options is set to `True` then package sriov-netplan-shim from
+# ppa:openstack-charmers/networking-tools must be installed.
+USE_DPDK=`config-get enable-dpdk`
+USE_SRIOV=`config-get enable-sriov`
+USE_HW_OFFLOAD=`config-get enable-hardware-offload`
+NETWORKING_TOOLS_PPA=`config-get networking-tools-source`
+
+if [[ $NETWORKING_TOOLS_PPA ]] && \
+   [[ $USE_DPDK == "True" || $USE_SRIOV == "True" || $USE_HW_OFFLOAD == "True" ]]; then
+    apt-add-repository --yes $NETWORKING_TOOLS_PPA
+    apt-get update
+    check_and_install sriov-netplan-shim
+fi
+
+exec ./hooks/install.real

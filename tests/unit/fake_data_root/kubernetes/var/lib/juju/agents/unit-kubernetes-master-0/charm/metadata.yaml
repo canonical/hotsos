@@ -1,0 +1,161 @@
+"name": "kubernetes-master"
+"summary": "The Kubernetes control plane."
+"maintainers":
+- "Tim Van Steenburgh <tim.van.steenburgh@canonical.com>"
+- "George Kraft <george.kraft@canonical.com>"
+- "Rye Terrell <rye.terrell@canonical.com>"
+- "Konstantinos Tsakalozos <kos.tsakalozos@canonical.com>"
+- "Charles Butler <Chuck@dasroot.net>"
+- "Matthew Bruzek <mbruzek@ubuntu.com>"
+- "Mike Wilson <mike.wilson@canonical.com>"
+- "Joe Borg <joseph.borg@canonical.com>"
+"description": |
+  Kubernetes is an open-source platform for deploying, scaling, and operations
+  of application containers across a cluster of hosts. Kubernetes is portable
+  in that it works with public, private, and hybrid clouds. Extensible through
+  a pluggable infrastructure. Self healing in that it will automatically
+  restart and place containers on healthy nodes if a node ever goes away.
+"tags":
+- "misc"
+- "infrastructure"
+- "kubernetes"
+- "master"
+"series":
+- "focal"
+- "bionic"
+- "xenial"
+"requires":
+  "certificates":
+    "interface": "tls-certificates"
+  "vault-kv":
+    "interface": "vault-kv"
+  "ha":
+    "interface": "hacluster"
+  "etcd":
+    "interface": "etcd"
+  "loadbalancer":
+    # Use of this relation is strongly discouraged in favor of the more
+    # explicit loadbalancer-internal / loadbalancer-external relations.
+    "interface": "public-address"
+  "ceph-storage":
+    "interface": "ceph-admin"
+  "ceph-client":
+    "interface": "ceph-client"
+  "aws":
+    "interface": "aws-integration"
+  "gcp":
+    "interface": "gcp-integration"
+  "openstack":
+    "interface": "openstack-integration"
+  "vsphere":
+    "interface": "vsphere-integration"
+  "azure":
+    "interface": "azure-integration"
+  "keystone-credentials":
+    "interface": "keystone-credentials"
+  "dns-provider":
+    "interface": "kube-dns"
+  "loadbalancer-internal":
+    # Indicates that the LB should not be public and should use internal
+    # networks if available. Intended for control plane and other internal use.
+    "interface": "loadbalancer"
+  "loadbalancer-external":
+    # Indicates that the LB should be public facing. Intended for clients which
+    # must reach the API server via external networks.
+    "interface": "loadbalancer"
+"provides":
+  "nrpe-external-master":
+    "interface": "nrpe-external-master"
+    "scope": "container"
+  "container-runtime":
+    "interface": "container-runtime"
+    "scope": "container"
+  "kube-api-endpoint":
+    # Use of this relation is strongly discouraged as the API endpoints will be
+    # provided via the kube-control relation. However, it can be used to
+    # override those endpoints if you need to inject a reverse proxy between
+    # the master and workers using a charm which only supports the old MITM
+    # style relations. Note, though, that since this reverse proxy will not be
+    # visible to the master, it will not be used in any of the client or
+    # component kube config files.
+    "interface": "http"
+  "kube-control":
+    "interface": "kube-control"
+  "cni":
+    "interface": "kubernetes-cni"
+    "scope": "container"
+  "prometheus":
+    "interface": "prometheus-manual"
+  "grafana":
+    "interface": "grafana-dashboard"
+  "aws-iam":
+    "interface": "aws-iam"
+    "scope": "container"
+"peers":
+  "coordinator":
+    "interface": "coordinator"
+  "kube-masters":
+    "interface": "kube-masters"
+"resources":
+  "cni-amd64":
+    "type": "file"
+    "filename": "cni.tgz"
+    "description": "CNI plugins for amd64"
+  "cni-arm64":
+    "type": "file"
+    "filename": "cni.tgz"
+    "description": "CNI plugins for arm64"
+  "cni-s390x":
+    "type": "file"
+    "filename": "cni.tgz"
+    "description": "CNI plugins for s390x"
+  "core":
+    "type": "file"
+    "filename": "core.snap"
+    "description": |
+      core snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+  "kubectl":
+    "type": "file"
+    "filename": "kubectl.snap"
+    "description": |
+      kubectl snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+  "kube-apiserver":
+    "type": "file"
+    "filename": "kube-apiserver.snap"
+    "description": |
+      kube-apiserver snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+  "kube-controller-manager":
+    "type": "file"
+    "filename": "kube-controller-manager.snap"
+    "description": |
+      kube-controller-manager snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+  "kube-scheduler":
+    "type": "file"
+    "filename": "kube-scheduler.snap"
+    "description": |
+      kube-scheduler snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+  "cdk-addons":
+    "type": "file"
+    "filename": "cdk-addons.snap"
+    "description": |
+      CDK addons snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+  "kube-proxy":
+    "type": "file"
+    "filename": "kube-proxy.snap"
+    "description": |
+      kube-proxy snap
+      [DEPRECATED] in favor of using a Snap Store Proxy.
+      See https://ubuntu.com/kubernetes/docs/proxies for more details.
+"subordinate": !!bool "false"

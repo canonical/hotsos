@@ -1,4 +1,6 @@
 requires:
+  depends-on:
+    property: core.plugins.storage.bcache.BcacheBase.bcache_enabled
   config:
     handler: core.plugins.storage.bcache.BdevsConfig
     assertions:

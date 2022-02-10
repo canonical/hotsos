@@ -1,0 +1,120 @@
+-- Logs begin at Fri 2022-02-11 18:58:10 UTC, end at Fri 2022-02-11 19:23:36 UTC. --
+Feb 11 18:58:25 juju-110cc2-k8stest-4 systemd[1]: Starting Initial cloud-init job (metadata service crawler)...
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Fri, 11 Feb 2022 18:58:25 +0000. Up 19.27 seconds.
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +--------+------+------------------------------+-------------+--------+-------------------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: | Device |  Up  |           Address            |     Mask    | Scope  |     Hw-Address    |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +--------+------+------------------------------+-------------+--------+-------------------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |  ens3  | True |          10.6.3.201          | 255.255.0.0 | global | fa:16:3e:1f:96:bd |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |  ens3  | True | fe80::f816:3eff:fe1f:96bd/64 |      .      |  link  | fa:16:3e:1f:96:bd |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   lo   | True |          127.0.0.1           |  255.0.0.0  |  host  |         .         |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   lo   | True |           ::1/128            |      .      |  host  |         .         |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +--------+------+------------------------------+-------------+--------+-------------------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: ++++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++++
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: | Route |   Destination   | Gateway  |     Genmask     | Interface | Flags |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   0   |     0.0.0.0     | 10.6.0.1 |     0.0.0.0     |    ens3   |   UG  |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   1   |     10.6.0.0    | 0.0.0.0  |   255.255.0.0   |    ens3   |   U   |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   2   | 169.254.169.254 | 10.6.0.2 | 255.255.255.255 |    ens3   |  UGH  |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   1   |  fe80::/64  |    ::   |    ens3   |   U   |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   3   |    local    |    ::   |    ens3   |   U   |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: |   4   |  multicast  |    ::   |    ens3   |   U   |
+Feb 11 18:58:25 juju-110cc2-k8stest-4 cloud-init[594]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: new group: name=ubuntu, GID=1000
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'adm'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'dialout'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'cdrom'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'floppy'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'sudo'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'audio'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'dip'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'video'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'plugdev'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to group 'netdev'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'adm'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'dialout'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'cdrom'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'floppy'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'sudo'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'audio'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'dip'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'video'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'plugdev'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 useradd[656]: add 'ubuntu' to shadow group 'netdev'
+Feb 11 18:58:27 juju-110cc2-k8stest-4 passwd[665]: password for 'ubuntu' changed by 'root'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Generating public/private rsa key pair.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key fingerprint is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: SHA256:R5BfJoMWriqvAGQOnSLCcVMkzs+G/CBXBHsvfmfPU14 root@juju-110cc2-k8stest-4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key's randomart image is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +---[RSA 3072]----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: | . =++  o+       |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |..=.=  .+.o o    |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |=+o+ o ....=     |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |B.. * .. ..      |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |.o = =..S .      |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |. o =..  .   . E |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |. . .o . o  o .  |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: | . o  . o o. .   |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |  ...      o.    |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +----[SHA256]-----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Generating public/private dsa key pair.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your identification has been saved in /etc/ssh/ssh_host_dsa_key
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your public key has been saved in /etc/ssh/ssh_host_dsa_key.pub
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key fingerprint is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: SHA256:R4+foXHuntGevPIW153Q7bMvlvHl4Oqpjx7yfOVEBD0 root@juju-110cc2-k8stest-4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key's randomart image is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +---[DSA 1024]----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |            .o   |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |              E  |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |          .  ....|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |         . o ....|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |        S + +...+|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |         . * +*o*|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |        . o ==.O+|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |         + +o*Boo|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |         .**O**oo|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +----[SHA256]-----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Generating public/private ecdsa key pair.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key fingerprint is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: SHA256:rAu3xGlJQmFbmD2PFUtwJx/sENBeET8cMqcuXvhM738 root@juju-110cc2-k8stest-4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key's randomart image is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +---[ECDSA 256]---+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |    o+++*+Boo    |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |   .o+oo+=oO .   |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |    o  *.+o +    |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |   .  ..oo.  .   |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |    . . S +      |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |     + = * .     |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |    . O . o .    |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |     = o   .    E|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |      o     .... |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +----[SHA256]-----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Generating public/private ed25519 key pair.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key fingerprint is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: SHA256:Fr2Ljjw8W7cR6FuJLU2awT/T9Xf4cMqYXE2ip0dl3rk root@juju-110cc2-k8stest-4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: The key's randomart image is:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +--[ED25519 256]--+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |                 |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |         .       |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |        . .      |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |       . o .    o|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |        S +   o++|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |       o @ = o.Bo|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |     .  O % o.= B|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |     .++ = * B.Eo|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |      ++o . =.o .|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +----[SHA256]-----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

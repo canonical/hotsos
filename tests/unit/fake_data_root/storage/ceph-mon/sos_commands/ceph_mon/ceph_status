@@ -1,0 +1,16 @@
+  cluster:
+    id:     eccf3d48-859f-11ec-9de2-d72b3e8a3058
+    health: HEALTH_WARN
+            mons are allowing insecure global_id reclaim
+ 
+  services:
+    mon: 3 daemons, quorum juju-04f1e3-0-lxd-0,juju-04f1e3-1-lxd-0,juju-04f1e3-2-lxd-0 (age 10h)
+    mgr: juju-04f1e3-0-lxd-0(active, since 11h), standbys: juju-04f1e3-1-lxd-0, juju-04f1e3-2-lxd-0
+    osd: 3 osds: 3 up (since 15m), 3 in (since 15m)
+ 
+  data:
+    pools:   4 pools, 69 pgs
+    objects: 0 objects, 0 B
+    usage:   3.0 GiB used, 297 GiB / 300 GiB avail
+    pgs:     69 active+clean
+ 

@@ -1,0 +1,55 @@
+Name:	dbus-daemon
+Umask:	0022
+State:	S (sleeping)
+Tgid:	238
+Ngid:	0
+Pid:	238
+PPid:	1
+TracerPid:	0
+Uid:	103	103	103	103
+Gid:	106	106	106	106
+FDSize:	128
+Groups:	 
+NStgid:	238
+NSpid:	238
+NSpgid:	238
+NSsid:	238
+VmPeak:	    7572 kB
+VmSize:	    7572 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    4704 kB
+VmRSS:	    4264 kB
+RssAnon:	     812 kB
+RssFile:	    3452 kB
+RssShmem:	       0 kB
+VmData:	     856 kB
+VmStk:	     132 kB
+VmExe:	     180 kB
+VmLib:	    4328 kB
+VmPTE:	      48 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	0/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000001000
+SigCgt:	0000000180004001
+CapInh:	0000000000000000
+CapPrm:	0000000020000000
+CapEff:	0000000020000000
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	3811
+nonvoluntary_ctxt_switches:	3578

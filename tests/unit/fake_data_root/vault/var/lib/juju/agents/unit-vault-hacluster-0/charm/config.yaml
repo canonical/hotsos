@@ -1,0 +1,229 @@
+options:
+  debug:
+    type: boolean
+    default: False
+    description: Enable debug logging
+  prefer-ipv6:
+    type: boolean
+    default: False
+    description: |
+      If True enables IPv6 support. The charm will expect network interfaces
+      to be configured with an IPv6 address. If set to False (default) IPv4
+      is expected.
+      .
+      NOTE: these charms do not currently support IPv6 privacy extension. In
+      order for this charm to function correctly, the privacy extension must be
+      disabled and a non-temporary address must be configured/available on
+      your network interface.
+  corosync_transport:
+    type: string
+    default: "unicast"
+    description: |
+      Two supported modes are multicast (udp) or unicast (udpu)
+  corosync_mcastaddr:
+    type: string
+    default: 226.94.1.1
+    description: |
+      Multicast IP address to use for exchanging messages over the network.
+      If multiple clusters are on the same bindnetaddr network, this value
+      can be changed. Only used when corosync_transport = multicast.
+  corosync_bindiface:
+    type: string
+    default:
+    description: |
+      Default network interface on which HA cluster will bind to communication
+      with the other members of the HA Cluster. Defaults to the network
+      interface hosting the units private-address. Only used when
+      corosync_transport = multicast.
+  corosync_mcastport:
+    type: int
+    default:
+    description: |
+      Default multicast port number that will be used to communicate between
+      HA Cluster nodes. Only used when corosync_transport = multicast.
+  corosync_key:
+    type: string
+    default: "64RxJNcCkwo8EJYBsaacitUvbQp5AW4YolJi5/2urYZYp2jfLxY+3IUCOaAUJHPle4Yqfy+WBXO0I/6ASSAjj9jaiHVNaxmVhhjcmyBqy2vtPf+m+0VxVjUXlkTyYsODwobeDdO3SIkbIABGfjLTu29yqPTsfbvSYr6skRb9ne0="
+    description: |
+      This value will become the Corosync authentication key. To generate
+      a suitable value use:
+      .
+        sudo corosync-keygen
+        sudo cat /etc/corosync/authkey | base64 -w 0
+      .
+      This configuration element is mandatory and the service will fail on
+      install if it is not provided.  The value must be base64 encoded.
+  pacemaker_key:
+    type: string
+    default:
+    description: |
+      This value will become the Pacemaker authentication key. To generate
+      a suitable value use:
+      .
+        dd if=/dev/urandom of=/tmp/authkey bs=2048 count=1
+        cat /tmp/authkey |  base64 -w 0
+      .
+      If this configuration element is not set then the corosync key will be
+      reused as the pacemaker key.
+  maintenance-mode:
+    type: boolean
+    default: false
+    description: |
+      When enabled pacemaker will be put in maintenance mode, this will allow
+      administrators to manipulate cluster resources (e.g. stop daemons, reboot
+      machines, etc). Pacemaker will not monitor the resources while maintenance
+      mode is enabled and node removals won't be processed.
+  service_start_timeout:
+    type: int
+    default: 180
+    description: |
+      Systemd override value for corosync and pacemaker service start timeout
+      in seconds. Set value to -1 turn off timeout for the services.
+  service_stop_timeout:
+    type: int
+    default: 600
+    description: |
+      Systemd override value for corosync and pacemaker service stop timeout
+      seconds. The default value will cause systemd to timeout a service stop
+      after 10 minutes. This should provide for sufficient time for resources
+      to migrate away from the current node as part of the stop sequence in
+      most cases. Set value to -1 turn off timeout for the services.
+  stonith_enabled:
+    type: string
+    default: 'False'
+    description: |
+      DEPRECATED: is now ignored and will be removed in a future release.
+      Resource fencing (aka STONITH) is now always enabled for every node in
+      the cluster. This requires MAAS credentials be provided and each node's
+      power parameters are properly configured in its inventory.
+  maas_url:
+    type: string
+    default:
+    description: MAAS API endpoint (required for STONITH).
+  maas_credentials:
+    type: string
+    default:
+    description: MAAS credentials (required for STONITH).
+  maas_source:
+    type: string
+    default: ppa:maas/stable
+    description: |
+      PPA for python3-maas-client:
+      .
+        - ppa:maas/stable
+        - ppa:maas/next
+      .
+      The last option should be used in conjunction with the key configuration
+      option. Used when service_dns is set on the primary charm for DNS HA.
+  maas_source_key:
+    type: string
+    default:
+    description: |
+      PPA key for python3-maas-client:
+      PPA Key configuration option. Used when nodes are offline to specify
+      the ppa public key.
+  cluster_count:
+    type: int
+    default: 3
+    description: |
+      Number of peer units required to bootstrap cluster services.
+      .
+      If less that 3 is specified, the cluster will be configured to
+      ignore any quorum problems; with 3 or more units, quorum will be
+      enforced and services will be stopped in the event of a loss
+      of quorum. It is best practice to set this value to the expected
+      number of units to avoid potential race conditions.
+  monitor_host:
+    type: string
+    default:
+    description: |
+      One or more IPs, separated by space, that will be used as a safety check
+      for avoiding split brain situations. Nodes in the cluster will ping these
+      IPs periodically. Node that can not ping monitor_host will not run shared
+      resources (VIP, shared disk...).
+  monitor_interval:
+    type: string
+    default: 5s
+    description: |
+      Time period between checks of resource health. It consists of a number
+      and a time factor, e.g. 5s = 5 seconds. 2m = 2 minutes.
+  netmtu:
+    type: int
+    default:
+    description: |
+      Specifies the corosync.conf network mtu. If unset, the default
+      corosync.conf value is used (currently 1500). See 'man corosync.conf' for
+      detailed information on this config option.
+  failure_timeout:
+    type: int
+    default: 180
+    description: |
+      Sets the pacemaker default resource meta-attribute value for
+      failure_timeout. This value represents the duration in seconds to wait
+      before resetting failcount to 0. In practice, this is measured as the
+      time elapsed since the most recent failure. Setting this to 0 disables
+      the feature.
+  cluster_recheck_interval:
+    type: int
+    default: 60
+    description: |
+      Sets the pacemaker default resource meta-attribute value for
+      'cluster-recheck-interval'. This value represents the polling interval
+      at which the cluster checks for changes in the resource parameters,
+      constraints or other cluster options. Setting this to 0 disables
+      the feature.
+  # Monitoring config
+  nagios_context:
+    type: string
+    default: "juju"
+    description: |
+      Used by the nrpe-external-master subordinate charm.
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+      .
+         juju-postgresql-0
+      .
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  nagios_servicegroups:
+    type: string
+    default: ""
+    description: |
+      A comma-separated list of nagios servicegroups. If left empty, the
+      nagios_context will be used as the servicegroup.
+  failed_actions_alert_type:
+    type: string
+    default: 'ignore'
+    description: |
+      DEPRECATED: will be removed in a future release
+      If the CRM status has recorded failed actions in any of the registered
+      resource agents, check_crm can optionally generate an alert.
+      Valid options: ignore/warning/critical
+  failed_actions_threshold:
+    type: int
+    default: 0
+    description: |
+      DEPRECATED: will be removed in a future release. Alias for
+      res_failcount_warn. Takes precedence over res_failcount_warn if set to
+      non-zero
+  res_failcount_warn:
+    type: int
+    default: 3
+    description: |
+      check_crm will generate a warning if the failcount of a resource has
+      crossed this threshold. Set to 0 or '' to disable.
+  res_failcount_crit:
+    type: int
+    default: 10
+    description: |
+      check_crm will generate a critical alert if the failcount of a resource
+      has crossed this threshold. Set to 0 or '' to disable.
+  no_quorum_policy:
+    type: string
+    default: "stop"
+    description: |
+      What to do when the cluster does not have quorum. Allowed values:
+        ignore: continue all resource management,
+        freeze: continue resource management, but don’t recover resources from nodes not in the affected partition,
+        stop: stop all resources in the affected cluster partition,
+        suicide: fence all nodes in the affected cluster partition

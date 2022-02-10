@@ -1,0 +1,13 @@
+duration=62955s, n_packets=1699, n_bytes=159974, n_offload_packets=0, n_offload_bytes=0, priority=2,in_port=2,actions=goto_table:1
+duration=63603s, n_packets=380, n_bytes=31013, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=NORMAL
+duration=62955s, n_packets=37453, n_bytes=3176576, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=goto_table:3
+table_id=1, duration=62955s, n_packets=1699, n_bytes=159974, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=goto_table:2
+table_id=2, duration=580s, n_packets=271, n_bytes=27643, n_offload_packets=0, n_offload_bytes=0, priority=4,in_port=2,dl_vlan=2,actions=pop_vlan,NORMAL
+table_id=2, duration=62955s, n_packets=1428, n_bytes=132331, n_offload_packets=0, n_offload_bytes=0, priority=2,in_port=2,actions=drop
+table_id=3, duration=62954s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_src=fa:16:3f:0a:04:80,actions=output:2
+table_id=3, duration=62954s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,dl_src=fa:16:3f:a4:e2:e2,actions=output:2
+table_id=3, duration=62955s, n_packets=37453, n_bytes=3176576, n_offload_packets=0, n_offload_bytes=0, priority=1,actions=NORMAL
+table_id=254, duration=63673s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,recirc_id=0,actions=drop
+table_id=254, duration=63673s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x1,actions=controller(reason=)
+table_id=254, duration=63673s, n_packets=45, n_bytes=4052, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x2,actions=drop
+table_id=254, duration=63673s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x3,actions=drop

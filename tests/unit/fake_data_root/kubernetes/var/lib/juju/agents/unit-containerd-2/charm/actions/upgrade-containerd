@@ -1,0 +1,43 @@
+#!/usr/local/sbin/charm-env python3
+
+from charmhelpers.core.hookenv import (
+    action_set,
+    action_fail
+)
+
+from charmhelpers.fetch import (
+    apt_install,
+    apt_update,
+    apt_hold,
+    apt_unhold
+)
+
+from charmhelpers.core.host import service_restart
+
+from charms.reactive import remove_state
+
+from reactive.containerd import CONTAINERD_PACKAGE
+
+
+def main():
+    """
+    Upgrade containerd to the latest in apt.
+
+    :return: None
+    """
+    try:
+        apt_update(fatal=True)
+        apt_unhold(CONTAINERD_PACKAGE)
+        apt_install(CONTAINERD_PACKAGE, fatal=True)
+        apt_hold(CONTAINERD_PACKAGE)
+        service_restart(CONTAINERD_PACKAGE)
+
+        remove_state('containerd.version-published')
+        action_set({'runtime': CONTAINERD_PACKAGE})
+
+    except Exception as e:
+        action_fail(e)
+
+
+if __name__ == '__main__':
+    main()

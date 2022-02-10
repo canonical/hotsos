@@ -1,0 +1,40 @@
+
+Start-Date: 2022-02-07  15:32:54
+Commandline: apt-get install -qqy grub-pc shim-signed
+Install: efibootmgr:amd64 (17-1, automatic), grub-efi-amd64-bin:amd64 (2.04-1ubuntu44.2, automatic), mokutil:amd64 (0.3.0+1538710437.fb6250f-1, automatic), shim-signed:amd64 (1.40.7+15.4-0ubuntu9), grub-efi-amd64-signed:amd64 (1.167.2+2.04-1ubuntu44.2, automatic)
+End-Date: 2022-02-07  15:32:55
+
+Start-Date: 2022-02-11  18:58:52
+Commandline: /usr/bin/apt-get --option=Dpkg::Options::=--force-confold --option=Dpkg::options::=--force-unsafe-io --assume-yes --quiet dist-upgrade
+Upgrade: fdisk:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), uuid-runtime:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), libfdisk1:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), libmount1:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), snapd:amd64 (2.51.1+20.04ubuntu2, 2.54.2+20.04ubuntu2), ubuntu-advantage-tools:amd64 (27.5~20.04.1, 27.6~20.04.1), util-linux:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), open-vm-tools:amd64 (2:11.0.5-4, 2:11.3.0-2ubuntu0~ubuntu20.04.2), initramfs-tools-bin:amd64 (0.136ubuntu6.6, 0.136ubuntu6.7), mount:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), libblkid1:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), libuuid1:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), libdrm2:amd64 (2.4.105-3~20.04.2, 2.4.107-8ubuntu1~20.04.1), libsmartcols1:amd64 (2.34-0.1ubuntu9.1, 2.34-0.1ubuntu9.3), bsdutils:amd64 (1:2.34-0.1ubuntu9.1, 1:2.34-0.1ubuntu9.3), initramfs-tools-core:amd64 (0.136ubuntu6.6, 0.136ubuntu6.7), initramfs-tools:amd64 (0.136ubuntu6.6, 0.136ubuntu6.7), libdrm-common:amd64 (2.4.105-3~20.04.2, 2.4.107-8ubuntu1~20.04.1)
+End-Date: 2022-02-11  18:59:26
+
+Start-Date: 2022-02-11  18:59:29
+Commandline: /usr/bin/apt-get --option=Dpkg::Options::=--force-confold --option=Dpkg::options::=--force-unsafe-io --assume-yes --quiet install curl cpu-checker bridge-utils tmux ubuntu-fan
+Install: msr-tools:amd64 (1.3-3, automatic), bridge-utils:amd64 (1.6-2ubuntu1), dnsmasq-base:amd64 (2.80-1.1ubuntu1.4, automatic), ubuntu-fan:amd64 (0.12.13), libidn11:amd64 (1.33-2.2ubuntu2, automatic), dns-root-data:amd64 (2019052802, automatic), cpu-checker:amd64 (0.7-1.1)
+End-Date: 2022-02-11  18:59:31
+
+Start-Date: 2022-02-11  18:59:50
+Commandline: apt-get --option=Dpkg::Options::=--force-confold --assume-yes install python3-pip python3-setuptools python3-yaml python3-dev python3-wheel build-essential
+Install: libmpc3:amd64 (1.1.0-1, automatic), python3-dev:amd64 (3.8.2-0ubuntu2), linux-libc-dev:amd64 (5.4.0-99.112, automatic), libpython3.8-dev:amd64 (3.8.10-0ubuntu1~20.04.2, automatic), gcc-9-base:amd64 (9.3.0-17ubuntu1~20.04, automatic), libfakeroot:amd64 (1.24-1, automatic), libc6-dev:amd64 (2.31-0ubuntu9.2, automatic), libctf-nobfd0:amd64 (2.34-6ubuntu1.3, automatic), libexpat1-dev:amd64 (2.2.9-1build1, automatic), cpp-9:amd64 (9.3.0-17ubuntu1~20.04, automatic), libalgorithm-diff-perl:amd64 (1.19.03-2, automatic), libalgorithm-merge-perl:amd64 (0.08-3, automatic), binutils:amd64 (2.34-6ubuntu1.3, automatic), cpp:amd64 (4:9.3.0-1ubuntu2, automatic), libitm1:amd64 (10.3.0-1ubuntu1~20.04, automatic), g++:amd64 (4:9.3.0-1ubuntu2, automatic), python3-pip:amd64 (20.0.2-5ubuntu1.6), python3-wheel:amd64 (0.34.2-1), gcc:amd64 (4:9.3.0-1ubuntu2, automatic), zlib1g-dev:amd64 (1:1.2.11.dfsg-2ubuntu1.2, automatic), libasan5:amd64 (9.3.0-17ubuntu1~20.04, automatic), libquadmath0:amd64 (10.3.0-1ubuntu1~20.04, automatic), libisl22:amd64 (0.22.1-1, automatic), libstdc++-9-dev:amd64 (9.3.0-17ubuntu1~20.04, automatic), build-essential:amd64 (12.8ubuntu1.1), libfile-fcntllock-perl:amd64 (0.22-3build4, automatic), binutils-x86-64-linux-gnu:amd64 (2.34-6ubuntu1.3, automatic), libcrypt-dev:amd64 (1:4.4.10-10ubuntu4, automatic), libtsan0:amd64 (10.3.0-1ubuntu1~20.04, automatic), libubsan1:amd64 (10.3.0-1ubuntu1~20.04, automatic), g++-9:amd64 (9.3.0-17ubuntu1~20.04, automatic), make:amd64 (4.2.1-1.2, automatic), fakeroot:amd64 (1.24-1, automatic), gcc-9:amd64 (9.3.0-17ubuntu1~20.04, automatic), liblsan0:amd64 (10.3.0-1ubuntu1~20.04, automatic), libgomp1:amd64 (10.3.0-1ubuntu1~20.04, automatic), manpages-dev:amd64 (5.05-1, automatic), binutils-common:amd64 (2.34-6ubuntu1.3, automatic), libc-dev-bin:amd64 (2.31-0ubuntu9.2, automatic), libbinutils:amd64 (2.34-6ubuntu1.3, automatic), python3.8-dev:amd64 (3.8.10-0ubuntu1~20.04.2, automatic), libpython3-dev:amd64 (3.8.2-0ubuntu2, automatic), libatomic1:amd64 (10.3.0-1ubuntu1~20.04, automatic), libcc1-0:amd64 (10.3.0-1ubuntu1~20.04, automatic), libdpkg-perl:amd64 (1.19.7ubuntu3, automatic), libalgorithm-diff-xs-perl:amd64 (0.04-6, automatic), python-pip-whl:amd64 (20.0.2-5ubuntu1.6, automatic), libctf0:amd64 (2.34-6ubuntu1.3, automatic), libgcc-9-dev:amd64 (9.3.0-17ubuntu1~20.04, automatic), dpkg-dev:amd64 (1.19.7ubuntu3, automatic)
+End-Date: 2022-02-11  19:00:27
+
+Start-Date: 2022-02-11  19:00:29
+Commandline: apt-get --option=Dpkg::Options::=--force-confold --assume-yes install socat
+Install: socat:amd64 (1.7.3.3-2)
+End-Date: 2022-02-11  19:00:30
+
+Start-Date: 2022-02-11  19:00:32
+Commandline: apt-get --option=Dpkg::Options::=--force-confold --assume-yes install virtualenv
+Install: python3-filelock:amd64 (3.0.12-2, automatic), python3-appdirs:amd64 (1.4.3-2.1, automatic), python3-distlib:amd64 (0.3.0-1, automatic), virtualenv:amd64 (20.0.17-1ubuntu0.4), python3-virtualenv:amd64 (20.0.17-1ubuntu0.4, automatic)
+End-Date: 2022-02-11  19:00:35
+
+Start-Date: 2022-02-11  19:02:14
+Commandline: apt-get --assume-yes --option=Dpkg::Options::=--force-confold install socat vaultlocker
+Install: python3-tenacity:amd64 (6.0.0-0ubuntu2, automatic), vaultlocker:amd64 (1.0.6-0ubuntu1), python3-pbr:amd64 (5.4.5-0ubuntu1, automatic), python3-hvac:amd64 (0.5.0-0ubuntu3, automatic)
+End-Date: 2022-02-11  19:02:16
+
+Start-Date: 2022-02-11  19:05:03
+Commandline: apt-get --assume-yes --option=Dpkg::Options::=--force-confold install containerd
+Install: containerd:amd64 (1.5.5-0ubuntu3~20.04.1), runc:amd64 (1.0.1-0ubuntu2~20.04.1, automatic)
+End-Date: 2022-02-11  19:05:09

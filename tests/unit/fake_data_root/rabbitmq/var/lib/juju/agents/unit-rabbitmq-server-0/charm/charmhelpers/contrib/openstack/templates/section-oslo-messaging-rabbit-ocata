@@ -1,0 +1,10 @@
+[oslo_messaging_rabbit]
+{% if rabbitmq_ha_queues -%}
+rabbit_ha_queues = True
+{% endif -%}
+{% if rabbit_ssl_port -%}
+rabbit_use_ssl = True
+{% endif -%}
+{% if rabbit_ssl_ca -%}
+ssl_ca_file = {{ rabbit_ssl_ca }}
+{% endif -%}

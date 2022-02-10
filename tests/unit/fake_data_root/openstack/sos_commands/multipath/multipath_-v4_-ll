@@ -1,0 +1,110 @@
+Feb 10 16:19:25 | set open fds limit to 1048576/1048576
+Feb 10 16:19:25 | loading //lib/multipath/libchecktur.so checker
+Feb 10 16:19:25 | checker tur: message table size = 3
+Feb 10 16:19:25 | loading //lib/multipath/libprioconst.so prioritizer
+Feb 10 16:19:25 | _init_foreign: found libforeign-nvme.so
+Feb 10 16:19:25 | foreign library "nvme" loaded successfully
+Feb 10 16:19:25 | released_to_systemd: DM_MULTIPATH_DEVICE_PATH=(null) -> 0
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0b.0/virtio7/block/vda
+Feb 10 16:19:25 | vda: dev not found in pathvec
+Feb 10 16:19:25 | 252:0: dev_t not found in pathvec
+Feb 10 16:19:25 | vda: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0b.0/virtio7/block/vda/vda1
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0b.0/virtio7/block/vda/vda2
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb
+Feb 10 16:19:25 | vdb: dev not found in pathvec
+Feb 10 16:19:25 | 252:16: dev_t not found in pathvec
+Feb 10 16:19:25 | vdb: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb/vdb1
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb/vdb2
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+Feb 10 16:19:25 | vdc: dev not found in pathvec
+Feb 10 16:19:25 | 252:32: dev_t not found in pathvec
+Feb 10 16:19:25 | vdc: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/pci0000:00/0000:00:0f.0/virtio11/block/vdd
+Feb 10 16:19:25 | vdd: dev not found in pathvec
+Feb 10 16:19:25 | 252:48: dev_t not found in pathvec
+Feb 10 16:19:25 | vdd: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/bcache0
+Feb 10 16:19:25 | bcache0: dev not found in pathvec
+Feb 10 16:19:25 | 251:0: dev_t not found in pathvec
+Feb 10 16:19:25 | bcache0: mask = 0x27
+Feb 10 16:19:25 | bcache0: dev_t = 251:0
+Feb 10 16:19:25 | open '/sys/devices/virtual/block/bcache0/size'
+Feb 10 16:19:25 | bcache0: size = 209715184
+Feb 10 16:19:25 | bcache0: HDIO_GETGEO failed with 25
+Feb 10 16:19:25 | bcache0: detect_checker = yes (setting: multipath internal)
+Feb 10 16:19:25 | alua: do_inquiry: IOCTL failed!
+Feb 10 16:19:25 | bcache0: path_checker = tur (setting: multipath internal)
+Feb 10 16:19:25 | bcache0: checker timeout = 30 s (setting: multipath internal)
+Feb 10 16:19:25 | bcache0: tur state = wild
+Feb 10 16:19:25 | bcache0: tur checker doesn't support this device
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/bcache1
+Feb 10 16:19:25 | bcache1: dev not found in pathvec
+Feb 10 16:19:25 | 251:128: dev_t not found in pathvec
+Feb 10 16:19:25 | bcache1: mask = 0x27
+Feb 10 16:19:25 | bcache1: dev_t = 251:128
+Feb 10 16:19:25 | open '/sys/devices/virtual/block/bcache1/size'
+Feb 10 16:19:25 | bcache1: size = 209715184
+Feb 10 16:19:25 | bcache1: HDIO_GETGEO failed with 25
+Feb 10 16:19:25 | bcache1: detect_checker = yes (setting: multipath internal)
+Feb 10 16:19:25 | alua: do_inquiry: IOCTL failed!
+Feb 10 16:19:25 | bcache1: path_checker = tur (setting: multipath internal)
+Feb 10 16:19:25 | bcache1: checker timeout = 30 s (setting: multipath internal)
+Feb 10 16:19:25 | bcache1: tur state = wild
+Feb 10 16:19:25 | bcache1: tur checker doesn't support this device
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop0
+Feb 10 16:19:25 | loop0: dev not found in pathvec
+Feb 10 16:19:25 | 7:0: dev_t not found in pathvec
+Feb 10 16:19:25 | loop0: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop1
+Feb 10 16:19:25 | loop1: dev not found in pathvec
+Feb 10 16:19:25 | 7:1: dev_t not found in pathvec
+Feb 10 16:19:25 | loop1: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop2
+Feb 10 16:19:25 | loop2: dev not found in pathvec
+Feb 10 16:19:25 | 7:2: dev_t not found in pathvec
+Feb 10 16:19:25 | loop2: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop3
+Feb 10 16:19:25 | loop3: dev not found in pathvec
+Feb 10 16:19:25 | 7:3: dev_t not found in pathvec
+Feb 10 16:19:25 | loop3: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop4
+Feb 10 16:19:25 | loop4: dev not found in pathvec
+Feb 10 16:19:25 | 7:4: dev_t not found in pathvec
+Feb 10 16:19:25 | loop4: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop5
+Feb 10 16:19:25 | loop5: dev not found in pathvec
+Feb 10 16:19:25 | 7:5: dev_t not found in pathvec
+Feb 10 16:19:25 | loop5: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop6
+Feb 10 16:19:25 | loop6: dev not found in pathvec
+Feb 10 16:19:25 | 7:6: dev_t not found in pathvec
+Feb 10 16:19:25 | loop6: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/loop7
+Feb 10 16:19:25 | loop7: dev not found in pathvec
+Feb 10 16:19:25 | 7:7: dev_t not found in pathvec
+Feb 10 16:19:25 | loop7: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/dm-0
+Feb 10 16:19:25 | dm-0: dev not found in pathvec
+Feb 10 16:19:25 | 253:0: dev_t not found in pathvec
+Feb 10 16:19:25 | dm-0: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/dm-1
+Feb 10 16:19:25 | dm-1: dev not found in pathvec
+Feb 10 16:19:25 | 253:1: dev_t not found in pathvec
+Feb 10 16:19:25 | dm-1: device node name blacklisted
+Feb 10 16:19:25 | Discover device /sys/devices/virtual/block/dm-2
+Feb 10 16:19:25 | dm-2: dev not found in pathvec
+Feb 10 16:19:25 | 253:2: dev_t not found in pathvec
+Feb 10 16:19:25 | dm-2: device node name blacklisted
+Feb 10 16:19:25 | Discovered 2/17 paths
+Feb 10 16:19:25 | libdevmapper version 1.02.167 (2019-11-30)
+Feb 10 16:19:25 | DM multipath kernel driver v1.13.0
+Feb 10 16:19:25 | tur checker refcount 2
+Feb 10 16:19:25 | tur checker refcount 1
+Feb 10 16:19:25 | unloading const prioritizer
+Feb 10 16:19:25 | unloading tur checker
+===== paths list =====
+uuid hcil    dev     dev_t   pri dm_st chk_st vend/prod/rev dev_st 
+     #:#:#:# bcache0 251:0   -1  undef undef  ,             unknown
+     #:#:#:# bcache1 251:128 -1  undef undef  ,             unknown

@@ -1,0 +1,22 @@
+repo: https://github.com/juju/charm-helpers
+destination: charmhelpers
+include:
+    - core
+    - cli
+    - fetch
+    - osplatform
+    - contrib.storage.linux
+    - contrib.hahelpers
+    - contrib.storage
+    - contrib.network.ip
+    - contrib.openstack.alternatives
+    - contrib.openstack.deferred_events
+    - contrib.openstack.exceptions
+    - contrib.openstack.files
+    - contrib.openstack.ip
+    - contrib.openstack.utils
+    - contrib.openstack.policy_rcd
+    - contrib.openstack.ha.utils
+    - contrib.python
+    - contrib.charmsupport
+    - contrib.openstack.policyd

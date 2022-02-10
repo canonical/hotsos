@@ -1,0 +1,22 @@
+{% if amqp.host or amqp.hosts -%}
+[oslo_messaging_rabbit]
+rabbit_userid = {{ amqp.username }}
+rabbit_virtual_host = {{ amqp.vhost }}
+rabbit_password = {{ amqp.password }}
+{% if amqp.hosts -%}
+rabbit_hosts = {{ amqp.hosts }}
+{% if amqp.ha_queues -%}
+rabbit_ha_queues = True
+rabbit_durable_queues = False
+{% endif -%}
+{% else -%}
+rabbit_host = {{ amqp.host }}
+{% endif -%}
+{% if amqp.ssl_data_complete == True -%}
+rabbit_use_ssl = True
+rabbit_port = {{ amqp.ssl_port }}
+{% if amqp.ssl_ca -%}
+kombu_ssl_ca_certs = {{ amqp.ssl_ca_file }}
+{% endif -%}
+{% endif -%}
+{% endif -%}

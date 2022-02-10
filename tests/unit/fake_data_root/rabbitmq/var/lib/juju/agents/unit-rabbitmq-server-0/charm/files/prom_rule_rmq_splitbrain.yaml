@@ -1,0 +1,10 @@
+    - alert: RabbitMQ_split_brain
+    # detect if rabbitmq_queues is different between rabbitmq nodes
+      expr: count(count(rabbitmq_queues) by (job)) > 1
+      for: 5m
+      labels:
+        severity: page
+        application: rabbitmq-server
+      annotations:
+        description: RabbitMQ split brain detected
+        summary: RabbitMQ split brain detected

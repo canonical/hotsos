@@ -1,0 +1,29 @@
+WARNING! Could not run dmsetup, dump is likely incomplete.
+Creating dump directory: /tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump
+Gathering LVM & device-mapper version info...
+  /dev/mapper/control: mknod failed: Operation not permitted
+  Failure to communicate with kernel device-mapper driver.
+  Check that device-mapper is available in the kernel.
+  Incompatible libdevmapper 1.02.167 (2019-11-30) and kernel driver (unknown version).
+Gathering dmsetup info...
+":" info -c >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/dmsetup_info" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+":" table >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/dmsetup_table" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+":" status >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/dmsetup_status" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+":" ls --tree 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log" | cat >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/dmsetup_ls_tree"
+Gathering process info...
+ps alx >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/ps_info" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+Gathering console messages...
+tail -n 75 /var/log/messages >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/messages" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+tail: cannot open '/var/log/messages' for reading: No such file or directory
+Gathering /etc/lvm info...
+ls -laR /etc/lvm >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/etc_lvm_listing" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+cp -RL --preserve=all /etc/lvm "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvm" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+lvm dumpconfig --type diff --file "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/config_diff" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+lvm dumpconfig --type missing --file "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/config_missing" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+Gathering /dev listing...
+ls -laR /dev >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/dev_listing" 2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+ls: cannot open directory '/dev/.lxd-mounts': Permission denied
+Gathering /sys/block listing...
+ls -laR /sys/block >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/sysblock_listing"  2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+ls -laR /sys/devices/virtual/block >> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/sysblock_listing"  2>> "/tmp/sos.ocuctx_2/sosreport-juju-04f1e3-1-lxd-5-2022-02-10-ubpfnbb/sos_commands/lvm2/lvmdump/lvmdump.log"
+WARNING! Could not run dmsetup, dump is likely incomplete.

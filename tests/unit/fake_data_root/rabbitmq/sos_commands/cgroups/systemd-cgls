@@ -1,0 +1,86 @@
+Control group /:
+-.slice
+|- 635 /bin/sh /snap/lxd/21835/commands/daemon.start
+|-1683 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+|-user.slice 
+| `-user-1000.slice 
+|   |-user@1000.service 
+|   | `-init.scope 
+|   |   |-123717 /lib/systemd/systemd --user
+|   |   `-123718 (sd-pam)
+|   `-session-400.scope 
+|     |-123714 sshd: ubuntu [priv]
+|     |-123778 sshd: ubuntu@pts/1
+|     |-123779 sudo -s
+|     |-123780 /bin/bash
+|     |-123803 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+|     |-125017 timeout 300s /usr/bin/pip list installed
+|     |-125019 /usr/bin/python3 /usr/bin/pip list installed
+|     |-125035 timeout 300s rabbitmqctl report
+|     |-125037 /bin/sh /usr/sbin/rabbitmqctl report
+|     |-125045 su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "...
+|     |-125046 sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "report"
+|     |-125047 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -B -- -root /usr/lib/...
+|     |-125162 erl_child_setup 1024
+|     |-125232 timeout 300s systemd-cgls
+|     `-125234 systemd-cgls
+|-init.scope 
+| `-1 /sbin/init
+`-system.slice 
+  |-epmd.service 
+  | `-246 /usr/bin/epmd -systemd
+  |-systemd-networkd.service 
+  | `-228 /lib/systemd/systemd-networkd
+  |-systemd-udevd.service 
+  | `-96 /lib/systemd/systemd-udevd
+  |-snap-core20-1328.mount 
+  | `-118 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o...
+  |-cron.service 
+  | `-240 /usr/sbin/cron -f
+  |-polkit.service 
+  | `-334 /usr/lib/policykit-1/polkitd --no-debug
+  |-networkd-dispatcher.service 
+  | `-247 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+  |-snap-snapd-14549.mount 
+  | `-119 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o...
+  |-accounts-daemon.service 
+  | `-235 /usr/lib/accountsservice/accounts-daemon
+  |-systemd-journald.service 
+  | `-63 /lib/systemd/systemd-journald
+  |-atd.service 
+  | `-265 /usr/sbin/atd -f
+  |-unattended-upgrades.service 
+  | `-610 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-...
+  |-ssh.service 
+  | `-298 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+  |-fwupd.service 
+  | `-124386 /usr/libexec/fwupd/fwupd
+  |-snapd.service 
+  | `-251 /usr/lib/snapd/snapd
+  |-uuidd.service 
+  | `-91894 /usr/sbin/uuidd --socket-activation
+  |-snap-lxd-21835.mount 
+  | `-117 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,...
+  |-systemd-hostnamed.service 
+  | `-124435 /lib/systemd/systemd-hostnamed
+  |-jujud-machine-1-lxd-5.service 
+  | |-266 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+  | `-287 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/l...
+  |-rsyslog.service 
+  | `-249 /usr/sbin/rsyslogd -n -iNONE
+  |-console-getty.service 
+  | `-274 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200,38...
+  |-systemd-resolved.service 
+  | `-170 /lib/systemd/systemd-resolved
+  |-rabbitmq-server.service 
+  | |- 248 /bin/sh /usr/sbin/rabbitmq-server
+  | |- 282 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf...
+  | |-1077 erl_child_setup 65536
+  | |-2394 inet_gethost 4
+  | `-2395 inet_gethost 4
+  |-udisks2.service 
+  | `-256 /usr/lib/udisks2/udisksd
+  |-dbus.service 
+  | `-241 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfi...
+  `-systemd-logind.service 
+    `-253 /lib/systemd/systemd-logind

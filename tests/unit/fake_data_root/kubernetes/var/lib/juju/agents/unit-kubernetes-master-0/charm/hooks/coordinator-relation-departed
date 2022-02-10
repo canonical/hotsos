@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+# Load modules from $CHARM_DIR/lib
+import sys
+sys.path.append('lib')
+
+from charms.layer.basic import bootstrap_charm_deps
+bootstrap_charm_deps()
+
+
+# This will load and run the appropriate @hook and other decorated
+# handlers from $CHARM_DIR/reactive, $CHARM_DIR/hooks/reactive,
+# and $CHARM_DIR/hooks/relations.
+#
+# See https://jujucharms.com/docs/stable/authors-charm-building
+# for more information on this pattern.
+from charms.reactive import main
+main()

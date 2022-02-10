@@ -1,0 +1,12 @@
+name: mysql-shared
+summary: Interface for intergrating with MySQL
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+ignore:
+  - 'unit_tests'
+  - '.stestr.conf'
+  - 'test-requirements.txt'
+  - 'tox.ini'
+  - '.gitignore'
+  - '.travis.yml'
+  - '.zuul.yaml'
+  - '.tox'

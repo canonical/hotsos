@@ -1,0 +1,365 @@
+/sys/firmware:
+total 0
+drwxr-xr-x  6 0 0 0 Feb 10 16:18 .
+dr-xr-xr-x 13 0 0 0 Feb  9 22:38 ..
+drwxr-xr-x  5 0 0 0 Feb 10 16:19 acpi
+drwxr-xr-x  3 0 0 0 Feb 10 16:19 dmi
+drwxr-xr-x 10 0 0 0 Feb 10 16:19 memmap
+drwxr-xr-x  4 0 0 0 Feb 10 16:19 qemu_fw_cfg
+
+/sys/firmware/acpi:
+total 0
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 6 0 0    0 Feb 10 16:18 ..
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 hotplug
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 interrupts
+-r--r--r-- 1 0 0 4096 Feb 10 16:19 pm_profile
+drwxr-xr-x 4 0 0    0 Feb 10 16:19 tables
+
+/sys/firmware/acpi/hotplug:
+total 0
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 ..
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 force_remove
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 memory
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 pci_root
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 processor
+
+/sys/firmware/acpi/hotplug/memory:
+total 0
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 ..
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 enabled
+
+/sys/firmware/acpi/hotplug/pci_root:
+total 0
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 ..
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 enabled
+
+/sys/firmware/acpi/hotplug/processor:
+total 0
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 ..
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 enabled
+
+/sys/firmware/acpi/interrupts:
+total 0
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 ..
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 error
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 ff_gbl_lock
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 ff_pmtimer
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 ff_pwr_btn
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 ff_rt_clk
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 ff_slp_btn
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe00
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe01
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe02
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe03
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe04
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe05
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe06
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe07
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe08
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe09
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe0A
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe0B
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe0C
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe0D
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe0E
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe0F
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 gpe_all
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 sci
+-rw-r--r-- 1 0 0 4096 Feb 10 16:19 sci_not
+
+/sys/firmware/acpi/tables:
+total 0
+drwxr-xr-x 4 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0    0 Feb 10 16:19 ..
+-r-------- 1 0 0  128 Feb 10 16:19 APIC
+-r-------- 1 0 0 5109 Feb 10 16:19 DSDT
+-r-------- 1 0 0  116 Feb 10 16:19 FACP
+-r-------- 1 0 0   64 Feb 10 16:19 FACS
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 data
+drwxr-xr-x 2 0 0    0 Feb 10 16:19 dynamic
+
+/sys/firmware/acpi/tables/data:
+total 0
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 4 0 0 0 Feb 10 16:19 ..
+
+/sys/firmware/acpi/tables/dynamic:
+total 0
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 4 0 0 0 Feb 10 16:19 ..
+
+/sys/firmware/dmi:
+total 0
+drwxr-xr-x 3 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 6 0 0 0 Feb 10 16:18 ..
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 tables
+
+/sys/firmware/dmi/tables:
+total 0
+drwxr-xr-x 2 0 0   0 Feb 10 16:19 .
+drwxr-xr-x 3 0 0   0 Feb 10 16:19 ..
+-r-------- 1 0 0 493 Feb 10 16:19 DMI
+-r-------- 1 0 0  31 Feb 10 16:19 smbios_entry_point
+
+/sys/firmware/memmap:
+total 0
+drwxr-xr-x 10 0 0 0 Feb 10 16:19 .
+drwxr-xr-x  6 0 0 0 Feb 10 16:18 ..
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 0
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 1
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 2
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 3
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 4
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 5
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 6
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 7
+
+/sys/firmware/memmap/0:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/1:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/2:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/3:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/4:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/5:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/6:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/memmap/7:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 10 0 0    0 Feb 10 16:19 ..
+-r--r--r--  1 0 0 4096 Feb 10 16:19 end
+-r--r--r--  1 0 0 4096 Feb 10 16:19 start
+-r--r--r--  1 0 0 4096 Feb 10 16:19 type
+
+/sys/firmware/qemu_fw_cfg:
+total 0
+drwxr-xr-x  4 0 0    0 Feb 10 16:19 .
+drwxr-xr-x  6 0 0    0 Feb 10 16:18 ..
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 by_key
+drwxr-xr-x  4 0 0    0 Feb 10 16:19 by_name
+-r--------  1 0 0 4096 Feb 10 16:19 rev
+
+/sys/firmware/qemu_fw_cfg/by_key:
+total 0
+drwxr-xr-x 14 0 0 0 Feb 10 16:19 .
+drwxr-xr-x  4 0 0 0 Feb 10 16:19 ..
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 32
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 33
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 34
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 35
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 36
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 37
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 38
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 39
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 40
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 41
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 42
+drwxr-xr-x  2 0 0 0 Feb 10 16:19 43
+
+/sys/firmware/qemu_fw_cfg/by_key/32:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/33:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/34:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/35:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/36:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/37:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/38:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/39:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/40:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/41:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/42:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_key/43:
+total 0
+drwxr-xr-x  2 0 0    0 Feb 10 16:19 .
+drwxr-xr-x 14 0 0    0 Feb 10 16:19 ..
+-r--------  1 0 0 4096 Feb 10 16:19 key
+-r--------  1 0 0 4096 Feb 10 16:19 name
+-r--------  1 0 0    0 Feb 10 16:19 raw
+-r--------  1 0 0 4096 Feb 10 16:19 size
+
+/sys/firmware/qemu_fw_cfg/by_name:
+total 0
+drwxr-xr-x 4 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 4 0 0 0 Feb 10 16:19 ..
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 bootorder -> ../by_key/32
+drwxr-xr-x 5 0 0 0 Feb 10 16:19 etc
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 genroms
+
+/sys/firmware/qemu_fw_cfg/by_name/etc:
+total 0
+drwxr-xr-x 5 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 4 0 0 0 Feb 10 16:19 ..
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 acpi
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 boot-fail-wait -> ../../by_key/35
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 e820 -> ../../by_key/36
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 msr_feature_control -> ../../by_key/37
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 smbios
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 system-states -> ../../by_key/40
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 table-loader -> ../../by_key/41
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 tpm
+
+/sys/firmware/qemu_fw_cfg/by_name/etc/acpi:
+total 0
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0 0 Feb 10 16:19 ..
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 rsdp -> ../../../by_key/33
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 tables -> ../../../by_key/34
+
+/sys/firmware/qemu_fw_cfg/by_name/etc/smbios:
+total 0
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0 0 Feb 10 16:19 ..
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 smbios-anchor -> ../../../by_key/38
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 smbios-tables -> ../../../by_key/39
+
+/sys/firmware/qemu_fw_cfg/by_name/etc/tpm:
+total 0
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 5 0 0 0 Feb 10 16:19 ..
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 log -> ../../../by_key/42
+
+/sys/firmware/qemu_fw_cfg/by_name/genroms:
+total 0
+drwxr-xr-x 2 0 0 0 Feb 10 16:19 .
+drwxr-xr-x 4 0 0 0 Feb 10 16:19 ..
+lrwxrwxrwx 1 0 0 0 Feb 10 16:19 kvmvapic.bin -> ../../by_key/43

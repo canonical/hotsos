@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+# Load modules from $CHARM_DIR/lib
+import sys
+sys.path.append('lib')
+
+import yaml
+import os
+from subprocess import check_output, check_call, CalledProcessError
+
+
+def build_command(doc):
+    values = {}
+    metrics = doc.get("metrics", {})
+    for metric, mdoc in metrics.items():
+        if not mdoc:
+            continue
+        cmd = mdoc.get("command")
+        if cmd:
+            try:
+                value = check_output(cmd, shell=True, universal_newlines=True)
+            except CalledProcessError as e:
+                check_call(['juju-log', '-lERROR',
+                            'Error collecting metric {}:\n{}'.format(
+                                metric, e.output)])
+                continue
+            value = value.strip()
+            if value:
+                values[metric] = value
+
+    if not values:
+        return None
+    command = ["add-metric"]
+    for metric, value in values.items():
+        command.append("%s=%s" % (metric, value))
+    return command
+
+
+if __name__ == '__main__':
+    charm_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
+    metrics_yaml = os.path.join(charm_dir, "metrics.yaml")
+    with open(metrics_yaml) as f:
+        doc = yaml.load(f)
+        command = build_command(doc)
+        if command:
+            check_call(command)

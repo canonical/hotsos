@@ -1,0 +1,53 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+4     0       1       0  20   0 105056 12524 ep_pol Ss   ?          1:47 /sbin/init
+4     0      63       1  20   0  59664 25368 ep_pol Ss   ?          0:01 /lib/systemd/systemd-journald
+4     0      97       1  20   0  11884  4740 ep_pol Ss   ?          0:00 /lib/systemd/systemd-udevd
+1     0     126       1  20   0   4808  1676 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1     0     127       1  20   0   4744  1564 fuse_d Ss   ?          0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1     0     128       1  20   0   4516  1328 fuse_d Ss   ?          0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1     0     129       1  20   0   4780  1700 fuse_d Ss   ?          0:02 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o ro,nodev,allow_other,suid
+1     0     130       1  20   0   4716  1420 fuse_d Ss   ?          0:00 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1     0     131       1  20   0   4772  1688 fuse_d Ss   ?          0:03 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4   101     187       1  20   0  23964 12180 ep_pol Ss   ?          0:00 /lib/systemd/systemd-resolved
+4   100     247       1  20   0  18416  6568 ep_pol Ss   ?          0:00 /lib/systemd/systemd-networkd
+4     0     252       1  20   0 241036  9264 poll_s Ssl  ?          0:00 /usr/lib/accountsservice/accounts-daemon
+4     0     256       1  20   0 162064 46500 ep_pol Ssl  ?          4:54 /usr/sbin/corosync -f
+4     0     258       1  20   0   8536  3008 hrtime Ss   ?          0:00 /usr/sbin/cron -f
+4   103     261       1  20   0   7708  4592 ep_pol Ss   ?          0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0     0     265       1  20   0  29272 17840 poll_s Ss   ?          0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4   104     269       1  20   0 154864  4168 poll_s Ssl  ?          0:00 /usr/sbin/rsyslogd -n -iNONE
+0     0     271       1  20   0 873400 36788 futex_ Ssl  ?          0:02 /usr/lib/snapd/snapd
+4     0     273       1  20   0  16840  7508 ep_pol Ss   ?          0:00 /lib/systemd/systemd-logind
+0     0     276       1  20   0 394568 12388 poll_s Ssl  ?          0:00 /usr/lib/udisks2/udisksd
+4     1     285       1  20   0   3792  2240 hrtime Ss   ?          0:00 /usr/sbin/atd -f
+0     0     286       1  20   0   4784  3044 poll_s Ss   ?          0:01 ha_logd: read process
+4     0     299       1  20   0   8696  3264 do_wai Ss   ?          0:00 bash /etc/systemd/system/jujud-machine-0-lxd-5-exec-start.sh
+0   997     302       1  20   0 761464 14004 futex_ Sl   ?          3:17 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrouter.conf
+4     0     310     299  20   0 866328 100756 futex_ SLl ?         12:42 /var/lib/juju/tools/machine-0-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/5 --debug
+4     0     311       1  20   0   7352  2320 poll_s Ss+  pts/0      0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+1     0     312     286  20   0   4784   232 poll_s S    ?          0:01 ha_logd: write process
+4     0     328       1  20   0  12176  7400 poll_s Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0     0     353       1  20   0 236424  8988 poll_s Ssl  ?          0:00 /usr/lib/policykit-1/polkitd --no-debug
+4     0     429       1  20   0  74380 15452 poll_s Ss   ?          0:02 /usr/sbin/pacemakerd -f
+0     0     447       1  20   0 108108 20384 poll_s Ssl  ?          0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4   113     473     429  20   0  74852 24432 poll_s Ss   ?          0:04 /usr/lib/pacemaker/pacemaker-based
+4     0     474     429  20   0  65944 16116 poll_s Ss   ?          0:02 /usr/lib/pacemaker/pacemaker-fenced
+4     0     475     429  20   0  50424 11100 poll_s Ss   ?          0:03 /usr/lib/pacemaker/pacemaker-execd
+4   113     476     429  20   0  64332 14460 poll_s Ss   ?          0:02 /usr/lib/pacemaker/pacemaker-attrd
+4   113     477     429  20   0  87096 27464 poll_s Ss   ?          0:02 /usr/lib/pacemaker/pacemaker-schedulerd
+4   113     478     429  20   0 115804 21816 poll_s Ss   ?          0:03 /usr/lib/pacemaker/pacemaker-controld
+4     0     503       1  20   0   2616  1736 sigsus Ss   ?          0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4     0    2266     503  20   0 1524036 45908 futex_ Sl  ?          0:07 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4     0    8589       1  20   0 878896 75700 futex_ Ssl  ?          1:01 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/vault.hcl
+4   107  189021       1  20   0   9748  1084 poll_s Ss   ?          0:00 /usr/sbin/uuidd --socket-activation
+4     0  282376     328  20   0  13800  8812 poll_s Ss   ?          0:00 sshd: ubuntu [priv]
+4  1000  282380       1  20   0  18284  9376 ep_pol Ss   ?          0:00 /lib/systemd/systemd --user
+5  1000  282381  282380  20   0 106268  5276 do_sig S    ?          0:00 (sd-pam)
+5  1000  282436  282376  20   0  13932  5052 poll_s S    ?          0:00 sshd: ubuntu@pts/1
+4     0  282438  282436  20   0  11164  4504 poll_s Ss   pts/1      0:00 sudo -s
+4     0  282439  282438  20   0   8960  3836 do_wai S    pts/1      0:00 /bin/bash
+4     0  282492  282439  20   0 897968 89932 futex_ Sl+  pts/1      0:10 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4     0  283254       1  20   0 384008 29812 poll_s Ssl  ?          0:00 /usr/libexec/fwupd/fwupd
+4     0  283295       1  20   0  16260  6204 ep_pol Ss   ?          0:00 /lib/systemd/systemd-hostnamed
+4     0  284009  282492  20   0   2712   644 sigsus S    pts/1      0:00 timeout 300s ps alxwww
+4     0  284013  284009  20   0   5816  1156 -      R    pts/1      0:00 ps alxwww

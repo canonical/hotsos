@@ -1,0 +1,372 @@
+WARNING: logrotate in debug mode does nothing except printing debug messages!  Consider using verbose mode (-v) instead if this is not what you want.
+
+reading config file /etc/logrotate.conf
+including /etc/logrotate.d
+reading config file alternatives
+reading config file apport
+reading config file apt
+reading config file bootlog
+reading config file btmp
+reading config file ceph-common
+reading config file dpkg
+reading config file haproxy
+reading config file keystone-common
+reading config file libvirtd
+reading config file libvirtd.libxl
+reading config file libvirtd.lxc
+reading config file libvirtd.qemu
+reading config file neutron-common
+reading config file nova-common
+reading config file openvswitch-switch
+reading config file rsyslog
+reading config file ubuntu-advantage-tools
+reading config file ufw
+reading config file unattended-upgrades
+reading config file wtmp
+reading config file zvmcloudconnector-common
+Reading state from file: /var/lib/logrotate/status
+Allocating hash table for state file, size 64 entries
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+Creating new state
+
+Handling 24 logs
+
+rotating pattern: /var/log/alternatives.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/alternatives.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apport.log  after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apport.log
+  log /var/log/apport.log does not exist -- skipping
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apt/term.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apt/term.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apt/history.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apt/history.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/boot.log
+ after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/boot.log
+  log /var/log/boot.log does not exist -- skipping
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/btmp  monthly (1 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/btmp
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/ceph/*.log  after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 64045
+considering log /var/log/ceph/ceph-osd.0.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/ceph/ceph-volume-systemd.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/ceph/ceph-volume.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/dpkg.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/dpkg.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/haproxy.log  after 1 days (52 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/haproxy.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/keystone/*.log  after 1 days (5 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/keystone/*.log
+  log /var/log/keystone/*.log does not exist -- skipping
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/libvirt/libvirtd.log  weekly (4 rotations)
+empty log files are rotated, only log files >= 102400 bytes are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/libvirt/libvirtd.log
+  log /var/log/libvirt/libvirtd.log does not exist -- skipping
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/libvirt/libxl/*.log  2097153 bytes (4 rotations)
+empty log files are rotated, old logs are removed
+No logs found. Rotation not needed.
+
+rotating pattern: /var/log/libvirt/lxc/*.log  2097153 bytes (4 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/libvirt/lxc/*.log
+  log /var/log/libvirt/lxc/*.log does not exist -- skipping
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/libvirt/qemu/*.log  2097153 bytes (4 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/libvirt/qemu/instance-00000001.log
+Creating new state
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 16:00
+  log does not need rotating (log size is below the 'size' threshold)
+considering log /var/log/libvirt/qemu/instance-00000002.log
+Creating new state
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 16:00
+  log does not need rotating (log size is below the 'size' threshold)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/neutron/*.log  after 1 days (4 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/neutron/neutron-dhcp-agent.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/neutron/neutron-l3-agent.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/neutron/neutron-metadata-agent.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/neutron/neutron-openvswitch-agent.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/neutron/neutron-ovs-cleanup.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/nova/*.log  after 1 days (4 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/nova/nova-api-metadata.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/nova/nova-compute.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/nova/privsep-helper.log
+Creating new state
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 16:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/openvswitch/*.log  after 1 days (30 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/openvswitch/ovs-vswitchd.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+considering log /var/log/openvswitch/ovsdb-server.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/syslog
+ after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/syslog
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 00:00
+  log does not need rotating (log has been rotated at 2022-2-10 0:0, that is not day ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/mail.info
+/var/log/mail.warn
+/var/log/mail.err
+/var/log/mail.log
+/var/log/daemon.log
+/var/log/kern.log
+/var/log/auth.log
+/var/log/user.log
+/var/log/lpr.log
+/var/log/cron.log
+/var/log/debug
+/var/log/messages
+ weekly (4 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/mail.info
+  log /var/log/mail.info does not exist -- skipping
+considering log /var/log/mail.warn
+  log /var/log/mail.warn does not exist -- skipping
+considering log /var/log/mail.err
+  log /var/log/mail.err does not exist -- skipping
+considering log /var/log/mail.log
+  log /var/log/mail.log does not exist -- skipping
+considering log /var/log/daemon.log
+  log /var/log/daemon.log does not exist -- skipping
+considering log /var/log/kern.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not week ago yet)
+considering log /var/log/auth.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not week ago yet)
+considering log /var/log/user.log
+  log /var/log/user.log does not exist -- skipping
+considering log /var/log/lpr.log
+  log /var/log/lpr.log does not exist -- skipping
+considering log /var/log/cron.log
+  log /var/log/cron.log does not exist -- skipping
+considering log /var/log/debug
+  log /var/log/debug does not exist -- skipping
+considering log /var/log/messages
+  log /var/log/messages does not exist -- skipping
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/ubuntu-advantage*.log  monthly (6 rotations)
+empty log files are not rotated, old logs are removed
+considering log /var/log/ubuntu-advantage-timer.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+considering log /var/log/ubuntu-advantage.log
+Creating new state
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-10 16:00
+  log does not need rotating (log has been already rotated)
+
+rotating pattern: /var/log/ufw.log
+ weekly (4 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/ufw.log
+  log /var/log/ufw.log does not exist -- skipping
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/unattended-upgrades/unattended-upgrades.log 
+/var/log/unattended-upgrades/unattended-upgrades-dpkg.log
+/var/log/unattended-upgrades/unattended-upgrades-shutdown.log
+ monthly (6 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/unattended-upgrades/unattended-upgrades.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+considering log /var/log/unattended-upgrades/unattended-upgrades-dpkg.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+considering log /var/log/unattended-upgrades/unattended-upgrades-shutdown.log
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/wtmp  monthly (1 rotations)
+empty log files are rotated, only log files >= 1048576 bytes are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/wtmp
+  Now: 2022-02-10 16:19
+  Last rotated at 2022-02-09 22:00
+  log does not need rotating (log has been rotated at 2022-2-9 22:0, that is not month ago yet)
+  log does not need rotating ('minsize' directive is used and the log size is smaller than the minsize value)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/zvmsdk/*.log  after 1 days (4 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/zvmsdk/*.log
+  log /var/log/zvmsdk/*.log does not exist -- skipping
+switching euid to 0 and egid to 0

@@ -1,0 +1,20 @@
+* jujud-machine-1-lxd-0.service - juju agent for machine-1-lxd-0
+     Loaded: loaded (/etc/systemd/system/jujud-machine-1-lxd-0.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:44 UTC; 11h ago
+   Main PID: 275 (bash)
+      Tasks: 12 (limit: 314572)
+     Memory: 131.9M
+     CGroup: /system.slice/jujud-machine-1-lxd-0.service
+             |-275 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+             `-286 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+
+Feb 10 09:29:39 juju-04f1e3-1-lxd-0 sudo[49491]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:34:36 juju-04f1e3-1-lxd-0 sudo[49917]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:34:36 juju-04f1e3-1-lxd-0 sudo[49917]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:34:37 juju-04f1e3-1-lxd-0 sudo[49917]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:39:56 juju-04f1e3-1-lxd-0 sudo[50250]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:39:56 juju-04f1e3-1-lxd-0 sudo[50250]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:39:56 juju-04f1e3-1-lxd-0 sudo[50250]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:45:00 juju-04f1e3-1-lxd-0 sudo[50586]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:45:00 juju-04f1e3-1-lxd-0 sudo[50586]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:45:00 juju-04f1e3-1-lxd-0 sudo[50586]: pam_unix(sudo:session): session closed for user ceph

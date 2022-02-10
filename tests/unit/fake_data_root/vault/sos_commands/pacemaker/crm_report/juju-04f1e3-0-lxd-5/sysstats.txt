@@ -1,0 +1,408 @@
++ uname -n
+juju-04f1e3-0-lxd-5
++ uptime
+ 09:52:01 up 11:18,  1 user,  load average: 6.56, 4.57, 4.02
++ ps axf
+    PID TTY      STAT   TIME COMMAND
+      1 ?        Ss     1:48 /sbin/init
+     63 ?        Ss     0:01 /lib/systemd/systemd-journald
+     97 ?        Ss     0:00 /lib/systemd/systemd-udevd
+    126 ?        Ss     0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+    127 ?        Ss     0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+    128 ?        Ss     0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+    129 ?        Ss     0:02 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o ro,nodev,allow_other,suid
+    130 ?        Ss     0:00 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+    131 ?        Ss     0:03 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+    187 ?        Ss     0:00 /lib/systemd/systemd-resolved
+    247 ?        Ss     0:00 /lib/systemd/systemd-networkd
+    252 ?        Ssl    0:00 /usr/lib/accountsservice/accounts-daemon
+    256 ?        Ssl    4:54 /usr/sbin/corosync -f
+    258 ?        Ss     0:00 /usr/sbin/cron -f
+    261 ?        Ss     0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+    265 ?        Ss     0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+    269 ?        Ssl    0:00 /usr/sbin/rsyslogd -n -iNONE
+    271 ?        Ssl    0:02 /usr/lib/snapd/snapd
+    273 ?        Ss     0:00 /lib/systemd/systemd-logind
+    276 ?        Ssl    0:00 /usr/lib/udisks2/udisksd
+    285 ?        Ss     0:00 /usr/sbin/atd -f
+    286 ?        Ss     0:01 ha_logd: read process
+    312 ?        S      0:01  \_ ha_logd: write process
+    299 ?        Ss     0:00 bash /etc/systemd/system/jujud-machine-0-lxd-5-exec-start.sh
+    310 ?        SLl   12:43  \_ /var/lib/juju/tools/machine-0-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/5 --debug
+    302 ?        Sl     3:17 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrouter.conf
+    311 pts/0    Ss+    0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+    328 ?        Ss     0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+ 282376 ?        Ss     0:00  \_ sshd: ubuntu [priv]
+ 282436 ?        S      0:00      \_ sshd: ubuntu@pts/1
+ 282438 pts/1    Ss     0:00          \_ sudo -s
+ 282439 pts/1    S      0:00              \_ /bin/bash
+ 282492 pts/1    Sl+    0:12                  \_ /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+ 284060 pts/1    S      0:00                      \_ timeout 300s crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report --from 2022-02-07 09:02:17
+ 284062 pts/1    S      0:00                          \_ /bin/sh /usr/sbin/crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report --from 2022-02-07 09:02:17
+ 284139 pts/1    S      0:00                              \_ bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report/collector
+ 284867 pts/1    R      0:00                                  \_ ps axf
+    353 ?        Ssl    0:00 /usr/lib/policykit-1/polkitd --no-debug
+    429 ?        Ss     0:02 /usr/sbin/pacemakerd -f
+    473 ?        Ss     0:04  \_ /usr/lib/pacemaker/pacemaker-based
+    474 ?        Ss     0:02  \_ /usr/lib/pacemaker/pacemaker-fenced
+    475 ?        Ss     0:03  \_ /usr/lib/pacemaker/pacemaker-execd
+    476 ?        Ss     0:02  \_ /usr/lib/pacemaker/pacemaker-attrd
+    477 ?        Ss     0:02  \_ /usr/lib/pacemaker/pacemaker-schedulerd
+    478 ?        Ss     0:03  \_ /usr/lib/pacemaker/pacemaker-controld
+    447 ?        Ssl    0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+    503 ?        Ss     0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+   2266 ?        Sl     0:07  \_ lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+   8589 ?        Ssl    1:01 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/vault.hcl
+ 189021 ?        Ss     0:00 /usr/sbin/uuidd --socket-activation
+ 282380 ?        Ss     0:00 /lib/systemd/systemd --user
+ 282381 ?        S      0:00  \_ (sd-pam)
+ 283254 ?        Ssl    0:00 /usr/libexec/fwupd/fwupd
+ 283295 ?        Ss     0:00 /lib/systemd/systemd-hostnamed
++ ps auxw
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.2  0.0 105056 12524 ?        Ss   Feb09   1:48 /sbin/init
+root          63  0.0  0.1  59664 25376 ?        Ss   Feb09   0:01 /lib/systemd/systemd-journald
+root          97  0.0  0.0  11884  4740 ?        Ss   Feb09   0:00 /lib/systemd/systemd-udevd
+root         126  0.0  0.0   4808  1676 ?        Ss   Feb09   0:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+root         127  0.0  0.0   4744  1564 ?        Ss   Feb09   0:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+root         128  0.0  0.0   4516  1328 ?        Ss   Feb09   0:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+root         129  0.0  0.0   4780  1700 ?        Ss   Feb09   0:02 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o ro,nodev,allow_other,suid
+root         130  0.0  0.0   4716  1420 ?        Ss   Feb09   0:00 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+root         131  0.0  0.0   4772  1688 ?        Ss   Feb09   0:03 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+systemd+     187  0.0  0.0  23964 12180 ?        Ss   Feb09   0:00 /lib/systemd/systemd-resolved
+systemd+     247  0.0  0.0  18416  6568 ?        Ss   Feb09   0:00 /lib/systemd/systemd-networkd
+root         252  0.0  0.0 241036  9264 ?        Ssl  Feb09   0:00 /usr/lib/accountsservice/accounts-daemon
+root         256  0.7  0.2 161040 45604 ?        Ssl  Feb09   4:54 /usr/sbin/corosync -f
+root         258  0.0  0.0   8536  3008 ?        Ss   Feb09   0:00 /usr/sbin/cron -f
+message+     261  0.0  0.0   7708  4592 ?        Ss   Feb09   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         265  0.0  0.1  29272 17840 ?        Ss   Feb09   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+syslog       269  0.0  0.0 154864  4168 ?        Ssl  Feb09   0:00 /usr/sbin/rsyslogd -n -iNONE
+root         271  0.0  0.2 873400 36788 ?        Ssl  Feb09   0:02 /usr/lib/snapd/snapd
+root         273  0.0  0.0  16840  7508 ?        Ss   Feb09   0:00 /lib/systemd/systemd-logind
+root         276  0.0  0.0 394568 12388 ?        Ssl  Feb09   0:00 /usr/lib/udisks2/udisksd
+daemon       285  0.0  0.0   3792  2240 ?        Ss   Feb09   0:00 /usr/sbin/atd -f
+root         286  0.0  0.0   4784  3044 ?        Ss   Feb09   0:01 ha_logd: read process
+root         299  0.0  0.0   8696  3264 ?        Ss   Feb09   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-5-exec-start.sh
+mysql        302  0.4  0.0 761464 14004 ?        Sl   Feb09   3:17 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrouter.conf
+root         310  1.8  0.6 866328 100756 ?       SLl  Feb09  12:43 /var/lib/juju/tools/machine-0-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/5 --debug
+root         311  0.0  0.0   7352  2320 pts/0    Ss+  Feb09   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+root         312  0.0  0.0   4784   232 ?        S    Feb09   0:01 ha_logd: write process
+root         328  0.0  0.0  12176  7400 ?        Ss   Feb09   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root         353  0.0  0.0 236424  8988 ?        Ssl  Feb09   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root         429  0.0  0.0  74380 15460 ?        Ss   Feb09   0:02 /usr/sbin/pacemakerd -f
+root         447  0.0  0.1 108108 20384 ?        Ssl  Feb09   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+haclust+     473  0.0  0.1  74852 24432 ?        Ss   Feb09   0:04 /usr/lib/pacemaker/pacemaker-based
+root         474  0.0  0.0  65944 16116 ?        Ss   Feb09   0:02 /usr/lib/pacemaker/pacemaker-fenced
+root         475  0.0  0.0  50424 11100 ?        Ss   Feb09   0:03 /usr/lib/pacemaker/pacemaker-execd
+haclust+     476  0.0  0.0  64332 14460 ?        Ss   Feb09   0:02 /usr/lib/pacemaker/pacemaker-attrd
+haclust+     477  0.0  0.1  87096 27464 ?        Ss   Feb09   0:02 /usr/lib/pacemaker/pacemaker-schedulerd
+haclust+     478  0.0  0.1 115804 21816 ?        Ss   Feb09   0:03 /usr/lib/pacemaker/pacemaker-controld
+root         503  0.0  0.0   2616  1736 ?        Ss   Feb09   0:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+root        2266  0.0  0.2 1524036 45908 ?       Sl   Feb09   0:07 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+root        8589  0.1  0.4 878896 75700 ?        Ssl  Feb09   1:01 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/vault.hcl
+uuidd     189021  0.0  0.0   9748  1084 ?        Ss   06:04   0:00 /usr/sbin/uuidd --socket-activation
+root      282376  0.0  0.0  13800  8812 ?        Ss   09:50   0:00 sshd: ubuntu [priv]
+ubuntu    282380  0.0  0.0  18284  9376 ?        Ss   09:50   0:00 /lib/systemd/systemd --user
+ubuntu    282381  0.0  0.0 106268  5276 ?        S    09:50   0:00 (sd-pam)
+ubuntu    282436  0.0  0.0  13932  5052 ?        S    09:50   0:00 sshd: ubuntu@pts/1
+root      282438  0.0  0.0  11164  4504 pts/1    Ss   09:50   0:00 sudo -s
+root      282439  0.0  0.0   8960  3836 pts/1    S    09:50   0:00 /bin/bash
+root      282492 36.8  0.5 899504 91744 pts/1    Sl+  09:51   0:12 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+root      283254 17.0  0.1 384008 29820 ?        Ssl  09:51   0:00 /usr/libexec/fwupd/fwupd
+root      283295  0.0  0.0  16260  6204 ?        Ss   09:51   0:00 /lib/systemd/systemd-hostnamed
+root      284060  0.0  0.0   2712   652 pts/1    S    09:51   0:00 timeout 300s crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report --from 2022-02-07 09:02:17
+root      284062  0.0  0.0   2736  1780 pts/1    S    09:51   0:00 /bin/sh /usr/sbin/crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report --from 2022-02-07 09:02:17
+root      284139  0.0  0.0   4688  3660 pts/1    S    09:51   0:00 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report/collector
+root      284868  0.0  0.0   5896  2868 pts/1    R    09:52   0:00 ps auxw
++ top -b -n 1
+top - 09:52:01 up 11:18,  1 user,  load average: 6.56, 4.57, 4.02
+Tasks:  54 total,   1 running,  53 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 30.3 us,  0.0 sy,  0.0 ni, 69.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :  16009.0 total,  14048.0 free,    389.6 used,   1571.4 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.  15619.4 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 282492 root      20   0  899504  91744  10868 S  50.0   0.6   0:12.97 sosrepo+
+      1 root      20   0  105056  12524   8200 S   0.0   0.1   1:48.08 systemd
+     63 root      20   0   59664  25376  24220 S   0.0   0.2   0:01.48 systemd+
+     97 root      20   0   11884   4740   3664 S   0.0   0.0   0:00.06 systemd+
+    126 root      20   0    4808   1676    976 S   0.0   0.0   0:02.75 squashf+
+    127 root      20   0    4744   1564    876 S   0.0   0.0   0:03.02 squashf+
+    128 root      20   0    4516   1328    900 S   0.0   0.0   0:00.09 squashf+
+    129 root      20   0    4780   1700    976 S   0.0   0.0   0:02.70 squashf+
+    130 root      20   0    4716   1420    860 S   0.0   0.0   0:00.42 squashf+
+    131 root      20   0    4772   1688    968 S   0.0   0.0   0:03.35 squashf+
+    187 systemd+  20   0   23964  12180   8060 S   0.0   0.1   0:00.14 systemd+
+    247 systemd+  20   0   18416   6568   5756 S   0.0   0.0   0:00.71 systemd+
+    252 root      20   0  241036   9264   8308 S   0.0   0.1   0:00.58 account+
+    256 root      20   0  161040  45604  37136 S   0.0   0.3   4:54.39 corosync
+    258 root      20   0    8536   3008   2736 S   0.0   0.0   0:00.04 cron
+    261 message+  20   0    7708   4592   3768 S   0.0   0.0   0:00.51 dbus-da+
+    265 root      20   0   29272  17840  10148 S   0.0   0.1   0:00.09 network+
+    269 syslog    20   0  154864   4168   3640 S   0.0   0.0   0:00.27 rsyslogd
+    271 root      20   0  873400  36788  19028 S   0.0   0.2   0:02.45 snapd
+    273 root      20   0   16840   7508   6628 S   0.0   0.0   0:00.22 systemd+
+    276 root      20   0  394568  12388  10860 S   0.0   0.1   0:00.04 udisksd
+    285 daemon    20   0    3792   2240   2068 S   0.0   0.0   0:00.00 atd
+    286 root      20   0    4784   3044   2820 S   0.0   0.0   0:01.51 ha_logd
+    299 root      20   0    8696   3264   3004 S   0.0   0.0   0:00.00 bash
+    302 mysql     20   0  761464  14004  11144 S   0.0   0.1   3:17.83 mysqlro+
+    310 root      20   0  866328 100756  78224 S   0.0   0.6  12:43.13 jujud
+    311 root      20   0    7352   2320   2196 S   0.0   0.0   0:00.00 agetty
+    312 root      20   0    4784    232      4 S   0.0   0.0   0:01.46 ha_logd
+    328 root      20   0   12176   7400   6476 S   0.0   0.0   0:00.00 sshd
+    353 root      20   0  236424   8988   8052 S   0.0   0.1   0:00.07 polkitd
+    429 root      20   0   74380  15460   9836 S   0.0   0.1   0:02.21 pacemak+
+    447 root      20   0  108108  20384  12712 S   0.0   0.1   0:00.07 unatten+
+    473 haclust+  20   0   74852  24432  15240 S   0.0   0.1   0:04.47 pacemak+
+    474 root      20   0   65944  16116  11600 S   0.0   0.1   0:02.11 pacemak+
+    475 root      20   0   50424  11100   9804 S   0.0   0.1   0:03.80 pacemak+
+    476 haclust+  20   0   64332  14460   9992 S   0.0   0.1   0:02.07 pacemak+
+    477 haclust+  20   0   87096  27464  25856 S   0.0   0.2   0:02.76 pacemak+
+    478 haclust+  20   0  115804  21816  17132 S   0.0   0.1   0:03.87 pacemak+
+    503 root      20   0    2616   1736   1608 S   0.0   0.0   0:00.08 daemon.+
+   2266 root      20   0 1524036  45908  26752 S   0.0   0.3   0:07.93 lxd
+   8589 root      20   0  878896  75700  55072 S   0.0   0.5   1:01.29 vault
+ 189021 uuidd     20   0    9748   1084    908 S   0.0   0.0   0:00.04 uuidd
+ 282376 root      20   0   13800   8812   7364 S   0.0   0.1   0:00.02 sshd
+ 282380 ubuntu    20   0   18284   9376   8000 S   0.0   0.1   0:00.03 systemd
+ 282381 ubuntu    20   0  106268   5276    828 S   0.0   0.0   0:00.00 (sd-pam)
+ 282436 ubuntu    20   0   13932   5052   3596 S   0.0   0.0   0:00.01 sshd
+ 282438 root      20   0   11164   4504   3800 S   0.0   0.0   0:00.01 sudo
+ 282439 root      20   0    8960   3836   3308 S   0.0   0.0   0:00.00 bash
+ 283254 root      20   0  384008  29820  25548 S   0.0   0.2   0:00.34 fwupd
+ 283295 root      20   0   16260   6204   5496 S   0.0   0.0   0:00.07 systemd+
+ 284060 root      20   0    2712    652    564 S   0.0   0.0   0:00.00 timeout
+ 284062 root      20   0    2736   1780   1540 S   0.0   0.0   0:00.00 crm_rep+
+ 284139 root      20   0    4688   3660   2640 S   0.0   0.0   0:00.03 bash
+ 284869 root      20   0    6176   3276   2824 R   0.0   0.0   0:00.00 top
++ ifconfig -a
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.0.121  netmask 255.255.255.0  broadcast 10.0.0.255
+        inet6 fe80::216:3eff:fe3f:d91c  prefixlen 64  scopeid 0x20<link>
+        ether 00:16:3e:3f:d9:1c  txqueuelen 1000  (Ethernet)
+        RX packets 3168550  bytes 765869883 (765.8 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3629369  bytes 444690564 (444.6 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 210872  bytes 23159959 (23.1 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 210872  bytes 23159959 (23.1 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
++ ip addr list
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+26: eth0@if27: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:16:3e:3f:d9:1c brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.0.0.121/24 brd 10.0.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet 10.0.0.200/24 brd 10.0.0.255 scope global secondary eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::216:3eff:fe3f:d91c/64 scope link 
+       valid_lft forever preferred_lft forever
++ netstat -i
+Kernel Interface table
+Iface      MTU    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+eth0      1500  3168550      0      0 0       3629369      0      0      0 BMRU
+lo       65536   210872      0      0 0        210872      0      0      0 LRU
++ arp -an
+? (10.0.0.113) at 00:16:3e:16:04:1f [ether] on eth0
+? (10.0.0.124) at 00:16:3e:d6:29:2d [ether] on eth0
+? (10.0.0.217) at 52:54:00:d6:16:aa [ether] on eth0
+? (10.0.0.2) at 52:54:00:23:38:7f [ether] on eth0
+? (10.0.0.137) at 00:16:3e:2d:06:81 [ether] on eth0
+? (10.0.0.119) at 00:16:3e:b7:f1:3a [ether] on eth0
+? (10.0.0.132) at 00:16:3e:92:d6:95 [ether] on eth0
+? (10.0.0.114) at 12:7e:61:46:05:b0 [ether] on eth0
+? (10.0.0.117) at 00:16:3e:b7:f0:b6 [ether] on eth0
+? (10.0.0.110) at 00:16:3e:c4:36:80 [ether] on eth0
+? (10.0.0.133) at 1a:22:68:c4:5b:3b [ether] on eth0
+? (10.0.0.112) at 00:16:3e:bd:a1:e3 [ether] on eth0
+? (10.0.0.128) at 22:c2:7b:1c:12:1b [ether] on eth0
++ test -d /proc
++ cat /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 94
+model name	: Intel Core Processor (Skylake, IBRS)
+stepping	: 3
+microcode	: 0x1
+cpu MHz		: 4200.000
+cache size	: 16384 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat md_clear
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit srbds
+bogomips	: 8400.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 94
+model name	: Intel Core Processor (Skylake, IBRS)
+stepping	: 3
+microcode	: 0x1
+cpu MHz		: 4200.000
+cache size	: 16384 KB
+physical id	: 1
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat md_clear
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit srbds
+bogomips	: 8400.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
++ lsscsi
+/tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-10-bvdigoo/sos_commands/pacemaker/crm_report/collector: line 1373: lsscsi: command not found
++ lspci
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
+00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
+00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
+00:02.0 VGA compatible controller: Cirrus Logic GD 5446
+00:03.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:04.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:05.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:06.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:07.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:08.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:09.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:0a.0 USB controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #1 (rev 03)
+00:0a.1 USB controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #2 (rev 03)
+00:0a.2 USB controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #3 (rev 03)
+00:0a.7 USB controller: Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #1 (rev 03)
+00:0b.0 SCSI storage controller: Red Hat, Inc. Virtio block device
+00:0c.0 SCSI storage controller: Red Hat, Inc. Virtio block device
+00:0d.0 SCSI storage controller: Red Hat, Inc. Virtio block device
+00:0e.0 Unclassified device [00ff]: Red Hat, Inc. Virtio memory balloon
+00:0f.0 SCSI storage controller: Red Hat, Inc. Virtio block device
++ lsblk
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+loop0         7:0    0 61.9M  1 loop 
+loop2         7:2    0 76.2M  1 loop 
+loop3         7:3    0 43.4M  1 loop 
+loop4         7:4    0 76.3M  1 loop 
+vda         252:0    0  300G  0 disk 
+|-vda1      252:1    0    1M  0 part 
+`-vda2      252:2    0  300G  0 part /snap
+vdb         252:16   0  100G  0 disk 
+|-vdb1      252:17   0    1M  0 part 
+`-vdb2      252:18   0  100G  0 part 
+  |-bcache0 251:0    0  100G  0 disk 
+  `-bcache1 251:128  0  100G  0 disk 
+vdc         252:32   0  100G  0 disk 
+`-bcache1   251:128  0  100G  0 disk 
+vdd         252:48   0  100G  0 disk 
+`-bcache0   251:0    0  100G  0 disk 
++ mount
+/dev/vda2 on / type ext4 (rw,relatime)
+none on /dev type tmpfs (rw,relatime,size=492k,mode=755,uid=1000000,gid=1000000)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+sysfs on /sys type sysfs (rw,relatime)
+udev on /dev/fuse type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+udev on /dev/net/tun type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
+fusectl on /sys/fs/fuse/connections type fusectl (rw,nosuid,nodev,noexec,relatime)
+pstore on /sys/fs/pstore type pstore (rw,nosuid,nodev,noexec,relatime)
+configfs on /sys/kernel/config type configfs (rw,nosuid,nodev,noexec,relatime)
+debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
+securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)
+tracefs on /sys/kernel/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+mqueue on /dev/mqueue type mqueue (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /dev/lxd type tmpfs (rw,relatime,size=100k,mode=755)
+tmpfs on /dev/.lxd-mounts type tmpfs (rw,relatime,size=100k,mode=711)
+lxcfs on /proc/cpuinfo type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /proc/diskstats type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /proc/loadavg type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /proc/meminfo type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /proc/stat type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /proc/swaps type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /proc/uptime type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+lxcfs on /sys/devices/system/cpu/online type fuse.lxcfs (rw,nosuid,nodev,relatime,user_id=0,group_id=0,allow_other)
+udev on /dev/full type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+udev on /dev/null type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+udev on /dev/random type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+udev on /dev/tty type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+udev on /dev/urandom type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+udev on /dev/zero type devtmpfs (rw,nosuid,noexec,relatime,size=8151596k,nr_inodes=2037899,mode=755)
+/proc/self/fd/43 on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=1000005,mode=620,ptmxmode=666,max=1024)
+/proc/self/fd/43 on /dev/ptmx type devpts (rw,nosuid,noexec,relatime,gid=1000005,mode=620,ptmxmode=666,max=1024)
+/proc/self/fd/43 on /dev/console type devpts (rw,nosuid,noexec,relatime,gid=1000005,mode=620,ptmxmode=666,max=1024)
+none on /proc/sys/kernel/random/boot_id type tmpfs (ro,nosuid,nodev,noexec,relatime,size=492k,mode=755,uid=1000000,gid=1000000)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,uid=1000000,gid=1000000)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,size=1639320k,mode=755,uid=1000000,gid=1000000)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k,uid=1000000,gid=1000000)
+tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,mode=755,uid=1000000,gid=1000000)
+cgroup2 on /sys/fs/cgroup/unified type cgroup2 (rw,nosuid,nodev,noexec,relatime)
+cgroup on /sys/fs/cgroup/systemd type cgroup (rw,nosuid,nodev,noexec,relatime,xattr,name=systemd)
+cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset,clone_children)
+cgroup on /sys/fs/cgroup/pids type cgroup (rw,nosuid,nodev,noexec,relatime,pids)
+cgroup on /sys/fs/cgroup/net_cls,net_prio type cgroup (rw,nosuid,nodev,noexec,relatime,net_cls,net_prio)
+cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpu,cpuacct)
+cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb)
+cgroup on /sys/fs/cgroup/freezer type cgroup (rw,nosuid,nodev,noexec,relatime,freezer)
+cgroup on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+cgroup on /sys/fs/cgroup/rdma type cgroup (rw,nosuid,nodev,noexec,relatime,rdma)
+cgroup on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,nosuid,nodev,noexec,relatime,perf_event)
+/dev/vda2 on /snap type ext4 (rw,relatime)
+squashfuse on /snap/core20/1328 type fuse.squashfuse (ro,nodev,relatime,user_id=0,group_id=0,allow_other)
+squashfuse on /snap/snapd/14549 type fuse.squashfuse (ro,nodev,relatime,user_id=0,group_id=0,allow_other)
+squashfuse on /snap/core/12603 type fuse.squashfuse (ro,nodev,relatime,user_id=0,group_id=0,allow_other)
+squashfuse on /snap/vault/2012 type fuse.squashfuse (ro,nodev,relatime,user_id=0,group_id=0,allow_other)
+squashfuse on /snap/core18/2284 type fuse.squashfuse (ro,nodev,relatime,user_id=0,group_id=0,allow_other)
+squashfuse on /snap/lxd/21835 type fuse.squashfuse (ro,nodev,relatime,user_id=0,group_id=0,allow_other)
+tmpfs on /run/snapd/ns type tmpfs (rw,nosuid,nodev,size=1639320k,mode=755,uid=1000000,gid=1000000)
+nsfs on /run/snapd/ns/vault.mnt type nsfs (rw)
+nsfs on /run/snapd/ns/lxd.mnt type nsfs (rw)
+tmpfs on /var/snap/lxd/common/ns type tmpfs (rw,relatime,size=1024k,mode=700,uid=1000000,gid=1000000)
+nsfs on /var/snap/lxd/common/ns/shmounts type nsfs (rw)
+tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,size=1639316k,mode=700,uid=1001000,gid=1001000)
++ df
+Filesystem     1K-blocks     Used Available Use% Mounted on
+/dev/vda2      308585260 24554212 268286436   9% /
+none                 492        4       488   1% /dev
+udev             8151596        0   8151596   0% /dev/tty
+tmpfs                100        0       100   0% /dev/lxd
+tmpfs                100        0       100   0% /dev/.lxd-mounts
+tmpfs            8196584    54192   8142392   1% /dev/shm
+tmpfs            1639320      288   1639032   1% /run
+tmpfs               5120        0      5120   0% /run/lock
+tmpfs            8196584        0   8196584   0% /sys/fs/cgroup
+tmpfs               1024        0      1024   0% /var/snap/lxd/common/ns
+tmpfs            1639316        0   1639316   0% /run/user/1000
++ set +x

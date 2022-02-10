@@ -1,0 +1,160 @@
+#!/bin/sh
+
+# ipvsadm       Manageѕ ipvsadm daemon
+#
+### BEGIN INIT INFO
+# Provides:          ipvsadm
+# Required-Start:    $network
+# Required-Stop:     $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description: Starts ipvsadm daemon
+# short-description: ipvsadm daemon
+### END INIT INFO
+
+#includes lsb functions
+. /lib/lsb/init-functions
+
+IPVSADM="/sbin/ipvsadm"
+IPVSADM_RULES="/etc/ipvsadm.rules"
+IPVSADM_CONFIG="/etc/default/ipvsadm"
+SYNCID="0"
+
+AUTO="false"
+DAEMON="none"		# none|master|backup|both
+IFACE="eth0"
+FAILURE=0
+
+start () {
+    case $DAEMON in
+	master|backup)
+	    log_daemon_msg "Starting IPVS Connection Synchronization Daemon" "$DAEMON"
+	    $IPVSADM --start-daemon $DAEMON --mcast-interface \
+        $IFACE --syncid $SYNCID || log_end_msg 1
+	    log_end_msg 0
+	    ;;
+	both)
+	    log_daemon_msg "Starting IPVS Connection Synchronization Daemon" "master"
+	    $IPVSADM --start-daemon master --mcast-interface \
+        $IFACE --syncid $SYNCID  || FAILURE=1
+	    log_progress_msg "backup"
+	    $IPVSADM --start-daemon backup --mcast-interface \
+        $IFACE --syncid $SYNCID || FAILURE=1
+	    if [ "$FAILURE" -eq 1 ]
+	    then
+		log_end_msg 1
+	    else
+	    	log_end_msg 0
+	    fi
+	    ;;
+	*)
+	    log_action_msg "ipvsadm is not configured to run. Please edit /etc/default/ipvsadm"
+	    ;;
+    esac
+}
+
+stop () {
+    case $DAEMON in
+	master|backup)
+	    log_daemon_msg "Stopping IPVS Connection Synchronization Daemon" "$DAEMON"
+	    $IPVSADM --stop-daemon $DAEMON || log_end_msg 1
+	    log_end_msg 0
+	    ;;
+	both)
+	    log_daemon_msg "Stopping IPVS Connection Synchronization Daemon" "master"
+	    $IPVSADM --stop-daemon master || FAILURE=1
+	    log_progress_msg "backup"
+	    $IPVSADM --stop-daemon backup || FAILURE=1
+	    if [ "$FAILURE" -eq 1 ]
+	    then
+		log_end_msg 1
+ 	    else
+		log_end_msg 0
+	    fi
+	    ;;
+	*)
+	    log_action_msg "ipvsadm is not configured to run. Please run dpkg-reconfigure ipvsadm"
+	    ;;
+    esac
+}
+
+flush () {
+    log_action_begin_msg "Clearing the current IPVS table"
+    ipvsadm -C || log_action_end_msg 1
+    log_action_end_msg 0
+}
+
+load () {
+    log_action_begin_msg "Loading IPVS configuration"
+    grep -v "^#" $IPVSADM_RULES | $IPVSADM -R || log_action_end_msg 1
+    log_action_end_msg 0
+}
+
+save () {
+    log_action_begin_msg "Saving IPVS configuration"
+    echo "# ipvsadm.rules" > $IPVSADM_RULES
+    $IPVSADM -S -n >> $IPVSADM_RULES
+    log_action_end_msg 0
+}
+
+if [ -f $IPVSADM_CONFIG ]; then
+    . $IPVSADM_CONFIG
+fi
+
+if [ ! -x $IPVSADM ]; then
+    exit 0
+fi
+
+if [ ! -f $IPVSADM_RULES ]; then
+    echo "# ipvsadm.rules" > $IPVSADM_RULES
+fi
+
+case "$1" in
+    start)
+	if [ "$AUTO" = "true" ]; then
+	    flush
+	    load
+	fi
+	start
+        ;;
+    stop)
+	stop
+	if [ "$AUTO" = "true" ]; then
+	    flush
+	fi
+	;;
+    restart)
+	stop
+	if [ "$AUTO" = "true" ]; then
+	    flush
+	    load
+	fi
+	start
+	;;
+    reload|force-reload)
+	if [ "$AUTO" = "true" ]; then
+	    flush
+	    load
+	fi
+	;;
+    status)
+	ipvsadm -L -n
+	;;
+    rate)
+	ipvsadm -L --rate -n
+	;;
+    load)
+	flush
+	load
+	;;
+    save)
+	save
+	;;
+    *)
+	echo "Usage: $0
+	  {start|stop|restart|status|rate|load|save|reload|force-reload}"
+	exit 1
+	;;
+esac
+
+exit 0

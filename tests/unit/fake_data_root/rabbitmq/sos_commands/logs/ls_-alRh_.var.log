@@ -1,0 +1,96 @@
+/var/log/:
+total 1.5M
+drwxrwxr-x  10 root      syslog          4.0K Feb 10 06:50 .
+drwxr-xr-x  13 root      root            4.0K Jan 31 22:28 ..
+-rw-r--r--   1 root      root             11K Feb 10 06:50 alternatives.log
+drwxr-xr-x   2 root      root            4.0K Feb 10 06:50 apt
+-rw-r-----   1 syslog    adm             259K Feb 10 09:39 auth.log
+-rw-rw----   1 root      utmp               0 Jan 31 22:28 btmp
+-rw-r-----   1 root      adm              23K Feb  9 22:41 cloud-init-output.log
+-rw-r--r--   1 syslog    adm             161K Feb  9 22:41 cloud-init.log
+drwxr-xr-x   2 root      root            4.0K Aug  4  2021 dist-upgrade
+-rw-r--r--   1 root      adm                0 Feb  4 09:43 dmesg
+-rw-r--r--   1 root      root             75K Feb 10 06:50 dpkg.log
+drwxr-sr-x+  3 root      systemd-journal 4.0K Feb  4 09:42 journal
+drwxr-xr-x   2 syslog    adm             4.0K Feb  4 09:46 juju
+drwxr-xr-x   2 landscape landscape       4.0K Feb 10 09:39 landscape
+-rw-rw-r--   1 root      utmp            286K Feb 10 09:39 lastlog
+-rw-r--r--   1 root      root             227 Feb 10 06:50 policy-rc.d.log
+drwx------   2 root      root            4.0K Feb  4 09:42 private
+drwxr-xr-x   3 rabbitmq  rabbitmq        4.0K Feb  4 09:52 rabbitmq
+-rw-r-----   1 syslog    adm             585K Feb 10 09:39 syslog
+-rw-r-----   1 syslog    adm             294K Feb 10 00:00 syslog.1
+-rw-------   1 root      root             394 Feb 10 05:06 ubuntu-advantage-timer.log
+drwxr-x---   2 root      adm             4.0K Feb  9 22:58 unattended-upgrades
+-rw-rw-r--   1 root      utmp            3.4K Feb 10 09:39 wtmp
+
+/var/log/apt:
+total 92K
+drwxr-xr-x  2 root root   4.0K Feb 10 06:50 .
+drwxrwxr-x 10 root syslog 4.0K Feb 10 06:50 ..
+-rw-r--r--  1 root root    24K Feb 10 06:50 eipp.log.xz
+-rw-r--r--  1 root root   8.6K Feb 10 06:50 history.log
+-rw-r-----  1 root adm     43K Feb 10 06:50 term.log
+
+/var/log/dist-upgrade:
+total 8.0K
+drwxr-xr-x  2 root root   4.0K Aug  4  2021 .
+drwxrwxr-x 10 root syslog 4.0K Feb 10 06:50 ..
+
+/var/log/journal:
+total 12K
+drwxr-sr-x+  3 root systemd-journal 4.0K Feb  4 09:42 .
+drwxrwxr-x  10 root syslog          4.0K Feb 10 06:50 ..
+drwxr-sr-x+  2 root systemd-journal 4.0K Feb 10 09:39 028edcb934864221a0abd2d18a86ffa6
+
+/var/log/journal/028edcb934864221a0abd2d18a86ffa6:
+total 33M
+drwxr-sr-x+ 2 root systemd-journal 4.0K Feb 10 09:39 .
+drwxr-sr-x+ 3 root systemd-journal 4.0K Feb  4 09:42 ..
+-rw-r-----+ 1 root systemd-journal  16M Feb 10 09:39 system.journal
+-rw-r-----+ 1 root systemd-journal 8.0M Feb  9 22:38 system@0005d79d7e9a677f-82d7b2c9a384b6d5.journal~
+-rw-r-----+ 1 root systemd-journal 8.0M Feb 10 09:39 user-1000.journal
+
+/var/log/juju:
+total 132K
+drwxr-xr-x  2 syslog adm    4.0K Feb  4 09:46 .
+drwxrwxr-x 10 root   syslog 4.0K Feb 10 06:50 ..
+-rw-r-----  1 syslog adm     15K Feb  9 22:38 machine-1-lxd-5.log
+-rw-r-----  1 syslog adm     23K Feb 10 09:36 machine-lock.log
+-rw-r-----  1 syslog adm     75K Feb 10 09:36 unit-rabbitmq-server-0.log
+
+/var/log/landscape:
+total 8.0K
+drwxr-xr-x  2 landscape landscape 4.0K Feb 10 09:39 .
+drwxrwxr-x 10 root      syslog    4.0K Feb 10 06:50 ..
+-rw-r--r--  1 root      root         0 Feb 10 09:39 sysinfo.log
+
+/var/log/private:
+total 8.0K
+drwx------  2 root root   4.0K Feb  4 09:42 .
+drwxrwxr-x 10 root syslog 4.0K Feb 10 06:50 ..
+
+/var/log/rabbitmq:
+total 1.2M
+drwxr-xr-x  3 rabbitmq rabbitmq 4.0K Feb  4 09:52 .
+drwxrwxr-x 10 root     syslog   4.0K Feb 10 06:50 ..
+drwxr-x---  2 rabbitmq rabbitmq 4.0K Feb 10 00:00 log
+-rw-r-----  1 rabbitmq rabbitmq 1.1M Feb 10 05:01 rabbit@juju-04f1e3-1-lxd-5.log
+-rw-r-----  1 rabbitmq rabbitmq  198 Feb  9 22:40 rabbit@juju-04f1e3-1-lxd-5_upgrade.log
+-rw-r-----  1 rabbitmq rabbitmq   61 Feb  9 22:41 startup_err
+-rw-r-----  1 rabbitmq rabbitmq  608 Feb  9 22:41 startup_log
+
+/var/log/rabbitmq/log:
+total 8.0K
+drwxr-x--- 2 rabbitmq rabbitmq 4.0K Feb 10 00:00 .
+drwxr-xr-x 3 rabbitmq rabbitmq 4.0K Feb  4 09:52 ..
+-rw-r----- 1 rabbitmq rabbitmq    0 Feb 10 00:00 crash.log
+-rw-r----- 1 rabbitmq rabbitmq    0 Feb  4 09:52 crash.log.0
+
+/var/log/unattended-upgrades:
+total 28K
+drwxr-x---  2 root adm    4.0K Feb  9 22:58 .
+drwxrwxr-x 10 root syslog 4.0K Feb 10 06:50 ..
+-rw-r--r--  1 root adm     11K Feb 10 06:50 unattended-upgrades-dpkg.log
+-rw-r--r--  1 root root    113 Feb  4 11:32 unattended-upgrades-shutdown.log
+-rw-r--r--  1 root root   1.5K Feb 10 06:50 unattended-upgrades.log

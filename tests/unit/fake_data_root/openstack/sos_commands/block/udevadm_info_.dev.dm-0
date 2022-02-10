@@ -1,0 +1,31 @@
+P: /devices/virtual/block/dm-0
+N: dm-0
+L: 0
+S: disk/by-id/lvm-pv-uuid-MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt
+S: disk/by-id/dm-name-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+S: mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+S: disk/by-id/dm-uuid-CRYPT-LUKS2-48858aa171a34f0e95f3a07d1d9a6749-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: DEVPATH=/devices/virtual/block/dm-0
+E: DEVNAME=/dev/dm-0
+E: DEVTYPE=disk
+E: MAJOR=253
+E: MINOR=0
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=656637687
+E: DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG=1
+E: DM_UDEV_PRIMARY_SOURCE_FLAG=1
+E: DM_UDEV_RULES=1
+E: DM_UDEV_RULES_VSN=2
+E: DM_NAME=crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: DM_UUID=CRYPT-LUKS2-48858aa171a34f0e95f3a07d1d9a6749-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: DM_SUSPENDED=0
+E: ID_FS_UUID=MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt
+E: ID_FS_UUID_ENC=MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt
+E: ID_FS_VERSION=LVM2 001
+E: ID_FS_TYPE=LVM2_member
+E: ID_FS_USAGE=raid
+E: DM_TABLE_STATE=LIVE
+E: DM_STATE=ACTIVE
+E: DEVLINKS=/dev/disk/by-id/lvm-pv-uuid-MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt /dev/disk/by-id/dm-name-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 /dev/disk/by-id/dm-uuid-CRYPT-LUKS2-48858aa171a34f0e95f3a07d1d9a6749-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: TAGS=:systemd:
+

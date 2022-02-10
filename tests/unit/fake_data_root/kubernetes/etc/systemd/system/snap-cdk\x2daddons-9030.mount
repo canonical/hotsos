@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for cdk-addons, revision 9030
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/cdk-addons_9030.snap
+Where=/snap/cdk-addons/9030
+Type=squashfs
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

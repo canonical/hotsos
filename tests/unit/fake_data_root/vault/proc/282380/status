@@ -1,0 +1,55 @@
+Name:	systemd
+Umask:	0002
+State:	S (sleeping)
+Tgid:	282380
+Ngid:	0
+Pid:	282380
+PPid:	1
+TracerPid:	0
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+FDSize:	128
+Groups:	4 20 24 25 27 29 30 44 46 117 1000 
+NStgid:	282380
+NSpid:	282380
+NSpgid:	282380
+NSsid:	282380
+VmPeak:	   19940 kB
+VmSize:	   18284 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    9376 kB
+VmRSS:	    9376 kB
+RssAnon:	    1376 kB
+RssFile:	    8000 kB
+RssShmem:	       0 kB
+VmData:	     928 kB
+VmStk:	     132 kB
+VmExe:	     960 kB
+VmLib:	    8784 kB
+VmPTE:	      80 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	0/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	7be3c0fe28014a03
+SigIgn:	0000000000001000
+SigCgt:	0000000180000000
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	50
+nonvoluntary_ctxt_switches:	184

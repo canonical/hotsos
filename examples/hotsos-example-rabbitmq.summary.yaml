@@ -1,0 +1,57 @@
+hotsos:
+  version: development
+  repo-info: 0e374261
+system:
+  hostname: juju-04f1e3-1-lxd-5
+  os: ubuntu focal
+  num-cpus: 2
+  load: 2.00, 1.45, 1.28
+  virtualisation: lxc
+  rootfs: /dev/vda2        308585260 24695924 268144724   9% /
+  unattended-upgrades: ENABLED
+  date: Thu 10 Feb 09:39:52 UTC 2022
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+rabbitmq:
+  services:
+    systemd:
+      enabled:
+        - epmd
+        - rabbitmq-server
+    ps:
+      - beam.smp (1)
+      - epmd (1)
+      - rabbitmq-server (1)
+  dpkg:
+    - rabbitmq-server 3.8.2-0ubuntu1.3
+  resources:
+    vhosts:
+      - /
+      - openstack
+    vhost-queue-distributions:
+      openstack:
+        rabbit@juju-04f1e3-1-lxd-5: 194 (100.00%)
+    connections-per-host:
+      rabbit@juju-04f1e3-1-lxd-5: 159
+    client-connections:
+      neutron:
+        neutron-openvswitch-agent: 39
+        neutron-server: 37
+        neutron-l3-agent: 15
+        neutron-dhcp-agent: 12
+        neutron-metadata-agent: 6
+      nova:
+        nova-api-metadata: 24
+        nova-compute: 11
+        nova-conductor: 11
+        nova-scheduler: 4
+    cluster-partition-handling: ignore
+  potential-issues:
+    RabbitMQWarnings:
+      - rabbit@juju-04f1e3-1-lxd-5 holds more than 2/3 of queues for 1/2 vhost(s).
+        (origin=rabbitmq.cluster_checks)
+      - Cluster partition handling is currently set to ignore. This is potentially
+        dangerous and a setting of pause_minority is recommended. (origin=rabbitmq.cluster_checks)

@@ -1,0 +1,16 @@
+site_name: 'OpenStack Integration Interface'
+
+generate:
+  - requires.md:
+    - requires
+    - requires.OpenStackIntegrationRequires+
+  - provides.md:
+    - provides
+    - provides.OpenStackIntegrationProvides+
+    - provides.IntegrationRequest+
+
+pages:
+  - Requires: requires.md
+  - Provides: provides.md
+
+gens_dir: docs

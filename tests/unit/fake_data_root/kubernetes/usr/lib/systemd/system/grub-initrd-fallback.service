@@ -1,0 +1,15 @@
+[Unit]
+Description=GRUB failed boot detection
+After=local-fs.target
+After=grub-common.service
+After=sleep.target
+ConditionPathExists=/boot/grub/grub.cfg
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/grub-editenv /boot/grub/grubenv unset initrdfail
+ExecStart=/usr/bin/grub-editenv /boot/grub/grubenv unset prev_entry
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target rescue.target emergency.target sleep.target

@@ -1,5 +1,0 @@
-2021-04-01 00:31:37.068 7f55ad6ba700 -1 bluestore(/var/lib/ceph/osd/ceph-1299) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x0, got 0x6706be76, expected 0x4e439b0c, device location [0x1ca5b760000~1000], logical extent 0x0~1000, object 0#32:c02a81b9:::4b4c5578-2012-49da-b208-b389bd4241af.102762668.5__shadow_.tjSycOb1-QFYjIpygBIaOJUDJGWEtG4_4:head#
-2021-04-01 00:31:37.068 7f55ad6ba700 -1 bluestore(/var/lib/ceph/osd/ceph-1299) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x0, got 0x6706be76, expected 0x4e439b0c, device location [0x1ca5b760000~1000], logical extent 0x0~1000, object 0#32:c02a81b9:::4b4c5578-2012-49da-b208-b389bd4241af.102762668.5__shadow_.tjSycOb1-QFYjIpygBIaOJUDJGWEtG4_4:head#
-2021-04-01 00:32:56.608 7f1855ca06c0 -1 osd.1299 0 OSD::init() : unable to read osd superblock
-2021-04-01 00:32:56.608 7f1855ca06c0 -1  ** ERROR: osd init failed: (22) Invalid argument
-

@@ -1,0 +1,8 @@
+/var/log/zvmsdk/*.log {
+    daily
+    missingok
+    compress
+    delaycompress
+    copytruncate
+    notifempty
+}

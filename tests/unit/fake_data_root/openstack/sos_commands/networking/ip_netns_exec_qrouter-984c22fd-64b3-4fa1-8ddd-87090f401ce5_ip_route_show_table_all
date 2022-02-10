@@ -1,0 +1,19 @@
+default via 192.168.21.109 dev qr-3a70b31c-3f table 3232240897 proto static 
+default via 169.254.88.135 dev rfp-984c22fd-6 table 16 proto static 
+169.254.88.134/31 dev rfp-984c22fd-6 proto kernel scope link src 169.254.88.134 
+192.168.21.0/24 dev qr-3a70b31c-3f proto kernel scope link src 192.168.21.1 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+local 169.254.88.134 dev rfp-984c22fd-6 table local proto kernel scope host src 169.254.88.134 
+broadcast 192.168.21.0 dev qr-3a70b31c-3f table local proto kernel scope link src 192.168.21.1 
+local 192.168.21.1 dev qr-3a70b31c-3f table local proto kernel scope host src 192.168.21.1 
+broadcast 192.168.21.255 dev qr-3a70b31c-3f table local proto kernel scope link src 192.168.21.1 
+fe80::/64 dev rfp-984c22fd-6 proto kernel metric 256 pref medium
+fe80::/64 dev qr-3a70b31c-3f proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::bc18:38ff:fef7:b652 dev rfp-984c22fd-6 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe76:19dd dev qr-3a70b31c-3f table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev rfp-984c22fd-6 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev qr-3a70b31c-3f table local proto kernel metric 256 pref medium

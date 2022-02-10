@@ -1,0 +1,53 @@
+network:
+  version: 2
+  ethernets:
+    ens3:
+      match:
+        macaddress: 52:54:00:e2:28:a3
+      set-name: ens3
+      mtu: 1500
+    ens4:
+      match:
+        macaddress: 52:54:00:bb:47:e2
+      set-name: ens4
+      mtu: 1500
+      optional: true
+    ens5:
+      match:
+        macaddress: 52:54:00:5c:d9:47
+      set-name: ens5
+      mtu: 1500
+      optional: true
+    ens6:
+      match:
+        macaddress: 52:54:00:e6:14:19
+      set-name: ens6
+      mtu: 1500
+      optional: true
+    ens7:
+      match:
+        macaddress: 52:54:00:78:19:c3
+      set-name: ens7
+      mtu: 1500
+      optional: true
+    ens8:
+      match:
+        macaddress: 52:54:00:fa:50:95
+      set-name: ens8
+      mtu: 1500
+      optional: true
+    ens9:
+      match:
+        macaddress: 52:54:00:5c:a7:e0
+      set-name: ens9
+      mtu: 1500
+  bridges:
+    br-ens3:
+      interfaces: [ens3]
+      addresses:
+      - 10.0.0.128/24
+      gateway4: 10.0.0.2
+      nameservers:
+        search: [mylab.home]
+        addresses: [10.0.0.2]
+      mtu: 1500

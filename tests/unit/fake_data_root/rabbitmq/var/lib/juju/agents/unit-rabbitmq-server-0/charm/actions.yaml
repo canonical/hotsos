@@ -1,0 +1,81 @@
+pause:
+  description: Pause the rabbitmq unit.
+resume:
+  descrpition: Resume the rabbitmq unit.
+cluster-status:
+  description: Show the current cluster status.
+check-queues:
+  description: |
+    Show current queues, optionally only show queues with more than N messages
+    or queues from specified vhost.
+  params:
+    queue-depth:
+      type: integer
+      default: -1
+      description: |
+        Only show queues with >= this many messages. -1 shows all.  Note that
+        if the result exceeds command line length (1/4 ulimit -s) on the target
+        system this will fail  (For ex; -1 in an openstack env)
+        See lp:1437366, lp:1274460
+    vhost:
+      type: string
+      default: "/"
+      description:  Show queues from the specified vhost.  Eg; "openstack".
+complete-cluster-series-upgrade:
+  description: |
+    Perform final operations post series upgrade. Inform all nodes in the
+    cluster the upgrade is complete cluster wide.
+    This action should be performed on the current leader. Note the leader may
+    have changed during the series upgrade process.
+list-unconsumed-queues:
+  description: |-
+      list queues which currently have zero consumers, results are like:
+        unconsumed-queue-count: "2"
+        unconsumed-queues:
+          $vhost:
+            "0": queue_name1 - 0
+            "1": $queue_name - $num_messages
+forget-cluster-node:
+  description: |-
+    Remove a dead node from the cluster mnesia db.
+  params:
+    node:
+      type: string
+      description: Node name i.e. rabbit@<hostname>
+force-boot:
+  description: |
+    Set the `force_boot` flag and restart the RabbitMQ broker. This
+    action should be performed if a unit in the RabbitMQ cluster is
+    failing to boot after an uncontrolled shutdown of the cluster.
+    Note that units of a RabbitMQ cluster have to be booted in reverse
+    shutdown order. Also note that this potentially leads to a loss of
+    messages, in particular if the cluster received messages after the
+    unit was shut down.
+    See https://www.rabbitmq.com/clustering.html#restarting and LP: #1828988
+restart-services:
+  description: |
+    Restarts services this charm manages.
+  params:
+    deferred-only:
+      type: boolean
+      default: false
+      description: |
+        Restart all deferred services.
+    services:
+      type: string
+      default: ""
+      description: |
+        List of services to restart.
+    run-hooks:
+      type: boolean
+      default: true
+      description: |
+        Run any hooks which have been deferred.
+run-deferred-hooks:
+  description: |
+    Run deferable hooks and restart services.
+    .
+    NOTE: Service will be restarted as needed irrespective of enable-auto-restarts
+show-deferred-events:
+    descrpition: |
+        Show the outstanding restarts

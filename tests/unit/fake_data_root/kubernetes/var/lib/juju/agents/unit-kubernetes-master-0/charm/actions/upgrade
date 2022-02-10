@@ -1,0 +1,9 @@
+#!/bin/bash
+set -eux
+
+if [[ "$(action-get fix-cluster-name)" == "true" ]]; then
+    charms.reactive set_state 'kubernetes-master.cdk-addons.unique-cluster-tag'
+fi
+
+charms.reactive set_state kubernetes-master.upgrade-specified
+exec hooks/config-changed

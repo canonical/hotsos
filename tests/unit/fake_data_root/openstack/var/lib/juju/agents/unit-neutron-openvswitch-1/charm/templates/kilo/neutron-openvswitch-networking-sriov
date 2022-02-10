@@ -1,0 +1,26 @@
+# Set to 1 to configure Virtual Functions on system startup.
+{% if enable_sriov -%}
+ENABLE=1
+{% else -%}
+ENABLE=0
+{% endif -%}
+
+# Blanket configuration for number of Virtual Functions across all NICs
+#
+# Possible configurations:
+# auto - Set sriov_numvfs to value of sriov_totalvfs for each interface
+# N    - Set sriov_numvfs on all interfaces to N or value of sriov_totalvfs
+#        if sriov_totalvfs is less than N for that interface
+#
+{% if sriov_vfs_blanket -%}
+VFS_BLANKET={{ sriov_vfs_blanket }}
+{% else -%}
+VFS_BLANKET=auto
+{% endif -%}
+
+# List of <device>:<numvfs> tuples for configuration of specific NICs
+#
+#VFS_LIST="ens3p0:16 ens4p0:16"
+{% if sriov_vfs_list -%}
+VFS_LIST="{{ sriov_vfs_list }}"
+{% endif -%}

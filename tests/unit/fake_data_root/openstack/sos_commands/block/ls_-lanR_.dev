@@ -1,0 +1,689 @@
+/dev:
+total 4
+drwxr-xr-x 20     0     0     4260 Feb 10 16:16 .
+drwxr-xr-x 19     0     0     4096 Feb 10 16:16 ..
+crw-r--r--  1     0     0  10, 235 Feb  9 22:38 autofs
+drwxr-xr-x  4     0     0       80 Feb  9 22:38 bcache
+brw-rw----  1     0     6 251,   0 Feb 10 16:16 bcache0
+brw-rw----  1     0     6 251, 128 Feb 10 16:16 bcache1
+drwxr-xr-x  2     0     0      460 Feb  9 22:49 block
+crw-rw----  1     0     6  10, 234 Feb  9 22:38 btrfs-control
+drwxr-xr-x  3     0     0       60 Feb  9 22:38 bus
+drwxr-xr-x  2     0     0       60 Feb  9 22:49 ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+drwxr-xr-x  2     0     0     3580 Feb 10 16:14 char
+crw-------  1     0     0   5,   1 Feb  9 22:49 console
+lrwxrwxrwx  1     0     0       11 Feb  9 22:38 core -> /proc/kcore
+drwxr-xr-x  4     0     0       80 Feb  9 22:38 cpu
+crw-------  1     0     0  10,  59 Feb  9 22:38 cpu_dma_latency
+crw-------  1     0     0  10, 203 Feb  9 22:38 cuse
+drwxr-xr-x  8     0     0      160 Feb  9 22:49 disk
+brw-rw----  1     0     6 253,   0 Feb 10 16:16 dm-0
+brw-rw----  1 64045 64045 253,   1 Feb 10 16:19 dm-1
+brw-rw----  1     0     6 253,   2 Feb 10 16:16 dm-2
+drwxr-xr-x  3     0     0       80 Feb  9 22:38 dri
+crw-------  1     0     0  10,  62 Feb  9 22:38 ecryptfs
+crw-rw----  1     0    44  29,   0 Feb  9 22:38 fb0
+lrwxrwxrwx  1     0     0       13 Feb  9 22:38 fd -> /proc/self/fd
+crw-rw-rw-  1     0     0   1,   7 Feb  9 22:38 full
+crw-rw-rw-  1     0     0  10, 229 Feb  9 22:38 fuse
+crw-------  1     0     0  10, 228 Feb  9 22:38 hpet
+drwxr-xr-x  3     0     0        0 Feb  9 22:38 hugepages
+crw-------  1     0     0  10, 183 Feb  9 22:38 hwrng
+crw-------  1     0     0  89,   0 Feb  9 22:38 i2c-0
+lrwxrwxrwx  1     0     0       12 Feb  9 22:38 initctl -> /run/initctl
+drwxr-xr-x  3     0     0      200 Feb  9 22:38 input
+crw-r--r--  1     0     0   1,  11 Feb  9 22:38 kmsg
+crw-rw----  1     0   108  10, 232 Feb 10 16:18 kvm
+drwxr-xr-x  2     0     0       60 Feb  9 22:38 lightnvm
+lrwxrwxrwx  1     0     0       28 Feb  9 22:38 log -> /run/systemd/journal/dev-log
+crw-rw----  1     0     6  10, 237 Feb  9 22:38 loop-control
+brw-rw----  1     0     6   7,   0 Feb 10 16:16 loop0
+brw-rw----  1     0     6   7,   1 Feb 10 09:33 loop1
+brw-rw----  1     0     6   7,   2 Feb 10 16:16 loop2
+brw-rw----  1     0     6   7,   3 Feb 10 16:16 loop3
+brw-rw----  1     0     6   7,   4 Feb 10 16:16 loop4
+brw-rw----  1     0     6   7,   5 Feb 10 09:33 loop5
+brw-rw----  1     0     6   7,   6 Feb 10 09:33 loop6
+brw-rw----  1     0     6   7,   7 Feb 10 09:33 loop7
+drwxr-xr-x  2     0     0      120 Feb  9 22:49 mapper
+crw-------  1     0     0  10, 227 Feb  9 22:38 mcelog
+crw-r-----  1     0    15   1,   1 Feb  9 22:38 mem
+drwxrwxrwt  2     0     0       40 Feb  9 22:38 mqueue
+drwxr-xr-x  2     0     0       60 Feb  9 22:38 net
+crw-rw-rw-  1     0     0   1,   3 Feb  9 22:38 null
+crw-------  1     0     0  10, 144 Feb  9 22:38 nvram
+crw-r-----  1     0    15   1,   4 Feb  9 22:38 port
+crw-------  1     0     0 108,   0 Feb  9 22:38 ppp
+crw-------  1     0     0  10,   1 Feb  9 22:38 psaux
+crw-rw-rw-  1     0     5   5,   2 Feb 10 16:19 ptmx
+drwxr-xr-x  2     0     0        0 Feb  9 22:38 pts
+crw-rw-rw-  1     0     0   1,   8 Feb  9 22:38 random
+crw-rw-r--  1     0     0  10, 242 Feb  9 22:38 rfkill
+lrwxrwxrwx  1     0     0        4 Feb  9 22:38 rtc -> rtc0
+crw-------  1     0     0 249,   0 Feb  9 22:38 rtc0
+drwxrwxrwt  2     0     0       40 Feb  9 22:38 shm
+crw-------  1     0     0  10, 231 Feb  9 22:38 snapshot
+drwxr-xr-x  2     0     0       80 Feb  9 22:38 snd
+lrwxrwxrwx  1     0     0       15 Feb  9 22:38 stderr -> /proc/self/fd/2
+lrwxrwxrwx  1     0     0       15 Feb  9 22:38 stdin -> /proc/self/fd/0
+lrwxrwxrwx  1     0     0       15 Feb  9 22:38 stdout -> /proc/self/fd/1
+crw-rw-rw-  1     0     5   5,   0 Feb  9 22:38 tty
+crw--w----  1     0     5   4,   0 Feb  9 22:38 tty0
+crw--w----  1     0     5   4,   1 Feb  9 22:38 tty1
+crw--w----  1     0     5   4,  10 Feb  9 22:38 tty10
+crw--w----  1     0     5   4,  11 Feb  9 22:38 tty11
+crw--w----  1     0     5   4,  12 Feb  9 22:38 tty12
+crw--w----  1     0     5   4,  13 Feb  9 22:38 tty13
+crw--w----  1     0     5   4,  14 Feb  9 22:38 tty14
+crw--w----  1     0     5   4,  15 Feb  9 22:38 tty15
+crw--w----  1     0     5   4,  16 Feb  9 22:38 tty16
+crw--w----  1     0     5   4,  17 Feb  9 22:38 tty17
+crw--w----  1     0     5   4,  18 Feb  9 22:38 tty18
+crw--w----  1     0     5   4,  19 Feb  9 22:38 tty19
+crw--w----  1     0     5   4,   2 Feb  9 22:38 tty2
+crw--w----  1     0     5   4,  20 Feb  9 22:38 tty20
+crw--w----  1     0     5   4,  21 Feb  9 22:38 tty21
+crw--w----  1     0     5   4,  22 Feb  9 22:38 tty22
+crw--w----  1     0     5   4,  23 Feb  9 22:38 tty23
+crw--w----  1     0     5   4,  24 Feb  9 22:38 tty24
+crw--w----  1     0     5   4,  25 Feb  9 22:38 tty25
+crw--w----  1     0     5   4,  26 Feb  9 22:38 tty26
+crw--w----  1     0     5   4,  27 Feb  9 22:38 tty27
+crw--w----  1     0     5   4,  28 Feb  9 22:38 tty28
+crw--w----  1     0     5   4,  29 Feb  9 22:38 tty29
+crw--w----  1     0     5   4,   3 Feb  9 22:38 tty3
+crw--w----  1     0     5   4,  30 Feb  9 22:38 tty30
+crw--w----  1     0     5   4,  31 Feb  9 22:38 tty31
+crw--w----  1     0     5   4,  32 Feb  9 22:38 tty32
+crw--w----  1     0     5   4,  33 Feb  9 22:38 tty33
+crw--w----  1     0     5   4,  34 Feb  9 22:38 tty34
+crw--w----  1     0     5   4,  35 Feb  9 22:38 tty35
+crw--w----  1     0     5   4,  36 Feb  9 22:38 tty36
+crw--w----  1     0     5   4,  37 Feb  9 22:38 tty37
+crw--w----  1     0     5   4,  38 Feb  9 22:38 tty38
+crw--w----  1     0     5   4,  39 Feb  9 22:38 tty39
+crw--w----  1     0     5   4,   4 Feb  9 22:38 tty4
+crw--w----  1     0     5   4,  40 Feb  9 22:38 tty40
+crw--w----  1     0     5   4,  41 Feb  9 22:38 tty41
+crw--w----  1     0     5   4,  42 Feb  9 22:38 tty42
+crw--w----  1     0     5   4,  43 Feb  9 22:38 tty43
+crw--w----  1     0     5   4,  44 Feb  9 22:38 tty44
+crw--w----  1     0     5   4,  45 Feb  9 22:38 tty45
+crw--w----  1     0     5   4,  46 Feb  9 22:38 tty46
+crw--w----  1     0     5   4,  47 Feb  9 22:38 tty47
+crw--w----  1     0     5   4,  48 Feb  9 22:38 tty48
+crw--w----  1     0     5   4,  49 Feb  9 22:38 tty49
+crw--w----  1     0     5   4,   5 Feb  9 22:38 tty5
+crw--w----  1     0     5   4,  50 Feb  9 22:38 tty50
+crw--w----  1     0     5   4,  51 Feb  9 22:38 tty51
+crw--w----  1     0     5   4,  52 Feb  9 22:38 tty52
+crw--w----  1     0     5   4,  53 Feb  9 22:38 tty53
+crw--w----  1     0     5   4,  54 Feb  9 22:38 tty54
+crw--w----  1     0     5   4,  55 Feb  9 22:38 tty55
+crw--w----  1     0     5   4,  56 Feb  9 22:38 tty56
+crw--w----  1     0     5   4,  57 Feb  9 22:38 tty57
+crw--w----  1     0     5   4,  58 Feb  9 22:38 tty58
+crw--w----  1     0     5   4,  59 Feb  9 22:38 tty59
+crw--w----  1     0     5   4,   6 Feb  9 22:38 tty6
+crw--w----  1     0     5   4,  60 Feb  9 22:38 tty60
+crw--w----  1     0     5   4,  61 Feb  9 22:38 tty61
+crw--w----  1     0     5   4,  62 Feb  9 22:38 tty62
+crw--w----  1     0     5   4,  63 Feb  9 22:38 tty63
+crw--w----  1     0     5   4,   7 Feb 10 13:48 tty7
+crw--w----  1     0     5   4,   8 Feb 10 13:48 tty8
+crw--w----  1     0     5   4,   9 Feb  9 22:38 tty9
+crw-rw----  1     0    20   4,  64 Feb  9 22:38 ttyS0
+crw-rw----  1     0    20   4,  65 Feb  9 22:38 ttyS1
+crw-rw----  1     0    20   4,  74 Feb  9 22:38 ttyS10
+crw-rw----  1     0    20   4,  75 Feb  9 22:38 ttyS11
+crw-rw----  1     0    20   4,  76 Feb  9 22:38 ttyS12
+crw-rw----  1     0    20   4,  77 Feb  9 22:38 ttyS13
+crw-rw----  1     0    20   4,  78 Feb  9 22:38 ttyS14
+crw-rw----  1     0    20   4,  79 Feb  9 22:38 ttyS15
+crw-rw----  1     0    20   4,  80 Feb  9 22:38 ttyS16
+crw-rw----  1     0    20   4,  81 Feb  9 22:38 ttyS17
+crw-rw----  1     0    20   4,  82 Feb  9 22:38 ttyS18
+crw-rw----  1     0    20   4,  83 Feb  9 22:38 ttyS19
+crw-rw----  1     0    20   4,  66 Feb  9 22:38 ttyS2
+crw-rw----  1     0    20   4,  84 Feb  9 22:38 ttyS20
+crw-rw----  1     0    20   4,  85 Feb  9 22:38 ttyS21
+crw-rw----  1     0    20   4,  86 Feb  9 22:38 ttyS22
+crw-rw----  1     0    20   4,  87 Feb  9 22:38 ttyS23
+crw-rw----  1     0    20   4,  88 Feb  9 22:38 ttyS24
+crw-rw----  1     0    20   4,  89 Feb  9 22:38 ttyS25
+crw-rw----  1     0    20   4,  90 Feb  9 22:38 ttyS26
+crw-rw----  1     0    20   4,  91 Feb  9 22:38 ttyS27
+crw-rw----  1     0    20   4,  92 Feb  9 22:38 ttyS28
+crw-rw----  1     0    20   4,  93 Feb  9 22:38 ttyS29
+crw-rw----  1     0    20   4,  67 Feb  9 22:38 ttyS3
+crw-rw----  1     0    20   4,  94 Feb  9 22:38 ttyS30
+crw-rw----  1     0    20   4,  95 Feb  9 22:38 ttyS31
+crw-rw----  1     0    20   4,  68 Feb  9 22:38 ttyS4
+crw-rw----  1     0    20   4,  69 Feb  9 22:38 ttyS5
+crw-rw----  1     0    20   4,  70 Feb  9 22:38 ttyS6
+crw-rw----  1     0    20   4,  71 Feb  9 22:38 ttyS7
+crw-rw----  1     0    20   4,  72 Feb  9 22:38 ttyS8
+crw-rw----  1     0    20   4,  73 Feb  9 22:38 ttyS9
+crw-------  1     0     0   5,   3 Feb  9 22:38 ttyprintk
+crw-rw----  1     0   108  10,  60 Feb  9 22:38 udmabuf
+crw-------  1     0     0  10, 239 Feb  9 22:38 uhid
+crw-------  1     0     0  10, 223 Feb  9 22:38 uinput
+crw-rw-rw-  1     0     0   1,   9 Feb  9 22:38 urandom
+crw-------  1     0     0  10, 240 Feb  9 22:38 userio
+crw-rw----  1     0     5   7,   0 Feb  9 22:38 vcs
+crw-rw----  1     0     5   7,   1 Feb  9 22:38 vcs1
+crw-rw----  1     0     5   7,   2 Feb  9 22:38 vcs2
+crw-rw----  1     0     5   7,   3 Feb  9 22:38 vcs3
+crw-rw----  1     0     5   7,   4 Feb  9 22:38 vcs4
+crw-rw----  1     0     5   7,   5 Feb  9 22:38 vcs5
+crw-rw----  1     0     5   7,   6 Feb  9 22:38 vcs6
+crw-rw----  1     0     5   7,   7 Feb 10 13:48 vcs7
+crw-rw----  1     0     5   7,   8 Feb 10 13:48 vcs8
+crw-rw----  1     0     5   7, 128 Feb  9 22:38 vcsa
+crw-rw----  1     0     5   7, 129 Feb  9 22:38 vcsa1
+crw-rw----  1     0     5   7, 130 Feb  9 22:38 vcsa2
+crw-rw----  1     0     5   7, 131 Feb  9 22:38 vcsa3
+crw-rw----  1     0     5   7, 132 Feb  9 22:38 vcsa4
+crw-rw----  1     0     5   7, 133 Feb  9 22:38 vcsa5
+crw-rw----  1     0     5   7, 134 Feb  9 22:38 vcsa6
+crw-rw----  1     0     5   7, 135 Feb 10 13:48 vcsa7
+crw-rw----  1     0     5   7, 136 Feb 10 13:48 vcsa8
+crw-rw----  1     0     5   7,  64 Feb  9 22:38 vcsu
+crw-rw----  1     0     5   7,  65 Feb  9 22:38 vcsu1
+crw-rw----  1     0     5   7,  66 Feb  9 22:38 vcsu2
+crw-rw----  1     0     5   7,  67 Feb  9 22:38 vcsu3
+crw-rw----  1     0     5   7,  68 Feb  9 22:38 vcsu4
+crw-rw----  1     0     5   7,  69 Feb  9 22:38 vcsu5
+crw-rw----  1     0     5   7,  70 Feb  9 22:38 vcsu6
+crw-rw----  1     0     5   7,  71 Feb 10 13:48 vcsu7
+crw-rw----  1     0     5   7,  72 Feb 10 13:48 vcsu8
+brw-rw----  1     0     6 252,   0 Feb 10 16:16 vda
+brw-rw----  1     0     6 252,   1 Feb 10 16:16 vda1
+brw-rw----  1     0     6 252,   2 Feb 10 16:16 vda2
+brw-rw----  1     0     6 252,  16 Feb 10 16:16 vdb
+brw-rw----  1     0     6 252,  17 Feb 10 16:16 vdb1
+brw-rw----  1     0     6 252,  18 Feb 10 16:16 vdb2
+brw-rw----  1     0     6 252,  32 Feb 10 16:16 vdc
+brw-rw----  1     0     6 252,  48 Feb 10 16:16 vdd
+drwxr-xr-x  2     0     0       60 Feb  9 22:38 vfio
+crw-------  1     0     0  10,  63 Feb  9 22:38 vga_arbiter
+crw-------  1     0     0  10, 137 Feb  9 22:38 vhci
+crw-------  1     0     0  10, 238 Feb 10 16:14 vhost-net
+crw-------  1     0     0  10, 241 Feb  9 22:38 vhost-vsock
+crw-rw-rw-  1     0     0  10,  58 Feb  9 22:38 vsock
+crw-rw-rw-  1     0     0   1,   5 Feb  9 22:38 zero
+crw-------  1     0     0  10, 249 Feb  9 22:38 zfs
+
+/dev/bcache:
+total 0
+drwxr-xr-x  4 0 0   80 Feb  9 22:38 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+drwxr-xr-x  2 0 0   80 Feb  9 22:38 by-label
+drwxr-xr-x  2 0 0   80 Feb  9 22:38 by-uuid
+
+/dev/bcache/by-label:
+total 0
+drwxr-xr-x 2 0 0 80 Feb  9 22:38 .
+drwxr-xr-x 4 0 0 80 Feb  9 22:38 ..
+lrwxrwxrwx 1 0 0 13 Feb 10 16:16 bcache0 -> ../../bcache1
+lrwxrwxrwx 1 0 0 13 Feb 10 16:16 bcache1 -> ../../bcache0
+
+/dev/bcache/by-uuid:
+total 0
+drwxr-xr-x 2 0 0 80 Feb  9 22:38 .
+drwxr-xr-x 4 0 0 80 Feb  9 22:38 ..
+lrwxrwxrwx 1 0 0 13 Feb 10 16:16 d9b66beb-6321-47e2-ad6d-bf117bb18d82 -> ../../bcache1
+lrwxrwxrwx 1 0 0 13 Feb 10 16:16 f254d188-e81b-493f-9f26-a377af56cb32 -> ../../bcache0
+
+/dev/block:
+total 0
+drwxr-xr-x  2 0 0  460 Feb  9 22:49 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+lrwxrwxrwx  1 0 0   10 Feb 10 16:16 251:0 -> ../bcache0
+lrwxrwxrwx  1 0 0   10 Feb 10 16:16 251:128 -> ../bcache1
+lrwxrwxrwx  1 0 0    6 Feb 10 16:16 252:0 -> ../vda
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 252:1 -> ../vda1
+lrwxrwxrwx  1 0 0    6 Feb 10 16:16 252:16 -> ../vdb
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 252:17 -> ../vdb1
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 252:18 -> ../vdb2
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 252:2 -> ../vda2
+lrwxrwxrwx  1 0 0    6 Feb 10 16:16 252:32 -> ../vdc
+lrwxrwxrwx  1 0 0    6 Feb 10 16:16 252:48 -> ../vdd
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 253:0 -> ../dm-0
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 253:1 -> ../dm-1
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 253:2 -> ../dm-2
+lrwxrwxrwx  1 0 0    8 Feb 10 16:16 7:0 -> ../loop0
+lrwxrwxrwx  1 0 0    8 Feb 10 09:33 7:1 -> ../loop1
+lrwxrwxrwx  1 0 0    8 Feb 10 16:16 7:2 -> ../loop2
+lrwxrwxrwx  1 0 0    8 Feb 10 16:16 7:3 -> ../loop3
+lrwxrwxrwx  1 0 0    8 Feb 10 16:16 7:4 -> ../loop4
+lrwxrwxrwx  1 0 0    8 Feb 10 09:33 7:5 -> ../loop5
+lrwxrwxrwx  1 0 0    8 Feb 10 09:33 7:6 -> ../loop6
+lrwxrwxrwx  1 0 0    8 Feb 10 09:33 7:7 -> ../loop7
+
+/dev/bus:
+total 0
+drwxr-xr-x  3 0 0   60 Feb  9 22:38 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+drwxr-xr-x  6 0 0  120 Feb  9 22:38 usb
+
+/dev/bus/usb:
+total 0
+drwxr-xr-x 6 0 0 120 Feb  9 22:38 .
+drwxr-xr-x 3 0 0  60 Feb  9 22:38 ..
+drwxr-xr-x 2 0 0  60 Feb  9 22:38 001
+drwxr-xr-x 2 0 0  60 Feb  9 22:38 002
+drwxr-xr-x 2 0 0  60 Feb  9 22:38 003
+drwxr-xr-x 2 0 0  60 Feb  9 22:38 004
+
+/dev/bus/usb/001:
+total 0
+drwxr-xr-x 2 0 0     60 Feb  9 22:38 .
+drwxr-xr-x 6 0 0    120 Feb  9 22:38 ..
+crw-rw-r-- 1 0 0 189, 0 Feb 10 13:48 001
+
+/dev/bus/usb/002:
+total 0
+drwxr-xr-x 2 0 0       60 Feb  9 22:38 .
+drwxr-xr-x 6 0 0      120 Feb  9 22:38 ..
+crw-rw-r-- 1 0 0 189, 128 Feb 10 13:48 001
+
+/dev/bus/usb/003:
+total 0
+drwxr-xr-x 2 0 0       60 Feb  9 22:38 .
+drwxr-xr-x 6 0 0      120 Feb  9 22:38 ..
+crw-rw-r-- 1 0 0 189, 256 Feb 10 13:48 001
+
+/dev/bus/usb/004:
+total 0
+drwxr-xr-x 2 0 0       60 Feb  9 22:38 .
+drwxr-xr-x 6 0 0      120 Feb  9 22:38 ..
+crw-rw-r-- 1 0 0 189, 384 Feb 10 13:48 001
+
+/dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749:
+total 0
+drwxr-xr-x  2 0 0   60 Feb  9 22:49 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+lrwxrwxrwx  1 0 0    7 Feb 10 16:16 osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 -> ../dm-1
+
+/dev/char:
+total 0
+drwxr-xr-x  2 0 0 3580 Feb 10 16:14 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+lrwxrwxrwx  1 0 0    6 Feb  9 22:38 108:0 -> ../ppp
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 10:1 -> ../psaux
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 10:183 -> ../hwrng
+lrwxrwxrwx  1 0 0   12 Feb  9 22:38 10:196 -> ../vfio/vfio
+lrwxrwxrwx  1 0 0   10 Feb  9 22:38 10:200 -> ../net/tun
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 10:223 -> ../uinput
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 10:227 -> ../mcelog
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 10:228 -> ../hpet
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 10:229 -> ../fuse
+lrwxrwxrwx  1 0 0   11 Feb  9 22:38 10:231 -> ../snapshot
+lrwxrwxrwx  1 0 0    6 Feb 10 16:18 10:232 -> ../kvm
+lrwxrwxrwx  1 0 0   16 Feb  9 22:38 10:234 -> ../btrfs-control
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 10:235 -> ../autofs
+lrwxrwxrwx  1 0 0   17 Feb  9 22:38 10:236 -> ../mapper/control
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 10:237 -> ../loop-control
+lrwxrwxrwx  1 0 0   12 Feb 10 16:14 10:238 -> ../vhost-net
+lrwxrwxrwx  1 0 0   14 Feb  9 22:38 10:241 -> ../vhost-vsock
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 10:242 -> ../rfkill
+lrwxrwxrwx  1 0 0    6 Feb  9 22:38 10:249 -> ../zfs
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 10:58 -> ../vsock
+lrwxrwxrwx  1 0 0   18 Feb  9 22:38 10:59 -> ../cpu_dma_latency
+lrwxrwxrwx  1 0 0   10 Feb  9 22:38 10:60 -> ../udmabuf
+lrwxrwxrwx  1 0 0   19 Feb  9 22:38 10:61 -> ../lightnvm/control
+lrwxrwxrwx  1 0 0   11 Feb  9 22:38 10:62 -> ../ecryptfs
+lrwxrwxrwx  1 0 0   14 Feb  9 22:38 10:63 -> ../vga_arbiter
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 13:32 -> ../input/mouse0
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 13:33 -> ../input/mouse1
+lrwxrwxrwx  1 0 0   13 Feb  9 22:38 13:63 -> ../input/mice
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 13:64 -> ../input/event0
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 13:65 -> ../input/event1
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 13:66 -> ../input/event2
+lrwxrwxrwx  1 0 0   15 Feb  9 22:38 13:67 -> ../input/event3
+lrwxrwxrwx  1 0 0   18 Feb  9 22:38 189:0 -> ../bus/usb/001/001
+lrwxrwxrwx  1 0 0   18 Feb  9 22:38 189:128 -> ../bus/usb/002/001
+lrwxrwxrwx  1 0 0   18 Feb  9 22:38 189:256 -> ../bus/usb/003/001
+lrwxrwxrwx  1 0 0   18 Feb  9 22:38 189:384 -> ../bus/usb/004/001
+lrwxrwxrwx  1 0 0    6 Feb  9 22:38 1:1 -> ../mem
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 1:11 -> ../kmsg
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 1:3 -> ../null
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 1:4 -> ../port
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 1:5 -> ../zero
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 1:7 -> ../full
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 1:8 -> ../random
+lrwxrwxrwx  1 0 0   10 Feb  9 22:38 1:9 -> ../urandom
+lrwxrwxrwx  1 0 0   12 Feb  9 22:38 202:0 -> ../cpu/0/msr
+lrwxrwxrwx  1 0 0   12 Feb  9 22:38 202:1 -> ../cpu/1/msr
+lrwxrwxrwx  1 0 0   12 Feb  9 22:38 226:0 -> ../dri/card0
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 249:0 -> ../rtc0
+lrwxrwxrwx  1 0 0    6 Feb  9 22:38 29:0 -> ../fb0
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:0 -> ../tty0
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:1 -> ../tty1
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:10 -> ../tty10
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:11 -> ../tty11
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:12 -> ../tty12
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:13 -> ../tty13
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:14 -> ../tty14
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:15 -> ../tty15
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:16 -> ../tty16
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:17 -> ../tty17
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:18 -> ../tty18
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:19 -> ../tty19
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:2 -> ../tty2
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:20 -> ../tty20
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:21 -> ../tty21
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:22 -> ../tty22
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:23 -> ../tty23
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:24 -> ../tty24
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:25 -> ../tty25
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:26 -> ../tty26
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:27 -> ../tty27
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:28 -> ../tty28
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:29 -> ../tty29
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:3 -> ../tty3
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:30 -> ../tty30
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:31 -> ../tty31
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:32 -> ../tty32
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:33 -> ../tty33
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:34 -> ../tty34
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:35 -> ../tty35
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:36 -> ../tty36
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:37 -> ../tty37
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:38 -> ../tty38
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:39 -> ../tty39
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:4 -> ../tty4
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:40 -> ../tty40
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:41 -> ../tty41
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:42 -> ../tty42
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:43 -> ../tty43
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:44 -> ../tty44
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:45 -> ../tty45
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:46 -> ../tty46
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:47 -> ../tty47
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:48 -> ../tty48
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:49 -> ../tty49
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:5 -> ../tty5
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:50 -> ../tty50
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:51 -> ../tty51
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:52 -> ../tty52
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:53 -> ../tty53
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:54 -> ../tty54
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:55 -> ../tty55
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:56 -> ../tty56
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:57 -> ../tty57
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:58 -> ../tty58
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:59 -> ../tty59
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:6 -> ../tty6
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:60 -> ../tty60
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:61 -> ../tty61
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:62 -> ../tty62
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:63 -> ../tty63
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:64 -> ../ttyS0
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:65 -> ../ttyS1
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:66 -> ../ttyS2
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:67 -> ../ttyS3
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:68 -> ../ttyS4
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:69 -> ../ttyS5
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:7 -> ../tty7
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:70 -> ../ttyS6
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:71 -> ../ttyS7
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:72 -> ../ttyS8
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 4:73 -> ../ttyS9
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:74 -> ../ttyS10
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:75 -> ../ttyS11
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:76 -> ../ttyS12
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:77 -> ../ttyS13
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:78 -> ../ttyS14
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:79 -> ../ttyS15
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:8 -> ../tty8
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:80 -> ../ttyS16
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:81 -> ../ttyS17
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:82 -> ../ttyS18
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:83 -> ../ttyS19
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:84 -> ../ttyS20
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:85 -> ../ttyS21
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:86 -> ../ttyS22
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:87 -> ../ttyS23
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:88 -> ../ttyS24
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:89 -> ../ttyS25
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 4:9 -> ../tty9
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:90 -> ../ttyS26
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:91 -> ../ttyS27
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:92 -> ../ttyS28
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:93 -> ../ttyS29
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:94 -> ../ttyS30
+lrwxrwxrwx  1 0 0    9 Feb  9 22:38 4:95 -> ../ttyS31
+lrwxrwxrwx  1 0 0    6 Feb  9 22:38 5:0 -> ../tty
+lrwxrwxrwx  1 0 0   10 Feb  9 22:38 5:1 -> ../console
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 5:2 -> ../ptmx
+lrwxrwxrwx  1 0 0   12 Feb  9 22:38 5:3 -> ../ttyprintk
+lrwxrwxrwx  1 0 0    6 Feb  9 22:38 7:0 -> ../vcs
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:1 -> ../vcs1
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:128 -> ../vcsa
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:129 -> ../vcsa1
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:130 -> ../vcsa2
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:131 -> ../vcsa3
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:132 -> ../vcsa4
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:133 -> ../vcsa5
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:134 -> ../vcsa6
+lrwxrwxrwx  1 0 0    8 Feb 10 13:48 7:135 -> ../vcsa7
+lrwxrwxrwx  1 0 0    8 Feb 10 13:48 7:136 -> ../vcsa8
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:2 -> ../vcs2
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:3 -> ../vcs3
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:4 -> ../vcs4
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:5 -> ../vcs5
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:6 -> ../vcs6
+lrwxrwxrwx  1 0 0    7 Feb  9 22:38 7:64 -> ../vcsu
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:65 -> ../vcsu1
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:66 -> ../vcsu2
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:67 -> ../vcsu3
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:68 -> ../vcsu4
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:69 -> ../vcsu5
+lrwxrwxrwx  1 0 0    7 Feb 10 13:48 7:7 -> ../vcs7
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 7:70 -> ../vcsu6
+lrwxrwxrwx  1 0 0    8 Feb 10 13:48 7:71 -> ../vcsu7
+lrwxrwxrwx  1 0 0    8 Feb 10 13:48 7:72 -> ../vcsu8
+lrwxrwxrwx  1 0 0    7 Feb 10 13:48 7:8 -> ../vcs8
+lrwxrwxrwx  1 0 0    8 Feb  9 22:38 89:0 -> ../i2c-0
+
+/dev/cpu:
+total 0
+drwxr-xr-x  4 0 0   80 Feb  9 22:38 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+drwxr-xr-x  2 0 0   60 Feb  9 22:38 0
+drwxr-xr-x  2 0 0   60 Feb  9 22:38 1
+
+/dev/cpu/0:
+total 0
+drwxr-xr-x 2 0 0     60 Feb  9 22:38 .
+drwxr-xr-x 4 0 0     80 Feb  9 22:38 ..
+crw------- 1 0 0 202, 0 Feb  9 22:38 msr
+
+/dev/cpu/1:
+total 0
+drwxr-xr-x 2 0 0     60 Feb  9 22:38 .
+drwxr-xr-x 4 0 0     80 Feb  9 22:38 ..
+crw------- 1 0 0 202, 1 Feb  9 22:38 msr
+
+/dev/disk:
+total 0
+drwxr-xr-x  8 0 0  160 Feb  9 22:49 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+drwxr-xr-x  2 0 0  120 Feb  9 22:38 by-dname
+drwxr-xr-x  2 0 0  180 Feb  9 22:49 by-id
+drwxr-xr-x  2 0 0   60 Feb  9 22:38 by-label
+drwxr-xr-x  2 0 0  120 Feb  9 22:38 by-partuuid
+drwxr-xr-x  2 0 0  360 Feb  9 22:38 by-path
+drwxr-xr-x  2 0 0  120 Feb  9 22:49 by-uuid
+
+/dev/disk/by-dname:
+total 0
+drwxr-xr-x 2 0 0 120 Feb  9 22:38 .
+drwxr-xr-x 8 0 0 160 Feb  9 22:49 ..
+lrwxrwxrwx 1 0 0  13 Feb 10 16:16 bcache0 -> ../../bcache1
+lrwxrwxrwx 1 0 0  13 Feb 10 16:16 bcache1 -> ../../bcache0
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 vda-part2 -> ../../vda2
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 vdb-part2 -> ../../vdb2
+
+/dev/disk/by-id:
+total 0
+drwxr-xr-x 2 0 0 180 Feb  9 22:49 .
+drwxr-xr-x 8 0 0 160 Feb  9 22:49 ..
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 dm-name-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 -> ../../dm-1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 dm-name-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 -> ../../dm-0
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 dm-name-crypt-88244ad9-372d-427e-9d82-c411c73d900a -> ../../dm-2
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 dm-uuid-CRYPT-LUKS2-48858aa171a34f0e95f3a07d1d9a6749-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 -> ../../dm-0
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 dm-uuid-CRYPT-LUKS2-88244ad9372d427e9d82c411c73d900a-crypt-88244ad9-372d-427e-9d82-c411c73d900a -> ../../dm-2
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 dm-uuid-LVM-2cdQud7F2us8HJODrfDsLi4HznhzONYcOCGMeIgyEjlLdyHQNsFpg6FRTFHLWoR7 -> ../../dm-1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 lvm-pv-uuid-MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt -> ../../dm-0
+
+/dev/disk/by-label:
+total 0
+drwxr-xr-x 2 0 0  60 Feb  9 22:38 .
+drwxr-xr-x 8 0 0 160 Feb  9 22:49 ..
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 root -> ../../vda2
+
+/dev/disk/by-partuuid:
+total 0
+drwxr-xr-x 2 0 0 120 Feb  9 22:38 .
+drwxr-xr-x 8 0 0 160 Feb  9 22:49 ..
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 4f113e54-1529-45aa-bc10-56b37c42a92d -> ../../vda2
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 5c1ca2b8-cecb-4123-a8b9-84ee2b456d44 -> ../../vdb2
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 728a5094-a3e9-4c2b-a437-be336e508ee4 -> ../../vdb1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 fb643193-e94b-45be-b29c-f8b367def85d -> ../../vda1
+
+/dev/disk/by-path:
+total 0
+drwxr-xr-x 2 0 0 360 Feb  9 22:38 .
+drwxr-xr-x 8 0 0 160 Feb  9 22:49 ..
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 pci-0000:00:0b.0 -> ../../vda
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 pci-0000:00:0b.0-part1 -> ../../vda1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 pci-0000:00:0b.0-part2 -> ../../vda2
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 pci-0000:00:0c.0 -> ../../vdb
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 pci-0000:00:0c.0-part1 -> ../../vdb1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 pci-0000:00:0c.0-part2 -> ../../vdb2
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 pci-0000:00:0d.0 -> ../../vdc
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 pci-0000:00:0f.0 -> ../../vdd
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 virtio-pci-0000:00:0b.0 -> ../../vda
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 virtio-pci-0000:00:0b.0-part1 -> ../../vda1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 virtio-pci-0000:00:0b.0-part2 -> ../../vda2
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 virtio-pci-0000:00:0c.0 -> ../../vdb
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 virtio-pci-0000:00:0c.0-part1 -> ../../vdb1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 virtio-pci-0000:00:0c.0-part2 -> ../../vdb2
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 virtio-pci-0000:00:0d.0 -> ../../vdc
+lrwxrwxrwx 1 0 0   9 Feb 10 16:16 virtio-pci-0000:00:0f.0 -> ../../vdd
+
+/dev/disk/by-uuid:
+total 0
+drwxr-xr-x 2 0 0 120 Feb  9 22:49 .
+drwxr-xr-x 8 0 0 160 Feb  9 22:49 ..
+lrwxrwxrwx 1 0 0  13 Feb 10 16:16 48858aa1-71a3-4f0e-95f3-a07d1d9a6749 -> ../../bcache1
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 51babbe8-f78f-46a4-8830-d351c3830325 -> ../../vda2
+lrwxrwxrwx 1 0 0  13 Feb 10 16:16 88244ad9-372d-427e-9d82-c411c73d900a -> ../../bcache0
+lrwxrwxrwx 1 0 0  10 Feb 10 16:16 c3332949-19ba-40f7-91b6-48ee86157980 -> ../../dm-2
+
+/dev/dri:
+total 0
+drwxr-xr-x  3 0  0     80 Feb  9 22:38 .
+drwxr-xr-x 20 0  0   4260 Feb 10 16:16 ..
+drwxr-xr-x  2 0  0     60 Feb  9 22:38 by-path
+crw-rw----  1 0 44 226, 0 Feb  9 22:38 card0
+
+/dev/dri/by-path:
+total 0
+drwxr-xr-x 2 0 0 60 Feb  9 22:38 .
+drwxr-xr-x 3 0 0 80 Feb  9 22:38 ..
+lrwxrwxrwx 1 0 0  8 Feb  9 22:38 pci-0000:00:02.0-card -> ../card0
+
+/dev/hugepages:
+total 0
+drwxr-xr-x  3 0 0    0 Feb  9 22:38 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+drwxr-xr-x  3 0 0    0 Feb  9 22:38 libvirt
+
+/dev/hugepages/libvirt:
+total 0
+drwxr-xr-x 3 0 0 0 Feb  9 22:38 .
+drwxr-xr-x 3 0 0 0 Feb  9 22:38 ..
+drwxr-xr-x 2 0 0 0 Feb  9 22:38 qemu
+
+/dev/hugepages/libvirt/qemu:
+total 0
+drwxr-xr-x 2 0 0 0 Feb  9 22:38 .
+drwxr-xr-x 3 0 0 0 Feb  9 22:38 ..
+
+/dev/input:
+total 0
+drwxr-xr-x  3 0   0    200 Feb  9 22:38 .
+drwxr-xr-x 20 0   0   4260 Feb 10 16:16 ..
+drwxr-xr-x  2 0   0    100 Feb  9 22:38 by-path
+crw-rw----  1 0 107 13, 64 Feb  9 22:38 event0
+crw-rw----  1 0 107 13, 65 Feb  9 22:38 event1
+crw-rw----  1 0 107 13, 66 Feb  9 22:38 event2
+crw-rw----  1 0 107 13, 67 Feb  9 22:38 event3
+crw-rw----  1 0 107 13, 63 Feb  9 22:38 mice
+crw-rw----  1 0 107 13, 32 Feb  9 22:38 mouse0
+crw-rw----  1 0 107 13, 33 Feb  9 22:38 mouse1
+
+/dev/input/by-path:
+total 0
+drwxr-xr-x 2 0 0 100 Feb  9 22:38 .
+drwxr-xr-x 3 0 0 200 Feb  9 22:38 ..
+lrwxrwxrwx 1 0 0   9 Feb  9 22:38 platform-i8042-serio-0-event-kbd -> ../event1
+lrwxrwxrwx 1 0 0   9 Feb  9 22:38 platform-i8042-serio-1-event-mouse -> ../event2
+lrwxrwxrwx 1 0 0   9 Feb  9 22:38 platform-i8042-serio-1-mouse -> ../mouse0
+
+/dev/lightnvm:
+total 0
+drwxr-xr-x  2 0 0     60 Feb  9 22:38 .
+drwxr-xr-x 20 0 0   4260 Feb 10 16:16 ..
+crw-------  1 0 0 10, 61 Feb  9 22:38 control
+
+/dev/mapper:
+total 0
+drwxr-xr-x  2 0 0     120 Feb  9 22:49 .
+drwxr-xr-x 20 0 0    4260 Feb 10 16:16 ..
+lrwxrwxrwx  1 0 0       7 Feb 10 16:16 ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 -> ../dm-1
+crw-------  1 0 0 10, 236 Feb  9 22:38 control
+lrwxrwxrwx  1 0 0       7 Feb 10 16:16 crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 -> ../dm-0
+lrwxrwxrwx  1 0 0       7 Feb 10 16:16 crypt-88244ad9-372d-427e-9d82-c411c73d900a -> ../dm-2
+
+/dev/mqueue:
+total 0
+drwxrwxrwt  2 0 0   40 Feb  9 22:38 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+
+/dev/net:
+total 0
+drwxr-xr-x  2 0 0      60 Feb  9 22:38 .
+drwxr-xr-x 20 0 0    4260 Feb 10 16:16 ..
+crw-rw-rw-  1 0 0 10, 200 Feb  9 22:38 tun
+
+/dev/pts:
+total 0
+drwxr-xr-x  2     0 0      0 Feb  9 22:38 .
+drwxr-xr-x 20     0 0   4260 Feb 10 16:16 ..
+crw--w----  1  1000 5 136, 0 Feb 10 16:19 0
+crw--w----  1  1000 5 136, 1 Feb 10 16:18 1
+crw--w----  1 64055 5 136, 3 Feb 10 16:18 3
+c---------  1     0 0   5, 2 Feb  9 22:38 ptmx
+
+/dev/shm:
+total 0
+drwxrwxrwt  2 0 0   40 Feb  9 22:38 .
+drwxr-xr-x 20 0 0 4260 Feb 10 16:16 ..
+
+/dev/snd:
+total 0
+drwxr-xr-x  2 0  0      80 Feb  9 22:38 .
+drwxr-xr-x 20 0  0    4260 Feb 10 16:16 ..
+crw-rw----  1 0 29 116,  1 Feb  9 22:38 seq
+crw-rw----  1 0 29 116, 33 Feb  9 22:38 timer
+
+/dev/vfio:
+total 0
+drwxr-xr-x  2 0 0      60 Feb  9 22:38 .
+drwxr-xr-x 20 0 0    4260 Feb 10 16:16 ..
+crw-rw-rw-  1 0 0 10, 196 Feb  9 22:38 vfio

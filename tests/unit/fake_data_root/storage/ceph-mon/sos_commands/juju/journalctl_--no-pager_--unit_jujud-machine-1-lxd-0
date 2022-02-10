@@ -1,0 +1,952 @@
+-- Logs begin at Fri 2022-02-04 09:42:52 UTC, end at Thu 2022-02-10 09:47:20 UTC. --
+Feb 04 09:46:25 juju-04f1e3-1-lxd-0 systemd[1]: Started juju agent for machine-1-lxd-0.
+Feb 04 09:51:01 juju-04f1e3-1-lxd-0 groupadd[9331]: group added to /etc/group: name=rdma, GID=119
+Feb 04 09:51:01 juju-04f1e3-1-lxd-0 groupadd[9331]: group added to /etc/gshadow: name=rdma
+Feb 04 09:51:01 juju-04f1e3-1-lxd-0 groupadd[9331]: new group: name=rdma, GID=119
+Feb 04 09:51:07 juju-04f1e3-1-lxd-0 groupadd[9389]: group added to /etc/group: name=ceph, GID=64045
+Feb 04 09:51:07 juju-04f1e3-1-lxd-0 groupadd[9389]: group added to /etc/gshadow: name=ceph
+Feb 04 09:51:07 juju-04f1e3-1-lxd-0 groupadd[9389]: new group: name=ceph, GID=64045
+Feb 04 09:51:08 juju-04f1e3-1-lxd-0 useradd[9398]: new user: name=ceph, UID=64045, GID=64045, home=/home/ceph, shell=/usr/sbin/nologin, from=none
+Feb 04 09:51:08 juju-04f1e3-1-lxd-0 usermod[9406]: change user 'ceph' password
+Feb 04 09:51:08 juju-04f1e3-1-lxd-0 usermod[9417]: change user 'ceph' home from '/home/ceph' to '/var/lib/ceph'
+Feb 04 09:55:07 juju-04f1e3-1-lxd-0 sudo[14230]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:55:07 juju-04f1e3-1-lxd-0 sudo[14230]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:08 juju-04f1e3-1-lxd-0 sudo[14230]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:55:11 juju-04f1e3-1-lxd-0 sudo[14238]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:55:11 juju-04f1e3-1-lxd-0 sudo[14238]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:11 juju-04f1e3-1-lxd-0 sudo[14238]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:55:15 juju-04f1e3-1-lxd-0 sudo[14245]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:55:15 juju-04f1e3-1-lxd-0 sudo[14245]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:15 juju-04f1e3-1-lxd-0 sudo[14245]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:55:18 juju-04f1e3-1-lxd-0 sudo[14252]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:55:18 juju-04f1e3-1-lxd-0 sudo[14252]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:19 juju-04f1e3-1-lxd-0 sudo[14252]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:55:19 juju-04f1e3-1-lxd-0 sudo[14257]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.admin
+Feb 04 09:55:19 juju-04f1e3-1-lxd-0 sudo[14257]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:21 juju-04f1e3-1-lxd-0 sudo[14257]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:55:29 juju-04f1e3-1-lxd-0 sudo[14403]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph mgr dump -f json
+Feb 04 09:55:29 juju-04f1e3-1-lxd-0 sudo[14403]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:33 juju-04f1e3-1-lxd-0 sudo[14403]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:55:38 juju-04f1e3-1-lxd-0 sudo[14439]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph mgr dump -f json
+Feb 04 09:55:38 juju-04f1e3-1-lxd-0 sudo[14439]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:55:42 juju-04f1e3-1-lxd-0 sudo[14439]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:00 juju-04f1e3-1-lxd-0 sudo[14586]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:00 juju-04f1e3-1-lxd-0 sudo[14586]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:01 juju-04f1e3-1-lxd-0 sudo[14586]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:01 juju-04f1e3-1-lxd-0 sudo[14598]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 09:56:01 juju-04f1e3-1-lxd-0 sudo[14598]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:04 juju-04f1e3-1-lxd-0 sudo[14598]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:04 juju-04f1e3-1-lxd-0 sudo[14625]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 09:56:04 juju-04f1e3-1-lxd-0 sudo[14625]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:07 juju-04f1e3-1-lxd-0 sudo[14625]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:07 juju-04f1e3-1-lxd-0 sudo[14709]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:07 juju-04f1e3-1-lxd-0 sudo[14709]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:08 juju-04f1e3-1-lxd-0 sudo[14709]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:09 juju-04f1e3-1-lxd-0 sudo[14744]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:09 juju-04f1e3-1-lxd-0 sudo[14744]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:09 juju-04f1e3-1-lxd-0 sudo[14744]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:14 juju-04f1e3-1-lxd-0 sudo[14895]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:14 juju-04f1e3-1-lxd-0 sudo[14895]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:15 juju-04f1e3-1-lxd-0 sudo[14895]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:18 juju-04f1e3-1-lxd-0 sudo[14954]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:18 juju-04f1e3-1-lxd-0 sudo[14954]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:19 juju-04f1e3-1-lxd-0 sudo[14954]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:23 juju-04f1e3-1-lxd-0 sudo[15147]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:23 juju-04f1e3-1-lxd-0 sudo[15147]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:24 juju-04f1e3-1-lxd-0 sudo[15147]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:26 juju-04f1e3-1-lxd-0 sudo[15164]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:26 juju-04f1e3-1-lxd-0 sudo[15164]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:27 juju-04f1e3-1-lxd-0 sudo[15164]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:27 juju-04f1e3-1-lxd-0 sudo[15183]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 09:56:27 juju-04f1e3-1-lxd-0 sudo[15183]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:31 juju-04f1e3-1-lxd-0 sudo[15183]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:31 juju-04f1e3-1-lxd-0 sudo[15212]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 09:56:31 juju-04f1e3-1-lxd-0 sudo[15212]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:33 juju-04f1e3-1-lxd-0 sudo[15212]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:34 juju-04f1e3-1-lxd-0 sudo[15300]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:34 juju-04f1e3-1-lxd-0 sudo[15300]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:35 juju-04f1e3-1-lxd-0 sudo[15300]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:40 juju-04f1e3-1-lxd-0 sudo[15493]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:40 juju-04f1e3-1-lxd-0 sudo[15493]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:41 juju-04f1e3-1-lxd-0 sudo[15493]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:43 juju-04f1e3-1-lxd-0 sudo[15509]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:43 juju-04f1e3-1-lxd-0 sudo[15509]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:44 juju-04f1e3-1-lxd-0 sudo[15509]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:44 juju-04f1e3-1-lxd-0 sudo[15529]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 09:56:44 juju-04f1e3-1-lxd-0 sudo[15529]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:46 juju-04f1e3-1-lxd-0 sudo[15529]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:46 juju-04f1e3-1-lxd-0 sudo[15555]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 09:56:46 juju-04f1e3-1-lxd-0 sudo[15555]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:49 juju-04f1e3-1-lxd-0 sudo[15555]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:50 juju-04f1e3-1-lxd-0 sudo[15643]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:50 juju-04f1e3-1-lxd-0 sudo[15643]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:51 juju-04f1e3-1-lxd-0 sudo[15643]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:56:57 juju-04f1e3-1-lxd-0 sudo[15842]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:56:57 juju-04f1e3-1-lxd-0 sudo[15842]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:56:57 juju-04f1e3-1-lxd-0 sudo[15842]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:00 juju-04f1e3-1-lxd-0 sudo[15864]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:00 juju-04f1e3-1-lxd-0 sudo[15864]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:01 juju-04f1e3-1-lxd-0 sudo[15864]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:01 juju-04f1e3-1-lxd-0 sudo[15884]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 09:57:01 juju-04f1e3-1-lxd-0 sudo[15884]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:04 juju-04f1e3-1-lxd-0 sudo[15884]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:04 juju-04f1e3-1-lxd-0 sudo[15911]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 09:57:04 juju-04f1e3-1-lxd-0 sudo[15911]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:07 juju-04f1e3-1-lxd-0 sudo[15911]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:07 juju-04f1e3-1-lxd-0 sudo[15998]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:07 juju-04f1e3-1-lxd-0 sudo[15998]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:08 juju-04f1e3-1-lxd-0 sudo[15998]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:13 juju-04f1e3-1-lxd-0 sudo[16195]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:13 juju-04f1e3-1-lxd-0 sudo[16195]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:14 juju-04f1e3-1-lxd-0 sudo[16195]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:16 juju-04f1e3-1-lxd-0 sudo[16217]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:16 juju-04f1e3-1-lxd-0 sudo[16217]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:17 juju-04f1e3-1-lxd-0 sudo[16217]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:18 juju-04f1e3-1-lxd-0 sudo[16236]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 09:57:18 juju-04f1e3-1-lxd-0 sudo[16236]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:21 juju-04f1e3-1-lxd-0 sudo[16236]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:21 juju-04f1e3-1-lxd-0 sudo[16263]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 09:57:21 juju-04f1e3-1-lxd-0 sudo[16263]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:24 juju-04f1e3-1-lxd-0 sudo[16263]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:25 juju-04f1e3-1-lxd-0 sudo[16350]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:25 juju-04f1e3-1-lxd-0 sudo[16350]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:25 juju-04f1e3-1-lxd-0 sudo[16350]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:31 juju-04f1e3-1-lxd-0 sudo[16552]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:31 juju-04f1e3-1-lxd-0 sudo[16552]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:32 juju-04f1e3-1-lxd-0 sudo[16552]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:35 juju-04f1e3-1-lxd-0 sudo[16576]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:35 juju-04f1e3-1-lxd-0 sudo[16576]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:36 juju-04f1e3-1-lxd-0 sudo[16576]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:36 juju-04f1e3-1-lxd-0 sudo[16596]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 09:57:36 juju-04f1e3-1-lxd-0 sudo[16596]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:39 juju-04f1e3-1-lxd-0 sudo[16596]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:39 juju-04f1e3-1-lxd-0 sudo[16623]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 09:57:39 juju-04f1e3-1-lxd-0 sudo[16623]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:41 juju-04f1e3-1-lxd-0 sudo[16623]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:42 juju-04f1e3-1-lxd-0 sudo[16711]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:42 juju-04f1e3-1-lxd-0 sudo[16711]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:42 juju-04f1e3-1-lxd-0 sudo[16711]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:47 juju-04f1e3-1-lxd-0 sudo[16913]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:47 juju-04f1e3-1-lxd-0 sudo[16913]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:48 juju-04f1e3-1-lxd-0 sudo[16913]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:51 juju-04f1e3-1-lxd-0 sudo[16981]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:51 juju-04f1e3-1-lxd-0 sudo[16981]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:52 juju-04f1e3-1-lxd-0 sudo[16981]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:57:57 juju-04f1e3-1-lxd-0 sudo[17186]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:57:57 juju-04f1e3-1-lxd-0 sudo[17186]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:57:57 juju-04f1e3-1-lxd-0 sudo[17186]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:58:00 juju-04f1e3-1-lxd-0 sudo[17256]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:58:00 juju-04f1e3-1-lxd-0 sudo[17256]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:58:01 juju-04f1e3-1-lxd-0 sudo[17256]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 09:58:06 juju-04f1e3-1-lxd-0 sudo[17458]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 09:58:06 juju-04f1e3-1-lxd-0 sudo[17458]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 09:58:07 juju-04f1e3-1-lxd-0 sudo[17458]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:00:52 juju-04f1e3-1-lxd-0 sudo[17540]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:00:52 juju-04f1e3-1-lxd-0 sudo[17540]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:00:52 juju-04f1e3-1-lxd-0 sudo[17540]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:00:56 juju-04f1e3-1-lxd-0 sudo[17745]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:00:56 juju-04f1e3-1-lxd-0 sudo[17745]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:00:57 juju-04f1e3-1-lxd-0 sudo[17745]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:00:59 juju-04f1e3-1-lxd-0 sudo[17818]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:00:59 juju-04f1e3-1-lxd-0 sudo[17818]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:01:00 juju-04f1e3-1-lxd-0 sudo[17818]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:01:04 juju-04f1e3-1-lxd-0 sudo[18025]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:01:04 juju-04f1e3-1-lxd-0 sudo[18025]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:01:05 juju-04f1e3-1-lxd-0 sudo[18025]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:02:38 juju-04f1e3-1-lxd-0 sudo[18294]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:02:38 juju-04f1e3-1-lxd-0 sudo[18294]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:02:39 juju-04f1e3-1-lxd-0 sudo[18294]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:07:31 juju-04f1e3-1-lxd-0 sudo[18588]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:07:31 juju-04f1e3-1-lxd-0 sudo[18588]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:07:32 juju-04f1e3-1-lxd-0 sudo[18588]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:09:31 juju-04f1e3-1-lxd-0 sudo[18667]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:09:31 juju-04f1e3-1-lxd-0 sudo[18667]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:09:32 juju-04f1e3-1-lxd-0 sudo[18667]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:09:34 juju-04f1e3-1-lxd-0 sudo[18875]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:09:34 juju-04f1e3-1-lxd-0 sudo[18875]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:09:34 juju-04f1e3-1-lxd-0 sudo[18875]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:13:01 juju-04f1e3-1-lxd-0 sudo[19161]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:13:01 juju-04f1e3-1-lxd-0 sudo[19161]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:13:01 juju-04f1e3-1-lxd-0 sudo[19161]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:16:52 juju-04f1e3-1-lxd-0 sudo[19252]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:16:52 juju-04f1e3-1-lxd-0 sudo[19252]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:16:52 juju-04f1e3-1-lxd-0 sudo[19252]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:16:53 juju-04f1e3-1-lxd-0 sudo[19497]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:16:53 juju-04f1e3-1-lxd-0 sudo[19497]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:16:53 juju-04f1e3-1-lxd-0 sudo[19497]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:17:18 juju-04f1e3-1-lxd-0 sudo[19827]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:17:18 juju-04f1e3-1-lxd-0 sudo[19827]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:17:19 juju-04f1e3-1-lxd-0 sudo[19827]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:21:40 juju-04f1e3-1-lxd-0 sudo[20178]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:21:40 juju-04f1e3-1-lxd-0 sudo[20178]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:21:40 juju-04f1e3-1-lxd-0 sudo[20178]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:25:58 juju-04f1e3-1-lxd-0 sudo[20507]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:25:58 juju-04f1e3-1-lxd-0 sudo[20507]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:25:58 juju-04f1e3-1-lxd-0 sudo[20507]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:31:13 juju-04f1e3-1-lxd-0 sudo[20858]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:31:13 juju-04f1e3-1-lxd-0 sudo[20858]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:31:13 juju-04f1e3-1-lxd-0 sudo[20858]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:35:55 juju-04f1e3-1-lxd-0 sudo[21215]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:35:55 juju-04f1e3-1-lxd-0 sudo[21215]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:35:55 juju-04f1e3-1-lxd-0 sudo[21215]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:40:15 juju-04f1e3-1-lxd-0 sudo[21546]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:40:15 juju-04f1e3-1-lxd-0 sudo[21546]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:40:16 juju-04f1e3-1-lxd-0 sudo[21546]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:45:25 juju-04f1e3-1-lxd-0 sudo[21878]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:45:25 juju-04f1e3-1-lxd-0 sudo[21878]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:45:25 juju-04f1e3-1-lxd-0 sudo[21878]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:43 juju-04f1e3-1-lxd-0 sudo[21909]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:43 juju-04f1e3-1-lxd-0 sudo[21909]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:43 juju-04f1e3-1-lxd-0 sudo[21909]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:43 juju-04f1e3-1-lxd-0 sudo[21928]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 10:46:43 juju-04f1e3-1-lxd-0 sudo[21928]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:44 juju-04f1e3-1-lxd-0 sudo[21928]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:44 juju-04f1e3-1-lxd-0 sudo[21954]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 10:46:44 juju-04f1e3-1-lxd-0 sudo[21954]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:46 juju-04f1e3-1-lxd-0 sudo[21954]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:46 juju-04f1e3-1-lxd-0 sudo[22050]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:46 juju-04f1e3-1-lxd-0 sudo[22050]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:47 juju-04f1e3-1-lxd-0 sudo[22050]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:50 juju-04f1e3-1-lxd-0 sudo[22274]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:50 juju-04f1e3-1-lxd-0 sudo[22274]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:50 juju-04f1e3-1-lxd-0 sudo[22274]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:51 juju-04f1e3-1-lxd-0 sudo[22301]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:51 juju-04f1e3-1-lxd-0 sudo[22301]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:52 juju-04f1e3-1-lxd-0 sudo[22301]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:52 juju-04f1e3-1-lxd-0 sudo[22324]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 10:46:52 juju-04f1e3-1-lxd-0 sudo[22324]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:52 juju-04f1e3-1-lxd-0 sudo[22324]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:52 juju-04f1e3-1-lxd-0 sudo[22350]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 10:46:52 juju-04f1e3-1-lxd-0 sudo[22350]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:53 juju-04f1e3-1-lxd-0 sudo[22350]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:53 juju-04f1e3-1-lxd-0 sudo[22458]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:53 juju-04f1e3-1-lxd-0 sudo[22458]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:53 juju-04f1e3-1-lxd-0 sudo[22458]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:55 juju-04f1e3-1-lxd-0 sudo[22722]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:55 juju-04f1e3-1-lxd-0 sudo[22722]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:55 juju-04f1e3-1-lxd-0 sudo[22722]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:56 juju-04f1e3-1-lxd-0 sudo[22753]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:56 juju-04f1e3-1-lxd-0 sudo[22753]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:56 juju-04f1e3-1-lxd-0 sudo[22753]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:56 juju-04f1e3-1-lxd-0 sudo[22775]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 10:46:56 juju-04f1e3-1-lxd-0 sudo[22775]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:57 juju-04f1e3-1-lxd-0 sudo[22775]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:57 juju-04f1e3-1-lxd-0 sudo[22801]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 10:46:57 juju-04f1e3-1-lxd-0 sudo[22801]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:58 juju-04f1e3-1-lxd-0 sudo[22801]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:46:59 juju-04f1e3-1-lxd-0 sudo[22903]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:46:59 juju-04f1e3-1-lxd-0 sudo[22903]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:46:59 juju-04f1e3-1-lxd-0 sudo[22903]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:02 juju-04f1e3-1-lxd-0 sudo[23125]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:02 juju-04f1e3-1-lxd-0 sudo[23125]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:02 juju-04f1e3-1-lxd-0 sudo[23125]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:08 juju-04f1e3-1-lxd-0 sudo[23221]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:08 juju-04f1e3-1-lxd-0 sudo[23221]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:08 juju-04f1e3-1-lxd-0 sudo[23221]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:08 juju-04f1e3-1-lxd-0 sudo[23234]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 10:47:08 juju-04f1e3-1-lxd-0 sudo[23234]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:09 juju-04f1e3-1-lxd-0 sudo[23234]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:09 juju-04f1e3-1-lxd-0 sudo[23260]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 10:47:09 juju-04f1e3-1-lxd-0 sudo[23260]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:10 juju-04f1e3-1-lxd-0 sudo[23260]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:10 juju-04f1e3-1-lxd-0 sudo[23357]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:10 juju-04f1e3-1-lxd-0 sudo[23357]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:10 juju-04f1e3-1-lxd-0 sudo[23357]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:11 juju-04f1e3-1-lxd-0 sudo[23375]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 04 10:47:11 juju-04f1e3-1-lxd-0 sudo[23375]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:11 juju-04f1e3-1-lxd-0 sudo[23375]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:12 juju-04f1e3-1-lxd-0 sudo[23413]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 04 10:47:12 juju-04f1e3-1-lxd-0 sudo[23413]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:12 juju-04f1e3-1-lxd-0 sudo[23413]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:12 juju-04f1e3-1-lxd-0 sudo[23452]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:47:12 juju-04f1e3-1-lxd-0 sudo[23452]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:13 juju-04f1e3-1-lxd-0 sudo[23452]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:13 juju-04f1e3-1-lxd-0 sudo[23485]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get-or-create client.nova-compute mon allow r; allow command "osd blacklist" osd allow rwx
+Feb 04 10:47:13 juju-04f1e3-1-lxd-0 sudo[23485]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:14 juju-04f1e3-1-lxd-0 sudo[23485]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:15 juju-04f1e3-1-lxd-0 sudo[23570]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:15 juju-04f1e3-1-lxd-0 sudo[23570]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:15 juju-04f1e3-1-lxd-0 sudo[23570]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:15 juju-04f1e3-1-lxd-0 sudo[23583]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 10:47:15 juju-04f1e3-1-lxd-0 sudo[23583]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:16 juju-04f1e3-1-lxd-0 sudo[23583]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:16 juju-04f1e3-1-lxd-0 sudo[23609]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 10:47:16 juju-04f1e3-1-lxd-0 sudo[23609]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:17 juju-04f1e3-1-lxd-0 sudo[23609]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:17 juju-04f1e3-1-lxd-0 sudo[23667]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:17 juju-04f1e3-1-lxd-0 sudo[23667]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:18 juju-04f1e3-1-lxd-0 sudo[23667]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:18 juju-04f1e3-1-lxd-0 sudo[23680]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 04 10:47:18 juju-04f1e3-1-lxd-0 sudo[23680]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:19 juju-04f1e3-1-lxd-0 sudo[23680]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:19 juju-04f1e3-1-lxd-0 sudo[23717]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 04 10:47:19 juju-04f1e3-1-lxd-0 sudo[23717]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:20 juju-04f1e3-1-lxd-0 sudo[23717]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:20 juju-04f1e3-1-lxd-0 sudo[23752]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:47:20 juju-04f1e3-1-lxd-0 sudo[23752]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:21 juju-04f1e3-1-lxd-0 sudo[23752]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:21 juju-04f1e3-1-lxd-0 sudo[23816]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:21 juju-04f1e3-1-lxd-0 sudo[23816]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:21 juju-04f1e3-1-lxd-0 sudo[23816]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:21 juju-04f1e3-1-lxd-0 sudo[23829]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 04 10:47:21 juju-04f1e3-1-lxd-0 sudo[23829]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:22 juju-04f1e3-1-lxd-0 sudo[23829]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:22 juju-04f1e3-1-lxd-0 sudo[23855]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 04 10:47:22 juju-04f1e3-1-lxd-0 sudo[23855]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:23 juju-04f1e3-1-lxd-0 sudo[23855]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:23 juju-04f1e3-1-lxd-0 sudo[23909]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:23 juju-04f1e3-1-lxd-0 sudo[23909]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:24 juju-04f1e3-1-lxd-0 sudo[23909]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:24 juju-04f1e3-1-lxd-0 sudo[23922]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 04 10:47:24 juju-04f1e3-1-lxd-0 sudo[23922]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:25 juju-04f1e3-1-lxd-0 sudo[23922]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:25 juju-04f1e3-1-lxd-0 sudo[23958]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 04 10:47:25 juju-04f1e3-1-lxd-0 sudo[23958]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:25 juju-04f1e3-1-lxd-0 sudo[23958]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:26 juju-04f1e3-1-lxd-0 sudo[23992]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:47:26 juju-04f1e3-1-lxd-0 sudo[23992]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:26 juju-04f1e3-1-lxd-0 sudo[23992]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:27 juju-04f1e3-1-lxd-0 sudo[24069]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:27 juju-04f1e3-1-lxd-0 sudo[24069]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:27 juju-04f1e3-1-lxd-0 sudo[24069]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:27 juju-04f1e3-1-lxd-0 sudo[24084]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 04 10:47:27 juju-04f1e3-1-lxd-0 sudo[24084]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:28 juju-04f1e3-1-lxd-0 sudo[24084]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:28 juju-04f1e3-1-lxd-0 sudo[24118]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 04 10:47:28 juju-04f1e3-1-lxd-0 sudo[24118]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:29 juju-04f1e3-1-lxd-0 sudo[24118]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:29 juju-04f1e3-1-lxd-0 sudo[24153]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:47:29 juju-04f1e3-1-lxd-0 sudo[24153]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:30 juju-04f1e3-1-lxd-0 sudo[24153]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:31 juju-04f1e3-1-lxd-0 sudo[24335]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:31 juju-04f1e3-1-lxd-0 sudo[24335]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:31 juju-04f1e3-1-lxd-0 sudo[24335]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:38 juju-04f1e3-1-lxd-0 sudo[24416]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:38 juju-04f1e3-1-lxd-0 sudo[24416]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:38 juju-04f1e3-1-lxd-0 sudo[24416]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:38 juju-04f1e3-1-lxd-0 sudo[24453]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 04 10:47:38 juju-04f1e3-1-lxd-0 sudo[24453]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:39 juju-04f1e3-1-lxd-0 sudo[24453]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:39 juju-04f1e3-1-lxd-0 sudo[24479]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:39 juju-04f1e3-1-lxd-0 sudo[24479]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:40 juju-04f1e3-1-lxd-0 sudo[24479]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:47:42 juju-04f1e3-1-lxd-0 sudo[24706]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:47:42 juju-04f1e3-1-lxd-0 sudo[24706]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:47:42 juju-04f1e3-1-lxd-0 sudo[24706]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:48:21 juju-04f1e3-1-lxd-0 sudo[24789]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:48:21 juju-04f1e3-1-lxd-0 sudo[24789]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:48:21 juju-04f1e3-1-lxd-0 sudo[24789]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:48:21 juju-04f1e3-1-lxd-0 sudo[24822]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 04 10:48:22 juju-04f1e3-1-lxd-0 sudo[24822]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:48:23 juju-04f1e3-1-lxd-0 sudo[24822]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:48:23 juju-04f1e3-1-lxd-0 sudo[24848]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:48:23 juju-04f1e3-1-lxd-0 sudo[24848]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:48:23 juju-04f1e3-1-lxd-0 sudo[24848]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:48:25 juju-04f1e3-1-lxd-0 sudo[25057]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:48:25 juju-04f1e3-1-lxd-0 sudo[25057]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:48:25 juju-04f1e3-1-lxd-0 sudo[25057]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:06 juju-04f1e3-1-lxd-0 sudo[25136]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:06 juju-04f1e3-1-lxd-0 sudo[25136]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:06 juju-04f1e3-1-lxd-0 sudo[25136]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:06 juju-04f1e3-1-lxd-0 sudo[25168]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:49:06 juju-04f1e3-1-lxd-0 sudo[25168]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:07 juju-04f1e3-1-lxd-0 sudo[25168]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:07 juju-04f1e3-1-lxd-0 sudo[25194]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:07 juju-04f1e3-1-lxd-0 sudo[25194]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:07 juju-04f1e3-1-lxd-0 sudo[25194]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:10 juju-04f1e3-1-lxd-0 sudo[25418]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:10 juju-04f1e3-1-lxd-0 sudo[25418]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:10 juju-04f1e3-1-lxd-0 sudo[25418]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:40 juju-04f1e3-1-lxd-0 sudo[25497]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:40 juju-04f1e3-1-lxd-0 sudo[25497]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:40 juju-04f1e3-1-lxd-0 sudo[25497]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:40 juju-04f1e3-1-lxd-0 sudo[25531]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:49:40 juju-04f1e3-1-lxd-0 sudo[25531]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:42 juju-04f1e3-1-lxd-0 sudo[25531]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:42 juju-04f1e3-1-lxd-0 sudo[25557]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:42 juju-04f1e3-1-lxd-0 sudo[25557]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:42 juju-04f1e3-1-lxd-0 sudo[25557]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:44 juju-04f1e3-1-lxd-0 sudo[25759]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:44 juju-04f1e3-1-lxd-0 sudo[25759]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:45 juju-04f1e3-1-lxd-0 sudo[25759]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:49:53 juju-04f1e3-1-lxd-0 sudo[26073]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:49:53 juju-04f1e3-1-lxd-0 sudo[26073]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:49:53 juju-04f1e3-1-lxd-0 sudo[26073]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:51:03 juju-04f1e3-1-lxd-0 sudo[26158]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:51:03 juju-04f1e3-1-lxd-0 sudo[26158]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:51:03 juju-04f1e3-1-lxd-0 sudo[26158]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:51:03 juju-04f1e3-1-lxd-0 sudo[26194]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 04 10:51:03 juju-04f1e3-1-lxd-0 sudo[26194]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:51:04 juju-04f1e3-1-lxd-0 sudo[26194]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:51:04 juju-04f1e3-1-lxd-0 sudo[26220]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:51:04 juju-04f1e3-1-lxd-0 sudo[26220]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:51:04 juju-04f1e3-1-lxd-0 sudo[26220]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:51:06 juju-04f1e3-1-lxd-0 sudo[26442]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:51:06 juju-04f1e3-1-lxd-0 sudo[26442]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:51:06 juju-04f1e3-1-lxd-0 sudo[26442]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:55:14 juju-04f1e3-1-lxd-0 sudo[26794]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:55:14 juju-04f1e3-1-lxd-0 sudo[26794]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:55:14 juju-04f1e3-1-lxd-0 sudo[26794]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 10:59:33 juju-04f1e3-1-lxd-0 sudo[27145]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 10:59:33 juju-04f1e3-1-lxd-0 sudo[27145]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 10:59:33 juju-04f1e3-1-lxd-0 sudo[27145]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:04:50 juju-04f1e3-1-lxd-0 sudo[27473]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 11:04:50 juju-04f1e3-1-lxd-0 sudo[27473]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 11:04:50 juju-04f1e3-1-lxd-0 sudo[27473]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:09:28 juju-04f1e3-1-lxd-0 sudo[27776]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 11:09:28 juju-04f1e3-1-lxd-0 sudo[27776]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 11:09:28 juju-04f1e3-1-lxd-0 sudo[27776]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:14:15 juju-04f1e3-1-lxd-0 sudo[28098]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 11:14:15 juju-04f1e3-1-lxd-0 sudo[28098]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 11:14:15 juju-04f1e3-1-lxd-0 sudo[28098]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:20:13 juju-04f1e3-1-lxd-0 sudo[28418]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 11:20:13 juju-04f1e3-1-lxd-0 sudo[28418]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 11:20:13 juju-04f1e3-1-lxd-0 sudo[28418]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:26:05 juju-04f1e3-1-lxd-0 sudo[28754]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 11:26:05 juju-04f1e3-1-lxd-0 sudo[28754]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 11:26:05 juju-04f1e3-1-lxd-0 sudo[28754]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:31:07 juju-04f1e3-1-lxd-0 sudo[29078]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 04 11:31:07 juju-04f1e3-1-lxd-0 sudo[29078]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 04 11:31:07 juju-04f1e3-1-lxd-0 sudo[29078]: pam_unix(sudo:session): session closed for user ceph
+Feb 04 11:32:34 juju-04f1e3-1-lxd-0 systemd[1]: Stopping juju agent for machine-1-lxd-0...
+Feb 04 11:32:34 juju-04f1e3-1-lxd-0 systemd[1]: jujud-machine-1-lxd-0.service: Succeeded.
+Feb 04 11:32:34 juju-04f1e3-1-lxd-0 systemd[1]: Stopped juju agent for machine-1-lxd-0.
+-- Reboot --
+Feb 09 22:38:44 juju-04f1e3-1-lxd-0 systemd[1]: Started juju agent for machine-1-lxd-0.
+Feb 09 22:39:21 juju-04f1e3-1-lxd-0 sudo[810]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:39:21 juju-04f1e3-1-lxd-0 sudo[810]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:39:24 juju-04f1e3-1-lxd-0 sudo[810]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:39:34 juju-04f1e3-1-lxd-0 sudo[954]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:39:34 juju-04f1e3-1-lxd-0 sudo[954]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:39:38 juju-04f1e3-1-lxd-0 sudo[954]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:39:38 juju-04f1e3-1-lxd-0 sudo[994]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 09 22:39:39 juju-04f1e3-1-lxd-0 sudo[994]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:39:47 juju-04f1e3-1-lxd-0 sudo[994]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:39:47 juju-04f1e3-1-lxd-0 sudo[1053]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 09 22:39:47 juju-04f1e3-1-lxd-0 sudo[1053]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:39:50 juju-04f1e3-1-lxd-0 sudo[1053]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:39:52 juju-04f1e3-1-lxd-0 sudo[1149]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:39:52 juju-04f1e3-1-lxd-0 sudo[1149]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:39:53 juju-04f1e3-1-lxd-0 sudo[1149]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:39:54 juju-04f1e3-1-lxd-0 sudo[1168]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 09 22:39:54 juju-04f1e3-1-lxd-0 sudo[1168]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:39:59 juju-04f1e3-1-lxd-0 sudo[1168]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:00 juju-04f1e3-1-lxd-0 sudo[1221]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:00 juju-04f1e3-1-lxd-0 sudo[1221]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:01 juju-04f1e3-1-lxd-0 sudo[1221]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:02 juju-04f1e3-1-lxd-0 sudo[1250]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 09 22:40:02 juju-04f1e3-1-lxd-0 sudo[1250]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:06 juju-04f1e3-1-lxd-0 sudo[1250]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:07 juju-04f1e3-1-lxd-0 sudo[1287]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:07 juju-04f1e3-1-lxd-0 sudo[1287]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:08 juju-04f1e3-1-lxd-0 sudo[1287]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:09 juju-04f1e3-1-lxd-0 sudo[1343]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 09 22:40:09 juju-04f1e3-1-lxd-0 sudo[1343]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:13 juju-04f1e3-1-lxd-0 sudo[1343]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:13 juju-04f1e3-1-lxd-0 sudo[1407]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:13 juju-04f1e3-1-lxd-0 sudo[1407]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:14 juju-04f1e3-1-lxd-0 sudo[1407]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:15 juju-04f1e3-1-lxd-0 sudo[1441]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:15 juju-04f1e3-1-lxd-0 sudo[1441]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:16 juju-04f1e3-1-lxd-0 sudo[1441]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:17 juju-04f1e3-1-lxd-0 sudo[1465]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:17 juju-04f1e3-1-lxd-0 sudo[1465]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:18 juju-04f1e3-1-lxd-0 sudo[1465]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:20 juju-04f1e3-1-lxd-0 sudo[1502]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:20 juju-04f1e3-1-lxd-0 sudo[1502]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:21 juju-04f1e3-1-lxd-0 sudo[1502]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:21 juju-04f1e3-1-lxd-0 sudo[1516]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 09 22:40:21 juju-04f1e3-1-lxd-0 sudo[1516]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:26 juju-04f1e3-1-lxd-0 sudo[1516]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:29 juju-04f1e3-1-lxd-0 sudo[1572]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 09 22:40:29 juju-04f1e3-1-lxd-0 sudo[1572]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:30 juju-04f1e3-1-lxd-0 sudo[1572]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:31 juju-04f1e3-1-lxd-0 sudo[1622]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:31 juju-04f1e3-1-lxd-0 sudo[1622]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:31 juju-04f1e3-1-lxd-0 sudo[1622]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:31 juju-04f1e3-1-lxd-0 sudo[1633]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 09 22:40:31 juju-04f1e3-1-lxd-0 sudo[1633]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:33 juju-04f1e3-1-lxd-0 sudo[1633]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:33 juju-04f1e3-1-lxd-0 sudo[1659]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:33 juju-04f1e3-1-lxd-0 sudo[1659]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:33 juju-04f1e3-1-lxd-0 sudo[1659]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:34 juju-04f1e3-1-lxd-0 sudo[1674]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 09 22:40:34 juju-04f1e3-1-lxd-0 sudo[1674]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:35 juju-04f1e3-1-lxd-0 sudo[1674]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:35 juju-04f1e3-1-lxd-0 sudo[1700]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:35 juju-04f1e3-1-lxd-0 sudo[1700]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:36 juju-04f1e3-1-lxd-0 sudo[1700]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:36 juju-04f1e3-1-lxd-0 sudo[1715]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 09 22:40:36 juju-04f1e3-1-lxd-0 sudo[1715]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:37 juju-04f1e3-1-lxd-0 sudo[1715]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:38 juju-04f1e3-1-lxd-0 sudo[1741]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:38 juju-04f1e3-1-lxd-0 sudo[1741]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:38 juju-04f1e3-1-lxd-0 sudo[1741]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:38 juju-04f1e3-1-lxd-0 sudo[1758]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:38 juju-04f1e3-1-lxd-0 sudo[1758]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:39 juju-04f1e3-1-lxd-0 sudo[1758]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:39 juju-04f1e3-1-lxd-0 sudo[1773]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:39 juju-04f1e3-1-lxd-0 sudo[1773]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:39 juju-04f1e3-1-lxd-0 sudo[1773]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:40 juju-04f1e3-1-lxd-0 sudo[1797]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:40 juju-04f1e3-1-lxd-0 sudo[1797]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:40 juju-04f1e3-1-lxd-0 sudo[1797]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:40 juju-04f1e3-1-lxd-0 sudo[1808]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.bootstrap-osd
+Feb 09 22:40:40 juju-04f1e3-1-lxd-0 sudo[1808]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:42 juju-04f1e3-1-lxd-0 sudo[1808]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:42 juju-04f1e3-1-lxd-0 sudo[1834]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.osd-upgrade
+Feb 09 22:40:42 juju-04f1e3-1-lxd-0 sudo[1834]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:43 juju-04f1e3-1-lxd-0 sudo[1834]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:43 juju-04f1e3-1-lxd-0 sudo[1884]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:43 juju-04f1e3-1-lxd-0 sudo[1884]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:43 juju-04f1e3-1-lxd-0 sudo[1884]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:44 juju-04f1e3-1-lxd-0 sudo[1895]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 09 22:40:44 juju-04f1e3-1-lxd-0 sudo[1895]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:45 juju-04f1e3-1-lxd-0 sudo[1895]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:45 juju-04f1e3-1-lxd-0 sudo[1921]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:45 juju-04f1e3-1-lxd-0 sudo[1921]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:45 juju-04f1e3-1-lxd-0 sudo[1921]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:45 juju-04f1e3-1-lxd-0 sudo[1936]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 09 22:40:45 juju-04f1e3-1-lxd-0 sudo[1936]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:46 juju-04f1e3-1-lxd-0 sudo[1936]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:46 juju-04f1e3-1-lxd-0 sudo[1962]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:46 juju-04f1e3-1-lxd-0 sudo[1962]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:47 juju-04f1e3-1-lxd-0 sudo[1962]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:47 juju-04f1e3-1-lxd-0 sudo[1977]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 09 22:40:47 juju-04f1e3-1-lxd-0 sudo[1977]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:48 juju-04f1e3-1-lxd-0 sudo[1977]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:48 juju-04f1e3-1-lxd-0 sudo[2003]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:48 juju-04f1e3-1-lxd-0 sudo[2003]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:48 juju-04f1e3-1-lxd-0 sudo[2003]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:48 juju-04f1e3-1-lxd-0 sudo[2018]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:48 juju-04f1e3-1-lxd-0 sudo[2018]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:49 juju-04f1e3-1-lxd-0 sudo[2018]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:49 juju-04f1e3-1-lxd-0 sudo[2033]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:49 juju-04f1e3-1-lxd-0 sudo[2033]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:49 juju-04f1e3-1-lxd-0 sudo[2033]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:49 juju-04f1e3-1-lxd-0 sudo[2067]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:49 juju-04f1e3-1-lxd-0 sudo[2067]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:50 juju-04f1e3-1-lxd-0 sudo[2067]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:50 juju-04f1e3-1-lxd-0 sudo[2078]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.glance
+Feb 09 22:40:50 juju-04f1e3-1-lxd-0 sudo[2078]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:51 juju-04f1e3-1-lxd-0 sudo[2078]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:51 juju-04f1e3-1-lxd-0 sudo[2104]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:51 juju-04f1e3-1-lxd-0 sudo[2104]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:51 juju-04f1e3-1-lxd-0 sudo[2104]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:51 juju-04f1e3-1-lxd-0 sudo[2119]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.cinder-ceph
+Feb 09 22:40:51 juju-04f1e3-1-lxd-0 sudo[2119]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:52 juju-04f1e3-1-lxd-0 sudo[2119]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:52 juju-04f1e3-1-lxd-0 sudo[2145]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:52 juju-04f1e3-1-lxd-0 sudo[2145]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:53 juju-04f1e3-1-lxd-0 sudo[2145]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:53 juju-04f1e3-1-lxd-0 sudo[2162]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --name mon. --keyring /var/lib/ceph/mon/ceph-juju-04f1e3-1-lxd-0/keyring auth get client.nova-compute
+Feb 09 22:40:53 juju-04f1e3-1-lxd-0 sudo[2162]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:54 juju-04f1e3-1-lxd-0 sudo[2162]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:54 juju-04f1e3-1-lxd-0 sudo[2188]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:54 juju-04f1e3-1-lxd-0 sudo[2188]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:54 juju-04f1e3-1-lxd-0 sudo[2188]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:54 juju-04f1e3-1-lxd-0 sudo[2203]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:54 juju-04f1e3-1-lxd-0 sudo[2203]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:55 juju-04f1e3-1-lxd-0 sudo[2203]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:55 juju-04f1e3-1-lxd-0 sudo[2218]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:55 juju-04f1e3-1-lxd-0 sudo[2218]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:55 juju-04f1e3-1-lxd-0 sudo[2218]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:40:57 juju-04f1e3-1-lxd-0 sudo[2350]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:40:57 juju-04f1e3-1-lxd-0 sudo[2350]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:40:58 juju-04f1e3-1-lxd-0 sudo[2350]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:44:31 juju-04f1e3-1-lxd-0 sudo[2678]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:44:31 juju-04f1e3-1-lxd-0 sudo[2678]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:44:31 juju-04f1e3-1-lxd-0 sudo[2678]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:48:31 juju-04f1e3-1-lxd-0 sudo[3005]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:48:31 juju-04f1e3-1-lxd-0 sudo[3005]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:48:31 juju-04f1e3-1-lxd-0 sudo[3005]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:53:20 juju-04f1e3-1-lxd-0 sudo[3345]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:53:20 juju-04f1e3-1-lxd-0 sudo[3345]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:53:21 juju-04f1e3-1-lxd-0 sudo[3345]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 22:57:28 juju-04f1e3-1-lxd-0 sudo[3983]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 22:57:28 juju-04f1e3-1-lxd-0 sudo[3983]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 22:57:28 juju-04f1e3-1-lxd-0 sudo[3983]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:01:33 juju-04f1e3-1-lxd-0 sudo[4322]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:01:33 juju-04f1e3-1-lxd-0 sudo[4322]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:01:33 juju-04f1e3-1-lxd-0 sudo[4322]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:06:45 juju-04f1e3-1-lxd-0 sudo[5020]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:06:45 juju-04f1e3-1-lxd-0 sudo[5020]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:06:45 juju-04f1e3-1-lxd-0 sudo[5020]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:11:42 juju-04f1e3-1-lxd-0 sudo[5354]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:11:42 juju-04f1e3-1-lxd-0 sudo[5354]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:11:43 juju-04f1e3-1-lxd-0 sudo[5354]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:16:38 juju-04f1e3-1-lxd-0 sudo[5691]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:16:38 juju-04f1e3-1-lxd-0 sudo[5691]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:16:38 juju-04f1e3-1-lxd-0 sudo[5691]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:22:21 juju-04f1e3-1-lxd-0 sudo[6038]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:22:21 juju-04f1e3-1-lxd-0 sudo[6038]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:22:21 juju-04f1e3-1-lxd-0 sudo[6038]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:26:56 juju-04f1e3-1-lxd-0 sudo[6382]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:26:56 juju-04f1e3-1-lxd-0 sudo[6382]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:26:56 juju-04f1e3-1-lxd-0 sudo[6382]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:32:17 juju-04f1e3-1-lxd-0 sudo[6718]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:32:17 juju-04f1e3-1-lxd-0 sudo[6718]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:32:17 juju-04f1e3-1-lxd-0 sudo[6718]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:37:56 juju-04f1e3-1-lxd-0 sudo[7164]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:37:56 juju-04f1e3-1-lxd-0 sudo[7164]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:37:57 juju-04f1e3-1-lxd-0 sudo[7164]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:43:50 juju-04f1e3-1-lxd-0 sudo[9574]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:43:50 juju-04f1e3-1-lxd-0 sudo[9574]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:43:50 juju-04f1e3-1-lxd-0 sudo[9574]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:49:12 juju-04f1e3-1-lxd-0 sudo[9926]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:49:12 juju-04f1e3-1-lxd-0 sudo[9926]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:49:12 juju-04f1e3-1-lxd-0 sudo[9926]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:54:16 juju-04f1e3-1-lxd-0 sudo[10254]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:54:16 juju-04f1e3-1-lxd-0 sudo[10254]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:54:17 juju-04f1e3-1-lxd-0 sudo[10254]: pam_unix(sudo:session): session closed for user ceph
+Feb 09 23:59:55 juju-04f1e3-1-lxd-0 sudo[10613]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 09 23:59:55 juju-04f1e3-1-lxd-0 sudo[10613]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 09 23:59:55 juju-04f1e3-1-lxd-0 sudo[10613]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:04:16 juju-04f1e3-1-lxd-0 sudo[10960]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:04:16 juju-04f1e3-1-lxd-0 sudo[10960]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:04:16 juju-04f1e3-1-lxd-0 sudo[10960]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:08:35 juju-04f1e3-1-lxd-0 sudo[11294]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:08:35 juju-04f1e3-1-lxd-0 sudo[11294]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:08:36 juju-04f1e3-1-lxd-0 sudo[11294]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:13:02 juju-04f1e3-1-lxd-0 sudo[11639]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:13:02 juju-04f1e3-1-lxd-0 sudo[11639]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:13:02 juju-04f1e3-1-lxd-0 sudo[11639]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:17:48 juju-04f1e3-1-lxd-0 sudo[11976]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:17:48 juju-04f1e3-1-lxd-0 sudo[11976]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:17:48 juju-04f1e3-1-lxd-0 sudo[11976]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:21:59 juju-04f1e3-1-lxd-0 sudo[12311]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:21:59 juju-04f1e3-1-lxd-0 sudo[12311]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:21:59 juju-04f1e3-1-lxd-0 sudo[12311]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:26:14 juju-04f1e3-1-lxd-0 sudo[12638]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:26:14 juju-04f1e3-1-lxd-0 sudo[12638]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:26:15 juju-04f1e3-1-lxd-0 sudo[12638]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:30:50 juju-04f1e3-1-lxd-0 sudo[12978]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:30:50 juju-04f1e3-1-lxd-0 sudo[12978]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:30:50 juju-04f1e3-1-lxd-0 sudo[12978]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:35:25 juju-04f1e3-1-lxd-0 sudo[13339]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:35:25 juju-04f1e3-1-lxd-0 sudo[13339]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:35:26 juju-04f1e3-1-lxd-0 sudo[13339]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:39:58 juju-04f1e3-1-lxd-0 sudo[13668]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:39:58 juju-04f1e3-1-lxd-0 sudo[13668]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:39:58 juju-04f1e3-1-lxd-0 sudo[13668]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:45:51 juju-04f1e3-1-lxd-0 sudo[14036]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:45:51 juju-04f1e3-1-lxd-0 sudo[14036]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:45:51 juju-04f1e3-1-lxd-0 sudo[14036]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:51:44 juju-04f1e3-1-lxd-0 sudo[14378]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:51:44 juju-04f1e3-1-lxd-0 sudo[14378]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:51:44 juju-04f1e3-1-lxd-0 sudo[14378]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 00:56:23 juju-04f1e3-1-lxd-0 sudo[14718]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 00:56:23 juju-04f1e3-1-lxd-0 sudo[14718]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 00:56:23 juju-04f1e3-1-lxd-0 sudo[14718]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:02:19 juju-04f1e3-1-lxd-0 sudo[15048]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:02:19 juju-04f1e3-1-lxd-0 sudo[15048]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:02:19 juju-04f1e3-1-lxd-0 sudo[15048]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:07:16 juju-04f1e3-1-lxd-0 sudo[15385]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:07:16 juju-04f1e3-1-lxd-0 sudo[15385]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:07:16 juju-04f1e3-1-lxd-0 sudo[15385]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:12:45 juju-04f1e3-1-lxd-0 sudo[15724]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:12:45 juju-04f1e3-1-lxd-0 sudo[15724]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:12:45 juju-04f1e3-1-lxd-0 sudo[15724]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:17:31 juju-04f1e3-1-lxd-0 sudo[16064]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:17:31 juju-04f1e3-1-lxd-0 sudo[16064]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:17:31 juju-04f1e3-1-lxd-0 sudo[16064]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:21:56 juju-04f1e3-1-lxd-0 sudo[16398]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:21:56 juju-04f1e3-1-lxd-0 sudo[16398]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:21:56 juju-04f1e3-1-lxd-0 sudo[16398]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:26:57 juju-04f1e3-1-lxd-0 sudo[16729]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:26:57 juju-04f1e3-1-lxd-0 sudo[16729]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:26:57 juju-04f1e3-1-lxd-0 sudo[16729]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:31:38 juju-04f1e3-1-lxd-0 sudo[17062]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:31:38 juju-04f1e3-1-lxd-0 sudo[17062]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:31:38 juju-04f1e3-1-lxd-0 sudo[17062]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:36:35 juju-04f1e3-1-lxd-0 sudo[17410]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:36:35 juju-04f1e3-1-lxd-0 sudo[17410]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:36:35 juju-04f1e3-1-lxd-0 sudo[17410]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:41:57 juju-04f1e3-1-lxd-0 sudo[17754]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:41:57 juju-04f1e3-1-lxd-0 sudo[17754]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:41:57 juju-04f1e3-1-lxd-0 sudo[17754]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:47:41 juju-04f1e3-1-lxd-0 sudo[18095]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:47:41 juju-04f1e3-1-lxd-0 sudo[18095]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:47:41 juju-04f1e3-1-lxd-0 sudo[18095]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:51:55 juju-04f1e3-1-lxd-0 sudo[18430]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:51:55 juju-04f1e3-1-lxd-0 sudo[18430]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:51:55 juju-04f1e3-1-lxd-0 sudo[18430]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 01:56:51 juju-04f1e3-1-lxd-0 sudo[18771]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 01:56:51 juju-04f1e3-1-lxd-0 sudo[18771]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 01:56:51 juju-04f1e3-1-lxd-0 sudo[18771]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:02:39 juju-04f1e3-1-lxd-0 sudo[19122]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:02:39 juju-04f1e3-1-lxd-0 sudo[19122]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:02:39 juju-04f1e3-1-lxd-0 sudo[19122]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:06:49 juju-04f1e3-1-lxd-0 sudo[19450]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:06:49 juju-04f1e3-1-lxd-0 sudo[19450]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:06:49 juju-04f1e3-1-lxd-0 sudo[19450]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:12:19 juju-04f1e3-1-lxd-0 sudo[19772]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:12:19 juju-04f1e3-1-lxd-0 sudo[19772]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:12:19 juju-04f1e3-1-lxd-0 sudo[19772]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:16:32 juju-04f1e3-1-lxd-0 sudo[20105]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:16:32 juju-04f1e3-1-lxd-0 sudo[20105]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:16:32 juju-04f1e3-1-lxd-0 sudo[20105]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:21:57 juju-04f1e3-1-lxd-0 sudo[20453]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:21:57 juju-04f1e3-1-lxd-0 sudo[20453]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:21:57 juju-04f1e3-1-lxd-0 sudo[20453]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:27:49 juju-04f1e3-1-lxd-0 sudo[20785]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:27:49 juju-04f1e3-1-lxd-0 sudo[20785]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:27:49 juju-04f1e3-1-lxd-0 sudo[20785]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:32:02 juju-04f1e3-1-lxd-0 sudo[21122]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:32:02 juju-04f1e3-1-lxd-0 sudo[21122]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:32:02 juju-04f1e3-1-lxd-0 sudo[21122]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:37:04 juju-04f1e3-1-lxd-0 sudo[21454]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:37:04 juju-04f1e3-1-lxd-0 sudo[21454]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:37:04 juju-04f1e3-1-lxd-0 sudo[21454]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:41:56 juju-04f1e3-1-lxd-0 sudo[21790]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:41:56 juju-04f1e3-1-lxd-0 sudo[21790]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:41:57 juju-04f1e3-1-lxd-0 sudo[21790]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:47:39 juju-04f1e3-1-lxd-0 sudo[22120]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:47:39 juju-04f1e3-1-lxd-0 sudo[22120]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:47:39 juju-04f1e3-1-lxd-0 sudo[22120]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:53:36 juju-04f1e3-1-lxd-0 sudo[22454]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:53:36 juju-04f1e3-1-lxd-0 sudo[22454]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:53:36 juju-04f1e3-1-lxd-0 sudo[22454]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 02:58:11 juju-04f1e3-1-lxd-0 sudo[22791]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 02:58:11 juju-04f1e3-1-lxd-0 sudo[22791]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 02:58:11 juju-04f1e3-1-lxd-0 sudo[22791]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:03:18 juju-04f1e3-1-lxd-0 sudo[23120]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:03:18 juju-04f1e3-1-lxd-0 sudo[23120]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:03:18 juju-04f1e3-1-lxd-0 sudo[23120]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:09:16 juju-04f1e3-1-lxd-0 sudo[23474]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:09:16 juju-04f1e3-1-lxd-0 sudo[23474]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:09:16 juju-04f1e3-1-lxd-0 sudo[23474]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:14:09 juju-04f1e3-1-lxd-0 sudo[23810]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:14:09 juju-04f1e3-1-lxd-0 sudo[23810]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:14:09 juju-04f1e3-1-lxd-0 sudo[23810]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:18:23 juju-04f1e3-1-lxd-0 sudo[24139]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:18:23 juju-04f1e3-1-lxd-0 sudo[24139]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:18:24 juju-04f1e3-1-lxd-0 sudo[24139]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:24:12 juju-04f1e3-1-lxd-0 sudo[24485]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:24:12 juju-04f1e3-1-lxd-0 sudo[24485]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:24:13 juju-04f1e3-1-lxd-0 sudo[24485]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:29:55 juju-04f1e3-1-lxd-0 sudo[24827]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:29:55 juju-04f1e3-1-lxd-0 sudo[24827]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:29:55 juju-04f1e3-1-lxd-0 sudo[24827]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:35:22 juju-04f1e3-1-lxd-0 sudo[25167]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:35:22 juju-04f1e3-1-lxd-0 sudo[25167]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:35:22 juju-04f1e3-1-lxd-0 sudo[25167]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:40:58 juju-04f1e3-1-lxd-0 sudo[25501]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:40:58 juju-04f1e3-1-lxd-0 sudo[25501]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:40:58 juju-04f1e3-1-lxd-0 sudo[25501]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:46:06 juju-04f1e3-1-lxd-0 sudo[25855]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:46:06 juju-04f1e3-1-lxd-0 sudo[25855]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:46:06 juju-04f1e3-1-lxd-0 sudo[25855]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:50:44 juju-04f1e3-1-lxd-0 sudo[26193]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:50:44 juju-04f1e3-1-lxd-0 sudo[26193]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:50:44 juju-04f1e3-1-lxd-0 sudo[26193]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 03:56:16 juju-04f1e3-1-lxd-0 sudo[26532]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 03:56:16 juju-04f1e3-1-lxd-0 sudo[26532]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 03:56:16 juju-04f1e3-1-lxd-0 sudo[26532]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:01:34 juju-04f1e3-1-lxd-0 sudo[26865]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:01:34 juju-04f1e3-1-lxd-0 sudo[26865]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:01:34 juju-04f1e3-1-lxd-0 sudo[26865]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:06:15 juju-04f1e3-1-lxd-0 sudo[27204]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:06:15 juju-04f1e3-1-lxd-0 sudo[27204]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:06:15 juju-04f1e3-1-lxd-0 sudo[27204]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:10:28 juju-04f1e3-1-lxd-0 sudo[27547]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:10:28 juju-04f1e3-1-lxd-0 sudo[27547]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:10:28 juju-04f1e3-1-lxd-0 sudo[27547]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:16:21 juju-04f1e3-1-lxd-0 sudo[27888]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:16:21 juju-04f1e3-1-lxd-0 sudo[27888]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:16:21 juju-04f1e3-1-lxd-0 sudo[27888]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:21:06 juju-04f1e3-1-lxd-0 sudo[28217]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:21:06 juju-04f1e3-1-lxd-0 sudo[28217]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:21:06 juju-04f1e3-1-lxd-0 sudo[28217]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:25:17 juju-04f1e3-1-lxd-0 sudo[28555]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:25:17 juju-04f1e3-1-lxd-0 sudo[28555]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:25:18 juju-04f1e3-1-lxd-0 sudo[28555]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:30:22 juju-04f1e3-1-lxd-0 sudo[28881]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:30:22 juju-04f1e3-1-lxd-0 sudo[28881]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:30:23 juju-04f1e3-1-lxd-0 sudo[28881]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:36:18 juju-04f1e3-1-lxd-0 sudo[29221]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:36:18 juju-04f1e3-1-lxd-0 sudo[29221]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:36:18 juju-04f1e3-1-lxd-0 sudo[29221]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:42:08 juju-04f1e3-1-lxd-0 sudo[29560]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:42:08 juju-04f1e3-1-lxd-0 sudo[29560]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:42:08 juju-04f1e3-1-lxd-0 sudo[29560]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:46:53 juju-04f1e3-1-lxd-0 sudo[29886]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:46:53 juju-04f1e3-1-lxd-0 sudo[29886]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:46:53 juju-04f1e3-1-lxd-0 sudo[29886]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:50:58 juju-04f1e3-1-lxd-0 sudo[30215]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:50:58 juju-04f1e3-1-lxd-0 sudo[30215]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:50:58 juju-04f1e3-1-lxd-0 sudo[30215]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 04:55:21 juju-04f1e3-1-lxd-0 sudo[30543]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 04:55:21 juju-04f1e3-1-lxd-0 sudo[30543]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 04:55:21 juju-04f1e3-1-lxd-0 sudo[30543]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:01:11 juju-04f1e3-1-lxd-0 sudo[30899]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:01:11 juju-04f1e3-1-lxd-0 sudo[30899]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:01:11 juju-04f1e3-1-lxd-0 sudo[30899]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:07:00 juju-04f1e3-1-lxd-0 sudo[31247]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:07:00 juju-04f1e3-1-lxd-0 sudo[31247]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:07:00 juju-04f1e3-1-lxd-0 sudo[31247]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:11:52 juju-04f1e3-1-lxd-0 sudo[31588]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:11:52 juju-04f1e3-1-lxd-0 sudo[31588]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:11:52 juju-04f1e3-1-lxd-0 sudo[31588]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:17:06 juju-04f1e3-1-lxd-0 sudo[31932]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:17:06 juju-04f1e3-1-lxd-0 sudo[31932]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:17:06 juju-04f1e3-1-lxd-0 sudo[31932]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:22:12 juju-04f1e3-1-lxd-0 sudo[32270]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:22:12 juju-04f1e3-1-lxd-0 sudo[32270]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:22:12 juju-04f1e3-1-lxd-0 sudo[32270]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:27:16 juju-04f1e3-1-lxd-0 sudo[32598]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:27:16 juju-04f1e3-1-lxd-0 sudo[32598]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:27:16 juju-04f1e3-1-lxd-0 sudo[32598]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:33:11 juju-04f1e3-1-lxd-0 sudo[32941]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:33:11 juju-04f1e3-1-lxd-0 sudo[32941]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:33:11 juju-04f1e3-1-lxd-0 sudo[32941]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:39:03 juju-04f1e3-1-lxd-0 sudo[33287]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:39:03 juju-04f1e3-1-lxd-0 sudo[33287]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:39:03 juju-04f1e3-1-lxd-0 sudo[33287]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:44:14 juju-04f1e3-1-lxd-0 sudo[33631]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:44:14 juju-04f1e3-1-lxd-0 sudo[33631]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:44:14 juju-04f1e3-1-lxd-0 sudo[33631]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:49:26 juju-04f1e3-1-lxd-0 sudo[33972]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:49:26 juju-04f1e3-1-lxd-0 sudo[33972]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:49:26 juju-04f1e3-1-lxd-0 sudo[33972]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:53:49 juju-04f1e3-1-lxd-0 sudo[34308]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:53:49 juju-04f1e3-1-lxd-0 sudo[34308]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:53:49 juju-04f1e3-1-lxd-0 sudo[34308]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 05:57:55 juju-04f1e3-1-lxd-0 sudo[34645]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 05:57:55 juju-04f1e3-1-lxd-0 sudo[34645]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 05:57:55 juju-04f1e3-1-lxd-0 sudo[34645]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:03:03 juju-04f1e3-1-lxd-0 sudo[34986]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:03:03 juju-04f1e3-1-lxd-0 sudo[34986]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:03:03 juju-04f1e3-1-lxd-0 sudo[34986]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:08:47 juju-04f1e3-1-lxd-0 sudo[35331]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:08:47 juju-04f1e3-1-lxd-0 sudo[35331]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:08:47 juju-04f1e3-1-lxd-0 sudo[35331]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:13:42 juju-04f1e3-1-lxd-0 sudo[35751]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:13:42 juju-04f1e3-1-lxd-0 sudo[35751]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:13:42 juju-04f1e3-1-lxd-0 sudo[35751]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:18:13 juju-04f1e3-1-lxd-0 sudo[36093]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:18:13 juju-04f1e3-1-lxd-0 sudo[36093]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:18:13 juju-04f1e3-1-lxd-0 sudo[36093]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:24:02 juju-04f1e3-1-lxd-0 sudo[36445]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:24:02 juju-04f1e3-1-lxd-0 sudo[36445]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:24:02 juju-04f1e3-1-lxd-0 sudo[36445]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:29:56 juju-04f1e3-1-lxd-0 sudo[36842]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:29:56 juju-04f1e3-1-lxd-0 sudo[36842]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:29:56 juju-04f1e3-1-lxd-0 sudo[36842]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:34:36 juju-04f1e3-1-lxd-0 sudo[37188]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:34:36 juju-04f1e3-1-lxd-0 sudo[37188]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:34:36 juju-04f1e3-1-lxd-0 sudo[37188]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:39:11 juju-04f1e3-1-lxd-0 sudo[37519]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:39:11 juju-04f1e3-1-lxd-0 sudo[37519]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:39:11 juju-04f1e3-1-lxd-0 sudo[37519]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:44:07 juju-04f1e3-1-lxd-0 sudo[38199]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:44:07 juju-04f1e3-1-lxd-0 sudo[38199]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:44:07 juju-04f1e3-1-lxd-0 sudo[38199]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:48:51 juju-04f1e3-1-lxd-0 sudo[38538]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:48:51 juju-04f1e3-1-lxd-0 sudo[38538]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:48:51 juju-04f1e3-1-lxd-0 sudo[38538]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 06:54:18 juju-04f1e3-1-lxd-0 sudo[38873]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 06:54:18 juju-04f1e3-1-lxd-0 sudo[38873]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 06:54:18 juju-04f1e3-1-lxd-0 sudo[38873]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:00:18 juju-04f1e3-1-lxd-0 sudo[39214]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:00:18 juju-04f1e3-1-lxd-0 sudo[39214]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:00:18 juju-04f1e3-1-lxd-0 sudo[39214]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:04:29 juju-04f1e3-1-lxd-0 sudo[39552]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:04:29 juju-04f1e3-1-lxd-0 sudo[39552]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:04:29 juju-04f1e3-1-lxd-0 sudo[39552]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:09:56 juju-04f1e3-1-lxd-0 sudo[39914]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:09:56 juju-04f1e3-1-lxd-0 sudo[39914]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:09:56 juju-04f1e3-1-lxd-0 sudo[39914]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:15:07 juju-04f1e3-1-lxd-0 sudo[40254]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:15:07 juju-04f1e3-1-lxd-0 sudo[40254]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:15:07 juju-04f1e3-1-lxd-0 sudo[40254]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:20:28 juju-04f1e3-1-lxd-0 sudo[40575]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:20:28 juju-04f1e3-1-lxd-0 sudo[40575]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:20:28 juju-04f1e3-1-lxd-0 sudo[40575]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:25:16 juju-04f1e3-1-lxd-0 sudo[40911]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:25:16 juju-04f1e3-1-lxd-0 sudo[40911]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:25:16 juju-04f1e3-1-lxd-0 sudo[40911]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:29:48 juju-04f1e3-1-lxd-0 sudo[41243]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:29:48 juju-04f1e3-1-lxd-0 sudo[41243]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:29:48 juju-04f1e3-1-lxd-0 sudo[41243]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:35:10 juju-04f1e3-1-lxd-0 sudo[41600]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:35:10 juju-04f1e3-1-lxd-0 sudo[41600]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:35:10 juju-04f1e3-1-lxd-0 sudo[41600]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:40:06 juju-04f1e3-1-lxd-0 sudo[41926]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:40:06 juju-04f1e3-1-lxd-0 sudo[41926]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:40:06 juju-04f1e3-1-lxd-0 sudo[41926]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:45:17 juju-04f1e3-1-lxd-0 sudo[42251]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:45:17 juju-04f1e3-1-lxd-0 sudo[42251]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:45:18 juju-04f1e3-1-lxd-0 sudo[42251]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:49:55 juju-04f1e3-1-lxd-0 sudo[42590]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:49:55 juju-04f1e3-1-lxd-0 sudo[42590]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:49:55 juju-04f1e3-1-lxd-0 sudo[42590]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:54:31 juju-04f1e3-1-lxd-0 sudo[42922]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:54:31 juju-04f1e3-1-lxd-0 sudo[42922]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:54:31 juju-04f1e3-1-lxd-0 sudo[42922]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 07:59:49 juju-04f1e3-1-lxd-0 sudo[43260]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 07:59:49 juju-04f1e3-1-lxd-0 sudo[43260]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 07:59:49 juju-04f1e3-1-lxd-0 sudo[43260]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:05:37 juju-04f1e3-1-lxd-0 sudo[43597]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:05:37 juju-04f1e3-1-lxd-0 sudo[43597]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:05:37 juju-04f1e3-1-lxd-0 sudo[43597]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:10:54 juju-04f1e3-1-lxd-0 sudo[43943]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:10:54 juju-04f1e3-1-lxd-0 sudo[43943]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:10:54 juju-04f1e3-1-lxd-0 sudo[43943]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:16:33 juju-04f1e3-1-lxd-0 sudo[44283]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:16:33 juju-04f1e3-1-lxd-0 sudo[44283]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:16:33 juju-04f1e3-1-lxd-0 sudo[44283]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:21:19 juju-04f1e3-1-lxd-0 sudo[44620]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:21:19 juju-04f1e3-1-lxd-0 sudo[44620]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:21:19 juju-04f1e3-1-lxd-0 sudo[44620]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:26:20 juju-04f1e3-1-lxd-0 sudo[44954]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:26:20 juju-04f1e3-1-lxd-0 sudo[44954]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:26:20 juju-04f1e3-1-lxd-0 sudo[44954]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:31:19 juju-04f1e3-1-lxd-0 sudo[45292]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:31:19 juju-04f1e3-1-lxd-0 sudo[45292]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:31:19 juju-04f1e3-1-lxd-0 sudo[45292]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:36:38 juju-04f1e3-1-lxd-0 sudo[45638]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:36:38 juju-04f1e3-1-lxd-0 sudo[45638]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:36:38 juju-04f1e3-1-lxd-0 sudo[45638]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:41:40 juju-04f1e3-1-lxd-0 sudo[45973]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:41:40 juju-04f1e3-1-lxd-0 sudo[45973]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:41:40 juju-04f1e3-1-lxd-0 sudo[45973]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:46:46 juju-04f1e3-1-lxd-0 sudo[46306]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:46:46 juju-04f1e3-1-lxd-0 sudo[46306]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:46:47 juju-04f1e3-1-lxd-0 sudo[46306]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:51:40 juju-04f1e3-1-lxd-0 sudo[46632]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:51:40 juju-04f1e3-1-lxd-0 sudo[46632]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:51:40 juju-04f1e3-1-lxd-0 sudo[46632]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 08:56:39 juju-04f1e3-1-lxd-0 sudo[46937]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 08:56:39 juju-04f1e3-1-lxd-0 sudo[46937]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 08:56:39 juju-04f1e3-1-lxd-0 sudo[46937]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:01:25 juju-04f1e3-1-lxd-0 sudo[47270]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:01:25 juju-04f1e3-1-lxd-0 sudo[47270]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:01:26 juju-04f1e3-1-lxd-0 sudo[47270]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:06:23 juju-04f1e3-1-lxd-0 sudo[47774]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:06:23 juju-04f1e3-1-lxd-0 sudo[47774]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:06:23 juju-04f1e3-1-lxd-0 sudo[47774]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:10:42 juju-04f1e3-1-lxd-0 sudo[48148]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:10:42 juju-04f1e3-1-lxd-0 sudo[48148]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:10:42 juju-04f1e3-1-lxd-0 sudo[48148]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:16:29 juju-04f1e3-1-lxd-0 sudo[48466]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:16:29 juju-04f1e3-1-lxd-0 sudo[48466]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:16:29 juju-04f1e3-1-lxd-0 sudo[48466]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:20:33 juju-04f1e3-1-lxd-0 sudo[48806]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:20:33 juju-04f1e3-1-lxd-0 sudo[48806]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:20:33 juju-04f1e3-1-lxd-0 sudo[48806]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:25:20 juju-04f1e3-1-lxd-0 sudo[49146]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:25:20 juju-04f1e3-1-lxd-0 sudo[49146]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:25:20 juju-04f1e3-1-lxd-0 sudo[49146]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:29:39 juju-04f1e3-1-lxd-0 sudo[49491]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:29:39 juju-04f1e3-1-lxd-0 sudo[49491]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:29:39 juju-04f1e3-1-lxd-0 sudo[49491]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:34:36 juju-04f1e3-1-lxd-0 sudo[49917]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:34:36 juju-04f1e3-1-lxd-0 sudo[49917]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:34:37 juju-04f1e3-1-lxd-0 sudo[49917]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:39:56 juju-04f1e3-1-lxd-0 sudo[50250]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:39:56 juju-04f1e3-1-lxd-0 sudo[50250]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:39:56 juju-04f1e3-1-lxd-0 sudo[50250]: pam_unix(sudo:session): session closed for user ceph
+Feb 10 09:45:00 juju-04f1e3-1-lxd-0 sudo[50586]:     root : TTY=unknown ; PWD=/var/lib/juju/agents/unit-ceph-mon-0/charm ; USER=ceph ; COMMAND=/usr/bin/ceph --admin-daemon /var/run/ceph/ceph-mon.juju-04f1e3-1-lxd-0.asok mon_status
+Feb 10 09:45:00 juju-04f1e3-1-lxd-0 sudo[50586]: pam_unix(sudo:session): session opened for user ceph by (uid=0)
+Feb 10 09:45:00 juju-04f1e3-1-lxd-0 sudo[50586]: pam_unix(sudo:session): session closed for user ceph

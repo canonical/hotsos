@@ -1,0 +1,82 @@
+charm_name: neutron-openvswitch
+
+# NOTE: the OVN migration test runs at the end of a regular gate check and adds
+# no more than 5-10 minutes to each job. We want this to run from focal-ussuri
+# and onwards as that is the point where we recomend our users to migrate from
+# OVS to OVN.
+
+smoke_bundles:
+  - migrate-ovn: focal-ussuri-dvr-snat
+
+gate_bundles:
+  - bionic-queens-dvr-snat
+  - bionic-stein-dvr-snat
+  - bionic-ussuri-dvr-snat
+  - migrate-ovn: focal-ussuri-dvr-snat
+  - migrate-ovn: focal-victoria-dvr-snat
+  - migrate-ovn: focal-wallaby-dvr-snat
+  - migrate-ovn: focal-xena-dvr-snat
+  - migrate-ovn: hirsute-wallaby-dvr-snat
+  - migrate-ovn: impish-xena-dvr-snat
+
+dev_bundles:
+  - bionic-rocky-dvr-snat
+  - bionic-train-dvr-snat
+  - migrate-ovn: focal-yoga-dvr-snat
+  - migrate-ovn: jammy-yoga-dvr-snat
+
+configure:
+  - zaza.openstack.charm_tests.glance.setup.add_lts_image
+  - zaza.openstack.charm_tests.neutron.setup.basic_overcloud_network
+  - zaza.openstack.charm_tests.nova.setup.create_flavors
+  - zaza.openstack.charm_tests.nova.setup.manage_ssh_key
+  - migrate-ovn:
+    - zaza.openstack.charm_tests.vault.setup.auto_initialize_no_validation
+    - zaza.openstack.charm_tests.glance.setup.add_lts_image
+    - zaza.openstack.charm_tests.neutron.setup.basic_overcloud_network
+    - zaza.openstack.charm_tests.nova.setup.create_flavors
+    - zaza.openstack.charm_tests.nova.setup.manage_ssh_key
+    - zaza.openstack.charm_tests.ovn.setup.pre_migration_configuration
+
+configure_options:
+  configure_gateway_ext_port_use_juju_wait: false
+
+target_deploy_status:
+  neutron-api-plugin-ovn:
+    # NOTE(lourot): at first we deploy a bundle in which this subordinate charm
+    # isn't related to anything, so it has no unit. It will become related and
+    # receive units later as part of OVSOVNMigrationTest.
+    num-expected-units: 0
+    workload-status: waiting
+  ovn-chassis:
+    workload-status: maintenance
+    workload-status-message: "Paused. Use 'resume' action to resume normal service."
+  ovn-central:
+    workload-status: waiting
+    workload-status-message: "'ovsdb-peer' incomplete, 'certificates' awaiting server certificate data"
+  vault:
+    workload-status: blocked
+    workload-status-message: Vault needs to be initialized
+
+tests:
+  - zaza.openstack.charm_tests.neutron.tests.NeutronOVSDeferredRestartTest
+  - zaza.openstack.charm_tests.neutron.tests.NeutronNetworkingTest
+  - zaza.openstack.charm_tests.neutron.tests.NeutronOpenvSwitchTest
+  - zaza.openstack.charm_tests.neutron.tests.NeutronOvsVsctlTest
+  - zaza.openstack.charm_tests.neutron.tests.NeutronBridgePortMappingTest
+  - migrate-ovn:
+    - zaza.openstack.charm_tests.neutron.tests.NeutronOVSDeferredRestartTest
+    - zaza.openstack.charm_tests.neutron.tests.NeutronNetworkingTest
+    - zaza.openstack.charm_tests.neutron.tests.NeutronOvsVsctlTest
+    - zaza.openstack.charm_tests.neutron.tests.NeutronBridgePortMappingTest
+    - zaza.openstack.charm_tests.ovn.tests.OVSOVNMigrationTest
+    - zaza.openstack.charm_tests.neutron.tests.NeutronNetworkingTest
+tests_options:
+  # NOTE: This allows us to run the NeutronNetworkingTest multiple times while
+  # reusing the instances created for the first run. This both saves time and
+  # allows verifying instances survive a SDN migration.
+  zaza.openstack.charm_tests.neutron.tests.NeutronNetworkingTest.test_instances_have_networking.run_resource_cleanup: false
+  force_deploy:
+    - hirsute-wallaby-dvr-snat
+    - impish-xena-dvr-snat
+    - jammy-yoga-dvr-snat

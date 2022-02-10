@@ -1,0 +1,122 @@
+[2022-02-09 22:38:19,135][systemd][INFO  ] raw systemd input received: lvm-0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:19,136][systemd][INFO  ] parsed sub-command: lvm, extra data: 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:19,171][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:21,163][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:21,267][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:38:21,267][systemd][WARNING] failed activating OSD, retries left: 30
+[2022-02-09 22:38:26,271][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:28,513][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:28,741][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:38:28,741][systemd][WARNING] failed activating OSD, retries left: 29
+[2022-02-09 22:38:33,752][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:43,424][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:45,097][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:38:45,097][systemd][WARNING] failed activating OSD, retries left: 28
+[2022-02-09 22:38:50,131][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:38:59,920][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:00,851][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:39:00,864][systemd][WARNING] failed activating OSD, retries left: 27
+[2022-02-09 22:39:05,875][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:12,400][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:12,859][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:39:12,859][systemd][WARNING] failed activating OSD, retries left: 26
+[2022-02-09 22:39:17,867][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:23,735][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:24,284][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:39:24,293][systemd][WARNING] failed activating OSD, retries left: 25
+[2022-02-09 22:39:29,303][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:35,408][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:35,850][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:39:35,850][systemd][WARNING] failed activating OSD, retries left: 24
+[2022-02-09 22:39:40,863][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:46,189][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:46,852][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:39:46,852][systemd][WARNING] failed activating OSD, retries left: 23
+[2022-02-09 22:39:51,859][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:57,591][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:39:58,215][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:39:58,215][systemd][WARNING] failed activating OSD, retries left: 22
+[2022-02-09 22:40:03,226][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:09,370][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:10,087][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:40:10,088][systemd][WARNING] failed activating OSD, retries left: 21
+[2022-02-09 22:40:15,097][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:20,293][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:20,860][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:40:20,860][systemd][WARNING] failed activating OSD, retries left: 20
+[2022-02-09 22:40:25,867][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:31,264][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:31,654][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:40:31,654][systemd][WARNING] failed activating OSD, retries left: 19
+[2022-02-09 22:40:36,660][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:41,720][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:42,436][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:40:42,436][systemd][WARNING] failed activating OSD, retries left: 18
+[2022-02-09 22:40:47,441][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:50,964][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:40:51,460][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:40:51,460][systemd][WARNING] failed activating OSD, retries left: 17
+[2022-02-09 22:40:56,465][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:00,032][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:00,251][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:00,251][systemd][WARNING] failed activating OSD, retries left: 16
+[2022-02-09 22:41:05,256][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:08,313][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:08,407][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:08,407][systemd][WARNING] failed activating OSD, retries left: 15
+[2022-02-09 22:41:13,412][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:14,118][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:14,191][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:14,191][systemd][WARNING] failed activating OSD, retries left: 14
+[2022-02-09 22:41:19,197][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:19,818][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:19,859][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:19,859][systemd][WARNING] failed activating OSD, retries left: 13
+[2022-02-09 22:41:24,864][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:25,509][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:25,587][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:25,587][systemd][WARNING] failed activating OSD, retries left: 12
+[2022-02-09 22:41:30,592][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:31,282][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:31,327][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:31,327][systemd][WARNING] failed activating OSD, retries left: 11
+[2022-02-09 22:41:36,331][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:36,665][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:36,695][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:36,695][systemd][WARNING] failed activating OSD, retries left: 10
+[2022-02-09 22:41:41,700][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:42,350][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:42,396][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:42,396][systemd][WARNING] failed activating OSD, retries left: 9
+[2022-02-09 22:41:47,401][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:47,757][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:47,779][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:47,779][systemd][WARNING] failed activating OSD, retries left: 8
+[2022-02-09 22:41:52,785][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:53,226][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:53,268][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:53,268][systemd][WARNING] failed activating OSD, retries left: 7
+[2022-02-09 22:41:58,274][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:58,970][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:41:59,025][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:41:59,025][systemd][WARNING] failed activating OSD, retries left: 6
+[2022-02-09 22:42:04,030][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:04,381][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:04,406][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:42:04,407][systemd][WARNING] failed activating OSD, retries left: 5
+[2022-02-09 22:42:09,412][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:09,862][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:09,924][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:42:09,924][systemd][WARNING] failed activating OSD, retries left: 4
+[2022-02-09 22:42:14,928][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:15,377][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:15,405][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:42:15,405][systemd][WARNING] failed activating OSD, retries left: 3
+[2022-02-09 22:42:20,409][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:20,880][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:20,911][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:42:20,911][systemd][WARNING] failed activating OSD, retries left: 2
+[2022-02-09 22:42:25,916][ceph_volume.process][INFO  ] Running command: /usr/sbin/ceph-volume lvm trigger 0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:26,362][ceph_volume.process][INFO  ] stderr -->  RuntimeError: could not find osd.0 with osd_fsid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+[2022-02-09 22:42:26,403][systemd][WARNING] command returned non-zero exit status: 1
+[2022-02-09 22:42:26,403][systemd][WARNING] failed activating OSD, retries left: 1

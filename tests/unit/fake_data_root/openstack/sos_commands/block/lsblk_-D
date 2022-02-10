@@ -1,0 +1,23 @@
+NAME                                                                                                        DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+loop0                                                                                                              0        4K       4G         0
+loop2                                                                                                              0        4K       4G         0
+loop3                                                                                                              0        4K       4G         0
+loop4                                                                                                              0        4K       4G         0
+vda                                                                                                                0        0B       0B         0
+|-vda1                                                                                                             0        0B       0B         0
+`-vda2                                                                                                             0        0B       0B         0
+vdb                                                                                                                0        0B       0B         0
+|-vdb1                                                                                                             0        0B       0B         0
+`-vdb2                                                                                                             0        0B       0B         0
+  |-bcache0                                                                                                        0      512B       2T         0
+  | `-crypt-88244ad9-372d-427e-9d82-c411c73d900a                                                                   0        0B       0B         0
+  `-bcache1                                                                                                        0      512B       2T         0
+    `-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749                                                                   0        0B       0B         0
+      `-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749        0        0B       0B         0
+vdc                                                                                                                0        0B       0B         0
+`-bcache1                                                                                                          0      512B       2T         0
+  `-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749                                                                     0        0B       0B         0
+    `-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749          0        0B       0B         0
+vdd                                                                                                                0        0B       0B         0
+`-bcache0                                                                                                          0      512B       2T         0
+  `-crypt-88244ad9-372d-427e-9d82-c411c73d900a                                                                     0        0B       0B         0

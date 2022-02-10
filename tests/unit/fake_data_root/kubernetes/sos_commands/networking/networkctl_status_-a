@@ -1,0 +1,81 @@
+* 1: lo                                                         
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: loopback                                
+                 State: carrier (unmanaged)                     
+                   MTU: 65536                                   
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: 127.0.0.1                               
+                        ::1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+* 2: ens3                                                           
+             Link File: /run/systemd/network/10-netplan-ens3.link   
+          Network File: /run/systemd/network/10-netplan-ens3.network
+                  Type: ether                                       
+                 State: routable (configured)                       
+                  Path: pci-0000:00:03.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: fa:16:3e:1f:96:bd                           
+                   MTU: 8958 (min: 68, max: 8958)                   
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: 10.6.3.201 (DHCP4)                          
+                        fe80::f816:3eff:fe1f:96bd                   
+               Gateway: 10.6.0.1                                    
+                   DNS: 10.6.0.12                                   
+                        10.6.0.5                                    
+                        10.6.0.11                                   
+                        10.6.0.8                                    
+                        10.6.0.3                                    
+                        10.6.0.2                                    
+                        10.6.0.6                                    
+                        10.6.0.14                                   
+                        10.6.0.7                                    
+                        10.6.0.15                                   
+                        10.6.0.10                                   
+                        10.6.0.4                                    
+                        10.6.0.9                                    
+                        10.6.0.13                                   
+                        10.6.0.16                                   
+        Search Domains: cloud.sts                                   
+     Activation Policy: up                                          
+   Required For Online: yes                                         
+
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Link UP
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Gained carrier
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Gained IPv6LL
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Link DOWN
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Lost carrier
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: IPv6 successfully enabled
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Link UP
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Gained carrier
+Feb 11 18:58:23 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: DHCPv4 address 10.6.3.201/16 via 10.6.0.1
+Feb 11 18:58:25 juju-110cc2-k8stest-4 systemd-networkd[567]: ens3: Gained IPv6LL
+
+* 3: flannel.1                                                  
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: vxlan                                   
+                 State: routable (unmanaged)                    
+                Driver: vxlan                                   
+            HW Address: 9a:e0:6b:c3:ce:e3                       
+                   MTU: 8908 (min: 68, max: 65535)              
+                   VNI: 1                                       
+                 Local: 10.6.3.201                              
+      Destination Port: 8472                                    
+     Underlying Device: ens3                                    
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: 10.1.84.0                               
+                        fe80::98e0:6bff:fec3:cee3               
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Feb 11 19:07:07 juju-110cc2-k8stest-4 systemd-udevd[35381]: flannel.1: Could not generate persistent MAC: No data available
+Feb 11 19:07:10 juju-110cc2-k8stest-4 systemd-networkd[567]: flannel.1: Link UP
+Feb 11 19:07:10 juju-110cc2-k8stest-4 systemd-networkd[567]: flannel.1: Gained carrier
+Feb 11 19:07:11 juju-110cc2-k8stest-4 systemd-networkd[567]: flannel.1: Gained IPv6LL

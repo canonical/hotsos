@@ -1,0 +1,27 @@
+type: charm
+
+parts:
+  charm:
+    plugin: dump
+    source: .
+    prime:
+      - actions/*
+      - files/*
+      - hooks/*
+      - lib/*
+      - templates/*
+      - actions.yaml
+      - config.yaml
+      - copyright
+      - hardening.yaml
+      - icon.svg
+      - LICENSE
+      - Makefile
+      - metadata.yaml
+      - README.md
+
+bases:
+  - name: ubuntu
+    channel: "20.04"
+    architectures:
+      - amd64

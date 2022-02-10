@@ -1,0 +1,11 @@
+# This is a POSIX shell fragment                -*- sh -*-
+###############################################################################
+# [ WARNING ]
+# Configuration file maintained by Juju. Local changes may be overwritten.
+# Configuration managed by neutron-openvswitch charm
+# Service restart triggered by remote application: {{ restart_trigger }}
+#                                                  {{ restart_trigger_ovs }}
+###############################################################################
+{% if append_ovs_config -%}
+DAEMON_ARGS="$DAEMON_ARGS --config-file=/etc/neutron/plugins/ml2/openvswitch_agent.ini"
+{% endif -%}

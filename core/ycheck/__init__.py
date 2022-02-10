@@ -686,6 +686,7 @@ class YPropertyRequires(YPropertyOverrideBase):
                 return True
 
             log.debug("depends-on passed - continuing")
+            del self.content['depends-on']
 
         if type(self.content) == dict:
             if not self._is_groups(self.content):

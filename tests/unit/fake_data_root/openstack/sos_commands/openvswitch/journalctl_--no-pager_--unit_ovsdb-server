@@ -1,0 +1,35 @@
+-- Logs begin at Fri 2022-02-04 09:34:04 UTC, end at Thu 2022-02-10 16:19:27 UTC. --
+Feb 04 09:38:32 compute4 systemd[1]: Starting Open vSwitch Database Unit...
+Feb 04 09:38:32 compute4 ovs-ctl[23217]:  * /etc/openvswitch/conf.db does not exist
+Feb 04 09:38:32 compute4 ovs-ctl[23217]:  * Creating empty database /etc/openvswitch/conf.db
+Feb 04 09:38:32 compute4 ovs-ctl[23217]:  * Starting ovsdb-server
+Feb 04 09:38:32 compute4 ovs-vsctl[23273]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.2.0
+Feb 04 09:38:32 compute4 ovs-vsctl[23279]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=2.13.3 "external-ids:system-id=\"3c98ecc6-adbc-4647-853b-d4c2b38e49ac\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"ubuntu\"" "system-version=\"20.04\""
+Feb 04 09:38:32 compute4 ovs-ctl[23217]:  * Configuring Open vSwitch system IDs
+Feb 04 09:38:32 compute4 ovs-ctl[23217]:  * Enabling remote OVSDB managers
+Feb 04 09:38:32 compute4 systemd[1]: Started Open vSwitch Database Unit.
+Feb 04 09:39:39 compute4 systemd[1]: Stopping Open vSwitch Database Unit...
+Feb 04 09:39:39 compute4 ovs-ctl[26462]:  * Exiting ovsdb-server (23272)
+Feb 04 09:39:39 compute4 systemd[1]: ovsdb-server.service: Succeeded.
+Feb 04 09:39:39 compute4 systemd[1]: Stopped Open vSwitch Database Unit.
+Feb 04 09:39:39 compute4 systemd[1]: Starting Open vSwitch Database Unit...
+Feb 04 09:39:39 compute4 ovs-ctl[26483]:  * Starting ovsdb-server
+Feb 04 09:39:39 compute4 ovs-vsctl[26519]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.2.0
+Feb 04 09:39:39 compute4 ovs-vsctl[26524]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=2.13.3 "external-ids:system-id=\"3c98ecc6-adbc-4647-853b-d4c2b38e49ac\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"ubuntu\"" "system-version=\"20.04\""
+Feb 04 09:39:39 compute4 ovs-ctl[26483]:  * Configuring Open vSwitch system IDs
+Feb 04 09:39:39 compute4 ovs-ctl[26483]:  * Enabling remote OVSDB managers
+Feb 04 09:39:39 compute4 systemd[1]: Started Open vSwitch Database Unit.
+Feb 04 11:33:06 compute4 systemd[1]: Stopping Open vSwitch Database Unit...
+Feb 04 11:33:06 compute4 ovs-ctl[466127]:  * Exiting ovsdb-server (26518)
+Feb 04 11:33:06 compute4 systemd[1]: ovsdb-server.service: Succeeded.
+Feb 04 11:33:06 compute4 systemd[1]: Stopped Open vSwitch Database Unit.
+-- Reboot --
+Feb 09 22:38:14 compute4 systemd[1]: Starting Open vSwitch Database Unit...
+Feb 09 22:38:14 compute4 ovs-ctl[720]:  * Starting ovsdb-server
+Feb 09 22:38:14 compute4 ovs-vsctl[763]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait -- init -- set Open_vSwitch . db-version=8.2.0
+Feb 09 22:38:14 compute4 ovs-ctl[765]: 2022-02-09T22:38:14Z|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Feb 09 22:38:14 compute4 ovs-vswitchd[765]: ovs|00001|dns_resolve|WARN|Failed to read /etc/resolv.conf: No such file or directory
+Feb 09 22:38:14 compute4 ovs-vsctl[768]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=2.13.3 "external-ids:system-id=\"3c98ecc6-adbc-4647-853b-d4c2b38e49ac\"" "external-ids:rundir=\"/var/run/openvswitch\"" "system-type=\"ubuntu\"" "system-version=\"20.04\""
+Feb 09 22:38:14 compute4 ovs-ctl[720]:  * Configuring Open vSwitch system IDs
+Feb 09 22:38:14 compute4 ovs-ctl[720]:  * Enabling remote OVSDB managers
+Feb 09 22:38:14 compute4 systemd[1]: Started Open vSwitch Database Unit.

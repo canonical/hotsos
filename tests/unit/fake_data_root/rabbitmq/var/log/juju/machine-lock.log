@@ -1,0 +1,191 @@
+2022-02-04 09:46:29 === agent unit-rabbitmq-server-0 started ===
+2022-02-04 09:46:30 unit-rabbitmq-server-0: meterstatus (meter-status-changed), waited 0s, held 0s
+2022-02-04 09:53:44 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run install hook), waited 0s, held 7m8s
+2022-02-04 09:53:45 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (16; app: nova-cloud-controller) hook), waited 0s, held 0s
+2022-02-04 09:53:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (31; app: neutron-api) hook), waited 0s, held 0s
+2022-02-04 09:53:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (36; app: neutron-openvswitch) hook), waited 0s, held 0s
+2022-02-04 09:53:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (11; app: rabbitmq-server) hook), waited 0s, held 0s
+2022-02-04 09:53:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (25; app: glance) hook), waited 0s, held 0s
+2022-02-04 09:53:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (20; app: nova-compute) hook), waited 0s, held 0s
+2022-02-04 09:53:47 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-created (27; app: cinder) hook), waited 0s, held 0s
+2022-02-04 09:54:24 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run leader-elected hook), waited 0s, held 37s
+2022-02-04 09:58:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run config-changed hook), waited 0s, held 4m8s
+2022-02-04 09:59:02 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run start hook), waited 0s, held 29s
+2022-02-04 09:59:02 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (20; unit: nova-compute/0) hook), waited 0s, held 0s
+2022-02-04 09:59:02 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (25; unit: glance/0) hook), waited 0s, held 0s
+2022-02-04 09:59:02 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (31; unit: neutron-api/0) hook), waited 0s, held 0s
+2022-02-04 09:59:02 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (36; unit: neutron-openvswitch/0) hook), waited 0s, held 0s
+2022-02-04 10:00:17 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (36; unit: neutron-openvswitch/0) hook), waited 0s, held 1m14s
+2022-02-04 10:00:17 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (27; unit: cinder/0) hook), waited 0s, held 0s
+2022-02-04 10:00:41 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (20; unit: nova-compute/0) hook), waited 0s, held 24s
+2022-02-04 10:00:41 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (20; unit: nova-compute/1) hook), waited 0s, held 0s
+2022-02-04 10:00:42 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (16; unit: nova-cloud-controller/0) hook), waited 0s, held 0s
+2022-02-04 10:00:42 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (36; unit: neutron-openvswitch/1) hook), waited 0s, held 0s
+2022-02-04 10:01:09 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (25; unit: glance/0) hook), waited 0s, held 27s
+2022-02-04 10:01:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (16; unit: nova-cloud-controller/0) hook), waited 0s, held 23s
+2022-02-04 10:02:47 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (20; unit: nova-compute/1) hook), waited 0s, held 1m15s
+2022-02-04 10:02:47 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (20; unit: nova-compute/2) hook), waited 0s, held 0s
+2022-02-04 10:03:12 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (27; unit: cinder/0) hook), waited 0s, held 25s
+2022-02-04 10:04:21 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (31; unit: neutron-api/0) hook), waited 0s, held 1m9s
+2022-02-04 10:04:43 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (20; unit: nova-compute/2) hook), waited 0s, held 22s
+2022-02-04 10:05:03 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (36; unit: neutron-openvswitch/1) hook), waited 0s, held 20s
+2022-02-04 10:05:25 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (20; unit: nova-compute/0) hook), waited 0s, held 22s
+2022-02-04 10:06:12 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (25; unit: glance/0) hook), waited 0s, held 47s
+2022-02-04 10:06:13 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-joined (36; unit: neutron-openvswitch/2) hook), waited 0s, held 0s
+2022-02-04 10:06:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (36; unit: neutron-openvswitch/2) hook), waited 0s, held 19s
+2022-02-04 10:08:36 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (16; unit: nova-cloud-controller/0) hook), waited 0s, held 49s
+2022-02-04 10:08:51 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 15s
+2022-02-04 10:13:25 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 12s
+2022-02-04 10:14:15 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run relation-changed (20; unit: nova-compute/2) hook), waited 0s, held 10s
+2022-02-04 10:18:07 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 15s
+2022-02-04 10:23:53 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 15s
+2022-02-04 10:28:27 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-04 10:33:45 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 8s
+2022-02-04 10:38:08 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 7s
+2022-02-04 10:42:09 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-04 10:48:11 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 21s
+2022-02-04 10:52:27 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 17s
+2022-02-04 10:57:22 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 8s
+2022-02-04 11:01:28 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:05:52 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:10:13 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:15:03 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-04 11:20:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:26:01 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-04 11:31:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-09 22:38:57 === agent unit-rabbitmq-server-0 started ===
+2022-02-09 22:39:27 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run start hook), waited 0s, held 26s
+2022-02-09 22:40:02 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run start hook), waited 0s, held 31s
+2022-02-09 22:40:37 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run start hook), waited 0s, held 25s
+2022-02-09 22:41:11 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run start hook), waited 0s, held 13s
+2022-02-09 22:43:13 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-09 22:48:03 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 22:53:54 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-09 22:58:37 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:03:29 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:09:20 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:13:50 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:18:38 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:22:39 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:27:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:31:28 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:36:20 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:42:17 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:46:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:51:33 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-09 23:56:13 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:01:47 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:06:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:12:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:16:42 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:20:53 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:24:59 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 00:29:50 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:34:08 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:38:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:43:43 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:47:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 00:53:31 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 00:57:34 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:03:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:08:51 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:13:54 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:18:08 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:24:06 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:29:58 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:34:24 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:39:58 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:44:37 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:49:31 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:55:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 01:59:58 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:04:04 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:08:24 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:14:05 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:18:34 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 02:23:34 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:28:00 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 02:33:20 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:37:40 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:42:09 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 7s
+2022-02-10 02:48:01 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 02:53:44 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 02:58:58 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:04:25 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:09:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:13:52 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:19:15 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:24:13 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 03:28:55 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:33:03 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 03:38:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 03:43:07 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:48:15 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:53:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 03:59:10 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:04:08 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:08:32 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:13:41 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:18:23 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:24:04 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:28:54 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:34:12 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:39:16 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:43:36 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:49:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 04:53:52 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 04:59:12 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:04:40 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:10:10 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:15:54 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:20:36 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:26:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 05:31:38 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:36:57 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:42:14 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:47:04 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 05:51:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 05:56:20 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 06:00:57 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 06:05:23 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 06:10:58 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 06:16:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 06:21:30 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 06:26:15 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 06:31:23 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 06:37:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 06:42:15 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 06:46:46 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 06:52:01 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 06:57:35 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 07:02:27 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:06:47 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:12:10 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 07:16:58 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:21:52 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 07:25:51 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:31:26 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:37:08 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:42:12 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:47:33 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:53:04 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 07:58:49 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:03:19 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 08:07:42 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:12:39 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:18:10 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 08:23:49 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:28:30 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 08:34:18 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:40:11 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:45:05 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 08:51:01 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-10 08:56:41 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 09:02:35 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 7s
+2022-02-10 09:08:09 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 09:12:30 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 6s
+2022-02-10 09:16:51 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 09:21:20 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 09:26:36 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 09:31:35 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s
+2022-02-10 09:36:10 unit-rabbitmq-server-0: rabbitmq-server/0 uniter (run update-status hook), waited 0s, held 5s

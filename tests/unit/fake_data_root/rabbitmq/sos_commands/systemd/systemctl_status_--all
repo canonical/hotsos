@@ -1,0 +1,2862 @@
+* juju-04f1e3-1-lxd-5
+    State: degraded
+     Jobs: 0 queued
+   Failed: 2 units
+    Since: Wed 2022-02-09 22:38:35 UTC; 11h ago
+   CGroup: /
+           |- 635 /bin/sh /snap/lxd/21835/commands/daemon.start
+           |-1683 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+           |-user.slice 
+           | `-user-1000.slice 
+           |   |-user@1000.service 
+           |   | |-dbus.socket 
+           |   | `-init.scope 
+           |   |   |-123717 /lib/systemd/systemd --user
+           |   |   `-123718 (sd-pam)
+           |   `-session-400.scope 
+           |     |-123714 sshd: ubuntu [priv]
+           |     |-123778 sshd: ubuntu@pts/1
+           |     |-123779 sudo -s
+           |     |-123780 /bin/bash
+           |     |-123803 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+           |     |-125449 timeout 10s rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+           |     |-125454 /bin/sh /usr/sbin/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+           |     |-125464 su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+           |     |-125466 sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+           |     |-125467 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -B -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -boot start_clean -noshell -noinput -noshell -hidden -smp enable -kernel inet_dist_listen_min 35672 -kernel inet_dist_listen_max 35682 -sasl errlog_type error -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -run escript start -escript main rabbitmqctl_escript -- -extra /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/escript/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+           |     |-125593 erl_child_setup 1024
+           |     |-125750 timeout 300s ubuntu-security-status --thirdparty --unavailable
+           |     |-125752 /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+           |     |-125760 timeout 300s systemctl status --all
+           |     |-125761 inet_gethost 4
+           |     |-125762 inet_gethost 4
+           |     `-125765 systemctl status --all
+           |-init.scope 
+           | `-1 /sbin/init
+           `-system.slice 
+             |-systemd-update-utmp.service 
+             |-systemd-sysusers.service 
+             |-sys-devices-system-cpu-online.mount 
+             |-dev-ptmx.mount 
+             |-snap.lxd.workaround.service 
+             |-systemd-udevd-control.socket 
+             |-epmd.service 
+             | `-246 /usr/bin/epmd -systemd
+             |-proc-cpuinfo.mount 
+             |-systemd-journal-flush.service 
+             |-ubuntu-fan.service 
+             |-systemd-sysctl.service 
+             |-systemd-networkd.service 
+             | `-228 /lib/systemd/systemd-networkd
+             |-snapd.apparmor.service 
+             |-systemd-udevd.service 
+             | `-96 /lib/systemd/systemd-udevd
+             |-dev-fuse.mount 
+             |-systemd-udevd-kernel.socket 
+             |-finalrd.service 
+             |-dev-urandom.mount 
+             |-snap-core20-1328.mount 
+             | `-118 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+             |-cron.service 
+             | `-240 /usr/sbin/cron -f
+             |-sys-fs-fuse-connections.mount 
+             |-dev-full.mount 
+             |-sys-kernel-config.mount 
+             |-polkit.service 
+             | `-334 /usr/lib/policykit-1/polkitd --no-debug
+             |-networkd-dispatcher.service 
+             | `-247 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+             |-proc-stat.mount 
+             |-dev-random.mount 
+             |-sys-kernel-debug.mount 
+             |-lvm2-lvmpolld.socket 
+             |-var-snap-lxd-common-ns.mount 
+             |-snap-snapd-14549.mount 
+             | `-119 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+             |-accounts-daemon.service 
+             | `-235 /usr/lib/accountsservice/accounts-daemon
+             |-systemd-tmpfiles-setup.service 
+             |--.mount 
+             |-system-modprobe.slice 
+             |-systemd-journald-dev-log.socket 
+             |-cloud-init-local.service 
+             |-systemd-networkd.socket 
+             |-console-setup.service 
+             |-proc-loadavg.mount 
+             |-systemd-journald.service 
+             | `-63 /lib/systemd/systemd-journald
+             |-snap.mount 
+             |-atd.service 
+             | `-265 /usr/sbin/atd -f
+             |-systemd-udev-trigger.service 
+             |-unattended-upgrades.service 
+             | `-610 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+             |-proc-swaps.mount 
+             |-ssh.service 
+             | `-298 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+             |-fwupd.service 
+             | `-124386 /usr/libexec/fwupd/fwupd
+             |-snap.lxd.daemon.service 
+             |-syslog.socket 
+             |-dev-mqueue.mount 
+             |-dev-net-tun.mount 
+             |-systemd-initctl.socket 
+             |-snapd.service 
+             | `-251 /usr/lib/snapd/snapd
+             |-ufw.service 
+             |-dev-zero.mount 
+             |-cloud-final.service 
+             |-snapd.seeded.service 
+             |-uuidd.service 
+             | `-91894 /usr/sbin/uuidd --socket-activation
+             |-snap-lxd-21835.mount 
+             | `-117 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+             |-dev-.lxd\x2dmounts.mount 
+             |-dev-tty.mount 
+             |-systemd-hostnamed.service 
+             | `-124435 /lib/systemd/systemd-hostnamed
+             |-jujud-machine-1-lxd-5.service 
+             | |-266 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+             | `-287 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+             |-run-snapd-ns.mount 
+             |-rsyslog.service 
+             | `-249 /usr/sbin/rsyslogd -n -iNONE
+             |-proc-sys-kernel-random-boot_id.mount 
+             |-blk-availability.service 
+             |-systemd-udev-settle.service 
+             |-console-getty.service 
+             | `-274 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200,38400,9600 linux
+             |-sys-kernel-tracing.mount 
+             |-systemd-tmpfiles-setup-dev.service 
+             |-systemd-fsckd.socket 
+             |-cloud-config.service 
+             |-proc-diskstats.mount 
+             |-systemd-journald.socket 
+             |-snapd.socket 
+             |-proc-sys-fs-binfmt_misc.mount 
+             |-apport.service 
+             |-proc-uptime.mount 
+             |-apparmor.service 
+             |-systemd-resolved.service 
+             | `-170 /lib/systemd/systemd-resolved
+             |-rabbitmq-server.service 
+             | |- 248 /bin/sh /usr/sbin/rabbitmq-server
+             | |- 282 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/pluUnit boot.automount could not be found.
+Unit boot.mount could not be found.
+gins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+             | |-1077 erl_child_setup 65536
+             | |-2394 inet_gethost 4
+             | `-2395 inet_gethost 4
+             |-cloud-init.service 
+             |-udisks2.service 
+             | `-256 /usr/lib/udisks2/udisksd
+             |-proc-meminfo.mount 
+             |-dbus.service 
+             | `-241 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+             |-dev-lxd.mount 
+             |-dev-null.mount 
+             |-system-getty.slice 
+             |-run-snapd-ns-lxd.mnt.mount 
+             |-keyboard-setup.service 
+             |-systemd-user-sessions.service 
+             |-dm-event.socket 
+             |-var-snap-lxd-common-ns-shmounts.mount 
+             `-systemd-logind.service 
+               `-253 /lib/systemd/systemd-logind
+
+* proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point
+     Loaded: loaded (/lib/systemd/system/proc-sys-fs-binfmt_misc.automount; static; vendor preset: enabled)
+     Active: inactive (dead)
+   Triggers: * proc-sys-fs-binfmt_misc.mount
+      Where: /proc/sys/fs/binfmt_misc
+       Docs: https://www.kernel.org/doc/html/latest/admin-guide/binfmt-misc.html
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+
+* dev-vda2.device - /dev/vda2
+     Loaded: loaded
+     Active: activating (tentative) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+
+* sys-devices-virtual-net-eth0.device - /sys/devices/virtual/net/eth0
+     Loaded: loaded
+     Active: active (plugged) since Wed 2022-02-09 22:38:46 UTC; 11h ago
+     Device: /sys/devices/virtual/net/eth0
+
+* sys-subsystem-net-devices-eth0.device - /sys/subsystem/net/devices/eth0
+     Loaded: loaded
+     Active: active (plugged) since Wed 2022-02-09 22:38:46 UTC; 11h ago
+     Device: /sys/devices/virtual/net/eth0
+
+* -.mount - Root Mount
+     Loaded: loaded (/etc/fstab; generated)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /
+       What: /dev/vda2
+       Docs: man:fstab(5)
+             man:systemd-fstab-generator(8)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/-.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-.lxd\x2dmounts.mount - /dev/.lxd-mounts
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/.lxd-mounts
+       What: tmpfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-.lxd\x2dmounts.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-full.mount - /dev/full
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/full
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-full.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-fuse.mount - /dev/fuse
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/fuse
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-fuse.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-hugepages.mount - Huge Pages File System
+     Loaded: loaded (/lib/systemd/system/dev-hugepages.mount; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/hugepages
+       What: hugetlbfs
+       Docs: https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+
+* dev-lxd.mount - /dev/lxd
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/lxd
+       What: tmpfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-lxd.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-mqueue.mount - POSIX Message Queue File System
+     Loaded: loaded (/proc/self/mountinfo; static; vendor preset: enabled)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/mqueue
+       What: mqueue
+       Docs: man:mq_overview(7)
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-mqueue.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-net-tun.mount - /dev/net/tun
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/net/tun
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-net-tun.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-null.mount - /dev/null
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/null
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-null.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-ptmx.mount - /dev/ptmx
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/ptmx
+       What: /proc/self/fd/43
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-ptmx.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-random.mount - /dev/random
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/random
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-random.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-tty.mount - /dev/tty
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/tty
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-tty.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-urandom.mount - /dev/urandom
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/urandom
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-urandom.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* dev-zero.mount - /dev/zero
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /dev/zero
+       What: udev
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dev-zero.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-cpuinfo.mount - /proc/cpuinfo
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/cpuinfo
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-cpuinfo.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-diskstats.mount - /proc/diskstats
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/diskstats
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-diskstats.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-loadavg.mount - /proc/loadavg
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/loadavg
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-loadavg.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-meminfo.mount - /proc/meminfo
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/meminfo
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-meminfo.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-stat.mount - /proc/stat
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/stat
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-stat.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-swaps.mount - /proc/swaps
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/swaps
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-swaps.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-sys-fs-binfmt_misc.mount - Arbitrary Executable File Formats File System
+     Loaded: loaded (/proc/self/mountinfo; disabled; vendor preset: enabled)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+TriggeredBy: * proc-sys-fs-binfmt_misc.automount
+      Where: /proc/sys/fs/binfmt_misc
+       What: binfmt_misc
+       Docs: https://www.kernel.org/doc/html/latest/admin-guide/binfmt-misc.html
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-sys-fs-binfmt_misc.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-sys-kernel-random-boot_id.mount - /proc/sys/kernel/random/boot_id
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/sys/kernel/random/boot_id
+       What: none
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-sys-kernel-random-boot_id.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* proc-uptime.mount - /proc/uptime
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /proc/uptime
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/proc-uptime.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* run-snapd-ns-lxd.mnt.mount - /run/snapd/ns/lxd.mnt
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:39:29 UTC; 11h ago
+      Where: /run/snapd/ns/lxd.mnt
+       What: nsfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/run-snapd-ns-lxd.mnt.mount
+
+* run-snapd-ns.mount - /run/snapd/ns
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:39:25 UTC; 11h ago
+      Where: /run/snapd/ns
+       What: tmpfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/run-snapd-ns.mount
+
+* run-user-1000.mount - /run/user/1000
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Thu 2022-02-10 09:39:22 UTC; 49s ago
+      Where: /run/user/1000
+       What: tmpfs
+
+* snap-core20-1328.mount - Mount unit for core20, revision 1328
+     Loaded: loaded (/proc/self/mountinfo; enabled; vendor preset: enabled)
+    Drop-In: /run/systemd/generator/snap-core20-1328.mount.d
+             `-container.conf
+     Active: active (mounted) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+      Where: /snap/core20/1328
+       What: snapfuse
+      Tasks: 1 (limit: 314572)
+     Memory: 10.1M
+     CGroup: /system.slice/snap-core20-1328.mount
+             `-118 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounting Mount unit for core20, revision 1328...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounted Mount unit for core20, revision 1328.
+
+* snap-lxd-21835.mount - Mount unit for lxd, revision 21835
+     Loaded: loaded (/proc/self/mountinfo; enabled; vendor preset: enabled)
+    Drop-In: /run/systemd/generator/snap-lxd-21835.mount.d
+             `-container.conf
+     Active: active (mounted) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+      Where: /snap/lxd/21835
+       What: snapfuse
+      Tasks: 1 (limit: 314572)
+     Memory: 23.1M
+     CGroup: /system.slice/snap-lxd-21835.mount
+             `-117 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounting Mount unit for lxd, revision 21835...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounted Mount unit for lxd, revision 21835.
+
+* snap-snapd-14549.mount - Mount unit for snapd, revision 14549
+     Loaded: loaded (/proc/self/mountinfo; enabled; vendor preset: enabled)
+    Drop-In: /run/systemd/generator/snap-snapd-14549.mount.d
+             `-container.conf
+     Active: active (mounted) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+      Where: /snap/snapd/14549
+       What: snapfuse
+      Tasks: 1 (limit: 314572)
+     Memory: 20.7M
+     CGroup: /system.slice/snap-snapd-14549.mount
+             `-119 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounting Mount unit for snapd, revision 14549...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounted Mount unit for snapd, revision 14549.
+
+* snap.mount - Ensure that the snap directory shares mount events.
+     Loaded: loaded (/proc/self/mountinfo; generated)
+     Active: active (mounted) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+      Where: /snap
+       What: /dev/vda2
+      Tasks: 0 (limit: 314572)
+     Memory: 124.0K
+     CGroup: /system.slice/snap.mount
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounting Ensure that the snap directory shares mount events....
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Mounted Ensure that the snap directory shares mount events..
+
+* sys-devices-system-cpu-online.mount - /sys/devices/system/cpu/online
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /sys/devices/system/cpu/online
+       What: lxcfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/sys-devices-system-cpu-online.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* sys-fs-fuse-connections.mount - FUSE Control File System
+     Loaded: loaded (/proc/self/mountinfo; static; vendor preset: enabled)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /sys/fs/fuse/connections
+       What: fusectl
+       Docs: https://www.kernel.org/doc/Documentation/filesystems/fuse.txt
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/sys-fs-fuse-connections.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* sys-kernel-config.mount - Kernel Configuration File System
+     Loaded: loaded (/proc/self/mountinfo; static; vendor preset: enabled)
+     Active: active (mounted) since Wed 2022-Unit tmp.mount could not be found.
+02-09 22:38:36 UTC; 11h ago
+      Where: /sys/kernel/config
+       What: configfs
+       Docs: https://www.kernel.org/doc/Documentation/filesystems/configfs/configfs.txt
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/sys-kernel-config.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* sys-kernel-debug.mount - Kernel Debug File System
+     Loaded: loaded (/proc/self/mountinfo; static; vendor preset: enabled)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /sys/kernel/debug
+       What: debugfs
+       Docs: https://www.kernel.org/doc/Documentation/filesystems/debugfs.txt
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/sys-kernel-debug.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* sys-kernel-tracing.mount - Kernel Trace File System
+     Loaded: loaded (/proc/self/mountinfo; static; vendor preset: enabled)
+     Active: active (mounted) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Where: /sys/kernel/tracing
+       What: tracefs
+       Docs: https://www.kernel.org/doc/Documentation/trace/ftrace.txt
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/sys-kernel-tracing.mount
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* var-snap-lxd-common-ns-shmounts.mount - /var/snap/lxd/common/ns/shmounts
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:40:03 UTC; 11h ago
+      Where: /var/snap/lxd/common/ns/shmounts
+       What: nsfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/var-snap-lxd-common-ns-shmounts.mount
+
+* var-snap-lxd-common-ns.mount - /var/snap/lxd/common/ns
+     Loaded: loaded (/proc/self/mountinfo)
+     Active: active (mounted) since Wed 2022-02-09 22:40:03 UTC; 11h ago
+      Where: /var/snap/lxd/common/ns
+       What: tmpfs
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/var-snap-lxd-common-ns.mount
+
+* apport-autoreport.path - Process error reports when automatic reporting is enabled (file watch)
+     Loaded: loaded (/lib/systemd/system/apport-autoreport.path; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+   Triggers: * apport-autoreport.service
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Process error reports when automatic reporting is enabled (file watch) being skipped.
+
+* systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch
+     Loaded: loaded (/lib/systemd/system/systemd-ask-password-console.path; static; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+   Triggers: * systemd-ask-password-console.service
+       Docs: man:systemd-ask-password-console.service(8)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+
+* systemd-ask-password-plymouth.path - Forward Password Requests to Plymouth Directory Watch
+     Loaded: loaded (/lib/systemd/system/systemd-ask-password-plymouth.path; static; vendor preset: enabled)
+     Active: inactive (dead)
+   Triggers: * systemd-ask-password-plymouth.service
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: http://www.freedesktop.org/wiki/Software/systemd/PasswordAgents
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Forward Password Requests to Plymouth Directory Watch being skipped.
+
+* systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch
+     Loaded: loaded (/lib/systemd/system/systemd-ask-password-wall.path; static; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-ask-password-wall.service
+       Docs: man:systemd-ask-password-console.service(8)
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* ua-license-check.path - Trigger to poll for Ubuntu Pro licenses (Only enabled on GCP LTS non-pro)
+     Loaded: loaded (/lib/systemd/system/ua-license-check.path; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * ua-license-check.timer
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Trigger to poll for Ubuntu Pro licenses (Only enabled on GCP LTS non-pro).
+
+* init.scope - System and Service Manager
+     Loaded: loaded
+  Transient: yes
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd(1)
+      Tasks: 1 (limit: 314572)
+     Memory: 9.3M
+     CGroup: /init.scope
+             `-1 /sbin/init
+
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: multipathd.socket: Trigger limit hit, refusing further activation.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: multipathd.socket: Failed with result 'trigger-limit-hit'.
+Feb 10 09:40:07 juju-04f1e3-1-lxd-5 systemd[1]: snap.lxd.buginfo.d7d20c93-572c-4617-9aa1-1bc8cf34adb1.scope: Succeeded.
+
+* session-400.scope - Session 400 of user ubuntu
+     Loaded: loaded (/run/systemd/transient/session-400.scope; transient)
+  Transient: yes
+     Active: active (running) since Thu 2022-02-10 09:39:22 UTC; 49s ago
+      Tasks: 51
+     Memory: 377.2M
+     CGroup: /user.slice/user-1000.slice/session-400.scope
+             |-123714 sshd: ubuntu [priv]
+             |-123778 sshd: ubuntu@pts/1
+             |-123779 sudo -s
+             |-123780 /bin/bash
+             |-123803 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+             |-125449 timeout 10s rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+             |-125454 /bin/sh /usr/sbin/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+             |-125464 su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+             |-125466 sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+             |-125467 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -B -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -boot start_clean -noshell -noinput -noshell -hidden -smp enable -kernel inet_dist_listen_min 35672 -kernel inet_dist_listen_max 35682 -sasl errlog_type error -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -run escript start -escript main rabbitmqctl_escript -- -extra /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/escript/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+             |-125593 erl_child_setup 1024
+             |-125750 timeout 300s ubuntu-security-status --thirdparty --unavailable
+             |-125752 /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+             |-125760 timeout 300s systemctl status --all
+             |-125761 inet_gethost 4
+             |-125762 inet_gethost 4
+             |-125765 systemctl status --all
+             |-125766 timeout 300s ufw status numbered
+             |-125768 /usr/bin/python3 /usr/sbin/ufw status numbered
+             `-125771 
+
+Feb 10 09:39:23 juju-04f1e3-1-lxd-5 sudo[123779]:   ubuntu : TTY=pts/1 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 09:39:23 juju-04f1e3-1-lxd-5 sudo[123779]: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 09:39:52 juju-04f1e3-1-lxd-5 crontab[124210]: (root) LIST (root)
+Feb 10 09:40:06 juju-04f1e3-1-lxd-5 su[125045]: (to rabbitmq) ubuntu on pts/1
+Feb 10 09:40:06 juju-04f1e3-1-lxd-5 su[125045]: pam_limits(su:session): Could not set limit for 'core' to soft=0, hard=-1: Operation not permitted; uid=0,euid=0
+Feb 10 09:40:06 juju-04f1e3-1-lxd-5 su[125045]: pam_unix(su:session): session opened for user rabbitmq by ubuntu(uid=0)
+Feb 10 09:40:09 juju-04f1e3-1-lxd-5 su[125045]: pam_unix(su:session): session closed for user rabbitmq
+Feb 10 09:40:10 juju-04f1e3-1-lxd-5 su[125464]: (to rabbitmq) ubuntu on pts/1
+Feb 10 09:40:10 juju-04f1e3-1-lxd-5 su[125464]: pam_limits(su:session): Could not set limit for 'core' to soft=0, hard=-1: Operation not permitted; uid=0,euid=0
+Feb 10 09:40:10 juju-04f1e3-1-lxd-5 su[125464]: pam_unix(su:session): session opened for user rabbitmq by ubuntu(uid=0)
+
+* accounts-daemon.service - Accounts Service
+     Loaded: loaded (/lib/systemd/system/accounts-daemon.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:53 UTC; 11h ago
+   Main PID: 235 (accounts-daemon)
+      Tasks: 3 (limit: 314572)
+     Memory: 13.1M
+     CGroup: /system.slice/accounts-daemon.service
+             `-235 /usr/lib/accountsservice/accounts-daemon
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Accounts Service...
+Feb 09 22:38:53 juju-04f1e3-1-lxd-5 accounts-daemon[235]: started daemon version 0.6.55
+Feb 09 22:38:53 juju-04f1e3-1-lxd-5 systemd[1]: Started Accounts Service.
+
+* apparmor.service - Load AppArmor profiles
+     Loaded: loaded (/lib/systemd/system/apparmor.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:38 UTC; 11h ago
+       Docs: man:apparmor(7)
+             https://gitlab.com/apparmor/apparmor/wikis/home/
+   Main PID: 120 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/apparmor.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Load AppArmor profiles...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 apparmor.systemd[120]: Restarting AppArmor
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 apparmor.systemd[120]: Reloading AppArmor profiles
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 apparmor.systemd[134]: Skipping profile in /etc/apparmor.d/disable: usr.sbin.rsyslogd
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Finished Load AppArmor profiles.
+
+* apport-autoreport.service - Process error reports when automatic reporting is enabled
+     Loaded: loaded (/lib/systemd/system/apport-autoreport.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * apport-autoreport.path
+
+* apport.service - LSB: automatic crash report generation
+     Loaded: loaded (/etc/init.d/apport; generated)
+     Active: active (exited) since Wed 2022-02-09 22:38:49 UTC; 11h ago
+       Docs: man:systemd-sysv-generator(8)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/apport.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting LSB: automatic crash report generation...
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Started LSB: automatic crash report generation.
+
+* apt-daily-upgrade.service - Daily apt upgrade and clean activities
+     Loaded: loaded (/lib/systemd/system/apt-daily-upgrade.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Thu 2022-02-10 06:50:48 UTC; 2h 49min ago
+TriggeredBy: * apt-daily-upgrade.timer
+       Docs: man:apt(8)
+    Process: 91583 ExecStart=/usr/lib/apt/apt.systemd.daily install (code=exited, status=0/SUCCESS)
+   Main PID: 91583 (code=exited, status=0/SUCCESS)
+
+Feb 10 06:50:00Unit auditd.service could not be found.
+ juju-04f1e3-1-lxd-5 systemd[1]: Starting Daily apt upgrade and clean activities...
+Feb 10 06:50:48 juju-04f1e3-1-lxd-5 systemd[1]: apt-daily-upgrade.service: Succeeded.
+Feb 10 06:50:48 juju-04f1e3-1-lxd-5 systemd[1]: Finished Daily apt upgrade and clean activities.
+
+* apt-daily.service - Daily apt download activities
+     Loaded: loaded (/lib/systemd/system/apt-daily.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Thu 2022-02-10 06:44:15 UTC; 2h 55min ago
+TriggeredBy: * apt-daily.timer
+       Docs: man:apt(8)
+   Main PID: 90603 (code=exited, status=0/SUCCESS)
+
+Feb 10 06:44:15 juju-04f1e3-1-lxd-5 systemd[1]: Starting Daily apt download activities...
+Feb 10 06:44:15 juju-04f1e3-1-lxd-5 systemd[1]: apt-daily.service: Succeeded.
+Feb 10 06:44:15 juju-04f1e3-1-lxd-5 systemd[1]: Finished Daily apt download activities.
+
+* atd.service - Deferred execution scheduler
+     Loaded: loaded (/lib/systemd/system/atd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:atd(8)
+   Main PID: 265 (atd)
+      Tasks: 1 (limit: 314572)
+     Memory: 644.0K
+     CGroup: /system.slice/atd.service
+             `-265 /usr/sbin/atd -f
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Deferred execution scheduler...
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Deferred execution scheduler.
+
+* blk-availability.service - Availability of block devices
+     Loaded: loaded (/lib/systemd/system/blk-availability.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Main PID: 234 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/blk-availability.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Availability of block devices...
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Finished Availability of block devices.
+
+* cloud-config.service - Apply the settings specified in cloud-config
+     Loaded: loaded (/lib/systemd/system/cloud-config.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:39:40 UTC; 11h ago
+   Main PID: 1157 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 824.0K
+     CGroup: /system.slice/cloud-config.service
+
+Feb 09 22:39:29 juju-04f1e3-1-lxd-5 systemd[1]: Starting Apply the settings specified in cloud-config...
+Feb 09 22:39:38 juju-04f1e3-1-lxd-5 cloud-init[1193]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'modules:config' at Wed, 09 Feb 2022 22:39:35 +0000. Up 60.20 seconds.
+Feb 09 22:39:40 juju-04f1e3-1-lxd-5 systemd[1]: Finished Apply the settings specified in cloud-config.
+
+* cloud-final.service - Execute cloud user/final scripts
+     Loaded: loaded (/lib/systemd/system/cloud-final.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:41:07 UTC; 10h ago
+   Main PID: 2400 (code=exited, status=0/SUCCESS)
+      Tasks: 0
+     Memory: 900.0K
+     CGroup: /system.slice/cloud-final.service
+
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: Starting Execute cloud user/final scripts...
+Feb 09 22:41:06 juju-04f1e3-1-lxd-5 cloud-init[2532]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'modules:final' at Wed, 09 Feb 2022 22:41:04 +0000. Up 149.61 seconds.
+Feb 09 22:41:06 juju-04f1e3-1-lxd-5 cloud-init[2532]: Cloud-init v. 21.4-0ubuntu1~20.04.1 finished at Wed, 09 Feb 2022 22:41:06 +0000. Datasource DataSourceNoCloud [seed=/var/lib/cloud/seed/nocloud-net][dsmode=net].  Up 151.25 seconds
+Feb 09 22:41:07 juju-04f1e3-1-lxd-5 systemd[1]: Finished Execute cloud user/final scripts.
+
+* cloud-init-hotplugd.service - cloud-init hotplug hook daemon
+     Loaded: loaded (/lib/systemd/system/cloud-init-hotplugd.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * cloud-init-hotplugd.socket
+
+* cloud-init-local.service - Initial cloud-init job (pre-networking)
+     Loaded: loaded (/lib/systemd/system/cloud-init-local.service; enabled; vendor preset: enabled)
+     ActiveUnit connman.service could not be found.
+Unit console-screen.service could not be found.
+: active (exited) since Wed 2022-02-09 22:38:40 UTC; 11h ago
+   Main PID: 167 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/cloud-init-local.service
+
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Starting Initial cloud-init job (pre-networking)...
+Feb 09 22:38:40 juju-04f1e3-1-lxd-5 cloud-init[166]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init-local' at Wed, 09 Feb 2022 22:38:39 +0000. Up 4.40 seconds.
+Feb 09 22:38:40 juju-04f1e3-1-lxd-5 systemd[1]: Finished Initial cloud-init job (pre-networking).
+
+* cloud-init.service - Initial cloud-init job (metadata service crawler)
+     Loaded: loaded (/lib/systemd/system/cloud-init.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Main PID: 171 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/cloud-init.service
+
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: No /sbin/ifup, applying netplan configuration.
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: active
+Feb 09 22:38:45 juju-04f1e3-1-lxd-5 cloud-init[175]: active
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Finished Initial cloud-init job (metadata service crawler).
+
+* console-getty.service - Console Getty
+     Loaded: loaded (/lib/systemd/system/console-getty.service; enabled-runtime; vendor preset: disabled)
+     Active: active (running) since Wed 2022-02-09 22:38:49 UTC; 11h ago
+       Docs: man:agetty(8)
+             man:systemd-getty-generator(8)
+   Main PID: 274 (agetty)
+      Tasks: 1 (limit: 314572)
+     Memory: 420.0K
+     CGroup: /system.slice/console-getty.service
+             `-274 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Started Console Getty.
+
+* console-setup.service - Set console font and keymap
+     Loaded: loaded (/lib/systemd/system/console-setup.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+   Main PID: 121 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/console-setup.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Set console font and keymap...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished Set console font and keymap.
+
+* cron.service - Regular background program processing daemon
+     Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:cron(8)
+   Main PID: 240 (cron)
+      Tasks: 1 (limit: 314572)
+     Memory: 3.9M
+     CGroup: /system.slice/cron.service
+             `-240 /usr/sbin/cron -f
+
+Feb 10 07:17:01 juju-04f1e3-1-lxd-5 CRON[98971]: pam_unix(cron:session): session closed for user root
+Feb 10 08:17:01 juju-04f1e3-1-lxd-5 CRON[109146]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 08:17:01 juju-04f1e3-1-lxd-5 CRON[109147]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Feb 10 08:17:01 juju-04f1e3-1-lxd-5 CRON[109146]: pam_unix(cron:session): session closed for user root
+Feb 10 09:17:01 juju-04f1e3-1-lxd-5 CRON[119989]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 09:17:01 juju-04f1e3-1-lxd-5 CRON[119Unit display-manager.service could not be found.
+990]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Feb 10 09:17:01 juju-04f1e3-1-lxd-5 CRON[119989]: pam_unix(cron:session): session closed for user root
+Feb 10 09:33:01 juju-04f1e3-1-lxd-5 CRON[122745]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 09:33:01 juju-04f1e3-1-lxd-5 CRON[122746]: (root) CMD (   test -x /etc/cron.daily/popularity-contest && /etc/cron.daily/popularity-contest --crond)
+Feb 10 09:33:01 juju-04f1e3-1-lxd-5 CRON[122745]: pam_unix(cron:session): session closed for user root
+
+* dbus.service - D-Bus System Message Bus
+     Loaded: loaded (/lib/systemd/system/dbus.service; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+TriggeredBy: * dbus.socket
+       Docs: man:dbus-daemon(1)
+   Main PID: 241 (dbus-daemon)
+      Tasks: 1 (limit: 314572)
+     Memory: 2.6M
+     CGroup: /system.slice/dbus.service
+             `-241 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+
+Feb 10 03:24:08 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.500' (uid=62803 pid=54692 comm="/usr/bin/fwupdmgr refresh " label="unconfined")
+Feb 10 03:24:09 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.fwupd'
+Feb 10 06:50:07 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.PackageKit' unit='packagekit.service' requested by ':1.829' (uid=0 pid=91718 comm="/usr/bin/gdbus call --system --dest org.freedeskto" label="unconfined")
+Feb 10 06:50:07 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.PackageKit'
+Feb 10 06:50:11 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.834' (uid=62803 pid=91848 comm="/usr/bin/fwupdmgr refresh " label="unconfined")
+Feb 10 06:50:11 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.fwupd'
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.1135' (uid=0 pid=124382 comm="fwupdmgr get-approved-firmware " label="unconfined")
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.fwupd'
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service' requested by ':1.1140' (uid=0 pid=124434 comm="hostnamectl status " label="unconfined")
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.hostname1'
+
+* dm-event.service - Device-mapper event daemon
+     Loaded: loaded (/lib/systemd/system/dm-event.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * dm-event.socket
+       Docs: man:dmeventd(8)
+
+* dmesg.service - Save initial kernel messages after boot
+     Loaded: loaded (/lib/systemd/system/dmesg.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:38:53 UTC; 11h ago
+   Main PID: 594 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Save initial kernel messages after boot.
+Feb 09 22:38:53 juju-04f1e3-1-lxd-5 systemd[1]: dmesg.service: Succeeded.
+
+* e2scrub_all.service - Online ext4 Metadata Check for All Filesystems
+     Loaded: loaded (/lib/systemd/system/e2scrub_all.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:39:10 UTC; 11h ago
+TriggeredBy: * e2scrub_all.timer
+       Docs: man:e2scrub_all(8)
+   Main PID: 732 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:39:10 juju-04f1e3-1-lxd-5 systemd[1]: Starting Online ext4 Metadata Check for All Filesystems...
+Feb 09 22:39:10 juju-04f1e3-1-lxd-5 systemd[1]: e2scrub_Unit fcoe.service could not be found.
+all.service: Succeeded.
+Feb 09 22:39:10 juju-04f1e3-1-lxd-5 systemd[1]: Finished Online ext4 Metadata Check for All Filesystems.
+
+* e2scrub_reap.service - Remove Stale Online ext4 Metadata Check Snapshots
+     Loaded: loaded (/lib/systemd/system/e2scrub_reap.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:38:54 UTC; 11h ago
+       Docs: man:e2scrub_all(8)
+   Main PID: 244 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Remove Stale Online ext4 Metadata Check Snapshots...
+Feb 09 22:38:54 juju-04f1e3-1-lxd-5 systemd[1]: e2scrub_reap.service: Succeeded.
+Feb 09 22:38:54 juju-04f1e3-1-lxd-5 systemd[1]: Finished Remove Stale Online ext4 Metadata Check Snapshots.
+
+* emergency.service - Emergency Shell
+     Loaded: loaded (/lib/systemd/system/emergency.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:sulogin(8)
+
+* epmd.service - Erlang Port Mapper Daemon
+     Loaded: loaded (/lib/systemd/system/epmd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+TriggeredBy: * epmd.socket
+   Main PID: 246 (epmd)
+      Tasks: 1 (limit: 314572)
+     Memory: 2.5M
+     CGroup: /system.slice/epmd.service
+             `-246 /usr/bin/epmd -systemd
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Erlang Port Mapper Daemon.
+
+* finalrd.service - Create final runtime dir for shutdown pivot root
+     Loaded: loaded (/lib/systemd/system/finalrd.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:finalrd(1)
+   Main PID: 122 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/finalrd.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Create final runtime dir for shutdown pivot root...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished Create final runtime dir for shutdown pivot root.
+
+* fstrim.service - Discard unused blocks on filesystems from /etc/fstab
+     Loaded: loaded (/lib/systemd/system/fstrim.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * fstrim.timer
+       Docs: man:fstrim(8)
+
+* fwupd-refresh.service - Refresh fwupd metadata and update motd
+     Loaded: loaded (/lib/systemd/system/fwupd-refresh.service; static; vendor preset: disabled)
+     Active: inactive (dead) since Thu 2022-02-10 06:50:12 UTC; 2h 50min ago
+TriggeredBy: * fwupd-refresh.timer
+       Docs: man:fwupdmgr(1)
+   Main PID: 91848 (code=exited, status=2)
+
+Feb 10 06:50:11 juju-04f1e3-1-lxd-5 systemd[1]: Starting Refresh fwupd metadata and update motd...
+Feb 10 06:50:12 juju-04f1e3-1-lxd-5 systemd[1]: fwupd-refresh.service: Succeeded.
+Feb 10 06:50:12 juju-04f1e3-1-lxd-5 systemd[1]: Finished Refresh fwupd metadata and update motd.
+
+* fwupd.service - Firmware update daemon
+     Loaded: loaded (/lib/systemd/system/fwupd.service; static; vendor preset: enabled)
+     Active: active (running) since Thu 2022-02-10 09:39:54 UTC; 17s ago
+       Docs: https://fwupd.org/
+   Main PID: 124386 (fwupd)
+      Tasks: 5 (limit: 314572)
+     Memory: 13.8M
+     CGroup: /system.slice/fwupd.service
+             `-124386 /usr/libexec/fwupd/fwupd
+
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 systemd[1]: Starting Firmware update daemon...
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0240 FuEngine             Failed to load SMBIOS: Failed to open file "/sys/firmware/dmi/tables/smbios_entry_point": Permission denied
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0405 FuEngine             failed to add device /sys/devices/pci0000:00/0000:00:01.0: failed to add device using on pci_bcr: could not read BCR: failed to read from port 0x00dc: Success
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0600 FuEngine             failed to add device /sys/devices/virtual/msr/msr0: failed to add device using on msr: failed to open /dev/cpu/0/msr: No such file or directory
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 systUnit hv_kvp_daemon.service could not be found.
+Unit iscsi-shutdown.service could not be found.
+Unit kbd.service could not be found.
+emd[1]: Started Firmware update daemon.
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0670 FuPluginAcpiFacp     failed to load /sys/firmware/acpi/tables/FACP: Failed to open file "/sys/firmware/acpi/tables/FACP": Permission denied
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0671 FuEngine             failed to get chassis type: no structure with type 03
+
+* getty-static.service - getty on tty2-tty6 if dbus and logind are not available
+     Loaded: loaded (/lib/systemd/system/getty-static.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in getty on tty2-tty6 if dbus and logind are not available being skipped.
+
+* getty@tty1.service - Getty on tty1
+     Loaded: loaded (/lib/systemd/system/getty@.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:49 UTC; 11h ago
+       Docs: man:agetty(8)
+             man:systemd-getty-generator(8)
+             http://0pointer.de/blog/projects/serial-console.html
+
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Getty on tty1 being skipped.
+
+* irqbalance.service - irqbalance daemon
+     Loaded: loaded (/lib/systemd/system/irqbalance.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:irqbalance(1)
+             https://github.com/Irqbalance/irqbalance
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in irqbalance daemon being skipped.
+
+* iscsid.service - iSCSI initiator daemon (iscsid)
+     Loaded: loaded (/lib/systemd/system/iscsid.service; disabled; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * iscsid.socket
+       Docs: man:iscsid(8)
+
+* jujud-machine-1-lxd-5.service - juju agent for machine-1-lxd-5
+     Loaded: loaded (/etc/systemd/system/jujud-machine-1-lxd-5.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Main PID: 266 (bash)
+      Tasks: 13 (limit: 314572)
+     Memory: 62.8M
+     CGroup: /system.slice/jujud-machine-1-lxd-5.service
+             |-266 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+             `-287 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123131]: pam_unix(su:session): session opened for user rabbitmq by (uid=0)
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123131]: pam_unix(su:session): session closed for user rabbitmq
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123266]: (to rabbitmq) root on none
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123266]: pam_limits(su:session): Could not set limit for 'nofile' to soft=1024, hard=1048576: Operation not permitted; uid=0,euid=0
+Feb 10 09:36:07 juju-04f1e3-1-lxd-5 su[123266]: pam_unix(su:session): session opened for user rabbitmq by (uid=0)
+Feb 10 09:36:08 juju-04f1e3-1-lxd-5 su[123266]: pam_unix(su:session): session closed for user rabbitmq
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: (to rabbitmq) root on none
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: pam_limits(su:session): Could not set limit for 'nofile' to soft=1024, hard=1048576: Operation not permitted; uid=0,euid=0
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: pam_unix(su:session): session opened for user rabbitmq by (uid=0)
+Feb 10 09:36:09 juju-04f1e3-1-lxd-5 su[123411]: pam_unix(su:session): session closed for user rabbitmq
+
+* keyboard-setup.service - Set the console keyboard layout
+     Loaded: loaded (/lib/systemd/system/keyboard-setup.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+   Main PID: 64 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/keyboard-setup.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 keyboaUnit lvm2-activation-early.service could not be found.
+Unit lvm2-activation.service could not be found.
+Unit lxc.service could not be found.
+rd-setup.sh[66]: Couldn't get a file descriptor referring to the console
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 keyboard-setup.sh[68]: Couldn't get a file descriptor referring to the console
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 keyboard-setup.sh[71]: setupcon: We are not on the console, the console is left unconfigured.
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* kmod-static-nodes.service - Create list of static device nodes for the current kernel
+     Loaded: loaded (/lib/systemd/system/kmod-static-nodes.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+
+* logrotate.service - Rotate log files
+     Loaded: loaded (/lib/systemd/system/logrotate.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Thu 2022-02-10 00:00:22 UTC; 9h ago
+TriggeredBy: * logrotate.timer
+       Docs: man:logrotate(8)
+             man:logrotate.conf(5)
+   Main PID: 17202 (code=exited, status=0/SUCCESS)
+
+Feb 10 00:00:22 juju-04f1e3-1-lxd-5 systemd[1]: Starting Rotate log files...
+Feb 10 00:00:22 juju-04f1e3-1-lxd-5 systemd[1]: logrotate.service: Succeeded.
+Feb 10 00:00:22 juju-04f1e3-1-lxd-5 systemd[1]: Finished Rotate log files.
+
+* lvm2-lvmpolld.service - LVM2 poll daemon
+     Loaded: loaded (/lib/systemd/system/lvm2-lvmpolld.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * lvm2-lvmpolld.socket
+       Docs: man:lvmpolld(8)
+
+* lvm2-monitor.service - Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling
+     Loaded: loaded (/lib/systemd/system/lvm2-monitor.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:dmeventd(8)
+             man:lvcreate(8)
+             man:lvchange(8)
+             man:vgchange(8)
+
+* lxd-agent-9p.service - LXD - agent - 9p mount
+     Loaded: loaded (/lib/systemd/system/lxd-agent-9p.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: https://linuxcontainers.org/lxd
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in LXD - agent - 9p mount being skipped.
+
+* lxd-agent.service - LXD - agent
+     Loaded: loaded (/lib/systemd/system/lxd-agent.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: https://linuxcontainers.org/lxd
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in LXD - agent being skipped.
+
+* man-db.service - Daily man-db regeneration
+     Loaded: loaded (/lib/systemd/system/man-db.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Thu 2022-02-10 00:00:23 UTC; 9h ago
+TriggeredBy: * man-db.timer
+       Docs: man:mandb(8)
+   Main PID: 17205 (code=exited, status=0/SUCCESS)
+
+Feb 10 00:00:22 juju-04f1e3-1-lxd-5 systemd[1]: Starting Daily man-db regeneration...
+Feb 10 00:00:23 juju-04f1e3-1-lxd-5 systemd[1]: man-db.service: Succeeded.
+Feb 10 00:00:23 juju-04f1e3-1-lxd-5 systemd[1]: Finished Daily man-db regeneration.
+
+* modprobe@drm.service - Load Kernel Module drm
+     Loaded: loaded (/lib/systemd/system/modprobe@.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:modprobe(8)
+
+* motd-news.service - Message of the Day
+     Loaded: loaded (/lib/systemd/system/motd-news.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Thu 2022-02-10 01:57:31 UTC; 7h ago
+TriggeredBy: * motd-news.timer
+       Docs: man:update-motd(8)
+   Main PID: 38634 (code=exited, status=0/SUCCESS)
+
+Feb 10 01:56:50 juju-04f1e3-1-lxd-5 systemd[1]: Starting Message of the Day...
+Feb 10 01:57:31 juju-04f1e3-1-lxd-5 50-motd-news[38692]:  * Super-optimized for small spaces - read how we shrank the memory
+Feb 10 01:57:31 Unit networking.service could not be found.
+Unit NetworkManager.service could not be found.
+juju-04f1e3-1-lxd-5 50-motd-news[38692]:    footprint of MicroK8s to make it the smallest full K8s around.
+Feb 10 01:57:31 juju-04f1e3-1-lxd-5 50-motd-news[38692]:    https://ubuntu.com/blog/microk8s-memory-optimisation
+Feb 10 01:57:31 juju-04f1e3-1-lxd-5 systemd[1]: motd-news.service: Succeeded.
+Feb 10 01:57:31 juju-04f1e3-1-lxd-5 systemd[1]: Finished Message of the Day.
+
+* multipathd.service - Device-Mapper Multipath Device Controller
+     Loaded: loaded (/lib/systemd/system/multipathd.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * multipathd.socket
+  Condition: start condition failed at Thu 2022-02-10 09:40:01 UTC; 11s ago
+             `- ConditionVirtualization=!container was not met
+
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+
+* netplan-ovs-cleanup.service - OpenVSwitch configuration for cleanup
+     Loaded: loaded (/run/systemd/system/netplan-ovs-cleanup.service; enabled-runtime; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:47 UTC; 11h ago
+
+Feb 09 22:38:46 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in OpenVSwitch configuration for cleanup being skipped.
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in OpenVSwitch configuration for cleanup being skipped.
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in OpenVSwitch configuration for cleanup being skipped.
+
+* networkd-dispatcher.service - Dispatcher daemon for systemd-networkd
+     Loaded: loaded (/lib/systemd/system/networkd-dispatcher.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:52 UTC; 11h ago
+   Main PID: 247 (networkd-dispat)
+      Tasks: 1 (limit: 314572)
+     Memory: 9.4M
+     CGroup: /system.slice/networkd-dispatcher.service
+             `-247 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Dispatcher daemon for systemd-networkd...
+Feb 09 22:38:52 juju-04f1e3-1-lxd-5 networkd-dispatcher[247]: No valid path found for iwconfig
+Feb 09 22:38:52 juju-04f1e3-1-lxd-5 networkd-dispatcher[247]: No valid path found for iw
+Feb 09 22:38:52 juju-04f1e3-1-lxd-5 systemd[1]: Started Dispatcher daemon for systemd-networkd.
+
+* ondemand.service - Set the CPU Frequency Scaling governor
+     Loaded: loaded (/lib/systemd/system/ondemand.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Set the CPU Frequency Scaling governor being skipped.
+
+* open-iscsi.service - Login to default iSCSI targets
+     Loaded: loaded (/lib/systemd/system/open-iscsi.serUnit ovsdb-server.service could not be found.
+vice; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:iscsiadm(8)
+             man:iscsid(8)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Login to default iSCSI targets being skipped.
+
+* open-vm-tools.service - Service for virtual machines hosted on VMware
+     Loaded: loaded (/lib/systemd/system/open-vm-tools.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:38 UTC; 11h ago
+       Docs: http://open-vm-tools.sourceforge.net/about.php
+
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Service for virtual machines hosted on VMware being skipped.
+
+* plymouth-quit-wait.service - Hold until boot process finishes up
+     Loaded: loaded (/lib/systemd/system/plymouth-quit-wait.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:38:49 UTC; 11h ago
+   Main PID: 267 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Hold until boot process finishes up...
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: plymouth-quit-wait.service: Succeeded.
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Finished Hold until boot process finishes up.
+
+* plymouth-quit.service - Terminate Plymouth Boot Screen
+     Loaded: loaded (/lib/systemd/system/plymouth-quit.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:38:49 UTC; 11h ago
+   Main PID: 269 (code=exited, status=1/FAILURE)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Terminate Plymouth Boot Screen...
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: plymouth-quit.service: Succeeded.
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Finished Terminate Plymouth Boot Screen.
+
+* plymouth-read-write.service - Tell Plymouth To Write Out Runtime Data
+     Loaded: loaded (/lib/systemd/system/plymouth-read-write.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+   Main PID: 123 (code=exited, status=1/FAILURE)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Tell Plymouth To Write Out Runtime Data...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: plymouth-read-write.service: Succeeded.
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished Tell Plymouth To Write Out Runtime Data.
+
+* plymouth-start.service - Show Plymouth Boot Screen
+     Loaded: loaded (/lib/systemd/system/plymouth-start.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Show Plymouth Boot Screen being skipped.
+
+* polkit.service - Authorization Manager
+     Loaded: loaded (/lib/systemd/system/polkit.service; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:50 UTC; 11h ago
+       Docs: man:polkit(8)
+   Main PID: 334 (polkitd)
+      Tasks: 3 (limit: 314572)
+     Memory: 1.7M
+     CGroup: /system.slice/polkit.service
+             `-334 /usr/lib/policykit-1/polkitd --no-debug
+
+Feb 09 22:38:50 juju-04f1e3-1-lxd-5 systemd[1]: Starting Authorization Manager...
+Feb 09 22:38:50 juju-04f1e3-1-lxd-5 polkitd[334]: started daemon version 0.105 using authority implementation `local' version `0.105'
+Feb 09 22:38:50 juju-04f1e3-1-lxd-5 systemd[1]: Started Authorization Manager.
+
+* pollinate.service - Pollinate to seed the pseudo random number generator
+     Loaded: loaded (/lib/systemd/system/pollinate.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: https://launchpad.net/pollinate
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Pollinate to seed the pseudo random number generator being skipped.
+
+* rabbitmq-server.service - RabbitMQ Messaging Server
+     Loaded: lUnit rbdmap.service could not be found.
+oaded (/lib/systemd/system/rabbitmq-server.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:41:02 UTC; 10h ago
+   Main PID: 282 (beam.smp)
+     Status: "Initialized"
+      Tasks: 71 (limit: 314572)
+     Memory: 178.3M
+     CGroup: /system.slice/rabbitmq-server.service
+             |- 248 /bin/sh /usr/sbin/rabbitmq-server
+             |- 282 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+             |-1077 erl_child_setup 65536
+             |-2394 inet_gethost 4
+             `-2395 inet_gethost 4
+
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: Started RabbitMQ Messaging Server.
+Feb 10 06:50:10 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:11 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:12 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:20 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:20 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:21 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:21 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+Feb 10 06:50:22 juju-04f1e3-1-lxd-5 systemd[1]: rabbitmq-server.service: Supervising process 282 which is not our child. We'll most likely not notice when it exits.
+
+* rc-local.service - /etc/rc.local Compatibility
+     Loaded: loaded (/lib/systemd/system/rc-local.service; static; vendor preset: enabled)
+    Drop-In: /usr/lib/systemd/system/rc-local.service.d
+             `-debian.conf
+     Active: inactive (dead)
+       Docs: man:systemd-rc-local-generator(8)
+
+* rescue.service - Rescue Shell
+     Loaded: loaded (/lib/systemd/system/rescue.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:sulogin(8)
+
+* rsync.service - fast remote file copy program daemon
+     Loaded: loaded (/lib/systemd/system/rsync.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:rsync(1)
+             man:rsyncd.conf(5)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in fast remote file copy program daemon being skipped.
+
+* rsyslog.service - System Logging Service
+     Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+TriggeredBy: * syslog.socket
+       Docs: man:rsyslogd(8)
+             https://www.rsyslog.com/doc/
+   Main PID: 249 (rsyslogd)
+      Tasks: 3 (limit: 314572)
+     Memory: 2.9M
+     CGroup: /system.slice/rsyslog.service
+             `-249 /usr/sbin/rsyslogd -n -iNONE
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting System Logging Service...
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 rsyslogd[249]: imuxsock: Acquired UNIX socket '/run/systemd/journal/syslog' (fd 3) from systemd.  [v8.2001.0]
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 rsyslogd[249]: imklog: cannot open kernel log (/proc/kmsg): Permission denied.
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 rsyslogd[249]: activation of module imklog failed [v8.2001.0 try https://www.rsyslog.com/e/2145 ]
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 rsyslogd[249]: rsyslogd's groupid changed to 110
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 rsyslogd[249]: rsyslogd's userid changed to 104
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started System Logging Service.
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 rsyslogd[249]: [origin software="rsyslogd" swVersion="8.2001.0" x-pid="249" x-info="https://www.rsyslog.com"] start
+Feb 10 00:00:22 juju-04f1e3-1-lxd-5 rsyslogd[249]: [origin software="rsyslogd" swVersion="8.2001.0" x-pid="249" x-info="https://www.rsyslog.com"] rsyslogd was HUPed
+
+* secureboot-db.service - Secure Boot updates for DB and DBX
+     Loaded: loaded (/lib/systemd/system/secureboot-db.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Secure Boot updates for DB and DBX being skipped.
+
+* setvtrgb.service - Set console scheme
+     Loaded: loaded (/lib/systemd/system/setvtrgb.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:49 UTC; 11h ago
+
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Set console scheme being skipped.
+
+* snap.lxd.activate.service - Service for snap application lxd.activate
+     Loaded: loaded (/etc/systemd/system/snap.lxd.activate.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:40:03 UTC; 11h ago
+   Main PID: 250 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Service for snap application lxd.activate...
+Feb 09 22:39:38 juju-04f1e3-1-lxd-5 lxd.activate[250]: => Starting LXD activation
+Feb 09 22:39:38 juju-04f1e3-1-lxd-5 lxd.activate[250]: ==> Loading snap configuration
+Feb 09 22:39:38 juju-04f1e3-1-lxd-5 lxd.activate[250]: ==> Checking for socket activation support
+Feb 09 22:39:42 juju-04f1e3-1-lxd-5 lxd.activate[250]: ==> Setting LXD socket ownership
+Feb 09 22:39:42 juju-04f1e3-1-lxd-5 lxd.activate[250]: ==> Checking if LXD needs to be activated
+Feb 09 22:40:03 juju-04f1e3-1-lxd-5 lxd.activate[1305]: t=2022-02-09T22:40:03+0000 lvl=warn msg="Instance type not operational" driver=qemu err="KVM support is missing" type=virtual-machine
+Feb 09 22:40:03 juju-04f1e3-1-lxd-5 systemd[1]: snap.lxd.activate.service: Succeeded.
+Feb 09 22:40:03 juju-04f1e3-1-lxd-5 systemd[1]: Finished Service for snap application lxd.activate.
+
+* snap.lxd.daemon.service - Service for snap application lxd.daemon
+     Loaded: loaded (/etc/systemd/system/snap.lxd.daemon.service; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:39:04 UTC; 11h ago
+TriggeredBy: * snap.lxd.daemon.unix.socket
+   Main PID: 635 (daemon.start)
+      Tasks: 0 (limit: 314572)
+     Memory: 19.4M
+     CGroup: /system.slice/snap.lxd.daemon.service
+             > 635 /bin/sh /snap/lxd/21835/commands/daemon.start
+
+Feb 09 22:40:13 juju-04f1e3-1-lxd-5 lxd.daemon[1673]: bindings.c: 794: cgfs_setup_controllers: Failed to set up private lxcfs cgroup mounts
+Feb 09 22:40:14 juju-04f1e3-1-lxd-5 lxd.daemon[1673]: Failed to setup private cgroup mounts for lxcfs
+Feb 09 22:40:14 juju-04f1e3-1-lxd-5 lxd.daemon[1678]: cat: /var/snap/lxd/common/lxcfs.pid: No such file or directory
+Feb 09 22:40:15 juju-04f1e3-1-lxd-5 lxd.daemon[635]: => Starting LXD
+Feb 09 22:40:17 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:16+0000 lvl=warn msg=" - Couldn't find the CGroup blkio.weight, disk priority will be ignored"
+Feb 09 22:40:17 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:16+0000 lvl=warn msg=" - Couldn't find the CGroup memory swap accounting, swap limits will be ignored"
+Feb 09 22:40:17 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:16+0000 lvl=warn msg="Instance type not operational" driver=qemu err="KVM support is missing" type=virtual-machine
+Feb 09 22:40:32 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:32+0000 lvl=warn msg="Failed to initialize fanotify, falling back on fsnotify" err="Failed to initialize fanotify: operation not permitted"
+Feb 09 22:40:32 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:32+0000 lvl=warn msg="Error visiting path" driver=fsnotify err="open /dev/.lxd-mounts: permission denied" path=/dev/.lxd-mounts
+Feb 09 22:40:33 juju-04f1e3-1-lxd-5 lxd.daemon[635]: => LXD is ready
+
+* snap.lxd.workaround.service - /bin/true
+     Loaded: loaded (/run/systemd/transient/snap.lxd.workaround.service; transient)
+  Transient: yes
+     Active: active (exited) since Wed 2022-02-09 22:39:41 UTC; 11h ago
+   Main PID: 1282 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/snap.lxd.workaround.service
+
+Feb 09 22:39:41 juju-04f1e3-1-lxd-5 systemd[1]: Started /bin/true.
+
+* snapd.apparmor.service - Load AppArmor profiles managed internally by snapd
+     Loaded: loaded (/lib/systemd/system/snapd.apparmor.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:38 UTC; 11h ago
+   Main PID: 139 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/snapd.apparmor.service
+
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Starting Load AppArmor profiles managed internally by snapd...
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 snapd-apparmor[139]: /usr/lib/snapd/snapd-apparmor: 47: ns_stacked: not found
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 snapd-apparmor[139]: /usr/lib/snapd/snapd-apparmor: 48: ns_name: not found
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Finished Load AppArmor profiles managed internally by snapd.
+
+* snapd.autoimport.service - Auto import assertions from block devices
+     Loaded: loaded (/lib/systemd/system/snapd.autoimport.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:39:29 UTC; 11h ago
+
+Feb 09 22:39:29 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Auto import assertions from block devices being skipped.
+
+* snapd.core-fixup.service - Automatically repair incorrect owner/permissions on core devices
+     Loaded: loaded (/lib/systemd/system/snapd.core-fixup.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:snap(1)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Automatically repair incorrect owner/permissions on core devices being skipped.
+
+* snapd.failure.service - Failure handling of the snapd snap
+     Loaded: loaded (/lib/systemd/system/snapd.failure.service; static; vendor preset: enabled)
+     Active: inactivUnit sshd-keygen.service could not be found.
+e (dead)
+
+* snapd.recovery-chooser-trigger.service - Wait for the Ubuntu Core chooser trigger
+     Loaded: loaded (/lib/systemd/system/snapd.recovery-chooser-trigger.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Wait for the Ubuntu Core chooser trigger being skipped.
+
+* snapd.seeded.service - Wait until snapd is fully seeded
+     Loaded: loaded (/lib/systemd/system/snapd.seeded.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:39:29 UTC; 11h ago
+   Main PID: 1144 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/snapd.seeded.service
+
+Feb 09 22:39:28 juju-04f1e3-1-lxd-5 systemd[1]: Starting Wait until snapd is fully seeded...
+Feb 09 22:39:29 juju-04f1e3-1-lxd-5 systemd[1]: Finished Wait until snapd is fully seeded.
+
+* snapd.service - Snap Daemon
+     Loaded: loaded (/lib/systemd/system/snapd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:39:28 UTC; 11h ago
+TriggeredBy: * snapd.socket
+   Main PID: 251 (snapd)
+      Tasks: 11 (limit: 314572)
+     Memory: 41.6M
+     CGroup: /system.slice/snapd.service
+             `-251 /usr/lib/snapd/snapd
+
+Feb 09 22:39:23 juju-04f1e3-1-lxd-5 snapd[251]: AppArmor status: apparmor is enabled and all features are available
+Feb 09 22:39:26 juju-04f1e3-1-lxd-5 snapd[251]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-97-generic.
+Feb 09 22:39:27 juju-04f1e3-1-lxd-5 snapd[251]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 09 22:39:28 juju-04f1e3-1-lxd-5 systemd[1]: Started Snap Daemon.
+Feb 09 22:39:38 juju-04f1e3-1-lxd-5 snapd[251]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 09 22:39:39 juju-04f1e3-1-lxd-5 snapd[251]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 03:39:28 juju-04f1e3-1-lxd-5 snapd[251]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 03:39:28 juju-04f1e3-1-lxd-5 snapd[251]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 08:59:28 juju-04f1e3-1-lxd-5 snapd[251]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 08:59:28 juju-04f1e3-1-lxd-5 snapd[251]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+
+* snapd.snap-repair.service - Automatically fetch and run repair assertions
+     Loaded: loaded (/lib/systemd/system/snapd.snap-repair.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * snapd.snap-repair.timer
+       Docs: man:snap(1)
+
+* ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:50 UTC; 11h ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+   Main PID: 298 (sshd)
+      Tasks: 1 (limit: 314572)
+     Memory: 6.0M
+     CGroup: /system.slice/ssh.service
+             `-298 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting OpenBSD Secure Shell server...
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 sshd[298]: Server listening on 0.0.0.0 port 22.
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 sshd[298]: Server listening on :: port 22.
+Feb 09 22:38:50 juju-04f1e3-1-lxd-5 systemd[1]: Started OpenBSD Secure Shell server.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 sshd[123712]: Connection closed by 10.0.0.2 port 43636 [preauth]
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 sshd[123714]: Accepted publickey for ubuntu from 10.0.0.2 port 43638 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 sshd[123714]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+
+* systemd-ask-password-console.service - Dispatch Password Requests to Console
+     Loaded: loaded (/lib/systemd/system/systemd-ask-password-console.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * systemd-ask-password-console.path
+       Docs: man:systemd-ask-password-console.service(8)
+
+* systemd-ask-password-plymouth.service - Forward Password Requests to Plymouth
+     Loaded: loaded (/lib/systemd/system/systemd-ask-password-plymouth.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * systemd-ask-password-plymouth.path
+       Docs: http://www.freedesktop.org/wiki/Software/systemd/PasswordAgents
+
+* systemd-ask-password-wall.service - Forward Password Requests to Wall
+     Loaded: loaded (/lib/systemd/system/systemd-ask-password-wall.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * systemd-ask-password-wall.path
+       Docs: man:systemd-ask-password-console.service(8)
+
+* systemd-binfmt.service - Set Up Additional Binary Formats
+     Loaded: loaded (/lib/systemd/system/systemd-binfmt.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd-binfmt.service(8)
+             man:binfmt.d(5)
+             https://www.kernel.org/doc/html/latest/admin-guide/binfmt-misc.html
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+
+* systemd-boot-system-token.service - Store a System Token in an EFI Variable
+     Loaded: loaded (/lib/systemd/system/systemd-boot-system-token.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-boot-system-token.service(8)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Store a System Token in an EFI Variable being skipped.
+
+* systemd-fsck-root.service - File System Check on Root Device
+     Loaded: loaded (/lib/systemd/system/systemd-fsck-root.service; enabled-runtime; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd-fsck-root.service(8)
+
+* systemd-fsckd.service - File System Check Daemon to report status
+     Loaded: loaded (/lib/systemd/system/systemd-fsckd.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * systemd-fsckd.socket
+       Docs: man:systemd-fsckd.service(8)
+
+* systemd-hostnamed.service - Hostname Service
+     Loaded: loaded (/lib/systemd/system/systemd-hostnamed.service; static; vendor preset: enabled)
+     Active: active (running) since Thu 2022-02-10 09:39:55 UTC; 16s ago
+       Docs: man:systemd-hostnamed.service(8)
+             man:hostname(5)
+             man:machine-info(5)
+             https://www.freedesktop.org/wiki/Software/systemd/hostnamed
+   Main PID: 124435 (systemd-hostnam)
+      Tasks: 1 (limit: 314572)
+     Memory: 1.1M
+     CGroup: /system.slice/systemd-hostnamed.service
+             `-124435 /lib/systemd/systemd-hostnamed
+
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 systemd[1]: Starting Hostname Service...
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 systemd-hostnamed[124435]: Failed to read product UUID, ignoring: Permission denied
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 systemd[1]: Started Hostname Service.
+
+* systemd-hwdb-update.service - Rebuild Hardware Database
+     Loaded: loaded (/lib/systemd/system/systemd-hwdb-update.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:hwdb(7)
+             man:systemd-hwdb(8)
+
+* systemd-initctl.service - initctl Compatibility Daemon
+     Loaded: loaded (/lib/systemd/system/systemd-initctl.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * systemd-initctl.socket
+       Docs: man:systemd-initctl.service(8)
+
+* systemd-journal-flush.service - Flush Journal to Persistent Storage
+     Loaded: loaded (/lib/systemd/system/systemd-journal-flush.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-journald.service(8)
+             man:journald.conf(5)
+   Main PID: 97 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-journal-flush.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Flush Journal to Persistent Storage...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished Flush Journal to Persistent Storage.
+
+* systemd-journald.service - Journal Service
+     Loaded: loaded (/lib/systemd/system/systemd-journald.service; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+TriggeredBy: * systemd-journald-audit.socket
+             * systemd-journald.socket
+             * systemd-journald-dev-log.socket
+       Docs: man:systemd-journald.service(8)
+             man:journald.conf(5)
+   Main PID: 63 (systemd-journal)
+     Status: "Processing requests..."
+      Tasks: 1 (limit: 314572)
+     Memory: 21.9M
+     CGroup: /system.slice/systemd-journald.service
+             `-63 /lib/systemd/systemd-journald
+
+Feb 10 08:55:58 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 1 messages.
+Feb 10 09:02:45 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 1 messages.
+Feb 10 09:07:29 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 3 messages.
+Feb 10 09:08:18 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 1 messages.
+Feb 10 09:17:00 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 1 messages.
+Feb 10 09:17:39 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 14 messages.
+Feb 10 09:31:45 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 1 messages.
+Feb 10 09:33:01 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 13 messages.
+Feb 10 09:36:20 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 1 messages.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd-journald[63]: Forwarding to syslog missed 2 messages.
+
+* systemd-logind.service - Login Service
+     Loaded: loaded (/lib/systemd/system/systemd-logind.service; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:55 UTC; 11h ago
+       Docs: man:systemd-logind.service(8)
+             man:logind.conf(5)
+             https://www.freedesktop.org/wiki/Software/systemd/logind
+             https://www.freedesktop.org/wiki/Software/systemd/multiseat
+   Main PID: 253 (systemd-logind)
+     Status: "Processing requests..."
+      Tasks: 1 (limit: 314572)
+     Memory: 1.8M
+     CGroup: /system.slice/systemd-logind.service
+             `-253 /lib/systemd/systemd-logind
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Login Service...
+Feb 09 22:38:55 juju-04f1e3-1-lxd-5 systemd-logind[253]: New seat seat0.
+Feb 09 22:38:55 juju-04f1e3-1-lxd-5 systemd[1]: Started Login Service.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd-logind[253]: New session 400 of user ubuntu.
+
+* systemd-machine-id-commit.service - Commit a transient machine-id on disk
+     Loaded: loaded (/lib/systemd/system/systemd-machine-id-commit.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-machine-id-commit.service(8)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Commit a transient machine-id on disk being skipped.
+
+* systemd-modules-load.service - Load Kernel Modules
+     Loaded: loaded (/lib/systemd/system/systemd-modules-load.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd-modules-load.service(8)
+             man:modules-load.d(5)
+
+* systemd-networkd-wait-online.service - Wait for Network to be Configured
+     Loaded: loaded (/lib/systemd/system/systemd-networkd-wait-online.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:38:46 UTC; 11h ago
+       Docs: man:systemd-networkd-wait-online.service(8)
+   Main PID: 169 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd[1]: Starting Wait for Network to be Configured...
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd-networkd-wait-online[169]: managing: eth0
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd[1]: Finished Wait for Network to be Configured.
+Feb 09 22:38:46 juju-04f1e3-1-lxd-5 systemd[1]: systemd-networkd-wait-online.service: Succeeded.
+Feb 09 22:38:46 juju-04f1e3-1-lxd-5 systemd[1]: Stopped Wait for Network to be Configured.
+
+* systemd-networkd.service - Network Service
+     Loaded: loaded (/lib/systemd/system/systemd-networkd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:47 UTC; 11h ago
+TriggeredBy: * systemd-networkd.socket
+       Docs: man:systemd-networkd.service(8)
+   Main PID: 228 (systemd-network)
+     Status: "Processing requests..."
+      Tasks: 1 (limit: 314572)
+     Memory: 2.8M
+     CGroup: /system.slice/systemd-networkd.service
+             `-228 /lib/systemd/systemd-networkd
+
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd[1]: Starting Network Service...
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd-networkd[228]: eth0: IPv6 successfully enabled
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd-networkd[228]: eth0: Gained IPv6LL
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd-networkd[228]: Enumeration completed
+Feb 09 22:38:47 juju-04f1e3-1-lxd-5 systemd[1]: Started Network Service.
+
+* systemd-pstore.service - Platform Persistent Storage Archival
+     Loaded: loaded (/lib/systemd/system/systemd-pstore.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-pstore(8)
+
+* systemd-random-seed.service - Load/Save Random Seed
+     Loaded: loaded (/lib/systemd/system/systemd-random-seed.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-random-seed.service(8)
+             man:random(4)
+
+* systemd-remount-fs.service - Remount Root and Kernel File Systems
+     Loaded: loaded (/lib/systemd/system/systemd-remount-fs.service; enabled-runtime; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-remount-fs.service(8)
+             https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+   Main PID: 67 (code=exited, status=1/FAILURE)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd-remount-fs[72]: mount: /: can't find LABEL=cloudimg-rootfs.
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-resolved.service - Network Name Resolution
+     Loaded: loaded (/lib/systemd/system/systemd-resolved.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:41 UTC; 11h ago
+       Docs: man:systemd-resolved.service(8)
+             https://www.freedesktop.org/wiki/Software/systemd/resolved
+             https://www.freedesktop.org/wiki/Software/systemd/writing-network-configuration-managers
+             https://www.freedesktop.org/wiki/Software/systemd/writing-resolver-clients
+   Main PID: 170 (systemd-resolve)
+     Status: "Processing requests..."
+      Tasks: 1 (limit: 314572)
+     Memory: 8.3M
+     CGroup: /system.slice/systemd-resolved.service
+             `-170 /lib/systemd/systemd-resolved
+
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd[1]: Starting Network Name Resolution...
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd-resolved[170]: Positive Trust Anchors:
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd-resolved[170]: . IN DS 20326 8 2 e06d44b80b8f1d39a95c0b0d7c65d08458e880409bbc683457104237c7f8ec8d
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd-resolved[170]: Negative trust anchors: 10.in-addr.arpa 16.172.in-addr.arpa 17.172.in-addr.arpa 18.172.in-addr.arpa 19.172.in-addr.arpa 20.172.in-addr.arpa 21.172.in-addr.arpa 22.172.in-addr.arpa 23.172.in-addr.arpa 24.172.in-addr.arpa 25.172.in-addr.arpa 26.172.in-addr.arpa 27.172.in-addr.arpa 28.172.in-addr.arpa 29.172.in-addr.arpa 30.172.in-addr.arpa 31.172.in-addr.arpa 168.192.in-addr.arpa d.f.ip6.arpa corp home internal intranet lan local private test
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd-resolved[170]: Using system hostname 'juju-04f1e3-1-lxd-5'.
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd[1]: Started Network Name Resolution.
+
+* systemd-sysctl.service - Apply Kernel Variables
+     Loaded: loaded (/lib/systemd/system/systemd-sysctl.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-sysctl.service(8)
+             man:sysctl.d(5)
+   Main PID: 69 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-sysctl.service
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-sysusers.service - Create System Users
+     Loaded: loaded (/lib/systemd/system/systemd-sysusers.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:sysusers.d(5)
+             man:systemd-sysusers.service(8)
+   Main PID: 81 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-sysusers.service
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-timesyncd.service - Network Time Synchronization
+     Loaded: loaded (/lib/systemd/system/systemd-timesyncd.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-timesyncd.service(8)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Network Time Synchronization being skipped.
+
+* systemd-tmpfiles-clean.service - Cleanup of Temporary Directories
+     Loaded: loaded (/lib/systemd/system/systemd-tmpfiles-clean.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:53:43 UTC; 10h ago
+TriggeredBy: * systemd-tmpfiles-clean.timer
+       Docs: man:tmpfiles.d(5)
+             man:systemd-tmpfiles(8)
+   Main PID: 4633 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:53:43 juju-04f1e3-1-lxd-5 systemd[1]: Starting Cleanup of Temporary Directories...
+Feb 09 22:53:43 juju-04f1e3-1-lxd-5 systemd[1]: systemd-tmpfiles-clean.service: Succeeded.
+Feb 09 22:53:43 juju-04f1e3-1-lxd-5 systemd[1]: Finished Cleanup of Temporary Directories.
+
+* systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev
+     Loaded: loaded (/lib/systemd/system/systemd-tmpfiles-setup-dev.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:tmpfiles.d(5)
+             man:systemd-tmpfiles(8)
+   Main PID: 92 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-tmpfiles-setup-dev.service
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-tmpfiles-setup.service - Create Volatile Files and Directories
+     Loaded: loaded (/lib/systemd/system/systemd-tmpfiles-setup.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:tmpfiles.d(5)
+             man:systemd-tmpfiles(8)
+   Main PID: 125 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-tmpfiles-setup.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Create Volatile Files and Directories...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished Create Volatile Files and Directories.
+
+* systemd-udev-settle.service - udev Wait for Complete Device Initialization
+     Loaded: loaded (/lib/systemd/system/systemd-udev-settle.service; static; vendor presetUnit systemd-update-done.service could not be found.
+: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd-udev-settle.service(8)
+   Main PID: 106 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-udev-settle.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting udev Wait for Complete Device Initialization...
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 udevadm[106]: systemd-udev-settle.service is deprecated.
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished udev Wait for Complete Device Initialization.
+
+* systemd-udev-trigger.service - udev Coldplug all Devices
+     Loaded: loaded (/lib/systemd/system/systemd-udev-trigger.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:udev(7)
+             man:systemd-udevd.service(8)
+   Main PID: 82 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-udev-trigger.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Finished udev Coldplug all Devices.
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-udevd.service - udev Kernel Device Manager
+     Loaded: loaded (/lib/systemd/system/systemd-udevd.service; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:37 UTC; 11h ago
+TriggeredBy: * systemd-udevd-kernel.socket
+             * systemd-udevd-control.socket
+       Docs: man:systemd-udevd.service(8)
+             man:udev(7)
+   Main PID: 96 (systemd-udevd)
+     Status: "Processing with 10 children at max"
+      Tasks: 1
+     Memory: 3.3M
+     CGroup: /system.slice/systemd-udevd.service
+             `-96 /lib/systemd/systemd-udevd
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd-udevd[96]: Failed to chown '/dev/net/tun' 0 0: Operation not permitted
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd-udevd[96]: Failed to apply permissions on static device nodes: Operation not permitted
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Started udev Kernel Device Manager.
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd-udevd[99]: ethtool: autonegotiation is unset or enabled, the speed and duplex are not writable.
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd-udevd[99]: Using default interface naming scheme 'v245'.
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd-udevd[102]: ethtool: autonegotiation is unset or enabled, the speed and duplex are not writable.
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-update-utmp-runlevel.service - Update UTMP about System Runlevel Changes
+     Loaded: loaded (/lib/systemd/system/systemd-update-utmp-runlevel.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2022-02-09 22:41:02 UTC; 10h ago
+       Docs: man:systemd-update-utmp.service(8)
+             man:utmp(5)
+   Main PID: 2401 (code=exited, status=0/SUCCESS)
+
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: Starting Update UTMP about System Runlevel Changes...
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: systemd-update-utmp-runlevel.service: Succeeded.
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: Finished Update UTMP about System Runlevel Changes.
+
+* systemd-update-utmp.service - Update UTMP about System Boot/Shutdown
+     Loaded: loaded (/lib/systemd/system/systemd-update-utmp.service; static; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:38 UTC; 11h ago
+       Docs: man:systemd-update-utmp.service(8)
+             man:utmp(5)
+   Main PID: 131 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-update-utmp.service
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Starting Update UTMP about System Boot/Shutdown...
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Finished Update UTMP about System Boot/Shutdown.
+
+* systemd-user-sessions.service - Permit User Sessions
+     Loaded: loaded (/lib/systemd/system/systemd-user-sessions.service; static; vendor preset:Unit systemd-vconsole-setup.service could not be found.
+Unit ua-auto-attach.service could not be found.
+ enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd-user-sessions.service(8)
+   Main PID: 254 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-user-sessions.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Permit User Sessions...
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Finished Permit User Sessions.
+
+* ua-license-check.service - Poll for Ubuntu Pro licenses (Only enabled on GCP LTS non-pro)
+     Loaded: loaded (/lib/systemd/system/ua-license-check.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * ua-license-check.timer
+
+* ua-reboot-cmds.service - Ubuntu Advantage reboot cmds
+     Loaded: loaded (/lib/systemd/system/ua-reboot-cmds.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Ubuntu Advantage reboot cmds being skipped.
+
+* ua-timer.service - Ubuntu Advantage Timer for running repeated jobs
+     Loaded: loaded (/lib/systemd/system/ua-timer.service; static; vendor preset: enabled)
+     Active: inactive (dead) since Thu 2022-02-10 05:06:23 UTC; 4h 33min ago
+TriggeredBy: * ua-timer.timer
+   Main PID: 73291 (code=exited, status=0/SUCCESS)
+
+Feb 10 05:06:23 juju-04f1e3-1-lxd-5 systemd[1]: Starting Ubuntu Advantage Timer for running repeated jobs...
+Feb 10 05:06:23 juju-04f1e3-1-lxd-5 systemd[1]: ua-timer.service: Succeeded.
+Feb 10 05:06:23 juju-04f1e3-1-lxd-5 systemd[1]: Finished Ubuntu Advantage Timer for running repeated jobs.
+
+* ubuntu-fan.service - Ubuntu FAN network setup
+     Loaded: loaded (/lib/systemd/system/ubuntu-fan.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:51 UTC; 11h ago
+   Main PID: 255 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/ubuntu-fan.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Ubuntu FAN network setup...
+Feb 09 22:38:51 juju-04f1e3-1-lxd-5 systemd[1]: Finished Ubuntu FAN network setup.
+
+* udisks2.service - Disk Manager
+     Loaded: loaded (/lib/systemd/system/udisks2.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:51 UTC; 11h ago
+       Docs: man:udisks(8)
+   Main PID: 256 (udisksd)
+      Tasks: 5 (limit: 314572)
+     Memory: 6.1M
+     CGroup: /system.slice/udisks2.service
+             `-256 /usr/lib/udisks2/udisksd
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Disk Manager...
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 udisksd[256]: udisks daemon version 2.8.4 starting
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 udisksd[256]: failed to load module mdraid: libbd_mdraid.so.2: cannot open shared object file: No such file or directory
+Feb 09 22:38:50 juju-04f1e3-1-lxd-5 udisksd[256]: Failed to load the 'mdraid' libblockdev plugin
+Feb 09 22:38:51 juju-04f1e3-1-lxd-5 systemd[1]: Started Disk Manager.
+Feb 09 22:38:51 juju-04f1e3-1-lxd-5 udisksd[256]: Acquired the name org.freedesktop.UDisks2 on the system message bus
+
+* ufw.service - Uncomplicated firewall
+     Loaded: loaded (/lib/systemd/system/ufw.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:ufw(8)
+   Main PID: 73 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/ufw.service
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* unattended-upgrades.service - Unattended Upgrades Shutdown
+     Loaded: loaded (/lib/systemd/system/unattended-upgrades.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:55 UTC; 11h ago
+       Docs: man:unattended-upgrade(8)
+   Main PID: 610 (unattended-upgr)
+      Tasks: 2 (limit: 314572)
+     Memory: 10.4M
+     CGroup: /system.slice/unattended-upgrades.service
+             `-610 /Unit whoopsie.service could not be found.
+Unit zfs-mount.service could not be found.
+usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+
+Feb 09 22:38:55 juju-04f1e3-1-lxd-5 systemd[1]: Started Unattended Upgrades Shutdown.
+
+* user-runtime-dir@1000.service - User Runtime Directory /run/user/1000
+     Loaded: loaded (/lib/systemd/system/user-runtime-dir@.service; static; vendor preset: enabled)
+     Active: active (exited) since Thu 2022-02-10 09:39:22 UTC; 50s ago
+       Docs: man:user@.service(5)
+    Process: 123716 ExecStart=/lib/systemd/systemd-user-runtime-dir start 1000 (code=exited, status=0/SUCCESS)
+   Main PID: 123716 (code=exited, status=0/SUCCESS)
+
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[1]: Starting User Runtime Directory /run/user/1000...
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[1]: Finished User Runtime Directory /run/user/1000.
+
+* user@1000.service - User Manager for UID 1000
+     Loaded: loaded (/lib/systemd/system/user@.service; static; vendor preset: enabled)
+    Drop-In: /usr/lib/systemd/system/user@.service.d
+             `-timeout.conf
+     Active: active (running) since Thu 2022-02-10 09:39:22 UTC; 50s ago
+       Docs: man:user@.service(5)
+   Main PID: 123717 (systemd)
+     Status: "Startup finished in 47ms."
+      Tasks: 2
+     Memory: 3.3M
+     CGroup: /user.slice/user-1000.slice/user@1000.service
+             `-init.scope
+               |-123717 /lib/systemd/systemd --user
+               `-123718 (sd-pam)
+
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Listening on GnuPG cryptographic agent (ssh-agent emulation).
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Listening on GnuPG cryptographic agent and passphrase cache.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Listening on debconf communication socket.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Listening on REST API socket for snapd user session agent.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Listening on D-Bus User Message Bus Socket.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Reached target Sockets.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Reached target Basic System.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Reached target Main User Target.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[123717]: Startup finished in 47ms.
+Feb 10 09:39:22 juju-04f1e3-1-lxd-5 systemd[1]: Started User Manager for UID 1000.
+
+* uuidd.service - Daemon for generating UUIDs
+     Loaded: loaded (/lib/systemd/system/uuidd.service; indirect; vendor preset: enabled)
+     Active: active (running) since Thu 2022-02-10 06:50:11 UTC; 2h 50min ago
+TriggeredBy: * uuidd.socket
+       Docs: man:uuidd(8)
+   Main PID: 91894 (uuidd)
+      Tasks: 1 (limit: 314572)
+     Memory: 716.0K
+     CGroup: /system.slice/uuidd.service
+             `-91894 /usr/sbin/uuidd --socket-activation
+
+Feb 10 06:50:11 juju-04f1e3-1-lxd-5 systemd[1]: Started Daemon for generating UUIDs.
+
+* vgauth.service - Authentication service for virtual machines hosted on VMware
+     Loaded: loaded (/lib/systemd/system/vgauth.service; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+  Condition: start condition failed at Wed 2022-02-09 22:38:38 UTC; 11h ago
+       Docs: http://github.com/vmware/open-vm-tools
+
+Feb 09 22:38:38 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Authentication service for virtual machines hosted on VMware being skipped.
+
+* -.slice - Root Slice
+     Loaded: loaded
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd.special(7)
+      Tasks: 199
+     Memory: 1022.0M
+     CGroup: /
+             |- 635 /bin/sh /snap/lxd/21835/commands/daemon.start
+             |-1683 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+             |-init.scope
+             | `-1 /sbin/init
+             |-system.slice
+             | |-accounts-daemon.service
+             | | `-235 /usr/lib/accountsservice/accounts-daemon
+             | |-atd.service
+             | | `-265 /usr/sbin/atd -f
+             | |-console-getty.service
+             | | `-274 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+             | |-cron.service
+             | | `-240 /usr/sbin/cron -f
+             | |-dbus.service
+             | | `-241 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+             | |-epmd.service
+             | | `-246 /usr/bin/epmd -systemd
+             | |-fwupd.service
+             | | `-124386 /usr/libexec/fwupd/fwupd
+             | |-jujud-machine-1-lxd-5.service
+             | | |-266 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+             | | `-287 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+             | |-networkd-dispatcher.service
+             | | `-247 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+             | |-polkit.service
+             | | `-334 /usr/lib/policykit-1/polkitd --no-debug
+             | |-rabbitmq-server.service
+             | | |- 248 /bin/sh /usr/sbin/rabbitmq-server
+             | | |- 282 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+             | | |-1077 erl_child_setup 65536
+             | | |-2394 inet_gethost 4
+             | | `-2395 inet_gethost 4
+             | |-rsyslog.service
+             | | `-249 /usr/sbin/rsyslogd -n -iNONE
+             | |-snap-core20-1328.mount
+             | | `-118 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+             | |-snap-lxd-21835.mount
+             | | `-117 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+             | |-snap-snapd-14549.mount
+             | | `-119 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+             | |-snapd.service
+             | | `-251 /usr/lib/snapd/snapd
+             | |-ssh.service
+             | | `-298 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+             | |-systemd-hostnamed.service
+             | | `-124435 /lib/systemd/systemd-hostnamed
+             | |-systemd-journald.service
+             | | `-63 /lib/systemd/systemd-journald
+             | |-systemd-logind.service
+             | | `-253 /lib/systemd/systemd-logind
+             | |-systemd-networkd.service
+             | | `-228 /lib/systemd/systemd-networkd
+             | |-systemd-resolved.service
+             | | `-170 /lib/systemd/systemd-resolved
+             | |-systemd-udevd.service
+             | | `-96 /lib/systemd/systemd-udevd
+             | |-udisks2.service
+             | | `-256 /usr/lib/udisks2/udisksd
+             | |-unattended-upgrades.service
+             | | `-610 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+             | `-uuidd.service
+             |   `-91894 /usr/sbin/uuidd --socket-activation
+             `-user.slice
+               `-user-1000.slice
+                 |-session-400.scope
+                 | |-123714 sshd: ubuntu [priv]
+                 | |-123778 sshd: ubuntu@pts/1
+                 | |-123779 sudo -s
+                 | |-123780 /bin/bash
+                 | |-123803 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+                 | |-125449 timeout 10s rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+                 | |-125454 /bin/sh /usr/sbin/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+                 | |-125464 su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+                 | |-125466 sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+                 | |-125467 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -B -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -boot start_clean -noshell -noinput -noshell -hidden -smp enable -kernel inet_dist_listen_min 35672 -kernel inet_dist_listen_max 35682 -sasl errlog_type error -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -run escript start -escript main rabbitmqctl_escript -- -extra /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/escript/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+                 | |-125593 erl_child_setup 1024
+                 | |-125750 timeout 300s ubuntu-security-status --thirdparty --unavailable
+                 | |-125752 /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+                 | |-125760 timeout 300s systemctl status --all
+                 | |-125761 inet_gethost 4
+                 | |-125762 inet_gethost 4
+                 | `-125765 systemctl status --all
+                 `-user@1000.service
+                   `-init.scope
+                     |-123717 /lib/systemd/systemd --user
+                     `-123718 (sd-pam)
+
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Device-Mapper Multipath Device Controller being skipped.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: multipathd.socket: Trigger limit hit, refusing further activation.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: multipathd.socket: Failed with result 'trigger-limit-hit'.
+Feb 10 09:40:07 juju-04f1e3-1-lxd-5 systemd[1]: snap.lxd.buginfo.d7d20c93-572c-4617-9aa1-1bc8cf34adb1.scope: Succeeded.
+
+* system-getty.slice
+     Loaded: loaded
+     Active: active since Wed 2022-02-09 22:38:49 UTC; 11h ago
+      Tasks: 0
+     Memory: 0B
+     CGroup: /system.slice/system-getty.slice
+
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Created slice system-getty.slice.
+
+* system-modprobe.slice
+     Loaded: loaded
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+      Tasks: 0
+     Memory: 0B
+     CGroup: /system.slice/system-modprobe.slice
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* system.slice - System Slice
+     Loaded: loaded
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd.special(7)
+      Tasks: 133
+     Memory: 535.3M
+     CGroup: /system.slice
+             |-accounts-daemon.service
+             | `-235 /usr/lib/accountsservice/accounts-daemon
+             |-atd.service
+             | `-265 /usr/sbin/atd -f
+             |-console-getty.service
+             | `-274 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+             |-cron.service
+             | `-240 /usr/sbin/cron -f
+             |-dbus.service
+             | `-241 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+             |-epmd.service
+             | `-246 /usr/bin/epmd -systemd
+             |-fwupd.service
+             | `-124386 /usr/libexec/fwupd/fwupd
+             |-jujud-machine-1-lxd-5.service
+             | |-266 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+             | `-287 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+             |-networkd-dispatcher.service
+             | `-247 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+             |-polkit.service
+             | `-334 /usr/lib/policykit-1/polkitd --no-debug
+             |-rabbitmq-server.service
+             | |- 248 /bin/sh /usr/sbin/rabbitmq-server
+             | |- 282 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+             | |-1077 erl_child_setup 65536
+             | |-2394 inet_gethost 4
+             | `-2395 inet_gethost 4
+             |-rsyslog.service
+             | `-249 /usr/sbin/rsyslogd -n -iNONE
+             |-snap-core20-1328.mount
+             | `-118 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+             |-snap-lxd-21835.mount
+             | `-117 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+             |-snap-snapd-14549.mount
+             | `-119 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+             |-snapd.service
+             | `-251 /usr/lib/snapd/snapd
+             |-ssh.service
+             | `-298 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+             |-systemd-hostnamed.service
+             | `-124435 /lib/systemd/systemd-hostnamed
+             |-systemd-journald.service
+             | `-63 /lib/systemd/systemd-journald
+             |-systemd-logind.service
+             | `-253 /lib/systemd/systemd-logind
+             |-systemd-networkd.service
+             | `-228 /lib/systemd/systemd-networkd
+             |-systemd-resolved.service
+             | `-170 /lib/systemd/systemd-resolved
+             |-systemd-udevd.service
+             | `-96 /lib/systemd/systemd-udevd
+             |-udisks2.service
+             | `-256 /usr/lib/udisks2/udisksd
+             |-unattended-upgrades.service
+             | `-610 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+             `-uuidd.service
+               `-91894 /usr/sbin/uuidd --socket-activation
+
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.1135' (uid=0 pid=124382 comm="fwupdmgr get-approved-firmware " label="unconfined")
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0240 FuEngine             Failed to load SMBIOS: Failed to open file "/sys/firmware/dmi/tables/smbios_entry_point": Permission denied
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0405 FuEngine             failed to add device /sys/devices/pci0000:00/0000:00:01.0: failed to add device using on pci_bcr: could not read BCR: failed to read from port 0x00dc: Success
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0600 FuEngine             failed to add device /sys/devices/virtual/msr/msr0: failed to add device using on msr: failed to open /dev/cpu/0/msr: No such file or directory
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.fwupd'
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0670 FuPluginAcpiFacp     failed to load /sys/firmware/acpi/tables/FACP: Failed to open file "/sys/firmware/acpi/tables/FACP": Permission denied
+Feb 10 09:39:54 juju-04f1e3-1-lxd-5 fwupd[124386]: 09:39:54:0671 FuEngine             failed to get chassis type: no structure with type 03
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service' requested by ':1.1140' (uid=0 pid=124434 comm="hostnamectl status " label="unconfined")
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 systemd-hostnamed[124435]: Failed to read product UUID, ignoring: Permission denied
+Feb 10 09:39:55 juju-04f1e3-1-lxd-5 dbus-daemon[241]: [system] Successfully activated service 'org.freedesktop.hostname1'
+
+* user-1000.slice - User Slice of UID 1000
+     Loaded: loaded
+    Drop-In: /usr/lib/systemd/system/user-.slice.d
+             `-10-defaults.conf
+     Active: active since Thu 2022-02-10 09:39:22 UTC; 50s ago
+       Docs: man:user@.service(5)
+      Tasks: 47 (limit: 692060)
+     Memory: 415.7M
+     CGroup: /user.slice/user-1000.slice
+             |-session-400.scope
+             | |-123714 sshd: ubuntu [priv]
+             | |-123778 sshd: ubuntu@pts/1
+             | |-123779 sudo -s
+             | |-123780 /bin/bash
+             | |-123803 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+             | |-125449 timeout 10s rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+             | |-125454 /bin/sh /usr/sbin/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+             | |-125464 su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+             | |-125466 sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+             | |-125467 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -B -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -boot start_clean -noshell -noinput -noshell -hidden -smp enable -kernel inet_dist_listen_min 35672 -kernel inet_dist_listen_max 35682 -sasl errlog_type error -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -run escript start -escript main rabbitmqctl_escript -- -extra /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/escript/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+             | |-125593 erl_child_setup 1024
+             | |-125750 timeout 300s ubuntu-security-status --thirdparty --unavailable
+             | |-125752 /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+             | |-125760 timeout 300s systemctl status --all
+             | |-125761 inet_gethost 4
+             | |-125762 inet_gethost 4
+             | `-125765 systemctl status --all
+             `-user@1000.service
+               `-init.scope
+                 |-123717 /lib/systemd/systemd --user
+                 `-123718 (sd-pam)
+
+Feb 10 09:39:23 juju-04f1e3-1-lxd-5 sudo[123779]:   ubuntu : TTY=pts/1 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 09:39:23 juju-04f1e3-1-lxd-5 sudo[123779]: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+Feb 10 09:39:52 juju-04f1e3-1-lxd-5 crontab[124210]: (root) LIST (root)
+Feb 10 09:40:06 juju-04f1e3-1-lxd-5 su[125045]: (to rabbitmq) ubuntu on pts/1
+Feb 10 09:40:06 juju-04f1e3-1-lxd-5 su[125045]: pam_limits(su:session): Could not set limit for 'core' to soft=0, hard=-1: Operation not permitted; uid=0,euid=0
+Feb 10 09:40:06 juju-04f1e3-1-lxd-5 su[125045]: pam_unix(su:session): session opened for user rabbitmq by ubuntu(uid=0)
+Feb 10 09:40:09 juju-04f1e3-1-lxd-5 su[125045]: pam_unix(su:session): session closed for user rabbitmq
+Feb 10 09:40:10 juju-04f1e3-1-lxd-5 su[125464]: (to rabbitmq) ubuntu on pts/1
+Feb 10 09:40:10 juju-04f1e3-1-lxd-5 su[125464]: pam_limits(su:session): Could not set limit for 'core' to soft=0, hard=-1: Operation not permitted; uid=0,euid=0
+Feb 10 09:40:10 juju-04f1e3-1-lxd-5 su[125464]: pam_unix(su:session): session opened for user rabbitmq by ubuntu(uid=0)
+
+* user.slice - User and Session Slice
+     Loaded: loaded (/lib/systemd/system/user.slice; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd.special(7)
+      Tasks: 47
+     Memory: 416.0M
+     CGroup: /user.slice
+             `-user-1000.slice
+               |-session-400.scope
+               | |-123714 sshd: ubuntu [priv]
+               | |-123778 sshd: ubuntu@pts/1
+               | |-123779 sudo -s
+               | |-123780 /bin/bash
+               | |-123803 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+               | |-125449 timeout 10s rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+               | |-125454 /bin/sh /usr/sbin/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+               | |-125464 su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+               | |-125466 sh -c /usr/lib/rabbitmq/bin/rabbitmqctl  "eval" "rabbit_diagnostics:maybe_stuck()."
+               | |-125467 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -B -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -boot start_clean -noshell -noinput -noshell -hidden -smp enable -kernel inet_dist_listen_min 35672 -kernel inet_dist_listen_max 35682 -sasl errlog_type error -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -run escript start -escript main rabbitmqctl_escript -- -extra /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/escript/rabbitmqctl eval rabbit_diagnostics:maybe_stuck().
+               | |-125593 erl_child_setup 1024
+               | |-125750 timeout 300s ubuntu-security-status --thirdparty --unavailable
+               | |-125752 /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+               | |-125760 timeout 300s systemctl status --all
+               | |-125761 inet_gethost 4
+               | |-125762 inet_gethost 4
+               | `-125765 systemctl status --all
+               `-user@1000.service
+                 `-init.scope
+                   |-123717 /lib/systemd/systemd --user
+                   `-123718 (sd-pam)
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* apport-forward.socket - Unix socket for apport crash forwarding
+     Loaded: loaded (/lib/systemd/system/apport-forward.socket; enabled; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+     Listen: /run/apport.socket (Stream)
+   Accepted: 0; Connected: 0;
+     CGroup: /system.slice/apport-forward.socket
+
+Feb 09 22:38:48 juju-Unit epmd@0.0.0.0.socket could not be found.
+04f1e3-1-lxd-5 systemd[1]: Listening on Unix socket for apport crash forwarding.
+
+* cloud-init-hotplugd.socket - cloud-init hotplug hook socket
+     Loaded: loaded (/lib/systemd/system/cloud-init-hotplugd.socket; enabled; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * cloud-init-hotplugd.service
+     Listen: /run/cloud-init/hook-hotplug-cmd (FIFO)
+     CGroup: /system.slice/cloud-init-hotplugd.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on cloud-init hotplug hook socket.
+
+* dbus.socket - D-Bus System Message Bus Socket
+     Loaded: loaded (/lib/systemd/system/dbus.socket; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * dbus.service
+     Listen: /run/dbus/system_bus_socket (Stream)
+     CGroup: /system.slice/dbus.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on D-Bus System Message Bus Socket.
+
+* dm-event.socket - Device-mapper event daemon FIFOs
+     Loaded: loaded (/lib/systemd/system/dm-event.socket; enabled; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * dm-event.service
+       Docs: man:dmeventd(8)
+     Listen: /run/dmeventd-server (FIFO)
+             /run/dmeventd-client (FIFO)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/dm-event.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* epmd.socket - Erlang Port Mapper Daemon Activation Socket
+     Loaded: loaded (/lib/systemd/system/epmd.socket; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * epmd.service
+     Listen: [::]:4369 (Stream)
+     CGroup: /system.slice/epmd.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on Erlang Port Mapper Daemon Activation Socket.
+
+* iscsid.socket - Open-iSCSI iscsid Socket
+     Loaded: loaded (/lib/systemd/system/iscsid.socket; enabled; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * iscsid.service
+       Docs: man:iscsid(8)
+             man:iscsiadm(8)
+     Listen: @ISCSIADM_ABSTRACT_NAMESPACE (Stream)
+     CGroup: /system.slice/iscsid.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on Open-iSCSI iscsid Socket.
+
+* lvm2-lvmpolld.socket - LVM2 poll daemon socket
+     Loaded: loaded (/lib/systemd/system/lvm2-lvmpolld.socket; enabled; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * lvm2-lvmpolld.service
+       Docs: man:lvmpolld(8)
+     Listen: /run/lvm/lvmpolld.socket (Stream)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/lvm2-lvmpolld.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* multipathd.socket - multipathd control socket
+     Loaded: loaded (/lib/systemd/system/multipathd.socket; enabled; vendor preset: enabled)
+     Active: failed (Result: trigger-limit-hit) since Thu 2022-02-10 09:40:01 UTC; 11s ago
+   Triggers: * multipathd.service
+     Listen: @/org/kernel/linux/storage/multipathd (Stream)
+
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: multipathd.socket: Trigger limit hit, refusing further activation.
+Feb 10 09:40:01 juju-04f1e3-1-lxd-5 systemd[1]: multipathd.socket: Failed with result 'trigger-limit-hit'.
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* snap.lxd.daemon.unix.socket - Socket unix for snap application lxd.daemon
+     Loaded: loaded (/etc/systemd/system/snap.lxd.daemon.unix.socket; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * snap.lxd.daemon.service
+     Listen: /var/snap/lxd/common/lxd/unix.socket (Stream)
+     CGroup: /system.slice/snap.lxd.daemon.unix.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on Socket unix for snap application lxd.daemon.
+
+* snapd.socket - Socket activation for snappy daemon
+     Loaded: loaded (/lib/systemd/system/snapd.socket; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * snapd.service
+     Listen: /run/snapd.socket (Stream)
+             /run/snapd-snap.socket (Stream)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/snapd.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Starting Socket activation for snappy daemon.
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on Socket activation for snappy daemon.
+
+* syslog.socket - Syslog Socket
+     Loaded: loaded (/lib/systemd/system/syslog.socket; static; vendor preset: disabled)
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * rsyslog.service
+       Docs: man:systemd.special(7)
+             https://www.freedesktop.org/wiki/Software/systemd/syslog
+     Listen: /run/systemd/journal/syslog (Datagram)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/syslog.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-fsckd.socket - fsck to fsckd communication Socket
+     Loaded: loaded (/lib/systemd/system/systemd-fsckd.socket; static; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-fsckd.service
+       Docs: man:systemd-fsckd.service(8)
+             man:systemd-fsck@.service(8)
+             man:systemd-fsck-root.service(8)
+     Listen: /run/systemd/fsck.progress (Stream)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-fsckd.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-initctl.socket - initctl Compatibility Named Pipe
+     Loaded: loaded (/lib/systemd/system/systemd-initctl.socket; static; vendor preset: enabled)
+     Active: active (listening) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-initctl.service
+       Docs: man:systemd-initctl.service(8)
+     Listen: /run/initctl (FIFO)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-initctl.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-journald-audit.socket - Journal Audit Socket
+     Loaded: loaded (/lib/systemd/system/systemd-journald-audit.socket; static; vendor preset: enabled)
+     Active: inactive (dead)
+   Triggers: * systemd-journald.service
+  Condition: start condition failed at Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd-journald.service(8)
+             man:journald.conf(5)
+     Listen: audit 1 (Netlink)
+
+* systemd-journald-dev-log.socket - Journal Socket (/dev/log)
+     Loaded: loaded (/lib/systemd/system/systemd-journald-dev-log.socket; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-journald.service
+       Docs: man:systemd-journald.service(8)
+             man:journald.conf(5)
+     Listen: /run/systemd/journal/dev-log (Datagram)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-journald-dev-log.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-journald.socket - Journal Socket
+     Loaded: loaded (/lib/systemd/system/systemd-journald.socket; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-journald.service
+       Docs: man:systemd-journald.service(8)
+             man:journald.conf(5)
+     Listen: /run/systemd/journal/stdout (Stream)
+             /run/systemd/journal/socket (Datagram)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-journald.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-networkd.socket - Network Service Netlink Socket
+     Loaded: loaded (/lib/systemd/system/systemd-networkd.socket; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-networkd.service
+       Docs: man:systemd-networkd.service(8)
+             man:rtnetlink(7)
+     Listen: route 1361 (Netlink)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-networkd.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-udevd-control.socket - udev Control Socket
+     Loaded: loaded (/lib/systemd/system/systemd-udevd-control.socket; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-udevd.service
+       Docs: man:systemd-udevd.service(8)
+             man:udev(7)
+     Listen: /run/udev/control (SequentialPacket)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-udevd-control.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* systemd-udevd-kernel.socket - udev Kernel Socket
+     Loaded: loaded (/lib/systemd/system/systemd-udevd-kernel.socket; static; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:36 UTC; 11h ago
+   Triggers: * systemd-udevd.service
+       Docs: man:systemd-udevd.service(8)
+             man:udev(7)
+     Listen: kobject-uevent 1 (Netlink)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/systemd-udevd-kernel.socket
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* uuidd.socket - UUID daemon activation socket
+     Loaded: loaded (/lib/systemd/system/uuidd.socket; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Triggers: * uuidd.service
+     Listen: /run/uuidd/request (Stream)
+     CGroup: /system.slice/uuidd.socket
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Listening on UUID daemon activation socket.
+
+* basic.target - Basic System
+     Loaded: loaded (/lib/systemd/system/basic.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Basic System.
+
+* blockdev@dev-disk-by\x2dlabel-cloudimg\x2drootfs.target - Block Device Preparation for /dev/disk/by-label/cloudimg-rootfs
+     Loaded: loaded (/lib/systemd/system/blockdev@.target; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+
+* blockdev@dev-vda2.target - Block Device Preparation for /dev/vda2
+     Loaded: loaded (/lib/systemd/system/blockdev@.target; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+
+* cloud-config.target - Cloud-config availability
+     Loaded: loaded (/lib/systemd/system/cloud-config.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Cloud-config availability.
+
+* cloud-init.target - Cloud-init target
+     Loaded: loaded (/lib/systemd/system/cloud-init.target; enabled-runtime; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:41:07 UTC; 10h ago
+
+Feb 09 22:41:07 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Cloud-init target.
+
+* cryptsetup.target - Local Encrypted Volumes
+     Loaded: loaded (/lib/systemd/system/cryptsetup.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Local Encrypted Volumes.
+
+* emergency.target - Emergency Mode
+     Loaded: loaded (/lib/systemd/system/emergency.target; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+
+* getty-pre.target - Login Prompts (Pre)
+     Loaded: loaded (/lib/systemd/system/getty-pre.target; static; vendor preset: disabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+             man:systemd-getty-generator(8)
+             http://0pointer.de/blog/projects/serial-console.html
+
+* getty.target - Login Prompts
+     Loaded: loaded (/lib/systemd/system/getty.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:49 UTC; 11h ago
+       Docs: man:systemd.special(7)
+             man:systemd-getty-generator(8)
+             http://0pointer.de/blog/projects/serial-console.html
+
+Feb 09 22:38:49 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Login Prompts.
+
+* graphical.target - Graphical Interface
+     Loaded: loaded (/lib/systemd/system/graphical.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:41:02 UTC; 10h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Graphical Interface.
+
+* local-fs-pre.target - Local File Systems (Pre)
+     Loaded: loaded (/lib/systemd/system/local-fs-pre.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Local File Systems (Pre).
+
+* local-fs.target - Local File Systems
+     Loaded: loaded (/lib/systemd/system/local-fs.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Local File Systems.
+
+* multi-user.target - Multi-User System
+     Loaded: loaded (/lib/systemd/system/multi-user.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:41:02 UTC; 10h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:41:02 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Multi-User System.
+
+* network-online.target - Network is Online
+     Loaded: loaded (/lib/systemd/system/network-online.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+             https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Network is Online.
+
+* network-pre.target - Network (Pre)
+     Loaded: loaded (/lib/systemd/system/network-pre.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:40 UTC; 11h ago
+       Docs: man:systemd.special(7)
+             https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget
+
+Feb 09 22:38:40 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Network (Pre).
+
+* network.target - Network
+     Loaded: loaded (/lib/systemd/system/network.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:41 UTC; 11h ago
+       Docs: man:systemd.special(7)
+             https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget
+
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Network.
+
+* nss-lookup.target - Host and Network Name Lookups
+     Loaded: loaded (/lib/systemd/system/nss-lookup.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:41 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:41 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Host and Network Name Lookups.
+
+* nss-user-lookup.target - User and Group Name Lookups
+     Loaded: loaded (/lib/systemd/system/nss-user-lookup.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* paths.target - Paths
+     Loaded: loaded (/lib/systemd/system/paths.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Paths.
+
+* remote-fs-pre.target - Remote File Systems (Pre)
+     Loaded: loaded (/lib/systemd/system/remote-fs-pre.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Unit syslog.target could not be found.
+    Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Remote File Systems (Pre).
+
+* remote-fs.target - Remote File Systems
+     Loaded: loaded (/lib/systemd/system/remote-fs.target; enabled; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Remote File Systems.
+
+* rescue.target - Rescue Mode
+     Loaded: loaded (/lib/systemd/system/rescue.target; static; vendor preset: disabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+
+* shutdown.target - Shutdown
+     Loaded: loaded (/lib/systemd/system/shutdown.target; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+
+* slices.target - Slices
+     Loaded: loaded (/lib/systemd/system/slices.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* sockets.target - Sockets
+     Loaded: loaded (/lib/systemd/system/sockets.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Sockets.
+
+* swap.target - Swap
+     Loaded: loaded (/lib/systemd/system/swap.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:36 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Warning: journal has been rotated since unit was started, output may be incomplete.
+
+* sysinit.target - System Initialization
+     Loaded: loaded (/lib/systemd/system/sysinit.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target System Initialization.
+
+* time-set.target - System Time Set
+     Loaded: loaded (/lib/systemd/system/time-set.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Reached target System Time Set.
+
+* time-sync.target - System Time Synchronized
+     Loaded: loaded (/lib/systemd/system/time-sync.target; static; vendor preset: disabled)
+     Active: active since Wed 2022-02-09 22:38:37 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:37 juju-04f1e3-1-lxd-5 systemd[1]: Reached target System Time Synchronized.
+
+* timers.target - Timers
+     Loaded: loaded (/lib/systemd/system/timers.target; static; vendor preset: enabled)
+     Active: active since Wed 2022-02-09 22:38:48 UTC; 11h ago
+       Docs: man:systemd.special(7)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Reached target Timers.
+
+* umount.target - Unmount All Filesystems
+     Loaded: loaded (/lib/systemd/system/umount.target; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+
+* apt-daily-upgrade.timer - Daily apt upgrade and clean activities
+     Loaded: loaded (/lib/systemd/system/apt-daily-upgrade.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Fri 2022-02-11 06:17:16 UTC; 20h left
+   Triggers: * apt-daily-upgrade.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Daily apt upgrade and clean activities.
+
+* apt-daily.timer - Daily apt download activities
+     Loaded: loaded (/lib/systemd/system/apt-daily.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Fri 2022-02-11 05:51:00 UTC; 20h left
+   Triggers: * apt-daily.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Daily apt download activities.
+
+* e2scrub_all.timer - Periodic ext4 Online Metadata Check for All Filesystems
+     Loaded: loaded (/lib/systemd/system/e2scrub_all.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Sun 2022-02-13 03:10:54 UTC; 2 days left
+   Triggers: * e2scrub_all.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Periodic ext4 Online Metadata Check for All Filesystems.
+
+* fstrim.timer - Discard unused blocks once a week
+     Loaded: loaded (/lib/systemd/system/fstrim.timer; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+    Trigger: n/a
+   Triggers: * fstrim.service
+  Condition: start condition failed at Thu 2022-02-10 06:50:21 UTC; 2h 49min ago
+       Docs: man:fstrim
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Discard unused blocks once a week being skipped.
+Feb 10 06:50:21 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Discard unused blocks once a week being skipped.
+
+* fwupd-refresh.timer - Refresh fwupd metadata regularly
+     Loaded: loaded (/lib/systemd/system/fwupd-refresh.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Fri 2022-02-11 05:46:18 UTC; 20h left
+   Triggers: * fwupd-refresh.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Refresh fwupd metadata regularly.
+
+* logrotate.timer - Daily rotation of log files
+     Loaded: loaded (/lib/systemd/system/logrotate.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Fri 2022-02-11 00:00:00 UTC; 14h left
+   Triggers: * logrotate.service
+       Docs: man:logrotate(8)
+             man:logrotate.conf(5)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Daily rotation of log files.
+
+* man-db.timer - Daily man-db regeneration
+     Loaded: loaded (/lib/systemd/system/man-db.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Fri 2022-02-11 00:00:00 UTC; 14h left
+   Triggers: * man-db.service
+       Docs: man:mandb(8)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Daily man-db regeneration.
+
+* motd-news.timer - Message of the Day
+     Loaded: loaded (/lib/systemd/system/motd-news.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Thu 2022-02-10 12:30:02 UTC; 2h 49min left
+   Triggers: * motd-news.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Message of the Day.
+
+* snapd.snap-repair.timer - Timer to automatically fetch and run repair assertions
+     Loaded: loaded (/lib/systemd/system/snapd.snap-repair.timer; enabled; vendor preset: enabled)
+     Active: inactive (dead)
+    Trigger: n/a
+   Triggers: * snapd.snap-repair.service
+  Condition: start condition failed at Wed 2022-02-09 22:38:48 UTC; 11h ago
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Condition check resulted in Timer to automatically fetch and run repair assertions being skipped.
+
+* systemd-tmpfiles-clean.timer - Daily Cleanup of Temporary Directories
+     Loaded: loaded (/lib/systemd/system/systemd-tmpfiles-clean.timer; static; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Thu 2022-02-10 22:53:43 UTC; 13h left
+   Triggers: * systemd-tmpfiles-clean.service
+       Docs: man:tmpfiles.d(5)
+             man:systemd-tmpfiles(8)
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Daily Cleanup of Temporary Directories.
+
+* ua-license-check.timer - Timer to poll for Ubuntu Pro licenses (Only enabled on GCP LTS non-pro)
+     Loaded: loaded (/lib/systemd/system/ua-license-check.timer; static; vendor preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: * ua-license-check.path
+    Trigger: n/a
+   Triggers: * ua-license-check.service
+
+* ua-timer.timer - Ubuntu Advantage Timer for running repeated jobs
+     Loaded: loaded (/lib/systemd/system/ua-timer.timer; enabled; vendor preset: enabled)
+     Active: active (waiting) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+    Trigger: Thu 2022-02-10 12:04:54 UTC; 2h 24min left
+   Triggers: * ua-timer.service
+
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Started Ubuntu Advantage Timer for running repeated jobs.

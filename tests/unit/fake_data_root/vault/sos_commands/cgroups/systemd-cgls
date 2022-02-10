@@ -1,0 +1,102 @@
+Control group /:
+-.slice
+|- 503 /bin/sh /snap/lxd/21835/commands/daemon.start
+|-2266 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+|-user.slice 
+| `-user-1000.slice 
+|   |-user@1000.service 
+|   | `-init.scope 
+|   |   |-282380 /lib/systemd/systemd --user
+|   |   `-282381 (sd-pam)
+|   `-session-113.scope 
+|     |-282376 sshd: ubuntu [priv]
+|     |-282436 sshd: ubuntu@pts/1
+|     |-282438 sudo -s
+|     |-282439 /bin/bash
+|     |-282492 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+|     |-284060 timeout 300s crm_report --sos-mode -p passw.* -S -d --dest /tm...
+|     |-284062 /bin/sh /usr/sbin/crm_report --sos-mode -p passw.* -S -d --des...
+|     |-284139 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-1...
+|     |-285009 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-1...
+|     |-285011 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-1...
+|     |-285023 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-1...
+|     |-285026 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-1...
+|     |-285027 bash /tmp/sos.yv4flk_0/sosreport-juju-04f1e3-0-lxd-5-2022-02-1...
+|     |-285032 perl -e $time="Feb 10 00:00:32"; -e \x0a\x09$unix_tm = 0;\x0a...
+|     |-285033 timeout 300s systemd-cgls
+|     `-285035 systemd-cgls
+|-init.scope 
+| `-1 /sbin/init
+`-system.slice 
+  |-systemd-networkd.service 
+  | `-247 /lib/systemd/systemd-networkd
+  |-systemd-udevd.service 
+  | `-97 /lib/systemd/systemd-udevd
+  |-snap-core20-1328.mount 
+  | `-126 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 ...
+  |-jujud-machine-0-lxd-5.service 
+  | |-299 bash /etc/systemd/system/jujud-machine-0-lxd-5-exec-start.sh
+  | `-310 /var/lib/juju/tools/machine-0-lxd-5/jujud machine --data-dir /var/l...
+  |-cron.service 
+  | `-258 /usr/sbin/cron -f
+  |-polkit.service 
+  | `-353 /usr/lib/policykit-1/polkitd --no-debug
+  |-networkd-dispatcher.service 
+  | `-265 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+  |-snap-snapd-14549.mount 
+  | `-127 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 ...
+  |-accounts-daemon.service 
+  | `-252 /usr/lib/accountsservice/accounts-daemon
+  |-systemd-journald.service 
+  | `-63 /lib/systemd/systemd-journald
+  |-atd.service 
+  | `-285 /usr/sbin/atd -f
+  |-unattended-upgrades.service 
+  | `-447 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-...
+  |-ssh.service 
+  | `-328 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+  |-fwupd.service 
+  | `-283254 /usr/libexec/fwupd/fwupd
+  |-logd.service 
+  | |-286 ha_logd: read process
+  | `-312 ha_logd: write process
+  |-snap-vault-2012.mount 
+  | `-129 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o...
+  |-pacemaker.service 
+  | |-429 /usr/sbin/pacemakerd -f
+  | |-473 /usr/lib/pacemaker/pacemaker-based
+  | |-474 /usr/lib/pacemaker/pacemaker-fenced
+  | |-475 /usr/lib/pacemaker/pacemaker-execd
+  | |-476 /usr/lib/pacemaker/pacemaker-attrd
+  | |-477 /usr/lib/pacemaker/pacemaker-schedulerd
+  | `-478 /usr/lib/pacemaker/pacemaker-controld
+  |-snapd.service 
+  | `-271 /usr/lib/snapd/snapd
+  |-uuidd.service 
+  | `-189021 /usr/sbin/uuidd --socket-activation
+  |-snap-lxd-21835.mount 
+  | `-131 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o r...
+  |-systemd-hostnamed.service 
+  | `-283295 /lib/systemd/systemd-hostnamed
+  |-rsyslog.service 
+  | `-269 /usr/sbin/rsyslogd -n -iNONE
+  |-console-getty.service 
+  | `-311 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200,38...
+  |-corosync.service 
+  | `-256 /usr/sbin/corosync -f
+  |-snap-core18-2284.mount 
+  | `-130 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 ...
+  |-snap.vault.vault.91b38e30-d0d6-4662-a8a2-872e1c8f7bb9.scope 
+  | `-8589 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/v...
+  |-systemd-resolved.service 
+  | `-187 /lib/systemd/systemd-resolved
+  |-udisks2.service 
+  | `-276 /usr/lib/udisks2/udisksd
+  |-vault-mysql-router.service 
+  | `-302 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrout...
+  |-dbus.service 
+  | `-261 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfi...
+  |-snap-core-12603.mount 
+  | `-128 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o...
+  `-systemd-logind.service 
+    `-273 /lib/systemd/systemd-logind

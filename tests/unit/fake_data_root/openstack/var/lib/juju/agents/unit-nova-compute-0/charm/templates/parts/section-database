@@ -1,0 +1,4 @@
+{% if database_host -%}
+[database]
+connection = {{ database_type }}://{{ database_user }}:{{ database_password }}@{{ database_host }}/{{ database }}{% if database_ssl_ca %}?ssl_ca={{ database_ssl_ca }}{% if database_ssl_cert %}&ssl_cert={{ database_ssl_cert }}&ssl_key={{ database_ssl_key }}{% endif %}{% endif %}
+{% endif -%}

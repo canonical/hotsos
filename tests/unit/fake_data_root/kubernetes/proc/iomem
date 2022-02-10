@@ -1,0 +1,36 @@
+00000000-00000fff : Reserved
+00001000-0009fbff : System RAM
+0009fc00-0009ffff : Reserved
+000a0000-000bffff : PCI Bus 0000:00
+000c0000-000c97ff : Video ROM
+000c9800-000ca5ff : Adapter ROM
+000ca800-000ccbff : Adapter ROM
+000f0000-000fffff : Reserved
+  000f0000-000fffff : System ROM
+00100000-bffdbfff : System RAM
+  4b600000-4c400e80 : Kernel code
+  4c400e81-4d25827f : Kernel data
+  4d52b000-4d9fffff : Kernel bss
+bffdc000-bfffffff : Reserved
+c0000000-febfffff : PCI Bus 0000:00
+  f4000000-f7ffffff : 0000:00:02.0
+  f8000000-fbffffff : 0000:00:02.0
+  fc000000-fc07ffff : 0000:00:03.0
+  fc090000-fc091fff : 0000:00:02.0
+  fc092000-fc092fff : 0000:00:03.0
+  fc093000-fc093fff : 0000:00:04.0
+  fc094000-fc094fff : 0000:00:05.0
+  febf0000-febf3fff : 0000:00:03.0
+    febf0000-febf3fff : virtio-pci-modern
+  febf4000-febf7fff : 0000:00:04.0
+    febf4000-febf7fff : virtio-pci-modern
+  febf8000-febfbfff : 0000:00:05.0
+    febf8000-febfbfff : virtio-pci-modern
+  febfc000-febfffff : 0000:00:06.0
+    febfc000-febfffff : virtio-pci-modern
+fec00000-fec003ff : IOAPIC 0
+fee00000-fee00fff : Local APIC
+feffc000-feffffff : Reserved
+fffc0000-ffffffff : Reserved
+100000000-13fffffff : System RAM
+140000000-1bfffffff : PCI Bus 0000:00

@@ -1,0 +1,9 @@
+/var/log/juju:
+total 2.0M
+drwxr-xr-x  2 syslog adm    4.0K Feb  4 09:37 .
+drwxrwxr-x 17 root   syslog 4.0K Feb 10 13:48 ..
+-rw-r-----  1 syslog adm     86K Feb  9 22:59 machine-1.log
+-rw-r-----  1 syslog adm     91K Feb 10 16:18 machine-lock.log
+-rw-r-----  1 syslog adm    152K Feb 10 16:18 unit-ceph-osd-0.log
+-rw-r-----  1 syslog adm    708K Feb 10 16:18 unit-neutron-openvswitch-1.log
+-rw-r-----  1 syslog adm    953K Feb 10 16:18 unit-nova-compute-0.log

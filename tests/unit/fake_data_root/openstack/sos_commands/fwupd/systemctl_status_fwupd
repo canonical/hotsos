@@ -1,0 +1,12 @@
+* fwupd.service - Firmware update daemon
+     Loaded: loaded (/lib/systemd/system/fwupd.service; static; vendor preset: enabled)
+     Active: active (running) since Thu 2022-02-10 16:16:44 UTC; 2min 34s ago
+       Docs: https://fwupd.org/
+   Main PID: 1785959 (fwupd)
+      Tasks: 5 (limit: 314572)
+     Memory: 13.8M
+     CGroup: /system.slice/fwupd.service
+             `-1785959 /usr/libexec/fwupd/fwupd
+
+Feb 10 16:16:43 compute4 systemd[1]: Starting Firmware update daemon...
+Feb 10 16:16:44 compute4 systemd[1]: Started Firmware update daemon.

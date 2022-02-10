@@ -1,0 +1,2515 @@
+/var/lib/juju:
+total 32K
+drwxr-xr-x  6 root   root   4.0K Feb  4 09:34 .
+drwxr-xr-x 59 root   root   4.0K Feb  4 10:07 ..
+-rwxr-xr-x  1 root   root     22 Feb  4 09:34 MAASmachine.txt
+drwxr-xr-x  6 root   root   4.0K Feb  4 09:37 agents
+drwxr-xr-x  2 ubuntu ubuntu 4.0K Feb  4 09:34 locks
+drwxr-xr-x  2 root   root   4.0K Feb  4 09:34 metricspool
+-rw-r--r--  1 root   root     47 Feb  4 09:34 nonce.txt
+drwxr-xr-x  3 root   root   4.0K Feb  9 22:52 tools
+
+/var/lib/juju/agents:
+total 24K
+drwxr-xr-x 6 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:34 ..
+drwxr-xr-x 2 root root 4.0K Feb  9 22:52 machine-1
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 unit-ceph-osd-0
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 unit-neutron-openvswitch-1
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 unit-nova-compute-0
+
+/var/lib/juju/agents/machine-1:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  9 22:52 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:37 ..
+-rw------- 1 root root 2.2K Feb  9 22:52 agent.conf
+
+/var/lib/juju/agents/unit-ceph-osd-0:
+total 20K
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:37 ..
+-rw------- 1 root root 1.9K Feb  9 22:52 agent.conf
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 charm
+srwx------ 1 root root    0 Feb  9 22:52 metrics-send.socket
+srwx------ 1 root root    0 Feb  9 22:52 run.socket
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 state
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm:
+total 592K
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 .
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 ..
+-rw-r--r-- 1 root root  130 Feb  4 09:34 .gitignore
+-rw-r--r-- 1 root root   81 Feb  4 09:34 .gitreview
+-rw-r--r-- 1 root root   41 Feb  4 09:34 .juju-charm
+-rw------- 1 root root 1.4K Feb 10 16:18 .juju-persistent-config
+-rw-r--r-- 1 root root  362 Feb  4 09:34 .project
+-rw-r--r-- 1 root root  594 Feb  4 09:34 .pydevproject
+-rw-r--r-- 1 root root   44 Feb  4 09:34 .stestr.conf
+-rw------- 1 root root 384K Feb 10 16:18 .unit-state.db
+-rw-r--r-- 1 root root   93 Feb  4 09:34 .zuul.yaml
+-rw-r--r-- 1 root root  12K Feb  4 09:34 LICENSE
+-rw-r--r-- 1 root root  820 Feb  4 09:34 Makefile
+-rw-r--r-- 1 root root  17K Feb  4 09:34 README.md
+-rw-r--r-- 1 root root   49 Feb  4 09:34 TODO
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 actions
+-rw-r--r-- 1 root root 3.8K Feb  4 09:34 actions.yaml
+-rw-r--r-- 1 root root  608 Feb  4 09:34 charm-helpers-hooks.yaml
+-rw-r--r-- 1 root root  406 Feb  4 09:34 charmcraft.yaml
+-rw-r--r-- 1 root root  20K Feb  4 09:34 config.yaml
+-rw-r--r-- 1 root root  669 Feb  4 09:34 copyright
+drwxr-xr-x 5 root root 4.0K Feb  4 09:34 files
+-rw-r--r-- 1 root root  173 Feb  4 09:34 hardening.yaml
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 hooks
+-rw-r--r-- 1 root root  15K Feb  4 09:34 icon.svg
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 lib
+-rw-r--r-- 1 root root  969 Feb  4 09:34 metadata.yaml
+-rw-r--r-- 1 root root  154 Feb  4 09:34 osci.yaml
+-rwxr-xr-x 1 root root  787 Feb  4 09:34 pip.sh
+-rw-r--r-- 1 root root  297 Feb  4 09:34 repo-info
+-rw-r--r-- 1 root root  867 Feb  4 09:34 requirements.txt
+-rw-r--r-- 1 root root    2 Feb  4 09:34 revision
+-rw-r--r-- 1 root root   74 Feb  4 09:34 setup.cfg
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 test-requirements.txt
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 tests
+-rw-r--r-- 1 root root 3.7K Feb  4 09:34 tox.ini
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 unit_tests
+-rw-r--r-- 1 root root    7 Feb  4 09:34 version
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/actions:
+total 56K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  634 Feb  4 09:34 __init__.py
+lrwxrwxrwx 1 root root   11 Feb  4 09:34 add-disk -> add_disk.py
+-rwxr-xr-x 1 root root 2.6K Feb  4 09:34 add_disk.py
+lrwxrwxrwx 1 root root   12 Feb  4 09:34 blacklist-add-disk -> blacklist.py
+lrwxrwxrwx 1 root root   12 Feb  4 09:34 blacklist-remove-disk -> blacklist.py
+-rwxr-xr-x 1 root root 2.8K Feb  4 09:34 blacklist.py
+lrwxrwxrwx 1 root root   24 Feb  4 09:34 get-availability-zone -> get_availability_zone.py
+-rwxr-xr-x 1 root root 4.2K Feb  4 09:34 get_availability_zone.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 list-disks -> list_disks.py
+-rwxr-xr-x 1 root root 2.0K Feb  4 09:34 list_disks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 osd-in -> osd_in_out.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 osd-out -> osd_in_out.py
+-rwxr-xr-x 1 root root 4.1K Feb  4 09:34 osd_in_out.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 security-checklist -> security_checklist.py
+-rwxr-xr-x 1 root root 1.4K Feb  4 09:34 security_checklist.py
+-rwxr-xr-x 1 root root 4.5K Feb  4 09:34 service.py
+lrwxrwxrwx 1 root root   10 Feb  4 09:34 start -> service.py
+lrwxrwxrwx 1 root root   10 Feb  4 09:34 stop -> service.py
+lrwxrwxrwx 1 root root   11 Feb  4 09:34 zap-disk -> zap_disk.py
+-rwxr-xr-x 1 root root 3.7K Feb  4 09:34 zap_disk.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/files:
+total 20K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 apparmor
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 nagios
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 udev
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/files/apparmor:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root  925 Feb  4 09:34 usr.bin.ceph-osd
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/files/nagios:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:34 ..
+-rwxr-xr-x 1 root root 1.7K Feb  4 09:34 check_ceph_osd_services.py
+-rwxr-xr-x 1 root root 2.1K Feb  4 09:34 check_ceph_status.py
+-rwxr-xr-x 1 root root 2.9K Feb  4 09:34 collect_ceph_osd_services.py
+-rwxr-xr-x 1 root root  408 Feb  4 09:34 collect_ceph_status.sh
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/files/udev:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root  369 Feb  4 09:34 95-charm-ceph-osd.rules
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks:
+total 76K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rwxr-xr-x 1 root root  759 Feb  4 09:34 add-storage
+-rwxr-xr-x 1 root root  32K Feb  4 09:34 ceph_hooks.py
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 charmhelpers
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 config-changed -> ceph_hooks.py
+-rwxr-xr-x 1 root root  423 Feb  4 09:34 install
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 install.real -> ceph_hooks.py
+-rwxr-xr-x 1 root root  417 Feb  4 09:34 install_deps
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 mon-relation-changed -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 mon-relation-departed -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 nrpe-external-master-relation-changed -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 nrpe-external-master-relation-joined -> ceph_hooks.py
+lrwxrwxrwx 1 root root   11 Feb  4 09:34 osd-devices-storage-attached -> add-storage
+lrwxrwxrwx 1 root root   11 Feb  4 09:34 osd-devices-storage-detaching -> add-storage
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 post-series-upgrade -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 pre-series-upgrade -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 secrets-storage-relation-broken -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 secrets-storage-relation-changed -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 secrets-storage-relation-departed -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 secrets-storage-relation-joined -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 start -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 stop -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 storage.real -> ceph_hooks.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 update-status -> ceph_hooks.py
+-rwxr-xr-x 1 root root  269 Feb  4 09:34 upgrade-charm
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 upgrade-charm.real -> ceph_hooks.py
+-rw-r--r-- 1 root root 9.6K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/__pycache__:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 9.2K Feb  4 09:35 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers:
+total 36K
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 cli
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 contrib
+drwxr-xr-x 6 root root 4.0K Feb  4 09:35 core
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 fetch
+-rw-r--r-- 1 root root 1.8K Feb  4 09:34 osplatform.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 2.5K Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.4K Feb  4 09:35 osplatform.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/cli:
+total 36K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 6.8K Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.3K Feb  4 09:34 benchmark.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 commands.py
+-rw-r--r-- 1 root root  848 Feb  4 09:34 hookenv.py
+-rw-r--r-- 1 root root 1022 Feb  4 09:34 host.py
+-rw-r--r-- 1 root root 1.8K Feb  4 09:34 unitdata.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib:
+total 44K
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 charmsupport
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 hahelpers
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 hardening
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 network
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 openstack
+-rw-r--r-- 1 root root  886 Feb  4 09:34 python.py
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 storage
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  172 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/charmsupport:
+total 44K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:34 nrpe.py
+-rw-r--r-- 1 root root 5.8K Feb  4 09:34 volumes.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/charmsupport/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  185 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  12K Feb  4 09:35 nrpe.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hahelpers:
+total 36K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 2.8K Feb  4 09:34 apache.py
+-rw-r--r-- 1 root root  15K Feb  4 09:34 cluster.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hahelpers/__pycache__:
+total 32K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  182 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:35 apache.cpython-38.pyc
+-rw-r--r-- 1 root root  13K Feb  4 09:35 cluster.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening:
+total 60K
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 README.hardening.md
+-rw-r--r-- 1 root root  579 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 apache
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 audits
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 defaults
+-rw-r--r-- 1 root root 3.9K Feb  4 09:34 harden.py
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 host
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 mysql
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ssh
+-rw-r--r-- 1 root root 2.4K Feb  4 09:34 templating.py
+-rw-r--r-- 1 root root 5.1K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  182 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.8K Feb  4 09:35 harden.cpython-38.pyc
+-rw-r--r-- 1 root root 2.0K Feb  4 09:35 templating.cpython-38.pyc
+-rw-r--r-- 1 root root 4.0K Feb  4 09:35 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/apache:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/apache/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  291 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/apache/checks:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1018 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 config.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/apache/checks/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  707 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.6K Feb  4 09:35 config.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/apache/templates:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  864 Feb  4 09:34 99-hardening.conf
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.2K Feb  4 09:34 alias.conf
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/audits:
+total 44K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 2.1K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 apache.py
+-rw-r--r-- 1 root root 3.5K Feb  4 09:34 apt.py
+-rw-r--r-- 1 root root  20K Feb  4 09:34 file.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/audits/__pycache__:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1.9K Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.9K Feb  4 09:35 apache.cpython-38.pyc
+-rw-r--r-- 1 root root 3.2K Feb  4 09:35 apt.cpython-38.pyc
+-rw-r--r-- 1 root root  18K Feb  4 09:35 file.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/defaults:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  608 Feb  4 09:34 apache.yaml
+-rw-r--r-- 1 root root  303 Feb  4 09:34 apache.yaml.schema
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 mysql.yaml
+-rw-r--r-- 1 root root  393 Feb  4 09:34 mysql.yaml.schema
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 os.yaml
+-rw-r--r-- 1 root root  908 Feb  4 09:34 os.yaml.schema
+-rw-r--r-- 1 root root 1.6K Feb  4 09:34 ssh.yaml
+-rw-r--r-- 1 root root  852 Feb  4 09:34 ssh.yaml.schema
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/host:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/host/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  289 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/host/checks:
+total 60K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1.5K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 1.3K Feb  4 09:34 apt.py
+-rw-r--r-- 1 root root 2.0K Feb  4 09:34 limits.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 login.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 minimize_access.py
+-rw-r--r-- 1 root root 4.0K Feb  4 09:34 pam.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 profile.py
+-rw-r--r-- 1 root root 1.3K Feb  4 09:34 securetty.py
+-rw-r--r-- 1 root root 5.0K Feb  4 09:34 suid_sgid.py
+-rw-r--r-- 1 root root 7.3K Feb  4 09:34 sysctl.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/host/checks/__pycache__:
+total 52K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1012 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  803 Feb  4 09:35 apt.cpython-38.pyc
+-rw-r--r-- 1 root root 1.4K Feb  4 09:35 limits.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:35 login.cpython-38.pyc
+-rw-r--r-- 1 root root  938 Feb  4 09:35 minimize_access.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:35 pam.cpython-38.pyc
+-rw-r--r-- 1 root root 1.3K Feb  4 09:35 profile.cpython-38.pyc
+-rw-r--r-- 1 root root 1.1K Feb  4 09:35 securetty.cpython-38.pyc
+-rw-r--r-- 1 root root 3.4K Feb  4 09:35 suid_sgid.cpython-38.pyc
+-rw-r--r-- 1 root root 6.2K Feb  4 09:35 sysctl.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/host/templates:
+total 52K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  435 Feb  4 09:34 10.hardcore.conf
+-rw-r--r-- 1 root root   65 Feb  4 09:34 99-hardening.sh
+-rw-r--r-- 1 root root  340 Feb  4 09:34 99-juju-hardening.conf
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  12K Feb  4 09:34 login.defs
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 modules
+-rw-r--r-- 1 root root  453 Feb  4 09:34 passwdqc.conf
+-rw-r--r-- 1 root root  472 Feb  4 09:34 pinerolo_profile.sh
+-rw-r--r-- 1 root root  419 Feb  4 09:34 securetty
+-rw-r--r-- 1 root root  569 Feb  4 09:34 tally2
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/mysql:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/mysql/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  290 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/mysql/checks:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1014 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 3.0K Feb  4 09:34 config.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/mysql/checks/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  702 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.2K Feb  4 09:35 config.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/mysql/templates:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  457 Feb  4 09:34 hardening.cnf
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/ssh:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/ssh/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  288 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/ssh/checks:
+total 36K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 1006 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:34 config.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/ssh/checks/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  692 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  11K Feb  4 09:35 config.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/hardening/ssh/templates:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 2.0K Feb  4 09:34 ssh_config
+-rw-r--r-- 1 root root 4.4K Feb  4 09:34 sshd_config
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/network:
+total 36K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:34 ip.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/network/__pycache__:
+total 28K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  180 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  15K Feb  4 09:35 ip.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack:
+total 404K
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 1.5K Feb  4 09:34 alternatives.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 audits
+-rw-r--r-- 1 root root  16K Feb  4 09:34 cert_utils.py
+-rw-r--r-- 1 root root 121K Feb  4 09:34 context.py
+-rw-r--r-- 1 root root  13K Feb  4 09:34 deferred_events.py
+-rw-r--r-- 1 root root  870 Feb  4 09:34 exceptions.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 files
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ha
+-rw-r--r-- 1 root root 7.8K Feb  4 09:34 ip.py
+-rw-r--r-- 1 root root 6.4K Feb  4 09:34 keystone.py
+-rw-r--r-- 1 root root  13K Feb  4 09:34 neutron.py
+-rw-r--r-- 1 root root 5.7K Feb  4 09:34 policy_rcd.py
+-rw-r--r-- 1 root root  33K Feb  4 09:34 policyd.py
+-rw-r--r-- 1 root root  14K Feb  4 09:34 ssh_migrations.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+-rw-r--r-- 1 root root  15K Feb  4 09:34 templating.py
+-rw-r--r-- 1 root root  90K Feb  4 09:34 utils.py
+-rw-r--r-- 1 root root 6.9K Feb  4 09:34 vaultlocker.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/__pycache__:
+total 260K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  182 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.1K Feb  4 09:35 alternatives.cpython-38.pyc
+-rw-r--r-- 1 root root  91K Feb  4 09:35 context.cpython-38.pyc
+-rw-r--r-- 1 root root  11K Feb  4 09:35 deferred_events.cpython-38.pyc
+-rw-r--r-- 1 root root  694 Feb  4 09:35 exceptions.cpython-38.pyc
+-rw-r--r-- 1 root root 5.4K Feb  4 09:35 ip.cpython-38.pyc
+-rw-r--r-- 1 root root 7.3K Feb  4 09:35 neutron.cpython-38.pyc
+-rw-r--r-- 1 root root 5.1K Feb  4 09:35 policy_rcd.cpython-38.pyc
+-rw-r--r-- 1 root root  23K Feb  4 09:35 policyd.cpython-38.pyc
+-rw-r--r-- 1 root root  77K Feb  4 09:35 utils.cpython-38.pyc
+-rw-r--r-- 1 root root 4.4K Feb  4 09:35 vaultlocker.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/audits:
+total 32K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 6.3K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 9.7K Feb  4 09:34 openstack_security_guide.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/audits/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 6.5K Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 6.7K Feb  4 09:35 openstack_security_guide.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/files:
+total 24K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  669 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rwxr-xr-x 1 root root 6.0K Feb  4 09:34 policy_rc_d_script.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/files/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  188 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/ha:
+total 28K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  574 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root  12K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/ha/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  185 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 8.4K Feb  4 09:35 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/templates:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  669 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.4K Feb  4 09:34 section-ceph-bluestore-compression
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/storage:
+total 20K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 linux
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/storage/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  180 Feb  4 09:35 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/storage/linux:
+total 124K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 2.3K Feb  4 09:34 bcache.py
+-rw-r--r-- 1 root root  86K Feb  4 09:34 ceph.py
+-rw-r--r-- 1 root root 2.8K Feb  4 09:34 loopback.py
+-rw-r--r-- 1 root root 5.5K Feb  4 09:34 lvm.py
+-rw-r--r-- 1 root root 4.0K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/storage/linux/__pycache__:
+total 96K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  186 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  68K Feb  4 09:35 ceph.cpython-38.pyc
+-rw-r--r-- 1 root root 2.5K Feb  4 09:35 loopback.cpython-38.pyc
+-rw-r--r-- 1 root root 4.7K Feb  4 09:35 lvm.cpython-38.pyc
+-rw-r--r-- 1 root root 3.6K Feb  4 09:35 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core:
+total 180K
+drwxr-xr-x 6 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 3.2K Feb  4 09:34 decorators.py
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 files.py
+-rw-r--r-- 1 root root 4.1K Feb  4 09:34 fstab.py
+-rw-r--r-- 1 root root  51K Feb  4 09:34 hookenv.py
+-rw-r--r-- 1 root root  47K Feb  4 09:34 host.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 host_factory
+-rw-r--r-- 1 root root 2.6K Feb  4 09:34 hugepage.py
+-rw-r--r-- 1 root root 2.2K Feb  4 09:34 kernel.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 kernel_factory
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 services
+-rw-r--r-- 1 root root 3.9K Feb  4 09:34 strutils.py
+-rw-r--r-- 1 root root 2.3K Feb  4 09:34 sysctl.py
+-rw-r--r-- 1 root root 3.5K Feb  4 09:34 templating.py
+-rw-r--r-- 1 root root  16K Feb  4 09:34 unitdata.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core/__pycache__:
+total 144K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  169 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.8K Feb  4 09:35 decorators.cpython-38.pyc
+-rw-r--r-- 1 root root 3.8K Feb  4 09:35 fstab.cpython-38.pyc
+-rw-r--r-- 1 root root  48K Feb  4 09:35 hookenv.cpython-38.pyc
+-rw-r--r-- 1 root root  41K Feb  4 09:35 host.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:35 kernel.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:35 strutils.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:35 sysctl.cpython-38.pyc
+-rw-r--r-- 1 root root 2.4K Feb  4 09:35 templating.cpython-38.pyc
+-rw-r--r-- 1 root root  16K Feb  4 09:35 unitdata.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core/host_factory:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 centos.py
+-rw-r--r-- 1 root root 2.9K Feb  4 09:34 ubuntu.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core/host_factory/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  182 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 3.2K Feb  4 09:35 ubuntu.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core/kernel_factory:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root  538 Feb  4 09:34 centos.py
+-rw-r--r-- 1 root root  406 Feb  4 09:34 ubuntu.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core/kernel_factory/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  184 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  695 Feb  4 09:35 ubuntu.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/core/services:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  644 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  15K Feb  4 09:34 base.py
+-rw-r--r-- 1 root root  11K Feb  4 09:34 helpers.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/fetch:
+total 108K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 6.8K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root 6.0K Feb  4 09:34 archiveurl.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 bzrurl.py
+-rw-r--r-- 1 root root 5.6K Feb  4 09:34 centos.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 giturl.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 python
+-rw-r--r-- 1 root root 4.2K Feb  4 09:34 snap.py
+-rw-r--r-- 1 root root  38K Feb  4 09:34 ubuntu.py
+-rw-r--r-- 1 root root  11K Feb  4 09:34 ubuntu_apt_pkg.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/fetch/__pycache__:
+total 64K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root 6.3K Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 3.5K Feb  4 09:35 snap.cpython-38.pyc
+-rw-r--r-- 1 root root  30K Feb  4 09:35 ubuntu.cpython-38.pyc
+-rw-r--r-- 1 root root 9.5K Feb  4 09:35 ubuntu_apt_pkg.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/fetch/python:
+total 32K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.6K Feb  4 09:34 debug.py
+-rw-r--r-- 1 root root 4.7K Feb  4 09:34 packages.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 rpdb.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 version.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/lib:
+total 12K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 charms_ceph
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/lib/charms_ceph:
+total 172K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 __pycache__
+-rw-r--r-- 1 root root  32K Feb  4 09:34 broker.py
+-rw-r--r-- 1 root root 4.8K Feb  4 09:34 crush_utils.py
+-rw-r--r-- 1 root root 119K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/lib/charms_ceph/__pycache__:
+total 104K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:35 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:35 ..
+-rw-r--r-- 1 root root  161 Feb  4 09:35 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  92K Feb  4 09:35 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/templates:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root 3.1K Feb  4 09:34 ceph.conf
+-rw-r--r-- 1 root root  191 Feb  4 09:34 hdparm.conf
+-rw-r--r-- 1 root root  161 Feb  4 09:34 vaultlocker.conf.j2
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/tests:
+total 16K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 bundles
+-rw-r--r-- 1 root root  573 Feb  4 09:34 tests.yaml
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/tests/bundles:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root 4.5K Feb  4 09:34 focal-xena.yaml
+-rw-r--r-- 1 root root 4.5K Feb  4 09:34 focal-yoga.yaml
+-rw-r--r-- 1 root root 4.5K Feb  4 09:34 impish-xena.yaml
+-rw-r--r-- 1 root root 4.5K Feb  4 09:34 jammy-yoga.yaml
+
+/var/lib/juju/agents/unit-ceph-osd-0/charm/unit_tests:
+total 152K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  767 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 2.1K Feb  4 09:34 test_actions_add_disk.py
+-rw-r--r-- 1 root root 5.3K Feb  4 09:34 test_actions_blacklist.py
+-rw-r--r-- 1 root root 5.2K Feb  4 09:34 test_actions_get_availability_zone.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 test_actions_list_disks.py
+-rw-r--r-- 1 root root 5.8K Feb  4 09:34 test_actions_osd_out_in.py
+-rw-r--r-- 1 root root 6.7K Feb  4 09:34 test_actions_service.py
+-rw-r--r-- 1 root root 9.3K Feb  4 09:34 test_actions_zap_disk.py
+-rw-r--r-- 1 root root  36K Feb  4 09:34 test_ceph_hooks.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 test_ceph_networking.py
+-rw-r--r-- 1 root root 5.9K Feb  4 09:34 test_ceph_utils.py
+-rw-r--r-- 1 root root 4.1K Feb  4 09:34 test_config.py
+-rw-r--r-- 1 root root 5.4K Feb  4 09:34 test_status.py
+-rw-r--r-- 1 root root 5.1K Feb  4 09:34 test_tuning.py
+-rw-r--r-- 1 root root 7.0K Feb  4 09:34 test_upgrade.py
+-rw-r--r-- 1 root root 4.4K Feb  4 09:34 test_utils.py
+
+/var/lib/juju/agents/unit-ceph-osd-0/state:
+total 16K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 ..
+drwxr-xr-x 2 root root 4.0K Feb  9 22:38 bundles
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 deployer
+
+/var/lib/juju/agents/unit-ceph-osd-0/state/bundles:
+total 452K
+drwxr-xr-x 2 root root 4.0K Feb  9 22:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 ..
+-rw------- 1 root root 444K Feb  4 09:34 cs_3a__7e_openstack-charmers-next_2f_ceph-osd-508
+
+/var/lib/juju/agents/unit-ceph-osd-0/state/deployer:
+total 12K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 manifests
+
+/var/lib/juju/agents/unit-ceph-osd-0/state/deployer/manifests:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root  12K Feb  4 09:34 cs_3a__7e_openstack-charmers-next_2f_ceph-osd-508
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1:
+total 20K
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:37 ..
+-rw------- 1 root root 2.0K Feb  9 22:52 agent.conf
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 charm
+srwx------ 1 root root    0 Feb  9 22:52 metrics-send.socket
+srwx------ 1 root root    0 Feb  9 22:52 run.socket
+drwxr-xr-x 4 root root 4.0K Feb  4 09:37 state
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm:
+total 584K
+drwxr-xr-x  9 root root 4.0K Feb 10 16:18 .
+drwxr-xr-x  4 root root 4.0K Feb  9 22:52 ..
+-rw-r--r--  1 root root  151 Feb  4 09:37 .gitignore
+-rw-r--r--  1 root root   92 Feb  4 09:37 .gitreview
+-rw-r--r--  1 root root   52 Feb  4 09:37 .juju-charm
+-rw-------  1 root root 1.8K Feb 10 16:18 .juju-persistent-config
+-rw-r--r--  1 root root  373 Feb  4 09:37 .project
+-rw-r--r--  1 root root   44 Feb  4 09:37 .stestr.conf
+-rw-------  1 root root 400K Feb 10 16:18 .unit-state.db
+-rw-r--r--  1 root root   93 Feb  4 09:37 .zuul.yaml
+-rw-r--r--  1 root root  12K Feb  4 09:37 LICENSE
+-rw-r--r--  1 root root  568 Feb  4 09:37 Makefile
+-rw-r--r--  1 root root 9.9K Feb  4 09:37 README.md
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 actions
+-rw-r--r--  1 root root 1.8K Feb  4 09:37 actions.yaml
+-rw-r--r--  1 root root  335 Feb  4 09:37 charm-helpers-hooks.yaml
+-rw-r--r--  1 root root  19K Feb  4 09:37 config.yaml
+-rw-r--r--  1 root root  669 Feb  4 09:37 copyright
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 files
+drwxr-xr-x  4 root root 4.0K Feb  4 09:38 hooks
+-rw-r--r--  1 root root  12K Feb  4 09:37 icon.svg
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 lib
+-rw-r--r--  1 root root   65 Feb  4 09:37 lxd-profile.yaml
+-rw-r--r--  1 root root 1.2K Feb  4 09:37 metadata.yaml
+-rw-r--r--  1 root root 2.9K Feb  4 09:37 osci.yaml
+-rwxr-xr-x  1 root root  787 Feb  4 09:37 pip.sh
+-rw-r--r--  1 root root  308 Feb  4 09:37 repo-info
+-rw-r--r--  1 root root  792 Feb  4 09:37 requirements.txt
+-rw-r--r--  1 root root    1 Feb  4 09:37 revision
+-rw-r--r--  1 root root  725 Feb  4 09:37 setup.cfg
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 templates
+-rw-r--r--  1 root root 1.9K Feb  4 09:37 test-requirements.txt
+drwxr-xr-x  3 root root 4.0K Feb  4 09:37 tests
+-rw-r--r--  1 root root 3.7K Feb  4 09:37 tox.ini
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 unit_tests
+-rw-r--r--  1 root root    7 Feb  4 09:37 version
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/actions:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+lrwxrwxrwx 1 root root   10 Feb  4 09:37 cleanup -> cleanup.py
+-rwxr-xr-x 1 root root 5.5K Feb  4 09:37 cleanup.py
+-rwxr-xr-x 1 root root 3.8K Feb  4 09:37 os_actions.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:37 pause -> os_actions.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:37 restart-services -> os_actions.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:37 resume -> os_actions.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:37 run-deferred-hooks -> os_actions.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:37 show-deferred-events -> os_actions.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/files:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  111 Feb  4 09:37 nova-ovs-vhost-user.conf
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks:
+total 96K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 amqp-relation-broken -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 amqp-relation-changed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 amqp-relation-departed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 amqp-relation-joined -> neutron_ovs_hooks.py
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 charmhelpers
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 config-changed -> neutron_ovs_hooks.py
+-rwxr-xr-x 1 root root  913 Feb  4 09:37 install
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 install.real -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-control-relation-broken -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-control-relation-changed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-control-relation-departed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-control-relation-joined -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-plugin-api-relation-broken -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-plugin-api-relation-changed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-plugin-api-relation-departed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-plugin-relation-changed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-plugin-relation-departed -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 neutron-plugin-relation-joined -> neutron_ovs_hooks.py
+-rw-r--r-- 1 root root  14K Feb  4 09:37 neutron_ovs_context.py
+-rwxr-xr-x 1 root root  11K Feb  4 09:37 neutron_ovs_hooks.py
+-rw-r--r-- 1 root root  37K Feb  4 09:37 neutron_ovs_utils.py
+-rw-r--r-- 1 root root 6.8K Feb  4 09:37 pci.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 post-series-upgrade -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 pre-series-upgrade -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 stop -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 update-status -> neutron_ovs_hooks.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:37 upgrade-charm -> neutron_ovs_hooks.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/__pycache__:
+total 48K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 9.8K Feb  4 09:38 neutron_ovs_context.cpython-38.pyc
+-rw-r--r-- 1 root root  25K Feb  4 09:38 neutron_ovs_utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers:
+total 40K
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 3.6K Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 cli
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 contrib
+drwxr-xr-x 6 root root 4.0K Feb  4 09:38 core
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 fetch
+-rw-r--r-- 1 root root 1.8K Feb  4 09:37 osplatform.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 payload
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 2.5K Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.5K Feb  4 09:38 osplatform.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/cli:
+total 36K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 6.8K Feb  4 09:37 __init__.py
+-rw-r--r-- 1 root root 1.3K Feb  4 09:37 benchmark.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:37 commands.py
+-rw-r--r-- 1 root root  848 Feb  4 09:37 hookenv.py
+-rw-r--r-- 1 root root 1022 Feb  4 09:37 host.py
+-rw-r--r-- 1 root root 1.8K Feb  4 09:37 unitdata.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib:
+total 36K
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 hahelpers
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 network
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 openstack
+-rw-r--r-- 1 root root  886 Feb  4 09:37 python.py
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 storage
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  183 Feb  4 09:38 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/hahelpers:
+total 36K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 2.8K Feb  4 09:37 apache.py
+-rw-r--r-- 1 root root  15K Feb  4 09:37 cluster.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/hahelpers/__pycache__:
+total 32K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  193 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.8K Feb  4 09:38 apache.cpython-38.pyc
+-rw-r--r-- 1 root root  13K Feb  4 09:38 cluster.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/network:
+total 40K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:37 ip.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ovs
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/network/__pycache__:
+total 28K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  191 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  15K Feb  4 09:38 ip.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/network/ovs:
+total 68K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  27K Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 8.5K Feb  4 09:37 ovn.py
+-rw-r--r-- 1 root root 8.6K Feb  4 09:37 ovsdb.py
+-rw-r--r-- 1 root root  948 Feb  4 09:37 utils.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/network/ovs/__pycache__:
+total 44K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  24K Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 6.0K Feb  4 09:38 ovsdb.cpython-38.pyc
+-rw-r--r-- 1 root root  629 Feb  4 09:38 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack:
+total 404K
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 1.5K Feb  4 09:37 alternatives.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 audits
+-rw-r--r-- 1 root root  16K Feb  4 09:37 cert_utils.py
+-rw-r--r-- 1 root root 121K Feb  4 09:37 context.py
+-rw-r--r-- 1 root root  13K Feb  4 09:37 deferred_events.py
+-rw-r--r-- 1 root root  870 Feb  4 09:37 exceptions.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 files
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ha
+-rw-r--r-- 1 root root 7.8K Feb  4 09:37 ip.py
+-rw-r--r-- 1 root root 6.4K Feb  4 09:37 keystone.py
+-rw-r--r-- 1 root root  13K Feb  4 09:37 neutron.py
+-rw-r--r-- 1 root root 5.7K Feb  4 09:37 policy_rcd.py
+-rw-r--r-- 1 root root  33K Feb  4 09:37 policyd.py
+-rw-r--r-- 1 root root  14K Feb  4 09:37 ssh_migrations.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 templates
+-rw-r--r-- 1 root root  15K Feb  4 09:37 templating.py
+-rw-r--r-- 1 root root  90K Feb  4 09:37 utils.py
+-rw-r--r-- 1 root root 6.9K Feb  4 09:37 vaultlocker.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/__pycache__:
+total 268K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  193 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.1K Feb  4 09:38 alternatives.cpython-38.pyc
+-rw-r--r-- 1 root root  91K Feb  4 09:38 context.cpython-38.pyc
+-rw-r--r-- 1 root root  11K Feb  4 09:38 deferred_events.cpython-38.pyc
+-rw-r--r-- 1 root root  705 Feb  4 09:38 exceptions.cpython-38.pyc
+-rw-r--r-- 1 root root 5.4K Feb  4 09:38 ip.cpython-38.pyc
+-rw-r--r-- 1 root root 7.3K Feb  4 09:38 neutron.cpython-38.pyc
+-rw-r--r-- 1 root root 5.1K Feb  4 09:38 policy_rcd.cpython-38.pyc
+-rw-r--r-- 1 root root  23K Feb  4 09:38 policyd.cpython-38.pyc
+-rw-r--r-- 1 root root  13K Feb  4 09:38 templating.cpython-38.pyc
+-rw-r--r-- 1 root root  77K Feb  4 09:38 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/audits:
+total 32K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 6.3K Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 9.7K Feb  4 09:37 openstack_security_guide.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/audits/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 6.5K Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 6.8K Feb  4 09:38 openstack_security_guide.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/files:
+total 32K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  669 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rwxr-xr-x 1 root root 1.1K Feb  4 09:37 check_haproxy.sh
+-rwxr-xr-x 1 root root  968 Feb  4 09:37 check_haproxy_queue_depth.sh
+-rwxr-xr-x 1 root root 6.0K Feb  4 09:37 policy_rc_d_script.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/files/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  199 Feb  4 09:38 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/ha:
+total 28K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  574 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root  12K Feb  4 09:37 utils.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/ha/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  196 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 8.4K Feb  4 09:38 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/openstack/templates:
+total 104K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  669 Feb  4 09:37 __init__.py
+-rw-r--r-- 1 root root  819 Feb  4 09:37 ceph.conf
+-rw-r--r-- 1 root root  541 Feb  4 09:37 git.upstart
+-rw-r--r-- 1 root root 2.7K Feb  4 09:37 haproxy.cfg
+-rw-r--r-- 1 root root  181 Feb  4 09:37 logrotate
+-rw-r--r-- 1 root root 1.7K Feb  4 09:37 memcached.conf
+-rw-r--r-- 1 root root 1.4K Feb  4 09:37 openstack_https_frontend
+-rw-r--r-- 1 root root 1.4K Feb  4 09:37 openstack_https_frontend.conf
+-rw-r--r-- 1 root root 1.4K Feb  4 09:37 section-ceph-bluestore-compression
+-rw-r--r-- 1 root root  400 Feb  4 09:37 section-keystone-authtoken
+-rw-r--r-- 1 root root  406 Feb  4 09:37 section-keystone-authtoken-legacy
+-rw-r--r-- 1 root root  772 Feb  4 09:37 section-keystone-authtoken-mitaka
+-rw-r--r-- 1 root root  256 Feb  4 09:37 section-keystone-authtoken-v3only
+-rw-r--r-- 1 root root  130 Feb  4 09:37 section-oslo-cache
+-rw-r--r-- 1 root root  211 Feb  4 09:37 section-oslo-messaging-rabbit
+-rw-r--r-- 1 root root  222 Feb  4 09:37 section-oslo-messaging-rabbit-ocata
+-rw-r--r-- 1 root root   71 Feb  4 09:37 section-oslo-middleware
+-rw-r--r-- 1 root root  387 Feb  4 09:37 section-oslo-notifications
+-rw-r--r-- 1 root root  556 Feb  4 09:37 section-placement
+-rw-r--r-- 1 root root  598 Feb  4 09:37 section-rabbitmq-oslo
+-rw-r--r-- 1 root root  353 Feb  4 09:37 section-zeromq
+-rw-r--r-- 1 root root   22 Feb  4 09:37 vendor_data.json
+-rw-r--r-- 1 root root 2.8K Feb  4 09:37 wsgi-openstack-api.conf
+-rw-r--r-- 1 root root 2.8K Feb  4 09:37 wsgi-openstack-metadata.conf
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/storage:
+total 20K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 linux
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/storage/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  191 Feb  4 09:38 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/storage/linux:
+total 124K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 2.3K Feb  4 09:37 bcache.py
+-rw-r--r-- 1 root root  86K Feb  4 09:37 ceph.py
+-rw-r--r-- 1 root root 2.8K Feb  4 09:37 loopback.py
+-rw-r--r-- 1 root root 5.5K Feb  4 09:37 lvm.py
+-rw-r--r-- 1 root root 4.0K Feb  4 09:37 utils.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/contrib/storage/linux/__pycache__:
+total 96K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  197 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  68K Feb  4 09:38 ceph.cpython-38.pyc
+-rw-r--r-- 1 root root 2.5K Feb  4 09:38 loopback.cpython-38.pyc
+-rw-r--r-- 1 root root 4.7K Feb  4 09:38 lvm.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:38 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core:
+total 180K
+drwxr-xr-x 6 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 3.2K Feb  4 09:37 decorators.py
+-rw-r--r-- 1 root root 1.7K Feb  4 09:37 files.py
+-rw-r--r-- 1 root root 4.1K Feb  4 09:37 fstab.py
+-rw-r--r-- 1 root root  51K Feb  4 09:37 hookenv.py
+-rw-r--r-- 1 root root  47K Feb  4 09:37 host.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 host_factory
+-rw-r--r-- 1 root root 2.6K Feb  4 09:37 hugepage.py
+-rw-r--r-- 1 root root 2.2K Feb  4 09:37 kernel.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 kernel_factory
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 services
+-rw-r--r-- 1 root root 3.9K Feb  4 09:37 strutils.py
+-rw-r--r-- 1 root root 2.3K Feb  4 09:37 sysctl.py
+-rw-r--r-- 1 root root 3.5K Feb  4 09:37 templating.py
+-rw-r--r-- 1 root root  16K Feb  4 09:37 unitdata.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core/__pycache__:
+total 140K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  180 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.8K Feb  4 09:38 decorators.cpython-38.pyc
+-rw-r--r-- 1 root root 3.8K Feb  4 09:38 fstab.cpython-38.pyc
+-rw-r--r-- 1 root root  48K Feb  4 09:38 hookenv.cpython-38.pyc
+-rw-r--r-- 1 root root  42K Feb  4 09:38 host.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:38 kernel.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:38 strutils.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:38 sysctl.cpython-38.pyc
+-rw-r--r-- 1 root root  16K Feb  4 09:38 unitdata.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core/host_factory:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 1.9K Feb  4 09:37 centos.py
+-rw-r--r-- 1 root root 2.9K Feb  4 09:37 ubuntu.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core/host_factory/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  193 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 3.2K Feb  4 09:38 ubuntu.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core/kernel_factory:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root  538 Feb  4 09:37 centos.py
+-rw-r--r-- 1 root root  406 Feb  4 09:37 ubuntu.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core/kernel_factory/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  195 Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  706 Feb  4 09:38 ubuntu.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/core/services:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  644 Feb  4 09:37 __init__.py
+-rw-r--r-- 1 root root  15K Feb  4 09:37 base.py
+-rw-r--r-- 1 root root  11K Feb  4 09:37 helpers.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/fetch:
+total 108K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 6.8K Feb  4 09:37 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 __pycache__
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 archiveurl.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:37 bzrurl.py
+-rw-r--r-- 1 root root 5.6K Feb  4 09:37 centos.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:37 giturl.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 python
+-rw-r--r-- 1 root root 4.2K Feb  4 09:37 snap.py
+-rw-r--r-- 1 root root  38K Feb  4 09:37 ubuntu.py
+-rw-r--r-- 1 root root  11K Feb  4 09:37 ubuntu_apt_pkg.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/fetch/__pycache__:
+total 64K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root 6.3K Feb  4 09:38 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 3.5K Feb  4 09:38 snap.cpython-38.pyc
+-rw-r--r-- 1 root root  30K Feb  4 09:38 ubuntu.cpython-38.pyc
+-rw-r--r-- 1 root root 9.5K Feb  4 09:38 ubuntu_apt_pkg.cpython-38.pyc
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/fetch/python:
+total 32K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:37 __init__.py
+-rw-r--r-- 1 root root 1.6K Feb  4 09:37 debug.py
+-rw-r--r-- 1 root root 4.7K Feb  4 09:37 packages.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:37 rpdb.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:37 version.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/hooks/charmhelpers/payload:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:38 ..
+-rw-r--r-- 1 root root  662 Feb  4 09:37 __init__.py
+-rw-r--r-- 1 root root 2.2K Feb  4 09:37 archive.py
+-rw-r--r-- 1 root root 2.2K Feb  4 09:37 execd.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/lib:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  215 Feb  4 09:37 .keep
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates:
+total 76K
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x  9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r--  1 root root  193 Feb  4 09:37 dnsmasq.conf
+-rw-r--r--  1 root root  909 Feb  4 09:37 etc_dpdk_interfaces
+-rw-r--r--  1 root root  323 Feb  4 09:37 ext-port.conf
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 icehouse
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 juno
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 kilo
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 liberty
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 mitaka
+-rw-r--r--  1 root root  640 Feb  4 09:37 neutron-dhcp-agent
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 newton
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 ocata
+-rw-r--r--  1 root root  763 Feb  4 09:37 openvswitch-switch
+-rw-r--r--  1 root root  494 Feb  4 09:37 os-charm-phy-nic-mtu.conf
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 parts
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 queens
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 rocky
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 stein
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/icehouse:
+total 24K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root  707 Feb  4 09:37 dhcp_agent.ini
+-rw-r--r--  1 root root  868 Feb  4 09:37 metadata_agent.ini
+-rw-r--r--  1 root root 1.2K Feb  4 09:37 ml2_conf.ini
+-rw-r--r--  1 root root 1.2K Feb  4 09:37 neutron.conf
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/juno:
+total 24K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root  356 Feb  4 09:37 fwaas_driver.ini
+-rw-r--r--  1 root root  495 Feb  4 09:37 l3_agent.ini
+-rw-r--r--  1 root root  868 Feb  4 09:37 metadata_agent.ini
+-rw-r--r--  1 root root 1.2K Feb  4 09:37 ml2_conf.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/kilo:
+total 28K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root  369 Feb  4 09:37 fwaas_driver.ini
+-rw-r--r--  1 root root  721 Feb  4 09:37 neutron-openvswitch-networking-sriov
+-rw-r--r--  1 root root  311 Feb  4 09:37 neutron-openvswitch-networking-sriov.conf
+-rw-r--r--  1 root root 1.3K Feb  4 09:37 neutron.conf
+-rw-r--r--  1 root root  534 Feb  4 09:37 sriov_agent.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/liberty:
+total 12K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root 1.3K Feb  4 09:37 ml2_conf.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/mitaka:
+total 28K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root 1012 Feb  4 09:37 dhcp_agent.ini
+-rw-r--r--  1 root root  225 Feb  4 09:37 interfaces.yaml
+-rw-r--r--  1 root root  624 Feb  4 09:37 l3_agent.ini
+-rw-r--r--  1 root root 1.3K Feb  4 09:37 neutron.conf
+-rw-r--r--  1 root root 1.1K Feb  4 09:37 openvswitch_agent.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/newton:
+total 12K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root  318 Feb  4 09:37 fwaas_driver.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/ocata:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root 1.1K Feb  4 09:37 dhcp_agent.ini
+-rw-r--r--  1 root root 1.4K Feb  4 09:37 neutron.conf
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/parts:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root   85 Feb  4 09:37 agent
+-rw-r--r--  1 root root  574 Feb  4 09:37 rabbitmq
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/queens:
+total 12K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root 1.5K Feb  4 09:37 openvswitch_agent.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/rocky:
+total 12K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root  674 Feb  4 09:37 l3_agent.ini
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/templates/stein:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 13 root root 4.0K Feb  4 09:37 ..
+-rw-r--r--  1 root root  320 Feb  4 09:37 fwaas_driver.ini
+-rw-r--r--  1 root root  950 Feb  4 09:37 l3_agent.ini
+-rw-r--r--  1 root root 1.5K Feb  4 09:37 neutron.conf
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/tests:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  459 Feb  4 09:37 README.md
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 bundles
+-rw-r--r-- 1 root root 3.5K Feb  4 09:37 tests.yaml
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/tests/bundles:
+total 92K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:37 ..
+-rw-r--r-- 1 root root 3.2K Feb  4 09:37 bionic-queens-dvr-snat.yaml
+-rw-r--r-- 1 root root 3.3K Feb  4 09:37 bionic-rocky-dvr-snat.yaml
+-rw-r--r-- 1 root root 3.3K Feb  4 09:37 bionic-stein-dvr-snat.yaml
+-rw-r--r-- 1 root root 3.6K Feb  4 09:37 bionic-train-dvr-snat.yaml
+-rw-r--r-- 1 root root 3.7K Feb  4 09:37 bionic-ussuri-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 focal-ussuri-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 focal-victoria-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 focal-wallaby-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 focal-xena-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 focal-yoga-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 hirsute-wallaby-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 impish-xena-dvr-snat.yaml
+-rw-r--r-- 1 root root 6.0K Feb  4 09:37 jammy-yoga-dvr-snat.yaml
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/charm/unit_tests:
+total 176K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  474 Feb  4 09:37 16.07-dpdk-openvswitch-switch
+-rw-r--r-- 1 root root  465 Feb  4 09:37 16.10-openvswitch-switch
+-rw-r--r-- 1 root root  671 Feb  4 09:37 __init__.py
+-rw-r--r-- 1 root root  404 Feb  4 09:37 package-provided-openvswitch-switch
+-rw-r--r-- 1 root root 5.6K Feb  4 09:37 pci_responses.py
+-rw-r--r-- 1 root root 7.2K Feb  4 09:37 test_actions_cleanup.py
+-rw-r--r-- 1 root root  30K Feb  4 09:37 test_neutron_ovs_context.py
+-rw-r--r-- 1 root root  13K Feb  4 09:37 test_neutron_ovs_hooks.py
+-rw-r--r-- 1 root root  61K Feb  4 09:37 test_neutron_ovs_utils.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:37 test_os_actions.py
+-rw-r--r-- 1 root root 9.9K Feb  4 09:37 test_pci.py
+-rw-r--r-- 1 root root 3.5K Feb  4 09:37 test_pci_helper.py
+-rw-r--r-- 1 root root 3.6K Feb  4 09:37 test_utils.py
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/state:
+total 16K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 ..
+drwxr-xr-x 2 root root 4.0K Feb  9 22:38 bundles
+drwxr-xr-x 3 root root 4.0K Feb  4 09:37 deployer
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/state/bundles:
+total 396K
+drwxr-xr-x 2 root root 4.0K Feb  9 22:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:37 ..
+-rw------- 1 root root 388K Feb  4 09:37 cs_3a__7e_openstack-charmers-next_2f_neutron-openvswitch-457
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/state/deployer:
+total 12K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:37 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 manifests
+
+/var/lib/juju/agents/unit-neutron-openvswitch-1/state/deployer/manifests:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:37 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:37 ..
+-rw-r--r-- 1 root root  11K Feb  4 09:37 cs_3a__7e_openstack-charmers-next_2f_neutron-openvswitch-457
+
+/var/lib/juju/agents/unit-nova-compute-0:
+total 20K
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:37 ..
+-rw------- 1 root root 1.9K Feb  9 22:52 agent.conf
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 charm
+srwx------ 1 root root    0 Feb  9 22:52 metrics-send.socket
+srwx------ 1 root root    0 Feb  9 22:52 run.socket
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 state
+
+/var/lib/juju/agents/unit-nova-compute-0/charm:
+total 700K
+drwxr-xr-x  9 root root 4.0K Feb 10 16:18 .
+drwxr-xr-x  4 root root 4.0K Feb  9 22:52 ..
+-rw-r--r--  1 root root  164 Feb  4 09:34 .gitignore
+-rw-r--r--  1 root root   85 Feb  4 09:34 .gitreview
+-rw-r--r--  1 root root   45 Feb  4 09:34 .juju-charm
+-rw-------  1 root root 3.5K Feb 10 16:18 .juju-persistent-config
+-rw-r--r--  1 root root  366 Feb  4 09:34 .project
+-rw-r--r--  1 root root  547 Feb  4 09:34 .pydevproject
+-rw-r--r--  1 root root   44 Feb  4 09:34 .stestr.conf
+-rw-------  1 root root 484K Feb 10 16:18 .unit-state.db
+-rw-r--r--  1 root root   93 Feb  4 09:34 .zuul.yaml
+-rw-r--r--  1 root root  12K Feb  4 09:34 LICENSE
+-rw-r--r--  1 root root  571 Feb  4 09:34 Makefile
+-rw-r--r--  1 root root  13K Feb  4 09:34 README.md
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 actions
+-rw-r--r--  1 root root 1.5K Feb  4 09:34 actions.yaml
+-rw-r--r--  1 root root  136 Feb  4 09:34 bindep.txt
+-rw-r--r--  1 root root  393 Feb  4 09:34 charm-helpers-hooks.yaml
+-rw-r--r--  1 root root  406 Feb  4 09:34 charmcraft.yaml
+-rw-r--r--  1 root root  34K Feb  4 09:34 config.yaml
+-rw-r--r--  1 root root  669 Feb  4 09:34 copyright
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 files
+-rw-r--r--  1 root root  173 Feb  4 09:34 hardening.yaml
+drwxr-xr-x  4 root root 4.0K Feb  4 09:36 hooks
+-rw-r--r--  1 root root  13K Feb  4 09:34 icon.svg
+drwxr-xr-x  3 root root 4.0K Feb  4 09:34 lib
+-rw-r--r--  1 root root 1.5K Feb  4 09:34 metadata.yaml
+-rw-r--r--  1 root root  953 Feb  4 09:34 osci.yaml
+-rwxr-xr-x  1 root root  787 Feb  4 09:34 pip.sh
+-rw-r--r--  1 root root  301 Feb  4 09:34 repo-info
+-rw-r--r--  1 root root  792 Feb  4 09:34 requirements.txt
+-rw-r--r--  1 root root    3 Feb  4 09:34 revision
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 templates
+-rw-r--r--  1 root root 1.9K Feb  4 09:34 test-requirements.txt
+drwxr-xr-x  3 root root 4.0K Feb  4 09:34 tests
+-rw-r--r--  1 root root 3.7K Feb  4 09:34 tox.ini
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 unit_tests
+-rw-r--r--  1 root root    7 Feb  4 09:34 version
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/actions:
+total 36K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rwxr-xr-x 1 root root 5.7K Feb  4 09:34 cloud.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 disable -> cloud.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 enable -> cloud.py
+lrwxrwxrwx 1 root root   17 Feb  4 09:34 hugepagereport -> hugepagereport.py
+-rwxr-xr-x 1 root root 1.8K Feb  4 09:34 hugepagereport.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 instance-count -> cloud.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 list-compute-nodes -> cloud.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 node-name -> cloud.py
+lrwxrwxrwx 1 root root   20 Feb  4 09:34 openstack-upgrade -> openstack_upgrade.py
+-rwxr-xr-x 1 root root 2.2K Feb  4 09:34 openstack_upgrade.py
+lrwxrwxrwx 1 root root   15 Feb  4 09:34 pause -> pause_resume.py
+-rwxr-xr-x 1 root root 1.9K Feb  4 09:34 pause_resume.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 register-to-cloud -> cloud.py
+lrwxrwxrwx 1 root root    8 Feb  4 09:34 remove-from-cloud -> cloud.py
+lrwxrwxrwx 1 root root   15 Feb  4 09:34 resume -> pause_resume.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 security-checklist -> security_checklist.py
+-rwxr-xr-x 1 root root 2.7K Feb  4 09:34 security_checklist.py
+lrwxrwxrwx 1 root root   13 Feb  4 09:34 virsh-audit -> virshaudit.py
+-rwxr-xr-x 1 root root 1.4K Feb  4 09:34 virshaudit.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/files:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rwxr-xr-x 1 root root  542 Feb  4 09:34 qemu-hugefsdir
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks:
+total 140K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  574 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 amqp-relation-broken -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 amqp-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 amqp-relation-departed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 amqp-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ceph-access-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ceph-access-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ceph-relation-broken -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ceph-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ceph-relation-joined -> nova_compute_hooks.py
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 charmhelpers
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 cloud-compute-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 cloud-compute-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 cloud-credentials-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 cloud-credentials-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 compute-peer-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 config-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ephemeral-backend-relation-broken -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ephemeral-backend-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   17 Feb  4 09:34 ephemeral-device-storage-attached -> storage.bootstrap
+lrwxrwxrwx 1 root root   17 Feb  4 09:34 ephemeral-device-storage-detached -> storage.bootstrap
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 image-service-relation-broken -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 image-service-relation-changed -> nova_compute_hooks.py
+-rwxr-xr-x 1 root root  425 Feb  4 09:34 install
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 install.real -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 ironic-api-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 lxd-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 lxd-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 neutron-plugin-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 neutron-plugin-relation-departed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 neutron-plugin-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 nova-ceilometer-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 nova-ceilometer-relation-joined -> nova_compute_hooks.py
+-rw-r--r-- 1 root root  35K Feb  4 09:34 nova_compute_context.py
+-rwxr-xr-x 1 root root  30K Feb  4 09:34 nova_compute_hooks.py
+-rw-r--r-- 1 root root  40K Feb  4 09:34 nova_compute_utils.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 nrpe-external-master-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 nrpe-external-master-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 post-series-upgrade -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 pre-series-upgrade -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 secrets-storage-relation-broken -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 secrets-storage-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 secrets-storage-relation-departed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 secrets-storage-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 shared-db-relation-broken -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 shared-db-relation-changed -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 shared-db-relation-joined -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 start -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 stop -> nova_compute_hooks.py
+-rwxr-xr-x 1 root root  135 Feb  4 09:34 storage.bootstrap
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 storage.real -> nova_compute_hooks.py
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 update-status -> nova_compute_hooks.py
+-rwxr-xr-x 1 root root  342 Feb  4 09:34 upgrade-charm
+lrwxrwxrwx 1 root root   21 Feb  4 09:34 upgrade-charm.real -> nova_compute_hooks.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/__pycache__:
+total 68K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  26K Feb  4 09:36 nova_compute_context.cpython-38.pyc
+-rw-r--r-- 1 root root  29K Feb  4 09:36 nova_compute_utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers:
+total 40K
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 cli
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 contrib
+drwxr-xr-x 6 root root 4.0K Feb  4 09:36 core
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 fetch
+-rw-r--r-- 1 root root 1.8K Feb  4 09:34 osplatform.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 payload
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 2.5K Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.5K Feb  4 09:36 osplatform.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/cli:
+total 36K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 6.8K Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.3K Feb  4 09:34 benchmark.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 commands.py
+-rw-r--r-- 1 root root  848 Feb  4 09:34 hookenv.py
+-rw-r--r-- 1 root root 1022 Feb  4 09:34 host.py
+-rw-r--r-- 1 root root 1.8K Feb  4 09:34 unitdata.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib:
+total 44K
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 charmsupport
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 hahelpers
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 hardening
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 network
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 openstack
+-rw-r--r-- 1 root root  886 Feb  4 09:34 python.py
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 storage
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  176 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/charmsupport:
+total 44K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:34 nrpe.py
+-rw-r--r-- 1 root root 5.8K Feb  4 09:34 volumes.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/charmsupport/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  189 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  12K Feb  4 09:36 nrpe.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hahelpers:
+total 36K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 2.8K Feb  4 09:34 apache.py
+-rw-r--r-- 1 root root  15K Feb  4 09:34 cluster.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hahelpers/__pycache__:
+total 32K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  186 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:36 apache.cpython-38.pyc
+-rw-r--r-- 1 root root  13K Feb  4 09:36 cluster.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening:
+total 60K
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 README.hardening.md
+-rw-r--r-- 1 root root  579 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 apache
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 audits
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 defaults
+-rw-r--r-- 1 root root 3.9K Feb  4 09:34 harden.py
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 host
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 mysql
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ssh
+-rw-r--r-- 1 root root 2.4K Feb  4 09:34 templating.py
+-rw-r--r-- 1 root root 5.1K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  186 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.8K Feb  4 09:36 harden.cpython-38.pyc
+-rw-r--r-- 1 root root 2.0K Feb  4 09:36 templating.cpython-38.pyc
+-rw-r--r-- 1 root root 4.0K Feb  4 09:36 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/apache:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/apache/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  295 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/apache/checks:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1018 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 config.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/apache/checks/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  711 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.6K Feb  4 09:36 config.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/apache/templates:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  864 Feb  4 09:34 99-hardening.conf
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.2K Feb  4 09:34 alias.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/audits:
+total 44K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 2.1K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 apache.py
+-rw-r--r-- 1 root root 3.5K Feb  4 09:34 apt.py
+-rw-r--r-- 1 root root  20K Feb  4 09:34 file.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/audits/__pycache__:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1.9K Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.9K Feb  4 09:36 apache.cpython-38.pyc
+-rw-r--r-- 1 root root 3.3K Feb  4 09:36 apt.cpython-38.pyc
+-rw-r--r-- 1 root root  18K Feb  4 09:36 file.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/defaults:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  608 Feb  4 09:34 apache.yaml
+-rw-r--r-- 1 root root  303 Feb  4 09:34 apache.yaml.schema
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 mysql.yaml
+-rw-r--r-- 1 root root  393 Feb  4 09:34 mysql.yaml.schema
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 os.yaml
+-rw-r--r-- 1 root root  908 Feb  4 09:34 os.yaml.schema
+-rw-r--r-- 1 root root 1.6K Feb  4 09:34 ssh.yaml
+-rw-r--r-- 1 root root  852 Feb  4 09:34 ssh.yaml.schema
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/host:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/host/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  293 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/host/checks:
+total 60K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1.5K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 1.3K Feb  4 09:34 apt.py
+-rw-r--r-- 1 root root 2.0K Feb  4 09:34 limits.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 login.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 minimize_access.py
+-rw-r--r-- 1 root root 4.0K Feb  4 09:34 pam.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 profile.py
+-rw-r--r-- 1 root root 1.3K Feb  4 09:34 securetty.py
+-rw-r--r-- 1 root root 5.0K Feb  4 09:34 suid_sgid.py
+-rw-r--r-- 1 root root 7.3K Feb  4 09:34 sysctl.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/host/checks/__pycache__:
+total 52K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1016 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  807 Feb  4 09:36 apt.cpython-38.pyc
+-rw-r--r-- 1 root root 1.4K Feb  4 09:36 limits.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:36 login.cpython-38.pyc
+-rw-r--r-- 1 root root  942 Feb  4 09:36 minimize_access.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:36 pam.cpython-38.pyc
+-rw-r--r-- 1 root root 1.3K Feb  4 09:36 profile.cpython-38.pyc
+-rw-r--r-- 1 root root 1.1K Feb  4 09:36 securetty.cpython-38.pyc
+-rw-r--r-- 1 root root 3.4K Feb  4 09:36 suid_sgid.cpython-38.pyc
+-rw-r--r-- 1 root root 6.2K Feb  4 09:36 sysctl.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/host/templates:
+total 52K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  435 Feb  4 09:34 10.hardcore.conf
+-rw-r--r-- 1 root root   65 Feb  4 09:34 99-hardening.sh
+-rw-r--r-- 1 root root  340 Feb  4 09:34 99-juju-hardening.conf
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  12K Feb  4 09:34 login.defs
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 modules
+-rw-r--r-- 1 root root  453 Feb  4 09:34 passwdqc.conf
+-rw-r--r-- 1 root root  472 Feb  4 09:34 pinerolo_profile.sh
+-rw-r--r-- 1 root root  419 Feb  4 09:34 securetty
+-rw-r--r-- 1 root root  569 Feb  4 09:34 tally2
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/mysql:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/mysql/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  294 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/mysql/checks:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1014 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 3.0K Feb  4 09:34 config.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/mysql/checks/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  706 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.2K Feb  4 09:36 config.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/mysql/templates:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  457 Feb  4 09:34 hardening.cnf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/ssh:
+total 24K
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  664 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 checks
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/ssh/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  292 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/ssh/checks:
+total 36K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 1006 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:34 config.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/ssh/checks/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  696 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  11K Feb  4 09:36 config.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/hardening/ssh/templates:
+total 20K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 5 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 2.0K Feb  4 09:34 ssh_config
+-rw-r--r-- 1 root root 4.4K Feb  4 09:34 sshd_config
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/network:
+total 56K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root  19K Feb  4 09:34 ip.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 ovs
+-rw-r--r-- 1 root root  13K Feb  4 09:34 ufw.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/network/__pycache__:
+total 28K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  184 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  15K Feb  4 09:36 ip.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/network/ovs:
+total 64K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  27K Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 8.5K Feb  4 09:34 ovn.py
+-rw-r--r-- 1 root root 8.6K Feb  4 09:34 ovsdb.py
+-rw-r--r-- 1 root root  948 Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack:
+total 404K
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 1.5K Feb  4 09:34 alternatives.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 audits
+-rw-r--r-- 1 root root  16K Feb  4 09:34 cert_utils.py
+-rw-r--r-- 1 root root 121K Feb  4 09:34 context.py
+-rw-r--r-- 1 root root  13K Feb  4 09:34 deferred_events.py
+-rw-r--r-- 1 root root  870 Feb  4 09:34 exceptions.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 files
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ha
+-rw-r--r-- 1 root root 7.8K Feb  4 09:34 ip.py
+-rw-r--r-- 1 root root 6.4K Feb  4 09:34 keystone.py
+-rw-r--r-- 1 root root  13K Feb  4 09:34 neutron.py
+-rw-r--r-- 1 root root 5.7K Feb  4 09:34 policy_rcd.py
+-rw-r--r-- 1 root root  33K Feb  4 09:34 policyd.py
+-rw-r--r-- 1 root root  14K Feb  4 09:34 ssh_migrations.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 templates
+-rw-r--r-- 1 root root  15K Feb  4 09:34 templating.py
+-rw-r--r-- 1 root root  90K Feb  4 09:34 utils.py
+-rw-r--r-- 1 root root 6.9K Feb  4 09:34 vaultlocker.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/__pycache__:
+total 276K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  186 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.1K Feb  4 09:36 alternatives.cpython-38.pyc
+-rw-r--r-- 1 root root  91K Feb  4 09:36 context.cpython-38.pyc
+-rw-r--r-- 1 root root  11K Feb  4 09:36 deferred_events.cpython-38.pyc
+-rw-r--r-- 1 root root  698 Feb  4 09:36 exceptions.cpython-38.pyc
+-rw-r--r-- 1 root root 5.4K Feb  4 09:36 ip.cpython-38.pyc
+-rw-r--r-- 1 root root 7.3K Feb  4 09:36 neutron.cpython-38.pyc
+-rw-r--r-- 1 root root 5.1K Feb  4 09:36 policy_rcd.cpython-38.pyc
+-rw-r--r-- 1 root root  23K Feb  4 09:36 policyd.cpython-38.pyc
+-rw-r--r-- 1 root root  13K Feb  4 09:36 templating.cpython-38.pyc
+-rw-r--r-- 1 root root  77K Feb  4 09:36 utils.cpython-38.pyc
+-rw-r--r-- 1 root root 4.4K Feb  4 09:36 vaultlocker.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/audits:
+total 32K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 6.3K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 9.7K Feb  4 09:34 openstack_security_guide.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/audits/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 6.5K Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 6.7K Feb  4 09:36 openstack_security_guide.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/files:
+total 32K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  669 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rwxr-xr-x 1 root root 1.1K Feb  4 09:34 check_haproxy.sh
+-rwxr-xr-x 1 root root  968 Feb  4 09:34 check_haproxy_queue_depth.sh
+-rwxr-xr-x 1 root root 6.0K Feb  4 09:34 policy_rc_d_script.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/files/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  192 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/ha:
+total 28K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  574 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root  12K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/ha/__pycache__:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  189 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 8.4K Feb  4 09:36 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/openstack/templates:
+total 104K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 7 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  669 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  819 Feb  4 09:34 ceph.conf
+-rw-r--r-- 1 root root  541 Feb  4 09:34 git.upstart
+-rw-r--r-- 1 root root 2.7K Feb  4 09:34 haproxy.cfg
+-rw-r--r-- 1 root root  181 Feb  4 09:34 logrotate
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 memcached.conf
+-rw-r--r-- 1 root root 1.4K Feb  4 09:34 openstack_https_frontend
+-rw-r--r-- 1 root root 1.4K Feb  4 09:34 openstack_https_frontend.conf
+-rw-r--r-- 1 root root 1.4K Feb  4 09:34 section-ceph-bluestore-compression
+-rw-r--r-- 1 root root  400 Feb  4 09:34 section-keystone-authtoken
+-rw-r--r-- 1 root root  406 Feb  4 09:34 section-keystone-authtoken-legacy
+-rw-r--r-- 1 root root  772 Feb  4 09:34 section-keystone-authtoken-mitaka
+-rw-r--r-- 1 root root  256 Feb  4 09:34 section-keystone-authtoken-v3only
+-rw-r--r-- 1 root root  130 Feb  4 09:34 section-oslo-cache
+-rw-r--r-- 1 root root  211 Feb  4 09:34 section-oslo-messaging-rabbit
+-rw-r--r-- 1 root root  222 Feb  4 09:34 section-oslo-messaging-rabbit-ocata
+-rw-r--r-- 1 root root   71 Feb  4 09:34 section-oslo-middleware
+-rw-r--r-- 1 root root  387 Feb  4 09:34 section-oslo-notifications
+-rw-r--r-- 1 root root  556 Feb  4 09:34 section-placement
+-rw-r--r-- 1 root root  598 Feb  4 09:34 section-rabbitmq-oslo
+-rw-r--r-- 1 root root  353 Feb  4 09:34 section-zeromq
+-rw-r--r-- 1 root root   22 Feb  4 09:34 vendor_data.json
+-rw-r--r-- 1 root root 2.8K Feb  4 09:34 wsgi-openstack-api.conf
+-rw-r--r-- 1 root root 2.8K Feb  4 09:34 wsgi-openstack-metadata.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/storage:
+total 20K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 9 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 linux
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/storage/__pycache__:
+total 12K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  184 Feb  4 09:36 __init__.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/storage/linux:
+total 124K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 2.3K Feb  4 09:34 bcache.py
+-rw-r--r-- 1 root root  86K Feb  4 09:34 ceph.py
+-rw-r--r-- 1 root root 2.8K Feb  4 09:34 loopback.py
+-rw-r--r-- 1 root root 5.5K Feb  4 09:34 lvm.py
+-rw-r--r-- 1 root root 4.0K Feb  4 09:34 utils.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/contrib/storage/linux/__pycache__:
+total 96K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  190 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  68K Feb  4 09:36 ceph.cpython-38.pyc
+-rw-r--r-- 1 root root 2.5K Feb  4 09:36 loopback.cpython-38.pyc
+-rw-r--r-- 1 root root 4.7K Feb  4 09:36 lvm.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:36 utils.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core:
+total 180K
+drwxr-xr-x 6 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 3.2K Feb  4 09:34 decorators.py
+-rw-r--r-- 1 root root 1.7K Feb  4 09:34 files.py
+-rw-r--r-- 1 root root 4.1K Feb  4 09:34 fstab.py
+-rw-r--r-- 1 root root  51K Feb  4 09:34 hookenv.py
+-rw-r--r-- 1 root root  47K Feb  4 09:34 host.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 host_factory
+-rw-r--r-- 1 root root 2.6K Feb  4 09:34 hugepage.py
+-rw-r--r-- 1 root root 2.2K Feb  4 09:34 kernel.py
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 kernel_factory
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 services
+-rw-r--r-- 1 root root 3.9K Feb  4 09:34 strutils.py
+-rw-r--r-- 1 root root 2.3K Feb  4 09:34 sysctl.py
+-rw-r--r-- 1 root root 3.5K Feb  4 09:34 templating.py
+-rw-r--r-- 1 root root  16K Feb  4 09:34 unitdata.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core/__pycache__:
+total 148K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  173 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 2.8K Feb  4 09:36 decorators.cpython-38.pyc
+-rw-r--r-- 1 root root 3.8K Feb  4 09:36 fstab.cpython-38.pyc
+-rw-r--r-- 1 root root  48K Feb  4 09:36 hookenv.cpython-38.pyc
+-rw-r--r-- 1 root root  41K Feb  4 09:36 host.cpython-38.pyc
+-rw-r--r-- 1 root root 1.9K Feb  4 09:36 hugepage.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:36 kernel.cpython-38.pyc
+-rw-r--r-- 1 root root 3.7K Feb  4 09:36 strutils.cpython-38.pyc
+-rw-r--r-- 1 root root 1.7K Feb  4 09:36 sysctl.cpython-38.pyc
+-rw-r--r-- 1 root root 2.4K Feb  4 09:36 templating.cpython-38.pyc
+-rw-r--r-- 1 root root  16K Feb  4 09:36 unitdata.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core/host_factory:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 centos.py
+-rw-r--r-- 1 root root 2.9K Feb  4 09:34 ubuntu.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core/host_factory/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  186 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 3.2K Feb  4 09:36 ubuntu.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core/kernel_factory:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root  538 Feb  4 09:34 centos.py
+-rw-r--r-- 1 root root  406 Feb  4 09:34 ubuntu.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core/kernel_factory/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  188 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root  699 Feb  4 09:36 ubuntu.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/core/services:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  644 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  15K Feb  4 09:34 base.py
+-rw-r--r-- 1 root root  11K Feb  4 09:34 helpers.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/fetch:
+total 108K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 6.8K Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 6.0K Feb  4 09:34 archiveurl.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 bzrurl.py
+-rw-r--r-- 1 root root 5.6K Feb  4 09:34 centos.py
+-rw-r--r-- 1 root root 2.5K Feb  4 09:34 giturl.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 python
+-rw-r--r-- 1 root root 4.2K Feb  4 09:34 snap.py
+-rw-r--r-- 1 root root  38K Feb  4 09:34 ubuntu.py
+-rw-r--r-- 1 root root  11K Feb  4 09:34 ubuntu_apt_pkg.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/fetch/__pycache__:
+total 64K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root 6.3K Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 3.5K Feb  4 09:36 snap.cpython-38.pyc
+-rw-r--r-- 1 root root  30K Feb  4 09:36 ubuntu.cpython-38.pyc
+-rw-r--r-- 1 root root 9.5K Feb  4 09:36 ubuntu_apt_pkg.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/fetch/python:
+total 32K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  584 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 1.6K Feb  4 09:34 debug.py
+-rw-r--r-- 1 root root 4.7K Feb  4 09:34 packages.py
+-rw-r--r-- 1 root root 1.9K Feb  4 09:34 rpdb.py
+-rw-r--r-- 1 root root 1.1K Feb  4 09:34 version.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/payload:
+total 24K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 8 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  662 Feb  4 09:34 __init__.py
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 __pycache__
+-rw-r--r-- 1 root root 2.2K Feb  4 09:34 archive.py
+-rw-r--r-- 1 root root 2.2K Feb  4 09:34 execd.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/hooks/charmhelpers/payload/__pycache__:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:36 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:36 ..
+-rw-r--r-- 1 root root  262 Feb  4 09:36 __init__.cpython-38.pyc
+-rw-r--r-- 1 root root 1.9K Feb  4 09:36 execd.cpython-38.pyc
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/lib:
+total 16K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  215 Feb  4 09:34 .keep
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 nova_compute
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/lib/nova_compute:
+total 16K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root    0 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root 4.2K Feb  4 09:34 cloud_utils.py
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates:
+total 116K
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x  9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r--  1 root root   69 Feb  4 09:34 99-mount.conf
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 icehouse
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 juno
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 kilo
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 liberty
+-rw-r--r--  1 root root  586 Feb  4 09:34 libvirt-bin
+-rw-r--r--  1 root root   49 Feb  4 09:34 libvirt-bin.override
+-rw-r--r--  1 root root  13K Feb  4 09:34 libvirtd.conf
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 mitaka
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 newton
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 ocata
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 parts
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 pike
+-rw-r--r--  1 root root  689 Feb  4 09:34 qemu-kvm
+-rw-r--r--  1 root root  501 Feb  4 09:34 qemu.conf
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 queens
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 rocky
+-rw-r--r--  1 root root  212 Feb  4 09:34 secret.xml
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 stein
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 train
+-rw-r--r--  1 root root 1.4K Feb  4 09:34 usr.bin.nova-api
+-rw-r--r--  1 root root 3.7K Feb  4 09:34 usr.bin.nova-compute
+-rw-r--r--  1 root root 1.3K Feb  4 09:34 usr.bin.nova-network
+-rw-r--r--  1 root root  165 Feb  4 09:34 vaultlocker.conf.j2
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/icehouse:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 5.1K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/juno:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 5.1K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/kilo:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 6.2K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/liberty:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 6.3K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/mitaka:
+total 16K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 7.4K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/newton:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 8.4K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/ocata:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 8.7K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/parts:
+total 36K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root  573 Feb  4 09:34 rabbitmq
+-rw-r--r--  1 root root  263 Feb  4 09:34 section-cinder
+-rw-r--r--  1 root root  327 Feb  4 09:34 section-database
+-rw-r--r--  1 root root  184 Feb  4 09:34 section-ephemeral
+-rw-r--r--  1 root root  496 Feb  4 09:34 section-ironic
+-rw-r--r--  1 root root  587 Feb  4 09:34 section-placement
+-rw-r--r--  1 root root  143 Feb  4 09:34 section-serial-console
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/pike:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 8.5K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/queens:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 9.0K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/rocky:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root 9.8K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/stein:
+total 20K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root  11K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/templates/train:
+total 24K
+drwxr-xr-x  2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 15 root root 4.0K Feb  4 09:34 ..
+-rw-r--r--  1 root root   44 Feb  4 09:34 nova-compute.conf
+-rw-r--r--  1 root root  11K Feb  4 09:34 nova.conf
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/tests:
+total 20K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  490 Feb  4 09:34 README.md
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 bundles
+-rw-r--r-- 1 root root 1.8K Feb  4 09:34 tests.yaml
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/tests/bundles:
+total 40K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root 5.4K Feb  4 09:34 focal-xena.yaml
+-rw-r--r-- 1 root root 5.4K Feb  4 09:34 focal-yoga.yaml
+-rw-r--r-- 1 root root 5.3K Feb  4 09:34 impish-xena.yaml
+-rw-r--r-- 1 root root 5.3K Feb  4 09:34 jammy-yoga.yaml
+
+/var/lib/juju/agents/unit-nova-compute-0/charm/unit_tests:
+total 208K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 9 root root 4.0K Feb 10 16:18 ..
+-rw-r--r-- 1 root root  909 Feb  4 09:34 __init__.py
+-rw-r--r-- 1 root root  11K Feb  4 09:34 test_actions_cloud.py
+-rw-r--r-- 1 root root 2.0K Feb  4 09:34 test_actions_hugepagereport.py
+-rw-r--r-- 1 root root 3.2K Feb  4 09:34 test_actions_openstack_upgrade.py
+-rw-r--r-- 1 root root 2.4K Feb  4 09:34 test_actions_pause_resume.py
+-rw-r--r-- 1 root root 1.4K Feb  4 09:34 test_actions_virsh_audit.py
+-rw-r--r-- 1 root root 3.6K Feb  4 09:34 test_lib_nova_compute_cloud_utils.py
+-rw-r--r-- 1 root root  52K Feb  4 09:34 test_nova_compute_contexts.py
+-rw-r--r-- 1 root root  48K Feb  4 09:34 test_nova_compute_hooks.py
+-rw-r--r-- 1 root root  53K Feb  4 09:34 test_nova_compute_utils.py
+-rw-r--r-- 1 root root 4.1K Feb  4 09:34 test_utils.py
+
+/var/lib/juju/agents/unit-nova-compute-0/state:
+total 16K
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  9 22:52 ..
+drwxr-xr-x 2 root root 4.0K Feb  9 22:38 bundles
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 deployer
+
+/var/lib/juju/agents/unit-nova-compute-0/state/bundles:
+total 512K
+drwxr-xr-x 2 root root 4.0K Feb  9 22:38 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 ..
+-rw------- 1 root root 502K Feb  4 09:34 cs_3a__7e_openstack-charmers-next_2f_nova-compute-589
+
+/var/lib/juju/agents/unit-nova-compute-0/state/deployer:
+total 12K
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 4 root root 4.0K Feb  4 09:34 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 manifests
+
+/var/lib/juju/agents/unit-nova-compute-0/state/deployer/manifests:
+total 24K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 3 root root 4.0K Feb  4 09:34 ..
+-rw-r--r-- 1 root root  16K Feb  4 09:34 cs_3a__7e_openstack-charmers-next_2f_nova-compute-589
+
+/var/lib/juju/locks:
+total 8.0K
+drwxr-xr-x 2 ubuntu ubuntu 4.0K Feb  4 09:34 .
+drwxr-xr-x 6 root   root   4.0K Feb  4 09:34 ..
+
+/var/lib/juju/metricspool:
+total 8.0K
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:34 ..
+
+/var/lib/juju/tools:
+total 12K
+drwxr-xr-x 3 root root 4.0K Feb  9 22:52 .
+drwxr-xr-x 6 root root 4.0K Feb  4 09:34 ..
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 2.9.22-ubuntu-amd64
+lrwxrwxrwx 1 root root   19 Feb  4 09:34 machine-1 -> 2.9.22-ubuntu-amd64
+lrwxrwxrwx 1 root root   39 Feb  9 22:52 unit-ceph-osd-0 -> /var/lib/juju/tools/2.9.22-ubuntu-amd64
+lrwxrwxrwx 1 root root   39 Feb  9 22:52 unit-neutron-openvswitch-1 -> /var/lib/juju/tools/2.9.22-ubuntu-amd64
+lrwxrwxrwx 1 root root   39 Feb  9 22:52 unit-nova-compute-0 -> /var/lib/juju/tools/2.9.22-ubuntu-amd64
+
+/var/lib/juju/tools/2.9.22-ubuntu-amd64:
+total 167M
+drwxr-xr-x 2 root root 4.0K Feb  4 09:34 .
+drwxr-xr-x 3 root root 4.0K Feb  9 22:52 ..
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 action-fail -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 action-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 action-log -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 action-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 add-metric -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 application-version-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 close-port -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 config-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 credential-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+-rw-r--r-- 1 root root  227 Feb  4 09:34 downloaded-tools.txt
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 goal-state -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 is-leader -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 juju-log -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 juju-reboot -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+-rwxrwxr-x 1 root root 8.0M Dec 10 01:47 jujuc
+-rwxrwxr-x 1 root root 159M Dec 10 01:47 jujud
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 k8s-raw-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 k8s-raw-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 k8s-spec-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 k8s-spec-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 leader-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 leader-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 network-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 open-port -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 opened-ports -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 payload-register -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 payload-status-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 payload-unregister -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 pod-spec-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 pod-spec-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 relation-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 relation-ids -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 relation-list -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 relation-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 resource-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 state-delete -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 state-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 state-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 status-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 status-set -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 storage-add -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 storage-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 storage-list -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc
+lrwxrwxrwx 1 root root   45 Feb  4 09:34 unit-get -> /var/lib/juju/tools/2.9.22-ubuntu-amd64/jujuc

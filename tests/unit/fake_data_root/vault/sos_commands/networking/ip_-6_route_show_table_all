@@ -1,0 +1,4 @@
+fe80::/64 dev eth0 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::216:3eff:fe3f:d91c dev eth0 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev eth0 table local proto kernel metric 256 pref medium

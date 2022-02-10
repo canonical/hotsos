@@ -1,0 +1,220 @@
+{
+ "base64_encoded_keys": [
+  "ds/meta_data/random_seed"
+ ],
+ "ds": {
+  "_doc": "EXPERIMENTAL: The structure and format of content scoped under the 'ds' key may change in subsequent releases of cloud-init.",
+  "ec2_metadata": {
+   "ami-id": "ami-000002b0",
+   "ami-launch-index": "0",
+   "ami-manifest-path": "FIXME",
+   "block-device-mapping": {
+    "ami": "vda",
+    "root": "/dev/vda"
+   },
+   "hostname": "juju-110cc2-k8stest-4.cloud.sts.",
+   "instance-action": "none",
+   "instance-id": "i-00056665",
+   "instance-type": "m1.medium",
+   "local-hostname": "juju-110cc2-k8stest-4.cloud.sts.",
+   "local-ipv4": "10.6.3.201",
+   "placement": {
+    "availability-zone": "nova"
+   },
+   "public-hostname": "juju-110cc2-k8stest-4.cloud.sts.",
+   "public-ipv4": "",
+   "reservation-id": "r-gxakcuxg",
+   "security-groups": [
+    "juju-d83c548a-d497-4d0d-8d20-70f3a81058d4-2c616d07-66f7-4a5d-87d1-e1a760110cc2",
+    "juju-d83c548a-d497-4d0d-8d20-70f3a81058d4-2c616d07-66f7-4a5d-87d1-e1a760110cc2-4",
+    "default"
+   ]
+  },
+  "meta_data": {
+   "availability_zone": "nova",
+   "devices": [],
+   "hostname": "juju-110cc2-k8stest-4.cloud.sts.",
+   "instance-id": "f9a1477e-7b80-4398-a25d-3710d4e796ba",
+   "launch_index": 0,
+   "local-hostname": "juju-110cc2-k8stest-4.cloud.sts.",
+   "meta": {
+    "juju-controller-uuid": "d83c548a-d497-4d0d-8d20-70f3a81058d4",
+    "juju-machine-id": "k8stest-machine-4",
+    "juju-model-uuid": "2c616d07-66f7-4a5d-87d1-e1a760110cc2",
+    "juju-units-deployed": "kubernetes-master/0"
+   },
+   "name": "juju-110cc2-k8stest-4",
+   "project_id": "fd488e2fab2742f69146d7891da9f2a7",
+   "random_seed": "BRKp9BgmcxGxCu2UyEKINgUa1f2ewPfMvaNlPwBkLZFV7OWGGEEVb19SXfSxzEhI+v0eremT6rdPAvJmMljTSwcHXy/2tUKQejUecLNElu6uq9dkB/yEBcTpH6+eNGDmlSFIAl46u2UlXDv1sfBKoxgM1qW/cVuuzx0f3R00pPQht7w77IkzPzGu2ZlwOA/WVVH6fO2bQQCatIN26wgBY3309AhFCr6msWxcF3r4376Sr+k7nX2XQHcFreqltRrh36CLOS/MgRwfO2r86/n00JbQagpkKsFGRA1Ij5b/nPM/JjtI8stk7MDGTaG5enj62CPhw8jBYX+M+72XurQedOm6FYwFzhsWGYiXpf6aoRC+CeiaYhFvmmvVz4W0aLy4Iz4Zl915291he0L6haFwQpc53n8w8Udg2KPWNlT9GVuE/vqVj+NAU+bKzvRkFaSF0y1V0CRabWvZ6Qg25ijr+EDrE4JuqBgjXMRZBNFL2RA+1gf+AMBOW3VmWuB0fay3tlRaUIR5qze62TB9ZAF4OF8FuXWhg/aqmsOXdrA0ovuNSXNSmp1fXKaataWef25rZNVlILykCeyvgzQ4S3yd0F5bbhEkoY4WXvC+9ztGDKHPLVydCz4FMl4+5a74vK+Vk9Nc3SCfWaJ629SUFfpeg0FcNEXZoZsBnut9pKPnfGA=",
+   "uuid": "f9a1477e-7b80-4398-a25d-3710d4e796ba"
+  },
+  "network_json": {
+   "links": [
+    {
+     "ethernet_mac_address": "fa:16:3e:1f:96:bd",
+     "id": "tapf422f6f9-f8",
+     "mtu": 8958,
+     "type": "ovs",
+     "vif_id": "f422f6f9-f86f-4fc6-9f57-b25f05f3c445"
+    }
+   ],
+   "networks": [
+    {
+     "id": "network0",
+     "link": "tapf422f6f9-f8",
+     "network_id": "04c9d32b-d540-443b-a5b5-d4e0961ef3ef",
+     "type": "ipv4_dhcp"
+    }
+   ],
+   "services": []
+  }
+ },
+ "merged_cfg": {
+  "_doc": "Merged cloud-init system config from /etc/cloud/cloud.cfg and /etc/cloud/cloud.cfg.d/",
+  "_log": [
+   "[loggers]\nkeys=root,cloudinit\n\n[handlers]\nkeys=consoleHandler,cloudLogHandler\n\n[formatters]\nkeys=simpleFormatter,arg0Formatter\n\n[logger_root]\nlevel=DEBUG\nhandlers=consoleHandler,cloudLogHandler\n\n[logger_cloudinit]\nlevel=DEBUG\nqualname=cloudinit\nhandlers=\npropagate=1\n\n[handler_consoleHandler]\nclass=StreamHandler\nlevel=WARNING\nformatter=arg0Formatter\nargs=(sys.stderr,)\n\n[formatter_arg0Formatter]\nformat=%(asctime)s - %(filename)s[%(levelname)s]: %(message)s\n\n[formatter_simpleFormatter]\nformat=[CLOUDINIT] %(filename)s[%(levelname)s]: %(message)s\n",
+   "[handler_cloudLogHandler]\nclass=FileHandler\nlevel=DEBUG\nformatter=arg0Formatter\nargs=('/var/log/cloud-init.log', 'a', 'UTF-8')\n",
+   "[handler_cloudLogHandler]\nclass=handlers.SysLogHandler\nlevel=DEBUG\nformatter=simpleFormatter\nargs=(\"/dev/log\", handlers.SysLogHandler.LOG_USER)\n"
+  ],
+  "cloud_config_modules": [
+   "emit_upstart",
+   "snap",
+   "ssh-import-id",
+   "locale",
+   "set-passwords",
+   "grub-dpkg",
+   "apt-pipelining",
+   "apt-configure",
+   "ubuntu-advantage",
+   "ntp",
+   "timezone",
+   "disable-ec2-metadata",
+   "runcmd",
+   "byobu"
+  ],
+  "cloud_final_modules": [
+   "package-update-upgrade-install",
+   "fan",
+   "landscape",
+   "lxd",
+   "ubuntu-drivers",
+   "write-files-deferred",
+   "puppet",
+   "chef",
+   "mcollective",
+   "salt-minion",
+   "reset_rmc",
+   "refresh_rmc_and_interface",
+   "rightscale_userdata",
+   "scripts-vendor",
+   "scripts-per-once",
+   "scripts-per-boot",
+   "scripts-per-instance",
+   "scripts-user",
+   "ssh-authkey-fingerprints",
+   "keys-to-console",
+   "install-hotplug",
+   "phone-home",
+   "final-message",
+   "power-state-change"
+  ],
+  "cloud_init_modules": [
+   "migrator",
+   "seed_random",
+   "bootcmd",
+   "write-files",
+   "growpart",
+   "resizefs",
+   "disk_setup",
+   "mounts",
+   "set_hostname",
+   "update_hostname",
+   "update_etc_hosts",
+   "ca-certs",
+   "rsyslog",
+   "users-groups",
+   "ssh"
+  ],
+  "datasource_list": [
+   "OpenStack",
+   "None"
+  ],
+  "def_log_file": "/var/log/cloud-init.log",
+  "disable_root": true,
+  "log_cfgs": [
+   [
+    "[loggers]\nkeys=root,cloudinit\n\n[handlers]\nkeys=consoleHandler,cloudLogHandler\n\n[formatters]\nkeys=simpleFormatter,arg0Formatter\n\n[logger_root]\nlevel=DEBUG\nhandlers=consoleHandler,cloudLogHandler\n\n[logger_cloudinit]\nlevel=DEBUG\nqualname=cloudinit\nhandlers=\npropagate=1\n\n[handler_consoleHandler]\nclass=StreamHandler\nlevel=WARNING\nformatter=arg0Formatter\nargs=(sys.stderr,)\n\n[formatter_arg0Formatter]\nformat=%(asctime)s - %(filename)s[%(levelname)s]: %(message)s\n\n[formatter_simpleFormatter]\nformat=[CLOUDINIT] %(filename)s[%(levelname)s]: %(message)s\n",
+    "[handler_cloudLogHandler]\nclass=FileHandler\nlevel=DEBUG\nformatter=arg0Formatter\nargs=('/var/log/cloud-init.log', 'a', 'UTF-8')\n"
+   ]
+  ],
+  "output": {
+   "all": "| tee -a /var/log/cloud-init-output.log"
+  },
+  "preserve_hostname": false,
+  "syslog_fix_perms": [
+   "syslog:adm",
+   "root:adm",
+   "root:wheel",
+   "root:root"
+  ],
+  "users": [
+   "default"
+  ],
+  "vendor_data": {
+   "enabled": true,
+   "prefix": []
+  },
+  "vendor_data2": {
+   "enabled": true,
+   "prefix": []
+  }
+ },
+ "sensitive_keys": [
+  "merged_cfg"
+ ],
+ "sys_info": {
+  "dist": [
+   "ubuntu",
+   "20.04",
+   "focal"
+  ],
+  "platform": "Linux-5.4.0-99-generic-x86_64-with-glibc2.29",
+  "python": "3.8.10",
+  "release": "5.4.0-99-generic",
+  "system": "Linux",
+  "uname": [
+   "Linux",
+   "ubuntu",
+   "5.4.0-99-generic",
+   "#112-Ubuntu SMP Thu Feb 3 13:50:55 UTC 2022",
+   "x86_64",
+   "x86_64"
+  ],
+  "variant": "ubuntu"
+ },
+ "v1": {
+  "_beta_keys": [
+   "subplatform"
+  ],
+  "availability-zone": "nova",
+  "availability_zone": "nova",
+  "cloud-name": "openstack",
+  "cloud_name": "openstack",
+  "distro": "ubuntu",
+  "distro_release": "focal",
+  "distro_version": "20.04",
+  "instance-id": "f9a1477e-7b80-4398-a25d-3710d4e796ba",
+  "instance_id": "f9a1477e-7b80-4398-a25d-3710d4e796ba",
+  "kernel_release": "5.4.0-99-generic",
+  "local-hostname": "juju-110cc2-k8stest-4",
+  "local_hostname": "juju-110cc2-k8stest-4",
+  "machine": "x86_64",
+  "platform": "openstack",
+  "public_ssh_keys": [],
+  "python_version": "3.8.10",
+  "region": null,
+  "subplatform": "metadata (http://169.254.169.254)",
+  "system_platform": "Linux-5.4.0-99-generic-x86_64-with-glibc2.29",
+  "variant": "ubuntu"
+ }
+}

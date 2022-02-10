@@ -1,0 +1,19 @@
+OFPST_PORT reply (xid=0x2): 9 ports
+  port LOCAL: rx pkts=0, bytes=0, drop=1536, errs=0, frame=0, over=0, crc=0
+           tx pkts=0, bytes=0, drop=0, errs=0, coll=0
+  port  9: rx pkts=212, bytes=21542, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=108, bytes=10379, drop=0, errs=0, coll=0
+  port  5: rx pkts=0, bytes=0, drop=93, errs=0, frame=0, over=0, crc=0
+           tx pkts=0, bytes=0, drop=0, errs=0, coll=0
+  port  1: rx pkts=6032, bytes=1553937, drop=?, errs=?, frame=?, over=?, crc=?
+           tx pkts=1702, bytes=160250, drop=?, errs=?, coll=?
+  port  4: rx pkts=336, bytes=35465, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=274, bytes=27949, drop=0, errs=0, coll=0
+  port  6: rx pkts=1262, bytes=115914, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=256, bytes=25893, drop=0, errs=0, coll=0
+  port  7: rx pkts=1033, bytes=93598, drop=1, errs=0, frame=0, over=0, crc=0
+           tx pkts=5, bytes=486, drop=0, errs=0, coll=0
+  port  2: rx pkts=453, bytes=35726, drop=?, errs=?, frame=?, over=?, crc=?
+           tx pkts=1226, bytes=130651, drop=?, errs=?, coll=?
+  port  3: rx pkts=295, bytes=11740, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=25, bytes=1718, drop=0, errs=0, coll=0

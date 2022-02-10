@@ -1,0 +1,20 @@
+* snapd.service - Snap Daemon
+     Loaded: loaded (/lib/systemd/system/snapd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:38:21 UTC; 17h ago
+TriggeredBy: * snapd.socket
+   Main PID: 926 (snapd)
+      Tasks: 13 (limit: 314572)
+     Memory: 186.7M
+     CGroup: /system.slice/snapd.service
+             `-926 /usr/lib/snapd/snapd
+
+Feb 09 22:38:21 compute4 systemd[1]: Started Snap Daemon.
+Feb 09 22:38:23 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "snapd"
+Feb 09 22:38:41 compute4 snapd[926]: udevmon.go:149: udev event error: Unable to parse uevent, err: no buffer space available
+Feb 09 22:41:24 compute4 snapd[926]: storehelpers.go:721: cannot refresh snap "lxd": snap has no updates available
+Feb 10 00:43:21 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 00:43:21 compute4 snapd[926]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 11:08:21 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 11:08:21 compute4 snapd[926]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 13:18:21 compute4 snapd[926]: storehelpers.go:721: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+Feb 10 13:18:21 compute4 snapd[926]: autorefresh.go:536: auto-refresh: all snaps are up-to-date

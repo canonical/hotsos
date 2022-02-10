@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for core18, revision 2284
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/core18_2284.snap
+Where=/snap/core18/2284
+Type=squashfs
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

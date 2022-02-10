@@ -1,0 +1,1977 @@
+/sys/block:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+dr-xr-xr-x 13 root root 0 Feb 11 18:58 ..
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop0 -> ../devices/virtual/block/loop0
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop1 -> ../devices/virtual/block/loop1
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop10 -> ../devices/virtual/block/loop10
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop11 -> ../devices/virtual/block/loop11
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop2 -> ../devices/virtual/block/loop2
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop3 -> ../devices/virtual/block/loop3
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop4 -> ../devices/virtual/block/loop4
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop5 -> ../devices/virtual/block/loop5
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop6 -> ../devices/virtual/block/loop6
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop7 -> ../devices/virtual/block/loop7
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop8 -> ../devices/virtual/block/loop8
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 loop9 -> ../devices/virtual/block/loop9
+lrwxrwxrwx  1 root root 0 Feb 11 19:23 vda -> ../devices/pci0000:00/0000:00:05.0/virtio2/block/vda
+/sys/devices/virtual/block:
+total 0
+drwxr-xr-x 14 root root 0 Feb 11 19:23 .
+drwxr-xr-x 17 root root 0 Feb 11 18:58 ..
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop0
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop1
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop10
+drwxr-xr-x  9 root root 0 Feb 11 19:23 loop11
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop2
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop3
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop4
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop5
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop6
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop7
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop8
+drwxr-xr-x 10 root root 0 Feb 11 19:23 loop9
+
+/sys/devices/virtual/block/loop0:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:0
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop0/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop0/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop0/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop0/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop0/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop0/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop0/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop0/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop0/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop0/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop0/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop0/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop1:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:1
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop1/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop1/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop1/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop1/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop1/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop1/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop1/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop1/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop1/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop1/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop1/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop1/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop10:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:10
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop10/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop10/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop10/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop10/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop10/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop10/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop10/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop10/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop10/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop10/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop10/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop10/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop11:
+total 0
+drwxr-xr-x  9 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:11
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop11/holders:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 9 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop11/integrity:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 9 root root    0 Feb 11 19:23 ..
+-r--r--r-- 1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r-- 1 root root 4096 Feb 11 19:23 format
+-r--r--r-- 1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r-- 1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop11/mq:
+total 0
+drwxr-xr-x 3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 9 root root 0 Feb 11 19:23 ..
+drwxr-xr-x 4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop11/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop11/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop11/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop11/power:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 9 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 async
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 control
+-r--r--r-- 1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r-- 1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r-- 1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r-- 1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r-- 1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r-- 1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop11/queue:
+total 0
+drwxr-xr-x 3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 9 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 add_random
+-r--r--r-- 1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r-- 1 root root 4096 Feb 11 19:23 dax
+-r--r--r-- 1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r-- 1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r-- 1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r-- 1 root root 4096 Feb 11 19:23 fua
+-r--r--r-- 1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x 2 root root    0 Feb 11 19:23 iosched
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 iostats
+-r--r--r-- 1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r-- 1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r-- 1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r-- 1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r-- 1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r-- 1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r-- 1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r-- 1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r-- 1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r-- 1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r-- 1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r-- 1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop11/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop11/slaves:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 9 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop11/trace:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 9 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 enable
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 pid
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop2:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:2
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop2/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop2/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop2/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop2/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop2/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop2/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop2/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop2/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop2/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop2/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop2/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop2/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop3:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:3
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop3/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop3/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop3/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop3/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop3/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop3/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop3/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop3/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop3/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop3/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop3/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop3/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop4:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:4
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop4/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop4/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop4/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop4/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop4/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop4/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop4/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop4/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop4/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop4/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop4/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop4/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop5:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:5
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop5/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop5/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop5/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop5/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop5/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop5/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop5/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop5/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop5/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop5/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop5/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop5/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop6:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:6
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop6/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop6/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop6/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop6/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop6/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop6/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop6/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop6/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop6/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop6/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop6/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop6/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop7:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:7
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop7/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop7/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop7/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop7/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop7/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop7/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop7/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop7/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop7/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop7/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop7/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop7/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop8:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:8
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop8/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop8/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop8/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop8/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop8/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop8/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop8/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop8/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop8/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop8/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop8/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop8/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba
+
+/sys/devices/virtual/block/loop9:
+total 0
+drwxr-xr-x 10 root root    0 Feb 11 19:23 .
+drwxr-xr-x 14 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 alignment_offset
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 bdi -> ../../bdi/7:9
+-r--r--r--  1 root root 4096 Feb 11 19:23 capability
+-r--r--r--  1 root root 4096 Feb 11 19:23 dev
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_alignment
+-r--r--r--  1 root root 4096 Feb 11 19:23 events
+-r--r--r--  1 root root 4096 Feb 11 19:23 events_async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 events_poll_msecs
+-r--r--r--  1 root root 4096 Feb 11 19:23 ext_range
+-r--r--r--  1 root root 4096 Feb 11 19:23 hidden
+drwxr-xr-x  2 root root    0 Feb 11 19:23 holders
+-r--r--r--  1 root root 4096 Feb 11 19:23 inflight
+drwxr-xr-x  2 root root    0 Feb 11 19:23 integrity
+drwxr-xr-x  2 root root    0 Feb 11 19:23 loop
+drwxr-xr-x  3 root root    0 Feb 11 19:23 mq
+drwxr-xr-x  2 root root    0 Feb 11 19:23 power
+drwxr-xr-x  3 root root    0 Feb 11 19:23 queue
+-r--r--r--  1 root root 4096 Feb 11 19:23 range
+-r--r--r--  1 root root 4096 Feb 11 19:23 removable
+-r--r--r--  1 root root 4096 Feb 11 19:23 ro
+-r--r--r--  1 root root 4096 Feb 11 19:23 size
+drwxr-xr-x  2 root root    0 Feb 11 19:23 slaves
+-r--r--r--  1 root root 4096 Feb 11 19:23 stat
+lrwxrwxrwx  1 root root    0 Feb 11 19:23 subsystem -> ../../../../class/block
+drwxr-xr-x  2 root root    0 Feb 11 19:23 trace
+-rw-r--r--  1 root root 4096 Feb 11 19:23 uevent
+
+/sys/devices/virtual/block/loop9/holders:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop9/integrity:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 device_is_integrity_capable
+-r--r--r--  1 root root 4096 Feb 11 19:23 format
+-r--r--r--  1 root root 4096 Feb 11 19:23 protection_interval_bytes
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_verify
+-r--r--r--  1 root root 4096 Feb 11 19:23 tag_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_generate
+
+/sys/devices/virtual/block/loop9/loop:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-r--r--r--  1 root root 4096 Feb 11 19:23 autoclear
+-r--r--r--  1 root root 4096 Feb 11 19:23 backing_file
+-r--r--r--  1 root root 4096 Feb 11 19:23 dio
+-r--r--r--  1 root root 4096 Feb 11 19:23 offset
+-r--r--r--  1 root root 4096 Feb 11 19:23 partscan
+-r--r--r--  1 root root 4096 Feb 11 19:23 sizelimit
+
+/sys/devices/virtual/block/loop9/mq:
+total 0
+drwxr-xr-x  3 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+drwxr-xr-x  4 root root 0 Feb 11 19:23 0
+
+/sys/devices/virtual/block/loop9/mq/0:
+total 0
+drwxr-xr-x 4 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 cpu1
+-r--r--r-- 1 root root 4096 Feb 11 19:23 cpu_list
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_reserved_tags
+-r--r--r-- 1 root root 4096 Feb 11 19:23 nr_tags
+
+/sys/devices/virtual/block/loop9/mq/0/cpu0:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop9/mq/0/cpu1:
+total 0
+drwxr-xr-x 2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 4 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop9/power:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 async
+-rw-r--r--  1 root root 4096 Feb 11 19:23 autosuspend_delay_ms
+-rw-r--r--  1 root root 4096 Feb 11 19:23 control
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_kids
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_active_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_enabled
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_status
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_suspended_time
+-r--r--r--  1 root root 4096 Feb 11 19:23 runtime_usage
+
+/sys/devices/virtual/block/loop9/queue:
+total 0
+drwxr-xr-x  3 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 add_random
+-r--r--r--  1 root root 4096 Feb 11 19:23 chunk_sectors
+-r--r--r--  1 root root 4096 Feb 11 19:23 dax
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_granularity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 discard_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_max_hw_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 discard_zeroes_data
+-r--r--r--  1 root root 4096 Feb 11 19:23 fua
+-r--r--r--  1 root root 4096 Feb 11 19:23 hw_sector_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll
+-rw-r--r--  1 root root 4096 Feb 11 19:23 io_poll_delay
+drwxr-xr-x  2 root root    0 Feb 11 19:23 iosched
+-rw-r--r--  1 root root 4096 Feb 11 19:23 iostats
+-r--r--r--  1 root root 4096 Feb 11 19:23 logical_block_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_discard_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_hw_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_integrity_segments
+-rw-r--r--  1 root root 4096 Feb 11 19:23 max_sectors_kb
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segment_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 max_segments
+-r--r--r--  1 root root 4096 Feb 11 19:23 minimum_io_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nomerges
+-rw-r--r--  1 root root 4096 Feb 11 19:23 nr_requests
+-r--r--r--  1 root root 4096 Feb 11 19:23 nr_zones
+-r--r--r--  1 root root 4096 Feb 11 19:23 optimal_io_size
+-r--r--r--  1 root root 4096 Feb 11 19:23 physical_block_size
+-rw-r--r--  1 root root 4096 Feb 11 19:23 read_ahead_kb
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rotational
+-rw-r--r--  1 root root 4096 Feb 11 19:23 rq_affinity
+-rw-r--r--  1 root root 4096 Feb 11 19:23 scheduler
+-rw-r--r--  1 root root 4096 Feb 11 19:23 wbt_lat_usec
+-rw-r--r--  1 root root 4096 Feb 11 19:23 write_cache
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_same_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 write_zeroes_max_bytes
+-r--r--r--  1 root root 4096 Feb 11 19:23 zoned
+
+/sys/devices/virtual/block/loop9/queue/iosched:
+total 0
+drwxr-xr-x 2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 3 root root    0 Feb 11 19:23 ..
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 fifo_batch
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 front_merges
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 read_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 write_expire
+-rw-r--r-- 1 root root 4096 Feb 11 19:23 writes_starved
+
+/sys/devices/virtual/block/loop9/slaves:
+total 0
+drwxr-xr-x  2 root root 0 Feb 11 19:23 .
+drwxr-xr-x 10 root root 0 Feb 11 19:23 ..
+
+/sys/devices/virtual/block/loop9/trace:
+total 0
+drwxr-xr-x  2 root root    0 Feb 11 19:23 .
+drwxr-xr-x 10 root root    0 Feb 11 19:23 ..
+-rw-r--r--  1 root root 4096 Feb 11 19:23 act_mask
+-rw-r--r--  1 root root 4096 Feb 11 19:23 enable
+-rw-r--r--  1 root root 4096 Feb 11 19:23 end_lba
+-rw-r--r--  1 root root 4096 Feb 11 19:23 pid
+-rw-r--r--  1 root root 4096 Feb 11 19:23 start_lba

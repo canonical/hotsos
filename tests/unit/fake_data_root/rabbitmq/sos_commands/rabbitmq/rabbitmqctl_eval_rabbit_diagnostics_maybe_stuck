@@ -1,0 +1,23 @@
+2022-02-10 09:40:11 There are 2958 processes.
+2022-02-10 09:40:11 Investigated 1 processes this round, 5000ms to go.
+2022-02-10 09:40:12 Investigated 1 processes this round, 4500ms to go.
+2022-02-10 09:40:12 Investigated 1 processes this round, 4000ms to go.
+2022-02-10 09:40:13 Investigated 1 processes this round, 3500ms to go.
+2022-02-10 09:40:13 Investigated 1 processes this round, 3000ms to go.
+2022-02-10 09:40:14 Investigated 1 processes this round, 2500ms to go.
+2022-02-10 09:40:14 Investigated 1 processes this round, 2000ms to go.
+2022-02-10 09:40:15 Investigated 1 processes this round, 1500ms to go.
+2022-02-10 09:40:15 Investigated 1 processes this round, 1000ms to go.
+2022-02-10 09:40:16 Investigated 1 processes this round, 500ms to go.
+2022-02-10 09:40:16 Found 1 suspicious processes.
+2022-02-10 09:40:16 [{pid,<10643.1.0>},
+                     {registered_name,erts_code_purger},
+                     {current_stacktrace,
+                         [{erts_code_purger,wait_for_request,0,[]}]},
+                     {initial_call,{erts_code_purger,start,0}},
+                     {message_queue_len,0},
+                     {links,[]},
+                     {monitors,[]},
+                     {monitored_by,[]},
+                     {heap_size,233}]
+ok

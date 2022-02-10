@@ -1,0 +1,10 @@
+{% if volume_service and volume_service == 'cinder' -%}
+[cinder]
+{% if use_internal_endpoints -%}
+catalog_info = {{ volume_catalog_info }}
+{% endif %}
+{% if region -%}
+os_region_name = {{ region }}
+{% endif %}
+cross_az_attach = {{ cross_az_attach }}
+{% endif -%}

@@ -1,0 +1,145 @@
+"authorize-charm":
+  "description": "Authorize the vault charm to interact with vault"
+  "properties":
+    "token":
+      "type": "string"
+      "description": "Token to use to authorize charm"
+  "required":
+  - "token"
+"refresh-secrets":
+  "description": "Refresh secret_id's and re-issue retrieval tokens for secrets endpoints"
+"get-csr":
+  "description": "Get intermediate CA csr"
+  "properties":
+    # Depending on the configuration of CA that will sign the CSRs it
+    # may be necessary to ensure these fields match the CA
+    "country":
+      "type": "string"
+      "description": >-
+        The C (Country) values in the subject field of the CSR
+    "province":
+      "type": "string"
+      "description": >-
+        The ST (Province) values in the subject field of the CSR.
+    "organization":
+      "type": "string"
+      "description": >-
+        The O (Organization) values in the subject field of the CSR.
+    "organizational-unit":
+      "type": "string"
+      "description": >-
+        The OU (OrganizationalUnit) values in the subject field of the CSR.
+    "common-name":
+      "type": "string"
+      "description": >-
+        The CN (Common Name) values in the subject field of the CSR.
+    "locality":
+      "type": "string"
+      "description": >-
+        The L (Locality) values in the subject field of the CSR.
+"upload-signed-csr":
+  "description": "Upload a signed csr to vault"
+  "properties":
+    "pem":
+      "type": "string"
+      "description": "base64 encoded certificate"
+    "allow-subdomains":
+      "type": "boolean"
+      "default": !!bool "true"
+      "description": >-
+        Specifies if clients can request certificates with
+    "enforce-hostnames":
+      "type": "boolean"
+      "default": !!bool "false"
+      "description": >-
+        Specifies if only valid host names are allowed
+        for CNs, DNS SANs, and the host part of email addresses.
+    "allow-any-name":
+      "type": "boolean"
+      "default": !!bool "true"
+      "description": >-
+        Specifies if clients can request any CN
+    "max-ttl":
+      "type": "string"
+      "default": "8760h"
+      "description": >-
+        Specifies the maximum Time To Live
+    "root-ca":
+      "type": "string"
+      "description": >-
+        The certificate of the root CA which will be passed out to client on
+        the certificate relation along with the intermediate CA cert
+  "required":
+  - "pem"
+"reissue-certificates":
+  "description": "Reissue certificates to all clients"
+"generate-root-ca":
+  "description": "Generate a self-signed root CA"
+  "properties":
+    "ttl":
+      "type": "string"
+      "default": "87599h"
+      "description": >-
+        Specifies the Time To Live for the root CA certificate
+    "allow-any-name":
+      "type": "boolean"
+      "default": !!bool "true"
+      "description": >-
+        Specifies if clients can request certificates for any CN.
+    "allowed-domains":
+      "type": "array"
+      "items":
+        "type": "string"
+      "default": []
+      "description": >-
+        Restricted list of CNs for which the root CA may issue certificates.
+        If domains are provided, allow-any-name should be set to false.
+    "allow-bare-domains":
+      "type": "boolean"
+      "default": !!bool "false"
+      "description": >-
+        Specifies whether clients can request certificates exactly matching
+        the CNs in allowed-domains.
+    "allow-subdomains":
+      "type": "boolean"
+      "default": !!bool "false"
+      "description": >-
+        Specifies whether clients can request certificates for subdomains of
+        the CNs in allowed-domains, including wildcard subdomains.
+    "allow-glob-domains":
+      "type": "boolean"
+      "default": !!bool "true"
+      "description": >-
+        Specifies whether CNs in allowed-domains can contain glob patterns
+        (e.g., 'ftp*.example.com'), in which case clients will be able to
+        request certificates for any CN matching the glob pattern.
+    "enforce-hostnames":
+      "type": "boolean"
+      "default": !!bool "false"
+      "description": >-
+        Specifies if only valid host names are allowed
+        for CNs, DNS SANs, and the host part of email addresses.
+    "max-ttl":
+      "type": "string"
+      "default": "8760h"
+      "description": >-
+        Specifies the maximum Time To Live for generated certificates.
+"get-root-ca":
+  "description": "Get the root CA certificate"
+"disable-pki":
+  "description": >-
+    Disable the PKI secrets backend. This is needed if you wish to switch the
+    CA type after being set up via either upload-signed-csr or
+    generate-root-ca.
+"pause":
+  "description": "Pause the vault unit. This stops the vault service."
+"resume":
+  "description": >-
+    Resume the vault unit. This starts the vault service. Vault will become
+    sealed.
+"restart":
+  "description": "Restarts the vault unit. Vault will become sealed."
+"reload":
+  "description": >-
+    Reloads the vault unit. This allows for limited configuration options to be
+    re-read. Vault will not become sealed.

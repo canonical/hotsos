@@ -1,0 +1,20 @@
+Route Table:
+Cached: 10.0.0.128/32 dev br-ens3 SRC 10.0.0.128 local
+Cached: 10.50.99.1/32 dev lxdbr0 SRC 10.50.99.1 local
+Cached: 127.0.0.1/32 dev lo SRC 127.0.0.1 local
+Cached: ::1/128 dev lo SRC ::1
+Cached: ::1/128 dev lo SRC ::1 local
+Cached: fe80::5054:ff:fe5c:a7e0/128 dev ens9 SRC fe80::5054:ff:fe5c:a7e0 local
+Cached: fe80::5054:ff:fe5c:d947/128 dev ens5 SRC fe80::5054:ff:fe5c:d947 local
+Cached: fe80::5054:ff:fe78:19c3/128 dev ens7 SRC fe80::5054:ff:fe78:19c3 local
+Cached: fe80::5054:ff:febb:47e2/128 dev ens4 SRC fe80::5054:ff:febb:47e2 local
+Cached: fe80::5054:ff:fee6:1419/128 dev ens6 SRC fe80::5054:ff:fee6:1419 local
+Cached: fe80::5054:ff:fefa:5095/128 dev ens8 SRC fe80::5054:ff:fefa:5095 local
+Cached: fe80::58bc:16ff:fe3c:d0f0/128 dev vxlan_sys_4789 SRC fe80::58bc:16ff:fe3c:d0f0 local
+Cached: fe80::98a5:d0ff:fe3f:6793/128 dev br-ens3 SRC fe80::98a5:d0ff:fe3f:6793 local
+Cached: fe80::fc16:3eff:fea7:45cb/128 dev tap0e778df8-ca SRC fe80::fc16:3eff:fea7:45cb local
+Cached: 127.0.0.0/8 dev lo SRC 127.0.0.1 local
+Cached: 10.0.0.0/24 dev br-ens3 SRC 10.0.0.128
+Cached: 10.50.99.0/24 dev lxdbr0 SRC 10.50.99.1
+Cached: 0.0.0.0/0 dev br-ens3 GW 10.0.0.2 SRC 10.0.0.128
+Cached: fe80::/64 dev tap0e778df8-ca SRC fe80::fc16:3eff:fea7:45cb

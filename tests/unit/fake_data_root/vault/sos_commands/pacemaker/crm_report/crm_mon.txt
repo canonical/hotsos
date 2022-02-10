@@ -1,0 +1,16 @@
+Cluster Summary:
+  * Stack: corosync
+  * Current DC: juju-04f1e3-0-lxd-5 (version 2.0.3-4b1f869f0f) - partition with quorum
+  * Last updated: Thu Feb 10 09:52:00 2022
+  * Last change:  Fri Feb  4 10:11:31 2022 by root via cibadmin on juju-04f1e3-0-lxd-5
+  * 4 nodes configured
+  * 1 resource instance configured
+
+Node List:
+  * Online: [ juju-04f1e3-0-lxd-5 juju-04f1e3-1-lxd-6 juju-04f1e3-2-lxd-6 ]
+  * OFFLINE: [ node1 ]
+
+Active Resources:
+  * Resource Group: grp_vault-ext_vips:
+    * res_vault-ext_f2687f5_vip	(ocf::heartbeat:IPaddr2):	 Started juju-04f1e3-0-lxd-5
+

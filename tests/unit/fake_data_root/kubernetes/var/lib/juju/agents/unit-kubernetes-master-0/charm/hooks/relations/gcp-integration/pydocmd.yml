@@ -1,0 +1,16 @@
+site_name: 'GCP Integration Interface'
+
+generate:
+  - requires.md:
+    - requires
+    - requires.GCPIntegrationRequires+
+  - provides.md:
+    - provides
+    - provides.GCPIntegrationProvides+
+    - provides.IntegrationRequest+
+
+pages:
+  - Requires: requires.md
+  - Provides: provides.md
+
+gens_dir: docs

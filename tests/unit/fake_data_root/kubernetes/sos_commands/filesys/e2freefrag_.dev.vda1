@@ -1,0 +1,29 @@
+Device: /dev/vda1
+Blocksize: 4096 bytes
+Total blocks: 10457339
+Free blocks: 9219300 (88.2%)
+
+Min. free extent: 4 KB 
+Max. free extent: 2032512 KB
+Avg. free extent: 46328 KB
+Num. free extent: 796
+
+HISTOGRAM OF FREE EXTENT SIZES:
+Extent Size Range :  Free extents   Free Blocks  Percent
+    4K...    8K-  :            97            97    0.00%
+    8K...   16K-  :           137           319    0.00%
+   16K...   32K-  :            95           499    0.01%
+   32K...   64K-  :           117          1350    0.01%
+   64K...  128K-  :           122          2847    0.03%
+  128K...  256K-  :            52          2398    0.03%
+  256K...  512K-  :            33          2955    0.03%
+  512K... 1024K-  :            35          6119    0.07%
+    1M...    2M-  :            28         10700    0.12%
+    2M...    4M-  :            27         18264    0.20%
+    4M...    8M-  :            15         22872    0.25%
+    8M...   16M-  :             5         13654    0.15%
+   16M...   32M-  :             2          8232    0.09%
+   32M...   64M-  :             9         96666    1.05%
+   64M...  128M-  :             2         46547    0.50%
+  256M...  512M-  :             2        180191    1.95%
+    1G...    2G-  :            18       8805590   95.51%

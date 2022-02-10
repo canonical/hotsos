@@ -1,0 +1,372 @@
+  Parsing: vgscan -vvv --config=global{metadata_read_only=1} --nolocking
+  Recognised command vgscan_general (id 151 / enum 135).
+  Reloading config files
+  Syncing device names
+  Dropping VG info
+  Freeing VG #orphans_lvm2 at 0x556747aff7a0.
+  Loading config file: /etc/lvm/lvm.conf
+  Opened /etc/lvm/lvm.conf RO
+  Closed /etc/lvm/lvm.conf
+  DEGRADED MODE. Incomplete RAID LVs will be processed.
+  Processing command: vgscan -vvv --config=global{metadata_read_only=1} --nolocking
+  Command pid: 1796553
+  System ID: 
+  O_DIRECT will be used
+  global/locking_type not found in config: defaulting to 1
+  WARNING: File locking is disabled.
+  devices/md_component_checks not found in config: defaulting to auto
+  Using md_component_checks auto use_full_md_check 0
+  Processing each VG
+  Finding VG info
+  Sysfs filter initialised.
+  Internal filter initialised.
+  LVM type filter initialised.
+  Usable device filter initialised (scan_lvs 0).
+  mpath filter initialised.
+  Partitioned filter initialised.
+  signature filter initialised.
+  MD filter initialised.
+  Composite filter initialised.
+  Persistent filter initialised.
+  Finding devices to scan
+  Creating list of system devices.
+  Found dev 252:0 /dev/vda - new.
+  Found dev 252:0 /dev/disk/by-path/pci-0000:00:0b.0 - new alias.
+  Found dev 252:0 /dev/disk/by-path/virtio-pci-0000:00:0b.0 - new alias.
+  Found dev 252:1 /dev/vda1 - new.
+  Found dev 252:1 /dev/disk/by-partuuid/fb643193-e94b-45be-b29c-f8b367def85d - new alias.
+  Found dev 252:1 /dev/disk/by-path/pci-0000:00:0b.0-part1 - new alias.
+  Found dev 252:1 /dev/disk/by-path/virtio-pci-0000:00:0b.0-part1 - new alias.
+  Found dev 252:2 /dev/vda2 - new.
+  Found dev 252:2 /dev/disk/by-dname/vda-part2 - new alias.
+  Found dev 252:2 /dev/disk/by-label/root - new alias.
+  Found dev 252:2 /dev/disk/by-partuuid/4f113e54-1529-45aa-bc10-56b37c42a92d - new alias.
+  Found dev 252:2 /dev/disk/by-path/pci-0000:00:0b.0-part2 - new alias.
+  Found dev 252:2 /dev/disk/by-path/virtio-pci-0000:00:0b.0-part2 - new alias.
+  Found dev 252:2 /dev/disk/by-uuid/51babbe8-f78f-46a4-8830-d351c3830325 - new alias.
+  Found dev 252:16 /dev/vdb - new.
+  Found dev 252:16 /dev/disk/by-path/pci-0000:00:0c.0 - new alias.
+  Found dev 252:16 /dev/disk/by-path/virtio-pci-0000:00:0c.0 - new alias.
+  Found dev 252:17 /dev/vdb1 - new.
+  Found dev 252:17 /dev/disk/by-partuuid/728a5094-a3e9-4c2b-a437-be336e508ee4 - new alias.
+  Found dev 252:17 /dev/disk/by-path/pci-0000:00:0c.0-part1 - new alias.
+  Found dev 252:17 /dev/disk/by-path/virtio-pci-0000:00:0c.0-part1 - new alias.
+  Found dev 252:18 /dev/vdb2 - new.
+  Found dev 252:18 /dev/disk/by-dname/vdb-part2 - new alias.
+  Found dev 252:18 /dev/disk/by-partuuid/5c1ca2b8-cecb-4123-a8b9-84ee2b456d44 - new alias.
+  Found dev 252:18 /dev/disk/by-path/pci-0000:00:0c.0-part2 - new alias.
+  Found dev 252:18 /dev/disk/by-path/virtio-pci-0000:00:0c.0-part2 - new alias.
+  Found dev 252:32 /dev/vdc - new.
+  Found dev 252:32 /dev/disk/by-path/pci-0000:00:0d.0 - new alias.
+  Found dev 252:32 /dev/disk/by-path/virtio-pci-0000:00:0d.0 - new alias.
+  Found dev 252:48 /dev/vdd - new.
+  Found dev 252:48 /dev/disk/by-path/pci-0000:00:0f.0 - new alias.
+  Found dev 252:48 /dev/disk/by-path/virtio-pci-0000:00:0f.0 - new alias.
+  Found dev 251:0 /dev/bcache0 - new.
+  Found dev 251:0 /dev/bcache/by-label/bcache1 - new alias.
+  Found dev 251:0 /dev/bcache/by-uuid/f254d188-e81b-493f-9f26-a377af56cb32 - new alias.
+  Found dev 251:0 /dev/disk/by-dname/bcache1 - new alias.
+  Found dev 251:0 /dev/disk/by-uuid/88244ad9-372d-427e-9d82-c411c73d900a - new alias.
+  Found dev 251:128 /dev/bcache1 - new.
+  Found dev 251:128 /dev/bcache/by-label/bcache0 - new alias.
+  Found dev 251:128 /dev/bcache/by-uuid/d9b66beb-6321-47e2-ad6d-bf117bb18d82 - new alias.
+  Found dev 251:128 /dev/disk/by-dname/bcache0 - new alias.
+  Found dev 251:128 /dev/disk/by-uuid/48858aa1-71a3-4f0e-95f3-a07d1d9a6749 - new alias.
+  Found dev 7:0 /dev/loop0 - new.
+  Found dev 7:1 /dev/loop1 - new.
+  Found dev 7:2 /dev/loop2 - new.
+  Found dev 7:3 /dev/loop3 - new.
+  Found dev 7:4 /dev/loop4 - new.
+  Found dev 7:5 /dev/loop5 - new.
+  Found dev 7:6 /dev/loop6 - new.
+  Found dev 7:7 /dev/loop7 - new.
+  Found dev 253:0 /dev/dm-0 - new.
+  Found dev 253:0 /dev/disk/by-id/dm-name-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 - new alias.
+  Found dev 253:0 /dev/disk/by-id/dm-uuid-CRYPT-LUKS2-48858aa171a34f0e95f3a07d1d9a6749-crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 - new alias.
+  Found dev 253:0 /dev/disk/by-id/lvm-pv-uuid-MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt - new alias.
+  Found dev 253:0 /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 - new alias.
+  Found dev 253:1 /dev/dm-1 - new.
+  Found dev 253:1 /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 - new alias.
+  Found dev 253:1 /dev/disk/by-id/dm-name-ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 - new alias.
+  Found dev 253:1 /dev/disk/by-id/dm-uuid-LVM-2cdQud7F2us8HJODrfDsLi4HznhzONYcOCGMeIgyEjlLdyHQNsFpg6FRTFHLWoR7 - new alias.
+  Found dev 253:1 /dev/mapper/ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 - new alias.
+  Found dev 253:2 /dev/dm-2 - new.
+  Found dev 253:2 /dev/disk/by-id/dm-name-crypt-88244ad9-372d-427e-9d82-c411c73d900a - new alias.
+  Found dev 253:2 /dev/disk/by-id/dm-uuid-CRYPT-LUKS2-88244ad9372d427e9d82c411c73d900a-crypt-88244ad9-372d-427e-9d82-c411c73d900a - new alias.
+  Found dev 253:2 /dev/disk/by-uuid/c3332949-19ba-40f7-91b6-48ee86157980 - new alias.
+  Found dev 253:2 /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a - new alias.
+  Filtering devices to scan
+  Opened /dev/loop0 RO O_DIRECT
+  /dev/loop0: size is 126792 sectors
+  Closed /dev/loop0
+  filter partitioned deferred /dev/loop0
+  filter signature deferred /dev/loop0
+  filter md deferred /dev/loop0
+  filter cache deferred /dev/loop0
+  Opened /dev/bcache0 RO O_DIRECT
+  /dev/bcache0: size is 209715184 sectors
+  Closed /dev/bcache0
+  filter partitioned deferred /dev/bcache0
+  filter signature deferred /dev/bcache0
+  filter md deferred /dev/bcache0
+  filter cache deferred /dev/bcache0
+  Opened /dev/vda RO O_DIRECT
+  /dev/vda: size is 629145600 sectors
+  Closed /dev/vda
+  filter partitioned deferred /dev/vda
+  filter signature deferred /dev/vda
+  filter md deferred /dev/vda
+  filter cache deferred /dev/vda
+  dm version   [ opencount flush ]   [16384] (*1)
+  dm status   (253:0) [ noopencount noflush ]   [16384] (*1)
+  Opened /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 RO O_DIRECT
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: size is 209682416 sectors
+  Closed /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  filter partitioned deferred /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  filter signature deferred /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  filter md deferred /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  filter cache deferred /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  Opened /dev/loop1 RO O_DIRECT
+  /dev/loop1: size is 0 sectors
+  Closed /dev/loop1
+  /dev/loop1: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop1
+  Opened /dev/vda1 RO O_DIRECT
+  /dev/vda1: size is 2048 sectors
+  Closed /dev/vda1
+  /dev/vda1: Skipping: Too small to hold a PV
+  filter caching bad /dev/vda1
+  dm status   (253:1) [ noopencount noflush ]   [16384] (*1)
+  /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: Skipping unusable device.
+  filter caching bad /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  Opened /dev/loop2 RO O_DIRECT
+  /dev/loop2: size is 156112 sectors
+  Closed /dev/loop2
+  filter partitioned deferred /dev/loop2
+  filter signature deferred /dev/loop2
+  filter md deferred /dev/loop2
+  filter cache deferred /dev/loop2
+  Opened /dev/vda2 RO O_DIRECT
+  /dev/vda2: size is 629141471 sectors
+  Closed /dev/vda2
+  filter partitioned deferred /dev/vda2
+  filter signature deferred /dev/vda2
+  filter md deferred /dev/vda2
+  filter cache deferred /dev/vda2
+  dm status   (253:2) [ noopencount noflush ]   [16384] (*1)
+  Opened /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a RO O_DIRECT
+  /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a: size is 209682416 sectors
+  Closed /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  filter partitioned deferred /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  filter signature deferred /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  filter md deferred /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  filter cache deferred /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  Opened /dev/loop3 RO O_DIRECT
+  /dev/loop3: size is 88952 sectors
+  Closed /dev/loop3
+  filter partitioned deferred /dev/loop3
+  filter signature deferred /dev/loop3
+  filter md deferred /dev/loop3
+  filter cache deferred /dev/loop3
+  Opened /dev/loop4 RO O_DIRECT
+  /dev/loop4: size is 156232 sectors
+  Closed /dev/loop4
+  filter partitioned deferred /dev/loop4
+  filter signature deferred /dev/loop4
+  filter md deferred /dev/loop4
+  filter cache deferred /dev/loop4
+  Opened /dev/loop5 RO O_DIRECT
+  /dev/loop5: size is 0 sectors
+  Closed /dev/loop5
+  /dev/loop5: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop5
+  Opened /dev/loop6 RO O_DIRECT
+  /dev/loop6: size is 0 sectors
+  Closed /dev/loop6
+  /dev/loop6: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop6
+  Opened /dev/loop7 RO O_DIRECT
+  /dev/loop7: size is 0 sectors
+  Closed /dev/loop7
+  /dev/loop7: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop7
+  Opened /dev/vdb RO O_DIRECT
+  /dev/vdb: size is 209715200 sectors
+  Closed /dev/vdb
+  filter partitioned deferred /dev/vdb
+  filter signature deferred /dev/vdb
+  filter md deferred /dev/vdb
+  filter cache deferred /dev/vdb
+  Opened /dev/vdb1 RO O_DIRECT
+  /dev/vdb1: size is 2048 sectors
+  Closed /dev/vdb1
+  /dev/vdb1: Skipping: Too small to hold a PV
+  filter caching bad /dev/vdb1
+  Opened /dev/vdb2 RO O_DIRECT
+  /dev/vdb2: size is 209698816 sectors
+  Closed /dev/vdb2
+  filter partitioned deferred /dev/vdb2
+  filter signature deferred /dev/vdb2
+  filter md deferred /dev/vdb2
+  filter cache deferred /dev/vdb2
+  Opened /dev/vdc RO O_DIRECT
+  /dev/vdc: size is 209715200 sectors
+  Closed /dev/vdc
+  filter partitioned deferred /dev/vdc
+  filter signature deferred /dev/vdc
+  filter md deferred /dev/vdc
+  filter cache deferred /dev/vdc
+  Opened /dev/vdd RO O_DIRECT
+  /dev/vdd: size is 209715200 sectors
+  Closed /dev/vdd
+  filter partitioned deferred /dev/vdd
+  filter signature deferred /dev/vdd
+  filter md deferred /dev/vdd
+  filter cache deferred /dev/vdd
+  Opened /dev/bcache1 RO O_DIRECT
+  /dev/bcache1: size is 209715184 sectors
+  Closed /dev/bcache1
+  filter partitioned deferred /dev/bcache1
+  filter signature deferred /dev/bcache1
+  filter md deferred /dev/bcache1
+  filter cache deferred /dev/bcache1
+  Will scan 14 devices skip 0
+  Checking fd limit for num_devs 14 want 46 soft 1024 hard 1048576
+  Scanning 14 devices for VG info
+  Scanning submitted 14 reads
+  Processing data from device /dev/loop0 7:0 fd 4 block 0x556747b2bf90
+  Scan filtering /dev/loop0
+  /dev/loop0: using cached size 126792 sectors
+  /dev/loop0: using cached size 126792 sectors
+  filter caching good /dev/loop0
+  /dev/loop0: No lvm label detected
+  Processing data from device /dev/bcache0 251:0 fd 5 block 0x556747b2bfd0
+  Scan filtering /dev/bcache0
+  /dev/bcache0: using cached size 209715184 sectors
+  /dev/bcache0: using cached size 209715184 sectors
+  filter caching good /dev/bcache0
+  /dev/bcache0: No lvm label detected
+  Processing data from device /dev/vda 252:0 fd 6 block 0x556747b2c010
+  Scan filtering /dev/vda
+  /dev/vda: using cached size 629145600 sectors
+  /dev/vda: Skipping: Partition table signature found
+  filter caching bad /dev/vda
+  /dev/vda: Not processing filtered
+  Processing data from device /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 253:0 fd 7 block 0x556747b2c050
+  Scan filtering /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  dm status   (253:0) [ noopencount noflush ]   [16384] (*1)
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  filter caching good /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: lvm2 label detected at sector 1
+  lvmcache /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: now in VG #orphans_lvm2 (#orphans_lvm2) with 0 mda(s).
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: PV header extension version 2 found
+  Scanning /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 mda1 summary.
+  Reading mda header sector from /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 4096
+  Reading metadata summary from /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 7168 size 2276 (+0)
+  Found metadata summary on /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 7168 size 2276 for VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  lvmcache has no info for vgname "ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749" with VGID 2cdQud7F2us8HJODrfDsLi4HznhzONYc.
+  lvmcache has no info for vgname "ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749".
+  lvmcache /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: now in VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 with 1 mda(s).
+  lvmcache /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: set VGID to 2cdQud7F2us8HJODrfDsLi4HznhzONYc.
+  lvmcache /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 mda1 VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 set seqno 3 checksum b1907750 mda_size 2276
+  lvmcache /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: set creation host to compute4.
+  Scanned /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 mda1 seqno 3
+  Processing data from device /dev/loop2 7:2 fd 8 block 0x556747b2c090
+  Scan filtering /dev/loop2
+  /dev/loop2: using cached size 156112 sectors
+  /dev/loop2: using cached size 156112 sectors
+  filter caching good /dev/loop2
+  /dev/loop2: No lvm label detected
+  Processing data from device /dev/vda2 252:2 fd 9 block 0x556747b2c0d0
+  Scan filtering /dev/vda2
+  /dev/vda2: using cached size 629141471 sectors
+  /dev/vda2: using cached size 629141471 sectors
+  filter caching good /dev/vda2
+  /dev/vda2: No lvm label detected
+  Processing data from device /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a 253:2 fd 10 block 0x556747b2c110
+  Scan filtering /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  dm status   (253:2) [ noopencount noflush ]   [16384] (*1)
+  /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a: using cached size 209682416 sectors
+  /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a: using cached size 209682416 sectors
+  filter caching good /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a
+  /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a: No lvm label detected
+  Processing data from device /dev/loop3 7:3 fd 11 block 0x556747b2c150
+  Scan filtering /dev/loop3
+  /dev/loop3: using cached size 88952 sectors
+  /dev/loop3: using cached size 88952 sectors
+  filter caching good /dev/loop3
+  /dev/loop3: No lvm label detected
+  Processing data from device /dev/loop4 7:4 fd 12 block 0x556747b2c190
+  Scan filtering /dev/loop4
+  /dev/loop4: using cached size 156232 sectors
+  /dev/loop4: using cached size 156232 sectors
+  filter caching good /dev/loop4
+  /dev/loop4: No lvm label detected
+  Processing data from device /dev/vdb 252:16 fd 13 block 0x556747b2c1d0
+  Scan filtering /dev/vdb
+  /dev/vdb: using cached size 209715200 sectors
+  /dev/vdb: Skipping: Partition table signature found
+  filter caching bad /dev/vdb
+  /dev/vdb: Not processing filtered
+  Processing data from device /dev/vdb2 252:18 fd 14 block 0x556747b2c210
+  Scan filtering /dev/vdb2
+  /dev/vdb2: using cached size 209698816 sectors
+  /dev/vdb2: using cached size 209698816 sectors
+  filter caching good /dev/vdb2
+  /dev/vdb2: No lvm label detected
+  Processing data from device /dev/vdc 252:32 fd 15 block 0x556747b2c250
+  Scan filtering /dev/vdc
+  /dev/vdc: using cached size 209715200 sectors
+  /dev/vdc: using cached size 209715200 sectors
+  filter caching good /dev/vdc
+  /dev/vdc: No lvm label detected
+  Processing data from device /dev/vdd 252:48 fd 16 block 0x556747b2c290
+  Scan filtering /dev/vdd
+  /dev/vdd: using cached size 209715200 sectors
+  /dev/vdd: using cached size 209715200 sectors
+  filter caching good /dev/vdd
+  /dev/vdd: No lvm label detected
+  Processing data from device /dev/bcache1 251:128 fd 17 block 0x556747b2c2d0
+  Scan filtering /dev/bcache1
+  /dev/bcache1: using cached size 209715184 sectors
+  /dev/bcache1: using cached size 209715184 sectors
+  filter caching good /dev/bcache1
+  /dev/bcache1: No lvm label detected
+  Scanned devices: read errors 0 process errors 0 failed 0
+  Found VG info for 1 VGs
+  Obtaining the complete list of VGs to process
+  report/output_format not found in config: defaulting to basic
+  log/report_command_log not found in config: defaulting to 0
+  Processing VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 2cdQud-7F2u-s8HJ-ODrf-DsLi-4Hzn-hzONYc
+  Reading VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 2cdQud7F2us8HJODrfDsLi4HznhzONYc
+  Reading mda header sector from /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 4096
+  rescan skipped - unchanged offset 3072 checksum b1907750
+  Reading VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 metadata from /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 4096
+  Reading mda header sector from /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 4096
+  VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 metadata check /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 mda 4096 slot0 offset 3072 size 2276
+  Reading metadata from /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 7168 size 2276 (+0)
+  Allocated VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 0x556748339030.
+  Importing logical volume ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749.
+  Found metadata on /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 7168 size 2276 for VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  lvmcache_update_vg ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 for info /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  metadata/lvs_history_retention_time not found in config: defaulting to 0
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 0:      0  25595: osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749(0:0)
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  Running command for VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 2cdQud-7F2u-s8HJ-ODrf-DsLi-4Hzn-hzONYc
+  Found volume group "ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749" using metadata type lvm2
+  Freeing VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 0x55674833d040.
+  Unlock: Memlock counters: prioritized:0 locked:0 critical:0 daemon:0 suspended:0
+  Syncing device names
+  Freeing VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 at 0x556748339030.
+  Dropping VG info
+  lvmcache has no info for vgname "#orphans_lvm2" with VGID #orphans_lvm2.
+  lvmcache has no info for vgname "#orphans_lvm2".
+  lvmcache: Initialised VG #orphans_lvm2.
+  Reloading config files
+  Syncing device names
+  Dropping VG info
+  Freeing VG #orphans_lvm2 at 0x556747b10870.
+  Loading config file: /etc/lvm/lvm.conf
+  Opened /etc/lvm/lvm.conf RO
+  Closed /etc/lvm/lvm.conf

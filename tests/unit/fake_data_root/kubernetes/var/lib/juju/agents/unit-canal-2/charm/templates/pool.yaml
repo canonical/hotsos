@@ -1,0 +1,8 @@
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: default
+spec:
+  cidr: {{ cidr }}
+  ipipMode: Never
+  natOutgoing: true

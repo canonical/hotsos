@@ -1,0 +1,15 @@
+[Unit]
+# Auto-generated, DO NOT EDIT
+Description=Socket unix for snap application lxd.user-daemon
+Requires=snap-lxd-22358.mount
+After=snap-lxd-22358.mount
+X-Snappy=yes
+
+[Socket]
+Service=snap.lxd.user-daemon.service
+FileDescriptorName=unix
+ListenStream=/var/snap/lxd/common/lxd-user/unix.socket
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

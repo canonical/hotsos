@@ -1,0 +1,4 @@
+/dev/mapper/control: mknod failed: Operation not permitted
+Failure to communicate with kernel device-mapper driver.
+Check that device-mapper is available in the kernel.
+Incompatible libdevmapper 1.02.167 (2019-11-30) and kernel driver (unknown version).

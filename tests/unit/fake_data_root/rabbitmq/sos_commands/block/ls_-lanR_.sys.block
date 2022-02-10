@@ -1,0 +1,21 @@
+/sys/block:
+total 0
+drwxr-xr-x  2 65534 65534 0 Feb 10 06:51 .
+dr-xr-xr-x 13 65534 65534 0 Feb  9 22:38 ..
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 bcache0 -> ../devices/virtual/block/bcache0
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 bcache1 -> ../devices/virtual/block/bcache1
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 dm-0 -> ../devices/virtual/block/dm-0
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 dm-1 -> ../devices/virtual/block/dm-1
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 dm-2 -> ../devices/virtual/block/dm-2
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop0 -> ../devices/virtual/block/loop0
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop1 -> ../devices/virtual/block/loop1
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop2 -> ../devices/virtual/block/loop2
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop3 -> ../devices/virtual/block/loop3
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop4 -> ../devices/virtual/block/loop4
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop5 -> ../devices/virtual/block/loop5
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop6 -> ../devices/virtual/block/loop6
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 loop7 -> ../devices/virtual/block/loop7
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 vda -> ../devices/pci0000:00/0000:00:0b.0/virtio7/block/vda
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 vdb -> ../devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 vdc -> ../devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+lrwxrwxrwx  1 65534 65534 0 Feb 10 06:51 vdd -> ../devices/pci0000:00/0000:00:0f.0/virtio11/block/vdd

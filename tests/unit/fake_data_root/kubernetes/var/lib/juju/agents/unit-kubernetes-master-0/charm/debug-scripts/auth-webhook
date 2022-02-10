@@ -1,0 +1,7 @@
+#!/bin/sh
+set -ux
+
+systemctl status cdk.master.auth-webhook.service > $DEBUG_SCRIPT_DIR/auth-webhook-systemctl-status
+
+AUTH_LOG=/root/cdk/auth-webhook/auth-webhook.log
+test -f $AUTH_LOG && cp $AUTH_LOG $DEBUG_SCRIPT_DIR

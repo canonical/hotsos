@@ -1,0 +1,56 @@
+26 31 0:24 / /sys rw,nosuid,nodev,noexec,relatime shared:7 - sysfs sysfs rw
+27 31 0:5 / /proc rw,nosuid,nodev,noexec,relatime shared:14 - proc proc rw
+28 31 0:6 / /dev rw,nosuid,noexec,relatime shared:2 - devtmpfs udev rw,size=1995872k,nr_inodes=498968,mode=755
+29 28 0:25 / /dev/pts rw,nosuid,noexec,relatime shared:3 - devpts devpts rw,gid=5,mode=620,ptmxmode=000
+30 31 0:26 / /run rw,nosuid,nodev,noexec,relatime shared:5 - tmpfs tmpfs rw,size=402604k,mode=755
+31 1 252:1 / / rw,relatime shared:1 - ext4 /dev/vda1 rw
+32 26 0:7 / /sys/kernel/security rw,nosuid,nodev,noexec,relatime shared:8 - securityfs securityfs rw
+33 28 0:27 / /dev/shm rw,nosuid,nodev shared:4 - tmpfs tmpfs rw
+34 30 0:28 / /run/lock rw,nosuid,nodev,noexec,relatime shared:6 - tmpfs tmpfs rw,size=5120k
+35 26 0:29 / /sys/fs/cgroup ro,nosuid,nodev,noexec shared:9 - tmpfs tmpfs ro,mode=755
+36 35 0:30 / /sys/fs/cgroup/unified rw,nosuid,nodev,noexec,relatime shared:10 - cgroup2 cgroup2 rw
+37 35 0:31 / /sys/fs/cgroup/systemd rw,nosuid,nodev,noexec,relatime shared:11 - cgroup cgroup rw,xattr,name=systemd
+38 26 0:32 / /sys/fs/pstore rw,nosuid,nodev,noexec,relatime shared:12 - pstore pstore rw
+39 26 0:33 / /sys/fs/bpf rw,nosuid,nodev,noexec,relatime shared:13 - bpf none rw,mode=700
+40 35 0:34 / /sys/fs/cgroup/blkio rw,nosuid,nodev,noexec,relatime shared:15 - cgroup cgroup rw,blkio
+41 35 0:35 / /sys/fs/cgroup/cpu,cpuacct rw,nosuid,nodev,noexec,relatime shared:16 - cgroup cgroup rw,cpu,cpuacct
+42 35 0:36 / /sys/fs/cgroup/net_cls,net_prio rw,nosuid,nodev,noexec,relatime shared:17 - cgroup cgroup rw,net_cls,net_prio
+43 35 0:37 / /sys/fs/cgroup/perf_event rw,nosuid,nodev,noexec,relatime shared:18 - cgroup cgroup rw,perf_event
+44 35 0:38 / /sys/fs/cgroup/memory rw,nosuid,nodev,noexec,relatime shared:19 - cgroup cgroup rw,memory
+45 35 0:39 / /sys/fs/cgroup/devices rw,nosuid,nodev,noexec,relatime shared:20 - cgroup cgroup rw,devices
+46 35 0:40 / /sys/fs/cgroup/pids rw,nosuid,nodev,noexec,relatime shared:21 - cgroup cgroup rw,pids
+47 35 0:41 / /sys/fs/cgroup/cpuset rw,nosuid,nodev,noexec,relatime shared:22 - cgroup cgroup rw,cpuset,clone_children
+48 35 0:42 / /sys/fs/cgroup/freezer rw,nosuid,nodev,noexec,relatime shared:23 - cgroup cgroup rw,freezer
+49 35 0:43 / /sys/fs/cgroup/rdma rw,nosuid,nodev,noexec,relatime shared:24 - cgroup cgroup rw,rdma
+50 35 0:44 / /sys/fs/cgroup/hugetlb rw,nosuid,nodev,noexec,relatime shared:25 - cgroup cgroup rw,hugetlb
+52 27 0:45 / /proc/sys/fs/binfmt_misc rw,relatime shared:26 - autofs systemd-1 rw,fd=28,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=13907
+53 28 0:46 / /dev/hugepages rw,relatime shared:27 - hugetlbfs hugetlbfs rw,pagesize=2M
+54 28 0:21 / /dev/mqueue rw,nosuid,nodev,noexec,relatime shared:28 - mqueue mqueue rw
+55 26 0:8 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime shared:29 - debugfs debugfs rw
+56 26 0:12 / /sys/kernel/tracing rw,nosuid,nodev,noexec,relatime shared:30 - tracefs tracefs rw
+57 26 0:22 / /sys/kernel/config rw,nosuid,nodev,noexec,relatime shared:31 - configfs configfs rw
+58 26 0:47 / /sys/fs/fuse/connections rw,nosuid,nodev,noexec,relatime shared:32 - fusectl fusectl rw
+128 31 7:0 / /snap/core20/1328 ro,nodev,relatime shared:68 - squashfs /dev/loop0 ro
+131 31 7:1 / /snap/lxd/21835 ro,nodev,relatime shared:70 - squashfs /dev/loop1 ro
+134 31 7:2 / /snap/snapd/14549 ro,nodev,relatime shared:72 - squashfs /dev/loop2 ro
+137 31 252:15 / /boot/efi rw,relatime shared:74 - vfat /dev/vda15 rw,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro
+659 30 0:26 /snapd/ns /run/snapd/ns rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw,size=402604k,mode=755
+679 659 0:4 mnt:[4026532277] /run/snapd/ns/lxd.mnt rw - nsfs nsfs rw
+797 31 0:53 / /var/snap/lxd/common/ns rw,relatime - tmpfs tmpfs rw,size=1024k,mode=700
+815 797 0:4 mnt:[4026532278] /var/snap/lxd/common/ns/shmounts rw - nsfs nsfs rw
+723 797 0:4 mnt:[4026532277] /var/snap/lxd/common/ns/mntns rw - nsfs nsfs rw
+794 31 7:3 / /snap/core/12603 ro,nodev,relatime shared:382 - squashfs /dev/loop3 ro
+833 31 7:4 / /snap/core18/2284 ro,nodev,relatime shared:399 - squashfs /dev/loop4 ro
+851 31 7:5 / /snap/kubectl/2308 ro,nodev,relatime shared:407 - squashfs /dev/loop5 ro
+869 31 7:6 / /snap/kube-apiserver/2599 ro,nodev,relatime shared:415 - squashfs /dev/loop6 ro
+909 659 0:4 mnt:[4026532313] /run/snapd/ns/kube-apiserver.mnt rw - nsfs nsfs rw
+910 31 7:7 / /snap/kube-controller-manager/2407 ro,nodev,relatime shared:423 - squashfs /dev/loop7 ro
+947 659 0:4 mnt:[4026532314] /run/snapd/ns/kube-controller-manager.mnt rw - nsfs nsfs rw
+948 31 7:8 / /snap/kube-scheduler/2327 ro,nodev,relatime shared:431 - squashfs /dev/loop8 ro
+1048 659 0:4 mnt:[4026532315] /run/snapd/ns/kube-scheduler.mnt rw - nsfs nsfs rw
+1049 31 7:9 / /snap/cdk-addons/9030 ro,nodev,relatime shared:439 - squashfs /dev/loop9 ro
+1153 659 0:4 mnt:[4026532316] /run/snapd/ns/cdk-addons.mnt rw - nsfs nsfs rw
+1154 31 7:10 / /snap/kube-proxy/2360 ro,nodev,relatime shared:447 - squashfs /dev/loop10 ro
+1269 30 0:66 / /run/containerd/io.containerd.runtime.v2.task/default/calico-node/rootfs rw,relatime shared:455 - overlay overlay rw,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/11/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/10/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/9/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/8/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/7/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/6/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/5/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/4/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/3/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/2/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/work,xino=off
+1361 30 0:74 / /run/user/1000 rw,nosuid,nodev,relatime shared:463 - tmpfs tmpfs rw,size=402600k,mode=700,uid=1000,gid=1000
+1387 55 0:12 / /sys/kernel/debug/tracing rw,nosuid,nodev,noexec,relatime shared:471 - tracefs tracefs rw

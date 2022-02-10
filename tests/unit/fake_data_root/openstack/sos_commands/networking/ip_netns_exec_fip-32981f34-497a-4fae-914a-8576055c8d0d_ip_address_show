@@ -1,0 +1,18 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: fpr-984c22fd-6@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 12:0e:b9:fe:c0:22 brd ff:ff:ff:ff:ff:ff link-netns qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5
+    inet 169.254.88.135/31 scope global fpr-984c22fd-6
+       valid_lft forever preferred_lft forever
+    inet6 fe80::100e:b9ff:fefe:c022/64 scope link 
+       valid_lft forever preferred_lft forever
+32: fg-c8dcce74-c4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/ether fa:16:3e:89:39:9e brd ff:ff:ff:ff:ff:ff
+    inet 10.100.0.206/24 brd 10.100.0.255 scope global fg-c8dcce74-c4
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe89:399e/64 scope link 
+       valid_lft forever preferred_lft forever

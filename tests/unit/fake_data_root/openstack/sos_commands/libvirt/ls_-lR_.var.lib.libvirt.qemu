@@ -1,0 +1,52 @@
+/var/lib/libvirt/qemu:
+total 36
+drwxr-x--- 3 libvirt-qemu kvm 4096 Feb  4 09:36 channel
+drwxr-xr-x 2 libvirt-qemu kvm 4096 Feb  4 09:37 checkpoint
+drwxr-x--- 2 libvirt-qemu kvm 4096 Feb 10 16:18 domain-2-instance-00000001
+drwxr-xr-x 2 libvirt-qemu kvm 4096 Feb  4 09:37 dump
+drwxr-xr-x 2 libvirt-qemu kvm 4096 Feb  4 09:37 nvram
+drwxr-xr-x 3 libvirt-qemu kvm 4096 Feb  4 09:37 ram
+drwxr-xr-x 2 libvirt-qemu kvm 4096 Feb  4 09:37 save
+drwxr-xr-x 2 libvirt-qemu kvm 4096 Feb  4 09:37 snapshot
+
+/var/lib/libvirt/qemu/channel:
+total 4
+drwxr-x--- 3 libvirt-qemu kvm 4096 Feb 10 16:18 target
+
+/var/lib/libvirt/qemu/channel/target:
+total 8
+drwxr-x--- 2 libvirt-qemu kvm 4096 Feb 10 16:18 domain-2-instance-00000001
+
+/var/lib/libvirt/qemu/channel/target/domain-2-instance-00000001:
+total 0
+
+/var/lib/libvirt/qemu/checkpoint:
+total 0
+
+/var/lib/libvirt/qemu/domain-2-instance-00000001:
+total 8
+-rw------- 1 libvirt-qemu kvm  32 Feb 10 16:18 master-key.aes
+srwxrwxr-x 1 root         root  0 Feb 10 16:18 monitor.sock
+
+/var/lib/libvirt/qemu/dump:
+total 0
+
+/var/lib/libvirt/qemu/nvram:
+total 0
+
+/var/lib/libvirt/qemu/ram:
+total 4
+drwxr-xr-x 3 root root 4096 Feb  4 09:37 libvirt
+
+/var/lib/libvirt/qemu/ram/libvirt:
+total 4
+drwxr-xr-x 2 root root 4096 Feb  4 09:37 qemu
+
+/var/lib/libvirt/qemu/ram/libvirt/qemu:
+total 0
+
+/var/lib/libvirt/qemu/save:
+total 0
+
+/var/lib/libvirt/qemu/snapshot:
+total 0

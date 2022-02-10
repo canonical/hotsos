@@ -1,0 +1,203 @@
+-- Logs begin at Fri 2022-02-04 09:34:04 UTC, end at Thu 2022-02-10 16:19:13 UTC. --
+Feb 04 09:34:07 ubuntu systemd[1]: Starting Initial cloud-init job (metadata service crawler)...
+Feb 04 09:34:09 compute4 cloud-init[894]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Fri, 04 Feb 2022 09:34:08 +0000. Up 6.66 seconds.
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: | Device |  Up  |          Address           |      Mask     | Scope  |     Hw-Address    |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens3  | True |         10.0.0.128         | 255.255.255.0 | global | 52:54:00:e2:28:a3 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens3  | True | fe80::5054:ff:fee2:28a3/64 |       .       |  link  | 52:54:00:e2:28:a3 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens4  | True | fe80::5054:ff:febb:47e2/64 |       .       |  link  | 52:54:00:bb:47:e2 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens5  | True | fe80::5054:ff:fe5c:d947/64 |       .       |  link  | 52:54:00:5c:d9:47 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens6  | True | fe80::5054:ff:fee6:1419/64 |       .       |  link  | 52:54:00:e6:14:19 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens7  | True | fe80::5054:ff:fe78:19c3/64 |       .       |  link  | 52:54:00:78:19:c3 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens8  | True | fe80::5054:ff:fefa:5095/64 |       .       |  link  | 52:54:00:fa:50:95 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |  ens9  | True | fe80::5054:ff:fe5c:a7e0/64 |       .       |  link  | 52:54:00:5c:a7:e0 |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   lo   | True |         127.0.0.1          |   255.0.0.0   |  host  |         .         |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   lo   | True |          ::1/128           |       .       |  host  |         .         |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +++++++++++++++++++++++++++Route IPv4 info++++++++++++++++++++++++++++
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: | Route | Destination | Gateway  |    Genmask    | Interface | Flags |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   0   |   0.0.0.0   | 10.0.0.2 |    0.0.0.0    |    ens3   |   UG  |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   1   |   10.0.0.0  | 0.0.0.0  | 255.255.255.0 |    ens3   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   1   |  fe80::/64  |    ::   |    ens9   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   2   |  fe80::/64  |    ::   |    ens8   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   3   |  fe80::/64  |    ::   |    ens7   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   4   |  fe80::/64  |    ::   |    ens6   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   5   |  fe80::/64  |    ::   |    ens5   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   6   |  fe80::/64  |    ::   |    ens4   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   7   |  fe80::/64  |    ::   |    ens3   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   9   |    local    |    ::   |    ens9   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   10  |    local    |    ::   |    ens5   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   11  |    local    |    ::   |    ens7   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   12  |    local    |    ::   |    ens4   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   13  |    local    |    ::   |    ens3   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   14  |    local    |    ::   |    ens8   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   15  |  multicast  |    ::   |    ens9   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   16  |  multicast  |    ::   |    ens8   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   17  |  multicast  |    ::   |    ens7   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   18  |  multicast  |    ::   |    ens6   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   19  |  multicast  |    ::   |    ens5   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   20  |  multicast  |    ::   |    ens4   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: |   21  |  multicast  |    ::   |    ens3   |   U   |
+Feb 04 09:34:09 compute4 cloud-init[894]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 04 09:34:09 compute4 useradd[1035]: new group: name=ubuntu, GID=1000
+Feb 04 09:34:09 compute4 useradd[1035]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'adm'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'dialout'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'cdrom'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'floppy'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'sudo'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'audio'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'dip'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'video'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'plugdev'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to group 'netdev'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'adm'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'dialout'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'cdrom'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'floppy'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'sudo'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'audio'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'dip'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'video'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'plugdev'
+Feb 04 09:34:09 compute4 useradd[1035]: add 'ubuntu' to shadow group 'netdev'
+Feb 04 09:34:09 compute4 passwd[1044]: password for 'ubuntu' changed by 'root'
+Feb 04 09:34:10 compute4 cloud-init[894]: Generating public/private rsa key pair.
+Feb 04 09:34:10 compute4 cloud-init[894]: Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+Feb 04 09:34:10 compute4 cloud-init[894]: Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+Feb 04 09:34:10 compute4 cloud-init[894]: The key fingerprint is:
+Feb 04 09:34:10 compute4 cloud-init[894]: SHA256:OUwTSKZkVKaSeTv9gtrC41Hu6g0bwRHTvEjI7n4gfWw root@compute4
+Feb 04 09:34:10 compute4 cloud-init[894]: The key's randomart image is:
+Feb 04 09:34:10 compute4 cloud-init[894]: +---[RSA 3072]----+
+Feb 04 09:34:10 compute4 cloud-init[894]: |..o++o=..        |
+Feb 04 09:34:10 compute4 cloud-init[894]: |...Bo=.  .       |
+Feb 04 09:34:10 compute4 cloud-init[894]: |..=.+.  o        |
+Feb 04 09:34:10 compute4 cloud-init[894]: | o.+.o o o       |
+Feb 04 09:34:10 compute4 cloud-init[894]: |..o.+ . S        |
+Feb 04 09:34:10 compute4 cloud-init[894]: |.o.+Eo . .       |
+Feb 04 09:34:10 compute4 cloud-init[894]: |o.=oo . .        |
+Feb 04 09:34:10 compute4 cloud-init[894]: | .+@   .         |
+Feb 04 09:34:10 compute4 cloud-init[894]: | oB++            |
+Feb 04 09:34:10 compute4 cloud-init[894]: +----[SHA256]-----+
+Feb 04 09:34:10 compute4 cloud-init[894]: Generating public/private dsa key pair.
+Feb 04 09:34:10 compute4 cloud-init[894]: Your identification has been saved in /etc/ssh/ssh_host_dsa_key
+Feb 04 09:34:10 compute4 cloud-init[894]: Your public key has been saved in /etc/ssh/ssh_host_dsa_key.pub
+Feb 04 09:34:10 compute4 cloud-init[894]: The key fingerprint is:
+Feb 04 09:34:10 compute4 cloud-init[894]: SHA256:BtPaFSLLWdNLBf4SlunlPGJMUDezM2F1ivZjUPHerU0 root@compute4
+Feb 04 09:34:10 compute4 cloud-init[894]: The key's randomart image is:
+Feb 04 09:34:10 compute4 cloud-init[894]: +---[DSA 1024]----+
+Feb 04 09:34:10 compute4 cloud-init[894]: |      . =o+oB.+..|
+Feb 04 09:34:10 compute4 cloud-init[894]: |     . * =o* B + |
+Feb 04 09:34:10 compute4 cloud-init[894]: |      * ..O.O . .|
+Feb 04 09:34:10 compute4 cloud-init[894]: |       = *.B = .o|
+Feb 04 09:34:10 compute4 cloud-init[894]: |      . S * = + E|
+Feb 04 09:34:10 compute4 cloud-init[894]: |       . . o o = |
+Feb 04 09:34:10 compute4 cloud-init[894]: |              . .|
+Feb 04 09:34:10 compute4 cloud-init[894]: |                 |
+Feb 04 09:34:10 compute4 cloud-init[894]: |                 |
+Feb 04 09:34:10 compute4 cloud-init[894]: +----[SHA256]-----+
+Feb 04 09:34:10 compute4 cloud-init[894]: Generating public/private ecdsa key pair.
+Feb 04 09:34:10 compute4 cloud-init[894]: Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
+Feb 04 09:34:10 compute4 cloud-init[894]: Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
+Feb 04 09:34:10 compute4 cloud-init[894]: The key fingerprint is:
+Feb 04 09:34:10 compute4 cloud-init[894]: SHA256:eEuODKDwHIGpS1/P1hYBQTVp8QqfXT0RDAnUL0HyLSQ root@compute4
+Feb 04 09:34:10 compute4 cloud-init[894]: The key's randomart image is:
+Feb 04 09:34:10 compute4 cloud-init[894]: +---[ECDSA 256]---+
+Feb 04 09:34:10 compute4 cloud-init[894]: | o.   .++++E+++o.|
+Feb 04 09:34:10 compute4 cloud-init[894]: |o  .     +o =+o..|
+Feb 04 09:34:10 compute4 cloud-init[894]: |o o    .. .. +o+ |
+Feb 04 09:34:10 compute4 cloud-init[894]: |o= o . .o.+ .....|
+Feb 04 09:34:10 compute4 cloud-init[894]: |o.+ o + S+..  .  |
+Feb 04 09:34:10 compute4 cloud-init[894]: |.  . o O +       |
+Feb 04 09:34:10 compute4 cloud-init[894]: |      + +        |
+Feb 04 09:34:10 compute4 cloud-init[894]: |                 |
+Feb 04 09:34:10 compute4 cloud-init[894]: |                 |
+Feb 04 09:34:10 compute4 cloud-init[894]: +----[SHA256]-----+
+Feb 04 09:34:10 compute4 cloud-init[894]: Generating public/private ed25519 key pair.
+Feb 04 09:34:10 compute4 cloud-init[894]: Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+Feb 04 09:34:10 compute4 cloud-init[894]: Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+Feb 04 09:34:10 compute4 cloud-init[894]: The key fingerprint is:
+Feb 04 09:34:10 compute4 cloud-init[894]: SHA256:jub0hMfuP96fMKQG9Y7WJ+drbCdKwcAbwLbBRkWkgb4 root@compute4
+Feb 04 09:34:10 compute4 cloud-init[894]: The key's randomart image is:
+Feb 04 09:34:10 compute4 cloud-init[894]: +--[ED25519 256]--+
+Feb 04 09:34:10 compute4 cloud-init[894]: |       =+++      |
+Feb 04 09:34:10 compute4 cloud-init[894]: |      . *=       |
+Feb 04 09:34:10 compute4 cloud-init[894]: |     . o.o=      |
+Feb 04 09:34:10 compute4 cloud-init[894]: |      . .. *     |
+Feb 04 09:34:10 compute4 cloud-init[894]: |       .S . =    |
+Feb 04 09:34:10 compute4 cloud-init[894]: |      E= . * .   |
+Feb 04 09:34:10 compute4 cloud-init[894]: |      = = = B.o  |
+Feb 04 09:34:10 compute4 cloud-init[894]: |     + = o.o B=..|
+Feb 04 09:34:10 compute4 cloud-init[894]: |      ..+oo.o==+ |
+Feb 04 09:34:10 compute4 cloud-init[894]: +----[SHA256]-----+
+Feb 04 09:34:10 compute4 systemd[1]: Finished Initial cloud-init job (metadata service crawler).
+Feb 04 11:33:06 compute4 systemd[1]: cloud-init.service: Succeeded.
+Feb 04 11:33:06 compute4 systemd[1]: Stopped Initial cloud-init job (metadata service crawler).
+-- Reboot --
+Feb 09 22:38:15 compute4 systemd[1]: Starting Initial cloud-init job (metadata service crawler)...
+Feb 09 22:38:16 compute4 cloud-init[876]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Wed, 09 Feb 2022 22:38:16 +0000. Up 8.02 seconds.
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +++++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++++++
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +------------+-------+------------------------------+---------------+--------+-------------------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   Device   |   Up  |           Address            |      Mask     | Scope  |     Hw-Address    |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +------------+-------+------------------------------+---------------+--------+-------------------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |  br-data   | False |              .               |       .       |   .    | 1e:fe:6a:11:d4:42 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |  br-ens3   |  True |          10.0.0.128          | 255.255.255.0 | global | 52:54:00:e2:28:a3 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |  br-ens3   |  True | fe80::98a5:d0ff:fe3f:6793/64 |       .       |  link  | 52:54:00:e2:28:a3 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   br-ex    | False |              .               |       .       |   .    | 52:b5:78:b8:fe:41 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   br-int   | False |              .               |       .       |   .    | 2e:13:35:c8:26:46 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   br-tun   | False |              .               |       .       |   .    | 82:72:c4:83:d8:47 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens3    |  True |              .               |       .       |   .    | 52:54:00:e2:28:a3 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens4    |  True |  fe80::5054:ff:febb:47e2/64  |       .       |  link  | 52:54:00:bb:47:e2 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens5    |  True |  fe80::5054:ff:fe5c:d947/64  |       .       |  link  | 52:54:00:5c:d9:47 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens6    |  True |  fe80::5054:ff:fee6:1419/64  |       .       |  link  | 52:54:00:e6:14:19 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens7    |  True |  fe80::5054:ff:fe78:19c3/64  |       .       |  link  | 52:54:00:78:19:c3 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens8    |  True |  fe80::5054:ff:fefa:5095/64  |       .       |  link  | 52:54:00:fa:50:95 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |    ens9    |  True |  fe80::5054:ff:fe5c:a7e0/64  |       .       |  link  | 52:54:00:5c:a7:e0 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |     lo     |  True |          127.0.0.1           |   255.0.0.0   |  host  |         .         |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |     lo     |  True |           ::1/128            |       .       |  host  |         .         |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: | ovs-system | False |              .               |       .       |   .    | 1a:d8:a5:27:9b:61 |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +------------+-------+------------------------------+---------------+--------+-------------------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +++++++++++++++++++++++++++Route IPv4 info++++++++++++++++++++++++++++
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: | Route | Destination | Gateway  |    Genmask    | Interface | Flags |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   0   |   0.0.0.0   | 10.0.0.2 |    0.0.0.0    |  br-ens3  |   UG  |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   1   |   10.0.0.0  | 0.0.0.0  | 255.255.255.0 |  br-ens3  |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+----------+---------------+-----------+-------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   1   |  fe80::/64  |    ::   |  br-ens3  |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   2   |  fe80::/64  |    ::   |    ens9   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   3   |  fe80::/64  |    ::   |    ens8   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   4   |  fe80::/64  |    ::   |    ens7   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   5   |  fe80::/64  |    ::   |    ens6   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   6   |  fe80::/64  |    ::   |    ens5   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   7   |  fe80::/64  |    ::   |    ens4   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   9   |    local    |    ::   |    ens9   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   10  |    local    |    ::   |    ens5   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   11  |    local    |    ::   |    ens7   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   12  |    local    |    ::   |    ens4   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   13  |    local    |    ::   |    ens6   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   14  |    local    |    ::   |    ens8   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   15  |    local    |    ::   |  br-ens3  |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   16  |  multicast  |    ::   |  br-ens3  |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   17  |  multicast  |    ::   |    ens9   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   18  |  multicast  |    ::   |    ens8   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   19  |  multicast  |    ::   |    ens7   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   20  |  multicast  |    ::   |    ens6   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   21  |  multicast  |    ::   |    ens5   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   22  |  multicast  |    ::   |    ens4   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   23  |  multicast  |    ::   |    ens3   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:17 compute4 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

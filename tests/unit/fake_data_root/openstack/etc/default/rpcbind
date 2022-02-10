@@ -1,0 +1,12 @@
+# /etc/init.d/rpcbind
+
+OPTIONS=""
+
+# Cause rpcbind to do a "warm start" utilizing a state file (default)
+OPTIONS="-w"
+
+# Uncomment the following line to restrict rpcbind to localhost only for UDP requests
+# OPTIONS="${OPTIONS} -h 127.0.0.1 -h ::1"
+
+# Uncomment the following line to enable libwrap TCP-Wrapper connection logging
+# OPTIONS="${OPTIONS} -l "

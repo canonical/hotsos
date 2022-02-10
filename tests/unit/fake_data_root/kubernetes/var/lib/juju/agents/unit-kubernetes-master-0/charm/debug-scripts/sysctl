@@ -1,0 +1,4 @@
+#!/bin/sh
+set -ux
+
+sysctl -a > $DEBUG_SCRIPT_DIR/sysctl

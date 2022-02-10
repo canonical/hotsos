@@ -1,0 +1,83 @@
+"options":
+  "use-syslog":
+    "type": "boolean"
+    "default": !!bool "false"
+    "description": |
+      Setting this to True will allow supporting services to log to syslog.
+  "ssl_cert":
+    "type": "string"
+    "default": !!null ""
+    "description": |
+      TLS certificate to install and use for any listening services.
+      .
+      __NOTE__: This configuration option will take precedence over any
+                certificates received over the ``certificates`` relation.
+  "ssl_key":
+    "type": "string"
+    "default": !!null ""
+    "description": |
+      TLS key to use with certificate specified as ``ssl_cert``.
+      .
+      __NOTE__: This configuration option will take precedence over any
+                certificates received over the ``certificates`` relation.
+  "ssl_ca":
+    "type": "string"
+    "default": !!null ""
+    "description": |
+      TLS CA to use to communicate with other components in a deployment.
+      .
+      __NOTE__: This configuration option will take precedence over any
+                certificates received over the ``certificates`` relation.
+  "source":
+    "type": "string"
+    "default": "distro"
+    "description": |
+      Repository from which to install. May be one of the following:
+      distro (default), ppa:somecustom/ppa, a deb url sources entry,
+      or a supported Ubuntu Cloud Archive e.g.
+      .
+      cloud:<series>-<openstack-release>
+      cloud:<series>-<openstack-release>/updates
+      cloud:<series>-<openstack-release>/staging
+      cloud:<series>-<openstack-release>/proposed
+      .
+      See https://wiki.ubuntu.com/OpenStack/CloudArchive for info on which
+      cloud archives are available and supported.
+  "base-port":
+    "type": "int"
+    "default": !!int "3306"
+    "description": |
+      Base port number for RW interface. RO, xRW and xRO will
+      increment from base_port.
+  "ttl":
+    "type": "float"
+    "default": !!float ".5"
+    "description": |
+      Time to live (in seconds) of information in the metadata cache.
+      Accepts either an integer or a floating point value. The granularity is
+      limited to milliseconds, where 0.001 equates to one millisecond.
+      Precision is truncated to the supported range; for example ttl=0.0119
+      is treated as 11 milliseconds. The value 0 means that the metadata
+      cache module queries the metadata continuously in a tight loop.
+  "auth_cache_refresh_interval":
+    "type": "int"
+    "default": !!int "2"
+    "description": |
+      Time (in seconds) between the auth-cache refresh attempts. Defaults to
+      2. The value must be smaller than auth_cache_ttl and ttl else Router
+      won't start.
+  "auth_cache_ttl":
+    "type": "int"
+    "default": !!int "-1"
+    "description": |
+      Time (in seconds) until the cache becomes invalid if not refreshed.
+      Defaults to -1 (infinite). The value must be larger than
+      auth_cache_refresh_interval else Router won't start.
+  "max_connections":
+    "type": "int"
+    "default": !!int "512"
+    "description": |
+      Maximum number of connections to allow in direction to each MySQL
+      routing sessions, with one for the RW unit and another one for the RO
+      units of the MySQL innodb cluster. Defaults to 512. A valid range is
+      between 1 and 65535.

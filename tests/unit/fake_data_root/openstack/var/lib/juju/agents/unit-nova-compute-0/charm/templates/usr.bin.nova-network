@@ -1,0 +1,55 @@
+# Last Modified: Thu Mar 31 18:21:05 2016
+# Mode: {{aa_profile_mode}}
+#include <tunables/global>
+
+/usr/bin/nova-network {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/bash>
+  #include <abstractions/nameservice>
+  #include <abstractions/python>
+  #include <abstractions/wutmp>
+
+  capability audit_write,
+  capability dac_override,
+  capability net_admin,
+  capability net_raw,
+  capability setgid,
+  capability setuid,
+  capability sys_resource,
+
+  network inet raw,
+
+  /bin/** rix,
+  /dev/tty rw,
+  /etc/default/locale r,
+  /etc/environment r,
+  /etc/iproute2/rt_scopes r,
+  /etc/nova/** r,
+  /etc/pam.d/* r,
+  /etc/sudoers r,
+  /etc/sudoers.d/ r,
+  /etc/sudoers.d/* r,
+  /proc/*/fd/ r,
+  /proc/*/net/ip_tables_names r,
+  /proc/*/stat r,
+  /run/lock/nova/nova-iptables wk,
+  /sbin/ldconfig rix,
+  /sbin/ldconfig.real rix,
+  /sbin/xtables-multi rix,
+  /tmp/** rw,
+  /usr/bin/ r,
+  /usr/bin/** rix,
+  /usr/lib{,32,64}/** mr,
+  /usr/lib{,32,64}/python{2,3}.[34567]/**.{pyc,so} mra,
+  /var/lib/nova/** rwk,
+  /var/log/nova/nova-network.log w,
+  /var/tmp/* a,
+{% if ubuntu_release <= '12.04' %}
+  /proc/*/mounts r,
+  /proc/*/status r,
+{% else %}
+  owner @{PROC}/@{pid}/mounts r,
+  owner @{PROC}/@{pid}/status r,
+{% endif %}
+}

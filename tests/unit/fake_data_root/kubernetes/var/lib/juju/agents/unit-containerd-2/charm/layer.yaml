@@ -1,0 +1,24 @@
+"includes":
+- "layer:options"
+- "layer:basic"
+- "layer:status"
+- "layer:debug"
+- "layer:container-runtime-common"
+- "interface:container-runtime"
+- "interface:untrusted-container-runtime"
+- "interface:docker-registry"
+"exclude": [".travis.yml", "tests", "tox.ini", "test-requirements.txt", "unit_tests",
+  ".coverage", ".tox", "__pycache__"]
+"options":
+  "basic":
+    "packages": []
+    "python_packages": []
+    "use_venv": !!bool "true"
+    "include_system_packages": !!bool "false"
+  "debug": {}
+  "status":
+    "patch-hookenv": !!bool "true"
+  "container-runtime-common": {}
+  "containerd": {}
+"repo": "https://github.com/charmed-kubernetes/charm-containerd"
+"is": "containerd"

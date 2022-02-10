@@ -1,0 +1,143 @@
+# Copyright 2016 Canonical Ltd.
+#
+# This file is part of the Snap layer for Juju.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"options":
+  # snap_proxy and snap_proxy_url have been deprecated for some time.
+  # If your charm still needs them, add these config items manually
+  # to your charm's config.yaml.
+  # snap_proxy:
+  #   description: >
+  #     DEPRECATED. Use snap-http-proxy and snap-https-proxy model configuration settings.
+  #     HTTP/HTTPS web proxy for Snappy to use when accessing the snap store.
+  #   type: string
+  #   default: ""
+  # snap_proxy_url:
+  #   default: ""
+  #   type: string
+  #   description: >
+  #     DEPRECATED. Use snap-store-proxy model configuration setting.
+  #     The address of a Snap Store Proxy to use for snaps e.g. http://snap-proxy.example.com
+  "snapd_refresh":
+    "default": ""
+    "type": "string"
+    "description": >
+      How often snapd handles updates for installed snaps. The default
+      (an empty string) is 4x per day. Set to "max" to check once per month
+      based on the charm deployment date. You may also set a custom string as
+      described in the 'refresh.timer' section here:
+        https://forum.snapcraft.io/t/system-options/87
+  "disable-mlock":
+    "type": "boolean"
+    "default": !!bool "false"
+    "description": >-
+      Set this option only if you are deploying to an environment that
+      does not support the mlock(2) system call.
+
+      When this option is set, vault will be unable to prevent secrets
+      from being paged out, so use it with extreme caution.
+  "nagios_context":
+    "default": "juju"
+    "type": "string"
+    "description": |
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+          juju-myservice-0
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  "nagios_servicegroups":
+    "default": ""
+    "type": "string"
+    "description": |
+      Comma separated list of nagios servicegroups for the service checks.
+  "ssl-cert":
+    "type": "string"
+    "default": ""
+    "description": >-
+      The SSL certificate, base64-encoded.
+  "ssl-chain":
+    "type": "string"
+    "default": ""
+    "description": >-
+      The SSL chain certificate, base64-encoded.
+  "ssl-key":
+    "type": "string"
+    "default": ""
+    "description": >-
+      The SSL key, base64-encoded.
+  "ssl-ca":
+    "type": "string"
+    "default": ""
+    "description": >-
+      The SSL Root CA certificate, base64-encoded.
+  "vip":
+    "type": "string"
+    "default": !!null ""
+    "description": |
+      Virtual IP to use api traffic. You can provide up to two addresses
+      configured on the access or external bindings. If neither binding
+      is used then you can only provide one address that must be configured
+      on the default space. Mutually exclusive with the dns-ha-access-record
+      config option or lb-provider relation.
+  "channel":
+    "type": "string"
+    "default": "stable"
+    "description": >-
+      The snap channel to install from.
+  "dns-ha-access-record":
+    "type": "string"
+    "default": !!null ""
+    "description": |
+      DNS record to use for DNS HA with MAAS. Mutually exclusive with the
+      vip config option or lb-provider relation.
+  "totally-unsecure-auto-unlock":
+    "type": "boolean"
+    "default": !!bool "false"
+    "description": >-
+      FOR TESTING ONLY. Initialise vault after deployment and store the keys
+      locally. Locally stored material can be displayed with:
+          juju run --unit vault/0 leader-get
+  "auto-generate-root-ca-cert":
+    "type": "boolean"
+    "default": !!bool "false"
+    "description": >-
+      Once unsealed, automatically generate a self-signed root CA rather
+      than waiting for an action to be called to either generate one or
+      process a signing request to act as an intermediary CA.  Note that
+      this will use all default values for the root CA cert.  If you want
+      to adjust those values, you should use the generate-root-ca action
+      instead.
+  "hostname":
+    "type": "string"
+    "default": !!null ""
+    "description": >-
+      Hostname to be used for the API URL. This hostname should exist as a DNS
+      record and be resolvable by the charms that will consume the relation  with
+      vault.
+  "max-ttl":
+    "type": "string"
+    "default": "87600h"
+    "description": >-
+      Max allowed TTL to use when generating certs (must be greater than the
+      default).
+  "default-ca-ttl":
+    "type": "string"
+    "default": "87599h"
+    "description": >-
+      Default TTL to use when generating CA certs.
+  "default-ttl":
+    "type": "string"
+    "default": "8759h"
+    "description": >-
+      Default TTL to use when generating certs.

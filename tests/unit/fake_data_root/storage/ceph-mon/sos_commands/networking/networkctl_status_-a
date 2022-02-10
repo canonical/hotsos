@@ -1,0 +1,37 @@
+* 1: lo                                                         
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: loopback                                
+                 State: carrier (unmanaged)                     
+                   MTU: 65536                                   
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: 127.0.0.1                               
+                        ::1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+* 16: eth0                                                          
+             Link File: /usr/lib/systemd/network/99-default.link    
+          Network File: /run/systemd/network/10-netplan-eth0.network
+                  Type: ether                                       
+                 State: routable (configured)                       
+                Driver: veth                                        
+            HW Address: 00:16:3e:ae:9e:44 (Xensource, Inc.)         
+                   MTU: 1500 (min: 68, max: 65535)                  
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: 10Gbps                                      
+                Duplex: full                                        
+                  Port: tp                                          
+               Address: 10.0.0.123                                  
+                        fe80::216:3eff:feae:9e44                    
+               Gateway: 10.0.0.2                                    
+                   DNS: 10.0.0.2                                    
+        Search Domains: mylab.home                                  
+     Activation Policy: up                                          
+   Required For Online: yes                                         
+
+Feb 09 22:38:36 juju-04f1e3-1-lxd-0 systemd-networkd[168]: eth0: IPv6 successfully enabled
+Feb 09 22:38:36 juju-04f1e3-1-lxd-0 systemd-networkd[168]: eth0: Gained IPv6LL
+Feb 09 22:38:43 juju-04f1e3-1-lxd-0 systemd-networkd[230]: eth0: IPv6 successfully enabled
+Feb 09 22:38:43 juju-04f1e3-1-lxd-0 systemd-networkd[230]: eth0: Gained IPv6LL

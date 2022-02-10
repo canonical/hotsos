@@ -1,0 +1,55 @@
+Name:	squashfuse
+Umask:	0022
+State:	S (sleeping)
+Tgid:	127
+Ngid:	0
+Pid:	127
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	127
+NSpid:	127
+NSpgid:	127
+NSsid:	127
+VmPeak:	    5120 kB
+VmSize:	    4744 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    1720 kB
+VmRSS:	    1564 kB
+RssAnon:	     688 kB
+RssFile:	     876 kB
+RssShmem:	       0 kB
+VmData:	     776 kB
+VmStk:	     132 kB
+VmExe:	       8 kB
+VmLib:	    2812 kB
+VmPTE:	      52 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	4/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000001000
+SigCgt:	0000000180004003
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	4246
+nonvoluntary_ctxt_switches:	11542

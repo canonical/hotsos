@@ -1,0 +1,18 @@
+#!/bin/bash -e
+# Wrapper to ensure that python dependencies are installed before we get into
+# the python part of the hook execution
+
+declare -a DEPS=('dnspython' 'pyudev' 'netaddr' 'netifaces')
+
+check_and_install() {
+    pkg="${1}-${2}"
+    if ! dpkg -s ${pkg} 2>&1 > /dev/null; then
+        apt-get -y install ${pkg}
+    fi
+}
+
+PYTHON="python3"
+
+for dep in ${DEPS[@]}; do
+    check_and_install ${PYTHON} ${dep}
+done

@@ -1,0 +1,6 @@
+name: prometheus-manual
+summary: Interface for registering manual job definitions with Prometheus
+version: 1
+maintainer: "Cory Johns <cory.johns@canonical.com>"
+exclude:
+  - .docs

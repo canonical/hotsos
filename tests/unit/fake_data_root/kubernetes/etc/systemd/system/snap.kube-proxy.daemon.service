@@ -1,0 +1,19 @@
+[Unit]
+# Auto-generated, DO NOT EDIT
+Description=Service for snap application kube-proxy.daemon
+Requires=snap-kube\x2dproxy-2360.mount
+Wants=network.target
+After=snap-kube\x2dproxy-2360.mount network.target snapd.apparmor.service
+X-Snappy=yes
+
+[Service]
+EnvironmentFile=-/etc/environment
+ExecStart=/usr/bin/snap run kube-proxy.daemon
+SyslogIdentifier=kube-proxy.daemon
+Restart=on-failure
+WorkingDirectory=/var/snap/kube-proxy/2360
+TimeoutStopSec=30
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

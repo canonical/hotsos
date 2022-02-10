@@ -1,0 +1,9 @@
+/usr/lib/systemd/system-generators/cloud-init-generator normal=/run/systemd/generator early=/run/systemd/generator.early late=/run/systemd/generator.late
+kernel command line (container[lxc]: pid 1 cmdline): /sbin/init 
+kernel_cmdline found unset
+etc_file found unset
+default found enabled
+checking for datasource
+ds-identify rc=0
+ds-identify _RET=found
+enabled via /run/systemd/generator.early/multi-user.target.wants/cloud-init.target -> /lib/systemd/system/cloud-init.target

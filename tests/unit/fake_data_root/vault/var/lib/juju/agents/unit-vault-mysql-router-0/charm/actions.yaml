@@ -1,0 +1,24 @@
+"pause":
+  "description": |
+    Pause services.
+    If the deployment is clustered using the hacluster charm, the
+    corresponding hacluster unit on the node must first be paused as well.
+    Not doing so may lead to an interruption of service.
+"resume":
+  "description": |
+    Resume services.
+    If the deployment is clustered using the hacluster charm, the
+    corresponding hacluster unit on the node must be resumed as well.
+"restart-services":
+  "description": |
+    Restart services.
+    Restart the services the charm manages.
+"stop-mysqlrouter":
+  "description": |
+    Stop the mysqlrouter daemon
+"start-mysqlrouter":
+  "description": |
+    Start the mysqlrouter daemon
+"restart-mysqlrouter":
+  "description": |
+    Restart the mysqlrouter daemon

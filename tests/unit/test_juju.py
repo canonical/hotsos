@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 import mock
 
@@ -22,6 +23,11 @@ Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns
 Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] collection clone for 'juju.txns.log' failed due to QueryPlanKilled: While cloning collection 'juju.txns.log' there was an error 'PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)'
 """  # noqa
 
+RABBITMQ_CHARM_LOGS = """
+2021-02-17 08:18:44 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
+2021-02-17 08:20:34 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
+"""  # noqa
+
 
 class JujuTestsBase(utils.BaseTestCase):
 
@@ -34,7 +40,7 @@ class TestJujuServiceInfo(JujuTestsBase):
 
     def test_service_info(self):
         expected = {'services': {
-                        'ps': ['jujud (6)'],
+                        'ps': ['jujud (8)'],
                         'systemd': {
                             'enabled': ['jujud-machine-1']}
                         }
@@ -48,7 +54,7 @@ class TestJujuMachines(JujuTestsBase):
 
     def test_get_machine_info(self):
         expected = {'machine': '1',
-                    'version': '2.9.8'}
+                    'version': '2.9.22'}
         inst = machines.JujuMachineChecks()
         inst.get_machine_info()
         self.assertTrue(inst.plugin_runnable)
@@ -77,8 +83,8 @@ class TestJujuMachines(JujuTestsBase):
 class TestJujuCharms(JujuTestsBase):
 
     def test_get_charm_versions(self):
-        expected = {'charms': ['ceph-osd-495', 'neutron-openvswitch-443',
-                               'nova-compute-564']}
+        expected = {'charms': ['ceph-osd-508', 'neutron-openvswitch-457',
+                               'nova-compute-589']}
         inst = charms.JujuCharmChecks()
         inst()
         self.assertTrue(inst.plugin_runnable)
@@ -88,7 +94,7 @@ class TestJujuCharms(JujuTestsBase):
 class TestJujuUnits(JujuTestsBase):
 
     def test_get_unit_info(self):
-        expected = {'local': ['ceph-osd-1', 'neutron-openvswitch-1',
+        expected = {'local': ['ceph-osd-0', 'neutron-openvswitch-1',
                               'nova-compute-0']}
         inst = units.JujuUnitChecks()
         inst()
@@ -98,13 +104,17 @@ class TestJujuUnits(JujuTestsBase):
 
 class TestJujuKnownBugs(JujuTestsBase):
 
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_core.yaml'))
     @mock.patch('core.ycheck.CLIHelper')
-    def test_detect_known_bugs(self, mock_helper):
+    def test_1852502(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_CAPPEDPOSITIONLOST.splitlines(keepends=True)
+
         YBugChecker()()
-        mock_helper.return_value.journalctl.assert_called_with(unit='juju-db')
+        mock_helper.return_value.journalctl.assert_called_with(
+                                                            unit='juju-db')
         msg_1852502 = ('known mongodb bug identified - '
                        'https://jira.mongodb.org/browse/TOOLS-1636 '
                        'Workaround is to pass --no-logs to juju '
@@ -113,13 +123,28 @@ class TestJujuKnownBugs(JujuTestsBase):
                        'working on migrating to Mongo 4 in the Juju 3.0 '
                        'release.')
         expected = {'bugs-detected':
-                    [{'id': 'https://bugs.launchpad.net/bugs/1910958',
-                      'desc':
-                      ('Unit unit-rabbitmq-server-2 failed to start due '
-                       'to members in relation 236 that cannot be '
-                       'removed.'),
-                      'origin': 'juju.01part'},
-                     {'id': 'https://bugs.launchpad.net/bugs/1852502',
+                    [{'id': 'https://bugs.launchpad.net/bugs/1852502',
                       'desc': msg_1852502,
                       'origin': 'juju.01part'}]}
         self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_core.yaml'))
+    def test_1910958(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            logfile = os.path.join(dtmp,
+                                   'var/log/juju/unit-rabbitmq-server-0.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(RABBITMQ_CHARM_LOGS)
+
+            YBugChecker()()
+            expected = {'bugs-detected':
+                        [{'id': 'https://bugs.launchpad.net/bugs/1910958',
+                          'desc':
+                          ('Unit unit-rabbitmq-server-0 failed to start due '
+                           'to members in relation 236 that cannot be '
+                           'removed.'),
+                          'origin': 'juju.01part'}]}
+            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)

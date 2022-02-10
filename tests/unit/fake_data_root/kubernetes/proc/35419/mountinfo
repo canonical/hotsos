@@ -1,0 +1,17 @@
+1409 1359 0:66 / / rw,relatime master:455 - overlay overlay rw,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/11/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/10/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/9/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/8/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/7/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/6/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/5/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/4/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/3/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/2/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/12/work,xino=off
+1410 1409 0:68 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+1411 1409 0:69 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+1412 1411 0:70 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
+1413 1411 0:71 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
+1414 1411 0:67 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
+1415 1409 0:24 / /sys rw,nosuid,nodev,noexec,relatime - sysfs sysfs rw
+1416 1409 0:72 / /run rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+1417 1409 252:1 /usr/lib/modules /lib/modules rw,relatime master:1 - ext4 /dev/vda1 rw
+1418 1416 0:26 /calico /run/calico rw,nosuid,nodev,noexec,relatime master:5 - tmpfs tmpfs rw,size=402604k,mode=755
+1419 1409 252:1 /var/log/calico /var/log/calico rw,relatime master:1 - ext4 /dev/vda1 rw
+1420 1409 252:1 /var/lib/calico /var/lib/calico rw,relatime master:1 - ext4 /dev/vda1 rw
+1421 1409 252:1 /opt/calicoctl /opt/calicoctl rw,relatime master:1 - ext4 /dev/vda1 rw
+1422 1409 252:1 /etc/hosts /etc/hosts ro,relatime master:1 - ext4 /dev/vda1 rw
+1423 1409 0:26 /systemd/resolve/stub-resolv.conf /etc/resolv.conf ro,relatime master:5 - tmpfs tmpfs rw,size=402604k,mode=755
+1358 1415 0:73 / /sys/fs/bpf rw,relatime - bpf none rw
+1360 1418 0:30 / /run/calico/cgroup rw,relatime - cgroup2 /run/calico/cgroup rw

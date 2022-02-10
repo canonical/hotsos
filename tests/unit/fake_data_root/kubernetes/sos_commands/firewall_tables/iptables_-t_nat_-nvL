@@ -1,0 +1,158 @@
+Chain PREROUTING (policy ACCEPT 264 packets, 17674 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+ 1219 75366 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+
+Chain INPUT (policy ACCEPT 264 packets, 17674 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 516 packets, 32920 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+ 1334 82904 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+
+Chain POSTROUTING (policy ACCEPT 516 packets, 32920 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+ 1328 82544 KUBE-POSTROUTING  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
+    9   540 RETURN     all  --  *      *       10.1.0.0/16          10.1.0.0/16         
+    0     0 MASQUERADE  all  --  *      *       10.1.0.0/16         !224.0.0.0/4          random-fully
+    0     0 RETURN     all  --  *      *      !10.1.0.0/16          10.1.84.0/24        
+    0     0 MASQUERADE  all  --  *      *      !10.1.0.0/16          10.1.0.0/16          random-fully
+
+Chain KUBE-MARK-DROP (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 MARK       all  --  *      *       0.0.0.0/0            0.0.0.0/0            MARK or 0x8000
+
+Chain KUBE-MARK-MASQ (21 references)
+ pkts bytes target     prot opt in     out     source               destination         
+   24  1440 MARK       all  --  *      *       0.0.0.0/0            0.0.0.0/0            MARK or 0x4000
+
+Chain KUBE-NODEPORTS (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-POSTROUTING (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+  516 32920 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            mark match ! 0x4000/0x4000
+   24  1440 MARK       all  --  *      *       0.0.0.0/0            0.0.0.0/0            MARK xor 0x4000
+   24  1440 MASQUERADE  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service traffic requiring SNAT */ random-fully
+
+Chain KUBE-PROXY-CANARY (0 references)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain KUBE-SEP-2KEQUJUG7N2MHHHD (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.3             0.0.0.0/0            /* kube-system/kube-dns:dns-tcp */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/kube-dns:dns-tcp */ tcp to:10.1.7.3:53
+
+Chain KUBE-SEP-CEIVUMSKCNX2ZGZ2 (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.6             0.0.0.0/0            /* kube-system/k8s-keystone-auth-service */
+   13   780 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/k8s-keystone-auth-service */ tcp to:10.1.7.6:8443
+
+Chain KUBE-SEP-CPELFEXNPXY6W77F (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.7             0.0.0.0/0            /* ingress-nginx-kubernetes-worker/default-http-backend-kubernetes-worker */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* ingress-nginx-kubernetes-worker/default-http-backend-kubernetes-worker */ tcp to:10.1.7.7:8080
+
+Chain KUBE-SEP-GECZV7Y7H4JUKWEX (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.3             0.0.0.0/0            /* kube-system/kube-dns:dns */
+    0     0 DNAT       udp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/kube-dns:dns */ udp to:10.1.7.3:53
+
+Chain KUBE-SEP-IFRJN55WJK2K4ND6 (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.8             0.0.0.0/0            /* kubernetes-dashboard/dashboard-metrics-scraper */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes-dashboard/dashboard-metrics-scraper */ tcp to:10.1.7.8:8000
+
+Chain KUBE-SEP-J32SVN4SP22KCC7G (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.12.4            0.0.0.0/0            /* kube-system/metrics-server */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/metrics-server */ tcp to:10.1.12.4:10250
+
+Chain KUBE-SEP-PYYIZN5XWLQG655S (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.6.3.201           0.0.0.0/0            /* default/kubernetes:https */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* default/kubernetes:https */ tcp to:10.6.3.201:6443
+
+Chain KUBE-SEP-SDVTHDVWCVF6XHFI (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.12.3            0.0.0.0/0            /* kube-system/k8s-keystone-auth-service */
+   11   660 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/k8s-keystone-auth-service */ tcp to:10.1.12.3:8443
+
+Chain KUBE-SEP-W4YM3PMGPA3LGECM (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.4             0.0.0.0/0            /* kubernetes-dashboard/kubernetes-dashboard */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes-dashboard/kubernetes-dashboard */ tcp to:10.1.7.4:8443
+
+Chain KUBE-SEP-YNDEJSKRQ5BUB4SQ (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.12.5            0.0.0.0/0            /* kube-system/csi-cinder-controller-service:dummy */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/csi-cinder-controller-service:dummy */ tcp to:10.1.12.5:12345
+
+Chain KUBE-SEP-YRH733LNZSDUUXDY (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  all  --  *      *       10.1.7.3             0.0.0.0/0            /* kube-system/kube-dns:metrics */
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/kube-dns:metrics */ tcp to:10.1.7.3:9153
+
+Chain KUBE-SERVICES (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-SVC-Z6GDYMWE5TV2NNJN  tcp  --  *      *       0.0.0.0/0            10.152.183.105       /* kubernetes-dashboard/dashboard-metrics-scraper cluster IP */ tcp dpt:8000
+    0     0 KUBE-SVC-CEZPIJSAUFW5MYPQ  tcp  --  *      *       0.0.0.0/0            10.152.183.213       /* kubernetes-dashboard/kubernetes-dashboard cluster IP */ tcp dpt:443
+    0     0 KUBE-SVC-NPX46M4PTMTKRN6Y  tcp  --  *      *       0.0.0.0/0            10.152.183.1         /* default/kubernetes:https cluster IP */ tcp dpt:443
+   24  1440 KUBE-SVC-4FYCO4KNK5JC3JXL  tcp  --  *      *       0.0.0.0/0            10.152.183.38        /* kube-system/k8s-keystone-auth-service cluster IP */ tcp dpt:8443
+    0     0 KUBE-SVC-JD5MR3NA4I4DYORP  tcp  --  *      *       0.0.0.0/0            10.152.183.6         /* kube-system/kube-dns:metrics cluster IP */ tcp dpt:9153
+    0     0 KUBE-SVC-TCOU7JCQXEZGVUNU  udp  --  *      *       0.0.0.0/0            10.152.183.6         /* kube-system/kube-dns:dns cluster IP */ udp dpt:53
+    0     0 KUBE-SVC-QMWWTXBG7KFJQKLO  tcp  --  *      *       0.0.0.0/0            10.152.183.102       /* kube-system/metrics-server cluster IP */ tcp dpt:443
+    0     0 KUBE-SVC-GYUT6LJFX34TXRZB  tcp  --  *      *       0.0.0.0/0            10.152.183.161       /* kube-system/csi-cinder-controller-service:dummy cluster IP */ tcp dpt:12345
+    0     0 KUBE-SVC-ERIFXISQEP7F7OF4  tcp  --  *      *       0.0.0.0/0            10.152.183.6         /* kube-system/kube-dns:dns-tcp cluster IP */ tcp dpt:53
+    0     0 KUBE-SVC-QKK72LWNOTVNKJML  tcp  --  *      *       0.0.0.0/0            10.152.183.58        /* ingress-nginx-kubernetes-worker/default-http-backend-kubernetes-worker cluster IP */ tcp dpt:80
+  375 24362 KUBE-NODEPORTS  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service nodeports; NOTE: this must be the last rule in this chain */ ADDRTYPE match dst-type LOCAL
+
+Chain KUBE-SVC-4FYCO4KNK5JC3JXL (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+   24  1440 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.38        /* kube-system/k8s-keystone-auth-service cluster IP */ tcp dpt:8443
+   11   660 KUBE-SEP-SDVTHDVWCVF6XHFI  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/k8s-keystone-auth-service */ statistic mode random probability 0.50000000000
+   13   780 KUBE-SEP-CEIVUMSKCNX2ZGZ2  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/k8s-keystone-auth-service */
+
+Chain KUBE-SVC-CEZPIJSAUFW5MYPQ (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.213       /* kubernetes-dashboard/kubernetes-dashboard cluster IP */ tcp dpt:443
+    0     0 KUBE-SEP-W4YM3PMGPA3LGECM  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes-dashboard/kubernetes-dashboard */
+
+Chain KUBE-SVC-ERIFXISQEP7F7OF4 (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.6         /* kube-system/kube-dns:dns-tcp cluster IP */ tcp dpt:53
+    0     0 KUBE-SEP-2KEQUJUG7N2MHHHD  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/kube-dns:dns-tcp */
+
+Chain KUBE-SVC-GYUT6LJFX34TXRZB (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.161       /* kube-system/csi-cinder-controller-service:dummy cluster IP */ tcp dpt:12345
+    0     0 KUBE-SEP-YNDEJSKRQ5BUB4SQ  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/csi-cinder-controller-service:dummy */
+
+Chain KUBE-SVC-JD5MR3NA4I4DYORP (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.6         /* kube-system/kube-dns:metrics cluster IP */ tcp dpt:9153
+    0     0 KUBE-SEP-YRH733LNZSDUUXDY  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/kube-dns:metrics */
+
+Chain KUBE-SVC-NPX46M4PTMTKRN6Y (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.1         /* default/kubernetes:https cluster IP */ tcp dpt:443
+    0     0 KUBE-SEP-PYYIZN5XWLQG655S  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* default/kubernetes:https */
+
+Chain KUBE-SVC-QKK72LWNOTVNKJML (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.58        /* ingress-nginx-kubernetes-worker/default-http-backend-kubernetes-worker cluster IP */ tcp dpt:80
+    0     0 KUBE-SEP-CPELFEXNPXY6W77F  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* ingress-nginx-kubernetes-worker/default-http-backend-kubernetes-worker */
+
+Chain KUBE-SVC-QMWWTXBG7KFJQKLO (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.102       /* kube-system/metrics-server cluster IP */ tcp dpt:443
+    0     0 KUBE-SEP-J32SVN4SP22KCC7G  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/metrics-server */
+
+Chain KUBE-SVC-TCOU7JCQXEZGVUNU (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  udp  --  *      *      !10.1.0.0/16          10.152.183.6         /* kube-system/kube-dns:dns cluster IP */ udp dpt:53
+    0     0 KUBE-SEP-GECZV7Y7H4JUKWEX  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/kube-dns:dns */
+
+Chain KUBE-SVC-Z6GDYMWE5TV2NNJN (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !10.1.0.0/16          10.152.183.105       /* kubernetes-dashboard/dashboard-metrics-scraper cluster IP */ tcp dpt:8000
+    0     0 KUBE-SEP-IFRJN55WJK2K4ND6  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes-dashboard/dashboard-metrics-scraper */

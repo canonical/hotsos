@@ -1,0 +1,76 @@
+Ip:
+    Forwarding: 1
+    3345722 total packets received
+    0 forwarded
+    0 incoming packets discarded
+    3344218 incoming packets delivered
+    3832973 requests sent out
+Icmp:
+    1454 ICMP messages received
+    98 input ICMP message failed
+    ICMP input histogram:
+        destination unreachable: 1454
+    1430 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+        destination unreachable: 1430
+IcmpMsg:
+        InType3: 1454
+        OutType3: 1430
+Tcp:
+    90002 active connection openings
+    2472 passive connection openings
+    201 failed connection attempts
+    1 connection resets received
+    20 connections established
+    3023199 segments received
+    3220344 segments sent out
+    136 segments retransmitted
+    0 bad segments received
+    4759 resets sent
+Udp:
+    319252 packets received
+    35 packets to unknown port received
+    0 packet receive errors
+    615702 packets sent
+    0 receive buffer errors
+    0 send buffer errors
+    IgnoredMulti: 278
+UdpLite:
+TcpExt:
+    88846 TCP sockets finished time wait in fast timer
+    9286 delayed acks sent
+    Quick ack mode was activated 4 times
+    1300979 packet headers predicted
+    467966 acknowledgments not containing data payload received
+    981499 predicted acknowledgments
+    TCPSackRecovery: 11
+    Detected reordering 8 times using SACK
+    TCPDSACKUndo: 7
+    TCPLostRetransmit: 10
+    8 fast retransmits
+    TCPTimeouts: 214
+    TCPLossProbes: 16
+    TCPBacklogCoalesce: 1179
+    TCPDSACKOldSent: 4
+    TCPDSACKRecv: 17
+    4 connections reset due to unexpected data
+    1 connections reset due to early user close
+    TCPDSACKIgnoredNoUndo: 6
+    TCPSackShiftFallback: 15
+    TCPRcvCoalesce: 88604
+    TCPOFOQueue: 6
+    TCPSpuriousRtxHostQueues: 106
+    TCPAutoCorking: 200
+    TCPSynRetrans: 112
+    TCPOrigDataSent: 1533154
+    TCPHystartTrainDetect: 1
+    TCPHystartTrainCwnd: 20
+    TCPKeepAlive: 22891
+    TCPDelivered: 1622946
+IpExt:
+    InBcastPkts: 278
+    InOctets: 742910925
+    OutOctets: 416784359
+    InBcastOctets: 84754
+    InNoECTPkts: 3446991

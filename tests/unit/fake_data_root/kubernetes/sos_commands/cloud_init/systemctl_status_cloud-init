@@ -1,0 +1,18 @@
+* cloud-init.service - Initial cloud-init job (metadata service crawler)
+     Loaded: loaded (/lib/systemd/system/cloud-init.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Fri 2022-02-11 18:58:28 UTC; 25min ago
+   Main PID: 590 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 4677)
+     Memory: 0B
+     CGroup: /system.slice/cloud-init.service
+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |         .       |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |        . .      |
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |       . o .    o|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |        S +   o++|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |       o @ = o.Bo|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |     .  O % o.= B|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |     .++ = * B.Eo|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: |      ++o . =.o .|
+Feb 11 18:58:28 juju-110cc2-k8stest-4 cloud-init[594]: +----[SHA256]-----+
+Feb 11 18:58:28 juju-110cc2-k8stest-4 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

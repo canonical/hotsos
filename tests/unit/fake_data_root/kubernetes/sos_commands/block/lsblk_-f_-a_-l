@@ -1,0 +1,17 @@
+NAME   FSTYPE   LABEL           UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+loop0  squashfs                                                            0   100% /snap/core20/1328
+loop1  squashfs                                                            0   100% /snap/lxd/21835
+loop2  squashfs                                                            0   100% /snap/snapd/14549
+loop3  squashfs                                                            0   100% /snap/core/12603
+loop4  squashfs                                                            0   100% /snap/core18/2284
+loop5  squashfs                                                            0   100% /snap/kubectl/2308
+loop6  squashfs                                                            0   100% /snap/kube-apiserver/2599
+loop7  squashfs                                                            0   100% /snap/kube-controller-manager/2407
+loop8  squashfs                                                            0   100% /snap/kube-scheduler/2327
+loop9  squashfs                                                            0   100% /snap/cdk-addons/9030
+loop10 squashfs                                                            0   100% /snap/kube-proxy/2360
+loop11                                                                              
+vda                                                                                 
+vda1   ext4     cloudimg-rootfs 6b71fef2-f2a2-4af3-bb37-172e5cfd41b2   35.2G     9% /
+vda14                                                                               
+vda15  vfat     UEFI            BA49-3E54                              99.2M     5% /boot/efi

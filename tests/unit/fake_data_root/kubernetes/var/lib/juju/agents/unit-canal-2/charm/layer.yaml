@@ -1,0 +1,25 @@
+"includes":
+- "layer:options"
+- "layer:basic"
+- "interface:nrpe-external-master"
+- "interface:etcd"
+- "interface:kubernetes-cni"
+- "layer:nagios"
+- "layer:leadership"
+- "layer:status"
+- "layer:kubernetes-common"
+"exclude": [".travis.yml", "tests", "tox.ini", "test-requirements.txt", "unit_tests"]
+"options":
+  "basic":
+    "packages": []
+    "python_packages": []
+    "use_venv": !!bool "true"
+    "include_system_packages": !!bool "false"
+  "nagios": {}
+  "leadership": {}
+  "status":
+    "patch-hookenv": !!bool "true"
+  "kubernetes-common": {}
+  "canal": {}
+"repo": "https://github.com/juju-solutions/layer-canal.git"
+"is": "canal"

@@ -1,0 +1,95 @@
+_uuid               : 116afe1c-3476-42d4-b5e6-ae699137b62f
+auto_attach         : []
+controller          : [d2247792-f579-4fa5-b0aa-1ac492608aa2]
+datapath_id         : "00001efe6a11d442"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {charm-neutron-openvswitch=managed}
+fail_mode           : secure
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-data
+netflow             : []
+other_config        : {mac-table-size="50000"}
+ports               : [335b5e26-01f4-48e9-bbe5-94b642451301, 92c894d5-dbb1-4187-b237-86a1775c496d, e86eeaab-b63e-4e91-b84d-cd9d06d4b6d4]
+protocols           : [OpenFlow10, OpenFlow13, OpenFlow14]
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false
+
+_uuid               : c835132f-e7d9-4626-8e6c-5beaab2477fa
+auto_attach         : []
+controller          : [8afd6284-8525-4b31-9049-851d84c1ef5d]
+datapath_id         : "00002e1335c82646"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {charm-neutron-openvswitch=managed}
+fail_mode           : secure
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-int
+netflow             : []
+other_config        : {mac-table-size="50000", mcast-snooping-disable-flood-unregistered="false"}
+ports               : [24a46ac4-048a-44cb-b48e-878d9023474c, 3c8ce2ba-fa56-42d7-8114-ce324cec180d, 4192bf50-9cd2-46a8-8cf2-8be8b0bd0d57, 5f22b0fd-158f-46d9-80a5-a6213292aa24, a35ab3a6-e556-45e0-a227-b9cce44c029a, a89c255f-c112-4c60-af2b-6a725d6844ab, c2959323-1ad4-4f49-b95f-d5ced390ba76, d2e37a1e-23bc-4d8e-8ccd-59cdb3d8b7e5, e290f561-7377-4cd0-914a-1316bae922ea]
+protocols           : [OpenFlow10, OpenFlow11, OpenFlow12, OpenFlow13, OpenFlow14]
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false
+
+_uuid               : b878b553-87fb-41fe-8f91-7703e1be5017
+auto_attach         : []
+controller          : []
+datapath_id         : "000052b578b8fe41"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {charm-neutron-openvswitch=managed}
+fail_mode           : []
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-ex
+netflow             : []
+other_config        : {}
+ports               : [06d14371-38bc-40b8-be83-0f929903c7fb]
+protocols           : []
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false
+
+_uuid               : 83c47283-c44c-47d8-9ba0-4defed666505
+auto_attach         : []
+controller          : [5ddca42c-5dc4-4c48-8988-f5c3d805e9a4]
+datapath_id         : "00008272c483d847"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {}
+fail_mode           : secure
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-tun
+netflow             : []
+other_config        : {mac-table-size="50000"}
+ports               : [0c21bdac-958c-4f15-b058-ff4013b143e2, 23f4eae9-7903-454d-a4a7-899c8614a7bd, e61a550a-2964-4b3c-9123-17a28ff95a7d, f0bd7470-add1-436c-9c89-edc8dbd8bb7b]
+protocols           : [OpenFlow10, OpenFlow13, OpenFlow14]
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false

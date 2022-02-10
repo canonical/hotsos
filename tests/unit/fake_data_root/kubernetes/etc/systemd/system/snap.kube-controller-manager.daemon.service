@@ -1,0 +1,19 @@
+[Unit]
+# Auto-generated, DO NOT EDIT
+Description=Service for snap application kube-controller-manager.daemon
+Requires=snap-kube\x2dcontroller\x2dmanager-2407.mount
+Wants=network.target
+After=snap-kube\x2dcontroller\x2dmanager-2407.mount network.target snapd.apparmor.service
+X-Snappy=yes
+
+[Service]
+EnvironmentFile=-/etc/environment
+ExecStart=/usr/bin/snap run kube-controller-manager.daemon
+SyslogIdentifier=kube-controller-manager.daemon
+Restart=on-failure
+WorkingDirectory=/var/snap/kube-controller-manager/2407
+TimeoutStopSec=30
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

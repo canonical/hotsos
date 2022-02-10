@@ -1,0 +1,757 @@
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] Linux version 5.4.0-99-generic (buildd@lgw01-amd64-007) (gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)) #112-Ubuntu SMP Thu Feb 3 13:50:55 UTC 2022 (Ubuntu 5.4.0-99.112-generic 5.4.162)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-5.4.0-99-generic root=LABEL=cloudimg-rootfs ro console=tty1 console=ttyS0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] KERNEL supported cpus:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000]   Intel GenuineIntel
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000]   AMD AuthenticAMD
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000]   Hygon HygonGenuine
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000]   Centaur CentaurHauls
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000]   zhaoxin   Shanghai  
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-provided physical RAM map:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000bffdbfff] usable
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x00000000bffdc000-0x00000000bfffffff] reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] BIOS-e820: [mem 0x0000000100000000-0x000000013fffffff] usable
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] NX (Execute Disable) protection: active
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] SMBIOS 2.8 present.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] DMI: OpenStack Foundation OpenStack Nova, BIOS 1.10.2-1ubuntu1 04/01/2014
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] Hypervisor detected: KVM
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] kvm-clock: cpu 0, msr 4d801001, primary cpu clock
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000000] kvm-clock: using sched offset of 5075275508 cycles
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000002] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 881590591483 ns
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.000005] tsc: Detected 2596.990 MHz processor
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002359] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002361] e820: remove [mem 0x000a0000-0x000fffff] usable
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002365] last_pfn = 0x140000 max_arch_pfn = 0x400000000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002392] MTRR default type: write-back
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002392] MTRR fixed ranges enabled:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002394]   00000-9FFFF write-back
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002394]   A0000-BFFFF uncachable
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002395]   C0000-FFFFF write-protect
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002396] MTRR variable ranges enabled:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002397]   0 base 00C0000000 mask FFC0000000 uncachable
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002398]   1 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002398]   2 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002398]   3 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002399]   4 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002399]   5 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002400]   6 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002400]   7 disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002408] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.002414] last_pfn = 0xbffdc max_arch_pfn = 0x400000000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.007678] found SMP MP-table at [mem 0x000f6a60-0x000f6a6f]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.007820] check: Scanning 1 areas for low memory corruption
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.007871] Using GB pages for direct mapping
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008483] RAMDISK: [mem 0x34bb1000-0x365cffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008487] ACPI: Early table checksum verification disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008493] ACPI: RSDP 0x00000000000F67F0 000014 (v00 BOCHS )
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008498] ACPI: RSDT 0x00000000BFFE155F 00002C (v01 BOCHS  BXPCRSDT 00000001 BXPC 00000001)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008506] ACPI: FACP 0x00000000BFFE146B 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008513] ACPI: DSDT 0x00000000BFFE0040 00142B (v01 BOCHS  BXPCDSDT 00000001 BXPC 00000001)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008518] ACPI: FACS 0x00000000BFFE0000 000040
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008521] ACPI: APIC 0x00000000BFFE14DF 000080 (v01 BOCHS  BXPCAPIC 00000001 BXPC 00000001)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008525] ACPI: Reserving FACP table memory at [mem 0xbffe146b-0xbffe14de]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008527] ACPI: Reserving DSDT table memory at [mem 0xbffe0040-0xbffe146a]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008528] ACPI: Reserving FACS table memory at [mem 0xbffe0000-0xbffe003f]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008530] ACPI: Reserving APIC table memory at [mem 0xbffe14df-0xbffe155e]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008558] ACPI: Local APIC address 0xfee00000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008952] No NUMA configuration found
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008954] Faking a node at [mem 0x0000000000000000-0x000000013fffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.008963] NODE_DATA(0) allocated [mem 0x13ffd3000-0x13fffdfff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009617] Zone ranges:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009619]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009621]   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009623]   Normal   [mem 0x0000000100000000-0x000000013fffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009624]   Device   empty
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009625] Movable zone start for each node
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009628] Early memory node ranges
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009629]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009630]   node   0: [mem 0x0000000000100000-0x00000000bffdbfff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.009631]   node   0: [mem 0x0000000100000000-0x000000013fffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010495] Zeroed struct page in unavailable ranges: 134 pages
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010496] Initmem setup node 0 [mem 0x0000000000001000-0x000000013fffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010499] On node 0 totalpages: 1048442
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010500]   DMA zone: 64 pages used for memmap
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010500]   DMA zone: 21 pages reserved
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010501]   DMA zone: 3998 pages, LIFO batch:0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010544]   DMA32 zone: 12224 pages used for memmap
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.010545]   DMA32 zone: 782300 pages, LIFO batch:63
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.028652]   Normal zone: 4096 pages used for memmap
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.028654]   Normal zone: 262144 pages, LIFO batch:63
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034898] ACPI: PM-Timer IO Port: 0x608
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034905] ACPI: Local APIC address 0xfee00000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034917] ACPI: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034945] IOAPIC[0]: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034947] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034949] ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034950] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034951] ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034952] ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034953] ACPI: IRQ0 used by override.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034954] ACPI: IRQ5 used by override.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034954] ACPI: IRQ9 used by override.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034955] ACPI: IRQ10 used by override.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034955] ACPI: IRQ11 used by override.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034957] Using ACPI (MADT) for SMP configuration information
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034959] TSC deadline timer available
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034961] smpboot: Allowing 2 CPUs, 0 hotplug CPUs
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034980] PM: Registered nosave memory: [mem 0x00000000-0x00000fff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034982] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034982] PM: Registered nosave memory: [mem 0x000a0000-0x000effff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034983] PM: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034984] PM: Registered nosave memory: [mem 0xbffdc000-0xbfffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034985] PM: Registered nosave memory: [mem 0xc0000000-0xfeffbfff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034986] PM: Registered nosave memory: [mem 0xfeffc000-0xfeffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034987] PM: Registered nosave memory: [mem 0xff000000-0xfffbffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034987] PM: Registered nosave memory: [mem 0xfffc0000-0xffffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034990] [mem 0xc0000000-0xfeffbfff] available for PCI devices
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034991] Booting paravirtualized kernel on KVM
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034994] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645519600211568 ns
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.034998] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:2 nr_cpu_ids:2 nr_node_ids:1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035598] percpu: Embedded 60 pages/cpu s208896 r8192 d28672 u1048576
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035603] pcpu-alloc: s208896 r8192 d28672 u1048576 alloc=1*2097152
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035604] pcpu-alloc: [0] 0 1 
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035624] setup async PF for cpu 0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035627] kvm-stealtime: cpu 0, msr 13ba32040
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035634] Built 1 zonelists, mobility grouping on.  Total pages: 1032037
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035635] Policy zone: Normal
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.035636] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-5.4.0-99-generic root=LABEL=cloudimg-rootfs ro console=tty1 console=ttyS0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.036701] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.037203] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.037250] mem auto-init: stack:off, heap alloc:on, heap free:off
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.051194] Calgary: detecting Calgary via BIOS EBDA area
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.051197] Calgary: Unable to locate Rio Grande table in EBDA - bailing!
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.061761] Memory: 3991708K/4193768K available (14339K kernel code, 2400K rwdata, 9500K rodata, 2752K init, 4948K bss, 202060K reserved, 0K cma-reserved)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.061770] random: get_random_u64 called from kmem_cache_open+0x2d/0x410 with crng_init=0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.062306] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.062318] Kernel/User page tables isolation: enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.062330] ftrace: allocating 44643 entries in 175 pages
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.078835] rcu: Hierarchical RCU implementation.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.078838] rcu: 	RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=2.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.078839] 	Tasks RCU enabled.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.078840] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.078841] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.081579] NR_IRQS: 524544, nr_irqs: 440, preallocated irqs: 16
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.081777] random: crng done (trusting CPU's manufacturer)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.089396] Console: colour VGA+ 80x25
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.116936] printk: console [tty1] enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.267273] printk: console [ttyS0] enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.268085] ACPI: Core revision 20190816
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.268878] APIC: Switch to symmetric I/O mode setup
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.270243] x2apic enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.271102] Switched APIC routing to physical x2apic.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.272589] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x256f20fda37, max_idle_ns: 440795331973 ns
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.275031] Calibrating delay loop (skipped) preset value.. 5193.98 BogoMIPS (lpj=10387960)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.277455] pid_max: default: 32768 minimum: 301
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.278926] LSM: Security Framework initializing
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Yama: becoming mindful.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] AppArmor: AppArmor initialized
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] *** VALIDATE tmpfs ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] *** VALIDATE proc ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] *** VALIDATE cgroup1 ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] *** VALIDATE cgroup2 ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Spectre V2 : Mitigation: Full generic retpoline
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Spectre V2 : Enabling Restricted Speculation for firmware calls
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl and seccomp
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] SRBDS: Unknown: Dependent on hypervisor status
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] MDS: Mitigation: Clear CPU buffers
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Freeing SMP alternatives memory: 40K
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] smpboot: CPU0: Intel Core Processor (Haswell, no TSX, IBRS) (family: 0x6, model: 0x3c, stepping: 0x1)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279027] Performance Events: unsupported p6 CPU model 60 no PMU driver, software events only.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.279158] rcu: Hierarchical SRCU implementation.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.281599] NMI watchdog: Perf NMI watchdog permanently disabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.282936] smp: Bringing up secondary CPUs ...
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.283204] x86: Booting SMP configuration:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.284676] .... node  #0, CPUs:      #1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.197284] kvm-clock: cpu 1, msr 4d801041, secondary cpu clock
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.197284] smpboot: CPU 1 Converting physical 0 to logical die 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.291068] setup async PF for cpu 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.291872] kvm-stealtime: cpu 1, msr 13bb32040
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.293019] smp: Brought up 1 node, 2 CPUs
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.293019] smpboot: Max logical packages: 2
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.295036] smpboot: Total of 2 processors activated (10387.96 BogoMIPS)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.296964] devtmpfs: initialized
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.296964] x86/mm: Memory block size: 128MB
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.299093] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.300914] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.302267] pinctrl core: initialized pinctrl subsystem
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.303184] PM: RTC time: 18:58:06, date: 2022-02-11
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.304330] NET: Registered protocol family 16
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.305321] audit: initializing netlink subsys (disabled)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.306438] audit: type=2000 audit(1644605886.572:1): state=initialized audit_enabled=0 res=1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.306438] EISA bus registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.307704] cpuidle: using governor ladder
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.308592] cpuidle: using governor menu
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.309448] ACPI: bus type PCI registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.310225] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.311170] PCI: Using configuration type 1 for base access
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.313981] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.315036] HugeTLB registered 2.00 MiB page size, pre-allocated 0 pages
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.316327] ACPI: Added _OSI(Module Device)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.319033] ACPI: Added _OSI(Processor Device)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.320223] ACPI: Added _OSI(3.0 _SCP Extensions)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.321542] ACPI: Added _OSI(Processor Aggregator Device)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.322711] ACPI: Added _OSI(Linux-Dell-Video)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.323036] ACPI: Added _OSI(Linux-Lenovo-NV-HDMI-Audio)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.324241] ACPI: Added _OSI(Linux-HPI-Hybrid-Graphics)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.326384] ACPI: 1 ACPI AML tables successfully acquired and loaded
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.328334] ACPI: Interpreter enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.329248] ACPI: (supports S0 S3 S4 S5)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.330347] ACPI: Using IOAPIC for interrupt routing
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.331066] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.333055] ACPI: Enabled 2 GPEs in block 00 to 0F
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.337015] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.339040] acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI HPX-Type3]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.340471] acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.342951] acpiphp: Slot [3] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.343052] acpiphp: Slot [4] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.343873] acpiphp: Slot [5] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.344685] acpiphp: Slot [6] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.345509] acpiphp: Slot [7] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.346334] acpiphp: Slot [8] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.347051] acpiphp: Slot [9] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.347823] acpiphp: Slot [10] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.349278] acpiphp: Slot [11] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.350423] acpiphp: Slot [12] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.351053] acpiphp: Slot [13] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.352205] acpiphp: Slot [14] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.353325] acpiphp: Slot [15] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.354478] acpiphp: Slot [16] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.355052] acpiphp: Slot [17] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.356222] acpiphp: Slot [18] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.357349] acpiphp: Slot [19] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.358456] acpiphp: Slot [20] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.359063] acpiphp: Slot [21] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.359996] acpiphp: Slot [22] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.360847] acpiphp: Slot [23] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.361618] acpiphp: Slot [24] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.362398] acpiphp: Slot [25] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.363053] acpiphp: Slot [26] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.363919] acpiphp: Slot [27] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.366090] acpiphp: Slot [28] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.366940] acpiphp: Slot [29] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.367056] acpiphp: Slot [30] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.367937] acpiphp: Slot [31] registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.368814] PCI host bridge to bus 0000:00
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.369838] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.371033] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.372420] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.374097] pci_bus 0000:00: root bus resource [mem 0xc0000000-0xfebfffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.375033] pci_bus 0000:00: root bus resource [mem 0x140000000-0x1bfffffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.376487] pci_bus 0000:00: root bus resource [bus 00-ff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.377526] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.379206] pci 0000:00:01.0: [8086:7000] type 00 class 0x060100
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.380833] pci 0000:00:01.1: [8086:7010] type 00 class 0x010180
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.384424] pci 0000:00:01.1: reg 0x20: [io  0xc120-0xc12f]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.386765] pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.387033] pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.388219] pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.389598] pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.390980] pci 0000:00:01.2: [8086:7020] type 00 class 0x0c0300
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.394458] pci 0000:00:01.2: reg 0x20: [io  0xc0c0-0xc0df]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.396385] pci 0000:00:01.3: [8086:7113] type 00 class 0x068000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.397958] pci 0000:00:01.3: quirk: [io  0x0600-0x063f] claimed by PIIX4 ACPI
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.399041] pci 0000:00:01.3: quirk: [io  0x0700-0x070f] claimed by PIIX4 SMB
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.401389] pci 0000:00:02.0: [1b36:0100] type 00 class 0x030000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.404449] pci 0000:00:02.0: reg 0x10: [mem 0xf4000000-0xf7ffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.407041] pci 0000:00:02.0: reg 0x14: [mem 0xf8000000-0xfbffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.410950] pci 0000:00:02.0: reg 0x18: [mem 0xfc090000-0xfc091fff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.413228] pci 0000:00:02.0: reg 0x1c: [io  0xc0e0-0xc0ff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.422292] pci 0000:00:02.0: reg 0x30: [mem 0xfc080000-0xfc08ffff pref]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.423488] pci 0000:00:03.0: [1af4:1000] type 00 class 0x020000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.425934] pci 0000:00:03.0: reg 0x10: [io  0xc000-0xc03f]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.429343] pci 0000:00:03.0: reg 0x14: [mem 0xfc092000-0xfc092fff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.433730] pci 0000:00:03.0: reg 0x20: [mem 0xfebf0000-0xfebf3fff 64bit pref]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.436237] pci 0000:00:03.0: reg 0x30: [mem 0xfc000000-0xfc07ffff pref]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.439032] pci 0000:00:04.0: [1af4:1003] type 00 class 0x078000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.441365] pci 0000:00:04.0: reg 0x10: [io  0xc040-0xc07f]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.443566] pci 0000:00:04.0: reg 0x14: [mem 0xfc093000-0xfc093fff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.449798] pci 0000:00:04.0: reg 0x20: [mem 0xfebf4000-0xfebf7fff 64bit pref]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.452781] pci 0000:00:05.0: [1af4:1001] type 00 class 0x010000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.455040] pci 0000:00:05.0: reg 0x10: [io  0xc080-0xc0bf]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.457173] pci 0000:00:05.0: reg 0x14: [mem 0xfc094000-0xfc094fff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.462559] pci 0000:00:05.0: reg 0x20: [mem 0xfebf8000-0xfebfbfff 64bit pref]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.464876] pci 0000:00:06.0: [1af4:1002] type 00 class 0x00ff00
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.467039] pci 0000:00:06.0: reg 0x10: [io  0xc100-0xc11f]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.471699] pci 0000:00:06.0: reg 0x20: [mem 0xfebfc000-0xfebfffff 64bit pref]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.480249] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 *10 11)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.481491] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 *10 11)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.482718] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 10 *11)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.483141] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 10 *11)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.484494] ACPI: PCI Interrupt Link [LNKS] (IRQs *9)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.485912] iommu: Default domain type: Translated 
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.487210] SCSI subsystem initialized
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.488285] libata version 3.00 loaded.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.488285] pci 0000:00:02.0: vgaarb: setting as boot VGA device
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.488485] pci 0000:00:02.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.491034] pci 0000:00:02.0: vgaarb: bridge control possible
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.492609] vgaarb: loaded
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.493336] ACPI: bus type USB registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.494473] usbcore: registered new interface driver usbfs
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.495044] usbcore: registered new interface driver hub
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.496412] usbcore: registered new device driver usb
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.497829] pps_core: LinuxPPS API ver. 1 registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.498887] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.499036] PTP clock support registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.501708] EDAC MC: Ver: 3.0.0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.501708] PCI: Using ACPI for IRQ routing
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.503033] PCI: pci_cache_line_size set to 64 bytes
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.503154] e820: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.503155] e820: reserve RAM buffer [mem 0xbffdc000-0xbfffffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.503256] NetLabel: Initializing
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.504025] NetLabel:  domain hash size = 128
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.504851] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.505916] NetLabel:  unlabeled traffic allowed by default
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.507103] clocksource: Switched to clocksource kvm-clock
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.521514] *** VALIDATE bpf ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.522330] VFS: Disk quotas dquot_6.6.0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.523276] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.525168] *** VALIDATE ramfs ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.525952] *** VALIDATE hugetlbfs ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.526795] AppArmor: AppArmor Filesystem Enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.527838] pnp: PnP ACPI init
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.528777] pnp 00:00: Plug and Play ACPI device, IDs PNP0b00 (active)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.528848] pnp 00:01: Plug and Play ACPI device, IDs PNP0303 (active)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.528874] pnp 00:02: Plug and Play ACPI device, IDs PNP0f13 (active)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.528895] pnp 00:03: [dma 2]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.528931] pnp 00:03: Plug and Play ACPI device, IDs PNP0700 (active)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.529018] pnp 00:04: Plug and Play ACPI device, IDs PNP0501 (active)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.529270] pnp: PnP ACPI: found 5 devices
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.532613] thermal_sys: Registered thermal governor 'fair_share'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.532614] thermal_sys: Registered thermal governor 'bang_bang'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.533822] thermal_sys: Registered thermal governor 'step_wise'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.535137] thermal_sys: Registered thermal governor 'user_space'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.537893] thermal_sys: Registered thermal governor 'power_allocator'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.543843] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.548136] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.549775] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.550973] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.552253] pci_bus 0000:00: resource 7 [mem 0xc0000000-0xfebfffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.553515] pci_bus 0000:00: resource 8 [mem 0x140000000-0x1bfffffff window]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.555079] NET: Registered protocol family 2
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.556076] IP idents hash table entries: 65536 (order: 7, 524288 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.558090] tcp_listen_portaddr_hash hash table entries: 2048 (order: 3, 32768 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.559770] TCP established hash table entries: 32768 (order: 6, 262144 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.561324] TCP bind hash table entries: 32768 (order: 7, 524288 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.564244] TCP: Hash tables configured (established 32768 bind 32768)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.565551] UDP hash table entries: 2048 (order: 4, 65536 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.566853] UDP-Lite hash table entries: 2048 (order: 4, 65536 bytes, linear)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.568304] NET: Registered protocol family 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.569161] NET: Registered protocol family 44
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.570062] pci 0000:00:01.0: PIIX3: Enabling Passive Release
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.571152] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.572528] pci 0000:00:01.0: Activating ISA DMA hang workarounds
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.599475] PCI Interrupt Link [LNKD] enabled at IRQ 11
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.626423] pci 0000:00:01.2: quirk_usb_early_handoff+0x0/0x670 took 51339 usecs
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.628102] pci 0000:00:02.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.629943] PCI: CLS 0 bytes, default 64
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.631252] Trying to unpack rootfs image as initramfs...
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.715341] Freeing initrd memory: 26748K
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.716648] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.718212] software IO TLB: mapped [mem 0xbbfdc000-0xbffdc000] (64MB)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.719619] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x256f20fda37, max_idle_ns: 440795331973 ns
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.721912] check: Scanning for low memory corruption every 60 seconds
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.724083] Initialise system trusted keyrings
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.725372] Key type blacklist registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.733380] workingset: timestamp_bits=36 max_order=20 bucket_order=0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.736013] zbud: loaded
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.736956] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.738362] fuse: init (API version 7.31)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.739230] *** VALIDATE fuse ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.739952] *** VALIDATE fuse ***
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.740710] Platform Keyring initialized
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.745411] Key type asymmetric registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.746291] Asymmetric key parser 'x509' registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.749362] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 244)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.752015] io scheduler mq-deadline registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.753465] shpchp: Standard Hot Plug PCI Controller Driver version: 0.4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.755454] intel_idle: Please enable MWAIT in BIOS SETUP
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.755537] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.757699] ACPI: Power Button [PWRF]
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.785899] PCI Interrupt Link [LNKC] enabled at IRQ 10
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.843568] PCI Interrupt Link [LNKA] enabled at IRQ 10
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.870999] PCI Interrupt Link [LNKB] enabled at IRQ 11
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.873464] Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.898468] 00:04: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    0.910967] Linux agpgart interface v0.103
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.043098] loop: module loaded
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.044611] ata_piix 0000:00:01.1: version 2.13
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.045756] scsi host0: ata_piix
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.047571] scsi host1: ata_piix
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.049113] ata1: PATA max MWDMA2 cmd 0x1f0 ctl 0x3f6 bmdma 0xc120 irq 14
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.051877] ata2: PATA max MWDMA2 cmd 0x170 ctl 0x376 bmdma 0xc128 irq 15
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.055904] libphy: Fixed MDIO Bus: probed
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.057347] tun: Universal TUN/TAP device driver, 1.6
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.059614] PPP generic driver version 2.4.2
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.060883] VFIO - User Level meta-driver version: 0.3
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.062474] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.064378] ehci-pci: EHCI PCI platform driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.065614] ehci-platform: EHCI generic platform driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.067176] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.068937] ohci-pci: OHCI PCI platform driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.070415] ohci-platform: OHCI generic platform driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.071928] uhci_hcd: USB Universal Host Controller Interface driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.099438] uhci_hcd 0000:00:01.2: UHCI Host Controller
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.101015] uhci_hcd 0000:00:01.2: new USB bus registered, assigned bus number 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.103183] uhci_hcd 0000:00:01.2: detected 2 ports
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.104588] uhci_hcd 0000:00:01.2: irq 11, io base 0x0000c0c0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.106341] usb usb1: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 5.04
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.109151] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.111729] usb usb1: Product: UHCI Host Controller
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.113020] usb usb1: Manufacturer: Linux 5.4.0-99-generic uhci_hcd
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.116058] usb usb1: SerialNumber: 0000:00:01.2
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.117481] hub 1-0:1.0: USB hub found
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.118552] hub 1-0:1.0: 2 ports detected
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.119884] i8042: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.122656] serio: i8042 KBD port at 0x60,0x64 irq 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.123961] serio: i8042 AUX port at 0x60,0x64 irq 12
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.125419] mousedev: PS/2 mouse device common for all mice
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.127175] rtc_cmos 00:00: RTC can wake from S4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.128810] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.131185] rtc_cmos 00:00: registered as rtc0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.132658] rtc_cmos 00:00: alarms up to one day, y3k, 114 bytes nvram
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.134505] i2c /dev entries driver
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.135568] device-mapper: uevent: version 1.0.3
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.136866] device-mapper: ioctl: 4.41.0-ioctl (2019-09-16) initialised: dm-devel@redhat.com
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.139791] platform eisa.0: Probing EISA bus 0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.141506] platform eisa.0: EISA: Cannot allocate resource for mainboard
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.143866] platform eisa.0: Cannot allocate resource for EISA slot 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.147648] platform eisa.0: Cannot allocate resource for EISA slot 2
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.150003] platform eisa.0: Cannot allocate resource for EISA slot 3
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.152299] platform eisa.0: Cannot allocate resource for EISA slot 4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.154539] platform eisa.0: Cannot allocate resource for EISA slot 5
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.157061] platform eisa.0: Cannot allocate resource for EISA slot 6
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.159200] platform eisa.0: Cannot allocate resource for EISA slot 7
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.161391] platform eisa.0: Cannot allocate resource for EISA slot 8
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.163689] platform eisa.0: EISA: Detected 0 cards
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.165263] intel_pstate: CPU model not supported
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.167250] ledtrig-cpu: registered to indicate activity on CPUs
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.169630] drop_monitor: Initializing network drop monitor service
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.172058] NET: Registered protocol family 10
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.181412] Segment Routing with IPv6
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.182400] NET: Registered protocol family 17
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.183575] Key type dns_resolver registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.184956] RAS: Correctable Errors collector initialized.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.186604] IPI shorthand broadcast: enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.188332] sched_clock: Marking stable (995019921, 193284681)->(1285826111, -97521509)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.191586] registered taskstats version 1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.193172] Loading compiled-in X.509 certificates
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.196265] Loaded X.509 cert 'Build time autogenerated kernel key: 3e9c0893400760cb433d1bad37690f1fbf53b04b'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.201175] Loaded X.509 cert 'Canonical Ltd. Live Patch Signing: 14df34d1a87cf37625abec039ef2bf521249b969'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.205813] Loaded X.509 cert 'Canonical Ltd. Kernel Module Signing: 88f752e560a1e0737e31163a466ad7b70a850c19'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.210427] blacklist: Loading compiled-in revocation X.509 certificates
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.212193] Loaded X.509 cert 'Canonical Ltd. Secure Boot Signing: 61482aa2830d0ab2ad5af10b7250da9033ddcef0'
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.214701] zswap: loaded using pool lzo/zbud
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.216345] Key type ._fscrypt registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.217420] Key type .fscrypt registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.223922] Key type big_key registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.227263] Key type encrypted registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.228461] AppArmor: AppArmor sha1 policy hashing enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.229992] ima: No TPM chip found, activating TPM-bypass!
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.231474] ima: Allocated hash algorithm: sha1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.232836] ima: No architecture policies found
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.234082] evm: Initialising EVM extended attributes:
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.235434] evm: security.selinux
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.236407] evm: security.SMACK64
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.237276] evm: security.SMACK64EXEC
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.238284] evm: security.SMACK64TRANSMUTE
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.241215] evm: security.SMACK64MMAP
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.242514] evm: security.apparmor
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.243650] evm: security.ima
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.244615] evm: security.capability
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.245600] evm: HMAC attrs: 0x1
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.246904] PM:   Magic number: 10:154:999
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.248122] i8042 kbd 00:01: hash matches
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.249232]  pnp0: hash matches
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.250196] rtc_cmos 00:00: setting system clock to 2022-02-11T18:58:07 UTC (1644605887)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.255032] Freeing unused decrypted memory: 2040K
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.257684] Freeing unused kernel image memory: 2752K
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.267084] Write protecting the kernel read-only data: 26624k
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.269449] Freeing unused kernel image memory: 2008K
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.273130] Freeing unused kernel image memory: 740K
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.283939] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.286441] x86/mm: Checking user space page tables
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.297527] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.299468] Run /init as init process
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.395777] input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input4
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.398478] input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input3
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.405152] virtio_blk virtio2: [vda] 83886080 512-byte logical blocks (42.9 GB/40.0 GiB)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.427158] cryptd: max_cpu_qlen set to 1000
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.471166] AVX2 version of gcm_enc/dec engaged.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.473032] FDC 0 is a S82078B
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.473248] AES CTR mode by8 optimization enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.485517] virtio_net virtio0 ens3: renamed from eth0
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.489445] GPT:Primary header thinks Alt. header is not at the end of the disk.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.492170] GPT:4612095 != 83886079
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.493216] GPT:Alternate GPT header not at the end of the disk.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.495224] GPT:4612095 != 83886079
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.496362] GPT: Use GNU Parted to correct GPT errors.
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    1.497871]  vda: vda1 vda14 vda15
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    2.747041] raid6: avx2x4   gen() 23361 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    2.795053] raid6: avx2x4   xor() 14624 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    2.843063] raid6: avx2x2   gen() 19587 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    2.891101] raid6: avx2x2   xor() 12216 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    2.939070] raid6: avx2x1   gen() 18032 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    2.987043] raid6: avx2x1   xor() 12013 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.035055] raid6: sse2x4   gen() 12614 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.083043] raid6: sse2x4   xor()  7647 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.131063] raid6: sse2x2   gen() 10551 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.179055] raid6: sse2x2   xor()  6595 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.227055] raid6: sse2x1   gen()  8943 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.275075] raid6: sse2x1   xor()  5625 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.276505] raid6: using algorithm avx2x4 gen() 23361 MB/s
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.278174] raid6: .... xor() 14624 MB/s, rmw enabled
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.280393] raid6: using avx2x2 recovery algorithm
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.282818] xor: automatically using best checksumming function   avx       
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.287638] async_tx: api initialized (async)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.345428] Btrfs loaded, crc32c=crc32c-intel
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    3.422957] EXT4-fs (vda1): mounted filesystem with ordered data mode. Opts: (null)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    4.631436] EXT4-fs (vda1): re-mounted. Opts: (null)
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    5.491031] alua: device handler registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    5.492791] emc: device handler registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    5.494811] rdac: device handler registered
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    5.973829] audit: type=1400 audit(1644605892.220:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/sbin/tcpdump" pid=496 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.037363] audit: type=1400 audit(1644605892.284:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=497 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.037366] audit: type=1400 audit(1644605892.284:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=497 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.037556] audit: type=1400 audit(1644605892.284:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=497 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.038199] audit: type=1400 audit(1644605892.284:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/{,usr/}sbin/dhclient" pid=497 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.082812] audit: type=1400 audit(1644605892.328:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="lsb_release" pid=501 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.154119] audit: type=1400 audit(1644605892.400:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/bin/man" pid=502 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.154644] audit: type=1400 audit(1644605892.400:9): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_filter" pid=502 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.155212] audit: type=1400 audit(1644605892.404:10): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_groff" pid=502 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [    6.202434] audit: type=1400 audit(1644605892.448:11): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe" pid=503 comm="apparmor_parser"
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [   20.408722] EXT4-fs (vda1): resizing filesystem from 548091 to 10457339 blocks
+Feb 11 18:58:28 juju-110cc2-k8stest-4 kernel: [   21.062727] EXT4-fs (vda1): resized filesystem to 10457339
+Feb 11 18:59:02 juju-110cc2-k8stest-4 kernel: [   55.914226] kauditd_printk_skb: 18 callbacks suppressed
+Feb 11 18:59:02 juju-110cc2-k8stest-4 kernel: [   55.914228] audit: type=1400 audit(1644605942.332:30): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="/usr/lib/snapd/snap-confine" pid=2295 comm="apparmor_parser"
+Feb 11 18:59:02 juju-110cc2-k8stest-4 kernel: [   55.927139] audit: type=1400 audit(1644605942.348:31): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=2295 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.822612] audit: type=1400 audit(1644605944.270:32): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap-update-ns.lxd" pid=2410 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.824420] audit: type=1400 audit(1644605944.270:33): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine" pid=2409 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.844834] audit: type=1400 audit(1644605944.294:34): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=2409 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.845164] audit: type=1400 audit(1644605944.294:35): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.activate" pid=2417 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.847641] audit: type=1400 audit(1644605944.294:36): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.benchmark" pid=2428 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.848601] audit: type=1400 audit(1644605944.294:37): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.buginfo" pid=2429 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.854485] audit: type=1400 audit(1644605944.302:38): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.check-kernel" pid=2430 comm="apparmor_parser"
+Feb 11 18:59:04 juju-110cc2-k8stest-4 kernel: [   57.858479] audit: type=1400 audit(1644605944.306:39): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.daemon" pid=2438 comm="apparmor_parser"
+Feb 11 18:59:43 juju-110cc2-k8stest-4 kernel: [   97.313797] new mount options do not match the existing superblock, will be ignored
+Feb 11 18:59:46 juju-110cc2-k8stest-4 kernel: [   99.478946] NET: Registered protocol family 40
+Feb 11 18:59:48 juju-110cc2-k8stest-4 kernel: [  101.593573] bpfilter: Loaded bpfilter_umh pid 9934
+Feb 11 18:59:48 juju-110cc2-k8stest-4 kernel: [  101.954854] spl: loading out-of-tree module taints kernel.
+Feb 11 18:59:48 juju-110cc2-k8stest-4 kernel: [  101.966392] znvpair: module license 'CDDL' taints kernel.
+Feb 11 18:59:48 juju-110cc2-k8stest-4 kernel: [  101.966393] Disabling lock debugging due to kernel taint
+Feb 11 18:59:50 juju-110cc2-k8stest-4 kernel: [  104.088172] ZFS: Loaded module v0.8.3-1ubuntu12.13, ZFS pool version 5000, ZFS filesystem version 5
+Feb 11 19:02:29 juju-110cc2-k8stest-4 kernel: [  263.064918] kauditd_printk_skb: 22 callbacks suppressed
+Feb 11 19:02:29 juju-110cc2-k8stest-4 kernel: [  263.064919] audit: type=1400 audit(1644606149.630:62): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/snap/core/12603/usr/lib/snapd/snap-confine" pid=17894 comm="apparmor_parser"
+Feb 11 19:02:29 juju-110cc2-k8stest-4 kernel: [  263.065329] audit: type=1400 audit(1644606149.630:63): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/snap/core/12603/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=17894 comm="apparmor_parser"
+Feb 11 19:02:29 juju-110cc2-k8stest-4 kernel: [  263.103531] audit: type=1400 audit(1644606149.666:64): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.core" pid=17896 comm="apparmor_parser"
+Feb 11 19:02:29 juju-110cc2-k8stest-4 kernel: [  263.199812] audit: type=1400 audit(1644606149.762:65): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.core.hook.configure" pid=17897 comm="apparmor_parser"
+Feb 11 19:02:39 juju-110cc2-k8stest-4 kernel: [  272.581626] audit: type=1400 audit(1644606159.146:66): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kubectl.kubectl" pid=18183 comm="apparmor_parser"
+Feb 11 19:02:39 juju-110cc2-k8stest-4 kernel: [  272.593120] audit: type=1400 audit(1644606159.158:67): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.kubectl" pid=18182 comm="apparmor_parser"
+Feb 11 19:02:46 juju-110cc2-k8stest-4 kernel: [  279.742777] audit: type=1400 audit(1644606166.306:68): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.kube-apiserver" pid=18365 comm="apparmor_parser"
+Feb 11 19:02:46 juju-110cc2-k8stest-4 kernel: [  279.814791] audit: type=1400 audit(1644606166.378:69): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-apiserver.daemon" pid=18366 comm="apparmor_parser"
+Feb 11 19:02:46 juju-110cc2-k8stest-4 kernel: [  279.828471] audit: type=1400 audit(1644606166.390:70): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-apiserver.hook.configure" pid=18367 comm="apparmor_parser"
+Feb 11 19:02:46 juju-110cc2-k8stest-4 kernel: [  279.903704] audit: type=1400 audit(1644606166.466:71): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-apiserver.kube-apiserver" pid=18368 comm="apparmor_parser"
+Feb 11 19:02:47 juju-110cc2-k8stest-4 kernel: [  280.737296] audit: type=1400 audit(1644606167.302:72): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine" pid=18411 comm="apparmor_parser"
+Feb 11 19:02:47 juju-110cc2-k8stest-4 kernel: [  280.737300] audit: type=1400 audit(1644606167.302:73): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=18411 comm="apparmor_parser"
+Feb 11 19:02:47 juju-110cc2-k8stest-4 kernel: [  280.871302] audit: type=1400 audit(1644606167.434:74): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.kube-apiserver.daemon" pid=18413 comm="apparmor_parser"
+Feb 11 19:02:47 juju-110cc2-k8stest-4 kernel: [  280.877883] audit: type=1400 audit(1644606167.442:75): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.kube-apiserver.kube-apiserver" pid=18414 comm="apparmor_parser"
+Feb 11 19:02:47 juju-110cc2-k8stest-4 kernel: [  280.882615] audit: type=1400 audit(1644606167.446:76): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap-update-ns.kube-apiserver" pid=18416 comm="apparmor_parser"
+Feb 11 19:02:47 juju-110cc2-k8stest-4 kernel: [  280.883171] audit: type=1400 audit(1644606167.446:77): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.kube-apiserver.hook.configure" pid=18417 comm="apparmor_parser"
+Feb 11 19:02:51 juju-110cc2-k8stest-4 kernel: [  284.875931] kauditd_printk_skb: 2 callbacks suppressed
+Feb 11 19:02:51 juju-110cc2-k8stest-4 kernel: [  284.875933] audit: type=1400 audit(1644606171.438:80): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=19873 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:02:52 juju-110cc2-k8stest-4 kernel: [  285.461889] audit: type=1400 audit(1644606172.026:81): apparmor="DENIED" operation="mkdir" profile="snap.kube-apiserver.daemon" name="/run/kubernetes/" pid=19873 comm="kube-apiserver" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+Feb 11 19:02:52 juju-110cc2-k8stest-4 kernel: [  285.897164] audit: type=1400 audit(1644606172.462:82): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=19909 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:02:52 juju-110cc2-k8stest-4 kernel: [  286.368845] audit: type=1400 audit(1644606172.929:83): apparmor="DENIED" operation="mkdir" profile="snap.kube-apiserver.daemon" name="/run/kubernetes/" pid=19909 comm="kube-apiserver" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+Feb 11 19:02:53 juju-110cc2-k8stest-4 kernel: [  286.624103] audit: type=1400 audit(1644606173.185:84): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=19933 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:02:53 juju-110cc2-k8stest-4 kernel: [  287.299853] audit: type=1400 audit(1644606173.861:85): apparmor="DENIED" operation="mkdir" profile="snap.kube-apiserver.daemon" name="/run/kubernetes/" pid=19933 comm="kube-apiserver" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+Feb 11 19:02:54 juju-110cc2-k8stest-4 kernel: [  287.626092] audit: type=1400 audit(1644606174.189:86): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=19958 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:02:54 juju-110cc2-k8stest-4 kernel: [  288.075971] audit: type=1400 audit(1644606174.637:87): apparmor="DENIED" operation="mkdir" profile="snap.kube-apiserver.daemon" name="/run/kubernetes/" pid=19958 comm="kube-apiserver" requested_mask="c" denied_mask="c" fsuid=0 ouid=0
+Feb 11 19:02:59 juju-110cc2-k8stest-4 kernel: [  293.135411] audit: type=1400 audit(1644606179.697:88): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.kube-controller-manager" pid=20112 comm="apparmor_parser"
+Feb 11 19:02:59 juju-110cc2-k8stest-4 kernel: [  293.223580] audit: type=1400 audit(1644606179.785:89): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-controller-manager.daemon" pid=20113 comm="apparmor_parser"
+Feb 11 19:02:59 juju-110cc2-k8stest-4 kernel: [  293.234077] audit: type=1400 audit(1644606179.797:90): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-controller-manager.hook.configure" pid=20114 comm="apparmor_parser"
+Feb 11 19:02:59 juju-110cc2-k8stest-4 kernel: [  293.322787] audit: type=1400 audit(1644606179.885:91): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-controller-manager.kube-controller-manager" pid=20115 comm="apparmor_parser"
+Feb 11 19:03:00 juju-110cc2-k8stest-4 kernel: [  294.343853] audit: type=1400 audit(1644606180.905:92): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine" pid=20158 comm="apparmor_parser"
+Feb 11 19:03:00 juju-110cc2-k8stest-4 kernel: [  294.343857] audit: type=1400 audit(1644606180.905:93): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=20158 comm="apparmor_parser"
+Feb 11 19:03:01 juju-110cc2-k8stest-4 kernel: [  294.480607] audit: type=1400 audit(1644606181.041:94): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.kube-controller-manager.daemon" pid=20160 comm="apparmor_parser"
+Feb 11 19:03:01 juju-110cc2-k8stest-4 kernel: [  294.488028] audit: type=1400 audit(1644606181.049:95): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.kube-controller-manager.kube-controller-manager" pid=20161 comm="apparmor_parser"
+Feb 11 19:03:01 juju-110cc2-k8stest-4 kernel: [  294.492541] audit: type=1400 audit(1644606181.053:96): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap-update-ns.kube-controller-manager" pid=20163 comm="apparmor_parser"
+Feb 11 19:03:01 juju-110cc2-k8stest-4 kernel: [  294.494582] audit: type=1400 audit(1644606181.057:97): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.kube-controller-manager.hook.configure" pid=20164 comm="apparmor_parser"
+Feb 11 19:03:06 juju-110cc2-k8stest-4 kernel: [  299.636369] kauditd_printk_skb: 2 callbacks suppressed
+Feb 11 19:03:06 juju-110cc2-k8stest-4 kernel: [  299.636370] audit: type=1400 audit(1644606186.197:100): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=21496 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:07 juju-110cc2-k8stest-4 kernel: [  301.132271] audit: type=1400 audit(1644606187.693:101): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=21531 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:08 juju-110cc2-k8stest-4 kernel: [  301.906106] audit: type=1400 audit(1644606188.469:102): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=21553 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:10 juju-110cc2-k8stest-4 kernel: [  303.644270] audit: type=1400 audit(1644606190.205:103): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=21718 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:10 juju-110cc2-k8stest-4 kernel: [  303.708085] audit: type=1400 audit(1644606190.269:104): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.kube-scheduler" pid=21743 comm="apparmor_parser"
+Feb 11 19:03:10 juju-110cc2-k8stest-4 kernel: [  303.845950] audit: type=1400 audit(1644606190.409:105): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-scheduler.hook.configure" pid=21745 comm="apparmor_parser"
+Feb 11 19:03:10 juju-110cc2-k8stest-4 kernel: [  303.871183] audit: type=1400 audit(1644606190.433:106): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-scheduler.daemon" pid=21744 comm="apparmor_parser"
+Feb 11 19:03:10 juju-110cc2-k8stest-4 kernel: [  303.948330] audit: type=1400 audit(1644606190.509:107): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-scheduler.kube-scheduler" pid=21746 comm="apparmor_parser"
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  304.639896] audit: type=1400 audit(1644606191.201:108): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=21797 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  305.027728] audit: type=1400 audit(1644606191.589:109): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine" pid=21834 comm="apparmor_parser"
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  305.027733] audit: type=1400 audit(1644606191.589:110): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=21834 comm="apparmor_parser"
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  305.294817] audit: type=1400 audit(1644606191.857:111): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.kube-scheduler.kube-scheduler" pid=21837 comm="apparmor_parser"
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  305.298781] audit: type=1400 audit(1644606191.861:112): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.kube-scheduler.daemon" pid=21836 comm="apparmor_parser"
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  305.303022] audit: type=1400 audit(1644606191.865:113): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap-update-ns.kube-scheduler" pid=21839 comm="apparmor_parser"
+Feb 11 19:03:11 juju-110cc2-k8stest-4 kernel: [  305.305111] audit: type=1400 audit(1644606191.865:114): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.kube-scheduler.hook.configure" pid=21840 comm="apparmor_parser"
+Feb 11 19:03:12 juju-110cc2-k8stest-4 kernel: [  305.663093] audit: type=1400 audit(1644606192.225:115): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=21844 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:13 juju-110cc2-k8stest-4 kernel: [  306.694670] audit: type=1400 audit(1644606193.257:116): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=22221 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:13 juju-110cc2-k8stest-4 kernel: [  307.265249] audit: type=1400 audit(1644606193.825:117): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=21896 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:16 juju-110cc2-k8stest-4 kernel: [  309.661134] kauditd_printk_skb: 2 callbacks suppressed
+Feb 11 19:03:16 juju-110cc2-k8stest-4 kernel: [  309.661140] audit: type=1400 audit(1644606196.220:120): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=22562 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:16 juju-110cc2-k8stest-4 kernel: [  310.140381] audit: type=1400 audit(1644606196.704:121): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=22586 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:17 juju-110cc2-k8stest-4 kernel: [  310.667829] audit: type=1400 audit(1644606197.232:122): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=22614 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:17 juju-110cc2-k8stest-4 kernel: [  311.386977] audit: type=1400 audit(1644606197.952:123): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=22637 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:18 juju-110cc2-k8stest-4 kernel: [  311.867855] audit: type=1400 audit(1644606198.428:124): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=22663 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:19 juju-110cc2-k8stest-4 kernel: [  313.122564] audit: type=1400 audit(1644606199.684:125): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=22709 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:03:24 juju-110cc2-k8stest-4 kernel: [  318.132349] audit: type=1400 audit(1644606204.696:126): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.cdk-addons" pid=22876 comm="apparmor_parser"
+Feb 11 19:03:24 juju-110cc2-k8stest-4 kernel: [  318.215906] audit: type=1400 audit(1644606204.780:127): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.cdk-addons.hook.configure" pid=22878 comm="apparmor_parser"
+Feb 11 19:03:24 juju-110cc2-k8stest-4 kernel: [  318.229952] audit: type=1400 audit(1644606204.792:128): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.cdk-addons.apply" pid=22877 comm="apparmor_parser"
+Feb 11 19:03:25 juju-110cc2-k8stest-4 kernel: [  318.629672] audit: type=1400 audit(1644606205.192:129): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine" pid=22887 comm="apparmor_parser"
+Feb 11 19:03:25 juju-110cc2-k8stest-4 kernel: [  318.629675] audit: type=1400 audit(1644606205.192:130): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="/snap/snapd/14549/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=22887 comm="apparmor_parser"
+Feb 11 19:03:25 juju-110cc2-k8stest-4 kernel: [  318.744385] audit: type=1400 audit(1644606205.308:131): apparmor="STATUS" operation="profile_replace" profile="unconfined" name="snap.cdk-addons.apply" pid=22889 comm="apparmor_parser"
+Feb 11 19:03:25 juju-110cc2-k8stest-4 kernel: [  318.749396] audit: type=1400 audit(1644606205.312:132): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap-update-ns.cdk-addons" pid=22891 comm="apparmor_parser"
+Feb 11 19:03:25 juju-110cc2-k8stest-4 kernel: [  318.751157] audit: type=1400 audit(1644606205.316:133): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.cdk-addons.hook.configure" pid=22892 comm="apparmor_parser"
+Feb 11 19:03:30 juju-110cc2-k8stest-4 kernel: [  323.971979] audit: type=1400 audit(1644606210.536:134): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-proxy.daemon" pid=23244 comm="apparmor_parser"
+Feb 11 19:03:30 juju-110cc2-k8stest-4 kernel: [  323.975242] audit: type=1400 audit(1644606210.540:135): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-proxy.hook.configure" pid=23245 comm="apparmor_parser"
+Feb 11 19:03:30 juju-110cc2-k8stest-4 kernel: [  323.977964] audit: type=1400 audit(1644606210.540:136): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap.kube-proxy.kube-proxy" pid=23246 comm="apparmor_parser"
+Feb 11 19:03:30 juju-110cc2-k8stest-4 kernel: [  323.981425] audit: type=1400 audit(1644606210.544:137): apparmor="STATUS" operation="profile_load" profile="unconfined" name="snap-update-ns.kube-proxy" pid=23243 comm="apparmor_parser"
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kernel: [  325.918449] IPVS: Registered protocols (TCP, UDP, SCTP, AH, ESP)
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kernel: [  325.918465] IPVS: Connection hash table configured (size=4096, memory=64Kbytes)
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kernel: [  325.918533] IPVS: ipvs loaded.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kernel: [  325.924670] IPVS: [rr] scheduler registered.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kernel: [  325.929293] IPVS: [wrr] scheduler registered.
+Feb 11 19:03:32 juju-110cc2-k8stest-4 kernel: [  325.934397] IPVS: [sh] scheduler registered.
+Feb 11 19:03:39 juju-110cc2-k8stest-4 kernel: [  332.905371] audit: type=1400 audit(1644606219.468:138): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=24268 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:04:05 juju-110cc2-k8stest-4 kernel: [  359.161914] audit: type=1400 audit(1644606245.724:139): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=25315 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:04:59 juju-110cc2-k8stest-4 kernel: [  412.561593] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+Feb 11 19:04:59 juju-110cc2-k8stest-4 kernel: [  412.564381] Bridge firewalling registered
+Feb 11 19:05:08 juju-110cc2-k8stest-4 kernel: [  422.123256] aufs 5.4.3-20200302
+Feb 11 19:05:21 juju-110cc2-k8stest-4 kernel: [  434.810693] audit: type=1400 audit(1644606321.374:140): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=27756 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:05:50 juju-110cc2-k8stest-4 kernel: [  464.187057] audit: type=1400 audit(1644606350.751:141): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=28778 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:06:02 juju-110cc2-k8stest-4 kernel: [  476.114945] audit: type=1400 audit(1644606362.684:142): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=29719 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:06:14 juju-110cc2-k8stest-4 kernel: [  488.369383] audit: type=1400 audit(1644606374.932:143): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=30703 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:06:27 juju-110cc2-k8stest-4 kernel: [  500.659403] audit: type=1400 audit(1644606387.225:144): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=31665 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:06:39 juju-110cc2-k8stest-4 kernel: [  512.943162] audit: type=1400 audit(1644606399.509:145): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=32728 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:06:52 juju-110cc2-k8stest-4 kernel: [  525.425398] audit: type=1400 audit(1644606411.994:146): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=33768 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:07:02 juju-110cc2-k8stest-4 kernel: [  536.100544] audit: type=1400 audit(1644606422.666:147): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=34647 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:07:05 juju-110cc2-k8stest-4 kernel: [  538.678696] cgroup: cgroup: disabling cgroup2 socket matching due to net_prio or net_cls activation
+Feb 11 19:07:16 juju-110cc2-k8stest-4 kernel: [  550.270252] audit: type=1400 audit(1644606436.837:148): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=36162 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:07:27 juju-110cc2-k8stest-4 kernel: [  560.670935] audit: type=1400 audit(1644606447.237:149): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=37206 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:07:34 juju-110cc2-k8stest-4 kernel: [  568.374775] audit: type=1400 audit(1644606454.940:150): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=38025 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:07:44 juju-110cc2-k8stest-4 kernel: [  577.597931] audit: type=1400 audit(1644606464.164:151): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=38867 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:07:53 juju-110cc2-k8stest-4 kernel: [  587.414000] audit: type=1400 audit(1644606473.980:152): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=39715 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:03 juju-110cc2-k8stest-4 kernel: [  596.949111] audit: type=1400 audit(1644606483.516:153): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=40839 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:13 juju-110cc2-k8stest-4 kernel: [  606.460343] audit: type=1400 audit(1644606493.027:154): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=41764 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:22 juju-110cc2-k8stest-4 kernel: [  616.138908] audit: type=1400 audit(1644606502.703:155): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=42752 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:34 juju-110cc2-k8stest-4 kernel: [  627.750635] audit: type=1400 audit(1644606514.315:156): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=43790 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:34 juju-110cc2-k8stest-4 kernel: [  627.979626] audit: type=1400 audit(1644606514.547:157): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=43877 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:45 juju-110cc2-k8stest-4 kernel: [  638.916092] audit: type=1400 audit(1644606525.483:158): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=44793 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:08:58 juju-110cc2-k8stest-4 kernel: [  652.293061] audit: type=1400 audit(1644606538.859:159): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=46086 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:09:11 juju-110cc2-k8stest-4 kernel: [  664.938342] audit: type=1400 audit(1644606551.503:160): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=47055 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:09:27 juju-110cc2-k8stest-4 kernel: [  680.618604] audit: type=1400 audit(1644606567.183:161): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=48388 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:09:40 juju-110cc2-k8stest-4 kernel: [  693.475322] audit: type=1400 audit(1644606580.039:162): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=49370 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:09:53 juju-110cc2-k8stest-4 kernel: [  706.575857] audit: type=1400 audit(1644606593.143:163): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=50467 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:10:05 juju-110cc2-k8stest-4 kernel: [  718.697330] audit: type=1400 audit(1644606605.263:164): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=51470 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:10:18 juju-110cc2-k8stest-4 kernel: [  732.134382] audit: type=1400 audit(1644606618.700:165): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=52817 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:10:31 juju-110cc2-k8stest-4 kernel: [  744.866862] audit: type=1400 audit(1644606631.436:166): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=53859 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:10:43 juju-110cc2-k8stest-4 kernel: [  757.076371] audit: type=1400 audit(1644606643.644:167): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=54897 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:10:55 juju-110cc2-k8stest-4 kernel: [  769.023062] audit: type=1400 audit(1644606655.592:168): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=55913 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:07 juju-110cc2-k8stest-4 kernel: [  780.708561] audit: type=1400 audit(1644606667.272:169): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=56889 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:07 juju-110cc2-k8stest-4 kernel: [  781.370824] audit: type=1400 audit(1644606667.936:170): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=57151 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:19 juju-110cc2-k8stest-4 kernel: [  793.407448] audit: type=1400 audit(1644606679.973:171): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=57977 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:20 juju-110cc2-k8stest-4 kernel: [  794.084849] audit: type=1400 audit(1644606680.649:172): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=58249 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:33 juju-110cc2-k8stest-4 kernel: [  806.901127] audit: type=1400 audit(1644606693.465:173): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=59087 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:34 juju-110cc2-k8stest-4 kernel: [  807.430845] audit: type=1400 audit(1644606693.997:174): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=59334 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:46 juju-110cc2-k8stest-4 kernel: [  819.750899] audit: type=1400 audit(1644606706.317:175): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=60138 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:46 juju-110cc2-k8stest-4 kernel: [  820.296152] audit: type=1400 audit(1644606706.861:176): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=60393 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:58 juju-110cc2-k8stest-4 kernel: [  832.421717] audit: type=1400 audit(1644606718.990:177): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=61197 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:11:59 juju-110cc2-k8stest-4 kernel: [  832.942136] audit: type=1400 audit(1644606719.510:178): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=61448 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:12 juju-110cc2-k8stest-4 kernel: [  845.741528] audit: type=1400 audit(1644606732.310:179): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=62317 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:23 juju-110cc2-k8stest-4 kernel: [  856.923253] audit: type=1400 audit(1644606743.490:180): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.kube-scheduler" pid=65997 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:23 juju-110cc2-k8stest-4 kernel: [  856.945503] audit: type=1400 audit(1644606743.514:181): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=65996 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:24 juju-110cc2-k8stest-4 kernel: [  857.812159] audit: type=1400 audit(1644606744.378:182): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=66635 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:25 juju-110cc2-k8stest-4 kernel: [  858.809389] audit: type=1400 audit(1644606745.378:183): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=67261 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:26 juju-110cc2-k8stest-4 kernel: [  860.363682] audit: type=1400 audit(1644606746.930:184): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=68699 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:33 juju-110cc2-k8stest-4 kernel: [  867.251410] audit: type=1400 audit(1644606753.819:185): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=68880 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:35 juju-110cc2-k8stest-4 kernel: [  869.142748] audit: type=1400 audit(1644606755.711:186): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=68979 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:44 juju-110cc2-k8stest-4 kernel: [  877.639551] audit: type=1400 audit(1644606764.207:187): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=69437 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:46 juju-110cc2-k8stest-4 kernel: [  880.149561] audit: type=1400 audit(1644606766.719:188): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=69796 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:52 juju-110cc2-k8stest-4 kernel: [  886.204405] audit: type=1400 audit(1644606772.775:189): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=70070 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:52 juju-110cc2-k8stest-4 kernel: [  886.323542] audit: type=1400 audit(1644606772.895:190): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=70094 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:53 juju-110cc2-k8stest-4 kernel: [  886.494088] audit: type=1400 audit(1644606773.063:191): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=70137 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:54 juju-110cc2-k8stest-4 kernel: [  887.893996] audit: type=1400 audit(1644606774.463:192): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=70375 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:12:58 juju-110cc2-k8stest-4 kernel: [  891.459224] audit: type=1400 audit(1644606778.027:193): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=70471 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:04 juju-110cc2-k8stest-4 kernel: [  898.188704] audit: type=1400 audit(1644606784.759:194): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=70526 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:09 juju-110cc2-k8stest-4 kernel: [  902.873893] audit: type=1400 audit(1644606789.444:195): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=70634 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:14 juju-110cc2-k8stest-4 kernel: [  908.391135] audit: type=1400 audit(1644606794.964:196): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=70714 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:21 juju-110cc2-k8stest-4 kernel: [  914.702365] audit: type=1400 audit(1644606801.272:197): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=70958 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:25 juju-110cc2-k8stest-4 kernel: [  918.688765] audit: type=1400 audit(1644606805.260:198): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71012 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:32 juju-110cc2-k8stest-4 kernel: [  925.875563] audit: type=1400 audit(1644606812.448:199): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=71116 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:35 juju-110cc2-k8stest-4 kernel: [  928.880872] audit: type=1400 audit(1644606815.448:200): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71169 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:44 juju-110cc2-k8stest-4 kernel: [  937.634890] audit: type=1400 audit(1644606824.205:201): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=71304 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:45 juju-110cc2-k8stest-4 kernel: [  939.154303] audit: type=1400 audit(1644606825.725:202): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71361 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:55 juju-110cc2-k8stest-4 kernel: [  949.412565] audit: type=1400 audit(1644606835.981:203): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71471 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:55 juju-110cc2-k8stest-4 kernel: [  949.413418] audit: type=1400 audit(1644606835.981:204): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=71472 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:58 juju-110cc2-k8stest-4 kernel: [  952.132092] audit: type=1400 audit(1644606838.701:205): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=71633 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:58 juju-110cc2-k8stest-4 kernel: [  952.278326] audit: type=1400 audit(1644606838.849:206): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=71656 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:13:59 juju-110cc2-k8stest-4 kernel: [  952.454023] audit: type=1400 audit(1644606839.025:207): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=71693 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:06 juju-110cc2-k8stest-4 kernel: [  959.627013] audit: type=1400 audit(1644606846.197:208): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=71985 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:07 juju-110cc2-k8stest-4 kernel: [  961.208443] audit: type=1400 audit(1644606847.777:209): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=72028 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:16 juju-110cc2-k8stest-4 kernel: [  969.915235] audit: type=1400 audit(1644606856.486:210): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=72644 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:17 juju-110cc2-k8stest-4 kernel: [  970.900360] audit: type=1400 audit(1644606857.470:211): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=72750 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:17 juju-110cc2-k8stest-4 kernel: [  971.046312] audit: type=1400 audit(1644606857.618:212): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=72780 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:20 juju-110cc2-k8stest-4 kernel: [  973.449166] audit: type=1400 audit(1644606860.022:213): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=73072 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:22 juju-110cc2-k8stest-4 kernel: [  975.624004] audit: type=1400 audit(1644606862.194:214): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.kube-scheduler" pid=74437 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:22 juju-110cc2-k8stest-4 kernel: [  975.637571] audit: type=1400 audit(1644606862.210:215): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=74436 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:23 juju-110cc2-k8stest-4 kernel: [  976.483164] audit: type=1400 audit(1644606863.054:216): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=75083 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:32 juju-110cc2-k8stest-4 kernel: [  985.925237] audit: type=1400 audit(1644606872.498:217): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=77461 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:35 juju-110cc2-k8stest-4 kernel: [  988.612503] audit: type=1400 audit(1644606875.186:218): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=77746 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:35 juju-110cc2-k8stest-4 kernel: [  988.754483] audit: type=1400 audit(1644606875.326:219): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=77770 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:35 juju-110cc2-k8stest-4 kernel: [  988.918418] audit: type=1400 audit(1644606875.490:220): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=77807 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:14:36 juju-110cc2-k8stest-4 kernel: [  989.429871] audit: type=1400 audit(1644606876.002:221): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=78023 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:06 juju-110cc2-k8stest-4 kernel: [ 1019.735469] audit: type=1400 audit(1644606906.311:222): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=78416 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:19 juju-110cc2-k8stest-4 kernel: [ 1033.239467] audit: type=1400 audit(1644606919.816:223): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=80000 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:20 juju-110cc2-k8stest-4 kernel: [ 1033.513095] audit: type=1400 audit(1644606920.088:224): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=80069 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:20 juju-110cc2-k8stest-4 kernel: [ 1033.693871] audit: type=1400 audit(1644606920.268:225): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=80102 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:25 juju-110cc2-k8stest-4 kernel: [ 1038.884369] audit: type=1400 audit(1644606925.460:226): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=80447 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:29 juju-110cc2-k8stest-4 kernel: [ 1042.858634] audit: type=1400 audit(1644606929.436:227): apparmor="DENIED" operation="bind" profile="snap.kube-scheduler.daemon" pid=81900 comm="kube-scheduler" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:29 juju-110cc2-k8stest-4 kernel: [ 1043.157985] audit: type=1400 audit(1644606929.732:228): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=81925 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:40 juju-110cc2-k8stest-4 kernel: [ 1053.870280] audit: type=1400 audit(1644606940.443:229): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=82073 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:51 juju-110cc2-k8stest-4 kernel: [ 1064.875723] audit: type=1400 audit(1644606951.451:230): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=82270 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:57 juju-110cc2-k8stest-4 kernel: [ 1070.909975] audit: type=1400 audit(1644606957.483:231): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.daemon" pid=82375 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:15:57 juju-110cc2-k8stest-4 kernel: [ 1071.102107] audit: type=1400 audit(1644606957.675:232): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=82502 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:01 juju-110cc2-k8stest-4 kernel: [ 1075.419035] audit: type=1400 audit(1644606961.991:233): apparmor="DENIED" operation="bind" profile="snap.kube-controller-manager.daemon" pid=82610 comm="kube-controller" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:25 juju-110cc2-k8stest-4 kernel: [ 1099.227031] audit: type=1400 audit(1644606985.798:234): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84109 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:26 juju-110cc2-k8stest-4 kernel: [ 1100.131300] audit: type=1400 audit(1644606986.702:235): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84250 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:26 juju-110cc2-k8stest-4 kernel: [ 1100.321333] audit: type=1400 audit(1644606986.894:236): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84283 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:28 juju-110cc2-k8stest-4 kernel: [ 1101.427059] audit: type=1400 audit(1644606987.998:237): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84513 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:28 juju-110cc2-k8stest-4 kernel: [ 1101.552218] audit: type=1400 audit(1644606988.122:238): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84537 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:28 juju-110cc2-k8stest-4 kernel: [ 1101.783947] audit: type=1400 audit(1644606988.354:239): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=84602 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:37 juju-110cc2-k8stest-4 kernel: [ 1111.166891] audit: type=1400 audit(1644606997.737:240): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=85951 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:37 juju-110cc2-k8stest-4 kernel: [ 1111.331199] audit: type=1400 audit(1644606997.901:241): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=85995 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:16:38 juju-110cc2-k8stest-4 kernel: [ 1111.707995] audit: type=1400 audit(1644606998.277:242): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=86111 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:43 juju-110cc2-k8stest-4 kernel: [ 1297.096280] audit: type=1400 audit(1644607183.667:243): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90674 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:43 juju-110cc2-k8stest-4 kernel: [ 1297.420825] audit: type=1400 audit(1644607183.991:244): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90804 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:44 juju-110cc2-k8stest-4 kernel: [ 1297.580699] audit: type=1400 audit(1644607184.151:245): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90837 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:44 juju-110cc2-k8stest-4 kernel: [ 1298.152888] audit: type=1400 audit(1644607184.723:246): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90955 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:44 juju-110cc2-k8stest-4 kernel: [ 1298.312452] audit: type=1400 audit(1644607184.883:247): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=90983 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:45 juju-110cc2-k8stest-4 kernel: [ 1298.538110] audit: type=1400 audit(1644607185.107:248): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=91052 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:54 juju-110cc2-k8stest-4 kernel: [ 1307.457684] audit: type=1400 audit(1644607194.027:249): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=92414 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:54 juju-110cc2-k8stest-4 kernel: [ 1307.602821] audit: type=1400 audit(1644607194.171:250): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=92447 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:19:54 juju-110cc2-k8stest-4 kernel: [ 1307.992099] audit: type=1400 audit(1644607194.563:251): apparmor="DENIED" operation="bind" profile="snap.kube-apiserver.kube-apiserver" pid=92565 comm="kube-apiserver" family="unix" sock_type="dgram" protocol=0 requested_mask="bind" denied_mask="bind" addr=none
+Feb 11 19:23:37 juju-110cc2-k8stest-4 kernel: [ 1530.811848] blk_update_request: I/O error, dev loop11, sector 0 op 0x1:(WRITE) flags 0x800 phys_seg 0 prio class 0

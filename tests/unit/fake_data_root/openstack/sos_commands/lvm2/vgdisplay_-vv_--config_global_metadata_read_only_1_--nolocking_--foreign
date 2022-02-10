@@ -1,0 +1,106 @@
+  Reloading config files
+  Loading config file: /etc/lvm/lvm.conf
+  global/locking_type not found in config: defaulting to 1
+  WARNING: File locking is disabled.
+  devices/md_component_checks not found in config: defaulting to auto
+  /dev/loop0: size is 126792 sectors
+  /dev/bcache0: size is 209715184 sectors
+  /dev/vda: size is 629145600 sectors
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: size is 209682416 sectors
+  /dev/loop1: size is 0 sectors
+  /dev/vda1: size is 2048 sectors
+  /dev/loop2: size is 156112 sectors
+  /dev/vda2: size is 629141471 sectors
+  /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a: size is 209682416 sectors
+  /dev/loop3: size is 88952 sectors
+  /dev/loop4: size is 156232 sectors
+  /dev/loop5: size is 0 sectors
+  /dev/loop6: size is 0 sectors
+  /dev/loop7: size is 0 sectors
+  /dev/vdb: size is 209715200 sectors
+  /dev/vdb1: size is 2048 sectors
+  /dev/vdb2: size is 209698816 sectors
+  /dev/vdc: size is 209715200 sectors
+  /dev/vdd: size is 209715200 sectors
+  /dev/bcache1: size is 209715184 sectors
+  devices/global_filter not found in config: defaulting to global_filter = [ "a|.*|" ]
+  devices/filter not found in config: defaulting to filter = [ "a|.*|" ]
+  /dev/loop0: using cached size 126792 sectors
+  /dev/bcache0: using cached size 209715184 sectors
+  /dev/vda: using cached size 629145600 sectors
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  /dev/loop1: using cached size 0 sectors
+  /dev/vda1: using cached size 2048 sectors
+  /dev/loop2: using cached size 156112 sectors
+  /dev/vda2: using cached size 629141471 sectors
+  /dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a: using cached size 209682416 sectors
+  /dev/loop3: using cached size 88952 sectors
+  /dev/loop4: using cached size 156232 sectors
+  /dev/loop5: using cached size 0 sectors
+  /dev/loop6: using cached size 0 sectors
+  /dev/loop7: using cached size 0 sectors
+  /dev/vdb: using cached size 209715200 sectors
+  /dev/vdb1: using cached size 2048 sectors
+  /dev/vdb2: using cached size 209698816 sectors
+  /dev/vdc: using cached size 209715200 sectors
+  /dev/vdd: using cached size 209715200 sectors
+  /dev/bcache1: using cached size 209715184 sectors
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: lvm2 label detected at sector 1
+  Obtaining the complete list of VGs to process
+  report/output_format not found in config: defaulting to basic
+  log/report_command_log not found in config: defaulting to 0
+  Processing VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 2cdQud-7F2u-s8HJ-ODrf-DsLi-4Hzn-hzONYc
+  metadata/lvs_history_retention_time not found in config: defaulting to 0
+  /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749: using cached size 209682416 sectors
+  Running command for VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 2cdQud-7F2u-s8HJ-ODrf-DsLi-4Hzn-hzONYc
+  --- Volume group ---
+  VG Name               ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               99.98 GiB
+  PE Size               4.00 MiB
+  Total PE              25595
+  Alloc PE / Size       25595 / 99.98 GiB
+  Free  PE / Size       0 / 0   
+  VG UUID               2cdQud-7F2u-s8HJ-ODrf-DsLi-4Hzn-hzONYc
+   
+  Adding ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 to the list of LVs to be processed.
+  Processing LV osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 in VG ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749.
+  --- Logical volume ---
+  global/lvdisplay_shows_full_device_path not found in config: defaulting to 0
+  LV Path                /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  LV Name                osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  VG Name                ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+  LV UUID                OCGMeI-gyEj-lLdy-HQNs-Fpg6-FRTF-HLWoR7
+  LV Write Access        read/write
+  LV Creation host, time compute4, 2022-02-04 10:46:25 +0000
+  LV Status              available
+  # open                 24
+  LV Size                99.98 GiB
+  Current LE             25595
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+   
+  --- Physical volumes ---
+  PV Name               /dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749     
+  PV UUID               MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt
+  PV Status             allocatable
+  Total PE / Free PE    25595 / 0
+   
+  Reloading config files
+  Loading config file: /etc/lvm/lvm.conf

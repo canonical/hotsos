@@ -1,0 +1,18 @@
+* cloud-init.service - Initial cloud-init job (metadata service crawler)
+     Loaded: loaded (/lib/systemd/system/cloud-init.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:17 UTC; 17h ago
+   Main PID: 872 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 3.9M
+     CGroup: /system.slice/cloud-init.service
+
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   16  |  multicast  |    ::   |  br-ens3  |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   17  |  multicast  |    ::   |    ens9   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   18  |  multicast  |    ::   |    ens8   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   19  |  multicast  |    ::   |    ens7   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   20  |  multicast  |    ::   |    ens6   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   21  |  multicast  |    ::   |    ens5   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   22  |  multicast  |    ::   |    ens4   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: |   23  |  multicast  |    ::   |    ens3   |   U   |
+Feb 09 22:38:16 compute4 cloud-init[876]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:17 compute4 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

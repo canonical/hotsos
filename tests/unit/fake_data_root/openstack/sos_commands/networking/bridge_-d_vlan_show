@@ -1,0 +1,21 @@
+port	vlan ids
+ens3	 1 PVID Egress Untagged
+
+br-ens3	 1 PVID Egress Untagged
+
+lxdbr0	 1 PVID Egress Untagged
+
+veth1883dceb	 1 PVID Egress Untagged
+
+veth5cc250bc	 1 PVID Egress Untagged
+
+veth396824c3	 1 PVID Egress Untagged
+
+vethe7aaf6c3	 1 PVID Egress Untagged
+
+veth59e22e6f	 1 PVID Egress Untagged
+
+veth8aa19e05	 1 PVID Egress Untagged
+
+veth0d284c32	 1 PVID Egress Untagged
+

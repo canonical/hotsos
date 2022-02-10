@@ -1,0 +1,14 @@
+-- Logs begin at Fri 2022-02-04 09:34:04 UTC, end at Thu 2022-02-10 16:19:17 UTC. --
+Feb 04 09:38:34 compute4 systemd[1]: Starting HAProxy Load Balancer...
+Feb 04 09:38:34 compute4 haproxy[23543]: [NOTICE] 034/093834 (23543) : New worker #1 (23544) forked
+Feb 04 09:38:34 compute4 systemd[1]: Started HAProxy Load Balancer.
+Feb 04 11:32:31 compute4 systemd[1]: Stopping HAProxy Load Balancer...
+Feb 04 11:32:31 compute4 haproxy[23543]: [WARNING] 034/113231 (23543) : Exiting Master process...
+Feb 04 11:32:31 compute4 haproxy[23543]: [ALERT] 034/113231 (23543) : Current worker #1 (23544) exited with code 143 (Terminated)
+Feb 04 11:32:31 compute4 haproxy[23543]: [WARNING] 034/113231 (23543) : All workers exited. Exiting... (0)
+Feb 04 11:32:31 compute4 systemd[1]: haproxy.service: Succeeded.
+Feb 04 11:32:31 compute4 systemd[1]: Stopped HAProxy Load Balancer.
+-- Reboot --
+Feb 09 22:38:17 compute4 systemd[1]: Starting HAProxy Load Balancer...
+Feb 09 22:38:17 compute4 haproxy[1030]: [NOTICE] 039/223817 (1030) : New worker #1 (1053) forked
+Feb 09 22:38:17 compute4 systemd[1]: Started HAProxy Load Balancer.

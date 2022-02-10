@@ -1,0 +1,55 @@
+Name:	kube-scheduler
+Umask:	0022
+State:	S (sleeping)
+Tgid:	81900
+Ngid:	0
+Pid:	81900
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	256
+Groups:	 
+NStgid:	81900
+NSpid:	81900
+NSpgid:	81900
+NSsid:	81900
+VmPeak:	  754400 kB
+VmSize:	  754400 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   53212 kB
+VmRSS:	   46152 kB
+RssAnon:	   15936 kB
+RssFile:	   30216 kB
+RssShmem:	       0 kB
+VmData:	   58228 kB
+VmStk:	     132 kB
+VmExe:	   22004 kB
+VmLib:	       4 kB
+VmPTE:	     204 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	8
+SigQ:	5/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffc7fc1feff
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	5588
+nonvoluntary_ctxt_switches:	1417

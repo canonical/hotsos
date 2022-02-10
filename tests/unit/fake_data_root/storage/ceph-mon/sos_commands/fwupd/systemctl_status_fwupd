@@ -1,0 +1,15 @@
+* fwupd.service - Firmware update daemon
+     Loaded: loaded (/lib/systemd/system/fwupd.service; static; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: https://fwupd.org/
+
+Feb 09 23:34:24 juju-04f1e3-1-lxd-0 fwupd[6749]: 23:34:24:0606 FuEngine             failed to get chassis type: no structure with type 03
+Feb 10 01:34:27 juju-04f1e3-1-lxd-0 systemd[1]: fwupd.service: Succeeded.
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 systemd[1]: Starting Firmware update daemon...
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 fwupd[35439]: 06:12:45:0381 FuEngine             Failed to load SMBIOS: Failed to open file "/sys/firmware/dmi/tables/smbios_entry_point": Permission denied
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 fwupd[35439]: 06:12:45:0452 FuEngine             failed to add device /sys/devices/pci0000:00/0000:00:01.0: failed to add device using on pci_bcr: could not read BCR: failed to read from port 0x00dc: Success
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 fwupd[35439]: 06:12:45:0608 FuEngine             failed to add device /sys/devices/virtual/msr/msr0: failed to add device using on msr: failed to open /dev/cpu/0/msr: No such file or directory
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 systemd[1]: Started Firmware update daemon.
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 fwupd[35439]: 06:12:45:0674 FuPluginAcpiFacp     failed to load /sys/firmware/acpi/tables/FACP: Failed to open file "/sys/firmware/acpi/tables/FACP": Permission denied
+Feb 10 06:12:45 juju-04f1e3-1-lxd-0 fwupd[35439]: 06:12:45:0675 FuEngine             failed to get chassis type: no structure with type 03
+Feb 10 08:12:46 juju-04f1e3-1-lxd-0 systemd[1]: fwupd.service: Succeeded.

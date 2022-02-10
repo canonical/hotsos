@@ -1,0 +1,103 @@
+- project:
+    templates:
+      - charm-yoga-unit-jobs
+    check:
+      jobs:
+        - bionic-queens-dvr-snat
+        - bionic-stein-dvr-snat
+        - bionic-train-dvr-snat
+        - bionic-ussuri-dvr-snat
+        - migrate-ovn-focal-ussuri-dvr-snat
+        - migrate-ovn-focal-victoria-dvr-snat
+        # migrate-ovn tests fail on wallaby and above due to:
+        # https://bugs.launchpad.net/charm-neutron-openvswitch/+bug/1951856
+        - migrate-ovn-focal-wallaby-dvr-snat:
+            voting: false
+        - migrate-ovn-focal-xena-dvr-snat:
+            voting: false
+        - migrate-ovn-focal-yoga-dvr-snat:
+            voting: false
+        - migrate-ovn-hirsute-wallaby-dvr-snat:
+            voting: false
+        - migrate-ovn-impish-xena-dvr-snat:
+            voting: false
+        - migrate-ovn-jammy-yoga-dvr-snat:
+            voting: false
+
+- job:
+    name: bionic-queens-dvr-snat
+    parent: func-target
+    dependencies: &smoke-jobs
+      - migrate-ovn-focal-ussuri-dvr-snat
+    vars:
+      tox_extra_args: bionic-queens-dvr-snat
+- job:
+    name: bionic-stein-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: bionic-stein-dvr-snat
+- job:
+    name: bionic-train-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: bionic-train-dvr-snat
+- job:
+    name: bionic-ussuri-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: bionic-ussuri-dvr-snat
+- job:
+    name: migrate-ovn-focal-ussuri-dvr-snat
+    parent: func-target
+    dependencies:
+      - osci-lint
+      - tox-py36
+      - tox-py38
+      - tox-py39
+    vars:
+      tox_extra_args: migrate-ovn:focal-ussuri-dvr-snat
+- job:
+    name: migrate-ovn-focal-victoria-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:focal-victoria-dvr-snat
+- job:
+    name: migrate-ovn-focal-wallaby-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:focal-wallaby-dvr-snat
+- job:
+    name: migrate-ovn-focal-xena-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:focal-xena-dvr-snat
+- job:
+    name: migrate-ovn-focal-yoga-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:focal-yoga-dvr-snat
+- job:
+    name: migrate-ovn-hirsute-wallaby-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:hirsute-wallaby-dvr-snat
+- job:
+    name: migrate-ovn-impish-xena-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:impish-xena-dvr-snat
+- job:
+    name: migrate-ovn-jammy-yoga-dvr-snat
+    parent: func-target
+    dependencies: *smoke-jobs
+    vars:
+      tox_extra_args: migrate-ovn:jammy-yoga-dvr-snat

@@ -1,0 +1,55 @@
+Name:	multipathd
+Umask:	0077
+State:	S (sleeping)
+Tgid:	460
+Ngid:	0
+Pid:	460
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	 
+NStgid:	460
+NSpid:	460
+NSpgid:	460
+NSsid:	460
+VmPeak:	  345680 kB
+VmSize:	  280144 kB
+VmLck:	  280128 kB
+VmPin:	       0 kB
+VmHWM:	   17992 kB
+VmRSS:	   17948 kB
+RssAnon:	    9748 kB
+RssFile:	    8200 kB
+RssShmem:	       0 kB
+VmData:	   10004 kB
+VmStk:	     132 kB
+VmExe:	      96 kB
+VmLib:	    5352 kB
+VmPTE:	      88 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	7
+SigQ:	5/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	fffffffe7ffbeeff
+SigIgn:	0000000000000000
+SigCgt:	0000000180005a03
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	thread vulnerable
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	1599
+nonvoluntary_ctxt_switches:	6

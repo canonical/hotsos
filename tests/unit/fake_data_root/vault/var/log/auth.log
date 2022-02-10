@@ -1,0 +1,59 @@
+Feb  4 09:42:13 juju-04f1e3-0-lxd-5 sshd[398]: Server listening on 0.0.0.0 port 22.
+Feb  4 09:42:13 juju-04f1e3-0-lxd-5 sshd[398]: Server listening on :: port 22.
+Feb  4 09:42:13 juju-04f1e3-0-lxd-5 systemd-logind[389]: New seat seat0.
+Feb  4 09:42:40 juju-04f1e3-0-lxd-5 useradd[725]: new user: name=lxd, UID=998, GID=100, home=/var/snap/lxd/common/lxd, shell=/bin/false, from=none
+Feb  4 09:44:23 juju-04f1e3-0-lxd-5 useradd[2118]: new user: name=dnsmasq, UID=112, GID=65534, home=/var/lib/misc, shell=/usr/sbin/nologin, from=none
+Feb  4 09:44:23 juju-04f1e3-0-lxd-5 usermod[2126]: change user 'dnsmasq' password
+Feb  4 09:44:23 juju-04f1e3-0-lxd-5 chage[2133]: changed password expiry for dnsmasq
+Feb  4 09:44:23 juju-04f1e3-0-lxd-5 chfn[2137]: changed user 'dnsmasq' information
+Feb  4 09:56:38 juju-04f1e3-0-lxd-5 groupadd[11757]: group added to /etc/group: name=haclient, GID=119
+Feb  4 09:56:38 juju-04f1e3-0-lxd-5 groupadd[11757]: group added to /etc/gshadow: name=haclient
+Feb  4 09:56:38 juju-04f1e3-0-lxd-5 groupadd[11757]: new group: name=haclient, GID=119
+Feb  4 09:56:39 juju-04f1e3-0-lxd-5 useradd[11764]: new user: name=hacluster, UID=113, GID=119, home=/var/lib/pacemaker, shell=/usr/sbin/nologin, from=none
+Feb  4 09:56:39 juju-04f1e3-0-lxd-5 usermod[11772]: change user 'hacluster' password
+Feb  4 09:56:39 juju-04f1e3-0-lxd-5 chage[11779]: changed password expiry for hacluster
+Feb  4 10:02:38 juju-04f1e3-0-lxd-5 groupadd[15674]: group added to /etc/group: name=mysql, GID=120
+Feb  4 10:02:38 juju-04f1e3-0-lxd-5 groupadd[15674]: group added to /etc/gshadow: name=mysql
+Feb  4 10:02:38 juju-04f1e3-0-lxd-5 groupadd[15674]: new group: name=mysql, GID=120
+Feb  4 10:02:38 juju-04f1e3-0-lxd-5 useradd[15684]: new user: name=mysql, UID=997, GID=120, home=/var/lib/mysql, shell=/bin/sh, from=none
+Feb  4 10:17:01 juju-04f1e3-0-lxd-5 CRON[42754]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb  4 10:17:01 juju-04f1e3-0-lxd-5 CRON[42754]: pam_unix(cron:session): session closed for user root
+Feb  4 10:58:01 juju-04f1e3-0-lxd-5 sshd[398]: Received signal 15; terminating.
+Feb  9 22:33:35 juju-04f1e3-0-lxd-5 sshd[328]: Server listening on 0.0.0.0 port 22.
+Feb  9 22:33:35 juju-04f1e3-0-lxd-5 sshd[328]: Server listening on :: port 22.
+Feb  9 22:33:37 juju-04f1e3-0-lxd-5 systemd-logind[273]: New seat seat0.
+Feb  9 23:17:01 juju-04f1e3-0-lxd-5 CRON[22883]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb  9 23:17:01 juju-04f1e3-0-lxd-5 CRON[22883]: pam_unix(cron:session): session closed for user root
+Feb 10 00:17:01 juju-04f1e3-0-lxd-5 CRON[47246]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 00:17:01 juju-04f1e3-0-lxd-5 CRON[47246]: pam_unix(cron:session): session closed for user root
+Feb 10 01:17:01 juju-04f1e3-0-lxd-5 CRON[71518]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 01:17:01 juju-04f1e3-0-lxd-5 CRON[71518]: pam_unix(cron:session): session closed for user root
+Feb 10 02:17:01 juju-04f1e3-0-lxd-5 CRON[95655]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 02:17:01 juju-04f1e3-0-lxd-5 CRON[95655]: pam_unix(cron:session): session closed for user root
+Feb 10 03:10:01 juju-04f1e3-0-lxd-5 CRON[117787]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 03:10:01 juju-04f1e3-0-lxd-5 CRON[117787]: pam_unix(cron:session): session closed for user root
+Feb 10 03:17:01 juju-04f1e3-0-lxd-5 CRON[120273]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 03:17:01 juju-04f1e3-0-lxd-5 CRON[120273]: pam_unix(cron:session): session closed for user root
+Feb 10 04:17:01 juju-04f1e3-0-lxd-5 CRON[144555]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 04:17:01 juju-04f1e3-0-lxd-5 CRON[144555]: pam_unix(cron:session): session closed for user root
+Feb 10 05:17:01 juju-04f1e3-0-lxd-5 CRON[168833]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 05:17:01 juju-04f1e3-0-lxd-5 CRON[168833]: pam_unix(cron:session): session closed for user root
+Feb 10 06:17:01 juju-04f1e3-0-lxd-5 CRON[194407]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 06:17:01 juju-04f1e3-0-lxd-5 CRON[194407]: pam_unix(cron:session): session closed for user root
+Feb 10 06:25:01 juju-04f1e3-0-lxd-5 CRON[197967]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 06:25:02 juju-04f1e3-0-lxd-5 CRON[197967]: pam_unix(cron:session): session closed for user root
+Feb 10 07:17:01 juju-04f1e3-0-lxd-5 CRON[218711]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 07:17:01 juju-04f1e3-0-lxd-5 CRON[218711]: pam_unix(cron:session): session closed for user root
+Feb 10 08:17:01 juju-04f1e3-0-lxd-5 CRON[242890]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 08:17:01 juju-04f1e3-0-lxd-5 CRON[242890]: pam_unix(cron:session): session closed for user root
+Feb 10 09:17:01 juju-04f1e3-0-lxd-5 CRON[267206]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 09:17:01 juju-04f1e3-0-lxd-5 CRON[267206]: pam_unix(cron:session): session closed for user root
+Feb 10 09:33:01 juju-04f1e3-0-lxd-5 CRON[273503]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 10 09:33:01 juju-04f1e3-0-lxd-5 CRON[273503]: pam_unix(cron:session): session closed for user root
+Feb 10 09:50:52 juju-04f1e3-0-lxd-5 sshd[282374]: Connection closed by 10.0.0.2 port 48322 [preauth]
+Feb 10 09:50:52 juju-04f1e3-0-lxd-5 sshd[282376]: Accepted publickey for ubuntu from 10.0.0.2 port 48324 ssh2: RSA SHA256:zeQTDkoYJ5bBj4DT1T6lHSWOjIJTWysAvaJ13LGGIsk
+Feb 10 09:50:52 juju-04f1e3-0-lxd-5 sshd[282376]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
+Feb 10 09:50:52 juju-04f1e3-0-lxd-5 systemd-logind[273]: New session 113 of user ubuntu.
+Feb 10 09:50:52 juju-04f1e3-0-lxd-5 systemd: pam_unix(systemd-user:session): session opened for user ubuntu by (uid=0)
+Feb 10 09:50:53 juju-04f1e3-0-lxd-5 sudo:   ubuntu : TTY=pts/1 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+Feb 10 09:50:53 juju-04f1e3-0-lxd-5 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)

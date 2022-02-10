@@ -1,0 +1,60 @@
+{
+ "base64_encoded_keys": [],
+ "ds": {
+  "_doc": "EXPERIMENTAL: The structure and format of content scoped under the 'ds' key may change in subsequent releases of cloud-init.",
+  "meta_data": {
+   "dsmode": "net",
+   "instance-id": "juju-04f1e3-0-lxd-5",
+   "local-hostname": "juju-04f1e3-0-lxd-5"
+  }
+ },
+ "merged_cfg": "redacted for non-root user",
+ "sensitive_keys": [
+  "merged_cfg"
+ ],
+ "sys_info": {
+  "dist": [
+   "ubuntu",
+   "20.04",
+   "focal"
+  ],
+  "platform": "Linux-5.4.0-97-generic-x86_64-with-glibc2.29",
+  "python": "3.8.10",
+  "release": "5.4.0-97-generic",
+  "system": "Linux",
+  "uname": [
+   "Linux",
+   "juju-04f1e3-0-lxd-5",
+   "5.4.0-97-generic",
+   "#110-Ubuntu SMP Thu Jan 13 18:22:13 UTC 2022",
+   "x86_64",
+   "x86_64"
+  ],
+  "variant": "ubuntu"
+ },
+ "v1": {
+  "_beta_keys": [
+   "subplatform"
+  ],
+  "availability-zone": null,
+  "availability_zone": null,
+  "cloud-name": "unknown",
+  "cloud_name": "unknown",
+  "distro": "ubuntu",
+  "distro_release": "focal",
+  "distro_version": "20.04",
+  "instance-id": "juju-04f1e3-0-lxd-5",
+  "instance_id": "juju-04f1e3-0-lxd-5",
+  "kernel_release": "5.4.0-97-generic",
+  "local-hostname": "juju-04f1e3-0-lxd-5",
+  "local_hostname": "juju-04f1e3-0-lxd-5",
+  "machine": "x86_64",
+  "platform": "lxd",
+  "public_ssh_keys": [],
+  "python_version": "3.8.10",
+  "region": null,
+  "subplatform": "seed-dir (/var/lib/cloud/seed/nocloud-net)",
+  "system_platform": "Linux-5.4.0-97-generic-x86_64-with-glibc2.29",
+  "variant": "ubuntu"
+ }
+}

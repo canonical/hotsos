@@ -1,0 +1,627 @@
+# Base information
+ - Distribution: Ubuntu
+ - Distribution version: 20.04.3 LTS (Focal Fossa)
+ - Kernel version: Linux juju-04f1e3-1-lxd-5 5.4.0-97-generic #110-Ubuntu SMP Thu Jan 13 18:22:13 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+ - LXC version: 4.0.8
+ - LXD version: 4.0.8
+ - Snap revision: 21835
+
+# Detailed snap information
+```
+name:      lxd
+summary:   LXD - container and VM manager
+publisher: Canonical*
+store-url: https://snapcraft.io/lxd
+license:   unset
+description: |
+  LXD is a system container and virtual machine manager.
+  
+  It offers a simple CLI and REST API to manage local or remote instances,
+  uses an image based workflow and support for a variety of advanced
+  features.
+  
+  Images are available for all Ubuntu releases and architectures as well
+  as for a wide number of other Linux distributions. Existing
+  integrations with many deployment and operation tools, makes it work
+  just like a public cloud, except everything is under your control.
+  
+  LXD containers are lightweight, secure by default and a great
+  alternative to virtual machines when running Linux on Linux.
+  
+  LXD virtual machines are modern and secure, using UEFI and secure-boot
+  by default and a great choice when a different kernel or operating
+  system is needed.
+  
+  With clustering, up to 50 LXD servers can be easily joined and managed
+  together with the same tools and APIs and without needing any external
+  dependencies.
+  
+  
+  Supported configuration options for the snap (snap set lxd
+  [<key>=<value>...]):
+  
+    - ceph.builtin: Use snap-specific Ceph configuration [default=false]
+    - ceph.external: Use the system's ceph tools (ignores ceph.builtin)
+    [default=false]
+    - criu.enable: Enable experimental live-migration support [default=false]
+    - daemon.debug: Increase logging to debug level [default=false]
+    - daemon.group: Set group of users that can interact with LXD
+    [default=lxd]
+    - daemon.preseed: Pass a YAML configuration to `lxd init` on initial
+    start
+    - daemon.syslog: Send LXD log events to syslog [default=false]
+    - lvm.external: Use the system's LVM tools [default=false]
+    - lxcfs.pidfd: Start per-container process tracking [default=false]
+    - lxcfs.loadavg: Start tracking per-container load average
+    [default=false]
+    - lxcfs.cfs: Consider CPU shares for CPU usage [default=false]
+    - openvswitch.builtin: Run a snap-specific OVS daemon [default=false]
+    - shiftfs.enable: Enable shiftfs support [default=auto]
+commands:
+  - lxd.benchmark
+  - lxd.buginfo
+  - lxd.check-kernel
+  - lxd.lxc
+  - lxd.lxc-to-lxd
+  - lxd
+  - lxd.migrate
+services:
+  lxd.activate: oneshot, enabled, inactive
+  lxd.daemon:   simple, enabled, active
+snap-id:      J60k4JY0HppjwOjW8dZdYc8obXKxujRu
+tracking:     4.0/stable/ubuntu-20.04
+refresh-date: 10 days ago, at 22:28 UTC
+channels:
+  latest/stable:    4.22        2022-02-09 (22358) 79MB -
+  latest/candidate: 4.22        2022-02-10 (22402) 79MB -
+  latest/beta:      ^                                   
+  latest/edge:      git-8293a50 2022-02-10 (22397) 80MB -
+  4.22/stable:      4.22        2022-02-09 (22358) 79MB -
+  4.22/candidate:   4.22        2022-02-10 (22402) 79MB -
+  4.22/beta:        ^                                   
+  4.22/edge:        ^                                   
+  4.21/stable:      4.21        2022-01-07 (22162) 77MB -
+  4.21/candidate:   4.21        2022-01-02 (22162) 77MB -
+  4.21/beta:        ^                                   
+  4.21/edge:        ^                                   
+  4.20/stable:      4.20        2021-11-18 (21902) 76MB -
+  4.20/candidate:   4.20        2021-11-14 (21902) 76MB -
+  4.20/beta:        ^                                   
+  4.20/edge:        ^                                   
+  4.0/stable:       4.0.8       2021-11-06 (21835) 70MB -
+  4.0/candidate:    4.0.8       2021-11-04 (21835) 70MB -
+  4.0/beta:         ^                                   
+  4.0/edge:         git-5628fc6 2022-02-02 (22337) 70MB -
+  3.0/stable:       3.0.4       2019-10-10 (11348) 55MB -
+  3.0/candidate:    3.0.4       2019-10-10 (11348) 55MB -
+  3.0/beta:         ^                                   
+  3.0/edge:         git-81b81b9 2019-10-10 (11362) 55MB -
+  2.0/stable:       2.0.12      2020-08-18 (16879) 38MB -
+  2.0/candidate:    2.0.12      2021-03-22 (19859) 39MB -
+  2.0/beta:         ^                                   
+  2.0/edge:         git-82c7d62 2021-03-22 (19857) 39MB -
+installed:          4.0.8                  (21835) 70MB -
+```
+
+# Detailed LXD information
+## Daemon configuration
+```
+config:
+  core.proxy_ignore_hosts: 10.0.0.217,127.0.0.1,::1,localhost
+api_extensions:
+- storage_zfs_remove_snapshots
+- container_host_shutdown_timeout
+- container_stop_priority
+- container_syscall_filtering
+- auth_pki
+- container_last_used_at
+- etag
+- patch
+- usb_devices
+- https_allowed_credentials
+- image_compression_algorithm
+- directory_manipulation
+- container_cpu_time
+- storage_zfs_use_refquota
+- storage_lvm_mount_options
+- network
+- profile_usedby
+- container_push
+- container_exec_recording
+- certificate_update
+- container_exec_signal_handling
+- gpu_devices
+- container_image_properties
+- migration_progress
+- id_map
+- network_firewall_filtering
+- network_routes
+- storage
+- file_delete
+- file_append
+- network_dhcp_expiry
+- storage_lvm_vg_rename
+- storage_lvm_thinpool_rename
+- network_vlan
+- image_create_aliases
+- container_stateless_copy
+- container_only_migration
+- storage_zfs_clone_copy
+- unix_device_rename
+- storage_lvm_use_thinpool
+- storage_rsync_bwlimit
+- network_vxlan_interface
+- storage_btrfs_mount_options
+- entity_description
+- image_force_refresh
+- storage_lvm_lv_resizing
+- id_map_base
+- file_symlinks
+- container_push_target
+- network_vlan_physical
+- storage_images_delete
+- container_edit_metadata
+- container_snapshot_stateful_migration
+- storage_driver_ceph
+- storage_ceph_user_name
+- resource_limits
+- storage_volatile_initial_source
+- storage_ceph_force_osd_reuse
+- storage_block_filesystem_btrfs
+- resources
+- kernel_limits
+- storage_api_volume_rename
+- macaroon_authentication
+- network_sriov
+- console
+- restrict_devlxd
+- migration_pre_copy
+- infiniband
+- maas_network
+- devlxd_events
+- proxy
+- network_dhcp_gateway
+- file_get_symlink
+- network_leases
+- unix_device_hotplug
+- storage_api_local_volume_handling
+- operation_description
+- clustering
+- event_lifecycle
+- storage_api_remote_volume_handling
+- nvidia_runtime
+- container_mount_propagation
+- container_backup
+- devlxd_images
+- container_local_cross_pool_handling
+- proxy_unix
+- proxy_udp
+- clustering_join
+- proxy_tcp_udp_multi_port_handling
+- network_state
+- proxy_unix_dac_properties
+- container_protection_delete
+- unix_priv_drop
+- pprof_http
+- proxy_haproxy_protocol
+- network_hwaddr
+- proxy_nat
+- network_nat_order
+- container_full
+- candid_authentication
+- backup_compression
+- candid_config
+- nvidia_runtime_config
+- storage_api_volume_snapshots
+- storage_unmapped
+- projects
+- candid_config_key
+- network_vxlan_ttl
+- container_incremental_copy
+- usb_optional_vendorid
+- snapshot_scheduling
+- snapshot_schedule_aliases
+- container_copy_project
+- clustering_server_address
+- clustering_image_replication
+- container_protection_shift
+- snapshot_expiry
+- container_backup_override_pool
+- snapshot_expiry_creation
+- network_leases_location
+- resources_cpu_socket
+- resources_gpu
+- resources_numa
+- kernel_features
+- id_map_current
+- event_location
+- storage_api_remote_volume_snapshots
+- network_nat_address
+- container_nic_routes
+- rbac
+- cluster_internal_copy
+- seccomp_notify
+- lxc_features
+- container_nic_ipvlan
+- network_vlan_sriov
+- storage_cephfs
+- container_nic_ipfilter
+- resources_v2
+- container_exec_user_group_cwd
+- container_syscall_intercept
+- container_disk_shift
+- storage_shifted
+- resources_infiniband
+- daemon_storage
+- instances
+- image_types
+- resources_disk_sata
+- clustering_roles
+- images_expiry
+- resources_network_firmware
+- backup_compression_algorithm
+- ceph_data_pool_name
+- container_syscall_intercept_mount
+- compression_squashfs
+- container_raw_mount
+- container_nic_routed
+- container_syscall_intercept_mount_fuse
+- container_disk_ceph
+- virtual-machines
+- image_profiles
+- clustering_architecture
+- resources_disk_id
+- storage_lvm_stripes
+- vm_boot_priority
+- unix_hotplug_devices
+- api_filtering
+- instance_nic_network
+- clustering_sizing
+- firewall_driver
+- projects_limits
+- container_syscall_intercept_hugetlbfs
+- limits_hugepages
+- container_nic_routed_gateway
+- projects_restrictions
+- custom_volume_snapshot_expiry
+- volume_snapshot_scheduling
+- trust_ca_certificates
+- snapshot_disk_usage
+- clustering_edit_roles
+- container_nic_routed_host_address
+- container_nic_ipvlan_gateway
+- resources_usb_pci
+- resources_cpu_threads_numa
+- resources_cpu_core_die
+- api_os
+- resources_system
+- usedby_consistency
+- resources_gpu_mdev
+- console_vga_type
+- projects_limits_disk
+- storage_rsync_compression
+- gpu_mdev
+- resources_pci_iommu
+- resources_network_usb
+- resources_disk_address
+- network_state_vlan
+- gpu_sriov
+- migration_stateful
+- disk_state_quota
+- storage_ceph_features
+- gpu_mig
+- clustering_join_token
+- clustering_description
+- server_trusted_proxy
+- clustering_update_cert
+- storage_api_project
+- server_instance_driver_operational
+- server_supported_storage_drivers
+- event_lifecycle_requestor_address
+- resources_gpu_usb
+- network_counters_errors_dropped
+- image_source_project
+api_status: stable
+api_version: "1.0"
+auth: trusted
+public: false
+auth_methods:
+- tls
+environment:
+  addresses: []
+  architectures:
+  - x86_64
+  - i686
+  certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICKjCCAbCgAwIBAgIQFse/TSh55HAg1iq0vkVwVDAKBggqhkjOPQQDAzBBMRww
+    GgYDVQQKExNsaW51eGNvbnRhaW5lcnMub3JnMSEwHwYDVQQDDBhyb290QGp1anUt
+    MDRmMWUzLTEtbHhkLTUwHhcNMjIwMjA0MDk0NzE5WhcNMzIwMjAyMDk0NzE5WjBB
+    MRwwGgYDVQQKExNsaW51eGNvbnRhaW5lcnMub3JnMSEwHwYDVQQDDBhyb290QGp1
+    anUtMDRmMWUzLTEtbHhkLTUwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAAQu4VpenLXA
+    TB2Mqz1MHIxZuPI3NympgZce9uOzllvn0jABCvmGtuoqlqT4VdCbjERyLTXrZPUU
+    Ns3Y+NzObodcZ7LP3F+g6IzxqfM4FHkUxNe7/UWHwUDOUjaMBOOJ7aejbTBrMA4G
+    A1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAA
+    MDYGA1UdEQQvMC2CE2p1anUtMDRmMWUzLTEtbHhkLTWHBH8AAAGHEAAAAAAAAAAA
+    AAAAAAAAAAEwCgYIKoZIzj0EAwMDaAAwZQIxAL/PYfcgHQs//4pbD/gxafr9YCWT
+    7hHKl6R9+R8jtPGjDdbwBelM/Y9M5QbM/XuH1AIwIFqCpcPrL1gjn5cCXhnPO8vg
+    MbXN1vFMeg0T9nnt+WqTxkVC1im3JjA3PwcF5OMM
+    -----END CERTIFICATE-----
+  certificate_fingerprint: f39d504de028e79d4862653e344d64baf72865c1a6aa38970d4293a968d94084
+  driver: lxc
+  driver_version: 4.0.11
+  firewall: nftables
+  kernel: Linux
+  kernel_architecture: x86_64
+  kernel_features:
+    netnsid_getifaddrs: "true"
+    seccomp_listener: "true"
+    seccomp_listener_continue: "true"
+    shiftfs: "false"
+    uevent_injection: "true"
+    unpriv_fscaps: "true"
+  kernel_version: 5.4.0-97-generic
+  lxc_features:
+    cgroup2: "true"
+    core_scheduling: "true"
+    devpts_fd: "true"
+    idmapped_mounts_v2: "true"
+    mount_injection_file: "true"
+    network_gateway_device_route: "true"
+    network_ipvlan: "true"
+    network_l2proxy: "true"
+    network_phys_macvlan_mtu: "true"
+    network_veth_router: "true"
+    pidfd: "true"
+    seccomp_allow_deny_syntax: "true"
+    seccomp_notify: "true"
+    seccomp_proxy_send_notify_fd: "true"
+  os_name: Ubuntu
+  os_version: "20.04"
+  project: default
+  server: lxd
+  server_clustered: false
+  server_name: juju-04f1e3-1-lxd-5
+  server_pid: 1683
+  server_version: 4.0.8
+  storage: ""
+  storage_version: ""
+  storage_supported_drivers:
+  - name: ceph
+    version: 15.2.14
+    remote: true
+  - name: btrfs
+    version: 5.4.1
+    remote: false
+  - name: cephfs
+    version: 15.2.14
+    remote: true
+  - name: dir
+    version: "1"
+    remote: false
+  - name: lvm
+    version: 2.03.07(2) (2019-11-30) / 1.02.167 (2019-11-30)
+    remote: false
+  - name: zfs
+    version: 0.8.3-1ubuntu12.13
+    remote: false
+```
+
+## Instances
+```
++------+-------+------+------+------+-----------+
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS |
++------+-------+------+------+------+-----------+
+```
+
+## Images
+```
++-------+-------------+--------+-------------+--------------+------+------+-------------+
+| ALIAS | FINGERPRINT | PUBLIC | DESCRIPTION | ARCHITECTURE | TYPE | SIZE | UPLOAD DATE |
++-------+-------------+--------+-------------+--------------+------+------+-------------+
+```
+
+## Storage pools
+```
++------+-------------+--------+--------+---------+
+| NAME | DESCRIPTION | DRIVER | SOURCE | USED BY |
++------+-------------+--------+--------+---------+
+```
+
+## Networks
+```
++------+------+---------+-------------+---------+
+| NAME | TYPE | MANAGED | DESCRIPTION | USED BY |
++------+------+---------+-------------+---------+
+```
+
+## Projects
+```
++-------------------+--------+----------+-----------------+---------+
+|       NAME        | IMAGES | PROFILES | STORAGE VOLUMES | USED BY |
++-------------------+--------+----------+-----------------+---------+
+| default (current) | YES    | YES      | YES             | 1       |
++-------------------+--------+----------+-----------------+---------+
+```
+
+## Profiles
+```
++---------+---------+
+|  NAME   | USED BY |
++---------+---------+
+| default | 0       |
++---------+---------+
+```
+
+## Default profile
+```
+config: {}
+description: Default LXD profile
+devices: {}
+name: default
+used_by: []
+```
+
+# Kernel log (last 50 lines)
+```
+[36427.685377] audit: type=1400 audit(1644482715.181:857): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1036446 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36670.392793] audit: type=1400 audit(1644482957.885:858): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1043597 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36670.526044] audit: type=1400 audit(1644482958.017:859): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1043657 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36670.679172] audit: type=1400 audit(1644482958.173:860): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1043698 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36671.053585] audit: type=1400 audit(1644482958.545:861): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1043849 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36957.218748] audit: type=1400 audit(1644483244.705:862): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1049610 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36957.351903] audit: type=1400 audit(1644483244.841:863): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1049646 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36957.501700] audit: type=1400 audit(1644483244.989:864): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1049687 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[36957.878717] audit: type=1400 audit(1644483245.365:865): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1049840 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37252.149683] audit: type=1400 audit(1644483539.632:866): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1057750 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37252.267001] audit: type=1400 audit(1644483539.748:867): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1057794 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37252.402552] audit: type=1400 audit(1644483539.884:868): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1057833 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37252.769870] audit: type=1400 audit(1644483540.251:869): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1057979 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37509.815069] audit: type=1400 audit(1644483797.291:870): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1065772 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37510.022219] audit: type=1400 audit(1644483797.499:871): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1065818 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37510.258252] audit: type=1400 audit(1644483797.735:872): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1065852 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37510.726069] audit: type=1400 audit(1644483798.203:873): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1065996 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37568.859903] audit: type=1400 audit(1644483856.338:874): apparmor="DENIED" operation="mount" info="failed flags match" error=-13 profile="lxd-juju-04f1e3-1-lxd-2_</var/snap/lxd/common/lxd>" name="/run/systemd/unit-root/var/cache/private/fwupdmgr/" pid=1066366 comm="(fwupdmgr)" flags="rw, nosuid, remount, bind"
+[37822.257361] audit: type=1400 audit(1644484109.730:875): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1074134 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37822.406389] audit: type=1400 audit(1644484109.882:876): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1074175 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37822.556757] audit: type=1400 audit(1644484110.030:877): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1074212 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[37822.992101] audit: type=1400 audit(1644484110.466:878): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1074361 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38071.228435] audit: type=1400 audit(1644484358.698:879): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1081941 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38071.381815] audit: type=1400 audit(1644484358.854:880): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1081983 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38071.524614] audit: type=1400 audit(1644484358.994:881): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1082020 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38072.052754] audit: type=1400 audit(1644484359.522:882): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1082177 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38390.258152] audit: type=1400 audit(1644484677.721:883): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1090745 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38390.454811] audit: type=1400 audit(1644484677.921:884): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1090786 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38390.721301] audit: type=1400 audit(1644484678.185:885): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1090819 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38391.326314] audit: type=1400 audit(1644484678.789:886): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1090960 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38735.237654] audit: type=1400 audit(1644485022.696:887): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1099079 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38735.404086] audit: type=1400 audit(1644485022.864:888): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1099120 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38735.574170] audit: type=1400 audit(1644485023.032:889): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1099159 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38736.236114] audit: type=1400 audit(1644485023.696:890): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1099303 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38985.538587] audit: type=1400 audit(1644485272.993:891): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1107060 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38985.731212] audit: type=1400 audit(1644485273.189:892): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1107098 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38985.914492] audit: type=1400 audit(1644485273.369:893): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1107138 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[38986.349611] audit: type=1400 audit(1644485273.805:894): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1107288 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39246.959072] audit: type=1400 audit(1644485534.414:895): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1113784 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39247.113588] audit: type=1400 audit(1644485534.566:896): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1113833 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39247.324403] audit: type=1400 audit(1644485534.778:897): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1113867 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39247.799168] audit: type=1400 audit(1644485535.254:898): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1114034 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39321.659707] bcache: register_bcache() error : device already registered (emitting change event)
+[39321.693907] bcache: register_bcache() error : device already registered (emitting change event)
+[39321.862953] bcache: register_bcache() error : device already registered
+[39502.372531] audit: type=1400 audit(1644485789.822:899): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1122689 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39502.504613] audit: type=1400 audit(1644485789.954:900): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1122728 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39502.669959] audit: type=1400 audit(1644485790.122:901): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1122763 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39503.111796] audit: type=1400 audit(1644485790.562:902): apparmor="DENIED" operation="file_lock" namespace="root//lxd-juju-04f1e3-1-lxd-1_<var-snap-lxd-common-lxd>" profile="/snap/snapd/14549/usr/lib/snapd/snap-confine" name="/dev/null" pid=1122933 comm="etcdctl" requested_mask="k" denied_mask="k" fsuid=1000000 ouid=0
+[39573.066415] audit: type=1400 audit(1644485860.513:903): apparmor="DENIED" operation="mount" info="failed flags match" error=-13 profile="lxd-juju-04f1e3-1-lxd-1_</var/snap/lxd/common/lxd>" name="/run/systemd/unit-root/var/cache/private/fwupdmgr/" pid=1125659 comm="(fwupdmgr)" flags="rw, nosuid, remount, bind"
+```
+
+# Daemon log (last 50 lines)
+```
+t=2022-02-09T22:40:17+0000 lvl=info msg="REST API daemon:" 
+t=2022-02-09T22:40:17+0000 lvl=info msg=" - binding Unix socket" inherited=true socket=/var/snap/lxd/common/lxd/unix.socket
+t=2022-02-09T22:40:17+0000 lvl=info msg="Initializing global database" 
+t=2022-02-09T22:40:17+0000 lvl=info msg="Connecting to global database" 
+t=2022-02-09T22:40:17+0000 lvl=info msg="Connected to global database" 
+t=2022-02-09T22:40:17+0000 lvl=info msg="Initialized global database" 
+t=2022-02-09T22:40:21+0000 lvl=info msg="Firewall loaded driver" driver=nftables
+t=2022-02-09T22:40:21+0000 lvl=info msg="Initializing storage pools" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Initializing daemon storage mounts" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Loading daemon configuration" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Initializing networks" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Pruning leftover image files" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Done pruning leftover image files" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Starting device monitor" 
+t=2022-02-09T22:40:32+0000 lvl=warn msg="Failed to initialize fanotify, falling back on fsnotify" err="Failed to initialize fanotify: operation not permitted"
+t=2022-02-09T22:40:32+0000 lvl=warn msg="Error visiting path" driver=fsnotify err="open /dev/.lxd-mounts: permission denied" path=/dev/.lxd-mounts
+t=2022-02-09T22:40:32+0000 lvl=info msg="Started seccomp handler" path=/var/snap/lxd/common/lxd/seccomp.socket
+t=2022-02-09T22:40:32+0000 lvl=info msg="Pruning expired images" 
+t=2022-02-09T22:40:32+0000 lvl=info msg="Done pruning expired images" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Daemon started" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Updating instance types" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Done updating instance types" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Expiring log files" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Done expiring log files" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Updating images" 
+t=2022-02-09T22:40:33+0000 lvl=info msg="Done updating images" 
+t=2022-02-09T23:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-09T23:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T00:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T00:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T01:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T01:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T02:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T02:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T03:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T03:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T04:40:33+0000 lvl=info msg="Updating images" 
+t=2022-02-10T04:40:33+0000 lvl=info msg="Done updating images" 
+t=2022-02-10T04:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T04:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T05:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T05:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T06:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T06:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T07:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T07:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+t=2022-02-10T08:40:33+0000 lvl=info msg="Pruning expired instance backups" 
+t=2022-02-10T08:40:33+0000 lvl=info msg="Done pruning expired instance backups" 
+```
+
+# Systemd log (last 50 lines)
+```
+-- Logs begin at Fri 2022-02-04 09:42:52 UTC, end at Thu 2022-02-10 09:40:07 UTC. --
+Feb 04 09:47:18 juju-04f1e3-1-lxd-5 lxd.daemon[3197]: t=2022-02-04T09:47:18+0000 lvl=warn msg="Instance type not operational" driver=qemu err="KVM support is missing" type=virtual-machine
+Feb 04 09:47:35 juju-04f1e3-1-lxd-5 lxd.daemon[3197]: t=2022-02-04T09:47:35+0000 lvl=warn msg="Failed to initialize fanotify, falling back on fsnotify" err="Failed to initialize fanotify: operation not permitted"
+Feb 04 09:47:35 juju-04f1e3-1-lxd-5 lxd.daemon[3197]: t=2022-02-04T09:47:35+0000 lvl=warn msg="Error visiting path" driver=fsnotify err="open /dev/.lxd-mounts: permission denied" path=/dev/.lxd-mounts
+Feb 04 09:47:35 juju-04f1e3-1-lxd-5 lxd.daemon[2774]: => First LXD execution on this system
+Feb 04 09:47:35 juju-04f1e3-1-lxd-5 lxd.daemon[2774]: => LXD is ready
+Feb 04 11:32:34 juju-04f1e3-1-lxd-5 systemd[1]: Stopping Service for snap application lxd.daemon...
+Feb 04 11:32:38 juju-04f1e3-1-lxd-5 lxd.daemon[44623]: => Stop reason is: host shutdown
+Feb 04 11:32:38 juju-04f1e3-1-lxd-5 lxd.daemon[44623]: => Stopping LXD (with container shutdown)
+Feb 04 11:32:39 juju-04f1e3-1-lxd-5 lxd.daemon[2774]: => LXD exited cleanly
+Feb 04 11:32:40 juju-04f1e3-1-lxd-5 lxd.daemon[44623]: ==> Stopped LXD
+Feb 04 11:32:40 juju-04f1e3-1-lxd-5 lxd.daemon[44623]: => Cleaning up PID files
+Feb 04 11:32:40 juju-04f1e3-1-lxd-5 lxd.daemon[44623]: => Cleaning up namespaces
+-- Reboot --
+Feb 09 22:39:04 juju-04f1e3-1-lxd-5 systemd[1]: Started Service for snap application lxd.daemon.
+Feb 09 22:39:36 juju-04f1e3-1-lxd-5 lxd.daemon[635]: => Preparing the system (21835)
+Feb 09 22:39:41 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Loading snap configuration
+Feb 09 22:39:41 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up mntns symlink (mnt:[4026533127])
+Feb 09 22:39:43 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/storage-pools
+Feb 09 22:39:50 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/devices
+Feb 09 22:40:01 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up persistent shmounts path
+Feb 09 22:40:03 juju-04f1e3-1-lxd-5 lxd.daemon[1588]: Failed to mark /media/.lxd-shmounts as private: Invalid argument
+Feb 09 22:40:03 juju-04f1e3-1-lxd-5 lxd.daemon[1587]: Failed to setup the shmounts namespace: File exists
+Feb 09 22:40:03 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ====> Failed to setup shmounts, continuing without
+Feb 09 22:40:04 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ====> Making LXD shmounts use the persistent path
+Feb 09 22:40:04 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ====> Making LXCFS use the persistent path
+Feb 09 22:40:04 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up kmod wrapper
+Feb 09 22:40:04 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Preparing /boot
+Feb 09 22:40:04 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Preparing a clean copy of /run
+Feb 09 22:40:05 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Preparing /run/bin
+Feb 09 22:40:05 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Preparing a clean copy of /etc
+Feb 09 22:40:11 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Preparing a clean copy of /usr/share/misc
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up ceph configuration
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up LVM configuration
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Rotating logs
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Setting up ZFS (0.8)
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Escaping the systemd cgroups
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ====> Detected cgroup V1
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: /snap/lxd/21835/commands/daemon.start: 355: cannot create /sys/fs/cgroup/cpuset/cgroup.clone_children: Permission denied
+Feb 09 22:40:12 juju-04f1e3-1-lxd-5 lxd.daemon[635]: ==> Disabling shiftfs on this kernel (auto)
+Feb 09 22:40:13 juju-04f1e3-1-lxd-5 lxd.daemon[635]: => Starting LXCFS
+Feb 09 22:40:13 juju-04f1e3-1-lxd-5 lxd.daemon[1673]: Running constructor lxcfs_init to reload liblxcfs
+Feb 09 22:40:13 juju-04f1e3-1-lxd-5 lxd.daemon[1673]: bindings.c: 794: cgfs_setup_controllers: Failed to set up private lxcfs cgroup mounts
+Feb 09 22:40:14 juju-04f1e3-1-lxd-5 lxd.daemon[1673]: Failed to setup private cgroup mounts for lxcfs
+Feb 09 22:40:14 juju-04f1e3-1-lxd-5 lxd.daemon[1678]: cat: /var/snap/lxd/common/lxcfs.pid: No such file or directory
+Feb 09 22:40:15 juju-04f1e3-1-lxd-5 lxd.daemon[635]: => Starting LXD
+Feb 09 22:40:17 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:16+0000 lvl=warn msg=" - Couldn't find the CGroup blkio.weight, disk priority will be ignored"
+Feb 09 22:40:17 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:16+0000 lvl=warn msg=" - Couldn't find the CGroup memory swap accounting, swap limits will be ignored"
+Feb 09 22:40:17 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:16+0000 lvl=warn msg="Instance type not operational" driver=qemu err="KVM support is missing" type=virtual-machine
+Feb 09 22:40:32 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:32+0000 lvl=warn msg="Failed to initialize fanotify, falling back on fsnotify" err="Failed to initialize fanotify: operation not permitted"
+Feb 09 22:40:32 juju-04f1e3-1-lxd-5 lxd.daemon[1683]: t=2022-02-09T22:40:32+0000 lvl=warn msg="Error visiting path" driver=fsnotify err="open /dev/.lxd-mounts: permission denied" path=/dev/.lxd-mounts
+Feb 09 22:40:33 juju-04f1e3-1-lxd-5 lxd.daemon[635]: => LXD is ready
+```

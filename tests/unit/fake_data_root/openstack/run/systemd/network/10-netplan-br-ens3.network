@@ -1,0 +1,13 @@
+[Match]
+Name=br-ens3
+
+[Link]
+MTUBytes=1500
+
+[Network]
+LinkLocalAddressing=ipv6
+Address=10.0.0.128/24
+Gateway=10.0.0.2
+DNS=10.0.0.2
+Domains=mylab.home
+ConfigureWithoutCarrier=yes

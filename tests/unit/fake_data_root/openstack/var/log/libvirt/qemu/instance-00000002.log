@@ -1,0 +1,50 @@
+2022-02-10 16:14:03.381+0000: starting up libvirt version: 6.0.0, package: 0ubuntu8.15 (Christian Ehrhardt <christian.ehrhardt@canonical.com> Thu, 18 Nov 2021 10:23:11 +0100), qemu version: 4.2.1Debian 1:4.2-3ubuntu6.19, kernel: 5.4.0-97-generic, hostname: compute4.mylab.home
+LC_ALL=C \
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin \
+HOME=/var/lib/libvirt/qemu/domain-1-instance-00000002 \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-1-instance-00000002/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-1-instance-00000002/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-1-instance-00000002/.config \
+QEMU_AUDIO_DRV=none \
+/usr/bin/qemu-system-x86_64 \
+-name guest=instance-00000002,debug-threads=on \
+-S \
+-object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-1-instance-00000002/master-key.aes \
+-machine pc-i440fx-4.2,accel=kvm,usb=off,dump-guest-core=off \
+-cpu Skylake-Client-IBRS,ss=on,vmx=on,hypervisor=on,tsc-adjust=on,clflushopt=on,umip=on,md-clear=on,arch-capabilities=on,ssbd=on,xsaves=on,pdpe1gb=on,ibpb=on,ibrs=on,amd-ssbd=on,skip-l1dfl-vmentry=on,pschange-mc-no=on \
+-m 2048 \
+-overcommit mem-lock=off \
+-smp 1,sockets=1,cores=1,threads=1 \
+-uuid 359150c9-6f40-416e-b381-185bff09e974 \
+-smbios 'type=1,manufacturer=OpenStack Foundation,product=OpenStack Nova,version=21.2.3,serial=359150c9-6f40-416e-b381-185bff09e974,uuid=359150c9-6f40-416e-b381-185bff09e974,family=Virtual Machine' \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=31,server,nowait \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc,driftfix=slew \
+-global kvm-pit.lost_tick_policy=delay \
+-no-hpet \
+-no-shutdown \
+-boot strict=on \
+-device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2 \
+-object secret,id=libvirt-1-storage-secret0,data=+EUYvhFUAtuwxmpcm4Nxu9h5OU1jziJqEstcPh0R3A8=,keyid=masterKey0,iv=IoKiohQ0I7Lbs9Zy0zIzeg==,format=base64 \
+-blockdev '{"driver":"rbd","pool":"nova","image":"359150c9-6f40-416e-b381-185bff09e974_disk","server":[{"host":"10.0.0.120","port":"6789"},{"host":"10.0.0.123","port":"6789"},{"host":"10.0.0.131","port":"6789"}],"user":"nova-compute","auth-client-required":["cephx","none"],"key-secret":"libvirt-1-storage-secret0","node-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-1-format","read-only":false,"discard":"unmap","cache":{"direct":true,"no-flush":false},"driver":"raw","file":"libvirt-1-storage"}' \
+-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=libvirt-1-format,id=virtio-disk0,bootindex=1,write-cache=on \
+-netdev tap,fd=33,id=hostnet0,vhost=on,vhostfd=34 \
+-device virtio-net-pci,host_mtu=1450,netdev=hostnet0,id=net0,mac=fa:16:3e:06:b5:50,bus=pci.0,addr=0x2 \
+-add-fd set=3,fd=36 \
+-chardev pty,id=charserial0,logfile=/dev/fdset/3,logappend=on \
+-device isa-serial,chardev=charserial0,id=serial0 \
+-device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x4 \
+-object rng-random,id=objrng0,filename=/dev/urandom \
+-device virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.0,addr=0x5 \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/2 (label charserial0)
+2022-02-10T16:14:03.678891Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+2022-02-10T16:14:03.678935Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+2022-02-10 16:18:31.313+0000: initiating migration
+2022-02-10 16:18:33.029+0000: shutting down, reason=migrated
+2022-02-10T16:18:33.031019Z qemu-system-x86_64: terminating on signal 15 from pid 1074 (/usr/sbin/libvirtd)

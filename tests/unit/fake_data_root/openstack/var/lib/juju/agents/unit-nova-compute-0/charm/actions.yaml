@@ -1,0 +1,38 @@
+disable:
+  description: >-
+    Disable the nova-compute unit. This prevents nova scheduler from running
+    new VMs on this unit.
+enable:
+  description: >-
+    Enable the nova-compute unit. This allows nova scheduler to run new VMs on
+    this unit.
+remove-from-cloud:
+  description: >-
+    Stop and unregister the compute service from nova-cloud-controller.
+register-to-cloud:
+  description: >-
+    Start and register the compute service with nova-cloud-controller. This
+    is normally followed by the enable action. Reverts action
+    remove-from-cloud.
+openstack-upgrade:
+  description: >-
+    Perform OpenStack upgrades. Config option action-managed-upgrade must be
+    set to True.
+instance-count:
+  description: Return the number of VMs running on this unit.
+list-compute-nodes:
+  description: List all compute nodes registered with the cloud.
+node-name:
+  description: Return the compute node name for this unit.
+pause:
+  description: Pause the nova-compute unit. This stops the compute service.
+resume:
+  description: Resume the nova-compute unit. This starts the compute service.
+hugepagereport:
+  description: Report on hugepage configuration and usage.
+security-checklist:
+  description: >-
+    Validate the running configuration against the OpenStack Security Guide
+    project checklist: https://docs.openstack.org/security-guide/checklist.html
+virsh-audit:
+  description: List all domains as virsh sees on the compute node

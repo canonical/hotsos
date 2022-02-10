@@ -1,0 +1,3916 @@
+P: /devices/LNXSYSTM:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:LNXSYSTM:
+
+P: /devices/LNXSYSTM:00/LNXPWRBN:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXPWRBN:00
+E: SUBSYSTEM=acpi
+E: DRIVER=button
+E: MODALIAS=acpi:LNXPWRBN:
+
+P: /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+E: SUBSYSTEM=input
+E: PRODUCT=19/0/1/0
+E: NAME="Power Button"
+E: PHYS="LNXPWRBN/button/input0"
+E: PROP=0
+E: EV=3
+E: KEY=10000000000000 0
+E: MODALIAS=input:b0019v0000p0001e0000-e0,1,k74,ramlsfw
+
+P: /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0/event0
+N: input/event0
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXPWRBN:00/input/input0/event0
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/event0
+E: MAJOR=13
+E: MINOR=64
+
+P: /devices/LNXSYSTM:00/LNXPWRBN:00/wakeup/wakeup18
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXPWRBN:00/wakeup/wakeup18
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:LNXSYBUS:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:ACPI0010:PNP0A05:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/LNXCPU:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/LNXCPU:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:LNXCPU:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/LNXCPU:01
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/LNXCPU:01
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:LNXCPU:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0103:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0103:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0A03:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/PNP0A06:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/PNP0A06:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0A06:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/PNP0A06:01
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/PNP0A06:01
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0A06:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/PNP0A06:02
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/PNP0A06:02
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0A06:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/QEMU0002:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/QEMU0002:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:QEMU0002:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/QEMU0002:00/wakeup/wakeup25
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/QEMU0002:00/wakeup/wakeup25
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:00
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:00/wakeup/wakeup2
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:00/wakeup/wakeup2
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0303:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0303:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0303:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0400:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0400:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0501:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0501:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0501:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0501:01
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0501:01
+E: SUBSYSTEM=acpi
+E: MODALIAS=
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0700:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0700:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0700:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0B00:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0B00:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0B00:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0F13:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/PNP0F13:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0F13:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/wakeup/wakeup1
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:01/wakeup/wakeup1
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:02
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:02
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:02/wakeup/wakeup0
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:02/wakeup/wakeup0
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:03
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:03
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:03/wakeup/wakeup3
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:03/wakeup/wakeup3
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:04
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:04
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:04/wakeup/wakeup4
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:04/wakeup/wakeup4
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:05
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:05
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:05/wakeup/wakeup5
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:05/wakeup/wakeup5
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:06
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:06
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:06/wakeup/wakeup6
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:06/wakeup/wakeup6
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:07
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:07
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:07/wakeup/wakeup7
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:07/wakeup/wakeup7
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:08
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:08
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:08/wakeup/wakeup8
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:08/wakeup/wakeup8
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:09
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:09
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:09/wakeup/wakeup9
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:09/wakeup/wakeup9
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0a
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0a
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0a/wakeup/wakeup10
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0a/wakeup/wakeup10
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0b
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0b
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0b/wakeup/wakeup11
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0b/wakeup/wakeup11
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0c
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0c
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0c/wakeup/wakeup12
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0c/wakeup/wakeup12
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0d
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0d
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0d/wakeup/wakeup13
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0d/wakeup/wakeup13
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0e
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0e
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0e/wakeup/wakeup14
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0e/wakeup/wakeup14
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0f
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0f
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0f/wakeup/wakeup15
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:0f/wakeup/wakeup15
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:10
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:10
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:10/wakeup/wakeup16
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:10/wakeup/wakeup16
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:11
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:11
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:12
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:12
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:13
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:13
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:14
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:14
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:15
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:15
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:16
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:16
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:17
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:17
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:18
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:18
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:19
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:19
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1a
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1a
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1b
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1b
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1c
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1c
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1d
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1d
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1e
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1e
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1f
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:1f
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:20
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/device:20
+E: SUBSYSTEM=acpi
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/wakeup/wakeup17
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/wakeup/wakeup17
+E: SUBSYSTEM=wakeup
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:00
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:00
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0C0F:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:01
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:01
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0C0F:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:02
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:02
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0C0F:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:03
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:03
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0C0F:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:04
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0F:04
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:PNP0C0F:
+
+P: /devices/LNXSYSTM:00/LNXSYBUS:01
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:01
+E: SUBSYSTEM=acpi
+E: MODALIAS=acpi:LNXSYBUS:
+
+P: /devices/breakpoint
+L: 0
+E: DEVPATH=/devices/breakpoint
+E: SUBSYSTEM=event_source
+
+P: /devices/kprobe
+L: 0
+E: DEVPATH=/devices/kprobe
+E: SUBSYSTEM=event_source
+
+P: /devices/msr
+L: 0
+E: DEVPATH=/devices/msr
+E: SUBSYSTEM=event_source
+
+P: /devices/pci0000:00/0000:00:00.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:00.0
+E: SUBSYSTEM=pci
+E: PCI_CLASS=60000
+E: PCI_ID=8086:1237
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:00.0
+E: MODALIAS=pci:v00008086d00001237sv00001AF4sd00001100bc06sc00i00
+
+P: /devices/pci0000:00/0000:00:01.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.0
+E: SUBSYSTEM=pci
+E: PCI_CLASS=60100
+E: PCI_ID=8086:7000
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:01.0
+E: MODALIAS=pci:v00008086d00007000sv00001AF4sd00001100bc06sc01i00
+
+P: /devices/pci0000:00/0000:00:01.1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1
+E: SUBSYSTEM=pci
+E: DRIVER=ata_piix
+E: PCI_CLASS=10180
+E: PCI_ID=8086:7010
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:01.1
+E: MODALIAS=pci:v00008086d00007010sv00001AF4sd00001100bc01sc01i80
+
+P: /devices/pci0000:00/0000:00:01.1/ata1/ata_port/ata1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata1/ata_port/ata1
+E: SUBSYSTEM=ata_port
+
+P: /devices/pci0000:00/0000:00:01.1/ata1/host0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata1/host0
+E: SUBSYSTEM=scsi
+E: DEVTYPE=scsi_host
+
+P: /devices/pci0000:00/0000:00:01.1/ata1/host0/scsi_host/host0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata1/host0/scsi_host/host0
+E: SUBSYSTEM=scsi_host
+
+P: /devices/pci0000:00/0000:00:01.1/ata1/link1/ata_link/link1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata1/link1/ata_link/link1
+E: SUBSYSTEM=ata_link
+
+P: /devices/pci0000:00/0000:00:01.1/ata1/link1/dev1.0/ata_device/dev1.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata1/link1/dev1.0/ata_device/dev1.0
+E: SUBSYSTEM=ata_device
+
+P: /devices/pci0000:00/0000:00:01.1/ata1/link1/dev1.1/ata_device/dev1.1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata1/link1/dev1.1/ata_device/dev1.1
+E: SUBSYSTEM=ata_device
+
+P: /devices/pci0000:00/0000:00:01.1/ata2/ata_port/ata2
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata2/ata_port/ata2
+E: SUBSYSTEM=ata_port
+
+P: /devices/pci0000:00/0000:00:01.1/ata2/host1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata2/host1
+E: SUBSYSTEM=scsi
+E: DEVTYPE=scsi_host
+
+P: /devices/pci0000:00/0000:00:01.1/ata2/host1/scsi_host/host1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata2/host1/scsi_host/host1
+E: SUBSYSTEM=scsi_host
+
+P: /devices/pci0000:00/0000:00:01.1/ata2/link2/ata_link/link2
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata2/link2/ata_link/link2
+E: SUBSYSTEM=ata_link
+
+P: /devices/pci0000:00/0000:00:01.1/ata2/link2/dev2.0/ata_device/dev2.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata2/link2/dev2.0/ata_device/dev2.0
+E: SUBSYSTEM=ata_device
+
+P: /devices/pci0000:00/0000:00:01.1/ata2/link2/dev2.1/ata_device/dev2.1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.1/ata2/link2/dev2.1/ata_device/dev2.1
+E: SUBSYSTEM=ata_device
+
+P: /devices/pci0000:00/0000:00:01.3
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.3
+E: SUBSYSTEM=pci
+E: DRIVER=piix4_smbus
+E: PCI_CLASS=68000
+E: PCI_ID=8086:7113
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:01.3
+E: MODALIAS=pci:v00008086d00007113sv00001AF4sd00001100bc06sc80i00
+
+P: /devices/pci0000:00/0000:00:01.3/i2c-0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.3/i2c-0
+E: SUBSYSTEM=i2c
+
+P: /devices/pci0000:00/0000:00:01.3/i2c-0/i2c-dev/i2c-0
+N: i2c-0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:01.3/i2c-0/i2c-dev/i2c-0
+E: SUBSYSTEM=i2c-dev
+E: DEVNAME=/dev/i2c-0
+E: MAJOR=89
+E: MINOR=0
+
+P: /devices/pci0000:00/0000:00:02.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:02.0
+E: SUBSYSTEM=pci
+E: DRIVER=cirrus
+E: PCI_CLASS=30000
+E: PCI_ID=1013:00B8
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:02.0
+E: MODALIAS=pci:v00001013d000000B8sv00001AF4sd00001100bc03sc00i00
+
+P: /devices/pci0000:00/0000:00:02.0/drm/card0
+N: dri/card0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:02.0/drm/card0
+E: SUBSYSTEM=drm
+E: DEVNAME=/dev/dri/card0
+E: DEVTYPE=drm_minor
+E: MAJOR=226
+E: MINOR=0
+
+P: /devices/pci0000:00/0000:00:02.0/drm/card0/card0-VGA-1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:02.0/drm/card0/card0-VGA-1
+E: SUBSYSTEM=drm
+
+P: /devices/pci0000:00/0000:00:02.0/graphics/fb0
+N: fb0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:02.0/graphics/fb0
+E: SUBSYSTEM=graphics
+E: DEVNAME=/dev/fb0
+E: MAJOR=29
+E: MINOR=0
+
+P: /devices/pci0000:00/0000:00:03.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:03.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:03.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:03.0/virtio0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:03.0/virtio0
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:04.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:04.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:04.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:04.0/virtio1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:04.0/virtio1
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:05.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:05.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:05.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:05.0/virtio2
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:05.0/virtio2
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:06.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:06.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:06.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:06.0/virtio3
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:06.0/virtio3
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:07.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:07.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:07.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:07.0/virtio4
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:07.0/virtio4
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:08.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:08.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:08.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:08.0/virtio5
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:08.0/virtio5
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:09.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:09.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=20000
+E: PCI_ID=1AF4:1000
+E: PCI_SUBSYS_ID=1AF4:0001
+E: PCI_SLOT_NAME=0000:00:09.0
+E: MODALIAS=pci:v00001AF4d00001000sv00001AF4sd00000001bc02sc00i00
+
+P: /devices/pci0000:00/0000:00:09.0/virtio6
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:09.0/virtio6
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_net
+E: MODALIAS=virtio:d00000001v00001AF4
+
+P: /devices/pci0000:00/0000:00:0a.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.0
+E: SUBSYSTEM=pci
+E: DRIVER=uhci_hcd
+E: PCI_CLASS=C0300
+E: PCI_ID=8086:2934
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:0a.0
+E: MODALIAS=pci:v00008086d00002934sv00001AF4sd00001100bc0Csc03i00
+
+P: /devices/pci0000:00/0000:00:0a.0/usb2
+N: bus/usb/002/001
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.0/usb2
+E: SUBSYSTEM=usb
+E: DEVNAME=/dev/bus/usb/002/001
+E: DEVTYPE=usb_device
+E: DRIVER=usb
+E: PRODUCT=1d6b/1/504
+E: TYPE=9/0/0
+E: BUSNUM=002
+E: DEVNUM=001
+E: MAJOR=189
+E: MINOR=128
+
+P: /devices/pci0000:00/0000:00:0a.0/usb2/2-0:1.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.0/usb2/2-0:1.0
+E: SUBSYSTEM=usb
+E: DEVTYPE=usb_interface
+E: DRIVER=hub
+E: PRODUCT=1d6b/1/504
+E: TYPE=9/0/0
+E: INTERFACE=9/0/0
+E: MODALIAS=usb:v1D6Bp0001d0504dc09dsc00dp00ic09isc00ip00in00
+
+P: /devices/pci0000:00/0000:00:0a.0/wakeup/wakeup19
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.0/wakeup/wakeup19
+E: SUBSYSTEM=wakeup
+
+P: /devices/pci0000:00/0000:00:0a.1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.1
+E: SUBSYSTEM=pci
+E: DRIVER=uhci_hcd
+E: PCI_CLASS=C0300
+E: PCI_ID=8086:2935
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:0a.1
+E: MODALIAS=pci:v00008086d00002935sv00001AF4sd00001100bc0Csc03i00
+
+P: /devices/pci0000:00/0000:00:0a.1/usb3
+N: bus/usb/003/001
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.1/usb3
+E: SUBSYSTEM=usb
+E: DEVNAME=/dev/bus/usb/003/001
+E: DEVTYPE=usb_device
+E: DRIVER=usb
+E: PRODUCT=1d6b/1/504
+E: TYPE=9/0/0
+E: BUSNUM=003
+E: DEVNUM=001
+E: MAJOR=189
+E: MINOR=256
+
+P: /devices/pci0000:00/0000:00:0a.1/usb3/3-0:1.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.1/usb3/3-0:1.0
+E: SUBSYSTEM=usb
+E: DEVTYPE=usb_interface
+E: DRIVER=hub
+E: PRODUCT=1d6b/1/504
+E: TYPE=9/0/0
+E: INTERFACE=9/0/0
+E: MODALIAS=usb:v1D6Bp0001d0504dc09dsc00dp00ic09isc00ip00in00
+
+P: /devices/pci0000:00/0000:00:0a.1/wakeup/wakeup20
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.1/wakeup/wakeup20
+E: SUBSYSTEM=wakeup
+
+P: /devices/pci0000:00/0000:00:0a.2
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.2
+E: SUBSYSTEM=pci
+E: DRIVER=uhci_hcd
+E: PCI_CLASS=C0300
+E: PCI_ID=8086:2936
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:0a.2
+E: MODALIAS=pci:v00008086d00002936sv00001AF4sd00001100bc0Csc03i00
+
+P: /devices/pci0000:00/0000:00:0a.2/usb4
+N: bus/usb/004/001
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.2/usb4
+E: SUBSYSTEM=usb
+E: DEVNAME=/dev/bus/usb/004/001
+E: DEVTYPE=usb_device
+E: DRIVER=usb
+E: PRODUCT=1d6b/1/504
+E: TYPE=9/0/0
+E: BUSNUM=004
+E: DEVNUM=001
+E: MAJOR=189
+E: MINOR=384
+
+P: /devices/pci0000:00/0000:00:0a.2/usb4/4-0:1.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.2/usb4/4-0:1.0
+E: SUBSYSTEM=usb
+E: DEVTYPE=usb_interface
+E: DRIVER=hub
+E: PRODUCT=1d6b/1/504
+E: TYPE=9/0/0
+E: INTERFACE=9/0/0
+E: MODALIAS=usb:v1D6Bp0001d0504dc09dsc00dp00ic09isc00ip00in00
+
+P: /devices/pci0000:00/0000:00:0a.2/wakeup/wakeup21
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.2/wakeup/wakeup21
+E: SUBSYSTEM=wakeup
+
+P: /devices/pci0000:00/0000:00:0a.7
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.7
+E: SUBSYSTEM=pci
+E: DRIVER=ehci-pci
+E: PCI_CLASS=C0320
+E: PCI_ID=8086:293A
+E: PCI_SUBSYS_ID=1AF4:1100
+E: PCI_SLOT_NAME=0000:00:0a.7
+E: MODALIAS=pci:v00008086d0000293Asv00001AF4sd00001100bc0Csc03i20
+
+P: /devices/pci0000:00/0000:00:0a.7/usb1
+N: bus/usb/001/001
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.7/usb1
+E: SUBSYSTEM=usb
+E: DEVNAME=/dev/bus/usb/001/001
+E: DEVTYPE=usb_device
+E: DRIVER=usb
+E: PRODUCT=1d6b/2/504
+E: TYPE=9/0/0
+E: BUSNUM=001
+E: DEVNUM=001
+E: MAJOR=189
+E: MINOR=0
+
+P: /devices/pci0000:00/0000:00:0a.7/usb1/1-0:1.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0a.7/usb1/1-0:1.0
+E: SUBSYSTEM=usb
+E: DEVTYPE=usb_interface
+E: DRIVER=hub
+E: PRODUCT=1d6b/2/504
+E: TYPE=9/0/0
+E: INTERFACE=9/0/0
+E: MODALIAS=usb:v1D6Bp0002d0504dc09dsc00dp00ic09isc00ip00in00
+
+P: /devices/pci0000:00/0000:00:0b.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0b.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=10000
+E: PCI_ID=1AF4:1001
+E: PCI_SUBSYS_ID=1AF4:0002
+E: PCI_SLOT_NAME=0000:00:0b.0
+E: MODALIAS=pci:v00001AF4d00001001sv00001AF4sd00000002bc01sc00i00
+
+P: /devices/pci0000:00/0000:00:0b.0/virtio7
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0b.0/virtio7
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_blk
+E: MODALIAS=virtio:d00000002v00001AF4
+
+P: /devices/pci0000:00/0000:00:0b.0/virtio7/block/vda
+N: vda
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0b.0/virtio7/block/vda
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vda
+E: DEVTYPE=disk
+E: MAJOR=252
+E: MINOR=0
+
+P: /devices/pci0000:00/0000:00:0b.0/virtio7/block/vda/vda1
+N: vda1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0b.0/virtio7/block/vda/vda1
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vda1
+E: DEVTYPE=partition
+E: PARTN=1
+E: MAJOR=252
+E: MINOR=1
+
+P: /devices/pci0000:00/0000:00:0b.0/virtio7/block/vda/vda2
+N: vda2
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0b.0/virtio7/block/vda/vda2
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vda2
+E: DEVTYPE=partition
+E: PARTN=2
+E: MAJOR=252
+E: MINOR=2
+
+P: /devices/pci0000:00/0000:00:0c.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0c.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=10000
+E: PCI_ID=1AF4:1001
+E: PCI_SUBSYS_ID=1AF4:0002
+E: PCI_SLOT_NAME=0000:00:0c.0
+E: MODALIAS=pci:v00001AF4d00001001sv00001AF4sd00000002bc01sc00i00
+
+P: /devices/pci0000:00/0000:00:0c.0/virtio8
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0c.0/virtio8
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_blk
+E: MODALIAS=virtio:d00000002v00001AF4
+
+P: /devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb
+N: vdb
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vdb
+E: DEVTYPE=disk
+E: MAJOR=252
+E: MINOR=16
+
+P: /devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb/vdb1
+N: vdb1
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb/vdb1
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vdb1
+E: DEVTYPE=partition
+E: PARTN=1
+E: MAJOR=252
+E: MINOR=17
+
+P: /devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb/vdb2
+N: vdb2
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb/vdb2
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vdb2
+E: DEVTYPE=partition
+E: PARTN=2
+E: MAJOR=252
+E: MINOR=18
+
+P: /devices/pci0000:00/0000:00:0d.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0d.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=10000
+E: PCI_ID=1AF4:1001
+E: PCI_SUBSYS_ID=1AF4:0002
+E: PCI_SLOT_NAME=0000:00:0d.0
+E: MODALIAS=pci:v00001AF4d00001001sv00001AF4sd00000002bc01sc00i00
+
+P: /devices/pci0000:00/0000:00:0d.0/virtio9
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0d.0/virtio9
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_blk
+E: MODALIAS=virtio:d00000002v00001AF4
+
+P: /devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+N: vdc
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0d.0/virtio9/block/vdc
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vdc
+E: DEVTYPE=disk
+E: MAJOR=252
+E: MINOR=32
+
+P: /devices/pci0000:00/0000:00:0e.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0e.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=FF00
+E: PCI_ID=1AF4:1002
+E: PCI_SUBSYS_ID=1AF4:0005
+E: PCI_SLOT_NAME=0000:00:0e.0
+E: MODALIAS=pci:v00001AF4d00001002sv00001AF4sd00000005bc00scFFi00
+
+P: /devices/pci0000:00/0000:00:0e.0/virtio10
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0e.0/virtio10
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_balloon
+E: MODALIAS=virtio:d00000005v00001AF4
+
+P: /devices/pci0000:00/0000:00:0f.0
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0f.0
+E: SUBSYSTEM=pci
+E: DRIVER=virtio-pci
+E: PCI_CLASS=10000
+E: PCI_ID=1AF4:1001
+E: PCI_SUBSYS_ID=1AF4:0002
+E: PCI_SLOT_NAME=0000:00:0f.0
+E: MODALIAS=pci:v00001AF4d00001001sv00001AF4sd00000002bc01sc00i00
+
+P: /devices/pci0000:00/0000:00:0f.0/virtio11
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0f.0/virtio11
+E: SUBSYSTEM=virtio
+E: DRIVER=virtio_blk
+E: MODALIAS=virtio:d00000002v00001AF4
+
+P: /devices/pci0000:00/0000:00:0f.0/virtio11/block/vdd
+N: vdd
+L: 0
+E: DEVPATH=/devices/pci0000:00/0000:00:0f.0/virtio11/block/vdd
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/vdd
+E: DEVTYPE=disk
+E: MAJOR=252
+E: MINOR=48
+
+P: /devices/pci0000:00/QEMU0002:00
+L: 0
+E: DEVPATH=/devices/pci0000:00/QEMU0002:00
+E: SUBSYSTEM=platform
+E: DRIVER=fw_cfg
+E: MODALIAS=acpi:QEMU0002:
+
+P: /devices/pci0000:00/pci_bus/0000:00
+L: 0
+E: DEVPATH=/devices/pci0000:00/pci_bus/0000:00
+E: SUBSYSTEM=pci_bus
+
+P: /devices/platform/Fixed MDIO bus.0
+L: 0
+E: DEVPATH=/devices/platform/Fixed MDIO bus.0
+E: SUBSYSTEM=platform
+E: MODALIAS=platform:Fixed MDIO bus
+
+P: /devices/platform/Fixed MDIO bus.0/mdio_bus/fixed-0
+L: 0
+E: DEVPATH=/devices/platform/Fixed MDIO bus.0/mdio_bus/fixed-0
+E: SUBSYSTEM=mdio_bus
+
+P: /devices/platform/eisa.0
+L: 0
+E: DEVPATH=/devices/platform/eisa.0
+E: SUBSYSTEM=platform
+E: MODALIAS=platform:eisa
+
+P: /devices/platform/i8042
+L: 0
+E: DEVPATH=/devices/platform/i8042
+E: SUBSYSTEM=platform
+E: DRIVER=i8042
+E: MODALIAS=platform:i8042
+
+P: /devices/platform/i8042/serio0
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0
+E: SUBSYSTEM=serio
+E: DRIVER=atkbd
+E: SERIO_TYPE=06
+E: SERIO_PROTO=00
+E: SERIO_ID=00
+E: SERIO_EXTRA=00
+E: MODALIAS=serio:ty06pr00id00ex00
+E: SERIO_FIRMWARE_ID=PNP: PNP0303
+
+P: /devices/platform/i8042/serio0/input/input1
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0/input/input1
+E: SUBSYSTEM=input
+E: PRODUCT=11/1/1/ab41
+E: NAME="AT Translated Set 2 keyboard"
+E: PHYS="isa0060/serio0/input0"
+E: PROP=0
+E: EV=120013
+E: KEY=402000000 3803078f800d001 feffffdfffefffff fffffffffffffffe
+E: MSC=10
+E: LED=7
+E: MODALIAS=input:b0011v0001p0001eAB41-e0,1,4,11,14,k71,72,73,74,75,76,77,79,7A,7B,7C,7D,7E,7F,80,8C,8E,8F,9B,9C,9D,9E,9F,A3,A4,A5,A6,AC,AD,B7,B8,B9,D9,E2,ram4,l0,1,2,sfw
+
+P: /devices/platform/i8042/serio0/input/input1/event1
+N: input/event1
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0/input/input1/event1
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/event1
+E: MAJOR=13
+E: MINOR=65
+
+P: /devices/platform/i8042/serio0/input/input1/input1::capslock
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0/input/input1/input1::capslock
+E: SUBSYSTEM=leds
+
+P: /devices/platform/i8042/serio0/input/input1/input1::numlock
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0/input/input1/input1::numlock
+E: SUBSYSTEM=leds
+
+P: /devices/platform/i8042/serio0/input/input1/input1::scrolllock
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0/input/input1/input1::scrolllock
+E: SUBSYSTEM=leds
+
+P: /devices/platform/i8042/serio0/wakeup/wakeup22
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio0/wakeup/wakeup22
+E: SUBSYSTEM=wakeup
+
+P: /devices/platform/i8042/serio1
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1
+E: SUBSYSTEM=serio
+E: DRIVER=psmouse
+E: SERIO_TYPE=01
+E: SERIO_PROTO=00
+E: SERIO_ID=00
+E: SERIO_EXTRA=00
+E: MODALIAS=serio:ty01pr00id00ex00
+E: SERIO_FIRMWARE_ID=PNP: PNP0f13
+
+P: /devices/platform/i8042/serio1/input/input3
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1/input/input3
+E: SUBSYSTEM=input
+E: PRODUCT=11/2/13/6
+E: NAME="VirtualPS/2 VMware VMMouse"
+E: PHYS="isa0060/serio1/input0"
+E: PROP=1
+E: EV=7
+E: KEY=30000 0 0 0 0
+E: REL=103
+E: MODALIAS=input:b0011v0002p0013e0006-e0,1,2,k110,111,r0,1,8,amlsfw
+
+P: /devices/platform/i8042/serio1/input/input3/event3
+N: input/event3
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1/input/input3/event3
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/event3
+E: MAJOR=13
+E: MINOR=67
+
+P: /devices/platform/i8042/serio1/input/input3/mouse1
+N: input/mouse1
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1/input/input3/mouse1
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/mouse1
+E: MAJOR=13
+E: MINOR=33
+
+P: /devices/platform/i8042/serio1/input/input4
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1/input/input4
+E: SUBSYSTEM=input
+E: PRODUCT=11/2/13/6
+E: NAME="VirtualPS/2 VMware VMMouse"
+E: PHYS="isa0060/serio1/input1"
+E: PROP=0
+E: EV=b
+E: KEY=70000 0 0 0 0
+E: ABS=3
+E: MODALIAS=input:b0011v0002p0013e0006-e0,1,3,k110,111,112,ra0,1,mlsfw
+
+P: /devices/platform/i8042/serio1/input/input4/event2
+N: input/event2
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1/input/input4/event2
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/event2
+E: MAJOR=13
+E: MINOR=66
+
+P: /devices/platform/i8042/serio1/input/input4/mouse0
+N: input/mouse0
+L: 0
+E: DEVPATH=/devices/platform/i8042/serio1/input/input4/mouse0
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/mouse0
+E: MAJOR=13
+E: MINOR=32
+
+P: /devices/platform/intel_pmc_core.0
+L: 0
+E: DEVPATH=/devices/platform/intel_pmc_core.0
+E: SUBSYSTEM=platform
+E: DRIVER=intel_pmc_core
+E: MODALIAS=platform:intel_pmc_core
+
+P: /devices/platform/intel_rapl_msr.0
+L: 0
+E: DEVPATH=/devices/platform/intel_rapl_msr.0
+E: SUBSYSTEM=platform
+E: MODALIAS=platform:intel_rapl_msr
+
+P: /devices/platform/kgdboc
+L: 0
+E: DEVPATH=/devices/platform/kgdboc
+E: SUBSYSTEM=platform
+E: DRIVER=kgdboc
+E: MODALIAS=platform:kgdboc
+
+P: /devices/platform/pcspkr
+L: 0
+E: DEVPATH=/devices/platform/pcspkr
+E: SUBSYSTEM=platform
+E: MODALIAS=platform:pcspkr
+
+P: /devices/platform/platform-framebuffer.0
+L: 0
+E: DEVPATH=/devices/platform/platform-framebuffer.0
+E: SUBSYSTEM=platform
+E: MODALIAS=platform:platform-framebuffer
+
+P: /devices/platform/reg-dummy
+L: 0
+E: DEVPATH=/devices/platform/reg-dummy
+E: SUBSYSTEM=platform
+E: DRIVER=reg-dummy
+E: MODALIAS=platform:reg-dummy
+
+P: /devices/platform/reg-dummy/regulator/regulator.0
+L: 0
+E: DEVPATH=/devices/platform/reg-dummy/regulator/regulator.0
+E: SUBSYSTEM=regulator
+
+P: /devices/platform/serial8250
+L: 0
+E: DEVPATH=/devices/platform/serial8250
+E: SUBSYSTEM=platform
+E: DRIVER=serial8250
+E: MODALIAS=platform:serial8250
+
+P: /devices/platform/serial8250/tty/ttyS1
+N: ttyS1
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS1
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS1
+E: MAJOR=4
+E: MINOR=65
+
+P: /devices/platform/serial8250/tty/ttyS10
+N: ttyS10
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS10
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS10
+E: MAJOR=4
+E: MINOR=74
+
+P: /devices/platform/serial8250/tty/ttyS11
+N: ttyS11
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS11
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS11
+E: MAJOR=4
+E: MINOR=75
+
+P: /devices/platform/serial8250/tty/ttyS12
+N: ttyS12
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS12
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS12
+E: MAJOR=4
+E: MINOR=76
+
+P: /devices/platform/serial8250/tty/ttyS13
+N: ttyS13
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS13
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS13
+E: MAJOR=4
+E: MINOR=77
+
+P: /devices/platform/serial8250/tty/ttyS14
+N: ttyS14
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS14
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS14
+E: MAJOR=4
+E: MINOR=78
+
+P: /devices/platform/serial8250/tty/ttyS15
+N: ttyS15
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS15
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS15
+E: MAJOR=4
+E: MINOR=79
+
+P: /devices/platform/serial8250/tty/ttyS16
+N: ttyS16
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS16
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS16
+E: MAJOR=4
+E: MINOR=80
+
+P: /devices/platform/serial8250/tty/ttyS17
+N: ttyS17
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS17
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS17
+E: MAJOR=4
+E: MINOR=81
+
+P: /devices/platform/serial8250/tty/ttyS18
+N: ttyS18
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS18
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS18
+E: MAJOR=4
+E: MINOR=82
+
+P: /devices/platform/serial8250/tty/ttyS19
+N: ttyS19
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS19
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS19
+E: MAJOR=4
+E: MINOR=83
+
+P: /devices/platform/serial8250/tty/ttyS2
+N: ttyS2
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS2
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS2
+E: MAJOR=4
+E: MINOR=66
+
+P: /devices/platform/serial8250/tty/ttyS20
+N: ttyS20
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS20
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS20
+E: MAJOR=4
+E: MINOR=84
+
+P: /devices/platform/serial8250/tty/ttyS21
+N: ttyS21
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS21
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS21
+E: MAJOR=4
+E: MINOR=85
+
+P: /devices/platform/serial8250/tty/ttyS22
+N: ttyS22
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS22
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS22
+E: MAJOR=4
+E: MINOR=86
+
+P: /devices/platform/serial8250/tty/ttyS23
+N: ttyS23
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS23
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS23
+E: MAJOR=4
+E: MINOR=87
+
+P: /devices/platform/serial8250/tty/ttyS24
+N: ttyS24
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS24
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS24
+E: MAJOR=4
+E: MINOR=88
+
+P: /devices/platform/serial8250/tty/ttyS25
+N: ttyS25
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS25
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS25
+E: MAJOR=4
+E: MINOR=89
+
+P: /devices/platform/serial8250/tty/ttyS26
+N: ttyS26
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS26
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS26
+E: MAJOR=4
+E: MINOR=90
+
+P: /devices/platform/serial8250/tty/ttyS27
+N: ttyS27
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS27
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS27
+E: MAJOR=4
+E: MINOR=91
+
+P: /devices/platform/serial8250/tty/ttyS28
+N: ttyS28
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS28
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS28
+E: MAJOR=4
+E: MINOR=92
+
+P: /devices/platform/serial8250/tty/ttyS29
+N: ttyS29
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS29
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS29
+E: MAJOR=4
+E: MINOR=93
+
+P: /devices/platform/serial8250/tty/ttyS3
+N: ttyS3
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS3
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS3
+E: MAJOR=4
+E: MINOR=67
+
+P: /devices/platform/serial8250/tty/ttyS30
+N: ttyS30
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS30
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS30
+E: MAJOR=4
+E: MINOR=94
+
+P: /devices/platform/serial8250/tty/ttyS31
+N: ttyS31
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS31
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS31
+E: MAJOR=4
+E: MINOR=95
+
+P: /devices/platform/serial8250/tty/ttyS4
+N: ttyS4
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS4
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS4
+E: MAJOR=4
+E: MINOR=68
+
+P: /devices/platform/serial8250/tty/ttyS5
+N: ttyS5
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS5
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS5
+E: MAJOR=4
+E: MINOR=69
+
+P: /devices/platform/serial8250/tty/ttyS6
+N: ttyS6
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS6
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS6
+E: MAJOR=4
+E: MINOR=70
+
+P: /devices/platform/serial8250/tty/ttyS7
+N: ttyS7
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS7
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS7
+E: MAJOR=4
+E: MINOR=71
+
+P: /devices/platform/serial8250/tty/ttyS8
+N: ttyS8
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS8
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS8
+E: MAJOR=4
+E: MINOR=72
+
+P: /devices/platform/serial8250/tty/ttyS9
+N: ttyS9
+L: 0
+E: DEVPATH=/devices/platform/serial8250/tty/ttyS9
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS9
+E: MAJOR=4
+E: MINOR=73
+
+P: /devices/pnp0/00:00
+L: 0
+E: DEVPATH=/devices/pnp0/00:00
+E: SUBSYSTEM=pnp
+E: DRIVER=rtc_cmos
+
+P: /devices/pnp0/00:00/cmos_nvram0
+L: 0
+E: DEVPATH=/devices/pnp0/00:00/cmos_nvram0
+E: SUBSYSTEM=nvmem
+
+P: /devices/pnp0/00:00/rtc/rtc0
+N: rtc0
+L: 0
+E: DEVPATH=/devices/pnp0/00:00/rtc/rtc0
+E: SUBSYSTEM=rtc
+E: DEVNAME=/dev/rtc0
+E: MAJOR=249
+E: MINOR=0
+
+P: /devices/pnp0/00:00/rtc/rtc0/alarmtimer.0.auto
+L: 0
+E: DEVPATH=/devices/pnp0/00:00/rtc/rtc0/alarmtimer.0.auto
+E: SUBSYSTEM=platform
+E: DRIVER=alarmtimer
+E: MODALIAS=platform:alarmtimer
+
+P: /devices/pnp0/00:00/rtc/rtc0/wakeup24
+L: 0
+E: DEVPATH=/devices/pnp0/00:00/rtc/rtc0/wakeup24
+E: SUBSYSTEM=wakeup
+
+P: /devices/pnp0/00:00/wakeup/wakeup23
+L: 0
+E: DEVPATH=/devices/pnp0/00:00/wakeup/wakeup23
+E: SUBSYSTEM=wakeup
+
+P: /devices/pnp0/00:01
+L: 0
+E: DEVPATH=/devices/pnp0/00:01
+E: SUBSYSTEM=pnp
+E: DRIVER=i8042 kbd
+
+P: /devices/pnp0/00:02
+L: 0
+E: DEVPATH=/devices/pnp0/00:02
+E: SUBSYSTEM=pnp
+E: DRIVER=i8042 aux
+
+P: /devices/pnp0/00:03
+L: 0
+E: DEVPATH=/devices/pnp0/00:03
+E: SUBSYSTEM=pnp
+
+P: /devices/pnp0/00:04
+L: 0
+E: DEVPATH=/devices/pnp0/00:04
+E: SUBSYSTEM=pnp
+E: DRIVER=serial
+
+P: /devices/pnp0/00:04/tty/ttyS0
+N: ttyS0
+L: 0
+E: DEVPATH=/devices/pnp0/00:04/tty/ttyS0
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyS0
+E: MAJOR=4
+E: MINOR=64
+
+P: /devices/software
+L: 0
+E: DEVPATH=/devices/software
+E: SUBSYSTEM=event_source
+
+P: /devices/system/clockevents/broadcast
+L: 0
+E: DEVPATH=/devices/system/clockevents/broadcast
+E: SUBSYSTEM=clockevents
+
+P: /devices/system/clockevents/clockevent0
+L: 0
+E: DEVPATH=/devices/system/clockevents/clockevent0
+E: SUBSYSTEM=clockevents
+
+P: /devices/system/clockevents/clockevent1
+L: 0
+E: DEVPATH=/devices/system/clockevents/clockevent1
+E: SUBSYSTEM=clockevents
+
+P: /devices/system/clocksource/clocksource0
+L: 0
+E: DEVPATH=/devices/system/clocksource/clocksource0
+E: SUBSYSTEM=clocksource
+
+P: /devices/system/container/PNP0A06:00
+L: 0
+E: DEVPATH=/devices/system/container/PNP0A06:00
+E: SUBSYSTEM=container
+
+P: /devices/system/container/PNP0A06:01
+L: 0
+E: DEVPATH=/devices/system/container/PNP0A06:01
+E: SUBSYSTEM=container
+
+P: /devices/system/container/PNP0A06:02
+L: 0
+E: DEVPATH=/devices/system/container/PNP0A06:02
+E: SUBSYSTEM=container
+
+P: /devices/system/cpu/cpu0
+L: 0
+E: DEVPATH=/devices/system/cpu/cpu0
+E: SUBSYSTEM=cpu
+E: DRIVER=processor
+E: MODALIAS=cpu:type:x86,ven0000fam0006mod005E:feature:,0000,0001,0002,0003,0004,0005,0006,0007,0008,0009,000B,000C,000D,000E,000F,0010,0011,0013,0017,0018,0019,001A,001B,002B,0034,003A,003B,003D,0068,006F,0070,0072,0074,0075,0076,0079,007F,0080,0081,0085,0089,008C,008D,0091,0093,0094,0095,0096,0097,0098,0099,009A,009B,009C,009D,009E,009F,00C0,00C5,00C8,00E1,00E7,00EB,00EC,00F0,00F1,00F3,00F5,00F6,00F9,00FA,00FD,0100,0101,0102,0103,0104,0111,0120,0121,0123,0124,0125,0127,0128,0129,012A,012B,012E,0132,0133,0134,0137,0140,0141,0142,0143,0165,01C2,024A,025A,025F
+
+P: /devices/system/cpu/cpu1
+L: 0
+E: DEVPATH=/devices/system/cpu/cpu1
+E: SUBSYSTEM=cpu
+E: DRIVER=processor
+E: MODALIAS=cpu:type:x86,ven0000fam0006mod005E:feature:,0000,0001,0002,0003,0004,0005,0006,0007,0008,0009,000B,000C,000D,000E,000F,0010,0011,0013,0017,0018,0019,001A,001B,002B,0034,003A,003B,003D,0068,006F,0070,0072,0074,0075,0076,0079,007F,0080,0081,0085,0089,008C,008D,0091,0093,0094,0095,0096,0097,0098,0099,009A,009B,009C,009D,009E,009F,00C0,00C5,00C8,00E1,00E7,00EB,00EC,00F0,00F1,00F3,00F5,00F6,00F9,00FA,00FD,0100,0101,0102,0103,0104,0111,0120,0121,0123,0124,0125,0127,0128,0129,012A,012B,012E,0132,0133,0134,0137,0140,0141,0142,0143,0165,01C2,024A,025A,025F
+
+P: /devices/system/edac/mc
+L: 0
+E: DEVPATH=/devices/system/edac/mc
+E: SUBSYSTEM=edac
+
+P: /devices/system/machinecheck/machinecheck0
+L: 0
+E: DEVPATH=/devices/system/machinecheck/machinecheck0
+E: SUBSYSTEM=machinecheck
+
+P: /devices/system/machinecheck/machinecheck1
+L: 0
+E: DEVPATH=/devices/system/machinecheck/machinecheck1
+E: SUBSYSTEM=machinecheck
+
+P: /devices/system/memory/memory0
+L: 0
+E: DEVPATH=/devices/system/memory/memory0
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory1
+L: 0
+E: DEVPATH=/devices/system/memory/memory1
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory10
+L: 0
+E: DEVPATH=/devices/system/memory/memory10
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory100
+L: 0
+E: DEVPATH=/devices/system/memory/memory100
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory101
+L: 0
+E: DEVPATH=/devices/system/memory/memory101
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory102
+L: 0
+E: DEVPATH=/devices/system/memory/memory102
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory103
+L: 0
+E: DEVPATH=/devices/system/memory/memory103
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory104
+L: 0
+E: DEVPATH=/devices/system/memory/memory104
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory105
+L: 0
+E: DEVPATH=/devices/system/memory/memory105
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory106
+L: 0
+E: DEVPATH=/devices/system/memory/memory106
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory107
+L: 0
+E: DEVPATH=/devices/system/memory/memory107
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory108
+L: 0
+E: DEVPATH=/devices/system/memory/memory108
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory109
+L: 0
+E: DEVPATH=/devices/system/memory/memory109
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory11
+L: 0
+E: DEVPATH=/devices/system/memory/memory11
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory110
+L: 0
+E: DEVPATH=/devices/system/memory/memory110
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory111
+L: 0
+E: DEVPATH=/devices/system/memory/memory111
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory112
+L: 0
+E: DEVPATH=/devices/system/memory/memory112
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory113
+L: 0
+E: DEVPATH=/devices/system/memory/memory113
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory114
+L: 0
+E: DEVPATH=/devices/system/memory/memory114
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory115
+L: 0
+E: DEVPATH=/devices/system/memory/memory115
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory116
+L: 0
+E: DEVPATH=/devices/system/memory/memory116
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory117
+L: 0
+E: DEVPATH=/devices/system/memory/memory117
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory118
+L: 0
+E: DEVPATH=/devices/system/memory/memory118
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory119
+L: 0
+E: DEVPATH=/devices/system/memory/memory119
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory12
+L: 0
+E: DEVPATH=/devices/system/memory/memory12
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory120
+L: 0
+E: DEVPATH=/devices/system/memory/memory120
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory121
+L: 0
+E: DEVPATH=/devices/system/memory/memory121
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory122
+L: 0
+E: DEVPATH=/devices/system/memory/memory122
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory123
+L: 0
+E: DEVPATH=/devices/system/memory/memory123
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory124
+L: 0
+E: DEVPATH=/devices/system/memory/memory124
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory125
+L: 0
+E: DEVPATH=/devices/system/memory/memory125
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory126
+L: 0
+E: DEVPATH=/devices/system/memory/memory126
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory127
+L: 0
+E: DEVPATH=/devices/system/memory/memory127
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory128
+L: 0
+E: DEVPATH=/devices/system/memory/memory128
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory129
+L: 0
+E: DEVPATH=/devices/system/memory/memory129
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory13
+L: 0
+E: DEVPATH=/devices/system/memory/memory13
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory130
+L: 0
+E: DEVPATH=/devices/system/memory/memory130
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory131
+L: 0
+E: DEVPATH=/devices/system/memory/memory131
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory132
+L: 0
+E: DEVPATH=/devices/system/memory/memory132
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory133
+L: 0
+E: DEVPATH=/devices/system/memory/memory133
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory134
+L: 0
+E: DEVPATH=/devices/system/memory/memory134
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory135
+L: 0
+E: DEVPATH=/devices/system/memory/memory135
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory14
+L: 0
+E: DEVPATH=/devices/system/memory/memory14
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory15
+L: 0
+E: DEVPATH=/devices/system/memory/memory15
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory16
+L: 0
+E: DEVPATH=/devices/system/memory/memory16
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory17
+L: 0
+E: DEVPATH=/devices/system/memory/memory17
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory18
+L: 0
+E: DEVPATH=/devices/system/memory/memory18
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory19
+L: 0
+E: DEVPATH=/devices/system/memory/memory19
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory2
+L: 0
+E: DEVPATH=/devices/system/memory/memory2
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory20
+L: 0
+E: DEVPATH=/devices/system/memory/memory20
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory21
+L: 0
+E: DEVPATH=/devices/system/memory/memory21
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory22
+L: 0
+E: DEVPATH=/devices/system/memory/memory22
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory23
+L: 0
+E: DEVPATH=/devices/system/memory/memory23
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory3
+L: 0
+E: DEVPATH=/devices/system/memory/memory3
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory32
+L: 0
+E: DEVPATH=/devices/system/memory/memory32
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory33
+L: 0
+E: DEVPATH=/devices/system/memory/memory33
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory34
+L: 0
+E: DEVPATH=/devices/system/memory/memory34
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory35
+L: 0
+E: DEVPATH=/devices/system/memory/memory35
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory36
+L: 0
+E: DEVPATH=/devices/system/memory/memory36
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory37
+L: 0
+E: DEVPATH=/devices/system/memory/memory37
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory38
+L: 0
+E: DEVPATH=/devices/system/memory/memory38
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory39
+L: 0
+E: DEVPATH=/devices/system/memory/memory39
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory4
+L: 0
+E: DEVPATH=/devices/system/memory/memory4
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory40
+L: 0
+E: DEVPATH=/devices/system/memory/memory40
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory41
+L: 0
+E: DEVPATH=/devices/system/memory/memory41
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory42
+L: 0
+E: DEVPATH=/devices/system/memory/memory42
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory43
+L: 0
+E: DEVPATH=/devices/system/memory/memory43
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory44
+L: 0
+E: DEVPATH=/devices/system/memory/memory44
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory45
+L: 0
+E: DEVPATH=/devices/system/memory/memory45
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory46
+L: 0
+E: DEVPATH=/devices/system/memory/memory46
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory47
+L: 0
+E: DEVPATH=/devices/system/memory/memory47
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory48
+L: 0
+E: DEVPATH=/devices/system/memory/memory48
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory49
+L: 0
+E: DEVPATH=/devices/system/memory/memory49
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory5
+L: 0
+E: DEVPATH=/devices/system/memory/memory5
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory50
+L: 0
+E: DEVPATH=/devices/system/memory/memory50
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory51
+L: 0
+E: DEVPATH=/devices/system/memory/memory51
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory52
+L: 0
+E: DEVPATH=/devices/system/memory/memory52
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory53
+L: 0
+E: DEVPATH=/devices/system/memory/memory53
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory54
+L: 0
+E: DEVPATH=/devices/system/memory/memory54
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory55
+L: 0
+E: DEVPATH=/devices/system/memory/memory55
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory56
+L: 0
+E: DEVPATH=/devices/system/memory/memory56
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory57
+L: 0
+E: DEVPATH=/devices/system/memory/memory57
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory58
+L: 0
+E: DEVPATH=/devices/system/memory/memory58
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory59
+L: 0
+E: DEVPATH=/devices/system/memory/memory59
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory6
+L: 0
+E: DEVPATH=/devices/system/memory/memory6
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory60
+L: 0
+E: DEVPATH=/devices/system/memory/memory60
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory61
+L: 0
+E: DEVPATH=/devices/system/memory/memory61
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory62
+L: 0
+E: DEVPATH=/devices/system/memory/memory62
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory63
+L: 0
+E: DEVPATH=/devices/system/memory/memory63
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory64
+L: 0
+E: DEVPATH=/devices/system/memory/memory64
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory65
+L: 0
+E: DEVPATH=/devices/system/memory/memory65
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory66
+L: 0
+E: DEVPATH=/devices/system/memory/memory66
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory67
+L: 0
+E: DEVPATH=/devices/system/memory/memory67
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory68
+L: 0
+E: DEVPATH=/devices/system/memory/memory68
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory69
+L: 0
+E: DEVPATH=/devices/system/memory/memory69
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory7
+L: 0
+E: DEVPATH=/devices/system/memory/memory7
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory70
+L: 0
+E: DEVPATH=/devices/system/memory/memory70
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory71
+L: 0
+E: DEVPATH=/devices/system/memory/memory71
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory72
+L: 0
+E: DEVPATH=/devices/system/memory/memory72
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory73
+L: 0
+E: DEVPATH=/devices/system/memory/memory73
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory74
+L: 0
+E: DEVPATH=/devices/system/memory/memory74
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory75
+L: 0
+E: DEVPATH=/devices/system/memory/memory75
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory76
+L: 0
+E: DEVPATH=/devices/system/memory/memory76
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory77
+L: 0
+E: DEVPATH=/devices/system/memory/memory77
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory78
+L: 0
+E: DEVPATH=/devices/system/memory/memory78
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory79
+L: 0
+E: DEVPATH=/devices/system/memory/memory79
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory8
+L: 0
+E: DEVPATH=/devices/system/memory/memory8
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory80
+L: 0
+E: DEVPATH=/devices/system/memory/memory80
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory81
+L: 0
+E: DEVPATH=/devices/system/memory/memory81
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory82
+L: 0
+E: DEVPATH=/devices/system/memory/memory82
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory83
+L: 0
+E: DEVPATH=/devices/system/memory/memory83
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory84
+L: 0
+E: DEVPATH=/devices/system/memory/memory84
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory85
+L: 0
+E: DEVPATH=/devices/system/memory/memory85
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory86
+L: 0
+E: DEVPATH=/devices/system/memory/memory86
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory87
+L: 0
+E: DEVPATH=/devices/system/memory/memory87
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory88
+L: 0
+E: DEVPATH=/devices/system/memory/memory88
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory89
+L: 0
+E: DEVPATH=/devices/system/memory/memory89
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory9
+L: 0
+E: DEVPATH=/devices/system/memory/memory9
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory90
+L: 0
+E: DEVPATH=/devices/system/memory/memory90
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory91
+L: 0
+E: DEVPATH=/devices/system/memory/memory91
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory92
+L: 0
+E: DEVPATH=/devices/system/memory/memory92
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory93
+L: 0
+E: DEVPATH=/devices/system/memory/memory93
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory94
+L: 0
+E: DEVPATH=/devices/system/memory/memory94
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory95
+L: 0
+E: DEVPATH=/devices/system/memory/memory95
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory96
+L: 0
+E: DEVPATH=/devices/system/memory/memory96
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory97
+L: 0
+E: DEVPATH=/devices/system/memory/memory97
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory98
+L: 0
+E: DEVPATH=/devices/system/memory/memory98
+E: SUBSYSTEM=memory
+
+P: /devices/system/memory/memory99
+L: 0
+E: DEVPATH=/devices/system/memory/memory99
+E: SUBSYSTEM=memory
+
+P: /devices/system/node/node0
+L: 0
+E: DEVPATH=/devices/system/node/node0
+E: SUBSYSTEM=node
+
+P: /devices/tracepoint
+L: 0
+E: DEVPATH=/devices/tracepoint
+E: SUBSYSTEM=event_source
+
+P: /devices/uprobe
+L: 0
+E: DEVPATH=/devices/uprobe
+E: SUBSYSTEM=event_source
+
+P: /devices/virtual/bdi/0:100
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:100
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:101
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:101
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:102
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:102
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:112
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:112
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:113
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:113
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:114
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:114
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:126
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:126
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:127
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:127
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:128
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:128
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:129
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:129
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:130
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:130
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:146
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:146
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:147
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:147
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:148
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:148
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:150
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:150
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:151
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:151
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:152
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:152
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:153
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:153
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:154
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:154
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:155
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:155
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:156
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:156
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:157
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:157
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:158
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:158
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:60
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:60
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:85
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:85
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:86
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:86
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:87
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:87
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:97
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:97
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:98
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:98
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/0:99
+L: 0
+E: DEVPATH=/devices/virtual/bdi/0:99
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/251:0
+L: 0
+E: DEVPATH=/devices/virtual/bdi/251:0
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/251:128
+L: 0
+E: DEVPATH=/devices/virtual/bdi/251:128
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/252:0
+L: 0
+E: DEVPATH=/devices/virtual/bdi/252:0
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/252:16
+L: 0
+E: DEVPATH=/devices/virtual/bdi/252:16
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/252:32
+L: 0
+E: DEVPATH=/devices/virtual/bdi/252:32
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/252:48
+L: 0
+E: DEVPATH=/devices/virtual/bdi/252:48
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/253:0
+L: 0
+E: DEVPATH=/devices/virtual/bdi/253:0
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/253:1
+L: 0
+E: DEVPATH=/devices/virtual/bdi/253:1
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/253:2
+L: 0
+E: DEVPATH=/devices/virtual/bdi/253:2
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:0
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:0
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:1
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:1
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:2
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:2
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:3
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:3
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:4
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:4
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:5
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:5
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:6
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:6
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/bdi/7:7
+L: 0
+E: DEVPATH=/devices/virtual/bdi/7:7
+E: SUBSYSTEM=bdi
+
+P: /devices/virtual/block/bcache0
+N: bcache0
+L: 0
+E: DEVPATH=/devices/virtual/block/bcache0
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/bcache0
+E: DEVTYPE=disk
+E: MAJOR=251
+E: MINOR=0
+
+P: /devices/virtual/block/bcache1
+N: bcache1
+L: 0
+E: DEVPATH=/devices/virtual/block/bcache1
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/bcache1
+E: DEVTYPE=disk
+E: MAJOR=251
+E: MINOR=128
+
+P: /devices/virtual/block/loop0
+N: loop0
+L: 0
+E: DEVPATH=/devices/virtual/block/loop0
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop0
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=0
+
+P: /devices/virtual/block/loop1
+N: loop1
+L: 0
+E: DEVPATH=/devices/virtual/block/loop1
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop1
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=1
+
+P: /devices/virtual/block/loop2
+N: loop2
+L: 0
+E: DEVPATH=/devices/virtual/block/loop2
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop2
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=2
+
+P: /devices/virtual/block/loop3
+N: loop3
+L: 0
+E: DEVPATH=/devices/virtual/block/loop3
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop3
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=3
+
+P: /devices/virtual/block/loop4
+N: loop4
+L: 0
+E: DEVPATH=/devices/virtual/block/loop4
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop4
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=4
+
+P: /devices/virtual/block/loop5
+N: loop5
+L: 0
+E: DEVPATH=/devices/virtual/block/loop5
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop5
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=5
+
+P: /devices/virtual/block/loop6
+N: loop6
+L: 0
+E: DEVPATH=/devices/virtual/block/loop6
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop6
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=6
+
+P: /devices/virtual/block/loop7
+N: loop7
+L: 0
+E: DEVPATH=/devices/virtual/block/loop7
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/loop7
+E: DEVTYPE=disk
+E: MAJOR=7
+E: MINOR=7
+
+P: /devices/virtual/dmi/id
+L: 0
+E: DEVPATH=/devices/virtual/dmi/id
+E: SUBSYSTEM=dmi
+E: MODALIAS=dmi:bvnSeaBIOS:bvr1.10.2-1ubuntu1:bd04/01/2014:svnQEMU:pnStandardPC(i440FX+PIIX,1996):pvrpc-i440fx-bionic:cvnQEMU:ct1:cvrpc-i440fx-bionic:
+
+P: /devices/virtual/graphics/fbcon
+L: 0
+E: DEVPATH=/devices/virtual/graphics/fbcon
+E: SUBSYSTEM=graphics
+
+P: /devices/virtual/input/mice
+N: input/mice
+L: 0
+E: DEVPATH=/devices/virtual/input/mice
+E: SUBSYSTEM=input
+E: DEVNAME=/dev/input/mice
+E: MAJOR=13
+E: MINOR=63
+
+P: /devices/virtual/mem/full
+N: full
+L: 0
+E: DEVPATH=/devices/virtual/mem/full
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/full
+E: DEVMODE=0666
+E: MAJOR=1
+E: MINOR=7
+
+P: /devices/virtual/mem/kmsg
+N: kmsg
+L: 0
+E: DEVPATH=/devices/virtual/mem/kmsg
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/kmsg
+E: DEVMODE=0644
+E: MAJOR=1
+E: MINOR=11
+
+P: /devices/virtual/mem/mem
+N: mem
+L: 0
+E: DEVPATH=/devices/virtual/mem/mem
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/mem
+E: MAJOR=1
+E: MINOR=1
+
+P: /devices/virtual/mem/null
+N: null
+L: 0
+E: DEVPATH=/devices/virtual/mem/null
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/null
+E: DEVMODE=0666
+E: MAJOR=1
+E: MINOR=3
+
+P: /devices/virtual/mem/port
+N: port
+L: 0
+E: DEVPATH=/devices/virtual/mem/port
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/port
+E: MAJOR=1
+E: MINOR=4
+
+P: /devices/virtual/mem/random
+N: random
+L: 0
+E: DEVPATH=/devices/virtual/mem/random
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/random
+E: DEVMODE=0666
+E: MAJOR=1
+E: MINOR=8
+
+P: /devices/virtual/mem/urandom
+N: urandom
+L: 0
+E: DEVPATH=/devices/virtual/mem/urandom
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/urandom
+E: DEVMODE=0666
+E: MAJOR=1
+E: MINOR=9
+
+P: /devices/virtual/mem/zero
+N: zero
+L: 0
+E: DEVPATH=/devices/virtual/mem/zero
+E: SUBSYSTEM=mem
+E: DEVNAME=/dev/zero
+E: DEVMODE=0666
+E: MAJOR=1
+E: MINOR=5
+
+P: /devices/virtual/misc/autofs
+N: autofs
+L: 0
+E: DEVPATH=/devices/virtual/misc/autofs
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/autofs
+E: DEVMODE=0644
+E: MAJOR=10
+E: MINOR=235
+
+P: /devices/virtual/misc/btrfs-control
+N: btrfs-control
+L: 0
+E: DEVPATH=/devices/virtual/misc/btrfs-control
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/btrfs-control
+E: MAJOR=10
+E: MINOR=234
+
+P: /devices/virtual/misc/cpu_dma_latency
+N: cpu_dma_latency
+L: 0
+E: DEVPATH=/devices/virtual/misc/cpu_dma_latency
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/cpu_dma_latency
+E: MAJOR=10
+E: MINOR=59
+
+P: /devices/virtual/misc/device-mapper
+N: mapper/control
+L: 0
+E: DEVPATH=/devices/virtual/misc/device-mapper
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/mapper/control
+E: MAJOR=10
+E: MINOR=236
+
+P: /devices/virtual/misc/ecryptfs
+N: ecryptfs
+L: 0
+E: DEVPATH=/devices/virtual/misc/ecryptfs
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/ecryptfs
+E: MAJOR=10
+E: MINOR=62
+
+P: /devices/virtual/misc/fuse
+N: fuse
+L: 0
+E: DEVPATH=/devices/virtual/misc/fuse
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/fuse
+E: MAJOR=10
+E: MINOR=229
+
+P: /devices/virtual/misc/hpet
+N: hpet
+L: 0
+E: DEVPATH=/devices/virtual/misc/hpet
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/hpet
+E: MAJOR=10
+E: MINOR=228
+
+P: /devices/virtual/misc/hw_random
+N: hwrng
+L: 0
+E: DEVPATH=/devices/virtual/misc/hw_random
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/hwrng
+E: MAJOR=10
+E: MINOR=183
+
+P: /devices/virtual/misc/kvm
+N: kvm
+L: 0
+E: DEVPATH=/devices/virtual/misc/kvm
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/kvm
+E: MAJOR=10
+E: MINOR=232
+
+P: /devices/virtual/misc/lightnvm
+N: lightnvm/control
+L: 0
+E: DEVPATH=/devices/virtual/misc/lightnvm
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/lightnvm/control
+E: MAJOR=10
+E: MINOR=61
+
+P: /devices/virtual/misc/loop-control
+N: loop-control
+L: 0
+E: DEVPATH=/devices/virtual/misc/loop-control
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/loop-control
+E: MAJOR=10
+E: MINOR=237
+
+P: /devices/virtual/misc/mcelog
+N: mcelog
+L: 0
+E: DEVPATH=/devices/virtual/misc/mcelog
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/mcelog
+E: MAJOR=10
+E: MINOR=227
+
+P: /devices/virtual/misc/psaux
+N: psaux
+L: 0
+E: DEVPATH=/devices/virtual/misc/psaux
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/psaux
+E: MAJOR=10
+E: MINOR=1
+
+P: /devices/virtual/misc/rfkill
+N: rfkill
+L: 0
+E: DEVPATH=/devices/virtual/misc/rfkill
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/rfkill
+E: MAJOR=10
+E: MINOR=242
+
+P: /devices/virtual/misc/snapshot
+N: snapshot
+L: 0
+E: DEVPATH=/devices/virtual/misc/snapshot
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/snapshot
+E: MAJOR=10
+E: MINOR=231
+
+P: /devices/virtual/misc/tun
+N: net/tun
+L: 0
+E: DEVPATH=/devices/virtual/misc/tun
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/net/tun
+E: MAJOR=10
+E: MINOR=200
+
+P: /devices/virtual/misc/udmabuf
+N: udmabuf
+L: 0
+E: DEVPATH=/devices/virtual/misc/udmabuf
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/udmabuf
+E: MAJOR=10
+E: MINOR=60
+
+P: /devices/virtual/misc/uinput
+N: uinput
+L: 0
+E: DEVPATH=/devices/virtual/misc/uinput
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/uinput
+E: MAJOR=10
+E: MINOR=223
+
+P: /devices/virtual/misc/vfio
+N: vfio/vfio
+L: 0
+E: DEVPATH=/devices/virtual/misc/vfio
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/vfio/vfio
+E: DEVMODE=0666
+E: MAJOR=10
+E: MINOR=196
+
+P: /devices/virtual/misc/vga_arbiter
+N: vga_arbiter
+L: 0
+E: DEVPATH=/devices/virtual/misc/vga_arbiter
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/vga_arbiter
+E: MAJOR=10
+E: MINOR=63
+
+P: /devices/virtual/misc/vhost-vsock
+N: vhost-vsock
+L: 0
+E: DEVPATH=/devices/virtual/misc/vhost-vsock
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/vhost-vsock
+E: MAJOR=10
+E: MINOR=241
+
+P: /devices/virtual/misc/vsock
+N: vsock
+L: 0
+E: DEVPATH=/devices/virtual/misc/vsock
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/vsock
+E: MAJOR=10
+E: MINOR=58
+
+P: /devices/virtual/misc/zfs
+N: zfs
+L: 0
+E: DEVPATH=/devices/virtual/misc/zfs
+E: SUBSYSTEM=misc
+E: DEVNAME=/dev/zfs
+E: MAJOR=10
+E: MINOR=249
+
+P: /devices/virtual/msr/msr0
+N: cpu/0/msr
+L: 0
+E: DEVPATH=/devices/virtual/msr/msr0
+E: SUBSYSTEM=msr
+E: DEVNAME=/dev/cpu/0/msr
+E: MAJOR=202
+E: MINOR=0
+
+P: /devices/virtual/msr/msr1
+N: cpu/1/msr
+L: 0
+E: DEVPATH=/devices/virtual/msr/msr1
+E: SUBSYSTEM=msr
+E: DEVNAME=/dev/cpu/1/msr
+E: MAJOR=202
+E: MINOR=1
+
+P: /devices/virtual/net/eth0
+L: 0
+E: DEVPATH=/devices/virtual/net/eth0
+E: SUBSYSTEM=net
+E: INTERFACE=eth0
+E: IFINDEX=16
+E: USEC_INITIALIZED=24215307
+E: ID_MM_CANDIDATE=1
+E: ID_NET_DRIVER=veth
+E: ID_NET_LINK_FILE=/usr/lib/systemd/network/99-default.link
+E: SYSTEMD_ALIAS=/sys/subsystem/net/devices/eth0
+E: TAGS=:systemd:
+
+P: /devices/virtual/net/lo
+L: 0
+E: DEVPATH=/devices/virtual/net/lo
+E: SUBSYSTEM=net
+E: INTERFACE=lo
+E: IFINDEX=1
+E: USEC_INITIALIZED=24215251
+E: ID_MM_CANDIDATE=1
+E: ID_NET_LINK_FILE=/usr/lib/systemd/network/99-default.link
+
+P: /devices/virtual/ppp/ppp
+N: ppp
+L: 0
+E: DEVPATH=/devices/virtual/ppp/ppp
+E: SUBSYSTEM=ppp
+E: DEVNAME=/dev/ppp
+E: MAJOR=108
+E: MINOR=0
+
+P: /devices/virtual/thermal/cooling_device0
+L: 0
+E: DEVPATH=/devices/virtual/thermal/cooling_device0
+E: SUBSYSTEM=thermal
+
+P: /devices/virtual/thermal/cooling_device1
+L: 0
+E: DEVPATH=/devices/virtual/thermal/cooling_device1
+E: SUBSYSTEM=thermal
+
+P: /devices/virtual/tty/console
+N: console
+L: 0
+E: DEVPATH=/devices/virtual/tty/console
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/console
+E: MAJOR=5
+E: MINOR=1
+
+P: /devices/virtual/tty/ptmx
+N: ptmx
+L: 0
+E: DEVPATH=/devices/virtual/tty/ptmx
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ptmx
+E: DEVMODE=0666
+E: MAJOR=5
+E: MINOR=2
+
+P: /devices/virtual/tty/tty
+N: tty
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty
+E: DEVMODE=0666
+E: MAJOR=5
+E: MINOR=0
+
+P: /devices/virtual/tty/tty0
+N: tty0
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty0
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty0
+E: MAJOR=4
+E: MINOR=0
+
+P: /devices/virtual/tty/tty1
+N: tty1
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty1
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty1
+E: MAJOR=4
+E: MINOR=1
+
+P: /devices/virtual/tty/tty10
+N: tty10
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty10
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty10
+E: MAJOR=4
+E: MINOR=10
+
+P: /devices/virtual/tty/tty11
+N: tty11
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty11
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty11
+E: MAJOR=4
+E: MINOR=11
+
+P: /devices/virtual/tty/tty12
+N: tty12
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty12
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty12
+E: MAJOR=4
+E: MINOR=12
+
+P: /devices/virtual/tty/tty13
+N: tty13
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty13
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty13
+E: MAJOR=4
+E: MINOR=13
+
+P: /devices/virtual/tty/tty14
+N: tty14
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty14
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty14
+E: MAJOR=4
+E: MINOR=14
+
+P: /devices/virtual/tty/tty15
+N: tty15
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty15
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty15
+E: MAJOR=4
+E: MINOR=15
+
+P: /devices/virtual/tty/tty16
+N: tty16
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty16
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty16
+E: MAJOR=4
+E: MINOR=16
+
+P: /devices/virtual/tty/tty17
+N: tty17
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty17
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty17
+E: MAJOR=4
+E: MINOR=17
+
+P: /devices/virtual/tty/tty18
+N: tty18
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty18
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty18
+E: MAJOR=4
+E: MINOR=18
+
+P: /devices/virtual/tty/tty19
+N: tty19
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty19
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty19
+E: MAJOR=4
+E: MINOR=19
+
+P: /devices/virtual/tty/tty2
+N: tty2
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty2
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty2
+E: MAJOR=4
+E: MINOR=2
+
+P: /devices/virtual/tty/tty20
+N: tty20
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty20
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty20
+E: MAJOR=4
+E: MINOR=20
+
+P: /devices/virtual/tty/tty21
+N: tty21
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty21
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty21
+E: MAJOR=4
+E: MINOR=21
+
+P: /devices/virtual/tty/tty22
+N: tty22
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty22
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty22
+E: MAJOR=4
+E: MINOR=22
+
+P: /devices/virtual/tty/tty23
+N: tty23
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty23
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty23
+E: MAJOR=4
+E: MINOR=23
+
+P: /devices/virtual/tty/tty24
+N: tty24
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty24
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty24
+E: MAJOR=4
+E: MINOR=24
+
+P: /devices/virtual/tty/tty25
+N: tty25
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty25
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty25
+E: MAJOR=4
+E: MINOR=25
+
+P: /devices/virtual/tty/tty26
+N: tty26
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty26
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty26
+E: MAJOR=4
+E: MINOR=26
+
+P: /devices/virtual/tty/tty27
+N: tty27
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty27
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty27
+E: MAJOR=4
+E: MINOR=27
+
+P: /devices/virtual/tty/tty28
+N: tty28
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty28
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty28
+E: MAJOR=4
+E: MINOR=28
+
+P: /devices/virtual/tty/tty29
+N: tty29
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty29
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty29
+E: MAJOR=4
+E: MINOR=29
+
+P: /devices/virtual/tty/tty3
+N: tty3
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty3
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty3
+E: MAJOR=4
+E: MINOR=3
+
+P: /devices/virtual/tty/tty30
+N: tty30
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty30
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty30
+E: MAJOR=4
+E: MINOR=30
+
+P: /devices/virtual/tty/tty31
+N: tty31
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty31
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty31
+E: MAJOR=4
+E: MINOR=31
+
+P: /devices/virtual/tty/tty32
+N: tty32
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty32
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty32
+E: MAJOR=4
+E: MINOR=32
+
+P: /devices/virtual/tty/tty33
+N: tty33
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty33
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty33
+E: MAJOR=4
+E: MINOR=33
+
+P: /devices/virtual/tty/tty34
+N: tty34
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty34
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty34
+E: MAJOR=4
+E: MINOR=34
+
+P: /devices/virtual/tty/tty35
+N: tty35
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty35
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty35
+E: MAJOR=4
+E: MINOR=35
+
+P: /devices/virtual/tty/tty36
+N: tty36
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty36
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty36
+E: MAJOR=4
+E: MINOR=36
+
+P: /devices/virtual/tty/tty37
+N: tty37
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty37
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty37
+E: MAJOR=4
+E: MINOR=37
+
+P: /devices/virtual/tty/tty38
+N: tty38
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty38
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty38
+E: MAJOR=4
+E: MINOR=38
+
+P: /devices/virtual/tty/tty39
+N: tty39
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty39
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty39
+E: MAJOR=4
+E: MINOR=39
+
+P: /devices/virtual/tty/tty4
+N: tty4
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty4
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty4
+E: MAJOR=4
+E: MINOR=4
+
+P: /devices/virtual/tty/tty40
+N: tty40
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty40
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty40
+E: MAJOR=4
+E: MINOR=40
+
+P: /devices/virtual/tty/tty41
+N: tty41
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty41
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty41
+E: MAJOR=4
+E: MINOR=41
+
+P: /devices/virtual/tty/tty42
+N: tty42
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty42
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty42
+E: MAJOR=4
+E: MINOR=42
+
+P: /devices/virtual/tty/tty43
+N: tty43
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty43
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty43
+E: MAJOR=4
+E: MINOR=43
+
+P: /devices/virtual/tty/tty44
+N: tty44
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty44
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty44
+E: MAJOR=4
+E: MINOR=44
+
+P: /devices/virtual/tty/tty45
+N: tty45
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty45
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty45
+E: MAJOR=4
+E: MINOR=45
+
+P: /devices/virtual/tty/tty46
+N: tty46
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty46
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty46
+E: MAJOR=4
+E: MINOR=46
+
+P: /devices/virtual/tty/tty47
+N: tty47
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty47
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty47
+E: MAJOR=4
+E: MINOR=47
+
+P: /devices/virtual/tty/tty48
+N: tty48
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty48
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty48
+E: MAJOR=4
+E: MINOR=48
+
+P: /devices/virtual/tty/tty49
+N: tty49
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty49
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty49
+E: MAJOR=4
+E: MINOR=49
+
+P: /devices/virtual/tty/tty5
+N: tty5
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty5
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty5
+E: MAJOR=4
+E: MINOR=5
+
+P: /devices/virtual/tty/tty50
+N: tty50
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty50
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty50
+E: MAJOR=4
+E: MINOR=50
+
+P: /devices/virtual/tty/tty51
+N: tty51
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty51
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty51
+E: MAJOR=4
+E: MINOR=51
+
+P: /devices/virtual/tty/tty52
+N: tty52
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty52
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty52
+E: MAJOR=4
+E: MINOR=52
+
+P: /devices/virtual/tty/tty53
+N: tty53
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty53
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty53
+E: MAJOR=4
+E: MINOR=53
+
+P: /devices/virtual/tty/tty54
+N: tty54
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty54
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty54
+E: MAJOR=4
+E: MINOR=54
+
+P: /devices/virtual/tty/tty55
+N: tty55
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty55
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty55
+E: MAJOR=4
+E: MINOR=55
+
+P: /devices/virtual/tty/tty56
+N: tty56
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty56
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty56
+E: MAJOR=4
+E: MINOR=56
+
+P: /devices/virtual/tty/tty57
+N: tty57
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty57
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty57
+E: MAJOR=4
+E: MINOR=57
+
+P: /devices/virtual/tty/tty58
+N: tty58
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty58
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty58
+E: MAJOR=4
+E: MINOR=58
+
+P: /devices/virtual/tty/tty59
+N: tty59
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty59
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty59
+E: MAJOR=4
+E: MINOR=59
+
+P: /devices/virtual/tty/tty6
+N: tty6
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty6
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty6
+E: MAJOR=4
+E: MINOR=6
+
+P: /devices/virtual/tty/tty60
+N: tty60
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty60
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty60
+E: MAJOR=4
+E: MINOR=60
+
+P: /devices/virtual/tty/tty61
+N: tty61
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty61
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty61
+E: MAJOR=4
+E: MINOR=61
+
+P: /devices/virtual/tty/tty62
+N: tty62
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty62
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty62
+E: MAJOR=4
+E: MINOR=62
+
+P: /devices/virtual/tty/tty63
+N: tty63
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty63
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty63
+E: MAJOR=4
+E: MINOR=63
+
+P: /devices/virtual/tty/tty7
+N: tty7
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty7
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty7
+E: MAJOR=4
+E: MINOR=7
+
+P: /devices/virtual/tty/tty8
+N: tty8
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty8
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty8
+E: MAJOR=4
+E: MINOR=8
+
+P: /devices/virtual/tty/tty9
+N: tty9
+L: 0
+E: DEVPATH=/devices/virtual/tty/tty9
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/tty9
+E: MAJOR=4
+E: MINOR=9
+
+P: /devices/virtual/tty/ttyprintk
+N: ttyprintk
+L: 0
+E: DEVPATH=/devices/virtual/tty/ttyprintk
+E: SUBSYSTEM=tty
+E: DEVNAME=/dev/ttyprintk
+E: MAJOR=5
+E: MINOR=3
+
+P: /devices/virtual/vc/vcs
+N: vcs
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs
+E: MAJOR=7
+E: MINOR=0
+
+P: /devices/virtual/vc/vcs1
+N: vcs1
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs1
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs1
+E: MAJOR=7
+E: MINOR=1
+
+P: /devices/virtual/vc/vcs2
+N: vcs2
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs2
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs2
+E: MAJOR=7
+E: MINOR=2
+
+P: /devices/virtual/vc/vcs3
+N: vcs3
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs3
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs3
+E: MAJOR=7
+E: MINOR=3
+
+P: /devices/virtual/vc/vcs4
+N: vcs4
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs4
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs4
+E: MAJOR=7
+E: MINOR=4
+
+P: /devices/virtual/vc/vcs5
+N: vcs5
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs5
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs5
+E: MAJOR=7
+E: MINOR=5
+
+P: /devices/virtual/vc/vcs6
+N: vcs6
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcs6
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcs6
+E: MAJOR=7
+E: MINOR=6
+
+P: /devices/virtual/vc/vcsa
+N: vcsa
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa
+E: MAJOR=7
+E: MINOR=128
+
+P: /devices/virtual/vc/vcsa1
+N: vcsa1
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa1
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa1
+E: MAJOR=7
+E: MINOR=129
+
+P: /devices/virtual/vc/vcsa2
+N: vcsa2
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa2
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa2
+E: MAJOR=7
+E: MINOR=130
+
+P: /devices/virtual/vc/vcsa3
+N: vcsa3
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa3
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa3
+E: MAJOR=7
+E: MINOR=131
+
+P: /devices/virtual/vc/vcsa4
+N: vcsa4
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa4
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa4
+E: MAJOR=7
+E: MINOR=132
+
+P: /devices/virtual/vc/vcsa5
+N: vcsa5
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa5
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa5
+E: MAJOR=7
+E: MINOR=133
+
+P: /devices/virtual/vc/vcsa6
+N: vcsa6
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsa6
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsa6
+E: MAJOR=7
+E: MINOR=134
+
+P: /devices/virtual/vc/vcsu
+N: vcsu
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu
+E: MAJOR=7
+E: MINOR=64
+
+P: /devices/virtual/vc/vcsu1
+N: vcsu1
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu1
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu1
+E: MAJOR=7
+E: MINOR=65
+
+P: /devices/virtual/vc/vcsu2
+N: vcsu2
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu2
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu2
+E: MAJOR=7
+E: MINOR=66
+
+P: /devices/virtual/vc/vcsu3
+N: vcsu3
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu3
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu3
+E: MAJOR=7
+E: MINOR=67
+
+P: /devices/virtual/vc/vcsu4
+N: vcsu4
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu4
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu4
+E: MAJOR=7
+E: MINOR=68
+
+P: /devices/virtual/vc/vcsu5
+N: vcsu5
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu5
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu5
+E: MAJOR=7
+E: MINOR=69
+
+P: /devices/virtual/vc/vcsu6
+N: vcsu6
+L: 0
+E: DEVPATH=/devices/virtual/vc/vcsu6
+E: SUBSYSTEM=vc
+E: DEVNAME=/dev/vcsu6
+E: MAJOR=7
+E: MINOR=70
+
+P: /devices/virtual/vtconsole/vtcon0
+L: 0
+E: DEVPATH=/devices/virtual/vtconsole/vtcon0
+E: SUBSYSTEM=vtconsole
+
+P: /devices/virtual/vtconsole/vtcon1
+L: 0
+E: DEVPATH=/devices/virtual/vtconsole/vtcon1
+E: SUBSYSTEM=vtconsole
+
+P: /devices/virtual/workqueue/blkcg_punt_bio
+L: 0
+E: DEVPATH=/devices/virtual/workqueue/blkcg_punt_bio
+E: SUBSYSTEM=workqueue
+
+P: /devices/virtual/workqueue/raid5wq
+L: 0
+E: DEVPATH=/devices/virtual/workqueue/raid5wq
+E: SUBSYSTEM=workqueue
+
+P: /devices/virtual/workqueue/writeback
+L: 0
+E: DEVPATH=/devices/virtual/workqueue/writeback
+E: SUBSYSTEM=workqueue
+
+P: /devices/virtual/block/dm-0
+N: dm-0
+L: 0
+E: DEVPATH=/devices/virtual/block/dm-0
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/dm-0
+E: DEVTYPE=disk
+E: MAJOR=253
+E: MINOR=0
+
+P: /devices/virtual/block/dm-1
+N: dm-1
+L: 0
+E: DEVPATH=/devices/virtual/block/dm-1
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/dm-1
+E: DEVTYPE=disk
+E: MAJOR=253
+E: MINOR=1
+
+P: /devices/virtual/block/dm-2
+N: dm-2
+L: 0
+E: DEVPATH=/devices/virtual/block/dm-2
+E: SUBSYSTEM=block
+E: DEVNAME=/dev/dm-2
+E: DEVTYPE=disk
+E: MAJOR=253
+E: MINOR=2
+

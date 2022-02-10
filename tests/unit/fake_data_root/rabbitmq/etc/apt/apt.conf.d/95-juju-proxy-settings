@@ -1,0 +1,10 @@
+Acquire::http::Proxy "http://10.0.0.2:8000";
+Acquire::http::Proxy::"127.0.0.1" "DIRECT";
+Acquire::https::Proxy::"127.0.0.1" "DIRECT";
+Acquire::ftp::Proxy::"127.0.0.1" "DIRECT";
+Acquire::http::Proxy::"::1" "DIRECT";
+Acquire::https::Proxy::"::1" "DIRECT";
+Acquire::ftp::Proxy::"::1" "DIRECT";
+Acquire::http::Proxy::"localhost" "DIRECT";
+Acquire::https::Proxy::"localhost" "DIRECT";
+Acquire::ftp::Proxy::"localhost" "DIRECT";

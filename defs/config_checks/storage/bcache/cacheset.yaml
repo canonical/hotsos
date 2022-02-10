@@ -1,5 +1,7 @@
 cset_config:
   requires:
+    depends-on:
+      property: core.plugins.storage.bcache.BcacheBase.bcache_enabled
     config:
       handler: core.plugins.storage.bcache.CachesetsConfig
       assertions:
@@ -11,6 +13,8 @@ cset_config:
     type: core.issues.issue_types.BcacheWarning
 lp1900438:
   requires:
+    depends-on:
+      property: core.plugins.storage.bcache.BcacheBase.bcache_enabled
     config:
       handler: core.plugins.storage.bcache.CachesetsConfig
       assertions:

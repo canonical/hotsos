@@ -1,0 +1,24 @@
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+shmem_inode_cache      0      0    720   22    4 : tunables    0    0    0 : slabdata      0      0      0
+squashfs_inode_cache      0      0    704   23    4 : tunables    0    0    0 : slabdata      0      0      0
+radix_tree_node       14     14    584   14    2 : tunables    0    0    0 : slabdata      1      1      0
+buffer_head           39     39    104   39    1 : tunables    0    0    0 : slabdata      1      1      0
+proc_inode_cache       0      0    680   12    2 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-4k             8      8   4096    8    8 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-32             0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+pde_opener             0      0     40  102    1 : tunables    0    0    0 : slabdata      0      0      0
+anon_vma              46     46     88   46    1 : tunables    0    0    0 : slabdata      1      1      0
+anon_vma_chain        64     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+vm_area_struct        76     76    208   19    1 : tunables    0    0    0 : slabdata      4      4      0
+mm_struct              0      0   1088   15    4 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-64            64     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+cred_jar              21     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-512            0      0    512   16    2 : tunables    0    0    0 : slabdata      0      0      0
+skbuff_head_cache      0      0    256   16    1 : tunables    0    0    0 : slabdata      0      0      0
+PING                  16     16   1024   16    4 : tunables    0    0    0 : slabdata      1      1      0
+sock_inode_cache       0      0    832   19    4 : tunables    0    0    0 : slabdata      0      0      0
+pid                   32     32    128   32    1 : tunables    0    0    0 : slabdata      1      1      0
+inode_cache           13     13    608   13    2 : tunables    0    0    0 : slabdata      1      1      0
+dentry                21     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+filp                  64     64    256   16    1 : tunables    0    0    0 : slabdata      4      4      0

@@ -1,0 +1,28 @@
+{# section header omitted as options can belong to multiple sections #}
+{% if bluestore_compression_algorithm -%}
+bluestore compression algorithm = {{ bluestore_compression_algorithm }}
+{% endif -%}
+{% if bluestore_compression_mode -%}
+bluestore compression mode = {{ bluestore_compression_mode }}
+{% endif -%}
+{% if bluestore_compression_required_ratio -%}
+bluestore compression required ratio = {{ bluestore_compression_required_ratio }}
+{% endif -%}
+{% if bluestore_compression_min_blob_size -%}
+bluestore compression min blob size = {{ bluestore_compression_min_blob_size }}
+{% endif -%}
+{% if bluestore_compression_min_blob_size_hdd -%}
+bluestore compression min blob size hdd = {{ bluestore_compression_min_blob_size_hdd }}
+{% endif -%}
+{% if bluestore_compression_min_blob_size_ssd -%}
+bluestore compression min blob size ssd = {{ bluestore_compression_min_blob_size_ssd }}
+{% endif -%}
+{% if bluestore_compression_max_blob_size -%}
+bluestore compression max blob size = {{ bluestore_compression_max_blob_size }}
+{% endif -%}
+{% if bluestore_compression_max_blob_size_hdd -%}
+bluestore compression max blob size hdd = {{ bluestore_compression_max_blob_size_hdd }}
+{% endif -%}
+{% if bluestore_compression_max_blob_size_ssd -%}
+bluestore compression max blob size ssd = {{ bluestore_compression_max_blob_size_ssd }}
+{% endif -%}

@@ -1,0 +1,5 @@
+POOL                     SIZE  TARGET SIZE  RATE  RAW CAPACITY   RATIO  TARGET RATIO  EFFECTIVE RATIO  BIAS  PG_NUM  NEW PG_NUM  AUTOSCALE  
+device_health_metrics      0                 3.0        299.9G  0.0000                                  1.0       1              on         
+glance                     0                 3.0        299.9G  0.0000        0.0500           0.0667   1.0       4              on         
+cinder-ceph                0                 3.0        299.9G  0.0000        0.4000           0.5333   1.0      32              on         
+nova                       0                 3.0        299.9G  0.0000        0.3000           0.4000   1.0      32              on         

@@ -1,0 +1,17 @@
+#! /bin/sh
+# # CLOUD_IMG: This file was created/modified by the Cloud Image build process
+# This will detect if we attempt to boot with an initramfs and fail.
+# In the case of a failure, initrdless_boot_fallback_triggered is set to
+# a non-zero value in the grubenv. This value can be checked after boot
+# by looking in /boot/grub/grubenv or by using the grub-editenv list command.
+set -e
+cat <<"EOF"
+if [ -n "${have_grubenv}" ]; then
+  if [ -n "${initrdfail}" ]; then
+    set initrdless_boot_fallback_triggered="${initrdfail}"
+  else
+    set initrdless_boot_fallback_triggered=0
+  fi
+  save_env initrdless_boot_fallback_triggered
+fi
+EOF

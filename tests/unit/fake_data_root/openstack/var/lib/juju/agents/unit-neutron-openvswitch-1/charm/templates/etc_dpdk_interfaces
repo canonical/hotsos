@@ -1,0 +1,21 @@
+###############################################################################
+# [ WARNING ]
+# Configuration file maintained by Juju. Local changes may be overwritten.
+# Configuration managed by neutron-openvswitch charm
+###############################################################################
+#
+# <bus>     Currently only "pci" is supported
+# <id>      Device ID on the specified bus
+# <driver>  Driver to bind against (vfio-pci or uio_pci_generic)
+#
+# Note that depending on your network card and what you want to set up also the
+# drivers ixgbe or virtio-pci might apply, but these are the default drivers
+# and therefore have not to be rebound as dpdk interfaces.
+#
+# Be aware that those two drivers are part of linux-image-extra-<VERSION>
+# package in case you run into missing module issues.
+#
+# <bus> <id>        <driver>
+{% for device in devices -%}
+pci {{ device }} {{ driver }}
+{% endfor -%}

@@ -1,0 +1,1525 @@
+Sched Debug Version: v0.11, 5.4.0-99-generic #112-Ubuntu
+ktime                                   : 1548135.062045
+sched_clk                               : 1548100.408826
+cpu_clk                                 : 1548002.887375
+jiffies                                 : 4295279310
+sched_clock_stable()                    : 1
+
+sysctl_sched
+  .sysctl_sched_latency                    : 12.000000
+  .sysctl_sched_min_granularity            : 1.500000
+  .sysctl_sched_wakeup_granularity         : 2.000000
+  .sysctl_sched_child_runs_first           : 0
+  .sysctl_sched_features                   : 2059067
+  .sysctl_sched_tunable_scaling            : 1 (logarithmic)
+
+cpu#0, 2596.990 MHz
+  .nr_running                    : 3
+  .nr_switches                   : 5990732
+  .nr_load_updates               : 0
+  .nr_uninterruptible            : -6
+  .next_balance                  : 4295.279318
+  .curr->pid                     : 100112
+  .clock                         : 1548003.054001
+  .clock_task                    : 1548003.054001
+  .avg_idle                      : 263753
+  .max_idle_balance_cost         : 500000
+
+cfs_rq[0]:/default/calico-node
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 35961.578524
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -601336.508968
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 845
+  .runnable_load_avg             : 0
+  .util_avg                      : 298
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 845
+  .removed.util_avg              : 296
+  .removed.runnable_sum          : 39176
+  .tg_load_avg_contrib           : 845
+  .tg_load_avg                   : 1528
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547994.648981
+  .se->vruntime                  : 56929.225673
+  .se->sum_exec_runtime          : 32196.991678
+  .se->load.weight               : 472558
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 381
+  .se->avg.util_avg              : 298
+  .se->avg.runnable_load_avg     : 1
+
+cfs_rq[0]:/system.slice/snap.kube-apiserver.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 10578.577298
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -626719.510194
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 230
+  .runnable_load_avg             : 0
+  .util_avg                      : 5
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 230
+  .tg_load_avg                   : 710
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548000.605350
+  .se->vruntime                  : 469296.545658
+  .se->sum_exec_runtime          : 16834.290549
+  .se->load.weight               : 404651
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 88
+  .se->avg.util_avg              : 5
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/snap.kube-controller-manager.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1466.910337
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -635831.177155
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 498
+  .runnable_load_avg             : 0
+  .util_avg                      : 23
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 503
+  .tg_load_avg                   : 592
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548002.611364
+  .se->vruntime                  : 469298.498346
+  .se->sum_exec_runtime          : 3138.009862
+  .se->load.weight               : 889592
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 241
+  .se->avg.util_avg              : 23
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/systemd-udevd.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 3168.267632
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -634129.819860
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 1980
+  .runnable_load_avg             : 1
+  .util_avg                      : 159
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 2002
+  .tg_load_avg                   : 2635
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547998.256995
+  .se->vruntime                  : 469299.586173
+  .se->sum_exec_runtime          : 12577.518478
+  .se->load.weight               : 794558
+  .se->runnable_weight           : 401
+  .se->avg.load_avg              : 396
+  .se->avg.util_avg              : 159
+  .se->avg.runnable_load_avg     : 1
+
+cfs_rq[0]:/system.slice/jujud-machine-4.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 545823.558005
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -91474.529487
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 273
+  .runnable_load_avg             : 0
+  .util_avg                      : 2
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 273
+  .tg_load_avg                   : 829
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548001.187817
+  .se->vruntime                  : 469297.120180
+  .se->sum_exec_runtime          : 245875.510258
+  .se->load.weight               : 345309
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 90
+  .se->avg.util_avg              : 2
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/accounts-daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 178.597870
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -637119.489622
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 47
+  .runnable_load_avg             : 0
+  .util_avg                      : 1
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 47
+  .tg_load_avg                   : 47
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547993.868805
+  .se->vruntime                  : 469294.187975
+  .se->sum_exec_runtime          : 184.037473
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 47
+  .se->avg.util_avg              : 1
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/snap.kube-scheduler.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1393.508430
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -635904.579062
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 27
+  .runnable_load_avg             : 0
+  .util_avg                      : 1
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 27
+  .tg_load_avg                   : 28
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547941.767326
+  .se->vruntime                  : 469276.274452
+  .se->sum_exec_runtime          : 1717.932894
+  .se->load.weight               : 1011126
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 26
+  .se->avg.util_avg              : 1
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/polkit.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 103.199304
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -637194.888188
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 13
+  .runnable_load_avg             : 0
+  .util_avg                      : 10
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 13
+  .tg_load_avg                   : 13
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547930.039424
+  .se->vruntime                  : 469274.449422
+  .se->sum_exec_runtime          : 130.225966
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 11
+  .se->avg.util_avg              : 10
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/snapd.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 2403.144130
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -634894.943362
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 94
+  .runnable_load_avg             : 0
+  .util_avg                      : 15
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 93
+  .tg_load_avg                   : 471
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547998.095055
+  .se->vruntime                  : 469294.603419
+  .se->sum_exec_runtime          : 4339.649548
+  .se->load.weight               : 246415
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 22
+  .se->avg.util_avg              : 15
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/snap.kube-proxy.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1199.464477
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -636098.623015
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 0
+  .runnable_load_avg             : 0
+  .util_avg                      : 0
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 0
+  .tg_load_avg                   : 0
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547738.441396
+  .se->vruntime                  : 469261.416981
+  .se->sum_exec_runtime          : 586.437584
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 0
+  .se->avg.util_avg              : 0
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/cdk.master.auth-webhook.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1494.188358
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -635803.899134
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 1
+  .runnable_load_avg             : 0
+  .util_avg                      : 1
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 1
+  .tg_load_avg                   : 9
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547892.782062
+  .se->vruntime                  : 469273.394998
+  .se->sum_exec_runtime          : 1234.183152
+  .se->load.weight               : 2
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 0
+  .se->avg.util_avg              : 0
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/system.slice/snap.kubectl.kubectl.c3f5e415-7968-45c0-ac50-74bd45d6e93d.scope
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 19.435472
+  .min_vruntime                  : 22.555609
+  .max_vruntime                  : 22.555609
+  .spread                        : 3.120137
+  .spread0                       : -637275.531883
+  .nr_spread_over                : 0
+  .nr_running                    : 2
+  .load                          : 2097152
+  .runnable_weight               : 2097152
+  .load_avg                      : 3486
+  .runnable_load_avg             : 1888
+  .util_avg                      : 715
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 3525
+  .tg_load_avg                   : 3526
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548003.054001
+  .se->vruntime                  : 469304.803151
+  .se->sum_exec_runtime          : 29.559026
+  .se->load.weight               : 1048275
+  .se->runnable_weight           : 615854
+  .se->avg.load_avg              : 1033
+  .se->avg.util_avg              : 724
+  .se->avg.runnable_load_avg     : 607
+
+cfs_rq[0]:/system.slice
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 469304.803151
+  .min_vruntime                  : 469304.803151
+  .max_vruntime                  : 469304.803151
+  .spread                        : 0.000000
+  .spread0                       : -167993.284341
+  .nr_spread_over                : 0
+  .nr_running                    : 1
+  .load                          : 1048275
+  .runnable_weight               : 615854
+  .load_avg                      : 1886
+  .runnable_load_avg             : 607
+  .util_avg                      : 923
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 1885
+  .tg_load_avg                   : 2873
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548003.054001
+  .se->vruntime                  : 637305.382882
+  .se->sum_exec_runtime          : 395842.784323
+  .se->load.weight               : 688105
+  .se->runnable_weight           : 221463
+  .se->avg.load_avg              : 702
+  .se->avg.util_avg              : 923
+  .se->avg.runnable_load_avg     : 226
+
+cfs_rq[0]:/user.slice
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 13258.587436
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -624039.500056
+  .nr_spread_over                : 0
+  .nr_running                    : 1
+  .load                          : 1048576
+  .runnable_weight               : 1048576
+  .load_avg                      : 1101
+  .runnable_load_avg             : 1023
+  .util_avg                      : 279
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 1101
+  .tg_load_avg                   : 3894
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548003.054001
+  .se->vruntime                  : 637298.087492
+  .se->sum_exec_runtime          : 13771.861471
+  .se->load.weight               : 292857
+  .se->runnable_weight           : 268233
+  .se->avg.load_avg              : 285
+  .se->avg.util_avg              : 280
+  .se->avg.runnable_load_avg     : 261
+
+cfs_rq[0]:/autogroup-104
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 3021.155084
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -634276.932408
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 0
+  .runnable_load_avg             : 0
+  .util_avg                      : 0
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 0
+  .tg_load_avg                   : 62
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547315.887674
+  .se->vruntime                  : 636492.273028
+  .se->sum_exec_runtime          : 3629.719513
+  .se->load.weight               : 130363
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 0
+  .se->avg.util_avg              : 0
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/init.scope
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 13884.643970
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -623413.443522
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 139
+  .runnable_load_avg             : 0
+  .util_avg                      : 49
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 139
+  .tg_load_avg                   : 139
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547929.475477
+  .se->vruntime                  : 637249.447459
+  .se->sum_exec_runtime          : 14496.545945
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 139
+  .se->avg.util_avg              : 49
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[0]:/default
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 56929.225673
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -580368.861819
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 381
+  .runnable_load_avg             : 0
+  .util_avg                      : 298
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 379
+  .tg_load_avg                   : 708
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547994.648981
+  .se->vruntime                  : 637290.075691
+  .se->sum_exec_runtime          : 32199.848706
+  .se->load.weight               : 555643
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 448
+  .se->avg.util_avg              : 298
+  .se->avg.runnable_load_avg     : 1
+
+cfs_rq[0]:/
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 637305.382882
+  .min_vruntime                  : 637298.087492
+  .max_vruntime                  : 637305.382882
+  .spread                        : 0.000000
+  .spread0                       : 0.000000
+  .nr_spread_over                : 0
+  .nr_running                    : 2
+  .load                          : 980962
+  .runnable_weight               : 489696
+  .load_avg                      : 1499
+  .runnable_load_avg             : 264
+  .util_avg                      : 1591
+  .util_est_enqueued             : 1137
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 0
+  .tg_load_avg                   : 0
+  .throttled                     : 0
+  .throttle_count                : 0
+
+rt_rq[0]:
+  .rt_nr_running                 : 0
+  .rt_nr_migratory               : 0
+  .rt_throttled                  : 0
+  .rt_time                       : 0.049914
+  .rt_runtime                    : 950.000000
+
+dl_rq[0]:
+  .dl_nr_running                 : 0
+  .dl_nr_migratory               : 0
+  .dl_bw->bw                     : 996147
+  .dl_bw->total_bw               : 0
+
+runnable tasks:
+ S           task   PID         tree-key  switches  prio     wait-time             sum-exec        sum-sleep
+-----------------------------------------------------------------------------------------------------------
+ S        systemd     1     13884.643970     39143   120         0.000000     22175.309926         0.000000 0 0 /init.scope
+ I         rcu_gp     3         7.951420         2   100         0.000000         0.000000         0.000000 0 0 /
+ I     rcu_par_gp     4         9.951419         2   100         0.000000         0.000000         0.000000 0 0 /
+ I   kworker/0:0H     6      1942.744222         4   100         0.000000         0.037315         0.000000 0 0 /
+ I    kworker/0:1     7    634508.479998     29959   120         0.000000       507.806383         0.000000 0 0 /
+ I   mm_percpu_wq     9        16.021916         2   100         0.000000         0.005591         0.000000 0 0 /
+ S    ksoftirqd/0    10    637284.599237     17579   120         0.000000       657.801922         0.000000 0 0 /
+ S    migration/0    12         0.000000      3058     0         0.000000        36.632479         0.000000 0 0 /
+ S  idle_inject/0    13         0.000000         3    49         0.000000         0.017717         0.000000 0 0 /
+ S        cpuhp/0    14      4048.288512        10   120         0.000000         0.170010         0.000000 0 0 /
+ S        kauditd    24    575624.369080       246   120         0.000000         5.360640         0.000000 0 0 /
+ S        kswapd0    88    637062.263104       910   120         0.000000       527.504289         0.000000 0 0 /
+ S      scsi_eh_1    95       795.465124         4   120         0.000000         0.380627         0.000000 0 0 /
+ I  ipv6_addrconf   100       750.430893         2   100         0.000000         0.015304         0.000000 0 0 /
+ I   kworker/u5:0   112       781.261273         2   100         0.000000         0.008856         0.000000 0 0 /
+ Icharger_manager   125       808.033446         2   100         0.000000         0.019814         0.000000 0 0 /
+ I         cryptd   170      1619.226400         2   100         0.000000         0.007912         0.000000 0 0 /
+ I   kworker/0:1H   202    636426.996422     16240   100         0.000000       225.767215         0.000000 0 0 /
+ I        raid5wq   236      2758.027069         2   100         0.000000         0.032543         0.000000 0 0 /
+ Iext4-rsv-conver   278      2882.395146         2   100         0.000000         0.013573         0.000000 0 0 /
+ S  systemd-udevd   381      3162.764405     38966   120         0.000000      3609.421125         0.000000 0 0 /system.slice/systemd-udevd.service
+ I   kmpath_rdacd   457      4458.775650         2   100         0.000000         0.024258         0.000000 0 0 /
+ I        kmpathd   458      4462.789387         2   100         0.000000         0.015271         0.000000 0 0 /
+ Ikmpath_handlerd   459      4466.800019         2   100         0.000000         0.011633         0.000000 0 0 /
+ S     multipathd   461         0.000000       312     0         0.000000        11.464135         0.000000 0 0 /system.slice/multipathd.service
+ S     multipathd   462         0.000000         1     0         0.000000         0.401422         0.000000 0 0 /system.slice/multipathd.service
+ S     multipathd   463         0.000000       104     0         0.000000         5.841080         0.000000 0 0 /system.slice/multipathd.service
+ S     multipathd   464         0.000000      1544     0         0.000000        64.802512         0.000000 0 0 /system.slice/multipathd.service
+ S          loop0   468    634444.612788      1191   100         0.000000        36.971327         0.000000 0 0 /
+ S          loop1   473    634355.259305      1849   100         0.000000        77.071053         0.000000 0 0 /
+ Ssystemd-timesyn   494         1.399397       119   120         0.000000        67.018783         0.000000 0 0 /system.slice/systemd-timesyncd.service
+ S     sd-resolve   498         0.969901        30   120         0.000000         4.105057         0.000000 0 0 /system.slice/systemd-timesyncd.service
+ S          gmain   691       178.597870     10103   120         0.000000       346.598601         0.000000 0 0 /system.slice/accounts-daemon.service
+ Snetworkd-dispat   692         4.708625       238   120         0.000000       114.576506         0.000000 0 0 /system.slice/networkd-dispatcher.service
+ S       rsyslogd   694       360.313473        30   120         0.000000         6.211868         0.000000 0 0 /system.slice/rsyslog.service
+ S      in:imklog   757       448.046256       212   120         0.000000         9.078063         0.000000 0 0 /system.slice/rsyslog.service
+ S        udisksd   701        77.867006       661   120         0.000000       138.339144         0.000000 0 0 /system.slice/udisks2.service
+ S        cleanup   808        73.613763        86   120         0.000000         4.583208         0.000000 0 0 /system.slice/udisks2.service
+ S            atd   702        -2.737427         3   120         0.000000         2.611449         0.000000 0 0 /system.slice/atd.service
+ S         agetty   743        -1.048576        19   120         0.000000        18.829542         0.000000 0 0 /system.slice/system-getty.slice
+ S          gmain   783        -1.048576         1   120         0.000000         2.096392         0.000000 0 0 /system.slice/unattended-upgrades.service
+ S        polkitd   776        97.183430      3299   120         0.000000        56.050172         0.000000 0 0 /system.slice/polkit.service
+ S          gdbus   780       103.199304      4497   120         0.000000       185.845317         0.000000 0 0 /system.slice/polkit.service
+ S          uuidd  2646         2.985922        28   120         0.000000        53.898010         0.000000 0 0 /system.slice/uuidd.service
+ S          jujud  8803        13.397718       204   120         0.000000         3.505772         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8845    545820.464920    185821   120         0.000000      3350.939317         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  9334    545779.131621    295393   120         0.000000      4727.303806         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          lxcfs  9841        94.787044         1   120         0.000000         0.110319         0.000000 0 0 /autogroup-104
+ S            lxd  9851      1239.758029      2584   120         0.000000       483.231365         0.000000 0 0 /autogroup-104
+ S            lxd  9863       533.176212       995   120         0.000000         4.461751         0.000000 0 0 /autogroup-104
+ S            lxd  9866      3012.181028     12669   120         0.000000       287.429894         0.000000 0 0 /autogroup-104
+ S            lxd  9876      3016.241707      7755   120         0.000000       328.521717         0.000000 0 0 /autogroup-104
+ S            lxd  9897      3015.591979     18124   120         0.000000       446.253763         0.000000 0 0 /autogroup-104
+ S            lxd  9921      2166.451608        10   120         0.000000         0.330280         0.000000 0 0 /autogroup-104
+ S      arc_prune  9970     51339.576127         2   120         0.000000         0.015785         0.000000 0 0 /
+ S zthr_procedure  9971     51343.721295         2   139         0.000000         0.007493         0.000000 0 0 /
+ S      dbu_evict  9973     51352.144024         2   120         0.000000         0.016343         0.000000 0 0 /
+ S     dbuf_evict  9974    636771.472198      1445   139         0.000000        16.407596         0.000000 0 0 /
+ S    z_vdev_file  9996     52520.914028         2   139         0.000000         0.043065         0.000000 0 0 /
+ S     l2arc_feed  9997    637236.273358      1412   120         0.000000        19.288701         0.000000 0 0 /
+ S          loop3 17868    633847.562445       157   100         0.000000         1.749446         0.000000 0 0 /
+ S          loop4 18034    633637.472061       899   100         0.000000        17.944566         0.000000 0 0 /
+ S          loop5 18150    637099.456868      1293   100         0.000000        37.992200         0.000000 0 0 /
+ S          loop6 18327    636432.143663      1710   100         0.000000        40.832994         0.000000 0 0 /
+ S          loop7 20078    635936.911896      1521   100         0.000000        34.334198         0.000000 0 0 /
+ S          loop8 21699    635826.027007       983   100         0.000000        24.152101         0.000000 0 0 /
+ S          loop9 22861    633719.882838       796   100         0.000000        15.609996         0.000000 0 0 /
+ S         loop10 23223    633893.885484       814   100         0.000000        16.832445         0.000000 0 0 /
+ S          snapd 24050         1.281824       117   120         0.000000        20.056314         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24052      2395.459834     19502   120         0.000000      1091.458898         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24053      2393.324785     16569   120         0.000000       940.199798         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24065      1800.849872      8288   120         0.000000       515.438058         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24068      2403.144130     18080   120         0.000000       967.310392         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24120      2386.699209     16319   120         0.000000       874.081898         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 68009      2392.682239     10490   120         0.000000       486.087291         0.000000 0 0 /system.slice/snapd.service
+ S     containerd 32062        32.386306       101   120         0.000000        30.166338         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32065       199.909501      5567   120         0.000000       155.882012         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32067        21.334748         4   120         0.000000         0.070857         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32068        25.344863         1   120         0.000000         0.045752         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32070       123.542513        57   120         0.000000         0.994326         0.000000 0 0 /system.slice/containerd.service
+ S         conctl 35059       230.847529       102   120         0.000000        53.105129         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35079       254.704204       145   120         0.000000        15.929231         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35102       264.010694       334   120         0.000000        11.531450         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35103       246.988522         4   120         0.000000         0.055316         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35107       248.200012         1   120         0.000000         0.018020         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35109       257.482277        78   120         0.000000         3.768866         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35118       259.860333        36   120         0.000000         0.387341         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35139       257.977298       125   120         0.000000         3.193546         0.000000 0 0 /system.slice/calico-node.service
+ Scontainerd-shim 35149        96.091251        13   120         0.000000         2.031654         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35150       209.216750       434   120         0.000000         3.443596         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35151        97.707500         5   120         0.000000         0.031923         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35152       123.443727         5   120         0.000000         0.137275         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35153       209.223596        63   120         0.000000         2.107682         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35158       124.424387        16   120         0.000000         1.305171         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35199       209.362304       207   120         0.000000        14.800965         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35200       209.724677       150   120         0.000000         7.717567         0.000000 0 0 /system.slice/containerd.service
+ S       runsvdir 35171     35935.928888       289   120         0.000000        22.641790         0.000000 0 0 /default/calico-node
+ S       flanneld 35350      3004.863803      1542   120         0.000000       121.777855         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35351      3004.946520     17896   120         0.000000       157.401579         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35353      3005.111843      2211   120         0.000000        92.515517         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35358        27.627917         3   120         0.000000         0.153843         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35359        29.999852        40   120         0.000000         5.278086         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35360      2999.299208      1991   120         0.000000        90.107276         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35403      3004.839484      2206   120         0.000000        78.494007         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 79869      2159.327249       389   120         0.000000        12.839304         0.000000 0 0 /system.slice/flannel.service
+ I   kworker/u4:2 64289    612909.717524      2498   120         0.000000        50.579249         0.000000 0 0 /
+ I    kworker/0:3 67247    634296.168553      3082   120         0.000000       107.279468         0.000000 0 0 /
+ S     kube-proxy 77707      1193.508995      1819   120         0.000000       219.377799         0.000000 0 0 /system.slice/snap.kube-proxy.daemon.service
+ S     kube-proxy 77722      1193.651572      6034   120         0.000000        55.939305         0.000000 0 0 /system.slice/snap.kube-proxy.daemon.service
+ S     kube-proxy 77723      1123.097017      1773   120         0.000000        89.919326         0.000000 0 0 /system.slice/snap.kube-proxy.daemon.service
+ S     kube-proxy 77724      1193.740110      1838   120         0.000000        70.870141         0.000000 0 0 /system.slice/snap.kube-proxy.daemon.service
+ S     kube-proxy 77725      1193.536634      1864   120         0.000000       102.703088         0.000000 0 0 /system.slice/snap.kube-proxy.daemon.service
+ S     kube-proxy 77726        67.931564         3   120         0.000000         0.023745         0.000000 0 0 /system.slice/snap.kube-proxy.daemon.service
+ S kube-scheduler 81919      1388.340940     22781   120         0.000000       262.799143         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-scheduler 81920      1393.508430      6086   120         0.000000      1024.136988         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-scheduler 81921        46.500335        62   120         0.000000         2.549902         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-scheduler 81923      1087.318585       106   120         0.000000         2.934806         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-scheduler 81967      1312.124986       748   120         0.000000        36.249758         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-apiserver 82416     10574.689621    277489   120         0.000000      2704.767960         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82425      1015.441133      2618   120         0.000000      1448.401885         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82426       978.291519       517   120         0.000000        53.175080         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82427        47.652484        80   120         0.000000        12.781612         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82428        43.574946        20   120         0.000000         1.324479         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82646     10578.577298     56519   120         0.000000      5030.878393         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ Skube-controller 82639      1466.910337     97526   120         0.000000      1231.883162         0.000000 0 0 /system.slice/snap.kube-controller-manager.daemon.service
+ Skube-controller 82640      1466.650829     44885   120         0.000000      1424.660243         0.000000 0 0 /system.slice/snap.kube-controller-manager.daemon.service
+ Skube-controller 82641      1464.447847     39278   120         0.000000      1634.192445         0.000000 0 0 /system.slice/snap.kube-controller-manager.daemon.service
+ Skube-controller 83831      1405.227207     33142   120         0.000000       938.048405         0.000000 0 0 /system.slice/snap.kube-controller-manager.daemon.service
+ S       gunicorn 84304      1489.238428       878   120         0.000000       285.494273         0.000000 0 0 /system.slice/cdk.master.auth-webhook.service
+ S       gunicorn 84319      1492.078352      1012   120         0.000000       269.392495         0.000000 0 0 /system.slice/cdk.master.auth-webhook.service
+ I    kworker/0:0 95212    637210.947068       491   120         0.000000        27.034069         0.000000 0 0 /
+ S        systemd 95631     10310.026945        75   120         0.000000        82.924818         0.000000 0 0 /user.slice
+ S       (sd-pam) 95642      1469.394731         1   120         0.000000         0.228764         0.000000 0 0 /user.slice
+ S           bash 95736      1945.158798        95   120         0.000000        38.487592         0.000000 0 0 /user.slice
+ S            sos 96008      6242.686282      4586   120         0.000000      2209.830897         0.000000 0 0 /user.slice
+ S            sos 98019     12445.414816       131   120         0.000000         8.013016         0.000000 0 0 /user.slice
+ S            sos 98021      9181.514336        73   120         0.000000         4.040799         0.000000 0 0 /user.slice
+ S            sos 100113     12897.301508         9   120         0.000000         0.247313         0.000000 0 0 /user.slice
+ S            sos 100212     13213.768350         5   120         0.000000         0.130614         0.000000 0 0 /user.slice
+ S  systemd-udevd 96105      3168.267632      3728   120         0.000000       490.749251         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96148      3152.604380        72   120         0.000000        10.946247         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96149      3160.821242      2400   120         0.000000       281.546901         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96150      3161.899226      2598   120         0.000000       298.155582         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96151      3148.896300        73   120         0.000000         8.726590         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96152      3158.786176       401   120         0.000000        47.231610         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96153      3148.908289        87   120         0.000000        10.198776         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96154      3152.626085       191   120         0.000000        20.658255         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96155      3161.552643      2737   120         0.000000       324.683941         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96161      3152.635675       109   120         0.000000        12.866997         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96162      3158.695504       594   120         0.000000        70.345997         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96164      3158.751256      1241   120         0.000000       137.490724         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96165      3152.608257        86   120         0.000000         9.121654         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96166      3158.977974       372   120         0.000000        49.218741         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96187      3160.574070      1359   120         0.000000       166.491062         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96188      3164.001475      2801   120         0.000000       348.469865         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96189      3152.598413       119   120         0.000000        13.122511         0.000000 0 0 /system.slice/systemd-udevd.service
+ S          fwupd 98565       113.125117      1125   120         0.000000       455.330793         0.000000 0 0 /system.slice/fwupd.service
+ S          gmain 98569       107.244869         9   120         0.000000         0.263262         0.000000 0 0 /system.slice/fwupd.service
+ S          fwupd 98596        22.695994         1   120         0.000000         0.022455         0.000000 0 0 /system.slice/fwupd.service
+ S          gdbus 98616       109.768016       161   120         0.000000         5.847161         0.000000 0 0 /system.slice/fwupd.service
+ I    kworker/0:2 99743    637291.018036       275   120         0.000000         9.808721         0.000000 0 0 /
+ S        timeout 100100     12890.642325        38   120         0.000000         4.727940         0.000000 0 0 /user.slice
+>R            pip 100112     13258.587436      1067   120         0.000000       349.421282         0.000000 0 0 /user.slice
+ S        timeout 100210     13211.120381        26   120         0.000000         4.996214         0.000000 0 0 /user.slice
+ R        kubectl 100213        22.555609       100   120         0.000000        29.737756         0.000000 0 0 /system.slice/snap.kubectl.kubectl.c3f5e415-7968-45c0-ac50-74bd45d6e93d.scope
+ R        kubectl 100246        19.435472        14   120         0.000000         0.164571         0.000000 0 0 /system.slice/snap.kubectl.kubectl.c3f5e415-7968-45c0-ac50-74bd45d6e93d.scope
+ S        kubectl 100247        18.178299         6   120         0.000000         0.142140         0.000000 0 0 /system.slice/snap.kubectl.kubectl.c3f5e415-7968-45c0-ac50-74bd45d6e93d.scope
+ S        kubectl 100248        17.484650         2   120         0.000000         0.045937         0.000000 0 0 /system.slice/snap.kubectl.kubectl.c3f5e415-7968-45c0-ac50-74bd45d6e93d.scope
+
+cpu#1, 2596.990 MHz
+  .nr_running                    : 2
+  .nr_switches                   : 5970139
+  .nr_load_updates               : 0
+  .nr_uninterruptible            : 6
+  .next_balance                  : 4295.279317
+  .curr->pid                     : 99948
+  .clock                         : 1548002.642911
+  .clock_task                    : 1548002.642911
+  .avg_idle                      : 91984
+  .max_idle_balance_cost         : 500000
+
+cfs_rq[1]:/default/calico-node
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 34423.660060
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -602874.427432
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 93
+  .runnable_load_avg             : 0
+  .util_avg                      : 10
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 683
+  .tg_load_avg                   : 1528
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547998.494785
+  .se->vruntime                  : 55458.991335
+  .se->sum_exec_runtime          : 30404.700953
+  .se->load.weight               : 103963
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 9
+  .se->avg.util_avg              : 10
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/containerd.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 163.453134
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -637134.634358
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 0
+  .runnable_load_avg             : 0
+  .util_avg                      : 0
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 0
+  .tg_load_avg                   : 0
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547712.035838
+  .se->vruntime                  : 494684.693893
+  .se->sum_exec_runtime          : 380.847897
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 0
+  .se->avg.util_avg              : 0
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/snap.kube-apiserver.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 12592.472321
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -624705.615171
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 480
+  .runnable_load_avg             : 0
+  .util_avg                      : 117
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 480
+  .tg_load_avg                   : 710
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548002.541250
+  .se->vruntime                  : 494747.962635
+  .se->sum_exec_runtime          : 18344.842330
+  .se->load.weight               : 708896
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 279
+  .se->avg.util_avg              : 117
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/snap.kube-controller-manager.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1946.149301
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -635351.938191
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 89
+  .runnable_load_avg             : 0
+  .util_avg                      : 1
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 89
+  .tg_load_avg                   : 592
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547990.957240
+  .se->vruntime                  : 494739.618300
+  .se->sum_exec_runtime          : 3634.174644
+  .se->load.weight               : 167546
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 14
+  .se->avg.util_avg              : 1
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/cdk.master.auth-webhook.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1874.826397
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -635423.261095
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 8
+  .runnable_load_avg             : 0
+  .util_avg                      : 3
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 8
+  .tg_load_avg                   : 9
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547910.177992
+  .se->vruntime                  : 494734.010049
+  .se->sum_exec_runtime          : 1588.219389
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 8
+  .se->avg.util_avg              : 3
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/systemd-journald.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1741.517311
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -635556.570181
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 2
+  .runnable_load_avg             : 0
+  .util_avg                      : 1
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 2
+  .tg_load_avg                   : 2
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547991.699747
+  .se->vruntime                  : 494739.744455
+  .se->sum_exec_runtime          : 2182.853106
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 5
+  .se->avg.util_avg              : 1
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/snap.kube-scheduler.daemon.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 707.429409
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -636590.658083
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 1
+  .runnable_load_avg             : 0
+  .util_avg                      : 1
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 1
+  .tg_load_avg                   : 28
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547938.653038
+  .se->vruntime                  : 494735.009398
+  .se->sum_exec_runtime          : 983.353347
+  .se->load.weight               : 524288
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 1
+  .se->avg.util_avg              : 1
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/rsyslog.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 479.076277
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -636819.011215
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 5
+  .runnable_load_avg             : 0
+  .util_avg                      : 2
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 5
+  .tg_load_avg                   : 5
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547991.777394
+  .se->vruntime                  : 494739.630150
+  .se->sum_exec_runtime          : 863.703359
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 5
+  .se->avg.util_avg              : 2
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/systemd-udevd.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 3364.367793
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -633933.719699
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 633
+  .runnable_load_avg             : 0
+  .util_avg                      : 69
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 633
+  .tg_load_avg                   : 2635
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547957.049304
+  .se->vruntime                  : 494745.552503
+  .se->sum_exec_runtime          : 12430.517292
+  .se->load.weight               : 177046
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 57
+  .se->avg.util_avg              : 69
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/snapd.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 2566.288504
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -634731.798988
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 378
+  .runnable_load_avg             : 0
+  .util_avg                      : 12
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 378
+  .tg_load_avg                   : 471
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548001.225730
+  .se->vruntime                  : 494740.469279
+  .se->sum_exec_runtime          : 4693.236860
+  .se->load.weight               : 841532
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 303
+  .se->avg.util_avg              : 12
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/jujud-machine-4.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 497138.374685
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -140159.712807
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 556
+  .runnable_load_avg             : 0
+  .util_avg                      : 19
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 556
+  .tg_load_avg                   : 829
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548001.186233
+  .se->vruntime                  : 494740.974591
+  .se->sum_exec_runtime          : 262959.032731
+  .se->load.weight               : 703266
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 265
+  .se->avg.util_avg              : 19
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/dbus.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 1292.526803
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -636005.560689
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 68
+  .runnable_load_avg             : 0
+  .util_avg                      : 20
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 68
+  .tg_load_avg                   : 68
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547929.741606
+  .se->vruntime                  : 494735.239016
+  .se->sum_exec_runtime          : 1293.945295
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 71
+  .se->avg.util_avg              : 20
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/systemd-logind.service
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 718.096183
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -636579.991309
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 8
+  .runnable_load_avg             : 0
+  .util_avg                      : 3
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 8
+  .tg_load_avg                   : 8
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547925.225550
+  .se->vruntime                  : 494734.042445
+  .se->sum_exec_runtime          : 719.382198
+  .se->load.weight               : 2
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 0
+  .se->avg.util_avg              : 0
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice/snap.kubectl.kubectl.c3f5e415-7968-45c0-ac50-74bd45d6e93d.scope
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 0.508774
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -637298.596266
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 1
+  .runnable_load_avg             : 0
+  .util_avg                      : 0
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 1
+  .tg_load_avg                   : 3526
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547943.462769
+  .se->vruntime                  : 494737.122361
+  .se->sum_exec_runtime          : 0.708814
+  .se->load.weight               : 215238
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 0
+  .se->avg.util_avg              : 0
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/system.slice
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 494747.962635
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -142550.124857
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 896
+  .runnable_load_avg             : 1
+  .util_avg                      : 192
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 988
+  .tg_load_avg                   : 2873
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548002.541250
+  .se->vruntime                  : 658076.588429
+  .se->sum_exec_runtime          : 416326.980058
+  .se->load.weight               : 337836
+  .se->runnable_weight           : 377
+  .se->avg.load_avg              : 202
+  .se->avg.util_avg              : 192
+  .se->avg.runnable_load_avg     : 1
+
+cfs_rq[1]:/user.slice
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 12668.282923
+  .min_vruntime                  : 12667.186714
+  .max_vruntime                  : 12668.282923
+  .spread                        : 0.000000
+  .spread0                       : -624630.900778
+  .nr_spread_over                : 0
+  .nr_running                    : 2
+  .load                          : 2097152
+  .runnable_weight               : 2097152
+  .load_avg                      : 2793
+  .runnable_load_avg             : 2046
+  .util_avg                      : 679
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 2793
+  .tg_load_avg                   : 3894
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1548002.642911
+  .se->vruntime                  : 658076.143197
+  .se->sum_exec_runtime          : 12497.442288
+  .se->load.weight               : 747873
+  .se->runnable_weight           : 548386
+  .se->avg.load_avg              : 735
+  .se->avg.util_avg              : 684
+  .se->avg.runnable_load_avg     : 539
+
+cfs_rq[1]:/autogroup-104
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 3653.060519
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -633645.026973
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 62
+  .runnable_load_avg             : 0
+  .util_avg                      : 13
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 62
+  .tg_load_avg                   : 62
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547998.213716
+  .se->vruntime                  : 658066.044483
+  .se->sum_exec_runtime          : 4284.947511
+  .se->load.weight               : 1048576
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 54
+  .se->avg.util_avg              : 13
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/default
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 55458.991335
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : -581839.096157
+  .nr_spread_over                : 0
+  .nr_running                    : 0
+  .load                          : 0
+  .runnable_weight               : 0
+  .load_avg                      : 10
+  .runnable_load_avg             : 0
+  .util_avg                      : 10
+  .util_est_enqueued             : 0
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 329
+  .tg_load_avg                   : 708
+  .throttled                     : 0
+  .throttle_count                : 0
+  .se->exec_start                : 1547998.494785
+  .se->vruntime                  : 658072.507622
+  .se->sum_exec_runtime          : 30408.000462
+  .se->load.weight               : 26955
+  .se->runnable_weight           : 2
+  .se->avg.load_avg              : 2
+  .se->avg.util_avg              : 10
+  .se->avg.runnable_load_avg     : 0
+
+cfs_rq[1]:/
+  .exec_clock                    : 0.000000
+  .MIN_vruntime                  : 0.000001
+  .min_vruntime                  : 658076.143197
+  .max_vruntime                  : 0.000001
+  .spread                        : 0.000000
+  .spread0                       : 20778.055705
+  .nr_spread_over                : 0
+  .nr_running                    : 1
+  .load                          : 747873
+  .runnable_weight               : 548386
+  .load_avg                      : 1049
+  .runnable_load_avg             : 539
+  .util_avg                      : 1088
+  .util_est_enqueued             : 346
+  .removed.load_avg              : 0
+  .removed.util_avg              : 0
+  .removed.runnable_sum          : 0
+  .tg_load_avg_contrib           : 0
+  .tg_load_avg                   : 0
+  .throttled                     : 0
+  .throttle_count                : 0
+
+rt_rq[1]:
+  .rt_nr_running                 : 0
+  .rt_nr_migratory               : 0
+  .rt_throttled                  : 0
+  .rt_time                       : 0.021926
+  .rt_runtime                    : 950.000000
+
+dl_rq[1]:
+  .dl_nr_running                 : 0
+  .dl_nr_migratory               : 0
+  .dl_bw->bw                     : 996147
+  .dl_bw->total_bw               : 0
+
+runnable tasks:
+ S           task   PID         tree-key  switches  prio     wait-time             sum-exec        sum-sleep
+-----------------------------------------------------------------------------------------------------------
+ S       kthreadd     2    654948.806634       186   120         0.000000         3.967495         0.000000 0 0 /
+ I      rcu_sched    11    658067.781817    119590   120         0.000000      1238.325522         0.000000 0 0 /
+ S        cpuhp/1    15      1778.256718        11   120         0.000000         2.113746         0.000000 0 0 /
+ S  idle_inject/1    16        -3.000000         3    49         0.000000         0.003110         0.000000 0 0 /
+ S    migration/1    17         0.000000      3417     0         0.000000       138.958956         0.000000 0 0 /
+ S    ksoftirqd/1    18    658058.574034     19863   120         0.000000       671.644015         0.000000 0 0 /
+ I   kworker/1:0H    20       509.378211         5   100         0.000000         0.031404         0.000000 0 0 /
+ S      kdevtmpfs    21    641983.588875       188   120         0.000000         2.037603         0.000000 0 0 /
+ I          netns    22         6.961065         2   100         0.000000         0.000000         0.000000 0 0 /
+ Srcu_tasks_kthre    23         6.968192         2   120         0.000000         0.007127         0.000000 0 0 /
+ S     khungtaskd    25    615651.512185        14   120         0.000000         0.474679         0.000000 0 0 /
+ S     oom_reaper    26        18.988596         2   120         0.000000         0.000000         0.000000 0 0 /
+ I      writeback    27        18.988596         2   100         0.000000         0.000000         0.000000 0 0 /
+ S     kcompactd0    28        18.988596         2   120         0.000000         0.000000         0.000000 0 0 /
+ S           ksmd    29        18.995625         2   125         0.000000         0.007029         0.000000 0 0 /
+ S     khugepaged    30    649013.338123        80   139         0.000000         3.449414         0.000000 0 0 /
+ I    kworker/1:1    35    598287.961372     15078   120         0.000000       276.978596         0.000000 0 0 /
+ I    kintegrityd    77        26.995623         2   100         0.000000         0.000000         0.000000 0 0 /
+ I        kblockd    78        26.995623         2   100         0.000000         0.000000         0.000000 0 0 /
+ I blkcg_punt_bio    79        26.995623         2   100         0.000000         0.000000         0.000000 0 0 /
+ I     tpm_dev_wq    80        27.008426         2   100         0.000000         0.012803         0.000000 0 0 /
+ I        ata_sff    81        31.016246         2   100         0.000000         0.007821         0.000000 0 0 /
+ I             md    82        35.026770         2   100         0.000000         0.010525         0.000000 0 0 /
+ I    edac-poller    83        39.026769         2   100         0.000000         0.000000         0.000000 0 0 /
+ I     devfreq_wq    84        39.026769         2   100         0.000000         0.000000         0.000000 0 0 /
+ S      watchdogd    85         0.000000         2     0         0.000000         0.006121         0.000000 0 0 /
+ I   kworker/u4:1    86    657898.312517      7389   120         0.000000       515.425036         0.000000 0 0 /
+ Secryptfs-kthrea    89        55.176201         2   120         0.000000         0.048580         0.000000 0 0 /
+ I       kthrotld    91        63.284666         2   100         0.000000         0.051479         0.000000 0 0 /
+ Iacpi_thermal_pm    92        67.308294         2   100         0.000000         0.025283         0.000000 0 0 /
+ S      scsi_eh_0    93       181.462149         4   120         0.000000         0.336172         0.000000 0 0 /
+ I     scsi_tmf_0    94        70.320549         2   100         0.000000         0.014018         0.000000 0 0 /
+ I     scsi_tmf_1    96        74.346925         2   100         0.000000         0.027941         0.000000 0 0 /
+ Ivfio-irqfd-clea    98        82.209386         2   100         0.000000         0.022520         0.000000 0 0 /
+ I          kstrp   109       161.107148         2   100         0.000000         0.014557         0.000000 0 0 /
+ I    kworker/1:3   205    653156.661356     23214   120         0.000000       509.836452         0.000000 0 0 /
+ I   kworker/1:1H   206    658031.638229     17072   100         0.000000       210.627534         0.000000 0 0 /
+ S    jbd2/vda1-8   277    656672.934192     21142   120         0.000000       648.723672         0.000000 0 0 /
+ Ssystemd-journal   350      1741.517311     24267   119         0.000000      4558.652541         0.000000 0 0 /system.slice/systemd-journald.service
+ I         kaluad   456      2163.200501         2   100         0.000000         0.010775         0.000000 0 0 /
+ S     multipathd   460         0.000000      1606     0         0.000000        47.935536         0.000000 0 0 /system.slice/multipathd.service
+ S     multipathd   465         0.000000        26     0         0.000000         1.884186         0.000000 0 0 /system.slice/multipathd.service
+ S     multipathd   466         0.000000         6     0         0.000000         0.231205         0.000000 0 0 /system.slice/multipathd.service
+ S          loop2   475    654343.987037      1764   100         0.000000        67.252325         0.000000 0 0 /
+ Ssystemd-network   567         2.109170       175   120         0.000000        58.082363         0.000000 0 0 /system.slice/systemd-networkd.service
+ Ssystemd-resolve   588        16.630157       472   120         0.000000       151.711279         0.000000 0 0 /system.slice/systemd-resolved.service
+ Saccounts-daemon   678       140.385500       145   120         0.000000        28.778423         0.000000 0 0 /system.slice/accounts-daemon.service
+ S          gdbus   755       139.603033        78   120         0.000000        10.705996         0.000000 0 0 /system.slice/accounts-daemon.service
+ S           cron   681         0.567131        42   120         0.000000         4.704885         0.000000 0 0 /system.slice/cron.service
+ S    dbus-daemon   683      1292.526803     43466   120         0.000000      3099.965395         0.000000 0 0 /system.slice/dbus.service
+ S     irqbalance   690        29.716018       170   120         0.000000        41.818093         0.000000 0 0 /system.slice/irqbalance.service
+ S          gmain   697        -1.048576         1   120         0.000000         0.037057         0.000000 0 0 /system.slice/irqbalance.service
+ S    in:imuxsock   756       479.081050     73533   120         0.000000       891.004427         0.000000 0 0 /system.slice/rsyslog.service
+ S  rs:main Q:Reg   758       479.073904     55751   120         0.000000       804.613998         0.000000 0 0 /system.slice/rsyslog.service
+ S systemd-logind   699       718.096183     27649   120         0.000000      1203.625127         0.000000 0 0 /system.slice/systemd-logind.service
+ S          gmain   714        41.061280       176   120         0.000000         3.249655         0.000000 0 0 /system.slice/udisks2.service
+ S          gdbus   752        57.312014       205   120         0.000000         7.567512         0.000000 0 0 /system.slice/udisks2.service
+ S probing-thread   781        54.657934        57   120         0.000000         1.568551         0.000000 0 0 /system.slice/udisks2.service
+ S         agetty   738        -3.186972        10   120         0.000000         4.016885         0.000000 0 0 /system.slice/system-serial\x2dgetty.slice
+ Sunattended-upgr   754        -1.048576       102   120         0.000000        86.340094         0.000000 0 0 /system.slice/unattended-upgrades.service
+ S          gmain   778        -2.292079         7   120         0.000000         0.496937         0.000000 0 0 /system.slice/polkit.service
+ S           sshd   855        85.128836        45   120         0.000000        19.099176         0.000000 0 0 /system.slice/ssh.service
+ S           bash  8796        12.928462        25   120         0.000000         4.342437         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8800    497131.003987    190158   120         0.000000      3551.923316         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8801    497138.374685    767246   120         0.000000      8118.644189         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8802        52.420817       312   120         0.000000         9.803121         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8804    497132.451710    161425   120         0.000000      2784.500974         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8837        58.407910         1   120         0.000000         0.014780         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8838    492161.217939    209114   120         0.000000      3570.818268         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S          jujud  8847    478412.747664    164345   120         0.000000      2846.108957         0.000000 0 0 /system.slice/jujud-machine-4.service
+ S   daemon.start  9679      2839.057348       375   120         0.000000        50.594169         0.000000 0 0 /autogroup-104
+ S          lxcfs  9840        28.278614        67   120         0.000000        13.892425         0.000000 0 0 /autogroup-104
+ S          lxcfs  9842        34.290141         1   120         0.000000         0.011531         0.000000 0 0 /autogroup-104
+ S            lxd  9860      3653.060519    120924   120         0.000000      1322.676436         0.000000 0 0 /autogroup-104
+ S            lxd  9864      3645.831370     11842   120         0.000000       323.532068         0.000000 0 0 /autogroup-104
+ S            lxd  9869       244.137540         1   120         0.000000         0.016220         0.000000 0 0 /autogroup-104
+ S            lxd  9918      3646.600096      4505   120         0.000000       171.081128         0.000000 0 0 /autogroup-104
+ S            lxd  9919      2839.100250        13   120         0.000000         0.470439         0.000000 0 0 /autogroup-104
+ S            lxd  9920      2839.061144        12   120         0.000000         0.353334         0.000000 0 0 /autogroup-104
+ S            lxd  9922      2839.107698        12   120         0.000000         0.309928         0.000000 0 0 /autogroup-104
+ S            lxd  9999      3652.313357     17493   120         0.000000       358.620103         0.000000 0 0 /autogroup-104
+ S            lxd 10000      3647.185536      4983   120         0.000000       136.416493         0.000000 0 0 /autogroup-104
+ I       dio/vda1  9908     54897.648586         2   100         0.000000         0.004384         0.000000 0 0 /
+ S           none  9934    654874.232717      6426   120         0.000000        59.553018         0.000000 0 0 /
+ Sspl_system_task  9964     55299.557703         2   100         0.000000         0.011556         0.000000 0 0 /
+ Sspl_delay_taskq  9965     55305.567168         2   100         0.000000         0.010973         0.000000 0 0 /
+ Sspl_dynamic_tas  9966     55311.568032         2   100         0.000000         0.002040         0.000000 0 0 /
+ S spl_kmem_cache  9967     55468.822899         3   100         0.000000         0.139777         0.000000 0 0 /
+ S           zvol  9969     55375.544242         2   100         0.000000         0.016582         0.000000 0 0 /
+ S zthr_procedure  9972    657297.681432      1445   139         0.000000        18.008879         0.000000 0 0 /
+ S          snapd 24051      2566.288504    170093   120         0.000000      1506.243186         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24054        14.732556         2   120         0.000000         0.037787         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24055        15.060885         2   120         0.000000         0.018762         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24067      2556.218000     11392   120         0.000000       633.123334         0.000000 0 0 /system.slice/snapd.service
+ S          snapd 24159      2543.881422     21357   120         0.000000      1081.255784         0.000000 0 0 /system.slice/snapd.service
+ S     containerd 32064       159.566040     12611   120         0.000000       119.663419         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32066         7.736397        61   120         0.000000         2.263746         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32071       157.848994      4780   120         0.000000       101.994137         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32073       131.684003       682   120         0.000000        18.327625         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32078       163.453134      3389   120         0.000000        87.301057         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 32095       157.514746      6154   120         0.000000       120.926823         0.000000 0 0 /system.slice/containerd.service
+ S     containerd 35115       159.026529      4509   120         0.000000       102.031859         0.000000 0 0 /system.slice/containerd.service
+ S            ctr 35101       205.415890      1222   120         0.000000         8.636086         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35110       211.402586       533   120         0.000000        19.991616         0.000000 0 0 /system.slice/calico-node.service
+ S            ctr 35140       204.814701       115   120         0.000000         1.085504         0.000000 0 0 /system.slice/calico-node.service
+ Scontainerd-shim 35154        43.311263         2   120         0.000000         0.050966         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35155       152.469280       132   120         0.000000         8.281772         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35156        63.344790        54   120         0.000000         0.888143         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35157        51.402841         5   120         0.000000         0.084006         0.000000 0 0 /system.slice/containerd.service
+ Scontainerd-shim 35201       152.500853       142   120         0.000000         8.288462         0.000000 0 0 /system.slice/containerd.service
+ S       flanneld 35352         3.519315         6   120         0.000000         0.059171         0.000000 0 0 /system.slice/flannel.service
+ S       flanneld 35402      3126.251225       557   120         0.000000        22.591810         0.000000 0 0 /system.slice/flannel.service
+ S          runsv 35419     34417.995545      2379   120         0.000000       686.881038         0.000000 0 0 /default/calico-node
+ S         svlogd 35420     34417.903073     13680   120         0.000000       454.595326         0.000000 0 0 /default/calico-node
+ I    kworker/1:0 64418    658065.967920     11320   120         0.000000       298.825526         0.000000 0 0 /
+ S kube-scheduler 81900       702.112791      7012   120         0.000000       722.277232         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-scheduler 81922       706.943848      7325   120         0.000000       643.422205         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-scheduler 81924       395.043656         5   120         0.000000         0.095370         0.000000 0 0 /system.slice/snap.kube-scheduler.daemon.service
+ S kube-apiserver 82375      2103.980811      2213   120         0.000000      1125.861285         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82417      2110.717827      2851   120         0.000000       777.930930         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82418      2104.940490        24   120         0.000000         0.349017         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82429     11732.026312     60046   120         0.000000      5291.333830         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82471        62.810672         1   120         0.000000         0.018340         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82643     12592.826149     60235   120         0.000000      5622.806454         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82644      2118.644338         9   120         0.000000         5.683266         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82645      6972.116014     40969   120         0.000000      3271.817891         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 82647     12552.419434     74001   120         0.000000      6144.601484         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ S kube-apiserver 89749     12592.472321     44089   120         0.000000      3675.217314         0.000000 0 0 /system.slice/snap.kube-apiserver.daemon.service
+ Skube-controller 82610      1946.149301     46150   120         0.000000      1512.662530         0.000000 0 0 /system.slice/snap.kube-controller-manager.daemon.service
+ Skube-controller 82642       474.923322        71   120         0.000000        18.975573         0.000000 0 0 /system.slice/snap.kube-controller-manager.daemon.service
+ S       gunicorn 84191      1868.693197      1360   120         0.000000       361.936383         0.000000 0 0 /system.slice/cdk.master.auth-webhook.service
+ S       gunicorn 84305      1874.826397       920   120         0.000000       302.759248         0.000000 0 0 /system.slice/cdk.master.auth-webhook.service
+ S       gunicorn 84357      1873.040803      1093   120         0.000000       347.504387         0.000000 0 0 /system.slice/cdk.master.auth-webhook.service
+ S       gunicorn 84383      1869.341084      1070   120         0.000000       261.857225         0.000000 0 0 /system.slice/cdk.master.auth-webhook.service
+ I    kworker/1:2 92831    653156.668572         4   120         0.000000         0.109068         0.000000 0 0 /
+ S           sshd 95625      1898.371799        64   120         0.000000        22.775592         0.000000 0 0 /user.slice
+ S           sshd 95735     12351.987103       192   120         0.000000        13.904039         0.000000 0 0 /user.slice
+ S           sudo 95760      1976.525063        19   120         0.000000         7.495944         0.000000 0 0 /user.slice
+ S           bash 95763      1997.441417        53   120         0.000000         7.901521         0.000000 0 0 /user.slice
+ S            sos 98017     12352.050421        27   120         0.000000         2.437818         0.000000 0 0 /user.slice
+ S            sos 98023     11469.921715       126   120         0.000000         9.048769         0.000000 0 0 /user.slice
+ S            sos 98683     12661.209663      2895   120         0.000000       269.464685         0.000000 0 0 /user.slice
+ S            sos 99735     12663.358820      2064   120         0.000000       387.484830         0.000000 0 0 /user.slice
+>R            sos 99948     12667.186714      3254   120         0.000000       603.125072         0.000000 0 0 /user.slice
+ S            sos 100087     12661.249091       282   120         0.000000        13.551514         0.000000 0 0 /user.slice
+ S  systemd-udevd 96156      3364.367793      2450   120         0.000000       261.039817         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96163      3363.281557      1932   120         0.000000       214.200468         0.000000 0 0 /system.slice/systemd-udevd.service
+ S  systemd-udevd 96190      3363.449623      1926   120         0.000000       230.214468         0.000000 0 0 /system.slice/systemd-udevd.service
+ I   kworker/u4:0 97373    657870.392942        48   120         0.000000         0.319101         0.000000 0 0 /
+ SGUsbEventThread 98597       345.844025         8   120         0.000000         0.246984         0.000000 0 0 /system.slice/fwupd.service
+ S     pool-fwupd 98621       351.660311         4   120         0.000000         0.735724         0.000000 0 0 /system.slice/fwupd.service
+ Ssystemd-hostnam 98613        47.214074       256   120         0.000000        73.334844         0.000000 0 0 /system.slice/systemd-hostnamed.service
+ R            sos 100251     12668.282923         1   120         0.000000         1.760941         0.000000 0 0 /user.slice
+

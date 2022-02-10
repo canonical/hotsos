@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# This service runs on boot to work around issues relating to LXD and snapd.
+
+# Workaround for https://github.com/conjure-up/conjure-up/issues/1448
+if [ -f '/proc/1/environ' ] && grep -q '^container=lxc' /proc/1/environ; then
+  echo "lxc detected, applying snapd apparmor profiles"
+  (set +e
+    apparmor_parser /var/lib/snapd/apparmor/profiles/*
+    echo "apparmor_parser: exit status $?"
+  )
+else
+  echo "lxc not detected, skipping snapd apparmor profiles"
+fi
+
+# Workaround for https://github.com/juju-solutions/bundle-canonical-kubernetes/issues/357
+services="{{services}}"
+
+deadline="$(expr "$(date +%s)" + 600)"
+
+while [ "$(date +%s)" -lt "$deadline" ]; do
+  for service in $services; do
+    echo "$service: checking"
+    if ! systemctl is-active "$service"; then
+      echo "$service: not active, restarting"
+      systemctl restart "$service" || true
+    fi
+  done
+
+  sleep 10
+done
+
+echo "deadline has passed, exiting gracefully"

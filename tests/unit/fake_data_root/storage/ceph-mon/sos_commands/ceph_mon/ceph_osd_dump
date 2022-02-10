@@ -1,0 +1,24 @@
+epoch 49
+fsid eccf3d48-859f-11ec-9de2-d72b3e8a3058
+created 2022-02-04T09:55:18.498364+0000
+modified 2022-02-10T09:32:48.744296+0000
+flags sortbitwise,recovery_deletes,purged_snapdirs,pglog_hardlimit
+crush_version 11
+full_ratio 0.95
+backfillfull_ratio 0.9
+nearfull_ratio 0.85
+require_min_compat_client jewel
+min_compat_client jewel
+require_osd_release octopus
+pool 1 'device_health_metrics' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 1 pgp_num 1 autoscale_mode on last_change 27 flags hashpspool stripe_width 0 pg_num_min 1 application mgr_devicehealth
+pool 2 'glance' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 4 pgp_num 4 autoscale_mode on last_change 15 flags hashpspool stripe_width 0 pg_num_min 4 target_size_ratio 0.05 application rbd
+pool 3 'cinder-ceph' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode on last_change 19 flags hashpspool stripe_width 0 pg_num_min 32 target_size_ratio 0.4 application rbd
+pool 4 'nova' replicated size 3 min_size 2 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode on last_change 23 flags hashpspool stripe_width 0 pg_num_min 32 target_size_ratio 0.3 application rbd
+max_osd 3
+osd.0 up   in  weight 1 up_from 44 up_thru 48 down_at 31 last_clean_interval [7,25) [v2:10.0.0.128:6800/1113152,v1:10.0.0.128:6801/1113152] [v2:10.0.0.128:6802/1113152,v1:10.0.0.128:6803/1113152] exists,up 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+osd.1 up   in  weight 1 up_from 41 up_thru 48 down_at 40 last_clean_interval [37,38) [v2:10.0.0.114:6800/891530,v1:10.0.0.114:6801/891530] [v2:10.0.0.114:6802/891530,v1:10.0.0.114:6803/891530] exists,up 46e943c3-9e7b-4022-a841-9f50fd9dfa9d
+osd.2 up   in  weight 1 up_from 48 up_thru 48 down_at 31 last_clean_interval [10,25) [v2:10.0.0.133:6800/1205711,v1:10.0.0.133:6801/1205711] [v2:10.0.0.133:6802/1205711,v1:10.0.0.133:6803/1205711] exists,up a4d2b042-4e4e-4aec-81c4-67a92a874244
+blacklist 10.0.0.120:0/1885113033 expires 2022-02-10T22:34:22.722058+0000
+blacklist 10.0.0.120:6801/16477 expires 2022-02-10T22:34:22.722058+0000
+blacklist 10.0.0.120:6800/16477 expires 2022-02-10T22:34:22.722058+0000
+blacklist 10.0.0.120:0/2088306009 expires 2022-02-10T22:34:22.722058+0000

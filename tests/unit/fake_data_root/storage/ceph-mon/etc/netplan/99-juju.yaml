@@ -1,0 +1,13 @@
+network:
+  version: 2
+  ethernets:
+    eth0:
+      match:
+        macaddress: 00:16:3e:ae:9e:44
+      addresses:
+      - 10.0.0.123/24
+      gateway4: 10.0.0.2
+      nameservers:
+        search: [mylab.home]
+        addresses: [10.0.0.2]
+

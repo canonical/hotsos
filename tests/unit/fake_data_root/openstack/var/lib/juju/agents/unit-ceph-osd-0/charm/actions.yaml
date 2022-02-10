@@ -1,0 +1,133 @@
+# NOTE(fnordahl): Output of `juju list-action` is at time of this writing
+#                 formatted in such a way that we should keep description
+#                 as terse as possible and refer to documentation elsewhere.
+#
+#                 Verify with `juju list-action` before proposing/committing
+#                 changes.
+osd-out:
+  description: |
+    \
+        USE WITH CAUTION - Mark unit OSDs as 'out'.
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osds:
+      description: A comma-separated list of OSD IDs to stop (or keyword 'all')
+  required:
+    - osds
+osd-in:
+  description: |
+    \
+        Set the local osd units in the charm to 'in'.
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osds:
+      description: A comma-separated list of OSD IDs to start (or keyword 'all')
+  required:
+    - osds
+list-disks:
+  description: |
+    \
+        List disks.
+        Documentation: https://jaas.ai/ceph-osd/
+add-disk:
+  description: |
+    \
+        Add disk(s) to Ceph.
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osd-devices:
+      type: string
+      description: The devices to format and set up as osd volumes.
+    bucket:
+      type: string
+      description: The name of the bucket in Ceph to add these devices into
+  required:
+    - osd-devices
+blacklist-add-disk:
+  description: |
+    \
+        Add disk(s) to blacklist.
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osd-devices:
+      type: string
+      description: |
+        A space-separated list of devices to add to blacklist.
+        .
+        Each element should be a absolute path to a device node or filesystem
+        directory (the latter is supported for ceph >= 0.56.6).
+        .
+        Example: '/dev/vdb /var/tmp/test-osd'
+  required:
+    - osd-devices
+blacklist-remove-disk:
+  description: |
+    \
+        Remove disk(s) from blacklist.
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osd-devices:
+      type: string
+      description: |
+        A space-separated list of devices to remove from blacklist.
+        .
+        Each element should be a existing entry in the units blacklist.
+        Use list-disks action to list current blacklist entries.
+        .
+        Example: '/dev/vdb /var/tmp/test-osd'
+  required:
+    - osd-devices
+zap-disk:
+  description: |
+    \
+        USE WITH CAUTION - Purge disk of all data and signatures for use by Ceph.
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    devices:
+      type: string
+      description: |
+        A space-separated list of devices to remove the partition table from.
+    i-really-mean-it:
+      type: boolean
+      description: |
+        This must be toggled to enable actually performing this action
+  required:
+    - devices
+    - i-really-mean-it
+start:
+  description: |
+    \
+        Start OSD by ID
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osds:
+      description: A comma-separated list of OSD IDs to start (or keyword 'all')
+  required:
+    - osds
+stop:
+  description: |
+    \
+        Stop OSD by ID
+        Documentation: https://jaas.ai/ceph-osd/
+  params:
+    osds:
+      description: A comma-separated list of OSD IDs to stop (or keyword 'all')
+  required:
+    - osds
+security-checklist:
+  description: Validate the running configuration against the OpenStack security guides checklist
+get-availability-zone:
+  description: |
+    Obtain information about the availability zone, which will contain information about the CRUSH
+    structure. Specifically 'rack' and 'row'.
+  params:
+    format:
+      type: string
+      default: text
+      enum:
+        - text
+        - json
+      description: Specify output format (text|json).
+    show-all:
+      type: boolean
+      description: Option to view information for all units. Default is 'false'.

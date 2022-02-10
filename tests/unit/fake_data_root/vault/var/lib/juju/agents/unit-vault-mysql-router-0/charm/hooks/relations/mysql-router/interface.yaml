@@ -1,0 +1,13 @@
+name: mysql-router
+summary: Interface for integrating MySQL Router and MySQL InnoDB Cluster
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+ignore:
+  - 'unit_tests'
+  - '.stestr.conf'
+  - 'test-requirements.txt'
+  - 'tox.ini'
+  - '.gitignore'
+  - '.travis.yml'
+  - '.zuul.yaml'
+  - '.tox'
+  - '.git'

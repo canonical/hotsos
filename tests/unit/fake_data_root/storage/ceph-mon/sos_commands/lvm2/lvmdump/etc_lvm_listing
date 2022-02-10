@@ -1,0 +1,20 @@
+/etc/lvm:
+total 116
+drwxr-xr-x   3 root root   4096 Jan 31 22:28 .
+drwxr-xr-x 100 root root   4096 Feb  9 23:38 ..
+-rw-r--r--   1 root root 102257 Feb 13  2020 lvm.conf
+-rw-r--r--   1 root root   2301 Feb 13  2020 lvmlocal.conf
+drwxr-xr-x   2 root root   4096 Jan 31 22:28 profile
+
+/etc/lvm/profile:
+total 40
+drwxr-xr-x 2 root root 4096 Jan 31 22:28 .
+drwxr-xr-x 3 root root 4096 Jan 31 22:28 ..
+-rw-r--r-- 1 root root  531 Feb 13  2020 cache-mq.profile
+-rw-r--r-- 1 root root  339 Feb 13  2020 cache-smq.profile
+-rw-r--r-- 1 root root 3020 Feb 13  2020 command_profile_template.profile
+-rw-r--r-- 1 root root 2309 Feb 13  2020 lvmdbusd.profile
+-rw-r--r-- 1 root root  828 Feb 13  2020 metadata_profile_template.profile
+-rw-r--r-- 1 root root   76 Feb 13  2020 thin-generic.profile
+-rw-r--r-- 1 root root   80 Feb 13  2020 thin-performance.profile
+-rw-r--r-- 1 root root  563 Feb 13  2020 vdo-small.profile

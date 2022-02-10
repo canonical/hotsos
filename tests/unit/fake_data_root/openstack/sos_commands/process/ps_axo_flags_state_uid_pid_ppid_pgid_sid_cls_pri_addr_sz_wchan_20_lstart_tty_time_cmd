@@ -1,0 +1,451 @@
+F S   UID     PID    PPID    PGID     SID CLS PRI ADDR    SZ WCHAN                                 STARTED TT           TIME CMD
+4 S     0       1       0       1       1  TS  19    - 43796 ep_poll              Wed Feb  9 22:38:08 2022 ?        00:00:38 /sbin/init
+1 S     0       2       0       0       0  TS  19    -     0 kthreadd             Wed Feb  9 22:38:08 2022 ?        00:00:00 [kthreadd]
+1 I     0       3       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [rcu_gp]
+1 I     0       4       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [rcu_par_gp]
+1 I     0       6       2       0       0  TS  39    -     0 worker_thread        Wed Feb  9 22:38:08 2022 ?        00:00:00 [kworker/0:0H-kblockd]
+1 I     0       9       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [mm_percpu_wq]
+1 S     0      10       2       0       0  TS  19    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:01:38 [ksoftirqd/0]
+1 I     0      11       2       0       0  TS  19    -     0 rcu_gp_kthread       Wed Feb  9 22:38:08 2022 ?        00:01:24 [rcu_sched]
+1 S     0      12       2       0       0  FF 139    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [migration/0]
+5 S     0      13       2       0       0  FF  90    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [idle_inject/0]
+1 S     0      14       2       0       0  TS  19    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [cpuhp/0]
+1 S     0      15       2       0       0  TS  19    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [cpuhp/1]
+5 S     0      16       2       0       0  FF  90    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [idle_inject/1]
+1 S     0      17       2       0       0  FF 139    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [migration/1]
+1 S     0      18       2       0       0  TS  19    -     0 smpboot_thread_fn    Wed Feb  9 22:38:08 2022 ?        00:00:13 [ksoftirqd/1]
+1 I     0      20       2       0       0  TS  39    -     0 worker_thread        Wed Feb  9 22:38:08 2022 ?        00:00:00 [kworker/1:0H-kblockd]
+5 S     0      21       2       0       0  TS  19    -     0 devtmpfsd.part.0     Wed Feb  9 22:38:08 2022 ?        00:00:00 [kdevtmpfs]
+1 I     0      22       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [netns]
+1 S     0      23       2       0       0  TS  19    -     0 rcu_tasks_kthread    Wed Feb  9 22:38:08 2022 ?        00:00:00 [rcu_tasks_kthre]
+1 S     0      24       2       0       0  TS  19    -     0 kauditd_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [kauditd]
+1 S     0      25       2       0       0  TS  19    -     0 watchdog             Wed Feb  9 22:38:08 2022 ?        00:00:00 [khungtaskd]
+1 S     0      26       2       0       0  TS  19    -     0 oom_reaper           Wed Feb  9 22:38:08 2022 ?        00:00:00 [oom_reaper]
+1 I     0      27       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [writeback]
+1 S     0      28       2       0       0  TS  19    -     0 kcompactd            Wed Feb  9 22:38:08 2022 ?        00:00:00 [kcompactd0]
+1 S     0      29       2       0       0  TS  14    -     0 ksm_scan_thread      Wed Feb  9 22:38:08 2022 ?        00:00:00 [ksmd]
+1 S     0      30       2       0       0  TS   0    -     0 khugepaged           Wed Feb  9 22:38:08 2022 ?        00:00:00 [khugepaged]
+1 I     0      77       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [kintegrityd]
+1 I     0      78       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [kblockd]
+1 I     0      79       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [blkcg_punt_bio]
+1 I     0      80       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [tpm_dev_wq]
+1 I     0      81       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [ata_sff]
+1 I     0      82       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [md]
+1 I     0      83       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [edac-poller]
+1 I     0      84       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [devfreq_wq]
+1 S     0      85       2       0       0  FF 139    -     0 kthread_worker_fn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [watchdogd]
+1 S     0      88       2       0       0  TS  19    -     0 kswapd               Wed Feb  9 22:38:08 2022 ?        00:00:04 [kswapd0]
+1 S     0      89       2       0       0  TS  19    -     0 ecryptfs_threadfn    Wed Feb  9 22:38:08 2022 ?        00:00:00 [ecryptfs-kthrea]
+1 I     0      91       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [kthrotld]
+1 I     0      92       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [acpi_thermal_pm]
+1 S     0      93       2       0       0  TS  19    -     0 scsi_error_handler   Wed Feb  9 22:38:08 2022 ?        00:00:00 [scsi_eh_0]
+1 I     0      94       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [scsi_tmf_0]
+1 S     0      95       2       0       0  TS  19    -     0 scsi_error_handler   Wed Feb  9 22:38:08 2022 ?        00:00:00 [scsi_eh_1]
+1 I     0      96       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [scsi_tmf_1]
+1 I     0      98       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:08 2022 ?        00:00:00 [vfio-irqfd-clea]
+1 I     0     100       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [ipv6_addrconf]
+1 I     0     109       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [kstrp]
+1 I     0     112       2       0       0  TS  39    -     0 worker_thread        Wed Feb  9 22:38:09 2022 ?        00:00:00 [kworker/u5:0]
+1 I     0     125       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [charger_manager]
+1 I     0     170       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [cryptd]
+1 I     0     171       2       0       0  TS  39    -     0 worker_thread        Wed Feb  9 22:38:09 2022 ?        00:00:33 [kworker/0:1H-kblockd]
+1 I     0     211       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bch_btree_io]
+1 I     0     212       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache]
+1 I     0     213       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bch_journal]
+1 I     0     218       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bioset]
+1 I     0     219       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bioset]
+1 I     0     226       2       0       0  TS  39    -     0 worker_thread        Wed Feb  9 22:38:09 2022 ?        00:00:27 [kworker/1:1H-kblockd]
+1 I     0     227       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bioset]
+1 I     0     228       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_gc]
+1 S     0     229       2       0       0  TS  19    -     0 bch_allocator_thread Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_allocato]
+1 S     0     230       2       0       0  TS  19    -     0 bch_gc_thread        Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_gc]
+1 I     0     231       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_writebac]
+1 S     0     232       2       0       0  TS  19    -     0 read_dirty           Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_writebac]
+1 S     0     233       2       0       0  TS  19    -     0 cached_dev_status_up Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_status_u]
+1 I     0     234       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_writebac]
+1 S     0     235       2       0       0  TS  19    -     0 read_dirty           Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_writebac]
+1 S     0     236       2       0       0  TS  19    -     0 cached_dev_status_up Wed Feb  9 22:38:09 2022 ?        00:00:00 [bcache_status_u]
+1 I     0     276       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:10 2022 ?        00:00:00 [raid5wq]
+1 S     0     319       2       0       0  TS  19    -     0 kjournald2           Wed Feb  9 22:38:10 2022 ?        00:01:22 [jbd2/vda2-8]
+1 I     0     320       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:10 2022 ?        00:00:00 [ext4-rsv-conver]
+4 S     0     397       1     397     397  TS  20    - 17377 ep_poll              Wed Feb  9 22:38:10 2022 ?        00:00:01 /lib/systemd/systemd-journald
+1 I     0     401       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:10 2022 ?        00:00:00 [rpciod]
+1 I     0     404       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:10 2022 ?        00:00:00 [xprtiod]
+4 S     0     428       1     428     428  TS  19    -  5376 ep_poll              Wed Feb  9 22:38:11 2022 ?        00:00:18 /lib/systemd/systemd-udevd
+1 I     0     629       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:11 2022 ?        00:00:00 [kaluad]
+1 I     0     630       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:11 2022 ?        00:00:00 [kmpath_rdacd]
+1 I     0     631       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:11 2022 ?        00:00:00 [kmpathd]
+1 I     0     632       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:11 2022 ?        00:00:00 [kmpath_handlerd]
+4 S     0     633       1     633     633  RR 139    - 86418 futex_wait_queue_me  Wed Feb  9 22:38:11 2022 ?        00:00:03 /sbin/multipathd -d -s
+1 S     0     643       2       0       0  TS  39    -     0 kthread_worker_fn    Wed Feb  9 22:38:12 2022 ?        00:00:00 [loop0]
+1 S     0     647       2       0       0  TS  39    -     0 kthread_worker_fn    Wed Feb  9 22:38:12 2022 ?        00:00:00 [loop2]
+1 S     0     648       2       0       0  TS  39    -     0 kthread_worker_fn    Wed Feb  9 22:38:12 2022 ?        00:00:00 [loop3]
+4 S   116     674       1     674     674  TS  19    -  1776 poll_schedule_timeou Wed Feb  9 22:38:12 2022 ?        00:00:00 /sbin/rpcbind -f -w
+4 S   102     678       1     678     678  TS  19    - 22501 ep_poll              Wed Feb  9 22:38:12 2022 ?        00:00:00 /lib/systemd/systemd-timesyncd
+4 S   100     721       1     721     721  TS  19    -  4668 ep_poll              Wed Feb  9 22:38:13 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S   101     761       1     761     761  TS  19    -  5975 ep_poll              Wed Feb  9 22:38:13 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+5 S     0     762       1     762     762  TS  29    -  2530 poll_schedule_timeou Wed Feb  9 22:38:13 2022 ?        00:00:11 ovsdb-server /etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/run/openvswitch/db.sock --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --no-chdir --log-file=/var/log/openvswitch/ovsdb-server.log --pidfile=/var/run/openvswitch/ovsdb-server.pid --detach
+5 S     0     819       1     819     819  TS  29    - 58948 poll_schedule_timeou Wed Feb  9 22:38:13 2022 ?        00:00:53 ovs-vswitchd unix:/var/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --mlockall --no-chdir --log-file=/var/log/openvswitch/ovs-vswitchd.log --pidfile=/var/run/openvswitch/ovs-vswitchd.pid --detach
+4 S     0     908       1     908     908  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S     0     909       1     909     909  TS  19    -  4732 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/ceph-crash
+4 S   103     914       1     914     914  TS  19    -  1959 ep_poll              Wed Feb  9 22:38:16 2022 ?        00:00:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S     0     920       1     920     920  TS  19    - 20482 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:00:01 /usr/sbin/irqbalance --foreground
+4 S     0     921       1     921     921  TS  19    -  7400 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S   104     923       1     923     923  TS  19    - 56087 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+4 S     0     924       1     924     924  TS  19    -  2599 hrtimer_nanosleep    Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/sbin/smartd -n
+4 S     0     926       1     926     926  TS  19    - 255216 futex_wait_queue_me Wed Feb  9 22:38:16 2022 ?        00:00:26 /usr/lib/snapd/snapd
+4 S     0     927       1     927     927  TS  19    -  4214 ep_poll              Wed Feb  9 22:38:16 2022 ?        00:00:00 /lib/systemd/systemd-logind
+4 S     0     928       1     928     928  TS  19    -  4115 ep_poll              Wed Feb  9 22:38:16 2022 ?        00:00:00 /lib/systemd/systemd-machined
+4 S     0     930       1     930     930  TS  19    - 98761 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S     0     975       1     975     975  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S   119     977       1     977     977  TS  19    - 31609 ep_poll              Wed Feb  9 22:38:16 2022 ?        00:00:15 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+4 S 64060     984       1     984     984  TS  19    - 29901 poll_schedule_timeou Wed Feb  9 22:38:16 2022 ?        00:11:34 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+4 S     1     991       1     991     991  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:16 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S     0    1012       1    1012    1012  TS  19    -  1457 poll_schedule_timeou Wed Feb  9 22:38:17 2022 tty1     00:00:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+4 S     0    1028       1    1028    1028  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:17 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S     0    1030       1    1030    1030  TS  19    -  3826 ep_poll              Wed Feb  9 22:38:17 2022 ?        00:00:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4 S     0    1043       1    1043    1043  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:17 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+5 S   120    1053    1030    1030    1030  TS  19    - 22259 ep_poll              Wed Feb  9 22:38:17 2022 ?        00:00:02 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4 S     0    1074       1    1074    1074  TS  19    - 340585 poll_schedule_timeou Wed Feb  9 22:38:17 2022 ?       00:00:37 /usr/sbin/libvirtd
+4 S     0    1075       1    1075    1075  TS  19    - 27034 poll_schedule_timeou Wed Feb  9 22:38:17 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+0 S     0    1201       2       0       0  TS  19    -   622 pipe_wait            Wed Feb  9 22:38:17 2022 ?        00:00:00 bpfilter_umh
+4 S     0    1546       1    1269    1269  TS  19    - 111654 futex_wait_queue_me Wed Feb  9 22:38:24 2022 ?        00:00:34 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+4 S   107    1554       1    1554    1554  TS  19    -  2437 poll_schedule_timeou Wed Feb  9 22:38:24 2022 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+4 S   119    1590       1    1590    1590  TS  19    - 32886 ep_poll              Wed Feb  9 22:38:25 2022 ?        00:01:28 /usr/bin/python3 /usr/bin/neutron-dhcp-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini --log-file=/var/log/neutron/neutron-dhcp-agent.log
+4 S   119    1591       1    1591    1591  TS  19    - 37693 ep_poll              Wed Feb  9 22:38:25 2022 ?        00:00:25 /usr/bin/python3 /usr/bin/neutron-l3-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini --config-file=/etc/neutron/fwaas_driver.ini --log-file=/var/log/neutron/neutron-l3-agent.log
+4 S   119    1603       1    1603    1603  TS  19    - 37651 ep_poll              Wed Feb  9 22:38:25 2022 ?        00:02:38 /usr/bin/python3 /usr/bin/neutron-openvswitch-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/plugins/ml2/openvswitch_agent.ini --log-file=/var/log/neutron/neutron-openvswitch-agent.log
+1 I     0    1618       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:38:26 2022 ?        00:00:00 [dio/vda2]
+1 S     0    1650       2       0       0  TS  39    -     0 taskq_thread         Wed Feb  9 22:38:26 2022 ?        00:00:00 [spl_system_task]
+1 S     0    1651       2       0       0  TS  39    -     0 taskq_thread         Wed Feb  9 22:38:26 2022 ?        00:00:00 [spl_delay_taskq]
+1 S     0    1652       2       0       0  TS  39    -     0 taskq_thread         Wed Feb  9 22:38:26 2022 ?        00:00:00 [spl_dynamic_tas]
+1 S     0    1653       2       0       0  TS  39    -     0 taskq_thread         Wed Feb  9 22:38:26 2022 ?        00:00:00 [spl_kmem_cache]
+1 S   119    1654     977     977     977  TS  19    - 30930 ep_poll              Wed Feb  9 22:38:26 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1 S   119    1655     977     977     977  TS  19    - 30930 ep_poll              Wed Feb  9 22:38:26 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1 S   119    1656     977     977     977  TS  19    - 30930 ep_poll              Wed Feb  9 22:38:26 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1 S   119    1657     977     977     977  TS  19    - 30930 ep_poll              Wed Feb  9 22:38:26 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini --log-file=/var/log/neutron/neutron-metadata-agent.log
+1 S     0    1659       2       0       0  TS  39    -     0 taskq_thread         Wed Feb  9 22:38:27 2022 ?        00:00:00 [zvol]
+1 S     0    1660       2       0       0  TS  19    -     0 taskq_thread         Wed Feb  9 22:38:27 2022 ?        00:00:00 [arc_prune]
+1 S     0    1661       2       0       0  TS   0    -     0 cv_wait_common       Wed Feb  9 22:38:27 2022 ?        00:00:00 [zthr_procedure]
+1 S     0    1662       2       0       0  TS   0    -     0 cv_timedwait_hires   Wed Feb  9 22:38:27 2022 ?        00:00:00 [zthr_procedure]
+1 S     0    1663       2       0       0  TS  19    -     0 taskq_thread         Wed Feb  9 22:38:27 2022 ?        00:00:00 [dbu_evict]
+1 S     0    1664       2       0       0  TS   0    -     0 cv_timedwait_hires   Wed Feb  9 22:38:27 2022 ?        00:00:00 [dbuf_evict]
+1 S     0    1672       2       0       0  TS   0    -     0 taskq_thread         Wed Feb  9 22:38:28 2022 ?        00:00:00 [z_vdev_file]
+1 S     0    1673       2       0       0  TS  19    -     0 cv_timedwait_common  Wed Feb  9 22:38:28 2022 ?        00:00:01 [l2arc_feed]
+5 S     0    1747       1    1747    1747  TS  19    - 300665 ep_poll             Wed Feb  9 22:38:30 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-0
+4 S 1000000  1758    1747    1758    1758  TS  19    - 26298 ep_poll              Wed Feb  9 22:38:30 2022 ?        00:00:09 /sbin/init
+5 S     0    1811       1    1811    1811  TS  19    - 282232 ep_poll             Wed Feb  9 22:38:31 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-1
+4 S 1000000  1856    1811    1856    1856  TS  19    - 26203 ep_poll              Wed Feb  9 22:38:31 2022 ?        00:00:05 /sbin/init
+4 S 1000000  1927    1758    1927    1927  TS  19    - 12868 ep_poll              Wed Feb  9 22:38:31 2022 ?        00:00:00 /lib/systemd/systemd-journald
+5 S     0    1930       1    1930    1930  TS  19    - 282232 ep_poll             Wed Feb  9 22:38:31 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-2
+4 S 1000000  1987    1758    1987    1987  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:32 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+4 S 1000000  1989    1930    1989    1989  TS  19    - 42588 ep_poll              Wed Feb  9 22:38:32 2022 ?        00:00:04 /sbin/init
+4 S 1000000  1997    1856    1997    1997  TS  19    - 14743 ep_poll              Wed Feb  9 22:38:32 2022 ?        00:00:01 /lib/systemd/systemd-journald
+1 S 1000000  2038    1758    2038    2038  TS  19    -   937 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 S 1000000  2039    1758    2039    2039  TS  19    -   940 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  2040    1758    2040    2040  TS  19    -   933 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4 S 1000000  2071    1856    2071    2071  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:32 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0    2152       1    2152    2152  TS  19    - 263863 ep_poll             Wed Feb  9 22:38:32 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-3
+4 S 1000000  2191    2152    2191    2191  TS  19    - 26203 ep_poll              Wed Feb  9 22:38:32 2022 ?        00:00:04 /sbin/init
+1 S 1000000  2215    1856    2215    2215  TS  19    -  1129 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1 S 1000000  2216    1856    2216    2216  TS  19    -  1188 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/etcd_230.snap /snap/etcd/230 -o ro,nodev,allow_other,suid
+1 S 1000000  2217    1856    2217    2217  TS  19    -  1257 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:09 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1 S 1000000  2218    1856    2218    2218  TS  19    -  1224 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  2222    1856    2222    2222  TS  19    -  1235 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:04 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 S 1000000  2223    1856    2223    2223  TS  19    -  1214 fuse_dev_do_read.isr Wed Feb  9 22:38:32 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4 S 1000000  2255    1989    2255    2255  TS  19    -  8769 ep_poll              Wed Feb  9 22:38:33 2022 ?        00:00:01 /lib/systemd/systemd-journald
+5 S     0    2369       1    2369    2369  TS  19    - 319162 ep_poll             Wed Feb  9 22:38:33 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-4
+4 S 1000000  2398    1989    2398    2398  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:33 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+4 S 1000000  2403    2369    2403    2403  TS  19    - 26204 ep_poll              Wed Feb  9 22:38:33 2022 ?        00:00:04 /sbin/init
+4 S 1000000  2412    2191    2412    2412  TS  19    -  8762 ep_poll              Wed Feb  9 22:38:33 2022 ?        00:00:00 /lib/systemd/systemd-journald
+1 S 1000000  2434    1989    2434    2434  TS  19    -   931 fuse_dev_do_read.isr Wed Feb  9 22:38:34 2022 ?        00:00:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 S 1000000  2436    1989    2436    2436  TS  19    -   976 fuse_dev_do_read.isr Wed Feb  9 22:38:34 2022 ?        00:00:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  2437    1989    2437    2437  TS  19    -   999 fuse_dev_do_read.isr Wed Feb  9 22:38:34 2022 ?        00:00:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4 S 1000000  2529    2191    2529    2529  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:34 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0    2557       1    2557    2557  TS  19    - 282232 ep_poll             Wed Feb  9 22:38:34 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-5
+4 S 1000000  2600    2557    2600    2600  TS  19    - 42620 ep_poll              Wed Feb  9 22:38:34 2022 ?        00:00:15 /sbin/init
+1 S 1000000  2641    2191    2641    2641  TS  19    -  1273 fuse_dev_do_read.isr Wed Feb  9 22:38:35 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  2642    2191    2642    2642  TS  19    -  1178 fuse_dev_do_read.isr Wed Feb  9 22:38:35 2022 ?        00:00:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 S 1000000  2643    2191    2643    2643  TS  19    -  1195 fuse_dev_do_read.isr Wed Feb  9 22:38:35 2022 ?        00:05:01 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+1 S 1000000  2646    2191    2646    2646  TS  19    -  1195 fuse_dev_do_read.isr Wed Feb  9 22:38:35 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 S 1000000  2649    2191    2649    2649  TS  19    -  1253 fuse_dev_do_read.isr Wed Feb  9 22:38:35 2022 ?        00:00:09 squashfuse /var/lib/snapd/snaps/mysql-shell_29.snap /snap/mysql-shell/29 -o ro,nodev,allow_other,suid
+4 S 1000000  2665    2403    2665    2665  TS  19    - 16958 ep_poll              Wed Feb  9 22:38:35 2022 ?        00:00:04 /lib/systemd/systemd-journald
+5 S     0    2736       1    2736    2736  TS  19    - 282232 ep_poll             Wed Feb  9 22:38:35 2022 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-6
+4 S 1000000  2776    2403    2776    2776  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:35 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+4 S 1000000  2780    2736    2780    2780  TS  19    - 42642 ep_poll              Wed Feb  9 22:38:35 2022 ?        00:02:55 /sbin/init
+4 S 1000101  2790    1758    2790    2790  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:35 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000000  2867    2600    2867    2867  TS  19    - 21062 ep_poll              Wed Feb  9 22:38:36 2022 ?        00:00:03 /lib/systemd/systemd-journald
+1 S 1000000  2887    2403    2887    2887  TS  19    -   937 fuse_dev_do_read.isr Wed Feb  9 22:38:36 2022 ?        00:00:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 S 1000000  2888    2403    2888    2888  TS  19    -   978 fuse_dev_do_read.isr Wed Feb  9 22:38:36 2022 ?        00:00:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  2892    2403    2892    2892  TS  19    -   942 fuse_dev_do_read.isr Wed Feb  9 22:38:36 2022 ?        00:00:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+4 S 1000101  2916    1856    2916    2916  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:36 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000000  2980    2600    2980    2980  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:36 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+4 S 1000000  2993    2780    2993    2993  TS  19    -  8771 ep_poll              Wed Feb  9 22:38:37 2022 ?        00:00:00 /lib/systemd/systemd-journald
+1 S 1000000  3033    2600    3033    3033  TS  19    -   935 fuse_dev_do_read.isr Wed Feb  9 22:38:37 2022 ?        00:00:05 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 S 1000000  3034    2600    3034    3034  TS  19    -   953 fuse_dev_do_read.isr Wed Feb  9 22:38:37 2022 ?        00:00:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  3035    2600    3035    3035  TS  19    -   953 fuse_dev_do_read.isr Wed Feb  9 22:38:37 2022 ?        00:00:04 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4 S 1000000  3058    2780    3058    3058  TS  19    -  2971 ep_poll              Wed Feb  9 22:38:37 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+1 S 1000000  3144    2780    3144    3144  TS  19    -  1159 fuse_dev_do_read.isr Wed Feb  9 22:38:38 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S 1000000  3145    2780    3145    3145  TS  19    -  1129 fuse_dev_do_read.isr Wed Feb  9 22:38:38 2022 ?        00:00:00 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603 -o ro,nodev,allow_other,suid
+1 S 1000000  3146    2780    3146    3146  TS  19    -  1188 fuse_dev_do_read.isr Wed Feb  9 22:38:38 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 S 1000000  3148    2780    3148    3148  TS  19    -  1166 fuse_dev_do_read.isr Wed Feb  9 22:38:38 2022 ?        00:00:02 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012 -o ro,nodev,allow_other,suid
+1 S 1000000  3150    2780    3150    3150  TS  19    -  1206 fuse_dev_do_read.isr Wed Feb  9 22:38:38 2022 ?        00:00:03 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+1 S 1000000  3151    2780    3151    3151  TS  19    -  1186 fuse_dev_do_read.isr Wed Feb  9 22:38:38 2022 ?        00:00:00 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/2284 -o ro,nodev,allow_other,suid
+4 S 1000101  3234    1989    3234    3234  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:39 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000101  3235    2191    3235    3235  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:39 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000101  3288    2403    3288    3288  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:40 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000101  3290    2600    3290    3290  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:40 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000101  3377    2780    3377    3377  TS  19    -  5991 ep_poll              Wed Feb  9 22:38:41 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S 1000100  3423    1856    3423    3423  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:42 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000100  3431    1758    3431    3431  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:42 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000000  3488    1758    3488    3488  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S 1000000  3489    1758    3489    3489  TS  19    -  4702 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/ceph-crash
+4 S 1064045  3515    1758    3515    3515  TS  19    - 124929 futex_wait_queue_me Wed Feb  9 22:38:43 2022 ?        00:00:45 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 S 1064045  3516    1758    3516    3516  TS  19    - 355335 futex_wait_queue_me Wed Feb  9 22:38:43 2022 ?        00:07:13 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 S 1000103  3518    1758    3518    3518  TS  19    -  1929 ep_poll              Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 S 1000000  3530    1758    3530    3530  TS  19    -  7318 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S 1000104  3541    1758    3541    3541  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+4 S 1000000  3542    1856    3542    3542  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+0 S 1000000  3543    1758    3543    3543  TS  19    -  2599 hrtimer_nanosleep    Wed Feb  9 22:38:43 2022 ?        00:00:00 /usr/sbin/smartd -n
+0 S 1000000  3559    1758    3559    3559  TS  19    - 236783 futex_wait_queue_me Wed Feb  9 22:38:43 2022 ?        00:00:02 /usr/lib/snapd/snapd
+4 S 1000000  3564    1856    3564    3564  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000103  3565    1856    3565    3565  TS  19    -  1892 ep_poll              Wed Feb  9 22:38:44 2022 ?        00:00:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S 1000000  3566    1758    3566    3566  TS  19    -  4212 ep_poll              Wed Feb  9 22:38:44 2022 ?        00:00:00 /lib/systemd/systemd-logind
+0 S 1000000  3572    1758    3572    3572  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+0 S 1000000  3579    1856    3579    3579  TS  19    -  7320 poll_schedule_timeou Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S 1000104  3586    1856    3586    3586  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+4 S 1000000  3588    1856    3588    3588  TS  19    - 2839037 futex_wait_queue_me Wed Feb  9 22:38:44 2022 ?       00:13:22 /snap/etcd/230/bin/etcd --config-file /var/snap/etcd/common/etcd.conf.yml
+0 S 1000000  3594    1856    3594    3594  TS  19    - 218350 futex_wait_queue_me Wed Feb  9 22:38:44 2022 ?        00:00:02 /usr/lib/snapd/snapd
+4 S 1000000  3598    1856    3598    3598  TS  19    -  4120 ep_poll              Wed Feb  9 22:38:44 2022 ?        00:00:00 /lib/systemd/systemd-logind
+0 S 1000000  3602    1856    3602    3602  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S 1000000  3608    1758    3608    3608  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000001  3614    1856    3614    3614  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S 1000001  3623    1758    3623    3623  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:44 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S 1000000  3632    1856    3632    3632  TS  19    -  2174 do_wait              Wed Feb  9 22:38:44 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-1-exec-start.sh
+4 S 1000000  3643    1758    3643    3643  TS  19    -  2174 do_wait              Wed Feb  9 22:38:44 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+4 S 1000100  3670    2191    3670    3670  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:44 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000000  3672    1856    3672    3672  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:44 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 S 1000000  3680    1758    3680    3680  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:44 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 S 1000100  3683    1989    3683    3683  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:44 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000000  3687    3643    3643    3643  TS  19    - 216582 futex_wait_queue_me Wed Feb  9 22:38:44 2022 ?        00:20:11 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+4 S 1000000  3692    1856    3692    3692  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:44 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S 1000000  3706    3632    3632    3632  TS  19    - 216518 futex_wait_queue_me Wed Feb  9 22:38:45 2022 ?        00:20:37 /var/lib/juju/tools/machine-1-lxd-1/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/1 --debug
+4 S 1000000  3743    1758    3743    3743  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0 S 1000000  3777    1856    3777    3777  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+4 S 1000000  3780    2191    3780    3780  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S 1000000  3790    2191    3790    3790  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000103  3792    2191    3792    3792  TS  19    -  1892 ep_poll              Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 S 1000000  3799    1758    3799    3799  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+4 S 1000000  3806    1989    3806    3806  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+0 S 1000000  3813    2191    3813    3813  TS  19    -  7320 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S 1000000  3814    1989    3814    3814  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000104  3815    2191    3815    3815  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+4 S 1000103  3817    1989    3817    3817  TS  19    -  1891 ep_poll              Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 S 1000000  3824    2191    3824    3824  TS  19    - 218350 futex_wait_queue_me Wed Feb  9 22:38:45 2022 ?        00:00:02 /usr/lib/snapd/snapd
+4 S 1000113  3828    1989    3828    3828  TS  19    - 104755 ep_poll             Wed Feb  9 22:38:45 2022 ?        00:00:27 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+4 S 1000000  3830    2191    3830    3830  TS  19    -  4120 ep_poll              Wed Feb  9 22:38:45 2022 ?        00:00:00 /lib/systemd/systemd-logind
+0 S 1000000  3836    1989    3836    3836  TS  19    -  7375 poll_schedule_timeou Wed Feb  9 22:38:45 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S 1000104  3890    1989    3890    3890  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:46 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+0 S 1000000  3899    2191    3899    3899  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:46 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+0 S 1000000  3909    1989    3909    3909  TS  19    - 218350 futex_wait_queue_me Wed Feb  9 22:38:46 2022 ?        00:00:02 /usr/lib/snapd/snapd
+4 S 1000001  3919    2191    3919    3919  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:46 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S 1000000  3925    1989    3925    3925  TS  19    -  4120 ep_poll              Wed Feb  9 22:38:46 2022 ?        00:00:00 /lib/systemd/systemd-logind
+0 S 1000000  3978    1989    3978    3978  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:46 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S 1000001  4004    1989    4004    4004  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:46 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S 1000000  4050    2191    4050    4050  TS  19    -  2174 do_wait              Wed Feb  9 22:38:46 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-3-exec-start.sh
+4 S 1000100  4055    2600    4055    4055  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:46 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000000  4066    1989    4066    4066  TS  19    -  2174 do_wait              Wed Feb  9 22:38:46 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-2-exec-start.sh
+4 S 1000000  4085    2191    4085    4085  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:46 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 S 1000000  4092    4050    4050    4050  TS  19    - 216582 futex_wait_queue_me Wed Feb  9 22:38:46 2022 ?        00:19:55 /var/lib/juju/tools/machine-1-lxd-3/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/3 --debug
+4 S 1000000  4097    1989    4097    4097  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:46 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0 S 1000997  4118    1989    3821    3821  TS  19    - 190366 futex_wait_queue_me Wed Feb  9 22:38:46 2022 ?        00:06:42 /usr/bin/mysqlrouter -c /var/lib/mysql/keystone-mysql-router/mysqlrouter.conf
+4 S 1000000  4138    2191    4138    4138  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:46 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S 1000000  4168    4066    4066    4066  TS  19    - 216582 futex_wait_queue_me Wed Feb  9 22:38:47 2022 ?        00:20:53 /var/lib/juju/tools/machine-1-lxd-2/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/2 --debug
+4 S 1000000  4172    1989    4172    4172  TS  19    -  4730 ep_poll              Wed Feb  9 22:38:47 2022 ?        00:00:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+0 S 1000000  4183    2191    4183    4183  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:47 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+0 S 1000000  4195    1758    4195    4195  TS  19    - 27028 poll_schedule_timeou Wed Feb  9 22:38:47 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+5 S 1000115  4252    4172    4172    4172  TS  19    - 23239 ep_poll              Wed Feb  9 22:38:47 2022 ?        00:00:11 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+0 S 1000000  4325    1989    4325    4325  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:47 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+4 S 1000100  4405    2780    4405    4405  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:47 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000000  4414    2600    4414    4414  TS  19    - 59517 poll_schedule_timeou Wed Feb  9 22:38:47 2022 ?        00:00:01 /usr/lib/accountsservice/accounts-daemon
+4 S 1000100  4420    2403    4420    4420  TS  19    -  4604 ep_poll              Wed Feb  9 22:38:47 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S 1000000  4431    2600    4431    4431  TS  19    -  1392 hrtimer_nanosleep    Wed Feb  9 22:38:48 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000103  4432    2600    4432    4432  TS  19    -  1961 ep_poll              Wed Feb  9 22:38:48 2022 ?        00:00:04 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S 1000000  4436    1989    4436    4436  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:48 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S 1000113  4442    2600    4442    4442  TS  19    -  2077 poll_schedule_timeou Wed Feb  9 22:38:48 2022 ?        00:00:00 /usr/bin/epmd -systemd
+0 S 1000000  4445    2600    4445    4445  TS  19    -  6578 poll_schedule_timeou Wed Feb  9 22:38:48 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S 1000114  4446    2600    4446    4446  TS  19    -   652 do_wait              Wed Feb  9 22:38:48 2022 ?        00:00:00 /bin/sh /usr/sbin/rabbitmq-server
+4 S 1000104  4454    2600    4454    4454  TS  19    - 38678 poll_schedule_timeou Wed Feb  9 22:38:48 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+0 S 1000000  4462    2600    4462    4462  TS  19    - 218350 futex_wait_queue_me Wed Feb  9 22:38:48 2022 ?        00:00:02 /usr/lib/snapd/snapd
+4 S 1000000  4472    2600    4472    4472  TS  19    -  4201 ep_poll              Wed Feb  9 22:38:48 2022 ?        00:00:02 /lib/systemd/systemd-logind
+0 S 1000000  4478    2600    4478    4478  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:48 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S 1000001  4496    2600    4496    4496  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:48 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S 1000000  4508    2600    4508    4508  TS  19    -  1432 do_wait              Wed Feb  9 22:38:48 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+4 S 1000000  4527    2600    4527    4527  TS  19    -  1096 poll_schedule_timeou Wed Feb  9 22:38:48 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0 S 1000114  4586    4446    4446    4446  TS  19    - 569694 poll_schedule_timeou Wed Feb  9 22:38:48 2022 ?       00:51:40 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -K true -A 48 -- -root /usr/lib/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/ebin  -noshell -noinput -s rabbit boot -sname rabbit@juju-04f1e3-1-lxd-5 -boot start_sasl -conf /etc/rabbitmq/rabbitmq.conf -conf_dir /var/lib/rabbitmq/config -conf_script_dir /usr/lib/rabbitmq/bin -conf_schema_dir /var/lib/rabbitmq/schema -conf_advanced /etc/rabbitmq/advanced.config -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@juju-04f1e3-1-lxd-5_upgrade.log" -rabbit feature_flags_file "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-feature_flags" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.2/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5" -ra data_dir "/var/lib/rabbitmq/mnesia/rabbit@juju-04f1e3-1-lxd-5/quorum" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672 --
+4 S 1000000  4600    4508    4508    4508  TS  19    - 216518 futex_wait_queue_me Wed Feb  9 22:38:49 2022 ?        00:19:47 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/5 --debug
+4 S 1000113  4616    2191    4616    4616  TS  19    - 1287819 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?      00:33:32 /usr/sbin/mysqld
+4 S 1000000  4641    2600    4641    4641  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S 1000000  4657    2780    4657    4657  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S 1000000  4676    2780    4676    4676  TS  19    - 40260 ep_poll              Wed Feb  9 22:38:49 2022 ?        00:04:50 /usr/sbin/corosync -f
+4 S 1000000  4684    2403    4684    4684  TS  19    - 60259 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:01 /usr/lib/accountsservice/accounts-daemon
+4 S 1000000  4685    2780    4685    4685  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000103  4688    2780    4688    4688  TS  19    -  1925 ep_poll              Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S 1000000  4712    2403    4712    4712  TS  19    -  2134 hrtimer_nanosleep    Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S 1000103  4716    2403    4716    4716  TS  19    -  1892 ep_poll              Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 S 1000000  4719    2780    4719    4719  TS  19    -  7318 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S 1000104  4722    2780    4722    4722  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+0 S 1000000  4738    2191    4738    4738  TS  19    - 27027 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S 1000114  4749    2403    4749    4749  TS  19    - 102699 ep_poll             Wed Feb  9 22:38:49 2022 ?        00:00:12 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+0 S 1000000  4754    2780    4754    4754  TS  19    - 236783 futex_wait_queue_me Wed Feb  9 22:38:49 2022 ?        00:00:04 /usr/lib/snapd/snapd
+0 S 1000000  4755    2403    4755    4755  TS  19    -  7370 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+0 S 1000000  4757    2600    4757    4757  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:01 /usr/lib/policykit-1/polkitd --no-debug
+4 S 1000104  4764    2403    4764    4764  TS  19    - 38716 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+4 S 1000000  4765    2780    4765    4765  TS  19    -  4120 ep_poll              Wed Feb  9 22:38:49 2022 ?        00:00:00 /lib/systemd/systemd-logind
+0 S 1000000  4784    2780    4784    4784  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:49 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+0 S 1000000  4801    2403    4801    4801  TS  19    - 218350 futex_wait_queue_me Wed Feb  9 22:38:50 2022 ?        00:00:02 /usr/lib/snapd/snapd
+0 S 1000000  4820    1856    4820    4820  TS  19    - 27027 poll_schedule_timeou Wed Feb  9 22:38:50 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S 1000000  4846    2403    4846    4846  TS  19    -  4120 ep_poll              Wed Feb  9 22:38:50 2022 ?        00:00:00 /lib/systemd/systemd-logind
+4 S 1000001  4858    2780    4858    4858  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:50 2022 ?        00:00:00 /usr/sbin/atd -f
+0 S 1000000  4859    2780    4859    4859  TS  19    -  1196 poll_schedule_timeou Wed Feb  9 22:38:50 2022 ?        00:00:02 ha_logd: read process
+0 S 1000000  4879    2403    4879    4879  TS  19    - 98643 poll_schedule_timeou Wed Feb  9 22:38:50 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S 1000000  4880    2780    4880    4880  TS  19    -  2174 do_wait              Wed Feb  9 22:38:50 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-6-exec-start.sh
+4 S 1000001  4897    2403    4897    4897  TS  19    -   948 hrtimer_nanosleep    Wed Feb  9 22:38:50 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S 1000000  4954    2780    4954    4954  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:50 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+0 S 1000997  4962    2403    4756    4756  TS  19    - 190366 futex_wait_queue_me Wed Feb  9 22:38:50 2022 ?        00:06:37 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+4 S 1000000  4970    2403    4970    4970  TS  19    -  2174 do_wait              Wed Feb  9 22:38:51 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-4-exec-start.sh
+0 S 1000997  4971    2780    4800    4800  TS  19    - 190366 futex_wait_queue_me Wed Feb  9 22:38:51 2022 ?        00:06:18 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlrouter.conf
+1 S 1000000  4987    4859    4859    4859  TS  19    -  1196 poll_schedule_timeou Wed Feb  9 22:38:51 2022 ?        00:00:02 ha_logd: write process
+4 S 1000000  5038    2403    5038    5038  TS  19    -  1838 poll_schedule_timeou Wed Feb  9 22:38:51 2022 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 S 1000000  5057    4970    4970    4970  TS  19    - 216582 futex_wait_queue_me Wed Feb  9 22:38:51 2022 ?        00:21:02 /var/lib/juju/tools/machine-1-lxd-4/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/4 --debug
+0 S 1000000  5064    4880    4880    4880  TS  19    - 216582 futex_wait_queue_me Wed Feb  9 22:38:51 2022 ?        00:20:56 /var/lib/juju/tools/machine-1-lxd-6/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/6 --debug
+4 S 1000000  5068    2780    5068    5068  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:51 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S 1000000  5074    2403    5074    5074  TS  19    -  4696 ep_poll              Wed Feb  9 22:38:51 2022 ?        00:00:01 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4 S 1000000  5090    2403    5090    5090  TS  19    -  3044 poll_schedule_timeou Wed Feb  9 22:38:51 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+5 S 1000115  5188    5074    5074    5074  TS  19    - 23205 ep_poll              Wed Feb  9 22:38:52 2022 ?        00:00:07 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+0 S 1000000  5260    2403    5260    5260  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:52 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+5 S 1000000  5375    2403    5375    5375  TS  19    -  4672 poll_schedule_timeou Wed Feb  9 22:38:53 2022 ?        00:00:01 /usr/sbin/apache2 -k start
+0 S 1000000  5429    2780    5429    5429  TS  19    - 59106 poll_schedule_timeou Wed Feb  9 22:38:53 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+0 S 1000000  5430    1989    5430    5430  TS  19    - 27034 poll_schedule_timeou Wed Feb  9 22:38:53 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S 1000000  5466    2780    5466    5466  TS  19    - 18594 poll_schedule_timeou Wed Feb  9 22:38:53 2022 ?        00:00:03 /usr/sbin/pacemakerd -f
+0 S 1000000  5635    2600    5635    5635  TS  19    - 26285 poll_schedule_timeou Wed Feb  9 22:38:55 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S 1000000  5652    1989    5652    5652  TS  19    -   654 sigsuspend           Wed Feb  9 22:38:55 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S 1000113  5682    5466    5682    5682  TS  19    - 18713 poll_schedule_timeou Wed Feb  9 22:38:56 2022 ?        00:00:07 /usr/lib/pacemaker/pacemaker-based
+4 S 1000000  5683    5466    5683    5683  TS  19    - 16486 poll_schedule_timeou Wed Feb  9 22:38:56 2022 ?        00:00:03 /usr/lib/pacemaker/pacemaker-fenced
+4 S 1000000  5684    5466    5684    5684  TS  19    - 12606 poll_schedule_timeou Wed Feb  9 22:38:56 2022 ?        00:00:03 /usr/lib/pacemaker/pacemaker-execd
+4 S 1000113  5687    5466    5687    5687  TS  19    - 15829 poll_schedule_timeou Wed Feb  9 22:38:56 2022 ?        00:00:03 /usr/lib/pacemaker/pacemaker-attrd
+4 S 1000113  5691    5466    5691    5691  TS  19    - 12696 poll_schedule_timeou Wed Feb  9 22:38:56 2022 ?        00:00:03 /usr/lib/pacemaker/pacemaker-schedulerd
+4 S 1000113  5694    5466    5694    5694  TS  19    - 18694 poll_schedule_timeou Wed Feb  9 22:38:57 2022 ?        00:00:05 /usr/lib/pacemaker/pacemaker-controld
+0 S 1000000  5696    2403    5696    5696  TS  19    - 27035 poll_schedule_timeou Wed Feb  9 22:38:57 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+0 S 1000000  5697    2780    5697    5697  TS  19    - 27027 poll_schedule_timeou Wed Feb  9 22:38:57 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S 1000000  5858    1758    5858    5858  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:00 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S 1000000  5892    1856    5892    5892  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:01 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S 1000000  5920    2191    5920    5920  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:02 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S 1000000  5960    2600    5960    5960  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:04 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S 1000000  6092    2403    6092    6092  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:07 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S 1000000  6236    2780    6236    6236  TS  19    -   654 sigsuspend           Wed Feb  9 22:39:09 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+1 S     0    6281       1    1603    1603  TS  19    - 40040 unix_stream_read_gen Wed Feb  9 22:39:10 2022 ?        00:00:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmpc_qcyzs5/privsep.sock
+0 S 1000114  7985    4586    7985    7985  TS  19    -   623 poll_schedule_timeou Wed Feb  9 22:39:20 2022 ?        00:00:01 erl_child_setup 65536
+4 S 1000000 11933    6092    6092    6092  TS  19    - 381009 futex_wait_queue_me Wed Feb  9 22:40:05 2022 ?        00:00:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S 1000000 12313    5858    5858    5858  TS  19    - 399442 futex_wait_queue_me Wed Feb  9 22:40:10 2022 ?        00:00:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S 1000000 12616    5652    5652    5652  TS  19    - 381009 futex_wait_queue_me Wed Feb  9 22:40:13 2022 ?        00:00:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S 1000000 12775    5960    5960    5960  TS  19    - 381009 futex_wait_queue_me Wed Feb  9 22:40:14 2022 ?        00:00:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S 1000000 14488    5892    5892    5892  TS  19    - 417875 futex_wait_queue_me Wed Feb  9 22:40:31 2022 ?        00:00:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S 1000000 15345    5920    5920    5920  TS  19    - 381009 futex_wait_queue_me Wed Feb  9 22:40:41 2022 ?        00:00:08 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S 1000000 15480    6236    6236    6236  TS  19    - 381009 futex_wait_queue_me Wed Feb  9 22:40:43 2022 ?        00:00:13 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S     0   15932       2       0       0  TS  39    -     0 kthread_worker_fn    Wed Feb  9 22:40:50 2022 ?        00:00:00 [loop4]
+0 S 1000114 17252    7985   17252   17252  TS  19    -   970 poll_schedule_timeou Wed Feb  9 22:41:01 2022 ?        00:00:00 inet_gethost 4
+1 S 1000114 17254   17252   17252   17252  TS  19    -   990 pipe_wait            Wed Feb  9 22:41:01 2022 ?        00:00:00 inet_gethost 4
+4 S     0   18866       1   18866   18866  TS  19    -   654 sigsuspend           Wed Feb  9 22:41:18 2022 ?        00:00:00 /bin/sh /snap/lxd/22358/commands/daemon.start
+4 S     0   19026   18866   18866   18866  TS  19    - 439584 futex_wait_queue_me Wed Feb  9 22:41:19 2022 ?        00:02:19 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S   998   19086   19026   19086   19086  TS  19    -  2232 poll_schedule_timeou Wed Feb  9 22:41:20 2022 ?        00:00:00 dnsmasq --keep-in-foreground --strict-order --bind-interfaces --except-interface=lo --pid-file= --no-ping --interface=lxdbr0 --dhcp-rapid-commit --quiet-dhcp --quiet-dhcp6 --quiet-ra --listen-address=10.50.99.1 --dhcp-no-override --dhcp-authoritative --dhcp-leasefile=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.leases --dhcp-hostsfile=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.hosts --dhcp-range 10.50.99.2,10.50.99.254,1h -s lxd --interface-name _gateway.lxd,lxdbr0 -S /lxd/ --conf-file=/var/snap/lxd/common/lxd/networks/lxdbr0/dnsmasq.raw -u lxd -g lxd
+1 S 64060   35743     984     984     984  TS  19    - 30277 ep_poll              Wed Feb  9 22:48:14 2022 ?        00:00:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+1 S 64060   35744     984     984     984  TS  19    - 30277 ep_poll              Wed Feb  9 22:48:14 2022 ?        00:00:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+1 S 64060   35746     984     984     984  TS  19    - 30276 ep_poll              Wed Feb  9 22:48:14 2022 ?        00:00:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+1 S 64060   35747     984     984     984  TS  19    - 30278 ep_poll              Wed Feb  9 22:48:14 2022 ?        00:00:03 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/nova/nova.conf --log-file=/var/log/nova/nova-api-metadata.log
+4 S 1000000 35758    2780   35758   35758  TS  19    - 219660 futex_wait_queue_me Wed Feb  9 22:48:24 2022 ?        00:01:41 /snap/vault/2012/bin/vault server -config /var/snap/vault/common/vault.hcl
+1 I     0   36865       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:04 2022 ?        00:00:00 [kdmflush]
+1 I     0   36876       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:04 2022 ?        00:00:00 [kcryptd_io/253:]
+1 I     0   36877       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:04 2022 ?        00:00:00 [kcryptd/253:0]
+1 S     0   36878       2       0       0  TS  19    -     0 dmcrypt_write        Wed Feb  9 22:49:04 2022 ?        00:00:02 [dmcrypt_write/2]
+1 I     0   36910       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:04 2022 ?        00:00:00 [kdmflush]
+1 I     0   36968       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:05 2022 ?        00:00:00 [kdmflush]
+1 I     0   36969       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:05 2022 ?        00:00:00 [kcryptd_io/253:]
+1 I     0   36971       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:49:05 2022 ?        00:00:00 [kcryptd/253:2]
+1 S     0   36972       2       0       0  TS  19    -     0 dmcrypt_write        Wed Feb  9 22:49:05 2022 ?        00:00:00 [dmcrypt_write/2]
+1 S     0   44277       1    1591    1591  TS  19    - 59688 unix_stream_read_gen Wed Feb  9 22:49:58 2022 ?        00:00:03 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --privsep_context neutron.privileged.default --privsep_sock_path /tmp/tmp7duwkf2h/privsep.sock
+0 S   119   45486    1603    1603    1603  TS  19    -  2309 poll_schedule_timeou Wed Feb  9 22:50:17 2022 ?        00:00:00 ovsdb-client monitor tcp:127.0.0.1:6640 Interface name,ofport,external_ids --format=json
+5 S 1000000 46251    1989   46251   46251  TS  19    -  4682 poll_schedule_timeou Wed Feb  9 22:50:33 2022 ?        00:00:01 /usr/sbin/apache2 -k start
+4 S     0   51494       1   51494   51494  TS  19    -  2174 do_wait              Wed Feb  9 22:52:39 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-exec-start.sh
+4 S     0   51515   51494   51494   51494  TS  19    - 216582 futex_wait_queue_me Wed Feb  9 22:52:39 2022 ?        00:19:34 /var/lib/juju/tools/machine-1/jujud machine --data-dir /var/lib/juju --machine-id 1 --debug
+1 I     0   53075       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfsalloc]
+1 I     0   53076       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs_mru_cache]
+1 I     0   53077       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs-buf/dm-2]
+1 I     0   53078       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs-conv/dm-2]
+1 I     0   53079       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs-cil/dm-2]
+1 I     0   53080       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs-reclaim/dm-]
+1 I     0   53082       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs-eofblocks/d]
+1 I     0   53083       2       0       0  TS  39    -     0 rescuer_thread       Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfs-log/dm-2]
+1 S     0   53084       2       0       0  TS  19    -     0 xfsaild              Wed Feb  9 22:53:07 2022 ?        00:00:00 [xfsaild/dm-2]
+4 S 64060   53085       1   53085   53085  TS  19    - 392739 ep_poll             Wed Feb  9 22:53:07 2022 ?        00:02:27 /usr/bin/python3 /usr/bin/nova-compute --config-file=/etc/nova/nova.conf --config-file=/etc/nova/nova-compute.conf --log-file=/var/log/nova/nova-compute.log
+4 S 1000107 135899   1758  135899  135899  TS  19    -  2437 poll_schedule_timeou Wed Feb  9 23:38:35 2022 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+5 S 1000113 171572   5375    5375    5375  TS  19    - 58136 poll_schedule_timeou Thu Feb 10 00:00:22 2022 ?        00:00:21 (wsgi:placement)  -k start
+5 S 1000113 171573   5375    5375    5375  TS  19    - 58136 poll_schedule_timeou Thu Feb 10 00:00:22 2022 ?        00:00:21 (wsgi:placement)  -k start
+5 S 1000113 171575   5375    5375    5375  TS  19    - 58136 poll_schedule_timeou Thu Feb 10 00:00:22 2022 ?        00:00:21 (wsgi:placement)  -k start
+5 S 1000113 171577   5375    5375    5375  TS  19    - 58200 poll_schedule_timeou Thu Feb 10 00:00:22 2022 ?        00:00:21 (wsgi:placement)  -k start
+5 S 1000033 171621   5375    5375    5375  TS  19    - 306749 pipe_wait           Thu Feb 10 00:00:23 2022 ?        00:00:02 /usr/sbin/apache2 -k start
+5 S 1000033 171622   5375    5375    5375  TS  19    - 306767 pipe_wait           Thu Feb 10 00:00:23 2022 ?        00:00:02 /usr/sbin/apache2 -k start
+5 S 1000114 171719  46251   46251   46251  TS  19    - 63606 poll_schedule_timeou Thu Feb 10 00:00:24 2022 ?        00:01:28 (wsgi:keystone-ad -k start
+5 S 1000114 171720  46251   46251   46251  TS  19    - 63030 poll_schedule_timeou Thu Feb 10 00:00:24 2022 ?        00:00:20 (wsgi:keystone-pu -k start
+5 S 1000114 171721  46251   46251   46251  TS  19    - 62902 poll_schedule_timeou Thu Feb 10 00:00:24 2022 ?        00:00:13 (wsgi:keystone-pu -k start
+5 S 1000114 171722  46251   46251   46251  TS  19    - 62966 poll_schedule_timeou Thu Feb 10 00:00:24 2022 ?        00:00:19 (wsgi:keystone-pu -k start
+5 S 1000033 171736  46251   46251   46251  TS  19    - 307073 pipe_wait           Thu Feb 10 00:00:25 2022 ?        00:00:01 /usr/sbin/apache2 -k start
+5 S 1000033 171737  46251   46251   46251  TS  19    - 307049 pipe_wait           Thu Feb 10 00:00:25 2022 ?        00:00:01 /usr/sbin/apache2 -k start
+4 S     0  782960       1  782960  782960  TS  19    - 62808 poll_schedule_timeou Thu Feb 10 06:14:24 2022 ?        00:00:00 /usr/lib/upower/upowerd
+4 S 1000107 829236   2780  829236  829236  TS  19    -  2437 poll_schedule_timeou Thu Feb 10 06:42:08 2022 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+4 S 1000107 844660   2600  844660  844660  TS  19    -  1695 poll_schedule_timeou Thu Feb 10 06:50:11 2022 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+4 S 64045 1113152       1 1113152 1113152  TS  19    - 267116 futex_wait_queue_me Thu Feb 10 09:32:05 2022 ?        00:02:07 /usr/bin/ceph-osd -f --cluster ceph --id 0 --setuser ceph --setgroup ceph
+4 S 1000000 1734261  2403 1734261 1734261  TS  19    - 96004 poll_schedule_timeou Thu Feb 10 15:46:21 2022 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 I     0 1734274       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 15:46:22 2022 ?        00:00:01 [kworker/0:1-events]
+1 I     0 1737737       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 15:48:08 2022 ?        00:00:04 [kworker/u4:1-kcryptd/253:0]
+1 I     0 1754162       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 15:58:20 2022 ?        00:00:00 [kworker/1:2-events]
+1 I     0 1759107       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:02:15 2022 ?        00:00:02 [kworker/u4:2-events_power_efficient]
+1 I     0 1769198       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:08:02 2022 ?        00:00:00 [kworker/1:3-cgroup_destroy]
+1 I     0 1769485       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:08:04 2022 ?        00:00:00 [kworker/0:2-mm_percpu_wq]
+1 S     0 1773272       1 1773271 1773271  TS  19    - 84414 futex_wait_queue_me  Thu Feb 10 16:09:22 2022 ?        00:00:00 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+5 S     0 1773285 1773272 1773271 1773271  TS  19    - 84350 poll_schedule_timeou Thu Feb 10 16:09:22 2022 ?        00:00:00 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_id=984c22fd-64b3-4fa1-8ddd-87090f401ce5 --namespace=snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5 --conf_dir=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5 --log-file=/var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/neutron-keepalived-state-change.log --monitor_interface=ha-550dc175-c0 --monitor_cidr=169.254.0.24/24 --pid_file=/var/lib/neutron/external/pids/984c22fd-64b3-4fa1-8ddd-87090f401ce5.monitor.pid.neutron-keepalived-state-change-monitor --state_path=/var/lib/neutron --user=119 --group=124
+5 S   119 1773297       1 1773297 1773297  TS  19    - 22258 ep_poll              Thu Feb 10 16:09:22 2022 ?        00:00:00 haproxy -f /var/lib/neutron/ns-metadata-proxy/984c22fd-64b3-4fa1-8ddd-87090f401ce5.conf
+5 S     0 1775813       1 1775813 1775813  TS  19    -  6294 ep_poll              Thu Feb 10 16:10:34 2022 ?        00:00:00 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+5 S     0 1775814 1775813 1775813 1775813  TS  19    -  6327 ep_poll              Thu Feb 10 16:10:34 2022 ?        00:00:00 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5/keepalived.conf -p /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived -r /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8ddd-87090f401ce5.pid.keepalived-vrrp -D
+1 I     0 1775867       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:10:59 2022 ?        00:00:02 [kworker/u4:3-kcryptd/253:0]
+1 I     0 1778728       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:12:53 2022 ?        00:00:00 [kworker/1:4-cgroup_destroy]
+1 I     0 1778729       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:12:53 2022 ?        00:00:00 [kworker/1:5-events]
+1 I     0 1778734       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:12:53 2022 ?        00:00:00 [kworker/1:10-events]
+1 I     0 1778821       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:13:09 2022 ?        00:00:00 [kworker/0:4-events]
+1 I     0 1779130       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:13:16 2022 ?        00:00:00 [kworker/0:10-events]
+1 I     0 1779945       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:13:36 2022 ?        00:00:00 [kworker/1:13-events]
+4 S     0 1780281    1028 1780281 1780281  TS  19    -  3449 poll_schedule_timeou Thu Feb 10 16:13:40 2022 ?        00:00:00 sshd: ubuntu [priv]
+4 S  1000 1780287       1 1780287 1780287  TS  19    -  4662 ep_poll              Thu Feb 10 16:13:40 2022 ?        00:00:00 /lib/systemd/systemd --user
+5 S  1000 1780288 1780287 1780287 1780287  TS  19    - 44100 do_sigtimedwait.isra Thu Feb 10 16:13:40 2022 ?        00:00:00 (sd-pam)
+5 S  1000 1780382 1780281 1780281 1780281  TS  19    -  3482 poll_schedule_timeou Thu Feb 10 16:13:41 2022 ?        00:00:00 sshd: ubuntu@pts/0
+4 S     0 1780383 1780382 1780383 1780383  TS  19    -  2755 poll_schedule_timeou Thu Feb 10 16:13:41 2022 pts/0    00:00:00 sudo -s
+4 S     0 1780385 1780383 1780385 1780383  TS  19    -  2240 do_wait              Thu Feb 10 16:13:41 2022 pts/0    00:00:00 /bin/bash
+4 S     0 1780834    1028 1780834 1780834  TS  19    -  3450 poll_schedule_timeou Thu Feb 10 16:13:58 2022 ?        00:00:00 sshd: ubuntu [priv]
+5 S  1000 1780968 1780834 1780834 1780834  TS  19    -  3483 poll_schedule_timeou Thu Feb 10 16:13:58 2022 ?        00:00:00 sshd: ubuntu@pts/1
+4 S     0 1780986 1780968 1780986 1780986  TS  19    -  2756 poll_schedule_timeou Thu Feb 10 16:13:58 2022 pts/1    00:00:00 sudo -s
+4 S     0 1780989 1780986 1780989 1780986  TS  19    -  2240 poll_schedule_timeou Thu Feb 10 16:13:58 2022 pts/1    00:00:00 /bin/bash
+1 S     0 1781387       1   53085   53085  TS  19    - 35714 unix_stream_read_gen Thu Feb 10 16:14:00 2022 ?        00:00:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context vif_plug_ovs.privsep.vif_plug --privsep_sock_path /tmp/tmp__akp505/privsep.sock
+4 S     0 1781495       1 1781495 1781495  TS  19    - 18168 poll_schedule_timeou Thu Feb 10 16:14:02 2022 ?        00:00:01 /usr/sbin/virtlogd
+4 S     0 1785959       1 1785959 1785959  TS  19    - 96060 poll_schedule_timeou Thu Feb 10 16:16:43 2022 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 S     0 1790385       1   53085   53085  TS  19    - 31233 unix_stream_read_gen Thu Feb 10 16:17:54 2022 ?        00:00:00 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf --privsep_context os_brick.privileged.default --privsep_sock_path /tmp/tmpeu23eurh/privsep.sock
+6 S 64055 1791722       1 1791721 1791721  TS  19    - 855933 poll_schedule_timeou Thu Feb 10 16:18:04 2022 ?       00:00:02 /usr/bin/qemu-system-x86_64 -name guest=instance-00000001,debug-threads=on -S -object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-2-instance-00000001/master-key.aes -machine pc-i440fx-4.2,accel=kvm,usb=off,dump-guest-core=off -cpu Skylake-Client-IBRS,ss=on,vmx=on,hypervisor=on,tsc-adjust=on,clflushopt=on,umip=on,md-clear=on,arch-capabilities=on,ssbd=on,xsaves=on,pdpe1gb=on,ibpb=on,ibrs=on,amd-ssbd=on,skip-l1dfl-vmentry=on,pschange-mc-no=on,mpx=off -m 2048 -overcommit mem-lock=off -smp 1,sockets=1,cores=1,threads=1 -uuid d1d75e2f-ada4-49bc-a963-528d89dfda25 -smbios type=1,manufacturer=OpenStack Foundation,product=OpenStack Nova,version=21.2.3,serial=d1d75e2f-ada4-49bc-a963-528d89dfda25,uuid=d1d75e2f-ada4-49bc-a963-528d89dfda25,family=Virtual Machine -display none -no-user-config -nodefaults -chardev socket,id=charmonitor,fd=33,server,nowait -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc,driftfix=slew -global kvm-pit.lost_tick_policy=delay -no-hpet -no-shutdown -boot strict=on -device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2 -object secret,id=libvirt-1-storage-secret0,data=XAPibndN+4AnDL8fOeRgBGGcl9O4v+eEhhiAHdImV0Q=,keyid=masterKey0,iv=NiTD9GloeE3G64Y40Qf+lg==,format=base64 -blockdev {"driver":"rbd","pool":"nova","image":"d1d75e2f-ada4-49bc-a963-528d89dfda25_disk","server":[{"host":"10.0.0.120","port":"6789"},{"host":"10.0.0.123","port":"6789"},{"host":"10.0.0.131","port":"6789"}],"user":"nova-compute","auth-client-required":["cephx","none"],"key-secret":"libvirt-1-storage-secret0","node-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-1-format","read-only":false,"discard":"unmap","cache":{"direct":true,"no-flush":false},"driver":"raw","file":"libvirt-1-storage"} -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=libvirt-1-format,id=virtio-disk0,bootindex=1,write-cache=on -netdev tap,fd=35,id=hostnet0,vhost=on,vhostfd=36 -device virtio-net-pci,host_mtu=1450,netdev=hostnet0,id=net0,mac=fa:16:3e:a7:45:cb,bus=pci.0,addr=0x2 -add-fd set=3,fd=38 -chardev pty,id=charserial0,logfile=/dev/fdset/3,logappend=on -device isa-serial,chardev=charserial0,id=serial0 -incoming defer -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x4 -object rng-random,id=objrng0,filename=/dev/urandom -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.0,addr=0x5 -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny -msg timestamp=on
+1 S     0 1791746       2       0       0  TS  19    -     0 kvm_nx_lpage_recover Thu Feb 10 16:18:04 2022 ?        00:00:00 [kvm-nx-lpage-re]
+1 S     0 1791747       2       0       0  TS  19    -     0 vhost_worker         Thu Feb 10 16:18:04 2022 ?        00:00:00 [vhost-1791722]
+1 S     0 1791750       2       0       0  TS  19    -     0 kthread_worker_fn    Thu Feb 10 16:18:04 2022 ?        00:00:00 [kvm-pit/1791722]
+4 S     0 1795431 1780385 1795431 1780383  TS  19    - 247941 futex_wait_queue_me Thu Feb 10 16:19:02 2022 pts/0    00:00:19 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4 S     0 1796388       1 1796388 1796388  TS  19    -  4065 ep_poll              Thu Feb 10 16:19:18 2022 ?        00:00:00 /lib/systemd/systemd-hostnamed
+1 I     0 1796621       2       0       0  TS  19    -     0 worker_thread        Thu Feb 10 16:19:23 2022 ?        00:00:00 [kworker/0:0]
+4 S     0 1798200 1795431 1798200 1780383  TS  19    -   678 sigsuspend           Thu Feb 10 16:19:33 2022 pts/0    00:00:00 timeout 300s /usr/bin/pip list installed
+0 R     0 1798204 1798200 1798200 1780383  TS  19    -  5154 -                    Thu Feb 10 16:19:33 2022 pts/0    00:00:00 /usr/bin/python3 /usr/bin/pip list installed
+5 S     0 1798216     428     428     428  TS  19    -  5376 ep_poll              Thu Feb 10 16:19:33 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+4 S     0 1798230 1795431 1798230 1780383  TS  19    -   678 sigsuspend           Thu Feb 10 16:19:33 2022 pts/0    00:00:00 timeout 300s ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd
+4 R     0 1798233 1798230 1798230 1780383  TS  19    -  1454 -                    Thu Feb 10 16:19:34 2022 pts/0    00:00:00 ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd

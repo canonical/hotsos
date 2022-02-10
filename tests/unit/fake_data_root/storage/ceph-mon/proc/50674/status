@@ -1,0 +1,55 @@
+Name:	sudo
+Umask:	0022
+State:	S (sleeping)
+Tgid:	50674
+Ngid:	0
+Pid:	50674
+PPid:	50673
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	0 
+NStgid:	50674
+NSpid:	50674
+NSpgid:	50674
+NSsid:	50674
+VmPeak:	   11168 kB
+VmSize:	   11168 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    4664 kB
+VmRSS:	    4412 kB
+RssAnon:	     712 kB
+RssFile:	    3700 kB
+RssShmem:	       0 kB
+VmData:	     872 kB
+VmStk:	     272 kB
+VmExe:	     124 kB
+VmLib:	    3372 kB
+VmPTE:	      60 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	3/63684
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	00000001800b7a07
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	2
+Speculation_Store_Bypass:	thread force mitigated
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	3
+nonvoluntary_ctxt_switches:	36

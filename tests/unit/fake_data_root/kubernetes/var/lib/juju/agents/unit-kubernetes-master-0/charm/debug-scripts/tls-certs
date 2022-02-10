@@ -1,0 +1,21 @@
+#!/usr/local/sbin/charm-env python3
+
+import os
+import shutil
+import traceback
+import debug_script
+from charms import layer
+
+options = layer.options.get('tls-client')
+
+def copy_cert(source_key, name):
+    try:
+        source = options[source_key]
+        dest = os.path.join(debug_script.dir, name)
+        shutil.copy(source, dest)
+    except Exception:
+        traceback.print_exc()
+
+copy_cert('client_certificate_path', 'client.crt')
+copy_cert('server_certificate_path', 'server.crt')
+copy_cert('ca_certificate_path', 'ca.crt')

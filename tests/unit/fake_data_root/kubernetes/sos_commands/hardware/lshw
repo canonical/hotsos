@@ -1,0 +1,273 @@
+juju-110cc2-k8stest-4
+    description: Computer
+    product: OpenStack Nova
+    vendor: OpenStack Foundation
+    version: 19.3.2
+    serial: f9a1477e-7b80-4398-a25d-3710d4e796ba
+    width: 64 bits
+    capabilities: smbios-2.8 dmi-2.8 smp vsyscall32
+    configuration: boot=normal family=Virtual Machine uuid=7E47A1F9-807B-9843-A25D-3710D4E796BA
+  *-core
+       description: Motherboard
+       physical id: 0
+     *-firmware
+          description: BIOS
+          vendor: SeaBIOS
+          physical id: 0
+          version: 1.10.2-1ubuntu1
+          date: 04/01/2014
+          size: 96KiB
+     *-cpu:0
+          description: CPU
+          product: Intel Core Processor (Haswell, no TSX, IBRS)
+          vendor: Intel Corp.
+          physical id: 400
+          bus info: cpu@0
+          version: pc-i440fx-disco
+          slot: CPU 0
+          size: 2GHz
+          capacity: 2GHz
+          width: 64 bits
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt arat md_clear
+          configuration: cores=1 enabledcores=1 threads=1
+     *-cpu:1
+          description: CPU
+          product: Intel Core Processor (Haswell, no TSX, IBRS)
+          vendor: Intel Corp.
+          physical id: 401
+          bus info: cpu@1
+          version: pc-i440fx-disco
+          slot: CPU 1
+          size: 2GHz
+          capacity: 2GHz
+          width: 64 bits
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt arat md_clear
+          configuration: cores=1 enabledcores=1 threads=1
+     *-memory
+          description: System Memory
+          physical id: 1000
+          size: 4GiB
+          capabilities: ecc
+          configuration: errordetection=multi-bit-ecc
+        *-bank
+             description: DIMM RAM
+             vendor: QEMU
+             physical id: 0
+             slot: DIMM 0
+             size: 4GiB
+     *-pci
+          description: Host bridge
+          product: 440FX - 82441FX PMC [Natoma]
+          vendor: Intel Corporation
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+        *-isa
+             description: ISA bridge
+             product: 82371SB PIIX3 ISA [Natoma/Triton II]
+             vendor: Intel Corporation
+             physical id: 1
+             bus info: pci@0000:00:01.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: isa
+             configuration: latency=0
+        *-ide
+             description: IDE interface
+             product: 82371SB PIIX3 IDE [Natoma/Triton II]
+             vendor: Intel Corporation
+             physical id: 1.1
+             bus info: pci@0000:00:01.1
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: ide isa_compat_mode bus_master
+             configuration: driver=ata_piix latency=0
+             resources: irq:0 ioport:1f0(size=8) ioport:3f6 ioport:170(size=8) ioport:376 ioport:c120(size=16)
+        *-usb
+             description: USB controller
+             product: 82371SB PIIX3 USB [Natoma/Triton II]
+             vendor: Intel Corporation
+             physical id: 1.2
+             bus info: pci@0000:00:01.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:11 ioport:c0c0(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 5.4.0-99-generic uhci_hcd
+                physical id: 1
+                bus info: usb@1
+                logical name: usb1
+                version: 5.04
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-bridge UNCLAIMED
+             description: Bridge
+             product: 82371AB/EB/MB PIIX4 ACPI
+             vendor: Intel Corporation
+             physical id: 1.3
+             bus info: pci@0000:00:01.3
+             version: 03
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bridge
+             configuration: latency=0
+        *-display UNCLAIMED
+             description: VGA compatible controller
+             product: QXL paravirtual graphic card
+             vendor: Red Hat, Inc.
+             physical id: 2
+             bus info: pci@0000:00:02.0
+             version: 04
+             width: 32 bits
+             clock: 33MHz
+             capabilities: vga_controller
+             configuration: latency=0
+             resources: memory:f4000000-f7ffffff memory:f8000000-fbffffff memory:fc090000-fc091fff ioport:c0e0(size=32) memory:c0000-dffff
+        *-network
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 3
+             bus info: pci@0000:00:03.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c000(size=64) memory:fc092000-fc092fff memory:febf0000-febf3fff memory:fc000000-fc07ffff
+           *-virtio0
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@0
+                logical name: ens3
+                serial: fa:16:3e:1f:96:bd
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 ip=10.6.3.201 link=yes multicast=yes
+        *-communication
+             description: Communication controller
+             product: Virtio console
+             vendor: Red Hat, Inc.
+             physical id: 4
+             bus info: pci@0000:00:04.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c040(size=64) memory:fc093000-fc093fff memory:febf4000-febf7fff
+           *-virtio1 UNCLAIMED
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@1
+                configuration: driver=virtio_console
+        *-scsi
+             description: SCSI storage controller
+             product: Virtio block device
+             vendor: Red Hat, Inc.
+             physical id: 5
+             bus info: pci@0000:00:05.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: scsi msix bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c080(size=64) memory:fc094000-fc094fff memory:febf8000-febfbfff
+           *-virtio2
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@2
+                logical name: /dev/vda
+                size: 40GiB (42GB)
+                capabilities: gpt-1.00 partitioned partitioned:gpt
+                configuration: driver=virtio_blk guid=d79f4c5c-31c2-4ac1-957b-1fee82526940 logicalsectorsize=512 sectorsize=512
+              *-volume:0
+                   description: EXT4 volume
+                   vendor: Linux
+                   physical id: 1
+                   bus info: virtio@2,1
+                   logical name: /dev/vda1
+                   logical name: /
+                   version: 1.0
+                   serial: 6b71fef2-f2a2-4af3-bb37-172e5cfd41b2
+                   size: 39GiB
+                   capacity: 39GiB
+                   capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
+                   configuration: created=2022-02-07 15:32:42 filesystem=ext4 label=cloudimg-rootfs lastmountpoint=/ modified=2022-02-07 15:32:59 mount.fstype=ext4 mount.options=rw,relatime mounted=2022-02-11 18:58:10 state=mounted
+              *-volume:1
+                   description: BIOS Boot partition
+                   vendor: EFI
+                   physical id: e
+                   bus info: virtio@2,14
+                   logical name: /dev/vda14
+                   serial: 1d4d7dd0-6ecc-445a-86b5-c637f7414347
+                   capacity: 4095KiB
+                   capabilities: nofs
+              *-volume:2
+                   description: Windows FAT volume
+                   vendor: mkfs.fat
+                   physical id: f
+                   bus info: virtio@2,15
+                   logical name: /dev/vda15
+                   logical name: /boot/efi
+                   version: FAT32
+                   serial: ba49-3e54
+                   size: 105MiB
+                   capacity: 105MiB
+                   capabilities: boot fat initialized
+                   configuration: FATs=2 filesystem=fat label=UEFI mount.fstype=vfat mount.options=rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro state=mounted
+        *-generic
+             description: Unclassified device
+             product: Virtio memory balloon
+             vendor: Red Hat, Inc.
+             physical id: 6
+             bus info: pci@0000:00:06.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c100(size=32) memory:febfc000-febfffff
+           *-virtio3 UNCLAIMED
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@3
+                configuration: driver=virtio_balloon
+     *-pnp00:00
+          product: PnP device PNP0b00
+          physical id: 1
+          capabilities: pnp
+          configuration: driver=rtc_cmos
+     *-pnp00:01
+          product: PnP device PNP0303
+          physical id: 2
+          capabilities: pnp
+          configuration: driver=i8042 kbd
+     *-pnp00:02
+          product: PnP device PNP0f13
+          physical id: 3
+          capabilities: pnp
+          configuration: driver=i8042 aux
+     *-pnp00:03
+          product: PnP device PNP0700
+          physical id: 4
+          capabilities: pnp
+     *-pnp00:04
+          product: PnP device PNP0501
+          physical id: 5
+          capabilities: pnp
+          configuration: driver=serial
+  *-network
+       description: Ethernet interface
+       physical id: 1
+       logical name: flannel.1
+       serial: 9a:e0:6b:c3:ce:e3
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=vxlan driverversion=0.1 ip=10.1.84.0 link=yes multicast=yes

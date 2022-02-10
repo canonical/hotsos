@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenVSwitch configuration for cleanup
+DefaultDependencies=no
+Wants=ovsdb-server.service
+After=ovsdb-server.service
+ConditionFileIsExecutable=/usr/bin/ovs-vsctl
+Before=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/netplan apply --only-ovs-cleanup

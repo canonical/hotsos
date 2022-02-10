@@ -1,0 +1,19 @@
+[Unit]
+# Auto-generated, DO NOT EDIT
+Description=Service for snap application kube-scheduler.daemon
+Requires=snap-kube\x2dscheduler-2327.mount
+Wants=network.target
+After=snap-kube\x2dscheduler-2327.mount network.target snapd.apparmor.service
+X-Snappy=yes
+
+[Service]
+EnvironmentFile=-/etc/environment
+ExecStart=/usr/bin/snap run kube-scheduler.daemon
+SyslogIdentifier=kube-scheduler.daemon
+Restart=on-failure
+WorkingDirectory=/var/snap/kube-scheduler/2327
+TimeoutStopSec=30
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

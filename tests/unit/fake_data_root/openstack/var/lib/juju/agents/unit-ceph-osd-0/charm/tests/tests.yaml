@@ -1,0 +1,27 @@
+charm_name: ceph-osd
+
+gate_bundles:
+  - focal-xena
+  - impish-xena
+
+dev_bundles:
+  - focal-yoga
+  - jammy-yoga
+
+smoke_bundles:
+  - focal-xena
+
+configure:
+  - zaza.openstack.charm_tests.glance.setup.add_lts_image
+
+tests:
+  - zaza.openstack.charm_tests.ceph.tests.CephLowLevelTest
+  - zaza.openstack.charm_tests.ceph.tests.CephRelationTest
+  - zaza.openstack.charm_tests.ceph.tests.CephTest
+  - zaza.openstack.charm_tests.ceph.osd.tests.SecurityTest
+  - zaza.openstack.charm_tests.ceph.osd.tests.ServiceTest
+
+tests_options:
+  force_deploy:
+    - impish-xena
+    - jammy-yoga

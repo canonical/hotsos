@@ -1,0 +1,21 @@
+node 1: node1
+node 1000: juju-04f1e3-0-lxd-5
+node 1001: juju-04f1e3-2-lxd-6
+node 1002: juju-04f1e3-1-lxd-6
+primitive res_vault-ext_f2687f5_vip IPaddr2 \
+	params ip=10.0.0.200 \
+	meta migration-threshold=INFINITY failure-timeout=5s \
+	op monitor timeout=20s interval=10s \
+	op_params depth=0
+group grp_vault-ext_vips res_vault-ext_f2687f5_vip
+property cib-bootstrap-options: \
+	have-watchdog=false \
+	dc-version=2.0.3-4b1f869f0f \
+	cluster-infrastructure=corosync \
+	cluster-name=debian \
+	no-quorum-policy=stop \
+	cluster-recheck-interval=60 \
+	stonith-enabled=false
+rsc_defaults rsc-options: \
+	resource-stickiness=100 \
+	failure-timeout=180

@@ -1,0 +1,1526 @@
+2022-02-04 09:34:38 INFO juju unit_agent.go:276 Starting unit workers for "ceph-osd/0"
+2022-02-04 09:34:38 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-ceph-osd-0" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:34:38 INFO juju.worker.apicaller connect.go:255 [68a1f1] password changed for "unit-ceph-osd-0"
+2022-02-04 09:34:38 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-ceph-osd-0" successfully connected to "10.0.0.217:17070"
+2022-02-04 09:34:38 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-04 09:34:38 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-04 09:34:38 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-04 09:34:38 INFO juju.worker.uniter uniter.go:333 unit "ceph-osd/0" started
+2022-02-04 09:34:38 INFO juju.worker.uniter uniter.go:636 resuming charm install
+2022-02-04 09:34:38 INFO juju.worker.uniter.charm bundles.go:79 downloading cs:~openstack-charmers-next/ceph-osd-508 from API server
+2022-02-04 09:34:39 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-04 09:34:39 INFO juju.worker.uniter.storage resolver.go:127 initial storage attachments ready
+2022-02-04 09:34:39 INFO juju.worker.uniter resolver.go:154 found queued "install" hook
+2022-02-04 09:35:07 INFO juju.worker.meterstatus runner.go:89 skipped "meter-status-changed" hook (missing)
+2022-02-04 09:35:33 INFO unit.ceph-osd/0.juju-log server.go:327 Installing python3-psutil with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 09:35:36 INFO unit.ceph-osd/0.juju-log server.go:327 Unknown source: ''
+2022-02-04 09:35:37 INFO unit.ceph-osd/0.juju-log server.go:327 Installing ['ceph', 'gdisk', 'radosgw', 'xfsprogs', 'lvm2', 'parted', 'smartmontools', 'btrfs-progs'] with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 09:36:01 INFO juju.worker.uniter.operation runhook.go:152 ran "install" hook (via explicit, bespoke hook script)
+2022-02-04 09:38:09 INFO juju.worker.uniter.operation runhook.go:155 skipped "mon-relation-created" hook (missing)
+2022-02-04 09:38:57 INFO juju.worker.uniter.operation runhook.go:155 skipped "secrets-storage-relation-created" hook (missing)
+2022-02-04 09:38:58 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-settings-changed" hook (missing)
+2022-02-04 09:38:58 INFO unit.ceph-osd/0.juju-log server.go:327 Ceph upgrade keyring not detected, skipping upgrade checks.
+2022-02-04 09:38:59 INFO unit.ceph-osd/0.juju-log server.go:327 Installing apparmor profile for usr.bin.ceph-osd
+2022-02-04 09:38:59 INFO unit.ceph-osd/0.juju-log server.go:327 Installing apparmor utils.
+2022-02-04 09:38:59 INFO unit.ceph-osd/0.juju-log server.go:327 Installing ['apparmor-utils'] with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-04 09:39:10 INFO unit.ceph-osd/0.juju-log server.go:327 Setting up the apparmor profile for usr.bin.ceph-osd in disable mode.
+2022-02-04 09:39:11 WARNING unit.ceph-osd/0.config-changed logger.go:60 
+2022-02-04 09:39:11 WARNING unit.ceph-osd/0.config-changed logger.go:60 ERROR: /sbin/apparmor_parser: Unable to remove "/usr/bin/ceph-osd".  Profile doesn't exist
+2022-02-04 09:39:11 WARNING unit.ceph-osd/0.config-changed logger.go:60 
+2022-02-04 09:39:11 INFO unit.ceph-osd/0.juju-log server.go:327 Manually disabling the apparmor profile for usr.bin.ceph-osd.
+2022-02-04 09:39:11 INFO unit.ceph-osd/0.juju-log server.go:327 Loading new AppArmor profile
+2022-02-04 09:39:11 INFO unit.ceph-osd/0.juju-log server.go:327 Restarting ceph-osd services with new AppArmor profile
+2022-02-04 09:39:12 INFO juju.worker.uniter.operation runhook.go:152 ran "config-changed" hook (via explicit, bespoke hook script)
+2022-02-04 09:39:12 INFO juju.worker.uniter resolver.go:154 found queued "start" hook
+2022-02-04 09:39:12 INFO unit.ceph-osd/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-04 09:39:13 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-04 09:39:58 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 09:39:59 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 09:46:06 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 09:46:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 09:48:05 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 09:48:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 09:51:09 INFO juju.worker.uniter.operation runhook.go:155 skipped "mon-relation-joined" hook (missing)
+2022-02-04 09:52:08 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: mon cluster has not yet provided conf
+2022-02-04 09:52:11 INFO juju.worker.uniter.operation runhook.go:152 ran "mon-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 09:54:59 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 09:55:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 09:58:26 INFO juju.worker.uniter.operation runhook.go:155 skipped "mon-relation-joined" hook (missing)
+2022-02-04 10:02:29 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: mon has provided conf- scanning disks
+2022-02-04 10:02:29 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: Making dir /var/lib/charm/ceph-osd ceph:ceph 555
+2022-02-04 10:02:29 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: Monitor hosts are ['10.0.0.120', '10.0.0.123']
+2022-02-04 10:02:29 WARNING unit.ceph-osd/0.juju-log server.go:327 mon:37: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:02:36 INFO juju.worker.uniter.operation runhook.go:152 ran "mon-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:05:40 INFO juju.worker.uniter.operation runhook.go:155 skipped "mon-relation-joined" hook (missing)
+2022-02-04 10:09:51 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: mon has provided conf- scanning disks
+2022-02-04 10:09:51 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: Making dir /var/lib/charm/ceph-osd ceph:ceph 555
+2022-02-04 10:09:51 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: Monitor hosts are ['10.0.0.120', '10.0.0.123', '10.0.0.131']
+2022-02-04 10:09:51 WARNING unit.ceph-osd/0.juju-log server.go:327 mon:37: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:09:53 INFO juju.worker.uniter.operation runhook.go:152 ran "mon-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:10:46 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: mon has provided conf- scanning disks
+2022-02-04 10:10:46 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: Making dir /var/lib/charm/ceph-osd ceph:ceph 555
+2022-02-04 10:10:47 INFO unit.ceph-osd/0.juju-log server.go:327 mon:37: Monitor hosts are ['10.0.0.120', '10.0.0.123', '10.0.0.131']
+2022-02-04 10:10:47 WARNING unit.ceph-osd/0.juju-log server.go:327 mon:37: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:10:50 INFO juju.worker.uniter.operation runhook.go:152 ran "mon-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:10:53 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-04 10:11:20 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:11:38 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-04 10:12:18 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:12:44 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-04 10:12:47 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:14:59 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:15:00 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:20:53 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:20:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:26:49 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:26:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:32:43 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:32:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:38:32 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:38:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:44:28 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:44:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:46:03 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Making dir /var/lib/charm/ceph-osd root:root 700
+2022-02-04 10:46:03 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Skipping osd devices previously processed by this unit: []
+2022-02-04 10:46:04 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60   Failed to find physical volume "/dev/bcache1".
+2022-02-04 10:46:04 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: ceph bootstrapped, rescanning disks
+2022-02-04 10:46:04 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Making dir /var/lib/charm/ceph-osd ceph:ceph 555
+2022-02-04 10:46:04 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Monitor hosts are ['10.0.0.120', '10.0.0.123', '10.0.0.131']
+2022-02-04 10:46:04 WARNING unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:46:05 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 partx: /dev/disk/by-dname/bcache0: failed to read partition table
+2022-02-04 10:46:05 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Can't get info for /dev/disk/by-dname/bcache0: b''
+2022-02-04 10:46:05 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60   Failed to find physical volume "/dev/bcache1".
+2022-02-04 10:46:07 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.0.0.200:8200
+2022-02-04 10:46:07 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 DEBUG:urllib3.connectionpool:http://10.0.0.200:8200 "POST /v1/auth/approle/login HTTP/1.1" 200 500
+2022-02-04 10:46:07 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 INFO:vaultlocker.dmcrypt:LUKS formatting /dev/disk/by-dname/bcache0 using UUID:48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:20 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 INFO:vaultlocker.dmcrypt:udevadm trigger block/add for /dev/disk/by-dname/bcache0
+2022-02-04 10:46:20 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 INFO:vaultlocker.dmcrypt:udevadm settle /dev/disk/by-uuid/48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:20 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 DEBUG:urllib3.connectionpool:http://10.0.0.200:8200 "PUT /v1/charm-vaultlocker/compute4/48858aa1-71a3-4f0e-95f3-a07d1d9a6749 HTTP/1.1" 204 0
+2022-02-04 10:46:20 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 DEBUG:urllib3.connectionpool:http://10.0.0.200:8200 "GET /v1/charm-vaultlocker/compute4/48858aa1-71a3-4f0e-95f3-a07d1d9a6749 HTTP/1.1" 200 866
+2022-02-04 10:46:20 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 INFO:vaultlocker.dmcrypt:LUKS opening 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:23 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 INFO:root:Enabling systemd unit for vaultlocker-decrypt@48858aa1-71a3-4f0e-95f3-a07d1d9a6749.service
+2022-02-04 10:46:23 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Created symlink /etc/systemd/system/multi-user.target.wants/vaultlocker-decrypt@48858aa1-71a3-4f0e-95f3-a07d1d9a6749.service → /lib/systemd/system/vaultlocker-decrypt@.service.
+2022-02-04 10:46:25 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 1+0 records in
+2022-02-04 10:46:25 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 1+0 records out
+2022-02-04 10:46:25 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 512 bytes copied, 0.00907629 s, 56.4 kB/s
+2022-02-04 10:46:25 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60   Failed to find physical volume "/dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749".
+2022-02-04 10:46:26 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: osdize cmd: ['ceph-volume', 'lvm', 'create', '--osd-fsid', '48858aa1-71a3-4f0e-95f3-a07d1d9a6749', '--bluestore', '--data', 'ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749']
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph-authtool --gen-print-key
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph --cluster ceph --name client.bootstrap-osd --keyring /var/lib/ceph/bootstrap-osd/ceph.keyring -i - osd new 48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph-authtool --gen-print-key
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/mount -t tmpfs tmpfs /var/lib/ceph/osd/ceph-0
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 --> Executable selinuxenabled not in PATH: /var/lib/juju/tools/unit-ceph-osd-0:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -h ceph:ceph /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -R ceph:ceph /dev/dm-1
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ln -s /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 /var/lib/ceph/osd/ceph-0/block
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph --cluster ceph --name client.bootstrap-osd --keyring /var/lib/ceph/bootstrap-osd/ceph.keyring mon getmap -o /var/lib/ceph/osd/ceph-0/activate.monmap
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stderr: 2022-02-04T10:46:30.338+0000 7f870f885700 -1 auth: unable to find a keyring on /etc/ceph/ceph.client.bootstrap-osd.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,: (2) No such file or directory
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 2022-02-04T10:46:30.338+0000 7f870f885700 -1 AuthRegistry(0x7f87080592a0) no keyring found at /etc/ceph/ceph.client.bootstrap-osd.keyring,/etc/ceph/ceph.keyring,/etc/ceph/keyring,/etc/ceph/keyring.bin,, disabling cephx
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stderr: got monmap epoch 1
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph-authtool /var/lib/ceph/osd/ceph-0/keyring --create-keyring --name osd.0 --add-key AQAEBP1h0dN5BhAA4J1fYcJt0deyEFzs+6hD8A==
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stdout: creating /var/lib/ceph/osd/ceph-0/keyring
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stdout: added entity osd.0 auth(key=AQAEBP1h0dN5BhAA4J1fYcJt0deyEFzs+6hD8A==)
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -R ceph:ceph /var/lib/ceph/osd/ceph-0/keyring
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -R ceph:ceph /var/lib/ceph/osd/ceph-0/
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph-osd --cluster ceph --osd-objectstore bluestore --mkfs -i 0 --monmap /var/lib/ceph/osd/ceph-0/activate.monmap --keyfile - --osd-data /var/lib/ceph/osd/ceph-0/ --osd-uuid 48858aa1-71a3-4f0e-95f3-a07d1d9a6749 --setuser ceph --setgroup ceph
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stderr: 2022-02-04T10:46:31.614+0000 7ff4e6481d80 -1 bluestore(/var/lib/ceph/osd/ceph-0/) _read_fsid unparsable uuid
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stderr: 2022-02-04T10:46:31.766+0000 7ff4e6481d80 -1 freelist read_size_meta_from_db missing size meta in DB
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 --> ceph-volume lvm prepare successful for: ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -R ceph:ceph /var/lib/ceph/osd/ceph-0
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ceph-bluestore-tool --cluster=ceph prime-osd-dir --dev /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 --path /var/lib/ceph/osd/ceph-0 --no-mon-config
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/ln -snf /dev/ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749 /var/lib/ceph/osd/ceph-0/block
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -h ceph:ceph /var/lib/ceph/osd/ceph-0/block
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -R ceph:ceph /dev/dm-1
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/chown -R ceph:ceph /var/lib/ceph/osd/ceph-0
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/systemctl enable ceph-volume@lvm-0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stderr: Created symlink /etc/systemd/system/multi-user.target.wants/ceph-volume@lvm-0-48858aa1-71a3-4f0e-95f3-a07d1d9a6749.service → /lib/systemd/system/ceph-volume@.service.
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/systemctl enable --runtime ceph-osd@0
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60  stderr: Created symlink /run/systemd/system/ceph-osd.target.wants/ceph-osd@0.service → /lib/systemd/system/ceph-osd@.service.
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 Running command: /usr/bin/systemctl start ceph-osd@0
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 --> ceph-volume lvm activate successful for osd ID: 0
+2022-02-04 10:46:36 WARNING unit.ceph-osd/0.secrets-storage-relation-changed logger.go:60 --> ceph-volume lvm create successful for: ceph-48858aa1-71a3-4f0e-95f3-a07d1d9a6749/osd-block-48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+2022-02-04 10:46:40 WARNING unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:46:41 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-04 10:49:06 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:49:10 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:49:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:53:45 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:53:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:53:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:58:37 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 10:58:47 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fab6d2acb50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 10:58:47 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fab6d2acb50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fab6d2acb50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fab6d2acb50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 10:58:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 10:58:48 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 10:58:59 INFO juju.worker.uniter resolver.go:154 found queued "leader-elected" hook
+2022-02-04 10:59:00 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-elected" hook (missing)
+2022-02-04 11:04:24 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 11:04:27 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44e746fb50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 11:04:27 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f44e746fb50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44e746fb50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44e746fb50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 11:04:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 11:04:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:08:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 11:08:58 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f75815d9b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 11:08:58 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f75815d9b50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f75815d9b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f75815d9b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 11:08:58 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 11:08:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:13:33 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 11:13:37 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f98f5895b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 11:13:37 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f98f5895b50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f98f5895b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f98f5895b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 11:13:37 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 11:13:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:18:11 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 11:18:14 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91d75c8b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 11:18:14 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f91d75c8b50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91d75c8b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91d75c8b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 11:18:14 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 11:18:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:23:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 11:23:58 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7eff4fba8b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 11:23:58 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7eff4fba8b50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7eff4fba8b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7eff4fba8b50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 11:23:58 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 11:23:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-04 11:28:57 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-04 11:29:01 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7efeeb56db50>: Failed to establish a new connection: [Errno 113] No route to host'))
+2022-02-04 11:29:01 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7efeeb56db50>: Failed to establish a new connection: [Errno 113] No route to host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7efeeb56db50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7efeeb56db50>: Failed to establish a new connection: [Errno 113] No route to host'))
+
+2022-02-04 11:29:01 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-04 11:29:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:38:18 INFO juju unit_agent.go:276 Starting unit workers for "ceph-osd/0"
+2022-02-09 22:38:19 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-ceph-osd-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:38:19 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-ceph-osd-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:38:19 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-09 22:38:19 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-09 22:38:19 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-09 22:38:20 INFO juju.worker.uniter uniter.go:333 unit "ceph-osd/0" started
+2022-02-09 22:38:20 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-09 22:38:20 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2022-02-09 22:38:56 INFO unit.ceph-osd/0.juju-log server.go:327 Unknown hook start - skipping.
+2022-02-09 22:39:15 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f93dfc22b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2022-02-09 22:39:15 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f93dfc22b80>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f93dfc22b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/start", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f93dfc22b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+2022-02-09 22:39:16 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 22:39:17 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-09 22:39:18 WARNING juju.worker.uniter.operation leader.go:123 we should run a leader-deposed hook here, but we can't yet
+2022-02-09 22:41:12 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-settings-changed" hook (missing)
+2022-02-09 22:43:27 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 22:43:28 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f0df722db50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2022-02-09 22:43:28 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f0df722db50>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f0df722db50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f0df722db50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+2022-02-09 22:43:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 22:43:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:47:33 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 22:47:33 INFO unit.ceph-osd/0.juju-log server.go:327 Exception when verifying vault relation - maybe it was offline?:
+HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fa0c26f9b50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2022-02-09 22:47:34 INFO unit.ceph-osd/0.juju-log server.go:327 Traceback: Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fa0c26f9b50>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fa0c26f9b50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/update-status", line 833, in assess_status
+    if not vaultlocker.vault_relation_complete():
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 149, in vault_relation_complete
+    vault_kv()
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 75, in __call__
+    secret_id = retrieve_secret_id(
+  File "/var/lib/juju/agents/unit-ceph-osd-0/charm/hooks/charmhelpers/contrib/openstack/vaultlocker.py", line 176, in retrieve_secret_id
+    response = client._post('/v1/sys/wrapping/unwrap')
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1239, in _post
+    return self.__request('post', url, **kwargs)
+  File "/usr/lib/python3/dist-packages/hvac/v1/__init__.py", line 1263, in __request
+    response = self.session.request(method, url, headers=headers,
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.0.200', port=8200): Max retries exceeded with url: /v1/sys/wrapping/unwrap (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fa0c26f9b50>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+2022-02-09 22:47:34 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 22:47:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 22:49:16 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Making dir /var/lib/charm/ceph-osd root:root 700
+2022-02-09 22:49:16 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Skipping osd devices previously processed by this unit: ['/dev/disk/by-dname/bcache0']
+2022-02-09 22:49:16 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: ceph bootstrapped, rescanning disks
+2022-02-09 22:49:16 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Making dir /var/lib/charm/ceph-osd ceph:ceph 555
+2022-02-09 22:49:16 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Monitor hosts are ['10.0.0.120', '10.0.0.123', '10.0.0.131']
+2022-02-09 22:49:16 WARNING unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 22:49:17 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Device /dev/disk/by-dname/bcache0 already processed by charm, skipping
+2022-02-09 22:49:20 WARNING unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 22:49:21 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-09 22:52:40 INFO juju unit_agent.go:276 Starting unit workers for "ceph-osd/0"
+2022-02-09 22:52:40 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-ceph-osd-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:52:40 INFO juju.worker.apicaller connect.go:158 [68a1f1] "unit-ceph-osd-0" successfully connected to "10.0.0.217:17070"
+2022-02-09 22:52:40 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-09 22:52:40 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-09 22:52:40 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-09 22:52:40 INFO juju.worker.uniter uniter.go:333 unit "ceph-osd/0" started
+2022-02-09 22:52:40 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-09 22:52:43 INFO juju.worker.uniter.operation runhook.go:155 skipped "leader-settings-changed" hook (missing)
+2022-02-09 22:57:00 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 22:57:00 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 22:57:00 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:01:05 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:01:06 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:01:06 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:06:15 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:06:16 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:06:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:10:21 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:10:22 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:10:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:14:38 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:14:39 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:14:39 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:19:18 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:19:18 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:19:19 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:23:49 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:23:50 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:23:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:29:49 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:29:50 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:29:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:34:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:34:42 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:34:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:39:04 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:39:04 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:39:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:44:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:44:26 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:44:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:49:10 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:49:11 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:49:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:54:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:54:51 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:54:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-09 23:59:01 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-09 23:59:02 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-09 23:59:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:04:30 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:04:31 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:04:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:09:33 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:09:33 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:09:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:14:26 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:14:27 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:14:27 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:19:57 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:19:58 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:19:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:24:47 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:24:48 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:24:48 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:30:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:30:46 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:30:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:35:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:35:42 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:35:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:40:03 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:40:04 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:40:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:45:47 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:45:48 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:45:48 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:50:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:50:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:50:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 00:55:27 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 00:55:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 00:55:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:00:04 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:00:05 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:00:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:05:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:05:31 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:05:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:09:56 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:09:56 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:09:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:15:39 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:15:39 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:15:40 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:20:24 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:20:25 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:20:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:26:11 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:26:11 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:26:12 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:31:34 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:31:35 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:31:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:36:23 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:36:24 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:36:24 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:40:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:40:31 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:40:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:45:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:45:50 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:45:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:50:20 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:50:21 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:50:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:54:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:54:26 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:54:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 01:59:58 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 01:59:59 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 01:59:59 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:05:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:05:46 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:05:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:10:15 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:10:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:10:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:14:28 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:14:29 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:14:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:20:00 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:20:01 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:20:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:25:40 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:25:41 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:25:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:30:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:30:42 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:30:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:36:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:36:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:36:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:42:09 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:42:09 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:42:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:47:56 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:47:57 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:47:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:52:11 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:52:11 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:52:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 02:57:16 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 02:57:16 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 02:57:17 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:02:07 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:02:07 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:02:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:06:49 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:06:50 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:06:50 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:12:47 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:12:48 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:12:48 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:17:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:17:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:17:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:22:20 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:22:21 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:22:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:28:15 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:28:16 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:28:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:32:44 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:32:44 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:32:45 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:38:08 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:38:09 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:38:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:43:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:43:51 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:43:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:48:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:48:51 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:48:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:54:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:54:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:54:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 03:58:32 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 03:58:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 03:58:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:04:10 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:04:11 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:04:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:09:55 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:09:56 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:09:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:14:02 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:14:02 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:14:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:19:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:19:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:19:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:24:28 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:24:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:24:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:28:56 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:28:56 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:28:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:34:51 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:34:52 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:34:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:39:32 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:39:33 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:39:33 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:45:29 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:45:29 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:45:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:50:30 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:50:31 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:50:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 04:55:44 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 04:55:44 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 04:55:45 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:01:09 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:01:10 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:01:10 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:06:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:06:42 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:06:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:10:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:10:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:10:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:16:29 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:16:30 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:16:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:20:48 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:20:49 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:20:49 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:26:03 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:26:03 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:26:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:30:48 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:30:49 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:30:49 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:36:04 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:36:05 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:36:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:41:36 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:41:36 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:41:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:45:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:45:54 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:45:54 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:51:13 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:51:13 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:51:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 05:56:10 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 05:56:11 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 05:56:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:00:33 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:00:34 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:00:34 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:05:49 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:05:50 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:05:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:11:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:11:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:11:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:15:34 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:15:35 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:15:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:19:38 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:19:39 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:19:39 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:25:04 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:25:05 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:25:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:29:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:29:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:29:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:34:56 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:34:57 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:34:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:40:34 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:40:35 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:40:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:46:00 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:46:01 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:46:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:51:07 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:51:07 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:51:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 06:55:55 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 06:55:55 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 06:55:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:01:32 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:01:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:01:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:06:08 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:06:09 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:06:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:10:52 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:10:53 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:10:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:15:12 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:15:12 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:15:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:20:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:20:25 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:20:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:26:05 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:26:06 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:26:06 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:30:19 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:30:19 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:30:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:34:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:34:51 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:34:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:38:52 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:38:52 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:38:53 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:44:24 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:44:24 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:44:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:49:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:49:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:49:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:54:51 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:54:52 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:54:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 07:58:58 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 07:58:59 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 07:58:59 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:03:06 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:03:06 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:03:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:08:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:08:14 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:08:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:13:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:13:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:13:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:18:57 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:18:58 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:18:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:23:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:23:50 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:23:51 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:29:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:29:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:29:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:35:45 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:35:45 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:35:46 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:41:40 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:41:41 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:41:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:47:27 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:47:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:47:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:52:58 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:52:58 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:52:59 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 08:57:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 08:57:55 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 08:57:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:02:13 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:02:13 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:02:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:07:19 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:07:19 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:07:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:12:11 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:12:11 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:12:12 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:17:12 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:17:13 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:17:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:22:17 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:22:18 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:22:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:27:16 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:27:17 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:27:17 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:32:08 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:32:09 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:32:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:33:28 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Making dir /var/lib/charm/ceph-osd root:root 700
+2022-02-10 09:33:28 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Skipping osd devices previously processed by this unit: ['/dev/disk/by-dname/bcache0']
+2022-02-10 09:33:28 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: ceph bootstrapped, rescanning disks
+2022-02-10 09:33:28 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Making dir /var/lib/charm/ceph-osd ceph:ceph 555
+2022-02-10 09:33:28 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Monitor hosts are ['10.0.0.120', '10.0.0.123', '10.0.0.131']
+2022-02-10 09:33:28 WARNING unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:33:28 INFO unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: Device /dev/disk/by-dname/bcache0 already processed by charm, skipping
+2022-02-10 09:33:30 WARNING unit.ceph-osd/0.juju-log server.go:327 secrets-storage:51: SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:33:30 INFO juju.worker.uniter.operation runhook.go:152 ran "secrets-storage-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-10 09:36:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:36:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:36:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:40:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:40:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:40:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:46:35 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:46:35 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:46:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:51:35 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:51:36 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:51:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 09:56:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 09:56:26 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 09:56:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:00:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:00:26 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:00:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:05:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:05:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:05:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:09:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:09:54 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:09:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:14:53 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:14:54 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:14:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:20:34 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:20:35 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:20:35 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:26:02 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:26:03 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:26:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:31:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:31:26 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:31:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:36:24 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:36:25 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:36:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:41:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:41:42 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:41:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:46:28 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:46:29 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:46:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:52:27 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:52:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:52:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 10:57:43 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 10:57:43 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 10:57:44 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:02:55 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:02:56 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:02:56 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:08:30 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:08:31 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:08:31 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:13:35 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:13:36 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:13:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:18:03 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:18:04 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:18:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:23:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:23:25 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:23:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:28:00 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:28:00 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:28:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:32:58 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:32:59 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:32:59 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:37:56 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:37:57 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:37:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:43:00 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:43:00 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:43:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:48:21 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:48:21 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:48:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:52:24 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:52:25 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:52:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 11:58:00 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 11:58:01 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 11:58:01 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:02:56 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:02:57 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:02:57 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:07:57 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:07:57 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:07:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:13:17 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:13:18 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:13:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:18:46 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:18:47 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:18:47 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:24:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:24:14 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:24:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:29:03 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:29:04 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:29:04 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:33:42 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:33:43 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:33:43 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:39:17 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:39:18 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:39:18 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:43:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:43:41 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:43:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:49:20 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:49:21 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:49:22 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:54:57 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:54:58 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:54:58 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 12:59:12 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 12:59:12 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 12:59:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:03:20 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:03:20 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:03:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:09:06 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:09:07 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:09:07 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:13:08 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:13:09 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:13:09 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:18:01 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:18:02 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:18:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:23:29 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:23:29 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:23:30 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:29:23 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:29:23 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:29:24 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:34:24 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:34:25 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:34:25 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:38:27 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:38:27 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:38:28 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:42:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:42:54 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:42:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:47:04 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:47:05 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:47:06 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:52:04 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:52:04 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:52:05 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 13:56:27 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 13:56:28 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 13:56:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:01:48 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:01:49 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:01:49 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:06:13 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:06:14 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:06:14 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:11:07 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:11:08 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:11:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:16:54 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:16:55 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:16:55 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:22:19 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:22:20 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:22:20 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:26:25 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:26:26 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:26:26 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:30:39 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:30:41 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:30:41 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:36:02 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:36:02 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:36:03 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:41:15 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:41:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:41:16 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:45:36 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:45:36 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:45:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:49:51 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:49:52 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:49:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 14:55:22 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 14:55:23 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 14:55:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:00:28 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:00:29 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:00:29 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:04:50 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:04:51 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:04:52 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:08:59 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:08:59 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:09:00 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:14:14 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:14:15 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:14:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:18:39 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:18:40 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:18:40 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:22:41 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:22:42 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:22:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:28:23 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:28:24 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:28:24 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:33:22 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:33:23 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:33:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:38:12 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:38:13 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:38:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:42:31 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:42:32 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:42:32 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:48:01 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:48:02 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:48:02 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:53:36 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:53:37 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:53:37 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 15:59:12 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 15:59:12 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 15:59:13 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 16:04:40 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 16:04:41 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 16:04:42 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 16:09:34 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 16:09:35 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 16:09:36 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 16:14:05 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 16:14:07 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 16:14:08 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-10 16:18:19 INFO unit.ceph-osd/0.juju-log server.go:327 Updating status.
+2022-02-10 16:18:21 WARNING unit.ceph-osd/0.juju-log server.go:327 SSD Discard autodetection: /dev/disk/by-dname/bcache0 is forcing discard off(sata <= 3.0)
+2022-02-10 16:18:21 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)

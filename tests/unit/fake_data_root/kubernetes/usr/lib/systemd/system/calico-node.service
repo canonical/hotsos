@@ -1,0 +1,43 @@
+[Unit]
+Description=calico node
+
+[Service]
+User=root
+Environment=ETCD_ENDPOINTS=https://10.6.1.60:2379
+# Setting LC_ALL and LANG works around a bug that only occurs on Xenial
+# https://bugs.launchpad.net/bugs/1911220
+Environment=LC_ALL=C.UTF-8
+Environment=LANG=C.UTF-8
+PermissionsStartOnly=true
+ExecStartPre=-/usr/local/sbin/charm-env --charm canal conctl delete calico-node
+ExecStartPre=/bin/mkdir -p /var/run/calico /var/log/calico /var/lib/calico
+ExecStart=/usr/local/sbin/charm-env --charm canal conctl run \
+  --rm \
+  --net-host \
+  --privileged \
+  --env ETCD_ENDPOINTS=https://10.6.1.60:2379 \
+  --env ETCD_CA_CERT_FILE=/opt/calicoctl/etcd-ca \
+  --env ETCD_CERT_FILE=/opt/calicoctl/etcd-cert \
+  --env ETCD_KEY_FILE=/opt/calicoctl/etcd-key \
+  --env NODENAME=juju-110cc2-k8stest-4 \
+  --env IP=10.6.3.201 \
+  --env NO_DEFAULT_POOLS=true \
+  --env AS= \
+  --env CALICO_LIBNETWORK_ENABLED=true \
+  --env IP6= \
+  --env CALICO_NETWORKING_BACKEND=none \
+  --env FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT \
+  --env FELIX_IGNORELOOSERPF=false \
+  --mount /lib/modules:/lib/modules \
+  --mount /var/run/calico:/var/run/calico \
+  --mount /var/log/calico:/var/log/calico \
+  --mount /var/lib/calico:/var/lib/calico \
+  --mount /opt/calicoctl:/opt/calicoctl \
+  --name calico-node \
+  rocks.canonical.com:443/cdk/calico/node:v3.10.1
+ExecStop=-/usr/local/sbin/charm-env --charm canal conctl delete calico-node
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+_uuid               : b8a20458-9009-41a0-aa49-71bcc0080537
+bridges             : [116afe1c-3476-42d4-b5e6-ae699137b62f, 83c47283-c44c-47d8-9ba0-4defed666505, b878b553-87fb-41fe-8f91-7703e1be5017, c835132f-e7d9-4626-8e6c-5beaab2477fa]
+cur_cfg             : 129
+datapath_types      : [netdev, system]
+datapaths           : {}
+db_version          : "8.2.0"
+dpdk_initialized    : false
+dpdk_version        : none
+external_ids        : {hostname=compute4.mylab.home, rundir="/var/run/openvswitch", system-id="3c98ecc6-adbc-4647-853b-d4c2b38e49ac"}
+iface_types         : [erspan, geneve, gre, internal, ip6erspan, ip6gre, lisp, patch, stt, system, tap, vxlan]
+manager_options     : [73906215-0126-4577-b9f9-35e91927a498]
+next_cfg            : 129
+other_config        : {}
+ovs_version         : "2.13.3"
+ssl                 : []
+statistics          : {}
+system_type         : ubuntu
+system_version      : "20.04"

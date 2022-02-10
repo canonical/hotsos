@@ -1,0 +1,448 @@
+# Copyright 2016 Canonical Ltd.
+#
+# This file is part of the Snap layer for Juju.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"options":
+  # snap_proxy and snap_proxy_url have been deprecated for some time.
+  # If your charm still needs them, add these config items manually
+  # to your charm's config.yaml.
+  # snap_proxy:
+  #   description: >
+  #     DEPRECATED. Use snap-http-proxy and snap-https-proxy model configuration settings.
+  #     HTTP/HTTPS web proxy for Snappy to use when accessing the snap store.
+  #   type: string
+  #   default: ""
+  # snap_proxy_url:
+  #   default: ""
+  #   type: string
+  #   description: >
+  #     DEPRECATED. Use snap-store-proxy model configuration setting.
+  #     The address of a Snap Store Proxy to use for snaps e.g. http://snap-proxy.example.com
+  "snapd_refresh":
+    "default": "max"
+    "type": "string"
+    "description": |
+      How often snapd handles updates for installed snaps. Setting an empty
+      string will check 4x per day. Set to "max" to delay the refresh as long
+      as possible. You may also set a custom string as described in the
+      'refresh.timer' section here:
+        https://forum.snapcraft.io/t/system-options/87
+
+      DEPRECATED in 1.19: Manage installed snap versions with the snap-store-proxy model config.
+      See: https://snapcraft.io/snap-store-proxy and https://juju.is/docs/offline-mode-strategies#heading--snap-specific-proxy
+  "nagios_context":
+    "default": "juju"
+    "type": "string"
+    "description": |
+      Used by the nrpe subordinate charms.
+      A string that will be prepended to instance name to set the host name
+      in nagios. So for instance the hostname would be something like:
+          juju-myservice-0
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  "nagios_servicegroups":
+    "default": ""
+    "type": "string"
+    "description": |
+      A comma-separated list of nagios servicegroups.
+      If left empty, the nagios_context will be used as the servicegroup
+  "sysctl":
+    "type": "string"
+    "default": "{ net.ipv4.conf.all.forwarding : 1, net.ipv4.neigh.default.gc_thresh1\
+      \ : 128, net.ipv4.neigh.default.gc_thresh2 : 28672, net.ipv4.neigh.default.gc_thresh3\
+      \ : 32768, net.ipv6.neigh.default.gc_thresh1 : 128, net.ipv6.neigh.default.gc_thresh2\
+      \ : 28672, net.ipv6.neigh.default.gc_thresh3 : 32768, fs.inotify.max_user_instances\
+      \ : 8192, fs.inotify.max_user_watches : 1048576, kernel.panic : 10, kernel.panic_on_oops:\
+      \ 1, vm.overcommit_memory : 1 }"
+    "description": |
+      YAML formatted associative array of sysctl values, e.g.:
+      '{kernel.pid_max : 4194303 }'. Note that kube-proxy handles
+      the conntrack settings. The proper way to alter them is to
+      use the proxy-extra-args config to set them, e.g.:
+        juju config kubernetes-master proxy-extra-args="conntrack-min=1000000 conntrack-max-per-core=250000"
+        juju config kubernetes-worker proxy-extra-args="conntrack-min=1000000 conntrack-max-per-core=250000"
+      The proxy-extra-args conntrack-min and conntrack-max-per-core can be set to 0 to ignore
+      kube-proxy's settings and use the sysctl settings instead. Note the fundamental difference between
+      the setting of conntrack-max-per-core vs nf_conntrack_max.
+  "proxy-extra-args":
+    "type": "string"
+    "default": ""
+    "description": |
+      Space separated list of flags and key=value pairs that will be passed as arguments to
+      kube-proxy. For example a value like this:
+        runtime-config=batch/v2alpha1=true profiling=true
+      will result in kube-apiserver being run with the following options:
+        --runtime-config=batch/v2alpha1=true --profiling=true
+  "extra_packages":
+    "description": >
+      Space separated list of extra deb packages to install.
+    "type": "string"
+    "default": ""
+  "package_status":
+    "default": "install"
+    "type": "string"
+    "description": >
+      The status of service-affecting packages will be set to this
+      value in the dpkg database. Valid values are "install" and "hold".
+  "install_sources":
+    "description": >
+      List of extra apt sources, per charm-helpers standard
+      format (a yaml list of strings encoded as a string). Each source
+      may be either a line that can be added directly to
+      sources.list(5), or in the form ppa:<user>/<ppa-name> for adding
+      Personal Package Archives, or a distribution component to enable.
+    "type": "string"
+    "default": ""
+  "install_keys":
+    "description": >
+      List of signing keys for install_sources package sources, per
+      charmhelpers standard format (a yaml list of strings encoded as
+      a string). The keys should be the full ASCII armoured GPG public
+      keys. While GPG key ids are also supported and looked up on a
+      keyserver, operators should be aware that this mechanism is
+      insecure. null can be used if a standard package signing key is
+      used that will already be installed on the machine, and for PPA
+      sources where the package signing key is securely retrieved from
+      Launchpad.
+    "type": "string"
+    "default": ""
+  "ha-cluster-vip":
+    "type": "string"
+    "description": |
+      Virtual IP for the charm to use with the HA Cluster subordinate charm
+      Mutually exclusive with ha-cluster-dns. Multiple virtual IPs are
+      separated by spaces.
+    "default": ""
+  "ha-cluster-dns":
+    "type": "string"
+    "description": |
+      DNS entry to use with the HA Cluster subordinate charm.
+      Mutually exclusive with ha-cluster-vip.
+    "default": ""
+  "audit-policy":
+    "type": "string"
+    "default": |
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+      # Don't log read-only requests from the apiserver
+      - level: None
+        users: ["system:apiserver"]
+        verbs: ["get", "list", "watch"]
+      # Don't log kube-proxy watches
+      - level: None
+        users: ["system:kube-proxy"]
+        verbs: ["watch"]
+        resources:
+        - resources: ["endpoints", "services"]
+      # Don't log nodes getting their own status
+      - level: None
+        userGroups: ["system:nodes"]
+        verbs: ["get"]
+        resources:
+        - resources: ["nodes"]
+      # Don't log kube-controller-manager and kube-scheduler getting endpoints
+      - level: None
+        users: ["system:unsecured"]
+        namespaces: ["kube-system"]
+        verbs: ["get"]
+        resources:
+        - resources: ["endpoints"]
+      # Log everything else at the Request level.
+      - level: Request
+        omitStages:
+        - RequestReceived
+    "description": |
+      Audit policy passed to kube-apiserver via --audit-policy-file.
+      For more info, please refer to the upstream documentation at
+      https://kubernetes.io/docs/tasks/debug-application-cluster/audit/
+  "audit-webhook-config":
+    "type": "string"
+    "default": ""
+    "description": |
+      Audit webhook config passed to kube-apiserver via --audit-webhook-config-file.
+      For more info, please refer to the upstream documentation at
+      https://kubernetes.io/docs/tasks/debug-application-cluster/audit/
+  "image-registry":
+    "type": "string"
+    "default": "rocks.canonical.com:443/cdk"
+    "description": |
+      Container image registry to use for CDK. This includes addons like the Kubernetes dashboard,
+      metrics server, ingress, and dns along with non-addon images including the pause
+      container and default backend image.
+  "enable-dashboard-addons":
+    "type": "boolean"
+    "default": !!bool "true"
+    "description": "Deploy the Kubernetes Dashboard"
+  "dns-provider":
+    "type": "string"
+    "default": "auto"
+    "description": |
+      DNS provider addon to use. Can be "auto", "core-dns", "kube-dns", or
+      "none".
+
+      CoreDNS is only supported on Kubernetes 1.14+.
+
+      When set to "auto", the behavior is as follows:
+      - New deployments of Kubernetes 1.14+ will use CoreDNS
+      - New deployments of Kubernetes 1.13 or older will use KubeDNS
+      - Upgraded deployments will continue to use whichever provider was
+      previously used.
+  "dns_domain":
+    "type": "string"
+    "default": "cluster.local"
+    "description": "The local domain for cluster dns"
+  "extra_sans":
+    "type": "string"
+    "default": ""
+    "description": |
+      Space-separated list of extra SAN entries to add to the x509 certificate
+      created for the master nodes.
+  "service-cidr":
+    "type": "string"
+    "default": "10.152.183.0/24"
+    "description": |
+      CIDR to use for Kubernetes services. After deployment it is
+      only possible to increase the size of the IP range. It is not possible to
+      change or shrink the address range after deployment.
+  "allow-privileged":
+    "type": "string"
+    "default": "auto"
+    "description": |
+      Allow kube-apiserver to run in privileged mode. Supported values are
+      "true", "false", and "auto". If "true", kube-apiserver will run in
+      privileged mode by default. If "false", kube-apiserver will never run in
+      privileged mode. If "auto", kube-apiserver will not run in privileged
+      mode by default, but will switch to privileged mode if gpu hardware is
+      detected on a worker node.
+  "enable-nvidia-plugin":
+    "type": "string"
+    "default": "auto"
+    "description": |
+      Load the nvidia device plugin daemonset. Supported values are
+      "auto" and "false". When "auto", the daemonset will be loaded
+      only if GPUs are detected. When "false" the nvidia device plugin
+      will not be loaded.
+  "channel":
+    "type": "string"
+    "default": "1.23/stable"
+    "description": |
+      Snap channel to install Kubernetes master services from
+  "client_password":
+    "type": "string"
+    "default": ""
+    "description": |
+      Password to be used for admin user (leave empty for random password).
+  "api-extra-args":
+    "type": "string"
+    "default": ""
+    "description": |
+      Space separated list of flags and key=value pairs that will be passed as arguments to
+      kube-apiserver. For example a value like this:
+        runtime-config=batch/v2alpha1=true profiling=true
+      will result in kube-apiserver being run with the following options:
+        --runtime-config=batch/v2alpha1=true --profiling=true
+  "controller-manager-extra-args":
+    "type": "string"
+    "default": ""
+    "description": |
+      Space separated list of flags and key=value pairs that will be passed as arguments to
+      kube-controller-manager. For example a value like this:
+        runtime-config=batch/v2alpha1=true profiling=true
+      will result in kube-controller-manager being run with the following options:
+        --runtime-config=batch/v2alpha1=true --profiling=true
+  "scheduler-extra-args":
+    "type": "string"
+    "default": ""
+    "description": |
+      Space separated list of flags and key=value pairs that will be passed as arguments to
+      kube-scheduler. For example a value like this:
+        runtime-config=batch/v2alpha1=true profiling=true
+      will result in kube-scheduler being run with the following options:
+        --runtime-config=batch/v2alpha1=true --profiling=true
+  "authorization-mode":
+    "type": "string"
+    "default": "Node,RBAC"
+    "description": |
+      Comma separated authorization modes. Allowed values are
+      "RBAC", "Node", "Webhook", "ABAC", "AlwaysDeny" and "AlwaysAllow".
+  "require-manual-upgrade":
+    "type": "boolean"
+    "default": !!bool "true"
+    "description": |
+      When true, master nodes will not be upgraded until the user triggers
+      it manually by running the upgrade action.
+  "storage-backend":
+    "type": "string"
+    "default": "auto"
+    "description": |
+      The storage backend for kube-apiserver persistence. Can be "etcd2", "etcd3", or
+      "auto". Auto mode will select etcd3 on new installations, or etcd2 on upgrades.
+  "enable-metrics":
+    "type": "boolean"
+    "default": !!bool "true"
+    "description": |
+      If true the metrics server for Kubernetes will be deployed onto the cluster.
+  "default-storage":
+    "type": "string"
+    "default": "auto"
+    "description": |
+      The storage class to make the default storage class. Allowed values are "auto",
+      "none", "ceph-xfs", "ceph-ext4", "cephfs". Note: Only works in Kubernetes >= 1.10
+  "cephfs-mounter":
+    "type": "string"
+    "default": "default"
+    "description": |
+      The client driver used for cephfs based storage. Options are "fuse", "kernel" and "default".
+  "keystone-policy":
+    "default": |
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: k8s-auth-policy
+        namespace: kube-system
+        labels:
+          k8s-app: k8s-keystone-auth
+      data:
+        policies: |
+          [
+            {
+             "resource": {
+                "verbs": ["get", "list", "watch"],
+                "resources": ["*"],
+                "version": "*",
+                "namespace": "*"
+              },
+              "match": [
+                {
+                  "type": "role",
+                  "values": ["k8s-viewers"]
+                },
+                {
+                  "type": "project",
+                  "values": ["k8s"]
+                }
+              ]
+            },
+            {
+             "resource": {
+                "verbs": ["*"],
+                "resources": ["*"],
+                "version": "*",
+                "namespace": "default"
+              },
+              "match": [
+                {
+                  "type": "role",
+                  "values": ["k8s-users"]
+                },
+                {
+                  "type": "project",
+                  "values": ["k8s"]
+                }
+              ]
+            },
+            {
+             "resource": {
+                "verbs": ["*"],
+                "resources": ["*"],
+                "version": "*",
+                "namespace": "*"
+              },
+              "match": [
+                {
+                  "type": "role",
+                  "values": ["k8s-admins"]
+                },
+                {
+                  "type": "project",
+                  "values": ["k8s"]
+                }
+              ]
+            }
+          ]
+    "type": "string"
+    "description": |
+      Policy for Keystone authorization. This is used when a Keystone charm is
+      related to kubernetes-master in order to provide authorization
+      for Keystone users on the Kubernetes cluster.
+  "enable-keystone-authorization":
+    "type": "boolean"
+    "default": !!bool "false"
+    "description": |
+      If true and the Keystone charm is related, users will authorize against
+      the Keystone server. Note that if related, users will always authenticate
+      against Keystone.
+  "keystone-ssl-ca":
+    "type": "string"
+    "description": |
+      Keystone certificate authority encoded in base64 for securing communications to Keystone.
+      For example: `juju config kubernetes-master keystone-ssl-ca=$(base64 /path/to/ca.crt)`
+    "default": ""
+  "dashboard-auth":
+    "type": "string"
+    "description": |
+      Method of authentication for the Kubernetes dashboard. Allowed values are "auto",
+      "basic", and "token". If set to "auto", basic auth is used unless Keystone is
+      related to kubernetes-master, in which case token auth is used.
+
+      DEPRECATED: this option has no effect on Kubernetes 1.19 and above.
+    "default": "auto"
+  "loadbalancer-ips":
+    "type": "string"
+    "description": |
+      Space separated list of IP addresses of loadbalancers in front of the control plane.
+      These can be either virtual IP addresses that have been floated in front of the control
+      plane or the IP of a loadbalancer appliance such as an F5. Workers will alternate IP
+      addresses from this list to distribute load - for example If you have 2 IPs and 4 workers,
+      each IP will be used by 2 workers. Note that this will only work if kubeapi-load-balancer
+      is not in use and there is a relation between kubernetes-master:kube-api-endpoint and
+      kubernetes-worker:kube-api-endpoint. If using the kubeapi-load-balancer, see the
+      loadbalancer-ips configuration variable on the kubeapi-load-balancer charm.
+    "default": ""
+  "default-cni":
+    "type": "string"
+    "description": |
+      Default CNI network to use when multiple CNI subordinates are related.
+
+      The value of this config should be the application name of a related CNI
+      subordinate. For example:
+
+      juju config kubernetes-master default-cni=flannel
+
+      If unspecified, then the default CNI network is chosen alphabetically.
+    "default": ""
+  "authn-webhook-endpoint":
+    "type": "string"
+    "default": ""
+    "description": |
+      Custom endpoint to check when authenticating kube-apiserver requests.
+      This must be an https url accessible by the k8s-master units. For example:
+
+      https://your.server:8443/authenticate
+
+      When a JSON-serialized TokenReview object is POSTed to this endpoint, it must
+      respond with appropriate authentication details. For more info, please refer
+      to the upstream documentation at
+      https://kubernetes.io/docs/reference/access-authn-authz/authentication/#webhook-token-authentication
+  "pod-security-policy":
+    "type": "string"
+    "default": ""
+    "description": |
+      Default RBAC pod security policy [0] and privileged cluster roles formatted
+      as a YAML file as a string.
+      A good example of a PSP policy can be found here [1].
+
+      [0] https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+      [1] https://github.com/kubernetes/examples/blob/master/staging/podsecuritypolicy/rbac/policies.yaml

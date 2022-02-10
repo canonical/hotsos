@@ -1,0 +1,175 @@
+F S   UID     PID    PPID    PGID     SID CLS PRI ADDR    SZ WCHAN                                 STARTED TT           TIME CMD
+4 S     0       1       0       1       1  TS  19    - 26467 ep_poll              Fri Feb 11 18:58:06 2022 ?        00:00:22 /sbin/init
+1 S     0       2       0       0       0  TS  19    -     0 kthreadd             Fri Feb 11 18:58:06 2022 ?        00:00:00 [kthreadd]
+1 I     0       3       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [rcu_gp]
+1 I     0       4       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [rcu_par_gp]
+1 I     0       6       2       0       0  TS  39    -     0 worker_thread        Fri Feb 11 18:58:06 2022 ?        00:00:00 [kworker/0:0H-kblockd]
+1 I     0       7       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 18:58:06 2022 ?        00:00:00 [kworker/0:1-events]
+1 I     0       9       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [mm_percpu_wq]
+1 S     0      10       2       0       0  TS  19    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [ksoftirqd/0]
+1 I     0      11       2       0       0  TS  19    -     0 rcu_gp_kthread       Fri Feb 11 18:58:06 2022 ?        00:00:01 [rcu_sched]
+1 S     0      12       2       0       0  FF 139    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [migration/0]
+5 S     0      13       2       0       0  FF  90    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [idle_inject/0]
+1 S     0      14       2       0       0  TS  19    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [cpuhp/0]
+1 S     0      15       2       0       0  TS  19    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [cpuhp/1]
+5 S     0      16       2       0       0  FF  90    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [idle_inject/1]
+1 S     0      17       2       0       0  FF 139    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [migration/1]
+1 S     0      18       2       0       0  TS  19    -     0 smpboot_thread_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [ksoftirqd/1]
+1 I     0      20       2       0       0  TS  39    -     0 worker_thread        Fri Feb 11 18:58:06 2022 ?        00:00:00 [kworker/1:0H-kblockd]
+5 S     0      21       2       0       0  TS  19    -     0 devtmpfsd.part.0     Fri Feb 11 18:58:06 2022 ?        00:00:00 [kdevtmpfs]
+1 I     0      22       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [netns]
+1 S     0      23       2       0       0  TS  19    -     0 rcu_tasks_kthread    Fri Feb 11 18:58:06 2022 ?        00:00:00 [rcu_tasks_kthre]
+1 S     0      24       2       0       0  TS  19    -     0 kauditd_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [kauditd]
+1 S     0      25       2       0       0  TS  19    -     0 watchdog             Fri Feb 11 18:58:06 2022 ?        00:00:00 [khungtaskd]
+1 S     0      26       2       0       0  TS  19    -     0 oom_reaper           Fri Feb 11 18:58:06 2022 ?        00:00:00 [oom_reaper]
+1 I     0      27       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [writeback]
+1 S     0      28       2       0       0  TS  19    -     0 kcompactd            Fri Feb 11 18:58:06 2022 ?        00:00:00 [kcompactd0]
+1 S     0      29       2       0       0  TS  14    -     0 ksm_scan_thread      Fri Feb 11 18:58:06 2022 ?        00:00:00 [ksmd]
+1 S     0      30       2       0       0  TS   0    -     0 khugepaged           Fri Feb 11 18:58:06 2022 ?        00:00:00 [khugepaged]
+1 I     0      35       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 18:58:06 2022 ?        00:00:00 [kworker/1:1-events]
+1 I     0      77       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [kintegrityd]
+1 I     0      78       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [kblockd]
+1 I     0      79       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [blkcg_punt_bio]
+1 I     0      80       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [tpm_dev_wq]
+1 I     0      81       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [ata_sff]
+1 I     0      82       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [md]
+1 I     0      83       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [edac-poller]
+1 I     0      84       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [devfreq_wq]
+1 S     0      85       2       0       0  FF 139    -     0 kthread_worker_fn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [watchdogd]
+1 I     0      86       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 18:58:06 2022 ?        00:00:00 [kworker/u4:1-events_unbound]
+1 S     0      88       2       0       0  TS  19    -     0 kswapd               Fri Feb 11 18:58:06 2022 ?        00:00:00 [kswapd0]
+1 S     0      89       2       0       0  TS  19    -     0 ecryptfs_threadfn    Fri Feb 11 18:58:06 2022 ?        00:00:00 [ecryptfs-kthrea]
+1 I     0      91       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [kthrotld]
+1 I     0      92       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [acpi_thermal_pm]
+1 S     0      93       2       0       0  TS  19    -     0 scsi_error_handler   Fri Feb 11 18:58:06 2022 ?        00:00:00 [scsi_eh_0]
+1 I     0      94       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [scsi_tmf_0]
+1 S     0      95       2       0       0  TS  19    -     0 scsi_error_handler   Fri Feb 11 18:58:06 2022 ?        00:00:00 [scsi_eh_1]
+1 I     0      96       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [scsi_tmf_1]
+1 I     0      98       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [vfio-irqfd-clea]
+1 I     0     100       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [ipv6_addrconf]
+1 I     0     109       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:06 2022 ?        00:00:00 [kstrp]
+1 I     0     112       2       0       0  TS  39    -     0 worker_thread        Fri Feb 11 18:58:07 2022 ?        00:00:00 [kworker/u5:0]
+1 I     0     125       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:07 2022 ?        00:00:00 [charger_manager]
+1 I     0     170       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:07 2022 ?        00:00:00 [cryptd]
+1 I     0     202       2       0       0  TS  39    -     0 worker_thread        Fri Feb 11 18:58:07 2022 ?        00:00:00 [kworker/0:1H-kblockd]
+1 I     0     205       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 18:58:07 2022 ?        00:00:00 [kworker/1:3-events]
+1 I     0     206       2       0       0  TS  39    -     0 worker_thread        Fri Feb 11 18:58:07 2022 ?        00:00:00 [kworker/1:1H-kblockd]
+1 I     0     236       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:09 2022 ?        00:00:00 [raid5wq]
+1 S     0     277       2       0       0  TS  19    -     0 kjournald2           Fri Feb 11 18:58:09 2022 ?        00:00:00 [jbd2/vda1-8]
+1 I     0     278       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:09 2022 ?        00:00:00 [ext4-rsv-conver]
+4 S     0     350       1     350     350  TS  20    - 31096 ep_poll              Fri Feb 11 18:58:10 2022 ?        00:00:04 /lib/systemd/systemd-journald
+4 S     0     381       1     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 18:58:10 2022 ?        00:00:03 /lib/systemd/systemd-udevd
+1 I     0     456       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:11 2022 ?        00:00:00 [kaluad]
+1 I     0     457       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:11 2022 ?        00:00:00 [kmpath_rdacd]
+1 I     0     458       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:11 2022 ?        00:00:00 [kmpathd]
+1 I     0     459       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:58:11 2022 ?        00:00:00 [kmpath_handlerd]
+4 S     0     460       1     460     460  RR 139    - 70036 futex_wait_queue_me  Fri Feb 11 18:58:11 2022 ?        00:00:00 /sbin/multipathd -d -s
+1 S     0     468       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 18:58:11 2022 ?        00:00:00 [loop0]
+1 S     0     473       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 18:58:11 2022 ?        00:00:00 [loop1]
+1 S     0     475       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 18:58:11 2022 ?        00:00:00 [loop2]
+4 S   102     494       1     494     494  TS  19    - 22558 ep_poll              Fri Feb 11 18:58:11 2022 ?        00:00:00 /lib/systemd/systemd-timesyncd
+4 S   100     567       1     567     567  TS  19    -  6685 ep_poll              Fri Feb 11 18:58:22 2022 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S   101     588       1     588     588  TS  19    -  5975 ep_poll              Fri Feb 11 18:58:22 2022 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S     0     678       1     678     678  TS  19    - 60259 poll_schedule_timeou Fri Feb 11 18:58:27 2022 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S     0     681       1     681     681  TS  19    -  2134 hrtimer_nanosleep    Fri Feb 11 18:58:27 2022 ?        00:00:00 /usr/sbin/cron -f
+4 S   103     683       1     683     683  TS  19    -  1960 ep_poll              Fri Feb 11 18:58:27 2022 ?        00:00:03 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S     0     690       1     690     690  TS  19    - 20474 poll_schedule_timeou Fri Feb 11 18:58:27 2022 ?        00:00:00 /usr/sbin/irqbalance --foreground
+4 S     0     692       1     692     692  TS  19    -  7299 poll_schedule_timeou Fri Feb 11 18:58:27 2022 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S   104     694       1     694     694  TS  19    - 56125 poll_schedule_timeou Fri Feb 11 18:58:27 2022 ?        00:00:01 /usr/sbin/rsyslogd -n -iNONE
+4 S     0     699       1     699     699  TS  19    -  4217 ep_poll              Fri Feb 11 18:58:27 2022 ?        00:00:01 /lib/systemd/systemd-logind
+4 S     0     701       1     701     701  TS  19    - 98704 poll_schedule_timeou Fri Feb 11 18:58:27 2022 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S     1     702       1     702     702  TS  19    -   948 hrtimer_nanosleep    Fri Feb 11 18:58:27 2022 ?        00:00:00 /usr/sbin/atd -f
+4 S     0     738       1     738     738  TS  19    -  1838 poll_schedule_timeou Fri Feb 11 18:58:27 2022 ttyS0    00:00:00 /sbin/agetty -o -p -- \u --keep-baud 115200,38400,9600 ttyS0 vt220
+4 S     0     743       1     743     743  TS  19    -  1457 poll_schedule_timeou Fri Feb 11 18:58:27 2022 tty1     00:00:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+4 S     0     754       1     754     754  TS  19    - 27027 poll_schedule_timeou Fri Feb 11 18:58:28 2022 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S     0     776       1     776     776  TS  19    - 59106 poll_schedule_timeou Fri Feb 11 18:58:28 2022 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+4 S     0     855       1     855     855  TS  19    -  3044 poll_schedule_timeou Fri Feb 11 18:58:32 2022 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S   107    2646       1    2646    2646  TS  19    -  2437 poll_schedule_timeou Fri Feb 11 18:59:05 2022 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+4 S     0    8796       1    8796    8796  TS  19    -  2174 do_wait              Fri Feb 11 18:59:36 2022 ?        00:00:00 bash /etc/systemd/system/jujud-machine-4-exec-start.sh
+4 S     0    8800    8796    8796    8796  TS  19    - 216518 futex_wait_queue_me Fri Feb 11 18:59:36 2022 ?        00:00:28 /var/lib/juju/tools/machine-4/jujud machine --data-dir /var/lib/juju --machine-id 4 --debug
+4 S     0    9679       1    9679    9679  TS  19    -   654 sigsuspend           Fri Feb 11 18:59:42 2022 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S     0    9840       1    9679    9679  TS  19    - 21402 futex_wait_queue_me  Fri Feb 11 18:59:43 2022 ?        00:00:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+4 S     0    9851    9679    9679    9679  TS  19    - 381056 futex_wait_queue_me Fri Feb 11 18:59:44 2022 ?        00:00:03 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 I     0    9908       2       0       0  TS  39    -     0 rescuer_thread       Fri Feb 11 18:59:47 2022 ?        00:00:00 [dio/vda1]
+0 S     0    9934       2       0       0  TS  19    -   622 pipe_wait            Fri Feb 11 18:59:47 2022 ?        00:00:00 bpfilter_umh
+1 S     0    9964       2       0       0  TS  39    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [spl_system_task]
+1 S     0    9965       2       0       0  TS  39    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [spl_delay_taskq]
+1 S     0    9966       2       0       0  TS  39    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [spl_dynamic_tas]
+1 S     0    9967       2       0       0  TS  39    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [spl_kmem_cache]
+1 S     0    9969       2       0       0  TS  39    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [zvol]
+1 S     0    9970       2       0       0  TS  19    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [arc_prune]
+1 S     0    9971       2       0       0  TS   0    -     0 cv_wait_common       Fri Feb 11 18:59:48 2022 ?        00:00:00 [zthr_procedure]
+1 S     0    9972       2       0       0  TS   0    -     0 cv_timedwait_hires   Fri Feb 11 18:59:48 2022 ?        00:00:00 [zthr_procedure]
+1 S     0    9973       2       0       0  TS  19    -     0 taskq_thread         Fri Feb 11 18:59:48 2022 ?        00:00:00 [dbu_evict]
+1 S     0    9974       2       0       0  TS   0    -     0 cv_timedwait_hires   Fri Feb 11 18:59:48 2022 ?        00:00:00 [dbuf_evict]
+1 S     0    9996       2       0       0  TS   0    -     0 taskq_thread         Fri Feb 11 18:59:50 2022 ?        00:00:00 [z_vdev_file]
+1 S     0    9997       2       0       0  TS  19    -     0 cv_timedwait_common  Fri Feb 11 18:59:50 2022 ?        00:00:00 [l2arc_feed]
+1 S     0   17868       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:02:28 2022 ?        00:00:00 [loop3]
+1 S     0   18034       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:02:35 2022 ?        00:00:00 [loop4]
+1 S     0   18150       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:02:38 2022 ?        00:00:00 [loop5]
+1 S     0   18327       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:02:45 2022 ?        00:00:00 [loop6]
+1 S     0   20078       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:02:58 2022 ?        00:00:00 [loop7]
+1 S     0   21699       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:03:09 2022 ?        00:00:00 [loop8]
+1 S     0   22861       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:03:24 2022 ?        00:00:00 [loop9]
+1 S     0   23223       2       0       0  TS  39    -     0 kthread_worker_fn    Fri Feb 11 19:03:29 2022 ?        00:00:00 [loop10]
+4 S     0   24050       1   24050   24050  TS  19    - 236778 futex_wait_queue_me Fri Feb 11 19:03:33 2022 ?        00:00:08 /usr/lib/snapd/snapd
+4 S     0   32062       1   32062   32062  TS  19    - 243990 futex_wait_queue_me Fri Feb 11 19:06:29 2022 ?        00:00:00 /usr/bin/containerd
+4 S     0   35059       1   35059   35059  TS  19    -  4650 do_wait              Fri Feb 11 19:07:04 2022 ?        00:00:00 /var/lib/juju/agents/unit-canal-2/.venv/bin/python /var/lib/juju/agents/unit-canal-2/.venv/bin/conctl run --rm --net-host --privileged --env ETCD_ENDPOINTS=https://10.6.1.60:2379 --env ETCD_CA_CERT_FILE=/opt/calicoctl/etcd-ca --env ETCD_CERT_FILE=/opt/calicoctl/etcd-cert --env ETCD_KEY_FILE=/opt/calicoctl/etcd-key --env NODENAME=juju-110cc2-k8stest-4 --env IP=10.6.3.201 --env NO_DEFAULT_POOLS=true --env AS= --env CALICO_LIBNETWORK_ENABLED=true --env IP6= --env CALICO_NETWORKING_BACKEND=none --env FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT --env FELIX_IGNORELOOSERPF=false --mount /lib/modules:/lib/modules --mount /var/run/calico:/var/run/calico --mount /var/log/calico:/var/log/calico --mount /var/lib/calico:/var/lib/calico --mount /opt/calicoctl:/opt/calicoctl --name calico-node rocks.canonical.com:443/cdk/calico/node:v3.10.1
+0 S     0   35079   35059   35059   35059  TS  19    - 200037 futex_wait_queue_me Fri Feb 11 19:07:04 2022 ?        00:00:00 ctr run --mount type=bind,src=/lib/modules,dst=/lib/modules,options=rbind:rw --mount type=bind,src=/var/run/calico,dst=/var/run/calico,options=rbind:rw --mount type=bind,src=/var/log/calico,dst=/var/log/calico,options=rbind:rw --mount type=bind,src=/var/lib/calico,dst=/var/lib/calico,options=rbind:rw --mount type=bind,src=/opt/calicoctl,dst=/opt/calicoctl,options=rbind:rw --env ETCD_ENDPOINTS=https://10.6.1.60:2379 --env ETCD_CA_CERT_FILE=/opt/calicoctl/etcd-ca --env ETCD_CERT_FILE=/opt/calicoctl/etcd-cert --env ETCD_KEY_FILE=/opt/calicoctl/etcd-key --env NODENAME=juju-110cc2-k8stest-4 --env IP=10.6.3.201 --env NO_DEFAULT_POOLS=true --env AS= --env CALICO_LIBNETWORK_ENABLED=true --env IP6= --env CALICO_NETWORKING_BACKEND=none --env FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT --env FELIX_IGNORELOOSERPF=false --net-host --privileged --rm rocks.canonical.com:443/cdk/calico/node:v3.10.1 calico-node
+0 S     0   35149       1   35149   32062  TS  19    - 28173 futex_wait_queue_me  Fri Feb 11 19:07:04 2022 ?        00:00:00 /usr/bin/containerd-shim-runc-v2 -namespace default -id calico-node -address /run/containerd/containerd.sock
+4 S     0   35171   35149   35171   35171  TS  19    -   577 poll_schedule_timeou Fri Feb 11 19:07:04 2022 ?        00:00:00 /usr/bin/runsvdir -P /etc/service/enabled
+4 S     0   35350       1   35350   35350  TS  19    - 79864 ep_poll              Fri Feb 11 19:07:07 2022 ?        00:00:00 /usr/local/bin/flanneld -iface=ens3 -etcd-endpoints=https://10.6.1.60:2379 -etcd-certfile=/etc/ssl/flannel/client-cert.pem -etcd-keyfile=/etc/ssl/flannel/client-key.pem -etcd-cafile=/etc/ssl/flannel/client-ca.pem --ip-masq
+4 S     0   35419   35171   35419   35419  TS  19    -   539 hrtimer_nanosleep    Fri Feb 11 19:07:07 2022 ?        00:00:00 runsv felix
+4 S     0   35420   35419   35419   35419  TS  19    -   575 poll_schedule_timeou Fri Feb 11 19:07:07 2022 ?        00:00:00 svlogd /var/log/calico/felix
+1 I     0   64289       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:12:18 2022 ?        00:00:00 [kworker/u4:2-events_unbound]
+1 I     0   64418       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:12:19 2022 ?        00:00:00 [kworker/1:0-rcu_gp]
+1 I     0   67247       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:12:24 2022 ?        00:00:00 [kworker/0:3-events]
+4 S     0   77707       1   77707   77707  TS  19    - 187128 futex_wait_queue_me Fri Feb 11 19:14:33 2022 ?        00:00:00 /snap/kube-proxy/2360/kube-proxy --cluster-cidr=10.1.0.0/16 --kubeconfig=/root/cdk/kubeproxyconfig --logtostderr=true --v=0 --master=https://10.6.3.201:6443 --hostname-override=juju-110cc2-k8stest-4 --feature-gates=
+4 S     0   81900       1   81900   81900  TS  19    - 188600 futex_wait_queue_me Fri Feb 11 19:15:28 2022 ?        00:00:02 /snap/kube-scheduler/2327/kube-scheduler --v=2 --logtostderr=true --profiling=false --config=/root/cdk/kube-scheduler-config.yaml --feature-gates=
+4 S     0   82375       1   82375   82375  TS  19    - 277875 ep_poll             Fri Feb 11 19:15:56 2022 ?        00:00:35 /snap/kube-apiserver/2599/kube-apiserver --allow-privileged=true --service-cluster-ip-range=10.152.183.0/24 --min-request-timeout=300 --v=4 --tls-cert-file=/root/cdk/server.crt --tls-private-key-file=/root/cdk/server.key --kubelet-certificate-authority=/root/cdk/ca.crt --kubelet-client-certificate=/root/cdk/client.crt --kubelet-client-key=/root/cdk/client.key --logtostderr=true --storage-backend=etcd3 --insecure-port=0 --profiling=false --anonymous-auth=false --authentication-token-webhook-cache-ttl=1m0s --authentication-token-webhook-config-file=/root/cdk/auth-webhook/auth-webhook-conf.yaml --service-account-issuer=https://kubernetes.default.svc --service-account-signing-key-file=/root/cdk/serviceaccount.key --service-account-key-file=/root/cdk/serviceaccount.key --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP --encryption-provider-config=/var/snap/kube-apiserver/common/encryption/encryption_config.yaml --advertise-address=10.6.3.201 --etcd-cafile=/root/cdk/etcd/client-ca.pem --etcd-keyfile=/root/cdk/etcd/client-key.pem --etcd-certfile=/root/cdk/etcd/client-cert.pem --etcd-servers=https://10.6.1.60:2379 --authorization-webhook-config-file=/root/cdk/keystone/webhook.yaml --authorization-mode=Node,RBAC,Webhook --enable-admission-plugins=PersistentVolumeLabel,PodSecurityPolicy,NodeRestriction --requestheader-client-ca-file=/root/cdk/ca.crt --requestheader-allowed-names=system:kube-apiserver,client --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --proxy-client-cert-file=/root/cdk/client.crt --proxy-client-key-file=/root/cdk/client.key --enable-aggregator-routing=true --client-ca-file=/root/cdk/ca.crt --feature-gates=StreamingProxyRedirects=true --audit-log-path=/root/cdk/audit/audit.log --audit-log-maxage=30 --audit-log-maxsize=100 --audit-log-maxbackup=10 --audit-policy-file=/root/cdk/audit/audit-policy.yaml
+4 S     0   82610       1   82610   82610  TS  19    - 206377 futex_wait_queue_me Fri Feb 11 19:16:01 2022 ?        00:00:06 /snap/kube-controller-manager/2407/kube-controller-manager --min-resync-period=3m --v=2 --root-ca-file=/root/cdk/ca.crt --logtostderr=true --kubeconfig=/root/cdk/kubecontrollermanagerconfig --authorization-kubeconfig=/root/cdk/kubecontrollermanagerconfig --authentication-kubeconfig=/root/cdk/kubecontrollermanagerconfig --use-service-account-credentials=true --service-account-private-key-file=/root/cdk/serviceaccount.key --tls-cert-file=/root/cdk/server.crt --tls-private-key-file=/root/cdk/server.key --cluster-name=kubernetes-hj3unlbjkigib5zcl3f7bolxfkvxvcxe --terminated-pod-gc-threshold=12500 --profiling=false --service-cluster-ip-range=10.152.183.0/24 --cluster-cidr=10.1.0.0/16 --feature-gates=RotateKubeletServerCertificate=true
+4 S     0   84191       1   84191   84191  TS  19    - 10033 poll_schedule_timeou Fri Feb 11 19:16:26 2022 ?        00:00:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1 S     0   84304   84191   84191   84191  TS  19    - 28903 ep_poll              Fri Feb 11 19:16:26 2022 ?        00:00:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1 S     0   84305   84191   84191   84191  TS  19    - 28872 ep_poll              Fri Feb 11 19:16:26 2022 ?        00:00:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1 S     0   84319   84191   84191   84191  TS  19    - 30977 ep_poll              Fri Feb 11 19:16:26 2022 ?        00:00:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1 S     0   84357   84191   84191   84191  TS  19    - 28954 ep_poll              Fri Feb 11 19:16:26 2022 ?        00:00:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1 S     0   84383   84191   84191   84191  TS  19    - 28872 ep_poll              Fri Feb 11 19:16:26 2022 ?        00:00:00 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /var/lib/juju/agents/unit-kubernetes-master-0/charm/../.venv/bin/gunicorn --bind 10.6.3.201:5000 --capture-output --certfile /root/cdk/server.crt --keyfile /root/cdk/server.key --disable-redirect-access-to-syslog --error-logfile /var/log/kubernetes/cdk.master.auth-webhook.log --log-level debug --pid /run/cdk.master.auth-webhook.pid --workers 5 --worker-class aiohttp.worker.GunicornWebWorker auth-webhook:app
+1 I     0   92831       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:20:05 2022 ?        00:00:00 [kworker/1:2-events]
+1 I     0   95212       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:22:28 2022 ?        00:00:00 [kworker/0:0-cgroup_destroy]
+4 S     0   95625     855   95625   95625  TS  19    -  3450 poll_schedule_timeou Fri Feb 11 19:22:52 2022 ?        00:00:00 sshd: ubuntu [priv]
+4 S  1000   95631       1   95631   95631  TS  19    -  4636 ep_poll              Fri Feb 11 19:22:52 2022 ?        00:00:00 /lib/systemd/systemd --user
+5 S  1000   95642   95631   95631   95631  TS  19    - 26259 do_sigtimedwait.isra Fri Feb 11 19:22:52 2022 ?        00:00:00 (sd-pam)
+5 S  1000   95735   95625   95625   95625  TS  19    -  3483 poll_schedule_timeou Fri Feb 11 19:22:53 2022 ?        00:00:00 sshd: ubuntu@pts/0
+0 S  1000   95736   95735   95736   95736  TS  19    -  2536 do_wait              Fri Feb 11 19:22:53 2022 pts/0    00:00:00 -bash
+4 S     0   95760   95736   95760   95736  TS  19    -  2792 poll_schedule_timeou Fri Feb 11 19:22:55 2022 pts/0    00:00:00 sudo -s
+4 S     0   95763   95760   95763   95736  TS  19    -  2240 do_wait              Fri Feb 11 19:22:55 2022 pts/0    00:00:00 /bin/bash
+4 S     0   96008   95763   96008   95736  TS  19    - 243726 futex_wait_queue_me Fri Feb 11 19:23:12 2022 pts/0    00:00:12 /usr/bin/python3 /usr/bin/sos report -a --all-logs
+5 S     0   96105     381     381     381  TS  19    -  4813 ep_poll              Fri Feb 11 19:23:18 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96148     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96149     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96150     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96151     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96152     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96153     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96154     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96155     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96156     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96161     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96162     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96163     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96164     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96165     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96166     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96187     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96188     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96189     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S     0   96190     381     381     381  TS  19    -  4804 ep_poll              Fri Feb 11 19:23:20 2022 ?        00:00:00 /lib/systemd/systemd-udevd
+1 I     0   97373       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:23:29 2022 ?        00:00:00 [kworker/u4:0-events_unbound]
+4 S     0   98565       1   98565   98565  TS  19    - 95134 poll_schedule_timeou Fri Feb 11 19:23:39 2022 ?        00:00:00 /usr/libexec/fwupd/fwupd
+4 S     0   98613       1   98613   98613  TS  19    -  4065 ep_poll              Fri Feb 11 19:23:40 2022 ?        00:00:00 /lib/systemd/systemd-hostnamed
+1 I     0   99743       2       0       0  TS  19    -     0 worker_thread        Fri Feb 11 19:23:50 2022 ?        00:00:00 [kworker/0:2-cgroup_destroy]
+4 S     0  100100   96008  100100   95736  TS  19    -   678 sigsuspend           Fri Feb 11 19:23:53 2022 pts/0    00:00:00 timeout 300s /usr/bin/pip list installed
+0 D     0  100112  100100  100100   95736  TS  19    -  8494 generic_file_buffere Fri Feb 11 19:23:53 2022 pts/0    00:00:00 /usr/bin/python3 /usr/bin/pip list installed
+4 S     0  100326   96008  100326   95736  TS  19    -   678 sigsuspend           Fri Feb 11 19:23:54 2022 pts/0    00:00:00 timeout 300s ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd
+4 R     0  100329  100326  100326   95736  TS  19    -  1454 -                    Fri Feb 11 19:23:54 2022 pts/0    00:00:00 ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,addr,sz,wchan:20,lstart,tty,time,cmd
+4 S     0  100330   96008  100330   95736  TS  19    -   678 sigsuspend           Fri Feb 11 19:23:54 2022 pts/0    00:00:00 timeout 300s kubectl --kubeconfig=/root/cdk/cdk_addons_kubectl_config --namespace=default logs ubuntu-debug-5c8d99cd56-jssfv

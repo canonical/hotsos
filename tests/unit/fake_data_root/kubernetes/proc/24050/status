@@ -1,0 +1,55 @@
+Name:	snapd
+Umask:	0022
+State:	S (sleeping)
+Tgid:	24050
+Ngid:	0
+Pid:	24050
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	256
+Groups:	 
+NStgid:	24050
+NSpid:	24050
+NSpgid:	24050
+NSsid:	24050
+VmPeak:	 1012648 kB
+VmSize:	  947112 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	   41820 kB
+VmRSS:	   40776 kB
+RssAnon:	   20864 kB
+RssFile:	   19912 kB
+RssShmem:	       0 kB
+VmData:	  195196 kB
+VmStk:	     132 kB
+VmExe:	   12156 kB
+VmLib:	       0 kB
+VmPTE:	     256 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	12
+SigQ:	4/15592
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	fffffffe3bfa3a00
+SigIgn:	0000000000000000
+SigCgt:	ffffffffffc1feff
+CapInh:	0000000000000000
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	thread vulnerable
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	75
+nonvoluntary_ctxt_switches:	42

@@ -1,0 +1,5 @@
+[<0>] poll_schedule_timeout.constprop.0+0x46/0x70
+[<0>] do_sys_poll+0x3ee/0x520
+[<0>] __x64_sys_ppoll+0xa8/0xe0
+[<0>] do_syscall_64+0x57/0x190
+[<0>] entry_SYSCALL_64_after_hwframe+0x44/0xa9

@@ -1,0 +1,38 @@
+metrics:
+  juju-units: {}
+  pods:
+    type: gauge
+    description: number of pods
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get po --all-namespaces | tail -n+2 | wc -l
+  services:
+    type: gauge
+    description: number of services
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get svc --all-namespaces | tail -n+2 | wc -l
+  replicasets:
+    type: gauge
+    description: number of replicasets
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get rs --all-namespaces | tail -n+2 | wc -l
+  replicationcontrollers:
+    type: gauge
+    description: number of replicationcontrollers
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get rc --all-namespaces | tail -n+2 | wc -l
+  nodes:
+    type: gauge
+    description: number of kubernetes nodes
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get nodes | tail -n+2 | wc -l
+  nodes-gpu:
+    type: gauge
+    description: number of gpu-enabled kubernetes nodes
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get nodes -l gpu=true -o name | wc -l
+  persistentvolume:
+    type: gauge
+    description: number of pv
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get pv | tail -n+2 | wc -l
+  persistentvolumeclaims:
+    type: gauge
+    description: number of claims
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get pvc --all-namespaces | tail -n+2 | wc -l
+  serviceaccounts:
+    type: gauge
+    description: number of sa
+    command: /snap/bin/kubectl --kubeconfig /root/.kube/config get sa --all-namespaces | tail -n+2 | wc -l

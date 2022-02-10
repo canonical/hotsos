@@ -1,0 +1,16 @@
+###############################################################################
+# [ WARNING ]
+# Configuration file maintained by Juju. Local changes may be overwritten.
+###############################################################################
+# Set to 1 to enable KSM, 0 to disable KSM, and AUTO to use default settings.
+# After changing this setting restart the qemu-kvm service.
+KSM_ENABLED={{ ksm }}
+SLEEP_MILLISECS=200
+# To load the vhost_net module, which in some cases can speed up
+# network performance, set VHOST_NET_ENABLED to 1.
+VHOST_NET_ENABLED=0
+
+# Set this to 1 if you want hugepages to be available to kvm under
+# /run/hugepages/kvm
+KVM_HUGEPAGES={{ kvm_hugepages }}
+

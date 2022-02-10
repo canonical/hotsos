@@ -1,0 +1,151 @@
+F S UID          PID    PPID     LWP  C NLWP PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
+4 S root           1       0       1  0    1  80   0 - 26250 ep_pol Feb09 ?        00:00:05 /sbin/init
+4 S root          63       1      63  0    1  80   0 - 12868 ep_pol Feb09 ?        00:00:00 /lib/systemd/systemd-journald
+4 S root          93       1      93  0    1  80   0 -  2971 ep_pol Feb09 ?        00:00:00 /lib/systemd/systemd-udevd
+1 S root         117       1     117  0    1  80   0 -   951 fuse_d Feb09 ?        00:00:03 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ro,nodev,allow_other,suid
+1 S root         118       1     118  0    1  80   0 -   953 fuse_d Feb09 ?        00:00:01 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328 -o ro,nodev,allow_other,suid
+1 S root         119       1     119  0    1  80   0 -   985 fuse_d Feb09 ?        00:00:03 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549 -o ro,nodev,allow_other,suid
+4 S systemd+     170       1     170  0    1  80   0 -  5991 ep_pol Feb09 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S systemd+     230       1     230  0    1  80   0 -  4604 ep_pol Feb09 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S root         234       1     234  0    3  80   0 - 60259 poll_s Feb09 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+5 S root         234       1     245  0    3  80   0 - 60259 poll_s Feb09 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+5 S root         234       1     292  0    3  80   0 - 60259 poll_s Feb09 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S root         235       1     235  0    1  80   0 -  4702 poll_s Feb09 ?        00:00:00 /usr/bin/python3 /usr/bin/ceph-crash
+4 S ceph         236       1     236  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:03 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+5 S ceph         236       1     461  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     462  0   20  80   0 - 124929 ep_pol Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     463  0   20  80   0 - 124929 ep_pol Feb09 ?       00:00:06 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     464  0   20  80   0 - 124929 ep_pol Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     469  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     470  0   20  80   0 - 124929 poll_s Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     471  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:02 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     472  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     473  0   20  80   0 - 124929 poll_s Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     474  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     475  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     476  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     477  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:02 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     478  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     479  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     480  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     481  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     482  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:01 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         236       1     483  0   20  80   0 - 124929 futex_ Feb09 ?       00:00:10 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 S ceph         237       1     237  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+5 S ceph         237       1     484  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:04 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     485  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     486  0   27  80   0 - 307927 poll_s Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     487  0   27  80   0 - 307927 poll_s Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     488  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:16 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     489  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:02 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     490  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     507  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     508  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     509  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     510  0   27  80   0 - 307927 ep_pol Feb09 ?       00:00:21 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     511  0   27  80   0 - 307927 ep_pol Feb09 ?       00:00:01 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     512  0   27  80   0 - 307927 ep_pol Feb09 ?       00:00:59 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     513  0   27  80   0 - 307927 hrtime Feb09 ?       00:00:14 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     520  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     521  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:04 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     522  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     523  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     524  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     525  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     526  0   27  80   0 - 307927 futex_ Feb09 ?       00:02:12 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     527  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     528  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:01 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     529  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     530  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+1 S ceph         237       1     531  0   27  80   0 - 307927 futex_ Feb09 ?       00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 --setuser ceph --setgroup ceph
+4 S message+     238       1     238  0    1  80   0 -  1893 ep_pol Feb09 ?        00:00:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+0 S root         241       1     241  0    1  80   0 -  7318 poll_s Feb09 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S syslog       243       1     243  0    3  80   0 - 38716 poll_s Feb09 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+1 S syslog       243       1     272  0    3  80   0 - 38716 poll_s Feb09 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+1 S syslog       243       1     273  0    3  80   0 - 38716 futex_ Feb09 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+0 S root         244       1     244  0    1  80   0 -  2599 hrtime Feb09 ?        00:00:00 /usr/sbin/smartd -n
+0 S root         248       1     248  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     546  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     547  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     548  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     549  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     665  0   12  80   0 - 236783 poll_s Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     753  0   12  80   0 - 236783 ep_pol Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     811  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     838  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     866  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1     985  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         248       1    1013  0   12  80   0 - 236783 futex_ Feb09 ?       00:00:00 /usr/lib/snapd/snapd
+4 S root         250       1     250  0    1  80   0 -  4212 ep_pol Feb09 ?        00:00:00 /lib/systemd/systemd-logind
+0 S root         252       1     252  0    5  80   0 - 98643 poll_s Feb09 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         252       1     274  0    5  80   0 - 98643 poll_s Feb09 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         252       1     293  0    5  80   0 - 98643 poll_s Feb09 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         252       1     356  0    5  80   0 - 98643 futex_ Feb09 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         252       1     371  0    5  80   0 - 98643 poll_s Feb09 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S root         265       1     265  0    1  80   0 -  2134 hrtime Feb09 ?        00:00:00 /usr/sbin/cron -f
+4 S daemon       270       1     270  0    1  80   0 -   948 hrtime Feb09 ?        00:00:00 /usr/sbin/atd -f
+4 S root         275       1     275  0    1  80   0 -  2174 do_wai Feb09 ?        00:00:00 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+4 S root         283       1     283  0    1  80   0 -  1838 poll_s Feb09 pts/0    00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+4 S root         286     275     286  0   11  80   0 - 216518 futex_ Feb09 ?       00:00:00 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+1 S root         286     275     329  0   11  80   0 - 216518 futex_ Feb09 ?       00:03:54 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+1 S root         286     275     333  0   11  80   0 - 216518 futex_ Feb09 ?       00:00:00 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     334  0   11  80   0 - 216518 futex_ Feb09 ?       00:00:00 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     431  0   11  80   0 - 216518 futex_ Feb09 ?       00:01:53 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+1 S root         286     275     440  0   11  80   0 - 216518 futex_ Feb09 ?       00:00:00 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     441  0   11  80   0 - 216518 ep_pol Feb09 ?       00:01:33 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     442  0   11  80   0 - 216518 futex_ Feb09 ?       00:00:00 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     449  0   11  80   0 - 216518 futex_ Feb09 ?       00:01:34 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     450  0   11  80   0 - 216518 futex_ Feb09 ?       00:01:48 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+5 S root         286     275     456  0   11  80   0 - 216518 futex_ Feb09 ?       00:01:50 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /var/lib/juju --machine-id 1/lxd/0 --debug
+4 S root         294       1     294  0    1  80   0 -  3044 poll_s Feb09 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+0 S root         311       1     311  0    3  80   0 - 59106 poll_s Feb09 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+1 S root         311       1     312  0    3  80   0 - 59106 poll_s Feb09 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+1 S root         311       1     319  0    3  80   0 - 59106 poll_s Feb09 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+0 S root         396       1     396  0    2  80   0 - 27028 poll_s Feb09 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1 S root         396       1     432  0    2  80   0 - 27028 poll_s Feb09 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S root         515       1     515  0    1  80   0 -   654 sigsus Feb09 ?        00:00:00 /bin/sh /snap/lxd/21835/commands/daemon.start
+4 S root        1380     515    1380  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1394  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+5 S root        1380     515    1395  0   16  80   0 - 399442 skb_wa Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1396  0   16  80   0 - 399442 ep_pol Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1397  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1398  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+5 S root        1380     515    1399  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+5 S root        1380     515    1400  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1405  0   16  80   0 - 399442 ep_pol Feb09 ?       00:00:02 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1521  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1522  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1523  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1524  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1525  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1526  0   16  80   0 - 399442 ep_pol Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        1380     515    1569  0   16  80   0 - 399442 futex_ Feb09 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S uuidd       9019       1    9019  0    1  80   0 -  2437 poll_s Feb09 ?        00:00:00 /usr/sbin/uuidd --socket-activation
+4 S root       50615     294   50615  0    1  80   0 -  3450 poll_s 09:46 ?        00:00:00 sshd: ubuntu [priv]
+4 S ubuntu     50618       1   50618  0    1  80   0 -  4573 ep_pol 09:46 ?        00:00:00 /lib/systemd/systemd --user
+5 S ubuntu     50619   50618   50619  0    1  80   0 - 26553 do_sig 09:46 ?        00:00:00 (sd-pam)
+5 S ubuntu     50673   50615   50673  0    1  80   0 -  3483 poll_s 09:46 ?        00:00:00 sshd: ubuntu@pts/1
+4 S root       50674   50673   50674  0    1  80   0 -  2792 poll_s 09:46 pts/1    00:00:00 sudo -s
+4 S root       50675   50674   50675  0    1  80   0 -  2240 do_wai 09:46 pts/1    00:00:00 /bin/bash
+4 S root       50682   50675   50682 14   11  80   0 - 243272 futex_ 09:46 pts/1   00:00:01 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+1 S root       50682   50675   50754  1   11  80   0 - 243272 futex_ 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+1 S root       50682   50675   50756  0   11  80   0 - 243272 futex_ 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+1 S root       50682   50675   50758  0   11  80   0 - 243272 futex_ 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+1 S root       50682   50675   50760  0   11  80   0 - 243272 futex_ 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+5 S root       50682   50675   50805  0   11  80   0 - 243272 poll_s 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+5 R root       50682   50675   51305  0   11  80   0 - 243272 -     09:47 pts/1    00:00:05 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+5 S root       50682   50675   52193  0   11  80   0 - 243272 pipe_w 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+5 S root       50682   50675   52425  0   11  80   0 - 243272 poll_s 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+1 S root       50682   50675   52536  0   11  80   0 - 243272 pipe_w 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+1 S root       50682   50675   52548  0   11  80   0 - 243272 pipe_w 09:47 pts/1   00:00:00 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+4 S root       51649       1   51649  0    6  80   0 - 96002 poll_s 09:47 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       51649       1   51651  0    6  80   0 - 96002 poll_s 09:47 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       51649       1   51654  0    6  80   0 - 96002 poll_s 09:47 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       51649       1   51655  0    6  80   0 - 96002 poll_s 09:47 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       51649       1   51659  0    6  80   0 - 96002 poll_s 09:47 ?        00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       51649       1   51679  0    6  80   0 - 96002 futex_ 09:47 ?        00:00:00 /usr/libexec/fwupd/fwupd
+4 S root       51731       1   51731  0    1  80   0 -  4065 ep_pol 09:47 ?        00:00:00 /lib/systemd/systemd-hostnamed
+4 S root       52534   50682   52534  0    1  80   0 -   678 sigsus 09:47 pts/1    00:00:00 timeout 300s ceph device ls --format json-pretty
+0 R root       52538   52534   52538  0    1  80   0 - 42073 -      09:47 pts/1    00:00:00 /usr/bin/python3 /usr/bin/ceph device ls --format json-pretty
+4 S root       52545   50682   52545  0    1  80   0 -   678 sigsus 09:47 pts/1    00:00:00 timeout 300s ps -elfL
+4 R root       52546   52545   52546  0    1  80   0 -  1474 -      09:47 pts/1    00:00:00 ps -elfL

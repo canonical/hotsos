@@ -1,0 +1,827 @@
+2022-02-04 09:34:38 === agent machine-1 started ===
+2022-02-04 09:35:07 machine-1: provisioner (lxd container initialisation), waited 0s, held 29s
+2022-02-04 09:34:38 === agent unit-ceph-osd-0 started ===
+2022-02-04 09:35:07 unit-ceph-osd-0: meterstatus (meter-status-changed), waited 29s, held 0s
+2022-02-04 09:34:38 === agent unit-nova-compute-0 started ===
+2022-02-04 09:35:07 unit-nova-compute-0: meterstatus (meter-status-changed), waited 29s, held 0s
+2022-02-04 09:36:01 unit-ceph-osd-0: ceph-osd/0 uniter (run install hook), waited 28s, held 54s
+2022-02-04 09:37:54 unit-nova-compute-0: nova-compute/0 uniter (run install hook), waited 1m22s, held 1m53s
+2022-02-04 09:38:05 machine-1: provisioner (bridging devices), waited 2m46s, held 11s
+2022-02-04 09:38:05 machine-1: provisioner (bridging devices), waited 2m57s, held 0s
+2022-02-04 09:38:07 machine-1: provisioner (bridging devices), waited 2m57s, held 2s
+2022-02-04 09:38:07 machine-1: provisioner (bridging devices), waited 2m59s, held 0s
+2022-02-04 09:38:08 machine-1: provisioner (bridging devices), waited 2m59s, held 0s
+2022-02-04 09:38:08 machine-1: provisioner (bridging devices), waited 3m0s, held 1s
+2022-02-04 09:38:09 machine-1: provisioner (bridging devices), waited 3m0s, held 0s
+2022-02-04 09:38:09 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-created (37; app: ceph-mon) hook), waited 2m8s, held 0s
+2022-02-04 09:38:09 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (44; app: vault) hook), waited 14s, held 0s
+2022-02-04 09:37:55 === agent unit-neutron-openvswitch-1 started ===
+2022-02-04 09:38:09 unit-neutron-openvswitch-1: meterstatus (meter-status-changed), waited 14s, held 0s
+2022-02-04 09:38:57 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run install hook), waited 13s, held 48s
+2022-02-04 09:38:57 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-created (51; app: vault) hook), waited 49s, held 0s
+2022-02-04 09:38:58 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (20; app: rabbitmq-server) hook), waited 49s, held 0s
+2022-02-04 09:38:58 unit-ceph-osd-0: ceph-osd/0 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2022-02-04 09:38:58 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (19; app: nova-cloud-controller) hook), waited 0s, held 0s
+2022-02-04 09:38:58 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-created (36; app: rabbitmq-server) hook), waited 0s, held 0s
+2022-02-04 09:39:12 unit-ceph-osd-0: ceph-osd/0 uniter (run config-changed hook), waited 0s, held 14s
+2022-02-04 09:39:12 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (21; app: glance) hook), waited 14s, held 0s
+2022-02-04 09:39:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-created (34; app: neutron-api) hook), waited 14s, held 0s
+2022-02-04 09:39:13 unit-ceph-osd-0: ceph-osd/0 uniter (run start hook), waited 0s, held 1s
+2022-02-04 09:39:13 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (35; app: neutron-openvswitch) hook), waited 1s, held 0s
+2022-02-04 09:39:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-created (35; app: nova-compute) hook), waited 1s, held 0s
+2022-02-04 09:39:14 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (41; app: cinder-ceph) hook), waited 0s, held 0s
+2022-02-04 09:39:14 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2022-02-04 09:39:14 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (42; app: ceph-mon) hook), waited 0s, held 0s
+2022-02-04 09:39:57 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run config-changed hook), waited 0s, held 43s
+2022-02-04 09:39:57 unit-nova-compute-0: nova-compute/0 uniter (run relation-created (9; app: nova-compute) hook), waited 43s, held 0s
+2022-02-04 09:39:59 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 8s, held 1s
+2022-02-04 09:39:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run start hook), waited 2s, held 0s
+2022-02-04 09:39:59 unit-nova-compute-0: nova-compute/0 uniter (run leader-settings-changed hook), waited 2s, held 0s
+2022-02-04 09:40:29 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-joined (35; unit: nova-compute/0) hook), waited 0s, held 30s
+2022-02-04 09:40:52 unit-nova-compute-0: nova-compute/0 uniter (run config-changed hook), waited 30s, held 23s
+2022-02-04 09:41:58 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (35; unit: nova-compute/0) hook), waited 23s, held 1m7s
+2022-02-04 09:42:12 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 1m7s, held 13s
+2022-02-04 09:45:16 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (35; unit: nova-compute/0) hook), waited 14s, held 3m4s
+2022-02-04 09:46:04 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (9; unit: nova-compute/1) hook), waited 3m4s, held 49s
+2022-02-04 09:46:10 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 2m10s, held 6s
+2022-02-04 09:48:03 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 55s, held 1m53s
+2022-02-04 09:48:04 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (9; unit: nova-compute/1) hook), waited 1m59s, held 0s
+2022-02-04 09:48:07 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 5s, held 3s
+2022-02-04 09:48:45 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (9; unit: nova-compute/2) hook), waited 3s, held 39s
+2022-02-04 09:50:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 26s, held 1m33s
+2022-02-04 09:51:09 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (35; unit: neutron-openvswitch/1) hook), waited 1m33s, held 50s
+2022-02-04 09:51:09 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-joined (37; unit: ceph-mon/2) hook), waited 27s, held 0s
+2022-02-04 09:52:06 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (42; unit: ceph-mon/2) hook), waited 0s, held 57s
+2022-02-04 09:52:12 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (37; unit: ceph-mon/2) hook), waited 57s, held 5s
+2022-02-04 09:54:55 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (35; unit: neutron-openvswitch/1) hook), waited 6s, held 2m43s
+2022-02-04 09:54:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-joined (34; unit: neutron-api/0) hook), waited 2m1s, held 0s
+2022-02-04 09:55:04 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 1m55s, held 8s
+2022-02-04 09:56:10 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/2) hook), waited 8s, held 1m6s
+2022-02-04 09:58:25 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-joined (36; unit: rabbitmq-server/0) hook), waited 1m14s, held 2m16s
+2022-02-04 09:58:26 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-joined (37; unit: ceph-mon/0) hook), waited 3m22s, held 0s
+2022-02-04 09:59:22 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (42; unit: ceph-mon/0) hook), waited 2m16s, held 57s
+2022-02-04 10:02:27 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (34; unit: neutron-api/0) hook), waited 57s, held 3m5s
+2022-02-04 10:02:36 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (37; unit: ceph-mon/0) hook), waited 4m2s, held 8s
+2022-02-04 10:03:25 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (20; unit: rabbitmq-server/0) hook), waited 3m13s, held 49s
+2022-02-04 10:05:40 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (36; unit: rabbitmq-server/0) hook), waited 57s, held 2m15s
+2022-02-04 10:05:40 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-joined (37; unit: ceph-mon/1) hook), waited 3m4s, held 0s
+2022-02-04 10:06:24 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (20; unit: rabbitmq-server/0) hook), waited 2m15s, held 44s
+2022-02-04 10:09:50 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (34; unit: neutron-api/0) hook), waited 44s, held 3m26s
+2022-02-04 10:09:53 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (37; unit: ceph-mon/1) hook), waited 4m10s, held 3s
+2022-02-04 10:10:14 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/0) hook), waited 3m30s, held 21s
+2022-02-04 10:10:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 25s, held 31s
+2022-02-04 10:10:50 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (37; unit: ceph-mon/2) hook), waited 52s, held 4s
+2022-02-04 10:10:50 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (9; unit: nova-compute/2) hook), waited 36s, held 0s
+2022-02-04 10:10:53 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-joined (51; unit: vault/0) hook), waited 0s, held 3s
+2022-02-04 10:11:18 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (19; unit: nova-cloud-controller/0) hook), waited 3s, held 24s
+2022-02-04 10:11:20 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (51; unit: vault/0) hook), waited 25s, held 2s
+2022-02-04 10:11:36 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (41; unit: cinder-ceph/0) hook), waited 2s, held 16s
+2022-02-04 10:11:38 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-joined (51; unit: vault/1) hook), waited 16s, held 2s
+2022-02-04 10:12:13 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 2s, held 35s
+2022-02-04 10:12:18 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (51; unit: vault/1) hook), waited 35s, held 5s
+2022-02-04 10:12:40 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (44; unit: vault/0) hook), waited 5s, held 22s
+2022-02-04 10:12:44 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-joined (51; unit: vault/2) hook), waited 22s, held 3s
+2022-02-04 10:12:44 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (21; unit: glance/0) hook), waited 4s, held 0s
+2022-02-04 10:12:47 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (51; unit: vault/2) hook), waited 0s, held 3s
+2022-02-04 10:13:10 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (41; unit: cinder-ceph/0) hook), waited 3s, held 23s
+2022-02-04 10:13:32 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (21; unit: glance/0) hook), waited 0s, held 22s
+2022-02-04 10:13:46 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (42; unit: ceph-mon/1) hook), waited 0s, held 14s
+2022-02-04 10:13:58 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/1) hook), waited 0s, held 13s
+2022-02-04 10:14:20 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 22s
+2022-02-04 10:14:35 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 14s
+2022-02-04 10:14:46 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (44; unit: vault/0) hook), waited 0s, held 12s
+2022-02-04 10:14:58 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (44; unit: vault/1) hook), waited 0s, held 12s
+2022-02-04 10:15:00 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 4s, held 2s
+2022-02-04 10:15:11 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (44; unit: vault/1) hook), waited 2s, held 11s
+2022-02-04 10:15:25 unit-nova-compute-0: nova-compute/0 uniter (run relation-joined (44; unit: vault/2) hook), waited 0s, held 14s
+2022-02-04 10:15:35 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (44; unit: vault/2) hook), waited 0s, held 10s
+2022-02-04 10:15:54 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-04 10:16:25 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (21; unit: glance/0) hook), waited 0s, held 13s
+2022-02-04 10:17:36 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 16s
+2022-02-04 10:18:09 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 28s
+2022-02-04 10:20:53 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 20s
+2022-02-04 10:20:54 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-04 10:21:04 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 2s, held 10s
+2022-02-04 10:22:09 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 16s
+2022-02-04 10:24:14 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (34; unit: neutron-api/0) hook), waited 0s, held 1m1s
+2022-02-04 10:25:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 16s
+2022-02-04 10:26:50 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-04 10:26:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 9s
+2022-02-04 10:31:23 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 18s
+2022-02-04 10:32:44 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-04 10:32:53 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 9s
+2022-02-04 10:36:23 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 15s
+2022-02-04 10:38:33 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-04 10:38:42 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 9s
+2022-02-04 10:42:03 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 15s
+2022-02-04 10:44:29 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-04 10:44:37 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 1s, held 9s
+2022-02-04 10:46:41 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (51; unit: vault/0) hook), waited 0s, held 39s
+2022-02-04 10:47:25 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (44; unit: vault/0) hook), waited 39s, held 44s
+2022-02-04 10:48:08 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1m13s, held 43s
+2022-02-04 10:49:05 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/2) hook), waited 43s, held 56s
+2022-02-04 10:49:10 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 28s, held 6s
+2022-02-04 10:49:57 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/0) hook), waited 6s, held 47s
+2022-02-04 10:50:35 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/1) hook), waited 0s, held 37s
+2022-02-04 10:51:25 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 50s
+2022-02-04 10:52:27 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 0s, held 1m2s
+2022-02-04 10:53:02 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 58s, held 35s
+2022-02-04 10:53:44 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (21; unit: glance/0) hook), waited 35s, held 42s
+2022-02-04 10:53:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 58s, held 3s
+2022-02-04 10:54:58 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run relation-changed (34; unit: neutron-api/0) hook), waited 45s, held 1m11s
+2022-02-04 10:55:20 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (41; unit: cinder-ceph/0) hook), waited 1m14s, held 21s
+2022-02-04 10:56:05 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (42; unit: ceph-mon/2) hook), waited 0s, held 45s
+2022-02-04 10:56:28 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 25s, held 23s
+2022-02-04 10:57:01 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (19; unit: nova-cloud-controller/0) hook), waited 23s, held 33s
+2022-02-04 10:58:48 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 10:59:00 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 11s, held 12s
+2022-02-04 10:59:00 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-elected hook), waited 4s, held 0s
+2022-02-04 10:59:00 unit-ceph-osd-0: ceph-osd/0 uniter (run leader-elected hook), waited 0s, held 0s
+2022-02-04 10:59:17 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 12s
+2022-02-04 10:59:38 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:00:09 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:00:31 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 12s
+2022-02-04 11:00:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:02:28 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:04:28 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:05:19 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 10s
+2022-02-04 11:05:34 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:08:58 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:10:30 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:10:46 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:13:37 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:15:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 10s
+2022-02-04 11:16:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:18:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:20:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 10s
+2022-02-04 11:21:31 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 11s
+2022-02-04 11:23:58 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:25:57 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 13s
+2022-02-04 11:26:09 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 6s, held 12s
+2022-02-04 11:29:01 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 4s
+2022-02-04 11:30:58 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 12s
+2022-02-04 11:31:21 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 13s
+2022-02-09 22:38:18 === agent machine-1 started ===
+2022-02-09 22:38:43 machine-1: provisioner (lxd container initialisation), waited 0s, held 24s
+2022-02-09 22:38:18 === agent unit-neutron-openvswitch-1 started ===
+2022-02-09 22:38:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run start hook), waited 23s, held 2s
+2022-02-09 22:38:18 === agent unit-ceph-osd-0 started ===
+2022-02-09 22:39:18 unit-ceph-osd-0: ceph-osd/0 uniter (run start hook), waited 25s, held 32s
+2022-02-09 22:38:18 === agent unit-nova-compute-0 started ===
+2022-02-09 22:41:12 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 52s, held 1m54s
+2022-02-09 22:41:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-settings-changed hook), waited 2m27s, held 0s
+2022-02-09 22:41:12 unit-ceph-osd-0: ceph-osd/0 uniter (run leader-settings-changed hook), waited 1m54s, held 0s
+2022-02-09 22:41:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 12s
+2022-02-09 22:42:05 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-09 22:42:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-09 22:43:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 18s
+2022-02-09 22:43:28 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 18s, held 2s
+2022-02-09 22:44:22 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 11s
+2022-02-09 22:47:06 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 10s
+2022-02-09 22:47:32 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 0s, held 16s
+2022-02-09 22:47:34 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 16s, held 1s
+2022-02-09 22:49:21 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (51; unit: vault/2) hook), waited 0s, held 7s
+2022-02-09 22:52:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 0s, held 12s
+2022-02-09 22:52:31 unit-nova-compute-0: nova-compute/0 uniter (run start hook), waited 0s, held 12s
+2022-02-09 22:52:31 unit-nova-compute-0: nova-compute/0 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2022-02-09 22:52:39 === agent machine-1 started ===
+2022-02-09 22:52:43 machine-1: provisioner (lxd container initialisation), waited 0s, held 3s
+2022-02-09 22:52:40 === agent unit-ceph-osd-0 started ===
+2022-02-09 22:52:43 unit-ceph-osd-0: ceph-osd/0 uniter (run leader-settings-changed hook), waited 3s, held 0s
+2022-02-09 22:52:40 === agent unit-neutron-openvswitch-1 started ===
+2022-02-09 22:52:43 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-settings-changed hook), waited 3s, held 0s
+2022-02-09 22:52:40 === agent unit-nova-compute-0 started ===
+2022-02-09 22:52:59 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (44; unit: vault/2) hook), waited 0s, held 13s
+2022-02-09 22:52:59 unit-nova-compute-0: nova-compute/0 uniter (run leader-settings-changed hook), waited 0s, held 0s
+2022-02-09 22:53:07 unit-nova-compute-0: nova-compute/0 uniter (run action 20), waited 0s, held 1s
+2022-02-09 22:57:00 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 22:57:15 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 22:57:27 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 13s
+2022-02-09 22:59:26 unit-nova-compute-0: nova-compute/0 uniter (run leader-elected hook), waited 0s, held 0s
+2022-02-09 22:59:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run leader-elected hook), waited 0s, held 0s
+2022-02-09 23:01:06 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-09 23:01:24 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-09 23:01:37 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-09 23:06:16 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:06:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:06:41 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-09 23:10:23 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:10:39 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-09 23:10:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 11s
+2022-02-09 23:14:39 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:14:53 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:15:04 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-09 23:19:19 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:19:33 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-09 23:19:44 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 10s
+2022-02-09 23:23:50 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:24:04 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:24:15 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-09 23:29:50 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:30:04 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-09 23:30:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-09 23:34:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:34:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:35:06 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-09 23:39:05 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:39:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-09 23:39:29 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-09 23:44:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:44:39 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:44:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-09 23:49:11 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:49:25 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:49:35 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-09 23:54:51 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:55:06 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:55:16 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-09 23:59:02 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-09 23:59:16 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-09 23:59:27 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 00:04:31 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:04:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 00:04:55 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 10s
+2022-02-10 00:09:34 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:09:48 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 00:09:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 12s
+2022-02-10 00:14:27 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:14:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 00:14:51 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 00:19:58 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:20:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 00:20:23 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 10s
+2022-02-10 00:24:48 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:25:04 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 00:25:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 00:30:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:31:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 00:31:11 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 00:35:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:35:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 00:36:07 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 00:40:04 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:40:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 00:40:28 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 10s
+2022-02-10 00:45:48 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:46:02 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 00:46:12 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 00:50:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:50:46 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 00:50:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 11s
+2022-02-10 00:55:28 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 00:55:42 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 00:55:53 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 01:00:05 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:00:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:00:29 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 01:05:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:05:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:05:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 01:09:57 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:10:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 01:10:22 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 01:15:40 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:15:53 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 01:16:04 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 11s
+2022-02-10 01:20:25 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:20:39 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:20:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 01:26:12 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:26:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 01:26:37 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 01:31:35 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:31:49 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:32:00 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 01:36:24 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:36:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:36:49 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 01:40:31 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:40:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 01:40:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 11s
+2022-02-10 01:45:51 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:46:05 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 01:46:17 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 01:50:21 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:50:35 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:50:45 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 01:54:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 01:54:40 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 01:54:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 01:59:59 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:00:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:00:23 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 02:05:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:06:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:06:11 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 02:10:16 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:10:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:10:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 02:14:29 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:14:43 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:14:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 02:20:01 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:20:16 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:20:26 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 02:25:41 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:25:55 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:26:06 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 02:30:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:30:57 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:31:07 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 02:36:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:36:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 02:36:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 10s
+2022-02-10 02:42:10 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:42:24 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 02:42:35 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 02:47:57 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 02:48:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 15s
+2022-02-10 02:48:23 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 02:52:11 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:52:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 02:52:37 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 10s
+2022-02-10 02:57:17 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 02:57:31 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 02:57:42 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 10s
+2022-02-10 03:02:08 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:02:21 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 03:02:32 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 11s
+2022-02-10 03:06:50 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:07:04 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 03:07:16 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 03:12:48 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:13:02 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 03:13:13 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 03:17:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:17:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 03:17:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 03:22:21 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:22:35 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 03:22:46 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 11s
+2022-02-10 03:28:16 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:28:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 03:28:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 10s
+2022-02-10 03:32:45 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:33:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 03:33:11 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 10s
+2022-02-10 03:38:09 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:38:23 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 03:38:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 03:43:51 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:44:05 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 03:44:17 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 03:48:51 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:49:06 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 03:49:17 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 03:54:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:54:47 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 03:54:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 03:58:33 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 03:58:47 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 03:58:57 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 04:04:11 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:04:25 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:04:36 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 04:09:56 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:10:11 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 04:10:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 13s
+2022-02-10 04:14:03 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:14:17 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:14:27 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 04:19:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:19:46 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:19:57 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 04:24:29 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:24:42 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:24:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 12s
+2022-02-10 04:28:57 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:29:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 04:29:23 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 04:34:52 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 04:35:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 16s
+2022-02-10 04:35:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 04:39:33 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:39:47 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:39:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 04:45:30 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:45:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:45:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 04:50:31 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:50:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 13s
+2022-02-10 04:50:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 14s, held 11s
+2022-02-10 04:55:45 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 04:55:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 04:56:10 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 05:01:10 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:01:24 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:01:35 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 05:06:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:06:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:07:09 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 12s
+2022-02-10 05:10:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:11:02 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 05:11:13 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 05:16:30 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:16:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:16:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 05:20:49 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:21:03 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:21:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 05:26:04 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:26:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 05:26:30 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 05:30:49 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:31:04 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:31:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 05:36:05 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:36:22 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 05:36:33 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 11s
+2022-02-10 05:41:37 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:41:51 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 05:42:04 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 05:45:54 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:46:09 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 05:46:20 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 05:51:14 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:51:28 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:51:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 05:56:12 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 05:56:26 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 05:56:37 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 06:00:34 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:00:48 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 06:01:00 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 12s
+2022-02-10 06:05:51 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:06:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 17s
+2022-02-10 06:06:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 11s
+2022-02-10 06:11:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:11:29 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 06:11:40 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 06:15:35 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:15:48 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 06:15:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 06:19:39 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:19:54 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 06:20:06 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 12s
+2022-02-10 06:25:05 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 06:25:25 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 20s
+2022-02-10 06:25:36 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 22s, held 11s
+2022-02-10 06:29:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:30:03 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 06:30:15 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 12s
+2022-02-10 06:34:57 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:35:11 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 06:35:21 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 06:40:35 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:40:49 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 06:41:00 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 06:46:01 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:46:14 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 06:46:25 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 06:51:08 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:51:22 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 06:51:33 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 06:55:56 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 06:56:11 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 06:56:21 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 07:01:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:01:47 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 07:01:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 07:06:09 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:06:25 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 07:06:35 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 07:10:53 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:11:08 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 07:11:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 07:15:13 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:15:27 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 07:15:38 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 12s
+2022-02-10 07:20:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:20:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 07:20:51 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 07:26:06 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:26:22 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 07:26:33 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 07:30:20 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:30:34 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 07:30:45 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 07:34:52 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:35:06 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 07:35:17 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 07:38:53 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:39:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 07:39:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 07:44:25 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:44:50 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 25s
+2022-02-10 07:45:01 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 26s, held 11s
+2022-02-10 07:49:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:49:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 07:49:42 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 07:54:52 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:55:07 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 07:55:20 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 13s
+2022-02-10 07:58:59 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 07:59:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 07:59:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 08:03:07 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:03:21 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:03:32 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 08:08:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:08:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 08:08:41 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 08:13:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:13:32 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 08:13:45 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 13s
+2022-02-10 08:18:58 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:19:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:19:23 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 08:23:51 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:24:06 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 08:24:17 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 08:29:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:30:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:30:12 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 08:35:46 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:36:00 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:36:10 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 08:41:41 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:41:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:42:06 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 08:47:28 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:47:42 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:47:53 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 08:52:59 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:53:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:53:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 08:57:55 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 08:58:09 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 08:58:19 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 09:02:14 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 09:02:32 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 09:02:47 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 09:07:20 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:07:37 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 09:07:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 09:12:12 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 09:12:32 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 20s
+2022-02-10 09:12:46 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 21s, held 14s
+2022-02-10 09:17:14 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:17:31 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 09:17:45 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 14s
+2022-02-10 09:22:18 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:22:39 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 21s
+2022-02-10 09:22:52 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 22s, held 13s
+2022-02-10 09:27:17 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:27:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 20s
+2022-02-10 09:27:52 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 21s, held 14s
+2022-02-10 09:32:09 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 09:32:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 20s
+2022-02-10 09:32:44 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 22s, held 14s
+2022-02-10 09:33:30 unit-ceph-osd-0: ceph-osd/0 uniter (run relation-changed (51; unit: vault/0) hook), waited 0s, held 3s
+2022-02-10 09:33:46 unit-nova-compute-0: nova-compute/0 uniter (run relation-changed (44; unit: vault/0) hook), waited 3s, held 16s
+2022-02-10 09:36:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 09:36:33 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 17s
+2022-02-10 09:36:46 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 09:40:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:41:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 26s
+2022-02-10 09:41:32 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 27s, held 19s
+2022-02-10 09:46:36 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 09:46:55 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 09:47:11 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 16s
+2022-02-10 09:51:37 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:51:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 22s
+2022-02-10 09:52:12 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 23s, held 13s
+2022-02-10 09:56:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 09:56:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 09:56:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 15s
+2022-02-10 10:00:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 10:00:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 10:00:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 15s
+2022-02-10 10:05:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:05:50 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 10:06:04 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 10:09:55 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 10:10:14 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 19s
+2022-02-10 10:10:29 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 15s
+2022-02-10 10:14:55 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:15:16 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 21s
+2022-02-10 10:15:30 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 23s, held 14s
+2022-02-10 10:20:36 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:20:53 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 17s
+2022-02-10 10:21:10 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 17s
+2022-02-10 10:26:03 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:26:21 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 10:26:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 13s
+2022-02-10 10:31:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:31:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 10:31:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 10:36:25 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:36:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 10:37:01 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 17s
+2022-02-10 10:41:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 10:42:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 19s
+2022-02-10 10:42:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 13s
+2022-02-10 10:46:29 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 10:46:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 15s
+2022-02-10 10:46:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 10:52:28 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 10:52:43 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 10:52:55 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 10:57:44 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 10:57:58 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 10:58:09 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 11:02:56 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:03:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 11:03:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 11:08:31 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:08:46 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 11:08:59 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 13s
+2022-02-10 11:13:36 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 11:13:54 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 11:14:06 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 12s
+2022-02-10 11:18:04 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:18:22 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 11:18:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 11:23:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:23:43 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 11:23:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 11:28:01 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:28:15 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 11:28:25 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 11:32:59 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:33:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 11:33:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 10s
+2022-02-10 11:37:57 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:38:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 11:38:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 11:43:01 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:43:15 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 11:43:27 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 11:48:22 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:48:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 11:48:50 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 12s
+2022-02-10 11:52:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 11:52:42 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 16s
+2022-02-10 11:52:55 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 13s
+2022-02-10 11:58:01 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 11:58:15 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 11:58:29 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 13s
+2022-02-10 12:02:57 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:03:12 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:03:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 12:07:58 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:08:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:08:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 12:13:18 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:13:33 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:13:44 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 12:18:47 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:19:05 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 12:19:18 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 12:24:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:24:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:24:41 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 12:29:04 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:29:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:29:30 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 12:33:43 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:33:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 12:34:11 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 12s
+2022-02-10 12:39:18 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:39:32 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 12:39:44 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 15s, held 11s
+2022-02-10 12:43:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:43:56 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:44:08 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 12:49:22 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:49:37 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:49:47 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 12:54:58 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:55:13 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 12:55:24 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 12:59:13 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 12:59:28 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 12:59:43 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 14s
+2022-02-10 13:03:21 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:03:37 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 13:03:49 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 12s
+2022-02-10 13:09:07 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:09:23 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 13:09:34 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 11s
+2022-02-10 13:13:09 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:13:24 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 13:13:37 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 13s
+2022-02-10 13:18:02 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:18:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 13:18:29 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 12s
+2022-02-10 13:23:30 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:23:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 14s
+2022-02-10 13:23:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 10s
+2022-02-10 13:29:24 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:29:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 13:29:49 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 13:34:25 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:34:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 16s
+2022-02-10 13:34:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 17s, held 13s
+2022-02-10 13:38:28 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:38:44 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 16s
+2022-02-10 13:38:55 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 11s
+2022-02-10 13:42:55 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:43:09 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 13:43:20 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 13:47:06 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:47:20 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 13:47:31 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 13:52:05 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 13:52:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 15s
+2022-02-10 13:52:30 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 16s, held 11s
+2022-02-10 13:56:29 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 13:56:45 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 16s
+2022-02-10 13:56:57 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 12s
+2022-02-10 14:01:49 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:02:08 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 19s
+2022-02-10 14:02:21 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 13s
+2022-02-10 14:06:14 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:06:33 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 14:06:48 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 14:11:08 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:11:27 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 14:11:41 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 14s
+2022-02-10 14:16:56 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:17:14 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 14:17:29 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 15s
+2022-02-10 14:22:21 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:22:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 14:22:52 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 14s
+2022-02-10 14:26:26 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:26:43 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 14:26:58 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 15s
+2022-02-10 14:30:41 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 14:31:00 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 14:31:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 21s, held 14s
+2022-02-10 14:36:03 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:36:23 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 20s
+2022-02-10 14:36:38 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 22s, held 15s
+2022-02-10 14:41:16 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:41:35 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 20s
+2022-02-10 14:41:49 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 21s, held 14s
+2022-02-10 14:45:37 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:45:55 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 14:46:08 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 13s
+2022-02-10 14:49:52 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:50:10 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 14:50:23 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 14:55:24 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 14:55:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 14:55:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 15:00:29 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:00:49 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 20s
+2022-02-10 15:01:03 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 21s, held 14s
+2022-02-10 15:04:52 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 15:05:10 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 15:05:25 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 15:09:00 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 15:09:18 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 19s
+2022-02-10 15:09:33 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 15:14:15 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 15:14:35 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 20s
+2022-02-10 15:14:48 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 21s, held 13s
+2022-02-10 15:18:40 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:19:01 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 21s
+2022-02-10 15:19:15 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 22s, held 14s
+2022-02-10 15:22:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:22:59 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 15:23:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 14s
+2022-02-10 15:28:24 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:28:42 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 15:28:56 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 14s
+2022-02-10 15:33:23 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:33:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 15:33:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 15:38:13 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:38:30 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 15:38:44 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 13s
+2022-02-10 15:42:32 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:42:51 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 18s
+2022-02-10 15:43:04 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 14s
+2022-02-10 15:48:02 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:48:19 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 17s
+2022-02-10 15:48:32 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 18s, held 13s
+2022-02-10 15:53:37 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:53:55 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 15:54:08 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 19s, held 12s
+2022-02-10 15:59:13 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 1s
+2022-02-10 15:59:31 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 1s, held 19s
+2022-02-10 15:59:45 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 13s
+2022-02-10 16:04:42 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 16:05:00 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 18s
+2022-02-10 16:05:14 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 20s, held 14s
+2022-02-10 16:09:36 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 16:10:02 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 26s
+2022-02-10 16:10:22 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 29s, held 19s
+2022-02-10 16:14:08 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 3s
+2022-02-10 16:14:38 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 3s, held 30s
+2022-02-10 16:14:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 34s, held 15s
+2022-02-10 16:18:21 unit-ceph-osd-0: ceph-osd/0 uniter (run update-status hook), waited 0s, held 2s
+2022-02-10 16:18:41 unit-neutron-openvswitch-1: neutron-openvswitch/1 uniter (run update-status hook), waited 2s, held 20s
+2022-02-10 16:18:54 unit-nova-compute-0: nova-compute/0 uniter (run update-status hook), waited 22s, held 13s

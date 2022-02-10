@@ -1,0 +1,29 @@
+-- Logs begin at Fri 2022-02-04 09:41:48 UTC, end at Thu 2022-02-10 09:51:59 UTC. --
+Feb 04 09:42:12 juju-04f1e3-0-lxd-5 systemd[1]: Starting Snap Daemon...
+Feb 04 09:42:12 juju-04f1e3-0-lxd-5 snapd[387]: AppArmor status: apparmor is enabled and all features are available
+Feb 04 09:42:18 juju-04f1e3-0-lxd-5 snapd[387]: AppArmor status: apparmor is enabled and all features are available
+Feb 04 09:42:18 juju-04f1e3-0-lxd-5 snapd[387]: patch.go:63: Patching system state level 6 to sublevel 1...
+Feb 04 09:42:18 juju-04f1e3-0-lxd-5 snapd[387]: patch.go:63: Patching system state level 6 to sublevel 2...
+Feb 04 09:42:18 juju-04f1e3-0-lxd-5 snapd[387]: patch.go:63: Patching system state level 6 to sublevel 3...
+Feb 04 09:42:19 juju-04f1e3-0-lxd-5 snapd[387]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-97-generic.
+Feb 04 09:42:19 juju-04f1e3-0-lxd-5 snapd[387]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Feb 04 09:42:20 juju-04f1e3-0-lxd-5 systemd[1]: Started Snap Daemon.
+Feb 04 09:52:25 juju-04f1e3-0-lxd-5 snapd[387]: api_snaps.go:307: Installing snap "core" revision unset
+Feb 04 09:53:14 juju-04f1e3-0-lxd-5 snapd[387]: api_snaps.go:307: Installing snap "vault" revision unset
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 systemd[1]: Stopping Snap Daemon...
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 snapd[387]: main.go:155: Exiting on terminated signal.
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 systemd[1]: snapd.service: Succeeded.
+Feb 04 10:58:01 juju-04f1e3-0-lxd-5 systemd[1]: Stopped Snap Daemon.
+-- Reboot --
+Feb 09 22:33:33 juju-04f1e3-0-lxd-5 systemd[1]: Starting Snap Daemon...
+Feb 09 22:33:36 juju-04f1e3-0-lxd-5 snapd[271]: AppArmor status: apparmor is enabled and all features are available
+Feb 09 22:33:56 juju-04f1e3-0-lxd-5 snapd[271]: AppArmor status: apparmor is enabled and all features are available
+Feb 09 22:33:59 juju-04f1e3-0-lxd-5 snapd[271]: daemon.go:246: started snapd/2.54.2 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-97-generic.
+Feb 09 22:33:59 juju-04f1e3-0-lxd-5 snapd[271]: daemon.go:339: adjusting startup timeout by 1m0s (pessimistic estimate of 30s plus 5s per snap)
+Feb 09 22:34:01 juju-04f1e3-0-lxd-5 systemd[1]: Started Snap Daemon.
+Feb 09 22:34:09 juju-04f1e3-0-lxd-5 snapd[271]: storehelpers.go:721: cannot refresh: snap has no updates available: "core", "core18", "core20", "lxd", "snapd", "vault"
+Feb 09 22:34:10 juju-04f1e3-0-lxd-5 snapd[271]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 00:19:01 juju-04f1e3-0-lxd-5 snapd[271]: storehelpers.go:721: cannot refresh: snap has no updates available: "core", "core18", "core20", "lxd", "snapd", "vault"
+Feb 10 00:19:01 juju-04f1e3-0-lxd-5 snapd[271]: autorefresh.go:536: auto-refresh: all snaps are up-to-date
+Feb 10 07:49:01 juju-04f1e3-0-lxd-5 snapd[271]: storehelpers.go:721: cannot refresh: snap has no updates available: "core", "core18", "core20", "lxd", "snapd", "vault"
+Feb 10 07:49:01 juju-04f1e3-0-lxd-5 snapd[271]: autorefresh.go:536: auto-refresh: all snaps are up-to-date

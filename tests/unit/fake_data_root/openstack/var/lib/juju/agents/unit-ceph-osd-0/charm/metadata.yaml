@@ -1,0 +1,47 @@
+name: ceph-osd
+summary: Highly scalable distributed storage - Ceph OSD storage
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+provides:
+  nrpe-external-master:
+    interface: nrpe-external-master
+    scope: container
+tags:
+- openstack
+- storage
+- file-servers
+- misc
+series:
+- focal
+- impish
+description: |
+  Ceph is a distributed storage and network file system designed to provide
+  excellent performance, reliability, and scalability.
+  .
+  This charm provides the Ceph OSD personality for expanding storage capacity
+  within a ceph deployment.
+extra-bindings:
+  public:
+  cluster:
+requires:
+  mon:
+    interface: ceph-osd
+  secrets-storage:
+    interface: vault-kv
+storage:
+  osd-devices:
+    type: block
+    multiple:
+      range: 0-
+    minimum-size: 1G
+  osd-journals:
+    type: block
+    multiple:
+      range: 0-
+  bluestore-db:
+    type: block
+    multiple:
+      range: 0-
+  bluestore-wal:
+    type: block
+    multiple:
+      range: 0-

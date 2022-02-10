@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount unit for core20, revision 1328
+Before=snapd.service
+After=zfs-mount.service
+
+[Mount]
+What=/var/lib/snapd/snaps/core20_1328.snap
+Where=/snap/core20/1328
+Type=squashfs
+Options=nodev,ro,x-gdu.hide,x-gvfs-hide
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target

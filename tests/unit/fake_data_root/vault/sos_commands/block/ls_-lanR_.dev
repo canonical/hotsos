@@ -1,0 +1,234 @@
+/dev:
+total 8
+drwxr-xr-x  9     0     0      520 Feb  9 22:35 .
+drwxr-xr-x 18     0     0     4096 Jan 31 22:31 ..
+-r--r--r--  1     0     0       37 Feb  9 22:33 .lxc-boot-id
+drwx--x--x  2 65534 65534       40 Feb  9 22:33 .lxd-mounts
+crw--w----  1     0     5 136,   0 Feb  9 22:34 console
+lrwxrwxrwx  1     0     0       11 Feb  9 22:33 core -> /proc/kcore
+lrwxrwxrwx  1     0     0       13 Feb  9 22:33 fd -> /proc/self/fd
+crw-rw-rw-  1 65534 65534   1,   7 Feb  9 22:32 full
+crw-rw-rw-  1 65534 65534  10, 229 Feb  9 22:32 fuse
+lrwxrwxrwx  1     0     0       12 Feb  9 22:33 initctl -> /run/initctl
+lrwxrwxrwx  1     0     0       28 Feb  9 22:33 log -> /run/systemd/journal/dev-log
+drwxr-xr-x  2 65534 65534       60 Feb  9 22:35 lxd
+drwxr-xr-x  2     0     0       40 Feb  9 22:35 mapper
+drwxrwxrwt  2 65534 65534       40 Feb  9 22:32 mqueue
+drwxr-xr-x  2     0     0       60 Feb  9 22:33 net
+crw-rw-rw-  1 65534 65534   1,   3 Feb  9 22:32 null
+crw-rw-rw-  1     0     0   5,   2 Feb 10 09:51 ptmx
+drwxr-xr-x  2     0     0        0 Feb  9 22:33 pts
+crw-rw-rw-  1 65534 65534   1,   8 Feb  9 22:32 random
+drwxrwxrwt 16     0     0      360 Feb 10 09:48 shm
+lrwxrwxrwx  1     0     0       15 Feb  9 22:33 stderr -> /proc/self/fd/2
+lrwxrwxrwx  1     0     0       15 Feb  9 22:33 stdin -> /proc/self/fd/0
+lrwxrwxrwx  1     0     0       15 Feb  9 22:33 stdout -> /proc/self/fd/1
+crw-rw-rw-  1 65534 65534   5,   0 Feb  9 22:32 tty
+crw-rw-rw-  1 65534 65534   1,   9 Feb  9 22:32 urandom
+crw-rw-rw-  1 65534 65534   1,   5 Feb  9 22:32 zero
+ls: cannot open directory '/dev/.lxd-mounts': Permission denied
+
+/dev/lxd:
+total 0
+drwxr-xr-x 2 65534 65534  60 Feb  9 22:35 .
+drwxr-xr-x 9     0     0 520 Feb  9 22:35 ..
+srw-rw-rw- 1 65534 65534   0 Feb  9 22:35 sock
+
+/dev/mapper:
+total 0
+drwxr-xr-x 2 0 0  40 Feb  9 22:35 .
+drwxr-xr-x 9 0 0 520 Feb  9 22:35 ..
+
+/dev/mqueue:
+total 0
+drwxrwxrwt 2 65534 65534  40 Feb  9 22:32 .
+drwxr-xr-x 9     0     0 520 Feb  9 22:35 ..
+
+/dev/net:
+total 0
+drwxr-xr-x 2     0     0      60 Feb  9 22:33 .
+drwxr-xr-x 9     0     0     520 Feb  9 22:35 ..
+crw-rw-rw- 1 65534 65534 10, 200 Feb  9 22:32 tun
+
+/dev/pts:
+total 0
+drwxr-xr-x 2    0 0      0 Feb  9 22:33 .
+drwxr-xr-x 9    0 0    520 Feb  9 22:35 ..
+crw--w---- 1    0 5 136, 0 Feb  9 22:34 0
+crw--w---- 1 1000 5 136, 1 Feb 10 09:51 1
+crw-rw-rw- 1    0 0   5, 2 Feb 10 09:51 ptmx
+
+/dev/shm:
+total 8208
+drwxrwxrwt 16   0   0     360 Feb 10 09:48 .
+drwxr-xr-x  9   0   0     520 Feb  9 22:35 ..
+drwxrwx---  2   0   0     160 Feb  9 22:33 qb-256-429-19-SL7KUw
+drwxrwx---  2   0   0     160 Feb  9 22:33 qb-256-429-20-1lAs5z
+drwxrwx---  2   0   0     160 Feb  9 22:33 qb-256-429-21-95ONHy
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-256-473-22-4zbXBw
+drwxrwx---  2   0   0     160 Feb  9 22:33 qb-256-474-23-hk08jx
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-256-476-24-NmfDqA
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-256-478-25-wGxVNw
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-256-478-27-STxoty
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-473-474-12-XCJajW
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-473-476-10-AqEjoX
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-473-478-11-Hf8rEX
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-474-478-9-IkkAV3
+drwxrwx---  2 113 119     160 Feb  9 22:33 qb-475-478-7-lpKP96
+drwxrwx---  2 113 119     160 Feb  9 22:58 qb-477-478-7-klaEKi
+-rw-------  1   0   0 8392704 Feb  9 22:33 qb-corosync-256-blackbox-data
+-rw-------  1   0   0    8248 Feb  9 22:33 qb-corosync-256-blackbox-header
+
+/dev/shm/qb-256-429-19-SL7KUw:
+total 3120
+drwxrwx---  2 0 0     160 Feb  9 22:33 .
+drwxrwxrwt 16 0 0     360 Feb 10 09:48 ..
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-event-cfg-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-event-cfg-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-request-cfg-data
+-rw-------  1 0 0    8252 Feb  9 22:33 qb-request-cfg-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-response-cfg-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-response-cfg-header
+
+/dev/shm/qb-256-429-20-1lAs5z:
+total 3120
+drwxrwx---  2 0 0     160 Feb  9 22:33 .
+drwxrwxrwt 16 0 0     360 Feb 10 09:48 ..
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-event-cpg-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-event-cpg-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-request-cpg-data
+-rw-------  1 0 0    8252 Feb  9 22:33 qb-request-cpg-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-response-cpg-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-response-cpg-header
+
+/dev/shm/qb-256-429-21-95ONHy:
+total 3120
+drwxrwx---  2 0 0     160 Feb  9 22:33 .
+drwxrwxrwt 16 0 0     360 Feb 10 09:48 ..
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-event-quorum-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-event-quorum-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-request-quorum-data
+-rw-------  1 0 0    8252 Feb  9 22:33 qb-request-quorum-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-response-quorum-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-response-quorum-header
+
+/dev/shm/qb-256-473-22-4zbXBw:
+total 3120
+drwxrwx---  2 113 119     160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0     360 Feb 10 09:48 ..
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-event-cpg-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-event-cpg-header
+-rw-------  1 113 119 1052672 Feb  9 23:00 qb-request-cpg-data
+-rw-------  1 113 119    8252 Feb  9 22:33 qb-request-cpg-header
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-response-cpg-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-response-cpg-header
+
+/dev/shm/qb-256-474-23-hk08jx:
+total 3120
+drwxrwx---  2 0 0     160 Feb  9 22:33 .
+drwxrwxrwt 16 0 0     360 Feb 10 09:48 ..
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-event-cpg-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-event-cpg-header
+-rw-------  1 0 0 1052672 Feb  9 22:38 qb-request-cpg-data
+-rw-------  1 0 0    8252 Feb  9 22:33 qb-request-cpg-header
+-rw-------  1 0 0 1052672 Feb  9 22:33 qb-response-cpg-data
+-rw-------  1 0 0    8248 Feb  9 22:33 qb-response-cpg-header
+
+/dev/shm/qb-256-476-24-NmfDqA:
+total 3120
+drwxrwx---  2 113 119     160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0     360 Feb 10 09:48 ..
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-event-cpg-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-event-cpg-header
+-rw-------  1 113 119 1052672 Feb  9 23:00 qb-request-cpg-data
+-rw-------  1 113 119    8252 Feb  9 22:33 qb-request-cpg-header
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-response-cpg-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-response-cpg-header
+
+/dev/shm/qb-256-478-25-wGxVNw:
+total 3120
+drwxrwx---  2 113 119     160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0     360 Feb 10 09:48 ..
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-event-cpg-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-event-cpg-header
+-rw-------  1 113 119 1052672 Feb 10 09:42 qb-request-cpg-data
+-rw-------  1 113 119    8252 Feb  9 22:33 qb-request-cpg-header
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-response-cpg-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-response-cpg-header
+
+/dev/shm/qb-256-478-27-STxoty:
+total 3120
+drwxrwx---  2 113 119     160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0     360 Feb 10 09:48 ..
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-event-quorum-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-event-quorum-header
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-request-quorum-data
+-rw-------  1 113 119    8252 Feb  9 22:33 qb-request-quorum-header
+-rw-------  1 113 119 1052672 Feb  9 22:33 qb-response-quorum-data
+-rw-------  1 113 119    8248 Feb  9 22:33 qb-response-quorum-header
+
+/dev/shm/qb-473-474-12-XCJajW:
+total 1584
+drwxrwx---  2 113 119    160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0    360 Feb 10 09:48 ..
+-rw-------  1 113 119 528384 Feb  9 22:33 qb-event-cib_rw-data
+-rw-------  1 113 119   8248 Feb  9 22:33 qb-event-cib_rw-header
+-rw-------  1 113 119 528384 Feb  9 22:33 qb-request-cib_rw-data
+-rw-------  1 113 119   8252 Feb  9 22:33 qb-request-cib_rw-header
+-rw-------  1 113 119 528384 Feb  9 22:33 qb-response-cib_rw-data
+-rw-------  1 113 119   8248 Feb  9 22:33 qb-response-cib_rw-header
+
+/dev/shm/qb-473-476-10-AqEjoX:
+total 1584
+drwxrwx---  2 113 119    160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0    360 Feb 10 09:48 ..
+-rw-rw----  1 113 119 528384 Feb  9 22:33 qb-event-cib_rw-data
+-rw-rw----  1 113 119   8248 Feb  9 22:33 qb-event-cib_rw-header
+-rw-rw----  1 113 119 528384 Feb  9 22:33 qb-request-cib_rw-data
+-rw-rw----  1 113 119   8252 Feb  9 22:33 qb-request-cib_rw-header
+-rw-rw----  1 113 119 528384 Feb  9 22:33 qb-response-cib_rw-data
+-rw-rw----  1 113 119   8248 Feb  9 22:33 qb-response-cib_rw-header
+
+/dev/shm/qb-473-478-11-Hf8rEX:
+total 1584
+drwxrwx---  2 113 119    160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0    360 Feb 10 09:48 ..
+-rw-rw----  1 113 119 528384 Feb 10 00:03 qb-event-cib_shm-data
+-rw-rw----  1 113 119   8248 Feb  9 22:33 qb-event-cib_shm-header
+-rw-rw----  1 113 119 528384 Feb 10 09:42 qb-request-cib_shm-data
+-rw-rw----  1 113 119   8252 Feb  9 22:33 qb-request-cib_shm-header
+-rw-rw----  1 113 119 528384 Feb  9 22:33 qb-response-cib_shm-data
+-rw-rw----  1 113 119   8248 Feb  9 22:33 qb-response-cib_shm-header
+
+/dev/shm/qb-474-478-9-IkkAV3:
+total 432
+drwxrwx---  2 113 119    160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0    360 Feb 10 09:48 ..
+-rw-rw----  1   0 119 135168 Feb  9 22:33 qb-event-stonith-ng-data
+-rw-rw----  1   0 119   8248 Feb  9 22:33 qb-event-stonith-ng-header
+-rw-rw----  1   0 119 135168 Feb  9 22:33 qb-request-stonith-ng-data
+-rw-rw----  1   0 119   8252 Feb  9 22:33 qb-request-stonith-ng-header
+-rw-rw----  1   0 119 135168 Feb  9 22:33 qb-response-stonith-ng-data
+-rw-rw----  1   0 119   8248 Feb  9 22:33 qb-response-stonith-ng-header
+
+/dev/shm/qb-475-478-7-lpKP96:
+total 432
+drwxrwx---  2 113 119    160 Feb  9 22:33 .
+drwxrwxrwt 16   0   0    360 Feb 10 09:48 ..
+-rw-rw----  1   0 119 135168 Feb  9 22:33 qb-event-lrmd-data
+-rw-rw----  1   0 119   8248 Feb  9 22:33 qb-event-lrmd-header
+-rw-rw----  1   0 119 135168 Feb  9 22:33 qb-request-lrmd-data
+-rw-rw----  1   0 119   8252 Feb  9 22:33 qb-request-lrmd-header
+-rw-rw----  1   0 119 135168 Feb  9 22:33 qb-response-lrmd-data
+-rw-rw----  1   0 119   8248 Feb  9 22:33 qb-response-lrmd-header
+
+/dev/shm/qb-477-478-7-klaEKi:
+total 15408
+drwxrwx---  2 113 119     160 Feb  9 22:58 .
+drwxrwxrwt 16   0   0     360 Feb 10 09:48 ..
+-rw-rw----  1 113 119 5246976 Feb  9 22:58 qb-event-pengine-data
+-rw-rw----  1 113 119    8248 Feb  9 22:58 qb-event-pengine-header
+-rw-rw----  1 113 119 5246976 Feb 10 09:51 qb-request-pengine-data
+-rw-rw----  1 113 119    8252 Feb  9 22:58 qb-request-pengine-header
+-rw-rw----  1 113 119 5246976 Feb  9 22:58 qb-response-pengine-data
+-rw-rw----  1 113 119    8248 Feb  9 22:58 qb-response-pengine-header

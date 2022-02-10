@@ -1,0 +1,7 @@
+interfaces:
+  {% for _, pcidnvfs in sriov_device.get_map.items() -%}
+  {{ pcidnvfs.device.interface_name }}:
+    match:
+      pciaddress: '{{ pcidnvfs.device.pci_address }}'
+    num_vfs: {{ pcidnvfs.numvfs }}
+  {% endfor -%}

@@ -1,0 +1,11 @@
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/vda2 during curtin installation
+/dev/disk/by-uuid/51babbe8-f78f-46a4-8830-d351c3830325 / ext4 defaults 0 0
+/swap.img	none	swap	sw	0	0
+/dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a /var/lib/nova/instances xfs defaults,nofail,x-systemd.requires=vaultlocker-decrypt@88244ad9-372d-427e-9d82-c411c73d900a.service,comment=vaultlocker 0 0

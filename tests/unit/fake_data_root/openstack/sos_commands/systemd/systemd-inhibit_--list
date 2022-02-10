@@ -1,0 +1,6 @@
+WHO                          UID USER PID    COMM            WHAT     WHY                                                       MODE 
+Libvirt                      0   root 1074   libvirtd        shutdown Virtual machines need to be saved                         delay
+UPower                       0   root 782960 upowerd         sleep    Pause device polling                                      delay
+Unattended Upgrades Shutdown 0   root 1075   unattended-upgr shutdown Stop ongoing upgrades or perform upgrades before shutdown delay
+
+3 inhibitors listed.

@@ -1,0 +1,888 @@
+options:
+  debug:
+    type: boolean
+    default: False
+    description: Enable debug logging.
+  verbose:
+    type: boolean
+    default: False
+    description: Enable verbose logging.
+  use-syslog:
+    type: boolean
+    default: False
+    description: |
+      Setting this to True will allow supporting services to log to syslog.
+  openstack-origin:
+    type: string
+    default: distro
+    description: |
+      Repository from which to install. May be one of the following:
+      distro (default), ppa:somecustom/ppa, a deb URL sources entry or a
+      supported Ubuntu Cloud Archive (UCA) release pocket.
+      .
+      Supported UCA sources include:
+      .
+      cloud:<series>-<openstack-release>
+      cloud:<series>-<openstack-release>/updates
+      cloud:<series>-<openstack-release>/staging
+      cloud:<series>-<openstack-release>/proposed
+      .
+      For series=Precise we support UCA for openstack-release=
+         * icehouse
+      .
+      For series=Trusty we support UCA for openstack-release=
+         * juno
+         * kilo
+         * ...
+      .
+      NOTE: updating this setting to a source that is known to provide
+      a later version of OpenStack will trigger a software upgrade.
+      .
+  action-managed-upgrade:
+    type: boolean
+    default: False
+    description: |
+      If True enables OpenStack upgrades for this charm via Juju actions.
+      You will still need to set openstack-origin to the new repository but
+      instead of an upgrade running automatically across all units, it will
+      wait for you to execute the openstack-upgrade action for this charm on
+      each unit. If False it will revert to existing behavior of upgrading
+      all units on config change.
+  harden:
+    type: string
+    default:
+    description: |
+      Apply system hardening. Supports a space-delimited list of modules
+      to run. Supported modules currently include os, ssh, apache and mysql.
+  nova-config:
+    type: string
+    default: /etc/nova/nova.conf
+    description: Full path to Nova configuration file.
+  rabbit-user:
+    type: string
+    default: nova
+    description: Username used to access RabbitMQ queue.
+  rabbit-vhost:
+    type: string
+    default: openstack
+    description: RabbitMQ vhost.
+  virt-type:
+    type: string
+    default: kvm
+    description: |
+      Virtualisation flavor. The only supported flavor is kvm.
+
+      Other native libvirt flavors available for testing only: uml, lxc, qemu.
+
+      NOTE: Changing the virtualisation flavor post-deployment is not
+      supported.
+  inject-password:
+    type: boolean
+    default: False
+    description: |
+      Enable or disable admin password injection at boot time on hypervisors
+      that use the libvirt back end (such as KVM, QEMU, and LXC).  The random
+      password appears in the output of the 'openstack server create' command.
+  disk-cachemodes:
+    type: string
+    default:
+    description: |
+      Specific cachemodes to use for different disk types e.g:
+      file=directsync,block=none
+  enable-resize:
+    type: boolean
+    default: False
+    description: |
+      Enable instance resizing.
+      .
+      NOTE: This also enables passwordless SSH access for user 'nova' between
+      compute hosts.
+  enable-live-migration:
+    type: boolean
+    default: False
+    description: |
+      Configure libvirt or lxd for live migration.
+      .
+      Live migration support for lxd is still considered experimental.
+      .
+      NOTE: This also enables passwordless SSH access for user 'root' between
+      compute hosts.
+  migration-auth-type:
+    type: string
+    default: ssh
+    description: |
+      TCP authentication scheme for libvirt live migration. Available options
+      include ssh.
+  live-migration-completion-timeout:
+    type: int
+    default: 800
+    description: |
+      Time to wait, in seconds, for migration to successfully complete
+      transferring data before aborting the operation. Value is per GiB
+      of guest RAM + disk to be transferred, with lower bound of a minimum
+      of 2 GiB. Should usually be larger than downtime-delay*downtime-steps
+      Set to 0 to disable timeouts.
+  live-migration-downtime:
+    type: int
+    default: 500
+    description: |
+      Maximum permitted downtime, in milliseconds, for live migration
+      switchover. Will be rounded up to a minimum of 100ms. Use
+      a large value if guest liveness is unimportant.
+  live-migration-downtime-delay:
+    type: int
+    default: 75
+    description: |
+      Time to wait, in seconds, between each step increase of the migration
+      downtime. Minimum delay is 10 seconds. Value is per GiB of guest
+      RAM + disk to be transferred, with lower bound of a minimum of 2 GiB
+      per device.
+  live-migration-downtime-steps:
+    type: int
+    default: 10
+    description: |
+      Number of incremental steps to reach max downtime value. Will be rounded
+      up to a minimum of 3 steps.
+  live-migration-permit-post-copy:
+    type: boolean
+    default: False
+    description: |
+      If live-migration is enabled, this option allows Nova to switch an
+      on-going live migration to post-copy mode. The switch will happen if the
+      migration reaches 'live-migration-completion-timeout'. This supersedes
+      'live-migration-permit-auto-converge'.
+  live-migration-permit-auto-converge:
+    type: boolean
+    default: False
+    description: |
+      If live-migration is enabled, this option allows Nova to throttle down
+      CPU when an on-going live migration is slow. This is superseded by
+      'live-migration-permit-post-copy'.
+  authorized-keys-path:
+    type: string
+    default: '{homedir}/.ssh/authorized_keys'
+    description: |
+      Only used when migration-auth-type is set to ssh.
+      .
+      Full path to authorized_keys file, can be useful for systems with
+      non-default AuthorizedKeysFile location. It will be formatted using the
+      following variables:
+      .
+        homedir - user's home directory
+        username - username
+      .
+  instances-path:
+    type: string
+    default:
+    description: |
+      Path used for storing Nova instances data - empty means default of
+      /var/lib/nova/instances.
+  config-flags:
+    type: string
+    default:
+    description: |
+      Comma-separated list of key=value config flags. These values will be
+      placed in the nova.conf [DEFAULT] section.
+  database-user:
+    type: string
+    default: nova
+    description: Username for database access.
+  database:
+    type: string
+    default: nova
+    description: Nova database name.
+  multi-host:
+    type: string
+    default: 'yes'
+    description: |
+      Whether to run nova-api and nova-network on the compute nodes. Note that
+      nova-network is not available on Ussuri and later.
+  reserved-huge-pages:
+    type: string
+    default:
+    description: |
+      Sets a reserved amount of huge pages per NUMA nodes which are used by
+      third-party components. Semicolons are used as separator.
+      .
+        reserved_huge_pages = node:0,size:2048,count:64;node:1,size:1GB,count:1
+      .
+      The above will consider 64 pages of 2MiB on NUMA node 0 and 1 page of
+      1GiB on NUMA node 1 reserved. They will not be used by Nova to map guests
+      memory.
+  pci-passthrough-whitelist:
+    type: string
+    default:
+    description: |
+      Sets the pci_passthrough_whitelist option in nova.conf which allows PCI
+      passthrough of specific devices to VMs.
+      .
+      Example applications: GPU processing, SR-IOV networking, etc.
+      .
+      NOTE: For PCI passthrough to work IOMMU must be enabled on the machine
+      deployed to. This can be accomplished by setting kernel parameters on
+      capable machines in MAAS, tagging them and using these tags as
+      constraints in the model.
+  pci-alias:
+    type: string
+    default:
+    description: |
+      The pci-passthrough-whitelist option of nova-compute charm is used for
+      specifying which PCI devices are allowed passthrough. pci-alias is more
+      a convenience that can be used in conjunction with Nova flavor properties
+      to automatically assign required PCI devices to new instances. You could,
+      for example, have a GPU flavor or a SR-IOV flavor:
+      .
+        pci-alias='{"vendor_id":"8086","product_id":"10ca","name":"a1"}'
+      .
+      This configures a new PCI alias 'a1' which will request a PCI device with
+      a vendor id of 0x8086 and a product id of 10ca. To input a list of
+      aliases, use the following syntax in this charm config option:
+      .
+        pci-alias='[{...},{...}]'
+      .
+      For more information about the syntax of pci_alias, refer to
+      https://docs.openstack.org/ocata/config-reference/compute/config-options.html
+  reserved-host-memory:
+    type: int
+    default: 512
+    description: |
+      Amount of memory in MB to reserve for the host. Defaults to 512MB.
+  reserved-host-disk:
+    type: int
+    default: 0
+    description: |
+      Amount of disk resource in MB to reserve for the host. Defaults to 0MB.
+  vcpu-pin-set:
+    type: string
+    default:
+    description: |
+      Sets vcpu_pin_set option in nova.conf which defines which PCPUs that
+      instance vCPUs can or cannot use. For example '^0,^2' to reserve two
+      cpus for the host.
+      .
+      Starting from the Train release this option is deprecated and
+      has been superseded by the 'cpu-shared-set' and
+      'cpu-dedicated-set' options.  This option will be silently
+      ignored if the 'cpu-dedicated-set' option is non-empty.
+  cpu-shared-set:
+    type: string
+    default:
+    description: |
+      Sets compute/cpu_shared_set option in nova.conf and defines which
+      physical CPUs will be used for best-effort guest vCPU resources.
+      Currently only used by libvirt driver to place guest emulator threads
+      when hw:emulator_threads_policy:share is set.
+      .
+      This option is only available from the Rocky release and later.
+  cpu-dedicated-set:
+    type: string
+    default:
+    description: |
+      Sets compute/cpu_dedicated_set option in nova.conf and defines which
+      physical CPUs will be used for dedicated guest vCPU resources.
+      .
+      This option is only available from the Train release and later.
+      If non-empty it will silently stop the 'vcpu-pin-set' option
+      from being used.
+  virtio-net-tx-queue-size:
+    type: int
+    default:
+    description: |
+      Sets libvirt/tx_queue_size option in nova.conf. Larger queues sizes for
+      virtio-net devices increases networking performance by amortizing vCPU
+      preemption and avoiding packet drops. Only works with Rocky and later,
+      since QEMU 2.10.0 and libvirt 3.7.0. Default value 256. Authorized
+      values [256, 512, 1024].
+  virtio-net-rx-queue-size:
+    type: int
+    default:
+    description: |
+      Sets libvirt/rx_queue_size option in nova.conf. Larger queues sizes for
+      virtio-net devices increases networking performance by amortizing vCPU
+      preemption and avoiding packet drops. Only works with Rocky and later,
+      since QEMU 2.7.0 and libvirt 2.3.0. Default value 256. Authorized
+      values [256, 512, 1024].
+  num-pcie-ports:
+    type: int
+    default:
+    description: |
+      Sets libvirt/num_pcie_ports option in nova.conf to assign more
+      PCIe ports available for a VM. The default value relies on libvirt
+      calculating amount of ports. The maximum value can be set is "28".
+      .
+      This option is only available from the Rocky release and later.
+  worker-multiplier:
+    type: float
+    default:
+    description: |
+      The CPU core multiplier to use when configuring worker processes for
+      this services e.g. metadata-api. By default, the number of workers for
+      each daemon is set to twice the number of CPU cores a service unit has.
+      This default value will be capped to 4 workers unless this
+      configuration option is set.
+  # Required if using FlatManager (nova-network)
+  bridge-interface:
+    type: string
+    default: br100
+    description: Bridge interface to be configured.
+  bridge-ip:
+    type: string
+    default: 11.0.0.1
+    description: IP to be assigned to bridge interface.
+  bridge-netmask:
+    type: string
+    default: 255.255.255.0
+    description: Netmask to be assigned to bridge interface.
+  # Required if using FlatDHCPManager (nova-network)
+  flat-interface:
+    type: string
+    default: eth1
+    description: Network interface on which to build bridge.
+  # Network config (by default all access is over 'private-address')
+  os-internal-network:
+    type: string
+    default:
+    description: |
+      The IP address and netmask of the OpenStack Internal network (e.g.
+      192.168.0.0/24)
+      .
+      This network will be used to bind vncproxy client.
+  use-internal-endpoints:
+    type: boolean
+    default: False
+    description: |
+      OpenStack mostly defaults to using public endpoints for
+      internal communication between services. If set to True this option will
+      configure services to use internal endpoints where possible.
+  prefer-ipv6:
+    type: boolean
+    default: False
+    description: |
+      If True enables IPv6 support. The charm will expect network interfaces
+      to be configured with an IPv6 address. If set to False (default) IPv4
+      is expected.
+      .
+      NOTE: these charms do not currently support IPv6 privacy extension. In
+      order for this charm to function correctly, the privacy extension must be
+      disabled and a non-temporary address must be configured/available on
+      your network interface.
+  cpu-mode:
+    type: string
+    default:
+    description: |
+      Set to 'host-model' to clone the host CPU feature flags; to
+      'host-passthrough' to use the host CPU model exactly; to 'custom' to
+      use a named CPU model; to 'none' to not set any CPU model. If
+      virt_type='kvm|qemu', it will default to 'host-model', otherwise it will
+      default to 'none'. Defaults to 'host-passthrough' for ppc64el, ppc64le
+      if no value is set.
+  cpu-model:
+    type: string
+    default:
+    description: |
+      Set to a named libvirt CPU model (see names listed in
+      /usr/share/libvirt/cpu_map.xml). Only has effect if cpu_mode='custom' and
+      virt_type='kvm|qemu'.
+  cpu-model-extra-flags:
+    type: string
+    default:
+    description: |
+      Space delimited list of specific CPU flags for libvirt.
+  # Storage config
+  libvirt-image-backend:
+    type: string
+    default:
+    description: |
+      Tell Nova which libvirt image backend to use. Supported backends are raw,
+      qcow2, rbd and flat. If no backend is specified, the Nova default (qcow2) is
+      used.
+      NOTE: 'rbd' imagebackend is only supported with >= Juno.
+      NOTE: 'flat' imagebackend is only supported with >= Newton and replaces 'raw'.
+  force-raw-images:
+    type: boolean
+    default: True
+    description: |
+      Force conversion of backing images to raw format. Note that the conversion
+      process in Pike uses O_DIRECT calls - certain file systems do not support this,
+      for example ZFS; e.g. if using the LXD provider with ZFS backend, this option
+      should be set to False.
+  rbd-pool:
+    type: string
+    default: nova
+    description: |
+      RBD pool to use with Nova libvirt RBDImageBackend. Only required when you
+      have libvirt-image-backend set to 'rbd'.
+  rbd-client-cache:
+    type: string
+    default:
+    description: |
+      Enable/disable RBD client cache. Leaving this value unset will result in
+      default Ceph RBD client settings being used (RBD cache is enabled by
+      default for Ceph >= Giant). Supported values here are 'enabled' or
+      'disabled'.
+  ceph-osd-replication-count:
+    type: int
+    default: 3
+    description: |
+      This value dictates the number of replicas Ceph must make of any
+      object it stores within the Nova RBD pool. Of course, this only
+      applies if using Ceph as a backend store. Note that once the Nova
+      RBD pool has been created, changing this value will not have any
+      effect (although it can be changed in Ceph by manually configuring
+      your Ceph cluster).
+  ceph-pool-weight:
+    type: int
+    default: 30
+    description: |
+      Defines a relative weighting of the pool as a percentage of the total
+      amount of data in the Ceph cluster. This effectively weights the number
+      of placement groups for the pool created to be appropriately portioned
+      to the amount of data expected. For example, if the ephemeral volumes
+      for the OpenStack compute instances are expected to take up 20% of the
+      overall configuration then this value would be specified as 20. Note -
+      it is important to choose an appropriate value for the pool weight as
+      this directly affects the number of placement groups which will be
+      created for the pool. The number of placement groups for a pool can
+      only be increased, never decreased - so it is important to identify the
+      percent of data that will likely reside in the pool.
+  restrict-ceph-pools:
+    type: boolean
+    default: False
+    description: |
+      Optionally restrict Ceph key permissions to access pools as required.
+  pool-type:
+    type: string
+    default: replicated
+    description: |
+      Ceph pool type to use for storage - valid values include ‘replicated’
+      and ‘erasure-coded’.
+  ec-profile-name:
+    type: string
+    default:
+    description: |
+      Name for the EC profile to be created for the EC pools. If not defined
+      a profile name will be generated based on the name of the pool used by
+      the application.
+  ec-rbd-metadata-pool:
+    type: string
+    default:
+    description: |
+      Name of the metadata pool to be created (for RBD use-cases). If not
+      defined a metadata pool name will be generated based on the name of
+      the data pool used by the application.  The metadata pool is always
+      replicated, not erasure coded.
+  ec-profile-k:
+    type: int
+    default: 1
+    description: |
+      Number of data chunks that will be used for EC data pool. K+M factors
+      should never be greater than the number of available zones (or hosts)
+      for balancing.
+  ec-profile-m:
+    type: int
+    default: 2
+    description: |
+      Number of coding chunks that will be used for EC data pool. K+M factors
+      should never be greater than the number of available zones (or hosts)
+      for balancing.
+  ec-profile-locality:
+    type: int
+    default:
+    description: |
+      (lrc plugin - l) Group the coding and data chunks into sets of size l.
+      For instance, for k=4 and m=2, when l=3 two groups of three are created.
+      Each set can be recovered without reading chunks from another set. Note
+      that using the lrc plugin does incur more raw storage usage than isa or
+      jerasure in order to reduce the cost of recovery operations.
+  ec-profile-crush-locality:
+    type: string
+    default:
+    description: |
+      (lrc plugin) The type of the CRUSH bucket in which each set of chunks
+      defined by l will be stored. For instance, if it is set to rack, each
+      group of l chunks will be placed in a different rack. It is used to
+      create a CRUSH rule step such as step choose rack. If it is not set,
+      no such grouping is done.
+  ec-profile-durability-estimator:
+    type: int
+    default:
+    description: |
+      (shec plugin - c) The number of parity chunks each of which includes
+      each data chunk in its calculation range. The number is used as a
+      durability estimator. For instance, if c=2, 2 OSDs can be down
+      without losing data.
+  ec-profile-helper-chunks:
+    type: int
+    default:
+    description: |
+      (clay plugin - d) Number of OSDs requested to send data during
+      recovery of a single chunk. d needs to be chosen such that
+      k+1 <= d <= k+m-1. Larger the d, the better the savings.
+  ec-profile-scalar-mds:
+    type: string
+    default:
+    description: |
+      (clay plugin) specifies the plugin that is used as a building
+      block in the layered construction. It can be one of jerasure,
+      isa, shec (defaults to jerasure).
+  ec-profile-plugin:
+    type: string
+    default: jerasure
+    description: |
+      EC plugin to use for this applications pool. The following list of
+      plugins are acceptable - jerasure, lrc, isa, shec, clay.
+  ec-profile-technique:
+    type: string
+    default:
+    description: |
+      EC profile technique used for this applications pool - will be
+      validated based on the plugin configured via ec-profile-plugin.
+      Supported techniques are ‘reed_sol_van’, ‘reed_sol_r6_op’,
+      ‘cauchy_orig’, ‘cauchy_good’, ‘liber8tion’ for jerasure,
+      ‘reed_sol_van’, ‘cauchy’ for isa and ‘single’, ‘multiple’
+      for shec.
+  ec-profile-device-class:
+    type: string
+    default:
+    description: |
+      Device class from CRUSH map to use for placement groups for
+      erasure profile - valid values: ssd, hdd or nvme (or leave
+      unset to not use a device class).
+  # Other config
+  sysctl:
+    type: string
+    default: |
+      { net.ipv4.neigh.default.gc_thresh1 : 128,
+        net.ipv4.neigh.default.gc_thresh2 : 28672,
+        net.ipv4.neigh.default.gc_thresh3 : 32768,
+        net.ipv6.neigh.default.gc_thresh1 : 128,
+        net.ipv6.neigh.default.gc_thresh2 : 28672,
+        net.ipv6.neigh.default.gc_thresh3 : 32768,
+        net.nf_conntrack_max : 1000000,
+        net.netfilter.nf_conntrack_buckets : 204800,
+        net.netfilter.nf_conntrack_max : 1000000 }
+    description: |
+      YAML formatted associative array of sysctl values, e.g.:
+      '{ kernel.pid_max : 4194303 }'
+  # Huge page configuration - off by default
+  hugepages:
+    type: string
+    default:
+    description: |
+      The percentage of system memory to use for hugepages e.g. '10%' or the
+      total number of 2M hugepages - e.g. '1024'.
+      For a systemd system (wily and later) the preferred approach is to enable
+      hugepages via kernel parameters set in MAAS and systemd will mount them
+      automatically.
+      .
+      NOTE: For hugepages to work it must be enabled on the machine deployed
+      to. This can be accomplished by setting kernel parameters on capable
+      machines in MAAS, tagging them and using these tags as constraints in the
+      model.
+  ksm:
+    type: string
+    default: AUTO
+    description: |
+      Set to 1 to enable KSM, 0 to disable KSM, and AUTO to use default
+      settings.
+      .
+      Please note that the AUTO value works for qemu 2.2+ (> Kilo), older
+      releases will be set to 1 as default.
+  aa-profile-mode:
+    type: string
+    default: disable
+    description: |
+      Control experimental apparmor profile for Nova daemons
+      (nova-compute, nova-api and nova-network).  This is separate to
+      the apparmor profiles for KVM VMs which is controlled by libvirt
+      and is on, in enforcing mode, by default.
+      Valid settings: 'complain', 'enforce' or 'disable'.
+      .
+      Apparmor is disabled by default for the Nova daemons.
+  default-availability-zone:
+    type: string
+    default: nova
+    description: |
+      Default compute node availability zone.
+      .
+      This option determines the availability zone to be used when it is not
+      specified in the VM creation request. If this option is not set, the
+      default availability zone 'nova' is used. If customize-failure-domain
+      is set to True, it will override this option only if an AZ is set by
+      the Juju provider. If JUJU_AVAILABILITY_ZONE is not set, the value
+      specified by this option will be used regardless of
+      customize-failure-domain's setting.
+      .
+      NOTE: Availability zones must be created manually using the
+      'openstack aggregate create' command.
+      .
+  customize-failure-domain:
+    type: boolean
+    default: False
+    description: |
+      Juju propagates availability zone information to charms from the
+      underlying machine provider such as MAAS and this option allows the
+      charm to use JUJU_AVAILABILITY_ZONE to set default_availability_zone for
+      Nova nodes. This option overrides the default-availability-zone charm
+      config setting only when the Juju provider sets JUJU_AVAILABILITY_ZONE.
+  resume-guests-state-on-host-boot:
+    type: boolean
+    default: False
+    description: |
+      This option determines whether to start guests that were running
+      before the host rebooted.
+  # Monitoring options
+  nagios_context:
+    type: string
+    default: juju
+    description: |
+      Used by the nrpe-external-master subordinate charm. A string that will be
+      prepended to instance name to set the host name in nagios. So for
+      instance the hostname would be something like:
+      .
+        juju-myservice-0
+      .
+      If you're running multiple environments with the same services in them
+      this allows you to differentiate between them.
+  nagios_servicegroups:
+    type: string
+    default:
+    description: |
+      A comma-separated list of nagios servicegroups. If left empty, the
+      nagios_context will be used as the servicegroup.
+  use-multipath:
+    type: boolean
+    default: False
+    description: |
+      Use a multipath connection for iSCSI or FC volumes. Enabling this feature
+      causes libvirt to login, discover and scan available targets before
+      presenting the disk via device mapper (/dev/mapper/XX) to the VM instead
+      of a single path (/dev/disk/by-path/XX). If changed after deployment,
+      each VM will require a full stop/start for changes to take affect.
+  ephemeral-device:
+    type: string
+    default:
+    description: |
+      Block devices to use for storage of ephemeral disks to support nova
+      instances; generally used in-conjunction with 'encrypt' to support
+      data-at-rest encryption of instance direct attached storage volumes.
+  default-ephemeral-format:
+    type: string
+    default: ext4
+    description: |
+      The default format an ephemeral volume will be formatted with on creation.
+      Possible values: ext2 ext3 ext4 xfs ntfs (only for Windows guests)
+  encrypt:
+    type: boolean
+    default: False
+    description: |
+      Encrypt block devices used for Nova instances using dm-crypt, making use
+      of vault for encryption key management; requires a relation to vault.
+  ephemeral-unmount:
+    type: string
+    default:
+    description: |
+      Cloud instances provide ephemeral storage which is normally mounted
+      on /mnt.
+      .
+      Setting this option to the path of the ephemeral mountpoint will force
+      an unmount of the corresponding device so that it can be used for as the
+      backing store for local instances.  This is useful for testing purposes
+      (cloud deployment is not a typical use case).
+  notification-format:
+    type: string
+    default: unversioned
+    description: |
+      There are two types of notifications in Nova: legacy notifications
+      which have an unversioned payload and newer notifications which have
+      a versioned payload.
+      .
+      Setting this option to `versioned` will use the versioned
+      notification concept, `unversioned`, the unversioned notification concept
+      and finally `both` will use the two concepts.
+      .
+      Starting in the Pike release, the notification_format includes both the
+      versioned and unversioned message notifications. Ceilometer does not yet
+      consume the versioned message notifications, so intentionally make the
+      default notification format unversioned until this is implemented.
+      .
+      Possible Values are both, versioned, unversioned.
+  send-notifications-to-logs:
+    type: boolean
+    default: False
+    description: |
+      Ensure notifications are included in the log files. It will set an additional
+      log driver for Oslo messaging notifications.
+  libvirt-migration-network:
+    type: string
+    default:
+    description: |
+      Specify a network in CIDR notation (192.168.0.0/24),
+      which directs libvirt to use a specific network
+      address as the live_migration_inbound_addr to make
+      use of a dedicated migration network if possible.
+      .
+      Please note that if the migration binding has been
+      declared and set, the primary address for that space has precedence
+      over this configuration option.
+      .
+      This option doesn't have any effect on clouds running
+      a release < Ocata.
+  bluestore-compression-algorithm:
+    type: string
+    default:
+    description: |
+      Compressor to use (if any) for pools requested by this charm.
+      .
+      NOTE: The ceph-osd charm sets a global default for this value (defaults
+      to 'lz4' unless configured by the end user) which will be used unless
+      specified for individual pools.
+  bluestore-compression-mode:
+    type: string
+    default:
+    description: |
+      Policy for using compression on pools requested by this charm.
+      .
+      'none' means never use compression.
+      'passive' means use compression when clients hint that data is
+      compressible.
+      'aggressive' means use compression unless clients hint that
+      data is not compressible.
+      'force' means use compression under all circumstances even if the clients
+      hint that the data is not compressible.
+  bluestore-compression-required-ratio:
+    type: float
+    default:
+    description: |
+      The ratio of the size of the data chunk after compression relative to the
+      original size must be at least this small in order to store the
+      compressed version on pools requested by this charm.
+  bluestore-compression-min-blob-size:
+    type: int
+    default:
+    description: |
+      Chunks smaller than this are never compressed on pools requested by
+      this charm.
+  bluestore-compression-min-blob-size-hdd:
+    type: int
+    default:
+    description: |
+      Value of BlueStore compression min blob size for rotational media on
+      pools requested by this charm.
+  bluestore-compression-min-blob-size-ssd:
+    type: int
+    default:
+    description: |
+      Value of BlueStore compression min blob size for solid state media on
+      pools requested by this charm.
+  bluestore-compression-max-blob-size:
+    type: int
+    default:
+    description: |
+      Chunks larger than this are broken into smaller blobs sizing BlueStore
+      compression max blob size before being compressed on pools requested by
+      this charm.
+  bluestore-compression-max-blob-size-hdd:
+    type: int
+    default:
+    description: |
+      Value of BlueStore compression max blob size for rotational media on
+      pools requested by this charm.
+  bluestore-compression-max-blob-size-ssd:
+    type: int
+    default:
+    description: |
+      Value of BlueStore compression max blob size for solid state media on
+      pools requested by this charm.
+  initial-cpu-allocation-ratio:
+    type: float
+    default:
+    description: |
+      The initial value of per physical core -> virtual core ratio to use in
+      the Nova scheduler; this may be overridden at runtime by the placement API.
+      .
+      Increasing this value will increase instance density on compute nodes
+      at the expense of instance performance.
+      .
+      This option doesn't have any effect on clouds running
+      a release < Stein.
+  initial-ram-allocation-ratio:
+    type: float
+    default:
+    description: |
+      The initial value of physical RAM -> virtual RAM ratio to use in
+      the Nova scheduler; this may be overridden at runtime by the placement API.
+      .
+      Increasing this value will increase instance density on compute nodes
+      at the potential expense of instance performance.
+      .
+      NOTE: When in a hyper-converged architecture, make sure to make enough
+      room for infrastructure services running on your compute hosts by
+      adjusting this value.
+      .
+      This option doesn't have any effect on clouds running
+      a release < Stein.
+  initial-disk-allocation-ratio:
+    type: float
+    default:
+    description: |
+      The initial value of this disk allocation ratio. Increase the amount of
+      disk space that nova can overcommit to guests.
+      This may be overridden at runtime by the placement API.
+      .
+      Increasing this value will increase instance density on compute nodes
+      with an increased risk of hypervisor storage becoming full.
+      .
+      This option doesn't have any effect on clouds running
+      a release < Stein.
+  cpu-allocation-ratio:
+    type: float
+    default:
+    description: |
+      The per physical core -> virtual core ratio to use in the Nova scheduler.
+      .
+      Increasing this value will increase instance density on compute nodes
+      at the expense of instance performance.
+  ram-allocation-ratio:
+    type: float
+    default:
+    description: |
+      The physical RAM -> virtual RAM ratio to use in the Nova scheduler.
+      .
+      Increasing this value will increase instance density on compute nodes
+      at the potential expense of instance performance.
+      .
+      NOTE: When in a hyper-converged architecture, make sure to make enough
+      room for infrastructure services running on your compute hosts by
+      adjusting this value.
+  disk-allocation-ratio:
+    type: float
+    default:
+    description: |
+      Increase the amount of disk space that nova can overcommit to guests.
+      .
+      Increasing this value will increase instance density on compute nodes
+      with an increased risk of hypervisor storage becoming full.
+  neutron-physnets:
+    type: string
+    default:
+    description: |
+      The physnets that are present on the host and NUMA affinity settings of
+      that physnet for specific numa_nodes.
+      .
+      Example: 'foo:0;bar:0,1'
+               '<physnet>:<numa-id>;<physnet>:<numa-id>,<numa-id>'
+      .
+      This option doesn't have any effect on clouds running
+      a release < Rocky.
+  neutron-tunnel:
+    type: string
+    default:
+    description: |
+      A comma-separated list of NUMA node ids for tunnelled networking NUMA
+      affinity.
+      .
+      Example: '0,1'
+      .
+      This option doesn't have any effect on clouds running
+      a release < Rocky.

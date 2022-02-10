@@ -1,0 +1,6 @@
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
+2: ens3    inet 10.6.3.201/16 brd 10.6.255.255 scope global dynamic ens3\       valid_lft 84872sec preferred_lft 84872sec
+2: ens3    inet6 fe80::f816:3eff:fe1f:96bd/64 scope link \       valid_lft forever preferred_lft forever
+3: flannel.1    inet 10.1.84.0/32 scope global flannel.1\       valid_lft forever preferred_lft forever
+3: flannel.1    inet6 fe80::98e0:6bff:fec3:cee3/64 scope link \       valid_lft forever preferred_lft forever

@@ -1,0 +1,14 @@
+[Unit]
+Description=Flannel Overlay Network
+Documentation=https://github.com/coreos/flannel
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/flanneld -iface={{ iface }} -etcd-endpoints={{ connection_string }} -etcd-certfile={{ cert_path }}/client-cert.pem -etcd-keyfile={{ cert_path }}/client-key.pem  -etcd-cafile={{ cert_path }}/client-ca.pem --ip-masq
+TimeoutStartSec=0
+Restart=on-failure
+LimitNOFILE=655536
+
+[Install]
+WantedBy=multi-user.target

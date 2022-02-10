@@ -1,0 +1,35 @@
+name: rabbitmq-server
+summary: An AMQP server written in Erlang
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+description: |
+  RabbitMQ is an implementation of AMQP, the emerging standard for high
+  performance enterprise messaging. The RabbitMQ server is a robust and
+  scalable implementation of an AMQP broker.
+tags:
+- openstack
+- amqp
+- misc
+series:
+- focal
+- impish
+provides:
+  amqp:
+    interface: rabbitmq
+  nrpe-external-master:
+    interface: nrpe-external-master
+    scope: container
+  dashboards:
+    interface: grafana-dashboard
+  scrape:
+    interface: http
+  prometheus-rules:
+    interface: prometheus-rules
+requires:
+  ha:
+    interface: hacluster
+    scope: container
+  certificates:
+    interface: tls-certificates
+peers:
+  cluster:
+    interface: rabbitmq-ha

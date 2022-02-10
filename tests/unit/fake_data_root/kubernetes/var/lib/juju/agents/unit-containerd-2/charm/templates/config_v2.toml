@@ -1,0 +1,110 @@
+root = "/var/lib/containerd"
+state = "/run/containerd"
+oom_score = 0
+version = 2
+
+[grpc]
+  address = "/run/containerd/containerd.sock"
+  uid = 0
+  gid = 0
+  max_recv_message_size = 16777216
+  max_send_message_size = 16777216
+
+[debug]
+  address = ""
+  uid = 0
+  gid = 0
+  level = ""
+
+[metrics]
+  address = ""
+  grpc_histogram = false
+
+[cgroup]
+  path = ""
+
+[plugins]
+  [plugins."io.containerd.monitor.v1.cgroups"]
+    no_prometheus = false
+  [plugins."io.containerd.grpc.v1.cri"]
+    stream_server_address = "127.0.0.1"
+    stream_server_port = "0"
+    enable_selinux = false
+    sandbox_image = "{{ sandbox_image }}"
+    stats_collect_period = 10
+    systemd_cgroup = false
+    enable_tls_streaming = false
+    max_container_log_line_size = 16384
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      no_pivot = false
+	  {% if untrusted %}
+      [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
+        runtime_type= "io.containerd.{{ untrusted_name }}.v2"
+	  {% endif %}
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          runtime_type = "io.containerd.runc.v1"
+	    {% if untrusted %}
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.{{ untrusted_name }}]
+          runtime_type= "io.containerd.{{ untrusted_name }}.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.{{ untrusted_name }}.options]
+            Runtime = "{{ untrusted_binary }}"
+            RuntimeRoot = "{{ untrusted_path }}"
+		{% endif %}
+    [plugins."io.containerd.grpc.v1.cri".cni]
+      bin_dir = "/opt/cni/bin"
+      conf_dir = "/etc/cni/net.d"
+      conf_template = ""
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+    {% if custom_registries -%}
+      {% for registry in custom_registries -%}
+        {% if registry.host -%}
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{ registry.host }}"]
+          {% if registry.url -%}
+          endpoint = ["{{ registry.url}}"]
+          {% endif -%}
+        {% endif -%}
+      {% endfor -%}
+    {% endif -%}
+    {% if custom_registries %}
+      [plugins."io.containerd.grpc.v1.cri".registry.auths]
+      {% for registry in custom_registries %}
+        {% if registry.username and registry.password  %}
+        [plugins."io.containerd.grpc.v1.cri".registry.auths."{{ registry.url }}"]
+          username = "{{ registry.username }}"
+          password = "{{ registry.password }}"
+        {% endif %}
+      {% endfor %}
+      [plugins."io.containerd.grpc.v1.cri".registry.configs]
+      {% for registry in custom_registries %}
+        {% if registry.ca or registry.cert or registry.key or registry.insecure_skip_verify %}
+        [plugins."io.containerd.grpc.v1.cri".registry.configs."{{ registry.url }}".tls]
+          ca_file   = "{{ registry.ca if registry.ca else '' }}"
+          cert_file = "{{ registry.cert if registry.cert else '' }}"
+          key_file  = "{{ registry.key if registry.key else '' }}"
+          insecure_skip_verify = {{ "true" if registry.insecure_skip_verify else "false" }}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
+      tls_cert_file = ""
+      tls_key_file = ""
+  [plugins."io.containerd.service.v1.diff-service"]
+    default = ["walking"]
+  [plugins."io.containerd.runtime.v1.linux"]
+    shim = "{{ shim }}"
+    runtime = "{{ runtime }}"
+    runtime_root = ""
+    no_shim = false
+    shim_debug = false
+  [plugins."io.containerd.internal.v1.opt"]
+    path = "/opt/containerd"
+  [plugins."io.containerd.internal.v1.restart"]
+    interval = "10s"
+  [plugins."io.containerd.gc.v1.scheduler"]
+    pause_threshold = 0.02
+    deletion_threshold = 0
+    mutation_threshold = 100
+    schedule_delay = "0s"
+    startup_delay = "100ms"

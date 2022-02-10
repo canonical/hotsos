@@ -1,0 +1,32 @@
+  Reloading config files
+  Loading config file: /etc/lvm/lvm.conf
+  global/locking_type not found in config: defaulting to 1
+  WARNING: File locking is disabled.
+  devices/md_component_checks not found in config: defaulting to auto
+  /dev/vda: stat failed: No such file or directory
+  /dev/vda1: stat failed: No such file or directory
+  /dev/vda2: stat failed: No such file or directory
+  /dev/vdb: stat failed: No such file or directory
+  /dev/vdb1: stat failed: No such file or directory
+  /dev/vdb2: stat failed: No such file or directory
+  /dev/vdc: stat failed: No such file or directory
+  /dev/vdd: stat failed: No such file or directory
+  /dev/bcache0: stat failed: No such file or directory
+  /dev/bcache1: stat failed: No such file or directory
+  /dev/loop0: stat failed: No such file or directory
+  /dev/loop1: stat failed: No such file or directory
+  /dev/loop2: stat failed: No such file or directory
+  /dev/loop3: stat failed: No such file or directory
+  /dev/loop4: stat failed: No such file or directory
+  /dev/loop5: stat failed: No such file or directory
+  /dev/loop6: stat failed: No such file or directory
+  /dev/loop7: stat failed: No such file or directory
+  /dev/dm-0: stat failed: No such file or directory
+  /dev/dm-1: stat failed: No such file or directory
+  /dev/dm-2: stat failed: No such file or directory
+  devices/global_filter not found in config: defaulting to global_filter = [ "a|.*|" ]
+  devices/filter not found in config: defaulting to filter = [ "a|.*|" ]
+  Obtaining the complete list of VGs to process
+  No volume groups found.
+  Reloading config files
+  Loading config file: /etc/lvm/lvm.conf

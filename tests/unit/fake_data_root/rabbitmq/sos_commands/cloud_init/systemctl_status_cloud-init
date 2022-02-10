@@ -1,0 +1,18 @@
+* cloud-init.service - Initial cloud-init job (metadata service crawler)
+     Loaded: loaded (/lib/systemd/system/cloud-init.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2022-02-09 22:38:48 UTC; 11h ago
+   Main PID: 171 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 314572)
+     Memory: 0B
+     CGroup: /system.slice/cloud-init.service
+
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: ci-info: +-------+-------------+---------+-----------+-------+
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: No /sbin/ifup, applying netplan configuration.
+Feb 09 22:38:44 juju-04f1e3-1-lxd-5 cloud-init[175]: active
+Feb 09 22:38:45 juju-04f1e3-1-lxd-5 cloud-init[175]: active
+Feb 09 22:38:48 juju-04f1e3-1-lxd-5 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

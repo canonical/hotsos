@@ -1,0 +1,19 @@
+[Unit]
+# Auto-generated, DO NOT EDIT
+Description=Service for snap application kube-apiserver.daemon
+Requires=snap-kube\x2dapiserver-2599.mount
+Wants=network.target
+After=snap-kube\x2dapiserver-2599.mount network.target snapd.apparmor.service
+X-Snappy=yes
+
+[Service]
+EnvironmentFile=-/etc/environment
+ExecStart=/usr/bin/snap run kube-apiserver.daemon
+SyslogIdentifier=kube-apiserver.daemon
+Restart=on-failure
+WorkingDirectory=/var/snap/kube-apiserver/2599
+TimeoutStopSec=30
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

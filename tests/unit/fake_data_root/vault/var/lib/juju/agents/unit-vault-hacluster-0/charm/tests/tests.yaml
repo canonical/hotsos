@@ -1,0 +1,27 @@
+charm_name: hacluster
+
+smoke_bundles:
+  - focal-xena
+
+gate_bundles:
+  - focal-xena
+  - impish-xena
+
+dev_bundles:
+  - focal-yoga
+  - jammy-yoga
+
+configure:
+  - zaza.openstack.charm_tests.keystone.setup.add_demo_user
+
+tests:
+  - zaza.openstack.charm_tests.hacluster.tests.HaclusterTest
+  - zaza.openstack.charm_tests.hacluster.tests.HaclusterScaleBackAndForthTest
+
+tests_options:
+  hacluster:
+    principle-app-name: keystone
+    hacluster-charm-name: hacluster
+  force_deploy:
+    - impish-xena
+    - jammy-yoga

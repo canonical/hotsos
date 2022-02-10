@@ -1,5 +1,8 @@
-#!/bin/bash
+#!/bin/bash -eu
 
-set -e -u
+files_to_check=($(git ls-files '*.sh'| grep -v fake_data_root || true))
+files_to_check+=($(git ls-files --others --exclude-standard '*.sh'| \
+                    grep -v fake_data_root || true))
 
-bashate --verbose $(git ls-files \*.sh)
+echo ${files_to_check[@]}
+bashate --verbose ${files_to_check[@]}

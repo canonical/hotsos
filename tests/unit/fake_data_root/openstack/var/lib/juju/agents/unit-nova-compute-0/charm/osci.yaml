@@ -1,0 +1,44 @@
+- project:
+    templates:
+      - charm-unit-jobs-py38
+      - charm-unit-jobs-py39
+    check:
+      jobs:
+      - ceph-focal-xena_nova
+      - ceph-focal-yoga_nova:
+          voting: false
+      - ceph-impish-xena_nova:
+          voting: false
+      - ceph-jammy-yoga_nova:
+          voting: false
+
+- job:
+    name: ceph-focal-xena_nova
+    parent: func-target
+    dependencies:
+      - osci-lint
+      - tox-py38
+      - tox-py39
+    vars:
+      tox_extra_args: ceph:focal-xena
+- job:
+    name: ceph-focal-yoga_nova
+    parent: func-target
+    dependencies:
+      - ceph-focal-xena_nova
+    vars:
+      tox_extra_args: ceph:focal-yoga
+- job:
+    name: ceph-impish-xena_nova
+    parent: func-target
+    dependencies:
+      - ceph-focal-xena_nova
+    vars:
+      tox_extra_args: ceph:impish-xena
+- job:
+    name: ceph-jammy-yoga_nova
+    parent: func-target
+    dependencies:
+      - ceph-focal-xena_nova
+    vars:
+      tox_extra_args: ceph:jammy-yoga

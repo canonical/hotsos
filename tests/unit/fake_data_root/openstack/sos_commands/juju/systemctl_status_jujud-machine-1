@@ -1,0 +1,11 @@
+* jujud-machine-1.service - juju agent for machine-1
+     Loaded: loaded (/etc/systemd/system/jujud-machine-1.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-02-09 22:52:39 UTC; 17h ago
+   Main PID: 51494 (bash)
+      Tasks: 12 (limit: 314572)
+     Memory: 42.2M
+     CGroup: /system.slice/jujud-machine-1.service
+             |-51494 bash /etc/systemd/system/jujud-machine-1-exec-start.sh
+             `-51515 /var/lib/juju/tools/machine-1/jujud machine --data-dir /var/lib/juju --machine-id 1 --debug
+
+Feb 09 22:52:39 compute4 systemd[1]: Started juju agent for machine-1.

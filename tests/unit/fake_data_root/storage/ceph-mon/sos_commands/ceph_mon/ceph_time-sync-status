@@ -1,0 +1,24 @@
+{
+    "time_skew_status": {
+        "juju-04f1e3-0-lxd-0": {
+            "skew": 0,
+            "latency": 0,
+            "health": "HEALTH_OK"
+        },
+        "juju-04f1e3-1-lxd-0": {
+            "skew": 0,
+            "latency": 0.0010890021666357557,
+            "health": "HEALTH_OK"
+        },
+        "juju-04f1e3-2-lxd-0": {
+            "skew": -8.7179339477539016e-05,
+            "latency": 0.0018111208362524317,
+            "health": "HEALTH_OK"
+        }
+    },
+    "timechecks": {
+        "epoch": 28,
+        "round": 260,
+        "round_status": "finished"
+    }
+}

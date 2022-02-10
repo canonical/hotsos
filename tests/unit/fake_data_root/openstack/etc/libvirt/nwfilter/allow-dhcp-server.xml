@@ -1,0 +1,16 @@
+<!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh nwfilter-edit allow-dhcp-server
+or other application using the libvirt API.
+-->
+
+<filter name='allow-dhcp-server' chain='ipv4' priority='-700'>
+  <uuid>ccf3d630-0b77-4c86-aa3a-c30328ba0858</uuid>
+  <rule action='accept' direction='out' priority='100'>
+    <ip srcipaddr='0.0.0.0' dstipaddr='255.255.255.255' protocol='udp' srcportstart='68' dstportstart='67'/>
+  </rule>
+  <rule action='accept' direction='in' priority='100'>
+    <ip srcipaddr='$DHCPSERVER' protocol='udp' srcportstart='67' dstportstart='68'/>
+  </rule>
+</filter>

@@ -1,0 +1,13 @@
+<device DEVNO="0xfc02" TIME="1644509798.159689" LABEL="root" UUID="51babbe8-f78f-46a4-8830-d351c3830325" TYPE="ext4" PARTUUID="4f113e54-1529-45aa-bc10-56b37c42a92d">/dev/vda2</device>
+<device DEVNO="0xfc12" TIME="1644509798.171929" UUID="fe1ae232-35d9-48f1-b546-a72f580d5eeb" TYPE="bcache" PARTUUID="5c1ca2b8-cecb-4123-a8b9-84ee2b456d44">/dev/vdb2</device>
+<device DEVNO="0xfc20" TIME="1644509798.172855" UUID="d9b66beb-6321-47e2-ad6d-bf117bb18d82" TYPE="bcache">/dev/vdc</device>
+<device DEVNO="0xfc30" TIME="1644509798.173917" UUID="f254d188-e81b-493f-9f26-a377af56cb32" TYPE="bcache">/dev/vdd</device>
+<device DEVNO="0xfb80" TIME="1644509798.174099" UUID="48858aa1-71a3-4f0e-95f3-a07d1d9a6749" TYPE="crypto_LUKS">/dev/bcache1</device>
+<device DEVNO="0xfb00" TIME="1644509798.174301" UUID="88244ad9-372d-427e-9d82-c411c73d900a" TYPE="crypto_LUKS">/dev/bcache0</device>
+<device DEVNO="0x0700" TIME="1644509798.142983" TYPE="squashfs">/dev/loop0</device>
+<device DEVNO="0x0702" TIME="1644509798.144331" TYPE="squashfs">/dev/loop2</device>
+<device DEVNO="0x0703" TIME="1644509798.144819" TYPE="squashfs">/dev/loop3</device>
+<device DEVNO="0x0704" TIME="1644509798.145841" TYPE="squashfs">/dev/loop4</device>
+<device DEVNO="0xfd00" TIME="1644509798.177555" PRI="40" UUID="MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt" TYPE="LVM2_member">/dev/mapper/crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749</device>
+<device DEVNO="0xfd01" TIME="1644509798.191091" PRI="45" TYPE="ceph_bluestore">/dev/mapper/ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749</device>
+<device DEVNO="0xfd02" TIME="1644509798.215461" PRI="45" UUID="c3332949-19ba-40f7-91b6-48ee86157980" TYPE="xfs">/dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a</device>

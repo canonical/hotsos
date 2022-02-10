@@ -1,0 +1,22 @@
+NAME                                                                                                FSTYPE         LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINT
+loop0                                                                                               squashfs                                                          0   100% /snap/core20/1328
+loop1                                                                                                                                                                          
+loop2                                                                                               squashfs                                                          0   100% /snap/lxd/22340
+loop3                                                                                               squashfs                                                          0   100% /snap/snapd/14549
+loop4                                                                                               squashfs                                                          0   100% /snap/lxd/22358
+loop5                                                                                                                                                                          
+loop6                                                                                                                                                                          
+loop7                                                                                                                                                                          
+bcache0                                                                                             crypto_LUKS          88244ad9-372d-427e-9d82-c411c73d900a                  
+bcache1                                                                                             crypto_LUKS          48858aa1-71a3-4f0e-95f3-a07d1d9a6749                  
+vda                                                                                                                                                                            
+vda1                                                                                                                                                                           
+vda2                                                                                                ext4           root  51babbe8-f78f-46a4-8830-d351c3830325      255G     8% /
+vdb                                                                                                                                                                            
+vdb1                                                                                                                                                                           
+vdb2                                                                                                bcache               fe1ae232-35d9-48f1-b546-a72f580d5eeb                  
+vdc                                                                                                 bcache               d9b66beb-6321-47e2-ad6d-bf117bb18d82                  
+vdd                                                                                                 bcache               f254d188-e81b-493f-9f26-a377af56cb32                  
+crypt-48858aa1-71a3-4f0e-95f3-a07d1d9a6749                                                          LVM2_member          MS1cgI-YW5r-R7jr-Ezql-0kms-Wl1c-xksVkt                
+ceph--48858aa1--71a3--4f0e--95f3--a07d1d9a6749-osd--block--48858aa1--71a3--4f0e--95f3--a07d1d9a6749 ceph_bluestore                                                             
+crypt-88244ad9-372d-427e-9d82-c411c73d900a                                                          xfs                  c3332949-19ba-40f7-91b6-48ee86157980       98G     2% /var/lib/nova/instances

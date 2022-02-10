@@ -1,0 +1,102 @@
+2022-02-11 19:03:55 INFO juju unit_agent.go:276 Starting unit workers for "containerd/2"
+2022-02-11 19:03:55 INFO juju.worker.apicaller connect.go:158 [2c616d] "unit-containerd-2" successfully connected to "10.5.0.126:17070"
+2022-02-11 19:03:55 INFO juju.worker.apicaller connect.go:255 [2c616d] password changed for "unit-containerd-2"
+2022-02-11 19:03:55 INFO juju.worker.apicaller connect.go:158 [2c616d] "unit-containerd-2" successfully connected to "10.5.0.126:17070"
+2022-02-11 19:03:55 INFO juju.worker.migrationminion worker.go:140 migration phase is now: NONE
+2022-02-11 19:03:55 INFO juju.worker.logger logger.go:120 logger worker started
+2022-02-11 19:03:55 ERROR juju.worker.meterstatus runner.go:91 error running "meter-status-changed": charm missing from disk
+2022-02-11 19:03:55 INFO juju.worker.upgrader upgrader.go:219 no waiter, upgrader is done
+2022-02-11 19:03:56 INFO juju.worker.uniter uniter.go:333 unit "containerd/2" started
+2022-02-11 19:03:56 INFO juju.worker.uniter uniter.go:636 resuming charm install
+2022-02-11 19:03:56 INFO juju.worker.uniter.charm bundles.go:79 downloading cs:~containers/containerd-200 from API server
+2022-02-11 19:03:57 INFO juju.worker.uniter uniter.go:351 hooks are retried true
+2022-02-11 19:03:57 INFO juju.worker.uniter.storage resolver.go:127 initial storage attachments ready
+2022-02-11 19:03:57 INFO juju.worker.uniter resolver.go:154 found queued "install" hook
+2022-02-11 19:04:58 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook install
+2022-02-11 19:04:59 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:04:59 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:31:install_custom_ca
+2022-02-11 19:04:59 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:359:enable_br_netfilter_module
+2022-02-11 19:04:59 INFO unit.containerd/2.juju-log server.go:327 Loading kernel module br_netfilter
+2022-02-11 19:04:59 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:378:install_containerd
+2022-02-11 19:04:59 INFO unit.containerd/2.juju-log server.go:327 status-set: maintenance: Installing containerd via apt
+2022-02-11 19:05:01 INFO unit.containerd/2.juju-log server.go:327 Installing containerd with options: ['--option=Dpkg::Options::=--force-confold']
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Marking containerd as hold
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:413:check_for_gpu
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:529:gpu_config_changed
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:539:config_changed
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:05:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:396:publish_version_to_juju
+2022-02-11 19:05:11 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:413:check_for_gpu
+2022-02-11 19:05:11 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:617:proxy_changed
+2022-02-11 19:05:11 INFO unit.containerd/2.juju-log server.go:327 Proxy changed, writing new file to /etc/systemd/system/containerd.service.d/proxy.conf
+2022-02-11 19:05:11 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:660:restart_containerd
+2022-02-11 19:05:11 INFO unit.containerd/2.juju-log server.go:327 status-set: maintenance: Restarting containerd
+2022-02-11 19:05:11 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:05:12 INFO juju.worker.uniter.operation runhook.go:152 ran "install" hook (via explicit, bespoke hook script)
+2022-02-11 19:05:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Reactive main running for hook containerd-relation-created
+2022-02-11 19:05:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:05:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:05:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:05:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: status-set: active: Container runtime available
+2022-02-11 19:05:42 INFO juju.worker.uniter.operation runhook.go:152 ran "containerd-relation-created" hook (via explicit, bespoke hook script)
+2022-02-11 19:05:53 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook leader-settings-changed
+2022-02-11 19:05:53 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:05:53 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:05:53 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:05:53 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:05:54 INFO juju.worker.uniter.operation runhook.go:152 ran "leader-settings-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:05 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook config-changed
+2022-02-11 19:06:05 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:06:05 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:06:05 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:06:05 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:06:05 INFO juju.worker.uniter.operation runhook.go:152 ran "config-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:06 INFO juju.worker.uniter resolver.go:154 found queued "start" hook
+2022-02-11 19:06:18 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook start
+2022-02-11 19:06:18 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:06:18 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:06:18 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:06:18 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:06:18 INFO juju.worker.uniter.operation runhook.go:152 ran "start" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:29 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Reactive main running for hook containerd-relation-joined
+2022-02-11 19:06:29 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:06:29 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/containerd.py:676:publish_config
+2022-02-11 19:06:29 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/containerd.py:774:container_runtime_relation_changed
+2022-02-11 19:06:30 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:06:30 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:06:30 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/containerd.py:660:restart_containerd
+2022-02-11 19:06:30 INFO unit.containerd/2.juju-log server.go:327 containerd:20: status-set: maintenance: Restarting containerd
+2022-02-11 19:06:30 INFO unit.containerd/2.juju-log server.go:327 containerd:20: status-set: active: Container runtime available
+2022-02-11 19:06:30 INFO juju.worker.uniter.operation runhook.go:152 ran "containerd-relation-joined" hook (via explicit, bespoke hook script)
+2022-02-11 19:06:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Reactive main running for hook containerd-relation-changed
+2022-02-11 19:06:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:06:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: reactive/containerd.py:676:publish_config
+2022-02-11 19:06:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:06:42 INFO unit.containerd/2.juju-log server.go:327 containerd:20: Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:06:43 INFO unit.containerd/2.juju-log server.go:327 containerd:20: status-set: active: Container runtime available
+2022-02-11 19:06:43 INFO juju.worker.uniter.operation runhook.go:152 ran "containerd-relation-changed" hook (via explicit, bespoke hook script)
+2022-02-11 19:09:14 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook update-status
+2022-02-11 19:09:15 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:324:update_status
+2022-02-11 19:09:15 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:09:15 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:676:publish_config
+2022-02-11 19:09:15 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:09:15 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:09:15 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:09:15 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-11 19:16:10 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook update-status
+2022-02-11 19:16:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:324:update_status
+2022-02-11 19:16:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:16:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:676:publish_config
+2022-02-11 19:16:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:16:10 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:16:11 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:16:11 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 Reactive main running for hook update-status
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:324:update_status
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/container_runtime_common.py:15:enable_grub_cgroups
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: reactive/containerd.py:676:publish_config
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/docker-registry/requires.py:58:remove_ready:docker-registry
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 Invoking reactive handler: hooks/relations/untrusted-container-runtime/provides.py:18:broken:untrusted
+2022-02-11 19:19:23 INFO unit.containerd/2.juju-log server.go:327 status-set: active: Container runtime available
+2022-02-11 19:19:23 INFO juju.worker.uniter.operation runhook.go:152 ran "update-status" hook (via explicit, bespoke hook script)

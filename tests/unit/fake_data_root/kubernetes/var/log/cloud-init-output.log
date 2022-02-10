@@ -1,0 +1,387 @@
+Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init-local' at Fri, 11 Feb 2022 18:58:13 +0000. Up 7.12 seconds.
+Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Fri, 11 Feb 2022 18:58:25 +0000. Up 19.27 seconds.
+ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
+ci-info: +--------+------+------------------------------+-------------+--------+-------------------+
+ci-info: | Device |  Up  |           Address            |     Mask    | Scope  |     Hw-Address    |
+ci-info: +--------+------+------------------------------+-------------+--------+-------------------+
+ci-info: |  ens3  | True |          10.6.3.201          | 255.255.0.0 | global | fa:16:3e:1f:96:bd |
+ci-info: |  ens3  | True | fe80::f816:3eff:fe1f:96bd/64 |      .      |  link  | fa:16:3e:1f:96:bd |
+ci-info: |   lo   | True |          127.0.0.1           |  255.0.0.0  |  host  |         .         |
+ci-info: |   lo   | True |           ::1/128            |      .      |  host  |         .         |
+ci-info: +--------+------+------------------------------+-------------+--------+-------------------+
+ci-info: ++++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++++
+ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+ci-info: | Route |   Destination   | Gateway  |     Genmask     | Interface | Flags |
+ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+ci-info: |   0   |     0.0.0.0     | 10.6.0.1 |     0.0.0.0     |    ens3   |   UG  |
+ci-info: |   1   |     10.6.0.0    | 0.0.0.0  |   255.255.0.0   |    ens3   |   U   |
+ci-info: |   2   | 169.254.169.254 | 10.6.0.2 | 255.255.255.255 |    ens3   |  UGH  |
+ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: | Route | Destination | Gateway | Interface | Flags |
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: |   1   |  fe80::/64  |    ::   |    ens3   |   U   |
+ci-info: |   3   |    local    |    ::   |    ens3   |   U   |
+ci-info: |   4   |  multicast  |    ::   |    ens3   |   U   |
+ci-info: +-------+-------------+---------+-----------+-------+
+Generating public/private rsa key pair.
+Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+The key fingerprint is:
+SHA256:R5BfJoMWriqvAGQOnSLCcVMkzs+G/CBXBHsvfmfPU14 root@juju-110cc2-k8stest-4
+The key's randomart image is:
++---[RSA 3072]----+
+| . =++  o+       |
+|..=.=  .+.o o    |
+|=+o+ o ....=     |
+|B.. * .. ..      |
+|.o = =..S .      |
+|. o =..  .   . E |
+|. . .o . o  o .  |
+| . o  . o o. .   |
+|  ...      o.    |
++----[SHA256]-----+
+Generating public/private dsa key pair.
+Your identification has been saved in /etc/ssh/ssh_host_dsa_key
+Your public key has been saved in /etc/ssh/ssh_host_dsa_key.pub
+The key fingerprint is:
+SHA256:R4+foXHuntGevPIW153Q7bMvlvHl4Oqpjx7yfOVEBD0 root@juju-110cc2-k8stest-4
+The key's randomart image is:
++---[DSA 1024]----+
+|            .o   |
+|              E  |
+|          .  ....|
+|         . o ....|
+|        S + +...+|
+|         . * +*o*|
+|        . o ==.O+|
+|         + +o*Boo|
+|         .**O**oo|
++----[SHA256]-----+
+Generating public/private ecdsa key pair.
+Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
+Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
+The key fingerprint is:
+SHA256:rAu3xGlJQmFbmD2PFUtwJx/sENBeET8cMqcuXvhM738 root@juju-110cc2-k8stest-4
+The key's randomart image is:
++---[ECDSA 256]---+
+|    o+++*+Boo    |
+|   .o+oo+=oO .   |
+|    o  *.+o +    |
+|   .  ..oo.  .   |
+|    . . S +      |
+|     + = * .     |
+|    . O . o .    |
+|     = o   .    E|
+|      o     .... |
++----[SHA256]-----+
+Generating public/private ed25519 key pair.
+Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+The key fingerprint is:
+SHA256:Fr2Ljjw8W7cR6FuJLU2awT/T9Xf4cMqYXE2ip0dl3rk root@juju-110cc2-k8stest-4
+The key's randomart image is:
++--[ED25519 256]--+
+|                 |
+|         .       |
+|        . .      |
+|       . o .    o|
+|        S +   o++|
+|       o @ = o.Bo|
+|     .  O % o.= B|
+|     .++ = * B.Eo|
+|      ++o . =.o .|
++----[SHA256]-----+
+Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'modules:config' at Fri, 11 Feb 2022 18:58:39 +0000. Up 32.72 seconds.
+Hit:1 http://nova.clouds.archive.ubuntu.com/ubuntu focal InRelease
+Get:2 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Get:3 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+Get:4 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+Get:5 http://nova.clouds.archive.ubuntu.com/ubuntu focal/universe amd64 Packages [8628 kB]
+Get:6 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [1238 kB]
+Get:7 http://nova.clouds.archive.ubuntu.com/ubuntu focal/universe Translation-en [5124 kB]
+Get:8 http://security.ubuntu.com/ubuntu focal-security/main Translation-en [217 kB]
+Get:9 http://security.ubuntu.com/ubuntu focal-security/main amd64 c-n-f Metadata [9560 B]
+Get:10 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [748 kB]
+Get:11 http://security.ubuntu.com/ubuntu focal-security/restricted Translation-en [107 kB]
+Get:12 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [676 kB]
+Get:13 http://nova.clouds.archive.ubuntu.com/ubuntu focal/universe amd64 c-n-f Metadata [265 kB]
+Get:14 http://nova.clouds.archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [144 kB]
+Get:15 http://nova.clouds.archive.ubuntu.com/ubuntu focal/multiverse Translation-en [104 kB]
+Get:16 http://nova.clouds.archive.ubuntu.com/ubuntu focal/multiverse amd64 c-n-f Metadata [9136 B]
+Get:17 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1572 kB]
+Get:18 http://security.ubuntu.com/ubuntu focal-security/universe Translation-en [115 kB]
+Get:19 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main Translation-en [302 kB]
+Get:20 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [13.1 kB]
+Get:21 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [14.7 kB]
+Get:22 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [801 kB]
+Get:23 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [20.7 kB]
+Get:24 http://security.ubuntu.com/ubuntu focal-security/multiverse Translation-en [5196 B]
+Get:25 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 c-n-f Metadata [500 B]
+Get:26 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/restricted Translation-en [114 kB]
+Get:27 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [903 kB]
+Get:28 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/universe Translation-en [200 kB]
+Get:29 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [20.1 kB]
+Get:30 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [23.7 kB]
+Get:31 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/multiverse Translation-en [7312 B]
+Get:32 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 c-n-f Metadata [580 B]
+Get:33 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/main amd64 Packages [42.0 kB]
+Get:34 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/main Translation-en [10.0 kB]
+Get:35 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/main amd64 c-n-f Metadata [864 B]
+Get:36 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/restricted amd64 c-n-f Metadata [116 B]
+Get:37 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [21.6 kB]
+Get:38 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/universe Translation-en [15.0 kB]
+Get:39 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/universe amd64 c-n-f Metadata [716 B]
+Get:40 http://nova.clouds.archive.ubuntu.com/ubuntu focal-backports/multiverse amd64 c-n-f Metadata [116 B]
+Fetched 21.8 MB in 4s (5079 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages will be upgraded:
+  bsdutils fdisk initramfs-tools initramfs-tools-bin initramfs-tools-core
+  libblkid1 libdrm-common libdrm2 libfdisk1 libmount1 libsmartcols1 libuuid1
+  mount open-vm-tools snapd ubuntu-advantage-tools util-linux uuid-runtime
+18 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+10 standard security updates
+Need to get 37.7 MB of archives.
+After this operation, 13.6 MB of additional disk space will be used.
+Get:1 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 bsdutils amd64 1:2.34-0.1ubuntu9.3 [63.0 kB]
+Get:2 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libblkid1 amd64 2.34-0.1ubuntu9.3 [136 kB]
+Get:3 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libuuid1 amd64 2.34-0.1ubuntu9.3 [19.9 kB]
+Get:4 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libfdisk1 amd64 2.34-0.1ubuntu9.3 [175 kB]
+Get:5 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libmount1 amd64 2.34-0.1ubuntu9.3 [149 kB]
+Get:6 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libsmartcols1 amd64 2.34-0.1ubuntu9.3 [100 kB]
+Get:7 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 fdisk amd64 2.34-0.1ubuntu9.3 [120 kB]
+Get:8 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 util-linux amd64 2.34-0.1ubuntu9.3 [1021 kB]
+Get:9 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 mount amd64 2.34-0.1ubuntu9.3 [115 kB]
+Get:10 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 uuid-runtime amd64 2.34-0.1ubuntu9.3 [35.2 kB]
+Get:11 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdrm-common all 2.4.107-8ubuntu1~20.04.1 [5408 B]
+Get:12 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdrm2 amd64 2.4.107-8ubuntu1~20.04.1 [34.1 kB]
+Get:13 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/universe amd64 open-vm-tools amd64 2:11.3.0-2ubuntu0~ubuntu20.04.2 [647 kB]
+Get:14 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 ubuntu-advantage-tools amd64 27.6~20.04.1 [862 kB]
+Get:15 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 initramfs-tools all 0.136ubuntu6.7 [9248 B]
+Get:16 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 initramfs-tools-core all 0.136ubuntu6.7 [47.8 kB]
+Get:17 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 initramfs-tools-bin amd64 0.136ubuntu6.7 [10.8 kB]
+Get:18 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 snapd amd64 2.54.2+20.04ubuntu2 [34.2 MB]
+Preconfiguring packages ...
+Fetched 37.7 MB in 1s (42.6 MB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../bsdutils_1%3a2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking bsdutils (1:2.34-0.1ubuntu9.3) over (1:2.34-0.1ubuntu9.1) ...
+Setting up bsdutils (1:2.34-0.1ubuntu9.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../libblkid1_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking libblkid1:amd64 (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Setting up libblkid1:amd64 (2.34-0.1ubuntu9.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../libuuid1_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking libuuid1:amd64 (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Setting up libuuid1:amd64 (2.34-0.1ubuntu9.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../libfdisk1_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking libfdisk1:amd64 (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Preparing to unpack .../libmount1_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking libmount1:amd64 (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Setting up libmount1:amd64 (2.34-0.1ubuntu9.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../libsmartcols1_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking libsmartcols1:amd64 (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Setting up libsmartcols1:amd64 (2.34-0.1ubuntu9.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../fdisk_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking fdisk (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Preparing to unpack .../util-linux_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking util-linux (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Setting up util-linux (2.34-0.1ubuntu9.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63577 files and directories currently installed.)
+Preparing to unpack .../0-mount_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking mount (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Preparing to unpack .../1-uuid-runtime_2.34-0.1ubuntu9.3_amd64.deb ...
+Unpacking uuid-runtime (2.34-0.1ubuntu9.3) over (2.34-0.1ubuntu9.1) ...
+Preparing to unpack .../2-libdrm-common_2.4.107-8ubuntu1~20.04.1_all.deb ...
+Unpacking libdrm-common (2.4.107-8ubuntu1~20.04.1) over (2.4.105-3~20.04.2) ...
+Preparing to unpack .../3-libdrm2_2.4.107-8ubuntu1~20.04.1_amd64.deb ...
+Unpacking libdrm2:amd64 (2.4.107-8ubuntu1~20.04.1) over (2.4.105-3~20.04.2) ...
+Preparing to unpack .../4-open-vm-tools_2%3a11.3.0-2ubuntu0~ubuntu20.04.2_amd64.deb ...
+Unpacking open-vm-tools (2:11.3.0-2ubuntu0~ubuntu20.04.2) over (2:11.0.5-4) ...
+Preparing to unpack .../5-ubuntu-advantage-tools_27.6~20.04.1_amd64.deb ...
+Unpacking ubuntu-advantage-tools (27.6~20.04.1) over (27.5~20.04.1) ...
+Preparing to unpack .../6-initramfs-tools_0.136ubuntu6.7_all.deb ...
+Unpacking initramfs-tools (0.136ubuntu6.7) over (0.136ubuntu6.6) ...
+Preparing to unpack .../7-initramfs-tools-core_0.136ubuntu6.7_all.deb ...
+Unpacking initramfs-tools-core (0.136ubuntu6.7) over (0.136ubuntu6.6) ...
+Preparing to unpack .../8-initramfs-tools-bin_0.136ubuntu6.7_amd64.deb ...
+Unpacking initramfs-tools-bin (0.136ubuntu6.7) over (0.136ubuntu6.6) ...
+Preparing to unpack .../9-snapd_2.54.2+20.04ubuntu2_amd64.deb ...
+Unpacking snapd (2.54.2+20.04ubuntu2) over (2.51.1+20.04ubuntu2) ...
+Setting up snapd (2.54.2+20.04ubuntu2) ...
+Installing new version of config file /etc/apparmor.d/usr.lib.snapd.snap-confine.real ...
+snapd.failure.service is a disabled or a static unit, not starting it.
+snapd.snap-repair.service is a disabled or a static unit, not starting it.
+Setting up libfdisk1:amd64 (2.34-0.1ubuntu9.3) ...
+Setting up mount (2.34-0.1ubuntu9.3) ...
+Setting up uuid-runtime (2.34-0.1ubuntu9.3) ...
+Setting up ubuntu-advantage-tools (27.6~20.04.1) ...
+Setting up libdrm-common (2.4.107-8ubuntu1~20.04.1) ...
+Setting up initramfs-tools-bin (0.136ubuntu6.7) ...
+Setting up fdisk (2.34-0.1ubuntu9.3) ...
+Setting up libdrm2:amd64 (2.4.107-8ubuntu1~20.04.1) ...
+Setting up open-vm-tools (2:11.3.0-2ubuntu0~ubuntu20.04.2) ...
+Installing new version of config file /etc/vmware-tools/tools.conf.example ...
+Installing new version of config file /etc/vmware-tools/vgauth.conf ...
+Removing obsolete conffile /etc/vmware-tools/vm-support ...
+Setting up initramfs-tools-core (0.136ubuntu6.7) ...
+Setting up initramfs-tools (0.136ubuntu6.7) ...
+update-initramfs: deferring update (trigger activated)
+Processing triggers for systemd (245.4-4ubuntu3.15) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for dbus (1.12.16-2ubuntu2.1) ...
+Processing triggers for mime-support (3.64ubuntu1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
+Processing triggers for initramfs-tools (0.136ubuntu6.7) ...
+update-initramfs: Generating /boot/initrd.img-5.4.0-99-generic
+Reading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version (7.68.0-1ubuntu2.7).
+curl set to manually installed.
+tmux is already the newest version (3.0a-2ubuntu0.3).
+tmux set to manually installed.
+The following additional packages will be installed:
+  dns-root-data dnsmasq-base libidn11 msr-tools
+Suggested packages:
+  ifupdown
+The following NEW packages will be installed:
+  bridge-utils cpu-checker dns-root-data dnsmasq-base libidn11 msr-tools
+  ubuntu-fan
+0 upgraded, 7 newly installed, 0 to remove and 0 not upgraded.
+Need to get 448 kB of archives.
+After this operation, 1407 kB of additional disk space will be used.
+Get:1 http://nova.clouds.archive.ubuntu.com/ubuntu focal/main amd64 bridge-utils amd64 1.6-2ubuntu1 [30.5 kB]
+Get:2 http://nova.clouds.archive.ubuntu.com/ubuntu focal/main amd64 msr-tools amd64 1.3-3 [10.0 kB]
+Get:3 http://nova.clouds.archive.ubuntu.com/ubuntu focal/main amd64 cpu-checker amd64 0.7-1.1 [6936 B]
+Get:4 http://nova.clouds.archive.ubuntu.com/ubuntu focal/main amd64 dns-root-data all 2019052802 [5300 B]
+Get:5 http://nova.clouds.archive.ubuntu.com/ubuntu focal/main amd64 libidn11 amd64 1.33-2.2ubuntu2 [46.2 kB]
+Get:6 http://nova.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 dnsmasq-base amd64 2.80-1.1ubuntu1.4 [315 kB]
+Get:7 http://nova.clouds.archive.ubuntu.com/ubuntu focal/main amd64 ubuntu-fan all 0.12.13 [34.5 kB]
+Fetched 448 kB in 0s (2650 kB/s)
+Selecting previously unselected package bridge-utils.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 63594 files and directories currently installed.)
+Preparing to unpack .../0-bridge-utils_1.6-2ubuntu1_amd64.deb ...
+Unpacking bridge-utils (1.6-2ubuntu1) ...
+Selecting previously unselected package msr-tools.
+Preparing to unpack .../1-msr-tools_1.3-3_amd64.deb ...
+Unpacking msr-tools (1.3-3) ...
+Selecting previously unselected package cpu-checker.
+Preparing to unpack .../2-cpu-checker_0.7-1.1_amd64.deb ...
+Unpacking cpu-checker (0.7-1.1) ...
+Selecting previously unselected package dns-root-data.
+Preparing to unpack .../3-dns-root-data_2019052802_all.deb ...
+Unpacking dns-root-data (2019052802) ...
+Selecting previously unselected package libidn11:amd64.
+Preparing to unpack .../4-libidn11_1.33-2.2ubuntu2_amd64.deb ...
+Unpacking libidn11:amd64 (1.33-2.2ubuntu2) ...
+Selecting previously unselected package dnsmasq-base.
+Preparing to unpack .../5-dnsmasq-base_2.80-1.1ubuntu1.4_amd64.deb ...
+Unpacking dnsmasq-base (2.80-1.1ubuntu1.4) ...
+Selecting previously unselected package ubuntu-fan.
+Preparing to unpack .../6-ubuntu-fan_0.12.13_all.deb ...
+Unpacking ubuntu-fan (0.12.13) ...
+Setting up msr-tools (1.3-3) ...
+Setting up dns-root-data (2019052802) ...
+Setting up libidn11:amd64 (1.33-2.2ubuntu2) ...
+Setting up bridge-utils (1.6-2ubuntu1) ...
+Setting up cpu-checker (0.7-1.1) ...
+Setting up dnsmasq-base (2.80-1.1ubuntu1.4) ...
+ERROR: ld.so: object 'libeatmydata.so' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+Setting up ubuntu-fan (0.12.13) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/ubuntu-fan.service → /lib/systemd/system/ubuntu-fan.service.
+Processing triggers for systemd (245.4-4ubuntu3.15) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for dbus (1.12.16-2ubuntu2.1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
++ install -D -m 644 /dev/null /var/lib/juju/nonce.txt
++ printf %s\n machine-0:4eecf708-3741-4967-894e-36bded9119c1
++ test -n 
++ JUJU_PROGRESS_FD=2
++ [ -e /etc/profile.d/juju-proxy.sh ]
++ printf \n# Added by juju\n[ -f "/etc/juju-proxy.conf" ] && . "/etc/juju-proxy.conf"\n
++ mkdir -p /var/lib/juju/locks
++ 
++ id ubuntu
++ chown ubuntu:ubuntu /var/lib/juju/locks
+uid=1000(ubuntu) gid=1000(ubuntu) groups=1000(ubuntu),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),117(netdev)
++ mkdir -p /var/log/juju
++ chown syslog:adm /var/log/juju
++ bin=/var/lib/juju/tools/2.9.22-ubuntu-amd64
++ mkdir -p /var/lib/juju/tools/2.9.22-ubuntu-amd64
++ echo Fetching Juju agent version 2.9.22 for amd64
+Fetching Juju agent version 2.9.22 for amd64
++ n=1
++ true
++ printf Attempt 1 to download agent binaries from %s...\n https://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/tools/2.9.22-ubuntu-amd64
+Attempt 1 to download agent binaries from https://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/tools/2.9.22-ubuntu-amd64...
++ curl -sSfw agent binaries from %{url_effective} downloaded: HTTP %{http_code}; time %{time_total}s; size %{size_download} bytes; speed %{speed_download} bytes/s  --connect-timeout 20 --noproxy * --insecure -o /var/lib/juju/tools/2.9.22-ubuntu-amd64/tools.tar.gz https://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/tools/2.9.22-ubuntu-amd64
+agent binaries from https://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/tools/2.9.22-ubuntu-amd64 downloaded: HTTP 200; time 1.354382s; size 48112057 bytes; speed 35533276.000 bytes/s + echo Agent binaries downloaded successfully.
+Agent binaries downloaded successfully.
++ break
++ sha256sum /var/lib/juju/tools/2.9.22-ubuntu-amd64/tools.tar.gz
++ grep 98051a4dce2561124448686c7a21e38899b9d228f95d64879cc128ae6cf35b55 /var/lib/juju/tools/2.9.22-ubuntu-amd64/juju2.9.22-ubuntu-amd64.sha256
+98051a4dce2561124448686c7a21e38899b9d228f95d64879cc128ae6cf35b55  /var/lib/juju/tools/2.9.22-ubuntu-amd64/tools.tar.gz
++ tar zxf /var/lib/juju/tools/2.9.22-ubuntu-amd64/tools.tar.gz -C /var/lib/juju/tools/2.9.22-ubuntu-amd64
++ printf %s {"version":"2.9.22-ubuntu-amd64","url":"https://10.5.0.126:17070/model/2c616d07-66f7-4a5d-87d1-e1a760110cc2/tools/2.9.22-ubuntu-amd64","sha256":"98051a4dce2561124448686c7a21e38899b9d228f95d64879cc128ae6cf35b55","size":48112057}
++ mkdir -p /var/lib/juju/agents/machine-4
++ cat
++ chmod 0600 /var/lib/juju/agents/machine-4/agent.conf
++ install -D -m 755 /dev/null /sbin/remove-juju-services
++ printf %s\n #!/bin/bash
+
+# WARNING
+# This script will clean a host previously used to run a Juju controller/machine.
+# Running this on a live installation will render Juju inoperable.
+
+for path_to_unit in $(ls /etc/systemd/system/juju*); do
+  echo "removing juju service: $path_to_unit"
+  unit=$(basename "$path_to_unit")
+  systemctl stop "$unit"
+  systemctl disable "$unit"
+  systemctl daemon-reload
+  rm -f "$path_to_unit"
+done
+
+echo "removing /var/lib/juju/tools/*"
+rm -rf /var/lib/juju/tools/*
+
+echo "removing /var/lib/juju/db/*"
+rm -rf /var/lib/juju/db/*
+
+echo "removing /var/lib/juju/raft/*"
+rm -rf /var/lib/juju/raft/*
+
+echo "removing /var/run/juju/*"
+rm -rf /var/run/juju/*
+
+has_juju_db_snap=$(snap info juju-db | grep installed:)
+if [ ! -z "$has_juju_db_snap" ]; then
+  echo "removing juju-db snap and any persisted database data"
+  snap remove --purge juju-db
+fi
+
++ ln -s 2.9.22-ubuntu-amd64 /var/lib/juju/tools/machine-4
++ echo Starting Juju machine agent (service jujud-machine-4)
+Starting Juju machine agent (service jujud-machine-4)
++ cat
++ chmod 0755 /etc/systemd/system/jujud-machine-4-exec-start.sh
++ cat
++ /bin/systemctl link /etc/systemd/system/jujud-machine-4.service
++ /bin/systemctl daemon-reload
++ /bin/systemctl enable /etc/systemd/system/jujud-machine-4.service
+Created symlink /etc/systemd/system/multi-user.target.wants/jujud-machine-4.service → /etc/systemd/system/jujud-machine-4.service.
++ /bin/systemctl start jujud-machine-4.service
++ rm /var/lib/juju/tools/2.9.22-ubuntu-amd64/tools.tar.gz
++ rm /var/lib/juju/tools/2.9.22-ubuntu-amd64/juju2.9.22-ubuntu-amd64.sha256
+Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'modules:final' at Fri, 11 Feb 2022 18:58:40 +0000. Up 33.89 seconds.
+Cloud-init v. 21.4-0ubuntu1~20.04.1 finished at Fri, 11 Feb 2022 18:59:36 +0000. Datasource DataSourceOpenStackLocal [net,ver=2].  Up 90.39 seconds

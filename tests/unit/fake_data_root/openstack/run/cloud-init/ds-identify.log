@@ -1,0 +1,29 @@
+[up 2.66s] ds-identify 
+policy loaded: mode=search report=false found=all maybe=all notfound=disabled
+/etc/cloud/cloud.cfg.d/90_dpkg.cfg set datasource_list: [ MAAS ]
+DMI_PRODUCT_NAME=Standard PC (i440FX + PIIX, 1996)
+DMI_SYS_VENDOR=QEMU
+DMI_PRODUCT_SERIAL=
+DMI_PRODUCT_UUID=d22e3961-7b33-41cc-bc22-5ca6ee6a973d
+PID_1_PRODUCT_NAME=unavailable
+DMI_CHASSIS_ASSET_TAG=
+FS_LABELS=root
+ISO9660_DEVS=
+KERNEL_CMDLINE=BOOT_IMAGE=/boot/vmlinuz-5.4.0-97-generic root=UUID=51babbe8-f78f-46a4-8830-d351c3830325 ro
+VIRT=kvm
+UNAME_KERNEL_NAME=Linux
+UNAME_KERNEL_RELEASE=5.4.0-97-generic
+UNAME_KERNEL_VERSION=#110-Ubuntu SMP Thu Jan 13 18:22:13 UTC 2022
+UNAME_MACHINE=x86_64
+UNAME_NODENAME=compute4
+UNAME_OPERATING_SYSTEM=GNU/Linux
+DSNAME=
+DSLIST=MAAS
+MODE=search
+ON_FOUND=all
+ON_MAYBE=all
+ON_NOTFOUND=disabled
+pid=379 ppid=356
+is_container=false
+manual_cache_clean enabled. Not writing datasource_list.
+[up 2.69s] returning 0

@@ -1,0 +1,16 @@
+job_name: 'k8s-api-endpoints'
+kubernetes_sd_configs:
+- api_server: https://{{k8s_api_address}}:{{k8s_api_port}}
+  role: endpoints
+  tls_config:
+    ca_file: __placeholder__
+  bearer_token: {{k8s_token}}
+scrape_interval: 30s
+scheme: https
+tls_config:
+  ca_file: __placeholder__
+bearer_token: {{k8s_token}}
+relabel_configs:
+- source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+  action: keep
+  regex: default;kubernetes;https

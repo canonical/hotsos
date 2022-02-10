@@ -1,0 +1,8 @@
+{% for section in sections -%}
+{% if section != 'DEFAULT' -%}
+[{{ section }}]
+{% for key, value in sections[section] -%}
+{{ key }} = {{ value }}
+{% endfor %}
+{% endif %}
+{%- endfor %}

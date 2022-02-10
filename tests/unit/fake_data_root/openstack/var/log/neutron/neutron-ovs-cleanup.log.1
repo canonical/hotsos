@@ -1,0 +1,11 @@
+2022-02-04 09:38:45.398 23973 INFO neutron.common.config [-] Logging enabled!
+2022-02-04 09:38:45.399 23973 INFO neutron.common.config [-] /usr/bin/neutron-ovs-cleanup version 16.4.1
+2022-02-04 09:38:45.400 23973 ERROR ovsdbapp.backend.ovs_idl.idlutils [-] Unable to open stream to tcp:127.0.0.1:6640 to retrieve schema: Connection refused
+2022-02-04 09:38:46.019 23973 INFO neutron.cmd.ovs_cleanup [-] OVS cleanup completed successfully
+2022-02-09 22:38:25.118 959 INFO neutron.common.config [-] Logging enabled!
+2022-02-09 22:38:25.135 959 INFO neutron.common.config [-] /usr/bin/neutron-ovs-cleanup version 16.4.1
+2022-02-09 22:38:25.135 959 DEBUG neutron.common.config [-] command line: /usr/bin/neutron-ovs-cleanup --config-file=/etc/neutron/neutron.conf --log-file=/var/log/neutron/neutron-ovs-cleanup.log setup_logging /usr/lib/python3/dist-packages/neutron/common/config.py:111
+2022-02-09 22:38:25.471 959 INFO neutron.cmd.ovs_cleanup [-] Cleaning bridge: br-int
+2022-02-09 22:38:25.472 959 DEBUG ovsdbapp.backend.ovs_idl.transaction [-] Running txn n=1 command(idx=0): OvsCleanup(bridge=br-int, all_ports=False) do_commit /usr/lib/python3/dist-packages/ovsdbapp/backend/ovs_idl/transaction.py:86
+2022-02-09 22:38:25.472 959 DEBUG ovsdbapp.backend.ovs_idl.transaction [-] Transaction caused no change do_commit /usr/lib/python3/dist-packages/ovsdbapp/backend/ovs_idl/transaction.py:124
+2022-02-09 22:38:25.473 959 INFO neutron.cmd.ovs_cleanup [-] OVS cleanup completed successfully

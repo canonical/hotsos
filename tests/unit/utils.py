@@ -7,7 +7,8 @@ import unittest
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
-os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, "fake_data_root")
+DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
+os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
 
 
 def is_def_filter(def_filename):
@@ -38,7 +39,7 @@ class BaseTestCase(unittest.TestCase):
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
-        os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, "fake_data_root")
+        os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
         # If a test relies on loading info from defs yaml this needs to be set
         # to actual plugin name.
         os.environ["PLUGIN_NAME"] = "testplugin"

@@ -1,0 +1,65 @@
+
+Udevadm info starts with the device specified by the devpath and then
+walks up the chain of parent devices. It prints for every device
+found, all possible attributes in the udev rules key format.
+A rule to match, can be composed by the attributes of the device
+and the attributes from one single parent device.
+
+  looking at device '/devices/pci0000:00/0000:00:0c.0/virtio8/block/vdb':
+    KERNEL=="vdb"
+    SUBSYSTEM=="block"
+    DRIVER==""
+    ATTR{capability}=="50"
+    ATTR{serial}==""
+    ATTR{hidden}=="0"
+    ATTR{stat}=="   13028     3140  2260308     9145    44626    10088  3094185    58390        0    87636    25372        0        0        0        0"
+    ATTR{size}=="209715200"
+    ATTR{cache_type}=="write back"
+    ATTR{ro}=="0"
+    ATTR{inflight}=="       0        0"
+    ATTR{discard_alignment}=="0"
+    ATTR{events_poll_msecs}=="-1"
+    ATTR{events_async}==""
+    ATTR{ext_range}=="256"
+    ATTR{removable}=="0"
+    ATTR{events}==""
+    ATTR{alignment_offset}=="0"
+    ATTR{range}=="16"
+
+  looking at parent device '/devices/pci0000:00/0000:00:0c.0/virtio8':
+    KERNELS=="virtio8"
+    SUBSYSTEMS=="virtio"
+    DRIVERS=="virtio_blk"
+    ATTRS{device}=="0x0002"
+    ATTRS{features}=="0010101001110000000000000000110010000000000000000000000000000000"
+    ATTRS{status}=="0x0000000f"
+    ATTRS{vendor}=="0x1af4"
+
+  looking at parent device '/devices/pci0000:00/0000:00:0c.0':
+    KERNELS=="0000:00:0c.0"
+    SUBSYSTEMS=="pci"
+    DRIVERS=="virtio-pci"
+    ATTRS{d3cold_allowed}=="0"
+    ATTRS{local_cpus}=="3"
+    ATTRS{enable}=="1"
+    ATTRS{numa_node}=="-1"
+    ATTRS{device}=="0x1001"
+    ATTRS{class}=="0x010000"
+    ATTRS{subsystem_vendor}=="0x1af4"
+    ATTRS{vendor}=="0x1af4"
+    ATTRS{consistent_dma_mask_bits}=="64"
+    ATTRS{irq}=="11"
+    ATTRS{ari_enabled}=="0"
+    ATTRS{dma_mask_bits}=="64"
+    ATTRS{local_cpulist}=="0-1"
+    ATTRS{msi_bus}=="1"
+    ATTRS{driver_override}=="(null)"
+    ATTRS{revision}=="0x00"
+    ATTRS{subsystem_device}=="0x0002"
+    ATTRS{broken_parity_status}=="0"
+
+  looking at parent device '/devices/pci0000:00':
+    KERNELS=="pci0000:00"
+    SUBSYSTEMS==""
+    DRIVERS==""
+

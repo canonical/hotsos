@@ -1,0 +1,79 @@
+hotsos:
+  version: development
+  repo-info: 0e374261
+system:
+  hostname: juju-04f1e3-1-lxd-0
+  os: ubuntu focal
+  num-cpus: 2
+  load: 2.51, 2.43, 1.94
+  virtualisation: lxc
+  rootfs: /dev/vda2        308585260 24784824 268055824   9% /
+  unattended-upgrades: ENABLED
+  date: Thu 10 Feb 09:47:16 UTC 2022
+  sysctl-mismatch:
+    kernel.pid_max:
+      actual: '4194304'
+      expected: '2097152'
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+storage:
+  ceph:
+    release: octopus
+    status: HEALTH_WARN
+    services:
+      systemd:
+        enabled:
+          - ceph-crash
+          - ceph-mgr
+          - ceph-mon
+        masked:
+          - ceph-create-keys
+        disabled:
+          - ceph-mds
+          - ceph-osd
+          - ceph-radosgw
+          - ceph-volume
+        generated:
+          - radosgw
+      ps:
+        - ceph-crash (1)
+        - ceph-mgr (1)
+        - ceph-mon (1)
+    dpkg:
+      - ceph 15.2.14-0ubuntu0.20.04.2
+      - ceph-base 15.2.14-0ubuntu0.20.04.2
+      - ceph-common 15.2.14-0ubuntu0.20.04.2
+      - ceph-mds 15.2.14-0ubuntu0.20.04.2
+      - ceph-mgr 15.2.14-0ubuntu0.20.04.2
+      - ceph-mgr-modules-core 15.2.14-0ubuntu0.20.04.2
+      - ceph-mon 15.2.14-0ubuntu0.20.04.2
+      - ceph-osd 15.2.14-0ubuntu0.20.04.2
+      - python3-ceph-argparse 15.2.14-0ubuntu0.20.04.2
+      - python3-ceph-common 15.2.14-0ubuntu0.20.04.2
+      - python3-cephfs 15.2.14-0ubuntu0.20.04.2
+      - python3-rados 15.2.14-0ubuntu0.20.04.2
+      - python3-rbd 15.2.14-0ubuntu0.20.04.2
+      - radosgw 15.2.14-0ubuntu0.20.04.2
+    versions:
+      mon:
+        - 15.2.14
+      mgr:
+        - 15.2.14
+      osd:
+        - 15.2.14
+    crush_rules:
+      replicated_rule:
+        id: 0
+        type: replicated
+        pools:
+          - device_health_metrics (1)
+          - glance (2)
+          - cinder-ceph (3)
+          - nova (4)
+  potential-issues:
+    CephWarnings:
+      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details.
+        (origin=storage.auto_scenario_check)

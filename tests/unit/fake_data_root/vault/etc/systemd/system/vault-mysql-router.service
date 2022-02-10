@@ -1,0 +1,19 @@
+# MySQL Router systemd service file
+
+[Unit]
+Description=MySQL Router
+After=network.target
+
+[Service]
+Type=forking
+User=mysql
+Group=mysql
+RuntimeDirectory=mysql
+ExecStart=/var/lib/mysql/vault-mysql-router/start.sh
+ExecStop=/var/lib/mysql/vault-mysql-router/stop.sh
+RemainAfterExit=yes
+Restart=on-failure
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

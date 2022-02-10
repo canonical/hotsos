@@ -1,0 +1,7 @@
+#!/bin/sh
+set -ux
+
+dpkg --list > $DEBUG_SCRIPT_DIR/dpkg-list
+snap list > $DEBUG_SCRIPT_DIR/snap-list
+pip2 list > $DEBUG_SCRIPT_DIR/pip2-list
+pip3 list > $DEBUG_SCRIPT_DIR/pip3-list

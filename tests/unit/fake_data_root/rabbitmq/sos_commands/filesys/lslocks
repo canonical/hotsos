@@ -1,0 +1,3 @@
+COMMAND   PID  TYPE SIZE MODE  M START END PATH
+cron      240 FLOCK   4B WRITE 0     0   0 /run/crond.pid
+atd       265 POSIX   4B WRITE 0     0   0 /run/atd.pid

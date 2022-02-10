@@ -1,0 +1,12 @@
+#!/usr/local/sbin/charm-env python3
+
+import debug_script
+import json
+from charmhelpers.core import unitdata
+
+kv = unitdata.kv()
+data = kv.getrange("")
+
+with debug_script.open_file("unitdata.json", "w") as f:
+  json.dump(data, f, indent=2)
+  f.write("\n")

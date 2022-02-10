@@ -1,0 +1,126 @@
+Control group /:
+-.slice
+|-9679 /bin/sh /snap/lxd/21835/commands/daemon.start
+|-9840 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs...
+|-9851 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+|-9934 bpfilter_umh
+|-user.slice 
+| `-user-1000.slice 
+|   |-user@1000.service ...
+|   | `-init.scope 
+|   |   |-95631 /lib/systemd/systemd --user
+|   |   `-95642 (sd-pam)
+|   `-session-6.scope 
+|     |-95625 sshd: ubuntu [priv]
+|     |-95735 sshd: ubuntu@pts/0
+|     |-95736 -bash
+|     |-95760 sudo -s
+|     |-95763 /bin/bash
+|     |-96008 /usr/bin/python3 /usr/bin/sos report -a --all-logs
+|     |-99909 timeout 300s kubectl --kubeconfig=/root/cdk/cdk_addons_kubectl_...
+|     |-99952 timeout 300s systemd-cgls
+|     `-99954 systemd-cgls
+|-init.scope 
+| `-1 /sbin/init
+`-system.slice 
+  |-irqbalance.service 
+  | `-690 /usr/sbin/irqbalance --foreground
+  |-containerd.service ...
+  | |-32062 /usr/bin/containerd
+  | |-35149 /usr/bin/containerd-shim-runc-v2 -namespace default -id calico-no...
+  | |-35171 /usr/bin/runsvdir -P /etc/service/enabled
+  | |-35419 runsv felix
+  | `-35420 svlogd /var/log/calico/felix
+  |-systemd-networkd.service 
+  | `-567 /lib/systemd/systemd-networkd
+  |-systemd-udevd.service 
+  | |-  381 /lib/systemd/systemd-udevd
+  | |-96105 /lib/systemd/systemd-udevd
+  | |-96148 /lib/systemd/systemd-udevd
+  | |-96149 /lib/systemd/systemd-udevd
+  | |-96150 /lib/systemd/systemd-udevd
+  | |-96151 /lib/systemd/systemd-udevd
+  | |-96152 /lib/systemd/systemd-udevd
+  | |-96153 /lib/systemd/systemd-udevd
+  | |-96154 /lib/systemd/systemd-udevd
+  | |-96155 /lib/systemd/systemd-udevd
+  | |-96156 /lib/systemd/systemd-udevd
+  | |-96161 /lib/systemd/systemd-udevd
+  | |-96162 /lib/systemd/systemd-udevd
+  | |-96163 /lib/systemd/systemd-udevd
+  | |-96164 /lib/systemd/systemd-udevd
+  | |-96165 /lib/systemd/systemd-udevd
+  | |-96166 /lib/systemd/systemd-udevd
+  | |-96187 /lib/systemd/systemd-udevd
+  | |-96188 /lib/systemd/systemd-udevd
+  | |-96189 /lib/systemd/systemd-udevd
+  | `-96190 /lib/systemd/systemd-udevd
+  |-cron.service 
+  | `-681 /usr/sbin/cron -f
+  |-snap.kubectl.kubectl.33be931e-a469-4bb0-b459-258647e43bd2.scope 
+  | `-99911 /snap/kubectl/2308/kubectl --kubeconfig=/root/cdk/cdk_addons_kube...
+  |-system-serial\x2dgetty.slice 
+  | `-serial-getty@ttyS0.service 
+  |   `-738 /sbin/agetty -o -p -- \x5cu --keep-baud 115200,38400,9600 ttyS0 v...
+  |-cdk.master.auth-webhook.service 
+  | |-84191 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /v...
+  | |-84304 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /v...
+  | |-84305 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /v...
+  | |-84319 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /v...
+  | |-84357 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /v...
+  | `-84383 /var/lib/juju/agents/unit-kubernetes-master-0/.venv/bin/python /v...
+  |-polkit.service 
+  | `-776 /usr/lib/policykit-1/polkitd --no-debug
+  |-networkd-dispatcher.service 
+  | `-692 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+  |-multipathd.service 
+  | `-460 /sbin/multipathd -d -s
+  |-accounts-daemon.service 
+  | `-678 /usr/lib/accountsservice/accounts-daemon
+  |-snap.kube-apiserver.daemon.service 
+  | `-82375 /snap/kube-apiserver/2599/kube-apiserver --allow-privileged=true ...
+  |-systemd-journald.service 
+  | `-350 /lib/systemd/systemd-journald
+  |-atd.service 
+  | `-702 /usr/sbin/atd -f
+  |-unattended-upgrades.service 
+  | `-754 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-...
+  |-ssh.service 
+  | `-855 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+  |-fwupd.service 
+  | `-98565 /usr/libexec/fwupd/fwupd
+  |-snapd.service 
+  | `-24050 /usr/lib/snapd/snapd
+  |-calico-node.service 
+  | |-35059 /var/lib/juju/agents/unit-canal-2/.venv/bin/python /var/lib/juju/...
+  | `-35079 ctr run --mount type=bind,src=/lib/modules,dst=/lib/modules,optio...
+  |-uuidd.service 
+  | `-2646 /usr/sbin/uuidd --socket-activation
+  |-snap.kube-controller-manager.daemon.service 
+  | `-82610 /snap/kube-controller-manager/2407/kube-controller-manager --min-...
+  |-systemd-hostnamed.service 
+  | `-98613 /lib/systemd/systemd-hostnamed
+  |-rsyslog.service 
+  | `-694 /usr/sbin/rsyslogd -n -iNONE
+  |-jujud-machine-4.service 
+  | |-8796 bash /etc/systemd/system/jujud-machine-4-exec-start.sh
+  | `-8800 /var/lib/juju/tools/machine-4/jujud machine --data-dir /var/lib/ju...
+  |-flannel.service 
+  | `-35350 /usr/local/bin/flanneld -iface=ens3 -etcd-endpoints=https://10.6....
+  |-snap.kube-scheduler.daemon.service 
+  | `-81900 /snap/kube-scheduler/2327/kube-scheduler --v=2 --logtostderr=true...
+  |-systemd-resolved.service 
+  | `-588 /lib/systemd/systemd-resolved
+  |-snap.kube-proxy.daemon.service 
+  | `-77707 /snap/kube-proxy/2360/kube-proxy --cluster-cidr=10.1.0.0/16 --kub...
+  |-udisks2.service 
+  | `-701 /usr/lib/udisks2/udisksd
+  |-dbus.service 
+  | `-683 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfi...
+  |-systemd-timesyncd.service 
+  | `-494 /lib/systemd/systemd-timesyncd
+  |-system-getty.slice 
+  | `-getty@tty1.service 
+  |   `-743 /sbin/agetty -o -p -- \x5cu --noclear tty1 linux
+  `-systemd-logind.service 
+    `-699 /lib/systemd/systemd-logind

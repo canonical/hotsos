@@ -1,0 +1,65 @@
+2022-02-10T00:00:01.174Z|00117|vlog|INFO|opened log file /var/log/openvswitch/ovs-vswitchd.log
+2022-02-10T16:09:19.414Z|00118|bridge|INFO|bridge br-int: added interface ha-550dc175-c0 on port 3
+2022-02-10T16:09:19.937Z|00119|connmgr|INFO|br-int<->unix#210: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:09:23.564Z|00120|bridge|INFO|bridge br-tun: added interface vxlan-0a000072 on port 2
+2022-02-10T16:09:29.498Z|00121|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 8 flow_mods in the 6 s starting 10 s ago (8 adds)
+2022-02-10T16:09:29.519Z|00122|connmgr|INFO|br-int<->tcp:127.0.0.1:6633: 1 flow_mods 10 s ago (1 deletes)
+2022-02-10T16:09:31.171Z|00123|connmgr|INFO|br-int<->unix#213: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:09:38.340Z|00124|bridge|INFO|bridge br-tun: added interface vxlan-0a000085 on port 3
+2022-02-10T16:09:46.991Z|00125|bridge|INFO|bridge br-int: added interface fg-c8dcce74-c4 on port 4
+2022-02-10T16:09:48.235Z|00126|connmgr|INFO|br-int<->unix#216: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:09:49.522Z|00127|bridge|INFO|bridge br-int: added interface qg-14f81a43-69 on port 5
+2022-02-10T16:09:57.788Z|00128|connmgr|INFO|br-data<->tcp:127.0.0.1:6633: 1 flow_mods 10 s ago (1 adds)
+2022-02-10T16:10:05.639Z|00129|connmgr|INFO|br-int<->unix#219: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:10:24.941Z|00130|bridge|INFO|bridge br-int: added interface qr-3a70b31c-3f on port 6
+2022-02-10T16:10:27.717Z|00131|bridge|INFO|bridge br-int: added interface sg-189f4c40-9d on port 7
+2022-02-10T16:10:28.549Z|00132|connmgr|INFO|br-int<->unix#222: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:10:29.494Z|00133|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 30 flow_mods in the 57 s starting 58 s ago (30 adds)
+2022-02-10T16:10:29.520Z|00134|connmgr|INFO|br-int<->tcp:127.0.0.1:6633: 4 flow_mods in the 40 s starting 41 s ago (2 adds, 2 deletes)
+2022-02-10T16:10:47.076Z|00135|connmgr|INFO|br-int<->unix#225: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:11:06.913Z|00136|connmgr|INFO|br-int<->unix#228: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:11:18.946Z|00137|connmgr|INFO|br-int<->unix#231: 6 flow_mods in the last 0 s (6 adds)
+2022-02-10T16:11:26.250Z|00138|connmgr|INFO|br-int<->unix#234: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:11:29.494Z|00139|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 21 flow_mods in the 46 s starting 53 s ago (21 adds)
+2022-02-10T16:11:29.522Z|00140|connmgr|INFO|br-int<->tcp:127.0.0.1:6633: 6 flow_mods in the 31 s starting 42 s ago (4 adds, 2 deletes)
+2022-02-10T16:12:16.100Z|00141|connmgr|INFO|br-int<->unix#237: 2 flow_mods in the last 0 s (2 adds)
+2022-02-10T16:12:29.494Z|00142|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 6 flow_mods in the 4 s starting 14 s ago (6 adds)
+2022-02-10T16:12:29.519Z|00143|connmgr|INFO|br-int<->tcp:127.0.0.1:6633: 1 flow_mods 13 s ago (1 adds)
+2022-02-10T16:14:02.932Z|00144|bridge|INFO|bridge br-int: added interface tap6a0486f9-82 on port 8
+2022-02-10T16:14:03.004Z|00145|netdev|WARN|failed to set MTU for network device qg-14f81a43-69: No such device
+2022-02-10T16:14:03.018Z|00146|netdev|WARN|failed to set MTU for network device fg-c8dcce74-c4: No such device
+2022-02-10T16:14:03.030Z|00147|netdev|WARN|failed to set MTU for network device qr-3a70b31c-3f: No such device
+2022-02-10T16:14:03.044Z|00148|netdev|WARN|failed to set MTU for network device sg-189f4c40-9d: No such device
+2022-02-10T16:14:03.060Z|00149|netdev|WARN|failed to set MTU for network device ha-550dc175-c0: No such device
+2022-02-10T16:14:06.490Z|00150|connmgr|INFO|br-int<->unix#240: 69 flow_mods in the last 0 s (69 adds)
+2022-02-10T16:14:09.860Z|00151|connmgr|INFO|br-int<->unix#243: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:14:10.666Z|00152|connmgr|INFO|br-int<->unix#246: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:14:11.613Z|00153|connmgr|INFO|br-int<->unix#249: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:14:13.598Z|00154|connmgr|INFO|br-int<->unix#252: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:14:13.758Z|00155|connmgr|INFO|br-int<->tcp:127.0.0.1:6633: 4 flow_mods in the 5 s starting 10 s ago (4 adds)
+2022-02-10T16:14:18.245Z|00156|connmgr|INFO|br-int<->unix#255: 4 flow_mods in the last 0 s (4 deletes)
+2022-02-10T16:14:20.559Z|00157|connmgr|INFO|br-int<->unix#258: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:14:45.894Z|00158|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 6 flow_mods in the 8 s starting 10 s ago (6 adds)
+2022-02-10T16:18:04.528Z|00159|bridge|INFO|bridge br-int: added interface tap0e778df8-ca on port 9
+2022-02-10T16:18:10.559Z|00160|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 6 flow_mods in the 7 s starting 10 s ago (6 adds)
+2022-02-10T16:18:18.733Z|00161|connmgr|INFO|br-int<->unix#462: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:18:18.988Z|00162|connmgr|INFO|br-int<->unix#465: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:18:19.223Z|00163|connmgr|INFO|br-int<->unix#468: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:19.505Z|00164|connmgr|INFO|br-int<->unix#471: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:19.753Z|00165|connmgr|INFO|br-int<->unix#474: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:20.585Z|00166|connmgr|INFO|br-int<->unix#477: 4 flow_mods in the last 0 s (4 deletes)
+2022-02-10T16:18:20.936Z|00167|connmgr|INFO|br-int<->unix#480: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:18:28.334Z|00168|connmgr|INFO|br-int<->tcp:127.0.0.1:6633: 4 flow_mods 10 s ago (4 adds)
+2022-02-10T16:18:32.805Z|00169|connmgr|INFO|br-int<->unix#483: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:18:33.094Z|00170|bridge|INFO|bridge br-int: deleted interface tap6a0486f9-82 on port 8
+2022-02-10T16:18:33.118Z|00171|bridge|WARN|could not open network device tap6a0486f9-82 (No such device)
+2022-02-10T16:18:33.200Z|00172|connmgr|INFO|br-int<->unix#486: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:33.610Z|00173|connmgr|INFO|br-int<->unix#489: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:33.856Z|00174|connmgr|INFO|br-int<->unix#492: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:34.566Z|00175|connmgr|INFO|br-int<->unix#495: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:34.841Z|00176|connmgr|INFO|br-int<->unix#498: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:35.075Z|00177|connmgr|INFO|br-int<->unix#501: 1 flow_mods in the last 0 s (1 deletes)
+2022-02-10T16:18:35.412Z|00178|connmgr|INFO|br-int<->unix#504: 4 flow_mods in the last 0 s (4 deletes)
+2022-02-10T16:18:35.852Z|00179|connmgr|INFO|br-int<->unix#507: 65 flow_mods in the last 0 s (65 adds)
+2022-02-10T16:18:36.249Z|00180|connmgr|INFO|br-int<->unix#510: 4 flow_mods in the last 0 s (4 deletes)
+2022-02-10T16:19:10.558Z|00181|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 8 flow_mods in the 36 s starting 48 s ago (6 adds, 2 deletes)

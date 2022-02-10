@@ -1,0 +1,9 @@
+[Match]
+MACAddress=00:16:3e:3f:d9:1c
+
+[Network]
+LinkLocalAddressing=ipv6
+Address=10.0.0.121/24
+Gateway=10.0.0.2
+DNS=10.0.0.2
+Domains=mylab.home

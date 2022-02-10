@@ -1,0 +1,58 @@
+BusAddress=unix:path=/run/dbus/system_bus_socket
+BusScope=system
+BusID=99235155df1ecf5e41b5a84662044275
+PID=1
+PPID=n/a
+TTY=n/a
+UID=0
+EUID=0
+SUID=0
+FSUID=0
+GID=0
+EGID=0
+SGID=0
+FSGID=0
+SupplementaryGIDs=
+Comm=systemd
+Exe=/usr/lib/systemd/systemd
+CommandLine=/sbin/init
+Label=unconfined
+CGroup=/init.scope
+Unit=init.scope
+Slice=-.slice
+UserUnit=n/a
+UserSlice=n/a
+Session=n/a
+AuditLoginUID=n/a
+AuditSessionID=n/a
+EffectiveCapabilities=cap_chown cap_dac_override cap_dac_read_search 
+        cap_fowner cap_fsetid cap_kill cap_setgid 
+        cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service 
+        cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock 
+        cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot 
+        cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot 
+        cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config 
+        cap_mknod cap_lease cap_audit_write cap_audit_control 
+        cap_setfcap cap_mac_override cap_mac_admin cap_syslog 
+        cap_wake_alarm cap_block_suspend cap_audit_read
+PermittedCapabilities=cap_chown cap_dac_override cap_dac_read_search 
+        cap_fowner cap_fsetid cap_kill cap_setgid 
+        cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service 
+        cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock 
+        cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot 
+        cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot 
+        cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config 
+        cap_mknod cap_lease cap_audit_write cap_audit_control 
+        cap_setfcap cap_mac_override cap_mac_admin cap_syslog 
+        cap_wake_alarm cap_block_suspend cap_audit_read
+InheritableCapabilities=
+BoundingCapabilities=cap_chown cap_dac_override cap_dac_read_search 
+        cap_fowner cap_fsetid cap_kill cap_setgid 
+        cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service 
+        cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock 
+        cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot 
+        cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot 
+        cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config 
+        cap_mknod cap_lease cap_audit_write cap_audit_control 
+        cap_setfcap cap_mac_override cap_mac_admin cap_syslog 
+        cap_wake_alarm cap_block_suspend cap_audit_read

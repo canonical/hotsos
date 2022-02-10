@@ -1,0 +1,588 @@
+Control group /:
+-.slice
+|- 1201 bpfilter_umh
+|- 1546 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcf...
+|-18866 /bin/sh /snap/lxd/22358/commands/daemon.start
+|-19026 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+|-19086 dnsmasq --keep-in-foreground --strict-order --bind-interfaces --excep...
+|-lxc.payload.juju-04f1e3-1-lxd-5 
+| |- 5960 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-12775 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-2600 /sbin/init
+| `-system.slice 
+|   |-epmd.service 
+|   | `-4442 /usr/bin/epmd -systemd
+|   |-systemd-networkd.service 
+|   | `-4055 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-2980 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-3034 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328...
+|   |-cron.service 
+|   | `-4431 /usr/sbin/cron -f
+|   |-polkit.service 
+|   | `-4757 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-4445 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-3035 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549...
+|   |-accounts-daemon.service 
+|   | `-4414 /usr/lib/accountsservice/accounts-daemon
+|   |-systemd-journald.service 
+|   | `-2867 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-4496 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-5635 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-ssh.service 
+|   | `-4641 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-snapd.service 
+|   | `-4462 /usr/lib/snapd/snapd
+|   |-uuidd.service 
+|   | `-844660 /usr/sbin/uuidd --socket-activation
+|   |-snap-lxd-21835.mount 
+|   | `-3033 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ...
+|   |-jujud-machine-1-lxd-5.service 
+|   | |-4508 bash /etc/systemd/system/jujud-machine-1-lxd-5-exec-start.sh
+|   | `-4600 /var/lib/juju/tools/machine-1-lxd-5/jujud machine --data-dir /va...
+|   |-rsyslog.service 
+|   | `-4454 /usr/sbin/rsyslogd -n -iNONE
+|   |-console-getty.service 
+|   | `-4527 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-systemd-resolved.service 
+|   | `-3290 /lib/systemd/systemd-resolved
+|   |-rabbitmq-server.service 
+|   | |- 4446 /bin/sh /usr/sbin/rabbitmq-server
+|   | |- 4586 /usr/lib/erlang/erts-10.6.4/bin/beam.smp -W w -A 64 -MBas ageff...
+|   | |- 7985 erl_child_setup 65536
+|   | |-17252 inet_gethost 4
+|   | `-17254 inet_gethost 4
+|   |-udisks2.service 
+|   | `-4478 /usr/lib/udisks2/udisksd
+|   |-dbus.service 
+|   | `-4432 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   `-systemd-logind.service 
+|     `-4472 /lib/systemd/systemd-logind
+|-lxc.monitor.juju-04f1e3-1-lxd-5 
+| `-2557 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-5
+|-lxc.payload.juju-04f1e3-1-lxd-3 
+| |- 5920 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-15345 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-2191 /sbin/init
+| `-system.slice 
+|   |-systemd-networkd.service 
+|   | `-3670 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-2529 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-2641 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/13...
+|   |-cron.service 
+|   | `-3790 /usr/sbin/cron -f
+|   |-polkit.service 
+|   | `-4183 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-3813 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-2642 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/145...
+|   |-accounts-daemon.service 
+|   | `-3780 /usr/lib/accountsservice/accounts-daemon
+|   |-systemd-journald.service 
+|   | `-2412 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-3919 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-4738 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-ssh.service 
+|   | `-4138 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-jujud-machine-1-lxd-3.service 
+|   | |-4050 bash /etc/systemd/system/jujud-machine-1-lxd-3-exec-start.sh
+|   | `-4092 /var/lib/juju/tools/machine-1-lxd-3/jujud machine --data-dir /va...
+|   |-snapd.service 
+|   | `-3824 /usr/lib/snapd/snapd
+|   |-snap-lxd-21835.mount 
+|   | `-2646 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -...
+|   |-mysql.service 
+|   | `-4616 /usr/sbin/mysqld
+|   |-rsyslog.service 
+|   | `-3815 /usr/sbin/rsyslogd -n -iNONE
+|   |-console-getty.service 
+|   | `-4085 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-snap-mysql\x2dshell-29.mount 
+|   | `-2649 squashfuse /var/lib/snapd/snaps/mysql-shell_29.snap /snap/mysql-...
+|   |-snap-core18-2284.mount 
+|   | `-2643 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/22...
+|   |-systemd-resolved.service 
+|   | `-3235 /lib/systemd/systemd-resolved
+|   |-udisks2.service 
+|   | `-3899 /usr/lib/udisks2/udisksd
+|   |-dbus.service 
+|   | `-3792 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   `-systemd-logind.service 
+|     `-3830 /lib/systemd/systemd-logind
+|-lxc.monitor.juju-04f1e3-1-lxd-3 
+| `-2152 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-3
+|-lxc.payload.juju-04f1e3-1-lxd-1 
+| |- 5892 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-14488 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-1856 /sbin/init
+| `-system.slice 
+|   |-systemd-networkd.service 
+|   | `-3423 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-2071 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-2218 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/13...
+|   |-cron.service 
+|   | `-3564 /usr/sbin/cron -f
+|   |-polkit.service 
+|   | `-3777 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-3579 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-2222 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/145...
+|   |-accounts-daemon.service 
+|   | `-3542 /usr/lib/accountsservice/accounts-daemon
+|   |-jujud-machine-1-lxd-1.service 
+|   | |-3632 bash /etc/systemd/system/jujud-machine-1-lxd-1-exec-start.sh
+|   | `-3706 /var/lib/juju/tools/machine-1-lxd-1/jujud machine --data-dir /va...
+|   |-systemd-journald.service 
+|   | `-1997 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-3614 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-4820 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-snap.etcd.etcd.service 
+|   | `-3588 /snap/etcd/230/bin/etcd --config-file /var/snap/etcd/common/etcd...
+|   |-ssh.service 
+|   | `-3692 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-snapd.service 
+|   | `-3594 /usr/lib/snapd/snapd
+|   |-snap-lxd-21835.mount 
+|   | `-2223 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -...
+|   |-rsyslog.service 
+|   | `-3586 /usr/sbin/rsyslogd -n -iNONE
+|   |-console-getty.service 
+|   | `-3672 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-snap-etcd-230.mount 
+|   | `-2216 squashfuse /var/lib/snapd/snaps/etcd_230.snap /snap/etcd/230 -o ...
+|   |-snap-core18-2284.mount 
+|   | `-2217 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/22...
+|   |-systemd-resolved.service 
+|   | `-2916 /lib/systemd/systemd-resolved
+|   |-udisks2.service 
+|   | `-3602 /usr/lib/udisks2/udisksd
+|   |-dbus.service 
+|   | `-3565 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   |-snap-core-12603.mount 
+|   | `-2215 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603...
+|   `-systemd-logind.service 
+|     `-3598 /lib/systemd/systemd-logind
+|-lxc.monitor.juju-04f1e3-1-lxd-1 
+| `-1811 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-1
+|-lxc.payload.juju-04f1e3-1-lxd-6 
+| |- 6236 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-15480 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-2780 /sbin/init
+| `-system.slice 
+|   |-systemd-networkd.service 
+|   | `-4405 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-3058 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-3144 squashfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/13...
+|   |-snap.vault.vault.7f600699-6a39-4bde-abe3-1ce266c4b3c5.scope 
+|   | `-35758 /snap/vault/2012/bin/vault server -config /var/snap/vault/commo...
+|   |-jujud-machine-1-lxd-6.service 
+|   | |-4880 bash /etc/systemd/system/jujud-machine-1-lxd-6-exec-start.sh
+|   | `-5064 /var/lib/juju/tools/machine-1-lxd-6/jujud machine --data-dir /va...
+|   |-cron.service 
+|   | `-4685 /usr/sbin/cron -f
+|   |-polkit.service 
+|   | `-5429 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-4719 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-3150 squashfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/145...
+|   |-accounts-daemon.service 
+|   | `-4657 /usr/lib/accountsservice/accounts-daemon
+|   |-systemd-journald.service 
+|   | `-2993 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-4858 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-5697 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-ssh.service 
+|   | `-5068 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-logd.service 
+|   | |-4859 ha_logd: read process
+|   | `-4987 ha_logd: write process
+|   |-snap-vault-2012.mount 
+|   | `-3148 squashfuse /var/lib/snapd/snaps/vault_2012.snap /snap/vault/2012...
+|   |-pacemaker.service 
+|   | |-5466 /usr/sbin/pacemakerd -f
+|   | |-5682 /usr/lib/pacemaker/pacemaker-based
+|   | |-5683 /usr/lib/pacemaker/pacemaker-fenced
+|   | |-5684 /usr/lib/pacemaker/pacemaker-execd
+|   | |-5687 /usr/lib/pacemaker/pacemaker-attrd
+|   | |-5691 /usr/lib/pacemaker/pacemaker-schedulerd
+|   | `-5694 /usr/lib/pacemaker/pacemaker-controld
+|   |-snapd.service 
+|   | `-4754 /usr/lib/snapd/snapd
+|   |-uuidd.service 
+|   | `-829236 /usr/sbin/uuidd --socket-activation
+|   |-snap-lxd-21835.mount 
+|   | `-3146 squashfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -...
+|   |-rsyslog.service 
+|   | `-4722 /usr/sbin/rsyslogd -n -iNONE
+|   |-console-getty.service 
+|   | `-4954 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-corosync.service 
+|   | `-4676 /usr/sbin/corosync -f
+|   |-snap-core18-2284.mount 
+|   | `-3151 squashfuse /var/lib/snapd/snaps/core18_2284.snap /snap/core18/22...
+|   |-systemd-resolved.service 
+|   | `-3377 /lib/systemd/systemd-resolved
+|   |-udisks2.service 
+|   | `-4784 /usr/lib/udisks2/udisksd
+|   |-vault-mysql-router.service 
+|   | `-4971 /usr/bin/mysqlrouter -c /var/lib/mysql/vault-mysql-router/mysqlr...
+|   |-dbus.service 
+|   | `-4688 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   |-snap-core-12603.mount 
+|   | `-3145 squashfuse /var/lib/snapd/snaps/core_12603.snap /snap/core/12603...
+|   `-systemd-logind.service 
+|     `-4765 /lib/systemd/systemd-logind
+|-user.slice 
+| `-user-1000.slice 
+|   |-user@1000.service ...
+|   | `-init.scope 
+|   |   |-1780287 /lib/systemd/systemd --user
+|   |   `-1780288 (sd-pam)
+|   |-session-620.scope 
+|   | |-1780834 sshd: ubuntu [priv]
+|   | |-1780968 sshd: ubuntu@pts/1
+|   | |-1780986 sudo -s
+|   | `-1780989 /bin/bash
+|   `-session-618.scope 
+|     |-1780281 sshd: ubuntu [priv]
+|     |-1780382 sshd: ubuntu@pts/0
+|     |-1780383 sudo -s
+|     |-1780385 /bin/bash
+|     |-1795431 /usr/bin/python3 /usr/bin/sosreport -a --all-logs
+|     |-1800264 timeout 300s systemd-cgls
+|     `-1800266 systemd-cgls
+|-lxc.monitor.juju-04f1e3-1-lxd-6 
+| `-2736 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-6
+|-lxc.payload.juju-04f1e3-1-lxd-4 
+| |- 6092 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-11933 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-2403 /sbin/init
+| `-system.slice 
+|   |-jujud-machine-1-lxd-4.service 
+|   | |-4970 bash /etc/systemd/system/jujud-machine-1-lxd-4-exec-start.sh
+|   | `-5057 /var/lib/juju/tools/machine-1-lxd-4/jujud machine --data-dir /va...
+|   |-apache2.service 
+|   | |-  5375 /usr/sbin/apache2 -k start
+|   | |-171572 (wsgi:placement)  -k start
+|   | |-171573 (wsgi:placement)  -k start
+|   | |-171575 (wsgi:placement)  -k start
+|   | |-171577 (wsgi:placement)  -k start
+|   | |-171621 /usr/sbin/apache2 -k start
+|   | `-171622 /usr/sbin/apache2 -k start
+|   |-systemd-networkd.service 
+|   | `-4420 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-2776 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-2888 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328...
+|   |-cron.service 
+|   | `-4712 /usr/sbin/cron -f
+|   |-placement-mysql-router.service 
+|   | `-4962 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/my...
+|   |-polkit.service 
+|   | `-5260 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-4755 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-2887 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549...
+|   |-accounts-daemon.service 
+|   | `-4684 /usr/lib/accountsservice/accounts-daemon
+|   |-systemd-journald.service 
+|   | `-2665 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-4897 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-5696 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-ssh.service 
+|   | `-5090 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-fwupd.service 
+|   | `-1734261 /usr/libexec/fwupd/fwupd
+|   |-snapd.service 
+|   | `-4801 /usr/lib/snapd/snapd
+|   |-memcached.service 
+|   | `-4749 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+|   |-snap-lxd-21835.mount 
+|   | `-2892 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ...
+|   |-rsyslog.service 
+|   | `-4764 /usr/sbin/rsyslogd -n -iNONE
+|   |-haproxy.service 
+|   | |-5074 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haprox...
+|   | `-5188 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haprox...
+|   |-console-getty.service 
+|   | `-5038 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-systemd-resolved.service 
+|   | `-3288 /lib/systemd/systemd-resolved
+|   |-udisks2.service 
+|   | `-4879 /usr/lib/udisks2/udisksd
+|   |-dbus.service 
+|   | `-4716 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   `-systemd-logind.service 
+|     `-4846 /lib/systemd/systemd-logind
+|-lxc.monitor.juju-04f1e3-1-lxd-4 
+| `-2369 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-4
+|-lxc.payload.juju-04f1e3-1-lxd-2 
+| |- 5652 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-12616 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-1989 /sbin/init
+| `-system.slice 
+|   |-apache2.service 
+|   | |- 46251 /usr/sbin/apache2 -k start
+|   | |-171719 (wsgi:keystone-ad -k start
+|   | |-171720 (wsgi:keystone-pu -k start
+|   | |-171721 (wsgi:keystone-pu -k start
+|   | |-171722 (wsgi:keystone-pu -k start
+|   | |-171736 /usr/sbin/apache2 -k start
+|   | `-171737 /usr/sbin/apache2 -k start
+|   |-systemd-networkd.service 
+|   | `-3683 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-2398 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-2436 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328...
+|   |-cron.service 
+|   | `-3814 /usr/sbin/cron -f
+|   |-polkit.service 
+|   | `-4325 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-3836 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-2434 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549...
+|   |-accounts-daemon.service 
+|   | `-3806 /usr/lib/accountsservice/accounts-daemon
+|   |-systemd-journald.service 
+|   | `-2255 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-4004 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-5430 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-ssh.service 
+|   | `-4436 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-snapd.service 
+|   | `-3909 /usr/lib/snapd/snapd
+|   |-memcached.service 
+|   | `-3828 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+|   |-snap-lxd-21835.mount 
+|   | `-2437 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ...
+|   |-keystone-mysql-router.service 
+|   | `-4118 /usr/bin/mysqlrouter -c /var/lib/mysql/keystone-mysql-router/mys...
+|   |-rsyslog.service 
+|   | `-3890 /usr/sbin/rsyslogd -n -iNONE
+|   |-haproxy.service 
+|   | |-4172 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haprox...
+|   | `-4252 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haprox...
+|   |-console-getty.service 
+|   | `-4097 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-systemd-resolved.service 
+|   | `-3234 /lib/systemd/systemd-resolved
+|   |-jujud-machine-1-lxd-2.service 
+|   | |-4066 bash /etc/systemd/system/jujud-machine-1-lxd-2-exec-start.sh
+|   | `-4168 /var/lib/juju/tools/machine-1-lxd-2/jujud machine --data-dir /va...
+|   |-udisks2.service 
+|   | `-3978 /usr/lib/udisks2/udisksd
+|   |-dbus.service 
+|   | `-3817 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   `-systemd-logind.service 
+|     `-3925 /lib/systemd/systemd-logind
+|-init.scope 
+| `-1 /sbin/init
+|-lxc.monitor.juju-04f1e3-1-lxd-2 
+| `-1930 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-2
+|-system.slice 
+| |-irqbalance.service 
+| | `-920 /usr/sbin/irqbalance --foreground
+| |-ovsdb-server.service 
+| | `-762 ovsdb-server /etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -...
+| |-systemd-networkd.service 
+| | `-721 /lib/systemd/systemd-networkd
+| |-systemd-udevd.service 
+| | `-428 /lib/systemd/systemd-udevd
+| |-neutron-metadata-agent.service 
+| | |- 977 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/et...
+| | |-1654 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/et...
+| | |-1655 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/et...
+| | |-1656 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/et...
+| | `-1657 /usr/bin/python3 /usr/bin/neutron-metadata-agent --config-file=/et...
+| |-cron.service 
+| | `-975 /usr/sbin/cron -f
+| |-polkit.service 
+| | `-1043 /usr/lib/policykit-1/polkitd --no-debug
+| |-systemd-timedated.service 
+| | `-1799880 /lib/systemd/systemd-timedated
+| |-networkd-dispatcher.service 
+| | `-921 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+| |-multipathd.service 
+| | `-633 /sbin/multipathd -d -s
+| |-neutron-openvswitch-agent.service 
+| | |- 1603 /usr/bin/python3 /usr/bin/neutron-openvswitch-agent --config-file...
+| | |- 6281 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron/n...
+| | `-45486 ovsdb-client monitor tcp:127.0.0.1:6640 Interface name,ofport,ext...
+| |-accounts-daemon.service 
+| | `-908 /usr/lib/accountsservice/accounts-daemon
+| |-libvirtd.service 
+| | `-1074 /usr/sbin/libvirtd
+| |-systemd-journald.service 
+| | `-397 /lib/systemd/systemd-journald
+| |-atd.service 
+| | `-991 /usr/sbin/atd -f
+| |-unattended-upgrades.service 
+| | `-1075 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade...
+| |-ssh.service 
+| | `-1028 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+| |-ceph-crash.service 
+| | `-909 /usr/bin/python3 /usr/bin/ceph-crash
+| |-fwupd.service 
+| | `-1785959 /usr/libexec/fwupd/fwupd
+| |-snapd.service 
+| | `-926 /usr/lib/snapd/snapd
+| |-systemd-machined.service 
+| | `-928 /lib/systemd/systemd-machined
+| |-nova-compute.service 
+| | |-  53085 /usr/bin/python3 /usr/bin/nova-compute --config-file=/etc/nova/...
+| | |-1781387 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/no...
+| | `-1790385 /usr/bin/python3 /bin/privsep-helper --config-file /etc/nova/no...
+| |-nova-api-metadata.service 
+| | |-  984 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/no...
+| | |-35743 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/no...
+| | |-35744 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/no...
+| | |-35746 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/no...
+| | `-35747 /usr/bin/python3 /usr/bin/nova-api-metadata --config-file=/etc/no...
+| |-uuidd.service 
+| | `-1554 /usr/sbin/uuidd --socket-activation
+| |-systemd-hostnamed.service 
+| | `-1796388 /lib/systemd/systemd-hostnamed
+| |-rsyslog.service 
+| | `-923 /usr/sbin/rsyslogd -n -iNONE
+| |-neutron-l3-agent.service 
+| | |-   1591 /usr/bin/python3 /usr/bin/neutron-l3-agent --config-file=/etc/n...
+| | |-  44277 /usr/bin/python3 /bin/privsep-helper --config-file /etc/neutron...
+| | |-1773272 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_...
+| | |-1773285 /usr/bin/python3 /bin/neutron-keepalived-state-change --router_...
+| | |-1773297 haproxy -f /var/lib/neutron/ns-metadata-proxy/984c22fd-64b3-4fa...
+| | |-1775813 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8...
+| | `-1775814 keepalived -P -f /var/lib/neutron/ha_confs/984c22fd-64b3-4fa1-8...
+| |-haproxy.service 
+| | |-1030 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy....
+| | `-1053 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy....
+| |-neutron-dhcp-agent.service 
+| | `-1590 /usr/bin/python3 /usr/bin/neutron-dhcp-agent --config-file=/etc/ne...
+| |-rpcbind.service 
+| | `-674 /sbin/rpcbind -f -w
+| |-system-ceph\x2dosd.slice 
+| | `-ceph-osd@0.service 
+| |   `-1113152 /usr/bin/ceph-osd -f --cluster ceph --id 0 --setuser ceph --s...
+| |-smartmontools.service 
+| | `-924 /usr/sbin/smartd -n
+| |-upower.service 
+| | `-782960 /usr/lib/upower/upowerd
+| |-systemd-resolved.service 
+| | `-761 /lib/systemd/systemd-resolved
+| |-ovs-vswitchd.service 
+| | `-819 ovs-vswitchd unix:/var/run/openvswitch/db.sock -vconsole:emer -vsys...
+| |-udisks2.service 
+| | `-930 /usr/lib/udisks2/udisksd
+| |-jujud-machine-1.service 
+| | |-51494 bash /etc/systemd/system/jujud-machine-1-exec-start.sh
+| | `-51515 /var/lib/juju/tools/machine-1/jujud machine --data-dir /var/lib/j...
+| |-dbus.service 
+| | `-914 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfi...
+| |-systemd-timesyncd.service 
+| | `-678 /lib/systemd/systemd-timesyncd
+| |-system-getty.slice 
+| | `-getty@tty1.service 
+| |   `-1012 /sbin/agetty -o -p -- \x5cu --noclear tty1 linux
+| |-virtlogd.service 
+| | `-1781495 /usr/sbin/virtlogd
+| `-systemd-logind.service 
+|   `-927 /lib/systemd/systemd-logind
+|-lxc.payload.juju-04f1e3-1-lxd-0 
+| |- 5858 /bin/sh /snap/lxd/21835/commands/daemon.start
+| |-12313 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+| |-init.scope 
+| | `-1758 /sbin/init
+| `-system.slice 
+|   |-systemd-networkd.service 
+|   | `-3431 /lib/systemd/systemd-networkd
+|   |-systemd-udevd.service 
+|   | `-1987 /lib/systemd/systemd-udevd
+|   |-snap-core20-1328.mount 
+|   | `-2039 snapfuse /var/lib/snapd/snaps/core20_1328.snap /snap/core20/1328...
+|   |-cron.service 
+|   | `-3608 /usr/sbin/cron -f
+|   |-polkit.service 
+|   | `-3799 /usr/lib/policykit-1/polkitd --no-debug
+|   |-networkd-dispatcher.service 
+|   | `-3530 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-trig...
+|   |-snap-snapd-14549.mount 
+|   | `-2040 snapfuse /var/lib/snapd/snaps/snapd_14549.snap /snap/snapd/14549...
+|   |-accounts-daemon.service 
+|   | `-3488 /usr/lib/accountsservice/accounts-daemon
+|   |-system-ceph\x2dmgr.slice 
+|   | `-ceph-mgr@juju-04f1e3-1-lxd-0.service 
+|   |   `-3515 /usr/bin/ceph-mgr -f --cluster ceph --id juju-04f1e3-1-lxd-0 -...
+|   |-systemd-journald.service 
+|   | `-1927 /lib/systemd/systemd-journald
+|   |-atd.service 
+|   | `-3623 /usr/sbin/atd -f
+|   |-unattended-upgrades.service 
+|   | `-4195 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgra...
+|   |-ssh.service 
+|   | `-3743 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+|   |-ceph-crash.service 
+|   | `-3489 /usr/bin/python3 /usr/bin/ceph-crash
+|   |-snapd.service 
+|   | `-3559 /usr/lib/snapd/snapd
+|   |-uuidd.service 
+|   | `-135899 /usr/sbin/uuidd --socket-activation
+|   |-snap-lxd-21835.mount 
+|   | `-2038 snapfuse /var/lib/snapd/snaps/lxd_21835.snap /snap/lxd/21835 -o ...
+|   |-rsyslog.service 
+|   | `-3541 /usr/sbin/rsyslogd -n -iNONE
+|   |-console-getty.service 
+|   | `-3680 /sbin/agetty -o -p -- \x5cu --noclear --keep-baud console 115200...
+|   |-system-ceph\x2dmon.slice 
+|   | `-ceph-mon@juju-04f1e3-1-lxd-0.service 
+|   |   `-3516 /usr/bin/ceph-mon -f --cluster ceph --id juju-04f1e3-1-lxd-0 -...
+|   |-jujud-machine-1-lxd-0.service 
+|   | |-3643 bash /etc/systemd/system/jujud-machine-1-lxd-0-exec-start.sh
+|   | `-3687 /var/lib/juju/tools/machine-1-lxd-0/jujud machine --data-dir /va...
+|   |-smartmontools.service 
+|   | `-3543 /usr/sbin/smartd -n
+|   |-systemd-resolved.service 
+|   | `-2790 /lib/systemd/systemd-resolved
+|   |-udisks2.service 
+|   | `-3572 /usr/lib/udisks2/udisksd
+|   |-dbus.service 
+|   | `-3518 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi...
+|   `-systemd-logind.service 
+|     `-3566 /lib/systemd/systemd-logind
+|-lxc.monitor.juju-04f1e3-1-lxd-0 
+| `-1747 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-04f1e3-1-lxd-0
+`-machine.slice 
+  `-machine-qemu\x2d2\x2dinstance\x2d00000001.scope ...
+    `-1791722 /usr/bin/qemu-system-x86_64 -name guest=instance-00000001,debug...

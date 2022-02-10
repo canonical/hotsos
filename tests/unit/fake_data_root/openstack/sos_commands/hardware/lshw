@@ -1,0 +1,599 @@
+compute4
+    description: Computer
+    product: Standard PC (i440FX + PIIX, 1996)
+    vendor: QEMU
+    version: pc-i440fx-bionic
+    width: 64 bits
+    capabilities: smbios-2.8 dmi-2.8 smp vsyscall32
+    configuration: boot=normal uuid=61392ED2-337B-CC41-BC22-5CA6EE6A973D
+  *-core
+       description: Motherboard
+       physical id: 0
+     *-firmware
+          description: BIOS
+          vendor: SeaBIOS
+          physical id: 0
+          version: 1.10.2-1ubuntu1
+          date: 04/01/2014
+          size: 96KiB
+     *-cpu:0
+          description: CPU
+          product: Intel Core Processor (Skylake, IBRS)
+          vendor: Intel Corp.
+          physical id: 400
+          bus info: cpu@0
+          version: pc-i440fx-bionic
+          slot: CPU 0
+          size: 2GHz
+          capacity: 2GHz
+          width: 64 bits
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat md_clear
+          configuration: cores=1 enabledcores=1 threads=1
+     *-cpu:1
+          description: CPU
+          product: Intel Core Processor (Skylake, IBRS)
+          vendor: Intel Corp.
+          physical id: 401
+          bus info: cpu@1
+          version: pc-i440fx-bionic
+          slot: CPU 1
+          size: 2GHz
+          capacity: 2GHz
+          width: 64 bits
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves arat md_clear
+          configuration: cores=1 enabledcores=1 threads=1
+     *-memory
+          description: System Memory
+          physical id: 1000
+          size: 16GiB
+          capabilities: ecc
+          configuration: errordetection=multi-bit-ecc
+        *-bank
+             description: DIMM RAM
+             vendor: QEMU
+             physical id: 0
+             slot: DIMM 0
+             size: 16GiB
+     *-pci
+          description: Host bridge
+          product: 440FX - 82441FX PMC [Natoma]
+          vendor: Intel Corporation
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+        *-isa
+             description: ISA bridge
+             product: 82371SB PIIX3 ISA [Natoma/Triton II]
+             vendor: Intel Corporation
+             physical id: 1
+             bus info: pci@0000:00:01.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: isa
+             configuration: latency=0
+        *-ide
+             description: IDE interface
+             product: 82371SB PIIX3 IDE [Natoma/Triton II]
+             vendor: Intel Corporation
+             physical id: 1.1
+             bus info: pci@0000:00:01.1
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: ide isa_compat_mode bus_master
+             configuration: driver=ata_piix latency=0
+             resources: irq:0 ioport:1f0(size=8) ioport:3f6 ioport:170(size=8) ioport:376 ioport:c260(size=16)
+        *-bridge
+             description: Bridge
+             product: 82371AB/EB/MB PIIX4 ACPI
+             vendor: Intel Corporation
+             physical id: 1.3
+             bus info: pci@0000:00:01.3
+             version: 03
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bridge
+             configuration: driver=piix4_smbus latency=0
+             resources: irq:9
+        *-display
+             description: VGA compatible controller
+             product: GD 5446
+             vendor: Cirrus Logic
+             physical id: 2
+             bus info: pci@0000:00:02.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: vga_controller rom
+             configuration: driver=cirrus latency=0
+             resources: irq:0 memory:fc000000-fdffffff memory:feb90000-feb90fff memory:c0000-dffff
+        *-network:0
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 3
+             bus info: pci@0000:00:03.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c100(size=32) memory:feb91000-feb91fff memory:fe000000-fe003fff memory:fe800000-fe87ffff
+           *-virtio0
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@0
+                logical name: ens3
+                serial: 52:54:00:e2:28:a3
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-network:1
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 4
+             bus info: pci@0000:00:04.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c120(size=32) memory:feb92000-feb92fff memory:fe004000-fe007fff memory:fe880000-fe8fffff
+           *-virtio1
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@1
+                logical name: ens4
+                serial: 52:54:00:bb:47:e2
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-network:2
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 5
+             bus info: pci@0000:00:05.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c140(size=32) memory:feb93000-feb93fff memory:fe008000-fe00bfff memory:fe900000-fe97ffff
+           *-virtio2
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@2
+                logical name: ens5
+                serial: 52:54:00:5c:d9:47
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-network:3
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 6
+             bus info: pci@0000:00:06.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c160(size=32) memory:feb94000-feb94fff memory:fe00c000-fe00ffff memory:fe980000-fe9fffff
+           *-virtio3
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@3
+                logical name: ens6
+                serial: 52:54:00:e6:14:19
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-network:4
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 7
+             bus info: pci@0000:00:07.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c180(size=32) memory:feb95000-feb95fff memory:fe010000-fe013fff memory:fea00000-fea7ffff
+           *-virtio4
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@4
+                logical name: ens7
+                serial: 52:54:00:78:19:c3
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-network:5
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 8
+             bus info: pci@0000:00:08.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c1a0(size=32) memory:feb96000-feb96fff memory:fe014000-fe017fff memory:fea80000-feafffff
+           *-virtio5
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@5
+                logical name: ens8
+                serial: 52:54:00:fa:50:95
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-network:6
+             description: Ethernet controller
+             product: Virtio network device
+             vendor: Red Hat, Inc.
+             physical id: 9
+             bus info: pci@0000:00:09.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: msix bus_master cap_list rom
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c1c0(size=32) memory:feb97000-feb97fff memory:fe018000-fe01bfff memory:feb00000-feb7ffff
+           *-virtio6
+                description: Ethernet interface
+                physical id: 0
+                bus info: virtio@6
+                logical name: ens9
+                serial: 52:54:00:5c:a7:e0
+                capabilities: ethernet physical
+                configuration: autonegotiation=off broadcast=yes driver=virtio_net driverversion=1.0.0 link=yes multicast=yes
+        *-usb:0
+             description: USB controller
+             product: 82801I (ICH9 Family) USB UHCI Controller #1
+             vendor: Intel Corporation
+             physical id: a
+             bus info: pci@0000:00:0a.0
+             version: 03
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:10 ioport:c1e0(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 5.4.0-97-generic uhci_hcd
+                physical id: 1
+                bus info: usb@2
+                logical name: usb2
+                version: 5.04
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:1
+             description: USB controller
+             product: 82801I (ICH9 Family) USB UHCI Controller #2
+             vendor: Intel Corporation
+             physical id: a.1
+             bus info: pci@0000:00:0a.1
+             version: 03
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:11 ioport:c200(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 5.4.0-97-generic uhci_hcd
+                physical id: 1
+                bus info: usb@3
+                logical name: usb3
+                version: 5.04
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:2
+             description: USB controller
+             product: 82801I (ICH9 Family) USB UHCI Controller #3
+             vendor: Intel Corporation
+             physical id: a.2
+             bus info: pci@0000:00:0a.2
+             version: 03
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:11 ioport:c220(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 5.4.0-97-generic uhci_hcd
+                physical id: 1
+                bus info: usb@4
+                logical name: usb4
+                version: 5.04
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:3
+             description: USB controller
+             product: 82801I (ICH9 Family) USB2 EHCI Controller #1
+             vendor: Intel Corporation
+             physical id: a.7
+             bus info: pci@0000:00:0a.7
+             version: 03
+             width: 32 bits
+             clock: 33MHz
+             capabilities: ehci bus_master
+             configuration: driver=ehci-pci latency=0
+             resources: irq:10 memory:feb98000-feb98fff
+           *-usbhost
+                product: EHCI Host Controller
+                vendor: Linux 5.4.0-97-generic ehci_hcd
+                physical id: 1
+                bus info: usb@1
+                logical name: usb1
+                version: 5.04
+                capabilities: usb-2.00
+                configuration: driver=hub slots=6 speed=480Mbit/s
+        *-scsi:0
+             description: SCSI storage controller
+             product: Virtio block device
+             vendor: Red Hat, Inc.
+             physical id: b
+             bus info: pci@0000:00:0b.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: scsi msix bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c000(size=64) memory:feb99000-feb99fff memory:fe01c000-fe01ffff
+           *-virtio7
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@7
+                logical name: /dev/vda
+                size: 300GiB (322GB)
+                capabilities: gpt-1.00 partitioned partitioned:gpt
+                configuration: driver=virtio_blk guid=b4c61d73-a996-47d9-89b0-77a85527d798 logicalsectorsize=512 sectorsize=512
+              *-volume:0
+                   description: BIOS Boot partition
+                   vendor: EFI
+                   physical id: 1
+                   bus info: virtio@7,1
+                   logical name: /dev/vda1
+                   serial: fb643193-e94b-45be-b29c-f8b367def85d
+                   capacity: 1023KiB
+                   capabilities: nofs
+              *-volume:1
+                   description: EXT4 volume
+                   vendor: Linux
+                   physical id: 2
+                   bus info: virtio@7,2
+                   logical name: /dev/vda2
+                   logical name: /
+                   version: 1.0
+                   serial: 51babbe8-f78f-46a4-8830-d351c3830325
+                   size: 299GiB
+                   capacity: 299GiB
+                   capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
+                   configuration: created=2022-02-04 09:32:08 filesystem=ext4 label=root lastmountpoint=/ modified=2022-02-09 22:38:10 mount.fstype=ext4 mount.options=rw,relatime mounted=2022-02-09 22:38:11 state=mounted
+        *-scsi:1
+             description: SCSI storage controller
+             product: Virtio block device
+             vendor: Red Hat, Inc.
+             physical id: c
+             bus info: pci@0000:00:0c.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: scsi msix bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c040(size=64) memory:feb9a000-feb9afff memory:fe020000-fe023fff
+           *-virtio8
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@8
+                logical name: /dev/vdb
+                size: 100GiB (107GB)
+                capabilities: gpt-1.00 partitioned partitioned:gpt
+                configuration: driver=virtio_blk guid=1b6f2960-8c11-4418-ba03-6d0c3a514815 logicalsectorsize=512 sectorsize=512
+              *-volume:0
+                   description: BIOS Boot partition
+                   vendor: EFI
+                   physical id: 1
+                   bus info: virtio@8,1
+                   logical name: /dev/vdb1
+                   serial: 728a5094-a3e9-4c2b-a437-be336e508ee4
+                   capacity: 1023KiB
+                   capabilities: nofs
+              *-volume:1
+                   description: EFI partition
+                   physical id: 2
+                   bus info: virtio@8,2
+                   logical name: /dev/vdb2
+                   serial: 5c1ca2b8-cecb-4123-a8b9-84ee2b456d44
+                   capacity: 99GiB
+        *-scsi:2
+             description: SCSI storage controller
+             product: Virtio block device
+             vendor: Red Hat, Inc.
+             physical id: d
+             bus info: pci@0000:00:0d.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: scsi msix bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c080(size=64) memory:feb9b000-feb9bfff memory:fe024000-fe027fff
+           *-virtio9
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@9
+                logical name: /dev/vdc
+                size: 100GiB (107GB)
+                configuration: driver=virtio_blk logicalsectorsize=512 sectorsize=512
+        *-generic
+             description: Unclassified device
+             product: Virtio memory balloon
+             vendor: Red Hat, Inc.
+             physical id: e
+             bus info: pci@0000:00:0e.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:10 ioport:c240(size=32) memory:fe028000-fe02bfff
+           *-virtio10 UNCLAIMED
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@10
+                configuration: driver=virtio_balloon
+        *-scsi:3
+             description: SCSI storage controller
+             product: Virtio block device
+             vendor: Red Hat, Inc.
+             physical id: f
+             bus info: pci@0000:00:0f.0
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: scsi msix bus_master cap_list
+             configuration: driver=virtio-pci latency=0
+             resources: irq:11 ioport:c0c0(size=64) memory:feb9c000-feb9cfff memory:fe02c000-fe02ffff
+           *-virtio11
+                description: Virtual I/O device
+                physical id: 0
+                bus info: virtio@11
+                logical name: /dev/vdd
+                size: 100GiB (107GB)
+                configuration: driver=virtio_blk logicalsectorsize=512 sectorsize=512
+     *-pnp00:00
+          product: PnP device PNP0b00
+          physical id: 1
+          capabilities: pnp
+          configuration: driver=rtc_cmos
+     *-pnp00:01
+          product: PnP device PNP0303
+          physical id: 2
+          capabilities: pnp
+          configuration: driver=i8042 kbd
+     *-pnp00:02
+          product: PnP device PNP0f13
+          physical id: 3
+          capabilities: pnp
+          configuration: driver=i8042 aux
+     *-pnp00:03
+          product: PnP device PNP0700
+          physical id: 4
+          capabilities: pnp
+     *-pnp00:04
+          product: PnP device PNP0501
+          physical id: 5
+          capabilities: pnp
+          configuration: driver=serial
+  *-network:0
+       description: Ethernet interface
+       physical id: 1
+       logical name: vethe7aaf6c3
+       serial: 26:71:db:34:0b:fb
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s
+  *-network:1
+       description: Ethernet interface
+       physical id: 2
+       logical name: veth5cc250bc
+       serial: 4e:3e:ac:ed:dc:bb
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s
+  *-network:2
+       description: Ethernet interface
+       physical id: 3
+       logical name: veth8aa19e05
+       serial: 22:c2:7b:1c:12:1b
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s
+  *-network:3
+       description: Ethernet interface
+       physical id: 4
+       logical name: veth1883dceb
+       serial: 4e:68:29:1e:ed:52
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s
+  *-network:4
+       description: Ethernet interface
+       physical id: 5
+       logical name: vxlan_sys_4789
+       serial: 5a:bc:16:3c:d0:f0
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=vxlan driverversion=0.1 link=yes multicast=yes
+  *-network:5 DISABLED
+       description: Ethernet interface
+       physical id: 6
+       logical name: ovs-system
+       serial: 1a:d8:a5:27:9b:61
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=openvswitch link=no multicast=yes
+  *-network:6
+       description: Ethernet interface
+       physical id: 7
+       logical name: tap0e778df8-ca
+       serial: fe:16:3e:a7:45:cb
+       size: 10Mbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=tun driverversion=1.6 duplex=full link=yes multicast=yes port=twisted pair speed=10Mbit/s
+  *-network:7
+       description: Ethernet interface
+       physical id: 8
+       logical name: veth396824c3
+       serial: a6:3a:fe:ef:e9:e3
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s
+  *-network:8 DISABLED
+       description: Ethernet interface
+       physical id: 9
+       logical name: br-int
+       serial: 2e:13:35:c8:26:46
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=openvswitch link=no multicast=yes
+  *-network:9 DISABLED
+       description: Ethernet interface
+       physical id: a
+       logical name: br-ex
+       serial: 52:b5:78:b8:fe:41
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=openvswitch link=no multicast=yes
+  *-network:10 DISABLED
+       description: Ethernet interface
+       physical id: b
+       logical name: br-data
+       serial: 1e:fe:6a:11:d4:42
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=openvswitch link=no multicast=yes
+  *-network:11
+       description: Ethernet interface
+       physical id: c
+       logical name: veth59e22e6f
+       serial: a2:8c:4d:b5:9d:2b
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s
+  *-network:12 DISABLED
+       description: Ethernet interface
+       physical id: d
+       logical name: br-tun
+       serial: 82:72:c4:83:d8:47
+       capabilities: ethernet physical
+       configuration: broadcast=yes driver=openvswitch link=no multicast=yes
+  *-network:13
+       description: Ethernet interface
+       physical id: e
+       logical name: veth0d284c32
+       serial: 4e:78:0a:18:65:d4
+       size: 10Gbit/s
+       capabilities: ethernet physical
+       configuration: autonegotiation=off broadcast=yes driver=veth driverversion=1.0 duplex=full link=yes multicast=yes port=twisted pair speed=10Gbit/s

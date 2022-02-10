@@ -1,0 +1,14 @@
+Feb 10 09:51:45 | set open fds limit to 1048576/1048576
+Feb 10 09:51:45 | loading //lib/multipath/libchecktur.so checker
+Feb 10 09:51:45 | checker tur: message table size = 3
+Feb 10 09:51:45 | loading //lib/multipath/libprioconst.so prioritizer
+Feb 10 09:51:45 | _init_foreign: found libforeign-nvme.so
+Feb 10 09:51:45 | foreign library "nvme" loaded successfully
+Feb 10 09:51:45 | released_to_systemd: DM_MULTIPATH_DEVICE_PATH=(null) -> 0
+Feb 10 09:51:45 | Discovered 0/0 paths
+Feb 10 09:51:45 | libdevmapper version 1.02.167 (2019-11-30)
+/dev/mapper/control: mknod failed: Operation not permitted
+Failure to communicate with kernel device-mapper driver.
+Check that device-mapper is available in the kernel.
+Incompatible libdevmapper 1.02.167 (2019-11-30) and kernel driver (unknown version).
+===== no paths =====

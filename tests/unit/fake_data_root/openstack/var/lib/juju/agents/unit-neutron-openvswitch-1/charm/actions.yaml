@@ -1,0 +1,55 @@
+cleanup:
+    description: |
+        Clean up after the Neutron agents.
+    params:
+      i-really-mean-it:
+        type: boolean
+        default: false
+        description: |
+          The default false will not run the action, set to true to perform
+          cleanup.
+          .
+          WARNING: Running this action will interrupt instance connectivity and
+          it will not be restored until either Neutron agents or a different
+          SDN reprograms connectivity on the hypervisor.
+          .
+          NOTE: The application must be configured with `firewall-driver`
+          'openvswitch' and the unit must be paused prior to running this
+          action.
+    required:
+      - i-really-mean-it
+pause:
+    description: |
+        Pause the neutron-openvswitch unit.  This action will stop neutron-openvswitch services.
+        .
+        NOTE: Pausing neutron-openvswitch does not stop the openvswitch-switch service.
+resume:
+    descrpition: |
+        Resume the neutron-openvswitch unit.  This action will start neutron-openvswitch services.
+restart-services:
+  description: |
+    Restarts services this charm manages.
+  params:
+    deferred-only:
+      type: boolean
+      default: false
+      description: |
+        Restart all deferred services.
+    services:
+      type: string
+      default: ""
+      description: |
+        List of services to restart.
+    run-hooks:
+      type: boolean
+      default: true
+      description: |
+        Run any hooks which have been deferred.
+run-deferred-hooks:
+  description: |
+    Run deferable hooks and restart services.
+    .
+    NOTE: Service will be restarted as needed irrespective of enable-auto-restarts
+show-deferred-events:
+    descrpition: |
+        Show the outstanding restarts

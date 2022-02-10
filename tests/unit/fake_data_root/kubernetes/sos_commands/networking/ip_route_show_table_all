@@ -1,0 +1,21 @@
+default via 10.6.0.1 dev ens3 proto dhcp src 10.6.3.201 metric 100 
+10.1.7.0/24 via 10.1.7.0 dev flannel.1 onlink 
+10.1.12.0/24 via 10.1.12.0 dev flannel.1 onlink 
+10.6.0.0/16 dev ens3 proto kernel scope link src 10.6.3.201 
+169.254.169.254 via 10.6.0.2 dev ens3 proto dhcp src 10.6.3.201 metric 100 
+local 10.1.84.0 dev flannel.1 table local proto kernel scope host src 10.1.84.0 
+broadcast 10.6.0.0 dev ens3 table local proto kernel scope link src 10.6.3.201 
+local 10.6.3.201 dev ens3 table local proto kernel scope host src 10.6.3.201 
+broadcast 10.6.255.255 dev ens3 table local proto kernel scope link src 10.6.3.201 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+::1 dev lo proto kernel metric 256 pref medium
+fe80::/64 dev ens3 proto kernel metric 256 pref medium
+fe80::/64 dev flannel.1 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::98e0:6bff:fec3:cee3 dev flannel.1 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe1f:96bd dev ens3 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev ens3 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev flannel.1 table local proto kernel metric 256 pref medium

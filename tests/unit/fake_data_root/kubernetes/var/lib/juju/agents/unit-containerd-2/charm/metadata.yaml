@@ -1,0 +1,27 @@
+"name": "containerd"
+"summary": "Containerd container runtime subordinate"
+"maintainers":
+- "Joe Borg <joseph.borg@canonical.com>"
+"description": |
+  containerd manages the complete container lifecycle of its
+  host system, from image transfer and storage to container
+  execution and supervision to low-level storage to network
+  attachments and beyond.
+"tags":
+- "misc"
+- "containers"
+"series":
+- "focal"
+- "bionic"
+- "xenial"
+"requires":
+  "containerd":
+    "interface": "container-runtime"
+    "scope": "container"
+  "docker-registry":
+    "interface": "docker-registry"
+"provides":
+  "untrusted":
+    "interface": "untrusted-container-runtime"
+    "scope": "container"
+"subordinate": !!bool "true"

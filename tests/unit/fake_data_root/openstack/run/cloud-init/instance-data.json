@@ -1,0 +1,63 @@
+{
+ "base64_encoded_keys": [],
+ "ds": {
+  "_doc": "EXPERIMENTAL: The structure and format of content scoped under the 'ds' key may change in subsequent releases of cloud-init.",
+  "meta_data": {
+   "instance-id": "6pphxm",
+   "local-hostname": "compute4.mylab.home",
+   "public-keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCu2j759+Px8f81mP+Iq4AFlmOOz7ih97Tpy2fRTPI3Rhoz2NyWXSRhE2zDd0ONQ2xjQs5lxBo5RkLASWE6JuZus3eP76Gdu6tzCaFog0Uz1Qz1N9PpVWnGNDZElqtZbmN/edl6+iSLOfBpmDMrDsGHbVk2Qx6PvTwb5kYjcBBuAb6MzHAvAKg9jo7BO2/wepfKIHDQXuRK8dCT4iGL/eRUGYigtx3RgX0KXEeX4u/LzaSnaQ8nJxqMrk/jA0spT78hUg1Q9VHsXftkG/v18sGtfZO29dNZNQXDfFYc10GricRxGyOqj1bUIt0ybws/7Wa/L0Qh8OdxK/M7MDKxvHzZ rsa.launchpad\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvrZ88XjCwV/pXIypNXIAZiOXMXjcpJB9MszLe3kaPB8PlIG7Lv3TOZ+K0sHoqdYCSGd44Yu9wyiBktc2993GXILkzg+oVV9plRYxgc7sqH35njaQEH/ldiYX/Tb5jowijbvje/2LFo03wgmif0vxfBG/cqDZAxtcztsd2Ay4mvUokzW+qUTJyENOcjFLordfVDfrqzyMVwgZrDideg9AYliZLrxrhPQoLSs8Msp2UdGTBNyGN2tsvd9V0j+bbfEwaalS/occtBwyuNES8VwfXyqA/yimk7qiecSLCq4sy/pwpvYym8km8dvWN1hyDSZmwWUr9Aw6/zZDjQoaoCcif bastion"
+  }
+ },
+ "merged_cfg": "redacted for non-root user",
+ "sensitive_keys": [
+  "merged_cfg"
+ ],
+ "sys_info": {
+  "dist": [
+   "ubuntu",
+   "20.04",
+   "focal"
+  ],
+  "platform": "Linux-5.4.0-97-generic-x86_64-with-glibc2.29",
+  "python": "3.8.10",
+  "release": "5.4.0-97-generic",
+  "system": "Linux",
+  "uname": [
+   "Linux",
+   "compute4",
+   "5.4.0-97-generic",
+   "#110-Ubuntu SMP Thu Jan 13 18:22:13 UTC 2022",
+   "x86_64",
+   "x86_64"
+  ],
+  "variant": "ubuntu"
+ },
+ "v1": {
+  "_beta_keys": [
+   "subplatform"
+  ],
+  "availability-zone": null,
+  "availability_zone": null,
+  "cloud-name": "maas",
+  "cloud_name": "maas",
+  "distro": "ubuntu",
+  "distro_release": "focal",
+  "distro_version": "20.04",
+  "instance-id": "6pphxm",
+  "instance_id": "6pphxm",
+  "kernel_release": "5.4.0-97-generic",
+  "local-hostname": "compute4",
+  "local_hostname": "compute4",
+  "machine": "x86_64",
+  "platform": "maas",
+  "public_ssh_keys": [
+   "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCu2j759+Px8f81mP+Iq4AFlmOOz7ih97Tpy2fRTPI3Rhoz2NyWXSRhE2zDd0ONQ2xjQs5lxBo5RkLASWE6JuZus3eP76Gdu6tzCaFog0Uz1Qz1N9PpVWnGNDZElqtZbmN/edl6+iSLOfBpmDMrDsGHbVk2Qx6PvTwb5kYjcBBuAb6MzHAvAKg9jo7BO2/wepfKIHDQXuRK8dCT4iGL/eRUGYigtx3RgX0KXEeX4u/LzaSnaQ8nJxqMrk/jA0spT78hUg1Q9VHsXftkG/v18sGtfZO29dNZNQXDfFYc10GricRxGyOqj1bUIt0ybws/7Wa/L0Qh8OdxK/M7MDKxvHzZ rsa.launchpad",
+   "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvrZ88XjCwV/pXIypNXIAZiOXMXjcpJB9MszLe3kaPB8PlIG7Lv3TOZ+K0sHoqdYCSGd44Yu9wyiBktc2993GXILkzg+oVV9plRYxgc7sqH35njaQEH/ldiYX/Tb5jowijbvje/2LFo03wgmif0vxfBG/cqDZAxtcztsd2Ay4mvUokzW+qUTJyENOcjFLordfVDfrqzyMVwgZrDideg9AYliZLrxrhPQoLSs8Msp2UdGTBNyGN2tsvd9V0j+bbfEwaalS/occtBwyuNES8VwfXyqA/yimk7qiecSLCq4sy/pwpvYym8km8dvWN1hyDSZmwWUr9Aw6/zZDjQoaoCcif bastion"
+  ],
+  "python_version": "3.8.10",
+  "region": null,
+  "subplatform": "seed-dir (http://10.0.0.2:5248/MAAS/metadata/)",
+  "system_platform": "Linux-5.4.0-97-generic-x86_64-with-glibc2.29",
+  "variant": "ubuntu"
+ }
+}

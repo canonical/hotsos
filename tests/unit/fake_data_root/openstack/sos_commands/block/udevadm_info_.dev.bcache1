@@ -1,0 +1,24 @@
+P: /devices/virtual/block/bcache1
+N: bcache1
+L: 0
+S: bcache/by-uuid/d9b66beb-6321-47e2-ad6d-bf117bb18d82
+S: disk/by-uuid/48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+S: disk/by-dname/bcache0
+S: bcache/by-label/bcache0
+E: DEVPATH=/devices/virtual/block/bcache1
+E: DEVNAME=/dev/bcache1
+E: DEVTYPE=disk
+E: MAJOR=251
+E: MINOR=128
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=1568084
+E: ID_FS_VERSION=2
+E: ID_FS_UUID=48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: ID_FS_UUID_ENC=48858aa1-71a3-4f0e-95f3-a07d1d9a6749
+E: ID_FS_TYPE=crypto_LUKS
+E: ID_FS_USAGE=crypto
+E: CACHED_UUID=d9b66beb-6321-47e2-ad6d-bf117bb18d82
+E: CACHED_LABEL=bcache0
+E: DEVLINKS=/dev/bcache/by-uuid/d9b66beb-6321-47e2-ad6d-bf117bb18d82 /dev/disk/by-uuid/48858aa1-71a3-4f0e-95f3-a07d1d9a6749 /dev/disk/by-dname/bcache0 /dev/bcache/by-label/bcache0
+E: TAGS=:systemd:
+
