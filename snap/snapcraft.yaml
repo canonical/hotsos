@@ -38,6 +38,7 @@ parts:
     build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info
+      rm -rf tests
       snapcraftctl build
     filesets:
       # need to exclude these files since they are dangling symlinks
