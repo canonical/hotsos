@@ -25,9 +25,9 @@ See --help for usage info.
 
 ## Examples
 
-An example **full** (yaml) summary can be found [here](examples/hotsos-example.summary.yaml)
+An example **full** (yaml) summary can be found [here](examples/hotsos-example-openstack.summary.yaml)
 
-An example **short** (yaml) summary can be found [here](examples/hotsos-example.short.summary.yaml)
+An example **short** (yaml) summary can be found [here](examples/hotsos-example-openstack.short.summary.yaml)
 
 ## Install
 
