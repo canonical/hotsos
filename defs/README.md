@@ -2,43 +2,43 @@
 
 This directory contains the configuration for yaml-defined analysis.
 
-At present the following types of definitions are provided each with an
-associated handler:
+A number of different ways to define checks are supported. See
+[handlers](#handlers) for more information on supported types.
 
- * events
- * bugs
- * config_checks
- * scenarios
+## Writing Checks in YAML
 
-See core.ycheck for details on the implementation of each.
+First choose what [type](#handlers) of check you want to write and which plugin
+should be used to run the check.
 
-The type of definitions is characterised by the their top-level directory name
-which corresponds to the handler used to process them.
+Checks are organised beneath a directory that shares the name of the plugin
+that will run them. Files and directories are used to group checks with files
+containing one or more checks. All check definitions have the same basic
+structure, using a mixture of properties and, if defining a
+[scenario](#scenarios), [subdefs](#subdefs).
 
-These definitions provide a way to write checks and analysis with a minimum of
-(Python) code. It also has the benefit that we don't need to maintain
-check-specific code or metadata in Python code. A tree structure is used and
-generally looks like:
+This approach provides a way to write checks and analysis in a way that focuses
+on the structure and logic of the check rather than the underlying
+implementation and is achieved by using library/shared code (e.g.
+[core](../core/plugins)) as much as possible.
 
-```
-<def-type>
-  <plugin-name>
-    <optional-group-name>
-      <defs-name>
-```
+The yaml definitions are loaded into a tree structure, with leaf nodes
+expressing the checks. This provides a means for property inheritance so that
+globals may be defined and superseded at any level. As a recap:
 
- * first subdirectory must use the name of the plugin the checks belong to e.g.
-   openstack
- * the next level contains definitions which can be organised using any
+ * Top directory uses the name of the plugin the checks belong to e.g.
+   openstack.
+ * Sub levels contain definitions which can be organised using any
    combination of files and directories e.g. you could put all definitions in
    a single file or you could have one file per definition. You can then use
    directories to logically group your definitions or you can use a tree
    structure within any of the files.
- * this structure uses the format provided by *github.com/dosaboy/ystruct*
-   i.e. a tree where each level contains *overrides* and "content". Overrides
-   follow an inheritance model so that they can be defined and superseded at
-   any level. The content is always found at the leaf nodes of the tree.
- * it should always be possible to transpose the filesystem tree structure to
+ * This structure uses the format provided by
+   [ystruct](http://github.com/dosaboy/ystruct) i.e. a tree where each level
+   contains overrides properties and "content".
+   Overrides follow an inheritance model so that they can be defined and
+   superseded at any level. The content is always found at the leaf nodes of
+   the tree.
+ * It should always be possible to transpose the filesystem tree structure to
    a single (file) yaml tree.
 
 TIP: to use a single quote ' inside a yaml string you need to replace it with
@@ -48,13 +48,13 @@ TIP: to use a single quote ' inside a yaml string you need to replace it with
 
 Overrides are blocks of yaml with a pre-defined meaning. They are used to
 provide specific information or structure and must be supported by the
-associated handler.
+associated [handler](#handler).
 
 Overrides abide by rules of inheritance and can be defined at any level. They
-are accessed at a leaf and can be defined and overridden at any level. Since
-definitions can be organised using files and directories, the latter requires a
-means for applying directory globals. To achieve this we put the overrides into
-a file that shares the name of the directory e.g.
+are accessed at leaf nodes and can be defined and overridden at any level.
+Since definitions can be organised using files and directories, the latter
+requires a means for applying directory globals. To achieve this we put the
+overrides into a file that shares the name of the directory e.g.
 
 ```
 pluginX/groupA/groupA.yaml
@@ -69,15 +69,15 @@ apply to everything under groupA.
 ### Properties
 
 The following are property overrides available to all types of
-definitions provided that their handler supports them. The format section
-describes how they can be used in yaml definitions and the usage section
-describes how they are consumed in (Python) code i.e. the handlers.
+definitions provided that their handler supports them. The *format* section
+describes how they can be used in yaml definitions and the *usage* section
+describes how they are consumed by [handlers](#handlers).
 
 
 #### decision
 Defines a decision as a list of logical operators each associated with a list
-of one or more check labels as defined in a *checks* subdef. This property is
-typically used in a *conclusions* subdef.
+of one or more check labels as defined in a [checks](#checks) subdef. This
+property is typically used in a [conclusions](#conclusions) subdef.
 
 format
 
@@ -95,8 +95,9 @@ usage
 #### input
 Defines a type of input. Currently we support a filesystem path or command.
 When a command is provided, the output of that command is written to a
-temporary file the path of which is returned by input.path. Supported commands
-are those provided by core.cli_helpers.CLIHelper. Only one of *path* or
+temporary file the path of which is returned by *input.path*. Supported
+commands are those provided by
+[core.cli_helpers.CLIHelper](../core/cli_helpers). Only one of *path* or
 *command* can be defined for a given input.
 
 format
@@ -154,7 +155,7 @@ int(priority)
 #### raises
 Defines the issue and message we want to raise. For example a check may want
 to raise an issue using type core.issues.issue_types.Foo with a message that
-contains format fields that need to be populated.
+contains format fields that need to be populated with results.
 
 format
 
@@ -184,13 +185,15 @@ raises.format_groups
 ```
 
 #### requires
-Defines one or more requirements with a pass/fail result. Typically used a way
-to determine whether or not to run a check.
+Defines a set of requirements with a pass/fail result.
 
 If the result is based on the outcome of more than one requirement they
 must be grouped using logical operators used to determine the result of each
 group. The result of all groups are ANDed together to get the final result for
 *passes*.
+
+An optional *depends-on* field is provided to allow for a requirement to be
+defined as a condition on which to run the other checks.
 
 format
 
@@ -310,9 +313,9 @@ be interpreted. For example a "simple" search involves a single expression and
 is used to match single lines. A "sequence" search is using with
 core.filesearcher.SequenceSearchDef to match (non-overlapping) sequences and
 then there is also support for analysis overlapping sequences with
-core.analytics.LogEventStats.
+[core.analytics.LogEventStats](../core/analytics).
 
-An optional passthrough-results key is provided and used with events type
+An optional *passthrough-results* key is provided and used with events type
 definitions to indicate that search results should be passed to
 their handler as a raw core.searchtools.SearchResultsCollection. This is
 typically so that they can be parsed with core.analytics.LogEventStats.
@@ -345,19 +348,20 @@ Note that expressions can be a string or list of strings.
 
 ### Subdefs
 
-Subdefs are used as a way to define a sub section of definitions that
-are to be treated independently of the rest. This is a way to create a complex
-override that is itself comprised of one or more overrides.
+Subdefs are groups of one or more property type and are used as a way to define
+a sub section/tree of definitions that are to be treated independently of the
+rest.
 
 #### checks
+
 This indicates that everything beneath is a set of one or more checks to be
 used by core.ycheck.scenarios. The contents of this override are defined as a
 dictionary of checks labelled with meaningful names that will be used to
-reference their outcome when defining *decision* overrides e.g. inside
-a *conclusions* subdef.
+reference their outcome when defining [decision](#decision) overrides e.g.
+inside a [conclusions](#conclusions) subdef.
 
 A check can support any override as long as it is supported by the handler used
-to process them. See *Scenarios* section for more info and examples.
+to process them. See [scenarios](#scenarios) section for more info and examples.
 
 ```
 checks:
@@ -370,19 +374,22 @@ checks:
 
 Supported properties
   * expr
-  * requires
-  * input
+  * [requires](#requires)
+  * [input](#input)
 
 #### conclusions
+
 This indicates that everything beneath is a set of one or more conclusions to
-be used by core.ycheck.scenarios. The contents of this override are defined as
-a dictionary of conclusions labelled with meaningful names.
+be used by [core.ycheck.scenarios](../core/ycheck/scenarios). The contents of
+this override are defined as a dictionary of conclusions labelled with
+meaningful names.
 
 A conclusion is defined as a function on the outcome of a set of checks along
 with the consequent behaviour should the conclusion match. This is defined as
 an issue type and message that will be raised. If multiple conclusions are
-defined, they are given a priority such that the highest one to match is the
-one that is executed. See *Scenarios* section for more info and examples.
+defined, they are given a [priority](#priority) such that the highest one to
+match is the one that is executed. See [scenarios](#scenarios) section for more
+info and examples.
 
 The message can optionally use format fields which, if used, require
 format-dict to be provided with required key/value pairs. The values must be
@@ -402,37 +409,56 @@ conclusions:
 ```
 
 Supported properties
-  * priority
-  * decision
-  * raises
+  * [priority](#priority)
+  * [decision](#decision)
+  * [raises](#raises)
 
 ## Handlers
 
+The following different ways of defining checks as yaml are provided, each
+implemented as a handler. The implementation of each can be found
+[here](../core/ycheck).  
+
 ### Scenarios
 
-These checks are run automatically and do not require implementing in plugin
-code.
+Scenarios provide a way to define analysis in terms of [checks](#checks) and
+[conclusions](#conclusions) where the latter are derived from decisions based
+on the outcome of one or more checks.
 
-Each plugin can define a set of scenarios whereby a scenario comprises of a set
-of *checks* and *conclusions*. Each check is executed independently and
-conclusions are defined as decision based on the outcome of one or more checks.
-Conclusions can be given priorities so that one can be selected in the event of
-multiple positives. This is helpful for defining fallback conclusions.
+Scenarios run automatically and are implemented purely in YAML. See [existing
+definitions](scenarios).
+
+Definitions must be grouped by plugin at the top level and groupings beneath are
+purely logical i.e. for organisational purposes. A file may contain one or more
+scenario where a scenario must define its own set of [checks](#checks) and
+[conclusions](#conclusions).
+
+Checks are implemented independently of each other and the results saved for
+subsequent [decision](#decision) when forming [conclusions](#conclusions).
+Conclusions are defined as a decision based on the outcome of one or more
+[checks](#checks) along with information such as the issue and message to
+raise if a conclusion is matched. Conclusions can be given
+[priorities](#priority) so that one can be selected in the event of multiple
+positives. This is helpful for defining fallback conclusions.
 
 Supported properties
   * none
   
 Supported subdefs
-  * checks
-  * conclusions
+  * [checks](#checks)
+  * [conclusions](#conclusions)
 
 ### Events
 
+Event checks are not run automatically and depend on the implementation of
+callbacks to process their results. See [existing definitions](events).
+
 These checks are not currently run automatically and do require custom
-callbacks to be implemented in plugin code to process results.
+callbacks to be implemented in plugin code to process results. Event
+definitions can be found [here](events).
 
 An event can be single or multi-line and the data source is defined with an
-*input* property. All event checks must have an eponymous callback
+[input](#input) property. All event checks must have an eponymous callback
 method defined in the plugin that handles them.
 
 To define an event first create a file with the name of the check(s) you
@@ -440,7 +466,7 @@ want to perform under the directory of the plugin you are using to handle the
 event callback.
 
 Supported properties
-  * input
+  * [input](#input)
   * expr
   
 Supported subdefs
@@ -495,8 +521,8 @@ myeventname:
 
 ### Bugs
 
-These checks are run automatically and do not require implementing in plugin
-code.
+Bug checks run automatically and are implemented purely in YAML. See [existing
+definitions](bugs).
 
 Each plugin can have an associated set of bugs to identify based on the
 contents of files, output of commands or versions of installed packages and can
@@ -504,11 +530,12 @@ use any combination of these. If package version info is checked and the
 package is not installed, any other checks are skipped for that bug. 
 
 Supported properties
-  * requires - this must "pass" for the bugcheck to complete
-  * input - this is required by *expr*
-  * expr - optional pattern search in file or command (see *input*)
-  * raises - used to define message displayed when bug identified. Note that
-             *raises.type* is ignored here since we are always raising a bug.
+  * [requires](#requires) - this must "pass" for the bugcheck to complete
+  * [input](#input) - this is required by *expr*
+  * expr - optional pattern search in file or command (see [input](#input))
+  * [raises](#raises) - used to define message displayed when bug identified. Note that
+             *[raises](#raises).type* is ignored here since we are always
+             raising a bug.
   
 Supported subdefs
   * none
@@ -516,15 +543,16 @@ Supported subdefs
 
 ### Config checks
 
-These checks are run automatically and do not require implementing in plugin
-code.
+Config checks run automatically and are implemented purely in YAML. See
+[existing definitions](config_checks).
 
 These checks are lightweight scenarios in that they don't use the *checks* or
-*conclusions* properties and are typically used to perform checks on config.
+[conclusions](#conclusions) properties and are typically used to perform checks
+on config.
 
 Supported properties
-  * requires
-  * raises
+  * [requires](#requires)
+  * [raises](#raises)
   
 Supported subdefs
   * none
