@@ -48,7 +48,7 @@ TIP: to use a single quote ' inside a yaml string you need to replace it with
 
 Overrides are blocks of yaml with a pre-defined meaning. They are used to
 provide specific information or structure and must be supported by the
-associated [handler](#handler).
+associated [handler](#handlers).
 
 Overrides abide by rules of inheritance and can be defined at any level. They
 are accessed at leaf nodes and can be defined and overridden at any level.
