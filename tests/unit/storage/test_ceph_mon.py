@@ -7,29 +7,16 @@ import json
 
 from tests.unit import utils
 
-from core import checks
 from core import constants
 from core.ycheck.bugs import YBugChecker
-from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues import issue_types
 from core.plugins.storage import (
     ceph as ceph_core,
 )
 from plugins.storage.pyparts import (
-    bcache,
     ceph_cluster_checks,
-    ceph_event_checks,
-    ceph_service_info,
 )
-
-CEPH_CONF_NO_BLUESTORE = """
-[global]
-[osd]
-osd objectstore = filestore
-osd journal size = 1024
-filestore xattr use omap = true
-"""
 
 MON_ELECTION_LOGS = """
 2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
@@ -170,61 +157,16 @@ PG_DUMP_JSON_DECODED = {'pg_map': {
                              'state': 'active+clean+laggy'}]}}
 
 
-class StorageTestsBase(utils.BaseTestCase):
+class StorageCephMonTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
         os.environ['PLUGIN_NAME'] = 'storage'
-
-
-class StorageTestsBaseCephMon(StorageTestsBase):
-
-    def setUp(self):
-        super().setUp()
         os.environ["DATA_ROOT"] = \
             os.path.join(utils.TESTS_DIR, 'fake_data_root/storage/ceph-mon')
 
 
-class TestStorageCephChecksBase(StorageTestsBase):
-
-    def test_release_name(self):
-        release_name = ceph_core.CephChecksBase().release_name
-        self.assertEqual(release_name, 'octopus')
-
-    def test_bluestore_enabled(self):
-        enabled = ceph_core.CephChecksBase().bluestore_enabled
-        self.assertTrue(enabled)
-
-    def test_bluestore_not_enabled(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            path = os.path.join(dtmp, 'etc/ceph')
-            os.makedirs(path)
-            with open(os.path.join(path, 'ceph.conf'), 'w') as fd:
-                fd.write(CEPH_CONF_NO_BLUESTORE)
-
-            os.environ['DATA_ROOT'] = dtmp
-            enabled = ceph_core.CephChecksBase().bluestore_enabled
-            self.assertFalse(enabled)
-
-    def test_daemon_osd_config(self):
-        config = ceph_core.CephDaemonConfigShow(osd_id=0)
-        with self.assertRaises(AttributeError):
-            config.foo
-
-        self.assertEqual(config.bluefs_buffered_io, 'true')
-
-    def test_daemon_osd_config_no_exist(self):
-        config = ceph_core.CephDaemonConfigShow(osd_id=100)
-        with self.assertRaises(AttributeError):
-            config.bluefs_buffered_io
-
-    def test_daemon_osd_all_config(self):
-        config = ceph_core.CephDaemonConfigShowAllOSDs()
-        self.assertEqual(config.foo, [])
-        self.assertEqual(config.bluefs_buffered_io, ['true'])
-
-
-class TestStorageCephChecksBaseCephMon(StorageTestsBaseCephMon):
+class TestStorageCephChecksBaseCephMon(StorageCephMonTestsBase):
 
     def test_health_status(self):
         health = ceph_core.CephChecksBase().health_status
@@ -238,7 +180,7 @@ class TestStorageCephChecksBaseCephMon(StorageTestsBaseCephMon):
         self.assertEqual(ceph_core.CephMon().osdmaps_count, 5496)
 
 
-class TestStorageCephDaemons(StorageTestsBaseCephMon):
+class TestStorageCephDaemons(StorageCephMonTestsBase):
 
     def test_osd_versions(self):
         versions = ceph_core.CephOSD(1, 1234, '/dev/foo').versions
@@ -265,128 +207,7 @@ class TestStorageCephDaemons(StorageTestsBaseCephMon):
         self.assertEqual(release_names, {'octopus': 3})
 
 
-class TestStorageCephServiceInfo(StorageTestsBase):
-
-    def test_get_service_info(self):
-        svc_info = {'systemd': {'enabled': [
-                                    'ceph-crash',
-                                    'ceph-osd',
-                                    ],
-                                'disabled': [
-                                    'ceph-mds',
-                                    'ceph-mgr',
-                                    'ceph-mon',
-                                    'ceph-radosgw',
-                                    ],
-                                'indirect': ['ceph-volume'],
-                                'generated': ['radosgw']},
-                    'ps': ['ceph-crash (2)',
-                           'ceph-mgr (1)',
-                           'ceph-mon (1)',
-                           'ceph-osd (1)']}
-        expected = {'ceph': {
-                        'network': {
-                            'cluster': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}},
-                            'public': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}}
-                            },
-                        'services': svc_info,
-                        'release': 'octopus',
-                    }}
-        inst = ceph_service_info.CephServiceChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
-
-    @mock.patch.object(checks, 'CLIHelper')
-    def test_get_service_info_unavailable(self, mock_helper):
-        expected = {'ceph': {
-                        'network': {
-                            'cluster': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}},
-                            'public': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}}
-                            },
-                        'release': 'unknown'}}
-
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.ps.return_value = []
-        mock_helper.return_value.dpkg_l.return_value = []
-        inst = ceph_service_info.CephServiceChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
-
-    def test_get_package_info(self):
-        inst = ceph_service_info.CephPackageChecks()
-        inst()
-        expected = ['ceph 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-base 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-common 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-mds 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-mgr 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-mgr-modules-core 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-mon 15.2.14-0ubuntu0.20.04.2',
-                    'ceph-osd 15.2.14-0ubuntu0.20.04.2',
-                    'python3-ceph-argparse 15.2.14-0ubuntu0.20.04.2',
-                    'python3-ceph-common 15.2.14-0ubuntu0.20.04.2',
-                    'python3-cephfs 15.2.14-0ubuntu0.20.04.2',
-                    'python3-rados 15.2.14-0ubuntu0.20.04.2',
-                    'python3-rbd 15.2.14-0ubuntu0.20.04.2',
-                    'radosgw 15.2.14-0ubuntu0.20.04.2']
-        self.assertEquals(inst.output["ceph"]["dpkg"], expected)
-
-    def test_ceph_base_interfaces(self):
-        expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.128'],
-                                            'hwaddr': '22:c2:7b:1c:12:1b',
-                                            'state': 'UP',
-                                            'speed': 'unknown'}},
-                    'public': {'br-ens3': {'addresses': ['10.0.0.128'],
-                                           'hwaddr': '22:c2:7b:1c:12:1b',
-                                           'state': 'UP',
-                                           'speed': 'unknown'}}}
-        ports = ceph_core.CephChecksBase().bind_interfaces
-        _ports = {}
-        for config, port in ports.items():
-            _ports.update({config: port.to_dict()})
-
-        self.assertEqual(_ports, expected)
-
-
-class TestStorageCephClusterChecks(StorageTestsBase):
-
-    @mock.patch.object(ceph_cluster_checks, 'KernelChecksBase')
-    @mock.patch.object(ceph_cluster_checks.bcache, 'BcacheChecksBase')
-    @mock.patch.object(ceph_cluster_checks.issue_utils, "add_issue")
-    def test_check_bcache_vulnerabilities(self, mock_add_issue, mock_bcb,
-                                          mock_kcb):
-        mock_kcb.return_value = mock.MagicMock()
-        mock_kcb.return_value.version = '5.3'
-        mock_cset = mock.MagicMock()
-        mock_cset.get.return_value = 60
-        mock_bcb.get_sysfs_cachesets.return_value = mock_cset
-        inst = ceph_cluster_checks.CephClusterChecks()
-        with mock.patch.object(inst, 'is_bcache_device') as mock_ibd:
-            mock_ibd.return_value = True
-            with mock.patch.object(inst, 'apt_check') as mock_apt_check:
-                mock_apt_check.get_version.return_value = "15.2.13"
-                inst.check_bcache_vulnerabilities()
-                self.assertTrue(mock_add_issue.called)
+class TestStorageCephClusterChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch.object(ceph_cluster_checks.issue_utils, 'add_issue')
     def test_check_large_omap_objects_no_issue(self, mock_add_issue):
@@ -403,24 +224,6 @@ class TestStorageCephClusterChecks(StorageTestsBase):
         inst = ceph_cluster_checks.CephClusterChecks()
         inst.check_large_omap_objects()
         self.assertTrue(mock_add_issue.called)
-
-    def test_get_local_osd_ids(self):
-        inst = ceph_cluster_checks.CephClusterChecks()
-        inst()
-        self.assertEqual([osd.id for osd in inst.local_osds], [0])
-
-    def test_get_local_osd_info(self):
-        fsid = "48858aa1-71a3-4f0e-95f3-a07d1d9a6749"
-        expected = {0: {
-                    'dev': '/dev/mapper/crypt-{}'.format(fsid),
-                    'fsid': fsid,
-                    'rss': '317M'}}
-        inst = ceph_cluster_checks.CephClusterChecks()
-        inst()
-        self.assertEqual(inst.output["ceph"]["local-osds"], expected)
-
-
-class TestStorageCephClusterChecksCephMon(StorageTestsBaseCephMon):
 
     @mock.patch('plugins.storage.pyparts.ceph_cluster_checks.'
                 'OSD_META_LIMIT_KB', 1024)
@@ -609,33 +412,7 @@ class TestStorageCephClusterChecksCephMon(StorageTestsBaseCephMon):
         self.assertEqual([osd.id for osd in inst.cluster_osds], [0, 1, 2])
 
 
-class TestStorageBcache(StorageTestsBase):
-
-    def test_get_bcache_dev_info(self):
-        result = {'bcache': {
-                    'devices': {
-                        'bcache': {'bcache0': {'dname': 'bcache1'},
-                                   'bcache1': {'dname': 'bcache0'}}
-                        }}}
-
-        inst = bcache.BcacheDeviceChecks()
-        inst()
-        self.assertEqual(inst.output, result)
-
-    def test_get_bcache_stats_checks(self):
-        self.maxDiff = None
-        expected = {'bcache': {
-                        'cachesets': [{
-                            'cache_available_percent': 99,
-                            'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
-                        }
-                    }
-        inst = bcache.BcacheCSetChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
-
-
-class TestStorageBugChecks(StorageTestsBase):
+class TestStorageBugChecks(StorageCephMonTestsBase):
 
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
@@ -660,155 +437,7 @@ class TestStorageBugChecks(StorageTestsBase):
         self.assertEqual(len(bugs), 1)
 
 
-class TestStorageCephEventChecks(StorageTestsBase):
-
-    def test_get_ceph_daemon_log_checker(self):
-        result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
-                                          'osd.85': {'2021-02-13': 4}},
-                  'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
-                  'crc-err-rocksdb': {'2021-02-12': 7},
-                  'long-heartbeat-pings': {'2021-02-09': 4},
-                  'heartbeat-no-reply': {'2021-02-09': {'osd.0': 1,
-                                                        'osd.1': 2}}}
-        inst = ceph_event_checks.CephDaemonLogChecks()
-        inst()
-        self.assertEqual(inst.output["ceph"], result)
-
-
-class TestCephConfigChecks(StorageTestsBase):
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
-                    'ssd_osds_no_discard.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_ssd_osds_no_discard(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        YConfigChecker()()
-        self.assertTrue(mock_add_issue.called)
-
-        msgs = [("This host has osds with device_class 'ssd' but Bluestore "
-                 "discard is not enabled. The recommendation is to set 'bdev "
-                 "enable discard true'.")]
-        self.assertEqual([issue.msg for issue in issues], msgs)
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
-                    'filestore_to_bluestore_upgrade.yaml'))
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
-                True)
-    @mock.patch('core.plugins.storage.ceph.CephConfig')
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
-                                            mock_ceph_config):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_ceph_config.return_value = mock.MagicMock()
-        mock_ceph_config.return_value.get = lambda args: '/journal/path'
-        mock_add_issue.side_effect = fake_add_issue
-        YConfigChecker()()
-        self.assertTrue(mock_add_issue.called)
-
-        msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
-                 "device configured in ceph.conf - please check")]
-        self.assertEqual([issue.msg for issue in issues], msgs)
-
-
-class TestBcacheConfigChecks(StorageTestsBase):
-
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_no_issue(self, mock_add_issue):
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertFalse(mock_add_issue.called)
-
-    def setup_bcachefs(self, path, bdev_error=False, cacheset_error=False):
-        cset = os.path.join(path, 'sys/fs/bcache/1234')
-        os.makedirs(cset)
-        for cfg, val in {'congested_read_threshold_us': '0',
-                         'congested_write_threshold_us': '0'}.items():
-            with open(os.path.join(cset, cfg), 'w') as fd:
-                if cacheset_error:
-                    val = '100'
-
-                fd.write(val)
-
-        for cfg, val in {'cache_available_percent': '34'}.items():
-            if cacheset_error:
-                if cfg == 'cache_available_percent':
-                    # i.e. >= 33 for lp1900438 check
-                    val = '33'
-
-            with open(os.path.join(cset, cfg), 'w') as fd:
-                fd.write(val)
-
-        bdev = os.path.join(cset, 'bdev1')
-        os.makedirs(bdev)
-        for cfg, val in {'sequential_cutoff': '0.0k',
-                         'cache_mode':
-                         'writethrough [writeback] writearound none',
-                         'writeback_percent': '10'}.items():
-            if bdev_error:
-                if cfg == 'writeback_percent':
-                    val = '1'
-
-            with open(os.path.join(bdev, cfg), 'w') as fd:
-                fd.write(val)
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('cacheset.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_cacheset(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp, cacheset_error=True)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertTrue(mock_add_issue.called)
-
-            msgs = [('bcache cache_available_percent is approx. 30 which '
-                     'implies this node could be suffering from bug LP '
-                     '1900438 - please check'),
-                    ('cacheset config congested_read_threshold_us expected '
-                     'to be eq 0 but actual=100')]
-            actual = sorted([issue.msg for issue in issues])
-            self.assertEqual(actual, sorted(msgs))
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('bdev.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_bdev(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp, bdev_error=True)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertTrue(mock_add_issue.called)
-
-            msgs = [('bcache config writeback_percent expected to be ge 10 '
-                     'but actual=1')]
-            actual = sorted([issue.msg for issue in issues])
-            self.assertEqual(actual, sorted(msgs))
-
-
-class TestStorageScenarioChecksCephMon(StorageTestsBaseCephMon):
+class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
