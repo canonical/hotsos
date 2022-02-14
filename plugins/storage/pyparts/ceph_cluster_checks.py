@@ -1,15 +1,10 @@
-from core.checks import DPKGVersionCompare
 from core.issues import (
     issue_types,
     issue_utils,
 )
 from core.utils import sorted_dict
-from core.plugins.storage import (
-    bcache,
-    ceph,
-)
+from core.plugins.storage import ceph
 from core.plugins.storage.ceph import CephChecksBase
-from core.plugins.kernel import KernelChecksBase
 
 YAML_PRIORITY = 1
 LP1936136_BCACHE_CACHE_LIMIT = 70
@@ -334,53 +329,6 @@ class CephClusterChecks(CephChecksBase):
                 issue = issue_types.CephCrushWarning(msg)
                 issue_utils.add_issue(issue)
 
-    def check_bcache_vulnerabilities(self):
-        has_bcache = False
-        for osd in self.local_osds:
-            dev = osd.device
-            if self.is_bcache_device(dev):
-                has_bcache = True
-
-        if not has_bcache:
-            return
-
-        for cset in bcache.BcacheChecksBase().get_sysfs_cachesets():
-            if (cset.get("cache_available_percent") >=
-                    LP1936136_BCACHE_CACHE_LIMIT):
-                return
-
-        # Get version of osd based on package installed. This is prone to
-        # inaccuracy since the daemon many not have been restarted after
-        # package update.
-        current = self.apt_check.get_version('ceph-osd')
-        if current <= DPKGVersionCompare("13.0.1"):
-            return
-        if current >= DPKGVersionCompare("14.2.10") and \
-           current <= DPKGVersionCompare("14.2.21"):
-            return
-        if current >= DPKGVersionCompare("15.2.2") and \
-           current <= DPKGVersionCompare("15.2.12"):
-            return
-        if current == DPKGVersionCompare("16.1.0") or \
-           current == DPKGVersionCompare("17.0.0"):
-            return
-
-        if KernelChecksBase().version >= "5.4":
-            return
-
-        bluefs_buffered_io = self.ceph_config.get('bluefs_buffered_io')
-        if bluefs_buffered_io is False:
-            return
-
-        # NOTE: we need a way to check that actual osd config
-
-        # then bluefs_buffered_io is True by default
-        msg = ("host may be vulnerable to bcache bug LP 1936136 - please "
-               "ensure bluefs_buffered_io is set to False or upgrade to "
-               "kernel >= 5.4")
-        issue = issue_types.CephCrushWarning(msg)
-        issue_utils.add_issue(issue)
-
     def __call__(self):
         if self.local_osds:
             osds = {}
@@ -388,8 +336,6 @@ class CephClusterChecks(CephChecksBase):
                 osds.update(osd.to_dict())
 
             self._output["local-osds"] = sorted_dict(osds)
-
-            self.check_bcache_vulnerabilities()
 
         self.check_osd_msgr_protocol_versions()
         self.check_ceph_bluefs_size()

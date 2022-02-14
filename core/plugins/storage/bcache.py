@@ -1,11 +1,24 @@
 import glob
 import os
+import re
 
 from core import constants
+from core.cli_helpers import CLIHelper
 from core.plugins.storage import StorageBase
+from core.searchtools import (
+    FileSearcher,
+    SequenceSearchDef,
+    SearchDef
+)
+from core import utils
 
 
 class BcacheBase(StorageBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._bcache_devs = []
+        self.cli = CLIHelper()
 
     @property
     def bcache_enabled(self):
@@ -37,6 +50,55 @@ class BcacheBase(StorageBase):
             del cset["path"]
 
         return cachesets
+
+    @property
+    def udev_bcache_devs(self):
+        """ If bcache devices exist fetch information and return as a list. """
+        if self._bcache_devs:
+            return self._bcache_devs
+
+        udevadm_info = self.cli.udevadm_info_exportdb()
+        if not udevadm_info:
+            return self._bcache_devs
+
+        s = FileSearcher()
+        sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
+                                 body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
+                                 tag="bcacheinfo")
+        s.add_search_term(sdef, utils.mktemp_dump('\n'.join(udevadm_info)))
+        results = s.search()
+        devs = []
+        for section in results.find_sequence_sections(sdef).values():
+            dev = {}
+            for r in section:
+                if r.tag == sdef.start_tag:
+                    dev["name"] = r.get(1)
+                else:
+                    dev["by-uuid"] = r.get(1)
+
+            devs.append(dev)
+
+        self._bcache_devs = devs
+        return self._bcache_devs
+
+    def is_bcache_device(self, dev):
+        """
+        Returns True if the device either is or is based on a bcache device
+        e.g. dmcrypt device using bcache dev.
+        """
+        if dev.startswith("bcache"):
+            return True
+
+        if dev.startswith("/dev/bcache"):
+            return True
+
+        ret = re.compile(r"/dev/mapper/crypt-(\S+)").search(dev)
+        if ret:
+            for dev in self.udev_bcache_devs:
+                if dev.get("by-uuid") == ret.group(1):
+                    return True
+
+        return False
 
 
 class CachesetsConfig(BcacheBase):

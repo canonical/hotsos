@@ -5,6 +5,7 @@ import mock
 
 from tests.unit import utils
 
+from core import constants
 from core.ycheck.configs import YConfigChecker
 from plugins.storage.pyparts import bcache
 
@@ -14,6 +15,50 @@ class StorageBCacheTestsBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
         os.environ['PLUGIN_NAME'] = 'storage'
+
+
+class TestBcacheBase(StorageBCacheTestsBase):
+
+    def test_bcache_enabled(self):
+        b = bcache.BcacheBase()
+        self.assertTrue(b.bcache_enabled)
+
+    def test_get_cachesets(self):
+        path = os.path.join(constants.DATA_ROOT,
+                            'sys/fs/bcache/d7696818-1be9-4dea-9991-'
+                            'de95e24d7256')
+        b = bcache.BcacheBase()
+        self.assertEquals(b.get_cachesets(), [path])
+
+    def test_get_cacheset_bdevs(self):
+        b = bcache.BcacheBase()
+        cset = b.get_cachesets()
+        bdev0 = os.path.join(cset[0], 'bdev0')
+        bdev1 = os.path.join(cset[0], 'bdev1')
+        result = sorted(b.get_cacheset_bdevs(cset[0]))
+        self.assertEqual(result, [bdev0, bdev1])
+
+    def test_get_sysfs_cachesets(self):
+        b = bcache.BcacheBase()
+        expected = [{'cache_available_percent': 99,
+                     'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
+        self.assertEqual(b.get_sysfs_cachesets(), expected)
+
+    def test_udev_bcache_devs(self):
+        b = bcache.BcacheBase()
+        expected = [{'by-uuid': '88244ad9-372d-427e-9d82-c411c73d900a',
+                     'name': 'bcache0'},
+                    {'by-uuid': 'c3332949-19ba-40f7-91b6-48ee86157980',
+                     'name': 'bcache1'}]
+
+        self.assertEqual(b.udev_bcache_devs, expected)
+
+    def test_is_bcache_device(self):
+        b = bcache.BcacheBase()
+        self.assertTrue(b.is_bcache_device('bcache0'))
+        self.assertTrue(b.is_bcache_device('/dev/bcache0'))
+        self.assertTrue(b.is_bcache_device('/dev/mapper/crypt-88244ad9-372d-'
+                                           '427e-9d82-c411c73d900a'))
 
 
 class TestStorageBCache(StorageBCacheTestsBase):
