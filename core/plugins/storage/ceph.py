@@ -11,6 +11,7 @@ from core.ycheck.events import YEventCheckerBase
 from core.cli_helpers import get_ps_axo_flags_available
 from core.cli_helpers import CLIHelper
 from core.plugins.storage import StorageBase
+from core.plugins.storage.bcache import BcacheBase
 from core.searchtools import (
     FileSearcher,
     SequenceSearchDef,
@@ -379,7 +380,7 @@ class CephChecksBase(StorageBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
-        self._bcache_info = []
+        self.bcache = BcacheBase()
         self._crush_rules = []
         self._local_osds = None
         self._cluster_osds = None
@@ -389,9 +390,7 @@ class CephChecksBase(StorageBase):
         self.cli = CLIHelper()
 
         # create file-based caches of useful commands so they can be searched.
-        self.cli_cache = {'udevadm_info_exportdb':
-                          self.cli.udevadm_info_exportdb(),
-                          'ceph_volume_lvm_list':
+        self.cli_cache = {'ceph_volume_lvm_list':
                           self.cli.ceph_volume_lvm_list()}
         for cmd, output in self.cli_cache.items():
             self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
@@ -524,6 +523,14 @@ class CephChecksBase(StorageBase):
         return local_osds
 
     @property
+    def local_osds_use_bcache(self):
+        for osd in self.local_osds:
+            if self.bcache.is_bcache_device(osd.device):
+                return True
+
+        return False
+
+    @property
     def cluster_osds(self):
         """ Returns a list of CephOSD objects for all osds in the cluster. """
         if self._cluster_osds:
@@ -580,52 +587,6 @@ class CephChecksBase(StorageBase):
 
         self._crush_rules = rule_to_pool
         return self._crush_rules
-
-    @property
-    def bcache_info(self):
-        """ If bcache devices exist fetch information and return as a dict. """
-        if self._bcache_info:
-            return self._bcache_info
-
-        devs = []
-        if not self.cli_cache['udevadm_info_exportdb']:
-            return devs
-
-        s = FileSearcher()
-        sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
-                                 body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
-                                 tag="bcacheinfo")
-        s.add_search_term(sdef, self.cli_cache['udevadm_info_exportdb'])
-        results = s.search()
-        for section in results.find_sequence_sections(sdef).values():
-            dev = {}
-            for r in section:
-                if r.tag == sdef.start_tag:
-                    dev["name"] = r.get(1)
-                else:
-                    dev["by-uuid"] = r.get(1)
-
-            devs.append(dev)
-
-        self._bcache_info = devs
-        return self._bcache_info
-
-    def is_bcache_device(self, dev):
-        """
-        Returns True if the device either is or is based on a bcache device
-        e.g. dmcrypt device using bcache dev.
-        """
-        if dev.startswith("bcache"):
-            return True
-
-        if dev.startswith("/dev/bcache"):
-            return True
-
-        ret = re.compile(r"/dev/mapper/crypt-(\S+)").search(dev)
-        if ret:
-            for dev in self.bcache_info:
-                if dev.get("by-uuid") == ret.group(1):
-                    return True
 
     @property
     def bluestore_enabled(self):

@@ -6,6 +6,8 @@ import mock
 from tests.unit import utils
 
 from core import checks
+from core import known_bugs_utils
+from core.ycheck.bugs import YBugChecker
 from core.ycheck.configs import YConfigChecker
 from core.plugins.storage import (
     ceph as ceph_core,
@@ -176,24 +178,6 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
 
 class TestOSDCephClusterChecks(StorageCephOSDTestsBase):
 
-    @mock.patch.object(ceph_cluster_checks, 'KernelChecksBase')
-    @mock.patch.object(ceph_cluster_checks.bcache, 'BcacheChecksBase')
-    @mock.patch.object(ceph_cluster_checks.issue_utils, "add_issue")
-    def test_check_bcache_vulnerabilities(self, mock_add_issue, mock_bcb,
-                                          mock_kcb):
-        mock_kcb.return_value = mock.MagicMock()
-        mock_kcb.return_value.version = '5.3'
-        mock_cset = mock.MagicMock()
-        mock_cset.get.return_value = 60
-        mock_bcb.get_sysfs_cachesets.return_value = mock_cset
-        inst = ceph_cluster_checks.CephClusterChecks()
-        with mock.patch.object(inst, 'is_bcache_device') as mock_ibd:
-            mock_ibd.return_value = True
-            with mock.patch.object(inst, 'apt_check') as mock_apt_check:
-                mock_apt_check.get_version.return_value = "15.2.13"
-                inst.check_bcache_vulnerabilities()
-                self.assertTrue(mock_add_issue.called)
-
     def test_get_local_osd_ids(self):
         inst = ceph_cluster_checks.CephClusterChecks()
         inst()
@@ -223,6 +207,76 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
         inst = ceph_event_checks.CephDaemonLogChecks()
         inst()
         self.assertEqual(inst.output["ceph"], result)
+
+
+class TestCephOSDBugChecks(StorageCephOSDTestsBase):
+
+    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph.yaml'))
+    def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            ["ii  ceph-osd 15.2.7-0ubuntu0.20.04.2 amd64"]
+        mock_cephdaemon.return_value = mock.MagicMock()
+        mock_cephdaemon.return_value.bluestore_volume_selection_policy = \
+            ['rocksdb_original']
+        YBugChecker()()
+        expected = {'bugs-detected': [{
+                        'desc': (
+                            'Vulnerability to a known bug '
+                            'https://tracker.ceph.com/issues/38745. RocksDB '
+                            'needs more space than the leveled space '
+                            'available so it is using storage from the data '
+                            'disk. Please set '
+                            'bluestore_volume_selection_policy of all OSDs '
+                            'to use_some_extra'),
+                        'id': 'https://bugs.launchpad.net/bugs/1959649',
+                        'origin': 'storage.01part'}]}
+        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+
+    @mock.patch('core.ycheck.ServiceChecksBase')
+    @mock.patch('core.plugins.storage.ceph.CephConfig')
+    @mock.patch('core.plugins.storage.bcache.CachesetsConfig')
+    @mock.patch('core.plugins.kernel.KernelChecksBase')
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('bcache.yaml'))
+    def test_bug_check_lp1936136(self, mocl_cli, mock_cephbase,
+                                 mock_kernelbase, mock_cset_config,
+                                 mock_ceph_config, mock_svc_check_base):
+        mocl_cli.return_value = mock.MagicMock()
+        mocl_cli.return_value.dpkg_l.return_value = \
+            ["ii  ceph-osd 14.2.22-0ubuntu0.20.04.2 amd64"]
+
+        mock_svc_check_base.return_value = mock.MagicMock()
+        mock_svc_check_base.return_value.services = \
+            {'ceph-osd': 'enabled'}
+
+        mock_cset_config.return_value = mock.MagicMock()
+        mock_cset_config.return_value.get.return_value = 69
+
+        mock_ceph_config.return_value = mock.MagicMock()
+        mock_ceph_config.return_value.bluefs_buffered_io.return_value = True
+
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.local_osds_use_bcache = True
+        mock_kernelbase.return_value = mock.MagicMock()
+        mock_kernelbase.return_value.version = '5.3'
+
+        YBugChecker()()
+        expected = {'bugs-detected': [{
+                        'desc': (
+                            'This host has Ceph OSDs using bcache block '
+                            'devices and may be vulnerable to bcache bug LP '
+                            '1936136. The current workaround is to set '
+                            'bluefs_buffered_io is set=False in Ceph or '
+                            'upgrade to a kernel >= 5.4.'),
+                        'id': 'https://bugs.launchpad.net/bugs/1936136',
+                        'origin': 'storage.01part'}]}
+        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
 
 
 class TestCephConfigChecks(StorageCephOSDTestsBase):

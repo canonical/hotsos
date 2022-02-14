@@ -8,7 +8,6 @@ import json
 from tests.unit import utils
 
 from core import constants
-from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues import issue_types
 from core.plugins.storage import (
@@ -410,31 +409,6 @@ class TestStorageCephClusterChecksCephMon(StorageCephMonTestsBase):
         inst = ceph_cluster_checks.CephClusterChecks()
         inst()
         self.assertEqual([osd.id for osd in inst.cluster_osds], [0, 1, 2])
-
-
-class TestStorageBugChecks(StorageCephMonTestsBase):
-
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
-    @mock.patch('core.ycheck.bugs.add_known_bug')
-    def test_bug_checks(self, mock_add_known_bug, mock_cephdaemon,
-                        mock_helper):
-        bugs = []
-
-        def fake_add_bug(*args, **kwargs):
-            bugs.append((args, kwargs))
-
-        mock_add_known_bug.side_effect = fake_add_bug
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            ["ii  ceph-osd 15.2.7-0ubuntu0.20.04.2 amd64"]
-        mock_cephdaemon.return_value = mock.MagicMock()
-        mock_cephdaemon.return_value.bluestore_volume_selection_policy = \
-            ['rocksdb_original']
-        YBugChecker()()
-        # This will need modifying once we have some storage bugs defined
-        self.assertTrue(mock_add_known_bug.called)
-        self.assertEqual(len(bugs), 1)
 
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
