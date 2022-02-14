@@ -64,7 +64,7 @@ class YDefsSection(YAMLDefSection):
         super().__init__(name, content, override_handlers=overrides)
 
 
-class YPropertyOverrideBase(YAMLDefOverrideBase):
+class YPropertyBase(object):
 
     def get_cls(self, import_str):
         log.debug("instantiating class %s", import_str)
@@ -138,6 +138,10 @@ class YPropertyOverrideBase(YAMLDefOverrideBase):
             pass
 
         return self.get_attribute(import_str)
+
+
+class YPropertyOverrideBase(YAMLDefOverrideBase, YPropertyBase):
+    pass
 
 
 @ydef_override
@@ -325,7 +329,7 @@ class YPropertyInput(YPropertyOverrideBase):
             log.debug("no input provided")
 
 
-class YRequirementObj(YPropertyOverrideBase):
+class YRequirementObj(YPropertyBase):
     def __init__(self, apt, snap, systemd, property, config, value, py_op):
         self.apt = apt
         self.snap = snap
