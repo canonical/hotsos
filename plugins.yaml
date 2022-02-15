@@ -88,13 +88,11 @@ plugins:
         - SOSReportPluginChecks
   storage:
     parts:
-      ceph_service_info:
+      ceph_info:
         - CephServiceChecks
         - CephPackageChecks
         - CephNetworkInfo
-      ceph_cluster_checks:
-        - CephClusterChecks
-        - CephCrushChecks
+        - CephClusterInfo
       ceph_event_checks:
         - CephDaemonLogChecks
       bcache:

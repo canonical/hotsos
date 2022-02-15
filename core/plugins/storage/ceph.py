@@ -52,7 +52,210 @@ class CephConfig(checks.SectionalConfigBase):
         super().__init__(path=path, *args, **kwargs)
 
 
+class CephCrushMap(object):
+
+    def __init__(self):
+        self.cli = CLIHelper()
+        self._crush_rules = {}
+        self._osd_crush_dump = None
+        self._ceph_report = None
+
+    def _filter_pools_by_rule(self, pools, crush_rule):
+        res_pool = []
+        for pool in pools:
+            if pool['crush_rule'] == crush_rule:
+                pool_str = pool['pool_name'] + ' (' + str(pool['pool']) + ')'
+                res_pool.append(pool_str)
+
+        return res_pool
+
+    @property
+    def osd_crush_dump(self):
+        if self._osd_crush_dump:
+            return self._osd_crush_dump
+
+        dump = self.cli.ceph_osd_crush_dump_json_decoded() or {}
+        self._osd_crush_dump = dump
+        return self._osd_crush_dump
+
+    @property
+    def ceph_report(self):
+        if self._ceph_report:
+            return self._ceph_report
+
+        dump = self.cli.ceph_report_json_decoded() or {}
+        self._ceph_report = dump
+        return self._ceph_report
+
+    @property
+    def rules(self):
+        """
+        Returns a list of crush rules, mapped to the respective pools.
+        """
+        if self._crush_rules:
+            return self._crush_rules
+
+        if not self.ceph_report:
+            return
+
+        rule_to_pool = {}
+        for rule in self.ceph_report['crushmap']['rules']:
+            rule_id = rule['rule_id']
+            rtype = rule['type']
+            pools = self.ceph_report['osdmap']['pools']
+            pools = self._filter_pools_by_rule(pools, rule_id)
+            rule_to_pool[rule['rule_name']] = {'id': rule_id,
+                                               'type': CEPH_POOL_TYPE[rtype],
+                                               'pools': pools}
+
+        self._crush_rules = rule_to_pool
+        return self._crush_rules
+
+    def _build_buckets_from_crushdump(self, crushdump):
+        buckets = {}
+        # iterate jp for each bucket
+        for bucket in crushdump["buckets"]:
+            bid = bucket["id"]
+            items = []
+            for item in bucket["items"]:
+                items.append(item["id"])
+
+            buckets[bid] = {"name": bucket["name"],
+                            "type_id": bucket["type_id"],
+                            "type_name": bucket["type_name"],
+                            "items": items}
+
+        return buckets
+
+    @property
+    def crushmap_mixed_buckets(self):
+        """
+        Report buckets that have mixed type of items,
+        as they will cause crush map unable to compute
+        the expected up set
+        """
+        if not self.osd_crush_dump:
+            return []
+
+        bad_buckets = []
+        buckets = self._build_buckets_from_crushdump(self.osd_crush_dump)
+        # check all bucket
+        for bid in buckets:
+            items = buckets[bid]["items"]
+            type_ids = []
+            for item in items:
+                if item >= 0:
+                    type_ids.append(0)
+                else:
+                    type_ids.append(buckets[item]["type_id"])
+
+            if not type_ids:
+                continue
+
+            # verify if the type_id list contain mixed type id
+            if type_ids.count(type_ids[0]) != len(type_ids):
+                bad_buckets.append(buckets[bid]["name"])
+
+        return bad_buckets
+
+    @property
+    def crushmap_mixed_buckets_str(self):
+        return ','.join(self.crushmap_mixed_buckets)
+
+    def _is_bucket_imbalanced(self, buckets, start_bucket_id, failure_domain):
+        """Return whether a tree is unbalanced
+
+        Recursively determine if a given tree (start_bucket_id) is
+        balanced at the given failure domain (failure_domain) in the
+        CRUSH tree(s) provided by the buckets parameter.
+        """
+        unbalanced = False
+        weight = -1
+
+        for item in buckets[start_bucket_id]["items"]:
+            if buckets[item["id"]]["type_name"] != failure_domain:
+                unbalanced = self._is_bucket_imbalanced(buckets,
+                                                        item["id"],
+                                                        failure_domain)
+                if unbalanced:
+                    return unbalanced
+            # Handle items/buckets with 0 weight correctly, by
+            # ignoring them.
+            # These are excluded from placement consideration,
+            # and therefore do not unbalance a tree.
+            elif item["weight"] > 0:
+                if weight == -1:
+                    weight = item["weight"]
+                else:
+                    if weight != item["weight"]:
+                        unbalanced = True
+                        return unbalanced
+
+        return unbalanced
+
+    @property
+    def crushmap_equal_buckets(self):
+        """
+        Report when buckets of the failure domain type in a
+        CRUSH rule referenced tree are unbalanced.
+
+        Uses the trees and failure domains referenced in the
+        CRUSH rules, and checks that all buckets of the failure
+        domain type in the referenced tree are equal.
+        """
+        if not self.osd_crush_dump:
+            return []
+
+        buckets = {b['id']: b for b in self.osd_crush_dump["buckets"]}
+
+        to_check = []
+        for rule in self.osd_crush_dump.get('rules', []):
+            taken = 0
+            fdomain = 0
+            for i in rule['steps']:
+                if i["op"] == "take":
+                    taken = i["item"]
+                if "type" in i and taken != 0:
+                    fdomain = i["type"]
+                if taken != 0 and fdomain != 0:
+                    to_check.append((rule["rule_id"], taken, fdomain))
+                    taken = fdomain = 0
+
+        unequal_buckets = []
+        for ruleid, tree, failure_domain in to_check:
+            unbalanced = \
+                self._is_bucket_imbalanced(buckets, tree, failure_domain)
+            if unbalanced:
+                unequal_buckets.append({'root': buckets[tree]["name"],
+                                        'domain': failure_domain,
+                                        'ruleid': ruleid})
+
+        return unequal_buckets
+
+    @property
+    def crushmap_equal_buckets_head_root(self):
+        unequal = self.crushmap_equal_buckets
+        if unequal:
+            return unequal[0].get('root')
+
+    @property
+    def crushmap_equal_buckets_head_domain(self):
+        unequal = self.crushmap_equal_buckets
+        if unequal:
+            return unequal[0].get('domain')
+
+    @property
+    def crushmap_equal_buckets_head_ruleid(self):
+        unequal = self.crushmap_equal_buckets
+        if unequal:
+            return unequal[0].get('ruleid')
+
+
 class CephCluster(object):
+    OSD_META_LIMIT_KB = (10 * 1024 * 1024)
+    OSD_PG_MAX_LIMIT = 500
+    OSD_PG_OPTIMAL_NUM_MAX = 200
+    OSD_PG_OPTIMAL_NUM_MIN = 50
 
     def __init__(self):
         self.cli = CLIHelper()
@@ -61,11 +264,101 @@ class CephCluster(object):
         for cmd, output in self.cli_cache.items():
             self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
 
+        self.crush_map = CephCrushMap()
+        self._large_omap_pgs = {}
+        self._bad_meta_osds = []
+        self._cluster_osds = []
+        self._cluster_mons = []
+        self._mon_dump = None
+        self._osd_dump = None
+        self._pg_dump = None
+        self._osd_df_tree = None
+        self._osds_pgs = {}
+
     def __del__(self):
         """ Ensure temp files/dirs are deleted. """
         for tmpfile in self.cli_cache.values():
             if os.path.exists(tmpfile):
                 os.unlink(tmpfile)
+
+    @property
+    def health_status(self):
+        health = None
+        status = self.cli.ceph_status_json_decoded()
+        if status:
+            health = status['health']['status']
+
+        return health
+
+    @property
+    def mon_dump(self):
+        if self._mon_dump:
+            return self._mon_dump
+
+        self._mon_dump = self.cli.ceph_mon_dump_json_decoded() or {}
+        return self._mon_dump
+
+    @property
+    def osd_dump(self):
+        if self._osd_dump:
+            return self._osd_dump
+
+        self._osd_dump = self.cli.ceph_osd_dump_json_decoded() or {}
+        return self._osd_dump
+
+    @property
+    def pg_dump(self):
+        if self._pg_dump:
+            return self._pg_dump
+
+        self._pg_dump = self.cli.ceph_pg_dump_json_decoded() or {}
+        return self._pg_dump
+
+    @property
+    def mons(self):
+        if self._cluster_mons:
+            return self._cluster_mons
+
+        for mon in self.mon_dump.get('mons', {}):
+            self._cluster_mons.append(CephMon(mon['name']))
+
+        return self._cluster_mons
+
+    @property
+    def osd_df_tree(self):
+        if self._osd_df_tree:
+            return self._osd_df_tree
+
+        self._osd_df_tree = self.cli.ceph_osd_df_tree_json_decoded() or {}
+        return self._osd_df_tree
+
+    @property
+    def osds(self):
+        """ Returns a list of CephOSD objects for all osds in the cluster. """
+        if self._cluster_osds:
+            return self._cluster_osds
+
+        for osd in self.osd_dump.get('osds', {}):
+            self._cluster_osds.append(CephOSD(osd['osd'], osd['uuid'],
+                                              dump=osd))
+
+        return self._cluster_osds
+
+    @property
+    def cluster_osds_without_v2_messenger_protocol(self):
+        v1_osds = []
+        for osd in self.osds:
+            for key, val in osd.dump.items():
+                if key.endswith('_addrs'):
+                    vers = [info['type'] for info in val.get('addrvec', [])]
+                    if 'v2' not in vers:
+                        v1_osds.append(osd.id)
+
+        return v1_osds
+
+    @property
+    def num_cluster_osds_without_v2_messenger_protocol(self):
+        return len(self.cluster_osds_without_v2_messenger_protocol)
 
     def _get_version_info(self, daemon_type=None):
         """
@@ -165,32 +458,32 @@ class CephCluster(object):
         return _releases
 
     @property
-    def require_osd_release(self):
-        osd_dump = self.cli.ceph_osd_dump_json_decoded()
-        if not osd_dump:
-            return
-
-        return osd_dump.get('require_osd_release')
+    def osd_release_names(self):
+        """
+        Same as versions property but with release names instead of versions.
+        """
+        return self.cluster.daemon_release_names('osd')
 
     @property
-    def osd_daemon_release_names_mismatch(self):
+    def require_osd_release(self):
+        return self.osd_dump.get('require_osd_release')
+
+    @property
+    def osd_daemon_release_names_match_required(self):
         required_rname = self.require_osd_release
         if not required_rname:
-            return False
+            return True
 
-        rnames = list(self.daemon_release_names('osd').keys())
-        diff = set(rnames).symmetric_difference(
-            [required_rname])
-        return len(diff) != 0
+        rnames = set(self.daemon_release_names('osd').keys())
+        return len(rnames) == 1 and required_rname in rnames
 
     @property
     def laggy_pgs(self):
-        pg_dump = self.cli.ceph_pg_dump_json_decoded()
-        if not pg_dump:
+        if not self.pg_dump:
             return []
 
         laggy_pgs = []
-        for pg in pg_dump['pg_map']['pg_stats']:
+        for pg in self.pg_dump['pg_map']['pg_stats']:
             for state in ['laggy', 'wait']:
                 if state in pg['state']:
                     laggy_pgs.append(pg)
@@ -202,6 +495,165 @@ class CephCluster(object):
     def num_laggy_pgs(self):
         return len(self.laggy_pgs)
 
+    @property
+    def large_omap_pgs(self):
+        if self._large_omap_pgs:
+            return self._large_omap_pgs
+
+        if not self.pg_dump:
+            return self._large_omap_pgs
+
+        for pg in self.pg_dump['pg_map']['pg_stats']:
+            if pg['stat_sum']['num_large_omap_objects'] > 0:
+                scrub = "last_scrub_at={}".format(pg['last_scrub_stamp'])
+                deep_scrub = ("last_deep_scrub_at={}".
+                              format(pg['last_scrub_stamp']))
+                self._large_omap_pgs[pg['pgid']] = [scrub, deep_scrub]
+
+        return self._large_omap_pgs
+
+    @property
+    def pgs_have_large_omap_objects(self):
+        return bool(self.large_omap_pgs)
+
+    @property
+    def bluefs_oversized_metadata_osds(self):
+        if self._bad_meta_osds:
+            return self._bad_meta_osds
+
+        if not self.osd_df_tree:
+            return self._bad_meta_osds
+
+        for device in self.osd_df_tree['nodes']:
+            if device['id'] >= 0:
+                meta_kb = device['kb_used_meta']
+                # Usually the meta data is expected to be in 0-4G range
+                # and we check if it's over 10G
+                if meta_kb > self.OSD_META_LIMIT_KB:
+                    self._bad_meta_osds.append(device['name'])
+
+        return self._bad_meta_osds
+
+    @property
+    def num_bluefs_oversized_metadata_osds(self):
+        return len(self.bluefs_oversized_metadata_osds)
+
+    @staticmethod
+    def version_as_a_tuple(ver):
+        """
+        Converts dotted version strings to a tuple so that they can be
+        compared with standard operators.
+
+        For example 1.2.3 becomes (1, 2, 3).
+        """
+        return tuple(map(int, (ver.split("."))))
+
+    def ceph_daemon_versions_unique(self, exclude_daemons=None):
+        """
+        Returns dict of unique daemon versions from the Cluster. In an ideal
+        world all versions would be the same but it is common for them to get
+        out of sync as components are upgraded asynchronously.
+        """
+        versions = self.daemon_versions()
+        if not versions:
+            return {}
+
+        unique_versions = {}
+        for daemon_type in versions:
+            # skip the catchall
+            if daemon_type == 'overall':
+                continue
+
+            if exclude_daemons:
+                if daemon_type in exclude_daemons:
+                    continue
+
+            unique_versions[daemon_type] = list(set(versions[daemon_type]))
+
+        return unique_versions
+
+    @property
+    def ceph_versions_aligned(self):
+        versions = self.ceph_daemon_versions_unique()
+        if not versions:
+            return True
+
+        gloval_vers = set()
+        for vers in versions.values():
+            if len(vers) > 1:
+                return False
+
+            gloval_vers.add(vers[0])
+
+        return len(gloval_vers) == 1
+
+    @property
+    def mon_versions_aligned_with_cluster(self):
+        """
+        While it is not critical to have minor version mismatches across
+        daemons in the cluster, it is required for the Ceph mons to always
+        be >= to the rest of the cluster. This returns True if the requirement
+        is met otherwise False.
+        """
+        non_mon = self.ceph_daemon_versions_unique(exclude_daemons='mon')
+        mon_top = sorted(self.daemon_versions('mon').keys(),
+                         key=lambda v: self.version_as_a_tuple(v))[0]
+        if not mon_top:
+            return True
+
+        for vers in non_mon.values():
+            cl_top = sorted(vers, key=lambda v: self.version_as_a_tuple(v))[0]
+            if cl_top > mon_top:
+                return False
+
+        return True
+
+    @property
+    def osdmaps_count(self):
+        report = self.cli.ceph_report_json_decoded()
+        if not report:
+            return 0
+
+        try:
+            return len(report['osdmap_manifest']['pinned_maps'])
+        except (ValueError, KeyError):
+            return 0
+
+    @property
+    def osds_pgs(self):
+        if self._osds_pgs:
+            return self._osds_pgs
+
+        if not self.osd_df_tree:
+            return self._osds_pgs
+
+        for device in self.osd_df_tree['nodes']:
+            if device['id'] >= 0:
+                self._osds_pgs[device['name']] = device['pgs']
+
+        return self._osds_pgs
+
+    @property
+    def osds_pgs_above_max(self):
+        _osds_pgs = {}
+        for osd, num_pgs in self.osds_pgs.items():
+            if num_pgs > self.OSD_PG_MAX_LIMIT:
+                _osds_pgs[osd] = num_pgs
+
+        return utils.sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
+
+    @property
+    def osds_pgs_suboptimal(self):
+        _osds_pgs = {}
+        for osd, num_pgs in self.osds_pgs.items():
+            # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM_* values
+            margin_high = self.OSD_PG_OPTIMAL_NUM_MAX * 1.3
+            margin_low = self.OSD_PG_OPTIMAL_NUM_MIN * .7
+            if margin_high < num_pgs or margin_low > num_pgs:
+                _osds_pgs[osd] = num_pgs
+
+        return utils.sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
+
 
 class CephDaemonBase(object):
 
@@ -212,7 +664,6 @@ class CephDaemonBase(object):
         self._version_info = None
         self._etime = None
         self._rss = None
-        self.cluster = CephCluster()
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ps': self.cli.ps()}
         for cmd, output in self.cli_cache.items():
@@ -287,39 +738,12 @@ class CephDaemonBase(object):
 
         return self._etime
 
-    @property
-    def versions(self):
-        """
-        Returns a dict of versions of our daemon type associated with the
-        number of each that is running. Ideally this would only return a single
-        version showing that all daemons are in sync but sometimes e.g.
-        during an upgrade this may not be the case.
-        """
-        return self.cluster.daemon_versions(self.daemon_type)
-
-    @property
-    def release_names(self):
-        """
-        Same as versions property but with release names instead of versions.
-        """
-        return self.cluster.daemon_release_names(self.daemon_type)
-
 
 class CephMon(CephDaemonBase):
 
-    def __init__(self):
+    def __init__(self, name):
         super().__init__('mon')
-
-    @property
-    def osdmaps_count(self):
-        report = self.cli.ceph_report_json_decoded()
-        if not report:
-            return 0
-
-        try:
-            return len(report['osdmap_manifest']['pinned_maps'])
-        except (ValueError, KeyError):
-            return 0
+        self.name = name
 
 
 class CephMDS(CephDaemonBase):
@@ -336,12 +760,13 @@ class CephRGW(CephDaemonBase):
 
 class CephOSD(CephDaemonBase):
 
-    def __init__(self, id, fsid=None, device=None):
+    def __init__(self, id, fsid=None, device=None, dump=None):
         super().__init__('osd')
         self.id = id
         self.fsid = fsid
         self.device = device
         self._devtype = None
+        self.dump = dump
 
     def to_dict(self):
         d = {self.id: {
@@ -381,14 +806,12 @@ class CephChecksBase(StorageBase):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self.bcache = BcacheBase()
-        self._crush_rules = []
         self._local_osds = None
-        self._cluster_osds = None
         self.apt_check = checks.APTPackageChecksBase(
                                                 core_pkgs=CEPH_PKGS_CORE,
                                                 other_pkgs=CEPH_PKGS_OTHER)
+        self.cluster = CephCluster()
         self.cli = CLIHelper()
-
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_volume_lvm_list':
                           self.cli.ceph_volume_lvm_list()}
@@ -412,15 +835,6 @@ class CephChecksBase(StorageBase):
     def output(self):
         if self._output:
             return {"ceph": self._output}
-
-    @property
-    def health_status(self):
-        health = None
-        status = self.cli.ceph_status_json_decoded()
-        if status:
-            health = status['health']['status']
-
-        return health
 
     @property
     def release_name(self):
@@ -483,17 +897,6 @@ class CephChecksBase(StorageBase):
         names = [iface.name for iface in self.bind_interfaces.values()]
         return ', '.join(list(set(names)))
 
-    @property
-    def osd_dump(self):
-        return self.cli.ceph_osd_dump_json_decoded()
-
-    def _get_cluster_osds(self):
-        cluster_osds = []
-        for osd in self.osd_dump.get('osds', {}):
-            cluster_osds.append(CephOSD(osd['osd']))
-
-        return cluster_osds
-
     def _get_local_osds(self):
         if not self.cli_cache['ceph_volume_lvm_list']:
             return
@@ -531,15 +934,6 @@ class CephChecksBase(StorageBase):
         return False
 
     @property
-    def cluster_osds(self):
-        """ Returns a list of CephOSD objects for all osds in the cluster. """
-        if self._cluster_osds:
-            return self._cluster_osds
-
-        self._cluster_osds = self._get_cluster_osds()
-        return self._cluster_osds
-
-    @property
     def local_osds(self):
         """
         Returns a list of CephOSD objects for osds found on the local host.
@@ -553,40 +947,6 @@ class CephChecksBase(StorageBase):
     @property
     def local_osds_devtypes(self):
         return [osd.devtype for osd in self.local_osds]
-
-    def _filter_pools_by_rule(self, pools, crush_rule):
-        res_pool = []
-        for pool in pools:
-            if pool['crush_rule'] == crush_rule:
-                pool_str = pool['pool_name'] + ' (' + str(pool['pool']) + ')'
-                res_pool.append(pool_str)
-
-        return res_pool
-
-    @property
-    def crush_rules(self):
-        """
-        Returns a list of crush rules, mapped to the respective pools.
-        """
-        if self._crush_rules:
-            return self._crush_rules
-
-        ceph_report = self.cli.ceph_report_json_decoded()
-        if not ceph_report:
-            return
-
-        rule_to_pool = {}
-        for rule in ceph_report['crushmap']['rules']:
-            rule_id = rule['rule_id']
-            rtype = rule['type']
-            pools = self._filter_pools_by_rule(ceph_report['osdmap']['pools'],
-                                               rule_id)
-            rule_to_pool[rule['rule_name']] = {'id': rule_id,
-                                               'type': CEPH_POOL_TYPE[rtype],
-                                               'pools': pools}
-
-        self._crush_rules = rule_to_pool
-        return self._crush_rules
 
     @property
     def bluestore_enabled(self):

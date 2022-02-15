@@ -1,12 +1,12 @@
 checks:
-  cluster-has-laggy-pgs:
-    requires:
-      property: core.plugins.storage.ceph.CephCluster.num_laggy_pgs
-      op: gt
-      value: 0
-conclusions:
   cluster_has_laggy_pgs:
-    decision: cluster-has-laggy-pgs
+    requires:
+      property: core.plugins.storage.ceph.CephCluster.laggy_pgs
+      # non-zero == True
+      op: length_hint
+conclusions:
+  cluster-has-laggy-pgs:
+    decision: cluster_has_laggy_pgs
     raises:
       type: core.issues.issue_types.CephWarning
       message: >-

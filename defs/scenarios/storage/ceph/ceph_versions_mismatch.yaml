@@ -1,0 +1,33 @@
+checks:
+  cluster_daemon_versions_not_aligned:
+    requires:
+      property: core.plugins.storage.ceph.CephCluster.ceph_versions_aligned
+      op: ne
+  mon_versions_not_aligned:
+    requires:
+      property: core.plugins.storage.ceph.CephCluster.mon_versions_aligned_with_cluster
+      op: ne
+conclusions:
+  all-daemon-versions-not-aligned:
+    priority: 1
+    decision: cluster_daemon_versions_not_aligned
+    raises:
+      type: core.issues.issue_types.CephDaemonWarning
+      message: >-
+        Ceph daemon versions are not aligned across the cluster. This could be the result
+        of an incomplete or failed cluster upgrade. All daemons, except the clients,
+        should ideally be on the same version for ceph to function correctly.
+  mon-versions-not-aligned:
+    priority: 2
+    decision:
+      and:
+        - cluster_daemon_versions_not_aligned
+        - mon_versions_not_aligned
+    raises:
+      type: core.issues.issue_types.CephDaemonVersionsError
+      message: >-
+        One or more Ceph mons has a version lower than other daemons e.g.
+        ceph-osd running in the cluster. This can cause unexpected behaviour
+        and should be resolved as soon as possible. Check full summary output
+        for current versions.
+

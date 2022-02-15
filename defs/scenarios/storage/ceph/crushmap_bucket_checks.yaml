@@ -1,0 +1,33 @@
+checks:
+  crushmap_has_mixed_type_buckets:
+    requires:
+      property: core.plugins.storage.ceph.CephCrushMap.crushmap_mixed_buckets
+      # Non-zero == True
+      op: length_hint
+  crushmap_has_unequal_buckets:
+    requires:
+      property: core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets
+      # Non-zero == True
+      op: length_hint
+conclusions:
+  crushmap-mixed-buckets:
+    decision: crushmap_has_mixed_type_buckets
+    raises:
+      type: core.issues.issue_types.CephCrushWarning
+      message: >-
+        Mixed crush bucket types identified in buckets '{buckets}'. This can
+        cause data distribution to become skewed - please check crush map.
+      format-dict:
+        buckets: core.plugins.storage.ceph.CephCrushMap.crushmap_mixed_buckets_str
+  crushmap-unbalanced-buckets:
+    decision: crushmap_has_unequal_buckets
+    raises:
+      type: core.issues.issue_types.CephCrushWarning
+      message: >-
+        Found one or more unbalanced crush buckets e.g. crush root '{root}' using
+        failure domain '{domain}' with rule id '{ruleid}'. This can cause
+        data distribution to become skewed - please check crush map.
+      format-dict:
+        root: core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_head_root
+        domain: core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_head_domain
+        ruleid: core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_head_ruleid

@@ -13,9 +13,8 @@ from core.plugins.storage import (
     ceph as ceph_core,
 )
 from plugins.storage.pyparts import (
-    ceph_cluster_checks,
+    ceph_info,
     ceph_event_checks,
-    ceph_service_info,
 )
 
 CEPH_CONF_NO_BLUESTORE = """
@@ -93,7 +92,7 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
                         'services': svc_info,
                         'release': 'octopus',
                     }}
-        inst = ceph_service_info.CephServiceChecks()
+        inst = ceph_info.CephServiceChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
@@ -114,7 +113,7 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
                                     'speed': 'unknown'}}
                             },
                     }}
-        inst = ceph_service_info.CephNetworkInfo()
+        inst = ceph_info.CephNetworkInfo()
         inst()
         self.assertEqual(inst.output, expected)
 
@@ -123,12 +122,12 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
         mock_helper.return_value.dpkg_l.return_value = []
-        inst = ceph_service_info.CephServiceChecks()
+        inst = ceph_info.CephServiceChecks()
         inst()
         self.assertEqual(inst.output, {'ceph': {'release': 'unknown'}})
 
     def test_get_package_info(self):
-        inst = ceph_service_info.CephPackageChecks()
+        inst = ceph_info.CephPackageChecks()
         inst()
         expected = ['ceph 15.2.14-0ubuntu0.20.04.2',
                     'ceph-base 15.2.14-0ubuntu0.20.04.2',
@@ -163,10 +162,10 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
         self.assertEqual(_ports, expected)
 
 
-class TestOSDCephClusterChecks(StorageCephOSDTestsBase):
+class TestOSDCephClusterInfo(StorageCephOSDTestsBase):
 
     def test_get_local_osd_ids(self):
-        inst = ceph_cluster_checks.CephClusterChecks()
+        inst = ceph_info.CephClusterInfo()
         inst()
         self.assertEqual([osd.id for osd in inst.local_osds], [0])
 
@@ -176,7 +175,7 @@ class TestOSDCephClusterChecks(StorageCephOSDTestsBase):
                     'dev': '/dev/mapper/crypt-{}'.format(fsid),
                     'fsid': fsid,
                     'rss': '317M'}}
-        inst = ceph_cluster_checks.CephClusterChecks()
+        inst = ceph_info.CephClusterInfo()
         inst()
         self.assertEqual(inst.output["ceph"]["local-osds"], expected)
 

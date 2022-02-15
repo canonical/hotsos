@@ -193,8 +193,8 @@ class ScenarioConclusions(object):
         if name in self.checks:
             result = self.checks[name].result
         else:
-            log.debug("conclusion '%s' has unknown check '%s' in decision set",
-                      self.name, name)
+            raise Exception("conclusion '{}' has unknown check '{}' in "
+                            "decision set".format(self.name, name))
 
         return result
 

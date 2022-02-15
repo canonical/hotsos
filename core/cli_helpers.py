@@ -469,13 +469,15 @@ class CLIHelper(object):
                 [BinCmd('ceph mon dump --format json-pretty',
                         json_decode=True),
                  # sosreport < 4.2
-                 FileCmd('sos_commands/ceph/json_output/'
-                         'ceph_mon_dump_--format_json-pretty',
-                         json_decode=True),
+                 CephJSONFileCmd('sos_commands/ceph/json_output/'
+                                 'ceph_mon_dump_--format_json-pretty',
+                                 json_decode=True,
+                                 last_line_filter='dumped monmap epoch'),
                  # sosreport >= 4.2
-                 FileCmd('sos_commands/ceph_mon/json_output/'
-                         'ceph_mon_dump_--format_json-pretty',
-                         json_decode=True)],
+                 CephJSONFileCmd('sos_commands/ceph_mon/json_output/'
+                                 'ceph_mon_dump_--format_json-pretty',
+                                 json_decode=True,
+                                 last_line_filter='dumped monmap epoch')],
             'ceph_osd_dump_json_decoded':
                 [BinCmd('ceph osd dump --format json-pretty',
                         json_decode=True),

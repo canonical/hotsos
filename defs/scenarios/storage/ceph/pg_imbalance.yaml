@@ -1,0 +1,34 @@
+checks:
+  cluster_has_osds_with_pgs_above_max:
+    requires:
+      property: core.plugins.storage.ceph.CephCluster.osds_pgs_above_max
+      # Non-zero == True
+      op: length_hint
+  cluster_has_osds_with_suboptimal_pgs:
+    requires:
+      property: core.plugins.storage.ceph.CephCluster.osds_pgs_suboptimal
+      # Non-zero == True
+      op: length_hint
+conclusions:
+  cluster-osds-with-pgs-above-max:
+    decision: cluster_has_osds_with_pgs_above_max
+    raises:
+      type: core.issues.issue_types.CephCrushError
+      message: >-
+        Found some Ceph osd(s) with > {limit} pgs - this is close to the hard
+        limit at which point they will stop creating pgs and fail - please
+        investigate.
+      format-dict:
+        limit: core.plugins.storage.ceph.CephCluster.OSD_PG_MAX_LIMIT
+  cluster-osds-with-suboptimal-pgs:
+    decision: cluster_has_osds_with_suboptimal_pgs
+    raises:
+      type: core.issues.issue_types.CephCrushWarning
+      message: >-
+        Found some Ceph osd(s) whose pg count is > 30% outside the optimal range
+        of {min}-{max} pgs. This could indicate poor data distribution across the
+        cluster and result in performance degradation.
+      format-dict:
+        min: core.plugins.storage.ceph.CephCluster.OSD_PG_OPTIMAL_NUM_MIN
+        max: core.plugins.storage.ceph.CephCluster.OSD_PG_OPTIMAL_NUM_MAX
+

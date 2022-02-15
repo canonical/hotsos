@@ -5,7 +5,7 @@ checks:
     expr: '.+''message'': ''mon is allowing insecure global_id reclaim'''
   health_warning:
     requires:
-      property: core.plugins.storage.ceph.CephChecksBase.health_status
+      property: core.plugins.storage.ceph.CephCluster.health_status
       value: HEALTH_WARN
 conclusions:
   insecure-auth-allowed:
