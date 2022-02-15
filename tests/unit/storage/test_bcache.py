@@ -25,7 +25,7 @@ class TestStorageBCache(StorageBCacheTestsBase):
                                    'bcache1': {'dname': 'bcache0'}}
                         }}}
 
-        inst = bcache.BCacheDeviceChecks()
+        inst = bcache.BcacheDeviceChecks()
         inst()
         self.assertEqual(inst.output, result)
 
@@ -37,7 +37,7 @@ class TestStorageBCache(StorageBCacheTestsBase):
                             'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
                         }
                     }
-        inst = bcache.BCacheCSetChecks()
+        inst = bcache.BcacheCSetChecks()
         inst()
         self.assertEqual(inst.output, expected)
 
