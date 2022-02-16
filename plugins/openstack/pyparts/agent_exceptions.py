@@ -40,15 +40,15 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             values = "(?:{})".format('|'.join(project.exceptions))
             expr = expr_template.format(values)
             hint = '( ERROR | Traceback)'
-            self.searchobj.add_search_term(SearchDef(expr, tag=agent,
-                                                     hint=hint),
+            tag = "{}.{}".format(project.name, agent)
+            self.searchobj.add_search_term(SearchDef(expr, tag=tag, hint=hint),
                                            data_source)
 
             warn_exprs = self._agent_warnings.get(project.name, [])
             if warn_exprs:
                 values = "(?:{})".format('|'.join(warn_exprs))
                 expr = expr_template.format(values)
-                self.searchobj.add_search_term(SearchDef(expr, tag=agent,
+                self.searchobj.add_search_term(SearchDef(expr, tag=tag,
                                                          hint='WARNING'),
                                                data_source)
 
@@ -56,7 +56,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         if err_exprs:
             expr = expr_template.format("(?:{})".
                                         format('|'.join(err_exprs)))
-            sd = SearchDef(expr, tag=agent, hint='ERROR')
+            sd = SearchDef(expr, tag=tag, hint='ERROR')
             self.searchobj.add_search_term(sd, data_source)
 
     def load(self):
@@ -135,7 +135,8 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         issues = {}
         for name, info in self.ost_projects.all.items():
             for agent in info.services:
-                _results = results.find_by_tag(agent)
+                tag = "{}.{}".format(name, agent)
+                _results = results.find_by_tag(tag)
                 ret = self.get_exceptions_results(_results)
                 if ret:
                     if name not in issues:

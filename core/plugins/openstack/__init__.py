@@ -176,8 +176,8 @@ class OSTProject(object):
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
     def __init__(self, name, config=None, apt_core_alt=None,
-                 systemd_masked_services=None,
-                 log_path_overrides=None):
+                 systemd_masked_services=None, log_path_overrides=None,
+                 systemd_substitute_services=None):
         """
         @param name: name of this project
         @param config: dict of config files keyed by a label used to identify
@@ -189,6 +189,8 @@ class OSTProject(object):
         @param systemd_masked_services: optional list of services that are
                expected to be masked in systemd e.g. if they are actually being
                run by apache.
+        @param systemd_substitute_services: optional list of systemd services
+        that are used. This is useful e.g. if components are run under apache.
         """
         self.name = name
         self.packages_core = [name]
@@ -204,6 +206,7 @@ class OSTProject(object):
                 path = os.path.join(constants.DATA_ROOT, 'etc', name, path)
                 self.config[label] = OpenstackConfig(path)
 
+        self.systemd_substitute_services = systemd_substitute_services
         self.systemd_masked_services = systemd_masked_services or []
         self.packages_core.append(client)
         self.logs_path = os.path.join('var/log', name)
@@ -216,7 +219,11 @@ class OSTProject(object):
 
     @property
     def services(self):
-        info = checks.ServiceChecksBase(service_exprs=[self.services_expr])
+        exprs = [self.services_expr]
+        if self.systemd_substitute_services:
+            exprs += self.systemd_substitute_services
+
+        info = checks.ServiceChecksBase(service_exprs=exprs)
         return info.services
 
     @property
@@ -265,20 +272,32 @@ class OSTProjectCatalog(object):
     def __init__(self):
         self._projects = {}
         self.add('aodh', config={'main': 'aodh.conf'},
-                 systemd_masked_services=['aodh-api']),
+                 systemd_masked_services=['aodh-api'],
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/aodh/aodh-api.log'}),
         self.add('barbican', config={'main': 'barbican.conf'},
-                 systemd_masked_services=['barbican-api']),
+                 systemd_masked_services=['barbican-api'],
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/barbican/barbican-api.log'}),
         self.add('ceilometer', config={'main': 'ceilometer.conf'},
                  systemd_masked_services=['ceilometer-api']),
         self.add('cinder', config={'main': 'cinder.conf'}),
         self.add('designate', config={'main': 'designate.conf'}),
         self.add('glance', config={'main': 'glance-api.conf'}),
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
-                 systemd_masked_services=['gnocchi-api']),
+                 systemd_masked_services=['gnocchi-api'],
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/gnocchi/gnocchi-api.log'}),
         self.add('heat', config={'main': 'heat.conf'}),
         self.add('horizon', apt_core_alt='openstack-dashboard'),
         self.add('keystone', config={'main': 'keystone.conf'},
-                 systemd_masked_services=['keystone']),
+                 systemd_masked_services=['keystone'],
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/keystone/keystone.log'}),
         self.add('neutron',
                  config={'main': 'neutron.conf',
                          'openvswitch-agent':
@@ -290,17 +309,25 @@ class OSTProjectCatalog(object):
                  # See LP bug 1957760 for reason why neutron-server is added.
                  systemd_masked_services=['nova-api-os-compute',
                                           'neutron-server'],
-                 log_path_overrides={'nova-api-os-compute':
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
                                      'var/log/apache2/nova-*.log'}),
         self.add('manila', config={'main': 'manila.conf'},
-                 systemd_masked_services=['manila-api']),
+                 systemd_masked_services=['manila-api'],
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/manila/manila-api.log'}),
         self.add('masakari', config={'main': 'masakari.conf'},
                  systemd_masked_services=['masakari']),
         self.add('octavia', config={'main': 'octavia.conf'},
-                 systemd_masked_services=['octavia-api']),
+                 systemd_masked_services=['octavia-api'],
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/octavia/octavia-api.log'}),
         self.add('placement', config={'main': 'placement.conf'},
                  systemd_masked_services=['placement'],
-                 log_path_overrides={'placement':
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
                                      'var/log/apache2/*error.log'}),
         self.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'}),
