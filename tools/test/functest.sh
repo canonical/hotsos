@@ -41,13 +41,14 @@ test_plugin ()
     echo -n "plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
     if [[ $type == short ]]; then
         args+=( --short )
+        args+=( "--user-summary $dtmp/$plugin" )
         label=".short"
     fi
     ${HOT_DIR}/hotsos.sh --${plugin} ${args[@]} $data_root 2>/dev/null| \
-        grep -v repo-info > $dtmp/$plugin
+        egrep -v "repo-info:|date:" > $dtmp/$plugin$label
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
-    grep -v repo-info $litmus > $dtmp/$plugin.litmus
-    diff $dtmp/$plugin.litmus $dtmp/$plugin &> $dtmp/fail
+    egrep -v "repo-info:|date:" $litmus > $dtmp/$plugin.litmus
+    diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail
     if (($?==0)); then
         echo -e " [${F_GRN}PASS${RES}]"
     else
