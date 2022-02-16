@@ -40,7 +40,7 @@ class TestJujuServiceInfo(JujuTestsBase):
 
     def test_service_info(self):
         expected = {'services': {
-                        'ps': ['jujud (8)'],
+                        'ps': ['jujud (1)'],
                         'systemd': {
                             'enabled': ['jujud-machine-1']}
                         }

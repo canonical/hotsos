@@ -134,7 +134,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         """Process search results to see if we got any hits."""
         issues = {}
         for name, info in self.ost_projects.all.items():
-            for agent in info.daemon_names:
+            for agent in info.services:
                 _results = results.find_by_tag(agent)
                 ret = self.get_exceptions_results(_results)
                 if ret:

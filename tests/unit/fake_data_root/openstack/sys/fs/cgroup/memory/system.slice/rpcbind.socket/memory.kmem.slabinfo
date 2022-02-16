@@ -1,0 +1,16 @@
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+UDPv6                  0      0   1344   12    4 : tunables    0    0    0 : slabdata      0      0      0
+TCPv6                  0      0   2432   13    8 : tunables    0    0    0 : slabdata      0      0      0
+proc_inode_cache      12     12    680   12    2 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-64            64     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+cred_jar              21     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+signal_cache           0      0   1152   14    4 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-512           16     16    512   16    2 : tunables    0    0    0 : slabdata      1      1      0
+skbuff_head_cache     16     16    256   16    1 : tunables    0    0    0 : slabdata      1      1      0
+TCP                    0      0   2240   14    8 : tunables    0    0    0 : slabdata      0      0      0
+sock_inode_cache      19     19    832   19    4 : tunables    0    0    0 : slabdata      1      1      0
+pid                   32     32    128   32    1 : tunables    0    0    0 : slabdata      1      1      0
+inode_cache            0      0    608   13    2 : tunables    0    0    0 : slabdata      0      0      0
+dentry                21     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+filp                  16     16    256   16    1 : tunables    0    0    0 : slabdata      1      1      0

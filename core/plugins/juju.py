@@ -172,4 +172,4 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
 class JujuServiceChecksBase(JujuChecksBase, checks.ServiceChecksBase):
 
     def __init__(self):
-        super().__init__(service_exprs=JUJU_SVC_EXPRS, hint_range=(0, 3))
+        super().__init__(service_exprs=JUJU_SVC_EXPRS)

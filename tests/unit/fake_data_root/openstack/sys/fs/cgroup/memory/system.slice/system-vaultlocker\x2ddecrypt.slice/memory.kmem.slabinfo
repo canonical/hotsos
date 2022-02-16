@@ -1,0 +1,10 @@
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+ext4_inode_cache       2     29   1096   29    8 : tunables    0    0    0 : slabdata      1      1      0
+inode_cache            2     13    608   13    2 : tunables    0    0    0 : slabdata      1      1      0
+dentry                 8     42    192   21    1 : tunables    0    0    0 : slabdata      2      2      0
+radix_tree_node       11     28    584   14    2 : tunables    0    0    0 : slabdata      2      2      0
+kmalloc-rcl-64         4     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+ext4_inode_cache      59     87   1096   29    8 : tunables    0    0    0 : slabdata      3      3      0
+inode_cache            2     13    608   13    2 : tunables    0    0    0 : slabdata      1      1      0
+dentry                79    126    192   21    1 : tunables    0    0    0 : slabdata      6      6      0

@@ -39,11 +39,8 @@ openstack:
       indirect:
         - vaultlocker-decrypt
     ps:
-      - apache2 (6)
-      - dnsmasq (1)
-      - haproxy (7)
+      - haproxy (3)
       - keepalived (2)
-      - mysqld (1)
       - neutron-dhcp-agent (1)
       - neutron-keepalived-state-change (2)
       - neutron-l3-agent (1)
@@ -51,8 +48,6 @@ openstack:
       - neutron-openvswitch-agent (1)
       - nova-api-metadata (5)
       - nova-compute (1)
-      - qemu-system-x86_64 (1)
-      - vault (1)
   debug-logging-enabled:
     neutron: true
     nova: true

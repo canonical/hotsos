@@ -88,25 +88,8 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
                                     ],
                                 'indirect': ['ceph-volume'],
                                 'generated': ['radosgw']},
-                    'ps': ['ceph-crash (2)',
-                           'ceph-mgr (1)',
-                           'ceph-mon (1)',
-                           'ceph-osd (1)']}
+                    'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
         expected = {'ceph': {
-                        'network': {
-                            'cluster': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}},
-                            'public': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}}
-                            },
                         'services': svc_info,
                         'release': 'octopus',
                     }}
@@ -114,8 +97,7 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
         inst()
         self.assertEqual(inst.output, expected)
 
-    @mock.patch.object(checks, 'CLIHelper')
-    def test_get_service_info_unavailable(self, mock_helper):
+    def test_get_network_info(self):
         expected = {'ceph': {
                         'network': {
                             'cluster': {
@@ -131,14 +113,19 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
                                     'state': 'UP',
                                     'speed': 'unknown'}}
                             },
-                        'release': 'unknown'}}
+                    }}
+        inst = ceph_service_info.CephNetworkInfo()
+        inst()
+        self.assertEqual(inst.output, expected)
 
+    @mock.patch.object(checks, 'CLIHelper')
+    def test_get_service_info_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
         mock_helper.return_value.dpkg_l.return_value = []
         inst = ceph_service_info.CephServiceChecks()
         inst()
-        self.assertEqual(inst.output, expected)
+        self.assertEqual(inst.output, {'ceph': {'release': 'unknown'}})
 
     def test_get_package_info(self):
         inst = ceph_service_info.CephPackageChecks()

@@ -91,6 +91,7 @@ plugins:
       ceph_service_info:
         - CephServiceChecks
         - CephPackageChecks
+        - CephNetworkInfo
       ceph_cluster_checks:
         - CephClusterChecks
         - CephCrushChecks

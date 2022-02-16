@@ -15,6 +15,7 @@ from core.plugins.storage import (
 )
 from plugins.storage.pyparts import (
     ceph_cluster_checks,
+    ceph_service_info,
 )
 
 MON_ELECTION_LOGS = """
@@ -163,6 +164,57 @@ class StorageCephMonTestsBase(utils.BaseTestCase):
         os.environ['PLUGIN_NAME'] = 'storage'
         os.environ["DATA_ROOT"] = \
             os.path.join(utils.TESTS_DIR, 'fake_data_root/storage/ceph-mon')
+
+
+class TestMonCephServiceInfo(StorageCephMonTestsBase):
+
+    def test_get_service_info(self):
+        svc_info = {'systemd': {'enabled': [
+                                    'ceph-crash',
+                                    'ceph-mgr',
+                                    'ceph-mon',
+                                    ],
+                                'disabled': [
+                                    'ceph-mds',
+                                    'ceph-osd',
+                                    'ceph-radosgw',
+                                    'ceph-volume'
+                                    ],
+                                'generated': ['radosgw'],
+                                'masked': ['ceph-create-keys']},
+                    'ps': ['ceph-crash (1)', 'ceph-mgr (1)', 'ceph-mon (1)']}
+        expected = {'ceph': {
+                        'services': svc_info,
+                        'release': 'octopus',
+                        'status': 'HEALTH_WARN',
+                    }}
+        inst = ceph_service_info.CephServiceChecks()
+        inst()
+        self.assertEqual(inst.output, expected)
+
+
+class TestCephMonNetworkInfo(StorageCephMonTestsBase):
+
+    def test_get_network_info(self):
+        expected = {'ceph': {
+                        'network': {
+                            'cluster': {
+                                'eth0@if17': {
+                                    'addresses': ['10.0.0.123'],
+                                    'hwaddr': '00:16:3e:ae:9e:44',
+                                    'state': 'UP',
+                                    'speed': '10000Mb/s'}},
+                            'public': {
+                                'eth0@if17': {
+                                    'addresses': ['10.0.0.123'],
+                                    'hwaddr': '00:16:3e:ae:9e:44',
+                                    'state': 'UP',
+                                    'speed': '10000Mb/s'}}
+                            }
+                    }}
+        inst = ceph_service_info.CephNetworkInfo()
+        inst()
+        self.assertEqual(inst.output, expected)
 
 
 class TestStorageCephChecksBaseCephMon(StorageCephMonTestsBase):

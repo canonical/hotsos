@@ -1,4 +1,5 @@
 import os
+import glob
 
 import re
 import subprocess
@@ -160,61 +161,21 @@ class ServiceChecksBase(object):
     """This class should be used by any plugin that wants to identify
     and check the status of running services."""
 
-    def __init__(self, service_exprs, *args, hint_range=None,
-                 ps_allow_relative=True, **kwargs):
+    def __init__(self, service_exprs, *args, ps_allow_relative=True,
+                 **kwargs):
         """
         @param service_exprs: list of python.re expressions used to match a
         service name.
-        @param hint_range: optional range reflecting a range that can be
-                           extracted from any of the provided expressions and
-                           used as a pre-search before doing a full search in
-                           order to reduce unnecessary full searches.
         @param ps_allow_relative: whether to allow commands to be identified
                                   from ps as not run using an absolute binary
                                   path e.g. mycmd as opposed to /bin/mycmd.
         """
         super().__init__(*args, **kwargs)
         self.service_exprs = []
-        self.hint_range = hint_range
         self.ps_allow_relative = ps_allow_relative
         self._processes = {}
         self._service_info = {}
         self.service_exprs = service_exprs
-
-    def hint(self, expr, line, offset=None):
-        """
-        Apply a hint search to the line. Returns True if a match is found
-        otherwise False.
-
-        Since this hint is a chopped version of the full expression it may now
-        contain incomplete/invalid regex. In this case we automatically grow it
-        until it no longer causes an exception to be raised.
-        """
-        if not self.hint_range:
-            return True
-
-        start, end = self.hint_range
-        if offset is not None:
-            # Set a limit to how far we will go
-            if offset > min(10, len(expr) - 1):
-                return False
-
-            offset += 1
-            end += offset
-
-        try:
-            ret = re.compile(expr[start:end]).search(line)
-            if ret:
-                return True
-        except re.error:
-            # if sre_constants is raised we need to adjust the
-            # hint.
-            if offset is None:
-                offset = 1
-
-            return self.hint(expr, line, offset)
-
-        return False
 
     def _get_systemd_units(self, expr):
         """
@@ -247,9 +208,6 @@ class ServiceChecksBase(object):
         indirect_svc_info = {}
         for line in CLIHelper().systemctl_list_unit_files():
             for expr in self.service_exprs:
-                if not self.hint(expr, line):
-                    continue
-
                 # Add snap prefix/suffixes
                 base_expr = r"(?:snap\.)?{}(?:\.daemon)?".format(expr)
                 # NOTE: we include indirect services (ending with @) so that
@@ -309,6 +267,49 @@ class ServiceChecksBase(object):
                           expr_type)
                 return svc
 
+    def get_services_expanded(self, name):
+        _expanded = []
+        for line in CLIHelper().systemctl_list_units():
+            expr = r'^\s*({}(@\S*)?)\.service'.format(name)
+            ret = re.compile(expr).match(line)
+            if ret:
+                _expanded.append(ret.group(1))
+
+        if not _expanded:
+            _expanded = [name]
+
+        return _expanded
+
+    @property
+    def service_filtered_ps(self):
+        ps_filtered = []
+        path = os.path.join(constants.DATA_ROOT,
+                            'sys/fs/cgroup/unified/system.slice')
+        for svc in self.services:
+            for svc in self.get_services_expanded(svc):
+                _path = os.path.join(path, "{}.service".format(svc),
+                                     'cgroup.procs')
+                if not os.path.exists(_path):
+                    _path = glob.glob(os.path.join(path, 'system-*.slice',
+                                                   "{}.service".format(svc),
+                                                   'cgroup.procs'))
+                    if not _path or not os.path.exists(_path[0]):
+                        continue
+
+                    _path = _path[0]
+
+                pids = []
+                with open(_path) as fd:
+                    for line in fd:
+                        pids.append(int(line))
+
+                for line in CLIHelper().ps():
+                    for pid in pids:
+                        if " {} ".format(pid) in line:
+                            ps_filtered.append(line)
+
+        return ps_filtered
+
     @property
     def processes(self):
         """
@@ -321,11 +322,8 @@ class ServiceChecksBase(object):
         if self._processes:
             return self._processes
 
-        for line in CLIHelper().ps():
+        for line in self.service_filtered_ps:
             for expr in self.service_exprs:
-                if not self.hint(expr, line):
-                    continue
-
                 """
                 look for running process with this name.
                 We need to account for different types of process binary e.g.

@@ -17,8 +17,7 @@ class MAASServiceChecks(maas.MAASServiceChecksBase):
 
     def __init__(self):
         service_exprs = maas.SERVICE_EXPRS
-        super().__init__(service_exprs=service_exprs, hint_range=(0, 3),
-                         ps_allow_relative=False)
+        super().__init__(service_exprs=service_exprs, ps_allow_relative=False)
 
     def get_running_services_info(self):
         if self.services:

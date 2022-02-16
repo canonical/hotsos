@@ -80,7 +80,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                                 ]
                             },
                         'ps': [
-                            'ovs-vswitchd (1)', 'ovsdb-client (1)',
+                            'ovs-vswitchd (1)',
                             'ovsdb-server (1)']}}
         inst = service_info.OpenvSwitchServiceChecks()
         inst()

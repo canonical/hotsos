@@ -175,16 +175,14 @@ class OSTProject(object):
     SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
-    def __init__(self, name, config=None, daemon_names=None,
-                 apt_core_alt=None, systemd_masked_services=None,
+    def __init__(self, name, config=None, apt_core_alt=None,
+                 systemd_masked_services=None,
                  log_path_overrides=None):
         """
         @param name: name of this project
         @param config: dict of config files keyed by a label used to identify
                        them. All projects should have a config file labelled
                        'main'.
-        @param daemon_names: list of daemon names of processes run by this
-                             project.
         @param apt_core_alt: optional list of apt packages (regex) that are
                              used by this project where the name of the project
                              is not the same as the name used for its packages.
@@ -208,11 +206,18 @@ class OSTProject(object):
 
         self.systemd_masked_services = systemd_masked_services or []
         self.packages_core.append(client)
-        self.service_expr = '{}{}'.format(name, self.SVC_VALID_SUFFIX)
-        self.daemon_names = daemon_names or []
         self.logs_path = os.path.join('var/log', name)
         self.log_path_overrides = log_path_overrides or {}
         self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
+
+    @property
+    def services_expr(self):
+        return '{}{}'.format(self.name, self.SVC_VALID_SUFFIX)
+
+    @property
+    def services(self):
+        info = checks.ServiceChecksBase(service_exprs=[self.services_expr])
+        return info.services
 
     @property
     def log_paths(self):
@@ -222,10 +227,10 @@ class OSTProject(object):
         proj_manage = "{}-manage".format(self.name)
         yield proj_manage, os.path.join('var/log', self.name,
                                         "{}.log".format(proj_manage))
-        for daemon in self.daemon_names:
+        for svc in self.services:
             path = os.path.join('var/log', self.name,
-                                "{}.log".format(daemon))
-            yield daemon, self.log_path_overrides.get(daemon, path)
+                                "{}.log".format(svc))
+            yield svc, self.log_path_overrides.get(svc, path)
 
 
 class OSTProjectCatalog(object):
@@ -261,67 +266,37 @@ class OSTProjectCatalog(object):
         self._projects = {}
         self.add('aodh', config={'main': 'aodh.conf'},
                  systemd_masked_services=['aodh-api']),
-        self.add('barbican',
-                 daemon_names=['barbican-api', 'barbican-worker'],
-                 config={'main': 'barbican.conf'},
+        self.add('barbican', config={'main': 'barbican.conf'},
                  systemd_masked_services=['barbican-api']),
         self.add('ceilometer', config={'main': 'ceilometer.conf'},
                  systemd_masked_services=['ceilometer-api']),
-        self.add('cinder',
-                 daemon_names=['cinder-scheduler', 'cinder-volume'],
-                 config={'main': 'cinder.conf'}),
-        self.add('designate',
-                 daemon_names=['designate-agent', 'designate-api',
-                               'designate-central', 'designate-mdns',
-                               'designate-producer', 'designate-sink',
-                               'designate-worker'],
-                 config={'main': 'designate.conf'}),
-        self.add('glance', daemon_names=['glance-api'],
-                 config={'main': 'glance-api.conf'}),
+        self.add('cinder', config={'main': 'cinder.conf'}),
+        self.add('designate', config={'main': 'designate.conf'}),
+        self.add('glance', config={'main': 'glance-api.conf'}),
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
                  systemd_masked_services=['gnocchi-api']),
-        self.add('heat',
-                 daemon_names=['heat-engine', 'heat-api', 'heat-api-cfn'],
-                 config={'main': 'heat.conf'}),
-        self.add('horizon',
-                 apt_core_alt='openstack-dashboard'),
-        self.add('keystone', daemon_names=['keystone'],
-                 config={'main': 'keystone.conf'},
+        self.add('heat', config={'main': 'heat.conf'}),
+        self.add('horizon', apt_core_alt='openstack-dashboard'),
+        self.add('keystone', config={'main': 'keystone.conf'},
                  systemd_masked_services=['keystone']),
         self.add('neutron',
-                 daemon_names=['neutron-openvswitch-agent',
-                               'neutron-dhcp-agent', 'neutron-l3-agent',
-                               'neutron-server', 'neutron-sriov-agent'],
                  config={'main': 'neutron.conf',
                          'openvswitch-agent':
                          'plugins/ml2/openvswitch_agent.ini',
                          'l3-agent': 'l3_agent.ini',
                          'dhcp-agent': 'dhcp_agent.ini'},
                  systemd_masked_services=['nova-api-metadata']),
-        self.add('nova',
-                 daemon_names=['nova-compute', 'nova-scheduler',
-                               'nova-conductor', 'nova-api-os-compute',
-                               'nova-api-wsgi', 'nova-api-metadata',
-                               'nova-placement'],
-                 config={'main': 'nova.conf'},
+        self.add('nova', config={'main': 'nova.conf'},
                  # See LP bug 1957760 for reason why neutron-server is added.
                  systemd_masked_services=['nova-api-os-compute',
                                           'neutron-server'],
                  log_path_overrides={'nova-api-os-compute':
                                      'var/log/apache2/nova-*.log'}),
-        self.add('manila',
-                 daemon_names=['manila-api', 'manila-scheduler',
-                               'manila-data', 'manila-share'],
-                 config={'main': 'manila.conf'},
+        self.add('manila', config={'main': 'manila.conf'},
                  systemd_masked_services=['manila-api']),
         self.add('masakari', config={'main': 'masakari.conf'},
                  systemd_masked_services=['masakari']),
-        self.add('octavia',
-                 daemon_names=['octavia-api', 'octavia-worker',
-                               'octavia-health-manager',
-                               'octavia-housekeeping',
-                               'octavia-driver-agent'],
-                 config={'main': 'octavia.conf'},
+        self.add('octavia', config={'main': 'octavia.conf'},
                  systemd_masked_services=['octavia-api']),
         self.add('placement', config={'main': 'placement.conf'},
                  systemd_masked_services=['placement'],
@@ -343,7 +318,7 @@ class OSTProjectCatalog(object):
     @property
     def service_exprs(self):
         # Expressions used to match openstack systemd services for each project
-        return [p.service_expr for p in self.all.values()] + \
+        return [p.services_expr for p in self.all.values()] + \
                 self.OST_SERVICES_DEPS
 
     @property
@@ -858,7 +833,7 @@ class OpenstackServiceChecksBase(OpenstackChecksBase,
                                  checks.ServiceChecksBase):
     def __init__(self):
         service_exprs = OSTProjectCatalog().service_exprs
-        super().__init__(service_exprs=service_exprs, hint_range=(0, 3))
+        super().__init__(service_exprs=service_exprs)
 
     @property
     def unexpected_masked_services(self):

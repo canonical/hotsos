@@ -37,7 +37,6 @@ openvswitch:
         - ovsdb-server
     ps:
       - ovs-vswitchd (1)
-      - ovsdb-client (1)
       - ovsdb-server (1)
   bridges:
     br-data:

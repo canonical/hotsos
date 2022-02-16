@@ -57,6 +57,21 @@ storage:
       - python3-rados 15.2.14-0ubuntu0.20.04.2
       - python3-rbd 15.2.14-0ubuntu0.20.04.2
       - radosgw 15.2.14-0ubuntu0.20.04.2
+    network:
+      cluster:
+        eth0@if17:
+          addresses:
+            - 10.0.0.123
+          hwaddr: 00:16:3e:ae:9e:44
+          state: UP
+          speed: 10000Mb/s
+      public:
+        eth0@if17:
+          addresses:
+            - 10.0.0.123
+          hwaddr: 00:16:3e:ae:9e:44
+          state: UP
+          speed: 10000Mb/s
     versions:
       mon:
         - 15.2.14

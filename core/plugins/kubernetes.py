@@ -40,8 +40,8 @@ K8S_PACKAGE_DEPS_SNAP = [r'core[0-9]*']
 
 class KubernetesBase(object):
 
-    def __init__(self):
-        super().__init__(SERVICES, hint_range=(0, 3))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.nethelp = host_helpers.HostNetworkingHelper()
         self._containers = []
         self._pods = []
@@ -98,7 +98,7 @@ class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase,
                            checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(service_exprs=SERVICES, *args, **kwargs)
         deps = K8S_PACKAGE_DEPS
         # Deployments can use snap or apt versions of packages so we check both
         self.apt_check = checks.APTPackageChecksBase(core_pkgs=K8S_PACKAGES,

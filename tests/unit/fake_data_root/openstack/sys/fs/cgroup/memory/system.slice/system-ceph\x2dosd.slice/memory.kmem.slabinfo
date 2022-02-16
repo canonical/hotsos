@@ -1,0 +1,5 @@
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+radix_tree_node       66     98    584   14    2 : tunables    0    0    0 : slabdata      7      7      0
+ext4_inode_cache      15     58   1096   29    8 : tunables    0    0    0 : slabdata      2      2      0
+dentry                21     63    192   21    1 : tunables    0    0    0 : slabdata      3      3      0

@@ -33,6 +33,16 @@ class CephServiceChecks(CephServiceChecksBase):
             self._output['services'] = {'systemd': self.service_info,
                                         'ps': self.process_info}
 
+    def __call__(self):
+        self._output['release'] = self.release_name
+        if self.health_status:
+            self._output['status'] = self.health_status
+
+        self.get_running_services_info()
+
+
+class CephNetworkInfo(CephServiceChecksBase):
+
     def get_config_network_info(self):
         """ Identify ports used by Ceph daemons, include them in output
         for informational purposes.
@@ -45,9 +55,4 @@ class CephServiceChecks(CephServiceChecksBase):
             self._output['network'] = net_info
 
     def __call__(self):
-        self._output['release'] = self.release_name
-        if self.health_status:
-            self._output['status'] = self.health_status
-
-        self.get_running_services_info()
         self.get_config_network_info()

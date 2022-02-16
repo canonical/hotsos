@@ -14,7 +14,7 @@ class VaultServiceChecks(vault.VaultServiceChecksBase):
 
     def __init__(self):
         service_exprs = vault.SERVICE_EXPRS
-        super().__init__(service_exprs=service_exprs, hint_range=(0, 3))
+        super().__init__(service_exprs=service_exprs)
 
     def get_running_services_info(self):
         if self.services:

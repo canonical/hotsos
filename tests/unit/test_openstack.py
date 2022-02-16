@@ -193,6 +193,7 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
 
     def test_get_service_info(self):
         expected = {'systemd': {
+                        'disabled': ['radvd'],
                         'enabled': [
                             'haproxy',
                             'keepalived',
@@ -202,24 +203,20 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
                             'neutron-openvswitch-agent',
                             'neutron-ovs-cleanup',
                             'nova-api-metadata',
-                            'nova-compute'],
-                        'disabled': ['radvd'],
-                        'indirect': ['vaultlocker-decrypt']},
+                            'nova-compute',
+                        ],
+                        'indirect': ['vaultlocker-decrypt'],
+                    },
                     'ps': [
-                        'apache2 (6)',
-                        'dnsmasq (1)',
-                        'haproxy (7)',
+                        'haproxy (3)',
                         'keepalived (2)',
-                        'mysqld (1)',
                         'neutron-dhcp-agent (1)',
                         'neutron-keepalived-state-change (2)',
                         'neutron-l3-agent (1)',
                         'neutron-metadata-agent (5)',
                         'neutron-openvswitch-agent (1)',
                         'nova-api-metadata (5)',
-                        'nova-compute (1)',
-                        'qemu-system-x86_64 (1)',
-                        'vault (1)']}
+                        'nova-compute (1)']}
         inst = service_info.OpenstackInfo()
         inst()
         self.assertEqual(inst.output["services"], expected)
@@ -754,7 +751,12 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 82,
                     '2022-02-09': 9
-                    }}}
+                    }},
+            'neutron-metadata-agent': {
+                'oslo_messaging.exceptions.MessagingTimeout': {
+                    '2022-02-04': 48,
+                    '2022-02-09': 14}},
+            }
 
         nova_expected = {
             'nova-compute': {

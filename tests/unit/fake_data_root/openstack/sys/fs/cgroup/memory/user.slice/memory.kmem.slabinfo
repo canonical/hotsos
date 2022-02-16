@@ -1,0 +1,35 @@
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+dentry                 4     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+ext4_inode_cache       2     29   1096   29    8 : tunables    0    0    0 : slabdata      1      1      0
+dentry                18     63    192   21    1 : tunables    0    0    0 : slabdata      3      3      0
+kmalloc-rcl-96         9     84     96   42    1 : tunables    0    0    0 : slabdata      2      2      0
+radix_tree_node      829   2212    584   14    2 : tunables    0    0    0 : slabdata    158    158      0
+buffer_head        24949  98319    104   39    1 : tunables    0    0    0 : slabdata   2521   2521      0
+kmalloc-rcl-64        83    640     64   64    1 : tunables    0    0    0 : slabdata     10     10      0
+ext4_inode_cache    3760   7569   1096   29    8 : tunables    0    0    0 : slabdata    261    261      0
+shmem_inode_cache      3     44    720   22    4 : tunables    0    0    0 : slabdata      2      2      0
+dentry              3229   8757    192   21    1 : tunables    0    0    0 : slabdata    417    417      0
+dentry                 1     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-rcl-64         1     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+radix_tree_node        4     14    584   14    2 : tunables    0    0    0 : slabdata      1      1      0
+ext4_inode_cache      15     58   1096   29    8 : tunables    0    0    0 : slabdata      2      2      0
+shmem_inode_cache      8     44    720   22    4 : tunables    0    0    0 : slabdata      2      2      0
+dentry                24    147    192   21    1 : tunables    0    0    0 : slabdata      7      7      0
+dentry                 1     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+dentry                 1     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+dentry                 1     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+dentry                 1     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+dentry                 1     21    192   21    1 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-rcl-64         1     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+ext4_inode_cache      65     87   1096   29    8 : tunables    0    0    0 : slabdata      3      3      0
+dentry                63    168    192   21    1 : tunables    0    0    0 : slabdata      8      8      0
+kmalloc-rcl-96        16     42     96   42    1 : tunables    0    0    0 : slabdata      1      1      0
+radix_tree_node        1     14    584   14    2 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-rcl-64         1     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+ext4_inode_cache     347    377   1096   29    8 : tunables    0    0    0 : slabdata     13     13      0
+dentry               348    483    192   21    1 : tunables    0    0    0 : slabdata     23     23      0
+radix_tree_node        3     14    584   14    2 : tunables    0    0    0 : slabdata      1      1      0
+shmem_inode_cache      2     22    720   22    4 : tunables    0    0    0 : slabdata      1      1      0
+ext4_inode_cache     119    145   1096   29    8 : tunables    0    0    0 : slabdata      5      5      0
+dentry               107    273    192   21    1 : tunables    0    0    0 : slabdata     13     13      0
