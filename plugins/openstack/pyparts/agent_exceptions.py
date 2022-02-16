@@ -1,6 +1,7 @@
 import os
 import re
 
+from core.log import log
 from core import constants
 from core.searchtools import SearchDef
 from core.plugins.openstack import (
@@ -65,6 +66,11 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         exceptions.
         """
         for project in self.ost_projects.all.values():
+            if not project.installed:
+                log.debug("%s is not installed - excluding from exception "
+                          "checks", project.name)
+                continue
+
             # NOTE: services running under apache may have their logs (e.g.
             # barbican-api.log) prepended with apache/mod_wsgi info so do this
             # way to account for both. If present, the prefix will be ignored

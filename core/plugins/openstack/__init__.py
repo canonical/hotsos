@@ -214,6 +214,12 @@ class OSTProject(object):
         self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
 
     @property
+    def installed(self):
+        """ Return True if the openstack service is installed. """
+        core_pkgs = self.packages_core
+        return bool(checks.APTPackageChecksBase(core_pkgs=core_pkgs).core)
+
+    @property
     def services_expr(self):
         return '{}{}'.format(self.name, self.SVC_VALID_SUFFIX)
 
@@ -283,7 +289,10 @@ class OSTProjectCatalog(object):
                                      'var/log/barbican/barbican-api.log'}),
         self.add('ceilometer', config={'main': 'ceilometer.conf'},
                  systemd_masked_services=['ceilometer-api']),
-        self.add('cinder', config={'main': 'cinder.conf'}),
+        self.add('cinder', config={'main': 'cinder.conf'},
+                 systemd_substitute_services=['apache2'],
+                 log_path_overrides={'apache2':
+                                     'var/log/apache2/cinder_*.log'}),
         self.add('designate', config={'main': 'designate.conf'}),
         self.add('glance', config={'main': 'glance-api.conf'}),
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
@@ -457,8 +466,7 @@ class OSTServiceBase(object):
     @property
     def installed(self):
         """ Return True if the openstack service is installed. """
-        core_pkgs = self.project.packages_core
-        return bool(checks.APTPackageChecksBase(core_pkgs=core_pkgs).core)
+        return self.project.installed
 
 
 class OctaviaBase(OSTServiceBase):
