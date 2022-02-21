@@ -738,6 +738,29 @@ class NeutronBase(OSTServiceBase):
         return interfaces
 
 
+class NeutronServiceChecks(object):
+
+    @property
+    def ovs_cleanup_run_manually(self):
+        """ Allow one run on node boot/reboot but not after. """
+        run_manually = False
+        start_count = 0
+        cli = CLIHelper()
+        cexpr = re.compile(r"Started OpenStack Neutron OVS cleanup.")
+        for line in cli.journalctl(unit="neutron-ovs-cleanup"):
+            if re.compile("-- Reboot --").match(line):
+                # reset after reboot
+                run_manually = False
+                start_count = 0
+            elif cexpr.search(line):
+                if start_count:
+                    run_manually = True
+
+                start_count += 1
+
+        return run_manually
+
+
 class OpenstackBase(object):
 
     def __init__(self, *args, **kwargs):

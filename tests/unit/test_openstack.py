@@ -221,10 +221,10 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
         inst()
         self.assertEqual(inst.output["services"], expected)
 
-    @mock.patch.object(service_info.issue_utils, 'add_issue')
+    @mock.patch('core.plugins.openstack.OpenstackServiceChecksBase.'
+                'openstack_installed', True)
     @mock.patch('core.checks.CLIHelper')
-    def test_get_service_info_apache_service(self, mock_helper,
-                                             mock_add_issue):
+    def test_get_service_info_apache_service(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
             OCTAVIA_UNIT_FILES.splitlines(keepends=True)
@@ -236,13 +236,9 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
                     'masked': [
                         'octavia-api']
                     }
-        with mock.patch.object(service_info.OpenstackServiceChecksBase,
-                               'openstack_installed', lambda: True):
-            inst = service_info.OpenstackInfo()
-            inst()
-            self.assertEqual(inst.output['services']['systemd'], expected)
-
-        self.assertFalse(mock_add_issue.called)
+        inst = service_info.OpenstackInfo()
+        inst()
+        self.assertEqual(inst.output['services']['systemd'], expected)
 
     def test_get_release_info(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -340,38 +336,32 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
         inst()
         self.assertEquals(inst.output["dpkg"], expected)
 
-    @mock.patch.object(service_info, 'CLIHelper')
-    @mock.patch.object(service_info.issue_utils, "add_issue")
-    def test_run_service_info(self, mock_add_issue, mock_helper):
+    @mock.patch('core.plugins.openstack.CLIHelper')
+    def test_run_service_info(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
-        inst = service_info.NeutronServiceChecks()
-        inst()
-        self.assertFalse(mock_add_issue.called)
+        c = openstack_core.NeutronServiceChecks()
+        self.assertFalse(c.ovs_cleanup_run_manually)
 
-    @mock.patch.object(service_info, 'CLIHelper')
-    @mock.patch.object(service_info.issue_utils, "add_issue")
-    def test_run_service_info2(self, mock_add_issue, mock_helper):
+    @mock.patch('core.plugins.openstack.CLIHelper')
+    def test_run_service_info2(self, mock_helper):
         """
         Covers scenario where we had manual restart but not after last reboot.
         """
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD2.splitlines(keepends=True)
-        inst = service_info.NeutronServiceChecks()
-        inst()
-        self.assertFalse(mock_add_issue.called)
+        c = openstack_core.NeutronServiceChecks()
+        self.assertFalse(c.ovs_cleanup_run_manually)
 
-    @mock.patch.object(service_info, 'CLIHelper')
-    @mock.patch.object(service_info.issue_utils, "add_issue")
-    def test_run_service_info_w_issue(self, mock_add_issue, mock_helper):
+    @mock.patch('core.plugins.openstack.CLIHelper')
+    def test_run_service_info_w_issue(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
-        inst = service_info.NeutronServiceChecks()
-        inst()
-        self.assertTrue(mock_add_issue.called)
+        c = openstack_core.NeutronServiceChecks()
+        self.assertTrue(c.ovs_cleanup_run_manually)
 
     def test_get_neutronl3ha_info(self):
         expected = {'neutron-l3ha': {'backup':
@@ -897,10 +887,10 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
-                True)
     @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('system_cpufreq_mode.yaml'))
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenarios_cpufreq(self, mock_add_issue):
         issues = {}
@@ -923,6 +913,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('core.plugins.openstack.OpenstackConfig')
     @mock.patch('core.plugins.openstack.OpenstackChecksBase.release_name',
                 'train')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova_cpu_pinning.yaml'))
     @mock.patch('core.issues.issue_utils.add_issue')
     def test_scenario_pinning_invalid_config(self, mock_add_issue,
                                              mock_config):
@@ -980,11 +972,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(sorted(issues[issue_types.OpenstackWarning]),
                          sorted([msg1, msg2]))
 
-    @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
-                True)
-    @mock.patch('core.issues.issue_utils.add_issue')
     @mock.patch('core.checks.CLIHelper')
-    def test_scenario_masked_services(self, mock_helper, mock_add_issue):
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('systemd_masked_services.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenario_masked_services(self, mock_add_issue, mock_helper):
         issues = {}
 
         def fake_add_issue(issue):
@@ -1002,3 +994,27 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertTrue(issue_types.OpenstackWarning in issues)
         self.assertTrue("masked: apache2" in
                         issues[issue_types.OpenstackWarning][0])
+
+    @mock.patch('core.plugins.openstack.CLIHelper')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('neutron_ovs_cleanup.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_neutron_ovs_cleanup(self, mock_add_issue, mock_helper):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.journalctl.return_value = \
+            JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
+        YScenarioChecker()()
+        self.assertEqual(len(issues), 1)
+        msg = ('The neutron-ovs-cleanup systemd service has been manually run '
+               'on this host. This is not recommended and can have unintended '
+               'side-effects.')
+        self.assertEqual(list(issues.values())[0], [msg])
