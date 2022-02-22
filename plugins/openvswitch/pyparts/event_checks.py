@@ -30,13 +30,23 @@ class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
             return {event.name: ret}, 'ovs-vswitchd'
 
     @EVENTCALLBACKS.callback('ovsdb-server', 'ovs-vswitchd',
+                             'ovsdb-server-nb', 'ovsdb-server-sb',
+                             'ovn-northd', 'ovn-controller',
                              'receive-tunnel-port-not-found',
                              'rx-packet-on-unassociated-datapath-port',
                              'dpif-netlink-lost-packet-on-handler',
-                             'ovs-thread-unreasonably-long-poll-interval')
+                             'ovs-thread-unreasonably-long-poll-interval',
+                             'ovn-controller-unreasonably-long-poll-interval',
+                             'ovsdb-server-nb-unreasonably-long-poll-interval',
+                             'ovsdb-server-sb-unreasonably-long-poll-interval',
+                             'ovsdb-server-nb-inactivity-probe',
+                             'ovsdb-server-sb-inactivity-probe')
     def process_log_events(self, event):
         key_by_date = True
-        if event.name in ['ovs-vswitchd', 'ovsdb-server']:
+        if event.name in [
+            'ovs-vswitchd', 'ovsdb-server', 'ovsdb-server-nb',
+            'ovsdb-server-sb', 'ovn-northd', 'ovn-controller'
+        ]:
             key_by_date = False
 
         ret = self.get_results_stats(event.results, key_by_date=key_by_date)

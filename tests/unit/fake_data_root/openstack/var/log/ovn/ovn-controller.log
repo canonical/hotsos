@@ -1,0 +1,16 @@
+2022-02-17T04:35:34.276Z|368558|main|INFO|OVNSB commit failed, force recompute next time.
+2022-02-17T04:35:34.276Z|368559|timeval|WARN|Unreasonably long 28734ms poll interval (28587ms user, 144ms system)
+2022-02-17T04:35:34.276Z|368560|timeval|WARN|faults: 131066 minor, 0 major
+2022-02-17T04:35:34.276Z|368561|timeval|WARN|disk: 0 reads, 8 writes
+2022-02-17T04:35:34.276Z|368562|timeval|WARN|context switches: 0 voluntary, 136 involuntary
+2022-02-17T04:35:34.276Z|368563|poll_loop|INFO|wakeup due to 0-ms timeout at ssl:10.130.13.120:6642 (100% CPU usage)
+2022-02-17T04:35:34.276Z|368564|reconnect|WARN|ssl:10.130.13.120:6642: connection dropped (Broken pipe)
+2022-02-17T04:35:34.278Z|368565|poll_loop|INFO|wakeup due to 0-ms timeout at controller/ovn-controller.c:2125 (100% CPU usage)
+2022-02-17T04:35:34.279Z|368566|poll_loop|INFO|wakeup due to [POLLIN] on fd 23 (<->/var/run/openvswitch/br-int.mgmt) at lib/stream-fd.c:157 (100% CPU usage)
+2022-02-17T04:35:35.277Z|368567|poll_loop|INFO|wakeup due to 996-ms timeout at lib/reconnect.c:664 (100% CPU usage)
+2022-02-17T04:35:35.277Z|368568|reconnect|INFO|ssl:10.130.12.66:6642: connecting...
+2022-02-17T04:35:36.278Z|368569|poll_loop|INFO|wakeup due to 999-ms timeout at lib/reconnect.c:664 (100% CPU usage)
+2022-02-17T04:35:36.278Z|368570|reconnect|INFO|ssl:10.130.12.66:6642: connection attempt timed out
+2022-02-17T04:35:36.278Z|368571|reconnect|INFO|ssl:10.130.12.66:6642: waiting 2 seconds before reconnect
+2022-02-17T04:35:38.279Z|368572|reconnect|INFO|ssl:10.130.11.131:6642: connecting...
+2022-02-17T04:35:38.283Z|368573|reconnect|INFO|ssl:10.130.11.131:6642: connected
