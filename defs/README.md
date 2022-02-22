@@ -112,8 +112,12 @@ OPTIONS
     This is a dictionary of options with the form key: value.
 
     allow-all-logs: True|False
-      Used in combination with *path* and determines
-      whether to apply USE_ALL_LOGS to path. Default is True.
+      Used in combination with *path* to override --all-logs. If this
+      is set to False when --all-logs is provided then it will behave
+      as if --all-logs was not provided. Defaults to True. This is
+      useful if you are defining a search that should never be run
+      against the full logrotated history of logs due to performance
+      reasons.
 
     args: [arg1, ...]
       Used in combination with *command*. This is a list of args
