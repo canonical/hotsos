@@ -1,0 +1,39 @@
+2022-02-17T00:53:18.224Z|27572|reconnect|ERR|ssl:10.130.11.110:50350: no response to inactivity probe after 60 seconds, disconnecting
+2022-02-17T00:58:04.667Z|27573|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T00:58:04.667Z|27574|jsonrpc|WARN|ssl:127.0.0.1:36842: receive error: Protocol error
+2022-02-17T00:58:04.667Z|27575|reconnect|WARN|ssl:127.0.0.1:36842: connection dropped (Protocol error)
+2022-02-17T01:02:07.573Z|27576|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T01:02:07.573Z|27577|jsonrpc|WARN|ssl:127.0.0.1:53092: receive error: Protocol error
+2022-02-17T01:02:07.573Z|27578|reconnect|WARN|ssl:127.0.0.1:53092: connection dropped (Protocol error)
+2022-02-17T01:04:48.559Z|27579|timeval|WARN|Unreasonably long 2556ms poll interval (2090ms user, 436ms system)
+2022-02-17T01:04:48.561Z|27580|timeval|WARN|faults: 371108 minor, 0 major
+2022-02-17T01:04:48.562Z|27581|timeval|WARN|disk: 0 reads, 124032 writes
+2022-02-17T01:04:48.563Z|27582|timeval|WARN|context switches: 309 voluntary, 168 involuntary
+2022-02-17T01:04:48.564Z|27583|coverage|INFO|Skipping details of duplicate event coverage for hash=1e253855
+2022-02-17T01:04:49.348Z|27584|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:04:49.349Z|27585|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:04:49.350Z|27586|poll_loop|INFO|wakeup due to 0-ms timeout at ../ovsdb/jsonrpc-server.c:604 (76% CPU usage)
+2022-02-17T01:04:49.382Z|27587|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:04:49.382Z|27588|poll_loop|INFO|wakeup due to [POLLIN] on fd 24 (FIFO pipe:[2101469935]) at ../ovsdb/log.c:994 (76% CPU usage)
+2022-02-17T01:04:49.383Z|27589|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:04:49.384Z|27590|poll_loop|INFO|wakeup due to 0-ms timeout at ../ovsdb/jsonrpc-server.c:604 (76% CPU usage)
+2022-02-17T01:04:49.595Z|27591|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:04:49.595Z|27592|poll_loop|INFO|wakeup due to [POLLIN] on fd 24 (FIFO pipe:[2101469935]) at ../ovsdb/log.c:994 (76% CPU usage)
+2022-02-17T01:04:49.596Z|27593|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:04:49.596Z|27594|poll_loop|INFO|wakeup due to 0-ms timeout at ../ovsdb/jsonrpc-server.c:604 (76% CPU usage)
+2022-02-17T01:04:49.695Z|27595|poll_loop|INFO|wakeup due to [POLLIN] on fd 21 (10.130.11.131:6644<->10.130.13.120:43750) at ../lib/stream-ssl.c:832 (76% CPU usage)
+2022-02-17T01:07:29.809Z|27596|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T01:07:29.810Z|27597|jsonrpc|WARN|ssl:127.0.0.1:56508: receive error: Protocol error
+2022-02-17T01:07:29.810Z|27598|reconnect|WARN|ssl:127.0.0.1:56508: connection dropped (Protocol error)
+2022-02-17T01:11:49.513Z|27599|timeval|WARN|Unreasonably long 1926ms poll interval (1777ms user, 147ms system)
+2022-02-17T01:11:49.513Z|27600|timeval|WARN|faults: 250412 minor, 0 major
+2022-02-17T01:11:49.513Z|27601|timeval|WARN|context switches: 0 voluntary, 10 involuntary
+2022-02-17T01:11:49.513Z|27602|coverage|INFO|Skipping details of duplicate event coverage for hash=1e253855
+2022-02-17T01:12:37.692Z|27603|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T01:12:37.692Z|27604|jsonrpc|WARN|ssl:127.0.0.1:58310: receive error: Protocol error
+2022-02-17T01:12:37.693Z|27605|reconnect|WARN|ssl:127.0.0.1:58310: connection dropped (Protocol error)
+2022-02-17T01:17:10.865Z|27606|reconnect|ERR|ssl:10.130.11.109:41482: no response to inactivity probe after 60.8 seconds, disconnecting
+2022-02-17T01:17:38.356Z|27607|timeval|WARN|Unreasonably long 2319ms poll interval (2056ms user, 236ms system)
+2022-02-17T01:17:38.357Z|27608|timeval|WARN|faults: 385850 minor, 0 major
+2022-02-17T01:17:38.359Z|27609|timeval|WARN|disk: 0 reads, 124032 writes
+2022-02-17T01:17:38.360Z|27610|timeval|WARN|context switches: 303 voluntary, 29 involuntary

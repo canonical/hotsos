@@ -148,20 +148,71 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
-        expected = {'daemon-checks': {
-                        'ovs-vswitchd': {
-                            'bridge-no-such-device': {
-                                '2022-02-10': {'tap6a0486f9-82': 1}}},
-                        'logs': {
-                            'ovs-vswitchd': {
-                                'WARN': {
-                                    '2022-02-04': 56,
-                                    '2022-02-09': 24,
-                                    '2022-02-10': 6}},
-                            'ovsdb-server': {
-                                'WARN': {'2022-02-04': 6,
-                                         '2022-02-09': 2,
-                                         '2022-02-10': 4}}}}}
+        expected = {
+            'daemon-checks': {
+                'ovs-vswitchd': {
+                   'bridge-no-such-device': {
+                        '2022-02-10': {'tap6a0486f9-82': 1}}},
+                'logs': {
+                    'ovn-controller-unreasonably-long-poll-interval': {
+                        '2022-02-16': 1,
+                        '2022-02-17': 1},
+                    'ovsdb-server-nb-inactivity-probe': {
+                        '2022-02-16': {
+                            '10.130.11.109': 1},
+                        '2022-02-17': {
+                            '10.130.11.115': 1}},
+                    'ovsdb-server-nb-unreasonably-long-poll-interval': {
+                        '2022-02-16': 2,
+                        '2022-02-17': 1},
+                    'ovsdb-server-sb-inactivity-probe': {
+                        '2022-02-16': {
+                            '10.130.11.109': 1,
+                            '10.130.11.110': 1},
+                        '2022-02-17': {
+                            '10.130.11.109': 1,
+                            '10.130.11.110': 1}},
+                    'ovsdb-server-sb-unreasonably-long-poll-interval': {
+                        '2022-02-16': 2,
+                        '2022-02-17': 3},
+                    'ovs-thread-unreasonably-long-poll-interval': {
+                        '2022-02-10': 3},
+                    'ovs-vswitchd': {
+                        'WARN': {
+                            '2022-02-04': 56,
+                            '2022-02-09': 24,
+                            '2022-02-10': 12}},
+                    'ovsdb-server': {
+                        'WARN': {
+                            '2022-02-04': 6,
+                            '2022-02-09': 2,
+                            '2022-02-10': 4}},
+                    'ovn-controller': {
+                        'ERR': {'2022-02-16': 2},
+                        'WARN': {
+                            '2022-02-16': 4,
+                            '2022-02-17': 5}},
+                    'ovn-northd': {
+                        'ERR': {
+                            '2022-02-16': 1,
+                            '2022-02-17': 1},
+                        'WARN': {
+                            '2022-02-16': 1,
+                            '2022-02-17': 1}},
+                    'ovsdb-server-nb': {
+                        'ERR': {
+                            '2022-02-16': 1,
+                            '2022-02-17': 1},
+                        'WARN': {
+                            '2022-02-16': 12,
+                            '2022-02-17': 17}},
+                    'ovsdb-server-sb': {
+                        'ERR': {
+                            '2022-02-16': 2,
+                            '2022-02-17': 2},
+                        'WARN': {
+                            '2022-02-16': 23,
+                            '2022-02-17': 23}}}}}
         inst = event_checks.OpenvSwitchDaemonEventChecks()
         inst()
         self.assertEqual(inst.output, expected)

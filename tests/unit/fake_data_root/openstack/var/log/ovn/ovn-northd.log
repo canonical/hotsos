@@ -1,0 +1,28 @@
+022-02-17T00:00:13.777Z|00095|vlog|INFO|opened log file /var/log/ovn/ovn-northd.log
+
+2022-02-17T03:20:02.790Z|00028|vlog|INFO|opened log file /var/log/ovn/ovn-northd.log
+2022-02-17T03:20:03.841Z|00029|reconnect|INFO|ssl:10.5.3.3:16642: connecting...
+2022-02-17T03:20:03.868Z|00030|reconnect|INFO|ssl:10.5.3.3:16642: connected
+2022-02-17T03:20:03.869Z|00031|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2022-02-17T03:20:03.891Z|00032|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2022-02-17T03:20:03.926Z|00033|ovsdb_idl|INFO|ssl:10.5.3.3:16642: clustered database server is disconnected from cluster; trying another server
+2022-02-17T03:20:03.926Z|00034|reconnect|INFO|ssl:10.5.3.3:16642: connection attempt timed out
+2022-02-17T03:20:03.926Z|00035|reconnect|INFO|ssl:10.5.3.3:16642: waiting 4 seconds before reconnect
+2022-02-17T03:20:04.016Z|00036|reconnect|INFO|ssl:10.5.3.3:6641: connecting...
+2022-02-17T03:20:04.021Z|00037|reconnect|INFO|ssl:10.5.3.3:6641: connected
+2022-02-17T03:20:04.027Z|00038|ovsdb_idl|INFO|ssl:10.5.3.3:6641: clustered database server is disconnected from cluster; trying another server
+2022-02-17T03:20:04.028Z|00039|reconnect|INFO|ssl:10.5.3.3:6641: connection attempt timed out
+2022-02-17T03:20:04.028Z|00040|reconnect|INFO|ssl:10.5.3.3:6641: waiting 4 seconds before reconnect
+2022-02-17T03:20:07.931Z|00041|reconnect|INFO|ssl:10.5.3.58:16642: connecting...
+2022-02-17T03:20:07.968Z|00042|reconnect|INFO|ssl:10.5.3.58:16642: connected
+2022-02-17T03:20:07.969Z|00043|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2022-02-17T03:20:08.007Z|00044|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2022-02-17T03:20:08.027Z|00045|reconnect|INFO|ssl:10.5.4.12:6641: connecting...
+2022-02-17T03:20:08.040Z|00046|reconnect|INFO|ssl:10.5.4.12:6641: connected
+2022-02-17T03:20:08.059Z|00047|ovsdb_idl|INFO|ssl:10.5.4.12:6641: clustered database server is not cluster leader; trying another server
+2022-02-17T03:20:08.059Z|00048|reconnect|INFO|ssl:10.5.4.12:6641: connection attempt timed out
+2022-02-17T03:20:08.059Z|00049|reconnect|INFO|ssl:10.5.4.12:6641: continuing to reconnect in the background but suppressing further logging
+2022-02-17T03:20:16.077Z|00050|reconnect|INFO|ssl:10.5.3.58:6641: connected
+
+2022-02-17T03:20:16.077Z|00050|reconnect|WARN|Dummy WARN
+2022-02-17T03:20:16.077Z|00050|reconnect|ERR|Dummy ERR

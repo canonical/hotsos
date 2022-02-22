@@ -63,3 +63,10 @@
 2022-02-10T16:18:35.852Z|00179|connmgr|INFO|br-int<->unix#507: 65 flow_mods in the last 0 s (65 adds)
 2022-02-10T16:18:36.249Z|00180|connmgr|INFO|br-int<->unix#510: 4 flow_mods in the last 0 s (4 deletes)
 2022-02-10T16:19:10.558Z|00181|connmgr|INFO|br-tun<->tcp:127.0.0.1:6633: 8 flow_mods in the 36 s starting 48 s ago (6 adds, 2 deletes)
+
+2022-02-10T19:12:22.232Z|13903|timeval|WARN|Unreasonably long 13189ms poll interval (0ms user, 10459ms system)
+2022-02-10T19:12:22.232Z|13903|timeval(handler22)|WARN|Unreasonably long 13189ms poll interval (0ms user, 10459ms system)
+2022-02-10T19:41:50.080Z|28012|timeval|WARN|Unreasonably long 2273ms poll interval (1995ms user, 249ms system)
+2022-02-10T19:41:50.081Z|28013|timeval|WARN|faults: 344923 minor, 0 major
+2022-02-10T19:41:50.082Z|28014|timeval|WARN|disk: 0 reads, 124184 writes
+2022-02-10T19:41:50.084Z|28015|timeval|WARN|context switches: 326 voluntary, 40 involuntary

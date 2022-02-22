@@ -1,0 +1,19 @@
+2022-02-17T00:53:18.224Z|27572|reconnect|ERR|ssl:10.130.11.115:50350: no response to inactivity probe after 60 seconds, disconnecting
+2022-02-17T01:04:48.559Z|27579|timeval|WARN|Unreasonably long 2556ms poll interval (2090ms user, 436ms system)
+
+2022-02-17T02:12:26.951Z|10231|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T02:12:26.951Z|10232|jsonrpc|WARN|ssl:127.0.0.1:56188: receive error: Protocol error
+2022-02-17T02:12:26.951Z|10233|reconnect|WARN|ssl:127.0.0.1:56188: connection dropped (Protocol error)
+2022-02-17T02:17:25.445Z|10234|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T02:17:25.445Z|10235|jsonrpc|WARN|ssl:127.0.0.1:54006: receive error: Protocol error
+2022-02-17T02:17:25.445Z|10236|reconnect|WARN|ssl:127.0.0.1:54006: connection dropped (Protocol error)
+2022-02-17T02:21:59.909Z|10237|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T02:21:59.909Z|10238|jsonrpc|WARN|ssl:127.0.0.1:47472: receive error: Protocol error
+2022-02-17T02:21:59.909Z|10239|reconnect|WARN|ssl:127.0.0.1:47472: connection dropped (Protocol error)
+2022-02-17T02:26:56.640Z|10240|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T02:26:56.640Z|10241|jsonrpc|WARN|ssl:127.0.0.1:45888: receive error: Protocol error
+2022-02-17T02:26:56.640Z|10242|reconnect|WARN|ssl:127.0.0.1:45888: connection dropped (Protocol error)
+2022-02-17T02:31:30.866Z|10243|stream_ssl|WARN|SSL_accept: system error (Success)
+2022-02-17T02:31:30.866Z|10244|jsonrpc|WARN|ssl:127.0.0.1:39178: receive error: Protocol error
+2022-02-17T02:31:30.866Z|10245|reconnect|WARN|ssl:127.0.0.1:39178: connection dropped (Protocol error)
+2022-02-17T02:35:32.676Z|10246|stream_ssl|WARN|SSL_accept: system error (Success)
