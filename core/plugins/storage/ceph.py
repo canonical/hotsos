@@ -596,11 +596,12 @@ class CephCluster(object):
         is met otherwise False.
         """
         non_mon = self.ceph_daemon_versions_unique(exclude_daemons='mon')
-        mon_top = sorted(self.daemon_versions('mon').keys(),
-                         key=lambda v: self.version_as_a_tuple(v))[0]
-        if not mon_top:
+        mon_versions = self.daemon_versions('mon')
+        if not non_mon or not mon_versions:
             return True
 
+        mon_top = sorted(mon_versions.keys(),
+                         key=lambda v: self.version_as_a_tuple(v))[0]
         for vers in non_mon.values():
             cl_top = sorted(vers, key=lambda v: self.version_as_a_tuple(v))[0]
             if cl_top > mon_top:
