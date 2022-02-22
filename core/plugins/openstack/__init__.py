@@ -908,7 +908,7 @@ class OpenstackServiceChecksBase(OpenstackChecksBase,
         if not masked:
             return ''
 
-        return '.'.join(self.unexpected_masked_services)
+        return ', '.join(self.unexpected_masked_services)
 
 
 class OpenstackPackageChecksBase(OpenstackChecksBase):

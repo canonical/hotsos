@@ -48,6 +48,15 @@ octavia-housekeeping.service              enabled
 octavia-worker.service                    enabled 
 """  # noqa
 
+NEUTRON_UNIT_FILES_MASKED = """
+neutron-dhcp-agent.service             masked          enabled      
+neutron-l3-agent.service               masked          enabled      
+neutron-metadata-agent.service         masked          enabled      
+neutron-metering-agent.service         masked          enabled      
+neutron-openvswitch-agent.service      masked          enabled      
+neutron-ovs-cleanup.service            enabled         enabled
+"""  # noqa
+
 
 APT_UCA = """
 # Ubuntu Cloud Archive
@@ -987,13 +996,19 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
         mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
+        masked_services = OCTAVIA_UNIT_FILES_APACHE_MASKED + \
+            NEUTRON_UNIT_FILES_MASKED
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
-            OCTAVIA_UNIT_FILES_APACHE_MASKED.splitlines(keepends=True)
+            masked_services.splitlines(keepends=True)
         YScenarioChecker()()
         self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
         self.assertTrue(issue_types.OpenstackWarning in issues)
-        self.assertTrue("masked: apache2" in
-                        issues[issue_types.OpenstackWarning][0])
+        msg = ('The following Openstack systemd services are masked: '
+               'neutron-dhcp-agent, neutron-metering-agent, '
+               'neutron-metadata-agent, apache2, neutron-openvswitch-agent, '
+               'neutron-l3-agent. Please ensure that this is intended '
+               'otherwise these services may be unavailable.')
+        self.assertEqual(list(issues.values())[0], [msg])
 
     @mock.patch('core.plugins.openstack.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
