@@ -1,0 +1,15 @@
+checks:
+  has_timed_out_plugins:
+    requires:
+      property: core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+      op: length_hint
+conclusions:
+  has-timed-out-plugins:
+    decision: has_timed_out_plugins
+    raises:
+      type: core.issues.issue_types.SOSReportWarning
+      message: >-
+        The following sosreport plugins have have timed out and may have
+        incomplete data: {timed_out_plugins}
+      format-dict:
+        timed_out_plugins: core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins_str

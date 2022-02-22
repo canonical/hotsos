@@ -914,8 +914,15 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
         self.assertTrue(issue_types.OpenstackWarning in issues)
-        self.assertTrue('not using cpufreq scaling_governor in "performance" '
-                        'mode' in issues[issue_types.OpenstackWarning][0])
+        msg = ('This node is used as an Openstack hypervisor but is not using '
+               'cpufreq scaling_governor in "performance" mode '
+               '(actual=powersave). This is not recommended and can result '
+               'in performance degradation. To fix this you can install '
+               'cpufrequtils and set "GOVERNOR=performance" in '
+               '/etc/default/cpufrequtils. You will also need to disable the '
+               'ondemand systemd service in order for changes to persist. '
+               'NOTE: requires node reboot to take effect.')
+        self.assertEqual(msg, issues[issue_types.OpenstackWarning][0])
 
     @mock.patch('core.plugins.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})

@@ -83,8 +83,6 @@ plugins:
     parts:
       general:
         - SOSReportInfo
-      plugin_checks:
-        - SOSReportPluginChecks
   storage:
     parts:
       ceph_info:

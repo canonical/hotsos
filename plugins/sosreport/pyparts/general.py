@@ -11,3 +11,6 @@ class SOSReportInfo(SOSReportChecksBase):
 
         if self.apt_check.core:
             self._output['dpkg'] = self.apt_check.all_formatted
+
+        if self.timed_out_plugins:
+            self._output['plugin-timeouts'] = self.timed_out_plugins

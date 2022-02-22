@@ -5,6 +5,10 @@ from core import (
     constants,
 )
 from core.plugintools import PluginPartBase
+from core.searchtools import (
+    SearchDef,
+    FileSearcher,
+)
 
 CORE_APT = ['sosreport']
 
@@ -36,6 +40,27 @@ class SOSReportChecksBase(PluginPartBase):
             for line in fd:
                 if line.startswith('sosreport:'):
                     return line.partition(' ')[2].strip()
+
+    @property
+    def timed_out_plugins(self):
+        timeouts = []
+        if not os.path.exists(os.path.join(constants.DATA_ROOT, 'sos_logs')):
+            return timeouts
+
+        searcher = FileSearcher()
+        path = os.path.join(constants.DATA_ROOT, 'sos_logs/ui.log')
+        searcher.add_search_term(SearchDef(r".* Plugin (\S+) timed out.*",
+                                           tag="timeouts"), path=path)
+        results = searcher.search()
+        for r in results.find_by_tag("timeouts"):
+            plugin = r.get(1)
+            timeouts.append(plugin)
+
+        return timeouts
+
+    @property
+    def timed_out_plugins_str(self):
+        return ', '.join(self.timed_out_plugins)
 
     @property
     def plugin_runnable(self):

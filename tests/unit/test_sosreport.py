@@ -1,15 +1,41 @@
 import os
 import tempfile
 
+import mock
+
 from tests.unit import utils
 
-from plugins.sosreport.pyparts import (
-    general,
-    plugin_checks,
-)
+import core.plugins.sosreport as sosreport_core
+from core.ycheck.scenarios import YScenarioChecker
+from plugins.sosreport.pyparts import general
+from core.issues import issue_types
 
 
-class TestSOSReportGeneral(utils.BaseTestCase):
+class TestSOSReportBase(utils.BaseTestCase):
+
+    def setUp(self, *args, **kwargs):
+        super().setUp(*args, **kwargs)
+        os.environ["PLUGIN_NAME"] = "sosreport"
+
+    def setup_timed_out_plugins(self, dtmp):
+        os.environ["DATA_ROOT"] = dtmp
+        os.makedirs(os.path.join(dtmp, "sos_logs"))
+        with open(os.path.join(dtmp, "sos_logs", 'ui.log'), 'w') as fd:
+            fd.write(" Plugin networking timed out\n")
+            fd.write(" Plugin system timed out\n")
+
+
+class TestSOSReportCore(TestSOSReportBase):
+
+    def test_plugin_timouts_some(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_timed_out_plugins(dtmp)
+            c = sosreport_core.SOSReportChecksBase()
+            self.assertEquals(c.timed_out_plugins, ['networking', 'system'])
+            self.assertEquals(c.timed_out_plugins_str, "networking, system")
+
+
+class TestSOSReportGeneral(TestSOSReportBase):
 
     def test_version(self):
         inst = general.SOSReportInfo()
@@ -18,21 +44,45 @@ class TestSOSReportGeneral(utils.BaseTestCase):
                     'dpkg': ['sosreport 4.2-1ubuntu0.20.04.1']}
         self.assertEqual(inst.output, expected)
 
-
-class TestSOSReportPluginChecks(utils.BaseTestCase):
-
     def test_check_plugin_timouts_none(self):
-        inst = plugin_checks.SOSReportPluginChecks()
+        inst = general.SOSReportInfo()
         inst()
-        self.assertIsNone(inst.output)
+        self.assertFalse('plugin-timeouts' in inst.output)
 
     def test_check_plugin_timouts_some(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ["DATA_ROOT"] = dtmp
-            os.makedirs(os.path.join(dtmp, "sos_logs"))
-            with open(os.path.join(dtmp, "sos_logs", 'ui.log'), 'w') as fd:
-                fd.write(" Plugin networking timed out\n")
-
-            inst = plugin_checks.SOSReportPluginChecks()
+            self.setup_timed_out_plugins(dtmp)
+            inst = general.SOSReportInfo()
             inst()
-            self.assertEquals(inst.output, {"plugin-timeouts": ["networking"]})
+            self.assertEquals(inst.output['plugin-timeouts'],
+                              ['networking', 'system'])
+
+
+class TestSOSReportScenarioChecks(TestSOSReportBase):
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_none(self, mock_add_issue):
+        YScenarioChecker()()
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('plugin_timeouts.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_plugin_timeouts(self, mock_add_issue):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_timed_out_plugins(dtmp)
+            mock_add_issue.side_effect = fake_add_issue
+            YScenarioChecker()()
+
+        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+        msg = ('The following sosreport plugins have have timed out and may '
+               'have incomplete data: networking, system')
+        self.assertEqual(msg, issues[issue_types.SOSReportWarning][0])
