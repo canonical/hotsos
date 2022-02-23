@@ -88,13 +88,14 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             expr_template = (r"^{}([0-9\-]+) (\S+) .+\S+\s({}{{}})[\s:\.]".
                              format(prefix_match, exc_obj_full_path_match))
 
-            for agent, log_path in project.log_paths:
-                log_path = os.path.join(constants.DATA_ROOT, log_path)
-                if constants.USE_ALL_LOGS:
-                    log_path = "{}*".format(log_path)
+            for agent, log_paths in project.log_paths:
+                for path in log_paths:
+                    path = os.path.join(constants.DATA_ROOT, path)
+                    if constants.USE_ALL_LOGS:
+                        path = "{}*".format(path)
 
-                self._add_agent_searches(project, agent, log_path,
-                                         expr_template)
+                    self._add_agent_searches(project, agent, path,
+                                             expr_template)
 
     def get_exceptions_results(self, results):
         """ Process exception search results.

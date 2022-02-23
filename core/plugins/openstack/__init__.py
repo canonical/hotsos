@@ -241,12 +241,12 @@ class OSTProject(object):
         Returns tuples of daemon name, log path for each agent/daemon.
         """
         proj_manage = "{}-manage".format(self.name)
-        yield proj_manage, os.path.join('var/log', self.name,
-                                        "{}.log".format(proj_manage))
+        path = os.path.join('var/log', self.name, "{}.log".format(proj_manage))
+        yield proj_manage, [path]
         for svc in self.services:
             path = os.path.join('var/log', self.name,
                                 "{}.log".format(svc))
-            yield svc, self.log_path_overrides.get(svc, path)
+            yield svc, self.log_path_overrides.get(svc, [path])
 
 
 class OSTProjectCatalog(object):
@@ -284,32 +284,32 @@ class OSTProjectCatalog(object):
                  systemd_masked_services=['aodh-api'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/aodh/aodh-api.log'}),
+                                     ['var/log/aodh/aodh-api.log']}),
         self.add('barbican', config={'main': 'barbican.conf'},
                  systemd_masked_services=['barbican-api'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/barbican/barbican-api.log'}),
+                                     ['var/log/barbican/barbican-api.log']}),
         self.add('ceilometer', config={'main': 'ceilometer.conf'},
                  systemd_masked_services=['ceilometer-api']),
         self.add('cinder', config={'main': 'cinder.conf'},
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/apache2/cinder_*.log'}),
+                                     ['var/log/apache2/cinder_*.log']}),
         self.add('designate', config={'main': 'designate.conf'}),
         self.add('glance', config={'main': 'glance-api.conf'}),
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
                  systemd_masked_services=['gnocchi-api'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/gnocchi/gnocchi-api.log'}),
+                                     ['var/log/gnocchi/gnocchi-api.log']}),
         self.add('heat', config={'main': 'heat.conf'}),
         self.add('horizon', apt_core_alt='openstack-dashboard'),
         self.add('keystone', config={'main': 'keystone.conf'},
                  systemd_masked_services=['keystone'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/keystone/keystone.log'}),
+                                     ['var/log/keystone/keystone.log']}),
         self.add('neutron',
                  config={'main': 'neutron.conf',
                          'openvswitch-agent':
@@ -323,24 +323,25 @@ class OSTProjectCatalog(object):
                                           'neutron-server'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/apache2/nova-*.log'}),
+                                     ['var/log/apache2/nova-*.log',
+                                      'var/log/nova/nova-api-wsgi.log']}),
         self.add('manila', config={'main': 'manila.conf'},
                  systemd_masked_services=['manila-api'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/manila/manila-api.log'}),
+                                     ['var/log/manila/manila-api.log']}),
         self.add('masakari', config={'main': 'masakari.conf'},
                  systemd_masked_services=['masakari']),
         self.add('octavia', config={'main': 'octavia.conf'},
                  systemd_masked_services=['octavia-api'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/octavia/octavia-api.log'}),
+                                     ['var/log/octavia/octavia-api.log']}),
         self.add('placement', config={'main': 'placement.conf'},
                  systemd_masked_services=['placement'],
                  systemd_substitute_services=['apache2'],
                  log_path_overrides={'apache2':
-                                     'var/log/apache2/*error.log'}),
+                                     ['var/log/apache2/*error.log']}),
         self.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'}),
 
