@@ -495,6 +495,15 @@ class CephCluster(object):
     def num_laggy_pgs(self):
         return len(self.laggy_pgs)
 
+    def pool_id_to_name(self, id):
+        if not self.osd_dump:
+            return
+
+        pools = self.osd_dump.get('pools', [])
+        for pool in pools:
+            if pool['pool'] == int(id):
+                return pool['pool_name']
+
     @property
     def large_omap_pgs(self):
         if self._large_omap_pgs:
@@ -505,10 +514,13 @@ class CephCluster(object):
 
         for pg in self.pg_dump['pg_map']['pg_stats']:
             if pg['stat_sum']['num_large_omap_objects'] > 0:
-                scrub = "last_scrub_at={}".format(pg['last_scrub_stamp'])
-                deep_scrub = ("last_deep_scrub_at={}".
-                              format(pg['last_scrub_stamp']))
-                self._large_omap_pgs[pg['pgid']] = [scrub, deep_scrub]
+                pg_id = pg['pgid']
+                pg_pool_id = pg_id.partition('.')[0]
+                self._large_omap_pgs[pg['pgid']] = {
+                        'pool': self.pool_id_to_name(pg_pool_id),
+                        'last_scrub_stamp': pg['last_scrub_stamp'],
+                        'last_deep_scrub_stamp': pg['last_deep_scrub_stamp']
+                        }
 
         return self._large_omap_pgs
 

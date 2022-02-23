@@ -381,6 +381,24 @@ class TestStorageCephClusterInfoCephMon(StorageCephMonTestsBase):
         inst()
         self.assertEqual(inst.output, expected)
 
+    @mock.patch('core.plugins.storage.ceph.CephCluster.pool_id_to_name',
+                lambda *args: 'foo')
+    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    def test_ceph_cluster_info_large_omap_pgs(self, mock_cli):
+        expected = {'ceph': {
+                        'large-omap-pgs': {
+                            '2.f': {
+                                'pool': 'foo',
+                                'last_scrub_stamp': '2021-09-16T21:26:00.00',
+                                'last_deep_scrub_stamp':
+                                    '2021-09-16T21:26:00.00'}}}}
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.ceph_pg_dump_json_decoded.return_value = \
+            PG_DUMP_JSON_DECODED
+        inst = ceph_info.CephClusterInfo()
+        inst()
+        self.assertEqual(inst.output, expected)
+
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance(self, mock_helper):
         result = self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
