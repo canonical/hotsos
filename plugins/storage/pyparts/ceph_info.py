@@ -89,4 +89,7 @@ class CephClusterInfo(CephChecksBase):
         self.get_ceph_versions()
         self.get_ceph_pg_imbalance()
         if self.cluster.crush_map.rules:
-            self._output['crush_rules'] = self.cluster.crush_map.rules
+            self._output['crush-rules'] = self.cluster.crush_map.rules
+
+        if self.cluster.large_omap_pgs:
+            self._output['large-omap-pgs'] = self.cluster.large_omap_pgs

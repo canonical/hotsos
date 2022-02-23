@@ -363,6 +363,24 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
 
 class TestStorageCephClusterInfoCephMon(StorageCephMonTestsBase):
 
+    def test_ceph_cluster_info(self):
+        expected = {'ceph': {
+                        'crush-rules': {
+                            'replicated_rule': {
+                                'id': 0,
+                                'pools': [
+                                    'device_health_metrics (1)',
+                                    'glance (2)',
+                                    'cinder-ceph (3)',
+                                    'nova (4)'],
+                                'type': 'replicated'}},
+                        'versions': {'mgr': ['15.2.14'],
+                                     'mon': ['15.2.14'],
+                                     'osd': ['15.2.14']}}}
+        inst = ceph_info.CephClusterInfo()
+        inst()
+        self.assertEqual(inst.output, expected)
+
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance(self, mock_helper):
         result = self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
@@ -610,14 +628,13 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
             PG_DUMP_JSON_DECODED
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
-
-        msg = ("Large omap objects found in pgs '{'2.f': "
-               "['last_scrub_at=2021-09-16T21:26:00.00', "
-               "'last_deep_scrub_at=2021-09-16T21:26:00.00']}'. This is "
-               "usually resolved by deep-scrubbing the pgs. Check config "
-               "options 'osd_deep_scrub_large_omap_object_key_threshold' and "
+        msg = ("Large omap objects found in pgs '2.f'. "
+               "This is usually resolved by deep-scrubbing the pgs. Check "
+               "config options "
+               "'osd_deep_scrub_large_omap_object_key_threshold' and "
                "'osd_deep_scrub_large_omap_object_value_sum_threshold' to "
-               "find whether the values of these keys are too high.")
+               "find whether the values of these keys are too high. "
+               "See full summary for more detail.")
         self.assertEqual([issue.msg for issue in issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CephCluster.OSD_META_LIMIT_KB',

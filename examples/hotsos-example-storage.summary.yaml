@@ -79,7 +79,7 @@ storage:
         - 15.2.14
       osd:
         - 15.2.14
-    crush_rules:
+    crush-rules:
       replicated_rule:
         id: 0
         type: replicated

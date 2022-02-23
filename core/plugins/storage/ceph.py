@@ -513,8 +513,11 @@ class CephCluster(object):
         return self._large_omap_pgs
 
     @property
-    def pgs_have_large_omap_objects(self):
-        return bool(self.large_omap_pgs)
+    def large_omap_pgs_str(self):
+        if not self.large_omap_pgs:
+            return
+
+        return ', '.join(self.large_omap_pgs.keys())
 
     @property
     def bluefs_oversized_metadata_osds(self):
