@@ -36,6 +36,7 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.maxDiff = None
+        os.environ["DEBUG_MODE"] = "True"
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals

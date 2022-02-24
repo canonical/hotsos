@@ -482,16 +482,23 @@ class YRequirementObj(YPropertyBase):
 
         Returns True if met otherwise False.
         """
-        if self.apt:
-            return self._apt_handler()
-        elif self.snap:
-            return self._snap_handler()
-        elif self.systemd:
-            return self._systemd_handler()
-        elif self.property:
-            return self._property_handler()
-        elif self.config:
-            return self._config_handler()
+        try:
+            if self.apt:
+                return self._apt_handler()
+            elif self.snap:
+                return self._snap_handler()
+            elif self.systemd:
+                return self._systemd_handler()
+            elif self.property:
+                return self._property_handler()
+            elif self.config:
+                return self._config_handler()
+        except Exception:
+            if constants.DEBUG_MODE:
+                # display traceback here before it gets swallowed up.
+                log.exception("requires.passes raised the following")
+
+            raise
 
         log.debug('unknown requirement check - passes=False')
         return False

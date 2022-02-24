@@ -73,10 +73,9 @@ plugins:
         - KubernetesNetworkChecks
   rabbitmq:
     parts:
-      cluster_checks:
-        - RabbitMQClusterChecks
-      service_info:
+      rabbitmq_info:
         - RabbitMQServiceChecks
+        - RabbitMQClusterInfo
       service_event_checks:
         - RabbitMQEventChecks
   sosreport:

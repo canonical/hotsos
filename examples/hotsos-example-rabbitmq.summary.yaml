@@ -1,6 +1,6 @@
 hotsos:
   version: development
-  repo-info: 0e374261
+  repo-info: 4c531585
 system:
   hostname: juju-04f1e3-1-lxd-5
   os: ubuntu focal
@@ -27,6 +27,8 @@ rabbitmq:
       - rabbitmq-server (1)
   dpkg:
     - rabbitmq-server 3.8.2-0ubuntu1.3
+  config:
+    cluster-partition-handling: ignore
   resources:
     vhosts:
       - /
@@ -48,10 +50,9 @@ rabbitmq:
         nova-compute: 11
         nova-conductor: 11
         nova-scheduler: 4
-    cluster-partition-handling: ignore
   potential-issues:
     RabbitMQWarnings:
-      - rabbit@juju-04f1e3-1-lxd-5 holds more than 2/3 of queues for 1/2 vhost(s).
-        (origin=rabbitmq.cluster_checks)
-      - Cluster partition handling is currently set to ignore. This is potentially
-        dangerous and a setting of pause_minority is recommended. (origin=rabbitmq.cluster_checks)
+      - RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding more than 2/3 of
+        queues for one or more vhosts. (origin=rabbitmq.auto_scenario_check)
+      - Cluster partition handling is currently set to "ignore". This is potentially
+        dangerous and a setting of "pause_minority" is recommended. (origin=rabbitmq.auto_scenario_check)

@@ -1,0 +1,13 @@
+checks:
+  partition_handling_is_ignore:
+    requires:
+      property: core.plugins.rabbitmq.RabbitMQReport.partition_handling
+      value: ignore
+conclusions:
+  partition-handling-is-ignore:
+    decision: partition_handling_is_ignore
+    raises:
+      type: core.issues.issue_types.RabbitMQWarning
+      message: >-
+        Cluster partition handling is currently set to "ignore". This is
+        potentially dangerous and a setting of "pause_minority" is recommended.

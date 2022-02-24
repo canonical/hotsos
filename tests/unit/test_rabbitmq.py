@@ -5,12 +5,13 @@ import mock
 
 from tests.unit import utils
 
+from core.issues import issue_types
 from core import constants
+from core.plugins.rabbitmq import RabbitMQReport
 from core.ycheck.bugs import YBugChecker
-from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
+from core.ycheck.scenarios import YScenarioChecker
 from plugins.rabbitmq.pyparts import (
-    cluster_checks,
-    service_info,
+    rabbitmq_info,
     service_event_checks,
 )
 
@@ -32,18 +33,56 @@ class TestRabbitmqBase(utils.BaseTestCase):
                                                'fake_data_root/rabbitmq')
 
 
+class TestRabbitMQReport(TestRabbitmqBase):
+
+    def test_property_caching(self):
+        report = RabbitMQReport()
+        cached_props = ['connections_searchdef',
+                        'memory_searchdef',
+                        'cluster_partition_handling_searchdef',
+                        'queues_searchdef']
+        self.assertEqual(sorted(report._property_cache.keys()),
+                         sorted(cached_props))
+
+        vhosts = report.vhosts
+        self.assertEqual([v.name for v in vhosts], ['/', 'openstack'])
+        cached_props.append('vhosts')
+        self.assertEqual(sorted(report._property_cache.keys()),
+                         sorted(cached_props))
+
+        report.memory_used
+        cached_props.append('memory_used')
+        self.assertEqual(sorted(report._property_cache.keys()),
+                         sorted(cached_props))
+
+        report.connections
+        cached_props.append('connections')
+        self.assertEqual(sorted(report._property_cache.keys()),
+                         sorted(cached_props))
+
+        with mock.patch.object(report.results, 'find_sequence_sections') as \
+                mock_results:
+            self.assertEqual(report.skewed_nodes,
+                             {'rabbit@juju-04f1e3-1-lxd-5': 1})
+            cached_props.append('skewed_nodes')
+            self.assertEqual(sorted(report._property_cache.keys()),
+                             sorted(cached_props))
+            # we dont expect this to be called again
+            self.assertFalse(mock_results.called)
+
+
 class TestRabbitmqServiceInfo(TestRabbitmqBase):
 
     @mock.patch('core.plugins.rabbitmq.RabbitMQChecksBase.plugin_runnable',
                 False)
-    def test_get_service_info_none(self):
-        inst = service_info.RabbitMQServiceChecks()
+    def test_get_rabbitmq_info_none(self):
+        inst = rabbitmq_info.RabbitMQServiceChecks()
         inst()
         self.assertFalse(inst.plugin_runnable)
         self.assertEqual(inst.output, None)
 
-    def test_get_service_info(self):
-        inst = service_info.RabbitMQServiceChecks()
+    def test_get_rabbitmq_info(self):
+        inst = rabbitmq_info.RabbitMQServiceChecks()
         inst()
         self.assertTrue(inst.plugin_runnable)
         self.assertEqual(inst.output,
@@ -55,10 +94,10 @@ class TestRabbitmqServiceInfo(TestRabbitmqBase):
                                     'rabbitmq-server (1)']}})
 
 
-class TestRabbitmqClusterChecks(TestRabbitmqBase):
+class TestRabbitMQClusterInfo(TestRabbitmqBase):
 
-    @mock.patch.object(cluster_checks, 'CLIHelper')
-    def test_cluster_checks_bionic(self, mock_helper):
+    @mock.patch('core.plugins.rabbitmq.CLIHelper')
+    def test_rabbitmq_info_bionic(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
 
         def fake_get_rabbitmqctl_report():
@@ -71,6 +110,7 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
             fake_get_rabbitmqctl_report
 
         expected = {
+            'config': {'cluster-partition-handling': 'ignore'},
             'resources': {
                 'vhosts': [
                     "/",
@@ -115,30 +155,16 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
                     'rabbit@juju-52088b-1-lxd-11': '605.539',
                     'rabbit@juju-52088b-0-lxd-11': '1195.559',
                 },
-                'cluster-partition-handling': 'ignore',
             },
         }
 
-        inst = cluster_checks.RabbitMQClusterChecks()
+        inst = rabbitmq_info.RabbitMQClusterInfo()
         inst()
-        issues = cluster_checks.issue_utils._get_plugin_issues()
-
         self.assertEqual(inst.output, expected)
-        self.assertEqual(issues,
-                         {MASTER_YAML_ISSUES_FOUND_KEY:
-                          [{'type': 'RabbitMQWarning',
-                            'desc': ('rabbit@juju-52088b-0-lxd-11 holds more '
-                                     'than 2/3 of queues for 1/5 vhost(s).'),
-                            'origin': 'rabbitmq.01part'},
-                           {'desc': 'Cluster partition handling is currently '
-                                    'set to ignore. This is potentially '
-                                    'dangerous and a setting of '
-                                    'pause_minority is recommended.',
-                            'origin': 'rabbitmq.01part',
-                            'type': 'RabbitMQWarning'}]})
 
-    def test_cluster_checks_focal(self):
-        expected = {'resources': {
+    def test_rabbitmq_info_focal(self):
+        expected = {'config': {'cluster-partition-handling': 'ignore'},
+                    'resources': {
                         'vhosts': [
                             '/',
                             'openstack'],
@@ -158,40 +184,26 @@ class TestRabbitmqClusterChecks(TestRabbitmqBase):
                             'nova': {'nova-api-metadata': 24,
                                      'nova-compute': 11,
                                      'nova-conductor': 11,
-                                     'nova-scheduler': 4}},
-                        'cluster-partition-handling': 'ignore'}}
+                                     'nova-scheduler': 4}}}}
 
-        inst = cluster_checks.RabbitMQClusterChecks()
+        inst = rabbitmq_info.RabbitMQClusterInfo()
         inst()
-        issues = cluster_checks.issue_utils._get_plugin_issues()
-
         self.assertEqual(inst.output, expected)
-        self.assertEqual(issues,
-                         {MASTER_YAML_ISSUES_FOUND_KEY:
-                          [{'type': 'RabbitMQWarning',
-                            'desc': ('rabbit@juju-04f1e3-1-lxd-5 holds more '
-                                     'than 2/3 of queues for 1/2 vhost(s).'),
-                            'origin': 'rabbitmq.01part'},
-                           {'desc': 'Cluster partition handling is currently '
-                                    'set to ignore. This is potentially '
-                                    'dangerous and a setting of '
-                                    'pause_minority is recommended.',
-                            'origin': 'rabbitmq.01part',
-                            'type': 'RabbitMQWarning'}]})
 
-    @mock.patch.object(cluster_checks, 'CLIHelper')
-    def test_get_service_info_no_report(self, mock_helper):
+    @mock.patch('core.plugins.rabbitmq.CLIHelper')
+    def test_get_rabbitmq_info_no_report(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.rabbitmqctl_report.return_value = []
-        inst = cluster_checks.RabbitMQClusterChecks()
+        inst = rabbitmq_info.RabbitMQClusterInfo()
         inst()
-        self.assertIsNone(inst.output)
+        self.assertEqual(inst.output,
+                         {'config': {'cluster-partition-handling': 'unknown'}})
 
 
 class TestRabbitmqBugChecks(TestRabbitmqBase):
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('rabbtimq-server.yaml'))
+                new=utils.is_def_filter('rabbitmq-server.yaml'))
     @mock.patch('core.ycheck.bugs.add_known_bug')
     def test_1943937(self, mock_add_known_bug):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -231,3 +243,49 @@ class TestRabbitmqEventChecks(TestRabbitmqBase):
             inst()
             self.assertEqual(inst.output, None)
             self.assertTrue(mock_add_issue.called)
+
+
+class TestRabbitmqScenarioChecks(TestRabbitmqBase):
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('cluster_config.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_cluster_config(self, mock_add_issue):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+        self.assertTrue(issue_types.RabbitMQWarning in issues)
+        msg = ('Cluster partition handling is currently set to "ignore". This '
+               'is potentially dangerous and a setting of '
+               '"pause_minority" is recommended.')
+
+        self.assertEqual(msg, issues[issue_types.RabbitMQWarning][0])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('cluster_resources.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_cluster_resources(self, mock_add_issue):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+        self.assertTrue(issue_types.RabbitMQWarning in issues)
+        msg = ('RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding '
+               'more than 2/3 of queues for one or more vhosts.')
+
+        self.assertEqual(msg, issues[issue_types.RabbitMQWarning][0])
