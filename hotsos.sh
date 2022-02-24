@@ -29,6 +29,7 @@ export DATA_ROOT
 export AGENT_ERROR_KEY_BY_TIME=false
 # Output format - default is yaml
 export OUTPUT_FORMAT='yaml'
+export OUTPUT_ENCODING=
 # Path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT=`mktemp`
 export USE_ALL_LOGS=false
@@ -131,6 +132,8 @@ OPTIONS
         This message.
     --json
         Output in json format.
+    --html-escape
+        Apply html escaping to the output so that it is safe to display in html.
     --<plugin name>
         Use the specified plugin.
     --list-plugins
@@ -210,6 +213,9 @@ while (($#)); do
             ;;
         --json)
             OUTPUT_FORMAT=json
+            ;;
+        --html-escape)
+            OUTPUT_ENCODING=html
             ;;
         -a|--all)
             PLUGINS[all]=true
