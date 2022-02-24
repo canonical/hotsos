@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-import yaml
+import html
 import json
+import yaml
 
 from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
 from core.known_bugs_utils import MASTER_YAML_KNOWN_BUGS_KEY
@@ -94,6 +95,13 @@ def convert_output_to_json():
             fd.write(json.dumps(master_yaml, indent=2, sort_keys=True))
 
 
+def encode_output_to_html():
+    with open(constants.MASTER_YAML_OUT, encoding='utf-8') as fd:
+        master_yaml = fd.read()
+        with open(constants.MASTER_YAML_OUT, 'w', encoding='utf-8') as fd:
+            fd.write(html.escape(master_yaml))
+
+
 if __name__ == "__main__":
     if constants.MINIMAL_MODE:
         minimise_master_output(constants.MINIMAL_MODE)
@@ -101,3 +109,7 @@ if __name__ == "__main__":
     if constants.OUTPUT_FORMAT == 'json':
         log.debug('Converting master yaml file to %s', constants.OUTPUT_FORMAT)
         convert_output_to_json()
+
+    if constants.OUTPUT_ENCODING == 'html':
+        log.debug('Encoding output file to %s', constants.OUTPUT_ENCODING)
+        encode_output_to_html()

@@ -28,6 +28,10 @@ class constants_properties(type):
         return cls._OUTPUT_FORMAT()
 
     @property
+    def OUTPUT_ENCODING(cls):
+        return cls._OUTPUT_ENCODING()
+
+    @property
     def PLUGIN_TMP_DIR(cls):
         return cls._PLUGIN_TMP_DIR()
 
@@ -97,6 +101,10 @@ class constants(object, metaclass=constants_properties):
     @classmethod
     def _OUTPUT_FORMAT(cls):
         return os.environ.get('OUTPUT_FORMAT', 'yaml')
+
+    @classmethod
+    def _OUTPUT_ENCODING(cls):
+        return os.environ.get('OUTPUT_ENCODING')
 
     @classmethod
     def _PLUGIN_TMP_DIR(cls):
