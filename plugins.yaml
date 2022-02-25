@@ -76,8 +76,6 @@ plugins:
       rabbitmq_info:
         - RabbitMQServiceChecks
         - RabbitMQClusterInfo
-      service_event_checks:
-        - RabbitMQEventChecks
   sosreport:
     parts:
       general:

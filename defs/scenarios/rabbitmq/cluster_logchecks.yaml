@@ -1,0 +1,39 @@
+checks:
+  # global
+  input:
+    path: 'var/log/rabbitmq/rabbit@*.log'
+  cluster-partitions:
+    expr: '.+ \S+_partitioned_network'
+    hint: 'partition'
+  no-sync:
+    expr: 'Mirrored queue ''.+'' in vhost ''.+'': Stopping'
+    hint: 'synchronised'
+  discard:
+    expr: 'Discarding message.+old incarnation'
+    hint: 'Discarding'
+
+conclusions:
+  cluster_has_had_partions:
+    decision: cluster-partitions
+    raises:
+      type: core.issues.issue_types.RabbitMQWarning
+      message: >-
+        This rabbitmq cluster either has or has had partitions - please check
+        rabbtimqctl cluster_status.
+  cluster_sync_issues:
+    decision: no-sync
+    raises:
+      type: core.issues.issue_types.RabbitMQWarning
+      message: >-
+        Transient mirrored classic queues are not deleted when there are no
+        replicas available for promotion. Please stop all rabbitmq-server
+        units and restart the cluster. Note that a rolling restart will not
+        work.
+  cluster_discard_messages:
+    decision: discard
+    raises:
+      type: core.issues.issue_types.RabbitMQWarning
+      message: >-
+        Messages were discarded because transient mirrored classic queues are
+        not syncronized. Please stop all rabbitmq-server units and restart the
+        cluster. Note that a rolling restart will not work.

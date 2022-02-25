@@ -10,10 +10,7 @@ from core import constants
 from core.plugins.rabbitmq import RabbitMQReport
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.rabbitmq.pyparts import (
-    rabbitmq_info,
-    service_event_checks,
-)
+from plugins.rabbitmq.pyparts import rabbitmq_info
 
 RABBITMQ_LOGS = """
 Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdown since no synchronised slave is available
@@ -228,23 +225,6 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
             mock_add_known_bug.assert_has_calls([mock.call('1943937', msg)])
 
 
-class TestRabbitmqEventChecks(TestRabbitmqBase):
-
-    @mock.patch.object(service_event_checks.issue_utils, 'add_issue')
-    def test_service_event_checks(self, mock_add_issue):
-        with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(RABBITMQ_LOGS)
-
-            inst = service_event_checks.RabbitMQEventChecks()
-            inst()
-            self.assertEqual(inst.output, None)
-            self.assertTrue(mock_add_issue.called)
-
-
 class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
@@ -289,3 +269,40 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                'more than 2/3 of queues for one or more vhosts.')
 
         self.assertEqual(msg, issues[issue_types.RabbitMQWarning][0])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('cluster_logchecks.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_cluster_logchecks(self, mock_add_issue):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(RABBITMQ_LOGS)
+
+            YScenarioChecker()()
+            self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 3)
+            self.assertTrue(issue_types.RabbitMQWarning in issues)
+            msg1 = ('Messages were discarded because transient mirrored '
+                    'classic queues are not syncronized. Please stop all '
+                    'rabbitmq-server units and restart the cluster. '
+                    'Note that a rolling restart will not work.')
+            msg2 = ('This rabbitmq cluster either has or has had partitions - '
+                    'please check rabbtimqctl cluster_status.')
+            msg3 = ('Transient mirrored classic queues are not deleted when '
+                    'there are no replicas available for promotion. Please '
+                    'stop all rabbitmq-server units and restart the cluster. '
+                    'Note that a rolling restart will not work.')
+            expected = sorted([msg1, msg2, msg3])
+            actual = sorted(issues[issue_types.RabbitMQWarning])
+            self.assertEqual(actual, expected)
