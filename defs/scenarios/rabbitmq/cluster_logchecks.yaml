@@ -35,5 +35,5 @@ conclusions:
       type: core.issues.issue_types.RabbitMQWarning
       message: >-
         Messages were discarded because transient mirrored classic queues are
-        not syncronized. Please stop all rabbitmq-server units and restart the
+        not synchronized. Please stop all rabbitmq-server units and restart the
         cluster. Note that a rolling restart will not work.
