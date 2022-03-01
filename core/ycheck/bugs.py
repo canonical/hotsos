@@ -4,12 +4,12 @@ from core.known_bugs_utils import add_known_bug
 from core.ycheck import (
     YDefsLoader,
     YDefsSection,
-    AutoChecksBase,
+    ChecksBase,
 )
 from core.searchtools import FileSearcher, SearchDef
 
 
-class YBugChecker(AutoChecksBase):
+class YBugChecker(ChecksBase):
     """ Class used to identify bugs by matching criteria defined in yaml. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, searchobj=FileSearcher(), **kwargs)

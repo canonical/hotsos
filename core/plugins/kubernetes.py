@@ -17,8 +17,7 @@ SERVICES = [r"etcd\S*",
             ]
 
 # Packages that only exist in a K8s deployment
-K8S_PACKAGES = [r'charm[\S]+',
-                r'cdk-addons',
+K8S_PACKAGES = [r'cdk-addons',
                 r'helm',
                 r'kubernetes-[\S]+',
                 r'kube-[\S]+',
@@ -28,7 +27,8 @@ K8S_PACKAGES = [r'charm[\S]+',
                 r'kubefed',
                 ]
 # Packages that are used in a K8s deployment
-K8S_PACKAGE_DEPS = [r'docker',
+K8S_PACKAGE_DEPS = [r'charm[\S]+',
+                    r'docker',
                     r'go',
                     r'vault',
                     r'etcd',

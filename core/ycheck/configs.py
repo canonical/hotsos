@@ -3,12 +3,12 @@ from core.issues import issue_utils
 from core.log import log
 from core.ycheck import (
     YDefsLoader,
-    AutoChecksBase,
+    ChecksBase,
     YDefsSection,
 )
 
 
-class YConfigChecker(AutoChecksBase):
+class YConfigChecker(ChecksBase):
     """
     This class is used to peform checks on any kind of config. See
     defs/config_checks.yaml.

@@ -800,6 +800,7 @@ class ChecksBase(object):
         super().__init__(*args, **kwargs)
         self.searchobj = searchobj
         self._yaml_defs_group = yaml_defs_group
+        self.__final_checks_results = None
 
     def load(self):
         raise NotImplementedError
@@ -808,22 +809,17 @@ class ChecksBase(object):
         raise NotImplementedError
 
     def run_checks(self):
+        if self.__final_checks_results:
+            return self.__final_checks_results
+
         self.load()
         if self.searchobj:
             ret = self.run(self.searchobj.search())
         else:
             ret = self.run()
 
+        self.__final_checks_results = ret
         return ret
-
-
-class AutoChecksBase(ChecksBase):
-
-    def __call__(self):
-        return self.run_checks()
-
-
-class ManualChecksBase(ChecksBase):
 
     def __call__(self):
         return self.run_checks()

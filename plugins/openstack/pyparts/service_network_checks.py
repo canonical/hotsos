@@ -3,7 +3,7 @@ import re
 from core.cli_helpers import CLIHelper
 from core.plugins.openstack import OpenstackChecksBase
 
-YAML_PRIORITY = 4
+YAML_OFFSET = 4
 
 
 class OpenstackNetworkChecks(OpenstackChecksBase):
@@ -13,9 +13,8 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         self.cli = CLIHelper()
 
     @property
-    def output(self):
-        if self._output:
-            return {"network": self._output}
+    def summary_subkey(self):
+        return 'network'
 
     def _get_port_stat_outliers(self, counters):
         """ For a given port's packet counters, identify outliers i.e. > 1%
@@ -40,14 +39,8 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
         return stats
 
-    def get_config_network_info(self):
-        """ Identify ports used by Openstack services, include them in output
-        for informational purposes along with their health (dropped packets
-        etc) for any outliers detected.
-        """
-        port_health_info = {}
+    def get_config_info(self):
         config_info = {}
-
         for project in ['nova', 'neutron', 'octavia']:
             _project = getattr(self, project)
             if _project and _project.bind_interfaces:
@@ -56,6 +49,19 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                         config_info[project] = {}
 
                     config_info[project][name] = port.to_dict()
+
+        return config_info
+
+    def get_phy_port_health_info(self):
+        """ Identify ports used by Openstack services, include them in output
+        for informational purposes along with their health (dropped packets
+        etc) for any outliers detected.
+        """
+        port_health_info = {}
+        for project in ['nova', 'neutron', 'octavia']:
+            _project = getattr(self, project)
+            if _project and _project.bind_interfaces:
+                for port in _project.bind_interfaces.values():
                     if port.stats:
                         stats = self._get_port_stat_outliers(port.stats)
                         if not stats:
@@ -63,17 +69,19 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
                         port_health_info[port.name] = stats
 
+        return port_health_info
+
+    def __summary_config(self):
+        config_info = self.get_config_info()
         if config_info:
-            self._output['config'] = config_info
+            return config_info
 
+    def __summary_phy_port_health(self):
+        port_health_info = self.get_phy_port_health_info()
         if port_health_info:
-            health = {'phy-ports': port_health_info}
-            if 'port-health' in self._output:
-                self._output['port-health'].update(health)
-            else:
-                self._output['port-health'] = health
+            return port_health_info
 
-    def get_ns_info(self):
+    def __summary_namespaces(self):
         """Populate namespace information dict."""
         ns_info = {}
         for line in self.cli.ip_netns():
@@ -85,9 +93,9 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                     ns_info[ret[1]] = 1
 
         if ns_info:
-            self._output["namespaces"] = ns_info
+            return ns_info
 
-    def get_instances_port_health(self):
+    def __summary_vm_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
         if not self.nova.instances:
@@ -108,18 +116,6 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                     port_health_info[guest.uuid][port.hwaddr] = outliers
 
         if port_health_info:
-            health = {"vm-ports": {"num-vms-checked": len(self.nova.instances),
-                                   "stats": port_health_info}}
-            if "port-health" in self._output:
-                self._output["port-health"].update(health)
-            else:
-                self._output["port-health"] = health
-
-    def __call__(self):
-        # Only run if we think Openstack is installed.
-        if not self.openstack_installed:
-            return
-
-        self.get_ns_info()
-        self.get_config_network_info()
-        self.get_instances_port_health()
+            health = {'num-vms-checked': len(self.nova.instances),
+                      'stats': port_health_info}
+            return health

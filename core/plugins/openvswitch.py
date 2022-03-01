@@ -181,7 +181,7 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
 
             return stats
 
-    def __call__(self):
-        ret = self.run_checks()
-        if ret:
-            self._output.update(ret)
+    @property
+    def summary(self):
+        # mainline all results into summary root
+        return self.run_checks()

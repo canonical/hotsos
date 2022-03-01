@@ -3,10 +3,14 @@ import os
 from core import constants
 from core.plugins.system import SystemChecksBase, SYSCtlHelper
 
-YAML_PRIORITY = 1
+YAML_OFFSET = 1
 
 
 class SystemChecks(SystemChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._cached_fs_sysctl = None
 
     def _get_values_prioritised(self, config, key_priorities, conffile):
         """
@@ -110,16 +114,23 @@ class SystemChecks(SystemChecksBase):
 
         return config
 
-    def sysctl_checks(self):
-        """ Compare the values for any key set under sysctl.d and report
-        an issue if any mismatches detected.
-        """
+    def _get_fs_sysctl(self):
+        if self._cached_fs_sysctl:
+            return self._cached_fs_sysctl
+
         sysctl = self._get_sysctl_d()
         # /etc/sysctl.conf overrides all
         _sysctl = self._get_sysctl_conf()
         sysctl['set'].update(_sysctl['set'])
         sysctl['unset'].update(_sysctl['unset'])
+        self._cached_fs_sysctl = sysctl
+        return self._cached_fs_sysctl
 
+    def __summary_sysctl_mismatch(self):
+        """ Compare the values for any key set under sysctl.d and report
+        an issue if any mismatches detected.
+        """
+        sysctl = self._get_fs_sysctl()
         mismatch = {}
         for key, config in sysctl['set'].items():
             # some keys will not be readable e.g. when inside an unprivileged
@@ -138,8 +149,13 @@ class SystemChecks(SystemChecksBase):
                                  "expected": value}
 
         if mismatch:
-            self._output['sysctl-mismatch'] = mismatch
+            return mismatch
 
+    def __summary_juju_charm_sysctl_mismatch(self):
+        """ Compare the values for any key set under sysctl.d and report
+        an issue if any mismatches detected.
+        """
+        sysctl = self._get_fs_sysctl()
         mismatch = {}
         sysctl = self._get_charm_sysctl_d()
         for key, config in sysctl['set'].items():
@@ -150,8 +166,4 @@ class SystemChecks(SystemChecksBase):
                                  "expected": value}
 
         if mismatch:
-            # We dont raise an issue for this sine it is just informational
-            self._output['juju-charm-sysctl-mismatch'] = mismatch
-
-    def __call__(self):
-        self.sysctl_checks()
+            return mismatch

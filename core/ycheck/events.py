@@ -5,7 +5,7 @@ from core.searchtools import (
 )
 from core.ycheck import (
     YDefsLoader,
-    ManualChecksBase,
+    ChecksBase,
     YDefsSection,
 )
 
@@ -30,25 +30,19 @@ class EventCheckResult(object):
         self.sequence_def = sequence_def
 
 
-class YEventCheckerBase(ManualChecksBase):
+class YEventCheckerBase(ChecksBase):
 
-    def __init__(self, *args, callback_helper=None,
-                 event_results_output_key=None, **kwargs):
+    def __init__(self, *args, callback_helper=None, **kwargs):
         """
         @param callback_helper: optionally provide a callback helper. This is
         used to "register" callbacks against events defined in the yaml so
         that they are automatically called when corresponding events are
         detected.
-        @param event_results_output_key: by default the plugin output will be
-                                         set to the return of process_results()
-                                         but that can be optionally set
-                                         with this key as root e.g. to avoid
-                                         clobbering other results.
         """
         super().__init__(*args, **kwargs)
         self.callback_helper = callback_helper
-        self.event_results_output_key = event_results_output_key
-        self._event_defs = {}
+        self.__event_defs = {}
+        self.__final_event_results = None
 
     def _load_event_definitions(self):
         """
@@ -137,11 +131,11 @@ class YEventCheckerBase(ManualChecksBase):
 
             datasource = event.input.path
             section_name = event.parent.name
-            if section_name not in self._event_defs:
-                self._event_defs[section_name] = {}
+            if section_name not in self.__event_defs:
+                self.__event_defs[section_name] = {}
 
             search_meta['datasource'] = datasource
-            self._event_defs[section_name][event.name] = search_meta
+            self.__event_defs[section_name][event.name] = search_meta
 
     @property
     def event_definitions(self):
@@ -149,11 +143,11 @@ class YEventCheckerBase(ManualChecksBase):
         @return: dict of SearchDef objects and datasource for all entries in
         defs/events.yaml under _yaml_defs_group.
         """
-        if self._event_defs:
-            return self._event_defs
+        if self.__event_defs:
+            return self.__event_defs
 
         self._load_event_definitions()
-        return self._event_defs
+        return self.__event_defs
 
     def load(self):
         """
@@ -167,6 +161,13 @@ class YEventCheckerBase(ManualChecksBase):
                 for sd in event["searchdefs"]:
                     self.searchobj.add_search_term(sd, event["datasource"])
 
+    @property
+    def final_event_results(self):
+        """
+        This is a cache of the results obtained by running run().
+        """
+        return self.__final_event_results
+
     def run(self, results):
         """
         Provide a default way for results to be processed. This requires a
@@ -176,6 +177,9 @@ class YEventCheckerBase(ManualChecksBase):
 
         See defs/events.yaml for definitions.
         """
+        if self.__final_event_results:
+            return self.__final_event_results
+
         if self.callback_helper is None or not self.callback_helper.callbacks:
             # If there are no callbacks registered this method must be
             # (re)implemented.
@@ -235,7 +239,5 @@ class YEventCheckerBase(ManualChecksBase):
                     info[out_key] = ret
 
         if info:
-            if self.event_results_output_key:
-                info = {self.event_results_output_key: info}
-
+            self.__final_event_results = info
             return info

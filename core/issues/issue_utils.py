@@ -96,4 +96,5 @@ def add_issues_to_master_plugin():
         types[issue_type].append(msg)
 
     issues = {MASTER_YAML_ISSUES_FOUND_KEY: types}
-    plugintools.save_part(issues, priority=99)
+    end = plugintools.PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
+    plugintools.save_part(issues, offset=end)

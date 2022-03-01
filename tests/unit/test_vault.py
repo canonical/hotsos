@@ -2,7 +2,7 @@ import os
 
 from tests.unit import utils
 
-from plugins.vault.pyparts import general
+from plugins.vault.pyparts import summary
 
 
 class TestVaultPluginPartGeneral(utils.BaseTestCase):
@@ -13,22 +13,21 @@ class TestVaultPluginPartGeneral(utils.BaseTestCase):
                                                'fake_data_root/vault')
 
     def test_install(self):
-        inst = general.VaultInstallChecks()
-        inst()
-        self.assertEqual(inst.output, {'snaps': ['vault 1.5.9']})
+        inst = summary.VaultSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
+                         ['vault 1.5.9'])
 
     def test_services(self):
-        expected = {'services': {
-                        # TODO: this needs fixing - the pid is not identifiable
-                        # under the vault.service but instead under a .scope of
-                        #
-                        # snap.vault.vault
-                        'ps': [],
-                        'systemd': {
-                            'enabled': [
-                                'vault',
-                                'vault-mysql-router']
-                            }}}
-        inst = general.VaultServiceChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        # TODO: this needs fixing - the pid is not identifiable
+        # under the vault.service but instead under a .scope of
+        #
+        # snap.vault.vault
+        expected = {'ps': [],
+                    'systemd': {
+                        'enabled': [
+                            'vault',
+                            'vault-mysql-router']
+                        }}
+        inst = summary.VaultSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['services'],
+                         expected)

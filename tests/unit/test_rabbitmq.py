@@ -10,7 +10,7 @@ from core import constants
 from core.plugins.rabbitmq import RabbitMQReport
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.rabbitmq.pyparts import rabbitmq_info
+from plugins.rabbitmq.pyparts import summary
 
 RABBITMQ_LOGS = """
 Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdown since no synchronised slave is available
@@ -68,33 +68,28 @@ class TestRabbitMQReport(TestRabbitmqBase):
             self.assertFalse(mock_results.called)
 
 
-class TestRabbitmqServiceInfo(TestRabbitmqBase):
+class TestRabbitmqSummary(TestRabbitmqBase):
 
-    @mock.patch('core.plugins.rabbitmq.RabbitMQChecksBase.plugin_runnable',
-                False)
-    def test_get_rabbitmq_info_none(self):
-        inst = rabbitmq_info.RabbitMQServiceChecks()
-        inst()
-        self.assertFalse(inst.plugin_runnable)
-        self.assertEqual(inst.output, None)
-
-    def test_get_rabbitmq_info(self):
-        inst = rabbitmq_info.RabbitMQServiceChecks()
-        inst()
+    def test_get_summary(self):
+        inst = summary.RabbitMQSummary()
         self.assertTrue(inst.plugin_runnable)
-        self.assertEqual(inst.output,
-                         {'dpkg': ['rabbitmq-server 3.8.2-0ubuntu1.3'],
-                          'services': {
-                             'systemd': {
-                                'enabled': ['epmd', 'rabbitmq-server']},
-                             'ps': ['beam.smp (1)', 'epmd (1)',
-                                    'rabbitmq-server (1)']}})
-
-
-class TestRabbitMQClusterInfo(TestRabbitmqBase):
+        self.assertEquals(list(inst.output.keys()),
+                          ['config',
+                           'dpkg',
+                           'resources',
+                           'services'])
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['dpkg'], ['rabbitmq-server 3.8.2-0ubuntu1.3'])
+        self.assertEqual(actual['services'],
+                         {'systemd': {
+                              'enabled': ['epmd', 'rabbitmq-server']},
+                          'ps': ['beam.smp (1)', 'epmd (1)',
+                                 'rabbitmq-server (1)']})
+        self.assertEqual(actual['config'],
+                         {'cluster-partition-handling': 'ignore'})
 
     @mock.patch('core.plugins.rabbitmq.CLIHelper')
-    def test_rabbitmq_info_bionic(self, mock_helper):
+    def test_summary_bionic(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
 
         def fake_get_rabbitmqctl_report():
@@ -107,94 +102,89 @@ class TestRabbitMQClusterInfo(TestRabbitmqBase):
             fake_get_rabbitmqctl_report
 
         expected = {
-            'config': {'cluster-partition-handling': 'ignore'},
-            'resources': {
-                'vhosts': [
-                    "/",
-                    "openstack",
-                    "telegraf-telegraf-12",
-                    "telegraf-telegraf-13",
-                    "telegraf-telegraf-14",
-                    ],
-                'vhost-queue-distributions': {
-                    'openstack': {
-                        'rabbit@juju-52088b-0-lxd-11': '1137 (86.14%)',
-                        'rabbit@juju-52088b-1-lxd-11': '108 (8.18%)',
-                        'rabbit@juju-52088b-2-lxd-10': '75 (5.68%)',
-                    },
+            'vhosts': [
+                "/",
+                "openstack",
+                "telegraf-telegraf-12",
+                "telegraf-telegraf-13",
+                "telegraf-telegraf-14",
+                ],
+            'vhost-queue-distributions': {
+                'openstack': {
+                    'rabbit@juju-52088b-0-lxd-11': '1137 (86.14%)',
+                    'rabbit@juju-52088b-1-lxd-11': '108 (8.18%)',
+                    'rabbit@juju-52088b-2-lxd-10': '75 (5.68%)',
                 },
-                'connections-per-host': {
-                    'rabbit@juju-52088b-0-lxd-11': 1316,
-                    'rabbit@juju-52088b-1-lxd-11': 521,
-                    'rabbit@juju-52088b-2-lxd-10': 454
-                },
-                'client-connections': {
-                    'cinder': {'cinder-scheduler': 9,
-                               'cinder-volume': 24,
-                               'mod_wsgi': 36},
-                    'neutron': {'neutron-dhcp-agent': 90,
-                                'neutron-l3-agent': 21,
-                                'neutron-lbaasv2-agent': 12,
-                                'neutron-metadata-agent': 424,
-                                'neutron-metering-agent': 12,
-                                'neutron-openvswitch-agent': 296,
-                                'neutron-server': 456},
-                    'nova': {'mod_wsgi': 34,
-                             'nova-api-metadata': 339,
-                             'nova-compute': 187,
-                             'nova-conductor': 129,
-                             'nova-consoleauth': 3,
-                             'nova-scheduler': 216},
-                    'octavia': {'octavia-worker': 3},
-                },
-                'memory-used-mib': {
-                    'rabbit@juju-52088b-2-lxd-10': '558.877',
-                    'rabbit@juju-52088b-1-lxd-11': '605.539',
-                    'rabbit@juju-52088b-0-lxd-11': '1195.559',
-                },
+            },
+            'connections-per-host': {
+                'rabbit@juju-52088b-0-lxd-11': 1316,
+                'rabbit@juju-52088b-1-lxd-11': 521,
+                'rabbit@juju-52088b-2-lxd-10': 454
+            },
+            'client-connections': {
+                'cinder': {'cinder-scheduler': 9,
+                           'cinder-volume': 24,
+                           'mod_wsgi': 36},
+                'neutron': {'neutron-dhcp-agent': 90,
+                            'neutron-l3-agent': 21,
+                            'neutron-lbaasv2-agent': 12,
+                            'neutron-metadata-agent': 424,
+                            'neutron-metering-agent': 12,
+                            'neutron-openvswitch-agent': 296,
+                            'neutron-server': 456},
+                'nova': {'mod_wsgi': 34,
+                         'nova-api-metadata': 339,
+                         'nova-compute': 187,
+                         'nova-conductor': 129,
+                         'nova-consoleauth': 3,
+                         'nova-scheduler': 216},
+                'octavia': {'octavia-worker': 3},
+            },
+            'memory-used-mib': {
+                'rabbit@juju-52088b-2-lxd-10': '558.877',
+                'rabbit@juju-52088b-1-lxd-11': '605.539',
+                'rabbit@juju-52088b-0-lxd-11': '1195.559',
             },
         }
 
-        inst = rabbitmq_info.RabbitMQClusterInfo()
-        inst()
-        self.assertEqual(inst.output, expected)
+        inst = summary.RabbitMQSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['resources'],
+                         expected)
 
-    def test_rabbitmq_info_focal(self):
-        expected = {'config': {'cluster-partition-handling': 'ignore'},
-                    'resources': {
-                        'vhosts': [
-                            '/',
-                            'openstack'],
-                        'vhost-queue-distributions': {
-                            'openstack': {
-                                'rabbit@juju-04f1e3-1-lxd-5': '194 (100.00%)'
-                                }},
-                        'connections-per-host': {
-                            'rabbit@juju-04f1e3-1-lxd-5': 159},
-                        'client-connections': {
-                            'neutron': {
-                                'neutron-openvswitch-agent': 39,
-                                'neutron-server': 37,
-                                'neutron-l3-agent': 15,
-                                'neutron-dhcp-agent': 12,
-                                'neutron-metadata-agent': 6},
-                            'nova': {'nova-api-metadata': 24,
-                                     'nova-compute': 11,
-                                     'nova-conductor': 11,
-                                     'nova-scheduler': 4}}}}
+    def test_summary_focal(self):
+        expected = {
+            'vhosts': [
+                '/',
+                'openstack'],
+            'vhost-queue-distributions': {
+                'openstack': {
+                    'rabbit@juju-04f1e3-1-lxd-5': '194 (100.00%)'
+                    }},
+            'connections-per-host': {
+                'rabbit@juju-04f1e3-1-lxd-5': 159},
+            'client-connections': {
+                'neutron': {
+                    'neutron-openvswitch-agent': 39,
+                    'neutron-server': 37,
+                    'neutron-l3-agent': 15,
+                    'neutron-dhcp-agent': 12,
+                    'neutron-metadata-agent': 6},
+                'nova': {'nova-api-metadata': 24,
+                         'nova-compute': 11,
+                         'nova-conductor': 11,
+                         'nova-scheduler': 4}}}
 
-        inst = rabbitmq_info.RabbitMQClusterInfo()
-        inst()
-        self.assertEqual(inst.output, expected)
+        inst = summary.RabbitMQSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['resources'],
+                         expected)
 
     @mock.patch('core.plugins.rabbitmq.CLIHelper')
-    def test_get_rabbitmq_info_no_report(self, mock_helper):
+    def test_get_summary_no_report(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.rabbitmqctl_report.return_value = []
-        inst = rabbitmq_info.RabbitMQClusterInfo()
-        inst()
-        self.assertEqual(inst.output,
-                         {'config': {'cluster-partition-handling': 'unknown'}})
+        inst = summary.RabbitMQSummary()
+        self.assertTrue('resources' not in
+                        self.part_output_to_actual(inst.output))
 
 
 class TestRabbitmqBugChecks(TestRabbitmqBase):

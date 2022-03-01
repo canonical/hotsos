@@ -1,53 +1,40 @@
+from core.plugintools import summary_entry_offset as idx
 from core.host_helpers import NetworkPort
 from core.plugins.openvswitch import OpenvSwitchChecksBase
 
-YAML_PRIORITY = 0
+YAML_OFFSET = 0
 
 
-class OpenvSwitchServiceChecks(OpenvSwitchChecksBase):
+class OpenvSwitchSummary(OpenvSwitchChecksBase):
 
-    def get_running_services_info(self):
+    @idx(0)
+    def __summary_services(self):
         """Get string info for running daemons."""
         if self.svc_check.services:
-            self._output['services'] = {'systemd': self.svc_check.service_info,
-                                        'ps': self.svc_check.process_info}
+            return {'systemd': self.svc_check.service_info,
+                    'ps': self.svc_check.process_info}
 
-    def __call__(self):
-        self.get_running_services_info()
+    @idx(1)
+    def __summary_dpkg(self):
+        return self.apt_check.all_formatted
 
-
-class OpenvSwitchPackageChecks(OpenvSwitchChecksBase):
-
-    def __call__(self):
-        self._output['dpkg'] = self.apt_check.all_formatted
-
-
-class OpenvSwitchConfigChecks(OpenvSwitchChecksBase):
-
-    @property
-    def output(self):
-        if self._output:
-            return {'config': self._output}
-
-    def __call__(self):
+    @idx(2)
+    def __summary_config(self):
+        _config = {}
         if self.offload_enabled:
-            self._output['offload'] = 'enabled'
+            _config['offload'] = 'enabled'
 
         if self.other_config:
-            self._output['other-config'] = self.other_config
+            _config['other-config'] = self.other_config
 
         if self.external_ids:
-            self._output['external-ids'] = self.external_ids
+            _config['external-ids'] = self.external_ids
 
+        if _config:
+            return _config
 
-class OpenvSwitchBridgeChecks(OpenvSwitchChecksBase):
-
-    @property
-    def output(self):
-        if self._output:
-            return {'bridges': self._output}
-
-    def __call__(self):
+    @idx(3)
+    def __summary_bridges(self):
         bridges = {}
         for bridge in self.bridges:
             # filter patch/phy ports since they are not generally interesting
@@ -76,4 +63,4 @@ class OpenvSwitchBridgeChecks(OpenvSwitchChecksBase):
             bridges[bridge.name] = ports
 
         if bridges:
-            self._output = bridges
+            return bridges

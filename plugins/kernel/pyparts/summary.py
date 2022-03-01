@@ -1,15 +1,17 @@
+from core.plugintools import summary_entry_offset as idx
 from core.plugins.kernel import (
     CPU,
     KernelChecksBase,
     SystemdConfig,
 )
 
-YAML_PRIORITY = 0
+YAML_OFFSET = 0
 
 
-class KernelGeneralChecks(KernelChecksBase):
+class KernelSummary(KernelChecksBase):
 
-    def get_cpu_info(self):
+    @property
+    def cpu_info(self):
         cpu = CPU()
         info = {}
         if cpu.smt is not None:
@@ -23,22 +25,27 @@ class KernelGeneralChecks(KernelChecksBase):
 
         cpu_gov_all = cpu.cpufreq_scaling_governor_all
         info['cpufreq-scaling-governor'] = cpu_gov_all
-
         return info
 
-    def __call__(self):
+    @idx(0)
+    def __summary_version(self):
         if self.version:
-            self._output['version'] = self.version
+            return self.version
 
+    @idx(1)
+    def __summary_boot(self):
         if self.boot_parameters:
-            self._output['boot'] = " ".join(self.boot_parameters)
+            return ' '.join(self.boot_parameters)
 
+    @idx(2)
+    def __summary_systemd(self):
         cfg = SystemdConfig()
         if cfg.exists:
             if cfg.get('CPUAffinity'):
-                self._output['systemd'] = {'CPUAffinity':
-                                           cfg.get('CPUAffinity')}
+                return {'CPUAffinity': cfg.get('CPUAffinity')}
 
-        cpu_info = self.get_cpu_info()
+    @idx(3)
+    def __summary_cpu(self):
+        cpu_info = self.cpu_info
         if cpu_info:
-            self._output['cpu'] = cpu_info
+            return cpu_info

@@ -1,5 +1,6 @@
 import os
 
+from core.log import log
 from core.issues import (
     issue_types,
     issue_utils,
@@ -11,12 +12,12 @@ from core.plugins.kernel import (
     SLABINFO,
 )
 
-YAML_PRIORITY = 1
+YAML_OFFSET = 1
 
 
 class KernelMemoryChecks(KernelChecksBase):
 
-    def check_mallocinfo(self, node, zones_type, node_key):
+    def check_mallocinfo(self, node, zones_type):
         empty_zone_tally = 0
         high_order_seq = 0
         zone_info = {"zones": {}}
@@ -49,12 +50,7 @@ class KernelMemoryChecks(KernelChecksBase):
             report_problem = True
 
         if report_problem:
-            if "memory-checks" not in self._output:
-                self._output["memory-checks"] = {node_key: []}
-            elif node_key not in self._output["memory-checks"]:
-                self._output["memory-checks"][node_key] = []
-
-            self._output["memory-checks"][node_key].append(zone_info)
+            return zone_info
 
     def get_slab_major_consumers(self):
         top5_name = {}
@@ -84,40 +80,40 @@ class KernelMemoryChecks(KernelChecksBase):
                 kbytes = top5_num_objs.get(i) * top5_objsize.get(i) / 1024
                 top5.append("{} ({}k)".format(top5_name.get(i), kbytes))
 
-        if "memory-checks" not in self._output:
-            self._output["memory-checks"] = {}
-
-        self._output["memory-checks"]["slab-top-consumers"] = top5
+        return top5
 
     def check_nodes_memory(self, zones_type):
+        log.debug("checking memory zone_type=%s", zones_type)
         nodes = self.numa_nodes
         if not nodes:
+            log.debug("no nodes found for zone_type=%s", zones_type)
             return
 
-        if "memory-checks" not in self._output:
-            self._output["memory-checks"] = {}
-
+        node_results = {}
         node_zones = {}
         for node in nodes:
-            msg = ("limited high order memory - check {}".
-                   format(BUDDY_INFO))
+            msg = "limited high order memory - check {}".format(BUDDY_INFO)
             node_key = "node{}-{}".format(node, zones_type.lower())
             node_zones[node_key] = msg
-            self.check_mallocinfo(node, zones_type, node_key)
+            zone_info = self.check_mallocinfo(node, zones_type)
+            if zone_info:
+                node_results[node_key] = [zone_info, node_zones[node_key]]
 
-            if node_key in self._output["memory-checks"]:
-                self._output["memory-checks"][node_key].append(
-                    node_zones[node_key])
+        return node_results
 
-    def get_memory_info(self):
-        self.check_nodes_memory("Normal")
-        if self._output.get("memory-checks") is None:
+    def __summary_memory_checks(self):
+        _mem_info = {}
+        node_results = self.check_nodes_memory("Normal")
+        if not node_results:
             # only check other types of no issue detected on Normal
-            self.check_nodes_memory("DMA32")
+            node_results = self.check_nodes_memory("DMA32")
+
+        if node_results:
+            _mem_info = node_results
 
         # We only report on compaction errors if there is a shortage of
         # high-order zones.
-        if self._output.get("memory-checks"):
+        if _mem_info:
             fail_count = self.get_vmstat_value("compact_fail")
             success_count = self.get_vmstat_value("compact_success")
             # we use an arbitrary threshold of 10k to suggest that a lot of
@@ -131,9 +127,10 @@ class KernelMemoryChecks(KernelChecksBase):
                     issue = issue_types.MemoryWarning("compaction " + msg)
                     issue_utils.add_issue(issue)
 
-            self.get_slab_major_consumers()
+            top5 = self.get_slab_major_consumers()
+            if top5:
+                _mem_info["slab-top-consumers"] = top5
         else:
-            self._output["memory-checks"] = "no issues found"
+            _mem_info = "no issues found"
 
-    def __call__(self):
-        self.get_memory_info()
+        return _mem_info

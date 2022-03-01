@@ -7,12 +7,7 @@ from tests.unit import utils
 
 from core.ycheck.bugs import YBugChecker
 from core import known_bugs_utils
-from plugins.juju.pyparts import (
-    machines,
-    charms,
-    units,
-    service_info,
-)
+from plugins.juju.pyparts import summary
 
 FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-11-exec-start.sh
 root       731  0.0  0.0 2981484 81644 ?       Sl   Apr06  49:01 /var/lib/juju/tools/machine-0-lxd-11/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/11 --debug"""  # noqa
@@ -36,70 +31,61 @@ class JujuTestsBase(utils.BaseTestCase):
         os.environ['PLUGIN_NAME'] = 'juju'
 
 
-class TestJujuServiceInfo(JujuTestsBase):
+class TestJujuSummary(JujuTestsBase):
+
+    def test_summary_keys(self):
+        inst = summary.JujuSummary()
+        self.assertEquals(list(inst.output.keys()),
+                          ['charms',
+                           'machine',
+                           'services',
+                           'units',
+                           'version'])
 
     def test_service_info(self):
-        expected = {'services': {
-                        'ps': ['jujud (1)'],
-                        'systemd': {
-                            'enabled': ['jujud-machine-1']}
-                        }
+        expected = {'ps': ['jujud (1)'],
+                    'systemd': {
+                        'enabled': ['jujud-machine-1']}
                     }
-        inst = service_info.JujuServiceInfo()
-        inst()
-        self.assertEquals(inst.output, expected)
+        inst = summary.JujuSummary()
+        self.assertEquals(self.part_output_to_actual(inst.output)['services'],
+                          expected)
 
-
-class TestJujuMachines(JujuTestsBase):
-
-    def test_get_machine_info(self):
-        expected = {'machine': '1',
-                    'version': '2.9.22'}
-        inst = machines.JujuMachineChecks()
-        inst.get_machine_info()
+    def test_machine_info(self):
+        inst = summary.JujuSummary()
         self.assertTrue(inst.plugin_runnable)
-        self.assertEquals(inst.output, expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual['version'], '2.9.22')
+        self.assertEquals(actual['machine'], '1')
 
-    @mock.patch.object(machines, 'CLIHelper')
+    @mock.patch.object(summary, 'CLIHelper')
     def test_get_lxd_machine_info(self, mock_cli_helper):
         mock_helper = mock.MagicMock()
         mock_cli_helper.return_value = mock_helper
         mock_helper.ps.return_value = FAKE_PS.split('\n')
-        expected = {'machine': '0-lxd-11',
-                    'version': '2.9.9'}
-
         with mock.patch('core.plugins.juju.JujuMachine') as m:
             mock_machine = mock.MagicMock()
             m.return_value = mock_machine
             mock_machine.id = '0-lxd-11'
             mock_machine.version = '2.9.9'
-            inst = machines.JujuMachineChecks()
-            self.assertTrue(inst.plugin_runnable)
-            inst.get_machine_info()
+            inst = summary.JujuSummary()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEquals(actual['version'], '2.9.9')
+            self.assertEquals(actual['machine'], '0-lxd-11')
 
-        self.assertEquals(inst.output, expected)
-
-
-class TestJujuCharms(JujuTestsBase):
-
-    def test_get_charm_versions(self):
-        expected = {'charms': ['ceph-osd-508', 'neutron-openvswitch-457',
-                               'nova-compute-589']}
-        inst = charms.JujuCharmChecks()
-        inst()
-        self.assertTrue(inst.plugin_runnable)
-        self.assertEquals(inst.output, expected)
-
-
-class TestJujuUnits(JujuTestsBase):
+    def test_charm_versions(self):
+        expected = ['ceph-osd-508', 'neutron-openvswitch-457',
+                    'nova-compute-589']
+        inst = summary.JujuSummary()
+        self.assertEquals(self.part_output_to_actual(inst.output)['charms'],
+                          expected)
 
     def test_get_unit_info(self):
         expected = {'local': ['ceph-osd-0', 'neutron-openvswitch-1',
                               'nova-compute-0']}
-        inst = units.JujuUnitChecks()
-        inst()
-        self.assertTrue(inst.plugin_runnable)
-        self.assertEquals(inst.output, {"units": expected})
+        inst = summary.JujuSummary()
+        self.assertEquals(self.part_output_to_actual(inst.output)['units'],
+                          expected)
 
 
 class TestJujuKnownBugs(JujuTestsBase):

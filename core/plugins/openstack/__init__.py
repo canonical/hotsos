@@ -774,6 +774,9 @@ class OpenstackBase(object):
         self.apt_check = checks.APTPackageChecksBase(
                                   core_pkgs=self.ost_projects.packages_core,
                                   other_pkgs=other_pkgs)
+        self.docker_check = checks.DockerImageChecksBase(
+                             core_pkgs=self.ost_projects.packages_core,
+                             other_pkgs=self.ost_projects.package_dependencies)
         self.nova = NovaBase()
         self.neutron = NeutronBase()
         self.octavia = OctaviaBase()
@@ -884,11 +887,10 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
 
 class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
-
-    def __call__(self):
-        ret = self.run_checks()
-        if ret:
-            self._output.update(ret)
+    """
+    Normally we would call run_checks() here but the Openstack implementations
+    do run() themselves so we defer.
+    """
 
 
 class OpenstackServiceChecksBase(OpenstackChecksBase,
@@ -913,16 +915,3 @@ class OpenstackServiceChecksBase(OpenstackChecksBase,
             return ''
 
         return ', '.join(self.unexpected_masked_services)
-
-
-class OpenstackPackageChecksBase(OpenstackChecksBase):
-    pass
-
-
-class OpenstackDockerImageChecksBase(OpenstackChecksBase,
-                                     checks.DockerImageChecksBase):
-
-    def __init__(self):
-        self.ost_projects = OSTProjectCatalog()
-        super().__init__(core_pkgs=self.ost_projects.packages_core,
-                         other_pkgs=self.ost_projects.package_dependencies)

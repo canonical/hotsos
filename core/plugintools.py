@@ -14,7 +14,7 @@ class HOTSOSDumper(yaml.Dumper):
         return self.represent_dict(data.items())
 
 
-def save_part(data, priority=0):
+def save_part(data, offset):
     """
     Save part output yaml in temporary location. These are collected and
     aggregated at the end of the plugin run.
@@ -45,10 +45,10 @@ def save_part(data, priority=0):
 
     index = get_parts_index()
     with open(parts_index, 'w') as fd:
-        if priority in index:
-            index[priority].append(part_path)
+        if offset in index:
+            index[offset].append(part_path)
         else:
-            index[priority] = [part_path]
+            index[offset] = [part_path]
 
         fd.write(yaml.dump(index))
 
@@ -84,8 +84,8 @@ def meld_part_output(data, existing):
 
 def collect_all_parts(index):
     parts = {}
-    for priority in sorted(index):
-        for part in index[priority]:
+    for offset in sorted(index):
+        for part in index[offset]:
             with open(part) as fd:
                 part_yaml = yaml.safe_load(fd)
 
@@ -136,11 +136,37 @@ class ApplicationBase(object):
         raise NotImplementedError
 
 
-class PluginPartBase(ApplicationBase):
+def summary_entry_offset(offset):
+    def _inner(f):
+        def _inner2(*args, **kwargs):
+            out = f(*args, **kwargs)
+            if out is not None:
+                return {'data': out, 'offset': offset}
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._output = {}
+        return _inner2
+    return _inner
+
+
+class SummaryEntry(object):
+
+    def __init__(self, data, offset):
+        self.data = data
+        self.offset = offset
+
+    @staticmethod
+    def is_raw_entry(entry):
+        if type(entry) != dict:
+            return False
+
+        if set(entry.keys()).symmetric_difference(['data', 'offset']):
+            return False
+
+        return True
+
+
+class PluginPartBase(ApplicationBase):
+    # max per part before overlap
+    PLUGIN_PART_OFFSET_MAX = 500
 
     @property
     def plugin_runnable(self):
@@ -151,17 +177,59 @@ class PluginPartBase(ApplicationBase):
         raise NotImplementedError
 
     @property
+    def summary_subkey(self):
+        """
+        This can be optionally implemented in order to have all output of the
+        current part placed under the keyname provided by this property i.e.
+        <plugin_name>: <subkey>: ...
+        """
+        return None
+
+    @property
+    def summary(self):
+        """
+        This can be optionally implemented as a way of pushing all results into
+        the summary root for the current plugin part.
+
+        The alternative is to implement methods called __summary_<key> such
+        that the returned value is placed under <key>.
+        """
+        return None
+
+    @property
     def output(self):
-        if self._output:
-            return self._output
+        _output = {}
+        if self.summary:
+            for key, data in self.summary.items():
+                _output[key] = SummaryEntry(data, 0)
+
+        for m in dir(self.__class__):
+            cls = self.__class__.__name__
+            if m.startswith('_{}__summary_'.format(cls)):
+                key = m.partition('_{}__summary_'.format(cls))[2]
+                key = key.replace('_', '-')
+                out = getattr(self, m)()
+                if not out:
+                    continue
+
+                if SummaryEntry.is_raw_entry(out):
+                    out = SummaryEntry(out['data'], out['offset'])
+                else:
+                    # put at the end
+                    out = SummaryEntry(out, self.PLUGIN_PART_OFFSET_MAX - 1)
+
+                _output[key] = out
+
+        return _output
+
+    @property
+    def raw_output(self):
+        out = self.output
+        if out:
+            return {key: entry.data for key, entry in out.items()}
 
     def __call__(self):
-        """ This must be implemented.
-
-        The plugin runner will call this method by default unless specific
-        methods are defined in the plugin definition (yaml).
-        """
-        raise NotImplementedError
+        pass
 
 
 class PluginRunner(object):
@@ -216,13 +284,12 @@ class PluginRunner(object):
                           format(constants.PLUGIN_NAME, part))
             # load part
             mod = importlib.import_module(mod_string)
-            # every part should have a yaml priority defined
-            if hasattr(mod, "YAML_PRIORITY"):
-                yaml_priority = getattr(mod, "YAML_PRIORITY")
+            # every part should have a yaml offset defined
+            if hasattr(mod, "YAML_OFFSET"):
+                part_offset = getattr(mod, "YAML_OFFSET")
             else:
-                yaml_priority = 0
+                part_offset = 0
 
-            part_out = {}
             for entry in obj_names or []:
                 part_obj = getattr(mod, entry)()
                 # Only run plugin if it delares itself runnable.
@@ -239,6 +306,7 @@ class PluginRunner(object):
                     # of PluginPartBase we expect them to always define an
                     # output property.
                     output = part_obj.output
+                    subkey = part_obj.summary_subkey
                 except Exception as exc:
                     failed_parts.append(part)
                     log.debug("part '%s' raised exception: %s", part, exc)
@@ -247,12 +315,18 @@ class PluginRunner(object):
                         raise
 
                 if output:
-                    meld_part_output(output, part_out)
+                    for key, entry in output.items():
+                        out = {key: entry.data}
+                        if subkey:
+                            out = {subkey: out}
 
-            save_part(part_out, priority=yaml_priority)
+                        part_max = PluginPartBase.PLUGIN_PART_OFFSET_MAX
+                        offset = ((part_offset * part_max) + entry.offset)
+                        save_part(out, offset=offset)
 
         if failed_parts:
-            save_part({'failed-parts': failed_parts}, priority=0)
+            # always put these at the top
+            save_part({'failed-parts': failed_parts}, offset=0)
 
         # The following are executed at the end of each plugin run (i.e. after
         # all other parts have run).

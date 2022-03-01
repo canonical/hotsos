@@ -166,10 +166,12 @@ class KernelBase(object):
         if not os.path.exists(BUDDY_INFO):
             return self._numa_nodes
 
-        if not self._numa_nodes:
-            nodes = set()
-            for line in open(BUDDY_INFO):
-                nodes.add(int(line.split()[1].strip(',')))
+        if self._numa_nodes:
+            return self._numa_nodes
+
+        nodes = set()
+        for line in open(BUDDY_INFO):
+            nodes.add(int(line.split()[1].strip(',')))
 
         self._numa_nodes = list(nodes)
         return self._numa_nodes
@@ -238,7 +240,7 @@ class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
 
 class KernelEventChecksBase(KernelChecksBase, YEventCheckerBase):
 
-    def __call__(self):
-        ret = self.run_checks()
-        if ret:
-            self._output.update(ret)
+    @property
+    def summary(self):
+        # mainline all results into summary root
+        return self.run_checks()

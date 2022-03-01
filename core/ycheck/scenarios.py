@@ -13,7 +13,7 @@ from core.log import log
 from core.ycheck import (
     YDefsLoader,
     YDefsSection,
-    AutoChecksBase,
+    ChecksBase,
     YPropertyInput,
     YPropertyExpr,
     YPropertyRequires,
@@ -253,7 +253,7 @@ class Scenario(object):
         return _conclusions
 
 
-class YScenarioChecker(AutoChecksBase):
+class YScenarioChecker(ChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

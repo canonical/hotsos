@@ -8,7 +8,7 @@ from core.host_helpers import HostNetworkingHelper
 from core.plugins.kernel import KernelEventChecksBase
 from core.searchtools import FileSearcher
 
-YAML_PRIORITY = 2
+YAML_OFFSET = 2
 EVENTCALLBACKS = CallbackHelper()
 
 

@@ -12,7 +12,7 @@ from core.issues.issue_types import SystemWarning
 from core.plugins.system import NUMAInfo
 from plugins.system.pyparts import (
     checks,
-    general,
+    summary,
 )
 
 NUMACTL = """
@@ -37,7 +37,7 @@ class SystemTestsBase(utils.BaseTestCase):
         os.environ['PLUGIN_NAME'] = 'system'
 
 
-class TestSystemGeneral(SystemTestsBase):
+class TestSystemSummary(SystemTestsBase):
 
     def test_get_service_info(self):
         expected = {'date': 'Thu Feb 10 16:19:17 UTC 2022',
@@ -49,9 +49,9 @@ class TestSystemGeneral(SystemTestsBase):
                                '  9% /'),
                     'virtualisation': 'kvm',
                     'unattended-upgrades': 'ENABLED'}
-        inst = general.SystemGeneral()
-        inst()
-        self.assertEqual(inst.output, expected)
+        inst = summary.SystemSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
 
 class TestNUMAInfo(SystemTestsBase):
@@ -80,8 +80,8 @@ class TestSystemChecks(SystemTestsBase):
                             'actual': '4194304',
                             'expected': '2097152'}}}
         inst = checks.SystemChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
     def test_sysctl_checks_w_issue(self):
         expected = {'sysctl-mismatch': {
@@ -136,8 +136,8 @@ class TestSystemChecks(SystemTestsBase):
                 fd.write("net.core.rmem_default = 1000000000\n")
 
             inst = checks.SystemChecks()
-            inst()
-            self.assertEqual(inst.output, expected)
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual, expected)
 
 
 class TestSystemBugChecks(SystemTestsBase):

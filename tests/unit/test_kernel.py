@@ -6,7 +6,7 @@ import mock
 from tests.unit import utils
 
 from plugins.kernel.pyparts import (
-    info,
+    summary,
     memory,
     log_event_checks,
 )
@@ -89,15 +89,15 @@ class TestKernelInfo(TestKernelBase):
     @mock.patch('core.plugins.kernel.SystemdConfig.get',
                 lambda *args, **kwargs: '0-7,32-39')
     def test_info(self):
-        inst = info.KernelGeneralChecks()
-        inst()
+        inst = summary.KernelSummary()
         expected = {'boot': 'ro',
                     'cpu': {'cpufreq-scaling-governor': 'unknown',
                             'smt': 'disabled'},
                     'systemd': {'CPUAffinity': '0-7,32-39'},
                     'version': '5.4.0-97-generic'}
         self.assertTrue(inst.plugin_runnable)
-        self.assertEqual(inst.output, expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
 
 class TestKernelMemoryInfo(TestKernelBase):
@@ -116,27 +116,25 @@ class TestKernelMemoryInfo(TestKernelBase):
 
     def test_check_mallocinfo(self):
         inst = memory.KernelMemoryChecks()
-        inst.check_mallocinfo(0, "Normal", "node0-normal")
-        self.assertIsNone(inst.output)
+        ret = inst.check_mallocinfo(0, "Normal")
+        self.assertIsNone(ret)
 
     def test_check_nodes_memory(self):
         inst = memory.KernelMemoryChecks()
         inst.check_nodes_memory("Normal")
-        expected = {'memory-checks': {}}
-        self.assertEqual(inst.output, expected)
+        expected = {'memory-checks': "no issues found"}
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
     def test_get_slab_major_consumers(self):
         inst = memory.KernelMemoryChecks()
-        inst.get_slab_major_consumers()
-        expected = {'memory-checks': {
-                        'slab-top-consumers': [
-                            'buffer_head (87540.6796875k)',
-                            'anon_vma_chain (9068.0k)',
-                            'radix_tree_node (50253.65625k)',
-                            'Acpi-State (5175.703125k)',
-                            'vmap_area (2700.0k)']}}
-
-        self.assertEqual(inst.output, expected)
+        top5 = inst.get_slab_major_consumers()
+        expected = ['buffer_head (87540.6796875k)',
+                    'anon_vma_chain (9068.0k)',
+                    'radix_tree_node (50253.65625k)',
+                    'Acpi-State (5175.703125k)',
+                    'vmap_area (2700.0k)']
+        self.assertEqual(top5, expected)
 
 
 class TestKernelLogEventChecks(TestKernelBase):
@@ -162,7 +160,8 @@ class TestKernelLogEventChecks(TestKernelBase):
                         {'tap0e778df8-ca': 5},
                         'oom-killer-invoked': 'Aug  3 08:32:23'}
             inst = log_event_checks.KernelLogEventChecks()
-            inst()
+            # checks get run when we fetch the output so do that now
+            actual = self.part_output_to_actual(inst.output)
             self.assertTrue(mock_add_issue.called)
             types = {}
             for issue in issues:
@@ -177,7 +176,7 @@ class TestKernelLogEventChecks(TestKernelBase):
             self.assertEqual(types[issue_types.MemoryWarning], 1)
             self.assertEqual(types[issue_types.NetworkWarning], 2)
             self.assertTrue(inst.plugin_runnable)
-            self.assertEqual(inst.output, expected)
+            self.assertEqual(actual, expected)
 
     @mock.patch.object(log_event_checks, 'CLIHelper')
     @mock.patch.object(log_event_checks, 'HostNetworkingHelper')

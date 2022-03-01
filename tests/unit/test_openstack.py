@@ -15,7 +15,7 @@ from core.searchtools import FileSearcher
 from plugins.openstack.pyparts import (
     vm_info,
     nova_external_events,
-    service_info,
+    summary,
     service_network_checks,
     service_features,
     agent_event_checks,
@@ -198,9 +198,9 @@ class TestOpenstackPluginCore(TestOpenstackBase):
             self.assertEqual(issues[0].msg, msg)
 
 
-class TestOpenstackServiceInfo(TestOpenstackBase):
+class TestOpenstackSummary(TestOpenstackBase):
 
-    def test_get_service_info(self):
+    def test_get_summary(self):
         expected = {'systemd': {
                         'disabled': ['radvd'],
                         'enabled': [
@@ -226,14 +226,14 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
                         'neutron-openvswitch-agent (1)',
                         'nova-api-metadata (5)',
                         'nova-compute (1)']}
-        inst = service_info.OpenstackInfo()
-        inst()
-        self.assertEqual(inst.output["services"], expected)
+        inst = summary.OpenstackSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["services"], expected)
 
     @mock.patch('core.plugins.openstack.OpenstackServiceChecksBase.'
                 'openstack_installed', True)
     @mock.patch('core.checks.CLIHelper')
-    def test_get_service_info_apache_service(self, mock_helper):
+    def test_get_summary_apache_service(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
             OCTAVIA_UNIT_FILES.splitlines(keepends=True)
@@ -245,9 +245,9 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
                     'masked': [
                         'octavia-api']
                     }
-        inst = service_info.OpenstackInfo()
-        inst()
-        self.assertEqual(inst.output['services']['systemd'], expected)
+        inst = summary.OpenstackSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['services']['systemd'], expected)
 
     def test_get_release_info(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -259,9 +259,9 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
 
             with mock.patch.object(openstack_core, "APT_SOURCE_PATH",
                                    dtmp):
-                inst = service_info.OpenstackInfo()
-                inst()
-                self.assertEqual(inst.output["release"], "ussuri")
+                inst = summary.OpenstackSummary()
+                actual = self.part_output_to_actual(inst.output)
+                self.assertEqual(actual["release"], "ussuri")
 
     def test_get_debug_log_info(self):
         expected = {'neutron': True, 'nova': True}
@@ -273,11 +273,11 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
                     fd.write(SVC_CONF)
 
             os.environ["DATA_ROOT"] = dtmp
-            inst = service_info.OpenstackInfo()
+            inst = summary.OpenstackSummary()
             # fake some core packages
             inst.apt_check._core_packages = {"foo": 1}
-            inst()
-            self.assertEqual(inst.output["debug-logging-enabled"],
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual["debug-logging-enabled"],
                              expected)
 
     def test_get_pkg_info(self):
@@ -341,43 +341,42 @@ class TestOpenstackServiceInfo(TestOpenstackBase):
             'qemu-kvm 1:4.2-3ubuntu6.19',
             'radvd 1:2.17-2'
             ]
-        inst = service_info.OpenstackPackageChecks()
-        inst()
-        self.assertEquals(inst.output["dpkg"], expected)
+        inst = summary.OpenstackSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual["dpkg"], expected)
 
     @mock.patch('core.plugins.openstack.CLIHelper')
-    def test_run_service_info(self, mock_helper):
+    def test_run_summary(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
-        c = openstack_core.NeutronServiceChecks()
-        self.assertFalse(c.ovs_cleanup_run_manually)
+        inst = openstack_core.NeutronServiceChecks()
+        self.assertFalse(inst.ovs_cleanup_run_manually)
 
     @mock.patch('core.plugins.openstack.CLIHelper')
-    def test_run_service_info2(self, mock_helper):
+    def test_run_summary2(self, mock_helper):
         """
         Covers scenario where we had manual restart but not after last reboot.
         """
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD2.splitlines(keepends=True)
-        c = openstack_core.NeutronServiceChecks()
-        self.assertFalse(c.ovs_cleanup_run_manually)
+        inst = openstack_core.NeutronServiceChecks()
+        self.assertFalse(inst.ovs_cleanup_run_manually)
 
     @mock.patch('core.plugins.openstack.CLIHelper')
-    def test_run_service_info_w_issue(self, mock_helper):
+    def test_run_summary_w_issue(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
-        c = openstack_core.NeutronServiceChecks()
-        self.assertTrue(c.ovs_cleanup_run_manually)
+        inst = openstack_core.NeutronServiceChecks()
+        self.assertTrue(inst.ovs_cleanup_run_manually)
 
     def test_get_neutronl3ha_info(self):
-        expected = {'neutron-l3ha': {'backup':
-                                     ['984c22fd-64b3-4fa1-8ddd-87090f401ce5']}}
-        inst = service_info.NeutronL3HAInfo()
-        inst()
-        self.assertEquals(inst.output, expected)
+        expected = {'backup': ['984c22fd-64b3-4fa1-8ddd-87090f401ce5']}
+        inst = summary.OpenstackSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual['neutron-l3ha'], expected)
 
 
 class TestOpenstackVmInfo(TestOpenstackBase):
@@ -395,8 +394,8 @@ class TestOpenstackVmInfo(TestOpenstackBase):
                         }
                     }
         inst = vm_info.OpenstackInstanceChecks()
-        inst()
-        self.assertEquals(inst.output, expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual, expected)
 
     def test_vm_migration_analysis(self):
         expected = {'nova-migrations': {
@@ -411,15 +410,14 @@ class TestOpenstackVmInfo(TestOpenstackBase):
                                  'iterations': 1}]
                         }}}
         inst = vm_info.NovaServerMigrationAnalysis()
-        inst()
-        self.assertEquals(inst.output, expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual, expected)
 
 
 class TestOpenstackNovaExternalEvents(TestOpenstackBase):
 
     def test_get_events(self):
         inst = nova_external_events.NovaExternalEventChecks()
-        inst()
         events = {'network-changed':
                   {"succeeded":
                    [{"port": "6a0486f9-823b-4dcf-91fb-8a4663d31855",
@@ -428,25 +426,25 @@ class TestOpenstackNovaExternalEvents(TestOpenstackBase):
                   {"succeeded":
                    [{"instance": '359150c9-6f40-416e-b381-185bff09e974',
                      "port": "6a0486f9-823b-4dcf-91fb-8a4663d31855"}]}}
-        self.assertEquals(inst.output["os-server-external-events"], events)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual["os-server-external-events"], events)
 
 
 class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
 
     def test_get_ns_info(self):
-        ns_info = {'namespaces': {'qrouter': 1, 'fip': 1,
-                                  'snat': 1}}
+        ns_info = {'qrouter': 1, 'fip': 1, 'snat': 1}
         inst = service_network_checks.OpenstackNetworkChecks()
-        inst.get_ns_info()
-        self.assertEqual(inst.output["network"], ns_info)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["namespaces"], ns_info)
 
     @mock.patch.object(service_network_checks, 'CLIHelper')
     def test_get_ns_info_none(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ip_link.return_value = []
         inst = service_network_checks.OpenstackNetworkChecks()
-        inst.get_ns_info()
-        self.assertEqual(inst.output, None)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertFalse('namespaces' in actual)
 
     def test_get_network_checker(self):
         expected = {
@@ -478,15 +476,14 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
             },
         }
         inst = service_network_checks.OpenstackNetworkChecks()
-        inst()
-        self.assertEqual(inst.output["network"], expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
 
 class TestOpenstackServiceFeatures(TestOpenstackBase):
 
     def test_get_service_features(self):
         inst = service_features.ServiceFeatureChecks()
-        inst.get_service_features()
         expected = {'neutron': {'dhcp-agent': {
                                     'enable_isolated_metadata': True,
                                     'enable_metadata_network': True,
@@ -501,7 +498,8 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                     'nova': {'main': {
                                 'live_migration_permit_auto_converge': False,
                                 'live_migration_permit_post_copy': False}}}
-        self.assertEqual(inst.output["features"], expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["features"], expected)
 
 
 class TestOpenstackCPUPinning(TestOpenstackBase):
@@ -573,10 +571,11 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                                 'start': '2022-02-10 00:53:27.434000'}}}}
 
         section_key = "neutron-ovs-agent"
-        c = agent_event_checks.NeutronAgentEventChecks(
+        inst = agent_event_checks.NeutronAgentEventChecks(
                                                       searchobj=FileSearcher())
-        c()
-        self.assertEqual(c.output.get(section_key), expected)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual.get(section_key), expected)
 
     def test_get_router_event_stats(self):
         expected = {'router-spawn-events': {
@@ -633,15 +632,11 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                                 'start': '2022-02-10 16:10:35.711000'}}}}
 
         section_key = "neutron-l3-agent"
-        c = agent_event_checks.NeutronAgentEventChecks(
+        inst = agent_event_checks.NeutronAgentEventChecks(
                                                       searchobj=FileSearcher())
-        c()
-        self.assertEqual(c.output.get(section_key), expected)
-
-    @mock.patch.object(agent_event_checks, "NeutronAgentEventChecks")
-    def test_run_agent_event_checks(self, mock_agent_event_checks):
-        agent_event_checks.AgentEventChecks()()
-        self.assertTrue(mock_agent_event_checks.called)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual.get(section_key), expected)
 
     def test_run_octavia_checks(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -669,9 +664,11 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                         }
             for section_key in ["octavia-worker", "octavia-health-manager"]:
                 sobj = FileSearcher()
-                c = agent_event_checks.OctaviaAgentEventChecks(searchobj=sobj)
-                c()
-                self.assertEqual(c.output["octavia"].get(section_key),
+                inst = agent_event_checks.OctaviaAgentEventChecks(
+                                                                searchobj=sobj)
+                inst.run_checks()
+                actual = self.part_output_to_actual(inst.output)
+                self.assertEqual(actual["octavia"].get(section_key),
                                  expected.get(section_key))
 
     def test_run_apache_checks(self):
@@ -686,9 +683,10 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                             '2021-10-26': {'127.0.0.1:8981': 3}}}
             for section_key in ['connection-refused']:
                 sobj = FileSearcher()
-                c = agent_event_checks.ApacheEventChecks(searchobj=sobj)
-                c()
-                self.assertEqual(c.output['apache'].get(section_key),
+                inst = agent_event_checks.ApacheEventChecks(searchobj=sobj)
+                inst.run_checks()
+                actual = self.part_output_to_actual(inst.output)
+                self.assertEqual(actual['apache'].get(section_key),
                                  expected.get(section_key))
 
     def test_run_nova_checks(self):
@@ -703,9 +701,10 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                             '2021-09-17': {'0000:3b:0f.7': 1,
                                            '0000:3b:10.0': 1}}}
             sobj = FileSearcher()
-            c = agent_event_checks.NovaAgentEventChecks(searchobj=sobj)
-            c()
-            self.assertEqual(c.output["nova"], expected)
+            inst = agent_event_checks.NovaAgentEventChecks(searchobj=sobj)
+            inst.run_checks()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual["nova"], expected)
 
     def test_run_neutron_l3ha_checks(self):
         expected = {'keepalived': {
@@ -714,8 +713,9 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                           '2022-02-10': 1}}}}
         sobj = FileSearcher()
         inst = agent_event_checks.NeutronL3HAEventChecks(searchobj=sobj)
-        inst()
-        self.assertEqual(inst.output["neutron-l3ha"], expected)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["neutron-l3ha"], expected)
 
     @mock.patch.object(agent_event_checks.issue_utils, "add_issue")
     @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
@@ -727,8 +727,9 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                        '2022-02-10': 1}}}}
         sobj = FileSearcher()
         inst = agent_event_checks.NeutronL3HAEventChecks(searchobj=sobj)
-        inst()
-        self.assertEqual(inst.output["neutron-l3ha"], expected)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["neutron-l3ha"], expected)
         self.assertTrue(mock_add_issue.called)
 
 
@@ -776,8 +777,8 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
         expected = {"nova": nova_expected, "neutron": neutron_expected}
         inst = agent_exceptions.AgentExceptionChecks()
-        inst()
-        self.assertEqual(inst.output['agent-exceptions'], expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['agent-exceptions'], expected)
 
 
 class TestOpenstackConfigChecks(TestOpenstackBase):

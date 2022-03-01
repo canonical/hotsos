@@ -10,7 +10,7 @@ EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                            'Processing']},
                   'network-changed': {'stages_keys': ['Received',
                                                       'Refreshing']}}
-YAML_PRIORITY = 2
+YAML_OFFSET = 2
 EVENTCALLBACKS = CallbackHelper()
 
 
@@ -20,7 +20,6 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='nova-external-events',
                          searchobj=FileSearcher(),
-                         event_results_output_key='os-server-external-events',
                          **kwargs,)
 
     def get_state_dict(self, event_name):
@@ -78,3 +77,6 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
                 events_found[result] = list(ext_output[result])
 
         return events_found
+
+    def __summary_os_server_external_events(self):
+        return self.run_checks()

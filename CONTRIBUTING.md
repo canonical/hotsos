@@ -32,7 +32,7 @@ files.
 
 Plugin output must be yaml-formatted. There are tools provided to manage this
 for you (see core.plugintools) and the basic workflow is that each plugin part
-implement a plugintools.PluginPartBase and is assigned a YAML_PRIORITY which
+implement a plugintools.PluginPartBase and is assigned a YAML_OFFSET which
 determines its position within the plugin output. Once all plugins are run,
 their respective yaml outputs are aggregated into a master yaml "summary".
 

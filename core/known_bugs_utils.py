@@ -65,4 +65,5 @@ def add_known_bugs_to_master_plugin():
     """
     bugs = _get_known_bugs()
     if bugs and bugs.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        plugintools.save_part(bugs, priority=99)
+        end = plugintools.PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
+        plugintools.save_part(bugs, offset=end)

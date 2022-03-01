@@ -13,7 +13,7 @@ from core.plugins.storage import (
     ceph as ceph_core,
 )
 from plugins.storage.pyparts import (
-    ceph_info,
+    ceph_summary,
     ceph_event_checks,
 )
 
@@ -72,7 +72,22 @@ class TestOSDCephChecksBase(StorageCephOSDTestsBase):
         self.assertEqual(config.bluefs_buffered_io, ['true'])
 
 
-class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
+class TestOSDCephSummary(StorageCephOSDTestsBase):
+
+    def test_get_local_osd_ids(self):
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(list(actual['local-osds'].keys()),  [0])
+
+    def test_get_local_osd_info(self):
+        fsid = "48858aa1-71a3-4f0e-95f3-a07d1d9a6749"
+        expected = {0: {
+                    'dev': '/dev/mapper/crypt-{}'.format(fsid),
+                    'fsid': fsid,
+                    'rss': '317M'}}
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["local-osds"], expected)
 
     def test_get_service_info(self):
         svc_info = {'systemd': {'enabled': [
@@ -88,47 +103,41 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
                                 'indirect': ['ceph-volume'],
                                 'generated': ['radosgw']},
                     'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
-        expected = {'ceph': {
-                        'services': svc_info,
-                        'release': 'octopus',
-                    }}
-        inst = ceph_info.CephServiceChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['services'], svc_info)
+        self.assertEqual(actual['release'], 'octopus')
 
     def test_get_network_info(self):
-        expected = {'ceph': {
-                        'network': {
-                            'cluster': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}},
-                            'public': {
-                                'br-ens3': {
-                                    'addresses': ['10.0.0.128'],
-                                    'hwaddr': '22:c2:7b:1c:12:1b',
-                                    'state': 'UP',
-                                    'speed': 'unknown'}}
-                            },
-                    }}
-        inst = ceph_info.CephNetworkInfo()
-        inst()
-        self.assertEqual(inst.output, expected)
+        expected = {'cluster': {
+                        'br-ens3': {
+                            'addresses': ['10.0.0.128'],
+                            'hwaddr': '22:c2:7b:1c:12:1b',
+                            'state': 'UP',
+                            'speed': 'unknown'}},
+                    'public': {
+                        'br-ens3': {
+                            'addresses': ['10.0.0.128'],
+                            'hwaddr': '22:c2:7b:1c:12:1b',
+                            'state': 'UP',
+                            'speed': 'unknown'}}
+                    }
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['network'], expected)
 
     @mock.patch.object(checks, 'CLIHelper')
     def test_get_service_info_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
         mock_helper.return_value.dpkg_l.return_value = []
-        inst = ceph_info.CephServiceChecks()
-        inst()
-        self.assertEqual(inst.output, {'ceph': {'release': 'unknown'}})
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['release'], 'unknown')
 
     def test_get_package_info(self):
-        inst = ceph_info.CephPackageChecks()
-        inst()
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
         expected = ['ceph 15.2.14-0ubuntu0.20.04.2',
                     'ceph-base 15.2.14-0ubuntu0.20.04.2',
                     'ceph-common 15.2.14-0ubuntu0.20.04.2',
@@ -143,7 +152,7 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
                     'python3-rados 15.2.14-0ubuntu0.20.04.2',
                     'python3-rbd 15.2.14-0ubuntu0.20.04.2',
                     'radosgw 15.2.14-0ubuntu0.20.04.2']
-        self.assertEquals(inst.output["ceph"]["dpkg"], expected)
+        self.assertEquals(actual["dpkg"], expected)
 
     def test_ceph_base_interfaces(self):
         expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.128'],
@@ -162,24 +171,6 @@ class TestOSDCephServiceInfo(StorageCephOSDTestsBase):
         self.assertEqual(_ports, expected)
 
 
-class TestOSDCephClusterInfo(StorageCephOSDTestsBase):
-
-    def test_get_local_osd_ids(self):
-        inst = ceph_info.CephClusterInfo()
-        inst()
-        self.assertEqual([osd.id for osd in inst.local_osds], [0])
-
-    def test_get_local_osd_info(self):
-        fsid = "48858aa1-71a3-4f0e-95f3-a07d1d9a6749"
-        expected = {0: {
-                    'dev': '/dev/mapper/crypt-{}'.format(fsid),
-                    'fsid': fsid,
-                    'rss': '317M'}}
-        inst = ceph_info.CephClusterInfo()
-        inst()
-        self.assertEqual(inst.output["ceph"]["local-osds"], expected)
-
-
 class TestOSDCephEventChecks(StorageCephOSDTestsBase):
 
     def test_get_ceph_daemon_log_checker(self):
@@ -191,8 +182,8 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
                   'heartbeat-no-reply': {'2021-02-09': {'osd.0': 1,
                                                         'osd.1': 2}}}
         inst = ceph_event_checks.CephDaemonLogChecks()
-        inst()
-        self.assertEqual(inst.output["ceph"], result)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, result)
 
 
 class TestCephOSDBugChecks(StorageCephOSDTestsBase):

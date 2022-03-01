@@ -22,7 +22,6 @@ system:
 storage:
   ceph:
     release: octopus
-    status: HEALTH_WARN
     services:
       systemd:
         enabled:
@@ -57,6 +56,7 @@ storage:
       - python3-rados 15.2.14-0ubuntu0.20.04.2
       - python3-rbd 15.2.14-0ubuntu0.20.04.2
       - radosgw 15.2.14-0ubuntu0.20.04.2
+    status: HEALTH_WARN
     network:
       cluster:
         eth0@if17:

@@ -841,16 +841,15 @@ class CephChecksBase(StorageBase):
                 os.unlink(tmpfile)
 
     @property
+    def summary_subkey(self):
+        return 'ceph'
+
+    @property
     def plugin_runnable(self):
         if self.apt_check.core:
             return True
 
         return False
-
-    @property
-    def output(self):
-        if self._output:
-            return {"ceph": self._output}
 
     @property
     def release_name(self):
@@ -1066,7 +1065,7 @@ class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):
 
 class CephEventChecksBase(CephChecksBase, YEventCheckerBase):
 
-    def __call__(self):
-        ret = self.run_checks()
-        if ret:
-            self._output.update(ret)
+    @property
+    def summary(self):
+        # mainline all results into summary root
+        return self.run_checks()

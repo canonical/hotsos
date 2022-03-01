@@ -18,23 +18,15 @@ from core.plugins.system import SystemBase
 from core.plugins.kernel import CPU
 from core import utils
 
-YAML_PRIORITY = 3
+YAML_OFFSET = 3
 EVENTCALLBACKS = CallbackHelper()
 
 
 class OpenstackInstanceChecks(OpenstackChecksBase):
 
-    def __init__(self):
-        super().__init__()
-        self._nova_config = OpenstackConfig(os.path.join(constants.DATA_ROOT,
-                                                         "etc/nova/nova.conf"))
-
-    def _get_vm_info(self):
-        instances = self.nova.instances.values()
-        if instances:
-            self._output["running"] = [i.uuid for i in instances]
-
     def _get_vcpu_info(self):
+        nova_config = OpenstackConfig(os.path.join(constants.DATA_ROOT,
+                                                   "etc/nova/nova.conf"))
         vcpu_info = {}
         guests = []
         s = FileSearcher()
@@ -59,12 +51,12 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                 total_cores = sysinfo.num_cpus
                 vcpu_info["system-cores"] = total_cores
 
-                pinset = self._nova_config.get("vcpu_pin_set",
-                                               expand_to_list=True) or []
-                pinset += self._nova_config.get("cpu_dedicated_set",
-                                                expand_to_list=True) or []
-                pinset += self._nova_config.get("cpu_shared_set",
-                                                expand_to_list=True) or []
+                pinset = nova_config.get("vcpu_pin_set",
+                                         expand_to_list=True) or []
+                pinset += nova_config.get("cpu_dedicated_set",
+                                          expand_to_list=True) or []
+                pinset += nova_config.get("cpu_shared_set",
+                                          expand_to_list=True) or []
                 if pinset:
                     # if pinning is used, reduce total num of cores available
                     # to those included in nova cpu sets.
@@ -83,20 +75,21 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
                 factor = float(total_vcpus) / available_cores
                 vcpu_info["overcommit-factor"] = round(factor, 2)
 
-            self._output["vcpu-info"] = vcpu_info
+            return vcpu_info
 
-    @property
-    def output(self):
-        if self._output:
-            return {"vm-info": self._output}
+    def __summary_vm_info(self):
+        _info = {}
 
-    def __call__(self):
-        # Only run if we think Openstack is installed.
-        if not self.openstack_installed:
-            return
+        instances = self.nova.instances.values()
+        if instances:
+            _info['running'] = [i.uuid for i in instances]
 
-        self._get_vm_info()
-        self._get_vcpu_info()
+        vm_vcpu_info = self._get_vcpu_info()
+        if vm_vcpu_info:
+            _info["vcpu-info"] = vm_vcpu_info
+
+        if _info:
+            return _info
 
 
 class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
@@ -104,7 +97,6 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='nova-migrations',
-                         event_results_output_key='nova-migrations',
                          searchobj=FileSearcher(),
                          **kwargs)
 
@@ -246,3 +238,6 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
     def dst_pre_live_migration(self, event):
         # section name expected to be live-migration
         return self.migration_stats_info(event), event.section
+
+    def __summary_nova_migrations(self):
+        return self.run_checks()

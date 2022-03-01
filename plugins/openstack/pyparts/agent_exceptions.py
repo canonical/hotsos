@@ -10,7 +10,7 @@ from core.plugins.openstack import (
 )
 from core.searchtools import FileSearcher
 
-YAML_PRIORITY = 7
+YAML_OFFSET = 7
 
 
 class AgentExceptionChecks(OpenstackEventChecksBase):
@@ -139,17 +139,21 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
 
     def run(self, results):
         """Process search results to see if we got any hits."""
-        issues = {}
+        _final_results = {}
         for name, info in self.ost_projects.all.items():
             for agent in info.services:
                 tag = "{}.{}".format(name, agent)
                 _results = results.find_by_tag(tag)
                 ret = self.get_exceptions_results(_results)
                 if ret:
-                    if name not in issues:
-                        issues[name] = {}
+                    if name not in _final_results:
+                        _final_results[name] = {}
 
-                    issues[name][agent] = ret
+                    _final_results[name][agent] = ret
 
-        if issues:
-            self._output['agent-exceptions'] = issues
+        return _final_results
+
+    def __summary_agent_exceptions(self):
+        out = self.run_checks()
+        if out:
+            return out

@@ -20,7 +20,7 @@ from core.plugins.openstack import (
 )
 from core.utils import sorted_dict
 
-YAML_PRIORITY = 9
+YAML_OFFSET = 9
 EVENTCALLBACKS = CallbackHelper()
 VRRP_TRANSITION_WARN_THRESHOLD = 8
 
@@ -29,8 +29,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='apache',
-                         event_results_output_key='apache', **kwargs)
+                         yaml_defs_group='apache', **kwargs)
 
     @EVENTCALLBACKS.callback()
     def connection_refused(self, event):
@@ -75,6 +74,9 @@ class ApacheEventChecks(OpenstackEventChecksBase):
 
         return sorted_dict(events)
 
+    def __summary_apache(self):
+        return self.final_event_results
+
 
 class NeutronAgentEventChecks(OpenstackEventChecksBase):
     """
@@ -115,13 +117,20 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         if ret:
             return {event.name: ret}, agent
 
+    def __summary_neutron_l3_agent(self):
+        out = self.final_event_results or {}
+        return out.get('neutron-l3-agent')
+
+    def __summary_neutron_ovs_agent(self):
+        out = self.final_event_results or {}
+        return out.get('neutron-ovs-agent')
+
 
 class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='octavia-checks',
-                         event_results_output_key='octavia', **kwargs)
+                         yaml_defs_group='octavia-checks', **kwargs)
 
     def _get_failover(self, result):
         ts_date = result.get(1)
@@ -183,13 +192,15 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
         # then sort by date
         return utils.sorted_dict(missed_heartbeats)
 
+    def __summary_octavia(self):
+        return self.final_event_results
+
 
 class NovaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='nova-checks',
-                         event_results_output_key='nova', **kwargs)
+                         yaml_defs_group='nova-checks', **kwargs)
 
     @EVENTCALLBACKS.callback()
     def pci_dev_not_found(self, event):
@@ -217,13 +228,15 @@ class NovaAgentEventChecks(OpenstackEventChecksBase):
 
         return notfounds, 'PciDeviceNotFoundById'
 
+    def __summary_nova(self):
+        return self.final_event_results
+
 
 class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='apparmor-checks',
-                         event_results_output_key='apparmor', **kwargs)
+                         yaml_defs_group='apparmor-checks', **kwargs)
 
     def _get_aa_stats(self, results, service):
         info = {}
@@ -249,13 +262,15 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
         action = event.section
         return self._get_aa_stats(event.results, event.name), action
 
+    def __summary_apparmor(self):
+        return self.final_event_results
+
 
 class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='neutron-router-checks',
-                         event_results_output_key='neutron-l3ha', **kwargs)
+                         yaml_defs_group='neutron-router-checks', **kwargs)
         self.cli = CLIHelper()
         self.ha_info = NeutronHAInfo()
 
@@ -316,10 +331,13 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
             # add info to summary
             return {'transitions': transitions}, 'keepalived'
 
+    def __summary_neutron_l3ha(self):
+        return self.final_event_results
+
 
 class AgentEventChecks(OpenstackChecksBase):
 
-    def __call__(self):
+    def __summary_agent_checks(self):
         # Only run if we think Openstack is installed.
         if not self.openstack_installed:
             return
@@ -335,11 +353,12 @@ class AgentEventChecks(OpenstackChecksBase):
             check.load()
 
         results = s.search()
-        output = {}
+        _final_results = {}
         for check in checks:
-            check_results = check.run(results)
+            check.run(results)
+            check_results = check.raw_output
             if check_results:
-                output.update(check_results)
+                _final_results.update(check_results)
 
-        if output:
-            self._output = {"agent-checks": output}
+        if _final_results:
+            return _final_results

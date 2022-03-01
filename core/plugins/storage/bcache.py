@@ -125,10 +125,9 @@ class BdevsConfig(BcacheBase):
 class BcacheChecksBase(BcacheBase):
 
     @property
-    def plugin_runnable(self):
-        return self.bcache_enabled
+    def summary_subkey(self):
+        return 'bcache'
 
     @property
-    def output(self):
-        if self._output:
-            return {"bcache": self._output}
+    def plugin_runnable(self):
+        return self.bcache_enabled

@@ -2,9 +2,7 @@ import mock
 
 from tests.unit import utils
 
-from plugins.maas.pyparts import (
-    general,
-)
+from plugins.maas.pyparts import summary
 
 SYSTEMD_UNITS = """
 UNIT                                                                                             LOAD   ACTIVE SUB       DESCRIPTION 
@@ -55,8 +53,7 @@ class TestMAASGeneral(utils.BaseTestCase):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
             MAAS_DPKG.splitlines(keepends=True)
-        inst = general.MAASInstallChecks()
-        inst()
+        inst = summary.MAASSummary()
         expected = {'dpkg': ['maas-cli 2.7.3-8291-g.384e521e6',
                              'maas-common 2.7.3-8291-g.384e521e6',
                              'maas-dhcp 2.7.3-8291-g.384e521e6',
@@ -64,11 +61,11 @@ class TestMAASGeneral(utils.BaseTestCase):
                              'maas-rack-controller 2.7.3-8291-g.384e521e6',
                              'maas-region-api 2.7.3-8291-g.384e521e6',
                              'maas-region-controller 2.7.3-8291-g.384e521e6']}
-        self.assertEqual(inst.output, expected)
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('core.checks.CLIHelper')
     def test_services(self, mock_helper):
-        with mock.patch.object(general.maas.MAASServiceChecksBase,
+        with mock.patch.object(summary.maas.MAASServiceChecksBase,
                                'maas_installed', lambda: True):
             mock_helper.return_value = mock.MagicMock()
             mock_helper.return_value.systemctl_list_unit_files.return_value = \
@@ -90,6 +87,5 @@ class TestMAASGeneral(utils.BaseTestCase):
                                         'disabled': [
                                             'postgresql',
                                             ]}}}
-            inst = general.MAASServiceChecks()
-            inst()
-            self.assertEqual(inst.output, expected)
+            inst = summary.MAASSummary()
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)

@@ -7,7 +7,7 @@ from tests.unit import utils
 
 import core.plugins.sosreport as sosreport_core
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.sosreport.pyparts import general
+from plugins.sosreport.pyparts import summary
 from core.issues import issue_types
 
 
@@ -38,23 +38,23 @@ class TestSOSReportCore(TestSOSReportBase):
 class TestSOSReportGeneral(TestSOSReportBase):
 
     def test_version(self):
-        inst = general.SOSReportInfo()
-        inst()
+        inst = summary.SOSReportSummary()
         expected = {'version': '4.2',
                     'dpkg': ['sosreport 4.2-1ubuntu0.20.04.1']}
-        self.assertEqual(inst.output, expected)
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
     def test_check_plugin_timouts_none(self):
-        inst = general.SOSReportInfo()
-        inst()
-        self.assertFalse('plugin-timeouts' in inst.output)
+        inst = summary.SOSReportSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertFalse('plugin-timeouts' in actual)
 
     def test_check_plugin_timouts_some(self):
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_timed_out_plugins(dtmp)
-            inst = general.SOSReportInfo()
-            inst()
-            self.assertEquals(inst.output['plugin-timeouts'],
+            inst = summary.SOSReportSummary()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEquals(actual['plugin-timeouts'],
                               ['networking', 'system'])
 
 

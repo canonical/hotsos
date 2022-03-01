@@ -16,11 +16,11 @@ system:
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades. (origin=system.auto_scenario_check)
 vault:
-  snaps:
-    - vault 1.5.9
   services:
     systemd:
       enabled:
         - vault
         - vault-mysql-router
     ps: []
+  snaps:
+    - vault 1.5.9

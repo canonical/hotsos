@@ -7,7 +7,8 @@ from tests.unit import utils
 
 from core import constants
 from core.ycheck.configs import YConfigChecker
-from plugins.storage.pyparts import bcache
+from core.plugins.storage import bcache as bcache_core
+from plugins.storage.pyparts import bcache_summary
 
 
 class StorageBCacheTestsBase(utils.BaseTestCase):
@@ -20,18 +21,18 @@ class StorageBCacheTestsBase(utils.BaseTestCase):
 class TestBcacheBase(StorageBCacheTestsBase):
 
     def test_bcache_enabled(self):
-        b = bcache.BcacheBase()
+        b = bcache_core.BcacheBase()
         self.assertTrue(b.bcache_enabled)
 
     def test_get_cachesets(self):
         path = os.path.join(constants.DATA_ROOT,
                             'sys/fs/bcache/d7696818-1be9-4dea-9991-'
                             'de95e24d7256')
-        b = bcache.BcacheBase()
+        b = bcache_core.BcacheBase()
         self.assertEquals(b.get_cachesets(), [path])
 
     def test_get_cacheset_bdevs(self):
-        b = bcache.BcacheBase()
+        b = bcache_core.BcacheBase()
         cset = b.get_cachesets()
         bdev0 = os.path.join(cset[0], 'bdev0')
         bdev1 = os.path.join(cset[0], 'bdev1')
@@ -39,13 +40,13 @@ class TestBcacheBase(StorageBCacheTestsBase):
         self.assertEqual(result, [bdev0, bdev1])
 
     def test_get_sysfs_cachesets(self):
-        b = bcache.BcacheBase()
+        b = bcache_core.BcacheBase()
         expected = [{'cache_available_percent': 99,
                      'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
         self.assertEqual(b.get_sysfs_cachesets(), expected)
 
     def test_udev_bcache_devs(self):
-        b = bcache.BcacheBase()
+        b = bcache_core.BcacheBase()
         expected = [{'by-uuid': '88244ad9-372d-427e-9d82-c411c73d900a',
                      'name': 'bcache0'},
                     {'by-uuid': 'c3332949-19ba-40f7-91b6-48ee86157980',
@@ -54,7 +55,7 @@ class TestBcacheBase(StorageBCacheTestsBase):
         self.assertEqual(b.udev_bcache_devs, expected)
 
     def test_is_bcache_device(self):
-        b = bcache.BcacheBase()
+        b = bcache_core.BcacheBase()
         self.assertTrue(b.is_bcache_device('bcache0'))
         self.assertTrue(b.is_bcache_device('/dev/bcache0'))
         self.assertTrue(b.is_bcache_device('/dev/mapper/crypt-88244ad9-372d-'
@@ -64,27 +65,19 @@ class TestBcacheBase(StorageBCacheTestsBase):
 class TestStorageBCache(StorageBCacheTestsBase):
 
     def test_get_bcache_dev_info(self):
-        result = {'bcache': {
-                    'devices': {
-                        'bcache': {'bcache0': {'dname': 'bcache1'},
-                                   'bcache1': {'dname': 'bcache0'}}
-                        }}}
-
-        inst = bcache.BcacheDeviceChecks()
-        inst()
-        self.assertEqual(inst.output, result)
+        result = {'bcache': {'bcache0': {'dname': 'bcache1'},
+                             'bcache1': {'dname': 'bcache0'}}}
+        inst = bcache_summary.BcacheSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['devices'], result)
 
     def test_get_bcache_stats_checks(self):
         self.maxDiff = None
-        expected = {'bcache': {
-                        'cachesets': [{
-                            'cache_available_percent': 99,
-                            'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
-                        }
-                    }
-        inst = bcache.BcacheCSetChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        expected = [{'cache_available_percent': 99,
+                     'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
+        inst = bcache_summary.BcacheSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['cachesets'], expected)
 
 
 class TestBCacheConfigChecks(StorageBCacheTestsBase):

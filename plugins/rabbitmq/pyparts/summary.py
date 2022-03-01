@@ -1,34 +1,25 @@
-from core.plugins.rabbitmq import (
-    RabbitMQChecksBase,
-    RabbitMQServiceChecksBase,
-)
+from core.plugintools import summary_entry_offset as idx
+from core.plugins.rabbitmq import RabbitMQServiceChecksBase
 
-YAML_PRIORITY = 0
+YAML_OFFSET = 0
 
 
-class RabbitMQServiceChecks(RabbitMQServiceChecksBase):
+class RabbitMQSummary(RabbitMQServiceChecksBase):
 
-    def __call__(self):
-        if not self.plugin_runnable:
-            return
-
+    @idx(0)
+    def __summary_services(self):
         if self.services:
-            self._output['services'] = {'systemd': self.service_info,
-                                        'ps': self.process_info}
+            return {'systemd': self.service_info,
+                    'ps': self.process_info}
 
+    @idx(1)
+    def __summary_dpkg(self):
         apt = self.apt_check.all_formatted
         if apt:
-            self._output['dpkg'] = apt
+            return apt
 
-
-class RabbitMQClusterInfo(RabbitMQChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # save to file so we can search it later
-        self.resources = {}
-
-    def get_queue_info(self):
+    @property
+    def queue_info(self):
         """Get distribution of queues across cluster."""
         vhosts = self.report.vhosts
         vhost_queue_dists = {}
@@ -47,27 +38,35 @@ class RabbitMQClusterInfo(RabbitMQChecksBase):
                     vhost_queue_dists[vhost.name][node] = "{:d} (N/A)".format(
                         vhost_dist['queues'])
 
+        _queue_info = {}
         if vhost_queue_dists:
             # list all vhosts but only show their queues if not []
-            self.resources["vhosts"] = sorted([vhost.name for vhost in vhosts])
-            self.resources["vhost-queue-distributions"] = \
+            _queue_info["vhosts"] = sorted([vhost.name for vhost in vhosts])
+            _queue_info["vhost-queue-distributions"] = \
                 {k: v for k, v in vhost_queue_dists.items() if v}
+            return _queue_info
 
-    def __call__(self):
-        self.get_queue_info()
-
+    @idx(2)
+    def __summary_config(self):
         setting = self.report.partition_handling or 'unknown'
-        self._output['config'] = {'cluster-partition-handling': setting}
+        return {'cluster-partition-handling': setting}
+
+    @idx(3)
+    def __summary_resources(self):
+        resources = {}
+        _queue_info = self.queue_info
+        if _queue_info:
+            resources.update(_queue_info)
 
         connections = self.report.connections
         if connections['host']:
-            self.resources["connections-per-host"] = connections['host']
+            resources["connections-per-host"] = connections['host']
 
         if connections['client']:
-            self.resources["client-connections"] = connections['client']
+            resources["client-connections"] = connections['client']
 
         if self.report.memory_used:
-            self.resources["memory-used-mib"] = self.report.memory_used
+            resources["memory-used-mib"] = self.report.memory_used
 
-        if self.resources:
-            self._output["resources"] = self.resources
+        if resources:
+            return resources

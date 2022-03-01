@@ -10,7 +10,7 @@ from core.plugins.openvswitch import (
     OpenvSwitchEventChecksBase,
 )
 
-YAML_PRIORITY = 1
+YAML_OFFSET = 10
 EVENTCALLBACKS = CallbackHelper()
 
 
@@ -19,8 +19,11 @@ class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
     def __init__(self):
         super().__init__(yaml_defs_group='daemon-checks',
                          searchobj=FileSearcher(),
-                         event_results_output_key='daemon-checks',
                          callback_helper=EVENTCALLBACKS)
+
+    @property
+    def summary_subkey(self):
+        return 'daemon-checks'
 
     @EVENTCALLBACKS.callback('bridge-no-such-device',
                              'netdev-linux-no-such-device')
@@ -59,8 +62,11 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
     def __init__(self):
         super().__init__(yaml_defs_group='flow-checks',
                          searchobj=FileSearcher(),
-                         event_results_output_key='flow-checks',
                          callback_helper=EVENTCALLBACKS)
+
+    @property
+    def summary_subkey(self):
+        return 'flow-checks'
 
     @EVENTCALLBACKS.callback()
     def deferred_action_limit_reached(self, event):

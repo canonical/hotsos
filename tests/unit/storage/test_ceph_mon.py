@@ -10,7 +10,7 @@ from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import (
     ceph as ceph_core,
 )
-from plugins.storage.pyparts import ceph_info
+from plugins.storage.pyparts import ceph_summary
 
 MON_ELECTION_LOGS = """
 2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
@@ -201,54 +201,6 @@ class StorageCephMonTestsBase(utils.BaseTestCase):
                      'osd.1': 501}}
 
 
-class TestMonCephServiceInfo(StorageCephMonTestsBase):
-
-    def test_get_service_info(self):
-        svc_info = {'systemd': {'enabled': [
-                                    'ceph-crash',
-                                    'ceph-mgr',
-                                    'ceph-mon',
-                                    ],
-                                'disabled': [
-                                    'ceph-mds',
-                                    'ceph-osd',
-                                    'ceph-radosgw',
-                                    'ceph-volume'
-                                    ],
-                                'generated': ['radosgw'],
-                                'masked': ['ceph-create-keys']},
-                    'ps': ['ceph-crash (1)', 'ceph-mgr (1)', 'ceph-mon (1)']}
-        expected = {'ceph': {
-                        'services': svc_info,
-                        'release': 'octopus',
-                        'status': 'HEALTH_WARN',
-                    }}
-        inst = ceph_info.CephServiceChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
-
-    def test_get_network_info(self):
-        expected = {'ceph': {
-                        'network': {
-                            'cluster': {
-                                'eth0@if17': {
-                                    'addresses': ['10.0.0.123'],
-                                    'hwaddr': '00:16:3e:ae:9e:44',
-                                    'state': 'UP',
-                                    'speed': '10000Mb/s'}},
-                            'public': {
-                                'eth0@if17': {
-                                    'addresses': ['10.0.0.123'],
-                                    'hwaddr': '00:16:3e:ae:9e:44',
-                                    'state': 'UP',
-                                    'speed': '10000Mb/s'}}
-                            }
-                    }}
-        inst = ceph_info.CephNetworkInfo()
-        inst()
-        self.assertEqual(inst.output, expected)
-
-
 class TestCoreCephCluster(StorageCephMonTestsBase):
 
     def test_cluster_mons(self):
@@ -361,74 +313,114 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertEqual(buckets, [])
 
 
-class TestStorageCephClusterInfoCephMon(StorageCephMonTestsBase):
+class TestMonCephSummary(StorageCephMonTestsBase):
+
+    def test_get_service_info(self):
+        svc_info = {'systemd': {'enabled': [
+                                    'ceph-crash',
+                                    'ceph-mgr',
+                                    'ceph-mon',
+                                    ],
+                                'disabled': [
+                                    'ceph-mds',
+                                    'ceph-osd',
+                                    'ceph-radosgw',
+                                    'ceph-volume'
+                                    ],
+                                'generated': ['radosgw'],
+                                'masked': ['ceph-create-keys']},
+                    'ps': ['ceph-crash (1)', 'ceph-mgr (1)', 'ceph-mon (1)']}
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['services'], svc_info)
+        self.assertEqual(actual['release'], 'octopus')
+        self.assertEqual(actual['status'], 'HEALTH_WARN')
+
+    def test_get_network_info(self):
+        expected = {'cluster': {
+                        'eth0@if17': {
+                            'addresses': ['10.0.0.123'],
+                            'hwaddr': '00:16:3e:ae:9e:44',
+                            'state': 'UP',
+                            'speed': '10000Mb/s'}},
+                    'public': {
+                        'eth0@if17': {
+                            'addresses': ['10.0.0.123'],
+                            'hwaddr': '00:16:3e:ae:9e:44',
+                            'state': 'UP',
+                            'speed': '10000Mb/s'}}
+                    }
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['network'], expected)
 
     def test_ceph_cluster_info(self):
-        expected = {'ceph': {
-                        'crush-rules': {
-                            'replicated_rule': {
-                                'id': 0,
-                                'pools': [
-                                    'device_health_metrics (1)',
-                                    'glance (2)',
-                                    'cinder-ceph (3)',
-                                    'nova (4)'],
-                                'type': 'replicated'}},
-                        'versions': {'mgr': ['15.2.14'],
-                                     'mon': ['15.2.14'],
-                                     'osd': ['15.2.14']}}}
-        inst = ceph_info.CephClusterInfo()
-        inst()
-        self.assertEqual(inst.output, expected)
+        expected = {'crush-rules': {
+                        'replicated_rule': {
+                            'id': 0,
+                            'pools': [
+                                'device_health_metrics (1)',
+                                'glance (2)',
+                                'cinder-ceph (3)',
+                                'nova (4)'],
+                            'type': 'replicated'}},
+                    'versions': {'mgr': ['15.2.14'],
+                                 'mon': ['15.2.14'],
+                                 'osd': ['15.2.14']}}
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['crush-rules'], expected['crush-rules'])
+        self.assertEqual(actual['versions'], expected['versions'])
 
     @mock.patch('core.plugins.storage.ceph.CephCluster.pool_id_to_name',
                 lambda *args: 'foo')
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     def test_ceph_cluster_info_large_omap_pgs(self, mock_cli):
-        expected = {'ceph': {
-                        'large-omap-pgs': {
-                            '2.f': {
-                                'pool': 'foo',
-                                'last_scrub_stamp': '2021-09-16T21:26:00.00',
-                                'last_deep_scrub_stamp':
-                                    '2021-09-16T21:26:00.00'}}}}
+        expected = {'2.f': {
+                        'pool': 'foo',
+                        'last_scrub_stamp': '2021-09-16T21:26:00.00',
+                        'last_deep_scrub_stamp': '2021-09-16T21:26:00.00'}}
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.ceph_pg_dump_json_decoded.return_value = \
             PG_DUMP_JSON_DECODED
-        inst = ceph_info.CephClusterInfo()
-        inst()
-        self.assertEqual(inst.output, expected)
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['large-omap-pgs'], expected)
 
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance(self, mock_helper):
         result = self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
-        inst = ceph_info.CephClusterInfo()
-        inst.get_ceph_pg_imbalance()
-        self.assertEqual(inst.output["ceph"], result)
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['osd-pgs-suboptimal'],
+                         result['osd-pgs-suboptimal'])
+        self.assertEqual(actual['osd-pgs-near-limit'],
+                         result['osd-pgs-near-limit'])
 
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_df_tree.return_value = []
-        inst = ceph_info.CephClusterInfo()
-        inst.get_ceph_pg_imbalance()
-        self.assertEqual(inst.output, None)
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertFalse('osd-pgs-suboptimal' in actual)
+        self.assertFalse('osd-pgs-near-limit' in actual)
 
     def test_get_ceph_versions(self):
         result = {'mgr': ['15.2.14'],
                   'mon': ['15.2.14'],
                   'osd': ['15.2.14']}
-        inst = ceph_info.CephClusterInfo()
-        inst.get_ceph_versions()
-        self.assertEqual(inst.output["ceph"]["versions"], result)
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['versions'], result)
 
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_versions_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = []
-        inst = ceph_info.CephClusterInfo()
-        inst.get_ceph_versions()
-        self.assertIsNone(inst.output)
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertIsNone(actual.get('versions'))
 
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):

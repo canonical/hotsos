@@ -34,6 +34,13 @@ def is_def_filter(def_filename):
 
 class BaseTestCase(unittest.TestCase):
 
+    def part_output_to_actual(self, output):
+        actual = {}
+        for key, entry in output.items():
+            actual[key] = entry.data
+
+        return actual
+
     def setUp(self):
         self.maxDiff = None
         os.environ["DEBUG_MODE"] = "True"

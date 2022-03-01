@@ -5,7 +5,7 @@ from core.ycheck import CallbackHelper
 from core.plugins.storage.ceph import CephEventChecksBase
 from core.searchtools import FileSearcher
 
-YAML_PRIORITY = 2
+YAML_OFFSET = 2
 EVENTCALLBACKS = CallbackHelper()
 
 

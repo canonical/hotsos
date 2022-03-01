@@ -28,20 +28,16 @@ DEFAULTS = {'neutron': {'dhcp-agent': {
                             'enable_isolated_metadata': False}},
             'nova': {'main': {'live_migration_permit_auto_converge': False,
                               'live_migration_permit_post_copy': False}}}
-YAML_PRIORITY = 5
+YAML_OFFSET = 5
 
 
 class ServiceFeatureChecks(OpenstackChecksBase):
 
-    @property
-    def output(self):
-        if self._output:
-            return {"features": self._output}
-
-    def get_service_features(self):
+    def __summary_features(self):
         """
         This is used to display whether or not specific features are enabled.
         """
+        _features = {}
         for service in FEATURES:
             for module in FEATURES[service]:
                 module_features = {}
@@ -62,14 +58,10 @@ class ServiceFeatureChecks(OpenstackChecksBase):
                 # TODO: only include modules for which there is an actual agent
                 #       installed since otherwise their config is irrelevant.
                 if module_features:
-                    if service not in self._output:
-                        self._output[service] = {}
+                    if service not in _features:
+                        _features[service] = {}
 
-                    self._output[service][module] = module_features
+                    _features[service][module] = module_features
 
-    def __call__(self):
-        # Only run if we think Openstack is installed.
-        if not self.openstack_installed:
-            return
-
-        self.get_service_features()
+        if _features:
+            return _features

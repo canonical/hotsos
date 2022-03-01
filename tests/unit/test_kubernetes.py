@@ -9,10 +9,7 @@ from core import checks, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.kubernetes.pyparts import (
-    service_info,
-    network_checks,
-)
+from plugins.kubernetes.pyparts import summary
 
 
 class KubernetesTestsBase(utils.BaseTestCase):
@@ -24,7 +21,7 @@ class KubernetesTestsBase(utils.BaseTestCase):
             os.path.join(utils.TESTS_DIR, 'fake_data_root/kubernetes')
 
 
-class TestKubernetesServiceInfo(KubernetesTestsBase):
+class TestKubernetesSummary(KubernetesTestsBase):
 
     def setUp(self):
         self.snaps_list = cli_helpers.CLIHelper().snap_list_all()
@@ -51,9 +48,9 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
                         'kube-controller-manager (1)',
                         'kube-proxy (1)',
                         'kube-scheduler (1)']}
-        inst = service_info.KubernetesServiceChecks()
-        inst()
-        self.assertEqual(inst.output['services'], expected)
+        inst = summary.KubernetesSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['services'],
+                         expected)
 
     def test_get_snap_info_from_line(self):
         result = ['cdk-addons 1.23.0',
@@ -65,9 +62,9 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
                   'kube-proxy 1.23.3',
                   'kube-scheduler 1.23.3',
                   'kubectl 1.23.3']
-        inst = service_info.KubernetesPackageChecks()
-        inst()
-        self.assertEqual(inst.output['snaps'], result)
+        inst = summary.KubernetesSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
+                         result)
 
     @mock.patch.object(checks, 'CLIHelper')
     def test_get_snap_info_from_line_no_k8s(self, mock_helper):
@@ -76,7 +73,7 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
         for line in self.snaps_list:
             found = False
             for pkg in kubernetes_core.K8S_PACKAGES:
-                obj = service_info.KubernetesPackageChecks()
+                obj = summary.KubernetesSummary()
                 if obj.snap_check._get_snap_info_from_line(line, pkg):
                     found = True
                     break
@@ -85,23 +82,18 @@ class TestKubernetesServiceInfo(KubernetesTestsBase):
                 filterered_snaps.append(line)
 
         mock_helper.return_value.snap_list_all.return_value = filterered_snaps
-        inst = service_info.KubernetesPackageChecks()
-        inst()
+        inst = summary.KubernetesSummary()
         self.assertFalse(inst.plugin_runnable)
-        self.assertEqual(inst.output, None)
-
-
-class TestKubernetesNetworkChecks(KubernetesTestsBase):
+        self.assertTrue('snaps' not in inst.output)
 
     def test_get_network_info(self):
-        expected = {'flannel':
-                    {'flannel.1': {'addr': '10.1.84.0',
-                                   'vxlan': {'dev': 'ens3',
-                                             'id': '1',
-                                             'local_ip': '10.6.3.201'}}}}
-        inst = network_checks.KubernetesNetworkChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        expected = {'flannel.1': {'addr': '10.1.84.0',
+                                  'vxlan': {'dev': 'ens3',
+                                            'id': '1',
+                                            'local_ip': '10.6.3.201'}}}
+        inst = summary.KubernetesSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['flannel'],
+                         expected)
 
 
 class TestKubernetesBugChecks(KubernetesTestsBase):

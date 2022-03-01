@@ -6,21 +6,12 @@
 plugins:
   juju:
     parts:
-      charms:
-        - JujuCharmChecks
-      machines:
-        - JujuMachineChecks
-      units:
-        - JujuUnitChecks
-      service_info:
-        - JujuServiceInfo
+      summary:
+        - JujuSummary
   openstack:
     parts:
-      service_info:
-        - OpenstackInfo
-        - OpenstackPackageChecks
-        - OpenstackDockerImageChecks
-        - NeutronL3HAInfo
+      summary:
+        - OpenstackSummary
       service_features:
         - ServiceFeatureChecks
       service_network_checks:
@@ -36,66 +27,51 @@ plugins:
         - NovaExternalEventChecks
   openvswitch:
     parts:
-      service_info:
-        - OpenvSwitchConfigChecks
-        - OpenvSwitchPackageChecks
-        - OpenvSwitchServiceChecks
-        - OpenvSwitchBridgeChecks
+      summary:
+        - OpenvSwitchSummary
       event_checks:
         - OpenvSwitchDaemonEventChecks
         - OpenvSwitchFlowEventChecks
   system:
     parts:
-      general:
-        - SystemGeneral
+      summary:
+        - SystemSummary
       checks:
         - SystemChecks
   maas:
     parts:
-      general:
-        - MAASInstallChecks
-        - MAASServiceChecks
+      summary:
+        - MAASSummary
   kernel:
     parts:
-      info:
-        - KernelGeneralChecks
+      summary:
+        - KernelSummary
       memory:
         - KernelMemoryChecks
       log_event_checks:
         - KernelLogEventChecks
   kubernetes:
     parts:
-      service_info:
-        - KubernetesServiceChecks
-        - KubernetesPackageChecks
-        - KubernetesResourceChecks
-      network_checks:
-        - KubernetesNetworkChecks
+      summary:
+        - KubernetesSummary
   rabbitmq:
     parts:
-      rabbitmq_info:
-        - RabbitMQServiceChecks
-        - RabbitMQClusterInfo
+      summary:
+        - RabbitMQSummary
   sosreport:
     parts:
-      general:
-        - SOSReportInfo
+      summary:
+        - SOSReportSummary
   storage:
     parts:
-      ceph_info:
-        - CephServiceChecks
-        - CephPackageChecks
-        - CephNetworkInfo
-        - CephClusterInfo
+      ceph_summary:
+        - CephSummary
       ceph_event_checks:
         - CephDaemonLogChecks
-      bcache:
-        - BcacheDeviceChecks
-        - BcacheCSetChecks
+      bcache_summary:
+        - BcacheSummary
         - BcacheCharmChecks
   vault:
     parts:
-      general:
-        - VaultInstallChecks
-        - VaultServiceChecks
-
+      summary:
+        - VaultSummary

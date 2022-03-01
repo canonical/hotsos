@@ -10,7 +10,7 @@ from core.plugins import openvswitch
 from core.ycheck.bugs import YBugChecker
 from plugins.openvswitch.pyparts import (
     event_checks,
-    service_info,
+    summary,
 )
 
 LP1917475_LOG = r"""
@@ -61,46 +61,43 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
 class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
     def test_get_package_checks(self):
-        expected = {'dpkg':
-                    ['libc-bin 2.31-0ubuntu9.2',
-                     'openvswitch-switch 2.13.3-0ubuntu0.20.04.2']}
-
-        inst = service_info.OpenvSwitchPackageChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        expected = ['libc-bin 2.31-0ubuntu9.2',
+                    'openvswitch-switch 2.13.3-0ubuntu0.20.04.2']
+        inst = summary.OpenvSwitchSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['dpkg'],
+                         expected)
 
     def test_get_resource_checks(self):
-        expected = {'services': {
-                        'systemd': {
-                            'enabled': [
-                                'openvswitch-switch'
-                                ],
-                            'static': [
-                                'ovs-vswitchd', 'ovsdb-server'
-                                ]
-                            },
-                        'ps': [
-                            'ovs-vswitchd (1)',
-                            'ovsdb-server (1)']}}
-        inst = service_info.OpenvSwitchServiceChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        expected = {'systemd': {
+                        'enabled': [
+                            'openvswitch-switch'
+                            ],
+                        'static': [
+                            'ovs-vswitchd', 'ovsdb-server'
+                            ]
+                        },
+                    'ps': [
+                        'ovs-vswitchd (1)',
+                        'ovsdb-server (1)']}
+        inst = summary.OpenvSwitchSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['services'],
+                         expected)
 
     def test_bridge_checks(self):
-        expected = {'bridges': {'br-data': [
-                                    {'ens7': {
-                                        'addresses': [],
-                                        'hwaddr': '52:54:00:78:19:c3',
-                                        'state': 'UP',
-                                        'speed': 'Unknown!'}}],
-                                'br-ex': [],
-                                'br-int': ['(6 ports)'],
-                                'br-tun': ['vxlan-0a000072',
-                                           'vxlan-0a000085']}}
+        expected = {'br-data': [
+                        {'ens7': {
+                            'addresses': [],
+                            'hwaddr': '52:54:00:78:19:c3',
+                            'state': 'UP',
+                            'speed': 'Unknown!'}}],
+                    'br-ex': [],
+                    'br-int': ['(6 ports)'],
+                    'br-tun': ['vxlan-0a000072',
+                               'vxlan-0a000085']}
 
-        inst = service_info.OpenvSwitchBridgeChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        inst = summary.OpenvSwitchSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['bridges'],
+                         expected)
 
 
 class TestOpenvswitchBugChecks(TestOpenvswitchBase):
@@ -149,86 +146,82 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
         expected = {
-            'daemon-checks': {
+            'ovs-vswitchd': {
+               'bridge-no-such-device': {
+                    '2022-02-10': {'tap6a0486f9-82': 1}}},
+            'logs': {
+                'ovn-controller-unreasonably-long-poll-interval': {
+                    '2022-02-16': 1,
+                    '2022-02-17': 1},
+                'ovsdb-server-nb-inactivity-probe': {
+                    '2022-02-16': {
+                        '10.130.11.109': 1},
+                    '2022-02-17': {
+                        '10.130.11.115': 1}},
+                'ovsdb-server-nb-unreasonably-long-poll-interval': {
+                    '2022-02-16': 2,
+                    '2022-02-17': 1},
+                'ovsdb-server-sb-inactivity-probe': {
+                    '2022-02-16': {
+                        '10.130.11.109': 1,
+                        '10.130.11.110': 1},
+                    '2022-02-17': {
+                        '10.130.11.109': 1,
+                        '10.130.11.110': 1}},
+                'ovsdb-server-sb-unreasonably-long-poll-interval': {
+                    '2022-02-16': 2,
+                    '2022-02-17': 3},
+                'ovs-thread-unreasonably-long-poll-interval': {
+                    '2022-02-10': 3},
                 'ovs-vswitchd': {
-                   'bridge-no-such-device': {
-                        '2022-02-10': {'tap6a0486f9-82': 1}}},
-                'logs': {
-                    'ovn-controller-unreasonably-long-poll-interval': {
+                    'WARN': {
+                        '2022-02-04': 56,
+                        '2022-02-09': 24,
+                        '2022-02-10': 12}},
+                'ovsdb-server': {
+                    'WARN': {
+                        '2022-02-04': 6,
+                        '2022-02-09': 2,
+                        '2022-02-10': 4}},
+                'ovn-controller': {
+                    'ERR': {'2022-02-16': 2},
+                    'WARN': {
+                        '2022-02-16': 4,
+                        '2022-02-17': 5}},
+                'ovn-northd': {
+                    'ERR': {
                         '2022-02-16': 1,
                         '2022-02-17': 1},
-                    'ovsdb-server-nb-inactivity-probe': {
-                        '2022-02-16': {
-                            '10.130.11.109': 1},
-                        '2022-02-17': {
-                            '10.130.11.115': 1}},
-                    'ovsdb-server-nb-unreasonably-long-poll-interval': {
-                        '2022-02-16': 2,
+                    'WARN': {
+                        '2022-02-16': 1,
+                        '2022-02-17': 1}},
+                'ovsdb-server-nb': {
+                    'ERR': {
+                        '2022-02-16': 1,
                         '2022-02-17': 1},
-                    'ovsdb-server-sb-inactivity-probe': {
-                        '2022-02-16': {
-                            '10.130.11.109': 1,
-                            '10.130.11.110': 1},
-                        '2022-02-17': {
-                            '10.130.11.109': 1,
-                            '10.130.11.110': 1}},
-                    'ovsdb-server-sb-unreasonably-long-poll-interval': {
+                    'WARN': {
+                        '2022-02-16': 12,
+                        '2022-02-17': 17}},
+                'ovsdb-server-sb': {
+                    'ERR': {
                         '2022-02-16': 2,
-                        '2022-02-17': 3},
-                    'ovs-thread-unreasonably-long-poll-interval': {
-                        '2022-02-10': 3},
-                    'ovs-vswitchd': {
-                        'WARN': {
-                            '2022-02-04': 56,
-                            '2022-02-09': 24,
-                            '2022-02-10': 12}},
-                    'ovsdb-server': {
-                        'WARN': {
-                            '2022-02-04': 6,
-                            '2022-02-09': 2,
-                            '2022-02-10': 4}},
-                    'ovn-controller': {
-                        'ERR': {'2022-02-16': 2},
-                        'WARN': {
-                            '2022-02-16': 4,
-                            '2022-02-17': 5}},
-                    'ovn-northd': {
-                        'ERR': {
-                            '2022-02-16': 1,
-                            '2022-02-17': 1},
-                        'WARN': {
-                            '2022-02-16': 1,
-                            '2022-02-17': 1}},
-                    'ovsdb-server-nb': {
-                        'ERR': {
-                            '2022-02-16': 1,
-                            '2022-02-17': 1},
-                        'WARN': {
-                            '2022-02-16': 12,
-                            '2022-02-17': 17}},
-                    'ovsdb-server-sb': {
-                        'ERR': {
-                            '2022-02-16': 2,
-                            '2022-02-17': 2},
-                        'WARN': {
-                            '2022-02-16': 23,
-                            '2022-02-17': 23}}}}}
+                        '2022-02-17': 2},
+                    'WARN': {
+                        '2022-02-16': 23,
+                        '2022-02-17': 23}}}}
         inst = event_checks.OpenvSwitchDaemonEventChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('core.ycheck.CLIHelper')
     def test_dp_checks(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ovs_appctl_dpctl_show.return_value = \
             DPCTL_SHOW
-        expected = {'flow-checks': {
-                        'datapath-port-stats': {
-                            'qr-aa623763-fd': {
-                                'RX': {
-                                    'dropped': 1394875,
-                                    'packets': 309
-                                    }}}}}
+        expected = {'datapath-port-stats': {
+                        'qr-aa623763-fd': {
+                            'RX': {
+                                'dropped': 1394875,
+                                'packets': 309
+                                }}}}
         inst = event_checks.OpenvSwitchFlowEventChecks()
-        inst()
-        self.assertEqual(inst.output, expected)
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
