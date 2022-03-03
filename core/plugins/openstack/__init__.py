@@ -336,7 +336,7 @@ class OSTProjectCatalog(object):
         self.add('octavia', config={'main': 'octavia.conf',
                                     'amphora': 'amphora-agent.conf'},
                  systemd_masked_services=['octavia-api'],
-                 apt_core_alt=['amphora-\S+'],
+                 apt_core_alt=[r'amphora-\S+'],
                  systemd_extra_services=['apache2', 'amphora-agent'],
                  log_path_overrides={'apache2':
                                      ['var/log/octavia/octavia-api.log']}),
