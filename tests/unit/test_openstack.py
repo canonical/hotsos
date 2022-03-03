@@ -230,6 +230,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["services"], expected)
 
+    @mock.patch('core.plugins.openstack.OSTProject.installed', True)
     @mock.patch('core.plugins.openstack.OpenstackServiceChecksBase.'
                 'openstack_installed', True)
     @mock.patch('core.checks.CLIHelper')
@@ -989,6 +990,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(sorted(issues[issue_types.OpenstackWarning]),
                          sorted([msg1, msg2]))
 
+    @mock.patch('core.plugins.openstack.OSTProject.installed', True)
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('systemd_masked_services.yaml'))
