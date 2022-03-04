@@ -893,9 +893,14 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                       'origin': 'openstack.01part'}]}
         self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
 
+    @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('octavia.yaml'))
-    def test_2008099(self):
+    def test_2008099(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            ["ii octavia-common 6.1.0-0ubuntu1~cloud0 all"]
+
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
             logfile = os.path.join(
@@ -911,9 +916,9 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                    'https://storyboard.openstack.org/#!/story'
                                    '/2008099. Due to this bug, LB failover '
                                    'fails when session persistence is set on'
-                                   ' a LB pool. The bug is fixed in ussuri '
-                                   '6.2.1-0ubuntu2~cloud0 and available in '
-                                   'ussuri-updates'),
+                                   ' a LB pool. The fix is available in '
+                                   'latest octavia packages in UCA ussuri '
+                                   'and above.'),
                           'origin': 'openstack.01part'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
 
