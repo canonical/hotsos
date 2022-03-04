@@ -7,11 +7,45 @@ from tests.unit import utils
 
 from core import constants
 from core.ycheck.configs import YConfigChecker
+from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import bcache as bcache_core
 from plugins.storage.pyparts import bcache_summary
 
 
 class StorageBCacheTestsBase(utils.BaseTestCase):
+
+    def setup_bcachefs(self, path, bdev_error=False, cacheset_error=False):
+        cset = os.path.join(path, 'sys/fs/bcache/1234')
+        os.makedirs(cset)
+        for cfg, val in {'congested_read_threshold_us': '0',
+                         'congested_write_threshold_us': '0'}.items():
+            with open(os.path.join(cset, cfg), 'w') as fd:
+                if cacheset_error:
+                    val = '100'
+
+                fd.write(val)
+
+        for cfg, val in {'cache_available_percent': '34'}.items():
+            if cacheset_error:
+                if cfg == 'cache_available_percent':
+                    # i.e. >= 33 for lp1900438 check
+                    val = '33'
+
+            with open(os.path.join(cset, cfg), 'w') as fd:
+                fd.write(val)
+
+        bdev = os.path.join(cset, 'bdev1')
+        os.makedirs(bdev)
+        for cfg, val in {'sequential_cutoff': '0.0k',
+                         'cache_mode':
+                         'writethrough [writeback] writearound none',
+                         'writeback_percent': '10'}.items():
+            if bdev_error:
+                if cfg == 'writeback_percent':
+                    val = '1'
+
+            with open(os.path.join(bdev, cfg), 'w') as fd:
+                fd.write(val)
 
     def setUp(self):
         super().setUp()
@@ -90,39 +124,6 @@ class TestBCacheConfigChecks(StorageBCacheTestsBase):
             YConfigChecker()()
             self.assertFalse(mock_add_issue.called)
 
-    def setup_bcachefs(self, path, bdev_error=False, cacheset_error=False):
-        cset = os.path.join(path, 'sys/fs/bcache/1234')
-        os.makedirs(cset)
-        for cfg, val in {'congested_read_threshold_us': '0',
-                         'congested_write_threshold_us': '0'}.items():
-            with open(os.path.join(cset, cfg), 'w') as fd:
-                if cacheset_error:
-                    val = '100'
-
-                fd.write(val)
-
-        for cfg, val in {'cache_available_percent': '34'}.items():
-            if cacheset_error:
-                if cfg == 'cache_available_percent':
-                    # i.e. >= 33 for lp1900438 check
-                    val = '33'
-
-            with open(os.path.join(cset, cfg), 'w') as fd:
-                fd.write(val)
-
-        bdev = os.path.join(cset, 'bdev1')
-        os.makedirs(bdev)
-        for cfg, val in {'sequential_cutoff': '0.0k',
-                         'cache_mode':
-                         'writethrough [writeback] writearound none',
-                         'writeback_percent': '10'}.items():
-            if bdev_error:
-                if cfg == 'writeback_percent':
-                    val = '1'
-
-            with open(os.path.join(bdev, cfg), 'w') as fd:
-                fd.write(val)
-
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cacheset.yaml'))
     @mock.patch('core.issues.issue_utils.add_issue')
@@ -167,3 +168,28 @@ class TestBCacheConfigChecks(StorageBCacheTestsBase):
                      'but actual=1')]
             actual = sorted([issue.msg for issue in issues])
             self.assertEqual(actual, sorted(msgs))
+
+
+class TestBCacheScenarioChecks(StorageBCacheTestsBase):
+
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase.'
+                'local_osds_use_bcache', True)
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_ceph_no_bcache_tuning.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_juju_ceph_no_bcache_tuning(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        msgs = [("This host is running Juju-managed Ceph OSDs that are "
+                 "using bcache devices yet the bcache-tuning charm was "
+                 "not detected. It is recommended to use the "
+                 "bcache-tuning charm to ensure optimal bcache "
+                 "configuration.")]
+        actual = sorted([issue.msg for issue in issues])
+        self.assertEqual(actual, sorted(msgs))

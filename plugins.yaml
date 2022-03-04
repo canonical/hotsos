@@ -70,7 +70,6 @@ plugins:
         - CephDaemonLogChecks
       bcache_summary:
         - BcacheSummary
-        - BcacheCharmChecks
   vault:
     parts:
       summary:

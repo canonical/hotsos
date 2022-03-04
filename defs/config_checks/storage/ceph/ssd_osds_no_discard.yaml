@@ -7,10 +7,10 @@ requires:
       op: contains
       value: ssd
     - config:
-      handler: core.plugins.storage.ceph.CephConfig
-      assertions:
-        bdev enable_discard:
-          value: true
+        handler: core.plugins.storage.ceph.CephConfig
+        assertions:
+          bdev enable_discard:
+            value: true
 raises:
   type: core.issues.issue_types.CephWarning
   message: >-

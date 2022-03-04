@@ -1,0 +1,28 @@
+checks:
+  juju-ceph-osd-charm-enabled:
+    requires:
+      property: core.plugins.juju.JujuBase.charm_names
+      op: contains
+      value: ceph-osd
+  juju-bcache-tuning-charm-not-enabled:
+    requires:
+      property: core.plugins.juju.JujuBase.charm_names
+      op: contains
+      value: bcache-tuning
+      post-op: not_
+  local-osds-using-bcache:
+    requires:
+      property: core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache
+conclusions:
+  charmed_ceph_osd_no_bcache_tuning:
+    decision:
+      and:
+        - juju-ceph-osd-charm-enabled
+        - local-osds-using-bcache
+        - juju-bcache-tuning-charm-not-enabled
+    raises:
+      type: core.issues.issue_types.BcacheWarning
+      message: >-
+        This host is running Juju-managed Ceph OSDs that are using bcache
+        devices yet the bcache-tuning charm was not detected. It is recommended
+        to use the bcache-tuning charm to ensure optimal bcache configuration.

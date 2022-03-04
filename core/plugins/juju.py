@@ -131,6 +131,26 @@ class JujuBase(object):
         return self._units
 
     @property
+    def nonlocal_units(self):
+        """ These are units that may be running on the local host i.e.
+        their associated jujud process is visible but inside containers.
+        """
+        units_nonlocal = []
+        if self.units:
+            local_units = [u.name for u in self.units]
+        else:
+            local_units = []
+
+        for unit in self.ps_units:
+            if unit.name in local_units:
+                continue
+
+            units_nonlocal.append(unit)
+
+        if units_nonlocal:
+            return units_nonlocal
+
+    @property
     def charms(self):
         if self._charms:
             return self._charms
@@ -149,6 +169,13 @@ class JujuBase(object):
         return self._charms
 
     @property
+    def charm_names(self):
+        if not self.charms:
+            return []
+
+        return [c.name for c in self.charms]
+
+    @property
     def ps_units(self):
         """ Units identified from running processes. """
         units = set()
@@ -165,8 +192,7 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
 
     @property
     def plugin_runnable(self):
-        # TODO: define whether this plugin should run or not.
-        return True
+        return os.path.exists(JUJU_LIB_PATH)
 
 
 class JujuServiceChecksBase(JujuChecksBase, checks.ServiceChecksBase):

@@ -231,7 +231,8 @@ REQ_DEF
 
   TYPE: INPUT
   value: <value> (optional. Default is boolean True.)
-  op: <operator> (optional [python standard operator](https://docs.python.org/3/library/operator.html). Default is eq.)
+  op: <operator> [python standard operator](https://docs.python.org/3/library/operator.html) that will take the value returned by INPUT and value as input. Default is eq.
+  post-op: an optional secondary python operator that will be applied to the result before returning.
 
 REQ_GROUP
   Requirements can be grouped using a dictionary of LOGICAL_OPERATOR

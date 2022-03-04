@@ -6,12 +6,9 @@ import mock
 from tests.unit import utils
 
 from core.ycheck.bugs import YBugChecker
+from core.ycheck.scenarios import YScenarioChecker
 from core import known_bugs_utils
 from plugins.juju.pyparts import summary
-
-FAKE_PS = """root       615  0.0  0.0  21768   980 ?        Ss   Apr06   0:00 bash /etc/systemd/system/jujud-machine-0-lxd-11-exec-start.sh
-root       731  0.0  0.0 2981484 81644 ?       Sl   Apr06  49:01 /var/lib/juju/tools/machine-0-lxd-11/jujud machine --data-dir /var/lib/juju --machine-id 0/lxd/11 --debug"""  # noqa
-
 
 JOURNALCTL_CAPPEDPOSITIONLOST = """
 Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)
@@ -58,20 +55,15 @@ class TestJujuSummary(JujuTestsBase):
         self.assertEquals(actual['version'], '2.9.22')
         self.assertEquals(actual['machine'], '1')
 
-    @mock.patch.object(summary, 'CLIHelper')
-    def test_get_lxd_machine_info(self, mock_cli_helper):
-        mock_helper = mock.MagicMock()
-        mock_cli_helper.return_value = mock_helper
-        mock_helper.ps.return_value = FAKE_PS.split('\n')
-        with mock.patch('core.plugins.juju.JujuMachine') as m:
-            mock_machine = mock.MagicMock()
-            m.return_value = mock_machine
-            mock_machine.id = '0-lxd-11'
-            mock_machine.version = '2.9.9'
-            inst = summary.JujuSummary()
-            actual = self.part_output_to_actual(inst.output)
-            self.assertEquals(actual['version'], '2.9.9')
-            self.assertEquals(actual['machine'], '0-lxd-11')
+    @mock.patch('core.plugins.juju.JujuMachine')
+    def test_get_lxd_machine_info(self, mock_machine):
+        mock_machine.return_value = mock.MagicMock()
+        mock_machine.return_value.id = '0-lxd-11'
+        mock_machine.return_value.version = '2.9.9'
+        inst = summary.JujuSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEquals(actual['version'], '2.9.9')
+        self.assertEquals(actual['machine'], '0-lxd-11')
 
     def test_charm_versions(self):
         expected = ['ceph-osd-508', 'neutron-openvswitch-457',
@@ -134,3 +126,27 @@ class TestJujuKnownBugs(JujuTestsBase):
                            'removed.'),
                           'origin': 'juju.01part'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+
+
+class TestJujuScenarios(JujuTestsBase):
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('jujud_checks.yaml'))
+    @mock.patch('core.ycheck.ServiceChecksBase.processes', {})
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_jujud_checks(self, mock_add_issue):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+
+        YScenarioChecker()()
+        self.assertEqual(len(issues), 1)
+        msg = ('No jujud processes found running on this host but it seems '
+               'there should be since Juju is installed.')
+        self.assertEqual(list(issues.values())[0], [msg])

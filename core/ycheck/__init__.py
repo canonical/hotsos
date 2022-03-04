@@ -330,7 +330,8 @@ class YPropertyInput(YPropertyOverrideBase):
 
 
 class YRequirementObj(YPropertyBase):
-    def __init__(self, apt, snap, systemd, property, config, value, py_op):
+    def __init__(self, apt, snap, systemd, property, config, value, py_op,
+                 post_py_op):
         self.apt = apt
         self.snap = snap
         self.systemd = systemd
@@ -338,6 +339,11 @@ class YRequirementObj(YPropertyBase):
         self.config = config
         self.value = value
         self.py_op = getattr(operator, py_op)
+        if post_py_op:
+            self.post_py_op = getattr(operator, post_py_op)
+        else:
+            self.post_py_op = None
+
         self._cache = {}
 
     @property
@@ -482,17 +488,26 @@ class YRequirementObj(YPropertyBase):
 
         Returns True if met otherwise False.
         """
+        ret = False
         try:
             if self.apt:
-                return self._apt_handler()
+                ret = self._apt_handler()
             elif self.snap:
-                return self._snap_handler()
+                ret = self._snap_handler()
             elif self.systemd:
-                return self._systemd_handler()
+                ret = self._systemd_handler()
             elif self.property:
-                return self._property_handler()
+                ret = self._property_handler()
             elif self.config:
-                return self._config_handler()
+                ret = self._config_handler()
+
+            if not self.post_py_op:
+                return ret
+            else:
+                ret = self.post_py_op(ret)
+                log.debug("applying post-op %s (result=%s)", self.post_py_op,
+                          ret)
+                return ret
         except Exception:
             if constants.DEBUG_MODE:
                 # display traceback here before it gets swallowed up.
@@ -559,6 +574,10 @@ class YPropertyRequires(YPropertyOverrideBase):
     def op(self):
         return self.content.get('op', self.DEFAULT_STD_OP)
 
+    @property
+    def post_op(self):
+        return self.content.get('post-op')
+
     def process_requirement(self, requirement, cache=False):
         """ Process a single requirement and return its boolean result.
 
@@ -604,12 +623,14 @@ class YPropertyRequires(YPropertyOverrideBase):
                       len(group_items))
             for entry in group_items:
                 r_op = entry.get('op', self.DEFAULT_STD_OP)
+                post_op = entry.get('post-op')
                 requirement = YRequirementObj(entry.get('apt'),
                                               entry.get('snap'),
                                               entry.get('systemd'),
                                               entry.get('property'),
                                               entry.get('config'),
-                                              entry.get('value', True), r_op)
+                                              entry.get('value', True), r_op,
+                                              post_op)
                 result = self.process_requirement(requirement)
                 if group_op not in results:
                     results[group_op] = []
@@ -637,13 +658,14 @@ class YPropertyRequires(YPropertyOverrideBase):
                     results[group_op] += grp_op_results
             else:
                 r_op = item.get('op', self.DEFAULT_STD_OP)
+                post_op = item.get('post-op')
                 requirement = YRequirementObj(item.get('apt'),
                                               item.get('snap'),
                                               item.get('systemd'),
                                               item.get('property'),
                                               item.get('config'),
                                               item.get('value', True),
-                                              item.get('op', r_op))
+                                              r_op, post_op)
                 result = self.process_requirement(requirement)
                 # final results always get anded.
                 op = self.FINAL_RESULT_OP
@@ -690,7 +712,8 @@ class YPropertyRequires(YPropertyOverrideBase):
                                           entry.get('property'),
                                           entry.get('config'),
                                           entry.get('value', True),
-                                          entry.get('op', self.DEFAULT_STD_OP))
+                                          entry.get('op', self.DEFAULT_STD_OP),
+                                          entry.get('post-op'))
             if not self.process_requirement(requirement):
                 log.debug("depends-on is False - skipping requirenent check "
                           "and returning passes=True")
@@ -705,7 +728,7 @@ class YPropertyRequires(YPropertyOverrideBase):
                 requirement = YRequirementObj(self.apt, self.snap,
                                               self.systemd, self._property,
                                               self.config, self.value,
-                                              self.op)
+                                              self.op, self.post_op)
                 results = {self.FINAL_RESULT_OP:
                            [self.process_requirement(requirement, cache=True)]}
             else:

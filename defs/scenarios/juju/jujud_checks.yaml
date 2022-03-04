@@ -1,0 +1,15 @@
+checks:
+  jujud-not-found:
+    requires:
+      property: core.plugins.juju.JujuServiceChecksBase.processes
+      op: contains
+      value: jujud
+      post-op: not_
+conclusions:
+  jujud_not_found:
+    decision: jujud-not-found
+    raises:
+      type: core.issues.issue_types.JujuWarning
+      message: >-
+        No jujud processes found running on this host but it seems there should
+        be since Juju is installed.
