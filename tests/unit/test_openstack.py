@@ -125,6 +125,9 @@ Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unknown configuration entry 'no_
 LP_1928031 = r"""
 2021-08-26 05:47:20.754 1331249 ERROR neutron.agent.ovn.metadata.server AttributeError: 'MetadataProxyHandler' object has no attribute 'sb_idl'
 """  # noqa
+LP_2008099 = r"""
+2022-02-28 22:43:06.269 2452 ERROR octavia.amphorae.drivers.haproxy.exceptions [req-517fc350-0d44-49d9-8c42-bf0ee08743cc - 77dd427b317c41bc92306aa341174958 - - -] Amphora agent returned unexpected result code 400 with response {'message': 'Invalid request', 'details': "[ALERT] 058/224306 (1748) : Proxy '2d4fb3e0-d743-48f6-a69a-c37e2c1246f2:8a692eba-7d40-4f8d-8a74-77d8c4f3dba8': unable to find local peer 'xFiQsE9fy1TMp7CDRHT-ClSZOEI' in peers section '3705f8d100144614a7475324946a3a5f_peers'.\n[WARNING] 058/224306 (1748) : Removing incomplete section 'peers 3705f8d100144614a7475324946a3a5f_peers' (no peer named 'xFiQsE9fy1TMp7CDRHT-ClSZOEI').\n[ALERT] 058/224306 (1748) : Fatal errors found in configuration.\n"}
+""" # noqa
 
 EVENT_PCIDEVNOTFOUND_LOG = r"""
 2021-09-17 13:49:47.257 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:10.0: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:10.0 not found
@@ -889,6 +892,30 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                "should be upgraded asap."),
                       'origin': 'openstack.01part'}]}
         self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('octavia.yaml'))
+    def test_2008099(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            logfile = os.path.join(
+                        dtmp, 'var/log/octavia/octavia-worker.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(LP_2008099)
+
+            YBugChecker()()
+            expected = {'bugs-detected':
+                        [{'id': 'https://bugs.launchpad.net/bugs/2008099',
+                          'desc': ('known octavia bug identified '
+                                   'https://storyboard.openstack.org/#!/story'
+                                   '/2008099. Due to this bug, LB failover '
+                                   'fails when session persistence is set on'
+                                   ' a LB pool. The bug is fixed in ussuri '
+                                   '6.2.1-0ubuntu2~cloud0 and available in '
+                                   'ussuri-updates'),
+                          'origin': 'openstack.01part'}]}
+            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
 
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):

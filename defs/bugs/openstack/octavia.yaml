@@ -1,0 +1,10 @@
+2008099:
+  input:
+    path: 'var/log/octavia/octavia-worker.log'
+  expr: '.+octavia.amphorae.drivers.haproxy.exceptions .+ Removing incomplete section ''peers'
+  hint: octavia.amphorae.drivers.haproxy.exceptions
+  raises:
+    message: >-
+      known octavia bug identified https://storyboard.openstack.org/#!/story/2008099.
+      Due to this bug, LB failover fails when session persistence is set on a LB pool.
+      The bug is fixed in ussuri 6.2.1-0ubuntu2~cloud0 and available in ussuri-updates
