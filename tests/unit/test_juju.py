@@ -8,7 +8,7 @@ from tests.unit import utils
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core import known_bugs_utils
-from plugins.juju.pyparts import summary
+from plugin_extensions.juju import summary
 
 JOURNALCTL_CAPPEDPOSITIONLOST = """
 Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)

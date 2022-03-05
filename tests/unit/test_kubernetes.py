@@ -9,7 +9,7 @@ from core import checks, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.kubernetes.pyparts import summary
+from plugin_extensions.kubernetes import summary
 
 
 class KubernetesTestsBase(utils.BaseTestCase):

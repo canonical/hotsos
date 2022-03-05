@@ -55,7 +55,7 @@ parts:
   hotsos-python:
     source: .
     plugin: python
-    stage-packages: [python3-yaml, python3-simplejson]
+    stage-packages: [python3-yaml, python3-simplejson, python3-click]
   sem-open-preload:
     source: https://github.com/snapcore/snapcraft-preloads.git
     source-subdir: semaphores

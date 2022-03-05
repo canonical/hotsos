@@ -5,7 +5,7 @@ import mock
 
 from tests.unit import utils
 
-from plugins.kernel.pyparts import (
+from plugin_extensions.kernel import (
     summary,
     memory,
     log_event_checks,

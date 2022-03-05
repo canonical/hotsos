@@ -3,10 +3,14 @@ import logging
 
 from core import constants
 
-
-format = ("%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] "
-          "%(message)s")
-logging.basicConfig(format=format)
+logging.disable(level=logging.CRITICAL)
 log = logging.getLogger(constants.PLUGIN_NAME)
-if constants.DEBUG_MODE:
-    log.setLevel(logging.DEBUG)
+
+
+def setup_logging(debug_mode=False):
+    format = ("%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] "
+              "%(message)s")
+    logging.basicConfig(format=format)
+    if debug_mode:
+        logging.disable(logging.NOTSET)
+        log.setLevel(logging.DEBUG)

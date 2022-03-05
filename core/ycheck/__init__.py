@@ -82,9 +82,8 @@ class YPropertyBase(object):
         try:
             ret = getattr(cls(), property)
         except Exception:
-            if constants.DEBUG_MODE:
-                log.exception("failed to import and call property %s",
-                              import_str)
+            log.exception("failed to import and call property %s",
+                          import_str)
 
             raise
 
@@ -100,10 +99,8 @@ class YPropertyBase(object):
         try:
             ret = getattr(cls(), property)()
         except Exception:
-            if constants.DEBUG_MODE:
-                log.exception("failed to import and call method %s",
-                              import_str)
-
+            log.exception("failed to import and call method %s",
+                          import_str)
             raise
 
         return ret
@@ -115,8 +112,7 @@ class YPropertyBase(object):
         try:
             ret = getattr(importlib.import_module(mod), attr)
         except Exception as exc:
-            if constants.DEBUG_MODE:
-                log.exception("failed to get module attribute %s", import_str)
+            log.exception("failed to get module attribute %s", import_str)
 
             # ystruct.YAMLDefOverrideBase swallows AttributeError so need to
             # convert to something else.
@@ -509,10 +505,8 @@ class YRequirementObj(YPropertyBase):
                           ret)
                 return ret
         except Exception:
-            if constants.DEBUG_MODE:
-                # display traceback here before it gets swallowed up.
-                log.exception("requires.passes raised the following")
-
+            # display traceback here before it gets swallowed up.
+            log.exception("requires.passes raised the following")
             raise
 
         log.debug('unknown requirement check - passes=False')

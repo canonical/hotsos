@@ -12,10 +12,6 @@ class constants_properties(type):
         return cls._HOTSOS_ROOT()
 
     @property
-    def DEBUG_MODE(cls):
-        return cls._DEBUG_MODE()
-
-    @property
     def DATA_ROOT(cls):
         return cls._DATA_ROOT()
 
@@ -63,6 +59,14 @@ class constants_properties(type):
     def MINIMAL_MODE(cls):
         return cls._MINIMAL_MODE()
 
+    @property
+    def VERSION(cls):
+        return cls._VERSION()
+
+    @property
+    def REPO_INFO(cls):
+        return cls._REPO_INFO()
+
 
 class constants(object, metaclass=constants_properties):
     """
@@ -78,13 +82,6 @@ class constants(object, metaclass=constants_properties):
             return False
 
         return val
-
-    @classmethod
-    def _DEBUG_MODE(cls):
-        if cls.bool_str(os.environ.get('DEBUG_MODE', 'False')):
-            return True
-        else:
-            return False
 
     @classmethod
     def _HOTSOS_ROOT(cls):
@@ -140,3 +137,11 @@ class constants(object, metaclass=constants_properties):
     @classmethod
     def _MINIMAL_MODE(cls):
         return os.environ.get('MINIMAL_MODE')
+
+    @classmethod
+    def _VERSION(cls):
+        return os.environ['VERSION']
+
+    @classmethod
+    def _REPO_INFO(cls):
+        return os.environ['REPO_INFO']

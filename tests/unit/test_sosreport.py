@@ -7,7 +7,7 @@ from tests.unit import utils
 
 import core.plugins.sosreport as sosreport_core
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.sosreport.pyparts import summary
+from plugin_extensions.sosreport import summary
 from core.issues import issue_types
 
 

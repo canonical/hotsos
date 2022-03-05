@@ -9,7 +9,7 @@ from core import constants
 from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import bcache as bcache_core
-from plugins.storage.pyparts import bcache_summary
+from plugin_extensions.storage import bcache_summary
 
 
 class StorageBCacheTestsBase(utils.BaseTestCase):

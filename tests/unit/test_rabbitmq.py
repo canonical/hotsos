@@ -10,7 +10,7 @@ from core import constants
 from core.plugins.rabbitmq import RabbitMQReport
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from plugins.rabbitmq.pyparts import summary
+from plugin_extensions.rabbitmq import summary
 
 RABBITMQ_LOGS = """
 Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdown since no synchronised slave is available

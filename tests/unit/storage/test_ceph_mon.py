@@ -10,7 +10,7 @@ from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import (
     ceph as ceph_core,
 )
-from plugins.storage.pyparts import ceph_summary
+from plugin_extensions.storage import ceph_summary
 
 MON_ELECTION_LOGS = """
 2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election

@@ -168,6 +168,13 @@ class PluginPartBase(ApplicationBase):
     # max per part before overlap
     PLUGIN_PART_OFFSET_MAX = 500
 
+    def __init__(self, *args, **kwargs):
+        plugin_tmp = constants.PLUGIN_TMP_DIR
+        if not plugin_tmp or not os.path.isdir(plugin_tmp):
+            raise Exception("plugin PLUGIN_TMP_DIR not initialised - exiting")
+
+        super().__init__(*args, **kwargs)
+
     @property
     def plugin_runnable(self):
         """
@@ -234,26 +241,8 @@ class PluginPartBase(ApplicationBase):
 
 class PluginRunner(object):
 
-    def __call__(self):
-        """
-        Fetch definition for current plugin and execute each of its parts. See
-        definitions file at plugins.yaml for information on supported
-        format.
-        """
-        path = os.path.join(constants.HOTSOS_ROOT, "plugins.yaml")
-        with open(path) as fd:
-            yaml_defs = yaml.safe_load(fd.read())
-
-        if not yaml_defs:
-            return
-
+    def run_parts(self, parts, debug_mode=False):
         failed_parts = []
-        plugins = yaml_defs.get("plugins", {})
-        plugin = plugins.get(constants.PLUGIN_NAME, {})
-        parts = plugin.get("parts", {})
-        if not parts:
-            log.debug("plugin %s has no parts to run", constants.PLUGIN_NAME)
-
         # The following are executed as part of each plugin run (but not last).
         ALWAYS_RUN = {'auto_bug_check':
                       {'core.ycheck.bugs': 'YBugChecker'},
@@ -261,57 +250,47 @@ class PluginRunner(object):
                       {'core.ycheck.configs': 'YConfigChecker'},
                       'auto_scenario_check':
                       {'core.ycheck.scenarios': 'YScenarioChecker'}}
-        for part, always_parts in ALWAYS_RUN.items():
+        for name, always_parts in ALWAYS_RUN.items():
             for obj, cls in always_parts.items():
                 # update current env to reflect actual part being run
-                os.environ['PART_NAME'] = part
+                os.environ['PART_NAME'] = name
                 part_obj = getattr(importlib.import_module(obj), cls)
                 try:
                     part_obj()()
                 except Exception as exc:
-                    failed_parts.append(part)
-                    log.debug("part '%s' raised exception: %s", part, exc)
-                    if constants.DEBUG_MODE:
+                    failed_parts.append(name)
+                    log.error("part '%s' raised exception: %s", name, exc)
+                    if debug_mode:
                         raise
 
                 # NOTE: we don't currently expect these parts to produce any
                 # output.
 
-        for part, obj_names in parts.items():
+        for name, part_info in parts.items():
             # update current env to reflect actual part being run
-            os.environ['PART_NAME'] = part
-            mod_string = ('plugins.{}.pyparts.{}'.
-                          format(constants.PLUGIN_NAME, part))
-            # load part
-            mod = importlib.import_module(mod_string)
-            # every part should have a yaml offset defined
-            if hasattr(mod, "YAML_OFFSET"):
-                part_offset = getattr(mod, "YAML_OFFSET")
-            else:
-                part_offset = 0
-
-            for entry in obj_names or []:
-                part_obj = getattr(mod, entry)()
+            os.environ['PART_NAME'] = name
+            for cls in part_info['objects']:
+                inst = cls()
                 # Only run plugin if it delares itself runnable.
-                if not part_obj.plugin_runnable:
+                if not inst.plugin_runnable:
                     log.debug("%s.%s.%s not runnable - skipping",
-                              constants.PLUGIN_NAME, part, entry)
+                              constants.PLUGIN_NAME, name, cls.__name__)
                     continue
 
                 log.debug("running %s.%s.%s",
-                          constants.PLUGIN_NAME, part, entry)
+                          constants.PLUGIN_NAME, name, cls.__name__)
                 try:
-                    part_obj()
+                    inst()
                     # NOTE: since all parts are expected to be implementations
                     # of PluginPartBase we expect them to always define an
                     # output property.
-                    output = part_obj.output
-                    subkey = part_obj.summary_subkey
+                    output = inst.output
+                    subkey = inst.summary_subkey
                 except Exception as exc:
-                    failed_parts.append(part)
-                    log.debug("part '%s' raised exception: %s", part, exc)
+                    failed_parts.append(name)
+                    log.error("part '%s' raised exception: %s", name, exc)
                     output = None
-                    if constants.DEBUG_MODE:
+                    if debug_mode:
                         raise
 
                 if output:
@@ -321,6 +300,7 @@ class PluginRunner(object):
                             out = {subkey: out}
 
                         part_max = PluginPartBase.PLUGIN_PART_OFFSET_MAX
+                        part_offset = part_info['part_yaml_offset']
                         offset = ((part_offset * part_max) + entry.offset)
                         save_part(out, offset=offset)
 

@@ -10,7 +10,7 @@ from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues.issue_types import SystemWarning
 from core.plugins.system import NUMAInfo
-from plugins.system.pyparts import (
+from plugin_extensions.system import (
     checks,
     summary,
 )

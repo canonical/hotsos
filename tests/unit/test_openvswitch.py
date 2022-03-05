@@ -8,7 +8,7 @@ from tests.unit import utils
 from core import known_bugs_utils
 from core.plugins import openvswitch
 from core.ycheck.bugs import YBugChecker
-from plugins.openvswitch.pyparts import (
+from plugin_extensions.openvswitch import (
     event_checks,
     summary,
 )

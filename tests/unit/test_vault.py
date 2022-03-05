@@ -2,7 +2,7 @@ import os
 
 from tests.unit import utils
 
-from plugins.vault.pyparts import summary
+from plugin_extensions.vault import summary
 
 
 class TestVaultPluginPartGeneral(utils.BaseTestCase):

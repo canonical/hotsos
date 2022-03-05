@@ -2,7 +2,7 @@ import mock
 
 from tests.unit import utils
 
-from plugins.maas.pyparts import summary
+from plugin_extensions.maas import summary
 
 SYSTEMD_UNITS = """
 UNIT                                                                                             LOAD   ACTIVE SUB       DESCRIPTION 

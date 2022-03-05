@@ -8,6 +8,7 @@ hotsos is a framework for software-defined analysis. It provides a high-level la
   * OpenvSwitch
   * Juju
   * MAAS
+  * Vault
   * and more
 
 There are a number of output options and formats. The default output is a yaml summary containing information specific to each application (plugin) type including issues and known bugs detected. Hotsos can be run against a host or [sosreport](https://github.com/sosreport/sos).
@@ -16,7 +17,7 @@ The code has the following structure:
 
   * core library code
   * yaml-defined checks ([defs](defs/README.md))
-  * plugin code
+  * plugin extension code
   * test code
 
 ## Usage

@@ -12,7 +12,7 @@ from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues import issue_types
 from core.searchtools import FileSearcher
-from plugins.openstack.pyparts import (
+from plugin_extensions.openstack import (
     vm_info,
     nova_external_events,
     summary,

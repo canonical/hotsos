@@ -12,7 +12,7 @@ from core.ycheck.configs import YConfigChecker
 from core.plugins.storage import (
     ceph as ceph_core,
 )
-from plugins.storage.pyparts import (
+from plugin_extensions.storage import (
     ceph_summary,
     ceph_event_checks,
 )

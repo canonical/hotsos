@@ -22,40 +22,35 @@
 #================================= ENV =========================================
 # The following are made available to all plugins
 
-export DEBUG_MODE=false
 # Root of all data which will be either host / or sosreport root.
 export DATA_ROOT
 # Plugin args - prefix must be plugin name
 export AGENT_ERROR_KEY_BY_TIME=false
-# Output format - default is yaml
-export OUTPUT_FORMAT='yaml'
-export OUTPUT_ENCODING=
 # Path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT=`mktemp`
-export USE_ALL_LOGS=false
-# Name of the current plugin being executed
-export PLUGIN_NAME
-# Name of the current plugin part being executed
-export PART_NAME
-# Scratch area for each plugin to use. A fresh one is created at start of
-# each plugin execution then destroyed once all parts are executed.
-export PLUGIN_TMP_DIR
 # location if yaml defs of issues, bugs etc
 export PLUGIN_YAML_DEFS
 export HOTSOS_ROOT
 export MINIMAL_MODE=
+export VERSION="${SNAP_REVISION:-development}"
+export REPO_INFO
 #===============================================================================
 
+DEBUG_MODE=false
+OUTPUT_ENCODING=
+USE_ALL_LOGS=false
+# Output format - default is yaml
+OUTPUT_FORMAT='yaml'
 PROGRESS_PID=
 FULL_MODE_EXPLICIT=false
 USER_PROVIDED_SUMMARY=
 MASTER_YAML_OUT_ORIG=`mktemp`
 SAVE_OUTPUT=false
-VERSION="${SNAP_REVISION:-development}"
 declare -a SOS_PATHS=()
 override_all_default=false
 # Ordering is not important here since associative arrays do not respect order.
 declare -A PLUGINS=(
+    [hotsos]=true
     [openstack]=false
     [openvswitch]=false
     [kubernetes]=false
@@ -72,6 +67,7 @@ declare -A PLUGINS=(
 # The order of the following list determines the order in which the plugins
 # output is presented in the summary.
 declare -a PLUGIN_NAMES=(
+    hotsos
     system
     sosreport
     openstack
@@ -93,9 +89,6 @@ cleanup ()
     if [[ -n $MASTER_YAML_OUT ]] && [[ -r $MASTER_YAML_OUT ]]; then
         rm $MASTER_YAML_OUT
     fi
-    if [[ -n ${PLUGIN_TMP_DIR:-""} ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
-        rm -rf $PLUGIN_TMP_DIR
-    fi
     exit
 }
 
@@ -108,12 +101,13 @@ hotsos (version: ${VERSION})
 
 USAGE: hotsos [OPTIONS] [SOSPATH]
 
-Run this tool on a host or against a sosreport to perform analysis of specific
-applications. A summary of information about those applications is generated
-along with any issues or known bugs detected. Applications are defined as
-plugins and support currently includes Openstack, Kubernetes, Ceph and more
-(see --list-plugins). The standard output is yaml format to allow easy visual
-inspection and post-processing by other tools.
+Run this tool on a host or against an unpacked sosreport to perform analysis of
+specific applications and the host itself. A summary of information about those
+applications is generated along with any issues or known bugs detected.
+Applications are defined as plugins and support currently includes Openstack,
+Kubernetes, Ceph and more (see --list-plugins). The standard output is yaml
+format to allow easy visual inspection and post-processing by other tools and
+other formats are also supported.
 
 OPTIONS
     --all-logs
@@ -122,8 +116,8 @@ OPTIONS
         longer. Setting this to true tells plugins that we wish to analyse
         all available log history (see --max-logrotate-depth for limits).
     --debug
-        Provide some debug output such as plugin execution times. For python
-        plugins this will print debug logs to stderr.
+        Provide some debug output such as plugin execution times. logs will be
+        printed to stderr.
     --full
         This is the default and tells hotsos to generate a full summary. If you
         want to save both a short and full summary you can specifiy this option
@@ -156,7 +150,7 @@ OPTIONS
     --user-summary
         Provide an existing summary so that it can be post-procesed e.g.
         --json or --short. An alternative is to simply pipe the summary
-	contents to stdin.
+        contents to stdin.
     --version
         Show the version.
 
@@ -170,8 +164,8 @@ PLUGIN OPTIONS
         for cross-referencing with other logs.
 
 SOSPATH
-    Path to a sosreport. Can be provided multiple times. If none provided,
-    will run against local host.
+    Path to an unpacked sosreport. Can be provided multiple times. If none
+    provided, will run against local host.
 
 EOF
 }
@@ -298,36 +292,11 @@ get_git_rev_info ()
     popd &>/dev/null
 }
 
-run_part ()
-{
-    local plugin=$1
-    local part=$2
-    local t_start
-    local t_end
-
-    t_start=`date +%s%3N`
-
-    $DEBUG_MODE && echo -n " $part" 1>&2
-    PART_NAME=$part
-
-    # Needed by python plugins
-    export PYTHONPATH="${HOTSOS_ROOT}"
-    export PLUGIN_YAML_DEFS="${HOTSOS_ROOT}/defs"
-
-    ${HOTSOS_ROOT}/plugins/$plugin/$part
-
-    t_end=`date +%s%3N`
-    delta=`echo "scale=3;($t_end-$t_start)/1000"| bc`
-    [[ ${delta::1} == '.' ]] && delta="0${delta}"
-    $DEBUG_MODE && echo " (${delta}s)" 1>&2
-}
 
 generate_summary ()
 {
     local data_root=$1
-    local repo_info
     local plugin
-    local part
 
     if [ "$data_root" = "/" ]; then
         echo -ne "INFO: analysing localhost  " 1>&2
@@ -350,16 +319,10 @@ generate_summary ()
     fi
 
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
-        repo_info=`cat $REPO_INFO_PATH`
+        REPO_INFO=`cat $REPO_INFO_PATH`
     else
-        repo_info=`get_git_rev_info` || repo_info="unknown"
+        REPO_INFO=`get_git_rev_info` || REPO_INFO="unknown"
     fi
-
-    cat <<EOF
-hotsos:
-  version: $VERSION
-  repo-info: $repo_info
-EOF
 
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
@@ -367,18 +330,21 @@ EOF
         # is plugin enabled?
         ${PLUGINS[$plugin]} || continue
         $DEBUG_MODE && echo -e "${plugin^^}:  " 1>&2
-
-        PLUGIN_NAME=$plugin
         # setup plugin temp area
-        PLUGIN_TMP_DIR=`mktemp -d`
-        for part in $(find "${HOTSOS_ROOT}/plugins/$plugin" -maxdepth 1 \
-                    -executable -type f,l| grep -v __pycache__); do
-            run_part "$plugin" "$(basename "$part")"
-        done
-        # teardown plugin temp area
-        if [[ -n $PLUGIN_TMP_DIR ]] && [[ -d $PLUGIN_TMP_DIR ]]; then
-            rm -rf $PLUGIN_TMP_DIR
+        PLUGIN_YAML_DEFS="${HOTSOS_ROOT}/defs"
+
+        extra_args=()
+        if $DEBUG_MODE; then
+            extra_args+=( --debug )
         fi
+        if $USE_ALL_LOGS; then
+            extra_args+=( --all-logs )
+        fi
+        if [[ -n $OUTPUT_ENCODING ]]; then
+            extra_args+=( --html-escape )
+        fi
+
+        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --plugin $plugin --format $OUTPUT_FORMAT
 
         $DEBUG_MODE && echo "" 1>&2
     done
