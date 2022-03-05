@@ -171,11 +171,10 @@ class ServiceChecksBase(object):
                                   path e.g. mycmd as opposed to /bin/mycmd.
         """
         super().__init__(*args, **kwargs)
-        self.service_exprs = []
         self.ps_allow_relative = ps_allow_relative
         self._processes = {}
         self._service_info = {}
-        self.service_exprs = service_exprs
+        self.service_exprs = set(service_exprs)
 
     def _get_systemd_units(self, expr):
         """
