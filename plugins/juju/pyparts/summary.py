@@ -16,11 +16,15 @@ class JujuSummary(JujuServiceChecksBase):
     def __summary_version(self):
         if self.machine:
             return self.machine.version
+        else:
+            return "unknown"
 
     @idx(2)
     def __summary_machine(self):
         if self.machine:
             return self.machine.id
+        else:
+            return "unknown"
 
     @idx(3)
     def __summary_charms(self):

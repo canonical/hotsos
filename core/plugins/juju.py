@@ -4,6 +4,7 @@ import glob
 import re
 import yaml
 
+from core.log import log
 from core import (
     constants,
     plugintools,
@@ -106,6 +107,7 @@ class JujuBase(object):
     def machine(self):
         machine = JujuMachine()
         if not machine.config:
+            log.debug("no juju machine identified")
             return
 
         return machine
@@ -118,7 +120,7 @@ class JujuBase(object):
         if self._units:
             return self._units
 
-        if self.machine.version >= "2.9":
+        if self.machine and self.machine.version >= "2.9":
             self._units = self.machine.deployed_units
         else:
             paths = glob.glob(os.path.join(JUJU_LIB_PATH, "agents/unit-*"))
