@@ -76,17 +76,41 @@ class JujuMachine(object):
         for unit in _units.split(','):
             app = unit.partition('/')[0]
             id = unit.partition('/')[2]
-            units.append(JujuUnit(id, app))
+            path = os.path.join(JUJU_LIB_PATH,
+                                "agents/unit-{}-{}".format(app, id))
+            units.append(JujuUnit(id, app, path))
 
         return units
 
 
 class JujuUnit(object):
 
-    def __init__(self, id, application):
+    def __init__(self, id, application, path):
         self.id = id
         self.application = application
         self.name = '{}-{}'.format(application, id)
+        self.path = path
+
+    @property
+    def repo_info(self):
+        """
+        Some charms, e.g. the Openstack charms, provide a repo-info file that
+        contains information from the charm's repository e.g. commit id.
+        """
+        info = {}
+        path = os.path.join(self.path, 'charm/repo-info')
+        log.debug(path)
+        if not os.path.exists(path):
+            return info
+
+        with open(path) as fd:
+            for line in fd:
+                if line.startswith('commit-short:'):
+                    sha1_short = line.partition(' ')[2]
+                    if sha1_short:
+                        info['commit'] = sha1_short.strip()
+
+        return info
 
 
 class JujuCharm(object):
@@ -125,10 +149,12 @@ class JujuBase(object):
         else:
             paths = glob.glob(os.path.join(JUJU_LIB_PATH, "agents/unit-*"))
             for unit in paths:
-                unit = os.path.basename(unit)
-                ret = re.compile(r"unit-(\S+)-(\d+)").match(unit)
+                base = os.path.basename(unit)
+                ret = re.compile(r"unit-(\S+)-(\d+)").match(base)
                 if ret:
-                    self._units.append(JujuUnit(ret.group(2), ret.group(1)))
+                    app = ret.group(1)
+                    id = ret.group(2)
+                    self._units.append(JujuUnit(id, app, unit))
 
         return self._units
 
@@ -166,7 +192,9 @@ class JujuBase(object):
                 base = os.path.basename(manifest)
                 ret = re.compile(r".+_(\S+)-(\d+)$").match(base)
                 if ret:
-                    self._charms.append(JujuCharm(ret.group(1), ret.group(2)))
+                    name = ret.group(1)
+                    version = ret.group(2)
+                    self._charms.append(JujuCharm(name, version))
 
         return self._charms
 

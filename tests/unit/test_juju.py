@@ -33,7 +33,8 @@ class TestJujuSummary(JujuTestsBase):
     def test_summary_keys(self):
         inst = summary.JujuSummary()
         self.assertEquals(list(inst.output.keys()),
-                          ['charms',
+                          ['charm-repo-info',
+                           'charms',
                            'machine',
                            'services',
                            'units',

@@ -43,3 +43,14 @@ class JujuSummary(JujuServiceChecksBase):
 
         if unit_info:
             return unit_info
+
+    @idx(5)
+    def __summary_charm_repo_info(self):
+        if self.units:
+            out = {}
+            for u in self.units:
+                if u.repo_info:
+                    out[u.name] = u.repo_info.get('commit')
+
+            if out:
+                return out

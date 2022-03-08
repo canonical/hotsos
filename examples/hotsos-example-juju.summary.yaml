@@ -38,3 +38,7 @@ juju:
       - ceph-osd-0
       - neutron-openvswitch-1
       - nova-compute-0
+  charm-repo-info:
+    ceph-osd-0: a5e0c6e
+    neutron-openvswitch-1: 9951bee
+    nova-compute-0: fcddc4a
