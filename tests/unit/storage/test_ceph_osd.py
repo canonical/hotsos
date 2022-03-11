@@ -6,9 +6,11 @@ import mock
 from tests.unit import utils
 
 from core import checks
+from core.issues import issue_types
 from core import known_bugs_utils
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.configs import YConfigChecker
+from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import (
     ceph as ceph_core,
 )
@@ -298,3 +300,34 @@ class TestCephConfigChecks(StorageCephOSDTestsBase):
         msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
                  "device configured in ceph.conf - please check")]
         self.assertEqual([issue.msg for issue in issues], msgs)
+
+
+class TestCephScenarioChecks(StorageCephOSDTestsBase):
+
+    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+                'powersave')
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('system_cpufreq_mode.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_scenarios_cpufreq(self, mock_add_issue):
+        issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in issues:
+                issues[type(issue)].append(issue.msg)
+            else:
+                issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+        self.assertTrue(issue_types.CephWarning in issues)
+        msg = ('This node has Ceph OSDs running on it but is not using '
+               'cpufreq scaling_governor in "performance" mode '
+               '(actual=powersave). This is not recommended and can result '
+               'in performance degradation. To fix this you can install '
+               'cpufrequtils, set "GOVERNOR=performance" in '
+               '/etc/default/cpufrequtils and run systemctl restart '
+               'cpufrequtils. You will also need to stop and disable the '
+               'ondemand systemd service in order for changes to persist.')
+        self.assertEqual(msg, issues[issue_types.CephWarning][0])

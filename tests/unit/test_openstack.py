@@ -952,10 +952,10 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                'cpufreq scaling_governor in "performance" mode '
                '(actual=powersave). This is not recommended and can result '
                'in performance degradation. To fix this you can install '
-               'cpufrequtils and set "GOVERNOR=performance" in '
-               '/etc/default/cpufrequtils. You will also need to disable the '
-               'ondemand systemd service in order for changes to persist. '
-               'NOTE: requires node reboot to take effect.')
+               'cpufrequtils, set "GOVERNOR=performance" in '
+               '/etc/default/cpufrequtils and run systemctl restart '
+               'cpufrequtils. You will also need to stop and disable the '
+               'ondemand systemd service in order for changes to persist.')
         self.assertEqual(msg, issues[issue_types.OpenstackWarning][0])
 
     @mock.patch('core.plugins.system.NUMAInfo.nodes',

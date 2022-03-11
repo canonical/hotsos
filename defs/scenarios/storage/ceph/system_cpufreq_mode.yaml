@@ -30,9 +30,8 @@ conclusions:
         This node has Ceph OSDs running on it but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
         recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils and set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils.
-        NOTE: requires node reboot to take effect.
+        can install cpufrequtils, set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
       format-dict:
         governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand:
@@ -48,10 +47,10 @@ conclusions:
         This node has Ceph OSDs running on it but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
         recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils and set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils. You will also need to disable the ondemand
-        systemd service in order for changes to persist.
-        NOTE: requires node reboot to take effect.
+        can install cpufrequtils, set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils and run systemctl restart cpufrequtils. You
+        will also need to stop and disable the ondemand systemd service in
+        order for changes to persist.
       format-dict:
         governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
 

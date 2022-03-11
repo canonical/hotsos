@@ -10,7 +10,13 @@ checks:
         - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: performance
           op: ne
-  nova_compute_installed:
+  is_neutron_gateway:
+    # i.e. neutron-l3-agent but no nova == neutron gateway
+    requires:
+      - not:
+          - apt: nova-compute
+      - apt: neutron-l3-agent
+  is_nova_compute:
     requires:
       apt: nova-compute
   ondemand_installed_and_enabled:
@@ -18,29 +24,45 @@ checks:
       systemd: ondemand
       value: enabled
 conclusions:
-  cpufreq-not-performance:
+  cpufreq-not-performance-n-cpu:
     priority: 1
     decision:
       and:
         - cpufreq_governor_not_performance
-        - nova_compute_installed
+        - is_nova_compute
     raises:
       type: core.issues.issue_types.OpenstackWarning
       message: >-
         This node is used as an Openstack hypervisor but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
         recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils and set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils.
+        can install cpufrequtils, set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
+      format-dict:
+        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+  cpufreq-not-performance-n-gw:
+    priority: 1
+    decision:
+      and:
+        - cpufreq_governor_not_performance
+        - is_neutron_gateway
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        This node is used as an Openstack Neutron Gateway but is not using cpufreq
+        scaling_governor in "performance" mode (actual={governor}). This is not
+        recommended and can result in performance degradation. To fix this you
+        can install cpufrequtils, set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
         NOTE: requires node reboot to take effect.
       format-dict:
         governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-  cpufreq-not-performance-with-ondemand:
+  cpufreq-not-performance-with-ondemand-n-cpu:
     priority: 2
     decision:
       and:
         - cpufreq_governor_not_performance
-        - nova_compute_installed
+        - is_nova_compute
         - ondemand_installed_and_enabled
     raises:
       type: core.issues.issue_types.OpenstackWarning
@@ -48,10 +70,28 @@ conclusions:
         This node is used as an Openstack hypervisor but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
         recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils and set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils. You will also need to disable the ondemand
-        systemd service in order for changes to persist.
-        NOTE: requires node reboot to take effect.
+        can install cpufrequtils, set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils and run systemctl restart cpufrequtils. You
+        will also need to stop and disable the ondemand systemd service in
+        order for changes to persist.
       format-dict:
         governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-
+  cpufreq-not-performance-with-ondemand-n-gw:
+    priority: 2
+    decision:
+      and:
+        - cpufreq_governor_not_performance
+        - is_neutron_gateway
+        - ondemand_installed_and_enabled
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        This node is used as an Openstack Neutron Gateway but is not using cpufreq
+        scaling_governor in "performance" mode (actual={governor}). This is not
+        recommended and can result in performance degradation. To fix this you
+        can install cpufrequtils, set "GOVERNOR=performance" in
+        /etc/default/cpufrequtils and run systemctl restart cpufrequtils. You
+        will also need to stop and disable the ondemand systemd service in
+        order for changes to persist.
+      format-dict:
+        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all

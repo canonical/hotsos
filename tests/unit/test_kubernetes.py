@@ -144,7 +144,7 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                'cpufreq scaling_governor in "performance" mode '
                '(actual=powersave). This is not recommended and can result in '
                'performance degradation. To fix this you can install '
-               'cpufrequtils and set "GOVERNOR=performance" in '
-               '/etc/default/cpufrequtils. NOTE: requires node reboot to '
-               'take effect.')
+               'cpufrequtils, set "GOVERNOR=performance" in '
+               '/etc/default/cpufrequtils and run systemctl restart '
+               'cpufrequtils.')
         self.assertEqual(issues[KubernetesWarning], [msg])
