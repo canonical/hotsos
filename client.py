@@ -180,7 +180,7 @@ class HotSOSClient(object):
         os.environ['USE_ALL_LOGS'] = str(all_logs)
         if debug_mode:
             os.environ['DEBUG_MODE'] = str(debug_mode)
-            setup_logging(plugin, debug_mode)
+            setup_logging(debug_mode)
 
         if html_escape:
             os.environ['OUTPUT_ENCODING'] = 'html'

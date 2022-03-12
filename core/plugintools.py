@@ -259,7 +259,7 @@ class PluginRunner(object):
                     part_obj()()
                 except Exception as exc:
                     failed_parts.append(name)
-                    log.error("part '%s' raised exception: %s", name, exc)
+                    log.exception("part '%s' raised exception: %s", name, exc)
                     if debug_mode:
                         raise
 
@@ -288,7 +288,7 @@ class PluginRunner(object):
                     subkey = inst.summary_subkey
                 except Exception as exc:
                     failed_parts.append(name)
-                    log.error("part '%s' raised exception: %s", name, exc)
+                    log.exception("part '%s' raised exception: %s", name, exc)
                     output = None
                     if debug_mode:
                         raise

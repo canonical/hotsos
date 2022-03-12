@@ -4,6 +4,8 @@ import shutil
 import tempfile
 import unittest
 
+from core.log import setup_logging
+
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
@@ -43,7 +45,7 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.maxDiff = None
-        os.environ["DEBUG_MODE"] = "True"
+        setup_logging(debug_mode=True)
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
