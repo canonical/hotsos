@@ -7,7 +7,7 @@
   hint: 'OVS database'
   raises:
     message: >-
-      known neutron-ovn bug identified that impacts OVN db connections.
+      Known neutron-ovn bug identified that impacts OVN db connections.
 1927868:
   requires:
     apt:
@@ -32,9 +32,12 @@
   #    cause router updates to stall.
   raises:
     message: >-
-      installed package '{package_name}' with version {version_current} has a
+      Installed package '{package}' with version {version} has a
       known critical bug. If this environment is using Neutron ML2 OVS (i.e.
       not OVN) it should be upgraded asap.
+    format-dict:
+      package: '@requires.package'
+      version: '@requires.version'
 1928031:
   input:
     path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
@@ -42,4 +45,4 @@
   hint: 'AttributeError'
   raises:
     message: >-
-      known neutron-ovn bug identified that impacts OVN sbdb connections.
+      Known neutron-ovn bug identified that impacts OVN sbdb connections.

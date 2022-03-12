@@ -909,17 +909,13 @@ class OpenstackServiceChecksBase(OpenstackChecksBase,
 
     @property
     def unexpected_masked_services(self):
+        """
+        Return a list of identified masked services with any services that we
+        expect to be masked filtered out.
+        """
         masked = set(self.masked_services)
         if not masked:
             return []
 
         expected_masked = self.ost_projects.default_masked_services
         return list(masked.difference(expected_masked))
-
-    @property
-    def unexpected_masked_services_str(self):
-        masked = self.unexpected_masked_services
-        if not masked:
-            return ''
-
-        return ', '.join(self.unexpected_masked_services)

@@ -9,5 +9,7 @@ conclusions:
     raises:
       type: core.issues.issue_types.RabbitMQWarning
       message: >-
-        Cluster partition handling is currently set to "ignore". This is
+        Cluster partition handling is currently set to "{setting}". This is
         potentially dangerous and a setting of "pause_minority" is recommended.
+      format-dict:
+        setting: '@checks.partition_handling_is_ignore.requires.value_actual'

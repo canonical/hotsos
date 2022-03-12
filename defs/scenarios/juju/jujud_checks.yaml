@@ -1,13 +1,13 @@
 checks:
-  jujud-not-found:
+  jujud_not_found:
     requires:
       property: core.plugins.juju.JujuServiceChecksBase.processes
       op: contains
       value: jujud
       post-op: not_
 conclusions:
-  jujud_not_found:
-    decision: jujud-not-found
+  jujud-not-found:
+    decision: jujud_not_found
     raises:
       type: core.issues.issue_types.JujuWarning
       message: >-

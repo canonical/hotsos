@@ -12,7 +12,6 @@ from core.ycheck import (
     YDefsSection,
     bugs,
     events,
-    configs,
     scenarios
 )
 from core.searchtools import FileSearcher, SearchDef
@@ -133,27 +132,6 @@ DUMMY_CONFIG = """
 a-key = 1023
 """
 
-YAML_DEF_CONFIG_CHECK = """
-myplugin:
-  mygroup:
-    requires:
-      depends-on:
-        apt: a-package
-      config:
-        handler: core.plugins.openstack.OpenstackConfig
-        path: dummy.conf
-        assertions:
-          a-key:
-            section: a-section
-            value: 1024
-            op: ge
-            allow-unset: False
-    raises:
-      type: core.issues.issue_types.OpenstackWarning
-      message: >-
-        something important.
-"""
-
 SCENARIO_CHECKS = r"""
 myplugin:
   myscenario:
@@ -187,26 +165,32 @@ myplugin:
         decision: logmatch
         raises:
           type: core.issues.issue_types.SystemWarning
-          message: log matched
+          message: log matched {num} times
+          format-dict:
+            num: '@checks.logmatch.expr.results:len'
       logandsnap:
         priority: 2
         decision:
             and:
-                - logmatched
+                - logmatch
                 - snapexists
         raises:
           type: core.issues.issue_types.SystemWarning
-          message: log matched and snap exists
+          message: log matched {num} times and snap exists
+          format-dict:
+            num: '@checks.logmatch.expr.results:len'
       logandsnapandservice:
         priority: 3
         decision:
             and:
-                - logmatched
+                - logmatch
                 - snapexists
                 - serviceexists
         raises:
           type: core.issues.issue_types.SystemWarning
-          message: log matched, snap and service exists
+          message: log matched {num} times, snap and service exists
+          format-dict:
+            num: '@checks.logmatch.expr.results:len'
 """  # noqa
 
 
@@ -413,28 +397,6 @@ class TestChecks(utils.BaseTestCase):
                               'my-standard-search2'])
 
     @mock.patch('core.issues.issue_utils.add_issue')
-    @mock.patch('core.ycheck.APTPackageChecksBase')
-    def test_yaml_def_config_requires(self, apt_check, add_issue):
-        apt_check.is_installed.return_value = True
-        with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            conf = os.path.join(dtmp, 'dummy.conf')
-            with open(conf, 'w') as fd:
-                fd.write(DUMMY_CONFIG)
-
-            plugin = yaml.safe_load(YAML_DEF_CONFIG_CHECK).get('myplugin')
-            group = YDefsSection('myplugin', plugin)
-            for entry in group.leaf_sections:
-                self.assertFalse(entry.requires.passes)
-
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            open(os.path.join(dtmp, 'config_checks.yaml'),
-                 'w').write(YAML_DEF_CONFIG_CHECK)
-            os.environ['PLUGIN_NAME'] = 'myplugin'
-            configs.YConfigChecker()()
-            self.assertTrue(add_issue.called)
-
-    @mock.patch('core.issues.issue_utils.add_issue')
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
@@ -442,7 +404,8 @@ class TestChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
-    def test_yaml_def_scenario_checks_false(self):
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_yaml_def_scenario_checks_false(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
@@ -459,7 +422,13 @@ class TestChecks(utils.BaseTestCase):
                 for check in scenario.checks.values():
                     self.assertFalse(check.result)
 
-    def test_yaml_def_scenario_checks_requires(self):
+            # now run the scenarios
+            checker()
+
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_yaml_def_scenario_checks_requires(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
             os.environ['PLUGIN_NAME'] = 'myplugin'
@@ -486,7 +455,19 @@ class TestChecks(utils.BaseTestCase):
 
             self.assertEquals(checked, 4)
 
-    def test_yaml_def_scenario_checks_expr(self):
+            # now run the scenarios
+            checker()
+
+        self.assertFalse(mock_add_issue.called)
+
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_yaml_def_scenario_checks_expr(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
@@ -508,6 +489,13 @@ class TestChecks(utils.BaseTestCase):
                 for check in scenario.checks.values():
                     if check.name == 'logmatch':
                         self.assertTrue(check.result)
+
+            # now run the scenarios
+            checker.run()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ("log matched 5 times")
+        self.assertEqual([issue.msg for issue in issues], [msg])
 
     def _create_search_results(self, path, contents):
         with open(path, 'w') as fd:

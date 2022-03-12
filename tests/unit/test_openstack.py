@@ -8,7 +8,6 @@ from tests.unit import utils
 import core.plugins.openstack as openstack_core
 from core import checks, known_bugs_utils
 from core.ycheck.bugs import YBugChecker
-from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues import issue_types
 from core.searchtools import FileSearcher
@@ -785,36 +784,6 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         self.assertEqual(actual['agent-exceptions'], expected)
 
 
-class TestOpenstackConfigChecks(TestOpenstackBase):
-
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_config_checks_no_issue(self, mock_add_issue):
-        YConfigChecker()()
-        self.assertFalse(mock_add_issue.called)
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('nova-dpdk.yaml'))
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.issues.issue_utils.add_issue')
-    @mock.patch('core.plugins.openstack.OpenstackChecksBase.plugin_runnable',
-                True)
-    def test_nova_dpdk(self, mock_add_issue, mock_helper):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(type(issue))
-
-        mock_add_issue.side_effect = fake_add_issue
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            ["ii  openvswitch-switch-dpdk 2.13.3-0ubuntu0.20.04.2 amd64"]
-        # no need to mock the config since the fact it doesnt exist will
-        # trigger the alert.
-        YConfigChecker()()
-        self.assertTrue(mock_add_issue.called)
-        self.assertEquals(issues, [issue_types.OpenstackWarning])
-
-
 class TestOpenstackBugChecks(TestOpenstackBase):
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
@@ -831,7 +800,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             YBugChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1929832',
-                          'desc': ('known neutron l3-agent bug identified '
+                          'desc': ('Known neutron l3-agent bug identified '
                                    'that impacts deletion of neutron '
                                    'routers.'),
                           'origin': 'openstack.01part'}]}
@@ -850,7 +819,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             YBugChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1896506',
-                          'desc': ('known neutron l3-agent bug identified '
+                          'desc': ('Known neutron l3-agent bug identified '
                                    'that critically impacts keepalived.'),
                           'origin': 'openstack.01part'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
@@ -869,7 +838,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             YBugChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1928031',
-                          'desc': ('known neutron-ovn bug identified that '
+                          'desc': ('Known neutron-ovn bug identified that '
                                    'impacts OVN sbdb connections.'),
                           'origin': 'openstack.01part'}]}
             self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
@@ -885,7 +854,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
         YBugChecker()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1927868',
-                      'desc': ("installed package 'neutron-common' with "
+                      'desc': ("Installed package 'neutron-common' with "
                                "version 2:16.4.0-0ubuntu2 has a known "
                                "critical bug. If this environment is "
                                "using Neutron ML2 OVS (i.e. not OVN) it "
@@ -1075,3 +1044,23 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                'on this host. This is not recommended and can have unintended '
                'side-effects.')
         self.assertEqual(list(issues.values())[0], [msg])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova_config_checks.yaml'))
+    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_nova_config_checks(self, mock_add_issue, mock_helper):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(type(issue))
+
+        mock_add_issue.side_effect = fake_add_issue
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            ["ii  openvswitch-switch-dpdk 2.13.3-0ubuntu0.20.04.2 amd64"]
+        # no need to mock the config since the fact it doesnt exist will
+        # trigger the alert.
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        self.assertEquals(issues, [issue_types.OpenstackWarning])

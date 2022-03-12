@@ -32,7 +32,6 @@ class TestSOSReportCore(TestSOSReportBase):
             self.setup_timed_out_plugins(dtmp)
             c = sosreport_core.SOSReportChecksBase()
             self.assertEquals(c.timed_out_plugins, ['networking', 'system'])
-            self.assertEquals(c.timed_out_plugins_str, "networking, system")
 
 
 class TestSOSReportGeneral(TestSOSReportBase):

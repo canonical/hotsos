@@ -13,15 +13,13 @@ from plugin_extensions.kernel import (
 from core.plugins.kernel import SystemdConfig
 from core.ycheck.events import EventCheckResult
 from core.ycheck.bugs import YBugChecker
+from core.ycheck.scenarios import YScenarioChecker
+
 from core.host_helpers import NetworkPort
 from core.issues import issue_types
 
 
 EVENTS_KERN_LOG = r"""
-Aug  3 10:31:24 compute4 kernel: [5490487.294657] Memory cgroup out of memory: Kill process 55438 (ruby) score 1116 or sacrifice child
-Aug  3 10:31:24 compute4 kernel: [5490487.297212] Killed process 55438 (ruby) total-vm:1771344kB, anon-rss:1469448kB, file-rss:4992kB
-Aug  3 08:32:23 compute4 kernel: [5489652.470650] nice invoked oom-killer: gfp_mask=0x24000c0, order=0, oom_score_adj=876
-
 May  6 10:49:21 compute4 kernel: [13502680.515977] tap0e778df8-ca: dropped over-mtu packet: 8950 > 1450
 May  6 10:49:21 compute4 kernel: [13502680.516145] tap0e778df8-ca: dropped over-mtu packet: 8950 > 1450
 May  6 10:49:21 compute4 kernel: [13502680.519706] tap0e778df8-ca: dropped over-mtu packet: 8950 > 1450
@@ -37,8 +35,19 @@ May  6 17:24:13 compute4 kernel: [13526370.730586] tape901c8af-fb: dropped over-
 May  6 17:24:13 compute4 kernel: [13526370.730634] tape901c8af-fb: dropped over-mtu packet: 1460 > 1450
 May  6 17:24:13 compute4 kernel: [13526370.730659] tape901c8af-fb: dropped over-mtu packet: 1460 > 1450
 May  6 17:24:13 compute4 kernel: [13526370.730681] tape901c8af-fb: dropped over-mtu packet: 1460 > 1450
-Jun  8 10:48:13 compute4 kernel: [1694413.621694] nf_conntrack: nf_conntrack: table full, dropping packet
+"""  # noqa
 
+KERNLOG_NF_CONNTRACK_FULL = r"""
+Jun  8 10:48:13 compute4 kernel: [1694413.621694] nf_conntrack: nf_conntrack: table full, dropping packet
+"""  # noqa
+
+KERNLOG_OOM = r"""
+Aug  3 10:31:24 compute4 kernel: [5490487.294657] Memory cgroup out of memory: Kill process 55438 (ruby) score 1116 or sacrifice child
+Aug  3 10:31:24 compute4 kernel: [5490487.297212] Killed process 55438 (ruby) total-vm:1771344kB, anon-rss:1469448kB, file-rss:4992kB
+Aug  3 08:32:23 compute4 kernel: [5489652.470650] nice invoked oom-killer: gfp_mask=0x24000c0, order=0, oom_score_adj=876
+"""  # noqa
+
+KERNLOG_STACKTRACE = r"""
 May  6 10:49:21 tututu kernel: [ 4965.415911] CPU: 1 PID: 4465 Comm: insmod Tainted: P           OE   4.13.0-rc5 #1
 May  6 10:49:21 tututu kernel: [ 4965.415912] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1.fc26 04/01/2014
 May  6 10:49:21 tututu kernel: [ 4965.415913] Call Trace:
@@ -157,8 +166,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 
             mock_add_issue.side_effect = fake_add_issue
             expected = {'over-mtu-dropped-packets':
-                        {'tap0e778df8-ca': 5},
-                        'oom-killer-invoked': 'Aug  3 08:32:23'}
+                        {'tap0e778df8-ca': 5}}
             inst = log_event_checks.KernelLogEventChecks()
             # checks get run when we fetch the output so do that now
             actual = self.part_output_to_actual(inst.output)
@@ -171,10 +179,8 @@ class TestKernelLogEventChecks(TestKernelBase):
                 else:
                     types[t] = 1
 
-            self.assertEqual(len(issues), 4)
-            self.assertEqual(types[issue_types.KernelError], 1)
-            self.assertEqual(types[issue_types.MemoryWarning], 1)
-            self.assertEqual(types[issue_types.NetworkWarning], 2)
+            self.assertEqual(len(issues), 1)
+            self.assertEqual(types[issue_types.NetworkWarning], 1)
             self.assertTrue(inst.plugin_runnable)
             self.assertEqual(actual, expected)
 
@@ -222,3 +228,85 @@ class TestKernelBugChecks(TestKernelBase):
         # This will need modifying once we have some storage bugs defined
         self.assertFalse(mock_add_known_bug.called)
         self.assertEqual(len(bugs), 0)
+
+
+class TestKernelScenarioChecks(TestKernelBase):
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('kernlog.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_stacktraces(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.makedirs(os.path.join(dtmp, 'var/log'))
+            klog = os.path.join(dtmp, 'var/log/kern.log')
+            with open(klog, 'w') as fd:
+                fd.write(KERNLOG_STACKTRACE)
+
+            YScenarioChecker()()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ('1 reports of stacktraces in kern.log - please check.')
+        msgs = [issue.msg for issue in issues]
+        self.assertEqual(len(msgs), 1)
+        self.assertEqual(msgs, [msg])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('kernlog.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_oom_killer_invoked(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.makedirs(os.path.join(dtmp, 'var/log'))
+            klog = os.path.join(dtmp, 'var/log/kern.log')
+            with open(klog, 'w') as fd:
+                fd.write(KERNLOG_OOM)
+
+            YScenarioChecker()()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ('1 reports of oom-killer invoked in kern.log - please check.')
+        msgs = [issue.msg for issue in issues]
+        self.assertEqual(len(msgs), 1)
+        self.assertEqual(msgs, [msg])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('kernlog.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_nf_conntrack_full(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            os.environ['DATA_ROOT'] = dtmp
+            os.makedirs(os.path.join(dtmp, 'var/log'))
+            klog = os.path.join(dtmp, 'var/log/kern.log')
+            with open(klog, 'w') as fd:
+                fd.write(KERNLOG_NF_CONNTRACK_FULL)
+
+            YScenarioChecker()()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ("1 reports of 'nf_conntrack: table full' detected in "
+               "kern.log - please check.")
+        msgs = [issue.msg for issue in issues]
+        self.assertEqual(len(msgs), 1)
+        self.assertEqual(msgs, [msg])

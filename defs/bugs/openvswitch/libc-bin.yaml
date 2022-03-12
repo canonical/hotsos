@@ -7,6 +7,9 @@
           max: 2.27-3ubuntu1.2
   raises:
     message: >-
-      installed package '{package_name}' with version {version_current} has a
+      Installed package '{package}' with version {version} has a
       known critical bug which causes ovs deadlocks. If this environment is
       using OVS it should be upgraded asap.
+    format-dict:
+      package: '@requires.package'
+      version: '@requires.version'

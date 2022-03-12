@@ -2,10 +2,10 @@ checks:
   # global
   input:
     path: 'var/log/rabbitmq/rabbit@*.log'
-  cluster-partitions:
+  cluster_partitions:
     expr: '.+ \S+_partitioned_network'
     hint: 'partition'
-  no-sync:
+  no_sync:
     expr: 'Mirrored queue ''.+'' in vhost ''.+'': Stopping'
     hint: 'synchronised'
   discard:
@@ -13,15 +13,15 @@ checks:
     hint: 'Discarding'
 
 conclusions:
-  cluster_has_had_partions:
-    decision: cluster-partitions
+  cluster-has-had-partions:
+    decision: cluster_partitions
     raises:
       type: core.issues.issue_types.RabbitMQWarning
       message: >-
         This rabbitmq cluster either has or has had partitions - please check
         rabbtimqctl cluster_status.
-  cluster_sync_issues:
-    decision: no-sync
+  cluster-sync-issues:
+    decision: no_sync
     raises:
       type: core.issues.issue_types.RabbitMQWarning
       message: >-
@@ -29,7 +29,7 @@ conclusions:
         replicas available for promotion. Please stop all rabbitmq-server
         units and restart the cluster. Note that a rolling restart will not
         work.
-  cluster_discard_messages:
+  cluster-discard-messages:
     decision: discard
     raises:
       type: core.issues.issue_types.RabbitMQWarning

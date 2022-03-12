@@ -6,7 +6,6 @@ import mock
 from tests.unit import utils
 
 from core import constants
-from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import bcache as bcache_core
 from plugin_extensions.storage import bcache_summary
@@ -114,62 +113,6 @@ class TestStorageBCache(StorageBCacheTestsBase):
         self.assertEqual(actual['cachesets'], expected)
 
 
-class TestBCacheConfigChecks(StorageBCacheTestsBase):
-
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_no_issue(self, mock_add_issue):
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertFalse(mock_add_issue.called)
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('cacheset.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_cacheset(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp, cacheset_error=True)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertTrue(mock_add_issue.called)
-
-            msgs = [('bcache cache_available_percent is approx. 30 which '
-                     'implies this node could be suffering from bug LP '
-                     '1900438 - please check'),
-                    ('cacheset config congested_read_threshold_us expected '
-                     'to be eq 0 but actual=100')]
-            actual = sorted([issue.msg for issue in issues])
-            self.assertEqual(actual, sorted(msgs))
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('bdev.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_bdev(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp, bdev_error=True)
-            os.environ['DATA_ROOT'] = dtmp
-            YConfigChecker()()
-            self.assertTrue(mock_add_issue.called)
-
-            msgs = [('bcache config writeback_percent expected to be ge 10 '
-                     'but actual=1')]
-            actual = sorted([issue.msg for issue in issues])
-            self.assertEqual(actual, sorted(msgs))
-
-
 class TestBCacheScenarioChecks(StorageBCacheTestsBase):
 
     @mock.patch('core.plugins.storage.ceph.CephChecksBase.'
@@ -193,3 +136,48 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
                  "configuration.")]
         actual = sorted([issue.msg for issue in issues])
         self.assertEqual(actual, sorted(msgs))
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('cacheset.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_cacheset(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp, cacheset_error=True)
+            os.environ['DATA_ROOT'] = dtmp
+            YScenarioChecker()()
+            self.assertTrue(mock_add_issue.called)
+
+            msgs = [('bcache cache_available_percent is 33 (i.e. approx. 30%) '
+                     'which implies this node could be suffering from bug LP '
+                     '1900438 - please check'),
+                    ('bcache cacheset config congested_read_threshold_us '
+                     'expected to be eq 0 but actual=100.')]
+            actual = sorted([issue.msg for issue in issues])
+            self.assertEqual(actual, sorted(msgs))
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('bdev.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_bdev(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.setup_bcachefs(dtmp, bdev_error=True)
+            os.environ['DATA_ROOT'] = dtmp
+            YScenarioChecker()()
+            self.assertTrue(mock_add_issue.called)
+
+            msgs = [('bcache config writeback_percent expected to be ge 10 '
+                     'but actual=1.')]
+            actual = sorted([issue.msg for issue in issues])
+            self.assertEqual(actual, sorted(msgs))

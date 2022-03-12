@@ -246,8 +246,6 @@ class PluginRunner(object):
         # The following are executed as part of each plugin run (but not last).
         ALWAYS_RUN = {'auto_bug_check':
                       {'core.ycheck.bugs': 'YBugChecker'},
-                      'auto_config_check':
-                      {'core.ycheck.configs': 'YConfigChecker'},
                       'auto_scenario_check':
                       {'core.ycheck.scenarios': 'YScenarioChecker'}}
         for name, always_parts in ALWAYS_RUN.items():
@@ -263,8 +261,9 @@ class PluginRunner(object):
                     if debug_mode:
                         raise
 
-                # NOTE: we don't currently expect these parts to produce any
-                # output.
+                # NOTE: we don't expect these parts to produce any output
+                # for the summary so we wont check for it (the only raise
+                # issues and bugs which are handled independently).
 
         for name, part_info in parts.items():
             # update current env to reflect actual part being run

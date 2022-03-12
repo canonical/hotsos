@@ -23,5 +23,5 @@ conclusions:
         v2 messenger address. This will cause unexpected behaviour and should
         be resolved asap.
       format-dict:
-        num_v1_only_osds: core.plugins.storage.ceph.CephCluster.num_cluster_osds_without_v2_messenger_protocol
+        num_v1_only_osds: '@checks.cluster_has_v1_only_osds.requires.value_actual:len'
 

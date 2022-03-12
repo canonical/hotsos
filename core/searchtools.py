@@ -200,6 +200,9 @@ class SearchResultsCollection(object):
     def __init__(self):
         self.reset()
 
+    def __len__(self):
+        return self.count
+
     @property
     def count(self):
         _count = 0

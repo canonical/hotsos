@@ -14,4 +14,4 @@ conclusions:
         ensure that this is intended otherwise these services may be
         unavailable.
       format-dict:
-        masked: core.plugins.openstack.OpenstackServiceChecksBase.unexpected_masked_services_str
+        masked: '@checks.has_unexpected_masked.requires.value_actual:comma_join'

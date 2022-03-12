@@ -1,0 +1,35 @@
+checks:
+  input:
+    path: 'var/log/kern.log'
+  has_stacktraces:
+    expr: '.*Call Trace:'
+  has_oom_killer_invoked:
+    expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
+  has_nf_conntrack_full:
+    expr: '.+ nf_conntrack: table full, dropping packet'
+conclusions:
+  stacktraces:
+    decision: has_stacktraces
+    raises:
+      type: core.issues.issue_types.KernelError
+      message: >-
+        {numreports} reports of stacktraces in kern.log - please check.
+      format-dict:
+        numreports: '@checks.has_stacktraces.expr.results:len'
+  oom-killer-invoked:   
+    decision: has_oom_killer_invoked
+    raises:
+      type: core.issues.issue_types.MemoryWarning
+      message: >-
+        {numreports} reports of oom-killer invoked in kern.log - please check.
+      format-dict:
+        numreports: '@checks.has_oom_killer_invoked.expr.results:len'
+  nf-conntrack-full:   
+    decision: has_nf_conntrack_full
+    raises:
+      type: core.issues.issue_types.NetworkWarning
+      message: >-
+        {numreports} reports of 'nf_conntrack: table full' detected in
+        kern.log - please check.
+      format-dict:
+        numreports: '@checks.has_nf_conntrack_full.expr.results:len'

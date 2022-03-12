@@ -356,10 +356,6 @@ class CephCluster(object):
 
         return v1_osds
 
-    @property
-    def num_cluster_osds_without_v2_messenger_protocol(self):
-        return len(self.cluster_osds_without_v2_messenger_protocol)
-
     def _get_version_info(self, daemon_type=None):
         """
         Returns a dict of ceph versions info for the provided daemon type. If
@@ -491,10 +487,6 @@ class CephCluster(object):
 
         return laggy_pgs
 
-    @property
-    def num_laggy_pgs(self):
-        return len(self.laggy_pgs)
-
     def pool_id_to_name(self, id):
         if not self.osd_dump:
             return
@@ -548,10 +540,6 @@ class CephCluster(object):
                     self._bad_meta_osds.append(device['name'])
 
         return self._bad_meta_osds
-
-    @property
-    def num_bluefs_oversized_metadata_osds(self):
-        return len(self.bluefs_oversized_metadata_osds)
 
     @staticmethod
     def version_as_a_tuple(ver):

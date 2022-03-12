@@ -1,4 +1,0 @@
-requires:
-  or:
-    - property: core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable
-    - property: core.plugins.storage.ceph.CephChecksBase.plugin_runnable

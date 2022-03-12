@@ -1,0 +1,32 @@
+checks:
+  neutron_dpdk_enabled:
+    requires:
+      apt: openvswitch-switch-dpdk
+  nova_libvirt_queue_sizes_invalid_config:
+    requires:
+      config:
+        handler: core.plugins.openstack.OpenstackConfig
+        path: etc/nova/nova.conf
+        assertions:
+          rx_queue_size:
+            section: libvirt
+            value: 1024
+            op: ge
+            allow-unset: False
+          tx_queue_size:
+            section: libvirt
+            value: 1024
+            op: ge
+            allow-unset: False
+      post-op: not_
+conclusions:
+  nova-dpdk-config-not-valid:
+    decision:
+      and:
+        - neutron_dpdk_enabled
+        - nova_libvirt_queue_sizes_invalid_config
+    raises:
+      type: core.issues.issue_types.OpenstackWarning
+      message: >-
+        DPDK is enabled but rx_queue_size/tx_queue_size set incorrectly in
+        nova.conf (expect both to be >= 1024).

@@ -134,7 +134,7 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
         YBugChecker()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1839592',
-                      'desc': "installed package 'libc-bin' with version "
+                      'desc': "Installed package 'libc-bin' with version "
                               "2.26-3ubuntu1.3 has a known critical bug which "
                               "causes ovs deadlocks. If this environment is "
                               "using OVS it should be upgraded asap.",

@@ -12,4 +12,4 @@ conclusions:
         The following sosreport plugins have have timed out and may have
         incomplete data: {timed_out_plugins}
       format-dict:
-        timed_out_plugins: core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins_str
+        timed_out_plugins: '@checks.has_timed_out_plugins.requires.value_actual:comma_join'

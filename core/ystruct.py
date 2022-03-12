@@ -19,7 +19,8 @@ class YStructException(Exception):
 class YAMLDefOverrideBase(object):
     KEYS = None
 
-    def __init__(self, name, content):
+    def __init__(self, name, content, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._override_name = name
         self._content = content
 

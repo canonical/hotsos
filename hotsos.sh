@@ -344,7 +344,8 @@ generate_summary ()
             extra_args+=( --html-escape )
         fi
 
-        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --plugin $plugin --format $OUTPUT_FORMAT
+        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --plugin $plugin \
+                                                        --format $OUTPUT_FORMAT
 
         $DEBUG_MODE && echo "" 1>&2
     done

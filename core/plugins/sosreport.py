@@ -59,9 +59,5 @@ class SOSReportChecksBase(PluginPartBase):
         return timeouts
 
     @property
-    def timed_out_plugins_str(self):
-        return ', '.join(self.timed_out_plugins)
-
-    @property
     def plugin_runnable(self):
         return self.data_root_is_sosreport

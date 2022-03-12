@@ -15,5 +15,5 @@ conclusions:
         be affected by https://tracker.ceph.com/issues/45903. A workaround (>=
         Nautilus) is to manually compact using 'ceph-bluestore-tool'.
       format-dict:
-        num_bad_meta_osds: core.plugins.storage.ceph.CephCluster.num_bluefs_oversized_metadata_osds
+        num_bad_meta_osds: '@checks.bluefs_osds_have_oversize_metadata.requires.value_actual:len'
 

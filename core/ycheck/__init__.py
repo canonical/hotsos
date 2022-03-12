@@ -1,5 +1,7 @@
+import builtins
 import os
 
+import abc
 import importlib
 import operator
 import yaml
@@ -64,7 +66,182 @@ class YDefsSection(YAMLDefSection):
         super().__init__(name, content, override_handlers=overrides)
 
 
+class PropertyCacheRefResolver(object):
+    """
+    This class is used to resolve string references to property cache entries.
+    """
+    def __init__(self, refstr, property=None, checks=None):
+        self.refstr = refstr
+        if not self.is_valid_cache_ref(refstr):
+            msg = ("{} is not a valid property cache reference".format(refstr))
+            raise Exception(msg)
+
+        self.property = property
+        self.checks = checks
+        if self.reftype == 'checks' and checks is None:
+            msg = ("{} is a checks cache reference but checks dict not "
+                   "provided".format(refstr))
+            raise Exception(msg)
+
+    @property
+    def reftype(self):
+        """
+        These depict the type of property or subdef that can be referenced.
+
+        Supported formats:
+            @checks.<check_name>.<property_name>.<property_cache_key>[:func]
+            @<property_name>.<property_cache_key>[:func]
+        """
+        if self.refstr.startswith('@checks.'):
+            # This is an implementation of YPropertyChecks
+            return "checks"
+        else:
+            # This is any implementation of YPropertyOverrideBase
+            return "property"
+
+    @property
+    def _ref_body(self):
+        """
+        Strip the prefix from the reference string.
+        """
+        if self.reftype == 'checks':
+            prefix = "@checks.{}.".format(self.check_name)
+        else:
+            prefix = "@{}.".format(self.property.property_name)
+
+        return self.refstr.partition(prefix)[2]
+
+    @classmethod
+    def is_valid_cache_ref(cls, refstr):
+        """
+        Returns True if refstr is a valid property cache reference.
+
+        The criteria for a valid reference is that it must be a string whose
+        first character is @.
+        """
+        if type(refstr) != str:
+            return False
+
+        if not refstr.startswith('@'):
+            return False
+
+        return True
+
+    @property
+    def check_name(self):
+        if self.reftype != 'checks':
+            raise Exception("ref does not have type 'checks'")
+
+        return self.refstr.partition('@checks.')[2].partition('.')[0]
+
+    @property
+    def property_name(self):
+        if self.reftype == 'checks':
+            return self._ref_body.partition('.')[0]
+
+        return self.property.property_name
+
+    @property
+    def property_cache_key(self):
+        """ Key for PropertyCache. """
+        if self.reftype == 'checks':
+            _key = self._ref_body.partition('.')[2]
+        else:
+            _key = self._ref_body
+
+        # strip func if exists
+        return _key.partition(':')[0]
+
+    @property
+    def property_cache_value_renderer_function(self):
+        """
+        This is an optional function name that can be provided as the last
+        item in the reference string seperated by a colon.
+        """
+        if self.reftype == 'checks':
+            _key = self._ref_body.partition('.')[2]
+        else:
+            _key = self._ref_body
+
+        return _key.partition(':')[2]
+
+    def apply_renderer_function(self, value):
+        """
+        The last section of a ref string can be a colon followed by a function
+        name which itself can be one of two things; any method supported by
+        builtins or "comma_join".
+        """
+        func = self.property_cache_value_renderer_function
+        if func:
+            if func == "comma_join":
+                # needless to say this will only work with lists, dicts etc.
+                return ', '.join(value)
+
+            return getattr(builtins, func)(value)
+
+        return value
+
+    def resolve(self):
+        if self.property is None:
+            if not self.checks:
+                raise Exception("property required in order to resolve cache "
+                                "ref")
+
+            check_cache = self.checks[self.check_name].cache
+            property_cache = getattr(check_cache, self.property_name)
+        else:
+            property_cache = self.property.cache
+
+        val = getattr(property_cache, self.property_cache_key)
+        if val is None:
+            return
+
+        return self.apply_renderer_function(val)
+
+
+class PropertyCache(object):
+
+    def __init__(self):
+        self._data = {}
+
+    def merge(self, cache):
+        if type(cache) != PropertyCache:
+            log.error("attempt to merge cache failed - provided cache is not "
+                      "a %s", type(self))
+            return
+
+        self._data.update(cache.cache)
+
+    def set(self, key, data):
+        log.debug("%s: caching key=%s with value=%s", id(self), key, data)
+        _current = self._data.get(key)
+        if _current and type(_current) == dict and type(data) == dict:
+            self._data[key].update(data)
+        else:
+            self._data[key] = data
+
+    @property
+    def cache(self):
+        return self._data
+
+    def __getattr__(self, key):
+        log.debug("%s: fetching key=%s (exists=%s)", id(self), key,
+                  key in self.cache)
+        if key not in self.cache:
+            return
+
+        return self.cache[key]
+
+
 class YPropertyBase(object):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._cache = PropertyCache()
+
+    @property
+    def cache(self):
+        return self._cache
 
     def get_cls(self, import_str):
         log.debug("instantiating class %s", import_str)
@@ -136,18 +313,33 @@ class YPropertyBase(object):
         return self.get_attribute(import_str)
 
 
-class YPropertyOverrideBase(YAMLDefOverrideBase, YPropertyBase):
-    pass
+class YPropertyOverrideBase(abc.ABC, YAMLDefOverrideBase, YPropertyBase):
+
+    @abc.abstractproperty
+    def property_name(self):
+        """
+        Every property override must implement this. This name must be unique
+        across all properties and will be used to link the property in a
+        PropertyCacheRefResolver.
+        """
 
 
 @ydef_override
 class YPropertyChecks(YPropertyOverrideBase):
     KEYS = ['checks']
 
+    @property
+    def property_name(self):
+        return 'checks'
+
 
 @ydef_override
 class YPropertyConclusions(YPropertyOverrideBase):
     KEYS = ['conclusions']
+
+    @property
+    def property_name(self):
+        return 'conclusions'
 
 
 @ydef_override
@@ -157,10 +349,18 @@ class YPropertyPriority(YPropertyOverrideBase):
     def __int__(self):
         return int(self.content)
 
+    @property
+    def property_name(self):
+        return 'priority'
+
 
 @ydef_override
 class YPropertyDecision(YPropertyOverrideBase):
     KEYS = ['decision']
+
+    @property
+    def property_name(self):
+        return 'decision'
 
     @property
     def is_singleton(self):
@@ -208,6 +408,10 @@ class YPropertyExpr(YPropertyOverrideBase):
     KEYS = ['start', 'body', 'end', 'expr', 'hint', 'passthrough-results']
 
     @property
+    def property_name(self):
+        return 'expr'
+
+    @property
     def expr(self):
         """
         Subkey e.g for start.expr, body.expr. Expression defs that are just
@@ -234,20 +438,59 @@ class YPropertyRaises(YPropertyOverrideBase):
     KEYS = ['raises']
 
     @property
+    def property_name(self):
+        return 'raises'
+
+    @property
     def message(self):
         """ Optional """
         return self.content.get('message')
+
+    def message_with_format_dict_applied(self, property=None, checks=None):
+        """
+        Resolve cache references and apply them to the format dict.
+
+        @params checks: optional dict of YPropertyChecks objects.
+        """
+        fdict = self.format_dict
+        if fdict is None:
+            return self.message
+
+        for key, value in fdict.items():
+            if PropertyCacheRefResolver.is_valid_cache_ref(value):
+                rvalue = PropertyCacheRefResolver(value, property=property,
+                                                  checks=checks).resolve()
+                log.debug("updating format-dict key=%s with cached %s",
+                          key, value)
+                fdict[key] = rvalue
+
+        message = self.message
+        if message is not None:
+            message = str(message).format(**fdict)
+
+        return message
 
     @property
     def format_dict(self):
         """
         Optional dict of key/val pairs used to format the message string.
+
+        Keys that start with @ are used as references to properties allowing
+        us to extract cached values.
         """
         _format_dict = self.content.get('format-dict')
         if not _format_dict:
             return {}
 
-        return {k: self.get_import(v) for k, v in _format_dict.items()}
+        fdict = {}
+        for k, v in _format_dict.items():
+            if PropertyCacheRefResolver.is_valid_cache_ref(v):
+                # save string for later parsing/extraction
+                fdict[k] = v
+            else:
+                fdict[k] = self.get_import(v)
+
+        return fdict
 
     @property
     def format_groups(self):
@@ -265,6 +508,10 @@ class YPropertyInput(YPropertyOverrideBase):
     KEYS = ['input']
     TYPE_COMMAND = 'command'
     TYPE_FILESYSTEM = 'filesystem'
+
+    @property
+    def property_name(self):
+        return 'input'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -327,7 +574,8 @@ class YPropertyInput(YPropertyOverrideBase):
 
 class YRequirementObj(YPropertyBase):
     def __init__(self, apt, snap, systemd, property, config, value, py_op,
-                 post_py_op):
+                 post_py_op, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.apt = apt
         self.snap = snap
         self.systemd = systemd
@@ -339,12 +587,6 @@ class YRequirementObj(YPropertyBase):
             self.post_py_op = getattr(operator, post_py_op)
         else:
             self.post_py_op = None
-
-        self._cache = {}
-
-    @property
-    def cache(self):
-        return self._cache
 
     @property
     def is_valid(self):
@@ -381,19 +623,19 @@ class YRequirementObj(YPropertyBase):
             # NOTE: we only support one package for now but done this way
             # to make extensible.
             for _name, _versions in self.apt.items():
-                self._cache['apt.pkg'] = _name
                 pkg = _name
                 versions = _versions
+                self.cache.set('package', pkg)
         else:
             pkg = self.apt
-            self._cache['apt.pkg'] = pkg
+            self.cache.set('package', pkg)
 
         apt_info = APTPackageChecksBase([pkg])
         result = apt_info.is_installed(pkg)
         if result:
             if versions:
                 pkg_ver = apt_info.get_version(pkg)
-                self._cache['apt.pkg_version'] = pkg_ver
+                self.cache.set('version', pkg_ver)
                 result = self._package_version_within_ranges(pkg_ver,
                                                              versions)
                 log.debug("package %s=%s within version ranges %s "
@@ -406,21 +648,24 @@ class YRequirementObj(YPropertyBase):
         pkg = self.snap
         result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
         log.debug('requirement check: snap %s (result=%s)', pkg, result)
-        self._cache['snap.pkg'] = pkg
+        self.cache.set('package', pkg)
         return result
 
     def _systemd_handler(self):
         service = self.systemd
         svcs = ServiceChecksBase([service]).services
         result = service in svcs
+        value = None
         if result and self.value is not None:
+            value = svcs[service]
             result = self.py_op(svcs[service], self.value)
 
         log.debug('requirement check: systemd %s (result=%s)', service,
                   result)
-        self._cache['systemd.service'] = service
-        self._cache['systemd.state'] = self.value
-        self._cache['systemd.op'] = self.py_op
+        self.cache.set('service', service)
+        self.cache.set('state_expected', self.value)
+        self.cache.set('op', self.py_op)
+        self.cache.set('state_actual', value)
         return result
 
     def _property_handler(self):
@@ -428,9 +673,9 @@ class YRequirementObj(YPropertyBase):
         result = self.py_op(actual, self.value)
         log.debug('requirement check: property %s %s %s (result=%s)',
                   self.property, self.py_op, self.value, result)
-        self._cache['property.actual'] = actual
-        self._cache['property.value'] = self.value
-        self._cache['property.op'] = self.py_op
+        self.cache.set('value_expected', self.value)
+        self.cache.set('op', self.py_op)
+        self.cache.set('value_actual', actual)
         return result
 
     def _config_handler(self):
@@ -465,15 +710,18 @@ class YRequirementObj(YPropertyBase):
                         actual = type(value)(actual)
 
                     result = getattr(operator, op)(actual, value)
-            elif actual is None:
-                result = True
+            else:
+                result = getattr(operator, op)(actual, value)
+
+            # This is a bit iffy since it only gives us the final config
+            # assertion checked.
+            self.cache.set('key', key)
+            self.cache.set('value_expected', value)
+            self.cache.set('op', op)
+            self.cache.set('value_actual', actual)
 
             # return on first fail
             if not result:
-                self._cache['config.key'] = key
-                self._cache['config.value'] = value
-                self._cache['config.op'] = op
-                self._cache['config.actual'] = actual
                 return False
 
         return True
@@ -497,20 +745,16 @@ class YRequirementObj(YPropertyBase):
             elif self.config:
                 ret = self._config_handler()
 
-            if not self.post_py_op:
-                return ret
-            else:
+            if self.post_py_op:
                 ret = self.post_py_op(ret)
-                log.debug("applying post-op %s (result=%s)", self.post_py_op,
+                log.debug("applied post-op %s (result=%s)", self.post_py_op,
                           ret)
-                return ret
+
+            return ret
         except Exception:
             # display traceback here before it gets swallowed up.
             log.exception("requires.passes raised the following")
             raise
-
-        log.debug('unknown requirement check - passes=False')
-        return False
 
 
 @ydef_override
@@ -521,20 +765,9 @@ class YPropertyRequires(YPropertyOverrideBase):
     FINAL_RESULT_OP = 'and'
     DEFAULT_STD_OP = 'eq'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._cache = {}
-
     @property
-    def cache(self):
-        return self._cache
-
-    @property
-    def depends_on(self):
-        if not type(self.content) == dict:
-            return
-
-        return self.content.get('depends-on', None)
+    def property_name(self):
+        return 'requires'
 
     @property
     def apt(self):
@@ -581,9 +814,13 @@ class YPropertyRequires(YPropertyOverrideBase):
         """
         if requirement.is_valid:
             result = requirement.passes
+            # Caching a requires comprising of more than one requirement e.g.
+            # lists or groups is not supported since there is no easy way to
+            # make then uniquely identifiable so this should only be used when
+            # processing single requirements. Note that top-level attributes
+            # like the passes result will still be cached.
             if cache:
-                # NOTE: only currently support caching for single requirement
-                self._cache = requirement.cache
+                self.cache.merge(requirement.cache)
 
             return result
 
@@ -697,25 +934,6 @@ class YPropertyRequires(YPropertyOverrideBase):
         or list of requirements. List may contain individual requirements or
         groups.
         """
-        if self.depends_on:
-            log.debug("depends-on provided")
-            entry = self.depends_on
-            requirement = YRequirementObj(entry.get('apt'),
-                                          entry.get('snap'),
-                                          entry.get('systemd'),
-                                          entry.get('property'),
-                                          entry.get('config'),
-                                          entry.get('value', True),
-                                          entry.get('op', self.DEFAULT_STD_OP),
-                                          entry.get('post-op'))
-            if not self.process_requirement(requirement):
-                log.debug("depends-on is False - skipping requirenent check "
-                          "and returning passes=True")
-                return True
-
-            log.debug("depends-on passed - continuing")
-            del self.content['depends-on']
-
         if type(self.content) == dict:
             if not self._is_groups(self.content):
                 log.debug("single requirement provided")
@@ -733,7 +951,9 @@ class YPropertyRequires(YPropertyOverrideBase):
             log.debug("list of requirements provided")
             results = self.process_multi_requirements_list(self.content)
 
-        return self.finalise_result(results)
+        result = self.finalise_result(results)
+        self.cache.set('passes', result)
+        return result
 
 
 class YDefsLoader(object):

@@ -14,6 +14,7 @@ from core.ycheck import (
     YDefsLoader,
     YDefsSection,
     ChecksBase,
+    YPropertyBase,
     YPropertyInput,
     YPropertyExpr,
     YPropertyRequires,
@@ -70,7 +71,7 @@ class ScenarioCheckMeta(object):
         return 1
 
 
-class ScenarioCheck(object):
+class ScenarioCheck(YPropertyBase):
     """
     See YAMLDefScenarioCheck for overrides used with this class.
 
@@ -81,12 +82,12 @@ class ScenarioCheck(object):
     See ScenarioCheckMeta for optional metadata.
     """
     def __init__(self, name, input=None, expr=None, meta=None, requires=None):
+        super().__init__()
         self.name = name
         self.input = input
         self.expr = expr
         self.meta = ScenarioCheckMeta(meta)
         self.requires = requires
-        self.cached_result = None
 
     @classmethod
     def get_datetime_from_result(cls, result):
@@ -131,10 +132,18 @@ class ScenarioCheck(object):
     @property
     def _result(self):
         if self.expr:
-            s = FileSearcher()
-            s.add_search_term(SearchDef(self.expr.value, tag='all'),
-                              self.input.path)
-            results = s.search()
+            if self.cache.expr:
+                results = self.cache.expr.results
+                log.debug("check %s - using cached result=%s", self.name,
+                          results)
+            else:
+                s = FileSearcher()
+                s.add_search_term(SearchDef(self.expr.value, tag='all'),
+                                  self.input.path)
+                results = s.search()
+                self.expr.cache.set('results', results)
+                self.cache.set('expr', self.expr.cache)
+
             if not results:
                 log.debug("scenario check %s: False", self.name)
                 return False
@@ -159,21 +168,23 @@ class ScenarioCheck(object):
                 return len(results) > 0
 
         elif self.requires:
-            return self.requires.passes
+            if self.cache.requires:
+                result = self.cache.requires.passes
+                log.debug("check %s - using cached result=%s", self.name,
+                          result)
+            else:
+                result = self.requires.passes
+                self.cache.set('requires', self.requires.cache)
+
+            return result
         else:
             raise Exception("unknown scenario check type")
 
     @property
     def result(self):
         log.debug("executing check %s", self.name)
-        if self.cached_result is None:
-            result = self._result
-        else:
-            result = self.cached_result
-
-        log.debug("check %s result=%s (cached=%s)", self.name, result,
-                  self.cached_result is not None)
-        self.cached_result = result
+        result = self._result
+        log.debug("check %s result=%s", self.name, result)
         return result
 
 
@@ -217,26 +228,33 @@ class ScenarioConclusions(object):
     def reached(self):
         """ Return true if a conclusion has been reached. """
         result = self._run_conclusion()
-        fdict = self.raises.format_dict or {}
-        self.issue_message = str(self.raises.message).format(**fdict)
+        message = self.raises.message_with_format_dict_applied(
+                                                            checks=self.checks)
+        self.issue_message = message
         self.issue_type = self.raises.type
         return result
 
 
 class Scenario(object):
     def __init__(self, name, checks, conclusions):
+        log.debug("scenario: %s", name)
         self.name = name
-        self._checks = checks
+        self._checks_section = checks
+        self._checks = {}
         self._conclusions = conclusions
 
     @property
     def checks(self):
-        section = YDefsSection('checks', self._checks.content)
+        if self._checks:
+            return self._checks
+
+        section = YDefsSection('checks', self._checks_section.content)
         _checks = {}
         for c in section.leaf_sections:
             _checks[c.name] = ScenarioCheck(c.name, c.input, c.expr, c.meta,
                                             c.requires)
 
+        self._checks = _checks
         return _checks
 
     @property

@@ -9,7 +9,6 @@ from core import checks
 from core.issues import issue_types
 from core import known_bugs_utils
 from core.ycheck.bugs import YBugChecker
-from core.ycheck.configs import YConfigChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import (
     ceph as ceph_core,
@@ -258,50 +257,6 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
         self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
 
 
-class TestCephConfigChecks(StorageCephOSDTestsBase):
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
-                    'ssd_osds_no_discard.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_ssd_osds_no_discard(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        YConfigChecker()()
-        self.assertTrue(mock_add_issue.called)
-
-        msgs = [("This host has osds with device_class 'ssd' but Bluestore "
-                 "discard is not enabled. The recommendation is to set 'bdev "
-                 "enable discard true'.")]
-        self.assertEqual([issue.msg for issue in issues], msgs)
-
-    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
-                    'filestore_to_bluestore_upgrade.yaml'))
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
-                True)
-    @mock.patch('core.plugins.storage.ceph.CephConfig')
-    @mock.patch('core.issues.issue_utils.add_issue')
-    def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
-                                            mock_ceph_config):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_ceph_config.return_value = mock.MagicMock()
-        mock_ceph_config.return_value.get = lambda args: '/journal/path'
-        mock_add_issue.side_effect = fake_add_issue
-        YConfigChecker()()
-        self.assertTrue(mock_add_issue.called)
-
-        msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
-                 "device configured in ceph.conf - please check")]
-        self.assertEqual([issue.msg for issue in issues], msgs)
-
-
 class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
     @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
@@ -331,3 +286,46 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                'cpufrequtils. You will also need to stop and disable the '
                'ondemand systemd service in order for changes to persist.')
         self.assertEqual(msg, issues[issue_types.CephWarning][0])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
+                    'ssd_osds_no_discard.yaml'))
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_ssd_osds_no_discard(self, mock_add_issue):
+        self.skipTest("scenario currently disabled until fixed")
+
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+
+        msgs = [("This host has osds with device_class 'ssd' but Bluestore "
+                 "discard is not enabled. The recommendation is to set 'bdev "
+                 "enable discard true'.")]
+        self.assertEqual([issue.msg for issue in issues], msgs)
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
+                    'filestore_to_bluestore_upgrade.yaml'))
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
+                True)
+    @mock.patch('core.plugins.storage.ceph.CephConfig')
+    @mock.patch('core.issues.issue_utils.add_issue')
+    def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
+                                            mock_ceph_config):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_ceph_config.return_value = mock.MagicMock()
+        mock_ceph_config.return_value.get = lambda args: '/journal/path'
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+
+        msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
+                 "device configured in ceph.conf - please check")]
+        self.assertEqual([issue.msg for issue in issues], msgs)

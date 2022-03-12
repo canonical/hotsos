@@ -1,0 +1,31 @@
+checks:
+  node_running_ceph_osd:
+    requires:
+      systemd: ceph-osd
+      value: enabled
+  ssd_ceph_osds_exist:
+    requires:
+      property: core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
+      op: contains
+      value: ssd
+  ceph_discard_not_enabled:
+    requires:
+      config:
+        handler: core.plugins.storage.ceph.CephConfig
+        assertions:
+          bdev enable_discard:
+            value: true
+            op: ne
+            allow-unset: True
+conclusions:
+  ceph-ssd-osds-no-discard:
+    decision:
+      and:
+        - node_running_ceph_osd
+        - ssd_ceph_osds_exist
+        - ceph_discard_not_enabled
+    raises:
+      type: core.issues.issue_types.CephWarning
+      message: >-
+        This host has osds with device_class 'ssd' but Bluestore discard is not
+        enabled. The recommendation is to set 'bdev enable discard true'.

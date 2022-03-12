@@ -13,6 +13,9 @@
           max: 1:10.1.0-0ubuntu1
   raises:
     message: >-
-      installed package '{package_name}' with version {version_current} has a
-      known bug that prevents cinder from creating encrypted volumes. To fix
-      this you need to upgrade asap.
+      Installed package '{package}' with version {version} has a known bug that
+      prevents cinder from creating encrypted volumes. To fix this you need to
+      the latest version.
+    format-dict:
+      package: '@requires.package'
+      package: '@requires.version'

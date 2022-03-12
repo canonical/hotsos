@@ -4,12 +4,14 @@ input:
   expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
   hint: 'AttributeError'
   raises:
-    message: 'known neutron l3-agent bug identified that affects dvr floating ips.'
+    message: >-
+      Known neutron l3-agent bug identified that affects dvr floating ips.
 1929832:
   expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
   hint: 'ProcessExecutionError'
   raises:
-    message: 'known neutron l3-agent bug identified that impacts deletion of neutron routers.'
+    message: >-
+      Known neutron l3-agent bug identified that impacts deletion of neutron routers.
 1896506:
   input:
     path: 'var/log/syslog'
@@ -17,5 +19,5 @@ input:
   hint: 'no_track'
   raises:
     message: >-
-      known neutron l3-agent bug identified that critically impacts
+      Known neutron l3-agent bug identified that critically impacts
       keepalived.

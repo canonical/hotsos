@@ -3,7 +3,7 @@ checks:
     requires:
       property: core.plugins.system.SystemBase.unattended_upgrades_enabled
 conclusions:
-  is_enabled:
+  unattended-upgrades-enabled:
     decision: is_enabled
     raises:
       type: core.issues.issue_types.SystemWarning

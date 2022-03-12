@@ -196,25 +196,11 @@ must be grouped using logical operators used to determine the result of each
 group. The result of all groups are ANDed together to get the final result for
 *passes*.
 
-An optional *depends-on* field is provided to allow for a requirement to be
-defined as a condition on which to run the other checks.
-
 format
 
 ```
 requires:
-  REQ_DEPENDS_ON
   REQ_DEFS
-
-REQ_DEPENDS_ON
-  An optional dict with format:
-  
-  depends-on: REQ_DEF
-
-  This allows for a single REQ_DEF to be run before any other as a
-  condition for running REQ_DEFS which are only checked if the
-  outcome is True otherwise they are skipped and *passes* returns
-  True.  
 
 REQ_DEFS
   This must be one (and only one) of the following:
@@ -541,23 +527,6 @@ Supported properties
   * [raises](#raises) - used to define message displayed when bug identified. Note that
              *[raises](#raises).type* is ignored here since we are always
              raising a bug.
-  
-Supported subdefs
-  * none
-
-
-### Config checks
-
-Config checks run automatically and are implemented purely in YAML. See
-[existing definitions](config_checks).
-
-These checks are lightweight scenarios in that they don't use the *checks* or
-[conclusions](#conclusions) properties and are typically used to perform checks
-on config.
-
-Supported properties
-  * [requires](#requires)
-  * [raises](#raises)
   
 Supported subdefs
   * none

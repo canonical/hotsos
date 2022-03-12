@@ -35,9 +35,7 @@ class YBugChecker(ChecksBase):
         for bug in ybugchecks.leaf_sections:
             bugcheck = {'bug_id': str(bug.name),
                         'requires': bug.requires,
-                        'message': bug.raises.message,
-                        'message_format_result_groups':
-                            bug.raises.format_groups}
+                        'raises': bug.raises}
             if bug.expr:
                 pattern = bug.expr.value
                 datasource = bug.input.path
@@ -94,7 +92,6 @@ class YBugChecker(ChecksBase):
             return
 
         for bugsearch in self._bug_checks:
-            format_dict = {}
             format_list = []
             bug_id = bugsearch['bug_id']
             requires = bugsearch['requires']
@@ -104,30 +101,23 @@ class YBugChecker(ChecksBase):
                               "skipping check", bug_id)
                     continue
 
-                # save this for the message
-                format_dict = {'package_name':
-                               requires.cache.get('apt.pkg'),
-                               'version_current':
-                               requires.cache.get('apt.pkg_version')}
-
-            message = bugsearch['message']
+            raises = bugsearch['raises']
             if 'searchdef' in bugsearch:
                 bug_matches = results.find_by_tag(bug_id)
                 if not bug_matches:
                     continue
 
-                indexes = bugsearch['message_format_result_groups']
-                if indexes:
+                if raises.format_groups:
                     # we only use the first result
                     first_match = bug_matches[0]
-                    format_list = self._get_format_list(indexes,
+                    format_list = self._get_format_list(raises.format_groups,
                                                         first_match)
 
             log.debug("bug %s identified", bug_id)
             if format_list:
-                add_known_bug(bug_id, message.format(*format_list))
-            elif format_dict:
-                log.debug(message.format(**format_dict))
-                add_known_bug(bug_id, message.format(**format_dict))
+                message = raises.message.format(*format_list)
             else:
-                add_known_bug(bug_id, message)
+                message = raises.message_with_format_dict_applied(
+                                                property=bugsearch['requires'])
+
+            add_known_bug(bug_id, message)

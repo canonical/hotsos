@@ -1,0 +1,33 @@
+checks:
+  bcache_enabled:
+    requires:
+      property: core.plugins.storage.bcache.BcacheBase.bcache_enabled
+  has_invalid_bdev_config:
+    requires:
+      config:
+        handler: core.plugins.storage.bcache.BdevsConfig
+        assertions:
+          sequential_cutoff:
+            value: '0.0k'
+          cache_mode:
+            value: 'writethrough [writeback] writearound none'
+          writeback_percent:
+            value: 10
+            op: ge
+      post-op: not_
+conclusions:
+  invalid-bdev-config:
+    decision:
+      and:
+        - bcache_enabled
+        - has_invalid_bdev_config
+    raises:
+      type: core.issues.issue_types.BcacheWarning
+      message: >-
+        bcache config {key} expected to be {op} {value_expected} but
+        actual={value_actual}.
+      format-dict:
+        key: '@checks.has_invalid_bdev_config.requires.key'
+        op: '@checks.has_invalid_bdev_config.requires.op'
+        value_expected: '@checks.has_invalid_bdev_config.requires.value_expected'
+        value_actual: '@checks.has_invalid_bdev_config.requires.value_actual'
