@@ -29,7 +29,7 @@ conclusions:
         - bcache_enabled
         - cset_has_invalid_config
     raises:
-      type: core.issues.issue_types.BcacheWarning
+      type: core.issues.BcacheWarning
       message: >-
         bcache cacheset config {key} expected to be {op} {value_expected} but
         actual={value_actual}.
@@ -44,7 +44,7 @@ conclusions:
         - bcache_enabled
         - cset_config_lp1900438_limit
     raises:
-      type: core.issues.issue_types.BcacheWarning
+      type: core.issues.BcacheWarning
       message: >-
         bcache cache_available_percent is {actual} (i.e. approx. 30%) which
         implies this node could be suffering from bug LP 1900438 - please check

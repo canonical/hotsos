@@ -13,7 +13,7 @@ conclusions:
   crushmap-mixed-buckets:
     decision: crushmap_has_mixed_type_buckets
     raises:
-      type: core.issues.issue_types.CephCrushWarning
+      type: core.issues.CephCrushWarning
       message: >-
         Mixed crush bucket types identified in buckets '{buckets}'. This can
         cause data distribution to become skewed - please check crush map.
@@ -22,7 +22,7 @@ conclusions:
   crushmap-unbalanced-buckets:
     decision: crushmap_has_unequal_buckets
     raises:
-      type: core.issues.issue_types.CephCrushWarning
+      type: core.issues.CephCrushWarning
       message: >-
         Found one or more unbalanced crush buckets e.g. crush root '{root}' using
         failure domain '{domain}' with rule id '{ruleid}'. This can cause

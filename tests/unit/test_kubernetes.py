@@ -4,7 +4,7 @@ import mock
 
 from tests.unit import utils
 
-from core.issues.issue_types import KubernetesWarning
+from core.issues import KubernetesWarning
 from core import checks, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
 from core.ycheck.bugs import YBugChecker
@@ -123,15 +123,15 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
     @mock.patch('core.plugins.kubernetes.KubernetesChecksBase.plugin_runnable',
                 True)
     @mock.patch.object(checks, 'CLIHelper')
-    @mock.patch('core.ycheck.scenarios.issue_utils.add_issue')
+    @mock.patch('core.ycheck.scenarios.issues.utils.add_issue')
     def test_system_cpufreq_mode(self, mock_add_issue, mock_cli):
-        issues = {}
+        raised_issue = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issue:
+                raised_issue[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issue[type(issue)] = [issue.msg]
 
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.snap_list_all.return_value = \
@@ -147,4 +147,4 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                'cpufrequtils, set "GOVERNOR=performance" in '
                '/etc/default/cpufrequtils and run systemctl restart '
                'cpufrequtils.')
-        self.assertEqual(issues[KubernetesWarning], [msg])
+        self.assertEqual(raised_issue[KubernetesWarning], [msg])

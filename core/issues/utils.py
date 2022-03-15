@@ -2,7 +2,6 @@ import os
 import re
 import yaml
 
-from core import plugintools
 from core import constants
 
 MASTER_YAML_ISSUES_FOUND_KEY = 'potential-issues'
@@ -34,7 +33,7 @@ class IssueEntry(object):
                 'origin': self.origin}
 
 
-def _get_plugin_issues():
+def get_plugin_issues():
     """
     Fetch the current plugin issues.yaml if it exists and return its
     contents or None if it doesn't exist yet.
@@ -64,7 +63,7 @@ def add_issue(issue):
                         format(constants.PLUGIN_TMP_DIR))
 
     entry = IssueEntry(issue.name, issue.msg, key='type')
-    current = _get_plugin_issues()
+    current = get_plugin_issues()
     if current and current.get(MASTER_YAML_ISSUES_FOUND_KEY):
         current[MASTER_YAML_ISSUES_FOUND_KEY].append(entry.data)
     else:
@@ -73,28 +72,3 @@ def add_issue(issue):
     issues_yaml = os.path.join(constants.PLUGIN_TMP_DIR, 'issues.yaml')
     with open(issues_yaml, 'w') as fd:
         fd.write(yaml.dump(current))
-
-
-def add_issues_to_master_plugin():
-    """
-    Fetch the current plugin issues.yaml and add it to the master yaml.
-    Note that this can only be called once per plugin and is typically
-    performed as a final part after all others have executed.
-    """
-    issues = _get_plugin_issues()
-    if not issues or MASTER_YAML_ISSUES_FOUND_KEY not in issues:
-        return
-
-    types = {}
-    for issue in issues.get(MASTER_YAML_ISSUES_FOUND_KEY):
-        # pluralise the type for display purposes
-        issue_type = "{}s".format(issue['type'])
-        if issue_type not in types:
-            types[issue_type] = []
-
-        msg = "{} (origin={})".format(issue['desc'], issue['origin'])
-        types[issue_type].append(msg)
-
-    issues = {MASTER_YAML_ISSUES_FOUND_KEY: types}
-    end = plugintools.PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
-    plugintools.save_part(issues, offset=end)

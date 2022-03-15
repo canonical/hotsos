@@ -17,7 +17,7 @@ conclusions:
         - ceph_release_gt_mimic
         - cluster_has_v1_only_osds
     raises:
-      type: core.issues.issue_types.CephOSDWarning
+      type: core.issues.CephOSDWarning
       message: >-
         This Ceph cluster has {num_v1_only_osds} OSD(s) that do not bind to a
         v2 messenger address. This will cause unexpected behaviour and should

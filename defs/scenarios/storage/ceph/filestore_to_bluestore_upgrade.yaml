@@ -19,7 +19,7 @@ conclusions:
         - bluestore_enabled
         - ceph_config_has_journal
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Ceph Bluestore is enabled yet there is a still a journal device
         configured in ceph.conf - please check

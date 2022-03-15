@@ -33,7 +33,7 @@
           - min: 17.0.0
             max: 17.0.0
   raises:
-    issue: core.issues.issue_types.CephCrushWarning
+    issue: core.issues.CephCrushWarning
     message: >-
       This host has Ceph OSDs using bcache block devices and may be vulnerable
       to bcache bug LP 1936136. The current workaround is to set

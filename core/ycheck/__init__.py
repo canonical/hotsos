@@ -448,8 +448,12 @@ class YPropertyRaises(YPropertyOverrideBase):
 
     def message_with_format_dict_applied(self, property=None, checks=None):
         """
-        Resolve cache references and apply them to the format dict.
+        If a format-dict is provided this will resolve any cache references
+        then format the message. Returns formatted message.
 
+        Either property or checks must be provided (but not both).
+
+        @params property: optional YPropertyOverride object.
         @params checks: optional dict of YPropertyChecks objects.
         """
         fdict = self.format_dict
@@ -467,6 +471,27 @@ class YPropertyRaises(YPropertyOverrideBase):
         message = self.message
         if message is not None:
             message = str(message).format(**fdict)
+
+        return message
+
+    def message_with_format_list_applied(self, searchresult):
+        """
+        If format-groups have been provided this will extract their
+        corresponding values from searchresult and use them to format the
+        message. Returns formatted message.
+
+        @param searchresult: a searchtools.SearchResult object.
+        """
+        if not self.format_groups:
+            return self.message
+
+        format_list = []
+        for idx in self.format_groups:
+            format_list.append(searchresult.get(idx))
+
+        message = self.message
+        if message is not None:
+            message = str(message).format(*format_list)
 
         return message
 
@@ -499,7 +524,9 @@ class YPropertyRaises(YPropertyOverrideBase):
 
     @property
     def type(self):
-        """ Imports and returns class object. """
+        """ This is a string import path to an implementation of
+        core.issues.IssueTypeBase and will be used to raise an
+        issue using message as argument. """
         return self.get_cls(self.content['type'])
 
 

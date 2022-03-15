@@ -5,7 +5,7 @@ import mock
 
 from tests.unit import utils
 
-from core import known_bugs_utils
+from core import issues
 from core.plugins import openvswitch
 from core.ycheck.bugs import YBugChecker
 from plugin_extensions.openvswitch import (
@@ -119,7 +119,7 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
                         [{'id': 'https://bugs.launchpad.net/bugs/1917475',
                           'desc': "known ovn bug identified - db rbac errors",
                           'origin': 'openvswitch.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+            self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.plugins.openvswitch.OpenvSwitchChecksBase.'
@@ -139,7 +139,7 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
                               "causes ovs deadlocks. If this environment is "
                               "using OVS it should be upgraded asap.",
                       'origin': 'openvswitch.01part'}]}
-        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+        self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
 
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):

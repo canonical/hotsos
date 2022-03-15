@@ -22,7 +22,7 @@ conclusions:
         - bcache_enabled
         - has_invalid_bdev_config
     raises:
-      type: core.issues.issue_types.BcacheWarning
+      type: core.issues.BcacheWarning
       message: >-
         bcache config {key} expected to be {op} {value_expected} but
         actual={value_actual}.

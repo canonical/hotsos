@@ -164,7 +164,7 @@ myplugin:
         priority: 1
         decision: logmatch
         raises:
-          type: core.issues.issue_types.SystemWarning
+          type: core.issues.SystemWarning
           message: log matched {num} times
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -175,7 +175,7 @@ myplugin:
                 - logmatch
                 - snapexists
         raises:
-          type: core.issues.issue_types.SystemWarning
+          type: core.issues.SystemWarning
           message: log matched {num} times and snap exists
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -187,7 +187,7 @@ myplugin:
                 - snapexists
                 - serviceexists
         raises:
-          type: core.issues.issue_types.SystemWarning
+          type: core.issues.SystemWarning
           message: log matched {num} times, snap and service exists
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -396,7 +396,7 @@ class TestChecks(utils.BaseTestCase):
                               'my-standard-search',
                               'my-standard-search2'])
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
@@ -404,7 +404,7 @@ class TestChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_false(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
@@ -427,7 +427,7 @@ class TestChecks(utils.BaseTestCase):
 
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_requires(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['PLUGIN_YAML_DEFS'] = dtmp
@@ -460,7 +460,7 @@ class TestChecks(utils.BaseTestCase):
 
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_expr(self, mock_add_issue):
         issues = []
 

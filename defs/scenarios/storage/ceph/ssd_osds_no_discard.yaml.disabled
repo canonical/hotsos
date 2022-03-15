@@ -25,7 +25,7 @@ conclusions:
         - ssd_ceph_osds_exist
         - ceph_discard_not_enabled
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         This host has osds with device_class 'ssd' but Bluestore discard is not
         enabled. The recommendation is to set 'bdev enable discard true'.

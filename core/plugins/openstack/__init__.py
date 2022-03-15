@@ -1,10 +1,7 @@
 import os
 import re
 
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
+from core import issues
 from core import (
     checks,
     constants,
@@ -845,8 +842,8 @@ class OpenstackBase(object):
                 relnames
                 msg = ("openstack packages from mixed releases found - {}".
                        format(relnames))
-                issue = issue_types.OpenstackWarning(msg)
-                issue_utils.add_issue(issue)
+                issue = issues.OpenstackWarning(msg)
+                issues.utils.add_issue(issue)
 
             relname = relnames[0]
 

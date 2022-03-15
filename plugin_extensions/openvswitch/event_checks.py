@@ -2,10 +2,7 @@ import re
 
 from core.ycheck import CallbackHelper
 from core.searchtools import FileSearcher
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
+from core import issues
 from core.plugins.openvswitch import (
     OpenvSwitchEventChecksBase,
 )
@@ -83,7 +80,7 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
                    "packets ({}) which implies that packets destined for "
                    "userspace (e.g. vm tap) are being dropped - see "
                    "ovs-appctl dpctl/show.".format(lost_packets))
-            issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
+            issues.utils.add_issue(issues.OpenvSwitchWarning(msg))
 
     @EVENTCALLBACKS.callback()
     def port_stats(self, event):
@@ -156,12 +153,12 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
             if all_dropped:
                 msg = ("found {} ovs interfaces with 100% dropped packets."
                        .format(len(all_dropped)))
-                issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
+                issues.utils.add_issue(issues.OpenvSwitchWarning(msg))
 
             if all_errors:
                 msg = ("found {} ovs interfaces with 100% packet errors."
                        .format(len(all_errors)))
-                issue_utils.add_issue(issue_types.OpenvSwitchWarning(msg))
+                issues.utils.add_issue(issues.OpenvSwitchWarning(msg))
 
             stats_sorted = {}
             for k in sorted(stats):

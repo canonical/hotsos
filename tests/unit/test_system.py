@@ -8,7 +8,7 @@ from tests.unit import utils
 
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from core.issues.issue_types import SystemWarning
+from core.issues import SystemWarning
 from core.plugins.system import NUMAInfo
 from plugin_extensions.system import (
     checks,
@@ -164,15 +164,15 @@ class TestSystemScenarioChecks(SystemTestsBase):
                 True)
     @mock.patch('core.plugins.system.SystemChecksBase.plugin_runnable',
                 True)
-    @mock.patch('core.ycheck.scenarios.issue_utils.add_issue')
+    @mock.patch('core.ycheck.scenarios.issues.utils.add_issue')
     def test_unattended_upgrades(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
@@ -181,4 +181,4 @@ class TestSystemScenarioChecks(SystemTestsBase):
                'uncontrolled changes to this environment. If maintenance '
                'windows are required please consider disabling unattended '
                'upgrades.')
-        self.assertEqual(issues[SystemWarning], [msg])
+        self.assertEqual(raised_issues[SystemWarning], [msg])

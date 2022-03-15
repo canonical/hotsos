@@ -1,6 +1,6 @@
 import re
 
-from core.issues import issue_types, issue_utils
+from core import issues
 from core.ycheck import CallbackHelper
 from core.plugins.storage.ceph import CephEventChecksBase
 from core.searchtools import FileSearcher
@@ -117,7 +117,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
                        "each within a 24hr period - please investigate".
                        format(len(osds_in_err), ','.join(osds_in_err),
                               osd_type, osd_err_max))
-                issue_utils.add_issue(issue_types.CephOSDError(msg))
+                issues.utils.add_issue(issues.CephOSDError(msg))
 
             return ret
 
@@ -143,4 +143,4 @@ class CephDaemonLogChecks(CephEventChecksBase):
         msg = ('Detected superblock read errors which indicates an OSD disk '
                'failure or its likely failure in the near future. This '
                'drive needs to be inspected further using sar/smartctl.')
-        issue_utils.add_issue(issue_types.CephOSDError(msg))
+        issues.utils.add_issue(issues.CephOSDError(msg))

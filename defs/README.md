@@ -158,14 +158,14 @@ int(priority)
 
 #### raises
 Defines the issue and message we want to raise. For example a check may want
-to raise an issue using type core.issues.issue_types.Foo with a message that
+to raise an issue using type core.issues.Foo with a message that
 contains format fields that need to be populated with results.
 
 format
 
 ```
 raises:
-  type: core.issues.issue_types.<type>
+  type: core.issues.<type>
   message: <str>
   format-dict: <dict>
   search-result-format-groups: [<int>, ...]

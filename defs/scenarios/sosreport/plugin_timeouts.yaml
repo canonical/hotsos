@@ -7,7 +7,7 @@ conclusions:
   has-timed-out-plugins:
     decision: has_timed_out_plugins
     raises:
-      type: core.issues.issue_types.SOSReportWarning
+      type: core.issues.SOSReportWarning
       message: >-
         The following sosreport plugins have have timed out and may have
         incomplete data: {timed_out_plugins}

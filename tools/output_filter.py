@@ -3,8 +3,8 @@ import html
 import json
 import yaml
 
-from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
-from core.known_bugs_utils import MASTER_YAML_KNOWN_BUGS_KEY
+from core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
+from core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
 from core.log import log
 from core import (
     constants,

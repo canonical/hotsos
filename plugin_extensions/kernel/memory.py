@@ -1,10 +1,7 @@
 import os
 
 from core.log import log
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
+from core import issues
 from core.plugins.kernel import (
     KernelChecksBase,
     VMSTAT,
@@ -122,8 +119,8 @@ class KernelMemoryChecks(KernelChecksBase):
                 if pcent > 10:
                     msg = ("failures are at {}% of successes (see {})."
                            .format(pcent, VMSTAT))
-                    issue = issue_types.MemoryWarning("compaction " + msg)
-                    issue_utils.add_issue(issue)
+                    issue = issues.MemoryWarning("compaction " + msg)
+                    issues.utils.add_issue(issue)
 
             top5 = self.get_slab_major_consumers()
             if top5:

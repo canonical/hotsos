@@ -11,7 +11,7 @@ conclusions:
   cluster-health-not-ok:
     decision: cluster_unhealthy
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Ceph cluster is in '{health_status}' state. Please check 'ceph status'
         for details.

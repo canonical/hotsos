@@ -1,7 +1,4 @@
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
+from core import issues
 from core.ycheck import CallbackHelper
 from core.cli_helpers import CLIHelper
 from core.host_helpers import HostNetworkingHelper
@@ -47,8 +44,8 @@ class KernelLogEventChecks(KernelEventChecksBase):
             if interfaces_extant:
                 msg = ("kernel has reported over-mtu dropped packets for ({}) "
                        "interfaces.".format(len(interfaces_extant)))
-                issue = issue_types.NetworkWarning(msg)
-                issue_utils.add_issue(issue)
+                issue = issues.NetworkWarning(msg)
+                issues.utils.add_issue(issue)
 
                 # sort by number of occurrences
                 sorted_dict = {}

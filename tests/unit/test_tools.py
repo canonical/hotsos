@@ -6,8 +6,8 @@ import yaml
 from tests.unit import utils
 
 from tools import output_filter
-from core.issues.issue_utils import MASTER_YAML_ISSUES_FOUND_KEY
-from core.known_bugs_utils import MASTER_YAML_KNOWN_BUGS_KEY
+from core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
+from core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
 
 ISSUES_LEGACY_FORMAT = {
     'testplugin': {

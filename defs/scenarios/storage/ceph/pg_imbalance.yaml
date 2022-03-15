@@ -13,7 +13,7 @@ conclusions:
   cluster-osds-with-pgs-above-max:
     decision: cluster_has_osds_with_pgs_above_max
     raises:
-      type: core.issues.issue_types.CephCrushError
+      type: core.issues.CephCrushError
       message: >-
         Found some Ceph osd(s) with > {limit} pgs - this is close to the hard
         limit at which point they will stop creating pgs and fail - please
@@ -23,7 +23,7 @@ conclusions:
   cluster-osds-with-suboptimal-pgs:
     decision: cluster_has_osds_with_suboptimal_pgs
     raises:
-      type: core.issues.issue_types.CephCrushWarning
+      type: core.issues.CephCrushWarning
       message: >-
         Found some Ceph osd(s) whose pg count is > 30% outside the optimal range
         of {min}-{max} pgs. This could indicate poor data distribution across the

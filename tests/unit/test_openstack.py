@@ -6,10 +6,10 @@ import mock
 from tests.unit import utils
 
 import core.plugins.openstack as openstack_core
-from core import checks, known_bugs_utils
+from core import checks
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from core.issues import issue_types
+from core import issues
 from core.searchtools import FileSearcher
 from plugin_extensions.openstack import (
     vm_info,
@@ -178,12 +178,12 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         base = openstack_core.OpenstackBase()
         self.assertEqual(base.release_name, 'ussuri')
 
-    @mock.patch.object(openstack_core.issue_utils, 'add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_release_name_detect_multiples(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         with mock.patch.object(checks, 'CLIHelper') as mock_cli:
             mock_cli.return_value = mock.MagicMock()
@@ -193,11 +193,12 @@ class TestOpenstackPluginCore(TestOpenstackBase):
             mock_add_issue.side_effect = fake_add_issue
             base = openstack_core.OpenstackBase()
             self.assertEqual(base.release_name, 'ussuri')
-            self.assertEqual(len(issues), 1)
-            self.assertEqual(type(issues[0]), issue_types.OpenstackWarning)
+            self.assertEqual(len(raised_issues), 1)
+            self.assertEqual(type(raised_issues[0]),
+                             issues.OpenstackWarning)
             msg = ("openstack packages from mixed releases found - ['ussuri', "
                    "'victoria']")
-            self.assertEqual(issues[0].msg, msg)
+            self.assertEqual(raised_issues[0].msg, msg)
 
 
 class TestOpenstackSummary(TestOpenstackBase):
@@ -720,7 +721,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
 
-    @mock.patch.object(agent_event_checks.issue_utils, "add_issue")
+    @mock.patch('core.issues.utils.add_issue')
     @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
     def test_run_neutron_l3ha_checks_w_issue(self, mock_add_issue):
         os.environ["USE_ALL_LOGS"] = "False"
@@ -804,7 +805,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                    'that impacts deletion of neutron '
                                    'routers.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+            self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
@@ -822,7 +823,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'desc': ('Known neutron l3-agent bug identified '
                                    'that critically impacts keepalived.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+            self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron.yaml'))
@@ -841,7 +842,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'desc': ('Known neutron-ovn bug identified that '
                                    'impacts OVN sbdb connections.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+            self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
@@ -860,7 +861,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                "using Neutron ML2 OVS (i.e. not OVN) it "
                                "should be upgraded asap."),
                       'origin': 'openstack.01part'}]}
-        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+        self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
@@ -889,12 +890,12 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                    'latest octavia packages in UCA ussuri '
                                    'and above.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+            self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
@@ -903,20 +904,21 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 'powersave')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_cpufreq(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
-        self.assertTrue(issue_types.OpenstackWarning in issues)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
+        self.assertTrue(issues.OpenstackWarning in raised_issues)
         msg = ('This node is used as an Openstack hypervisor but is not using '
                'cpufreq scaling_governor in "performance" mode '
                '(actual=powersave). This is not recommended and can result '
@@ -925,7 +927,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                '/etc/default/cpufrequtils and run systemctl restart '
                'cpufrequtils. You will also need to stop and disable the '
                'ondemand systemd service in order for changes to persist.')
-        self.assertEqual(msg, issues[issue_types.OpenstackWarning][0])
+        self.assertEqual(msg, raised_issues[issues.OpenstackWarning][0])
 
     @mock.patch('core.plugins.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
@@ -934,17 +936,17 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 'train')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova_cpu_pinning.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenario_pinning_invalid_config(self, mock_add_issue,
                                              mock_config):
-        issues = {}
+        raised_issues = {}
         config = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
 
@@ -957,29 +959,32 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         config = {'vcpu_pin_set': [1, 2, 3],
                   'cpu_dedicated_set': [1, 2, 3]}
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 2)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         2)
         msg = ("Nova config options 'vcpu_pin_set' and "
                "'cpu_dedicated_set' are both set/configured which is not "
                "allowed for >= Train.")
-        self.assertEqual(issues[issue_types.OpenstackError], [msg])
+        self.assertEqual(raised_issues[issues.OpenstackError], [msg])
         msg = ("Nova config option 'vcpu_pin_set' is configured with "
                "cores from more than one numa node. This can have "
                "performance implications and should be checked.")
-        self.assertEqual(issues[issue_types.OpenstackWarning], [msg])
+        self.assertEqual(raised_issues[issues.OpenstackWarning], [msg])
 
         config = {'cpu_dedicated_set': [1, 2, 3]}
-        issues = {}
+        raised_issues = {}
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
         msg = ("Nova config option 'cpu_dedicated_set' is configured with "
                "cores from more than one numa node. This can have "
                "performance implications and should be checked.")
-        self.assertEqual(issues[issue_types.OpenstackWarning], [msg])
+        self.assertEqual(raised_issues[issues.OpenstackWarning], [msg])
 
         config = {'vcpu_pin_set': [1, 2, 3]}
-        issues = {}
+        raised_issues = {}
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 2)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         2)
         msg1 = ("Nova config option 'vcpu_pin_set' is configured with "
                 "cores from more than one numa node. This can have "
                 "performance implications and should be checked.")
@@ -988,22 +993,22 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 "ignored. Recommendation is to switch to using "
                 "cpu_dedicated_set and/or cpu_shared_set (see upstream "
                 "docs).")
-        self.assertEqual(sorted(issues[issue_types.OpenstackWarning]),
+        self.assertEqual(sorted(raised_issues[issues.OpenstackWarning]),
                          sorted([msg1, msg2]))
 
     @mock.patch('core.plugins.openstack.OSTProject.installed', True)
     @mock.patch('core.checks.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('systemd_masked_services.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenario_masked_services(self, mock_add_issue, mock_helper):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
@@ -1012,48 +1017,49 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
             masked_services.splitlines(keepends=True)
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
-        self.assertTrue(issue_types.OpenstackWarning in issues)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
+        self.assertTrue(issues.OpenstackWarning in raised_issues)
         msg = ('The following Openstack systemd services are masked: '
                'neutron-dhcp-agent, neutron-metering-agent, '
                'neutron-metadata-agent, apache2, neutron-openvswitch-agent, '
                'neutron-l3-agent. Please ensure that this is intended '
                'otherwise these services may be unavailable.')
-        self.assertEqual(list(issues.values())[0], [msg])
+        self.assertEqual(list(raised_issues.values())[0], [msg])
 
     @mock.patch('core.plugins.openstack.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron_ovs_cleanup.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_neutron_ovs_cleanup(self, mock_add_issue, mock_helper):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
         YScenarioChecker()()
-        self.assertEqual(len(issues), 1)
+        self.assertEqual(len(raised_issues), 1)
         msg = ('The neutron-ovs-cleanup systemd service has been manually run '
                'on this host. This is not recommended and can have unintended '
                'side-effects.')
-        self.assertEqual(list(issues.values())[0], [msg])
+        self.assertEqual(list(raised_issues.values())[0], [msg])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova_config_checks.yaml'))
     @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_nova_config_checks(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(type(issue))
+            raised_issues.append(type(issue))
 
         mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
@@ -1063,4 +1069,4 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         # trigger the alert.
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
-        self.assertEquals(issues, [issue_types.OpenstackWarning])
+        self.assertEquals(raised_issues, [issues.OpenstackWarning])

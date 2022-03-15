@@ -16,7 +16,6 @@ from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 
 from core.host_helpers import NetworkPort
-from core.issues import issue_types
 
 
 EVENTS_KERN_LOG = r"""
@@ -150,7 +149,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 
     @mock.patch('core.host_helpers.HostNetworkingHelper.host_interfaces_all',
                 [NetworkPort('tap0e778df8-ca', None, None, None, None)])
-    @mock.patch.object(log_event_checks.issue_utils, "add_issue")
+    @mock.patch('core.issues.utils.add_issue')
     def test_run_log_event_checks(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
@@ -159,10 +158,10 @@ class TestKernelLogEventChecks(TestKernelBase):
             with open(logfile, 'w') as fd:
                 fd.write(EVENTS_KERN_LOG)
 
-            issues = []
+            raised_issues = []
 
             def fake_add_issue(issue):
-                issues.append(issue)
+                raised_issues.append(issue)
 
             mock_add_issue.side_effect = fake_add_issue
             expected = {'over-mtu-dropped-packets':
@@ -171,16 +170,7 @@ class TestKernelLogEventChecks(TestKernelBase):
             # checks get run when we fetch the output so do that now
             actual = self.part_output_to_actual(inst.output)
             self.assertTrue(mock_add_issue.called)
-            types = {}
-            for issue in issues:
-                t = type(issue)
-                if t in types:
-                    types[t] += 1
-                else:
-                    types[t] = 1
-
-            self.assertEqual(len(issues), 1)
-            self.assertEqual(types[issue_types.NetworkWarning], 1)
+            self.assertEqual(len(raised_issues), 1)
             self.assertTrue(inst.plugin_runnable)
             self.assertEqual(actual, expected)
 
@@ -234,12 +224,12 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_stacktraces(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
 
@@ -254,18 +244,18 @@ class TestKernelScenarioChecks(TestKernelBase):
 
         self.assertTrue(mock_add_issue.called)
         msg = ('1 reports of stacktraces in kern.log - please check.')
-        msgs = [issue.msg for issue in issues]
+        msgs = [issue.msg for issue in raised_issues]
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_oom_killer_invoked(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
 
@@ -280,18 +270,18 @@ class TestKernelScenarioChecks(TestKernelBase):
 
         self.assertTrue(mock_add_issue.called)
         msg = ('1 reports of oom-killer invoked in kern.log - please check.')
-        msgs = [issue.msg for issue in issues]
+        msgs = [issue.msg for issue in raised_issues]
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_nf_conntrack_full(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
 
@@ -307,6 +297,6 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertTrue(mock_add_issue.called)
         msg = ("1 reports of 'nf_conntrack: table full' detected in "
                "kern.log - please check.")
-        msgs = [issue.msg for issue in issues]
+        msgs = [issue.msg for issue in raised_issues]
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])

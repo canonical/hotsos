@@ -8,7 +8,7 @@ from tests.unit import utils
 import core.plugins.sosreport as sosreport_core
 from core.ycheck.scenarios import YScenarioChecker
 from plugin_extensions.sosreport import summary
-from core.issues import issue_types
+from core.issues import SOSReportWarning
 
 
 class TestSOSReportBase(utils.BaseTestCase):
@@ -59,29 +59,30 @@ class TestSOSReportGeneral(TestSOSReportBase):
 
 class TestSOSReportScenarioChecks(TestSOSReportBase):
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('plugin_timeouts.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_plugin_timeouts(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_timed_out_plugins(dtmp)
             mock_add_issue.side_effect = fake_add_issue
             YScenarioChecker()()
 
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
         msg = ('The following sosreport plugins have have timed out and may '
                'have incomplete data: networking, system')
-        self.assertEqual(msg, issues[issue_types.SOSReportWarning][0])
+        self.assertEqual(msg, raised_issues[SOSReportWarning][0])

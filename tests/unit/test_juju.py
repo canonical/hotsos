@@ -7,7 +7,7 @@ from tests.unit import utils
 
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
-from core import known_bugs_utils
+from core import issues
 from plugin_extensions.juju import summary
 
 JOURNALCTL_CAPPEDPOSITIONLOST = """
@@ -105,7 +105,7 @@ class TestJujuKnownBugs(JujuTestsBase):
                     [{'id': 'https://bugs.launchpad.net/bugs/1852502',
                       'desc': msg_1852502,
                       'origin': 'juju.01part'}]}
-        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+        self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core.yaml'))
@@ -126,7 +126,7 @@ class TestJujuKnownBugs(JujuTestsBase):
                            'to members in relation 236 that cannot be '
                            'removed.'),
                           'origin': 'juju.01part'}]}
-            self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+            self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
 
 class TestJujuScenarios(JujuTestsBase):
@@ -134,20 +134,20 @@ class TestJujuScenarios(JujuTestsBase):
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
     @mock.patch('core.ycheck.ServiceChecksBase.processes', {})
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_jujud_checks(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
 
         YScenarioChecker()()
-        self.assertEqual(len(issues), 1)
+        self.assertEqual(len(raised_issues), 1)
         msg = ('No jujud processes found running on this host but it seems '
                'there should be since Juju is installed.')
-        self.assertEqual(list(issues.values())[0], [msg])
+        self.assertEqual(list(raised_issues.values())[0], [msg])

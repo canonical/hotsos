@@ -1,16 +1,15 @@
 import os
 import yaml
 
-from core import plugintools
 from core import constants
-from core.issues.issue_utils import IssueEntry
+from core.issues.utils import IssueEntry
 
 LAUNCHPAD = "launchpad"
 MASTER_YAML_KNOWN_BUGS_KEY = "bugs-detected"
 KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
 
 
-def _get_known_bugs():
+def get_known_bugs():
     """
     Fetch the current plugin known_bugs.yaml if it exists and return its
     contents or None if it doesn't exist yet.
@@ -46,7 +45,7 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
         description = "no description provided"
 
     entry = IssueEntry(new_bug, description, key="id")
-    current = _get_known_bugs()
+    current = get_known_bugs()
     if current and current.get(MASTER_YAML_KNOWN_BUGS_KEY):
         current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry.data)
     else:
@@ -55,15 +54,3 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     known_bugs_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "known_bugs.yaml")
     with open(known_bugs_yaml, 'w') as fd:
         fd.write(yaml.dump(current))
-
-
-def add_known_bugs_to_master_plugin():
-    """
-    Fetch the current plugin known_bugs.yaml and add it to the master yaml.
-    Note that this can only be called once per plugin and is typically
-    performed as a final part after all others have executed.
-    """
-    bugs = _get_known_bugs()
-    if bugs and bugs.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        end = plugintools.PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
-        plugintools.save_part(bugs, offset=end)

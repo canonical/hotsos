@@ -119,12 +119,12 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
                 'local_osds_use_bcache', True)
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_ceph_no_bcache_tuning.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_juju_ceph_no_bcache_tuning(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
@@ -134,17 +134,17 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
                  "not detected. It is recommended to use the "
                  "bcache-tuning charm to ensure optimal bcache "
                  "configuration.")]
-        actual = sorted([issue.msg for issue in issues])
+        actual = sorted([issue.msg for issue in raised_issues])
         self.assertEqual(actual, sorted(msgs))
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cacheset.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_cacheset(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
@@ -158,17 +158,17 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
                      '1900438 - please check'),
                     ('bcache cacheset config congested_read_threshold_us '
                      'expected to be eq 0 but actual=100.')]
-            actual = sorted([issue.msg for issue in issues])
+            actual = sorted([issue.msg for issue in raised_issues])
             self.assertEqual(actual, sorted(msgs))
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bdev.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_bdev(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
@@ -179,5 +179,5 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
 
             msgs = [('bcache config writeback_percent expected to be ge 10 '
                      'but actual=1.')]
-            actual = sorted([issue.msg for issue in issues])
+            actual = sorted([issue.msg for issue in raised_issues])
             self.assertEqual(actual, sorted(msgs))

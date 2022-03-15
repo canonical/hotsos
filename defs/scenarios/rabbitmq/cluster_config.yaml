@@ -7,7 +7,7 @@ conclusions:
   partition-handling-is-ignore:
     decision: partition_handling_is_ignore
     raises:
-      type: core.issues.issue_types.RabbitMQWarning
+      type: core.issues.RabbitMQWarning
       message: >-
         Cluster partition handling is currently set to "{setting}". This is
         potentially dangerous and a setting of "pause_minority" is recommended.

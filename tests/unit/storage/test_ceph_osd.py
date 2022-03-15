@@ -6,8 +6,7 @@ import mock
 from tests.unit import utils
 
 from core import checks
-from core.issues import issue_types
-from core import known_bugs_utils
+from core import issues
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import (
@@ -212,7 +211,7 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
                             'to use_some_extra'),
                         'id': 'https://bugs.launchpad.net/bugs/1959649',
                         'origin': 'storage.01part'}]}
-        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+        self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
     @mock.patch('core.ycheck.ServiceChecksBase')
     @mock.patch('core.plugins.storage.ceph.CephConfig')
@@ -254,7 +253,7 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
                             'upgrade to a kernel >= 5.4.'),
                         'id': 'https://bugs.launchpad.net/bugs/1936136',
                         'origin': 'storage.01part'}]}
-        self.assertEqual(known_bugs_utils._get_known_bugs(), expected)
+        self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
 
 class TestCephScenarioChecks(StorageCephOSDTestsBase):
@@ -263,20 +262,21 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                 'powersave')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_cpufreq(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
-        self.assertTrue(issue_types.CephWarning in issues)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
+        self.assertTrue(issues.CephWarning in raised_issues)
         msg = ('This node has Ceph OSDs running on it but is not using '
                'cpufreq scaling_governor in "performance" mode '
                '(actual=powersave). This is not recommended and can result '
@@ -285,18 +285,18 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                '/etc/default/cpufrequtils and run systemctl restart '
                'cpufrequtils. You will also need to stop and disable the '
                'ondemand systemd service in order for changes to persist.')
-        self.assertEqual(msg, issues[issue_types.CephWarning][0])
+        self.assertEqual(msg, raised_issues[issues.CephWarning][0])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
                     'ssd_osds_no_discard.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ssd_osds_no_discard(self, mock_add_issue):
         self.skipTest("scenario currently disabled until fixed")
 
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
@@ -305,20 +305,20 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         msgs = [("This host has osds with device_class 'ssd' but Bluestore "
                  "discard is not enabled. The recommendation is to set 'bdev "
                  "enable discard true'.")]
-        self.assertEqual([issue.msg for issue in issues], msgs)
+        self.assertEqual([issue.msg for issue in raised_issues], msgs)
 
     @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
                     'filestore_to_bluestore_upgrade.yaml'))
     @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
                 True)
     @mock.patch('core.plugins.storage.ceph.CephConfig')
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
                                             mock_ceph_config):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_ceph_config.return_value = mock.MagicMock()
         mock_ceph_config.return_value.get = lambda args: '/journal/path'
@@ -328,4 +328,4 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
         msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
                  "device configured in ceph.conf - please check")]
-        self.assertEqual([issue.msg for issue in issues], msgs)
+        self.assertEqual([issue.msg for issue in raised_issues], msgs)

@@ -14,7 +14,7 @@ conclusions:
         - bluefs_spillover
         - health_warning
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Identified known Ceph bug https://tracker.ceph.com/issues/38745.
         RocksDB needs more space than the leveled space available.

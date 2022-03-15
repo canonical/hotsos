@@ -5,10 +5,7 @@ from core import constants
 from core.analytics import LogEventStats, SearchResultIndices
 from core.cli_helpers import CLIHelper
 from core.ycheck import CallbackHelper
-from core.issues import (
-    issue_types,
-    issue_utils,
-)
+from core import issues
 from core.log import log
 from core.searchtools import FileSearcher
 from core import utils
@@ -69,7 +66,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
                    'following ports which could mean some services are not '
                    'working properly - {} - please check.'.
                    format(','.join(ports_max.keys())))
-            issue_utils.add_issue(issue_types.OpenstackWarning(msg))
+            issues.utils.add_issue(issues.OpenstackWarning(msg))
 
         return sorted_dict(events)
 
@@ -294,7 +291,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
                    "(max={}) in the last 24 hours.".format(warn_count,
                                                            threshold,
                                                            max_transitions))
-            issue_utils.add_issue(issue_types.NeutronL3HAWarning(msg))
+            issues.utils.add_issue(issues.NeutronL3HAWarning(msg))
 
     def journalctl_args(self):
         """ Args callback for event cli command """

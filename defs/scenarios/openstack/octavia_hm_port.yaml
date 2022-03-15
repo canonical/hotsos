@@ -20,7 +20,7 @@ conclusions:
         - octavia_worker_installed
         - hm_port_address_check
     raises:
-      type: core.issues.issue_types.OpenstackError
+      type: core.issues.OpenstackError
       message: >-
         Octavia health manager port {name} does not have an ip address
         configured which means octavia services on this host will not have
@@ -35,7 +35,7 @@ conclusions:
         - octavia_worker_installed
         - hm_port_packet_errors_drops
     raises:
-      type: core.issues.issue_types.OpenstackError
+      type: core.issues.OpenstackError
       message: >-
         Octavia health manager port {name} has some packets drops or errors -
         please investigate.

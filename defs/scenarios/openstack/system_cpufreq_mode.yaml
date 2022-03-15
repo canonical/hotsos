@@ -31,7 +31,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - is_nova_compute
     raises:
-      type: core.issues.issue_types.OpenstackWarning
+      type: core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack hypervisor but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -47,7 +47,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - is_neutron_gateway
     raises:
-      type: core.issues.issue_types.OpenstackWarning
+      type: core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack Neutron Gateway but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -65,7 +65,7 @@ conclusions:
         - is_nova_compute
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.issue_types.OpenstackWarning
+      type: core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack hypervisor but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -84,7 +84,7 @@ conclusions:
         - is_neutron_gateway
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.issue_types.OpenstackWarning
+      type: core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack Neutron Gateway but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not

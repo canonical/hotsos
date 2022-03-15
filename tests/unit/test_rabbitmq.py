@@ -5,7 +5,7 @@ import mock
 
 from tests.unit import utils
 
-from core.issues import issue_types
+from core.issues import RabbitMQWarning
 from core import constants
 from core.plugins.rabbitmq import RabbitMQReport
 from core.ycheck.bugs import YBugChecker
@@ -219,58 +219,60 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_cluster_config(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
-        self.assertTrue(issue_types.RabbitMQWarning in issues)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
+        self.assertTrue(RabbitMQWarning in raised_issues)
         msg = ('Cluster partition handling is currently set to "ignore". This '
                'is potentially dangerous and a setting of '
                '"pause_minority" is recommended.')
 
-        self.assertEqual(msg, issues[issue_types.RabbitMQWarning][0])
+        self.assertEqual(msg, raised_issues[RabbitMQWarning][0])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_resources.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_cluster_resources(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 1)
-        self.assertTrue(issue_types.RabbitMQWarning in issues)
+        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
+                         1)
+        self.assertTrue(RabbitMQWarning in raised_issues)
         msg = ('RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding '
                'more than 2/3 of queues for one or more vhosts.')
 
-        self.assertEqual(msg, issues[issue_types.RabbitMQWarning][0])
+        self.assertEqual(msg, raised_issues[RabbitMQWarning][0])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_cluster_logchecks(self, mock_add_issue):
-        issues = {}
+        raised_issues = {}
 
         def fake_add_issue(issue):
-            if type(issue) in issues:
-                issues[type(issue)].append(issue.msg)
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
             else:
-                issues[type(issue)] = [issue.msg]
+                raised_issues[type(issue)] = [issue.msg]
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
@@ -281,8 +283,9 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                 fd.write(RABBITMQ_LOGS)
 
             YScenarioChecker()()
-            self.assertEqual(sum([len(msgs) for msgs in issues.values()]), 3)
-            self.assertTrue(issue_types.RabbitMQWarning in issues)
+            self.assertEqual(sum([len(msgs)
+                                  for msgs in raised_issues.values()]), 3)
+            self.assertTrue(RabbitMQWarning in raised_issues)
             msg1 = ('Messages were discarded because transient mirrored '
                     'classic queues are not syncronized. Please stop all '
                     'rabbitmq-server units and restart the cluster. '
@@ -294,5 +297,5 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                     'stop all rabbitmq-server units and restart the cluster. '
                     'Note that a rolling restart will not work.')
             expected = sorted([msg1, msg2, msg3])
-            actual = sorted(issues[issue_types.RabbitMQWarning])
+            actual = sorted(raised_issues[RabbitMQWarning])
             self.assertEqual(actual, expected)

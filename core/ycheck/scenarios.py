@@ -4,7 +4,7 @@ from datetime import (
 )
 
 from core import constants
-from core.issues import issue_utils
+from core import issues
 from core.searchtools import (
     FileSearcher,
     SearchDef,
@@ -330,6 +330,6 @@ class YScenarioChecker(ChecksBase):
                 log.debug("selecting highest priority=%s conclusions (%s)",
                           highest, len(results[highest]))
                 for conc in results[highest]:
-                    issue_utils.add_issue(conc.issue_type(conc.issue_message))
+                    issues.utils.add_issue(conc.issue_type(conc.issue_message))
             else:
                 log.debug("no conclusions reached")

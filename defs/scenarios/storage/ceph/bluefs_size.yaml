@@ -8,7 +8,7 @@ conclusions:
   bluefs-osds-have-oversize-metadata:
     decision: bluefs_osds_have_oversize_metadata
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Found {num_bad_meta_osds} Ceph OSDs with metadata size larger than 10G.
         This could be the result of a compaction failure/bug and this host may

@@ -15,7 +15,7 @@ conclusions:
     priority: 1
     decision: ceph_log_has_election_calls
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections but the cause
         is not known - please investigate.
@@ -26,7 +26,7 @@ conclusions:
         - ceph_log_has_election_calls
         - ceph_interfaces_have_errors
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections. The network
         interface(s) ({interfaces}) used by the ceph-mon are showing

@@ -9,7 +9,7 @@ conclusions:
   jujud-not-found:
     decision: jujud_not_found
     raises:
-      type: core.issues.issue_types.JujuWarning
+      type: core.issues.JujuWarning
       message: >-
         No jujud processes found running on this host but it seems there should
         be since Juju is installed.

@@ -1,6 +1,6 @@
 from core import constants
 from core.log import log
-from core.known_bugs_utils import add_known_bug
+from core.issues.bugs import add_known_bug
 from core.ycheck import (
     YDefsLoader,
     YDefsSection,
@@ -62,19 +62,6 @@ class YBugChecker(ChecksBase):
         self._checks = self._load_bug_checks()
         return self._checks
 
-    def _get_format_list(self, result_group_indexes, search_result):
-        """
-        Extract results from search result at given indexes and return as list.
-
-        @param result_group_indexes: list of int indexes
-        @param search_result: filesearcher search result
-        """
-        values = []
-        for idx in result_group_indexes:
-            values.append(search_result.get(idx))
-
-        return values
-
     def load(self):
         """
         Load definitions and register search patterns if any.
@@ -92,7 +79,6 @@ class YBugChecker(ChecksBase):
             return
 
         for bugsearch in self._bug_checks:
-            format_list = []
             bug_id = bugsearch['bug_id']
             requires = bugsearch['requires']
             if requires:
@@ -102,20 +88,17 @@ class YBugChecker(ChecksBase):
                     continue
 
             raises = bugsearch['raises']
+            bug_matches = None
             if 'searchdef' in bugsearch:
                 bug_matches = results.find_by_tag(bug_id)
                 if not bug_matches:
                     continue
 
-                if raises.format_groups:
-                    # we only use the first result
-                    first_match = bug_matches[0]
-                    format_list = self._get_format_list(raises.format_groups,
-                                                        first_match)
-
             log.debug("bug %s identified", bug_id)
-            if format_list:
-                message = raises.message.format(*format_list)
+            if bug_matches and raises.format_groups:
+                # we only use the first result
+                message = raises.message_with_format_list_applied(
+                                                                bug_matches[0])
             else:
                 message = raises.message_with_format_dict_applied(
                                                 property=bugsearch['requires'])

@@ -425,7 +425,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             os.environ['DATA_ROOT'] = dtmp
@@ -435,12 +435,12 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('mon_elections_flapping.yaml'))
     @mock.patch('core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenario_mon_reelections(self, mock_add_issue, mock_cephbase):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         mock_cephbase.return_value = mock.MagicMock()
@@ -461,19 +461,19 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         msg = ("Ceph monitor is experiencing repeated re-elections. The "
                "network interface(s) (ethX) used by the ceph-mon are "
                "showing errors - please investigate.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bluefs_spillover.yaml'))
     @mock.patch('core.ycheck.CLIHelper')
     @mock.patch('core.plugins.storage.ceph.CephCluster.health_status',
                 'HEALTH_WARN')
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenario_bluefs_spillover(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         mock_helper.return_value = mock.MagicMock()
@@ -487,19 +487,19 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'RocksDB needs more space than the leveled '
                'space available. See '
                'www.mail-archive.com/ceph-users@ceph.io/msg05782.html')
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                     'osd_maps_backlog_too_large.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_scenario_osd_maps_backlog_too_large(self, mock_add_issue,
                                                  mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         pinned = {'osdmap_manifest': {'pinned_maps': range(5496)}}
         mock_helper.return_value = mock.MagicMock()
@@ -512,19 +512,19 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "ceph-mon performance and may also indicate bugs such as "
                "https://tracker.ceph.com/issues/44184 and "
                "https://tracker.ceph.com/issues/47290.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CephCluster.require_osd_release',
                 'octopus')
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('required_osd_release_mismatch.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_required_osd_release(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = \
@@ -535,19 +535,19 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertTrue(mock_add_issue.called)
         msg = ("Ceph cluster config 'require_osd_release' is set to 'octopus' "
                "but not all OSDs are on that version - please check.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CephCluster.require_osd_release',
                 'octopus')
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('laggy_pgs.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_laggy_pgs(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_pg_dump_json_decoded.return_value = \
@@ -558,7 +558,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertTrue(mock_add_issue.called)
         msg = ('Ceph cluster is reporting 1 laggy/wait PGs. This suggests a '
                'potential network or storage issue - please check.')
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.ycheck.ServiceChecksBase.services',
                 {'ceph-mon': 'enabled'})
@@ -566,12 +566,12 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 'HEALTH_WARN')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_cluster_health.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ceph_cluster_health(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
 
@@ -579,7 +579,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertTrue(mock_add_issue.called)
         msg = ("Ceph cluster is in 'HEALTH_WARN' state. Please check "
                "'ceph status' for details.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.ycheck.ServiceChecksBase.services',
                 {'ceph-mon': 'enabled'})
@@ -587,7 +587,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 'HEALTH_OK')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_cluster_health.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ceph_cluster_health_ok(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
@@ -596,7 +596,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 {'ceph-osd': 'enabled'})
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_cluster_health.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ceph_cluster_health_not_ceph_mon(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
@@ -607,12 +607,12 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 'cluster_osds_without_v2_messenger_protocol', ['osd.1'])
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('osd_messenger_v2_protocol.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_osd_messenger_v2_protocol(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
@@ -620,17 +620,17 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         msg = ("This Ceph cluster has 1 OSD(s) that do not bind to a v2 "
                "messenger address. This will cause unexpected behaviour and "
                "should be resolved asap.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('large_omap_objects.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_large_omap_objects(self, mock_add_issue, mock_cli):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         mock_cli.return_value = mock.MagicMock()
@@ -645,18 +645,18 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "'osd_deep_scrub_large_omap_object_value_sum_threshold' to "
                "find whether the values of these keys are too high. "
                "See full summary for more detail.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CephCluster.OSD_META_LIMIT_KB',
                 1024)
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bluefs_size.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_bluefs_size(self, mock_add_issue):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
@@ -666,17 +666,17 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'may be affected by https://tracker.ceph.com/issues/45903. A '
                'workaround (>= Nautilus) is to manually compact using '
                "'ceph-bluestore-tool'.")
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_versions_mismatch.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ceph_versions_mismatch_p1(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = \
@@ -688,17 +688,17 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'could be the result of an incomplete or failed cluster '
                'upgrade. All daemons, except the clients, should ideally be '
                'on the same version for ceph to function correctly.')
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_versions_mismatch.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ceph_versions_mismatch_p2(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = \
@@ -710,17 +710,17 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'e.g. ceph-osd running in the cluster. This can cause '
                'unexpected behaviour and should be resolved as soon as '
                'possible. Check full summary output for current versions.')
-        self.assertEqual([issue.msg for issue in issues], [msg])
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('pg_imbalance.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_ceph_pg_imbalance(self, mock_add_issue, mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
         mock_add_issue.side_effect = fake_add_issue
@@ -733,20 +733,20 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 'optimal range of 50-200 pgs. This could indicate poor data '
                 'distribution across the cluster and result in '
                 'performance degradation.')
-        msgs = [issue.msg for issue in issues]
+        msgs = [issue.msg for issue in raised_issues]
         self.assertEqual(len(msgs), 2)
         self.assertEqual(sorted(msgs), sorted([msg1, msg2]))
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('crushmap_bucket_checks.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_crushmap_bucket_checks_mixed_buckets(self, mock_add_issue,
                                                   mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\
@@ -758,20 +758,20 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         msg = ("Mixed crush bucket types identified in buckets 'default'. "
                "This can cause data distribution to become skewed - please "
                "check crush map.")
-        msgs = [issue.msg for issue in issues]
+        msgs = [issue.msg for issue in raised_issues]
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])
 
     @mock.patch('core.plugins.storage.ceph.CLIHelper')
     @mock.patch('core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('crushmap_bucket_checks.yaml'))
-    @mock.patch('core.issues.issue_utils.add_issue')
+    @mock.patch('core.issues.utils.add_issue')
     def test_crushmap_bucket_checks_unbalanced_buckets(self, mock_add_issue,
                                                        mock_helper):
-        issues = []
+        raised_issues = []
 
         def fake_add_issue(issue):
-            issues.append(issue)
+            raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()
         test_data_path = ('sos_commands/ceph_mon/json_output/'
@@ -790,6 +790,6 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "'default' using failure domain 'rack' with rule id '0'. "
                "This can cause data distribution to become skewed - please "
                "check crush map.")
-        msgs = [issue.msg for issue in issues]
+        msgs = [issue.msg for issue in raised_issues]
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])

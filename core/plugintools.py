@@ -4,6 +4,7 @@ import yaml
 
 from core import constants
 from core.log import log
+from core import issues
 
 
 class HOTSOSDumper(yaml.Dumper):
@@ -12,6 +13,43 @@ class HOTSOSDumper(yaml.Dumper):
 
     def represent_dict_preserve_order(self, data):
         return self.represent_dict(data.items())
+
+
+def add_known_bugs_to_master_plugin():
+    """
+    Fetch the current plugin known_bugs.yaml and add it to the master yaml.
+    Note that this can only be called once per plugin and is typically
+    performed as a final part after all others have executed.
+    """
+    bugs = issues.bugs.get_known_bugs()
+    if bugs and bugs.get(issues.bugs.MASTER_YAML_KNOWN_BUGS_KEY):
+        end = PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
+        save_part(bugs, offset=end)
+
+
+def add_issues_to_master_plugin():
+    """
+    Fetch the current plugin issues.yaml and add it to the master yaml.
+    Note that this can only be called once per plugin and is typically
+    performed as a final part after all others have executed.
+    """
+    raised_issues = issues.utils.get_plugin_issues() or {}
+    if not raised_issues.get(issues.utils.MASTER_YAML_ISSUES_FOUND_KEY):
+        return
+
+    types = {}
+    for issue in raised_issues.get(issues.utils.MASTER_YAML_ISSUES_FOUND_KEY):
+        # pluralise the type for display purposes
+        issue_type = "{}s".format(issue['type'])
+        if issue_type not in types:
+            types[issue_type] = []
+
+        msg = "{} (origin={})".format(issue['desc'], issue['origin'])
+        types[issue_type].append(msg)
+
+    raised_issues = {issues.utils.MASTER_YAML_ISSUES_FOUND_KEY: types}
+    end = PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
+    save_part(raised_issues, offset=end)
 
 
 def save_part(data, offset):
@@ -309,7 +347,6 @@ class PluginRunner(object):
 
         # The following are executed at the end of each plugin run (i.e. after
         # all other parts have run).
-        FINAL_RUN = {'core.plugins.utils.known_bugs_and_issues':
-                     'KnownBugsAndIssuesCollector'}
-        for obj, cls in FINAL_RUN.items():
-            getattr(importlib.import_module(obj), cls)()()
+        add_known_bugs_to_master_plugin()
+        add_issues_to_master_plugin()
+        dump_all_parts()

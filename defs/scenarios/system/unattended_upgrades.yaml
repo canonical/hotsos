@@ -6,7 +6,7 @@ conclusions:
   unattended-upgrades-enabled:
     decision: is_enabled
     raises:
-      type: core.issues.issue_types.SystemWarning
+      type: core.issues.SystemWarning
       message: >-
         Unattended upgrades are enabled which can lead to uncontrolled changes
         to this environment. If maintenance windows are required please

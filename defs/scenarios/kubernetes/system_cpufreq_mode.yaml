@@ -29,7 +29,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - kubernetes_installed
     raises:
-      type: core.issues.issue_types.KubernetesWarning
+      type: core.issues.KubernetesWarning
       message: >-
         This node is used for Kubernetes but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -46,7 +46,7 @@ conclusions:
         - kubernetes_installed
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.issue_types.KubernetesWarning
+      type: core.issues.KubernetesWarning
       message: >-
         This node is used for Kubernetes but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not

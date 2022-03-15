@@ -8,7 +8,7 @@ conclusions:
   cluster-has-laggy-pgs:
     decision: cluster_has_laggy_pgs
     raises:
-      type: core.issues.issue_types.CephWarning
+      type: core.issues.CephWarning
       message: >-
         Ceph cluster is reporting {num_laggy_pgs} laggy/wait PGs. This suggests
         a potential network or storage issue - please check.
