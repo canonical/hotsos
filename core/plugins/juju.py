@@ -85,7 +85,7 @@ class JujuMachine(object):
 
 class JujuUnit(object):
 
-    def __init__(self, id, application, path):
+    def __init__(self, id, application, path=None):
         self.id = id
         self.application = application
         self.name = '{}-{}'.format(application, id)
@@ -99,7 +99,6 @@ class JujuUnit(object):
         """
         info = {}
         path = os.path.join(self.path, 'charm/repo-info')
-        log.debug(path)
         if not os.path.exists(path):
             return info
 
