@@ -20,6 +20,19 @@ MON_ELECTION_LOGS = """
 2022-02-02 06:29:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
 """  # noqa
 
+OSD_SLOW_HEARTBEATS = """
+2022-03-16T07:30:00.004691+0000 mon.USC01STMON002 (mon.0) 3887456 : cluster [WRN]     Slow OSD heartbeats on back from osd.304 [] to osd.166 [] 525665.238 msec
+2022-03-16T07:30:00.004702+0000 mon.USC01STMON002 (mon.0) 3887457 : cluster [WRN]     Slow OSD heartbeats on back from osd.46 [] to osd.28 [] 524753.655 msec
+2022-03-16T07:30:00.004718+0000 mon.USC01STMON002 (mon.0) 3887458 : cluster [WRN]     Slow OSD heartbeats on back from osd.278 [] to osd.407 [] (down) 523734.980 msec
+2022-03-16T07:30:00.004740+0000 mon.USC01STMON002 (mon.0) 3887459 : cluster [WRN]     Slow OSD heartbeats on back from osd.42 [] to osd.119 [] 523728.751 msec
+2022-03-16T07:30:00.004760+0000 mon.USC01STMON002 (mon.0) 3887460 : cluster [WRN]     Slow OSD heartbeats on back from osd.172 [] to osd.21 [] 522972.419 msec
+2022-03-16T07:30:00.004785+0000 mon.USC01STMON002 (mon.0) 3887461 : cluster [WRN]     Slow OSD heartbeats on back from osd.148 [] to osd.405 [] (down) 522698.150 msec
+2022-03-16T07:30:00.004806+0000 mon.USC01STMON002 (mon.0) 3887462 : cluster [WRN]     Slow OSD heartbeats on back from osd.114 [] to osd.172 [] 521942.574 msec
+2022-03-16T07:30:00.004832+0000 mon.USC01STMON002 (mon.0) 3887463 : cluster [WRN]     Slow OSD heartbeats on back from osd.287 [] to osd.139 [] (down) 521727.982 msec
+2022-03-16T07:30:00.004850+0000 mon.USC01STMON002 (mon.0) 3887464 : cluster [WRN]     Slow OSD heartbeats on back from osd.356 [] (down) to osd.228 [] 520970.218 msec
+2022-03-16T07:30:00.004861+0000 mon.USC01STMON002 (mon.0) 3887465 : cluster [WRN]     Slow OSD heartbeats on back from osd.355 [] to osd.81 [] 519784.959 msec
+"""  # noqa
+
 CEPH_VERSIONS_MISMATCHED_MAJOR = """
 {
     "mon": {
@@ -461,6 +474,36 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         msg = ("Ceph monitor is experiencing repeated re-elections. The "
                "network interface(s) (ethX) used by the ceph-mon are "
                "showing errors - please investigate.")
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
+
+    @mock.patch('core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd_slow_heartbeats.yaml'))
+    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('core.issues.utils.add_issue')
+    def test_scenario_osd_slow_heartbeats(self, mock_add_issue, mock_cephbase):
+        raised_issues = []
+
+        def fake_add_issue(issue):
+            raised_issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'var/log/ceph')
+            os.makedirs(path)
+            with open(os.path.join(path, 'ceph.log'), 'w') as fd:
+                fd.write(OSD_SLOW_HEARTBEATS)
+
+            os.environ['DATA_ROOT'] = dtmp
+            YScenarioChecker()()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ("One or more Ceph OSDs is showing slow heartbeats. This most "
+               "commonly a result of network issues between OSDs. Please "
+               "check that the interfaces and network between OSDs is not "
+               "experiencing problems.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('core.ycheck.YDefsLoader._is_def',

@@ -1,0 +1,18 @@
+checks:
+  osd_slow_heartbeats:
+    input:
+      path: var/log/ceph/ceph*.log
+    expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ Slow OSD heartbeats on .+'
+    meta:
+      # i.e. must occur 10 times within an hour
+      min: 10
+      period: 1
+conclusions:
+  osd-slow-heartbeats:
+    decision: osd_slow_heartbeats
+    raises:
+      type: core.issues.CephOSDError
+      message: >-
+        One or more Ceph OSDs is showing slow heartbeats. This most commonly
+        a result of network issues between OSDs. Please check that the
+        interfaces and network between OSDs is not experiencing problems.
