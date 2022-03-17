@@ -12,4 +12,4 @@ conclusions:
         RabbitMQ node(s) "{skewed_nodes}" are holding more than 2/3 of queues
         for one or more vhosts.
       format-dict:
-        skewed_nodes: core.plugins.rabbitmq.RabbitMQReport.skewed_node_names
+        skewed_nodes: '@checks.cluster_vhosts_unbalanced.requires.value_actual:comma_join'

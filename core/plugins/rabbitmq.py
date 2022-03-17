@@ -85,10 +85,6 @@ class RabbitMQReport(object):
                                  tag='queues')
 
     @cached_property
-    def skewed_node_names(self):
-        return ', '.join(self.skewed_nodes.keys())
-
-    @cached_property
     def skewed_nodes(self):
         vhosts = self.vhosts
         _skewed_nodes = {}

@@ -20,5 +20,5 @@ conclusions:
         https://tracker.ceph.com/issues/44184 and
         https://tracker.ceph.com/issues/47290.
       format-dict:
-        count: core.plugins.storage.ceph.CephCluster.osdmaps_count
+        count: '@checks.cluster_has_too_many_osdmaps.requires.value_actual'
 

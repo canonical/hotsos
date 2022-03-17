@@ -1,19 +1,23 @@
 checks:
+  is_mon:
+    requires:
+      systemd: ceph-mon
+      value: enabled
   cluster_unhealthy:
     requires:
-      and:
-        - systemd: ceph-mon
-          value: enabled
-        - property: core.plugins.storage.ceph.CephCluster.health_status
-          value: HEALTH_OK
-          op: ne
+      property: core.plugins.storage.ceph.CephCluster.health_status
+      value: HEALTH_OK
+      op: ne
 conclusions:
   cluster-health-not-ok:
-    decision: cluster_unhealthy
+    decision:
+      and:
+        - is_mon
+        - cluster_unhealthy
     raises:
       type: core.issues.CephWarning
       message: >-
         Ceph cluster is in '{health_status}' state. Please check 'ceph status'
         for details.
       format-dict:
-        health_status: core.plugins.storage.ceph.CephCluster.health_status
+        health_status: '@checks.cluster_unhealthy.requires.value_actual'

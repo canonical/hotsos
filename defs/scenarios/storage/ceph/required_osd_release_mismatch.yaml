@@ -20,4 +20,4 @@ conclusions:
         Ceph cluster config 'require_osd_release' is set to '{require_osd_release}' but
         not all OSDs are on that version - please check.
       format-dict:
-        require_osd_release: core.plugins.storage.ceph.CephCluster.require_osd_release 
+        require_osd_release: '@checks.has_required_osd_release.requires.value_actual'
