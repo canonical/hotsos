@@ -20,12 +20,8 @@ class constants_properties(type):
         return cls._MASTER_YAML_OUT()
 
     @property
-    def OUTPUT_FORMAT(cls):
-        return cls._OUTPUT_FORMAT()
-
-    @property
-    def OUTPUT_ENCODING(cls):
-        return cls._OUTPUT_ENCODING()
+    def MASTER_YAML_OUT_ORIG(cls):
+        return cls._MASTER_YAML_OUT_ORIG()
 
     @property
     def PLUGIN_TMP_DIR(cls):
@@ -54,10 +50,6 @@ class constants_properties(type):
     @property
     def MAX_LOGROTATE_DEPTH(cls):
         return cls._MAX_LOGROTATE_DEPTH()
-
-    @property
-    def MINIMAL_MODE(cls):
-        return cls._MINIMAL_MODE()
 
     @property
     def VERSION(cls):
@@ -96,12 +88,8 @@ class constants(object, metaclass=constants_properties):
         return os.environ.get('MASTER_YAML_OUT')
 
     @classmethod
-    def _OUTPUT_FORMAT(cls):
-        return os.environ.get('OUTPUT_FORMAT', 'yaml')
-
-    @classmethod
-    def _OUTPUT_ENCODING(cls):
-        return os.environ.get('OUTPUT_ENCODING')
+    def _MASTER_YAML_OUT_ORIG(cls):
+        return os.environ.get('MASTER_YAML_OUT_ORIG')
 
     @classmethod
     def _PLUGIN_TMP_DIR(cls):
@@ -133,10 +121,6 @@ class constants(object, metaclass=constants_properties):
     @classmethod
     def _MAX_LOGROTATE_DEPTH(cls):
         return int(os.environ.get('MAX_LOGROTATE_DEPTH', 7))
-
-    @classmethod
-    def _MINIMAL_MODE(cls):
-        return os.environ.get('MINIMAL_MODE')
 
     @classmethod
     def _VERSION(cls):

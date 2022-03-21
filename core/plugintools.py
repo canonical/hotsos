@@ -149,19 +149,17 @@ def dump_all_parts():
         HOTSOSDumper.represent_dict_preserve_order)
     out = yaml.dump(plugin_master, Dumper=HOTSOSDumper,
                     default_flow_style=False).rstrip("\n")
-    print(out)
+    with open(constants.MASTER_YAML_OUT, 'a') as fd:
+        fd.write(out)
+        fd.write('\n')
 
 
-def dump(data, stdout=True):
+def dump(data):
     HOTSOSDumper.add_representer(
         dict,
         HOTSOSDumper.represent_dict_preserve_order)
-    out = yaml.dump(data, Dumper=HOTSOSDumper,
-                    default_flow_style=False).rstrip("\n")
-    if stdout:
-        print(out)
-    else:
-        return out
+    return yaml.dump(data, Dumper=HOTSOSDumper,
+                     default_flow_style=False).rstrip("\n")
 
 
 class ApplicationBase(object):

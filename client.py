@@ -7,6 +7,7 @@ import tempfile
 from core.log import setup_logging, log
 from core import constants
 from core.plugintools import PluginPartBase, PluginRunner
+from core import output_filter
 
 from plugin_extensions.juju.summary import JujuSummary
 from plugin_extensions.openstack import (
@@ -162,29 +163,19 @@ class HotSOSClient(object):
 
         PluginRunner().run_parts(plugin_parts)
 
-    def run(self, plugin, output_format, html_escape, all_logs, debug_mode):
+    def run(self, plugin, all_logs):
         """
         Run the selected plugin. This will run the automatic (defs) checks as
         well as any extensions.
 
         @param plugin: name of plugin to run
-        @param output_format: output format e.g. yaml
-        @param html_escape: apply html escaping to output
         @param all_logs: whether to use the full history of logs. Default is
                          False
         """
         # TODO - move away from using environment variables to pass this
         #        information around.
         os.environ['PLUGIN_NAME'] = plugin
-        os.environ['OUTPUT_FORMAT'] = output_format
         os.environ['USE_ALL_LOGS'] = str(all_logs)
-        if debug_mode:
-            os.environ['DEBUG_MODE'] = str(debug_mode)
-            setup_logging(debug_mode)
-
-        if html_escape:
-            os.environ['OUTPUT_ENCODING'] = 'html'
-
         try:
             self.setup_env()
             self._run()
@@ -194,12 +185,31 @@ class HotSOSClient(object):
 
 if __name__ == '__main__':
     @click.command()
+    @click.option('--minimal-mode', default=None)
+    @click.option('--user-summary', default=None)
     @click.option('--debug', default=False, is_flag=True)
     @click.option('--all-logs', default=False, is_flag=True)
     @click.option('--html-escape', default=False, is_flag=True)
     @click.option('--format', default='yaml')
-    @click.option('--plugin')
-    def cli(plugin, format, html_escape, all_logs, debug):
-        HotSOSClient().run(plugin, format, html_escape, all_logs, debug)
+    @click.option('--plugin', multiple=True)
+    def cli(plugin, format, html_escape, all_logs, debug, user_summary,
+            minimal_mode):
+        if debug:
+            setup_logging(debug)
+
+        if user_summary:
+            log.debug("User summary provided. Copying %s to %s", user_summary,
+                      constants.MASTER_YAML_OUT)
+            shutil.copy(user_summary, constants.MASTER_YAML_OUT)
+        else:
+            HotSOSClient().run('hotsos', all_logs)
+            for _plugin in plugin:
+                HotSOSClient().run(_plugin, all_logs)
+
+        # the following may overwrite the master copy so we need to make a
+        # backup in case we intend to display short and full.
+        shutil.copy(constants.MASTER_YAML_OUT, constants.MASTER_YAML_OUT_ORIG)
+        output_filter.apply_output_formatting(format, html_escape,
+                                              minimal_mode)
 
     cli()

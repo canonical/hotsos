@@ -28,14 +28,15 @@ export DATA_ROOT
 export AGENT_ERROR_KEY_BY_TIME=false
 # Path to the end product that plugins can see along the way.
 export MASTER_YAML_OUT=`mktemp`
+export MASTER_YAML_OUT_ORIG=`mktemp`
 # location if yaml defs of issues, bugs etc
 export PLUGIN_YAML_DEFS
 export HOTSOS_ROOT
-export MINIMAL_MODE=
 export VERSION="${SNAP_REVISION:-development}"
 export REPO_INFO
 #===============================================================================
 
+MINIMAL_MODE=
 DEBUG_MODE=false
 OUTPUT_ENCODING=
 USE_ALL_LOGS=false
@@ -44,13 +45,11 @@ OUTPUT_FORMAT='yaml'
 PROGRESS_PID=
 FULL_MODE_EXPLICIT=false
 USER_PROVIDED_SUMMARY=
-MASTER_YAML_OUT_ORIG=`mktemp`
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
 override_all_default=false
 # Ordering is not important here since associative arrays do not respect order.
 declare -A PLUGINS=(
-    [hotsos]=true
     [openstack]=false
     [openvswitch]=false
     [kubernetes]=false
@@ -67,7 +66,6 @@ declare -A PLUGINS=(
 # The order of the following list determines the order in which the plugins
 # output is presented in the summary.
 declare -a PLUGIN_NAMES=(
-    hotsos
     system
     sosreport
     openstack
@@ -324,16 +322,18 @@ generate_summary ()
         REPO_INFO=`get_git_rev_info` || REPO_INFO="unknown"
     fi
 
+    extra_args=()
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
         [ "$plugin" = "all" ] && continue
         # is plugin enabled?
         ${PLUGINS[$plugin]} || continue
-        $DEBUG_MODE && echo -e "${plugin^^}:  " 1>&2
+        extra_args+=( --plugin $plugin )
+    done
+    if ((${#extra_args[@]})); then
         # setup plugin temp area
         PLUGIN_YAML_DEFS="${HOTSOS_ROOT}/defs"
 
-        extra_args=()
         if $DEBUG_MODE; then
             extra_args+=( --debug )
         fi
@@ -343,12 +343,12 @@ generate_summary ()
         if [[ -n $OUTPUT_ENCODING ]]; then
             extra_args+=( --html-escape )
         fi
+        if [[ -n $MINIMAL_MODE ]]; then
+            extra_args+=( --minimal-mode )
+        fi
 
-        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --plugin $plugin \
-                                                        --format $OUTPUT_FORMAT
-
-        $DEBUG_MODE && echo "" 1>&2
-    done
+        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --format $OUTPUT_FORMAT
+    fi
 
     if [[ -n $PROGRESS_PID ]]; then
         kill -s HUP $PROGRESS_PID &>/dev/null
@@ -364,15 +364,21 @@ generate_summary ()
 HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [[ -r $USER_PROVIDED_SUMMARY ]]; then
-        cp $USER_PROVIDED_SUMMARY $MASTER_YAML_OUT
+        extra_args=()
+        if $DEBUG_MODE; then
+            extra_args+=( --debug )
+        fi
+        if [[ -n $OUTPUT_ENCODING ]]; then
+            extra_args+=( --html-escape )
+        fi
+        if [[ -n $MINIMAL_MODE ]]; then
+            extra_args+=( --minimal-mode $MINIMAL_MODE )
+        fi
+        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --format $OUTPUT_FORMAT \
+                                        --user-summary $USER_PROVIDED_SUMMARY
     else
-        generate_summary "$data_root" > $MASTER_YAML_OUT
+        generate_summary "$data_root"
     fi
-
-    # the following may overwrite the master copy so we need to make a
-    # backup in case we intend to display short and full.
-    cp $MASTER_YAML_OUT $MASTER_YAML_OUT_ORIG
-    ${HOTSOS_ROOT}/tools/output_filter.py
 
     if $SAVE_OUTPUT; then
         if [[ -r $USER_PROVIDED_SUMMARY ]]; then

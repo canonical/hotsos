@@ -81,8 +81,7 @@ def minimise_master_output(mode):
 
     with open(constants.MASTER_YAML_OUT, 'w') as fd:
         if filtered:
-            fd.write(plugintools.dump(filtered, stdout=False))
-            fd.write("\n")
+            fd.write(plugintools.dump(filtered))
         else:
             fd.write("")
 
@@ -102,14 +101,14 @@ def encode_output_to_html():
             fd.write(html.escape(master_yaml))
 
 
-if __name__ == "__main__":
-    if constants.MINIMAL_MODE:
-        minimise_master_output(constants.MINIMAL_MODE)
+def apply_output_formatting(format, html_escape=False, minimal_mode=None):
+    if minimal_mode:
+        minimise_master_output(minimal_mode)
 
-    if constants.OUTPUT_FORMAT == 'json':
-        log.debug('Converting master yaml file to %s', constants.OUTPUT_FORMAT)
+    if format == 'json':
+        log.debug('Converting master yaml file to %s', format)
         convert_output_to_json()
 
-    if constants.OUTPUT_ENCODING == 'html':
-        log.debug('Encoding output file to %s', constants.OUTPUT_ENCODING)
+    if html_escape:
+        log.debug('Encoding output file to html')
         encode_output_to_html()
