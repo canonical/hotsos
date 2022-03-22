@@ -6,10 +6,10 @@ import yaml
 
 from core.log import log
 from core import (
-    constants,
     plugintools,
     utils,
 )
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 from core import checks
 
@@ -120,7 +120,7 @@ class JujuBase(object):
 
     @property
     def juju_lib_path(self):
-        return os.path.join(constants.DATA_ROOT, "var/lib/juju")
+        return os.path.join(HotSOSConfig.DATA_ROOT, "var/lib/juju")
 
     @property
     def machine(self):

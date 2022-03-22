@@ -2,7 +2,7 @@ import os
 import re
 
 from core.log import log
-from core import constants
+from core.config import HotSOSConfig
 from core.searchtools import SearchDef
 from core.plugins.openstack import OpenstackEventChecksBase
 from core.searchtools import FileSearcher
@@ -85,8 +85,8 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
 
             for agent, log_paths in project.log_paths:
                 for path in log_paths:
-                    path = os.path.join(constants.DATA_ROOT, path)
-                    if constants.USE_ALL_LOGS:
+                    path = os.path.join(HotSOSConfig.DATA_ROOT, path)
+                    if HotSOSConfig.USE_ALL_LOGS:
                         path = "{}*".format(path)
 
                     self._add_agent_searches(project, agent, path,

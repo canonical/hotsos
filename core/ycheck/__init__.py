@@ -12,7 +12,7 @@ from core.checks import (
     ServiceChecksBase,
     SnapPackageChecksBase,
 )
-from core import constants
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 from core.log import log
 from core.utils import mktemp_dump
@@ -565,8 +565,8 @@ class YPropertyInput(YPropertyOverrideBase):
     @property
     def path(self):
         if self.fs_path:
-            path = os.path.join(constants.DATA_ROOT, self.fs_path)
-            if constants.USE_ALL_LOGS and self.options['allow-all-logs']:
+            path = os.path.join(HotSOSConfig.DATA_ROOT, self.fs_path)
+            if HotSOSConfig.USE_ALL_LOGS and self.options['allow-all-logs']:
                 path = "{}*".format(path)
 
             return path
@@ -710,7 +710,7 @@ class YRequirementObj(YPropertyBase):
         obj = self.get_cls(handler)
         path = self.config.get('path')
         if path:
-            path = os.path.join(constants.DATA_ROOT, path)
+            path = os.path.join(HotSOSConfig.DATA_ROOT, path)
             cfg = obj(path)
         else:
             cfg = obj()
@@ -1018,14 +1018,14 @@ class YDefsLoader(object):
 
     @property
     def plugin_defs(self):
-        path = os.path.join(constants.PLUGIN_YAML_DEFS, self.ytype,
-                            constants.PLUGIN_NAME)
+        path = os.path.join(HotSOSConfig.PLUGIN_YAML_DEFS, self.ytype,
+                            HotSOSConfig.PLUGIN_NAME)
         if os.path.isdir(path):
             return self._get_defs_recursive(path)
 
     @property
     def plugin_defs_legacy(self):
-        path = os.path.join(constants.PLUGIN_YAML_DEFS,
+        path = os.path.join(HotSOSConfig.PLUGIN_YAML_DEFS,
                             '{}.yaml'.format(self.ytype))
         if not os.path.exists(path):
             return {}
@@ -1034,11 +1034,11 @@ class YDefsLoader(object):
         with open(path) as fd:
             defs = yaml.safe_load(fd.read()) or {}
 
-        return defs.get(constants.PLUGIN_NAME, {})
+        return defs.get(HotSOSConfig.PLUGIN_NAME, {})
 
     def load_plugin_defs(self):
         log.debug('loading %s definitions for plugin=%s', self.ytype,
-                  constants.PLUGIN_NAME,)
+                  HotSOSConfig.PLUGIN_NAME,)
 
         yaml_defs = self.plugin_defs
         if not yaml_defs:

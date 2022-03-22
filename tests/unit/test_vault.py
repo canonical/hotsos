@@ -2,6 +2,7 @@ import os
 
 from tests.unit import utils
 
+from core.config import setup_config
 from plugin_extensions.vault import summary
 
 
@@ -9,8 +10,9 @@ class TestVaultPluginPartGeneral(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        os.environ['DATA_ROOT'] = os.path.join(utils.TESTS_DIR,
-                                               'fake_data_root/vault')
+        setup_config(PLUGIN_NAME='vault',
+                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
+                                            'fake_data_root/vault'))
 
     def test_install(self):
         inst = summary.VaultSummary()

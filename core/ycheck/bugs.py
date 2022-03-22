@@ -1,4 +1,4 @@
-from core import constants
+from core.config import HotSOSConfig
 from core.log import log
 from core.issues.bugs import add_known_bug
 from core.ycheck import (
@@ -21,14 +21,14 @@ class YBugChecker(ChecksBase):
         if not plugin_bugs:
             return
 
-        ybugchecks = YDefsSection(constants.PLUGIN_NAME, plugin_bugs)
+        ybugchecks = YDefsSection(HotSOSConfig.PLUGIN_NAME, plugin_bugs)
         log.debug("loaded plugin '%s' bugs - sections=%s, events=%s",
                   ybugchecks.name,
                   len(ybugchecks.branch_sections),
                   len(ybugchecks.leaf_sections))
         if ybugchecks.requires and not ybugchecks.requires.passes:
             log.debug("plugin '%s' bugchecks pre-requisites not met - "
-                      "skipping", constants.PLUGIN_NAME)
+                      "skipping", HotSOSConfig.PLUGIN_NAME)
             return
 
         checks = []

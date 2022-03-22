@@ -2,7 +2,7 @@ import os
 
 from datetime import datetime
 
-from core import constants
+from core.config import HotSOSConfig
 from core.ycheck import CallbackHelper
 from core.analytics import LogEventStats
 from core.searchtools import (
@@ -24,7 +24,7 @@ EVENTCALLBACKS = CallbackHelper()
 class OpenstackInstanceChecks(OpenstackChecksBase):
 
     def _get_vcpu_info(self):
-        nova_config = OpenstackConfig(os.path.join(constants.DATA_ROOT,
+        nova_config = OpenstackConfig(os.path.join(HotSOSConfig.DATA_ROOT,
                                                    "etc/nova/nova.conf"))
         vcpu_info = {}
         guests = []
@@ -32,7 +32,7 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
         if self.nova.instances:
             for i in self.nova.instances.values():
                 guests.append(i.name)
-                path = os.path.join(constants.DATA_ROOT, 'etc/libvirt/qemu',
+                path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/libvirt/qemu',
                                     "{}.xml".format(i.name))
                 s.add_search_term(SearchDef(".+vcpus>([0-9]+)<.+",
                                             tag=i.name), path)

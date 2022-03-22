@@ -6,6 +6,7 @@ import mock
 from tests.unit import utils
 
 from core import issues
+from core.config import setup_config
 from core.plugins import openvswitch
 from core.ycheck.bugs import YBugChecker
 from plugin_extensions.openvswitch import (
@@ -40,7 +41,7 @@ class TestOpenvswitchBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        os.environ["PLUGIN_NAME"] = "openvswitch"
+        setup_config(PLUGIN_NAME='openvswitch')
 
 
 class TestCoreOpenvSwitch(TestOpenvswitchBase):
@@ -108,7 +109,7 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn.yaml'))
     def test_1917475(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/ovn/ovn-controller.log')
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:

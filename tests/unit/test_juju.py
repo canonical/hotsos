@@ -5,6 +5,7 @@ import mock
 
 from tests.unit import utils
 
+from core.config import setup_config
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core import issues
@@ -25,7 +26,7 @@ class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        os.environ['PLUGIN_NAME'] = 'juju'
+        setup_config(PLUGIN_NAME='juju')
 
 
 class TestJujuSummary(JujuTestsBase):
@@ -111,7 +112,7 @@ class TestJujuKnownBugs(JujuTestsBase):
                 new=utils.is_def_filter('juju_core.yaml'))
     def test_1910958(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp,
                                    'var/log/juju/unit-rabbitmq-server-0.log')
             os.makedirs(os.path.dirname(logfile))

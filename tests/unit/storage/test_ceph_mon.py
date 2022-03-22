@@ -6,6 +6,7 @@ import json
 
 from tests.unit import utils
 
+from core.config import setup_config, HotSOSConfig
 from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import (
     ceph as ceph_core,
@@ -189,9 +190,9 @@ class StorageCephMonTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        os.environ['PLUGIN_NAME'] = 'storage'
-        os.environ["DATA_ROOT"] = \
-            os.path.join(utils.TESTS_DIR, 'fake_data_root/storage/ceph-mon')
+        setup_config(DATA_ROOT=os.path.join(utils.TESTS_DIR,
+                                            'fake_data_root/storage/ceph-mon'),
+                     PLUGIN_NAME='storage')
 
     def setup_fake_cli_osds_imbalanced_pgs(self, mock_cli_helper):
         """
@@ -294,7 +295,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         test_data_path = ('sos_commands/ceph_mon/json_output/'
                           'ceph_osd_crush_dump_--format_'
                           'json-pretty.unbalanced')
-        osd_crush_dump_path = os.path.join(os.environ["DATA_ROOT"],
+        osd_crush_dump_path = os.path.join(HotSOSConfig.DATA_ROOT,
                                            test_data_path)
         osd_crush_dump = json.load(open(osd_crush_dump_path))
         mock_helper.return_value = mock.MagicMock()
@@ -441,7 +442,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
             self.assertFalse(mock_add_issue.called)
 
@@ -467,7 +468,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
             with open(os.path.join(path, 'ceph.log'), 'w') as fd:
                 fd.write(MON_ELECTION_LOGS)
 
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
 
         self.assertTrue(mock_add_issue.called)
@@ -496,7 +497,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
             with open(os.path.join(path, 'ceph.log'), 'w') as fd:
                 fd.write(OSD_SLOW_HEARTBEATS)
 
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
 
         self.assertTrue(mock_add_issue.called)
@@ -820,7 +821,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         test_data_path = ('sos_commands/ceph_mon/json_output/'
                           'ceph_osd_crush_dump_--format_'
                           'json-pretty.unbalanced')
-        osd_crush_dump_path = os.path.join(os.environ["DATA_ROOT"],
+        osd_crush_dump_path = os.path.join(HotSOSConfig.DATA_ROOT,
                                            test_data_path)
         osd_crush_dump = json.load(open(osd_crush_dump_path))
         mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\

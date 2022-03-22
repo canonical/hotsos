@@ -1,7 +1,7 @@
 import subprocess
 import tempfile
 
-from core import constants
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 
 
@@ -19,7 +19,7 @@ def mktemp_dump(data):
     """Create a temporary file under the current plugin tmp directory and write
     data to the file.
     """
-    ftmp = tempfile.mktemp(dir=constants.PLUGIN_TMP_DIR)
+    ftmp = tempfile.mktemp(dir=HotSOSConfig.PLUGIN_TMP_DIR)
     with open(ftmp, 'w') as fd:
         fd.write(data)
 

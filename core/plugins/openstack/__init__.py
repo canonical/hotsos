@@ -4,10 +4,10 @@ import re
 from core import issues
 from core import (
     checks,
-    constants,
     host_helpers,
     plugintools,
 )
+from core.config import HotSOSConfig
 from core.ycheck.events import YEventCheckerBase
 from core.checks import DPKGVersionCompare
 from core.log import log
@@ -199,7 +199,7 @@ class OSTProject(object):
         self.config = {}
         if config:
             for label, path in config.items():
-                path = os.path.join(constants.DATA_ROOT, 'etc', name, path)
+                path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc', name, path)
                 self.config[label] = OpenstackConfig(path)
 
         self.systemd_extra_services = systemd_extra_services
@@ -452,7 +452,7 @@ class NeutronHAInfo(object):
     @property
     def state_path(self):
         ha_confs = 'var/lib/neutron/ha_confs'
-        return os.path.join(constants.DATA_ROOT, ha_confs)
+        return os.path.join(HotSOSConfig.DATA_ROOT, ha_confs)
 
     @property
     def ha_routers(self):
@@ -619,7 +619,7 @@ class NovaCPUPinning(NovaBase):
         self.numa = NUMAInfo()
         self.systemd = SystemdConfig()
         self.kernel = KernelConfig()
-        self.nova_cfg = OpenstackConfig(os.path.join(constants.DATA_ROOT,
+        self.nova_cfg = OpenstackConfig(os.path.join(HotSOSConfig.DATA_ROOT,
                                                      'etc/nova/nova.conf'))
         self.isolcpus = set(self.kernel.get('isolcpus',
                                             expand_to_list=True) or [])
@@ -807,7 +807,7 @@ class OpenstackBase(object):
 
     @property
     def apt_source_path(self):
-        return os.path.join(constants.DATA_ROOT, 'etc/apt/sources.list.d')
+        return os.path.join(HotSOSConfig.DATA_ROOT, 'etc/apt/sources.list.d')
 
     @property
     def release_name(self):
@@ -879,8 +879,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
     @property
     def agent_error_key_by_time(self):
-        val = os.environ.get('AGENT_ERROR_KEY_BY_TIME', 'False')
-        return constants.bool_str(val)
+        return HotSOSConfig.AGENT_ERROR_KEY_BY_TIME
 
     @property
     def openstack_installed(self):

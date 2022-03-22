@@ -7,7 +7,7 @@ import sys
 import tempfile
 
 from core.log import log
-from core import constants
+from core.config import HotSOSConfig
 
 
 def catch_exceptions(*exc_types):
@@ -169,7 +169,7 @@ class FileCmd(CmdBase):
 
     def __init__(self, path, safe_decode=False, json_decode=False,
                  singleline=False):
-        self.original_path = os.path.join(constants.DATA_ROOT, path)
+        self.original_path = os.path.join(HotSOSConfig.DATA_ROOT, path)
         self.original_safe_decode = safe_decode
         self.original_json_decode = json_decode
         self.original_singleline = singleline
@@ -426,7 +426,7 @@ class SourceRunner(object):
             except SourceNotFound:
                 pass
 
-        if constants.DATA_ROOT != '/':
+        if HotSOSConfig.DATA_ROOT != '/':
             return NullSource()()
 
         # binary sources only apply if data_root is localhost root
@@ -692,7 +692,7 @@ class CLIHelper(object):
 
 
 def get_ps_axo_flags_available():
-    path = os.path.join(constants.DATA_ROOT,
+    path = os.path.join(HotSOSConfig.DATA_ROOT,
                         "sos_commands/process/ps_axo_flags_state_"
                         "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
                         "tty_time_cmd")
@@ -704,4 +704,4 @@ def get_ps_axo_flags_available():
         return
 
     # strip data_root since it will be prepended later
-    return _paths[0].partition(constants.DATA_ROOT)[2]
+    return _paths[0].partition(HotSOSConfig.DATA_ROOT)[2]

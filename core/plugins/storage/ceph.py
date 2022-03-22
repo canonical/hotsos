@@ -3,10 +3,10 @@ import re
 
 from core import (
     checks,
-    constants,
     host_helpers,
     utils,
 )
+from core.config import HotSOSConfig
 from core.ycheck.events import YEventCheckerBase
 from core.cli_helpers import get_ps_axo_flags_available
 from core.cli_helpers import CLIHelper
@@ -48,7 +48,7 @@ CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
 class CephConfig(checks.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
-        path = os.path.join(constants.DATA_ROOT, 'etc/ceph/ceph.conf')
+        path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/ceph/ceph.conf')
         super().__init__(path=path, *args, **kwargs)
 
 

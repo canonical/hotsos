@@ -6,6 +6,7 @@ import mock
 
 from tests.unit import utils
 
+from core.config import setup_config, HotSOSConfig
 from core import cli_helpers
 
 
@@ -33,7 +34,7 @@ class TestCLIHelpers(utils.BaseTestCase):
 
     @mock.patch.object(cli_helpers, 'subprocess')
     def test_ps(self, mock_subprocess):
-        path = os.path.join(os.environ["DATA_ROOT"], "ps")
+        path = os.path.join(HotSOSConfig.DATA_ROOT, "ps")
         with open(path, 'r') as fd:
             out = fd.readlines()
 
@@ -42,7 +43,7 @@ class TestCLIHelpers(utils.BaseTestCase):
         self.assertFalse(mock_subprocess.called)
 
     def test_get_date_local(self):
-        os.environ['DATA_ROOT'] = '/'
+        setup_config(DATA_ROOT='/')
         helper = cli_helpers.CLIHelper()
         self.assertEquals(type(helper.date()), str)
 
@@ -51,7 +52,7 @@ class TestCLIHelpers(utils.BaseTestCase):
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             helper = cli_helpers.CLIHelper()
             os.makedirs(os.path.join(dtmp, "sos_commands/date"))
             with open(os.path.join(dtmp, "sos_commands/date/date"),
@@ -62,7 +63,7 @@ class TestCLIHelpers(utils.BaseTestCase):
 
     def test_get_date_w_invalid_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             helper = cli_helpers.CLIHelper()
             os.makedirs(os.path.join(dtmp, "sos_commands/date"))
             with open(os.path.join(dtmp, "sos_commands/date/date"),
@@ -79,7 +80,7 @@ class TestCLIHelpers(utils.BaseTestCase):
             else:
                 raise subprocess.CalledProcessError(1, 'ofctl')
 
-        os.environ['DATA_ROOT'] = '/'
+        setup_config(DATA_ROOT='/')
         with mock.patch('core.cli_helpers.subprocess.check_output') as \
                 mock_check_output:
             mock_check_output.side_effect = fake_check_output

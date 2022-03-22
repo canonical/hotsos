@@ -4,7 +4,7 @@ import shutil
 import tempfile
 
 from core.log import log
-from core import constants
+from core.config import setup_config, HotSOSConfig
 from core import plugintools
 
 from plugin_extensions.juju.summary import JujuSummary
@@ -51,34 +51,34 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
     @property
     def summary(self):
-        return {'version': constants.VERSION,
-                'repo-info': constants.REPO_INFO}
+        return {'version': os.environ['VERSION'],
+                'repo-info': os.environ['REPO_INFO']}
 
 
 class HotSOSClient(object):
 
     def setup_env(self):
         log.debug("setting up env")
-        os.environ['PLUGIN_TMP_DIR'] = tempfile.mkdtemp()
+        setup_config(PLUGIN_TMP_DIR=tempfile.mkdtemp())
 
     def teardown_env(self):
         log.debug("tearing down env")
-        if os.path.exists(constants.PLUGIN_TMP_DIR):
+        if os.path.exists(HotSOSConfig.PLUGIN_TMP_DIR):
             log.debug("deleting plugin tmp dir")
-            shutil.rmtree(constants.PLUGIN_TMP_DIR)
+            shutil.rmtree(HotSOSConfig.PLUGIN_TMP_DIR)
 
     def _run(self):
-        log.debug("running plugin %s", constants.PLUGIN_NAME)
+        log.debug("running plugin %s", HotSOSConfig.PLUGIN_NAME)
         plugin_parts = {}
-        if constants.PLUGIN_NAME == 'hotsos':
+        if HotSOSConfig.PLUGIN_NAME == 'hotsos':
             plugin_parts['summary'] = {
                 'objects': [HotSOSSummary],
                 'part_yaml_offset': 0}
-        elif constants.PLUGIN_NAME == 'juju':
+        elif HotSOSConfig.PLUGIN_NAME == 'juju':
             plugin_parts['summary'] = {
                 'objects': [JujuSummary],
                 'part_yaml_offset': 0}
-        elif constants.PLUGIN_NAME == 'openstack':
+        elif HotSOSConfig.PLUGIN_NAME == 'openstack':
             plugin_parts['summary'] = {
                 'objects': [ost_summary.OpenstackSummary],
                 'part_yaml_offset': 0}
@@ -101,7 +101,7 @@ class HotSOSClient(object):
             plugin_parts['agent_event_checks'] = {
                 'objects': [agent_event_checks.AgentEventChecks],
                 'part_yaml_offset': 6}
-        elif constants.PLUGIN_NAME == 'openvswitch':
+        elif HotSOSConfig.PLUGIN_NAME == 'openvswitch':
             plugin_parts['summary'] = {
                 'objects': [ovs_summary.OpenvSwitchSummary],
                 'part_yaml_offset': 0}
@@ -109,18 +109,18 @@ class HotSOSClient(object):
                 'objects': [event_checks.OpenvSwitchDaemonEventChecks,
                             event_checks.OpenvSwitchFlowEventChecks],
                 'part_yaml_offset': 1}
-        elif constants.PLUGIN_NAME == 'system':
+        elif HotSOSConfig.PLUGIN_NAME == 'system':
             plugin_parts['summary'] = {
                 'objects': [SystemSummary],
                 'part_yaml_offset': 0}
             plugin_parts['checks'] = {
                 'objects': [SystemChecks],
                 'part_yaml_offset': 1}
-        elif constants.PLUGIN_NAME == 'maas':
+        elif HotSOSConfig.PLUGIN_NAME == 'maas':
             plugin_parts['summary'] = {
                 'objects': [MAASSummary],
                 'part_yaml_offset': 0}
-        elif constants.PLUGIN_NAME == 'kernel':
+        elif HotSOSConfig.PLUGIN_NAME == 'kernel':
             plugin_parts['summary'] = {
                 'objects': [kern_summary.KernelSummary],
                 'part_yaml_offset': 0}
@@ -130,19 +130,19 @@ class HotSOSClient(object):
             plugin_parts['log_event_checks'] = {
                 'objects': [log_event_checks.KernelLogEventChecks],
                 'part_yaml_offset': 2}
-        elif constants.PLUGIN_NAME == 'kubernetes':
+        elif HotSOSConfig.PLUGIN_NAME == 'kubernetes':
             plugin_parts['summary'] = {
                 'objects': [KubernetesSummary],
                 'part_yaml_offset': 0}
-        elif constants.PLUGIN_NAME == 'rabbitmq':
+        elif HotSOSConfig.PLUGIN_NAME == 'rabbitmq':
             plugin_parts['summary'] = {
                 'objects': [RabbitMQSummary],
                 'part_yaml_offset': 0}
-        elif constants.PLUGIN_NAME == 'sosreport':
+        elif HotSOSConfig.PLUGIN_NAME == 'sosreport':
             plugin_parts['summary'] = {
                 'objects': [SOSReportSummary],
                 'part_yaml_offset': 0}
-        elif constants.PLUGIN_NAME == 'storage':
+        elif HotSOSConfig.PLUGIN_NAME == 'storage':
             plugin_parts['ceph_summary'] = {
                 'objects': [ceph_summary.CephSummary],
                 'part_yaml_offset': 0}
@@ -152,12 +152,13 @@ class HotSOSClient(object):
             plugin_parts['bcache_summary'] = {
                 'objects': [bcache_summary.BcacheSummary],
                 'part_yaml_offset': 2}
-        elif constants.PLUGIN_NAME == 'vault':
+        elif HotSOSConfig.PLUGIN_NAME == 'vault':
             plugin_parts['summary'] = {
                 'objects': [VaultSummary],
                 'part_yaml_offset': 0}
         else:
-            raise Exception("unknown plugin {}".format(constants.PLUGIN_NAME))
+            raise Exception("unknown plugin {}".
+                            format(HotSOSConfig.PLUGIN_NAME))
 
         return plugintools.PluginRunner().run_parts(plugin_parts)
 
@@ -168,7 +169,7 @@ class HotSOSClient(object):
 
         @param plugin: name of plugin to run
         """
-        os.environ['PLUGIN_NAME'] = plugin
+        setup_config(PLUGIN_NAME=plugin)
         out = {}
         try:
             self.setup_env()

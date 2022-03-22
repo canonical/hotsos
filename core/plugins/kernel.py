@@ -4,9 +4,9 @@ import re
 from core.ycheck.events import YEventCheckerBase
 from core import (
     checks,
-    constants,
     plugintools,
 )
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 from core.plugins.system import SystemBase
 
@@ -19,7 +19,7 @@ class SYSFSBase(object):
 
         @param relpath: path relative to DATA_ROOT/sys
         """
-        path = os.path.join(constants.DATA_ROOT, 'sys', relpath)
+        path = os.path.join(HotSOSConfig.DATA_ROOT, 'sys', relpath)
         if not os.path.exists(path):
             return
 
@@ -67,7 +67,7 @@ class KernelConfig(checks.ConfigBase):
     """ Kernel configuration. """
 
     def __init__(self, *args, **kwargs):
-        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
+        path = os.path.join(HotSOSConfig.DATA_ROOT, "proc/cmdline")
         super().__init__(path=path, *args, **kwargs)
         self._cfg = {}
         self._load()
@@ -101,7 +101,7 @@ class SystemdConfig(checks.SectionalConfigBase):
     """Systemd configuration."""
 
     def __init__(self, *args, **kwargs):
-        path = os.path.join(constants.DATA_ROOT, "etc/systemd/system.conf")
+        path = os.path.join(HotSOSConfig.DATA_ROOT, "etc/systemd/system.conf")
         super().__init__(path=path, *args, **kwargs)
 
     @property
@@ -122,15 +122,15 @@ class KernelBase(object):
 
     @property
     def buddyinfo_path(self):
-        return os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
+        return os.path.join(HotSOSConfig.DATA_ROOT, "proc/buddyinfo")
 
     @property
     def slabinfo_path(self):
-        return os.path.join(constants.DATA_ROOT, "proc/slabinfo")
+        return os.path.join(HotSOSConfig.DATA_ROOT, "proc/slabinfo")
 
     @property
     def vmstat_path(self):
-        return os.path.join(constants.DATA_ROOT, "proc/vmstat")
+        return os.path.join(HotSOSConfig.DATA_ROOT, "proc/vmstat")
 
     @property
     def version(self):
@@ -151,7 +151,7 @@ class KernelBase(object):
     def boot_parameters(self):
         """Returns list of boot parameters."""
         parameters = []
-        path = os.path.join(constants.DATA_ROOT, "proc/cmdline")
+        path = os.path.join(HotSOSConfig.DATA_ROOT, "proc/cmdline")
         if os.path.exists(path):
             cmdline = open(path).read().strip()
             for entry in cmdline.split():

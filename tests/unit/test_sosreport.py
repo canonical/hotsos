@@ -5,6 +5,7 @@ import mock
 
 from tests.unit import utils
 
+from core.config import setup_config
 import core.plugins.sosreport as sosreport_core
 from core.ycheck.scenarios import YScenarioChecker
 from plugin_extensions.sosreport import summary
@@ -15,10 +16,10 @@ class TestSOSReportBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        os.environ["PLUGIN_NAME"] = "sosreport"
+        setup_config(PLUGIN_NAME='sosreport')
 
     def setup_timed_out_plugins(self, dtmp):
-        os.environ["DATA_ROOT"] = dtmp
+        setup_config(DATA_ROOT=dtmp)
         os.makedirs(os.path.join(dtmp, "sos_logs"))
         with open(os.path.join(dtmp, "sos_logs", 'ui.log'), 'w') as fd:
             fd.write(" Plugin networking timed out\n")

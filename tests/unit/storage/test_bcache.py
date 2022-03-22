@@ -5,7 +5,7 @@ import mock
 
 from tests.unit import utils
 
-from core import constants
+from core.config import setup_config, HotSOSConfig
 from core.ycheck.scenarios import YScenarioChecker
 from core.plugins.storage import bcache as bcache_core
 from plugin_extensions.storage import bcache_summary
@@ -48,7 +48,7 @@ class StorageBCacheTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        os.environ['PLUGIN_NAME'] = 'storage'
+        setup_config(PLUGIN_NAME='storage')
 
 
 class TestBcacheBase(StorageBCacheTestsBase):
@@ -58,7 +58,7 @@ class TestBcacheBase(StorageBCacheTestsBase):
         self.assertTrue(b.bcache_enabled)
 
     def test_get_cachesets(self):
-        path = os.path.join(constants.DATA_ROOT,
+        path = os.path.join(HotSOSConfig.DATA_ROOT,
                             'sys/fs/bcache/d7696818-1be9-4dea-9991-'
                             'de95e24d7256')
         b = bcache_core.BcacheBase()
@@ -149,7 +149,7 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_bcachefs(dtmp, cacheset_error=True)
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
             self.assertTrue(mock_add_issue.called)
 
@@ -173,7 +173,7 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_bcachefs(dtmp, bdev_error=True)
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
             self.assertTrue(mock_add_issue.called)
 

@@ -8,7 +8,7 @@ import re
 import uuid
 
 from core.log import log
-from core import constants
+from core.config import HotSOSConfig
 
 
 class FileSearchException(Exception):
@@ -289,10 +289,10 @@ class FileSearcher(object):
 
     @property
     def num_cpus(self):
-        if constants.MAX_PARALLEL_TASKS == 0:
+        if HotSOSConfig.MAX_PARALLEL_TASKS == 0:
             cpus = 1  # i.e. no parallelism
         else:
-            cpus = min(constants.MAX_PARALLEL_TASKS, os.cpu_count())
+            cpus = min(HotSOSConfig.MAX_PARALLEL_TASKS, os.cpu_count())
 
         return cpus
 
@@ -536,7 +536,7 @@ class FileSearcher(object):
             else:
                 dir_contents.append(path)
 
-        limit = constants.MAX_LOGROTATE_DEPTH
+        limit = HotSOSConfig.MAX_LOGROTATE_DEPTH
         for logrotated in logrotate_collection.values():
             capped = sorted(logrotated,
                             key=self.logrotate_file_sort)[:limit]

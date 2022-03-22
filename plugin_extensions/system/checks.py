@@ -1,6 +1,6 @@
 import os
 
-from core import constants
+from core.config import HotSOSConfig
 from core.plugins.system import SystemChecksBase, SYSCtlHelper
 
 
@@ -39,7 +39,7 @@ class SystemChecks(SystemChecksBase):
         config = {'set': {},
                   'unset': {}}
 
-        path = os.path.join(constants.DATA_ROOT, 'etc/sysctl.d')
+        path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/sysctl.d')
         if not os.path.isdir(path):
             return config
 
@@ -65,7 +65,7 @@ class SystemChecks(SystemChecksBase):
     def _get_sysctl_conf(self):
         config = {'set': {},
                   'unset': {}}
-        path = os.path.join(constants.DATA_ROOT, 'etc/sysctl.conf')
+        path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/sysctl.conf')
         if not os.path.exists(path):
             return config
 
@@ -90,7 +90,7 @@ class SystemChecks(SystemChecksBase):
         config = {'set': {},
                   'unset': {}}
         for location in ['etc', 'usr/lib', 'run']:
-            path = os.path.join(constants.DATA_ROOT, location, 'sysctl.d')
+            path = os.path.join(HotSOSConfig.DATA_ROOT, location, 'sysctl.d')
             if not os.path.isdir(path):
                 continue
 

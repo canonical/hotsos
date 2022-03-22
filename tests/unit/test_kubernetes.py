@@ -4,6 +4,7 @@ import mock
 
 from tests.unit import utils
 
+from core.config import setup_config
 from core.issues import KubernetesWarning
 from core import checks, cli_helpers
 from core.plugins import kubernetes as kubernetes_core
@@ -16,9 +17,9 @@ class KubernetesTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        os.environ['PLUGIN_NAME'] = 'kubernetes'
-        os.environ["DATA_ROOT"] = \
-            os.path.join(utils.TESTS_DIR, 'fake_data_root/kubernetes')
+        setup_config(PLUGIN_NAME='kubernetes',
+                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
+                                            'fake_data_root/kubernetes'))
 
 
 class TestKubernetesSummary(KubernetesTestsBase):

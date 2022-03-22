@@ -4,13 +4,14 @@ import shutil
 import tempfile
 import unittest
 
+from core.config import setup_config
 from core.log import setup_logging
 
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
-os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
+setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT))
 
 
 def is_def_filter(def_filename):
@@ -45,19 +46,19 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.maxDiff = None
-        setup_logging(debug_mode=True)
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
+        self.plugin_tmp_dir = tempfile.mkdtemp()
         # Always reset env globals
-        os.environ["DATA_ROOT"] = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
         # If a test relies on loading info from defs yaml this needs to be set
         # to actual plugin name.
-        os.environ["PLUGIN_NAME"] = "testplugin"
-        os.environ["USE_ALL_LOGS"] = "True"
-        os.environ["PART_NAME"] = "01part"
-        os.environ["PLUGIN_YAML_DEFS"] = os.path.join(TESTS_DIR, "defs")
-        self.plugin_tmp_dir = tempfile.mkdtemp()
-        os.environ["PLUGIN_TMP_DIR"] = self.plugin_tmp_dir
+        setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT),
+                     PLUGIN_NAME="testplugin",
+                     PLUGIN_YAML_DEFS=os.path.join(TESTS_DIR, "defs"),
+                     PART_NAME="01part",
+                     PLUGIN_TMP_DIR=self.plugin_tmp_dir,
+                     USE_ALL_LOGS=True)
+        setup_logging(debug_mode=True)
 
     def tearDown(self):
         if os.path.isdir(self.plugin_tmp_dir):

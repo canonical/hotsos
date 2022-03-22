@@ -1,7 +1,7 @@
 import re
 import os
 
-from core import constants
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 from core import plugintools
 
@@ -136,7 +136,7 @@ class SystemBase(plugintools.PluginPartBase):
 
     @property
     def os_release_name(self):
-        data_source = os.path.join(constants.DATA_ROOT, "etc/lsb-release")
+        data_source = os.path.join(HotSOSConfig.DATA_ROOT, "etc/lsb-release")
         if os.path.exists(data_source):
             for line in open(data_source).read().split():
                 ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)

@@ -5,6 +5,7 @@ import mock
 
 from tests.unit import utils
 
+from core.config import setup_config
 from core import checks
 from core import issues
 from core.ycheck.bugs import YBugChecker
@@ -30,7 +31,7 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        os.environ['PLUGIN_NAME'] = 'storage'
+        setup_config(PLUGIN_NAME='storage')
 
 
 class TestOSDCephChecksBase(StorageCephOSDTestsBase):
@@ -50,7 +51,7 @@ class TestOSDCephChecksBase(StorageCephOSDTestsBase):
             with open(os.path.join(path, 'ceph.conf'), 'w') as fd:
                 fd.write(CEPH_CONF_NO_BLUESTORE)
 
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             enabled = ceph_core.CephChecksBase().bluestore_enabled
             self.assertFalse(enabled)
 

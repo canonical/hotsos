@@ -5,7 +5,7 @@ import re
 import subprocess
 
 from core.log import log
-from core import constants
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 from core.utils import sorted_dict
 
@@ -100,6 +100,15 @@ class SectionalConfigBase(ConfigBase):
         self._flattened_config = {}
         self._load()
 
+    @staticmethod
+    def bool_str(val):
+        if val.lower() == "true":
+            return True
+        elif val.lower() == "false":
+            return False
+
+        return val
+
     @property
     def all(self):
         return self._sections
@@ -147,7 +156,7 @@ class SectionalConfigBase(ConfigBase):
                 ret = re.compile(expr).search(line)
                 if ret:
                     key = ret.group(1)
-                    val = constants.bool_str(ret.group(2))
+                    val = self.bool_str(ret.group(2))
                     if type(val) == str:
                         val = val.strip()
                         for char in ["'", '"']:
@@ -282,7 +291,7 @@ class ServiceChecksBase(object):
     @property
     def service_filtered_ps(self):
         ps_filtered = []
-        path = os.path.join(constants.DATA_ROOT,
+        path = os.path.join(HotSOSConfig.DATA_ROOT,
                             'sys/fs/cgroup/unified/system.slice')
         for svc in self.services:
             for svc in self.get_services_expanded(svc):

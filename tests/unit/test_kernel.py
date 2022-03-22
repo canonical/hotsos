@@ -10,6 +10,7 @@ from plugin_extensions.kernel import (
     memory,
     log_event_checks,
 )
+from core.config import setup_config
 from core.plugins.kernel import SystemdConfig
 from core.ycheck.events import EventCheckResult
 from core.ycheck.bugs import YBugChecker
@@ -64,14 +65,14 @@ May  6 10:49:21 tututu kernel: [ 4965.415939] RIP: 0033:0x7fab36d717a9
 class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
-        os.environ["PLUGIN_NAME"] = "kernel"
+        setup_config(PLUGIN_NAME='kernel')
 
 
 class TestKernelInfo(TestKernelBase):
 
     def test_systemd_config(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             path = os.path.join(dtmp, 'etc/systemd/system.conf')
             os.makedirs(os.path.dirname(path))
             with open(path, 'w') as fd:
@@ -152,7 +153,7 @@ class TestKernelLogEventChecks(TestKernelBase):
     @mock.patch('core.issues.utils.add_issue')
     def test_run_log_event_checks(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, ('var/log/kern.log'))
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
@@ -234,7 +235,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         mock_add_issue.side_effect = fake_add_issue
 
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'var/log'))
             klog = os.path.join(dtmp, 'var/log/kern.log')
             with open(klog, 'w') as fd:
@@ -260,7 +261,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         mock_add_issue.side_effect = fake_add_issue
 
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'var/log'))
             klog = os.path.join(dtmp, 'var/log/kern.log')
             with open(klog, 'w') as fd:
@@ -286,7 +287,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         mock_add_issue.side_effect = fake_add_issue
 
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'var/log'))
             klog = os.path.join(dtmp, 'var/log/kern.log')
             with open(klog, 'w') as fd:

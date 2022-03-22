@@ -6,6 +6,7 @@ import yaml
 
 from tests.unit import utils
 
+from core.config import setup_config, HotSOSConfig
 from core import checks
 from core import ycheck
 from core.ycheck import (
@@ -255,7 +256,7 @@ class TestChecks(utils.BaseTestCase):
             bugs_found.append(id)
 
         mock_add_known_bug.side_effect = fake_add_known_bug
-        os.environ['PLUGIN_NAME'] = 'openstack'
+        setup_config(PLUGIN_NAME='openstack')
         mock_apt.return_value = mock.MagicMock()
         mock_apt.return_value.is_installed.return_value = True
         mock_apt.return_value.get_version.return_value = \
@@ -288,7 +289,7 @@ class TestChecks(utils.BaseTestCase):
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.path,
-                                 os.path.join(checks.constants.DATA_ROOT,
+                                 os.path.join(HotSOSConfig.DATA_ROOT,
                                               'foo/bar1*'))
 
     def test_yaml_def_requires_grouped(self):
@@ -317,7 +318,7 @@ class TestChecks(utils.BaseTestCase):
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.path,
-                                 os.path.join(checks.constants.DATA_ROOT,
+                                 os.path.join(HotSOSConfig.DATA_ROOT,
                                               'foo/bar2*'))
 
     def test_yaml_def_entry_input_override(self):
@@ -326,12 +327,12 @@ class TestChecks(utils.BaseTestCase):
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.path,
-                                 os.path.join(checks.constants.DATA_ROOT,
+                                 os.path.join(HotSOSConfig.DATA_ROOT,
                                               'foo/bar3*'))
 
     def test_yaml_def_entry_seq(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             data_file = os.path.join(dtmp, 'data.txt')
             _yaml = YAML_DEF_EXPR_TYPES.format(
                                              path=os.path.basename(data_file))
@@ -347,8 +348,7 @@ class TestChecks(utils.BaseTestCase):
             test_self = self
             match_count = {'count': 0}
             callbacks_called = {}
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            os.environ['PLUGIN_NAME'] = 'myplugin'
+            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
             EVENTCALLBACKS = ycheck.CallbackHelper()
 
             class MyEventHandler(events.YEventCheckerBase):
@@ -400,16 +400,15 @@ class TestChecks(utils.BaseTestCase):
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
-        os.environ['PLUGIN_NAME'] = 'juju'
+        setup_config(PLUGIN_NAME='juju')
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
     @mock.patch('core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_false(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            os.environ['PLUGIN_NAME'] = 'myplugin'
+            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
+                         PLUGIN_NAME='myplugin')
             logfile = os.path.join(dtmp, 'foo.log')
             open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
                                                                SCENARIO_CHECKS)
@@ -430,8 +429,7 @@ class TestChecks(utils.BaseTestCase):
     @mock.patch('core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_requires(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            os.environ['PLUGIN_NAME'] = 'myplugin'
+            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
             open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
                                                                SCENARIO_CHECKS)
             checker = scenarios.YScenarioChecker()
@@ -469,9 +467,8 @@ class TestChecks(utils.BaseTestCase):
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            os.environ['PLUGIN_NAME'] = 'myplugin'
+            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
+                         PLUGIN_NAME='myplugin')
             logfile = os.path.join(dtmp, 'foo.log')
             open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
                                                                SCENARIO_CHECKS)
@@ -508,9 +505,8 @@ class TestChecks(utils.BaseTestCase):
 
     def test_yaml_def_scenario_datetime(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            os.environ['PLUGIN_NAME'] = 'myplugin'
+            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
+                         PLUGIN_NAME='myplugin')
             logfile = os.path.join(dtmp, 'foo.log')
 
             contents = ['2021-04-01 00:01:00.000 an event\n']
@@ -568,9 +564,8 @@ class TestChecks(utils.BaseTestCase):
         the same directory.
         """
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
-            os.environ['PLUGIN_YAML_DEFS'] = dtmp
-            os.environ['PLUGIN_NAME'] = 'myplugin'
+            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
+                         PLUGIN_NAME='myplugin')
             overrides = os.path.join(dtmp, 'mytype', 'myplugin', 'mytype.yaml')
             defs = os.path.join(dtmp, 'mytype', 'myplugin', 'defs.yaml')
             os.makedirs(os.path.dirname(overrides))

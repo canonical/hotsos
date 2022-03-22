@@ -1,7 +1,7 @@
 import datetime
 import yaml
 
-from core import constants
+from core.config import HotSOSConfig
 from core.analytics import LogEventStats, SearchResultIndices
 from core.cli_helpers import CLIHelper
 from core.ycheck import CallbackHelper
@@ -272,7 +272,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
     def check_vrrp_transitions(self, transitions):
         # there will likely be a large number of transitions if we look across
         # all time so dont run this check.
-        if constants.USE_ALL_LOGS:
+        if HotSOSConfig.USE_ALL_LOGS:
             return
 
         max_transitions = 0
@@ -296,7 +296,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
         """ Args callback for event cli command """
         args = []
         kwargs = {'unit': 'neutron-l3-agent'}
-        if not constants.USE_ALL_LOGS:
+        if not HotSOSConfig.USE_ALL_LOGS:
             kwargs['date'] = self.cli.date(format="--iso-8601")
 
         return args, kwargs

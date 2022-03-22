@@ -1,7 +1,7 @@
 import os
 import yaml
 
-from core import constants
+from core.config import HotSOSConfig
 from core.issues.utils import IssueEntry
 
 LAUNCHPAD = "launchpad"
@@ -14,11 +14,12 @@ def get_known_bugs():
     Fetch the current plugin known_bugs.yaml if it exists and return its
     contents or None if it doesn't exist yet.
     """
-    if not os.path.isdir(constants.PLUGIN_TMP_DIR):
+    if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
         raise Exception("plugin tmp dir  '{}' not found".
-                        format(constants.PLUGIN_TMP_DIR))
+                        format(HotSOSConfig.PLUGIN_TMP_DIR))
 
-    known_bugs_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "known_bugs.yaml")
+    known_bugs_yaml = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR,
+                                   'known_bugs.yaml')
     if not os.path.exists(known_bugs_yaml):
         return {}
 
@@ -34,9 +35,9 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     Fetch the current plugin known_bugs.yaml if it exists and add new bug with
     description of the bug.
     """
-    if not os.path.isdir(constants.PLUGIN_TMP_DIR):
+    if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
         raise Exception("plugin tmp dir  '{}' not found".
-                        format(constants.PLUGIN_TMP_DIR))
+                        format(HotSOSConfig.PLUGIN_TMP_DIR))
 
     if type == LAUNCHPAD:
         new_bug = "https://bugs.launchpad.net/bugs/{}".format(bug_id)
@@ -51,6 +52,7 @@ def add_known_bug(bug_id, description=None, type=LAUNCHPAD):
     else:
         current = {MASTER_YAML_KNOWN_BUGS_KEY: [entry.data]}
 
-    known_bugs_yaml = os.path.join(constants.PLUGIN_TMP_DIR, "known_bugs.yaml")
+    known_bugs_yaml = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR,
+                                   'known_bugs.yaml')
     with open(known_bugs_yaml, 'w') as fd:
         fd.write(yaml.dump(current))

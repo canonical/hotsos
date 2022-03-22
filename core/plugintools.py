@@ -1,10 +1,11 @@
 import os
-import importlib
 import yaml
 
-from core import constants
+from core.config import setup_config, HotSOSConfig
 from core.log import log
 from core import issues
+from core.ycheck.bugs import YBugChecker
+from core.ycheck.scenarios import YScenarioChecker
 
 
 class HOTSOSDumper(yaml.Dumper):
@@ -63,10 +64,10 @@ def save_part(data, offset):
     out = yaml.dump(data, Dumper=HOTSOSDumper,
                     default_flow_style=False).rstrip("\n")
 
-    parts_index = os.path.join(constants.PLUGIN_TMP_DIR, "index.yaml")
-    part_path = os.path.join(constants.PLUGIN_TMP_DIR,
-                             "{}.{}.part.yaml".format(constants.PLUGIN_NAME,
-                                                      constants.PART_NAME))
+    parts_index = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, "index.yaml")
+    part_path = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR,
+                             "{}.{}.part.yaml".format(HotSOSConfig.PLUGIN_NAME,
+                                                      HotSOSConfig.PART_NAME))
 
     # don't clobber
     if os.path.exists(part_path):
@@ -92,7 +93,7 @@ def save_part(data, offset):
 
 
 def get_parts_index():
-    parts_index = os.path.join(constants.PLUGIN_TMP_DIR, "index.yaml")
+    parts_index = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, "index.yaml")
     index = {}
     if os.path.exists(parts_index):
         with open(parts_index) as fd:
@@ -143,7 +144,7 @@ def dump_all_parts():
     if not parts:
         return
 
-    return {constants.PLUGIN_NAME: parts}
+    return {HotSOSConfig.PLUGIN_NAME: parts}
 
 
 def dump(data):
@@ -197,7 +198,7 @@ class PluginPartBase(ApplicationBase):
     PLUGIN_PART_OFFSET_MAX = 500
 
     def __init__(self, *args, **kwargs):
-        plugin_tmp = constants.PLUGIN_TMP_DIR
+        plugin_tmp = HotSOSConfig.PLUGIN_TMP_DIR
         if not plugin_tmp or not os.path.isdir(plugin_tmp):
             raise Exception("plugin PLUGIN_TMP_DIR not initialised - exiting")
 
@@ -272,22 +273,18 @@ class PluginRunner(object):
     def run_parts(self, parts, debug_mode=False):
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).
-        ALWAYS_RUN = {'auto_bug_check':
-                      {'core.ycheck.bugs': 'YBugChecker'},
-                      'auto_scenario_check':
-                      {'core.ycheck.scenarios': 'YScenarioChecker'}}
+        ALWAYS_RUN = {'auto_bug_check': YBugChecker,
+                      'auto_scenario_check': YScenarioChecker}
         for name, always_parts in ALWAYS_RUN.items():
-            for obj, cls in always_parts.items():
-                # update current env to reflect actual part being run
-                os.environ['PART_NAME'] = name
-                part_obj = getattr(importlib.import_module(obj), cls)
-                try:
-                    part_obj()()
-                except Exception as exc:
-                    failed_parts.append(name)
-                    log.exception("part '%s' raised exception: %s", name, exc)
-                    if debug_mode:
-                        raise
+            # update current env to reflect actual part being run
+            setup_config(PART_NAME=name)
+            try:
+                always_parts()()
+            except Exception as exc:
+                failed_parts.append(name)
+                log.exception("part '%s' raised exception: %s", name, exc)
+                if debug_mode:
+                    raise
 
                 # NOTE: we don't expect these parts to produce any output
                 # for the summary so we wont check for it (the only raise
@@ -295,17 +292,17 @@ class PluginRunner(object):
 
         for name, part_info in parts.items():
             # update current env to reflect actual part being run
-            os.environ['PART_NAME'] = name
+            setup_config(PART_NAME=name)
             for cls in part_info['objects']:
                 inst = cls()
                 # Only run plugin if it delares itself runnable.
                 if not inst.plugin_runnable:
                     log.debug("%s.%s.%s not runnable - skipping",
-                              constants.PLUGIN_NAME, name, cls.__name__)
+                              HotSOSConfig.PLUGIN_NAME, name, cls.__name__)
                     continue
 
                 log.debug("running %s.%s.%s",
-                          constants.PLUGIN_NAME, name, cls.__name__)
+                          HotSOSConfig.PLUGIN_NAME, name, cls.__name__)
                 try:
                     inst()
                     # NOTE: since all parts are expected to be implementations

@@ -2,7 +2,7 @@ import glob
 import os
 import re
 
-from core import constants
+from core.config import HotSOSConfig
 from core.cli_helpers import CLIHelper
 from core.plugins.storage import StorageBase
 from core.searchtools import (
@@ -28,7 +28,8 @@ class BcacheBase(StorageBase):
                 return True
 
     def get_cachesets(self):
-        return glob.glob(os.path.join(constants.DATA_ROOT, 'sys/fs/bcache/*'))
+        return glob.glob(os.path.join(HotSOSConfig.DATA_ROOT,
+                                      'sys/fs/bcache/*'))
 
     def get_cacheset_bdevs(self, cset):
         return glob.glob(os.path.join(cset, 'bdev*'))

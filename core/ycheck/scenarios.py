@@ -3,7 +3,7 @@ from datetime import (
     timedelta,
 )
 
-from core import constants
+from core.config import HotSOSConfig
 from core import issues
 from core.searchtools import (
     FileSearcher,
@@ -282,11 +282,11 @@ class YScenarioChecker(ChecksBase):
         if not plugin_content:
             return
 
-        yscenarios = YDefsSection(constants.PLUGIN_NAME, plugin_content,
+        yscenarios = YDefsSection(HotSOSConfig.PLUGIN_NAME, plugin_content,
                                   extra_overrides=[YAMLDefScenarioCheck])
         if yscenarios.requires and not yscenarios.requires.passes:
             log.debug("plugin '%s' scenarios pre-requisites not met - "
-                      "skipping", constants.PLUGIN_NAME)
+                      "skipping", HotSOSConfig.PLUGIN_NAME)
             return
 
         log.debug("sections=%s, scenarios=%s",

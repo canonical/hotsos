@@ -7,6 +7,7 @@ from tests.unit import utils
 
 import core.plugins.openstack as openstack_core
 from core import checks
+from core.config import setup_config, HotSOSConfig
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core import issues
@@ -163,10 +164,10 @@ class TestOpenstackBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        os.environ["PLUGIN_NAME"] = "openstack"
+        setup_config(PLUGIN_NAME='openstack')
 
         if self.IP_LINK_SHOW is None:
-            path = os.path.join(os.environ['DATA_ROOT'],
+            path = os.path.join(HotSOSConfig.DATA_ROOT,
                                 "sos_commands/networking/ip_-s_-d_link")
             with open(path) as fd:
                 self.IP_LINK_SHOW = fd.readlines()
@@ -276,7 +277,7 @@ class TestOpenstackSummary(TestOpenstackBase):
                 with open(os.path.join(dtmp, conf_path), 'w') as fd:
                     fd.write(SVC_CONF)
 
-            os.environ["DATA_ROOT"] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             inst = summary.OpenstackSummary()
             # fake some core packages
             inst.apt_check._core_packages = {"foo": 1}
@@ -644,7 +645,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
 
     def test_run_octavia_checks(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, ('var/log/octavia/'
                                           'octavia-health-manager.log'))
             os.makedirs(os.path.dirname(logfile))
@@ -677,7 +678,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
 
     def test_run_apache_checks(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/apache2/error.log')
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
@@ -695,7 +696,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
 
     def test_run_nova_checks(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/nova/nova-compute.log')
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
@@ -724,7 +725,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
     @mock.patch('core.issues.utils.add_issue')
     @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
     def test_run_neutron_l3ha_checks_w_issue(self, mock_add_issue):
-        os.environ["USE_ALL_LOGS"] = "False"
+        setup_config(USE_ALL_LOGS=False)
         expected = {'keepalived': {
                      'transitions': {
                       '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
@@ -791,7 +792,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
     def test_1929832(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp,
                                    'var/log/neutron/neutron-l3-agent.log')
             os.makedirs(os.path.dirname(logfile))
@@ -811,7 +812,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
     def test_1896506(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/syslog')
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
@@ -829,7 +830,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                 new=utils.is_def_filter('neutron.yaml'))
     def test_1928031(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(
                         dtmp, 'var/log/neutron/neutron-ovn-metadata-agent.log')
             os.makedirs(os.path.dirname(logfile))
@@ -872,7 +873,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             ["ii octavia-common 6.1.0-0ubuntu1~cloud0 all"]
 
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(
                         dtmp, 'var/log/octavia/octavia-worker.log')
             os.makedirs(os.path.dirname(logfile))

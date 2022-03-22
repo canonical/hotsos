@@ -6,7 +6,7 @@ import mock
 
 from tests.unit import utils
 
-from core import constants
+from core.config import setup_config, HotSOSConfig
 from core.searchtools import (
     FileSearcher,
     FilterDef,
@@ -90,7 +90,7 @@ class TestSearchTools(utils.BaseTestCase):
 
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
-        os.environ["MAX_PARALLEL_TASKS"] = "2"
+        setup_config(MAX_PARALLEL_TASKS=2)
         mock_cpu_count.return_value = 3
         s = FileSearcher()
         self.assertEquals(s.num_cpus, 2)
@@ -100,13 +100,13 @@ class TestSearchTools(utils.BaseTestCase):
                     9892: '2022-02-09 22:50:19.703'}
 
         logs_root = "var/log/neutron/"
-        filepath = os.path.join(os.environ["DATA_ROOT"], logs_root,
+        filepath = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
                                 'neutron-openvswitch-agent.log.2.gz')
-        globpath = os.path.join(os.environ["DATA_ROOT"], logs_root,
+        globpath = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
                                 'neutron-l3-agent.log')
-        globpath_file1 = os.path.join(os.environ["DATA_ROOT"], logs_root,
+        globpath_file1 = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
                                       'neutron-l3-agent.log')
-        globpath_file2 = os.path.join(os.environ["DATA_ROOT"], logs_root,
+        globpath_file2 = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
                                       'neutron-l3-agent.log.1.gz')
 
         s = FileSearcher()
@@ -158,9 +158,9 @@ class TestSearchTools(utils.BaseTestCase):
             self.assertEquals(result.get(1), expected[ln])
 
     def test_filesearcher_network_info(self):
-        filepath = os.path.join(os.environ["DATA_ROOT"], 'sos_commands',
+        filepath = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands',
                                 'networking', 'ip_-d_address')
-        filepath2 = os.path.join(os.environ["DATA_ROOT"], 'sos_commands',
+        filepath2 = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands',
                                  'networking', 'ip_-s_-d_link')
         ip = "10.0.0.128"
         mac = "22:c2:7b:1c:12:1b"
@@ -195,7 +195,7 @@ class TestSearchTools(utils.BaseTestCase):
                 raise EOFError("some error")
 
             mock_init.side_effect = fake_init
-            path = os.path.join(os.environ["DATA_ROOT"])
+            path = os.path.join(HotSOSConfig.DATA_ROOT)
             s.add_search_term(SearchDef("."), path)
             s.search()
 
@@ -242,25 +242,25 @@ class TestSearchTools(utils.BaseTestCase):
             for e in dir_contents:
                 os.mknod(e)
 
-            for i in range(2, constants.MAX_LOGROTATE_DEPTH + 10):
+            for i in range(2, HotSOSConfig.MAX_LOGROTATE_DEPTH + 10):
                 fname = os.path.join(dtmp,
                                      "my-test-agent.1.log.{}.gz".format(i))
                 os.mknod(fname)
-                if i <= constants.MAX_LOGROTATE_DEPTH:
+                if i <= HotSOSConfig.MAX_LOGROTATE_DEPTH:
                     dir_contents.append(fname)
 
-            for i in range(2, constants.MAX_LOGROTATE_DEPTH + 10):
+            for i in range(2, HotSOSConfig.MAX_LOGROTATE_DEPTH + 10):
                 fname = os.path.join(dtmp,
                                      "my-test-agent.49.log.{}.gz".format(i))
                 os.mknod(fname)
-                if i <= constants.MAX_LOGROTATE_DEPTH:
+                if i <= HotSOSConfig.MAX_LOGROTATE_DEPTH:
                     dir_contents.append(fname)
 
-            for i in range(2, constants.MAX_LOGROTATE_DEPTH + 10):
+            for i in range(2, HotSOSConfig.MAX_LOGROTATE_DEPTH + 10):
                 fname = os.path.join(dtmp,
                                      "my-test-agent.100.log.{}.gz".format(i))
                 os.mknod(fname)
-                if i <= constants.MAX_LOGROTATE_DEPTH:
+                if i <= HotSOSConfig.MAX_LOGROTATE_DEPTH:
                     dir_contents.append(fname)
 
             exp = sorted(dir_contents)

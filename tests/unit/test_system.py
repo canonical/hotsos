@@ -6,6 +6,7 @@ import mock
 
 from tests.unit import utils
 
+from core.config import setup_config, HotSOSConfig
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
 from core.issues import SystemWarning
@@ -34,7 +35,7 @@ class SystemTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        os.environ['PLUGIN_NAME'] = 'system'
+        setup_config(PLUGIN_NAME='system')
 
 
 class TestSystemSummary(SystemTestsBase):
@@ -94,8 +95,8 @@ class TestSystemChecks(SystemTestsBase):
                             'actual': '4194304',
                             'expected': '2097152'}}}
         with tempfile.TemporaryDirectory() as dtmp:
-            orig_data_root = os.environ['DATA_ROOT']
-            os.environ['DATA_ROOT'] = dtmp
+            orig_data_root = HotSOSConfig.DATA_ROOT
+            setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'etc'))
             etc_sysctl_conf = os.path.join(orig_data_root, 'etc/sysctl.conf')
             etc_sysctl_d = os.path.join(orig_data_root, 'etc/sysctl.d')

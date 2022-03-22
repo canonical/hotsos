@@ -28,6 +28,8 @@ export REPO_INFO
 # Plugin args - prefix must be plugin name
 AGENT_ERROR_KEY_BY_TIME=false
 
+MAX_PARALLEL_TASKS=
+MAX_LOGROTATE_DEPTH=
 HOTSOS_ROOT=
 MINIMAL_MODE=
 DEBUG_MODE=false
@@ -173,11 +175,11 @@ while (($#)); do
             exit
             ;;
         --max-parallel-tasks)
-            export MAX_PARALLEL_TASKS=$2
+            MAX_PARALLEL_TASKS=$2
             shift
             ;;
         --max-logrotate-depth)
-            export MAX_LOGROTATE_DEPTH=$2
+            MAX_LOGROTATE_DEPTH=$2
             shift
             ;;
         -s|--save)
@@ -293,6 +295,12 @@ get_extra_args ()
     fi
     if $AGENT_ERROR_KEY_BY_TIME; then
         extra_args+=( --agent-error-key-by-time )
+    fi
+    if [[ -n $MAX_PARALLEL_TASKS ]]; then
+        extra_args+=( --max-parallel-tasks $MAX_PARALLEL_TASKS )
+    fi
+    if [[ -n $MAX_LOGROTATE_DEPTH ]]; then
+        extra_args+=( --max-logrotate-depth $MAX_LOGROTATE_DEPTH )
     fi
     extra_args+=( --defs-path "${HOTSOS_ROOT}/defs" )
     extra_args+=( --format $OUTPUT_FORMAT )

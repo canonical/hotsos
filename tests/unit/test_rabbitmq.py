@@ -6,7 +6,7 @@ import mock
 from tests.unit import utils
 
 from core.issues import RabbitMQWarning
-from core import constants
+from core.config import setup_config, HotSOSConfig
 from core.plugins.rabbitmq import RabbitMQReport
 from core.ycheck.bugs import YBugChecker
 from core.ycheck.scenarios import YScenarioChecker
@@ -25,9 +25,9 @@ class TestRabbitmqBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        os.environ['PLUGIN_NAME'] = 'rabbitmq'
-        os.environ['DATA_ROOT'] = os.path.join(utils.TESTS_DIR,
-                                               'fake_data_root/rabbitmq')
+        setup_config(PLUGIN_NAME='rabbitmq',
+                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
+                                            'fake_data_root/rabbitmq'))
 
 
 class TestRabbitMQReport(TestRabbitmqBase):
@@ -93,7 +93,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         mock_helper.return_value = mock.MagicMock()
 
         def fake_get_rabbitmqctl_report():
-            path = os.path.join(constants.DATA_ROOT,
+            path = os.path.join(HotSOSConfig.DATA_ROOT,
                                 "sos_commands/rabbitmq/rabbitmqctl_report."
                                 "bionic")
             return open(path, 'r').readlines()
@@ -194,7 +194,7 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
     @mock.patch('core.ycheck.bugs.add_known_bug')
     def test_1943937(self, mock_add_known_bug):
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
@@ -276,7 +276,7 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
-            os.environ['DATA_ROOT'] = dtmp
+            setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
