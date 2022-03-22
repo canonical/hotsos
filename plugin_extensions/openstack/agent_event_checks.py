@@ -10,7 +10,6 @@ from core.log import log
 from core.searchtools import FileSearcher
 from core import utils
 from core.plugins.openstack import (
-    AGENT_ERROR_KEY_BY_TIME,
     NeutronHAInfo,
     OpenstackChecksBase,
     OpenstackEventChecksBase,
@@ -209,7 +208,7 @@ class NovaAgentEventChecks(OpenstackEventChecksBase):
             if ts_date not in notfounds:
                 notfounds[ts_date] = {}
 
-            if AGENT_ERROR_KEY_BY_TIME:
+            if self.agent_error_key_by_time:
                 if ts_time not in notfounds:
                     notfounds[ts_date][ts_time] = {pci_dev: 1}
                 elif pci_dev not in notfounds[ts_date][ts_time]:

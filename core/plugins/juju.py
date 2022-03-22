@@ -13,20 +13,11 @@ from core import (
 from core.cli_helpers import CLIHelper
 from core import checks
 
-JUJU_LOG_PATH = os.path.join(constants.DATA_ROOT, "var/log/juju")
-JUJU_LIB_PATH = os.path.join(constants.DATA_ROOT, "var/lib/juju")
-CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
-SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
-JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
-                  r'jujud{}'.format(SVC_VALID_SUFFIX),
-                  # catch juju-db but filter out processes with juju-db in
-                  # their args list.
-                  r'(?:^|[^\s])juju-db{}'.format(SVC_VALID_SUFFIX)]
-
 
 class JujuMachine(object):
 
-    def __init__(self):
+    def __init__(self, juju_lib_path):
+        self.juju_lib_path = juju_lib_path
         self.cfg = {}
 
     @property
@@ -38,7 +29,7 @@ class JujuMachine(object):
     @property
     def config(self):
         if not self.cfg:
-            path = glob.glob(os.path.join(JUJU_LIB_PATH,
+            path = glob.glob(os.path.join(self.juju_lib_path,
                                           "agents/machine-*/agent.conf"))
             if not path:
                 return self.cfg
@@ -76,7 +67,7 @@ class JujuMachine(object):
         for unit in _units.split(','):
             app = unit.partition('/')[0]
             id = unit.partition('/')[2]
-            path = os.path.join(JUJU_LIB_PATH,
+            path = os.path.join(self.juju_lib_path,
                                 "agents/unit-{}-{}".format(app, id))
             units.append(JujuUnit(id, app, path))
 
@@ -120,6 +111,7 @@ class JujuCharm(object):
 
 
 class JujuBase(object):
+    CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -127,8 +119,12 @@ class JujuBase(object):
         self._charms = []
 
     @property
+    def juju_lib_path(self):
+        return os.path.join(constants.DATA_ROOT, "var/lib/juju")
+
+    @property
     def machine(self):
-        machine = JujuMachine()
+        machine = JujuMachine(self.juju_lib_path)
         if not machine.config:
             log.debug("no juju machine identified")
             return
@@ -137,7 +133,7 @@ class JujuBase(object):
 
     @property
     def units(self):
-        if not os.path.exists(JUJU_LIB_PATH):
+        if not os.path.exists(self.juju_lib_path):
             return
 
         if self._units:
@@ -146,7 +142,8 @@ class JujuBase(object):
         if self.machine and self.machine.version >= "2.9":
             self._units = self.machine.deployed_units
         else:
-            paths = glob.glob(os.path.join(JUJU_LIB_PATH, "agents/unit-*"))
+            paths = glob.glob(os.path.join(self.juju_lib_path,
+                                           "agents/unit-*"))
             for unit in paths:
                 base = os.path.basename(unit)
                 ret = re.compile(r"unit-(\S+)-(\d+)").match(base)
@@ -182,11 +179,11 @@ class JujuBase(object):
         if self._charms:
             return self._charms
 
-        if not os.path.exists(JUJU_LIB_PATH):
+        if not os.path.exists(self.juju_lib_path):
             return
 
-        for entry in glob.glob(os.path.join(JUJU_LIB_PATH,
-                                            CHARM_MANIFEST_GLOB)):
+        for entry in glob.glob(os.path.join(self.juju_lib_path,
+                                            self.CHARM_MANIFEST_GLOB)):
             for manifest in os.listdir(entry):
                 base = os.path.basename(manifest)
                 ret = re.compile(r".+_(\S+)-(\d+)$").match(base)
@@ -221,10 +218,16 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
 
     @property
     def plugin_runnable(self):
-        return os.path.exists(JUJU_LIB_PATH)
+        return os.path.exists(self.juju_lib_path)
 
 
 class JujuServiceChecksBase(JujuChecksBase, checks.ServiceChecksBase):
+    SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
+    JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
+                      r'jujud{}'.format(SVC_VALID_SUFFIX),
+                      # catch juju-db but filter out processes with juju-db in
+                      # their args list.
+                      r'(?:^|[^\s])juju-db{}'.format(SVC_VALID_SUFFIX)]
 
     def __init__(self):
-        super().__init__(service_exprs=JUJU_SVC_EXPRS)
+        super().__init__(service_exprs=self.JUJU_SVC_EXPRS)

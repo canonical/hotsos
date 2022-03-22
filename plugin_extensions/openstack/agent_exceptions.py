@@ -4,10 +4,7 @@ import re
 from core.log import log
 from core import constants
 from core.searchtools import SearchDef
-from core.plugins.openstack import (
-    OpenstackEventChecksBase,
-    AGENT_ERROR_KEY_BY_TIME,
-)
+from core.plugins.openstack import OpenstackEventChecksBase
 from core.searchtools import FileSearcher
 
 
@@ -110,7 +107,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
                 agent_exceptions[exc_tag] = {}
 
             ts_date = result.get(1)
-            if AGENT_ERROR_KEY_BY_TIME:
+            if self.agent_error_key_by_time:
                 # use hours and minutes only
                 ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
                 key = "{}_{}".format(ts_date, ts_time)

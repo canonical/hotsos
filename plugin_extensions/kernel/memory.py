@@ -2,12 +2,7 @@ import os
 
 from core.log import log
 from core import issues
-from core.plugins.kernel import (
-    KernelChecksBase,
-    VMSTAT,
-    BUDDY_INFO,
-    SLABINFO,
-)
+from core.plugins.kernel import KernelChecksBase
 
 
 class KernelMemoryChecks(KernelChecksBase):
@@ -53,7 +48,7 @@ class KernelMemoryChecks(KernelChecksBase):
         top5_objsize = {}
 
         # /proc/slabinfo may not exist in containers/VMs
-        if not os.path.exists(SLABINFO):
+        if not os.path.exists(self.slabinfo_path):
             return
 
         # exclude kernel memory allocations
@@ -87,7 +82,8 @@ class KernelMemoryChecks(KernelChecksBase):
         node_results = {}
         node_zones = {}
         for node in nodes:
-            msg = "limited high order memory - check {}".format(BUDDY_INFO)
+            msg = ("limited high order memory - check {}".
+                   format(self.buddyinfo_path))
             node_key = "node{}-{}".format(node, zones_type.lower())
             node_zones[node_key] = msg
             zone_info = self.check_mallocinfo(node, zones_type)
@@ -118,7 +114,7 @@ class KernelMemoryChecks(KernelChecksBase):
                 pcent = int(fail_count / (success_count / 100))
                 if pcent > 10:
                     msg = ("failures are at {}% of successes (see {})."
-                           .format(pcent, VMSTAT))
+                           .format(pcent, self.vmstat_path))
                     issue = issues.MemoryWarning("compaction " + msg)
                     issues.utils.add_issue(issue)
 

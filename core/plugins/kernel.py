@@ -10,10 +10,6 @@ from core import (
 from core.cli_helpers import CLIHelper
 from core.plugins.system import SystemBase
 
-BUDDY_INFO = os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
-SLABINFO = os.path.join(constants.DATA_ROOT, "proc/slabinfo")
-VMSTAT = os.path.join(constants.DATA_ROOT, "proc/vmstat")
-
 
 class SYSFSBase(object):
 
@@ -125,6 +121,18 @@ class KernelBase(object):
         self._numa_nodes = []
 
     @property
+    def buddyinfo_path(self):
+        return os.path.join(constants.DATA_ROOT, "proc/buddyinfo")
+
+    @property
+    def slabinfo_path(self):
+        return os.path.join(constants.DATA_ROOT, "proc/slabinfo")
+
+    @property
+    def vmstat_path(self):
+        return os.path.join(constants.DATA_ROOT, "proc/vmstat")
+
+    @property
     def version(self):
         """Returns string kernel version."""
         uname = CLIHelper().uname()
@@ -163,21 +171,21 @@ class KernelBase(object):
     def numa_nodes(self):
         """Returns list of numa nodes."""
         # /proc/buddyinfo may not exist in containers/VMs
-        if not os.path.exists(BUDDY_INFO):
+        if not os.path.exists(self.buddyinfo_path):
             return self._numa_nodes
 
         if self._numa_nodes:
             return self._numa_nodes
 
         nodes = set()
-        for line in open(BUDDY_INFO):
+        for line in open(self.buddyinfo_path):
             nodes.add(int(line.split()[1].strip(',')))
 
         self._numa_nodes = list(nodes)
         return self._numa_nodes
 
     def get_node_zones(self, zones_type, node):
-        for line in open(BUDDY_INFO):
+        for line in open(self.buddyinfo_path):
             if line.split()[3] == zones_type and \
                     line.startswith("Node {},".format(node)):
                 line = line.split()
@@ -189,7 +197,7 @@ class KernelBase(object):
         """
         Look for first occurence of consumer and return its stats.
         """
-        for line in open(VMSTAT):
+        for line in open(self.vmstat_path):
             if line.partition(" ")[0] == consumer:
                 return int(line.partition(" ")[2])
 
@@ -207,7 +215,7 @@ class KernelBase(object):
         @param exclude_names: optional list of names to exclude.
         """
         info = []
-        for line in open(SLABINFO):
+        for line in open(self.slabinfo_path):
             exclude = False
             if exclude_names:
                 for name in exclude_names:

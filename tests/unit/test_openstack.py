@@ -261,8 +261,8 @@ class TestOpenstackSummary(TestOpenstackBase):
                           'w') as fd:
                     fd.write(APT_UCA.format(rel))
 
-            with mock.patch.object(openstack_core, "APT_SOURCE_PATH",
-                                   dtmp):
+            with mock.patch('core.plugins.openstack.OpenstackBase.'
+                            'apt_source_path', dtmp):
                 inst = summary.OpenstackSummary()
                 actual = self.part_output_to_actual(inst.output)
                 self.assertEqual(actual["release"], "ussuri")

@@ -37,13 +37,6 @@ from core.plugins.system import (
     SystemBase,
 )
 
-APT_SOURCE_PATH = os.path.join(constants.DATA_ROOT, 'etc/apt/sources.list.d')
-NEUTRON_HA_PATH = 'var/lib/neutron/ha_confs'
-
-# Plugin config opts from global
-AGENT_ERROR_KEY_BY_TIME = \
-    constants.bool_str(os.environ.get('AGENT_ERROR_KEY_BY_TIME',
-                                      'False'))
 
 OST_REL_INFO = {
     'barbican-common': {
@@ -458,7 +451,8 @@ class NeutronHAInfo(object):
 
     @property
     def state_path(self):
-        return os.path.join(constants.DATA_ROOT, NEUTRON_HA_PATH)
+        ha_confs = 'var/lib/neutron/ha_confs'
+        return os.path.join(constants.DATA_ROOT, ha_confs)
 
     @property
     def ha_routers(self):
@@ -812,6 +806,10 @@ class OpenstackBase(object):
         return interfaces
 
     @property
+    def apt_source_path(self):
+        return os.path.join(constants.DATA_ROOT, 'etc/apt/sources.list.d')
+
+    @property
     def release_name(self):
         relname = None
 
@@ -853,12 +851,12 @@ class OpenstackBase(object):
         relname = 'unknown'
 
         # fallback to uca version if exists
-        if not os.path.exists(APT_SOURCE_PATH):
+        if not os.path.exists(self.apt_source_path):
             return relname
 
         release_info = {}
-        for source in os.listdir(APT_SOURCE_PATH):
-            apt_path = os.path.join(APT_SOURCE_PATH, source)
+        for source in os.listdir(self.apt_source_path):
+            apt_path = os.path.join(self.apt_source_path, source)
             for line in CmdBase.safe_readlines(apt_path):
                 rexpr = r'deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+'
                 ret = re.compile(rexpr).match(line)
@@ -878,6 +876,11 @@ class OpenstackBase(object):
 
 
 class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
+
+    @property
+    def agent_error_key_by_time(self):
+        val = os.environ.get('AGENT_ERROR_KEY_BY_TIME', 'False')
+        return constants.bool_str(val)
 
     @property
     def openstack_installed(self):
