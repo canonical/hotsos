@@ -59,10 +59,13 @@ if __name__ == '__main__':
                                                           minimal_mode)
         if save:
             if user_summary:
-                output_name = os.path.basename(user_summary)
+                output_name = os.path.basename(data_root)
                 output_name = output_name.rpartition('.')[0]
             else:
                 if data_root != '/':
+                    if data_root.endswith('/'):
+                        data_root = data_root.rpartition('/')[0]
+
                     output_name = os.path.basename(data_root)
                 else:
                     output_name = "hotsos-{}".format(CLIHelper().hostname())
