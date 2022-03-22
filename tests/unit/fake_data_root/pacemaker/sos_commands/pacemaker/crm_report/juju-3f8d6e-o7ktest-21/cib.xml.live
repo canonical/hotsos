@@ -1,0 +1,112 @@
+<cib crm_feature_set="3.2.1" validate-with="pacemaker-3.2" epoch="15" num_updates="36" admin_epoch="0" cib-last-written="Fri Mar 18 20:10:19 2022" update-origin="juju-3f8d6e-o7ktest-21" update-client="crmd" update-user="hacluster" have-quorum="1" dc-uuid="1001">
+  <configuration>
+    <crm_config>
+      <cluster_property_set id="cib-bootstrap-options">
+        <nvpair id="cib-bootstrap-options-have-watchdog" name="have-watchdog" value="false"/>
+        <nvpair id="cib-bootstrap-options-dc-version" name="dc-version" value="2.0.3-4b1f869f0f"/>
+        <nvpair id="cib-bootstrap-options-cluster-infrastructure" name="cluster-infrastructure" value="corosync"/>
+        <nvpair id="cib-bootstrap-options-cluster-name" name="cluster-name" value="debian"/>
+        <nvpair name="no-quorum-policy" value="stop" id="cib-bootstrap-options-no-quorum-policy"/>
+        <nvpair name="cluster-recheck-interval" value="60" id="cib-bootstrap-options-cluster-recheck-interval"/>
+        <nvpair name="stonith-enabled" value="false" id="cib-bootstrap-options-stonith-enabled"/>
+        <nvpair id="cib-bootstrap-options-last-lrm-refresh" name="last-lrm-refresh" value="1647634219"/>
+      </cluster_property_set>
+    </crm_config>
+    <nodes>
+      <node id="1" uname="node1"/>
+      <node id="1000" uname="juju-3f8d6e-o7ktest-21"/>
+      <node id="1001" uname="juju-3f8d6e-o7ktest-23"/>
+      <node id="1002" uname="juju-3f8d6e-o7ktest-22"/>
+    </nodes>
+    <resources>
+      <group id="grp_placement_vips">
+        <primitive id="res_placement_72e5569_vip" class="ocf" provider="heartbeat" type="IPaddr2">
+          <instance_attributes id="res_placement_72e5569_vip-instance_attributes">
+            <nvpair name="ip" value="10.5.100.5" id="res_placement_72e5569_vip-instance_attributes-ip"/>
+          </instance_attributes>
+          <meta_attributes id="res_placement_72e5569_vip-meta_attributes">
+            <nvpair name="migration-threshold" value="INFINITY" id="res_placement_72e5569_vip-meta_attributes-migration-threshold"/>
+            <nvpair name="failure-timeout" value="5s" id="res_placement_72e5569_vip-meta_attributes-failure-timeout"/>
+          </meta_attributes>
+          <operations>
+            <op name="monitor" timeout="20s" interval="10s" id="res_placement_72e5569_vip-monitor-10s">
+              <instance_attributes id="res_placement_72e5569_vip-monitor-10s-instance_attributes">
+                <nvpair name="depth" value="0" id="res_placement_72e5569_vip-monitor-10s-instance_attributes-depth"/>
+              </instance_attributes>
+            </op>
+          </operations>
+        </primitive>
+      </group>
+      <clone id="cl_res_placement_haproxy">
+        <primitive id="res_placement_haproxy" class="lsb" type="haproxy">
+          <meta_attributes id="res_placement_haproxy-meta_attributes">
+            <nvpair name="migration-threshold" value="INFINITY" id="res_placement_haproxy-meta_attributes-migration-threshold"/>
+            <nvpair name="failure-timeout" value="5s" id="res_placement_haproxy-meta_attributes-failure-timeout"/>
+          </meta_attributes>
+          <operations>
+            <op name="monitor" interval="5s" id="res_placement_haproxy-monitor-5s"/>
+          </operations>
+        </primitive>
+      </clone>
+    </resources>
+    <constraints/>
+    <rsc_defaults>
+      <meta_attributes id="rsc-options">
+        <nvpair name="resource-stickiness" value="100" id="rsc-options-resource-stickiness"/>
+        <nvpair name="failure-timeout" value="180" id="rsc-options-failure-timeout"/>
+      </meta_attributes>
+    </rsc_defaults>
+  </configuration>
+  <status>
+    <node_state id="1000" uname="juju-3f8d6e-o7ktest-21" in_ccm="true" crmd="online" crm-debug-origin="do_update_resource" join="member" expected="member">
+      <lrm id="1000">
+        <lrm_resources>
+          <lrm_resource id="res_placement_72e5569_vip" type="IPaddr2" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="res_placement_72e5569_vip_last_0" operation_key="res_placement_72e5569_vip_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="3:0:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;3:0:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-21" call-id="6" rc-code="0" op-status="0" interval="0" last-rc-change="1647634159" last-run="1647634159" exec-time="52" queue-time="0" op-digest="ab1c096b995a95a01c2e13f656ab348d"/>
+            <lrm_rsc_op id="res_placement_72e5569_vip_monitor_10000" operation_key="res_placement_72e5569_vip_monitor_10000" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="4:0:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;4:0:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-21" call-id="7" rc-code="0" op-status="0" interval="10000" last-rc-change="1647634159" exec-time="28" queue-time="0" op-digest="7362a8c618523caca8e7731a849deb5c"/>
+          </lrm_resource>
+          <lrm_resource id="res_placement_haproxy" type="haproxy" class="lsb">
+            <lrm_rsc_op id="res_placement_haproxy_last_0" operation_key="res_placement_haproxy_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="4:11:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;4:11:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-21" call-id="36" rc-code="0" op-status="0" interval="0" last-rc-change="1647634220" last-run="1647634220" exec-time="351" queue-time="0" op-digest="f2317cad3d54cec5d7d7aa7d0bf35cf8"/>
+            <lrm_rsc_op id="res_placement_haproxy_last_failure_0" operation_key="res_placement_haproxy_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="4:11:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;4:11:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-21" call-id="36" rc-code="0" op-status="0" interval="0" last-rc-change="1647634220" last-run="1647634220" exec-time="351" queue-time="0" op-digest="f2317cad3d54cec5d7d7aa7d0bf35cf8"/>
+            <lrm_rsc_op id="res_placement_haproxy_monitor_5000" operation_key="res_placement_haproxy_monitor_5000" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="12:12:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;12:12:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-21" call-id="37" rc-code="0" op-status="0" interval="5000" last-rc-change="1647634220" exec-time="40" queue-time="0" op-digest="4811cef7f7f94e3a35a70be7916cb2fd"/>
+          </lrm_resource>
+        </lrm_resources>
+      </lrm>
+      <transient_attributes id="1000">
+        <instance_attributes id="status-1000"/>
+      </transient_attributes>
+    </node_state>
+    <node_state id="1001" uname="juju-3f8d6e-o7ktest-23" in_ccm="true" crmd="online" crm-debug-origin="do_update_resource" join="member" expected="member">
+      <lrm id="1001">
+        <lrm_resources>
+          <lrm_resource id="res_placement_72e5569_vip" type="IPaddr2" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="res_placement_72e5569_vip_last_0" operation_key="res_placement_72e5569_vip_monitor_0" operation="monitor" crm-debug-origin="build_active_RAs" crm_feature_set="3.2.1" transition-key="2:0:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:7;2:0:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-23" call-id="5" rc-code="7" op-status="0" interval="0" last-rc-change="1647634158" last-run="1647634158" exec-time="112" queue-time="0" op-digest="ab1c096b995a95a01c2e13f656ab348d"/>
+          </lrm_resource>
+          <lrm_resource id="res_placement_haproxy" type="haproxy" class="lsb">
+            <lrm_rsc_op id="res_placement_haproxy_last_0" operation_key="res_placement_haproxy_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="14:27:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;14:27:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-23" call-id="15" rc-code="0" op-status="0" interval="0" last-rc-change="1647635019" last-run="1647635019" exec-time="359" queue-time="0" op-digest="f2317cad3d54cec5d7d7aa7d0bf35cf8"/>
+            <lrm_rsc_op id="res_placement_haproxy_monitor_5000" operation_key="res_placement_haproxy_monitor_5000" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="3:27:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;3:27:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-23" call-id="16" rc-code="0" op-status="0" interval="5000" last-rc-change="1647635019" exec-time="485" queue-time="0" op-digest="4811cef7f7f94e3a35a70be7916cb2fd"/>
+          </lrm_resource>
+        </lrm_resources>
+      </lrm>
+      <transient_attributes id="1001">
+        <instance_attributes id="status-1001"/>
+      </transient_attributes>
+    </node_state>
+    <node_state id="1002" in_ccm="true" crmd="online" crm-debug-origin="do_update_resource" uname="juju-3f8d6e-o7ktest-22" join="member" expected="member">
+      <lrm id="1002">
+        <lrm_resources>
+          <lrm_resource id="res_placement_72e5569_vip" type="IPaddr2" class="ocf" provider="heartbeat">
+            <lrm_rsc_op id="res_placement_72e5569_vip_last_0" operation_key="res_placement_72e5569_vip_monitor_0" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="2:1:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:7;2:1:7:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-22" call-id="5" rc-code="7" op-status="0" interval="0" last-rc-change="1647634166" last-run="1647634166" exec-time="108" queue-time="0" op-digest="ab1c096b995a95a01c2e13f656ab348d"/>
+          </lrm_resource>
+          <lrm_resource id="res_placement_haproxy" type="haproxy" class="lsb">
+            <lrm_rsc_op id="res_placement_haproxy_last_0" operation_key="res_placement_haproxy_start_0" operation="start" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="15:30:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;15:30:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-22" call-id="17" rc-code="0" op-status="0" interval="0" last-rc-change="1647635024" last-run="1647635024" exec-time="91" queue-time="0" op-digest="f2317cad3d54cec5d7d7aa7d0bf35cf8"/>
+            <lrm_rsc_op id="res_placement_haproxy_monitor_5000" operation_key="res_placement_haproxy_monitor_5000" operation="monitor" crm-debug-origin="do_update_resource" crm_feature_set="3.2.1" transition-key="16:31:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" transition-magic="0:0;16:31:0:57afee96-ffd0-4b2b-8983-74ef26cb3ad2" exit-reason="" on_node="juju-3f8d6e-o7ktest-22" call-id="18" rc-code="0" op-status="0" interval="5000" last-rc-change="1647635024" exec-time="41" queue-time="0" op-digest="4811cef7f7f94e3a35a70be7916cb2fd"/>
+          </lrm_resource>
+        </lrm_resources>
+      </lrm>
+      <transient_attributes id="1002">
+        <instance_attributes id="status-1002"/>
+      </transient_attributes>
+    </node_state>
+  </status>
+</cib>

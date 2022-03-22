@@ -1,0 +1,15 @@
+NEXT                        LEFT          LAST                        PASSED       UNIT                         ACTIVATES                     
+Sat 2022-03-19 00:00:00 UTC 2h 46min left n/a                         n/a          logrotate.timer              logrotate.service             
+Sat 2022-03-19 00:00:00 UTC 2h 46min left n/a                         n/a          man-db.timer                 man-db.service                
+Sat 2022-03-19 02:05:11 UTC 4h 51min left Fri 2022-03-18 20:01:06 UTC 1h 12min ago ua-timer.timer               ua-timer.service              
+Sat 2022-03-19 06:47:15 UTC 9h left       n/a                         n/a          apt-daily-upgrade.timer      apt-daily-upgrade.service     
+Sat 2022-03-19 07:41:03 UTC 10h left      n/a                         n/a          motd-news.timer              motd-news.service             
+Sat 2022-03-19 08:51:44 UTC 11h left      n/a                         n/a          fwupd-refresh.timer          fwupd-refresh.service         
+Sat 2022-03-19 12:35:09 UTC 15h left      n/a                         n/a          apt-daily.timer              apt-daily.service             
+Sat 2022-03-19 20:12:11 UTC 22h left      Fri 2022-03-18 20:12:11 UTC 1h 1min ago  systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
+Sun 2022-03-20 03:10:54 UTC 1 day 5h left n/a                         n/a          e2scrub_all.timer            e2scrub_all.service           
+Mon 2022-03-21 00:00:00 UTC 2 days left   n/a                         n/a          fstrim.timer                 fstrim.service                
+n/a                         n/a           n/a                         n/a          snapd.snap-repair.timer      snapd.snap-repair.service     
+n/a                         n/a           n/a                         n/a          ua-license-check.timer       ua-license-check.service      
+
+12 timers listed.

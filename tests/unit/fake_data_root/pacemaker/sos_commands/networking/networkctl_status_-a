@@ -1,0 +1,107 @@
+* 1: lo                                                         
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: loopback                                
+                 State: carrier (unmanaged)                     
+                   MTU: 65536                                   
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: 127.0.0.1                               
+                        ::1                                     
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+* 2: ens3                                                           
+             Link File: /run/systemd/network/10-netplan-ens3.link   
+          Network File: /run/systemd/network/10-netplan-ens3.network
+                  Type: ether                                       
+                 State: routable (configured)                       
+                  Path: pci-0000:00:03.0                            
+                Driver: virtio_net                                  
+                Vendor: Red Hat, Inc.                               
+                 Model: Virtio network device                       
+            HW Address: fa:16:3e:5d:00:11                           
+                   MTU: 8958 (min: 68, max: 8958)                   
+  Queue Length (Tx/Rx): 1/1                                         
+      Auto negotiation: no                                          
+                 Speed: n/a                                         
+               Address: 10.5.1.106 (DHCP4)                          
+                        10.5.100.5                                  
+                        fe80::f816:3eff:fe5d:11                     
+               Gateway: 10.5.0.1                                    
+                   DNS: 10.5.0.9                                    
+                        10.5.0.3                                    
+                        10.5.0.2                                    
+                        10.5.0.17                                   
+                        10.5.0.12                                   
+                        10.5.0.27                                   
+                        10.5.0.21                                   
+                        10.5.0.11                                   
+                        10.5.0.10                                   
+                        10.5.0.6                                    
+                        10.5.0.4                                    
+                        10.5.0.29                                   
+                        10.5.0.5                                    
+                        10.5.0.20                                   
+                        10.5.0.16                                   
+        Search Domains: cloud.sts                                   
+     Activation Policy: up                                          
+   Required For Online: yes                                         
+
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Link UP
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Gained carrier
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Gained IPv6LL
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Link DOWN
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Lost carrier
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: IPv6 successfully enabled
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Link UP
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Gained carrier
+Mar 18 19:57:24 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: DHCPv4 address 10.5.1.106/16 via 10.5.0.1
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ens3: Gained IPv6LL
+
+* 3: fan-252                                                      
+               Link File: /usr/lib/systemd/network/99-default.link
+            Network File: n/a                                     
+                    Type: bridge                                  
+                   State: routable (unmanaged)                    
+                  Driver: bridge                                  
+              HW Address: ee:ac:c1:63:07:56                       
+                     MTU: 1450 (min: 68, max: 65535)              
+           Forward Delay: 15s                                     
+              Hello Time: 2s                                      
+                 Max Age: 20s                                     
+             Ageing Time: 5min                                    
+                Priority: 32768                                   
+                     STP: no                                      
+  Multicast IGMP Version: 2                                       
+    Queue Length (Tx/Rx): 1/1                                     
+                 Address: 252.1.106.1                             
+                          fe80::ecac:c1ff:fe63:756                
+       Activation Policy: up                                      
+     Required For Online: yes                                     
+
+Mar 18 19:58:10 juju-3f8d6e-o7ktest-21 systemd-udevd[2807]: fan-252: Could not generate persistent MAC: No data available
+Mar 18 19:58:10 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: fan-252: Link UP
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: fan-252: Gained carrier
+Mar 18 19:58:13 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: fan-252: Gained IPv6LL
+
+* 4: ftun0                                                      
+             Link File: /usr/lib/systemd/network/99-default.link
+          Network File: n/a                                     
+                  Type: vxlan                                   
+                 State: degraded (unmanaged)                    
+                Driver: vxlan                                   
+            HW Address: ee:ac:c1:63:07:56                       
+                   MTU: 8908 (min: 68, max: 65535)              
+                   VNI: 16515072                                
+                 Local: 10.5.1.106                              
+      Destination Port: 8472                                    
+     Underlying Device: ens3                                    
+  Queue Length (Tx/Rx): 1/1                                     
+               Address: fe80::ecac:c1ff:fe63:756                
+     Activation Policy: up                                      
+   Required For Online: yes                                     
+
+Mar 18 19:58:10 juju-3f8d6e-o7ktest-21 systemd-udevd[2794]: ftun0: Could not generate persistent MAC: No data available
+Mar 18 19:58:10 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ftun0: Link UP
+Mar 18 19:58:10 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ftun0: Gained carrier
+Mar 18 19:58:12 juju-3f8d6e-o7ktest-21 systemd-networkd[545]: ftun0: Gained IPv6LL

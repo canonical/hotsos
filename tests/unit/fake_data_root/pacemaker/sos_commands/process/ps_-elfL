@@ -1,0 +1,296 @@
+F S UID          PID    PPID     LWP  C NLWP PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
+4 S root           1       0       1  1    1  80   0 - 42895 ep_pol 19:57 ?        00:01:04 /sbin/init
+1 S root           2       0       2  0    1  80   0 -     0 kthrea 19:57 ?        00:00:00 [kthreadd]
+1 I root           3       2       3  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [rcu_gp]
+1 I root           4       2       4  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [rcu_par_gp]
+1 I root           6       2       6  0    1  60 -20 -     0 worker 19:57 ?        00:00:00 [kworker/0:0H-kblockd]
+1 I root           7       2       7  0    1  80   0 -     0 worker 19:57 ?        00:00:00 [kworker/0:1-events]
+1 I root           9       2       9  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [mm_percpu_wq]
+1 S root          10       2      10  0    1  80   0 -     0 smpboo 19:57 ?        00:00:01 [ksoftirqd/0]
+1 I root          11       2      11  0    1  80   0 -     0 rcu_gp 19:57 ?        00:00:01 [rcu_sched]
+1 S root          12       2      12  0    1 -40   - -     0 smpboo 19:57 ?        00:00:00 [migration/0]
+5 S root          13       2      13  0    1   9   - -     0 smpboo 19:57 ?        00:00:00 [idle_inject/0]
+1 S root          14       2      14  0    1  80   0 -     0 smpboo 19:57 ?        00:00:00 [cpuhp/0]
+5 S root          15       2      15  0    1  80   0 -     0 devtmp 19:57 ?        00:00:00 [kdevtmpfs]
+1 I root          16       2      16  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [netns]
+1 S root          17       2      17  0    1  80   0 -     0 rcu_ta 19:57 ?        00:00:00 [rcu_tasks_kthre]
+1 S root          18       2      18  0    1  80   0 -     0 kaudit 19:57 ?        00:00:00 [kauditd]
+1 S root          19       2      19  0    1  80   0 -     0 watchd 19:57 ?        00:00:00 [khungtaskd]
+1 S root          20       2      20  0    1  80   0 -     0 oom_re 19:57 ?        00:00:00 [oom_reaper]
+1 I root          21       2      21  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [writeback]
+1 S root          22       2      22  0    1  80   0 -     0 kcompa 19:57 ?        00:00:00 [kcompactd0]
+1 S root          23       2      23  0    1  85   5 -     0 ksm_sc 19:57 ?        00:00:00 [ksmd]
+1 S root          24       2      24  0    1  99  19 -     0 khugep 19:57 ?        00:00:00 [khugepaged]
+1 I root          70       2      70  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kintegrityd]
+1 I root          71       2      71  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kblockd]
+1 I root          72       2      72  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [blkcg_punt_bio]
+1 I root          73       2      73  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [tpm_dev_wq]
+1 I root          74       2      74  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [ata_sff]
+1 I root          75       2      75  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [md]
+1 I root          76       2      76  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [edac-poller]
+1 I root          77       2      77  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [devfreq_wq]
+1 S root          78       2      78  0    1 -40   - -     0 kthrea 19:57 ?        00:00:00 [watchdogd]
+1 S root          81       2      81  0    1  80   0 -     0 kswapd 19:57 ?        00:00:00 [kswapd0]
+1 S root          82       2      82  0    1  80   0 -     0 ecrypt 19:57 ?        00:00:00 [ecryptfs-kthrea]
+1 I root          84       2      84  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kthrotld]
+1 I root          85       2      85  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [acpi_thermal_pm]
+1 S root          86       2      86  0    1  80   0 -     0 scsi_e 19:57 ?        00:00:00 [scsi_eh_0]
+1 I root          87       2      87  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [scsi_tmf_0]
+1 S root          88       2      88  0    1  80   0 -     0 scsi_e 19:57 ?        00:00:00 [scsi_eh_1]
+1 I root          89       2      89  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [scsi_tmf_1]
+1 I root          91       2      91  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [vfio-irqfd-clea]
+1 I root          92       2      92  0    1  80   0 -     0 worker 19:57 ?        00:00:00 [kworker/u2:3-events_unbound]
+1 I root          93       2      93  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [ipv6_addrconf]
+1 I root         102       2     102  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kstrp]
+1 I root         105       2     105  0    1  60 -20 -     0 worker 19:57 ?        00:00:00 [kworker/u3:0]
+1 I root         118       2     118  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [charger_manager]
+1 I root         157       2     157  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [cryptd]
+1 I root         158       2     158  0    1  60 -20 -     0 worker 19:57 ?        00:00:00 [kworker/0:1H-kblockd]
+1 I root         221       2     221  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [raid5wq]
+1 S root         261       2     261  0    1  80   0 -     0 kjourn 19:57 ?        00:00:00 [jbd2/vda1-8]
+1 I root         262       2     262  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [ext4-rsv-conver]
+4 S root         334       1     334  0    1  79  -1 - 10832 ep_pol 19:57 ?        00:00:00 /lib/systemd/systemd-journald
+1 I root         349       2     349  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [ipmi-msghandler]
+4 S root         366       1     366  0    1  80   0 -  4877 ep_pol 19:57 ?        00:00:01 /lib/systemd/systemd-udevd
+1 I root         434       2     434  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kaluad]
+1 I root         435       2     435  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kmpath_rdacd]
+1 I root         436       2     436  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kmpathd]
+1 I root         437       2     437  0    1  60 -20 -     0 rescue 19:57 ?        00:00:00 [kmpath_handlerd]
+4 S root         438       1     438  0    7 -40   - - 70049 futex_ 19:57 ?        00:00:00 /sbin/multipathd -d -s
+5 S root         438       1     439  0    7 -40   - - 70049 poll_s 19:57 ?        00:00:00 /sbin/multipathd -d -s
+5 S root         438       1     440  0    7 -40   - - 70049 poll_s 19:57 ?        00:00:00 /sbin/multipathd -d -s
+5 S root         438       1     441  0    7 -40   - - 70049 poll_s 19:57 ?        00:00:00 /sbin/multipathd -d -s
+5 S root         438       1     442  0    7 -40   - - 70049 hrtime 19:57 ?        00:00:00 /sbin/multipathd -d -s
+5 S root         438       1     443  0    7 -40   - - 70049 futex_ 19:57 ?        00:00:00 /sbin/multipathd -d -s
+5 S root         438       1     444  0    7 -40   - - 70049 futex_ 19:57 ?        00:00:00 /sbin/multipathd -d -s
+1 S root         448       2     448  0    1  60 -20 -     0 kthrea 19:57 ?        00:00:00 [loop0]
+1 S root         450       2     450  0    1  60 -20 -     0 kthrea 19:57 ?        00:00:00 [loop1]
+1 S root         452       2     452  0    1  60 -20 -     0 kthrea 19:57 ?        00:00:00 [loop2]
+4 S systemd+     472       1     472  0    2  80   0 - 22547 ep_pol 19:57 ?        00:00:00 /lib/systemd/systemd-timesyncd
+1 S systemd+     472       1     475  0    2  80   0 - 22547 skb_wa 19:57 ?        00:00:00 /lib/systemd/systemd-timesyncd
+4 S systemd+     545       1     545  0    1  80   0 -  6675 ep_pol 19:57 ?        00:00:00 /lib/systemd/systemd-networkd
+4 S systemd+     561       1     561  0    1  80   0 -  5965 ep_pol 19:57 ?        00:00:00 /lib/systemd/systemd-resolved
+4 S root         646       1     646  0    3  80   0 - 60257 poll_s 19:57 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+5 S root         646       1     650  0    3  80   0 - 60257 poll_s 19:57 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+5 S root         646       1     741  0    3  80   0 - 60257 poll_s 19:57 ?        00:00:00 /usr/lib/accountsservice/accounts-daemon
+4 S root         653       1     653  0    1  80   0 -  2134 hrtime 19:57 ?        00:00:00 /usr/sbin/cron -f
+4 S message+     654       1     654  0    1  80   0 -  1967 ep_pol 19:57 ?        00:00:02 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S root         660       1     660  0    1  80   0 -  7298 poll_s 19:57 ?        00:00:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+4 S root         662       1     662  0    3  80   0 - 59104 poll_s 19:57 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+1 S root         662       1     664  0    3  80   0 - 59104 poll_s 19:57 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+1 S root         662       1     742  0    3  80   0 - 59104 poll_s 19:57 ?        00:00:00 /usr/lib/policykit-1/polkitd --no-debug
+4 S root         667       1     667  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     785  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     786  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     787  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     788  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+5 S root         667       1     801  0   11  80   0 - 185533 poll_s 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     803  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     804  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     830  0   11  80   0 - 185533 ep_pol 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     832  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+1 S root         667       1     833  0   11  80   0 - 185533 futex_ 19:57 ?       00:00:00 /usr/lib/snapd/snapd
+4 S root         668       1     668  0    1  80   0 -  4152 ep_pol 19:57 ?        00:00:01 /lib/systemd/systemd-logind
+4 S root         670       1     670  0    5  80   0 - 98695 poll_s 19:57 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         670       1     671  0    5  80   0 - 98695 poll_s 19:57 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         670       1     743  0    5  80   0 - 98695 poll_s 19:57 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         670       1     754  0    5  80   0 - 98695 futex_ 19:57 ?        00:00:00 /usr/lib/udisks2/udisksd
+1 S root         670       1     764  0    5  80   0 - 98695 poll_s 19:57 ?        00:00:00 /usr/lib/udisks2/udisksd
+4 S daemon       673       1     673  0    1  80   0 -   948 hrtime 19:57 ?        00:00:00 /usr/sbin/atd -f
+4 S root         722       1     722  0    1  80   0 -  1838 poll_s 19:57 ttyS0    00:00:00 /sbin/agetty -o -p -- \u --keep-baud 115200,38400,9600 ttyS0 vt220
+4 S root         739       1     739  0    1  80   0 -  1457 poll_s 19:57 tty1     00:00:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+4 S root         747       1     747  0    2  80   0 - 27026 poll_s 19:57 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1 S root         747       1     765  0    2  80   0 - 27026 poll_s 19:57 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S root         750       1     750  0    3  80   0 - 78613 poll_s 19:57 ?        00:00:00 /usr/sbin/ModemManager
+1 S root         750       1     757  0    3  80   0 - 78613 poll_s 19:57 ?        00:00:00 /usr/sbin/ModemManager
+1 S root         750       1     760  0    3  80   0 - 78613 poll_s 19:57 ?        00:00:00 /usr/sbin/ModemManager
+4 S root         779       1     779  0    1  80   0 -  3043 poll_s 19:57 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4 S root        2776       1    2776  0    1  80   0 -  2174 do_wai 19:58 ?        00:00:00 bash /etc/systemd/system/jujud-machine-21-exec-start.sh
+4 S root        2781    2776    2781  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:00 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+1 R root        2781    2776    2783  0   10  80   0 - 216732 -     19:58 ?        00:00:21 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+1 S root        2781    2776    2784  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:00 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+5 S root        2781    2776    2797  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:07 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+1 S root        2781    2776    2817  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:00 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+5 S root        2781    2776    2818  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:09 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+5 R root        2781    2776    2819  0   10  80   0 - 216732 -     19:58 ?        00:00:06 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+5 S root        2781    2776    2827  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:00 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+5 S root        2781    2776    2836  0   10  80   0 - 216732 do_wai 19:58 ?       00:00:10 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+5 S root        2781    2776    2837  0   10  80   0 - 216732 futex_ 19:58 ?       00:00:03 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+0 S root        3252       2    3252  0    1  80   0 -   622 pipe_w 19:58 ?        00:00:00 bpfilter_umh
+5 S dnsmasq     3276       1    3276  0    1  80   0 -  3482 poll_s 19:58 ?        00:00:00 dnsmasq -u dnsmasq --strict-order --bind-interfaces --pid-file=/run/ubuntu-fan/dnsmasq-fan-252.pid --conf-file= --listen-address 252.1.106.1 --dhcp-range 252.1.106.2,252.1.106.254 --dhcp-no-override --except-interface=lo --interface=fan-252 --dhcp-leasefile=/var/lib/misc/dnsmasq.fan-252.leases --dhcp-authoritative
+4 S root        4181       1    4181  0    1  80   0 -   654 sigsus 19:58 ?        00:00:00 /bin/sh /snap/lxd/22526/commands/daemon.start
+4 S root        4335       1    4335  0    3  80   0 - 21402 futex_ 19:58 ?        00:00:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+5 S root        4335       1    4336  0    3  80   0 - 21402 fuse_d 19:58 ?        00:00:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+1 S root        4335       1    4337  0    3  80   0 - 21402 fuse_d 19:58 ?        00:00:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+4 S root        4356    4181    4356  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4379  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+5 S root        4356    4181    4388  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4389  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4390  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+5 S root        4356    4181    4423  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4424  0   14  80   0 - 346356 skb_wa 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4471  0   14  80   0 - 346356 ep_pol 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4472  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4473  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4474  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4475  0   14  80   0 - 346356 futex_ 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 S root        4356    4181    4533  0   14  80   0 - 346356 ep_pol 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+5 S root        4356    4181    4633  0   14  80   0 - 346356 ep_pol 19:58 ?       00:00:00 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+1 I root        4470       2    4470  0    1  60 -20 -     0 rescue 19:58 ?        00:00:00 [dio/vda1]
+1 S root        4495       2    4495  0    1  60 -20 -     0 taskq_ 19:58 ?        00:00:00 [spl_system_task]
+1 S root        4496       2    4496  0    1  60 -20 -     0 taskq_ 19:58 ?        00:00:00 [spl_delay_taskq]
+1 S root        4497       2    4497  0    1  60 -20 -     0 taskq_ 19:58 ?        00:00:00 [spl_dynamic_tas]
+1 S root        4498       2    4498  0    1  60 -20 -     0 taskq_ 19:58 ?        00:00:00 [spl_kmem_cache]
+1 S root        4502       2    4502  0    1  60 -20 -     0 taskq_ 19:58 ?        00:00:00 [zvol]
+1 S root        4504       2    4504  0    1  80   0 -     0 taskq_ 19:58 ?        00:00:00 [arc_prune]
+1 S root        4505       2    4505  0    1  99  19 -     0 cv_wai 19:58 ?        00:00:00 [zthr_procedure]
+1 S root        4506       2    4506  0    1  99  19 -     0 cv_tim 19:58 ?        00:00:00 [zthr_procedure]
+1 S root        4507       2    4507  0    1  80   0 -     0 taskq_ 19:58 ?        00:00:00 [dbu_evict]
+1 S root        4508       2    4508  0    1  99  19 -     0 cv_tim 19:58 ?        00:00:00 [dbuf_evict]
+1 S root        4527       2    4527  0    1  99  19 -     0 taskq_ 19:58 ?        00:00:00 [z_vdev_file]
+1 S root        4528       2    4528  0    1  80   0 -     0 cv_tim 19:58 ?        00:00:00 [l2arc_feed]
+4 S syslog     14457       1   14457  0    4  80   0 - 56123 poll_s 20:01 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+1 S syslog     14457       1   14458  0    4  80   0 - 56123 poll_s 20:01 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+1 S syslog     14457       1   14459  0    4  80   0 - 56123 do_sys 20:01 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+1 S syslog     14457       1   14460  0    4  80   0 - 56123 futex_ 20:01 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+0 S mysql      26045       1   26045  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26055  0   11  80   0 - 155566 ep_pol 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26056  0   11  80   0 - 155566 ep_pol 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26057  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26058  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26059  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26061  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:22 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26063  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26064  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26067  0   11  80   0 - 155566 do_sig 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+1 S mysql      26045       1   26068  0   11  80   0 - 155566 futex_ 20:06 ?       00:00:00 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+4 S root       32367       1   32367  0    2 -40   - - 39986 ep_pol 20:08 ?        00:00:32 /usr/sbin/corosync -f
+1 S root       32367       1   32368  0    2 -40   - - 39986 futex_ 20:08 ?        00:00:00 /usr/sbin/corosync -f
+4 S root       32374       1   32374  0    1  80   0 - 18595 poll_s 20:08 ?        00:00:00 /usr/sbin/pacemakerd -f
+4 S haclust+   32382   32374   32382  0    1  80   0 - 18836 poll_s 20:08 ?        00:00:01 /usr/lib/pacemaker/pacemaker-based
+4 S root       32383   32374   32383  0    1  80   0 - 16486 poll_s 20:08 ?        00:00:00 /usr/lib/pacemaker/pacemaker-fenced
+4 S root       32384   32374   32384  0    1  80   0 - 12605 poll_s 20:08 ?        00:00:01 /usr/lib/pacemaker/pacemaker-execd
+4 S haclust+   32385   32374   32385  0    1  80   0 - 16082 poll_s 20:08 ?        00:00:00 /usr/lib/pacemaker/pacemaker-attrd
+4 S haclust+   32386   32374   32386  0    1  80   0 - 12695 poll_s 20:08 ?        00:00:00 /usr/lib/pacemaker/pacemaker-schedulerd
+4 S haclust+   32387   32374   32387  0    1  80   0 - 18692 poll_s 20:08 ?        00:00:00 /usr/lib/pacemaker/pacemaker-controld
+1 I root       41759       2   41759  0    1  80   0 -     0 worker 20:19 ?        00:00:00 [kworker/u2:0-events_unbound]
+1 I root       44460       2   44460  0    1  80   0 -     0 worker 20:23 ?        00:00:00 [kworker/0:0-cgroup_pidlist_destroy]
+4 S memcache   44475       1   44475  0   10  80   0 - 102699 ep_pol 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44477  0   10  80   0 - 102699 hrtime 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44478  0   10  80   0 - 102699 ep_pol 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44479  0   10  80   0 - 102699 ep_pol 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44480  0   10  80   0 - 102699 ep_pol 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44481  0   10  80   0 - 102699 ep_pol 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44482  0   10  80   0 - 102699 futex_ 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44483  0   10  80   0 - 102699 futex_ 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44484  0   10  80   0 - 102699 hrtime 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+1 S memcache   44475       1   44485  0   10  80   0 - 102699 futex_ 20:23 ?       00:00:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+5 S root       45230       1   45230  0    1  80   0 -  3456 poll_s 20:23 ?        00:00:00 /usr/sbin/apache2 -k start
+5 S placeme+   45232   45230   45232  0    4  80   0 - 57333 poll_s 20:23 ?        00:00:00 (wsgi:placement)  -k start
+1 S placeme+   45232   45230   45298  0    4  80   0 - 57333 poll_s 20:23 ?        00:00:00 (wsgi:placement)  -k start
+1 S placeme+   45232   45230   45299  0    4  80   0 - 57333 poll_s 20:23 ?        00:00:00 (wsgi:placement)  -k start
+1 S placeme+   45232   45230   45300  0    4  80   0 - 57333 do_loc 20:23 ?        00:00:01 (wsgi:placement)  -k start
+5 S placeme+   45233   45230   45233  0    4  80   0 - 57269 poll_s 20:23 ?        00:00:00 (wsgi:placement)  -k start
+1 S placeme+   45233   45230   45301  0    4  80   0 - 57269 poll_s 20:23 ?        00:00:00 (wsgi:placement)  -k start
+1 S placeme+   45233   45230   45302  0    4  80   0 - 57269 poll_s 20:23 ?        00:00:00 (wsgi:placement)  -k start
+1 S placeme+   45233   45230   45303  0    4  80   0 - 57269 ep_pol 20:23 ?        00:00:01 (wsgi:placement)  -k start
+5 S www-data   45234   45230   45234  0   27  80   0 - 190744 pipe_w 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45305  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45306  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45307  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45308  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45309  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45310  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45311  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45312  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45313  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45314  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45315  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45316  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45317  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45318  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45319  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45346  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45347  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45348  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45349  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45350  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45351  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45352  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45353  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45354  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45355  0   27  80   0 - 190744 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45234   45230   45356  0   27  80   0 - 190744 ep_pol 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+5 S www-data   45235   45230   45235  0   27  80   0 - 190784 pipe_w 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45320  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45321  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45322  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45323  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45324  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45325  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45326  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45327  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45328  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45329  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45330  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45331  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45332  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45333  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45334  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45335  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45336  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45337  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45338  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45339  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45340  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45341  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45342  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45343  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45344  0   27  80   0 - 190784 futex_ 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+1 S www-data   45235   45230   45345  0   27  80   0 - 190784 ep_pol 20:23 ?       00:00:00 /usr/sbin/apache2 -k start
+4 S root       45420       1   45420  0    1  80   0 -  4728 ep_pol 20:23 ?        00:00:00 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+5 S haproxy    45421   45420   45421  0    1  80   0 -  4763 ep_pol 20:23 ?        00:00:00 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+4 S root       72610     779   72610  0    1  80   0 -  3449 poll_s 21:12 ?        00:00:00 sshd: ubuntu [priv]
+4 S ubuntu     72615       1   72615  0    1  80   0 -  4597 ep_pol 21:12 ?        00:00:00 /lib/systemd/systemd --user
+5 S ubuntu     72621   72615   72621  0    1  80   0 - 43199 do_sig 21:12 ?        00:00:00 (sd-pam)
+1 I root       72623       2   72623  0    1  80   0 -     0 worker 21:12 ?        00:00:00 [kworker/0:2-events]
+5 S ubuntu     72767   72610   72767  0    1  80   0 -  3482 poll_s 21:12 ?        00:00:00 sshd: ubuntu@pts/0
+0 S ubuntu     72768   72767   72768  0    1  80   0 -  2535 do_wai 21:12 pts/0    00:00:00 -bash
+4 S root       72848   72768   72848  0    1  80   0 -  2792 poll_s 21:13 pts/0    00:00:00 sudo sosreport
+4 S root       72849   72848   72849  5   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:01 /usr/bin/python3 /usr/bin/sosreport
+1 S root       72849   72848   73002  0   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+1 S root       72849   72848   73004  0   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+1 S root       72849   72848   73006  0   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+1 S root       72849   72848   73008  0   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+5 R root       72849   72848   73080 21   11  80   0 - 167131 -     21:13 pts/0    00:00:03 /usr/bin/python3 /usr/bin/sosreport
+5 S root       72849   72848   73856  8   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+5 S root       72849   72848   73861  0   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+5 S root       72849   72848   74034 16   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+1 S root       72849   72848   74258  0   11  80   0 - 167131 pipe_w 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+1 S root       72849   72848   74273  0   11  80   0 - 167131 futex_ 21:13 pts/0   00:00:00 /usr/bin/python3 /usr/bin/sosreport
+5 S root       72945     366   72945  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73030     366   73030  0    1  80   0 -  4855 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73031     366   73031  0    1  80   0 -  4855 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+1 I root       73095       2   73095  0    1  80   0 -     0 worker 21:13 ?        00:00:00 [kworker/u2:1-events_unbound]
+4 S root       73530       1   73530  5    6  80   0 - 114887 poll_s 21:13 ?       00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       73530       1   73543  0    6  80   0 - 114887 poll_s 21:13 ?       00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       73530       1   73544  0    6  80   0 - 114887 poll_s 21:13 ?       00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       73530       1   73545  0    6  80   0 - 114887 poll_s 21:13 ?       00:00:00 /usr/libexec/fwupd/fwupd
+1 S root       73530       1   73546  0    6  80   0 - 114887 poll_s 21:13 ?       00:00:00 /usr/libexec/fwupd/fwupd
+5 S root       73530       1   73554  0    6  80   0 - 114887 futex_ 21:13 ?       00:00:00 /usr/libexec/fwupd/fwupd
+5 S root       73531     366   73531  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73532     366   73532  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73533     366   73533  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73534     366   73534  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73535     366   73535  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73536     366   73536  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73537     366   73537  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73538     366   73538  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73539     366   73539  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73540     366   73540  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73541     366   73541  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+5 S root       73542     366   73542  0    1  80   0 -  4877 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-udevd
+4 S root       73618       1   73618  0    1  80   0 -  4055 ep_pol 21:13 ?        00:00:00 /lib/systemd/systemd-hostnamed
+0 R root       74167    2781   74167 41    1  80   0 -  5894 -      21:13 ?        00:00:00 /var/lib/juju/agents/unit-placement-0/.venv/bin/python /var/lib/juju/agents/unit-placement-0/charm/hooks/update-status
+0 S root       74256   72849   74256  0    1  80   0 -   677 sigsus 21:13 pts/0    00:00:00 timeout 300s ps -elfL
+4 R root       74259   74256   74259  0    1  80   0 -  1473 -      21:13 pts/0    00:00:00 ps -elfL

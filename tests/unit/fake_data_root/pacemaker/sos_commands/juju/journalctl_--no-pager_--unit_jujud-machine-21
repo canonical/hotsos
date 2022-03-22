@@ -1,0 +1,44 @@
+-- Logs begin at Fri 2022-03-18 19:57:13 UTC, end at Fri 2022-03-18 21:13:23 UTC. --
+Mar 18 19:58:08 juju-3f8d6e-o7ktest-21 systemd[1]: Started juju agent for machine-21.
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: started, version 2.80 cachesize 150
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: compile time options: IPv6 GNU-getopt DBus i18n IDN DHCP DHCPv6 no-Lua TFTP conntrack ipset auth nettlehash DNSSEC loop-detect inotify dumpfile
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: LOUD WARNING: listening on 252.1.106.1 may accept requests via interfaces other than fan-252
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: LOUD WARNING: use --bind-dynamic rather than --bind-interfaces to avoid DNS amplification attacks via these interface(s)
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq-dhcp[3276]: DHCP, IP range 252.1.106.2 -- 252.1.106.254, lease time 1h
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq-dhcp[3276]: DHCP, sockets bound exclusively to interface fan-252
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: reading /etc/resolv.conf
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: using nameserver 127.0.0.53#53
+Mar 18 19:58:11 juju-3f8d6e-o7ktest-21 dnsmasq[3276]: read /etc/hosts - 7 addresses
+Mar 18 20:00:39 juju-3f8d6e-o7ktest-21 groupadd[12517]: group added to /etc/group: name=placement, GID=119
+Mar 18 20:00:39 juju-3f8d6e-o7ktest-21 groupadd[12517]: group added to /etc/gshadow: name=placement
+Mar 18 20:00:39 juju-3f8d6e-o7ktest-21 groupadd[12517]: new group: name=placement, GID=119
+Mar 18 20:00:39 juju-3f8d6e-o7ktest-21 useradd[12525]: new user: name=placement, UID=113, GID=119, home=/var/lib/placement, shell=/bin/false, from=none
+Mar 18 20:00:39 juju-3f8d6e-o7ktest-21 usermod[12533]: change user 'placement' password
+Mar 18 20:00:39 juju-3f8d6e-o7ktest-21 chage[12540]: changed password expiry for placement
+Mar 18 20:00:40 juju-3f8d6e-o7ktest-21 groupadd[12570]: group added to /etc/group: name=memcache, GID=120
+Mar 18 20:00:40 juju-3f8d6e-o7ktest-21 groupadd[12570]: group added to /etc/gshadow: name=memcache
+Mar 18 20:00:40 juju-3f8d6e-o7ktest-21 groupadd[12570]: new group: name=memcache, GID=120
+Mar 18 20:00:40 juju-3f8d6e-o7ktest-21 useradd[12578]: new user: name=memcache, UID=114, GID=120, home=/nonexistent, shell=/bin/false, from=none
+Mar 18 20:00:40 juju-3f8d6e-o7ktest-21 chage[12586]: changed password expiry for memcache
+Mar 18 20:00:40 juju-3f8d6e-o7ktest-21 chfn[12590]: changed user 'memcache' information
+Mar 18 20:00:46 juju-3f8d6e-o7ktest-21 groupadd[12946]: group added to /etc/group: name=ssl-cert, GID=121
+Mar 18 20:00:46 juju-3f8d6e-o7ktest-21 groupadd[12946]: group added to /etc/gshadow: name=ssl-cert
+Mar 18 20:00:46 juju-3f8d6e-o7ktest-21 groupadd[12946]: new group: name=ssl-cert, GID=121
+Mar 18 20:00:53 juju-3f8d6e-o7ktest-21 groupadd[13266]: group added to /etc/group: name=haproxy, GID=122
+Mar 18 20:00:53 juju-3f8d6e-o7ktest-21 groupadd[13266]: group added to /etc/gshadow: name=haproxy
+Mar 18 20:00:53 juju-3f8d6e-o7ktest-21 groupadd[13266]: new group: name=haproxy, GID=122
+Mar 18 20:00:53 juju-3f8d6e-o7ktest-21 useradd[13272]: new user: name=haproxy, UID=115, GID=122, home=/var/lib/haproxy, shell=/usr/sbin/nologin, from=none
+Mar 18 20:00:53 juju-3f8d6e-o7ktest-21 chage[13280]: changed password expiry for haproxy
+Mar 18 20:01:04 juju-3f8d6e-o7ktest-21 apache2.postinst[13828]: Executing deferred 'a2enconf javascript-common' for package javascript-common
+Mar 18 20:01:09 juju-3f8d6e-o7ktest-21 libapache2-mod-wsgi-py3[14253]: apache2_invoke: Enable module wsgi
+Mar 18 20:01:25 juju-3f8d6e-o7ktest-21 placement-api[15052]: apache2_invoke: Enable site placement-api.conf
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 groupadd[16250]: group added to /etc/group: name=haclient, GID=123
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 groupadd[16250]: group added to /etc/gshadow: name=haclient
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 groupadd[16250]: new group: name=haclient, GID=123
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 useradd[16257]: new user: name=hacluster, UID=116, GID=123, home=/var/lib/pacemaker, shell=/usr/sbin/nologin, from=none
+Mar 18 20:02:00 juju-3f8d6e-o7ktest-21 usermod[16265]: change user 'hacluster' password
+Mar 18 20:02:00 juju-3f8d6e-o7ktest-21 chage[16272]: changed password expiry for hacluster
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 groupadd[20040]: group added to /etc/group: name=mysql, GID=124
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 groupadd[20040]: group added to /etc/gshadow: name=mysql
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 groupadd[20040]: new group: name=mysql, GID=124
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 useradd[20050]: new user: name=mysql, UID=997, GID=124, home=/var/lib/mysql, shell=/bin/sh, from=none

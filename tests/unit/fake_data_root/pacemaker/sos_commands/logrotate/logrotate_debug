@@ -1,0 +1,293 @@
+WARNING: logrotate in debug mode does nothing except printing debug messages!  Consider using verbose mode (-v) instead if this is not what you want.
+
+reading config file /etc/logrotate.conf
+including /etc/logrotate.d
+reading config file alternatives
+reading config file apache2
+reading config file apport
+reading config file apt
+reading config file bootlog
+reading config file btmp
+reading config file corosync
+reading config file dpkg
+reading config file haproxy
+reading config file pacemaker
+reading config file placement-common
+reading config file rsyslog
+reading config file ubuntu-advantage-tools
+reading config file ufw
+reading config file unattended-upgrades
+reading config file wtmp
+Reading state from file: /var/lib/logrotate/status
+Allocating hash table for state file, size 64 entries
+
+Handling 18 logs
+
+rotating pattern: /var/log/alternatives.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/alternatives.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apache2/*.log  after 1 days (14 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apache2/access.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/apache2/error.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/apache2/other_vhosts_access.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/apache2/placement_access.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/apache2/placement_api_access.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/apache2/placement_api_error.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/apache2/placement_error.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+not running prerotate script, since no logs will be rotated
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apport.log  after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apport.log
+  log /var/log/apport.log does not exist -- skipping
+Creating new state
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apt/term.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apt/term.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/apt/history.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/apt/history.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/boot.log
+ after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/boot.log
+  log /var/log/boot.log does not exist -- skipping
+Creating new state
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/btmp  monthly (1 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/btmp
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/corosync/corosync.log  after 1 days (31 rotations)
+empty log files are not rotated, only log files >= 2048 bytes are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/corosync/corosync.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/dpkg.log  monthly (12 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/dpkg.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/haproxy.log  after 1 days (52 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/haproxy.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/pacemaker/pacemaker.log /var/log/pacemaker/bundles/*/pacemaker.log /var/log/pacemaker/bundles/*/pcmk-init.log  weekly (99 rotations)
+empty log files are not rotated, log files >= 104857600 are rotated earlier, old logs are removed
+switching euid to 116 and egid to 123
+considering log /var/log/pacemaker/pacemaker.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/pacemaker/bundles/*/pacemaker.log
+  log /var/log/pacemaker/bundles/*/pacemaker.log does not exist -- skipping
+Creating new state
+considering log /var/log/pacemaker/bundles/*/pcmk-init.log
+  log /var/log/pacemaker/bundles/*/pcmk-init.log does not exist -- skipping
+Creating new state
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/placement/*.log  after 1 days (4 rotations)
+empty log files are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/placement/*.log
+  log /var/log/placement/*.log does not exist -- skipping
+Creating new state
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/syslog
+ after 1 days (7 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/syslog
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/mail.info
+/var/log/mail.warn
+/var/log/mail.err
+/var/log/mail.log
+/var/log/daemon.log
+/var/log/kern.log
+/var/log/auth.log
+/var/log/user.log
+/var/log/lpr.log
+/var/log/cron.log
+/var/log/debug
+/var/log/messages
+ weekly (4 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/mail.info
+  log /var/log/mail.info does not exist -- skipping
+Creating new state
+considering log /var/log/mail.warn
+  log /var/log/mail.warn does not exist -- skipping
+Creating new state
+considering log /var/log/mail.err
+  log /var/log/mail.err does not exist -- skipping
+Creating new state
+considering log /var/log/mail.log
+  log /var/log/mail.log does not exist -- skipping
+Creating new state
+considering log /var/log/daemon.log
+  log /var/log/daemon.log does not exist -- skipping
+Creating new state
+considering log /var/log/kern.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/auth.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+considering log /var/log/user.log
+  log /var/log/user.log does not exist -- skipping
+Creating new state
+considering log /var/log/lpr.log
+  log /var/log/lpr.log does not exist -- skipping
+Creating new state
+considering log /var/log/cron.log
+  log /var/log/cron.log does not exist -- skipping
+Creating new state
+considering log /var/log/debug
+  log /var/log/debug does not exist -- skipping
+Creating new state
+considering log /var/log/messages
+  log /var/log/messages does not exist -- skipping
+Creating new state
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/ubuntu-advantage*.log  monthly (6 rotations)
+empty log files are not rotated, old logs are removed
+considering log /var/log/ubuntu-advantage-timer.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+
+rotating pattern: /var/log/ufw.log
+ weekly (4 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/ufw.log
+  log /var/log/ufw.log does not exist -- skipping
+Creating new state
+not running postrotate script, since no logs were rotated
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/unattended-upgrades/unattended-upgrades.log 
+/var/log/unattended-upgrades/unattended-upgrades-dpkg.log
+/var/log/unattended-upgrades/unattended-upgrades-shutdown.log
+ monthly (6 rotations)
+empty log files are not rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/unattended-upgrades/unattended-upgrades.log
+  log /var/log/unattended-upgrades/unattended-upgrades.log does not exist -- skipping
+Creating new state
+considering log /var/log/unattended-upgrades/unattended-upgrades-dpkg.log
+  log /var/log/unattended-upgrades/unattended-upgrades-dpkg.log does not exist -- skipping
+Creating new state
+considering log /var/log/unattended-upgrades/unattended-upgrades-shutdown.log
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0
+
+rotating pattern: /var/log/wtmp  monthly (1 rotations)
+empty log files are rotated, only log files >= 1048576 bytes are rotated, old logs are removed
+switching euid to 0 and egid to 4
+considering log /var/log/wtmp
+Creating new state
+  Now: 2022-03-18 21:13
+  Last rotated at 2022-03-18 21:00
+  log does not need rotating (log has been already rotated)
+switching euid to 0 and egid to 0

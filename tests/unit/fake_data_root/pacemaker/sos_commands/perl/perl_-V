@@ -1,0 +1,153 @@
+Summary of my perl5 (revision 5 version 30 subversion 0) configuration:
+   
+  Platform:
+    osname=linux
+    osvers=4.19.0
+    archname=x86_64-linux-gnu-thread-multi
+    uname='linux localhost 4.19.0 #1 smp debian 4.19.0 x86_64 gnulinux '
+    config_args='-Dmksymlinks -Dusethreads -Duselargefiles -Dcc=x86_64-linux-gnu-gcc -Dcpp=x86_64-linux-gnu-cpp -Dld=x86_64-linux-gnu-gcc -Dccflags=-DDEBIAN -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/build/perl-Wfb2Cd/perl-5.30.0=. -fstack-protector-strong -Wformat -Werror=format-security -Dldflags= -Wl,-Bsymbolic-functions -Wl,-z,relro -Dlddlflags=-shared -Wl,-Bsymbolic-functions -Wl,-z,relro -Dcccdlflags=-fPIC -Darchname=x86_64-linux-gnu -Dprefix=/usr -Dprivlib=/usr/share/perl/5.30 -Darchlib=/usr/lib/x86_64-linux-gnu/perl/5.30 -Dvendorprefix=/usr -Dvendorlib=/usr/share/perl5 -Dvendorarch=/usr/lib/x86_64-linux-gnu/perl5/5.30 -Dsiteprefix=/usr/local -Dsitelib=/usr/local/share/perl/5.30.0 -Dsitearch=/usr/local/lib/x86_64-linux-gnu/perl/5.30.0 -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dsiteman1dir=/usr/local/man/man1 -Dsiteman3dir=/usr/local/man/man3 -Duse64bitint -Dman1ext=1 -Dman3ext=3perl -Dpager=/usr/bin/sensible-pager -Uafs -Ud_csh -Ud_ualarm -Uusesfio -Uusenm -Ui_libutil -Ui_xlocale -Uversiononly -DDEBUGGING=-g -Doptimize=-O2 -dEs -Duseshrplib -Dlibperl=libperl.so.5.30.0'
+    hint=recommended
+    useposix=true
+    d_sigaction=define
+    useithreads=define
+    usemultiplicity=define
+    use64bitint=define
+    use64bitall=define
+    uselongdouble=undef
+    usemymalloc=n
+    default_inc_excludes_dot=define
+    bincompat5005=undef
+  Compiler:
+    cc='x86_64-linux-gnu-gcc'
+    ccflags ='-D_REENTRANT -D_GNU_SOURCE -DDEBIAN -fwrapv -fno-strict-aliasing -pipe -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+    optimize='-O2 -g'
+    cppflags='-D_REENTRANT -D_GNU_SOURCE -DDEBIAN -fwrapv -fno-strict-aliasing -pipe -I/usr/local/include'
+    ccversion=''
+    gccversion='9.3.0'
+    gccosandvers=''
+    intsize=4
+    longsize=8
+    ptrsize=8
+    doublesize=8
+    byteorder=12345678
+    doublekind=3
+    d_longlong=define
+    longlongsize=8
+    d_longdbl=define
+    longdblsize=16
+    longdblkind=3
+    ivtype='long'
+    ivsize=8
+    nvtype='double'
+    nvsize=8
+    Off_t='off_t'
+    lseeksize=8
+    alignbytes=8
+    prototype=define
+  Linker and Libraries:
+    ld='x86_64-linux-gnu-gcc'
+    ldflags =' -fstack-protector-strong -L/usr/local/lib'
+    libpth=/usr/local/lib /usr/include/x86_64-linux-gnu /usr/lib /lib/x86_64-linux-gnu /lib/../lib /usr/lib/x86_64-linux-gnu /usr/lib/../lib /lib
+    libs=-lgdbm -lgdbm_compat -ldb -ldl -lm -lpthread -lc -lcrypt
+    perllibs=-ldl -lm -lpthread -lc -lcrypt
+    libc=libc-2.31.so
+    so=so
+    useshrplib=true
+    libperl=libperl.so.5.30
+    gnulibc_version='2.31'
+  Dynamic Linking:
+    dlsrc=dl_dlopen.xs
+    dlext=so
+    d_dlsymun=undef
+    ccdlflags='-Wl,-E'
+    cccdlflags='-fPIC'
+    lddlflags='-shared -L/usr/local/lib -fstack-protector-strong'
+
+
+Characteristics of this binary (from libperl): 
+  Compile-time options:
+    HAS_TIMES
+    MULTIPLICITY
+    PERLIO_LAYERS
+    PERL_COPY_ON_WRITE
+    PERL_DONT_CREATE_GVSV
+    PERL_IMPLICIT_CONTEXT
+    PERL_MALLOC_WRAP
+    PERL_OP_PARENT
+    PERL_PRESERVE_IVUV
+    USE_64_BIT_ALL
+    USE_64_BIT_INT
+    USE_ITHREADS
+    USE_LARGE_FILES
+    USE_LOCALE
+    USE_LOCALE_COLLATE
+    USE_LOCALE_CTYPE
+    USE_LOCALE_NUMERIC
+    USE_LOCALE_TIME
+    USE_PERLIO
+    USE_PERL_ATOF
+    USE_REENTRANT_API
+    USE_THREAD_SAFE_LOCALE
+  Locally applied patches:
+    DEBPKG:debian/cpan_definstalldirs - Provide a sensible INSTALLDIRS default for modules installed from CPAN.
+    DEBPKG:debian/db_file_ver - https://bugs.debian.org/340047 Remove overly restrictive DB_File version check.
+    DEBPKG:debian/doc_info - Replace generic man(1) instructions with Debian-specific information.
+    DEBPKG:debian/enc2xs_inc - https://bugs.debian.org/290336 Tweak enc2xs to follow symlinks and ignore missing @INC directories.
+    DEBPKG:debian/errno_ver - https://bugs.debian.org/343351 Remove Errno version check due to upgrade problems with long-running processes.
+    DEBPKG:debian/libperl_embed_doc - https://bugs.debian.org/186778 Note that libperl-dev package is required for embedded linking
+    DEBPKG:fixes/respect_umask - Respect umask during installation
+    DEBPKG:debian/writable_site_dirs - Set umask approproately for site install directories
+    DEBPKG:debian/extutils_set_libperl_path - EU:MM: set location of libperl.a under /usr/lib
+    DEBPKG:debian/no_packlist_perllocal - Don't install .packlist or perllocal.pod for perl or vendor
+    DEBPKG:debian/fakeroot - Postpone LD_LIBRARY_PATH evaluation to the binary targets.
+    DEBPKG:debian/instmodsh_doc - Debian policy doesn't install .packlist files for core or vendor.
+    DEBPKG:debian/ld_run_path - Remove standard libs from LD_RUN_PATH as per Debian policy.
+    DEBPKG:debian/libnet_config_path - Set location of libnet.cfg to /etc/perl/Net as /usr may not be writable.
+    DEBPKG:debian/perlivp - https://bugs.debian.org/510895 Make perlivp skip include directories in /usr/local
+    DEBPKG:debian/squelch-locale-warnings - https://bugs.debian.org/508764 Squelch locale warnings in Debian package maintainer scripts
+    DEBPKG:debian/patchlevel - https://bugs.debian.org/567489 List packaged patches for 5.30.0-9ubuntu0.2 in patchlevel.h
+    DEBPKG:fixes/document_makemaker_ccflags - https://bugs.debian.org/628522 [rt.cpan.org #68613] Document that CCFLAGS should include $Config{ccflags}
+    DEBPKG:debian/find_html2text - https://bugs.debian.org/640479 Configure CPAN::Distribution with correct name of html2text
+    DEBPKG:debian/perl5db-x-terminal-emulator.patch - https://bugs.debian.org/668490 Invoke x-terminal-emulator rather than xterm in perl5db.pl
+    DEBPKG:debian/cpan-missing-site-dirs - https://bugs.debian.org/688842 Fix CPAN::FirstTime defaults with nonexisting site dirs if a parent is writable
+    DEBPKG:fixes/memoize_storable_nstore - [rt.cpan.org #77790] https://bugs.debian.org/587650 Memoize::Storable: respect 'nstore' option not respected
+    DEBPKG:debian/makemaker-pasthru - https://bugs.debian.org/758471 Pass LD settings through to subdirectories
+    DEBPKG:debian/makemaker-manext - https://bugs.debian.org/247370 Make EU::MakeMaker honour MANnEXT settings in generated manpage headers
+    DEBPKG:debian/kfreebsd-softupdates - https://bugs.debian.org/796798 Work around Debian Bug#796798
+    DEBPKG:fixes/autodie-scope - https://bugs.debian.org/798096 Fix a scoping issue with "no autodie" and the "system" sub
+    DEBPKG:fixes/memoize-pod - [rt.cpan.org #89441] Fix POD errors in Memoize
+    DEBPKG:debian/hurd-softupdates - https://bugs.debian.org/822735 Fix t/op/stat.t failures on hurd
+    DEBPKG:fixes/math_complex_doc_great_circle - https://bugs.debian.org/697567 [rt.cpan.org #114104] Math::Trig: clarify definition of great_circle_midpoint
+    DEBPKG:fixes/math_complex_doc_see_also - https://bugs.debian.org/697568 [rt.cpan.org #114105] Math::Trig: add missing SEE ALSO
+    DEBPKG:fixes/math_complex_doc_angle_units - https://bugs.debian.org/731505 [rt.cpan.org #114106] Math::Trig: document angle units
+    DEBPKG:fixes/cpan_web_link - https://bugs.debian.org/367291 CPAN: Add link to main CPAN web site
+    DEBPKG:debian/hppa_op_optimize_workaround - https://bugs.debian.org/838613 Temporarily lower the optimization of op.c on hppa due to gcc-6 problems
+    DEBPKG:debian/installman-utf8 - https://bugs.debian.org/840211 Generate man pages with UTF-8 characters
+    DEBPKG:fixes/getopt-long-4 - https://bugs.debian.org/864544 [rt.cpan.org #122068] Fix issue #122068.
+    DEBPKG:debian/hppa_opmini_optimize_workaround - https://bugs.debian.org/869122 Lower the optimization level of opmini.c on hppa
+    DEBPKG:debian/sh4_op_optimize_workaround - https://bugs.debian.org/869373 Also lower the optimization level of op.c and opmini.c on sh4
+    DEBPKG:debian/perldoc-pager - https://bugs.debian.org/870340 [rt.cpan.org #120229] Fix perldoc terminal escapes when sensible-pager is less
+    DEBPKG:debian/prune_libs - https://bugs.debian.org/128355 Prune the list of libraries wanted to what we actually need.
+    DEBPKG:debian/mod_paths - Tweak @INC ordering for Debian
+    DEBPKG:debian/configure-regen - https://bugs.debian.org/762638 Regenerate Configure et al. after probe unit changes
+    DEBPKG:debian/deprecate-with-apt - https://bugs.debian.org/747628 Point users to Debian packages of deprecated core modules
+    DEBPKG:debian/disable-stack-check - https://bugs.debian.org/902779 [perl #133327] Disable debugperl stack extension checks for binary compatibility with perl
+    DEBPKG:fixes/eumm-usrmerge - https://bugs.debian.org/913637 Avoid mangling /bin non-perl shebangs on merged-/usr systems
+    DEBPKG:debian/perlbug-editor - https://bugs.debian.org/922609 Use "editor" as the default perlbug editor, as per Debian policy
+    DEBPKG:fixes/gid-parsing - [79e302e] https://bugs.debian.org/941985 [perl #134169] (perl #134169) mg.c reset endptr after use
+    DEBPKG:fixes/CVE-2020-10543.patch - [PATCH v530 1/4] regcomp.c: Prevent integer overflow from nested regex quantifiers.
+    DEBPKG:fixes/CVE-2020-10878-1.patch - [PATCH v530 2/4] study_chunk: extract rck_elide_nothing
+    DEBPKG:fixes/CVE-2020-10878-2.patch - [PATCH v530 3/4] regcomp: use long jumps if there is any possibility of overflow
+    DEBPKG:fixes/CVE-2020-12723.patch - [PATCH v530 4/4] study_chunk: avoid mutating regexp program within GOSUB
+  Built under linux
+  Compiled at Oct 19 2020 10:56:54
+  @INC:
+    /etc/perl
+    /usr/local/lib/x86_64-linux-gnu/perl/5.30.0
+    /usr/local/share/perl/5.30.0
+    /usr/lib/x86_64-linux-gnu/perl5/5.30
+    /usr/share/perl5
+    /usr/lib/x86_64-linux-gnu/perl/5.30
+    /usr/share/perl/5.30
+    /usr/local/lib/site_perl
+    /usr/lib/x86_64-linux-gnu/perl-base

@@ -1,0 +1,26 @@
+juju-3f8d6e-o7ktest-21:  Debug: Located corosync config file: /etc/corosync/corosync.conf
+juju-3f8d6e-o7ktest-21:  Debug: Reading corosync log settings from /etc/corosync/corosync.conf
+juju-3f8d6e-o7ktest-21:  Debug: Pattern 'Mark:pcmk:1647638012' found in: [ /var/log/syslog ]
+juju-3f8d6e-o7ktest-21:  Debug: Config: corosync (/etc/corosync/corosync.conf) /var/log/syslog
+juju-3f8d6e-o7ktest-21:  Debug: Using lsb_release for distribution info
+juju-3f8d6e-o7ktest-21:  Debug: The package manager is: deb
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: pacemaker
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: pacemaker-remote
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: corosync
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: resource-agents
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: cluster-glue
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: ocfs2-tools
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: lvm2
+juju-3f8d6e-o7ktest-21:  Debug: Verifying installation of: lighttpd
+juju-3f8d6e-o7ktest-21:  Debug: found 7 scheduler input files in /var/lib/pacemaker/pengine
+juju-3f8d6e-o7ktest-21:  Debug: Looking for backtraces: 1647378184 1647638021
+juju-3f8d6e-o7ktest-21:  Debug: Sanitizing files: passw.* passw.*
+juju-3f8d6e-o7ktest-21:  Debug: Gathering logs from 2022-03-15 21:03:04 to 2022-03-18 21:13:41:
+juju-3f8d6e-o7ktest-21:  Debug:    /var/log/syslog journalctl
+juju-3f8d6e-o7ktest-21:  Debug: Found log /var/log/syslog
+juju-3f8d6e-o7ktest-21:  Including segment [1-2328] from /var/log/syslog
+juju-3f8d6e-o7ktest-21:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Mar 18 21:13 backtraces.txt
+juju-3f8d6e-o7ktest-21:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Mar 18 21:13 dlm_dump.txt
+juju-3f8d6e-o7ktest-21:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Mar 18 21:13 drbd_info.txt
+juju-3f8d6e-o7ktest-21:  Debug: Removing empty file: -rw-r--r-- 1 root root 0 Mar 18 21:13 permissions.txt
+juju-3f8d6e-o7ktest-21:  Debug: Localhost: juju-3f8d6e-o7ktest-21 juju-3f8d6e-o7ktest-21

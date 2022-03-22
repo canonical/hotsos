@@ -1,0 +1,400 @@
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name     Timer
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      0          22494      779/sshd: /usr/sbin  off (0.00/0/0)
+tcp        0      0 127.0.0.1:8888          0.0.0.0:*               LISTEN      0          181409     45421/haproxy        off (0.00/0/0)
+tcp        0      0 0.0.0.0:8778            0.0.0.0:*               LISTEN      0          181420     45421/haproxy        off (0.00/0/0)
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      997        101367     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 127.0.0.1:3307          0.0.0.0:*               LISTEN      997        101365     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 127.0.0.1:3308          0.0.0.0:*               LISTEN      997        101374     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 127.0.0.1:3309          0.0.0.0:*               LISTEN      997        101376     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 252.1.106.1:53          0.0.0.0:*               LISTEN      0          31410      3276/dnsmasq         off (0.00/0/0)
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      101        18886      561/systemd-resolve  off (0.00/0/0)
+tcp        0      0 10.5.1.106:35830        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (21.25/0/0)
+tcp        0      0 10.5.1.106:35866        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (26.13/0/0)
+tcp        0      0 10.5.1.106:35878        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (27.90/0/0)
+tcp        0      0 10.5.1.106:35754        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (10.65/0/0)
+tcp        0      0 10.5.1.106:35680        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (0.00/0/0)
+tcp        0      0 10.5.1.106:35934        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (35.99/0/0)
+tcp        0      0 10.5.1.106:53980        10.5.0.175:17070        ESTABLISHED 0          31108      2781/jujud           keepalive (14.16/0/0)
+tcp        0      0 10.5.1.106:35886        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (29.07/0/0)
+tcp        0      0 10.5.1.106:35938        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (36.52/0/0)
+tcp        0      0 10.5.1.106:35704        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (3.26/0/0)
+tcp        0      0 10.5.1.106:35966        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (40.32/0/0)
+tcp        0      0 10.5.1.106:35862        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (25.56/0/0)
+tcp        0      0 10.5.1.106:36106        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (59.87/0/0)
+tcp        0      0 252.1.106.1:37820       252.0.175.1:17070       ESTABLISHED 0          57593      2781/jujud           keepalive (3.16/0/0)
+tcp        0      0 10.5.1.106:35898        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (30.82/0/0)
+tcp        0      0 10.5.1.106:35940        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (37.06/0/0)
+tcp        0      0 10.5.1.106:35974        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (41.43/0/0)
+tcp        0      0 10.5.1.106:22           10.5.0.7:39594          ESTABLISHED 0          277720     72610/sshd: ubuntu   keepalive (7162.78/0/0)
+tcp        0      0 10.5.1.106:35988        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (43.58/0/0)
+tcp        0      0 10.5.1.106:35948        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (38.17/0/0)
+tcp        0      0 10.5.1.106:35916        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (33.21/0/0)
+tcp        0      0 10.5.1.106:35776        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (13.78/0/0)
+tcp        0      0 10.5.1.106:36004        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (45.66/0/0)
+tcp        0      0 10.5.1.106:35962        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (39.77/0/0)
+tcp        0      0 10.5.100.5:8778         10.5.0.200:55658        TIME_WAIT   0          0          -                    timewait (39.00/0/0)
+tcp        0      0 10.5.1.106:35912        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (32.16/0/0)
+tcp        0      0 10.5.1.106:35696        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (2.10/0/0)
+tcp        0      0 10.5.1.106:35848        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (23.87/0/0)
+tcp        0      0 10.5.1.106:35814        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (19.12/0/0)
+tcp        0      0 10.5.100.5:8778         10.5.0.200:55656        TIME_WAIT   0          0          -                    timewait (38.98/0/0)
+tcp        0      0 10.5.1.106:35818        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (19.64/0/0)
+tcp        0      0 10.5.1.106:35958        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (39.23/0/0)
+tcp        0      0 10.5.1.106:35894        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (30.25/0/0)
+tcp        0      0 10.5.1.106:35750        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (10.10/0/0)
+tcp        0      0 10.5.1.106:35922        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (34.32/0/0)
+tcp        0      0 10.5.1.106:36078        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (56.32/0/0)
+tcp        0      0 10.5.1.106:36054        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (52.84/0/0)
+tcp        0      0 10.5.1.106:36000        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (45.14/0/0)
+tcp        0      0 10.5.1.106:35788        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (15.44/0/0)
+tcp        0      0 10.5.1.106:35904        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (32.00/0/0)
+tcp        0      0 10.5.1.106:35910        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (32.67/0/0)
+tcp        0      0 10.5.1.106:36028        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (48.38/0/0)
+tcp        0      0 10.5.1.106:35756        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (10.15/0/0)
+tcp        0      0 10.5.1.106:35930        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (35.43/0/0)
+tcp        0      0 10.5.1.106:35884        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (28.50/0/0)
+tcp        0      0 10.5.1.106:36104        10.5.3.195:3306         ESTABLISHED 997        291524     26045/mysqlrouter    keepalive (7199.79/0/0)
+tcp        0      0 10.5.1.106:36026        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (48.88/0/0)
+tcp        0      0 10.5.1.106:36072        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (55.20/0/0)
+tcp        0      0 10.5.1.106:35798        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (16.51/0/0)
+tcp        0      0 10.5.1.106:35870        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (26.72/0/0)
+tcp        0      0 10.5.1.106:35998        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (44.62/0/0)
+tcp        0      0 10.5.1.106:36060        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (54.02/0/0)
+tcp        0      0 10.5.1.106:36096        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (59.17/0/0)
+tcp        0      0 10.5.1.106:35760        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (11.17/0/0)
+tcp        0      0 10.5.1.106:35954        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (38.70/0/0)
+tcp        0      0 10.5.1.106:35700        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (2.67/0/0)
+tcp        0      0 10.5.1.106:36100        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (59.79/0/0)
+tcp        0      0 10.5.1.106:35774        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (13.26/0/0)
+tcp        0      0 10.5.1.106:35876        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (27.32/0/0)
+tcp        0      0 10.5.1.106:35678        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (0.00/0/0)
+tcp        0      0 10.5.1.106:35804        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (17.56/0/0)
+tcp        0      0 10.5.1.106:35812        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (18.59/0/0)
+tcp        0      0 127.0.0.1:46952         127.0.0.1:3306          ESTABLISHED 113        220768     45233/(wsgi:placeme  keepalive (5382.18/0/0)
+tcp        0      0 10.5.1.106:35872        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (26.22/0/0)
+tcp        0      0 10.5.1.106:35800        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (17.03/0/0)
+tcp        0      0 10.5.1.106:36058        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (53.44/0/0)
+tcp        0      0 10.5.1.106:35672        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (0.00/0/0)
+tcp        0      0 10.5.1.106:35736        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (8.00/0/0)
+tcp        0      0 10.5.1.106:36016        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (47.23/0/0)
+tcp        0      0 10.5.1.106:36050        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (52.24/0/0)
+tcp        0      0 10.5.1.106:54024        10.5.0.175:17070        ESTABLISHED 0          57612      2781/jujud           keepalive (3.67/0/0)
+tcp        0      0 10.5.1.106:35674        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (0.00/0/0)
+tcp        0      0 10.5.1.106:35762        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (11.69/0/0)
+tcp        0      0 10.5.1.106:35766        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (12.22/0/0)
+tcp        0      0 10.5.1.106:35822        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (20.16/0/0)
+tcp        0      0 10.5.1.106:35990        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (43.08/0/0)
+tcp        0      0 10.5.1.106:36074        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (55.78/0/0)
+tcp        0      0 10.5.1.106:53978        10.5.0.175:17070        ESTABLISHED 0          31054      2781/jujud           keepalive (14.16/0/0)
+tcp        0      0 10.5.1.106:35794        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (15.48/0/0)
+tcp        0      0 10.5.1.106:35784        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (14.92/0/0)
+tcp        0      0 10.5.1.106:35950        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (37.67/0/0)
+tcp        0      0 10.5.1.106:53972        10.5.0.175:17070        ESTABLISHED 0          30745      2781/jujud           keepalive (12.88/0/0)
+tcp        0      0 10.5.1.106:35970        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (40.87/0/0)
+tcp        0      0 10.5.1.106:35732        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (7.42/0/0)
+tcp        0      0 10.5.1.106:36040        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (50.57/0/0)
+tcp        0      0 10.5.1.106:35714        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (5.14/0/0)
+tcp        0      0 10.5.1.106:35846        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (23.33/0/0)
+tcp        0      0 10.5.1.106:35856        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (24.97/0/0)
+tcp        0      0 10.5.1.106:35692        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (1.52/0/0)
+tcp        0      0 10.5.1.106:36046        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (51.68/0/0)
+tcp        0      0 10.5.1.106:36086        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (57.47/0/0)
+tcp        0      0 10.5.1.106:35944        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (37.60/0/0)
+tcp        0      0 252.1.106.1:37818       252.0.175.1:17070       ESTABLISHED 0          57592      2781/jujud           keepalive (3.16/0/0)
+tcp        0      0 10.5.1.106:35724        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (6.26/0/0)
+tcp        0      0 10.5.1.106:35712        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (4.56/0/0)
+tcp        0      0 10.5.1.106:35740        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (8.54/0/0)
+tcp        0      0 127.0.0.1:3306          127.0.0.1:46980         ESTABLISHED 997        220869     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 10.5.1.106:51554        10.5.3.195:3306         ESTABLISHED 997        220771     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 10.5.1.106:35994        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (44.10/0/0)
+tcp        0      0 10.5.1.106:36012        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (46.71/0/0)
+tcp        0      0 10.5.1.106:35852        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (24.41/0/0)
+tcp        0      0 10.5.1.106:35706        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (3.87/0/0)
+tcp        0      0 10.5.1.106:35746        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (9.58/0/0)
+tcp        0      0 10.5.1.106:36066        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (54.66/0/0)
+tcp        0      0 10.5.1.106:35976        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (41.98/0/0)
+tcp        0      0 10.5.1.106:35982        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (42.51/0/0)
+tcp        0      0 10.5.1.106:51582        10.5.3.195:3306         ESTABLISHED 997        220871     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 10.5.1.106:35918        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (33.78/0/0)
+tcp        0      0 10.5.1.106:36094        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (58.64/0/0)
+tcp        0      0 10.5.1.106:35720        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (5.70/0/0)
+tcp        0      0 10.5.1.106:35718        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (4.64/0/0)
+tcp        0      0 10.5.1.106:36090        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (58.05/0/0)
+tcp        0      0 10.5.1.106:36018        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (47.76/0/0)
+tcp        0      0 10.5.1.106:36008        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (46.20/0/0)
+tcp        0      0 10.5.1.106:35902        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (31.41/0/0)
+tcp        0      0 10.5.1.106:35780        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (14.37/0/0)
+tcp        0      0 10.5.1.106:35834        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (21.77/0/0)
+tcp        0      0 10.5.1.106:35926        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (34.86/0/0)
+tcp        0      0 10.5.1.106:36068        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (54.15/0/0)
+tcp        0      0 10.5.1.106:54028        10.5.0.175:17070        ESTABLISHED 0          57628      2781/jujud           keepalive (3.41/0/0)
+tcp        0      0 10.5.1.106:53970        10.5.0.175:17070        ESTABLISHED 0          30742      2781/jujud           keepalive (12.88/0/0)
+tcp        0      0 10.5.1.106:36032        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (49.44/0/0)
+tcp        0      0 10.5.1.106:35770        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (12.74/0/0)
+tcp        0      0 252.1.106.1:37822       252.0.175.1:17070       ESTABLISHED 0          57608      2781/jujud           keepalive (2.64/0/0)
+tcp        0      0 10.5.1.106:36082        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (56.87/0/0)
+tcp        0      0 10.5.1.106:53982        10.5.0.175:17070        ESTABLISHED 0          31397      2781/jujud           keepalive (0.60/0/0)
+tcp        0      0 10.5.1.106:35688        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (0.96/0/0)
+tcp        0      0 127.0.0.1:46980         127.0.0.1:3306          ESTABLISHED 113        220868     45232/(wsgi:placeme  keepalive (5384.48/0/0)
+tcp        0      0 10.5.1.106:36022        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (48.30/0/0)
+tcp        0      0 10.5.1.106:35792        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (15.98/0/0)
+tcp        0      0 10.5.1.106:35826        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (20.67/0/0)
+tcp        0      0 10.5.1.106:35728        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (6.86/0/0)
+tcp        0      0 10.5.1.106:36036        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (50.00/0/0)
+tcp        0      0 10.5.1.106:35842        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (22.81/0/0)
+tcp        0      0 10.5.1.106:35838        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (22.29/0/0)
+tcp        0      0 10.5.1.106:35984        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (43.03/0/0)
+tcp        0      0 10.5.1.106:35808        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (18.08/0/0)
+tcp        0      0 10.5.1.106:36042        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (51.13/0/0)
+tcp        0      0 10.5.1.106:35890        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (29.64/0/0)
+tcp        0      0 127.0.0.1:3306          127.0.0.1:46952         ESTABLISHED 997        220769     26045/mysqlrouter    off (0.00/0/0)
+tcp        0      0 10.5.1.106:35832        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (20.75/0/0)
+tcp        0      0 10.5.1.106:35742        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (9.06/0/0)
+tcp        0      0 10.5.1.106:54026        10.5.0.175:17070        ESTABLISHED 0          57613      2781/jujud           keepalive (3.67/0/0)
+tcp        0      0 10.5.1.106:35684        10.5.3.195:3306         TIME_WAIT   0          0          -                    timewait (0.36/0/0)
+tcp6       0      0 :::22                   :::*                    LISTEN      0          22505      779/sshd: /usr/sbin  off (0.00/0/0)
+tcp6       0      0 :::8768                 :::*                    LISTEN      0          180839     45230/apache2        off (0.00/0/0)
+tcp6       0      0 :::8778                 :::*                    LISTEN      0          181421     45421/haproxy        off (0.00/0/0)
+tcp6       0      0 ::1:11211               :::*                    LISTEN      114        178581     44475/memcached      off (0.00/0/0)
+tcp6       0      0 :::80                   :::*                    LISTEN      0          180833     45230/apache2        off (0.00/0/0)
+tcp6       0      0 ::1:52650               ::1:11211               ESTABLISHED 113        232314     45233/(wsgi:placeme  off (0.00/0/0)
+tcp6       0      0 ::1:11211               ::1:51360               ESTABLISHED 114        227129     44475/memcached      keepalive (5592.30/0/0)
+tcp6       0      0 ::1:11211               ::1:52650               ESTABLISHED 114        232315     44475/memcached      keepalive (5777.00/0/0)
+tcp6       0      0 ::1:51360               ::1:11211               ESTABLISHED 113        227128     45232/(wsgi:placeme  off (0.00/0/0)
+udp        0      0 252.1.106.1:53          0.0.0.0:*                           0          31409      3276/dnsmasq         off (0.00/0/0)
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           101        18885      561/systemd-resolve  off (0.00/0/0)
+udp        0      0 0.0.0.0:67              0.0.0.0:*                           0          31406      3276/dnsmasq         off (0.00/0/0)
+udp        0      0 10.5.1.106:68           0.0.0.0:*                           100        18865      545/systemd-network  off (0.00/0/0)
+udp        0      0 10.5.1.106:45251        0.0.0.0:*                           0          130669     32367/corosync       off (0.00/0/0)
+udp        0      0 10.5.1.106:56521        0.0.0.0:*                           0          130671     32367/corosync       off (0.00/0/0)
+udp        0      0 0.0.0.0:8472            0.0.0.0:*                           0          31236      -                    off (0.00/0/0)
+udp        0      0 10.5.1.106:5405         0.0.0.0:*                           0          130663     32367/corosync       off (0.00/0/0)
+udp        0      0 10.5.1.106:51093        0.0.0.0:*                           0          130670     32367/corosync       off (0.00/0/0)
+raw6       0      0 :::58                   :::*                    7           100        18889      545/systemd-network  off (0.00/0/0)
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   PID/Program name     Path
+unix  2      [ ACC ]     STREAM     LISTENING     131103   32382/pacemaker-bas  @cib_ro@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     130668   32367/corosync       @quorum@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         DGRAM                    13194    1/init               /run/systemd/notify
+unix  2      [ ACC ]     STREAM     LISTENING     33598    4356/lxd             /var/snap/lxd/common/lxd/devlxd/sock
+unix  2      [ ACC ]     STREAM     LISTENING     13197    1/init               /run/systemd/private
+unix  2      [ ACC ]     SEQPACKET  LISTENING     13229    1/init               /run/udev/control
+unix  2      [ ACC ]     STREAM     LISTENING     13199    1/init               /run/systemd/userdb/io.systemd.DynamicUser
+unix  2      [ ACC ]     STREAM     LISTENING     131495   32387/pacemaker-con  @crmd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     19482    1/init               /run/dbus/system_bus_socket
+unix  2      [ ACC ]     STREAM     LISTENING     19500    1/init               /run/snapd.socket
+unix  2      [ ACC ]     STREAM     LISTENING     13209    1/init               /run/lvm/lvmpolld.socket
+unix  2      [ ACC ]     STREAM     LISTENING     19502    1/init               /run/snapd-snap.socket
+unix  2      [ ]         DGRAM                    278042   72615/systemd        /run/user/1000/systemd/notify
+unix  2      [ ]         DGRAM                    13212    1/init               /run/systemd/journal/syslog
+unix  2      [ ACC ]     STREAM     LISTENING     278045   72615/systemd        /run/user/1000/systemd/private
+unix  2      [ ACC ]     STREAM     LISTENING     19504    1/init               /run/uuidd/request
+unix  2      [ ACC ]     STREAM     LISTENING     13214    1/init               /run/systemd/fsck.progress
+unix  2      [ ACC ]     STREAM     LISTENING     278054   72615/systemd        /run/user/1000/bus
+unix  2      [ ACC ]     STREAM     LISTENING     131044   32384/pacemaker-exe  @lrmd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  20     [ ]         DGRAM                    13222    1/init               /run/systemd/journal/dev-log
+unix  2      [ ACC ]     STREAM     LISTENING     13224    1/init               /run/systemd/journal/stdout
+unix  2      [ ACC ]     STREAM     LISTENING     278055   72615/systemd        /run/user/1000/gnupg/S.dirmngr
+unix  10     [ ]         DGRAM                    13226    1/init               /run/systemd/journal/socket
+unix  2      [ ACC ]     STREAM     LISTENING     278056   72615/systemd        /run/user/1000/gnupg/S.gpg-agent.browser
+unix  2      [ ACC ]     STREAM     LISTENING     278057   72615/systemd        /run/user/1000/gnupg/S.gpg-agent.extra
+unix  2      [ ACC ]     STREAM     LISTENING     13211    1/init               @/org/kernel/linux/storage/multipathd
+unix  2      [ ACC ]     STREAM     LISTENING     278058   72615/systemd        /run/user/1000/gnupg/S.gpg-agent.ssh
+unix  2      [ ACC ]     STREAM     LISTENING     278059   72615/systemd        /run/user/1000/gnupg/S.gpg-agent
+unix  2      [ ACC ]     STREAM     LISTENING     278060   72615/systemd        /run/user/1000/pk-debconf-socket
+unix  2      [ ACC ]     STREAM     LISTENING     278061   72615/systemd        /run/user/1000/snapd-session-agent.socket
+unix  2      [ ACC ]     STREAM     LISTENING     130664   32367/corosync       @cmap@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     13684    334/systemd-journal  /run/systemd/journal/io.systemd.journal
+unix  2      [ ACC ]     STREAM     LISTENING     30784    2781/jujud           @jujud-unit-placement-0
+unix  2      [ ACC ]     STREAM     LISTENING     23595    1/init               /var/snap/lxd/common/lxd/unix.socket
+unix  2      [ ACC ]     STREAM     LISTENING     57594    2781/jujud           /var/lib/juju/agents/unit-placement-hacluster-0/097810209/s
+unix  2      [ ACC ]     SEQPACKET  LISTENING     33926    4356/lxd             /var/snap/lxd/common/lxd/seccomp.socket
+unix  2      [ ACC ]     STREAM     LISTENING     57606    2781/jujud           /var/lib/juju/agents/unit-placement-hacluster-0/576258043/s
+unix  2      [ ]         DGRAM                    55259    14457/rsyslogd       /var/lib/haproxy/dev/log
+unix  2      [ ACC ]     STREAM     LISTENING     57609    2781/jujud           @jujud-unit-placement-mysql-router-0
+unix  2      [ ACC ]     STREAM     LISTENING     130667   32367/corosync       @votequorum@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     131104   32382/pacemaker-bas  @cib_rw@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     180883   45230/apache2        /var/run/apache2/wsgi.45230.0.1.sock
+unix  2      [ ACC ]     STREAM     LISTENING     57614    2781/jujud           /var/lib/juju/agents/unit-placement-mysql-router-0/692317492/s
+unix  2      [ ACC ]     STREAM     LISTENING     181406   45421/haproxy        /var/run/haproxy/admin.sock.45420.tmp
+unix  2      [ ACC ]     STREAM     LISTENING     181422   45420/haproxy        /run/haproxy-master.sock.45420.tmp
+unix  2      [ ACC ]     STREAM     LISTENING     131080   32386/pacemaker-sch  @pengine@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     131105   32382/pacemaker-bas  @cib_shm@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     101364   26045/mysqlrouter    /var/lib/mysql/placement-mysql-router/mysqlro.sock
+unix  2      [ ACC ]     STREAM     LISTENING     101366   26045/mysqlrouter    /var/lib/mysql/placement-mysql-router/mysql.sock
+unix  2      [ ACC ]     STREAM     LISTENING     57590    2781/jujud           @jujud-unit-placement-hacluster-0
+unix  2      [ ACC ]     STREAM     LISTENING     101373   26045/mysqlrouter    /var/lib/mysql/placement-mysql-router/mysqlx.sock
+unix  2      [ ACC ]     STREAM     LISTENING     101375   26045/mysqlrouter    /var/lib/mysql/placement-mysql-router/mysqlxro.sock
+unix  2      [ ACC ]     STREAM     LISTENING     57626    2781/jujud           /var/lib/juju/agents/unit-placement-mysql-router-0/212948614/s
+unix  2      [ ACC ]     STREAM     LISTENING     130665   32367/corosync       @cfg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     130666   32367/corosync       @cpg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     30737    2781/jujud           @jujud-machine-21
+unix  2      [ ACC ]     STREAM     LISTENING     19499    1/init               @ISCSIADM_ABSTRACT_NAMESPACE
+unix  2      [ ACC ]     STREAM     LISTENING     131478   32383/pacemaker-fen  @stonith-ng@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     31122    2781/jujud           /var/lib/juju/agents/unit-placement-0/873397070/s
+unix  2      [ ACC ]     STREAM     LISTENING     131462   32385/pacemaker-att  @attrd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     130843   32374/pacemakerd     @pacemakerd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ACC ]     STREAM     LISTENING     33596    4356/lxd             @00026
+unix  2      [ ACC ]     STREAM     LISTENING     31395    2781/jujud           /var/lib/juju/agents/unit-placement-0/043259824/s
+unix  3      [ ]         STREAM     CONNECTED     289738   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     289790   654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     289789   73530/fwupd          
+unix  3      [ ]         STREAM     CONNECTED     21732    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     19953    654/dbus-daemon      
+unix  3      [ ]         STREAM     CONNECTED     19496    545/systemd-network  
+unix  3      [ ]         STREAM     CONNECTED     18641    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     33603    4356/lxd             @00026
+unix  3      [ ]         DGRAM                    18692    545/systemd-network  
+unix  3      [ ]         STREAM     CONNECTED     21733    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     17312    472/systemd-timesyn  
+unix  3      [ ]         STREAM     CONNECTED     101283   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     20677    668/systemd-logind   
+unix  3      [ ]         STREAM     CONNECTED     178564   44475/memcached      
+unix  3      [ ]         STREAM     CONNECTED     20595    667/snapd            
+unix  3      [ ]         STREAM     CONNECTED     21730    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     19870    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         DGRAM                    18689    545/systemd-network  
+unix  3      [ ]         STREAM     CONNECTED     33599    4356/lxd             
+unix  2      [ ]         DGRAM                    20840    670/udisksd          
+unix  2      [ ]         DGRAM                    18684    545/systemd-network  
+unix  3      [ ]         STREAM     CONNECTED     21469    668/systemd-logind   
+unix  3      [ ]         STREAM     CONNECTED     17317    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     21726    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     20679    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     19956    1/init               
+unix  3      [ ]         STREAM     CONNECTED     19869    653/cron             
+unix  3      [ ]         DGRAM                    18691    545/systemd-network  
+unix  2      [ ]         DGRAM                    21276    668/systemd-logind   
+unix  3      [ ]         STREAM     CONNECTED     20853    670/udisksd          
+unix  3      [ ]         STREAM     CONNECTED     20597    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     19955    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         DGRAM                    18690    545/systemd-network  
+unix  3      [ ]         STREAM     CONNECTED     32516    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     18639    545/systemd-network  
+unix  3      [ ]         STREAM     CONNECTED     130801   1/init               /run/systemd/journal/stdout
+unix  2      [ ]         DGRAM                    130626   32367/corosync       
+unix  2      [ ]         DGRAM                    14782    366/systemd-udevd    
+unix  3      [ ]         STREAM     CONNECTED     21731    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     22133    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     130870   32367/corosync       @cpg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         DGRAM                    130644   32367/corosync       
+unix  3      [ ]         DGRAM                    14784    366/systemd-udevd    
+unix  3      [ ]         STREAM     CONNECTED     22132    750/ModemManager     
+unix  3      [ ]         STREAM     CONNECTED     130844   32374/pacemakerd     
+unix  3      [ ]         DGRAM                    130643   32367/corosync       
+unix  3      [ ]         DGRAM                    290149   1/init               
+unix  3      [ ]         STREAM     CONNECTED     130869   32374/pacemakerd     
+unix  3      [ ]         DGRAM                    14785    366/systemd-udevd    
+unix  3      [ ]         DGRAM                    290150   1/init               
+unix  2      [ ]         DGRAM                    22122    750/ModemManager     
+unix  3      [ ]         STREAM     CONNECTED     130845   32367/corosync       @cfg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     130620   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     20372    662/polkitd          
+unix  2      [ ]         DGRAM                    130819   32374/pacemakerd     
+unix  3      [ ]         STREAM     CONNECTED     101282   26045/mysqlrouter    
+unix  3      [ ]         STREAM     CONNECTED     24103    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     131095   32367/corosync       @cpg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     22096    750/ModemManager     
+unix  3      [ ]         STREAM     CONNECTED     18859    561/systemd-resolve  
+unix  3      [ ]         STREAM     CONNECTED     16365    438/multipathd       
+unix  2      [ ]         DGRAM                    131060   32387/pacemaker-con  
+unix  3      [ ]         STREAM     CONNECTED     21959    747/python3          
+unix  2      [ ]         DGRAM                    19872    653/cron             
+unix  3      [ ]         STREAM     CONNECTED     131094   32382/pacemaker-bas  
+unix  3      [ ]         STREAM     CONNECTED     20834    670/udisksd          
+unix  3      [ ]         STREAM     CONNECTED     22098    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     16366    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     131074   32367/corosync       @cpg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     21960    1/init               /run/systemd/journal/stdout
+unix  2      [ ]         DGRAM                    220857   45232/(wsgi:placeme  
+unix  3      [ ]         STREAM     CONNECTED     20835    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     18861    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     24102    667/snapd            
+unix  2      [ ]         DGRAM                    220757   45233/(wsgi:placeme  
+unix  3      [ ]         STREAM     CONNECTED     131073   32383/pacemaker-fen  
+unix  3      [ ]         STREAM     CONNECTED     130619   32367/corosync       
+unix  2      [ ]         DGRAM                    13956    1/init               
+unix  3      [ ]         STREAM     CONNECTED     130800   32374/pacemakerd     
+unix  3      [ ]         STREAM     CONNECTED     22263    747/python3          
+unix  2      [ ]         DGRAM                    131047   32383/pacemaker-fen  
+unix  3      [ ]         STREAM     CONNECTED     277986   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     19497    472/systemd-timesyn  
+unix  2      [ ]         DGRAM                    131034   32382/pacemaker-bas  
+unix  2      [ ]         DGRAM                    13686    334/systemd-journal  
+unix  3      [ ]         STREAM     CONNECTED     289729   73530/fwupd          
+unix  2      [ ]         DGRAM                    131014   32384/pacemaker-exe  
+unix  3      [ ]         STREAM     CONNECTED     32515    4181/sh              
+unix  3      [ ]         STREAM     CONNECTED     22258    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  2      [ ]         DGRAM                    131024   32385/pacemaker-att  
+unix  3      [ ]         STREAM     CONNECTED     22257    747/python3          
+unix  2      [ ]         DGRAM                    131002   32386/pacemaker-sch  
+unix  3      [ ]         STREAM     CONNECTED     277984   72615/systemd        
+unix  3      [ ]         STREAM     CONNECTED     130876   32374/pacemakerd     
+unix  3      [ ]         STREAM     CONNECTED     20294    660/python3          
+unix  3      [ ]         STREAM     CONNECTED     22262    747/python3          
+unix  2      [ ]         DGRAM                    55266    14457/rsyslogd       
+unix  3      [ ]         STREAM     CONNECTED     20295    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     21727    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     130877   32367/corosync       @quorum@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ]         DGRAM                    278016   72615/systemd        
+unix  2      [ ]         DGRAM                    17351    472/systemd-timesyn  
+unix  3      [ ]         STREAM     CONNECTED     131867   32383/pacemaker-fen  @stonith-ng@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     278046   72615/systemd        
+unix  2      [ ]         DGRAM                    31419    3276/dnsmasq         
+unix  3      [ ]         DGRAM                    17357    472/systemd-timesyn  
+unix  3      [ ]         STREAM     CONNECTED     290245   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         DGRAM                    17355    472/systemd-timesyn  
+unix  3      [ ]         STREAM     CONNECTED     131492   32384/pacemaker-exe  @lrmd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  2      [ ]         DGRAM                    277999   72621/(sd-pam)       
+unix  3      [ ]         STREAM     CONNECTED     131491   32387/pacemaker-con  
+unix  3      [ ]         DGRAM                    17354    472/systemd-timesyn  
+unix  3      [ ]         STREAM     CONNECTED     21729    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         DGRAM                    278043   72615/systemd        
+unix  3      [ ]         STREAM     CONNECTED     19729    646/accounts-daemon  
+unix  3      [ ]         DGRAM                    278044   72615/systemd        
+unix  3      [ ]         STREAM     CONNECTED     131866   32387/pacemaker-con  
+unix  3      [ ]         STREAM     CONNECTED     278047   654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         DGRAM                    17356    472/systemd-timesyn  
+unix  3      [ ]         STREAM     CONNECTED     14772    366/systemd-udevd    
+unix  3      [ ]         STREAM     CONNECTED     21728    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  3      [ ]         STREAM     CONNECTED     22486    779/sshd: /usr/sbin  
+unix  3      [ ]         STREAM     CONNECTED     290244   73618/systemd-hostn  
+unix  3      [ ]         STREAM     CONNECTED     19652    646/accounts-daemon  
+unix  2      [ ]         DGRAM                    277765   72610/sshd: ubuntu   
+unix  3      [ ]         STREAM     CONNECTED     21725    654/dbus-daemon      
+unix  3      [ ]         STREAM     CONNECTED     19498    561/systemd-resolve  
+unix  3      [ ]         STREAM     CONNECTED     22487    1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     21724    654/dbus-daemon      
+unix  3      [ ]         STREAM     CONNECTED     19653    1/init               /run/systemd/journal/stdout
+unix  2      [ ]         DGRAM                    21723    654/dbus-daemon      
+unix  3      [ ]         STREAM     CONNECTED     14781    1/init               /run/systemd/journal/stdout
+unix  2      [ ]         STREAM     CONNECTED     277739   72610/sshd: ubuntu   
+unix  2      [ ]         DGRAM                    18871    561/systemd-resolve  
+unix  3      [ ]         STREAM     CONNECTED     178565   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     131477   32367/corosync       @quorum@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         DGRAM                    13196    1/init               
+unix  3      [ ]         STREAM     CONNECTED     21973    660/python3          
+unix  3      [ ]         STREAM     CONNECTED     278666   72610/sshd: ubuntu   
+unix  3      [ ]         STREAM     CONNECTED     131446   32385/pacemaker-att  
+unix  3      [ ]         STREAM     CONNECTED     131467   32387/pacemaker-con  
+unix  2      [ ]         DGRAM                    181410   45420/haproxy        
+unix  3      [ ]         STREAM     CONNECTED     131459   32382/pacemaker-bas  @cib_rw@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     131476   32387/pacemaker-con  
+unix  3      [ ]         STREAM     CONNECTED     21969    660/python3          
+unix  3      [ ]         STREAM     CONNECTED     131447   32367/corosync       @cpg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     181405   45421/haproxy        
+unix  3      [ ]         STREAM     CONNECTED     131443   32385/pacemaker-att  
+unix  3      [ ]         STREAM     CONNECTED     181398   45420/haproxy        
+unix  3      [ ]         STREAM     CONNECTED     131456   32383/pacemaker-fen  
+unix  3      [ ]         STREAM     CONNECTED     21972    660/python3          
+unix  3      [ ]         STREAM     CONNECTED     131444   32382/pacemaker-bas  @cib_rw@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     181399   1/init               /run/systemd/journal/stdout
+unix  3      [ ]         STREAM     CONNECTED     278665   72767/sshd: ubuntu@  
+unix  3      [ ]         STREAM     CONNECTED     131458   32382/pacemaker-bas  @cib_shm@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         STREAM     CONNECTED     131468   32367/corosync       @cpg@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+unix  3      [ ]         DGRAM                    13195    1/init               
+unix  3      [ ]         STREAM     CONNECTED     181404   45420/haproxy        
+unix  3      [ ]         STREAM     CONNECTED     21970    654/dbus-daemon      /run/dbus/system_bus_socket
+unix  2      [ ]         DGRAM                    279164   72848/sudo           
+unix  3      [ ]         STREAM     CONNECTED     131445   32387/pacemaker-con  

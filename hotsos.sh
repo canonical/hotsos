@@ -58,6 +58,7 @@ declare -A PLUGINS=(
     [juju]=false
     [kernel]=false
     [maas]=false
+    [pacemaker]=false
     [rabbitmq]=false
     [sosreport]=false
     [system]=true  # always do system by default
@@ -72,6 +73,7 @@ declare -a PLUGIN_NAMES=(
     sosreport
     openstack
     openvswitch
+    pacemaker
     rabbitmq
     kubernetes
     storage

@@ -1,0 +1,14 @@
+[Match]
+MACAddress=fa:16:3e:5d:00:11
+Name=ens3
+
+[Link]
+MTUBytes=8958
+
+[Network]
+DHCP=ipv4
+LinkLocalAddressing=ipv6
+
+[DHCP]
+RouteMetric=100
+UseMTU=true

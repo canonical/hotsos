@@ -1,0 +1,120 @@
+-- Logs begin at Fri 2022-03-18 19:57:13 UTC, end at Fri 2022-03-18 21:13:05 UTC. --
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 systemd[1]: Starting Initial cloud-init job (metadata service crawler)...
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: Cloud-init v. 21.4-0ubuntu1~20.04.1 running 'init' at Fri, 18 Mar 2022 19:57:26 +0000. Up 17.25 seconds.
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +++++++++++++++++++++++++++++++++++++Net device info+++++++++++++++++++++++++++++++++++++
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +--------+------+----------------------------+-------------+--------+-------------------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: | Device |  Up  |          Address           |     Mask    | Scope  |     Hw-Address    |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +--------+------+----------------------------+-------------+--------+-------------------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |  ens3  | True |         10.5.1.106         | 255.255.0.0 | global | fa:16:3e:5d:00:11 |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |  ens3  | True | fe80::f816:3eff:fe5d:11/64 |      .      |  link  | fa:16:3e:5d:00:11 |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   lo   | True |         127.0.0.1          |  255.0.0.0  |  host  |         .         |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   lo   | True |          ::1/128           |      .      |  host  |         .         |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +--------+------+----------------------------+-------------+--------+-------------------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: ++++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++++
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: | Route |   Destination   | Gateway  |     Genmask     | Interface | Flags |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   0   |     0.0.0.0     | 10.5.0.1 |     0.0.0.0     |    ens3   |   UG  |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   1   |     10.5.0.0    | 0.0.0.0  |   255.255.0.0   |    ens3   |   U   |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   2   | 169.254.169.254 | 10.5.0.2 | 255.255.255.255 |    ens3   |  UGH  |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +-------+-----------------+----------+-----------------+-----------+-------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +-------+-------------+---------+-----------+-------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +-------+-------------+---------+-----------+-------+
+Mar 18 19:57:26 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   1   |  fe80::/64  |    ::   |    ens3   |   U   |
+Mar 18 19:57:27 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   3   |    local    |    ::   |    ens3   |   U   |
+Mar 18 19:57:27 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: |   4   |  multicast  |    ::   |    ens3   |   U   |
+Mar 18 19:57:27 juju-3f8d6e-o7ktest-21 cloud-init[567]: ci-info: +-------+-------------+---------+-----------+-------+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: new group: name=ubuntu, GID=1000
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'adm'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'dialout'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'cdrom'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'floppy'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'sudo'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'audio'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'dip'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'video'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'plugdev'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to group 'netdev'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'adm'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'dialout'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'cdrom'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'floppy'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'sudo'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'audio'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'dip'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'video'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'plugdev'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 useradd[624]: add 'ubuntu' to shadow group 'netdev'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 passwd[633]: password for 'ubuntu' changed by 'root'
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Generating public/private rsa key pair.
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key fingerprint is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: SHA256:i3abxHLL1VTSlcZHx09a7mkrZrymIM5seeXgRUdbd1I root@juju-3f8d6e-o7ktest-21
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key's randomart image is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +---[RSA 3072]----+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |              .+E|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |             o.*O|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |            o **=|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |           . =. o|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |        S . o  ..|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |       o o =   o.|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |      +.O.* o . .|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |     .+O.B.. * . |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |      .+*  .=.o  |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +----[SHA256]-----+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Generating public/private dsa key pair.
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your identification has been saved in /etc/ssh/ssh_host_dsa_key
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your public key has been saved in /etc/ssh/ssh_host_dsa_key.pub
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key fingerprint is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: SHA256:8eSeBIBKprIqU0knf2FT74FRDJ5dnKWHrqY4n8TzGfo root@juju-3f8d6e-o7ktest-21
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key's randomart image is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +---[DSA 1024]----+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |     .. .+...o.  |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |  o .  ooo..oo   |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: | + .   .=+o o .  |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |o + . + .*o. .   |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |.o = . oS.+..    |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |. o . .. o.o     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |..   .  + *      |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |+     .o B o     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |..    .o=.E      |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +----[SHA256]-----+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Generating public/private ecdsa key pair.
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key fingerprint is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: SHA256:4atV7F89/BBLAIDQQ9nJkMlFhmqB2zrgGr2/w16WL3w root@juju-3f8d6e-o7ktest-21
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key's randomart image is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +---[ECDSA 256]---+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |   ..=o%=o.      |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |  . . X.+  .     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |   o o ..   .    |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |. . +  . o   .   |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |.o o    S o   o  |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |..+    . +   ..+ |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |.. + .+ o .   +o.|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |. . ooo+E  . . .o|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |   o+o.o.   .   .|
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +----[SHA256]-----+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Generating public/private ed25519 key pair.
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key fingerprint is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: SHA256:dgcWyMYosMI0yKswV3AxbjdLRzdhBkooK8YBWDaW61k root@juju-3f8d6e-o7ktest-21
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: The key's randomart image is:
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +--[ED25519 256]--+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |*+B++o.+ooB.     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |==+=+o.o=+ o     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |o.+=o.=.. o      |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |+=+.Eo + . .     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |+= o  . S . .    |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |. o    . . .     |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |                 |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |                 |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: |                 |
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 cloud-init[567]: +----[SHA256]-----+
+Mar 18 19:57:29 juju-3f8d6e-o7ktest-21 systemd[1]: Finished Initial cloud-init job (metadata service crawler).

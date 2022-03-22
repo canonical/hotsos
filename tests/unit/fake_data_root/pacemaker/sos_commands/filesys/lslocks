@@ -1,0 +1,8 @@
+COMMAND           PID  TYPE SIZE MODE   M START END PATH
+multipathd        438 POSIX   3B WRITE  0     0   0 /run/multipathd.pid
+cron              653 FLOCK   4B WRITE  0     0   0 /run/crond.pid
+atd               673 POSIX   4B WRITE  0     0   0 /run/atd.pid
+lxcfs            4335 POSIX   5B WRITE  0     0   0 /var/snap/lxd/common/lxcfs.pid
+corosync        32367 POSIX   6B WRITE  0     0   0 /run/corosync.pid
+apache2         45232 POSIX      WRITE* 0     0   0 /run/apache2/wsgi.45230.0.1.lock (deleted)
+apache2         45233 POSIX      WRITE  0     0   0 /run/apache2/wsgi.45230.0.1.lock (deleted)

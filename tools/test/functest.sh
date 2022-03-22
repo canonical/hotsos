@@ -9,6 +9,7 @@ dtmp=`mktemp -d`
 declare -A PLUGIN_ROOTS=(
     [kubernetes]=./tests/unit/fake_data_root/kubernetes
     [openstack]=./tests/unit/fake_data_root/openstack
+    [pacemaker]=./tests/unit/fake_data_root/pacemaker
     [rabbitmq]=./tests/unit/fake_data_root/rabbitmq
     [storage]=./tests/unit/fake_data_root/storage/ceph-mon
     [vault]=./tests/unit/fake_data_root/vault
@@ -21,6 +22,7 @@ PLUGINS=(
     juju
     kernel
     maas
+    pacemaker
     rabbitmq
     sosreport
     system

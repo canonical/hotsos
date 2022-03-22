@@ -1,0 +1,23 @@
+Quorum information
+------------------
+Date:             Fri Mar 18 21:13:41 2022
+Quorum provider:  corosync_votequorum
+Nodes:            3
+Node ID:          1000
+Ring ID:          3e8.12
+Quorate:          Yes
+
+Votequorum information
+----------------------
+Expected votes:   3
+Highest expected: 3
+Total votes:      3
+Quorum:           2  
+Flags:            Quorate 
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+      1000          1 10.5.1.106 (local)
+      1001          1 10.5.2.69
+      1002          1 10.5.2.26

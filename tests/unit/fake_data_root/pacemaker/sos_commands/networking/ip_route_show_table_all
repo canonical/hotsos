@@ -1,0 +1,26 @@
+default via 10.5.0.1 dev ens3 proto dhcp src 10.5.1.106 metric 100 
+10.5.0.0/16 dev ens3 proto kernel scope link src 10.5.1.106 
+169.254.169.254 via 10.5.0.2 dev ens3 proto dhcp src 10.5.1.106 metric 100 
+252.0.0.0/8 dev fan-252 proto kernel scope link src 252.1.106.1 
+broadcast 10.5.0.0 dev ens3 table local proto kernel scope link src 10.5.1.106 
+local 10.5.1.106 dev ens3 table local proto kernel scope host src 10.5.1.106 
+local 10.5.100.5 dev ens3 table local proto kernel scope host src 10.5.1.106 
+broadcast 10.5.255.255 dev ens3 table local proto kernel scope link src 10.5.1.106 
+broadcast 127.0.0.0 dev lo table local proto kernel scope link src 127.0.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+broadcast 252.0.0.0 dev fan-252 table local proto kernel scope link src 252.1.106.1 
+local 252.1.106.1 dev fan-252 table local proto kernel scope host src 252.1.106.1 
+broadcast 252.255.255.255 dev fan-252 table local proto kernel scope link src 252.1.106.1 
+::1 dev lo proto kernel metric 256 pref medium
+fe80::/64 dev ens3 proto kernel metric 256 pref medium
+fe80::/64 dev ftun0 proto kernel metric 256 pref medium
+fe80::/64 dev fan-252 proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::ecac:c1ff:fe63:756 dev ftun0 table local proto kernel metric 0 pref medium
+local fe80::ecac:c1ff:fe63:756 dev fan-252 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:fe5d:11 dev ens3 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev ens3 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ftun0 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev fan-252 table local proto kernel metric 256 pref medium

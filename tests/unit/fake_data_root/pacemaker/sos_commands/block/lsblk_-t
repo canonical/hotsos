@@ -1,0 +1,8 @@
+NAME    ALIGNMENT MIN-IO OPT-IO PHY-SEC LOG-SEC ROTA SCHED       RQ-SIZE  RA WSAME
+loop0           0    512      0     512     512    1 mq-deadline     256 128    0B
+loop1           0    512      0     512     512    1 mq-deadline     256 128    0B
+loop2           0    512      0     512     512    1 mq-deadline     256 128    0B
+vda             0    512      0     512     512    1 mq-deadline     256 128    0B
+|-vda1          0    512      0     512     512    1 mq-deadline     256 128    0B
+|-vda14         0    512      0     512     512    1 mq-deadline     256 128    0B
+`-vda15         0    512      0     512     512    1 mq-deadline     256 128    0B

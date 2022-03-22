@@ -1,0 +1,26 @@
+node 1: node1
+node 1000: juju-3f8d6e-o7ktest-21
+node 1001: juju-3f8d6e-o7ktest-23
+node 1002: juju-3f8d6e-o7ktest-22
+primitive res_placement_72e5569_vip IPaddr2 \
+	params ip=10.5.100.5 \
+	meta migration-threshold=INFINITY failure-timeout=5s \
+	op monitor timeout=20s interval=10s \
+	op_params depth=0
+primitive res_placement_haproxy lsb:haproxy \
+	meta migration-threshold=INFINITY failure-timeout=5s \
+	op monitor interval=5s
+group grp_placement_vips res_placement_72e5569_vip
+clone cl_res_placement_haproxy res_placement_haproxy
+property cib-bootstrap-options: \
+	have-watchdog=false \
+	dc-version=2.0.3-4b1f869f0f \
+	cluster-infrastructure=corosync \
+	cluster-name=debian \
+	no-quorum-policy=stop \
+	cluster-recheck-interval=60 \
+	stonith-enabled=false \
+	last-lrm-refresh=1647634219
+rsc_defaults rsc-options: \
+	resource-stickiness=100 \
+	failure-timeout=180

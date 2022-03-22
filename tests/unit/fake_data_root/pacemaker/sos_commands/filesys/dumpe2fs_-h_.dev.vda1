@@ -1,0 +1,55 @@
+dumpe2fs 1.45.5 (07-Jan-2020)
+Filesystem volume name:   cloudimg-rootfs
+Last mounted on:          /
+Filesystem UUID:          fb4271cb-7838-42c3-bd8c-bb67fd98d59f
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+Filesystem flags:         signed_directory_hash 
+Default mount options:    user_xattr acl
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              2580480
+Block count:              5214459
+Reserved block count:     0
+Free blocks:              4693902
+Free inodes:              2507665
+First block:              0
+Block size:               4096
+Fragment size:            4096
+Group descriptor size:    64
+Reserved GDT blocks:      253
+Blocks per group:         32768
+Fragments per group:      32768
+Inodes per group:         16128
+Inode blocks per group:   1008
+Flex block group size:    16
+Filesystem created:       Tue Mar 15 21:42:09 2022
+Last mount time:          Fri Mar 18 19:57:14 2022
+Last write time:          Tue Mar 15 21:42:54 2022
+Mount count:              3
+Maximum mount count:      -1
+Last checked:             Tue Mar 15 21:42:09 2022
+Check interval:           0 (<none>)
+Lifetime writes:          1510 MB
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:	          256
+Required extra isize:     32
+Desired extra isize:      32
+Journal inode:            8
+Default directory hash:   half_md4
+Directory Hash Seed:      7eca0cb8-9611-40c2-9b82-4401da5003ff
+Journal backup:           inode blocks
+Checksum type:            crc32c
+Checksum:                 0x0a0224d4
+Journal features:         journal_incompat_revoke journal_64bit journal_checksum_v3
+Journal size:             64M
+Journal length:           16384
+Journal sequence:         0x000025cd
+Journal start:            15216
+Journal checksum type:    crc32c
+Journal checksum:         0x96f10021
+

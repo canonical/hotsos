@@ -1,0 +1,13 @@
+VirtualHost configuration:
+*:80                   juju-3f8d6e-o7ktest-21.cloud.sts (/etc/apache2/sites-enabled/000-default.conf:1)
+*:8768                 juju-3f8d6e-o7ktest-21.cloud.sts (/etc/apache2/sites-enabled/placement-api.conf:3)
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www/html"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex default: dir="/var/run/apache2/" mechanism=default 
+Mutex watchdog-callback: using_defaults
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33
+Group: name="www-data" id=33

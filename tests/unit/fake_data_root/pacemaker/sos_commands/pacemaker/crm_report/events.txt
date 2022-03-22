@@ -1,0 +1,18 @@
+Mar 18 20:02:09 juju-3f8d6e-o7ktest-21 systemd[1]: Starting Corosync Cluster Engine...
+Mar 18 20:02:10 juju-3f8d6e-o7ktest-21 corosync[16804]:   [MAIN  ] Corosync Cluster Engine 3.0.3 starting up
+Mar 18 20:02:10 juju-3f8d6e-o7ktest-21 corosync[16804]:   [TOTEM ] Initializing transport (Kronosnet).
+Mar 18 20:02:10 juju-3f8d6e-o7ktest-21 systemd[1]: Started Corosync Cluster Engine.
+Mar 18 20:05:14 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping Corosync Cluster Engine...
+Mar 18 20:05:15 juju-3f8d6e-o7ktest-21 corosync[16804]:   [MAIN  ] Corosync Cluster Engine exiting normally
+Mar 18 20:05:15 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped Corosync Cluster Engine.
+Mar 18 20:05:15 juju-3f8d6e-o7ktest-21 systemd[1]: Starting Corosync Cluster Engine...
+Mar 18 20:05:15 juju-3f8d6e-o7ktest-21 corosync[20811]:   [MAIN  ] Corosync Cluster Engine 3.0.3 starting up
+Mar 18 20:05:15 juju-3f8d6e-o7ktest-21 corosync[20811]:   [TOTEM ] Initializing transport (UDP/IP Unicast).
+Mar 18 20:05:15 juju-3f8d6e-o7ktest-21 systemd[1]: Started Corosync Cluster Engine.
+Mar 18 20:08:54 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping Corosync Cluster Engine...
+Mar 18 20:08:54 juju-3f8d6e-o7ktest-21 corosync[20811]:   [MAIN  ] Corosync Cluster Engine exiting normally
+Mar 18 20:08:54 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped Corosync Cluster Engine.
+Mar 18 20:08:54 juju-3f8d6e-o7ktest-21 systemd[1]: Starting Corosync Cluster Engine...
+Mar 18 20:08:54 juju-3f8d6e-o7ktest-21 corosync[32367]:   [MAIN  ] Corosync Cluster Engine 3.0.3 starting up
+Mar 18 20:08:55 juju-3f8d6e-o7ktest-21 corosync[32367]:   [TOTEM ] Initializing transport (UDP/IP Unicast).
+Mar 18 20:08:55 juju-3f8d6e-o7ktest-21 systemd[1]: Started Corosync Cluster Engine.

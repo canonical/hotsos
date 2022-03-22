@@ -1,0 +1,692 @@
+/dev:
+total 4
+drwxr-xr-x 18 0   0     3840 Mar 18 19:58 .
+drwxr-xr-x 19 0   0     4096 Mar 18 19:57 ..
+crw-r--r--  1 0   0  10, 235 Mar 18 19:57 autofs
+drwxr-xr-x  2 0   0      280 Mar 18 19:57 block
+crw-rw----  1 0   6  10, 234 Mar 18 19:57 btrfs-control
+drwxr-xr-x  3 0   0       60 Mar 18 19:57 bus
+drwxr-xr-x  2 0   0     3320 Mar 18 19:58 char
+crw--w----  1 0   5   5,   1 Mar 18 19:58 console
+lrwxrwxrwx  1 0   0       11 Mar 18 19:57 core -> /proc/kcore
+drwxr-xr-x  3 0   0       60 Mar 18 19:57 cpu
+crw-------  1 0   0  10,  59 Mar 18 19:57 cpu_dma_latency
+crw-------  1 0   0  10, 203 Mar 18 19:57 cuse
+drwxr-xr-x  6 0   0      120 Mar 18 19:57 disk
+crw-------  1 0   0  10,  62 Mar 18 19:57 ecryptfs
+lrwxrwxrwx  1 0   0       13 Mar 18 19:57 fd -> /proc/self/fd
+crw-rw-rw-  1 0   0   1,   7 Mar 18 19:57 full
+crw-rw-rw-  1 0   0  10, 229 Mar 18 19:57 fuse
+crw-------  1 0   0  10, 228 Mar 18 19:57 hpet
+drwxr-xr-x  2 0   0        0 Mar 18 19:57 hugepages
+crw-------  1 0   0  10, 183 Mar 18 19:57 hwrng
+lrwxrwxrwx  1 0   0       12 Mar 18 19:57 initctl -> /run/initctl
+drwxr-xr-x  3 0   0      200 Mar 18 19:57 input
+crw-r--r--  1 0   0   1,  11 Mar 18 19:57 kmsg
+crw-rw----  1 0 108  10, 232 Mar 18 19:57 kvm
+drwxr-xr-x  2 0   0       60 Mar 18 19:57 lightnvm
+lrwxrwxrwx  1 0   0       28 Mar 18 19:57 log -> /run/systemd/journal/dev-log
+crw-rw----  1 0   6  10, 237 Mar 18 19:57 loop-control
+brw-rw----  1 0   6   7,   0 Mar 18 19:57 loop0
+brw-rw----  1 0   6   7,   1 Mar 18 19:57 loop1
+brw-rw----  1 0   6   7,   2 Mar 18 19:57 loop2
+brw-rw----  1 0   6   7,   3 Mar 18 19:57 loop3
+brw-rw----  1 0   6   7,   4 Mar 18 19:57 loop4
+brw-rw----  1 0   6   7,   5 Mar 18 19:57 loop5
+brw-rw----  1 0   6   7,   6 Mar 18 19:57 loop6
+brw-rw----  1 0   6   7,   7 Mar 18 19:57 loop7
+drwxr-xr-x  2 0   0       60 Mar 18 19:57 mapper
+crw-------  1 0   0  10, 227 Mar 18 19:57 mcelog
+crw-r-----  1 0  15   1,   1 Mar 18 19:57 mem
+drwxrwxrwt  2 0   0       40 Mar 18 19:57 mqueue
+drwxr-xr-x  2 0   0       60 Mar 18 19:57 net
+crw-rw-rw-  1 0   0   1,   3 Mar 18 19:57 null
+crw-------  1 0   0  10, 144 Mar 18 19:57 nvram
+crw-r-----  1 0  15   1,   4 Mar 18 19:57 port
+crw-------  1 0   0 108,   0 Mar 18 19:57 ppp
+crw-------  1 0   0  10,   1 Mar 18 19:57 psaux
+crw-rw-rw-  1 0   5   5,   2 Mar 18 21:13 ptmx
+drwxr-xr-x  2 0   0        0 Mar 18 19:57 pts
+crw-rw-rw-  1 0   0   1,   8 Mar 18 19:57 random
+crw-rw-r--  1 0   0  10, 242 Mar 18 19:57 rfkill
+lrwxrwxrwx  1 0   0        4 Mar 18 19:57 rtc -> rtc0
+crw-------  1 0   0 249,   0 Mar 18 19:57 rtc0
+drwxrwxrwt 15 0   0      340 Mar 18 21:12 shm
+crw-------  1 0   0  10, 231 Mar 18 19:57 snapshot
+drwxr-xr-x  2 0   0       80 Mar 18 19:57 snd
+lrwxrwxrwx  1 0   0       15 Mar 18 19:57 stderr -> /proc/self/fd/2
+lrwxrwxrwx  1 0   0       15 Mar 18 19:57 stdin -> /proc/self/fd/0
+lrwxrwxrwx  1 0   0       15 Mar 18 19:57 stdout -> /proc/self/fd/1
+crw-rw-rw-  1 0   5   5,   0 Mar 18 19:57 tty
+crw--w----  1 0   5   4,   0 Mar 18 19:57 tty0
+crw--w----  1 0   5   4,   1 Mar 18 19:57 tty1
+crw--w----  1 0   5   4,  10 Mar 18 19:57 tty10
+crw--w----  1 0   5   4,  11 Mar 18 19:57 tty11
+crw--w----  1 0   5   4,  12 Mar 18 19:57 tty12
+crw--w----  1 0   5   4,  13 Mar 18 19:57 tty13
+crw--w----  1 0   5   4,  14 Mar 18 19:57 tty14
+crw--w----  1 0   5   4,  15 Mar 18 19:57 tty15
+crw--w----  1 0   5   4,  16 Mar 18 19:57 tty16
+crw--w----  1 0   5   4,  17 Mar 18 19:57 tty17
+crw--w----  1 0   5   4,  18 Mar 18 19:57 tty18
+crw--w----  1 0   5   4,  19 Mar 18 19:57 tty19
+crw--w----  1 0   5   4,   2 Mar 18 19:57 tty2
+crw--w----  1 0   5   4,  20 Mar 18 19:57 tty20
+crw--w----  1 0   5   4,  21 Mar 18 19:57 tty21
+crw--w----  1 0   5   4,  22 Mar 18 19:57 tty22
+crw--w----  1 0   5   4,  23 Mar 18 19:57 tty23
+crw--w----  1 0   5   4,  24 Mar 18 19:57 tty24
+crw--w----  1 0   5   4,  25 Mar 18 19:57 tty25
+crw--w----  1 0   5   4,  26 Mar 18 19:57 tty26
+crw--w----  1 0   5   4,  27 Mar 18 19:57 tty27
+crw--w----  1 0   5   4,  28 Mar 18 19:57 tty28
+crw--w----  1 0   5   4,  29 Mar 18 19:57 tty29
+crw--w----  1 0   5   4,   3 Mar 18 19:57 tty3
+crw--w----  1 0   5   4,  30 Mar 18 19:57 tty30
+crw--w----  1 0   5   4,  31 Mar 18 19:57 tty31
+crw--w----  1 0   5   4,  32 Mar 18 19:57 tty32
+crw--w----  1 0   5   4,  33 Mar 18 19:57 tty33
+crw--w----  1 0   5   4,  34 Mar 18 19:57 tty34
+crw--w----  1 0   5   4,  35 Mar 18 19:57 tty35
+crw--w----  1 0   5   4,  36 Mar 18 19:57 tty36
+crw--w----  1 0   5   4,  37 Mar 18 19:57 tty37
+crw--w----  1 0   5   4,  38 Mar 18 19:57 tty38
+crw--w----  1 0   5   4,  39 Mar 18 19:57 tty39
+crw--w----  1 0   5   4,   4 Mar 18 19:57 tty4
+crw--w----  1 0   5   4,  40 Mar 18 19:57 tty40
+crw--w----  1 0   5   4,  41 Mar 18 19:57 tty41
+crw--w----  1 0   5   4,  42 Mar 18 19:57 tty42
+crw--w----  1 0   5   4,  43 Mar 18 19:57 tty43
+crw--w----  1 0   5   4,  44 Mar 18 19:57 tty44
+crw--w----  1 0   5   4,  45 Mar 18 19:57 tty45
+crw--w----  1 0   5   4,  46 Mar 18 19:57 tty46
+crw--w----  1 0   5   4,  47 Mar 18 19:57 tty47
+crw--w----  1 0   5   4,  48 Mar 18 19:57 tty48
+crw--w----  1 0   5   4,  49 Mar 18 19:57 tty49
+crw--w----  1 0   5   4,   5 Mar 18 19:57 tty5
+crw--w----  1 0   5   4,  50 Mar 18 19:57 tty50
+crw--w----  1 0   5   4,  51 Mar 18 19:57 tty51
+crw--w----  1 0   5   4,  52 Mar 18 19:57 tty52
+crw--w----  1 0   5   4,  53 Mar 18 19:57 tty53
+crw--w----  1 0   5   4,  54 Mar 18 19:57 tty54
+crw--w----  1 0   5   4,  55 Mar 18 19:57 tty55
+crw--w----  1 0   5   4,  56 Mar 18 19:57 tty56
+crw--w----  1 0   5   4,  57 Mar 18 19:57 tty57
+crw--w----  1 0   5   4,  58 Mar 18 19:57 tty58
+crw--w----  1 0   5   4,  59 Mar 18 19:57 tty59
+crw--w----  1 0   5   4,   6 Mar 18 19:57 tty6
+crw--w----  1 0   5   4,  60 Mar 18 19:57 tty60
+crw--w----  1 0   5   4,  61 Mar 18 19:57 tty61
+crw--w----  1 0   5   4,  62 Mar 18 19:57 tty62
+crw--w----  1 0   5   4,  63 Mar 18 19:57 tty63
+crw--w----  1 0   5   4,   7 Mar 18 19:57 tty7
+crw--w----  1 0   5   4,   8 Mar 18 19:57 tty8
+crw--w----  1 0   5   4,   9 Mar 18 19:57 tty9
+crw--w----  1 0   5   4,  64 Mar 18 19:57 ttyS0
+crw-rw----  1 0  20   4,  65 Mar 18 19:57 ttyS1
+crw-rw----  1 0  20   4,  74 Mar 18 19:57 ttyS10
+crw-rw----  1 0  20   4,  75 Mar 18 19:57 ttyS11
+crw-rw----  1 0  20   4,  76 Mar 18 19:57 ttyS12
+crw-rw----  1 0  20   4,  77 Mar 18 19:57 ttyS13
+crw-rw----  1 0  20   4,  78 Mar 18 19:57 ttyS14
+crw-rw----  1 0  20   4,  79 Mar 18 19:57 ttyS15
+crw-rw----  1 0  20   4,  80 Mar 18 19:57 ttyS16
+crw-rw----  1 0  20   4,  81 Mar 18 19:57 ttyS17
+crw-rw----  1 0  20   4,  82 Mar 18 19:57 ttyS18
+crw-rw----  1 0  20   4,  83 Mar 18 19:57 ttyS19
+crw-rw----  1 0  20   4,  66 Mar 18 19:57 ttyS2
+crw-rw----  1 0  20   4,  84 Mar 18 19:57 ttyS20
+crw-rw----  1 0  20   4,  85 Mar 18 19:57 ttyS21
+crw-rw----  1 0  20   4,  86 Mar 18 19:57 ttyS22
+crw-rw----  1 0  20   4,  87 Mar 18 19:57 ttyS23
+crw-rw----  1 0  20   4,  88 Mar 18 19:57 ttyS24
+crw-rw----  1 0  20   4,  89 Mar 18 19:57 ttyS25
+crw-rw----  1 0  20   4,  90 Mar 18 19:57 ttyS26
+crw-rw----  1 0  20   4,  91 Mar 18 19:57 ttyS27
+crw-rw----  1 0  20   4,  92 Mar 18 19:57 ttyS28
+crw-rw----  1 0  20   4,  93 Mar 18 19:57 ttyS29
+crw-rw----  1 0  20   4,  67 Mar 18 19:57 ttyS3
+crw-rw----  1 0  20   4,  94 Mar 18 19:57 ttyS30
+crw-rw----  1 0  20   4,  95 Mar 18 19:57 ttyS31
+crw-rw----  1 0  20   4,  68 Mar 18 19:57 ttyS4
+crw-rw----  1 0  20   4,  69 Mar 18 19:57 ttyS5
+crw-rw----  1 0  20   4,  70 Mar 18 19:57 ttyS6
+crw-rw----  1 0  20   4,  71 Mar 18 19:57 ttyS7
+crw-rw----  1 0  20   4,  72 Mar 18 19:57 ttyS8
+crw-rw----  1 0  20   4,  73 Mar 18 19:57 ttyS9
+crw-------  1 0   0   5,   3 Mar 18 19:57 ttyprintk
+crw-rw----  1 0 108  10,  60 Mar 18 19:57 udmabuf
+crw-------  1 0   0  10, 223 Mar 18 19:57 uinput
+crw-rw-rw-  1 0   0   1,   9 Mar 18 19:57 urandom
+crw-rw----  1 0   5   7,   0 Mar 18 19:57 vcs
+crw-rw----  1 0   5   7,   1 Mar 18 19:57 vcs1
+crw-rw----  1 0   5   7,   2 Mar 18 19:57 vcs2
+crw-rw----  1 0   5   7,   3 Mar 18 19:57 vcs3
+crw-rw----  1 0   5   7,   4 Mar 18 19:57 vcs4
+crw-rw----  1 0   5   7,   5 Mar 18 19:57 vcs5
+crw-rw----  1 0   5   7,   6 Mar 18 19:57 vcs6
+crw-rw----  1 0   5   7, 128 Mar 18 19:57 vcsa
+crw-rw----  1 0   5   7, 129 Mar 18 19:57 vcsa1
+crw-rw----  1 0   5   7, 130 Mar 18 19:57 vcsa2
+crw-rw----  1 0   5   7, 131 Mar 18 19:57 vcsa3
+crw-rw----  1 0   5   7, 132 Mar 18 19:57 vcsa4
+crw-rw----  1 0   5   7, 133 Mar 18 19:57 vcsa5
+crw-rw----  1 0   5   7, 134 Mar 18 19:57 vcsa6
+crw-rw----  1 0   5   7,  64 Mar 18 19:57 vcsu
+crw-rw----  1 0   5   7,  65 Mar 18 19:57 vcsu1
+crw-rw----  1 0   5   7,  66 Mar 18 19:57 vcsu2
+crw-rw----  1 0   5   7,  67 Mar 18 19:57 vcsu3
+crw-rw----  1 0   5   7,  68 Mar 18 19:57 vcsu4
+crw-rw----  1 0   5   7,  69 Mar 18 19:57 vcsu5
+crw-rw----  1 0   5   7,  70 Mar 18 19:57 vcsu6
+brw-rw----  1 0   6 252,   0 Mar 18 19:57 vda
+brw-rw----  1 0   6 252,   1 Mar 18 19:57 vda1
+brw-rw----  1 0   6 252,  14 Mar 18 19:57 vda14
+brw-rw----  1 0   6 252,  15 Mar 18 19:57 vda15
+drwxr-xr-x  2 0   0       60 Mar 18 19:57 vfio
+crw-------  1 0   0  10,  63 Mar 18 19:57 vga_arbiter
+crw-------  1 0   0  10, 238 Mar 18 19:57 vhost-net
+crw-------  1 0   0  10, 241 Mar 18 19:58 vhost-vsock
+drwxr-xr-x  2 0   0       60 Mar 18 19:57 virtio-ports
+crw-------  1 0   0 243,   1 Mar 18 19:57 vport1p1
+crw-rw-rw-  1 0   0  10,  58 Mar 18 19:58 vsock
+crw-rw-rw-  1 0   0   1,   5 Mar 18 19:57 zero
+crw-------  1 0   0  10, 249 Mar 18 19:58 zfs
+
+/dev/block:
+total 0
+drwxr-xr-x  2 0 0  280 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+lrwxrwxrwx  1 0 0    6 Mar 18 19:57 252:0 -> ../vda
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 252:1 -> ../vda1
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 252:14 -> ../vda14
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 252:15 -> ../vda15
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:0 -> ../loop0
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:1 -> ../loop1
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:2 -> ../loop2
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:3 -> ../loop3
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:4 -> ../loop4
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:5 -> ../loop5
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:6 -> ../loop6
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:7 -> ../loop7
+
+/dev/bus:
+total 0
+drwxr-xr-x  3 0 0   60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+drwxr-xr-x  3 0 0   60 Mar 18 19:57 usb
+
+/dev/bus/usb:
+total 0
+drwxr-xr-x 3 0 0 60 Mar 18 19:57 .
+drwxr-xr-x 3 0 0 60 Mar 18 19:57 ..
+drwxr-xr-x 2 0 0 60 Mar 18 19:57 001
+
+/dev/bus/usb/001:
+total 0
+drwxr-xr-x 2 0 0     60 Mar 18 19:57 .
+drwxr-xr-x 3 0 0     60 Mar 18 19:57 ..
+crw-rw-r-- 1 0 0 189, 0 Mar 18 19:57 001
+
+/dev/char:
+total 0
+drwxr-xr-x  2 0 0 3320 Mar 18 19:58 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+lrwxrwxrwx  1 0 0    6 Mar 18 19:57 108:0 -> ../ppp
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 10:1 -> ../psaux
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 10:183 -> ../hwrng
+lrwxrwxrwx  1 0 0   12 Mar 18 19:57 10:196 -> ../vfio/vfio
+lrwxrwxrwx  1 0 0   10 Mar 18 19:57 10:200 -> ../net/tun
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 10:223 -> ../uinput
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 10:227 -> ../mcelog
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 10:228 -> ../hpet
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 10:229 -> ../fuse
+lrwxrwxrwx  1 0 0   11 Mar 18 19:57 10:231 -> ../snapshot
+lrwxrwxrwx  1 0 0    6 Mar 18 19:57 10:232 -> ../kvm
+lrwxrwxrwx  1 0 0   16 Mar 18 19:57 10:234 -> ../btrfs-control
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 10:235 -> ../autofs
+lrwxrwxrwx  1 0 0   17 Mar 18 19:57 10:236 -> ../mapper/control
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 10:237 -> ../loop-control
+lrwxrwxrwx  1 0 0   14 Mar 18 19:58 10:241 -> ../vhost-vsock
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 10:242 -> ../rfkill
+lrwxrwxrwx  1 0 0    6 Mar 18 19:58 10:249 -> ../zfs
+lrwxrwxrwx  1 0 0    8 Mar 18 19:58 10:58 -> ../vsock
+lrwxrwxrwx  1 0 0   18 Mar 18 19:57 10:59 -> ../cpu_dma_latency
+lrwxrwxrwx  1 0 0   10 Mar 18 19:57 10:60 -> ../udmabuf
+lrwxrwxrwx  1 0 0   19 Mar 18 19:57 10:61 -> ../lightnvm/control
+lrwxrwxrwx  1 0 0   11 Mar 18 19:57 10:62 -> ../ecryptfs
+lrwxrwxrwx  1 0 0   14 Mar 18 19:57 10:63 -> ../vga_arbiter
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 13:32 -> ../input/mouse0
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 13:33 -> ../input/mouse1
+lrwxrwxrwx  1 0 0   13 Mar 18 19:57 13:63 -> ../input/mice
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 13:64 -> ../input/event0
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 13:65 -> ../input/event1
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 13:66 -> ../input/event2
+lrwxrwxrwx  1 0 0   15 Mar 18 19:57 13:67 -> ../input/event3
+lrwxrwxrwx  1 0 0   18 Mar 18 19:57 189:0 -> ../bus/usb/001/001
+lrwxrwxrwx  1 0 0    6 Mar 18 19:57 1:1 -> ../mem
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 1:11 -> ../kmsg
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 1:3 -> ../null
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 1:4 -> ../port
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 1:5 -> ../zero
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 1:7 -> ../full
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 1:8 -> ../random
+lrwxrwxrwx  1 0 0   10 Mar 18 19:57 1:9 -> ../urandom
+lrwxrwxrwx  1 0 0   12 Mar 18 19:57 202:0 -> ../cpu/0/msr
+lrwxrwxrwx  1 0 0   11 Mar 18 19:57 243:1 -> ../vport1p1
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 249:0 -> ../rtc0
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:0 -> ../tty0
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:1 -> ../tty1
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:10 -> ../tty10
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:11 -> ../tty11
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:12 -> ../tty12
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:13 -> ../tty13
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:14 -> ../tty14
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:15 -> ../tty15
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:16 -> ../tty16
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:17 -> ../tty17
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:18 -> ../tty18
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:19 -> ../tty19
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:2 -> ../tty2
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:20 -> ../tty20
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:21 -> ../tty21
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:22 -> ../tty22
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:23 -> ../tty23
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:24 -> ../tty24
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:25 -> ../tty25
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:26 -> ../tty26
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:27 -> ../tty27
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:28 -> ../tty28
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:29 -> ../tty29
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:3 -> ../tty3
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:30 -> ../tty30
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:31 -> ../tty31
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:32 -> ../tty32
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:33 -> ../tty33
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:34 -> ../tty34
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:35 -> ../tty35
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:36 -> ../tty36
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:37 -> ../tty37
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:38 -> ../tty38
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:39 -> ../tty39
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:4 -> ../tty4
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:40 -> ../tty40
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:41 -> ../tty41
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:42 -> ../tty42
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:43 -> ../tty43
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:44 -> ../tty44
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:45 -> ../tty45
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:46 -> ../tty46
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:47 -> ../tty47
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:48 -> ../tty48
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:49 -> ../tty49
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:5 -> ../tty5
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:50 -> ../tty50
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:51 -> ../tty51
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:52 -> ../tty52
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:53 -> ../tty53
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:54 -> ../tty54
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:55 -> ../tty55
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:56 -> ../tty56
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:57 -> ../tty57
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:58 -> ../tty58
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:59 -> ../tty59
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:6 -> ../tty6
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:60 -> ../tty60
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:61 -> ../tty61
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:62 -> ../tty62
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:63 -> ../tty63
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:64 -> ../ttyS0
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:65 -> ../ttyS1
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:66 -> ../ttyS2
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:67 -> ../ttyS3
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:68 -> ../ttyS4
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:69 -> ../ttyS5
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:7 -> ../tty7
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:70 -> ../ttyS6
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:71 -> ../ttyS7
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:72 -> ../ttyS8
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 4:73 -> ../ttyS9
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:74 -> ../ttyS10
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:75 -> ../ttyS11
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:76 -> ../ttyS12
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:77 -> ../ttyS13
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:78 -> ../ttyS14
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:79 -> ../ttyS15
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:8 -> ../tty8
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:80 -> ../ttyS16
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:81 -> ../ttyS17
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:82 -> ../ttyS18
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:83 -> ../ttyS19
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:84 -> ../ttyS20
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:85 -> ../ttyS21
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:86 -> ../ttyS22
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:87 -> ../ttyS23
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:88 -> ../ttyS24
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:89 -> ../ttyS25
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 4:9 -> ../tty9
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:90 -> ../ttyS26
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:91 -> ../ttyS27
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:92 -> ../ttyS28
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:93 -> ../ttyS29
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:94 -> ../ttyS30
+lrwxrwxrwx  1 0 0    9 Mar 18 19:57 4:95 -> ../ttyS31
+lrwxrwxrwx  1 0 0    6 Mar 18 19:57 5:0 -> ../tty
+lrwxrwxrwx  1 0 0   10 Mar 18 19:57 5:1 -> ../console
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 5:2 -> ../ptmx
+lrwxrwxrwx  1 0 0   12 Mar 18 19:57 5:3 -> ../ttyprintk
+lrwxrwxrwx  1 0 0    6 Mar 18 19:57 7:0 -> ../vcs
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:1 -> ../vcs1
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:128 -> ../vcsa
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:129 -> ../vcsa1
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:130 -> ../vcsa2
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:131 -> ../vcsa3
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:132 -> ../vcsa4
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:133 -> ../vcsa5
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:134 -> ../vcsa6
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:2 -> ../vcs2
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:3 -> ../vcs3
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:4 -> ../vcs4
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:5 -> ../vcs5
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:6 -> ../vcs6
+lrwxrwxrwx  1 0 0    7 Mar 18 19:57 7:64 -> ../vcsu
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:65 -> ../vcsu1
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:66 -> ../vcsu2
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:67 -> ../vcsu3
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:68 -> ../vcsu4
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:69 -> ../vcsu5
+lrwxrwxrwx  1 0 0    8 Mar 18 19:57 7:70 -> ../vcsu6
+
+/dev/cpu:
+total 0
+drwxr-xr-x  3 0 0   60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+drwxr-xr-x  2 0 0   60 Mar 18 19:57 0
+
+/dev/cpu/0:
+total 0
+drwxr-xr-x 2 0 0     60 Mar 18 19:57 .
+drwxr-xr-x 3 0 0     60 Mar 18 19:57 ..
+crw------- 1 0 0 202, 0 Mar 18 19:57 msr
+
+/dev/disk:
+total 0
+drwxr-xr-x  6 0 0  120 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+drwxr-xr-x  2 0 0   80 Mar 18 19:57 by-label
+drwxr-xr-x  2 0 0  100 Mar 18 19:57 by-partuuid
+drwxr-xr-x  2 0 0  200 Mar 18 19:57 by-path
+drwxr-xr-x  2 0 0   80 Mar 18 19:57 by-uuid
+
+/dev/disk/by-label:
+total 0
+drwxr-xr-x 2 0 0  80 Mar 18 19:57 .
+drwxr-xr-x 6 0 0 120 Mar 18 19:57 ..
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 UEFI -> ../../vda15
+lrwxrwxrwx 1 0 0  10 Mar 18 19:57 cloudimg-rootfs -> ../../vda1
+
+/dev/disk/by-partuuid:
+total 0
+drwxr-xr-x 2 0 0 100 Mar 18 19:57 .
+drwxr-xr-x 6 0 0 120 Mar 18 19:57 ..
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 1f57665f-827b-4cf7-8872-445df087150b -> ../../vda14
+lrwxrwxrwx 1 0 0  10 Mar 18 19:57 43c0a4c8-ca10-45ac-9d0d-557a7e83ca56 -> ../../vda1
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 b0353c76-3e4a-4848-9231-dea808193130 -> ../../vda15
+
+/dev/disk/by-path:
+total 0
+drwxr-xr-x 2 0 0 200 Mar 18 19:57 .
+drwxr-xr-x 6 0 0 120 Mar 18 19:57 ..
+lrwxrwxrwx 1 0 0   9 Mar 18 19:57 pci-0000:00:05.0 -> ../../vda
+lrwxrwxrwx 1 0 0  10 Mar 18 19:57 pci-0000:00:05.0-part1 -> ../../vda1
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 pci-0000:00:05.0-part14 -> ../../vda14
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 pci-0000:00:05.0-part15 -> ../../vda15
+lrwxrwxrwx 1 0 0   9 Mar 18 19:57 virtio-pci-0000:00:05.0 -> ../../vda
+lrwxrwxrwx 1 0 0  10 Mar 18 19:57 virtio-pci-0000:00:05.0-part1 -> ../../vda1
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 virtio-pci-0000:00:05.0-part14 -> ../../vda14
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 virtio-pci-0000:00:05.0-part15 -> ../../vda15
+
+/dev/disk/by-uuid:
+total 0
+drwxr-xr-x 2 0 0  80 Mar 18 19:57 .
+drwxr-xr-x 6 0 0 120 Mar 18 19:57 ..
+lrwxrwxrwx 1 0 0  11 Mar 18 19:57 83AB-51F1 -> ../../vda15
+lrwxrwxrwx 1 0 0  10 Mar 18 19:57 fb4271cb-7838-42c3-bd8c-bb67fd98d59f -> ../../vda1
+
+/dev/hugepages:
+total 0
+drwxr-xr-x  2 0 0    0 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+
+/dev/input:
+total 0
+drwxr-xr-x  3 0   0    200 Mar 18 19:57 .
+drwxr-xr-x 18 0   0   3840 Mar 18 19:58 ..
+drwxr-xr-x  2 0   0    100 Mar 18 19:57 by-path
+crw-rw----  1 0 107 13, 64 Mar 18 19:57 event0
+crw-rw----  1 0 107 13, 65 Mar 18 19:57 event1
+crw-rw----  1 0 107 13, 66 Mar 18 19:57 event2
+crw-rw----  1 0 107 13, 67 Mar 18 19:57 event3
+crw-rw----  1 0 107 13, 63 Mar 18 19:57 mice
+crw-rw----  1 0 107 13, 32 Mar 18 19:57 mouse0
+crw-rw----  1 0 107 13, 33 Mar 18 19:57 mouse1
+
+/dev/input/by-path:
+total 0
+drwxr-xr-x 2 0 0 100 Mar 18 19:57 .
+drwxr-xr-x 3 0 0 200 Mar 18 19:57 ..
+lrwxrwxrwx 1 0 0   9 Mar 18 19:57 platform-i8042-serio-0-event-kbd -> ../event1
+lrwxrwxrwx 1 0 0   9 Mar 18 19:57 platform-i8042-serio-1-event-mouse -> ../event2
+lrwxrwxrwx 1 0 0   9 Mar 18 19:57 platform-i8042-serio-1-mouse -> ../mouse1
+
+/dev/lightnvm:
+total 0
+drwxr-xr-x  2 0 0     60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0   3840 Mar 18 19:58 ..
+crw-------  1 0 0 10, 61 Mar 18 19:57 control
+
+/dev/mapper:
+total 0
+drwxr-xr-x  2 0 0      60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0    3840 Mar 18 19:58 ..
+crw-------  1 0 0 10, 236 Mar 18 19:57 control
+
+/dev/mqueue:
+total 0
+drwxrwxrwt  2 0 0   40 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+
+/dev/net:
+total 0
+drwxr-xr-x  2 0 0      60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0    3840 Mar 18 19:58 ..
+crw-rw-rw-  1 0 0 10, 200 Mar 18 19:57 tun
+
+/dev/pts:
+total 0
+drwxr-xr-x  2    0 0      0 Mar 18 19:57 .
+drwxr-xr-x 18    0 0   3840 Mar 18 19:58 ..
+crw--w----  1 1000 5 136, 0 Mar 18 21:13 0
+c---------  1    0 0   5, 2 Mar 18 19:57 ptmx
+
+/dev/shm:
+total 8208
+drwxrwxrwt 15   0   0     340 Mar 18 21:12 .
+drwxr-xr-x 18   0   0    3840 Mar 18 19:58 ..
+drwxrwx---  2   0   0     160 Mar 18 20:08 qb-32367-32374-19-O9cXgE
+drwxrwx---  2   0   0     160 Mar 18 20:08 qb-32367-32374-20-C4RlVB
+drwxrwx---  2   0   0     160 Mar 18 20:08 qb-32367-32374-21-wvlkcC
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32367-32382-23-TcSYRC
+drwxrwx---  2   0   0     160 Mar 18 20:08 qb-32367-32383-22-u6jJAF
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32367-32385-24-HTZlFE
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32367-32387-25-J75GnD
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32367-32387-26-aEzFRB
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32382-32383-13-uDb75K
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32382-32385-10-b7NmuL
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32382-32387-12-mpUnoK
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32383-32387-9-vFIPuO
+drwxrwx---  2 116 123     160 Mar 18 20:08 qb-32384-32387-7-0QdOKW
+-rw-------  1   0   0 8392704 Mar 18 20:08 qb-corosync-32367-blackbox-data
+-rw-------  1   0   0    8248 Mar 18 20:08 qb-corosync-32367-blackbox-header
+
+/dev/shm/qb-32367-32374-19-O9cXgE:
+total 3120
+drwxrwx---  2 0 0     160 Mar 18 20:08 .
+drwxrwxrwt 15 0 0     340 Mar 18 21:12 ..
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-event-cfg-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-event-cfg-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-request-cfg-data
+-rw-------  1 0 0    8252 Mar 18 20:08 qb-request-cfg-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-response-cfg-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-response-cfg-header
+
+/dev/shm/qb-32367-32374-20-C4RlVB:
+total 3120
+drwxrwx---  2 0 0     160 Mar 18 20:08 .
+drwxrwxrwt 15 0 0     340 Mar 18 21:12 ..
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-event-cpg-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-event-cpg-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-request-cpg-data
+-rw-------  1 0 0    8252 Mar 18 20:08 qb-request-cpg-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-response-cpg-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-response-cpg-header
+
+/dev/shm/qb-32367-32374-21-wvlkcC:
+total 3120
+drwxrwx---  2 0 0     160 Mar 18 20:08 .
+drwxrwxrwt 15 0 0     340 Mar 18 21:12 ..
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-event-quorum-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-event-quorum-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-request-quorum-data
+-rw-------  1 0 0    8252 Mar 18 20:08 qb-request-quorum-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-response-quorum-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-response-quorum-header
+
+/dev/shm/qb-32367-32382-23-TcSYRC:
+total 3120
+drwxrwx---  2 116 123     160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0     340 Mar 18 21:12 ..
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-event-cpg-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-event-cpg-header
+-rw-------  1 116 123 1052672 Mar 18 20:23 qb-request-cpg-data
+-rw-------  1 116 123    8252 Mar 18 20:08 qb-request-cpg-header
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-response-cpg-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-response-cpg-header
+
+/dev/shm/qb-32367-32383-22-u6jJAF:
+total 3120
+drwxrwx---  2 0 0     160 Mar 18 20:08 .
+drwxrwxrwt 15 0 0     340 Mar 18 21:12 ..
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-event-cpg-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-event-cpg-header
+-rw-------  1 0 0 1052672 Mar 18 20:09 qb-request-cpg-data
+-rw-------  1 0 0    8252 Mar 18 20:08 qb-request-cpg-header
+-rw-------  1 0 0 1052672 Mar 18 20:08 qb-response-cpg-data
+-rw-------  1 0 0    8248 Mar 18 20:08 qb-response-cpg-header
+
+/dev/shm/qb-32367-32385-24-HTZlFE:
+total 3120
+drwxrwx---  2 116 123     160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0     340 Mar 18 21:12 ..
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-event-cpg-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-event-cpg-header
+-rw-------  1 116 123 1052672 Mar 18 20:10 qb-request-cpg-data
+-rw-------  1 116 123    8252 Mar 18 20:08 qb-request-cpg-header
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-response-cpg-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-response-cpg-header
+
+/dev/shm/qb-32367-32387-25-J75GnD:
+total 3120
+drwxrwx---  2 116 123     160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0     340 Mar 18 21:12 ..
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-event-cpg-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-event-cpg-header
+-rw-------  1 116 123 1052672 Mar 18 20:10 qb-request-cpg-data
+-rw-------  1 116 123    8252 Mar 18 20:08 qb-request-cpg-header
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-response-cpg-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-response-cpg-header
+
+/dev/shm/qb-32367-32387-26-aEzFRB:
+total 3120
+drwxrwx---  2 116 123     160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0     340 Mar 18 21:12 ..
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-event-quorum-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-event-quorum-header
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-request-quorum-data
+-rw-------  1 116 123    8252 Mar 18 20:08 qb-request-quorum-header
+-rw-------  1 116 123 1052672 Mar 18 20:08 qb-response-quorum-data
+-rw-------  1 116 123    8248 Mar 18 20:08 qb-response-quorum-header
+
+/dev/shm/qb-32382-32383-13-uDb75K:
+total 1584
+drwxrwx---  2 116 123    160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0    340 Mar 18 21:12 ..
+-rw-------  1 116 123 528384 Mar 18 20:08 qb-event-cib_rw-data
+-rw-------  1 116 123   8248 Mar 18 20:08 qb-event-cib_rw-header
+-rw-------  1 116 123 528384 Mar 18 20:08 qb-request-cib_rw-data
+-rw-------  1 116 123   8252 Mar 18 20:08 qb-request-cib_rw-header
+-rw-------  1 116 123 528384 Mar 18 20:08 qb-response-cib_rw-data
+-rw-------  1 116 123   8248 Mar 18 20:08 qb-response-cib_rw-header
+
+/dev/shm/qb-32382-32385-10-b7NmuL:
+total 1584
+drwxrwx---  2 116 123    160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0    340 Mar 18 21:12 ..
+-rw-rw----  1 116 123 528384 Mar 18 20:08 qb-event-cib_rw-data
+-rw-rw----  1 116 123   8248 Mar 18 20:08 qb-event-cib_rw-header
+-rw-rw----  1 116 123 528384 Mar 18 20:23 qb-request-cib_rw-data
+-rw-rw----  1 116 123   8252 Mar 18 20:08 qb-request-cib_rw-header
+-rw-rw----  1 116 123 528384 Mar 18 20:08 qb-response-cib_rw-data
+-rw-rw----  1 116 123   8248 Mar 18 20:08 qb-response-cib_rw-header
+
+/dev/shm/qb-32382-32387-12-mpUnoK:
+total 1584
+drwxrwx---  2 116 123    160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0    340 Mar 18 21:12 ..
+-rw-rw----  1 116 123 528384 Mar 18 20:08 qb-event-cib_shm-data
+-rw-rw----  1 116 123   8248 Mar 18 20:08 qb-event-cib_shm-header
+-rw-rw----  1 116 123 528384 Mar 18 20:10 qb-request-cib_shm-data
+-rw-rw----  1 116 123   8252 Mar 18 20:08 qb-request-cib_shm-header
+-rw-rw----  1 116 123 528384 Mar 18 20:08 qb-response-cib_shm-data
+-rw-rw----  1 116 123   8248 Mar 18 20:08 qb-response-cib_shm-header
+
+/dev/shm/qb-32383-32387-9-vFIPuO:
+total 432
+drwxrwx---  2 116 123    160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0    340 Mar 18 21:12 ..
+-rw-rw----  1   0 123 135168 Mar 18 20:08 qb-event-stonith-ng-data
+-rw-rw----  1   0 123   8248 Mar 18 20:08 qb-event-stonith-ng-header
+-rw-rw----  1   0 123 135168 Mar 18 20:08 qb-request-stonith-ng-data
+-rw-rw----  1   0 123   8252 Mar 18 20:08 qb-request-stonith-ng-header
+-rw-rw----  1   0 123 135168 Mar 18 20:08 qb-response-stonith-ng-data
+-rw-rw----  1   0 123   8248 Mar 18 20:08 qb-response-stonith-ng-header
+
+/dev/shm/qb-32384-32387-7-0QdOKW:
+total 432
+drwxrwx---  2 116 123    160 Mar 18 20:08 .
+drwxrwxrwt 15   0   0    340 Mar 18 21:12 ..
+-rw-rw----  1   0 123 135168 Mar 18 20:08 qb-event-lrmd-data
+-rw-rw----  1   0 123   8248 Mar 18 20:08 qb-event-lrmd-header
+-rw-rw----  1   0 123 135168 Mar 18 20:10 qb-request-lrmd-data
+-rw-rw----  1   0 123   8252 Mar 18 20:08 qb-request-lrmd-header
+-rw-rw----  1   0 123 135168 Mar 18 20:08 qb-response-lrmd-data
+-rw-rw----  1   0 123   8248 Mar 18 20:08 qb-response-lrmd-header
+
+/dev/snd:
+total 0
+drwxr-xr-x  2 0  0      80 Mar 18 19:57 .
+drwxr-xr-x 18 0  0    3840 Mar 18 19:58 ..
+crw-rw----  1 0 29 116,  1 Mar 18 19:57 seq
+crw-rw----  1 0 29 116, 33 Mar 18 19:57 timer
+
+/dev/vfio:
+total 0
+drwxr-xr-x  2 0 0      60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0    3840 Mar 18 19:58 ..
+crw-rw-rw-  1 0 0 10, 196 Mar 18 19:57 vfio
+
+/dev/virtio-ports:
+total 0
+drwxr-xr-x  2 0 0   60 Mar 18 19:57 .
+drwxr-xr-x 18 0 0 3840 Mar 18 19:58 ..
+lrwxrwxrwx  1 0 0   11 Mar 18 19:57 com.redhat.spice.0 -> ../vport1p1

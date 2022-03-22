@@ -1,0 +1,32 @@
+hotsos:
+  version: development
+  repo-info: ee460b23
+system:
+  hostname: juju-3f8d6e-o7ktest-21
+  num-cpus: 1
+  load: 0.56, 0.18, 0.11
+  virtualisation: kvm
+  rootfs: /dev/vda1       20145724 2571844  17557496  13% /
+  unattended-upgrades: ENABLED
+  date: vr 18 mrt 2022 21:13:18 UTC
+  potential-issues:
+    SystemWarnings:
+      - Unattended upgrades are enabled which can lead to uncontrolled changes to
+        this environment. If maintenance windows are required please consider disabling
+        unattended upgrades. (origin=system.auto_scenario_check)
+pacemaker:
+  services:
+    systemd:
+      enabled:
+        - corosync
+        - pacemaker
+    ps:
+      - corosync (1)
+      - pacemakerd (1)
+  dpkg:
+    - corosync 3.0.3-2ubuntu2.1
+    - crmsh 4.2.0-2ubuntu1
+    - pacemaker 2.0.3-3ubuntu4.3
+    - pacemaker-cli-utils 2.0.3-3ubuntu4.3
+    - pacemaker-common 2.0.3-3ubuntu4.3
+    - pacemaker-resource-agents 2.0.3-3ubuntu4.3

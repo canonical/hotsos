@@ -1,0 +1,482 @@
+/org/freedesktop/UDisks2/Manager:
+  org.freedesktop.UDisks2.Manager:
+    DefaultEncryptionType:      luks1
+    SupportedEncryptionTypes:   luks1
+                                luks2
+    SupportedFilesystems:       ext2
+                                ext3
+                                ext4
+                                vfat
+                                ntfs
+                                exfat
+                                xfs
+                                reiserfs
+                                nilfs2
+                                btrfs
+                                minix
+                                udf
+                                f2fs
+                                swap
+    Version:                    2.8.4
+
+/org/freedesktop/UDisks2/block_devices/loop0:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop0
+    DeviceNumber:               1792
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     squashfs
+    IdUUID:                     
+    IdUsage:                    filesystem
+    IdVersion:                  4.0
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop0
+    ReadOnly:                   true
+    Size:                       64901120
+    Symlinks:                   
+    UserspaceMountOptions:      x-gdu.hide
+  org.freedesktop.UDisks2.Filesystem:
+    MountPoints:        /snap/core20/1376
+    Size:               0
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          true
+    BackingFile:        /var/lib/snapd/snaps/core20_1376.snap
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop1:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop1
+    DeviceNumber:               1793
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     squashfs
+    IdUUID:                     
+    IdUsage:                    filesystem
+    IdVersion:                  4.0
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop1
+    ReadOnly:                   true
+    Size:                       45748224
+    Symlinks:                   
+    UserspaceMountOptions:      x-gdu.hide
+  org.freedesktop.UDisks2.Filesystem:
+    MountPoints:        /snap/snapd/15177
+    Size:               0
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          true
+    BackingFile:        /var/lib/snapd/snaps/snapd_15177.snap
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop2:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop2
+    DeviceNumber:               1794
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     squashfs
+    IdUUID:                     
+    IdUsage:                    filesystem
+    IdVersion:                  4.0
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop2
+    ReadOnly:                   true
+    Size:                       71221248
+    Symlinks:                   
+    UserspaceMountOptions:      x-gdu.hide
+  org.freedesktop.UDisks2.Filesystem:
+    MountPoints:        /snap/lxd/22526
+    Size:               0
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          true
+    BackingFile:        /var/lib/snapd/snaps/lxd_22526.snap
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop3:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop3
+    DeviceNumber:               1795
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop3
+    ReadOnly:                   false
+    Size:                       0
+    Symlinks:                   
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          false
+    BackingFile:        
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop4:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop4
+    DeviceNumber:               1796
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop4
+    ReadOnly:                   false
+    Size:                       0
+    Symlinks:                   
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          false
+    BackingFile:        
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop5:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop5
+    DeviceNumber:               1797
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop5
+    ReadOnly:                   false
+    Size:                       0
+    Symlinks:                   
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          false
+    BackingFile:        
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop6:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop6
+    DeviceNumber:               1798
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop6
+    ReadOnly:                   false
+    Size:                       0
+    Symlinks:                   
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          false
+    BackingFile:        
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/loop7:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/loop7
+    DeviceNumber:               1799
+    Drive:                      '/'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/loop7
+    ReadOnly:                   false
+    Size:                       0
+    Symlinks:                   
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Loop:
+    Autoclear:          false
+    BackingFile:        
+    SetupByUID:         0
+
+/org/freedesktop/UDisks2/block_devices/vda:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/vda
+    DeviceNumber:               64512
+    Drive:                      '/org/freedesktop/UDisks2/drives/VirtIO_Disk'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/vda
+    ReadOnly:                   false
+    Size:                       21474836480
+    Symlinks:                   /dev/disk/by-path/pci-0000:00:05.0
+                                /dev/disk/by-path/virtio-pci-0000:00:05.0
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.PartitionTable:
+    Partitions:         ['/org/freedesktop/UDisks2/block_devices/vda15', '/org/freedesktop/UDisks2/block_devices/vda14', '/org/freedesktop/UDisks2/block_devices/vda1']
+    Type:               gpt
+
+/org/freedesktop/UDisks2/block_devices/vda1:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              [('fstab', {'fsname': <b'LABEL=cloudimg-rootfs'>, 'dir': <b'/'>, 'type': <b'ext4'>, 'opts': <b'defaults'>, 'freq': <0>, 'passno': <1>})]
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/vda1
+    DeviceNumber:               64513
+    Drive:                      '/org/freedesktop/UDisks2/drives/VirtIO_Disk'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    cloudimg-rootfs
+    IdType:                     ext4
+    IdUUID:                     fb4271cb-7838-42c3-bd8c-bb67fd98d59f
+    IdUsage:                    filesystem
+    IdVersion:                  1.0
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/vda1
+    ReadOnly:                   false
+    Size:                       21358427648
+    Symlinks:                   /dev/disk/by-label/cloudimg-rootfs
+                                /dev/disk/by-partuuid/43c0a4c8-ca10-45ac-9d0d-557a7e83ca56
+                                /dev/disk/by-path/pci-0000:00:05.0-part1
+                                /dev/disk/by-path/virtio-pci-0000:00:05.0-part1
+                                /dev/disk/by-uuid/fb4271cb-7838-42c3-bd8c-bb67fd98d59f
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Filesystem:
+    MountPoints:        /
+    Size:               21358424064
+  org.freedesktop.UDisks2.Partition:
+    Flags:              0
+    IsContained:        false
+    IsContainer:        false
+    Name:               
+    Number:             1
+    Offset:             116391936
+    Size:               21358427648
+    Table:              '/org/freedesktop/UDisks2/block_devices/vda'
+    Type:               0fc63daf-8483-4772-8e79-3d69d8477de4
+    UUID:               43c0a4c8-ca10-45ac-9d0d-557a7e83ca56
+
+/org/freedesktop/UDisks2/block_devices/vda14:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/vda14
+    DeviceNumber:               64526
+    Drive:                      '/org/freedesktop/UDisks2/drives/VirtIO_Disk'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 true
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/vda14
+    ReadOnly:                   false
+    Size:                       4194304
+    Symlinks:                   /dev/disk/by-partuuid/1f57665f-827b-4cf7-8872-445df087150b
+                                /dev/disk/by-path/pci-0000:00:05.0-part14
+                                /dev/disk/by-path/virtio-pci-0000:00:05.0-part14
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Partition:
+    Flags:              0
+    IsContained:        false
+    IsContainer:        false
+    Name:               
+    Number:             14
+    Offset:             1048576
+    Size:               4194304
+    Table:              '/org/freedesktop/UDisks2/block_devices/vda'
+    Type:               21686148-6449-6e6f-744e-656564454649
+    UUID:               1f57665f-827b-4cf7-8872-445df087150b
+
+/org/freedesktop/UDisks2/block_devices/vda15:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              [('fstab', {'fsname': <b'LABEL=UEFI'>, 'dir': <b'/boot/efi'>, 'type': <b'vfat'>, 'opts': <b'umask=0077'>, 'freq': <0>, 'passno': <1>})]
+    CryptoBackingDevice:        '/'
+    Device:                     /dev/vda15
+    DeviceNumber:               64527
+    Drive:                      '/org/freedesktop/UDisks2/drives/VirtIO_Disk'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 true
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         
+    IdLabel:                    UEFI
+    IdType:                     vfat
+    IdUUID:                     83AB-51F1
+    IdUsage:                    filesystem
+    IdVersion:                  FAT32
+    MDRaid:                     '/'
+    MDRaidMember:               '/'
+    PreferredDevice:            /dev/vda15
+    ReadOnly:                   false
+    Size:                       111149056
+    Symlinks:                   /dev/disk/by-label/UEFI
+                                /dev/disk/by-partuuid/b0353c76-3e4a-4848-9231-dea808193130
+                                /dev/disk/by-path/pci-0000:00:05.0-part15
+                                /dev/disk/by-path/virtio-pci-0000:00:05.0-part15
+                                /dev/disk/by-uuid/83AB-51F1
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.Filesystem:
+    MountPoints:        /boot/efi
+    Size:               0
+  org.freedesktop.UDisks2.Partition:
+    Flags:              0
+    IsContained:        false
+    IsContainer:        false
+    Name:               
+    Number:             15
+    Offset:             5242880
+    Size:               111149056
+    Table:              '/org/freedesktop/UDisks2/block_devices/vda'
+    Type:               c12a7328-f81f-11d2-ba4b-00a0c93ec93b
+    UUID:               b0353c76-3e4a-4848-9231-dea808193130
+
+/org/freedesktop/UDisks2/drives/VirtIO_Disk:
+  org.freedesktop.UDisks2.Drive:
+    CanPowerOff:                false
+    Configuration:              {}
+    ConnectionBus:              
+    Ejectable:                  false
+    Id:                         
+    Media:                      
+    MediaAvailable:             true
+    MediaChangeDetected:        true
+    MediaCompatibility:         
+    MediaRemovable:             false
+    Model:                      VirtIO Disk
+    Optical:                    false
+    OpticalBlank:               false
+    OpticalNumAudioTracks:      0
+    OpticalNumDataTracks:       0
+    OpticalNumSessions:         0
+    OpticalNumTracks:           0
+    Removable:                  false
+    Revision:                   
+    RotationRate:               -1
+    Seat:                       seat0
+    Serial:                     
+    SiblingId:                  
+    Size:                       21474836480
+    SortKey:                    00coldplug/00fixed/vda
+    TimeDetected:               1647633430791422
+    TimeMediaDetected:          1647633430791422
+    Vendor:                     
+    WWN:                        

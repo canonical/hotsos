@@ -26,11 +26,12 @@ from plugin_extensions.system.summary import SystemSummary
 from plugin_extensions.system.checks import SystemChecks
 from plugin_extensions.maas.summary import MAASSummary
 from plugin_extensions.kernel import (
-     summary as kern_summary,
-     memory,
-     log_event_checks,
+    summary as kern_summary,
+    memory,
+    log_event_checks,
 )
 from plugin_extensions.kubernetes.summary import KubernetesSummary
+from plugin_extensions.pacemaker.summary import PacemakerSummary
 from plugin_extensions.rabbitmq.summary import RabbitMQSummary
 from plugin_extensions.sosreport.summary import SOSReportSummary
 from plugin_extensions.storage import (
@@ -110,6 +111,10 @@ class HotSOSClient(object):
                 'objects': [event_checks.OpenvSwitchDaemonEventChecks,
                             event_checks.OpenvSwitchFlowEventChecks],
                 'part_yaml_offset': 1}
+        elif constants.PLUGIN_NAME == 'pacemaker':
+            plugin_parts['summary'] = {
+                'objects': [PacemakerSummary],
+                'part_yaml_offset': 0}
         elif constants.PLUGIN_NAME == 'system':
             plugin_parts['summary'] = {
                 'objects': [SystemSummary],

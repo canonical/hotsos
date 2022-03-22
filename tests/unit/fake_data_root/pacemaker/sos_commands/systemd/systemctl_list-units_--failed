@@ -1,0 +1,8 @@
+  UNIT             LOAD   ACTIVE SUB    DESCRIPTION                                                   
+* openhpid.service loaded failed failed Daemon providing access to the SAF Hardware Platform Interface
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+1 loaded units listed.

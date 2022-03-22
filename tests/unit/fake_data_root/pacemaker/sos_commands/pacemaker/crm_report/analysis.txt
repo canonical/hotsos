@@ -1,0 +1,15 @@
+Diff members.txt... OK
+Diff cib.xml... OK
+Diff crm_mon.txt... OK
+Diff sysinfo.txt... OK
+Log pattern matches from juju-3f8d6e-o7ktest-21:
+Mar 18 19:58:01 juju-3f8d6e-o7ktest-21 cloud-init[1239]: ERROR: ld.so: object 'libeatmydata.so' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: conf.c:553: /etc/openhpi/openhpi.conf permissions are insecure!
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: conf.c:554: Shall not contain bits for group/others.
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: init.c:95: Can not load config.
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: openhpid-posix.cpp:442: There was an error initializing OpenHPI. Exiting.
+Mar 18 19:58:01 juju-3f8d6e-o7ktest-21 cloud-init[1239]: ERROR: ld.so: object 'libeatmydata.so' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: conf.c:553: /etc/openhpi/openhpi.conf permissions are insecure!
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: conf.c:554: Shall not contain bits for group/others.
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: init.c:95: Can not load config.
+Mar 18 20:02:07 juju-3f8d6e-o7ktest-21 openhpid[16624]: openhpid: CRIT: openhpid-posix.cpp:442: There was an error initializing OpenHPI. Exiting.

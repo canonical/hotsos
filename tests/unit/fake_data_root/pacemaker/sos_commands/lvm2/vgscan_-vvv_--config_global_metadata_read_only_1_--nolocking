@@ -1,0 +1,195 @@
+  Parsing: vgscan -vvv --config=global{metadata_read_only=1} --nolocking
+  Recognised command vgscan_general (id 151 / enum 135).
+  Reloading config files
+  Syncing device names
+  Dropping VG info
+  Freeing VG #orphans_lvm2 at 0x55dec9cfa7a0.
+  Loading config file: /etc/lvm/lvm.conf
+  Opened /etc/lvm/lvm.conf RO
+  Closed /etc/lvm/lvm.conf
+  DEGRADED MODE. Incomplete RAID LVs will be processed.
+  Processing command: vgscan -vvv --config=global{metadata_read_only=1} --nolocking
+  Command pid: 73760
+  System ID: 
+  O_DIRECT will be used
+  global/locking_type not found in config: defaulting to 1
+  WARNING: File locking is disabled.
+  devices/md_component_checks not found in config: defaulting to auto
+  Using md_component_checks auto use_full_md_check 0
+  Processing each VG
+  Finding VG info
+  Sysfs filter initialised.
+  Internal filter initialised.
+  LVM type filter initialised.
+  Usable device filter initialised (scan_lvs 0).
+  mpath filter initialised.
+  Partitioned filter initialised.
+  signature filter initialised.
+  MD filter initialised.
+  Composite filter initialised.
+  Persistent filter initialised.
+  Finding devices to scan
+  Creating list of system devices.
+  Found dev 252:0 /dev/vda - new.
+  Found dev 252:0 /dev/disk/by-path/pci-0000:00:05.0 - new alias.
+  Found dev 252:0 /dev/disk/by-path/virtio-pci-0000:00:05.0 - new alias.
+  Found dev 252:1 /dev/vda1 - new.
+  Found dev 252:1 /dev/disk/by-label/cloudimg-rootfs - new alias.
+  Found dev 252:1 /dev/disk/by-partuuid/43c0a4c8-ca10-45ac-9d0d-557a7e83ca56 - new alias.
+  Found dev 252:1 /dev/disk/by-path/pci-0000:00:05.0-part1 - new alias.
+  Found dev 252:1 /dev/disk/by-path/virtio-pci-0000:00:05.0-part1 - new alias.
+  Found dev 252:1 /dev/disk/by-uuid/fb4271cb-7838-42c3-bd8c-bb67fd98d59f - new alias.
+  Found dev 252:14 /dev/vda14 - new.
+  Found dev 252:14 /dev/disk/by-partuuid/1f57665f-827b-4cf7-8872-445df087150b - new alias.
+  Found dev 252:14 /dev/disk/by-path/pci-0000:00:05.0-part14 - new alias.
+  Found dev 252:14 /dev/disk/by-path/virtio-pci-0000:00:05.0-part14 - new alias.
+  Found dev 252:15 /dev/vda15 - new.
+  Found dev 252:15 /dev/disk/by-label/UEFI - new alias.
+  Found dev 252:15 /dev/disk/by-partuuid/b0353c76-3e4a-4848-9231-dea808193130 - new alias.
+  Found dev 252:15 /dev/disk/by-path/pci-0000:00:05.0-part15 - new alias.
+  Found dev 252:15 /dev/disk/by-path/virtio-pci-0000:00:05.0-part15 - new alias.
+  Found dev 252:15 /dev/disk/by-uuid/83AB-51F1 - new alias.
+  Found dev 7:0 /dev/loop0 - new.
+  Found dev 7:1 /dev/loop1 - new.
+  Found dev 7:2 /dev/loop2 - new.
+  Found dev 7:3 /dev/loop3 - new.
+  Found dev 7:4 /dev/loop4 - new.
+  Found dev 7:5 /dev/loop5 - new.
+  Found dev 7:6 /dev/loop6 - new.
+  Found dev 7:7 /dev/loop7 - new.
+  Filtering devices to scan
+  Opened /dev/loop0 RO O_DIRECT
+  /dev/loop0: size is 126760 sectors
+  Closed /dev/loop0
+  filter partitioned deferred /dev/loop0
+  filter signature deferred /dev/loop0
+  filter md deferred /dev/loop0
+  filter cache deferred /dev/loop0
+  Opened /dev/vda RO O_DIRECT
+  /dev/vda: size is 41943040 sectors
+  Closed /dev/vda
+  filter partitioned deferred /dev/vda
+  filter signature deferred /dev/vda
+  filter md deferred /dev/vda
+  filter cache deferred /dev/vda
+  Opened /dev/loop1 RO O_DIRECT
+  /dev/loop1: size is 89352 sectors
+  Closed /dev/loop1
+  filter partitioned deferred /dev/loop1
+  filter signature deferred /dev/loop1
+  filter md deferred /dev/loop1
+  filter cache deferred /dev/loop1
+  Opened /dev/vda1 RO O_DIRECT
+  /dev/vda1: size is 41715679 sectors
+  Closed /dev/vda1
+  filter partitioned deferred /dev/vda1
+  filter signature deferred /dev/vda1
+  filter md deferred /dev/vda1
+  filter cache deferred /dev/vda1
+  Opened /dev/loop2 RO O_DIRECT
+  /dev/loop2: size is 139104 sectors
+  Closed /dev/loop2
+  filter partitioned deferred /dev/loop2
+  filter signature deferred /dev/loop2
+  filter md deferred /dev/loop2
+  filter cache deferred /dev/loop2
+  Opened /dev/loop3 RO O_DIRECT
+  /dev/loop3: size is 0 sectors
+  Closed /dev/loop3
+  /dev/loop3: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop3
+  Opened /dev/loop4 RO O_DIRECT
+  /dev/loop4: size is 0 sectors
+  Closed /dev/loop4
+  /dev/loop4: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop4
+  Opened /dev/loop5 RO O_DIRECT
+  /dev/loop5: size is 0 sectors
+  Closed /dev/loop5
+  /dev/loop5: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop5
+  Opened /dev/loop6 RO O_DIRECT
+  /dev/loop6: size is 0 sectors
+  Closed /dev/loop6
+  /dev/loop6: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop6
+  Opened /dev/loop7 RO O_DIRECT
+  /dev/loop7: size is 0 sectors
+  Closed /dev/loop7
+  /dev/loop7: Skipping: Too small to hold a PV
+  filter caching bad /dev/loop7
+  Opened /dev/vda14 RO O_DIRECT
+  /dev/vda14: size is 8192 sectors
+  Closed /dev/vda14
+  filter partitioned deferred /dev/vda14
+  filter signature deferred /dev/vda14
+  filter md deferred /dev/vda14
+  filter cache deferred /dev/vda14
+  Opened /dev/vda15 RO O_DIRECT
+  /dev/vda15: size is 217088 sectors
+  Closed /dev/vda15
+  filter partitioned deferred /dev/vda15
+  filter signature deferred /dev/vda15
+  filter md deferred /dev/vda15
+  filter cache deferred /dev/vda15
+  Will scan 7 devices skip 0
+  Checking fd limit for num_devs 7 want 39 soft 1024 hard 1048576
+  Scanning 7 devices for VG info
+  Scanning submitted 7 reads
+  Processing data from device /dev/loop0 7:0 fd 3 block 0x55dec9d22f20
+  Scan filtering /dev/loop0
+  /dev/loop0: using cached size 126760 sectors
+  /dev/loop0: using cached size 126760 sectors
+  filter caching good /dev/loop0
+  /dev/loop0: No lvm label detected
+  Processing data from device /dev/vda 252:0 fd 4 block 0x55dec9d22f60
+  Scan filtering /dev/vda
+  /dev/vda: using cached size 41943040 sectors
+  /dev/vda: Skipping: Partition table signature found
+  filter caching bad /dev/vda
+  /dev/vda: Not processing filtered
+  Processing data from device /dev/loop1 7:1 fd 5 block 0x55dec9d22fa0
+  Scan filtering /dev/loop1
+  /dev/loop1: using cached size 89352 sectors
+  /dev/loop1: using cached size 89352 sectors
+  filter caching good /dev/loop1
+  /dev/loop1: No lvm label detected
+  Processing data from device /dev/vda1 252:1 fd 6 block 0x55dec9d22fe0
+  Scan filtering /dev/vda1
+  /dev/vda1: using cached size 41715679 sectors
+  /dev/vda1: using cached size 41715679 sectors
+  filter caching good /dev/vda1
+  /dev/vda1: No lvm label detected
+  Processing data from device /dev/loop2 7:2 fd 7 block 0x55dec9d23020
+  Scan filtering /dev/loop2
+  /dev/loop2: using cached size 139104 sectors
+  /dev/loop2: using cached size 139104 sectors
+  filter caching good /dev/loop2
+  /dev/loop2: No lvm label detected
+  Processing data from device /dev/vda14 252:14 fd 8 block 0x55dec9d23060
+  Scan filtering /dev/vda14
+  /dev/vda14: using cached size 8192 sectors
+  /dev/vda14: using cached size 8192 sectors
+  filter caching good /dev/vda14
+  /dev/vda14: No lvm label detected
+  Processing data from device /dev/vda15 252:15 fd 9 block 0x55dec9d230a0
+  Scan filtering /dev/vda15
+  /dev/vda15: using cached size 217088 sectors
+  /dev/vda15: using cached size 217088 sectors
+  filter caching good /dev/vda15
+  /dev/vda15: No lvm label detected
+  Scanned devices: read errors 0 process errors 0 failed 0
+  Found VG info for 0 VGs
+  Obtaining the complete list of VGs to process
+  No volume groups found.
+  Dropping VG info
+  lvmcache has no info for vgname "#orphans_lvm2" with VGID #orphans_lvm2.
+  lvmcache has no info for vgname "#orphans_lvm2".
+  lvmcache: Initialised VG #orphans_lvm2.
+  Reloading config files
+  Syncing device names
+  Dropping VG info
+  Freeing VG #orphans_lvm2 at 0x55dec9d0b870.
+  Loading config file: /etc/lvm/lvm.conf
+  Opened /etc/lvm/lvm.conf RO
+  Closed /etc/lvm/lvm.conf

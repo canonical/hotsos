@@ -1,0 +1,5 @@
+<device DEVNO="0xfc01" TIME="1647633448.944590" LABEL="cloudimg-rootfs" UUID="fb4271cb-7838-42c3-bd8c-bb67fd98d59f" TYPE="ext4" PARTUUID="43c0a4c8-ca10-45ac-9d0d-557a7e83ca56">/dev/vda1</device>
+<device DEVNO="0xfc0f" TIME="1647633448.963019" LABEL_FATBOOT="UEFI" LABEL="UEFI" UUID="83AB-51F1" TYPE="vfat" PARTUUID="b0353c76-3e4a-4848-9231-dea808193130">/dev/vda15</device>
+<device DEVNO="0x0700" TIME="1647633448.942687" TYPE="squashfs">/dev/loop0</device>
+<device DEVNO="0x0701" TIME="1647633448.943005" TYPE="squashfs">/dev/loop1</device>
+<device DEVNO="0x0702" TIME="1647633448.943731" TYPE="squashfs">/dev/loop2</device>

@@ -1,0 +1,23 @@
+* haproxy.service - HAProxy Load Balancer
+     Loaded: loaded (/lib/systemd/system/haproxy.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-03-18 20:23:47 UTC; 49min ago
+       Docs: man:haproxy(1)
+             file:/usr/share/doc/haproxy/configuration.txt.gz
+    Process: 45419 ExecStartPre=/usr/sbin/haproxy -f $CONFIG -c -q $EXTRAOPTS (code=exited, status=0/SUCCESS)
+   Main PID: 45420 (haproxy)
+      Tasks: 2 (limit: 2339)
+     Memory: 4.5M
+     CGroup: /system.slice/haproxy.service
+             |-45420 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+             `-45421 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+
+Mar 18 21:05:59 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55640 [18/Mar/2022:21:05:59.542] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/35 461 -- 1/1/0/0/0 0/0
+Mar 18 21:07:00 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55642 [18/Mar/2022:21:05:59.582] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60959 4028 -- 1/1/0/0/0 0/0
+Mar 18 21:08:01 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55644 [18/Mar/2022:21:07:00.542] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/61038 383 -- 1/1/0/0/0 0/0
+Mar 18 21:08:01 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55646 [18/Mar/2022:21:08:01.582] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/24 461 -- 1/1/0/0/0 0/0
+Mar 18 21:10:02 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55648 [18/Mar/2022:21:09:02.550] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60006 383 -- 1/1/0/0/0 0/0
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55650 [18/Mar/2022:21:10:02.557] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60980 383 -- 1/1/0/0/0 0/0
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55652 [18/Mar/2022:21:11:03.538] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/26 461 -- 1/1/0/0/0 0/0
+Mar 18 21:12:04 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55654 [18/Mar/2022:21:11:03.569] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60978 4028 -- 1/1/0/0/0 0/0
+Mar 18 21:13:05 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55656 [18/Mar/2022:21:12:04.547] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60996 383 -- 1/1/0/0/0 0/0
+Mar 18 21:13:05 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55658 [18/Mar/2022:21:13:05.544] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/23 461 -- 1/1/0/0/0 0/0

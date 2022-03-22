@@ -1,0 +1,634 @@
++ uname -n
+juju-3f8d6e-o7ktest-21
++ uptime
+ 21:13:41 up  1:16,  1 user,  load average: 1.74, 0.48, 0.21
++ ps axf
+    PID TTY      STAT   TIME COMMAND
+      2 ?        S      0:00 [kthreadd]
+      3 ?        I<     0:00  \_ [rcu_gp]
+      4 ?        I<     0:00  \_ [rcu_par_gp]
+      6 ?        I<     0:00  \_ [kworker/0:0H-kblockd]
+      7 ?        I      0:00  \_ [kworker/0:1-events]
+      9 ?        I<     0:00  \_ [mm_percpu_wq]
+     10 ?        S      0:01  \_ [ksoftirqd/0]
+     11 ?        I      0:02  \_ [rcu_sched]
+     12 ?        S      0:00  \_ [migration/0]
+     13 ?        S      0:00  \_ [idle_inject/0]
+     14 ?        S      0:00  \_ [cpuhp/0]
+     15 ?        S      0:00  \_ [kdevtmpfs]
+     16 ?        I<     0:00  \_ [netns]
+     17 ?        S      0:00  \_ [rcu_tasks_kthre]
+     18 ?        S      0:00  \_ [kauditd]
+     19 ?        S      0:00  \_ [khungtaskd]
+     20 ?        S      0:00  \_ [oom_reaper]
+     21 ?        I<     0:00  \_ [writeback]
+     22 ?        S      0:00  \_ [kcompactd0]
+     23 ?        SN     0:00  \_ [ksmd]
+     24 ?        SN     0:00  \_ [khugepaged]
+     70 ?        I<     0:00  \_ [kintegrityd]
+     71 ?        I<     0:00  \_ [kblockd]
+     72 ?        I<     0:00  \_ [blkcg_punt_bio]
+     73 ?        I<     0:00  \_ [tpm_dev_wq]
+     74 ?        I<     0:00  \_ [ata_sff]
+     75 ?        I<     0:00  \_ [md]
+     76 ?        I<     0:00  \_ [edac-poller]
+     77 ?        I<     0:00  \_ [devfreq_wq]
+     78 ?        S      0:00  \_ [watchdogd]
+     81 ?        S      0:00  \_ [kswapd0]
+     82 ?        S      0:00  \_ [ecryptfs-kthrea]
+     84 ?        I<     0:00  \_ [kthrotld]
+     85 ?        I<     0:00  \_ [acpi_thermal_pm]
+     86 ?        S      0:00  \_ [scsi_eh_0]
+     87 ?        I<     0:00  \_ [scsi_tmf_0]
+     88 ?        S      0:00  \_ [scsi_eh_1]
+     89 ?        I<     0:00  \_ [scsi_tmf_1]
+     91 ?        I<     0:00  \_ [vfio-irqfd-clea]
+     92 ?        I      0:00  \_ [kworker/u2:3-events_unbound]
+     93 ?        I<     0:00  \_ [ipv6_addrconf]
+    102 ?        I<     0:00  \_ [kstrp]
+    105 ?        I<     0:00  \_ [kworker/u3:0]
+    118 ?        I<     0:00  \_ [charger_manager]
+    157 ?        I<     0:00  \_ [cryptd]
+    158 ?        I<     0:00  \_ [kworker/0:1H-kblockd]
+    221 ?        I<     0:00  \_ [raid5wq]
+    261 ?        S      0:00  \_ [jbd2/vda1-8]
+    262 ?        I<     0:00  \_ [ext4-rsv-conver]
+    349 ?        I<     0:00  \_ [ipmi-msghandler]
+    434 ?        I<     0:00  \_ [kaluad]
+    435 ?        I<     0:00  \_ [kmpath_rdacd]
+    436 ?        I<     0:00  \_ [kmpathd]
+    437 ?        I<     0:00  \_ [kmpath_handlerd]
+    448 ?        S<     0:00  \_ [loop0]
+    450 ?        S<     0:00  \_ [loop1]
+    452 ?        S<     0:00  \_ [loop2]
+   3252 ?        S      0:00  \_ bpfilter_umh
+   4470 ?        I<     0:00  \_ [dio/vda1]
+   4495 ?        S<     0:00  \_ [spl_system_task]
+   4496 ?        S<     0:00  \_ [spl_delay_taskq]
+   4497 ?        S<     0:00  \_ [spl_dynamic_tas]
+   4498 ?        S<     0:00  \_ [spl_kmem_cache]
+   4502 ?        S<     0:00  \_ [zvol]
+   4504 ?        S      0:00  \_ [arc_prune]
+   4505 ?        SN     0:00  \_ [zthr_procedure]
+   4506 ?        SN     0:00  \_ [zthr_procedure]
+   4507 ?        S      0:00  \_ [dbu_evict]
+   4508 ?        SN     0:00  \_ [dbuf_evict]
+   4527 ?        SN     0:00  \_ [z_vdev_file]
+   4528 ?        S      0:00  \_ [l2arc_feed]
+  41759 ?        I      0:00  \_ [kworker/u2:0-events_unbound]
+  44460 ?        I      0:00  \_ [kworker/0:0-cgroup_pidlist_destroy]
+  72623 ?        I      0:00  \_ [kworker/0:2-events]
+  73095 ?        I      0:00  \_ [kworker/u2:1-events_unbound]
+      1 ?        Rs     1:05 /sbin/init
+    334 ?        S<s    0:00 /lib/systemd/systemd-journald
+    366 ?        Ss     0:01 /lib/systemd/systemd-udevd
+    438 ?        SLsl   0:00 /sbin/multipathd -d -s
+    472 ?        Ssl    0:00 /lib/systemd/systemd-timesyncd
+    545 ?        Ss     0:00 /lib/systemd/systemd-networkd
+    561 ?        Ss     0:00 /lib/systemd/systemd-resolved
+    646 ?        Ssl    0:00 /usr/lib/accountsservice/accounts-daemon
+    653 ?        Ss     0:00 /usr/sbin/cron -f
+    654 ?        Ss     0:02 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+    660 ?        Ss     0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+    662 ?        Ssl    0:00 /usr/lib/policykit-1/polkitd --no-debug
+    667 ?        Ssl    0:01 /usr/lib/snapd/snapd
+    668 ?        Ss     0:01 /lib/systemd/systemd-logind
+    670 ?        Ssl    0:00 /usr/lib/udisks2/udisksd
+    673 ?        Ss     0:00 /usr/sbin/atd -f
+    722 ttyS0    Ss+    0:00 /sbin/agetty -o -p -- \u --keep-baud 115200,38400,9600 ttyS0 vt220
+    739 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+    747 ?        Ssl    0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+    750 ?        Ssl    0:00 /usr/sbin/ModemManager
+    779 ?        Ss     0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+  72610 ?        Ss     0:00  \_ sshd: ubuntu [priv]
+  72767 ?        S      0:00      \_ sshd: ubuntu@pts/0
+  72768 pts/0    Ss     0:00          \_ -bash
+  72848 pts/0    S+     0:00              \_ sudo sosreport
+  72849 pts/0    Sl+    0:09                  \_ /usr/bin/python3 /usr/bin/sosreport
+  74330 pts/0    S      0:00                      \_ timeout 300s crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report --from 2022-03-15 21:03:14
+  74332 pts/0    S      0:00                      |   \_ /bin/sh /usr/sbin/crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report --from 2022-03-15 21:03:14
+  74484 pts/0    S      0:00                      |       \_ bash /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report/collector
+  75505 pts/0    R      0:00                      |           \_ ps axf
+  75273 pts/0    S      0:00                      \_ timeout 300s ubuntu-security-status --thirdparty --unavailable
+  75274 pts/0    R      0:00                      |   \_ /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+  75489 pts/0    S      0:00                      \_ timeout 300s systemctl list-unit-files
+  75491 pts/0    S      0:00                      |   \_ systemctl list-unit-files
+  75506 pts/0    S      0:00                      \_ timeout 300s udisksctl dump
+   2776 ?        Ss     0:00 bash /etc/systemd/system/jujud-machine-21-exec-start.sh
+   2781 ?        SLl    0:58  \_ /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+   3276 ?        S      0:00 dnsmasq -u dnsmasq --strict-order --bind-interfaces --pid-file=/run/ubuntu-fan/dnsmasq-fan-252.pid --conf-file= --listen-address 252.1.106.1 --dhcp-range 252.1.106.2,252.1.106.254 --dhcp-no-override --except-interface=lo --interface=fan-252 --dhcp-leasefile=/var/lib/misc/dnsmasq.fan-252.leases --dhcp-authoritative
+   4181 ?        Ss     0:00 /bin/sh /snap/lxd/22526/commands/daemon.start
+   4356 ?        Sl     0:02  \_ lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+   4335 ?        Sl     0:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+  14457 ?        Ssl    0:00 /usr/sbin/rsyslogd -n -iNONE
+  26045 ?        Sl     0:22 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+  32367 ?        SLsl   0:32 /usr/sbin/corosync -f
+  32374 ?        Ss     0:00 /usr/sbin/pacemakerd -f
+  32382 ?        Ss     0:01  \_ /usr/lib/pacemaker/pacemaker-based
+  32383 ?        Ss     0:00  \_ /usr/lib/pacemaker/pacemaker-fenced
+  32384 ?        Ss     0:01  \_ /usr/lib/pacemaker/pacemaker-execd
+  32385 ?        Ss     0:00  \_ /usr/lib/pacemaker/pacemaker-attrd
+  32386 ?        Ss     0:00  \_ /usr/lib/pacemaker/pacemaker-schedulerd
+  32387 ?        Ss     0:00  \_ /usr/lib/pacemaker/pacemaker-controld
+  44475 ?        Ssl    0:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+  45230 ?        Ss     0:00 /usr/sbin/apache2 -k start
+  45232 ?        Sl     0:01  \_ (wsgi:placement)  -k start
+  45233 ?        Sl     0:01  \_ (wsgi:placement)  -k start
+  45234 ?        Sl     0:00  \_ /usr/sbin/apache2 -k start
+  45235 ?        Sl     0:00  \_ /usr/sbin/apache2 -k start
+  45420 ?        Ss     0:00 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+  45421 ?        S      0:00  \_ /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+  72615 ?        Ss     0:00 /lib/systemd/systemd --user
+  72621 ?        S      0:00  \_ (sd-pam)
+  73530 ?        Ssl    0:00 /usr/libexec/fwupd/fwupd
+  73618 ?        Ss     0:00 /lib/systemd/systemd-hostnamed
++ ps auxw
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  1.4  0.6 171580 13480 ?        Rs   19:57   1:05 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    19:57   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   19:57   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   19:57   0:00 [rcu_par_gp]
+root           6  0.0  0.0      0     0 ?        I<   19:57   0:00 [kworker/0:0H-kblockd]
+root           7  0.0  0.0      0     0 ?        I    19:57   0:00 [kworker/0:1-events]
+root           9  0.0  0.0      0     0 ?        I<   19:57   0:00 [mm_percpu_wq]
+root          10  0.0  0.0      0     0 ?        S    19:57   0:01 [ksoftirqd/0]
+root          11  0.0  0.0      0     0 ?        I    19:57   0:02 [rcu_sched]
+root          12  0.0  0.0      0     0 ?        S    19:57   0:00 [migration/0]
+root          13  0.0  0.0      0     0 ?        S    19:57   0:00 [idle_inject/0]
+root          14  0.0  0.0      0     0 ?        S    19:57   0:00 [cpuhp/0]
+root          15  0.0  0.0      0     0 ?        S    19:57   0:00 [kdevtmpfs]
+root          16  0.0  0.0      0     0 ?        I<   19:57   0:00 [netns]
+root          17  0.0  0.0      0     0 ?        S    19:57   0:00 [rcu_tasks_kthre]
+root          18  0.0  0.0      0     0 ?        S    19:57   0:00 [kauditd]
+root          19  0.0  0.0      0     0 ?        S    19:57   0:00 [khungtaskd]
+root          20  0.0  0.0      0     0 ?        S    19:57   0:00 [oom_reaper]
+root          21  0.0  0.0      0     0 ?        I<   19:57   0:00 [writeback]
+root          22  0.0  0.0      0     0 ?        S    19:57   0:00 [kcompactd0]
+root          23  0.0  0.0      0     0 ?        SN   19:57   0:00 [ksmd]
+root          24  0.0  0.0      0     0 ?        SN   19:57   0:00 [khugepaged]
+root          70  0.0  0.0      0     0 ?        I<   19:57   0:00 [kintegrityd]
+root          71  0.0  0.0      0     0 ?        I<   19:57   0:00 [kblockd]
+root          72  0.0  0.0      0     0 ?        I<   19:57   0:00 [blkcg_punt_bio]
+root          73  0.0  0.0      0     0 ?        I<   19:57   0:00 [tpm_dev_wq]
+root          74  0.0  0.0      0     0 ?        I<   19:57   0:00 [ata_sff]
+root          75  0.0  0.0      0     0 ?        I<   19:57   0:00 [md]
+root          76  0.0  0.0      0     0 ?        I<   19:57   0:00 [edac-poller]
+root          77  0.0  0.0      0     0 ?        I<   19:57   0:00 [devfreq_wq]
+root          78  0.0  0.0      0     0 ?        S    19:57   0:00 [watchdogd]
+root          81  0.0  0.0      0     0 ?        S    19:57   0:00 [kswapd0]
+root          82  0.0  0.0      0     0 ?        S    19:57   0:00 [ecryptfs-kthrea]
+root          84  0.0  0.0      0     0 ?        I<   19:57   0:00 [kthrotld]
+root          85  0.0  0.0      0     0 ?        I<   19:57   0:00 [acpi_thermal_pm]
+root          86  0.0  0.0      0     0 ?        S    19:57   0:00 [scsi_eh_0]
+root          87  0.0  0.0      0     0 ?        I<   19:57   0:00 [scsi_tmf_0]
+root          88  0.0  0.0      0     0 ?        S    19:57   0:00 [scsi_eh_1]
+root          89  0.0  0.0      0     0 ?        I<   19:57   0:00 [scsi_tmf_1]
+root          91  0.0  0.0      0     0 ?        I<   19:57   0:00 [vfio-irqfd-clea]
+root          92  0.0  0.0      0     0 ?        I    19:57   0:00 [kworker/u2:3-events_unbound]
+root          93  0.0  0.0      0     0 ?        I<   19:57   0:00 [ipv6_addrconf]
+root         102  0.0  0.0      0     0 ?        I<   19:57   0:00 [kstrp]
+root         105  0.0  0.0      0     0 ?        I<   19:57   0:00 [kworker/u3:0]
+root         118  0.0  0.0      0     0 ?        I<   19:57   0:00 [charger_manager]
+root         157  0.0  0.0      0     0 ?        I<   19:57   0:00 [cryptd]
+root         158  0.0  0.0      0     0 ?        I<   19:57   0:00 [kworker/0:1H-kblockd]
+root         221  0.0  0.0      0     0 ?        I<   19:57   0:00 [raid5wq]
+root         261  0.0  0.0      0     0 ?        S    19:57   0:00 [jbd2/vda1-8]
+root         262  0.0  0.0      0     0 ?        I<   19:57   0:00 [ext4-rsv-conver]
+root         334  0.0  0.5  43328 11400 ?        S<s  19:57   0:00 /lib/systemd/systemd-journald
+root         349  0.0  0.0      0     0 ?        I<   19:57   0:00 [ipmi-msghandler]
+root         366  0.0  0.2  19508  5876 ?        Ss   19:57   0:01 /lib/systemd/systemd-udevd
+root         434  0.0  0.0      0     0 ?        I<   19:57   0:00 [kaluad]
+root         435  0.0  0.0      0     0 ?        I<   19:57   0:00 [kmpath_rdacd]
+root         436  0.0  0.0      0     0 ?        I<   19:57   0:00 [kmpathd]
+root         437  0.0  0.0      0     0 ?        I<   19:57   0:00 [kmpath_handlerd]
+root         438  0.0  0.8 280196 17996 ?        SLsl 19:57   0:00 /sbin/multipathd -d -s
+root         448  0.0  0.0      0     0 ?        S<   19:57   0:00 [loop0]
+root         450  0.0  0.0      0     0 ?        S<   19:57   0:00 [loop1]
+root         452  0.0  0.0      0     0 ?        S<   19:57   0:00 [loop2]
+systemd+     472  0.0  0.2  90188  5980 ?        Ssl  19:57   0:00 /lib/systemd/systemd-timesyncd
+systemd+     545  0.0  0.3  26700  7720 ?        Ss   19:57   0:00 /lib/systemd/systemd-networkd
+systemd+     561  0.0  0.5  23860 12100 ?        Ss   19:57   0:00 /lib/systemd/systemd-resolved
+root         646  0.0  0.4 241028  9236 ?        Ssl  19:57   0:00 /usr/lib/accountsservice/accounts-daemon
+root         653  0.0  0.1   8536  2880 ?        Ss   19:57   0:00 /usr/sbin/cron -f
+message+     654  0.0  0.2   7868  4792 ?        Ss   19:57   0:02 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         660  0.0  0.8  29192 17064 ?        Ss   19:57   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root         662  0.0  0.4 236416  8988 ?        Ssl  19:57   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root         667  0.0  1.8 742132 37260 ?        Ssl  19:57   0:01 /usr/lib/snapd/snapd
+root         668  0.0  0.3  16608  7600 ?        Ss   19:57   0:01 /lib/systemd/systemd-logind
+root         670  0.0  0.6 394912 13792 ?        Ssl  19:57   0:00 /usr/lib/udisks2/udisksd
+daemon       673  0.0  0.1   3792  2360 ?        Ss   19:57   0:00 /usr/sbin/atd -f
+root         722  0.0  0.1   7352  2268 ttyS0    Ss+  19:57   0:00 /sbin/agetty -o -p -- \u --keep-baud 115200,38400,9600 ttyS0 vt220
+root         739  0.0  0.0   5828  1740 tty1     Ss+  19:57   0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+root         747  0.0  0.9 108104 19896 ?        Ssl  19:57   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root         750  0.0  0.5 314452 10852 ?        Ssl  19:57   0:00 /usr/sbin/ModemManager
+root         779  0.0  0.3  12172  6804 ?        Ss   19:57   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root        2776  0.0  0.1   8696  2476 ?        Ss   19:58   0:00 bash /etc/systemd/system/jujud-machine-21-exec-start.sh
+root        2781  1.2  5.0 866928 102996 ?       SLl  19:58   0:58 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+root        3252  0.0  0.0   2488   512 ?        S    19:58   0:00 bpfilter_umh
+dnsmasq     3276  0.0  0.0  13928   356 ?        S    19:58   0:00 dnsmasq -u dnsmasq --strict-order --bind-interfaces --pid-file=/run/ubuntu-fan/dnsmasq-fan-252.pid --conf-file= --listen-address 252.1.106.1 --dhcp-range 252.1.106.2,252.1.106.254 --dhcp-no-override --except-interface=lo --interface=fan-252 --dhcp-leasefile=/var/lib/misc/dnsmasq.fan-252.leases --dhcp-authoritative
+root        4181  0.0  0.0   2616   132 ?        Ss   19:58   0:00 /bin/sh /snap/lxd/22526/commands/daemon.start
+root        4335  0.0  0.0  85608   136 ?        Sl   19:58   0:00 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+root        4356  0.0  2.1 1385424 44000 ?       Sl   19:58   0:02 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+root        4470  0.0  0.0      0     0 ?        I<   19:58   0:00 [dio/vda1]
+root        4495  0.0  0.0      0     0 ?        S<   19:58   0:00 [spl_system_task]
+root        4496  0.0  0.0      0     0 ?        S<   19:58   0:00 [spl_delay_taskq]
+root        4497  0.0  0.0      0     0 ?        S<   19:58   0:00 [spl_dynamic_tas]
+root        4498  0.0  0.0      0     0 ?        S<   19:58   0:00 [spl_kmem_cache]
+root        4502  0.0  0.0      0     0 ?        S<   19:58   0:00 [zvol]
+root        4504  0.0  0.0      0     0 ?        S    19:58   0:00 [arc_prune]
+root        4505  0.0  0.0      0     0 ?        SN   19:58   0:00 [zthr_procedure]
+root        4506  0.0  0.0      0     0 ?        SN   19:58   0:00 [zthr_procedure]
+root        4507  0.0  0.0      0     0 ?        S    19:58   0:00 [dbu_evict]
+root        4508  0.0  0.0      0     0 ?        SN   19:58   0:00 [dbuf_evict]
+root        4527  0.0  0.0      0     0 ?        SN   19:58   0:00 [z_vdev_file]
+root        4528  0.0  0.0      0     0 ?        S    19:58   0:00 [l2arc_feed]
+syslog     14457  0.0  0.1 224492  3452 ?        Ssl  20:01   0:00 /usr/sbin/rsyslogd -n -iNONE
+mysql      26045  0.5  0.6 622264 13428 ?        Sl   20:06   0:22 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mysqlrouter.conf
+root       32367  0.8  4.5 158920 93348 ?        SLsl 20:08   0:32 /usr/sbin/corosync -f
+root       32374  0.0  0.7  74380 14572 ?        Ss   20:08   0:00 /usr/sbin/pacemakerd -f
+haclust+   32382  0.0  1.1  75344 24336 ?        Ss   20:08   0:01 /usr/lib/pacemaker/pacemaker-based
+root       32383  0.0  0.7  65944 15088 ?        Ss   20:08   0:00 /usr/lib/pacemaker/pacemaker-fenced
+root       32384  0.0  0.4  50420  9936 ?        Ss   20:08   0:01 /usr/lib/pacemaker/pacemaker-execd
+haclust+   32385  0.0  0.6  64328 13532 ?        Ss   20:08   0:00 /usr/lib/pacemaker/pacemaker-attrd
+haclust+   32386  0.0  0.4  50780  9088 ?        Ss   20:08   0:00 /usr/lib/pacemaker/pacemaker-schedulerd
+haclust+   32387  0.0  0.7  74768 15392 ?        Ss   20:08   0:00 /usr/lib/pacemaker/pacemaker-controld
+root       41759  0.0  0.0      0     0 ?        I    20:19   0:00 [kworker/u2:0-events_unbound]
+root       44460  0.0  0.0      0     0 ?        I    20:23   0:00 [kworker/0:0-cgroup_pidlist_destroy]
+memcache   44475  0.0  0.2 410796  4876 ?        Ssl  20:23   0:00 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+root       45230  0.0  0.2  13824  5292 ?        Ss   20:23   0:00 /usr/sbin/apache2 -k start
+placeme+   45232  0.0  3.8 229332 78500 ?        Sl   20:23   0:01 (wsgi:placement)  -k start
+placeme+   45233  0.0  3.8 229076 78464 ?        Sl   20:23   0:01 (wsgi:placement)  -k start
+www-data   45234  0.0  0.4 762976  9144 ?        Sl   20:23   0:00 /usr/sbin/apache2 -k start
+www-data   45235  0.0  0.4 763136  9144 ?        Sl   20:23   0:00 /usr/sbin/apache2 -k start
+root       45420  0.0  0.5  18912 11684 ?        Ss   20:23   0:00 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+haproxy    45421  0.0  0.3  19052  6948 ?        S    20:23   0:00 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -S /run/haproxy-master.sock
+root       72610  0.0  0.4  13796  8892 ?        Ss   21:12   0:00 sshd: ubuntu [priv]
+ubuntu     72615  0.1  0.4  18388  9584 ?        Ss   21:12   0:00 /lib/systemd/systemd --user
+ubuntu     72621  0.0  0.2 172796  5532 ?        S    21:12   0:00 (sd-pam)
+root       72623  0.0  0.0      0     0 ?        I    21:12   0:00 [kworker/0:2-events]
+ubuntu     72767  0.0  0.2  13928  5328 ?        S    21:12   0:00 sshd: ubuntu@pts/0
+ubuntu     72768  0.0  0.2  10140  5072 pts/0    Ss   21:12   0:00 -bash
+root       72848  0.0  0.2  11168  4828 pts/0    S+   21:13   0:00 sudo sosreport
+root       72849 24.8  2.6 677744 54660 pts/0    Sl+  21:13   0:09 /usr/bin/python3 /usr/bin/sosreport
+root       73095  0.0  0.0      0     0 ?        I    21:13   0:00 [kworker/u2:1-events_unbound]
+root       73530  2.6  1.3 459548 27888 ?        Ssl  21:13   0:00 /usr/libexec/fwupd/fwupd
+root       73618  0.3  0.2  16220  5864 ?        Ss   21:13   0:00 /lib/systemd/systemd-hostnamed
+root       74330  0.0  0.0   2708   576 pts/0    S    21:13   0:00 timeout 300s crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report --from 2022-03-15 21:03:14
+root       74332  0.0  0.0   2736  1756 pts/0    S    21:13   0:00 /bin/sh /usr/sbin/crm_report --sos-mode -p passw.* -S -d --dest /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report --from 2022-03-15 21:03:14
+root       74484  0.3  0.1   4688  3672 pts/0    S    21:13   0:00 bash /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report/collector
+root       75273  0.0  0.0   2708   572 pts/0    S    21:13   0:00 timeout 300s ubuntu-security-status --thirdparty --unavailable
+root       75274 17.3  3.8  86348 77968 pts/0    R    21:13   0:00 /usr/bin/python3 /usr/bin/ubuntu-security-status --thirdparty --unavailable
+root       75489  0.0  0.0   2708   640 pts/0    S    21:13   0:00 timeout 300s systemctl list-unit-files
+root       75491  0.0  0.0   6308  1112 pts/0    S    21:13   0:00 systemctl list-unit-files
+root       75506  0.0  0.0   2708   572 pts/0    S    21:13   0:00 timeout 300s udisksctl dump
+root       75508  0.0  0.3 159328  7080 pts/0    Rl   21:13   0:00 udisksctl dump
+root       75509  0.0  0.1   5892  2892 pts/0    R    21:13   0:00 ps auxw
++ top -b -n 1
+top - 21:13:41 up  1:16,  1 user,  load average: 1.74, 0.48, 0.21
+Tasks: 140 total,   4 running, 136 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 44.4 us, 55.6 sy,  0.0 ni,  0.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   1983.3 total,    102.7 free,    496.7 used,   1383.9 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1262.2 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+      1 root      20   0  171580  13480   8112 R  47.1   0.7   1:05.89 systemd
+  75514 root      20   0   14068  10488   5744 R  17.6   0.5   0:00.03 lsb_rel+
+  75517 root      20   0   13008   9368   5632 R  11.8   0.5   0:00.02 ufw
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kthreadd
+      3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par+
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+      7 root      20   0       0      0      0 I   0.0   0.0   0:00.63 kworker+
+      9 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 mm_perc+
+     10 root      20   0       0      0      0 S   0.0   0.0   0:01.33 ksoftir+
+     11 root      20   0       0      0      0 I   0.0   0.0   0:02.00 rcu_sch+
+     12 root      rt   0       0      0      0 S   0.0   0.0   0:00.01 migrati+
+     13 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_in+
+     14 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0
+     15 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kdevtmp+
+     16 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 netns
+     17 root      20   0       0      0      0 S   0.0   0.0   0:00.00 rcu_tas+
+     18 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kauditd
+     19 root      20   0       0      0      0 S   0.0   0.0   0:00.00 khungta+
+     20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 oom_rea+
+     21 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 writeba+
+     22 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kcompac+
+     23 root      25   5       0      0      0 S   0.0   0.0   0:00.00 ksmd
+     24 root      39  19       0      0      0 S   0.0   0.0   0:00.00 khugepa+
+     70 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kintegr+
+     71 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kblockd
+     72 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 blkcg_p+
+     73 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 tpm_dev+
+     74 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 ata_sff
+     75 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 md
+     76 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 edac-po+
+     77 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 devfreq+
+     78 root      rt   0       0      0      0 S   0.0   0.0   0:00.00 watchdo+
+     81 root      20   0       0      0      0 S   0.0   0.0   0:00.23 kswapd0
+     82 root      20   0       0      0      0 S   0.0   0.0   0:00.00 ecryptf+
+     84 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kthrotld
+     85 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 acpi_th+
+     86 root      20   0       0      0      0 S   0.0   0.0   0:00.00 scsi_eh+
+     87 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 scsi_tm+
+     88 root      20   0       0      0      0 S   0.0   0.0   0:00.00 scsi_eh+
+     89 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 scsi_tm+
+     91 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 vfio-ir+
+     92 root      20   0       0      0      0 I   0.0   0.0   0:00.16 kworker+
+     93 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 ipv6_ad+
+    102 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kstrp
+    105 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+    118 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 charger+
+    157 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 cryptd
+    158 root       0 -20       0      0      0 I   0.0   0.0   0:00.44 kworker+
+    221 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 raid5wq
+    261 root      20   0       0      0      0 S   0.0   0.0   0:00.71 jbd2/vd+
+    262 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 ext4-rs+
+    334 root      19  -1   43328  11400  10140 S   0.0   0.6   0:00.97 systemd+
+    349 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 ipmi-ms+
+    366 root      20   0   19508   5876   4000 S   0.0   0.3   0:01.21 systemd+
+    434 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kaluad
+    435 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kmpath_+
+    436 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kmpathd
+    437 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kmpath_+
+    438 root      rt   0  280196  17996   8204 S   0.0   0.9   0:00.23 multipa+
+    448 root       0 -20       0      0      0 S   0.0   0.0   0:00.02 loop0
+    450 root       0 -20       0      0      0 S   0.0   0.0   0:00.05 loop1
+    452 root       0 -20       0      0      0 S   0.0   0.0   0:00.05 loop2
+    472 systemd+  20   0   90188   5980   5212 S   0.0   0.3   0:00.06 systemd+
+    545 systemd+  20   0   26700   7720   6780 S   0.0   0.4   0:00.08 systemd+
+    561 systemd+  20   0   23860  12100   8180 S   0.0   0.6   0:00.11 systemd+
+    646 root      20   0  241028   9236   8284 S   0.0   0.5   0:00.19 account+
+    653 root      20   0    8536   2880   2664 S   0.0   0.1   0:00.00 cron
+    654 message+  20   0    7868   4792   3644 S   0.0   0.2   0:02.53 dbus-da+
+    660 root      20   0   29192  17064   9360 S   0.0   0.8   0:00.09 network+
+    662 root      20   0  236416   8988   8068 S   0.0   0.4   0:00.04 polkitd
+    667 root      20   0  742132  37260  19832 S   0.0   1.8   0:01.54 snapd
+    668 root      20   0   16608   7600   6712 S   0.0   0.4   0:01.21 systemd+
+    670 root      20   0  394912  13792  11788 S   0.0   0.7   0:00.07 udisksd
+    673 daemon    20   0    3792   2360   2180 S   0.0   0.1   0:00.00 atd
+    722 root      20   0    7352   2268   2140 S   0.0   0.1   0:00.00 agetty
+    739 root      20   0    5828   1740   1628 S   0.0   0.1   0:00.01 agetty
+    747 root      20   0  108104  19896  12236 S   0.0   1.0   0:00.09 unatten+
+    750 root      20   0  314452  10852   9124 S   0.0   0.5   0:00.06 ModemMa+
+    779 root      20   0   12172   6804   5880 S   0.0   0.3   0:00.01 sshd
+   2776 root      20   0    8696   2476   2220 S   0.0   0.1   0:00.00 bash
+   2781 root      20   0  866928 102996  82032 S   0.0   5.1   0:58.19 jujud
+   3252 root      20   0    2488    512    448 S   0.0   0.0   0:00.00 none
+   3276 dnsmasq   20   0   13928    356      0 S   0.0   0.0   0:00.00 dnsmasq
+   4181 root      20   0    2616    132      4 S   0.0   0.0   0:00.05 daemon.+
+   4335 root      20   0   85608    136      0 S   0.0   0.0   0:00.01 lxcfs
+   4356 root      20   0 1385424  44000  25920 S   0.0   2.2   0:02.99 lxd
+   4470 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 dio/vda1
+   4495 root       0 -20       0      0      0 S   0.0   0.0   0:00.00 spl_sys+
+   4496 root       0 -20       0      0      0 S   0.0   0.0   0:00.00 spl_del+
+   4497 root       0 -20       0      0      0 S   0.0   0.0   0:00.00 spl_dyn+
+   4498 root       0 -20       0      0      0 S   0.0   0.0   0:00.00 spl_kme+
+   4502 root       0 -20       0      0      0 S   0.0   0.0   0:00.00 zvol
+   4504 root      20   0       0      0      0 S   0.0   0.0   0:00.00 arc_pru+
+   4505 root      39  19       0      0      0 S   0.0   0.0   0:00.00 zthr_pr+
+   4506 root      39  19       0      0      0 S   0.0   0.0   0:00.06 zthr_pr+
+   4507 root      20   0       0      0      0 S   0.0   0.0   0:00.00 dbu_evi+
+   4508 root      39  19       0      0      0 S   0.0   0.0   0:00.02 dbuf_ev+
+   4527 root      39  19       0      0      0 S   0.0   0.0   0:00.00 z_vdev_+
+   4528 root      20   0       0      0      0 S   0.0   0.0   0:00.03 l2arc_f+
+  14457 syslog    20   0  224492   3452   2916 S   0.0   0.2   0:00.06 rsyslogd
+  26045 mysql     20   0  622264  13428  11028 S   0.0   0.7   0:22.66 mysqlro+
+  32367 root      rt   0  158920  93348  72096 S   0.0   4.6   0:32.42 corosync
+  32374 root      20   0   74380  14572   8944 S   0.0   0.7   0:00.29 pacemak+
+  32382 haclust+  20   0   75344  24336  14528 S   0.0   1.2   0:01.17 pacemak+
+  32383 root      20   0   65944  15088  10572 S   0.0   0.7   0:00.29 pacemak+
+  32384 root      20   0   50420   9936   8700 S   0.0   0.5   0:01.08 pacemak+
+  32385 haclust+  20   0   64328  13532   9064 S   0.0   0.7   0:00.29 pacemak+
+  32386 haclust+  20   0   50780   9088   7880 S   0.0   0.4   0:00.22 pacemak+
+  32387 haclust+  20   0   74768  15392  10720 S   0.0   0.8   0:00.44 pacemak+
+  41759 root      20   0       0      0      0 I   0.0   0.0   0:00.03 kworker+
+  44460 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker+
+  44475 memcache  20   0  410796   4876   3104 S   0.0   0.2   0:00.52 memcach+
+  45230 root      20   0   13824   5292   3660 S   0.0   0.3   0:00.10 apache2
+  45232 placeme+  20   0  229332  78500  10796 S   0.0   3.9   0:01.77 apache2
+  45233 placeme+  20   0  229076  78464  10920 S   0.0   3.9   0:01.81 apache2
+  45234 www-data  20   0  762976   9144   4148 S   0.0   0.5   0:00.02 apache2
+  45235 www-data  20   0  763136   9144   4148 S   0.0   0.5   0:00.04 apache2
+  45420 root      20   0   18912  11684   7844 S   0.0   0.6   0:00.09 haproxy
+  45421 haproxy   20   0   19052   6948   3044 S   0.0   0.3   0:00.96 haproxy
+  72610 root      20   0   13796   8892   7444 S   0.0   0.4   0:00.01 sshd
+  72615 ubuntu    20   0   18388   9584   8124 S   0.0   0.5   0:00.06 systemd
+  72621 ubuntu    20   0  172796   5532     20 S   0.0   0.3   0:00.00 (sd-pam)
+  72623 root      20   0       0      0      0 I   0.0   0.0   0:00.02 kworker+
+  72767 ubuntu    20   0   13928   5328   3872 S   0.0   0.3   0:00.00 sshd
+  72768 ubuntu    20   0   10140   5072   3288 S   0.0   0.2   0:00.03 bash
+  72848 root      20   0   11168   4828   4108 S   0.0   0.2   0:00.00 sudo
+  72849 root      20   0  678000  54668  10788 S   0.0   2.7   0:09.45 sosrepo+
+  73095 root      20   0       0      0      0 I   0.0   0.0   0:00.00 kworker+
+  73530 root      20   0  459548  27888  22564 S   0.0   1.4   0:00.52 fwupd
+  73618 root      20   0   16220   5864   5164 S   0.0   0.3   0:00.06 systemd+
+  74330 root      20   0    2708    576    484 S   0.0   0.0   0:00.00 timeout
+  74332 root      20   0    2736   1756   1524 S   0.0   0.1   0:00.00 crm_rep+
+  74484 root      20   0    4688   3672   2656 S   0.0   0.2   0:00.03 bash
+  75273 root      20   0    2708    572    484 S   0.0   0.0   0:00.00 timeout
+  75274 root      20   0   86348  78132  54252 S   0.0   3.8   0:00.53 ubuntu-+
+  75489 root      20   0    2708    640    548 S   0.0   0.0   0:00.00 timeout
+  75491 root      20   0    6308   1112    884 S   0.0   0.1   0:00.00 systemc+
+  75512 root      20   0    6144   3360   2848 R   0.0   0.2   0:00.00 top
+  75515 root      20   0    2708    624    536 S   0.0   0.0   0:00.00 timeout
++ ifconfig -a
+ens3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 8958
+        inet 10.5.1.106  netmask 255.255.0.0  broadcast 10.5.255.255
+        inet6 fe80::f816:3eff:fe5d:11  prefixlen 64  scopeid 0x20<link>
+        ether fa:16:3e:5d:00:11  txqueuelen 1000  (Ethernet)
+        RX packets 313935  bytes 264769761 (264.7 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 313795  bytes 39966058 (39.9 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+fan-252: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
+        inet 252.1.106.1  netmask 255.0.0.0  broadcast 0.0.0.0
+        inet6 fe80::ecac:c1ff:fe63:756  prefixlen 64  scopeid 0x20<link>
+        ether ee:ac:c1:63:07:56  txqueuelen 1000  (Ethernet)
+        RX packets 2798  bytes 681598 (681.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3317  bytes 468225 (468.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ftun0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 8908
+        inet6 fe80::ecac:c1ff:fe63:756  prefixlen 64  scopeid 0x20<link>
+        ether ee:ac:c1:63:07:56  txqueuelen 1000  (Ethernet)
+        RX packets 2798  bytes 681598 (681.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3299  bytes 420635 (420.6 KB)
+        TX errors 0  dropped 34 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 26497  bytes 2305603 (2.3 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 26497  bytes 2305603 (2.3 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
++ ip addr list
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8958 qdisc fq_codel state UP group default qlen 1000
+    link/ether fa:16:3e:5d:00:11 brd ff:ff:ff:ff:ff:ff
+    inet 10.5.1.106/16 brd 10.5.255.255 scope global dynamic ens3
+       valid_lft 81825sec preferred_lft 81825sec
+    inet 10.5.100.5/16 brd 10.5.255.255 scope global secondary ens3
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe5d:11/64 scope link 
+       valid_lft forever preferred_lft forever
+3: fan-252: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UP group default qlen 1000
+    link/ether ee:ac:c1:63:07:56 brd ff:ff:ff:ff:ff:ff
+    inet 252.1.106.1/8 scope global fan-252
+       valid_lft forever preferred_lft forever
+    inet6 fe80::ecac:c1ff:fe63:756/64 scope link 
+       valid_lft forever preferred_lft forever
+4: ftun0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8908 qdisc noqueue master fan-252 state UNKNOWN group default qlen 1000
+    link/ether ee:ac:c1:63:07:56 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::ecac:c1ff:fe63:756/64 scope link 
+       valid_lft forever preferred_lft forever
++ netstat -i
+Kernel Interface table
+Iface      MTU    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+ens3      8958   313935      0      0 0        313795      0      0      0 BMRU
+fan-252   1450     2798      0      0 0          3317      0      0      0 BMRU
+ftun0     8908     2798      0      0 0          3299      0     34      0 BMRU
+lo       65536    26497      0      0 0         26497      0      0      0 LRU
++ arp -an
+? (10.5.0.6) at fa:16:3e:19:f8:7d [ether] on ens3
+? (10.5.0.7) at fa:16:3e:ca:ed:b6 [ether] on ens3
+? (10.5.3.195) at fa:16:3e:bd:82:a1 [ether] on ens3
+? (10.5.100.2) at fa:16:3e:32:e1:1a [ether] on ens3
+? (10.5.0.1) at fa:16:3e:a8:22:44 [ether] on ens3
+? (10.5.0.175) at fa:16:3e:8c:a9:ed [ether] on ens3
+? (10.5.2.69) at fa:16:3e:c1:a9:14 [ether] on ens3
+? (10.5.0.2) at fa:16:3e:f4:e8:d1 [ether] on ens3
+? (10.5.2.122) at fa:16:3e:32:e1:1a [ether] on ens3
+? (10.5.0.3) at fa:16:3e:02:2c:b4 [ether] on ens3
+? (10.5.0.200) at fa:16:3e:b3:03:ed [ether] on ens3
+? (10.5.0.29) at fa:16:3e:83:67:0c [ether] on ens3
+? (10.5.0.98) at fa:16:3e:ab:a9:db [ether] on ens3
+? (252.0.175.1) at 86:dd:5e:90:c9:53 [ether] on fan-252
+? (10.5.0.9) at fa:16:3e:53:08:ac [ether] on ens3
+? (10.5.3.130) at fa:16:3e:3f:fc:ea [ether] on ens3
+? (10.5.0.10) at fa:16:3e:0b:2e:db [ether] on ens3
+? (10.5.0.11) at fa:16:3e:d7:3d:be [ether] on ens3
+? (10.5.0.4) at fa:16:3e:8d:5f:95 [ether] on ens3
+? (10.5.2.41) at fa:16:3e:85:5c:e8 [ether] on ens3
+? (10.5.2.26) at fa:16:3e:1f:f3:26 [ether] on ens3
++ test -d /proc
++ cat /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel Core Processor (Haswell, no TSX, IBRS)
+stepping	: 1
+microcode	: 0x1
+cpu MHz		: 2596.990
+cache size	: 16384 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single pti ssbd ibrs ibpb tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt arat md_clear
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
++ lsscsi
+/tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03-18-lcxufvu/sos_commands/pacemaker/crm_report/collector: line 1373: lsscsi: command not found
++ lspci
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
+00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
+00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
+00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
+00:02.0 VGA compatible controller: Red Hat, Inc. QXL paravirtual graphic card (rev 04)
+00:03.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:04.0 Communication controller: Red Hat, Inc. Virtio console
+00:05.0 SCSI storage controller: Red Hat, Inc. Virtio block device
+00:06.0 Unclassified device [00ff]: Red Hat, Inc. Virtio memory balloon
++ lsblk
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+loop0     7:0    0 61.9M  1 loop /snap/core20/1376
+loop1     7:1    0 43.6M  1 loop /snap/snapd/15177
+loop2     7:2    0 67.9M  1 loop /snap/lxd/22526
+vda     252:0    0   20G  0 disk 
+|-vda1  252:1    0 19.9G  0 part /
+|-vda14 252:14   0    4M  0 part 
+`-vda15 252:15   0  106M  0 part /boot/efi
++ mount
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+udev on /dev type devtmpfs (rw,nosuid,noexec,relatime,size=998308k,nr_inodes=249577,mode=755)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,noexec,relatime,size=203092k,mode=755)
+/dev/vda1 on / type ext4 (rw,relatime)
+securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k)
+tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,mode=755)
+cgroup2 on /sys/fs/cgroup/unified type cgroup2 (rw,nosuid,nodev,noexec,relatime)
+cgroup on /sys/fs/cgroup/systemd type cgroup (rw,nosuid,nodev,noexec,relatime,xattr,name=systemd)
+pstore on /sys/fs/pstore type pstore (rw,nosuid,nodev,noexec,relatime)
+none on /sys/fs/bpf type bpf (rw,nosuid,nodev,noexec,relatime,mode=700)
+cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpu,cpuacct)
+cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb)
+cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset,clone_children)
+cgroup on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+cgroup on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+cgroup on /sys/fs/cgroup/freezer type cgroup (rw,nosuid,nodev,noexec,relatime,freezer)
+cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,nosuid,nodev,noexec,relatime,perf_event)
+cgroup on /sys/fs/cgroup/net_cls,net_prio type cgroup (rw,nosuid,nodev,noexec,relatime,net_cls,net_prio)
+cgroup on /sys/fs/cgroup/pids type cgroup (rw,nosuid,nodev,noexec,relatime,pids)
+cgroup on /sys/fs/cgroup/rdma type cgroup (rw,nosuid,nodev,noexec,relatime,rdma)
+systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=28,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=13207)
+hugetlbfs on /dev/hugepages type hugetlbfs (rw,relatime,pagesize=2M)
+mqueue on /dev/mqueue type mqueue (rw,nosuid,nodev,noexec,relatime)
+debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
+tracefs on /sys/kernel/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+fusectl on /sys/fs/fuse/connections type fusectl (rw,nosuid,nodev,noexec,relatime)
+configfs on /sys/kernel/config type configfs (rw,nosuid,nodev,noexec,relatime)
+/var/lib/snapd/snaps/core20_1376.snap on /snap/core20/1376 type squashfs (ro,nodev,relatime,x-gdu.hide)
+/var/lib/snapd/snaps/snapd_15177.snap on /snap/snapd/15177 type squashfs (ro,nodev,relatime,x-gdu.hide)
+/var/lib/snapd/snaps/lxd_22526.snap on /snap/lxd/22526 type squashfs (ro,nodev,relatime,x-gdu.hide)
+/dev/vda15 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+tmpfs on /run/snapd/ns type tmpfs (rw,nosuid,nodev,noexec,relatime,size=203092k,mode=755)
+nsfs on /run/snapd/ns/lxd.mnt type nsfs (rw)
+tmpfs on /var/snap/lxd/common/ns type tmpfs (rw,relatime,size=1024k,mode=700)
+nsfs on /var/snap/lxd/common/ns/shmounts type nsfs (rw)
+nsfs on /var/snap/lxd/common/ns/mntns type nsfs (rw)
+tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,size=203088k,mode=700,uid=1000,gid=1000)
+tracefs on /sys/kernel/debug/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
++ df
+Filesystem     1K-blocks    Used Available Use% Mounted on
+udev              998308       0    998308   0% /dev
+tmpfs             203092    1072    202020   1% /run
+/dev/vda1       20145724 2636308  17493032  14% /
+tmpfs            1015444   38784    976660   4% /dev/shm
+tmpfs               5120       0      5120   0% /run/lock
+tmpfs            1015444       0   1015444   0% /sys/fs/cgroup
+/dev/loop0         63488   63488         0 100% /snap/core20/1376
+/dev/loop1         44800   44800         0 100% /snap/snapd/15177
+/dev/loop2         69632   69632         0 100% /snap/lxd/22526
+/dev/vda15        106858    5321    101537   5% /boot/efi
+tmpfs               1024       0      1024   0% /var/snap/lxd/common/ns
+tmpfs             203088       0    203088   0% /run/user/1000
++ set +x

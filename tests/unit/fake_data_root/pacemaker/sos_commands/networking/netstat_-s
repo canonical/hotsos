@@ -1,0 +1,93 @@
+Ip:
+    Forwarding: 1
+    338349 total packets received
+    14 with invalid addresses
+    0 forwarded
+    0 incoming packets discarded
+    338335 incoming packets delivered
+    341821 requests sent out
+    26 outgoing packets dropped
+Icmp:
+    54 ICMP messages received
+    0 input ICMP message failed
+    ICMP input histogram:
+        destination unreachable: 54
+    52 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+        destination unreachable: 52
+IcmpMsg:
+        InType3: 54
+        OutType3: 52
+Tcp:
+    12630 active connection openings
+    103 passive connection openings
+    4473 failed connection attempts
+    4505 connection resets received
+    23 connections established
+    295763 segments received
+    270669 segments sent out
+    7 segments retransmitted
+    0 bad segments received
+    4522 resets sent
+Udp:
+    42483 packets received
+    52 packets to unknown port received
+    0 packet receive errors
+    67906 packets sent
+    0 receive buffer errors
+    0 send buffer errors
+    IgnoredMulti: 80
+UdpLite:
+TcpExt:
+    4469 resets received for embryonic SYN_RECV sockets
+    7985 TCP sockets finished time wait in fast timer
+    7456 delayed acks sent
+    130690 packet headers predicted
+    46404 acknowledgments not containing data payload received
+    76555 predicted acknowledgments
+    TCPLossProbes: 7
+    TCPBacklogCoalesce: 139
+    TCPDSACKRecv: 6
+    4486 connections reset due to unexpected data
+    3 connections reset due to early user close
+    TCPDSACKIgnoredNoUndo: 6
+    TCPDeferAcceptDrop: 25
+    TCPRcvCoalesce: 12694
+    TCPOFOQueue: 1669
+    TCPAutoCorking: 112
+    TCPFromZeroWindowAdv: 6
+    TCPToZeroWindowAdv: 6
+    TCPWantZeroWindowAdv: 30
+    TCPOrigDataSent: 133247
+    TCPHystartTrainDetect: 1
+    TCPHystartTrainCwnd: 23
+    TCPKeepAlive: 2386
+    TCPDelivered: 145858
+    TCPAckCompressed: 1589
+IpExt:
+    OutMcastPkts: 2
+    InBcastPkts: 80
+    InOctets: 262789906
+    OutOctets: 37988358
+    OutMcastOctets: 80
+    InBcastOctets: 26688
+    InNoECTPkts: 340538
+Sctp:
+    0 Current Associations
+    0 Active Associations
+    0 Passive Associations
+    0 Number of Aborteds 
+    0 Number of Graceful Terminations
+    0 Number of Out of Blue packets
+    0 Number of Packets with invalid Checksum
+    0 Number of control chunks sent
+    0 Number of ordered chunks sent
+    0 Number of Unordered chunks sent
+    0 Number of control chunks received
+    0 Number of ordered chunks received
+    0 Number of Unordered chunks received
+    0 Number of messages fragmented
+    0 Number of messages reassembled 
+    0 Number of SCTP packets sent
+    0 Number of SCTP packets received

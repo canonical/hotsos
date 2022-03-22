@@ -1,0 +1,45 @@
+Cluster Summary:
+  * Stack: corosync
+  * Current DC: juju-3f8d6e-o7ktest-23 (version 2.0.3-4b1f869f0f) - partition with quorum
+  * Last updated: Fri Mar 18 21:13:31 2022
+  * Last change:  Fri Mar 18 20:10:19 2022 by hacluster via crmd on juju-3f8d6e-o7ktest-21
+  * 4 nodes configured
+  * 5 resource instances configured
+
+Node List:
+  * Node juju-3f8d6e-o7ktest-21: online:
+    * Resources:
+      * res_placement_72e5569_vip	(ocf::heartbeat:IPaddr2):	 Started
+      * res_placement_haproxy	(lsb:haproxy):	 Started
+  * Node juju-3f8d6e-o7ktest-22: online:
+    * Resources:
+      * res_placement_haproxy	(lsb:haproxy):	 Started
+  * Node juju-3f8d6e-o7ktest-23: online:
+    * Resources:
+      * res_placement_haproxy	(lsb:haproxy):	 Started
+  * Node node1: OFFLINE:
+    * Resources:
+
+Inactive Resources:
+  * Clone Set: cl_res_placement_haproxy [res_placement_haproxy]:
+    * Started: [ juju-3f8d6e-o7ktest-21 juju-3f8d6e-o7ktest-22 juju-3f8d6e-o7ktest-23 ]
+    * Stopped: [ node1 ]
+
+Operations:
+  * Node: juju-3f8d6e-o7ktest-21:
+    * res_placement_72e5569_vip: migration-threshold=1000000:
+      * (6) start: last-rc-change="Fri Mar 18 20:09:19 2022" last-run="Fri Mar 18 20:09:19 2022" exec-time="52ms" queue-time="0ms" rc=0 (ok)
+      * (7) monitor: interval="10000ms" last-rc-change="Fri Mar 18 20:09:19 2022" exec-time="28ms" queue-time="0ms" rc=0 (ok)
+    * res_placement_haproxy: migration-threshold=1000000:
+      * (36) probe: last-rc-change="Fri Mar 18 20:10:20 2022" last-run="Fri Mar 18 20:10:20 2022" exec-time="351ms" queue-time="0ms" rc=0 (ok)
+      * (36) probe: last-rc-change="Fri Mar 18 20:10:20 2022" last-run="Fri Mar 18 20:10:20 2022" exec-time="351ms" queue-time="0ms" rc=0 (ok)
+      * (37) monitor: interval="5000ms" last-rc-change="Fri Mar 18 20:10:20 2022" exec-time="40ms" queue-time="0ms" rc=0 (ok)
+  * Node: juju-3f8d6e-o7ktest-23:
+    * res_placement_haproxy: migration-threshold=1000000:
+      * (15) start: last-rc-change="Fri Mar 18 20:23:39 2022" last-run="Fri Mar 18 20:23:39 2022" exec-time="359ms" queue-time="0ms" rc=0 (ok)
+      * (16) monitor: interval="5000ms" last-rc-change="Fri Mar 18 20:23:39 2022" exec-time="485ms" queue-time="0ms" rc=0 (ok)
+  * Node: juju-3f8d6e-o7ktest-22:
+    * res_placement_haproxy: migration-threshold=1000000:
+      * (17) start: last-rc-change="Fri Mar 18 20:23:44 2022" last-run="Fri Mar 18 20:23:44 2022" exec-time="91ms" queue-time="0ms" rc=0 (ok)
+      * (18) monitor: interval="5000ms" last-rc-change="Fri Mar 18 20:23:44 2022" exec-time="41ms" queue-time="0ms" rc=0 (ok)
+

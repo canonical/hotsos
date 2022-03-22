@@ -1,0 +1,21 @@
+* jujud-machine-21.service - juju agent for machine-21
+     Loaded: loaded (/etc/systemd/system/jujud-machine-21.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-03-18 19:58:08 UTC; 1h 15min ago
+   Main PID: 2776 (bash)
+      Tasks: 12 (limit: 2339)
+     Memory: 683.7M
+     CGroup: /system.slice/jujud-machine-21.service
+             |-2776 bash /etc/systemd/system/jujud-machine-21-exec-start.sh
+             |-2781 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/juju --machine-id 21 --debug
+             `-3276 dnsmasq -u dnsmasq --strict-order --bind-interfaces --pid-file=/run/ubuntu-fan/dnsmasq-fan-252.pid --conf-file= --listen-address 252.1.106.1 --dhcp-range 252.1.106.2,252.1.106.254 --dhcp-no-override --except-interface=lo --interface=fan-252 --dhcp-leasefile=/var/lib/misc/dnsmasq.fan-252.leases --dhcp-authoritative
+
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 groupadd[16250]: group added to /etc/group: name=haclient, GID=123
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 groupadd[16250]: group added to /etc/gshadow: name=haclient
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 groupadd[16250]: new group: name=haclient, GID=123
+Mar 18 20:01:59 juju-3f8d6e-o7ktest-21 useradd[16257]: new user: name=hacluster, UID=116, GID=123, home=/var/lib/pacemaker, shell=/usr/sbin/nologin, from=none
+Mar 18 20:02:00 juju-3f8d6e-o7ktest-21 usermod[16265]: change user 'hacluster' password
+Mar 18 20:02:00 juju-3f8d6e-o7ktest-21 chage[16272]: changed password expiry for hacluster
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 groupadd[20040]: group added to /etc/group: name=mysql, GID=124
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 groupadd[20040]: group added to /etc/gshadow: name=mysql
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 groupadd[20040]: new group: name=mysql, GID=124
+Mar 18 20:05:04 juju-3f8d6e-o7ktest-21 useradd[20050]: new user: name=mysql, UID=997, GID=124, home=/var/lib/mysql, shell=/bin/sh, from=none

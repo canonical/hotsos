@@ -1,0 +1,67 @@
+
+Udevadm info starts with the device specified by the devpath and then
+walks up the chain of parent devices. It prints for every device
+found, all possible attributes in the udev rules key format.
+A rule to match, can be composed by the attributes of the device
+and the attributes from one single parent device.
+
+  looking at device '/devices/pci0000:00/0000:00:01.1/ata2/host1/scsi_host/host1':
+    KERNEL=="host1"
+    SUBSYSTEM=="scsi_host"
+    DRIVER==""
+    ATTR{use_blk_mq}=="1"
+    ATTR{proc_name}=="ata_piix"
+    ATTR{active_mode}=="Initiator"
+    ATTR{cmd_per_lun}=="0"
+    ATTR{unchecked_isa_dma}=="0"
+    ATTR{sg_prot_tablesize}=="0"
+    ATTR{supported_mode}=="Initiator"
+    ATTR{host_busy}=="0"
+    ATTR{prot_guard_type}=="0"
+    ATTR{sg_tablesize}=="128"
+    ATTR{eh_deadline}=="off"
+    ATTR{state}=="running"
+    ATTR{unique_id}=="2"
+    ATTR{prot_capabilities}=="0"
+    ATTR{can_queue}=="1"
+
+  looking at parent device '/devices/pci0000:00/0000:00:01.1/ata2/host1':
+    KERNELS=="host1"
+    SUBSYSTEMS=="scsi"
+    DRIVERS==""
+
+  looking at parent device '/devices/pci0000:00/0000:00:01.1/ata2':
+    KERNELS=="ata2"
+    SUBSYSTEMS==""
+    DRIVERS==""
+
+  looking at parent device '/devices/pci0000:00/0000:00:01.1':
+    KERNELS=="0000:00:01.1"
+    SUBSYSTEMS=="pci"
+    DRIVERS=="ata_piix"
+    ATTRS{device}=="0x7010"
+    ATTRS{msi_bus}=="1"
+    ATTRS{numa_node}=="-1"
+    ATTRS{local_cpus}=="1"
+    ATTRS{d3cold_allowed}=="0"
+    ATTRS{consistent_dma_mask_bits}=="32"
+    ATTRS{vendor}=="0x8086"
+    ATTRS{revision}=="0x00"
+    ATTRS{class}=="0x010180"
+    ATTRS{broken_parity_status}=="0"
+    ATTRS{enable}=="1"
+    ATTRS{subsystem_vendor}=="0x1af4"
+    ATTRS{irq}=="0"
+    ATTRS{local_cpulist}=="0"
+    ATTRS{subsystem_device}=="0x1100"
+    ATTRS{resource1}==""
+    ATTRS{resource3}==""
+    ATTRS{driver_override}=="(null)"
+    ATTRS{dma_mask_bits}=="32"
+    ATTRS{ari_enabled}=="0"
+
+  looking at parent device '/devices/pci0000:00':
+    KERNELS=="pci0000:00"
+    SUBSYSTEMS==""
+    DRIVERS==""
+

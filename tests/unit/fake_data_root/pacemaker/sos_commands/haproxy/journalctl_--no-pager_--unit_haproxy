@@ -1,0 +1,111 @@
+-- Logs begin at Fri 2022-03-18 19:57:13 UTC, end at Fri 2022-03-18 21:13:22 UTC. --
+Mar 18 20:00:55 juju-3f8d6e-o7ktest-21 systemd[1]: Starting HAProxy Load Balancer...
+Mar 18 20:00:55 juju-3f8d6e-o7ktest-21 haproxy[13386]: [NOTICE] 076/200055 (13386) : New worker #1 (13387) forked
+Mar 18 20:00:55 juju-3f8d6e-o7ktest-21 systemd[1]: Started HAProxy Load Balancer.
+Mar 18 20:09:29 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping HAProxy Load Balancer...
+Mar 18 20:09:29 juju-3f8d6e-o7ktest-21 haproxy[13386]: [WARNING] 076/200929 (13386) : Exiting Master process...
+Mar 18 20:09:29 juju-3f8d6e-o7ktest-21 haproxy[13386]: [ALERT] 076/200929 (13386) : Current worker #1 (13387) exited with code 143 (Terminated)
+Mar 18 20:09:29 juju-3f8d6e-o7ktest-21 haproxy[13386]: [WARNING] 076/200929 (13386) : All workers exited. Exiting... (0)
+Mar 18 20:09:29 juju-3f8d6e-o7ktest-21 systemd[1]: haproxy.service: Succeeded.
+Mar 18 20:09:29 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped HAProxy Load Balancer.
+Mar 18 20:09:37 juju-3f8d6e-o7ktest-21 systemd[1]: Starting HAProxy Load Balancer...
+Mar 18 20:09:37 juju-3f8d6e-o7ktest-21 haproxy[32989]: [NOTICE] 076/200937 (32989) : New worker #1 (32995) forked
+Mar 18 20:09:37 juju-3f8d6e-o7ktest-21 systemd[1]: Started HAProxy Load Balancer.
+Mar 18 20:09:55 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping HAProxy Load Balancer...
+Mar 18 20:09:55 juju-3f8d6e-o7ktest-21 haproxy[32989]: [WARNING] 076/200955 (32989) : Exiting Master process...
+Mar 18 20:09:55 juju-3f8d6e-o7ktest-21 haproxy[32989]: [ALERT] 076/200955 (32989) : Current worker #1 (32995) exited with code 143 (Terminated)
+Mar 18 20:09:55 juju-3f8d6e-o7ktest-21 haproxy[32989]: [WARNING] 076/200955 (32989) : All workers exited. Exiting... (0)
+Mar 18 20:09:55 juju-3f8d6e-o7ktest-21 systemd[1]: haproxy.service: Succeeded.
+Mar 18 20:09:55 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped HAProxy Load Balancer.
+Mar 18 20:09:59 juju-3f8d6e-o7ktest-21 systemd[1]: Starting HAProxy Load Balancer...
+Mar 18 20:09:59 juju-3f8d6e-o7ktest-21 haproxy[34099]: [NOTICE] 076/200959 (34099) : New worker #1 (34108) forked
+Mar 18 20:09:59 juju-3f8d6e-o7ktest-21 systemd[1]: Started HAProxy Load Balancer.
+Mar 18 20:10:15 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping HAProxy Load Balancer...
+Mar 18 20:10:15 juju-3f8d6e-o7ktest-21 haproxy[34099]: [WARNING] 076/201015 (34099) : Exiting Master process...
+Mar 18 20:10:15 juju-3f8d6e-o7ktest-21 haproxy[34099]: [ALERT] 076/201015 (34099) : Current worker #1 (34108) exited with code 143 (Terminated)
+Mar 18 20:10:15 juju-3f8d6e-o7ktest-21 haproxy[34099]: [WARNING] 076/201015 (34099) : All workers exited. Exiting... (0)
+Mar 18 20:10:15 juju-3f8d6e-o7ktest-21 systemd[1]: haproxy.service: Succeeded.
+Mar 18 20:10:15 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped HAProxy Load Balancer.
+Mar 18 20:10:18 juju-3f8d6e-o7ktest-21 systemd[1]: Starting HAProxy Load Balancer...
+Mar 18 20:10:18 juju-3f8d6e-o7ktest-21 haproxy[34900]: [NOTICE] 076/201018 (34900) : New worker #1 (34901) forked
+Mar 18 20:10:18 juju-3f8d6e-o7ktest-21 systemd[1]: Started HAProxy Load Balancer.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping HAProxy Load Balancer...
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[34900]: [WARNING] 076/202330 (34900) : Exiting Master process...
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[34900]: [ALERT] 076/202330 (34900) : Current worker #1 (34901) exited with code 143 (Terminated)
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[34900]: [WARNING] 076/202330 (34900) : All workers exited. Exiting... (0)
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 systemd[1]: haproxy.service: Succeeded.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped HAProxy Load Balancer.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 systemd[1]: Starting HAProxy Load Balancer...
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: Proxy stats started.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: Proxy stats started.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: Proxy tcp-in_placement-api_admin started.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: Proxy tcp-in_placement-api_admin started.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: Proxy placement-api_admin_10.5.1.106 started.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: Proxy placement-api_admin_10.5.1.106 started.
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 haproxy[44465]: [NOTICE] 076/202330 (44465) : New worker #1 (44470) forked
+Mar 18 20:23:30 juju-3f8d6e-o7ktest-21 systemd[1]: Started HAProxy Load Balancer.
+Mar 18 20:23:31 juju-3f8d6e-o7ktest-21 haproxy[44470]: [WARNING] 076/202331 (44470) : Server placement-api_admin_10.5.1.106/placement-1 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Mar 18 20:23:31 juju-3f8d6e-o7ktest-21 haproxy[44470]: Server placement-api_admin_10.5.1.106/placement-1 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Mar 18 20:23:31 juju-3f8d6e-o7ktest-21 haproxy[44470]: Server placement-api_admin_10.5.1.106/placement-1 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Mar 18 20:23:31 juju-3f8d6e-o7ktest-21 haproxy[44470]: [WARNING] 076/202331 (44470) : Server placement-api_admin_10.5.1.106/placement-2 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Mar 18 20:23:31 juju-3f8d6e-o7ktest-21 haproxy[44470]: Server placement-api_admin_10.5.1.106/placement-2 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Mar 18 20:23:31 juju-3f8d6e-o7ktest-21 haproxy[44470]: Server placement-api_admin_10.5.1.106/placement-2 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Mar 18 20:23:32 juju-3f8d6e-o7ktest-21 systemd[1]: Stopping HAProxy Load Balancer...
+Mar 18 20:23:32 juju-3f8d6e-o7ktest-21 haproxy[44465]: [WARNING] 076/202332 (44465) : Exiting Master process...
+Mar 18 20:23:32 juju-3f8d6e-o7ktest-21 haproxy[44465]: [ALERT] 076/202332 (44465) : Current worker #1 (44470) exited with code 143 (Terminated)
+Mar 18 20:23:32 juju-3f8d6e-o7ktest-21 haproxy[44465]: [WARNING] 076/202332 (44465) : All workers exited. Exiting... (0)
+Mar 18 20:23:32 juju-3f8d6e-o7ktest-21 systemd[1]: haproxy.service: Succeeded.
+Mar 18 20:23:32 juju-3f8d6e-o7ktest-21 systemd[1]: Stopped HAProxy Load Balancer.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 systemd[1]: Starting HAProxy Load Balancer...
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: Proxy stats started.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: Proxy stats started.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: Proxy tcp-in_placement-api_admin started.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: Proxy tcp-in_placement-api_admin started.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: Proxy placement-api_admin_10.5.1.106 started.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: Proxy placement-api_admin_10.5.1.106 started.
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 haproxy[45420]: [NOTICE] 076/202347 (45420) : New worker #1 (45421) forked
+Mar 18 20:23:47 juju-3f8d6e-o7ktest-21 systemd[1]: Started HAProxy Load Balancer.
+Mar 18 20:43:16 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55570 [18/Mar/2022:20:43:14.421] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/2127 927 -- 10/10/9/2/0 0/0
+Mar 18 20:44:00 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55592 [18/Mar/2022:20:44:00.852] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/36 461 -- 10/10/9/2/0 0/0
+Mar 18 20:44:00 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55594 [18/Mar/2022:20:44:00.894] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/24 461 -- 10/10/9/2/0 0/0
+Mar 18 20:44:39 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.2.41:52190 [18/Mar/2022:20:43:07.122] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/91884 466 cD 9/9/8/3/0 0/0
+Mar 18 20:44:41 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.98:39380 [18/Mar/2022:20:43:09.509] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/91605 466 cD 8/8/7/2/0 0/0
+Mar 18 20:44:41 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.2.41:52250 [18/Mar/2022:20:43:11.495] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/90005 466 cD 7/7/6/1/0 0/0
+Mar 18 20:44:43 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.98:39376 [18/Mar/2022:20:43:09.424] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/94240 466 cD 6/6/5/1/0 0/0
+Mar 18 20:44:44 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.3.130:44850 [18/Mar/2022:20:43:09.077] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/95176 466 cD 5/5/4/2/0 0/0
+Mar 18 20:44:44 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.98:39418 [18/Mar/2022:20:43:11.912] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/92349 466 cD 4/4/3/1/0 0/0
+Mar 18 20:44:45 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.2.41:52232 [18/Mar/2022:20:43:09.919] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/95111 466 cD 3/3/2/0/0 0/0
+Mar 18 20:44:45 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.3.130:44870 [18/Mar/2022:20:43:11.088] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/94034 466 cD 2/2/1/0/0 0/0
+Mar 18 20:44:45 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.3.130:44954 [18/Mar/2022:20:43:15.888] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/90004 466 cD 1/1/0/0/0 0/0
+Mar 18 20:45:38 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55596 [18/Mar/2022:20:45:01.131] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/37537 6440 -- 1/1/0/0/0 0/0
+Mar 18 20:45:38 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55598 [18/Mar/2022:20:45:38.670] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/26 461 -- 1/1/0/0/0 0/0
+Mar 18 20:47:39 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55600 [18/Mar/2022:20:46:38.870] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/61090 383 -- 1/1/0/0/0 0/0
+Mar 18 20:48:41 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55602 [18/Mar/2022:20:47:39.962] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/61584 383 -- 1/1/0/0/0 0/0
+Mar 18 20:48:41 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55604 [18/Mar/2022:20:48:41.546] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/29 461 -- 1/1/0/0/0 0/0
+Mar 18 20:50:45 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55606 [18/Mar/2022:20:49:43.564] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/61987 383 -- 1/1/0/0/0 0/0
+Mar 18 20:51:46 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55608 [18/Mar/2022:20:50:45.551] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60992 4410 -- 1/1/0/0/0 0/0
+Mar 18 20:51:46 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55610 [18/Mar/2022:20:51:46.543] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/23 461 -- 1/1/0/0/0 0/0
+Mar 18 20:53:48 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55612 [18/Mar/2022:20:52:48.554] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60004 383 -- 1/1/0/0/0 0/0
+Mar 18 20:54:49 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55614 [18/Mar/2022:20:53:48.559] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60981 383 -- 1/1/0/0/0 0/0
+Mar 18 20:54:49 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55616 [18/Mar/2022:20:54:49.540] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/29 461 -- 1/1/0/0/0 0/0
+Mar 18 20:56:52 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55618 [18/Mar/2022:20:55:50.561] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/62011 4410 -- 1/1/0/0/0 0/0
+Mar 18 20:57:53 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55620 [18/Mar/2022:20:56:52.573] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60980 383 -- 1/1/0/0/0 0/0
+Mar 18 20:57:53 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55622 [18/Mar/2022:20:57:53.554] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/22 461 -- 1/1/0/0/0 0/0
+Mar 18 20:59:54 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55624 [18/Mar/2022:20:58:53.604] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60951 383 -- 1/1/0/0/0 0/0
+Mar 18 21:00:55 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55626 [18/Mar/2022:20:59:54.556] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60989 383 -- 1/1/0/0/0 0/0
+Mar 18 21:00:55 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55628 [18/Mar/2022:21:00:55.545] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/26 461 -- 1/1/0/0/0 0/0
+Mar 18 21:01:55 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55630 [18/Mar/2022:21:00:55.578] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/59972 4028 -- 1/1/0/0/0 0/0
+Mar 18 21:02:56 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55632 [18/Mar/2022:21:01:55.551] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/61026 383 -- 1/1/0/0/0 0/0
+Mar 18 21:02:56 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55634 [18/Mar/2022:21:02:56.580] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/23 461 -- 1/1/0/0/0 0/0
+Mar 18 21:04:58 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55636 [18/Mar/2022:21:03:57.562] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60976 383 -- 1/1/0/0/0 0/0
+Mar 18 21:05:59 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55638 [18/Mar/2022:21:04:58.538] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/61002 383 -- 1/1/0/0/0 0/0
+Mar 18 21:05:59 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55640 [18/Mar/2022:21:05:59.542] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/35 461 -- 1/1/0/0/0 0/0
+Mar 18 21:07:00 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55642 [18/Mar/2022:21:05:59.582] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60959 4028 -- 1/1/0/0/0 0/0
+Mar 18 21:08:01 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55644 [18/Mar/2022:21:07:00.542] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/61038 383 -- 1/1/0/0/0 0/0
+Mar 18 21:08:01 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55646 [18/Mar/2022:21:08:01.582] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/24 461 -- 1/1/0/0/0 0/0
+Mar 18 21:10:02 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55648 [18/Mar/2022:21:09:02.550] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60006 383 -- 1/1/0/0/0 0/0
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55650 [18/Mar/2022:21:10:02.557] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60980 383 -- 1/1/0/0/0 0/0
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55652 [18/Mar/2022:21:11:03.538] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/26 461 -- 1/1/0/0/0 0/0
+Mar 18 21:12:04 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55654 [18/Mar/2022:21:11:03.569] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-0 1/0/60978 4028 -- 1/1/0/0/0 0/0
+Mar 18 21:13:05 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55656 [18/Mar/2022:21:12:04.547] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-1 1/0/60996 383 -- 1/1/0/0/0 0/0
+Mar 18 21:13:05 juju-3f8d6e-o7ktest-21 haproxy[45421]: 10.5.0.200:55658 [18/Mar/2022:21:13:05.544] tcp-in_placement-api_admin placement-api_admin_10.5.1.106/placement-2 1/0/23 461 -- 1/1/0/0/0 0/0

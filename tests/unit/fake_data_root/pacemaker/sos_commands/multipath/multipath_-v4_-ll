@@ -1,0 +1,52 @@
+Mar 18 21:13:25 | set open fds limit to 1048576/1048576
+Mar 18 21:13:25 | loading //lib/multipath/libchecktur.so checker
+Mar 18 21:13:25 | checker tur: message table size = 3
+Mar 18 21:13:25 | loading //lib/multipath/libprioconst.so prioritizer
+Mar 18 21:13:25 | _init_foreign: found libforeign-nvme.so
+Mar 18 21:13:25 | foreign library "nvme" loaded successfully
+Mar 18 21:13:25 | released_to_systemd: DM_MULTIPATH_DEVICE_PATH=(null) -> 0
+Mar 18 21:13:25 | Discover device /sys/devices/pci0000:00/0000:00:05.0/virtio2/block/vda
+Mar 18 21:13:25 | vda: dev not found in pathvec
+Mar 18 21:13:25 | 252:0: dev_t not found in pathvec
+Mar 18 21:13:25 | vda: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/pci0000:00/0000:00:05.0/virtio2/block/vda/vda1
+Mar 18 21:13:25 | Discover device /sys/devices/pci0000:00/0000:00:05.0/virtio2/block/vda/vda14
+Mar 18 21:13:25 | Discover device /sys/devices/pci0000:00/0000:00:05.0/virtio2/block/vda/vda15
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop0
+Mar 18 21:13:25 | loop0: dev not found in pathvec
+Mar 18 21:13:25 | 7:0: dev_t not found in pathvec
+Mar 18 21:13:25 | loop0: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop1
+Mar 18 21:13:25 | loop1: dev not found in pathvec
+Mar 18 21:13:25 | 7:1: dev_t not found in pathvec
+Mar 18 21:13:25 | loop1: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop2
+Mar 18 21:13:25 | loop2: dev not found in pathvec
+Mar 18 21:13:25 | 7:2: dev_t not found in pathvec
+Mar 18 21:13:25 | loop2: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop3
+Mar 18 21:13:25 | loop3: dev not found in pathvec
+Mar 18 21:13:25 | 7:3: dev_t not found in pathvec
+Mar 18 21:13:25 | loop3: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop4
+Mar 18 21:13:25 | loop4: dev not found in pathvec
+Mar 18 21:13:25 | 7:4: dev_t not found in pathvec
+Mar 18 21:13:25 | loop4: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop5
+Mar 18 21:13:25 | loop5: dev not found in pathvec
+Mar 18 21:13:25 | 7:5: dev_t not found in pathvec
+Mar 18 21:13:25 | loop5: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop6
+Mar 18 21:13:25 | loop6: dev not found in pathvec
+Mar 18 21:13:25 | 7:6: dev_t not found in pathvec
+Mar 18 21:13:25 | loop6: device node name blacklisted
+Mar 18 21:13:25 | Discover device /sys/devices/virtual/block/loop7
+Mar 18 21:13:25 | loop7: dev not found in pathvec
+Mar 18 21:13:25 | 7:7: dev_t not found in pathvec
+Mar 18 21:13:25 | loop7: device node name blacklisted
+Mar 18 21:13:25 | Discovered 0/9 paths
+Mar 18 21:13:25 | libdevmapper version 1.02.167 (2019-11-30)
+Mar 18 21:13:25 | DM multipath kernel driver v1.13.0
+Mar 18 21:13:25 | unloading const prioritizer
+Mar 18 21:13:25 | unloading tur checker
+===== no paths =====

@@ -1,0 +1,19 @@
+* snapd.service - Snap Daemon
+     Loaded: loaded (/lib/systemd/system/snapd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-03-18 19:57:32 UTC; 1h 16min ago
+TriggeredBy: * snapd.socket
+   Main PID: 667 (snapd)
+      Tasks: 11 (limit: 2339)
+     Memory: 48.0M
+     CGroup: /system.slice/snapd.service
+             `-667 /usr/lib/snapd/snapd
+
+Mar 18 19:57:30 juju-3f8d6e-o7ktest-21 systemd[1]: Starting Snap Daemon...
+Mar 18 19:57:30 juju-3f8d6e-o7ktest-21 snapd[667]: AppArmor status: apparmor is enabled and all features are available
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 snapd[667]: AppArmor status: apparmor is enabled and all features are available
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 snapd[667]: patch.go:63: Patching system state level 6 to sublevel 1...
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 snapd[667]: patch.go:63: Patching system state level 6 to sublevel 2...
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 snapd[667]: patch.go:63: Patching system state level 6 to sublevel 3...
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 snapd[667]: daemon.go:246: started snapd/2.54.4 (series 16; classic) ubuntu/20.04 (amd64) linux/5.4.0-104-generic.
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 snapd[667]: daemon.go:339: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+Mar 18 19:57:32 juju-3f8d6e-o7ktest-21 systemd[1]: Started Snap Daemon.

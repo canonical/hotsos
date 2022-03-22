@@ -1,0 +1,175 @@
+/sys/firmware:
+total 0
+drwxr-xr-x  5 0 0 0 Mar 18 21:13 .
+dr-xr-xr-x 13 0 0 0 Mar 18 19:57 ..
+drwxr-xr-x  5 0 0 0 Mar 18 21:13 acpi
+drwxr-xr-x  3 0 0 0 Mar 18 21:13 dmi
+drwxr-xr-x  9 0 0 0 Mar 18 21:13 memmap
+
+/sys/firmware/acpi:
+total 0
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 hotplug
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 interrupts
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 pm_profile
+drwxr-xr-x 4 0 0    0 Mar 18 21:13 tables
+
+/sys/firmware/acpi/hotplug:
+total 0
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 force_remove
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 memory
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 pci_root
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 processor
+
+/sys/firmware/acpi/hotplug/memory:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 enabled
+
+/sys/firmware/acpi/hotplug/pci_root:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 enabled
+
+/sys/firmware/acpi/hotplug/processor:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 enabled
+
+/sys/firmware/acpi/interrupts:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 error
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 ff_gbl_lock
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 ff_pmtimer
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 ff_pwr_btn
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 ff_rt_clk
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 ff_slp_btn
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe00
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe01
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe02
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe03
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe04
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe05
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe06
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe07
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe08
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe09
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe0A
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe0B
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe0C
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe0D
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe0E
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe0F
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 gpe_all
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 sci
+-rw-r--r-- 1 0 0 4096 Mar 18 21:13 sci_not
+
+/sys/firmware/acpi/tables:
+total 0
+drwxr-xr-x 4 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0    0 Mar 18 21:13 ..
+-r-------- 1 0 0  120 Mar 18 21:13 APIC
+-r-------- 1 0 0 5081 Mar 18 21:13 DSDT
+-r-------- 1 0 0  116 Mar 18 21:13 FACP
+-r-------- 1 0 0   64 Mar 18 21:13 FACS
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 data
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 dynamic
+
+/sys/firmware/acpi/tables/data:
+total 0
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 .
+drwxr-xr-x 4 0 0 0 Mar 18 21:13 ..
+
+/sys/firmware/acpi/tables/dynamic:
+total 0
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 .
+drwxr-xr-x 4 0 0 0 Mar 18 21:13 ..
+
+/sys/firmware/dmi:
+total 0
+drwxr-xr-x 3 0 0 0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0 0 Mar 18 21:13 ..
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 tables
+
+/sys/firmware/dmi/tables:
+total 0
+drwxr-xr-x 2 0 0   0 Mar 18 21:13 .
+drwxr-xr-x 3 0 0   0 Mar 18 21:13 ..
+-r-------- 1 0 0 427 Mar 18 21:13 DMI
+-r-------- 1 0 0  31 Mar 18 21:13 smbios_entry_point
+
+/sys/firmware/memmap:
+total 0
+drwxr-xr-x 9 0 0 0 Mar 18 21:13 .
+drwxr-xr-x 5 0 0 0 Mar 18 21:13 ..
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 0
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 1
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 2
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 3
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 4
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 5
+drwxr-xr-x 2 0 0 0 Mar 18 21:13 6
+
+/sys/firmware/memmap/0:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type
+
+/sys/firmware/memmap/1:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type
+
+/sys/firmware/memmap/2:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type
+
+/sys/firmware/memmap/3:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type
+
+/sys/firmware/memmap/4:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type
+
+/sys/firmware/memmap/5:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type
+
+/sys/firmware/memmap/6:
+total 0
+drwxr-xr-x 2 0 0    0 Mar 18 21:13 .
+drwxr-xr-x 9 0 0    0 Mar 18 21:13 ..
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 end
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 start
+-r--r--r-- 1 0 0 4096 Mar 18 21:13 type

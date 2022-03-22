@@ -1,0 +1,8 @@
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+loop0     7:0    0 61.9M  1 loop /snap/core20/1376
+loop1     7:1    0 43.6M  1 loop /snap/snapd/15177
+loop2     7:2    0 67.9M  1 loop /snap/lxd/22526
+vda     252:0    0   20G  0 disk 
+|-vda1  252:1    0 19.9G  0 part /
+|-vda14 252:14   0    4M  0 part 
+`-vda15 252:15   0  106M  0 part /boot/efi

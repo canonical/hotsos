@@ -1,0 +1,110 @@
+Control group /:
+-.slice
+|-3252 bpfilter_umh
+|-4181 /bin/sh /snap/lxd/22526/commands/daemon.start
+|-4335 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs...
+|-4356 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+|-user.slice 
+| `-user-1000.slice 
+|   |-user@1000.service ...
+|   | `-init.scope 
+|   |   |-72615 /lib/systemd/systemd --user
+|   |   `-72621 (sd-pam)
+|   `-session-2.scope 
+|     |-72610 sshd: ubuntu [priv]
+|     |-72767 sshd: ubuntu@pts/0
+|     |-72768 -bash
+|     |-72848 sudo sosreport
+|     |-72849 /usr/bin/python3 /usr/bin/sosreport
+|     |-74330 timeout 300s crm_report --sos-mode -p passw.* -S -d --dest /tmp...
+|     |-74332 /bin/sh /usr/sbin/crm_report --sos-mode -p passw.* -S -d --dest...
+|     |-74466 timeout 300s /usr/bin/pip list installed
+|     |-74469 /usr/bin/python3 /usr/bin/pip list installed
+|     |-74484 bash /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03...
+|     |-74516 bash /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03...
+|     |-74517 bash /tmp/sos.wq5jqb0u/sosreport-juju-3f8d6e-o7ktest-21-2022-03...
+|     |-74518 sort -u
+|     |-74533 sleep 2
+|     |-74590 timeout 300s systemd-cgls
+|     |-74594 systemd-cgls
+|     `-74595 /usr/bin/python3 /usr/bin/sosreport
+|-init.scope 
+| `-1 /sbin/init
+`-system.slice 
+  |-apache2.service 
+  | |-45230 /usr/sbin/apache2 -k start
+  | |-45232 (wsgi:placement)  -k start
+  | |-45233 (wsgi:placement)  -k start
+  | |-45234 /usr/sbin/apache2 -k start
+  | `-45235 /usr/sbin/apache2 -k start
+  |-systemd-networkd.service 
+  | `-545 /lib/systemd/systemd-networkd
+  |-systemd-udevd.service 
+  | `-366 /lib/systemd/systemd-udevd
+  |-cron.service 
+  | `-653 /usr/sbin/cron -f
+  |-placement-mysql-router.service 
+  | `-26045 /usr/bin/mysqlrouter -c /var/lib/mysql/placement-mysql-router/mys...
+  |-system-serial\x2dgetty.slice 
+  | `-serial-getty@ttyS0.service 
+  |   `-722 /sbin/agetty -o -p -- \x5cu --keep-baud 115200,38400,9600 ttyS0 v...
+  |-polkit.service 
+  | `-662 /usr/lib/policykit-1/polkitd --no-debug
+  |-networkd-dispatcher.service 
+  | `-660 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+  |-multipathd.service 
+  | `-438 /sbin/multipathd -d -s
+  |-accounts-daemon.service 
+  | `-646 /usr/lib/accountsservice/accounts-daemon
+  |-ModemManager.service 
+  | `-750 /usr/sbin/ModemManager
+  |-systemd-journald.service 
+  | `-334 /lib/systemd/systemd-journald
+  |-atd.service 
+  | `-673 /usr/sbin/atd -f
+  |-unattended-upgrades.service 
+  | `-747 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-...
+  |-ssh.service 
+  | `-779 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+  |-fwupd.service 
+  | `-73530 /usr/libexec/fwupd/fwupd
+  |-pacemaker.service 
+  | |-32374 /usr/sbin/pacemakerd -f
+  | |-32382 /usr/lib/pacemaker/pacemaker-based
+  | |-32383 /usr/lib/pacemaker/pacemaker-fenced
+  | |-32384 /usr/lib/pacemaker/pacemaker-execd
+  | |-32385 /usr/lib/pacemaker/pacemaker-attrd
+  | |-32386 /usr/lib/pacemaker/pacemaker-schedulerd
+  | `-32387 /usr/lib/pacemaker/pacemaker-controld
+  |-snapd.service 
+  | `-667 /usr/lib/snapd/snapd
+  |-memcached.service 
+  | `-44475 /usr/bin/memcached -m 64 -p 11211 -u memcache -l ::1
+  |-systemd-hostnamed.service 
+  | `-73618 /lib/systemd/systemd-hostnamed
+  |-rsyslog.service 
+  | `-14457 /usr/sbin/rsyslogd -n -iNONE
+  |-haproxy.service 
+  | |-45420 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy...
+  | `-45421 /usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p /run/haproxy...
+  |-jujud-machine-21.service 
+  | |- 2776 bash /etc/systemd/system/jujud-machine-21-exec-start.sh
+  | |- 2781 /var/lib/juju/tools/machine-21/jujud machine --data-dir /var/lib/...
+  | |- 3276 dnsmasq -u dnsmasq --strict-order --bind-interfaces --pid-file=/r...
+  | |-74167 /var/lib/juju/agents/unit-placement-0/.venv/bin/python /var/lib/j...
+  | `-74586 apt-cache show --no-all-versions placement-common
+  |-corosync.service 
+  | `-32367 /usr/sbin/corosync -f
+  |-systemd-resolved.service 
+  | `-561 /lib/systemd/systemd-resolved
+  |-udisks2.service 
+  | `-670 /usr/lib/udisks2/udisksd
+  |-dbus.service 
+  | `-654 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfi...
+  |-systemd-timesyncd.service 
+  | `-472 /lib/systemd/systemd-timesyncd
+  |-system-getty.slice 
+  | `-getty@tty1.service 
+  |   `-739 /sbin/agetty -o -p -- \x5cu --noclear tty1 linux
+  `-systemd-logind.service 
+    `-668 /lib/systemd/systemd-logind

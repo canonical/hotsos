@@ -1,0 +1,117 @@
+/var/log/:
+total 828K
+drwxrwxr-x  13 root      syslog          4.0K Mar 18 20:09 .
+drwxr-xr-x  14 root      root            4.0K Mar 18 20:00 ..
+-rw-r--r--   1 root      root            7.6K Mar 18 20:02 alternatives.log
+drwxr-x---   2 root      adm             4.0K Mar 18 20:23 apache2
+drwxr-xr-x   2 root      root            4.0K Mar 18 20:05 apt
+-rw-r-----   1 syslog    adm             7.8K Mar 18 21:13 auth.log
+-rw-rw----   1 root      utmp               0 Mar 15 21:40 btmp
+-rw-r-----   1 root      adm              20K Mar 18 19:58 cloud-init-output.log
+-rw-r--r--   1 syslog    adm             126K Mar 18 19:58 cloud-init.log
+drwxr-xr-x   2 root      root            4.0K Mar 18 20:02 corosync
+drwxr-xr-x   2 root      root            4.0K Feb  8 17:14 dist-upgrade
+-rw-r--r--   1 root      adm              41K Mar 18 19:57 dmesg
+-rw-r--r--   1 root      root            163K Mar 18 20:05 dpkg.log
+-rw-r-----   1 syslog    adm              14K Mar 18 21:13 haproxy.log
+drwxr-sr-x+  3 root      systemd-journal 4.0K Mar 18 19:57 journal
+drwxr-xr-x   2 syslog    adm             4.0K Mar 18 20:01 juju
+-rw-r-----   1 syslog    adm              59K Mar 18 21:13 kern.log
+drwxr-xr-x   2 landscape landscape       4.0K Mar 18 21:12 landscape
+-rw-rw-r--   1 root      utmp            286K Mar 18 21:12 lastlog
+drwxrwx---   3 hacluster haclient        4.0K Mar 18 20:02 pacemaker
+drwxr-x---   2 placement adm             4.0K Sep 17 10:05 placement
+drwx------   2 root      root            4.0K Mar 18 19:57 private
+-rw-r-----   1 syslog    adm             303K Mar 18 21:13 syslog
+-rw-------   1 root      root             157 Mar 18 20:01 ubuntu-advantage-timer.log
+drwxr-x---   2 root      adm             4.0K Mar 18 19:57 unattended-upgrades
+-rw-rw-r--   1 root      utmp            2.7K Mar 18 21:12 wtmp
+
+/var/log/apache2:
+total 84K
+drwxr-x---  2 root adm    4.0K Mar 18 20:23 .
+drwxrwxr-x 13 root syslog 4.0K Mar 18 20:09 ..
+-rw-r-----  1 root adm       0 Mar 18 20:01 access.log
+-rw-r-----  1 root adm    2.0K Mar 18 20:23 error.log
+-rw-r-----  1 root adm       0 Mar 18 20:01 other_vhosts_access.log
+-rw-r--r--  1 root root   5.4K Mar 18 21:11 placement_access.log
+-rw-r--r--  1 root root      0 Mar 18 20:01 placement_api_access.log
+-rw-r--r--  1 root root      0 Mar 18 20:01 placement_api_error.log
+-rw-r--r--  1 root root    64K Mar 18 21:11 placement_error.log
+
+/var/log/apt:
+total 152K
+drwxr-xr-x  2 root root   4.0K Mar 18 20:05 .
+drwxrwxr-x 13 root syslog 4.0K Mar 18 20:09 ..
+-rw-r--r--  1 root root    31K Mar 18 20:05 eipp.log.xz
+-rw-r--r--  1 root root    17K Mar 18 20:05 history.log
+-rw-r-----  1 root adm     84K Mar 18 20:05 term.log
+
+/var/log/corosync:
+total 20K
+drwxr-xr-x  2 root root   4.0K Mar 18 20:02 .
+drwxrwxr-x 13 root syslog 4.0K Mar 18 20:09 ..
+-rw-r--r--  1 root root     91 Mar 18 20:02 .empty
+-rw-r--r--  1 root root   5.1K Mar 18 20:05 corosync.log
+
+/var/log/dist-upgrade:
+total 8.0K
+drwxr-xr-x  2 root root   4.0K Feb  8 17:14 .
+drwxrwxr-x 13 root syslog 4.0K Mar 18 20:09 ..
+
+/var/log/journal:
+total 12K
+drwxr-sr-x+  3 root systemd-journal 4.0K Mar 18 19:57 .
+drwxrwxr-x  13 root syslog          4.0K Mar 18 20:09 ..
+drwxr-sr-x+  2 root systemd-journal 4.0K Mar 18 21:12 2966b5f930f6409290d1be8c8ec61402
+
+/var/log/journal/2966b5f930f6409290d1be8c8ec61402:
+total 17M
+drwxr-sr-x+ 2 root systemd-journal 4.0K Mar 18 21:12 .
+drwxr-sr-x+ 3 root systemd-journal 4.0K Mar 18 19:57 ..
+-rw-r-----+ 1 root systemd-journal 8.0M Mar 18 21:13 system.journal
+-rw-r-----+ 1 root systemd-journal 8.0M Mar 18 21:12 user-1000.journal
+
+/var/log/juju:
+total 224K
+drwxr-xr-x  2 syslog adm    4.0K Mar 18 20:01 .
+drwxrwxr-x 13 root   syslog 4.0K Mar 18 20:09 ..
+-rw-r-----  1 syslog adm     18K Mar 18 20:01 machine-21.log
+-rw-r-----  1 syslog adm     16K Mar 18 21:09 machine-lock.log
+-rw-r-----  1 syslog adm     77K Mar 18 21:08 unit-placement-0.log
+-rw-r-----  1 syslog adm     19K Mar 18 21:09 unit-placement-hacluster-0.log
+-rw-r-----  1 syslog adm     66K Mar 18 21:09 unit-placement-mysql-router-0.log
+
+/var/log/landscape:
+total 8.0K
+drwxr-xr-x  2 landscape landscape 4.0K Mar 18 21:12 .
+drwxrwxr-x 13 root      syslog    4.0K Mar 18 20:09 ..
+-rw-r--r--  1 root      root         0 Mar 18 21:12 sysinfo.log
+
+/var/log/pacemaker:
+total 388K
+drwxrwx---  3 hacluster haclient 4.0K Mar 18 20:02 .
+drwxrwxr-x 13 root      syslog   4.0K Mar 18 20:09 ..
+drwxrwx---  2 hacluster haclient 4.0K Dec  9  2020 bundles
+-rw-rw----  1 hacluster haclient 369K Mar 18 20:23 pacemaker.log
+
+/var/log/pacemaker/bundles:
+total 8.0K
+drwxrwx--- 2 hacluster haclient 4.0K Dec  9  2020 .
+drwxrwx--- 3 hacluster haclient 4.0K Mar 18 20:02 ..
+
+/var/log/placement:
+total 8.0K
+drwxr-x---  2 placement adm    4.0K Sep 17 10:05 .
+drwxrwxr-x 13 root      syslog 4.0K Mar 18 20:09 ..
+
+/var/log/private:
+total 8.0K
+drwx------  2 root root   4.0K Mar 18 19:57 .
+drwxrwxr-x 13 root syslog 4.0K Mar 18 20:09 ..
+
+/var/log/unattended-upgrades:
+total 8.0K
+drwxr-x---  2 root adm    4.0K Mar 18 19:57 .
+drwxrwxr-x 13 root syslog 4.0K Mar 18 20:09 ..
+-rw-r--r--  1 root root      0 Mar 18 19:57 unattended-upgrades-shutdown.log

@@ -1,0 +1,18 @@
+Cluster Summary:
+  * Stack: corosync
+  * Current DC: juju-3f8d6e-o7ktest-23 (version 2.0.3-4b1f869f0f) - partition with quorum
+  * Last updated: Fri Mar 18 21:13:40 2022
+  * Last change:  Fri Mar 18 20:10:19 2022 by hacluster via crmd on juju-3f8d6e-o7ktest-21
+  * 4 nodes configured
+  * 5 resource instances configured
+
+Node List:
+  * Online: [ juju-3f8d6e-o7ktest-21 juju-3f8d6e-o7ktest-22 juju-3f8d6e-o7ktest-23 ]
+  * OFFLINE: [ node1 ]
+
+Active Resources:
+  * Resource Group: grp_placement_vips:
+    * res_placement_72e5569_vip	(ocf::heartbeat:IPaddr2):	 Started juju-3f8d6e-o7ktest-21
+  * Clone Set: cl_res_placement_haproxy [res_placement_haproxy]:
+    * Started: [ juju-3f8d6e-o7ktest-21 juju-3f8d6e-o7ktest-22 juju-3f8d6e-o7ktest-23 ]
+

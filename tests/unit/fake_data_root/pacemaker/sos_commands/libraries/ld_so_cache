@@ -1,0 +1,996 @@
+/lib:
+total 7116
+drwxr-xr-x 98 0 0    4096 Mar 18 20:05 .
+drwxr-xr-x 14 0 0    4096 Mar 15 21:39 ..
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 accountsservice
+drwxr-xr-x  3 0 0    4096 Mar 18 20:00 apache2
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 apparmor
+drwxr-xr-x  5 0 0    4096 Mar 15 21:39 apt
+drwxr-xr-x  2 0 0    4096 Mar 18 19:58 bfd-plugins
+drwxr-xr-x  2 0 0    4096 Apr 22  2020 binfmt.d
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 bolt
+drwxr-xr-x  2 0 0    4096 Mar 18 19:58 bridge-utils
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 byobu
+drwxr-xr-x  2 0 0    4096 Mar 16 16:52 cgi-bin
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 cloud-init
+-rwxr-xr-x  1 0 0     739 Feb 14 17:10 cnf-update-db
+-rwxr-xr-x  1 0 0    3565 Feb 14 17:10 command-not-found
+drwxr-xr-x  2 0 0    4096 Mar 18 19:58 compat-ld
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 console-setup
+lrwxrwxrwx  1 0 0      21 Mar 18 19:58 cpp -> /etc/alternatives/cpp
+drwxr-xr-x  4 0 0    4096 Mar 15 21:39 cryptsetup
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 dbus-1.0
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 dpkg
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 dracut
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 eject
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 environment.d
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 file
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 finalrd
+drwxr-xr-x  3 0 0    4096 Mar 18 19:58 gcc
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 girepository-1.0
+drwxr-xr-x  3 0 0    4096 Mar 15 21:40 git-core
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 gnupg
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 gnupg2
+drwxr-xr-x  2 0 0    4096 Mar 18 19:58 gold-ld
+drwxr-xr-x  4 0 0    4096 Mar 15 21:39 groff
+drwxr-xr-x  5 0 0    4096 Mar 15 21:42 grub
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 grub-legacy
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 hdparm
+drwxr-xr-x  4 0 0    4096 Mar 18 20:05 heartbeat
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 init
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 initcpio
+drwxr-xr-x  4 0 0    4096 Mar 15 21:39 initramfs-tools
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 kernel
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 klibc
+-rwxr-xr-x  1 0 0   78784 Nov  7  2019 klibc-xcgdUApi-P9SoPhW_fi5gXfvWpw.so
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 language-selector
+lrwxrwxrwx  1 0 0      16 Apr  6  2020 libdmmp.so -> libdmmp.so.0.2.0
+-rw-r--r--  1 0 0   34888 Apr  6  2020 libdmmp.so.0.2.0
+lrwxrwxrwx  1 0 0      21 Sep  7  2020 libfreeipmi.so.17 -> libfreeipmi.so.17.2.3
+-rw-r--r--  1 0 0 5442576 Sep  7  2020 libfreeipmi.so.17.2.3
+lrwxrwxrwx  1 0 0      18 Mar  3  2020 libhandle.so.1 -> libhandle.so.1.0.3
+-rw-r--r--  1 0 0   14416 Mar  3  2020 libhandle.so.1.0.3
+lrwxrwxrwx  1 0 0      15 Feb 15  2020 liblrm.so.2 -> liblrm.so.2.0.0
+-rw-r--r--  1 0 0   43240 Feb 15  2020 liblrm.so.2.0.0
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 libmbim
+lrwxrwxrwx  1 0 0      16 Apr  6  2020 libmpathcmd.so -> libmpathcmd.so.0
+-rw-r--r--  1 0 0   14328 Apr  6  2020 libmpathcmd.so.0
+lrwxrwxrwx  1 0 0      20 Apr  6  2020 libmpathpersist.so -> libmpathpersist.so.0
+-rw-r--r--  1 0 0   34808 Apr  6  2020 libmpathpersist.so.0
+lrwxrwxrwx  1 0 0      17 Apr  6  2020 libmultipath.so -> libmultipath.so.0
+-rw-r--r--  1 0 0  384848 Apr  6  2020 libmultipath.so.0
+lrwxrwxrwx  1 0 0      19 Mar 21  2020 libopenhpi.so.3 -> libopenhpi.so.3.8.0
+-rw-r--r--  1 0 0   80816 Mar 21  2020 libopenhpi.so.3.8.0
+lrwxrwxrwx  1 0 0      23 Mar 21  2020 libopenhpi_ssl.so.3 -> libopenhpi_ssl.so.3.8.0
+-rw-r--r--  1 0 0   22984 Mar 21  2020 libopenhpi_ssl.so.3.8.0
+lrwxrwxrwx  1 0 0      26 Mar 21  2020 libopenhpimarshal.so.3 -> libopenhpimarshal.so.3.8.0
+-rw-r--r--  1 0 0  129248 Mar 21  2020 libopenhpimarshal.so.3.8.0
+lrwxrwxrwx  1 0 0      28 Mar 21  2020 libopenhpitransport.so.3 -> libopenhpitransport.so.3.8.0
+-rw-r--r--  1 0 0   23000 Mar 21  2020 libopenhpitransport.so.3.8.0
+lrwxrwxrwx  1 0 0      24 Mar 21  2020 libopenhpiutils.so.3 -> libopenhpiutils.so.3.8.0
+-rw-r--r--  1 0 0  192312 Mar 21  2020 libopenhpiutils.so.3.8.0
+lrwxrwxrwx  1 0 0      16 Feb 15  2020 libpils.so.2 -> libpils.so.2.0.0
+-rw-r--r--  1 0 0   43248 Feb 15  2020 libpils.so.2.0.0
+lrwxrwxrwx  1 0 0      17 Feb 15  2020 libplumb.so.2 -> libplumb.so.2.1.0
+-rw-r--r--  1 0 0  205392 Feb 15  2020 libplumb.so.2.1.0
+lrwxrwxrwx  1 0 0      20 Feb 15  2020 libplumbgpl.so.2 -> libplumbgpl.so.2.0.0
+-rw-r--r--  1 0 0   14328 Feb 15  2020 libplumbgpl.so.2.0.0
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 libqmi
+lrwxrwxrwx  1 0 0      19 Feb 15  2020 libstonith.so.1 -> libstonith.so.1.0.0
+-rw-r--r--  1 0 0   30912 Feb 15  2020 libstonith.so.1.0.0
+drwxr-xr-x  3 0 0    4096 Mar 15 21:40 linux
+drwxr-xr-x  3 0 0    4096 Mar 15 21:40 linux-boot-probes
+drwxr-xr-x  3 0 0    4096 Mar 15 21:40 locale
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 lsb
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 man-db
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 mime
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 modprobe.d
+drwxr-xr-x  3 0 0    4096 Mar 15 21:40 modules
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 modules-load.d
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 multipath
+drwxr-xr-x  2 0 0    4096 Mar 18 20:05 mysql-router
+drwxr-xr-x  3 0 0    4096 Mar 18 20:05 mysqlrouter
+drwxr-xr-x  3 0 0    4096 Mar 15 21:40 nagios
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 netplan
+drwxr-xr-x  8 0 0    4096 Mar 15 21:39 networkd-dispatcher
+drwxr-xr-x  4 0 0    4096 Mar 18 20:01 ocf
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 open-iscsi
+lrwxrwxrwx  1 0 0      39 Mar 18 19:57 open-vm-tools -> /usr/lib/x86_64-linux-gnu/open-vm-tools
+drwxr-xr-x  2 0 0    4096 Mar 18 20:01 openhpi
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 openssh
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 os-prober
+drwxr-xr-x  4 0 0    4096 Mar 15 21:40 os-probes
+-rw-r--r--  1 0 0     382 Feb 17 00:44 os-release
+drwxr-xr-x  2 0 0    4096 Mar 18 20:01 pacemaker
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 packagekit
+drwxr-xr-x  2 0 0    4096 Mar 18 20:02 parallax
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 pkgconfig
+drwxr-xr-x  4 0 0    4096 Mar 15 21:39 pm-utils
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 policykit-1
+drwxr-xr-x 26 0 0   20480 Mar 18 20:05 python2.7
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 python3
+drwxr-xr-x 30 0 0    4096 Mar 15 21:40 python3.8
+drwxr-xr-x  5 0 0    4096 Mar 15 21:40 python3.9
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 recovery-mode
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 rsyslog
+drwxr-xr-x  2 0 0    4096 Feb 15 20:03 sasl2
+lrwxrwxrwx  1 0 0      19 Dec  2 22:38 sftp-server -> openssh/sftp-server
+drwxr-xr-x  3 0 0    4096 Mar 15 21:42 shim
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 snapd
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 software-properties
+drwxr-xr-x  3 0 0    4096 Mar 15 21:39 ssl
+drwxr-xr-x  3 0 0    4096 Mar 18 20:01 stonith
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 sudo
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 sysctl.d
+drwxr-xr-x 17 0 0    4096 Mar 15 21:40 systemd
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 sysusers.d
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 tc
+drwxr-xr-x 16 0 0    4096 Feb 26  2020 terminfo
+drwxr-xr-x  2 0 0    4096 Mar 18 20:01 tmpfiles.d
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 ubuntu-advantage
+drwxr-xr-x  2 0 0    4096 Mar 18 19:58 ubuntu-fan
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 ubuntu-release-upgrader
+drwxr-xr-x  4 0 0    4096 Mar 18 19:58 udev
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 udisks2
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 ufw
+drwxr-xr-x  2 0 0    4096 Mar 15 21:39 update-notifier
+drwxr-xr-x  2 0 0    4096 Mar 18 20:05 valgrind
+drwxr-xr-x 36 0 0   36864 Mar 18 20:05 x86_64-linux-gnu
+drwxr-xr-x  2 0 0    4096 Mar 15 21:40 xfsprogs
+
+/lib/x86_64-linux-gnu:
+total 220772
+drwxr-xr-x 36 0 0    36864 Mar 18 20:05 .
+drwxr-xr-x 98 0 0     4096 Mar 18 20:05 ..
+-rw-r--r--  1 0 0      608 Feb 24 19:42 Mcrt1.o
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 ModemManager
+-rw-r--r--  1 0 0     1912 Feb 24 19:42 Scrt1.o
+drwxr-xr-x  2 0 0     4096 Mar 18 20:00 apr-util-1
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 audit
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 awk
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 coreutils
+-rw-r--r--  1 0 0     2040 Feb 24 19:42 crt1.o
+-rw-r--r--  1 0 0     1360 Feb 24 19:42 crti.o
+-rw-r--r--  1 0 0      760 Feb 24 19:42 crtn.o
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 device-mapper
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 e2fsprogs
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 engines-1.1
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 fwupd-plugins-5
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 gawk
+drwxr-xr-x  2 0 0    12288 Mar 15 21:39 gconv
+-rw-r--r--  1 0 0     2680 Feb 24 19:42 gcrt1.o
+drwxr-xr-x  3 0 0     4096 Mar 15 21:39 gio
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 girepository-1.0
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 glib-2.0
+-rw-r--r--  1 0 0     2432 Feb 24 19:42 grcrt1.o
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 gstreamer-1.0
+drwxr-xr-x  3 0 0     4096 Mar 15 21:40 gstreamer1.0
+drwxr-xr-x  3 0 0     4096 Mar 15 21:39 krb5
+drwxr-xr-x  2 0 0     4096 Mar 18 20:01 kronosnet
+-rwxr-xr-x  1 0 0   191472 Feb 24 19:42 ld-2.31.so
+lrwxrwxrwx  1 0 0       10 Feb 24 19:42 ld-linux-x86-64.so.2 -> ld-2.31.so
+drwxr-xr-x  2 0 0    12288 Mar 18 19:58 ldscripts
+-rw-r--r--  1 0 0    14640 Feb 24 19:42 libBrokenLocale-2.31.so
+-rw-r--r--  1 0 0     2118 Feb 24 19:42 libBrokenLocale.a
+lrwxrwxrwx  1 0 0       42 Feb 24 19:42 libBrokenLocale.so -> /lib/x86_64-linux-gnu/libBrokenLocale.so.1
+lrwxrwxrwx  1 0 0       23 Feb 24 19:42 libBrokenLocale.so.1 -> libBrokenLocale-2.31.so
+lrwxrwxrwx  1 0 0       21 Oct 12 05:53 libDeployPkg.so.0 -> libDeployPkg.so.0.0.0
+-rw-r--r--  1 0 0    43928 Oct 12 05:53 libDeployPkg.so.0.0.0
+lrwxrwxrwx  1 0 0       23 Jan 14  2020 libIPMIlanserv.so.0 -> libIPMIlanserv.so.0.0.1
+-rw-r--r--  1 0 0    96464 Jan 14  2020 libIPMIlanserv.so.0.0.1
+lrwxrwxrwx  1 0 0       20 Jan 14  2020 libOpenIPMI.so.0 -> libOpenIPMI.so.0.0.5
+-rw-r--r--  1 0 0  1063184 Jan 14  2020 libOpenIPMI.so.0.0.5
+lrwxrwxrwx  1 0 0       27 Jan 14  2020 libOpenIPMIcmdlang.so.0 -> libOpenIPMIcmdlang.so.0.0.5
+-rw-r--r--  1 0 0   286240 Jan 14  2020 libOpenIPMIcmdlang.so.0.0.5
+lrwxrwxrwx  1 0 0       25 Jan 14  2020 libOpenIPMIposix.so.0 -> libOpenIPMIposix.so.0.0.1
+-rw-r--r--  1 0 0    35200 Jan 14  2020 libOpenIPMIposix.so.0.0.1
+lrwxrwxrwx  1 0 0       27 Jan 14  2020 libOpenIPMIpthread.so.0 -> libOpenIPMIpthread.so.0.0.1
+-rw-r--r--  1 0 0    39296 Jan 14  2020 libOpenIPMIpthread.so.0.0.1
+lrwxrwxrwx  1 0 0       22 Jan 14  2020 libOpenIPMIui.so.1 -> libOpenIPMIui.so.1.0.1
+-rw-r--r--  1 0 0   182792 Jan 14  2020 libOpenIPMIui.so.1.0.1
+lrwxrwxrwx  1 0 0       25 Jan 14  2020 libOpenIPMIutils.so.0 -> libOpenIPMIutils.so.0.0.1
+-rw-r--r--  1 0 0    39120 Jan 14  2020 libOpenIPMIutils.so.0.0.1
+-rw-r--r--  1 0 0    22904 Feb 24 19:42 libSegFault.so
+lrwxrwxrwx  1 0 0       15 May 19  2021 libX11.so.6 -> libX11.so.6.3.0
+-rw-r--r--  1 0 0  1293928 May 19  2021 libX11.so.6.3.0
+lrwxrwxrwx  1 0 0       15 Aug 24  2019 libXau.so.6 -> libXau.so.6.0.0
+-rw-r--r--  1 0 0    18688 Aug 24  2019 libXau.so.6.0.0
+lrwxrwxrwx  1 0 0       17 Aug 24  2019 libXdmcp.so.6 -> libXdmcp.so.6.0.0
+-rw-r--r--  1 0 0    26800 Aug 24  2019 libXdmcp.so.6.0.0
+lrwxrwxrwx  1 0 0       16 Aug 24  2019 libXext.so.6 -> libXext.so.6.4.0
+-rw-r--r--  1 0 0    81600 Aug 24  2019 libXext.so.6.4.0
+lrwxrwxrwx  1 0 0       16 Aug 24  2019 libXmuu.so.1 -> libXmuu.so.1.0.0
+-rw-r--r--  1 0 0    22808 Aug 24  2019 libXmuu.so.1.0.0
+lrwxrwxrwx  1 0 0       27 Nov  9 12:23 libaccountsservice.so.0 -> libaccountsservice.so.0.0.0
+-rw-r--r--  1 0 0   319496 Nov  9 12:23 libaccountsservice.so.0.0.0
+lrwxrwxrwx  1 0 0       18 Mar  1  2020 libacl.so.1 -> libacl.so.1.1.2253
+-rw-r--r--  1 0 0    39088 Mar  1  2020 libacl.so.1.1.2253
+lrwxrwxrwx  1 0 0       15 Aug 16  2019 libaio.so.1 -> libaio.so.1.0.1
+-rw-r--r--  1 0 0    14336 Aug 16  2019 libaio.so.1.0.1
+-rw-r--r--  1 0 0    19168 Feb 24 19:42 libanl-2.31.so
+-rw-r--r--  1 0 0    23228 Feb 24 19:42 libanl.a
+lrwxrwxrwx  1 0 0       33 Feb 24 19:42 libanl.so -> /lib/x86_64-linux-gnu/libanl.so.1
+lrwxrwxrwx  1 0 0       14 Feb 24 19:42 libanl.so.1 -> libanl-2.31.so
+lrwxrwxrwx  1 0 0       20 May 19  2020 libapparmor.so.1 -> libapparmor.so.1.6.1
+-rw-r--r--  1 0 0    80736 May 19  2020 libapparmor.so.1.6.1
+-rw-r--r--  1 0 0   393608 Mar 14  2020 libappstream.so.0.12.10
+lrwxrwxrwx  1 0 0       23 Mar 14  2020 libappstream.so.4 -> libappstream.so.0.12.10
+lrwxrwxrwx  1 0 0       17 Feb 18  2020 libapr-1.so.0 -> libapr-1.so.0.6.5
+-rw-r--r--  1 0 0   229248 Feb 18  2020 libapr-1.so.0.6.5
+lrwxrwxrwx  1 0 0       21 Mar  4  2020 libaprutil-1.so.0 -> libaprutil-1.so.0.6.1
+-rw-r--r--  1 0 0   184152 Mar  4  2020 libaprutil-1.so.0.6.1
+lrwxrwxrwx  1 0 0       19 Jun 15  2021 libapt-pkg.so.6.0 -> libapt-pkg.so.6.0.0
+-rw-r--r--  1 0 0  1945056 Jun 15  2021 libapt-pkg.so.6.0.0
+lrwxrwxrwx  1 0 0       23 Jun 15  2021 libapt-private.so.0.0 -> libapt-private.so.0.0.0
+-rw-r--r--  1 0 0   477576 Jun 15  2021 libapt-private.so.0.0.0
+lrwxrwxrwx  1 0 0       20 Feb 16 14:59 libarchive.so.13 -> libarchive.so.13.4.0
+-rw-r--r--  1 0 0   792680 Feb 16 14:59 libarchive.so.13.4.0
+-rw-r--r--  1 0 0    34872 Jan 13  2019 libargon2.so.1
+lrwxrwxrwx  1 0 0       16 Jun  1  2021 libasan.so.5 -> libasan.so.5.0.0
+-rw-r--r--  1 0 0 15248368 Jun  1  2021 libasan.so.5.0.0
+lrwxrwxrwx  1 0 0       16 Mar 30  2020 libasn1.so.8 -> libasn1.so.8.0.0
+-rw-r--r--  1 0 0   678240 Mar 30  2020 libasn1.so.8.0.0
+lrwxrwxrwx  1 0 0       18 Nov  1 07:25 libasound.so.2 -> libasound.so.2.0.0
+-rw-r--r--  1 0 0  1022400 Nov  1 07:25 libasound.so.2.0.0
+lrwxrwxrwx  1 0 0       18 Jan 23  2020 libassuan.so.0 -> libassuan.so.0.8.3
+-rw-r--r--  1 0 0    80184 Jan 23  2020 libassuan.so.0.8.3
+lrwxrwxrwx  1 0 0       20 Mar 21  2018 libatasmart.so.4 -> libatasmart.so.4.0.5
+-rw-r--r--  1 0 0    51504 Mar 21  2018 libatasmart.so.4.0.5
+lrwxrwxrwx  1 0 0       15 Jul 19  2019 libatm.so.1 -> libatm.so.1.0.0
+-rw-r--r--  1 0 0    43776 Jul 19  2019 libatm.so.1.0.0
+lrwxrwxrwx  1 0 0       18 May 29  2021 libatomic.so.1 -> libatomic.so.1.2.0
+-rw-r--r--  1 0 0    30968 May 29  2021 libatomic.so.1.2.0
+lrwxrwxrwx  1 0 0       19 Sep 24  2019 libattr.so.1 -> libattr.so.1.1.2448
+-rw-r--r--  1 0 0    26696 Sep 24  2019 libattr.so.1.1.2448
+lrwxrwxrwx  1 0 0       17 Feb 18  2020 libaudit.so.1 -> libaudit.so.1.0.0
+-rw-r--r--  1 0 0   133200 Feb 18  2020 libaudit.so.1.0.0
+lrwxrwxrwx  1 0 0       21 Jan 25  2020 libbd_crypto.so.2 -> libbd_crypto.so.2.0.0
+-rw-r--r--  1 0 0    47096 Jan 25  2020 libbd_crypto.so.2.0.0
+lrwxrwxrwx  1 0 0       17 Jan 25  2020 libbd_fs.so.2 -> libbd_fs.so.2.0.0
+-rw-r--r--  1 0 0    59464 Jan 25  2020 libbd_fs.so.2.0.0
+lrwxrwxrwx  1 0 0       19 Jan 25  2020 libbd_loop.so.2 -> libbd_loop.so.2.0.0
+-rw-r--r--  1 0 0    14328 Jan 25  2020 libbd_loop.so.2.0.0
+lrwxrwxrwx  1 0 0       19 Jan 25  2020 libbd_part.so.2 -> libbd_part.so.2.0.0
+-rw-r--r--  1 0 0    43080 Jan 25  2020 libbd_part.so.2.0.0
+lrwxrwxrwx  1 0 0       23 Jan 25  2020 libbd_part_err.so.2 -> libbd_part_err.so.2.0.0
+-rw-r--r--  1 0 0    14400 Jan 25  2020 libbd_part_err.so.2.0.0
+lrwxrwxrwx  1 0 0       19 Jan 25  2020 libbd_swap.so.2 -> libbd_swap.so.2.0.0
+-rw-r--r--  1 0 0    22600 Jan 25  2020 libbd_swap.so.2.0.0
+lrwxrwxrwx  1 0 0       20 Jan 25  2020 libbd_utils.so.2 -> libbd_utils.so.2.1.0
+-rw-r--r--  1 0 0    38976 Jan 25  2020 libbd_utils.so.2.1.0
+-rw-r--r--  1 0 0  1319320 Oct 20 11:09 libbfd-2.34-system.so
+lrwxrwxrwx  1 0 0       20 Mar 15 14:11 libbind9.so.1600 -> libbind9.so.1600.0.1
+-rw-r--r--  1 0 0    80104 Mar 15 14:11 libbind9.so.1600.0.1
+lrwxrwxrwx  1 0 0       17 Feb  7 13:33 libblkid.so.1 -> libblkid.so.1.1.0
+-rw-r--r--  1 0 0   351352 Feb  7 13:33 libblkid.so.1.1.0
+lrwxrwxrwx  1 0 0       20 Jan 25  2020 libblockdev.so.2 -> libblockdev.so.2.0.0
+-rw-r--r--  1 0 0   176800 Jan 25  2020 libblockdev.so.2.0.0
+lrwxrwxrwx  1 0 0       24 Sep 28  2020 libbrotlicommon.so.1 -> libbrotlicommon.so.1.0.7
+-rw-r--r--  1 0 0   137784 Sep 28  2020 libbrotlicommon.so.1.0.7
+lrwxrwxrwx  1 0 0       21 Sep 28  2020 libbrotlidec.so.1 -> libbrotlidec.so.1.0.7
+-rw-r--r--  1 0 0    51512 Sep 28  2020 libbrotlidec.so.1.0.7
+lrwxrwxrwx  1 0 0       21 Sep 28  2020 libbrotlienc.so.1 -> libbrotlienc.so.1.0.7
+-rw-r--r--  1 0 0   555168 Sep 28  2020 libbrotlienc.so.1.0.7
+lrwxrwxrwx  1 0 0       16 Aug  8  2019 libbsd.so.0 -> libbsd.so.0.10.0
+-rw-r--r--  1 0 0    96728 Aug  8  2019 libbsd.so.0.10.0
+lrwxrwxrwx  1 0 0       15 Sep  5  2019 libbz2.so.1 -> libbz2.so.1.0.4
+lrwxrwxrwx  1 0 0       15 Sep  5  2019 libbz2.so.1.0 -> libbz2.so.1.0.4
+-rw-r--r--  1 0 0    74848 Sep  5  2019 libbz2.so.1.0.4
+-rwxr-xr-x  1 0 0  2029560 Feb 24 19:42 libc-2.31.so
+-rw-r--r--  1 0 0  5746242 Feb 24 19:42 libc.a
+-rw-r--r--  1 0 0      298 Feb 24 19:42 libc.so
+lrwxrwxrwx  1 0 0       12 Feb 24 19:42 libc.so.6 -> libc-2.31.so
+-rw-r--r--  1 0 0    23930 Feb 24 19:42 libc_nonshared.a
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 libcanberra-0.30
+lrwxrwxrwx  1 0 0       20 Jun 21  2019 libcanberra.so.0 -> libcanberra.so.0.2.5
+-rw-r--r--  1 0 0    71680 Jun 21  2019 libcanberra.so.0.2.5
+lrwxrwxrwx  1 0 0       18 Jan 25  2020 libcap-ng.so.0 -> libcap-ng.so.0.0.0
+-rw-r--r--  1 0 0    27064 Jan 25  2020 libcap-ng.so.0.0.0
+lrwxrwxrwx  1 0 0       14 Feb 17  2020 libcap.so.2 -> libcap.so.2.32
+-rw-r--r--  1 0 0    31120 Feb 17  2020 libcap.so.2.32
+lrwxrwxrwx  1 0 0       16 Mar 25  2020 libcbor.so.0.6 -> libcbor.so.0.6.0
+-rw-r--r--  1 0 0    55424 Mar 25  2020 libcbor.so.0.6.0
+lrwxrwxrwx  1 0 0       15 May 29  2021 libcc1.so.0 -> libcc1.so.0.0.0
+-rw-r--r--  1 0 0   147144 May 29  2021 libcc1.so.0.0.0
+lrwxrwxrwx  1 0 0       15 Mar 10  2021 libcfg.so.7 -> libcfg.so.7.1.0
+-rw-r--r--  1 0 0    18568 Mar 10  2021 libcfg.so.7.1.0
+lrwxrwxrwx  1 0 0       16 Dec  9  2020 libcib.so.27 -> libcib.so.27.1.0
+-rw-r--r--  1 0 0   129768 Dec  9  2020 libcib.so.27.1.0
+lrwxrwxrwx  1 0 0       16 Mar 10  2021 libcmap.so.4 -> libcmap.so.4.1.0
+-rw-r--r--  1 0 0    26824 Mar 10  2021 libcmap.so.4.1.0
+lrwxrwxrwx  1 0 0       17 Feb 14  2020 libcom_err.so.2 -> libcom_err.so.2.1
+-rw-r--r--  1 0 0    22600 Feb 14  2020 libcom_err.so.2.1
+lrwxrwxrwx  1 0 0       27 Mar 10  2021 libcorosync_common.so.4 -> libcorosync_common.so.4.0.0
+-rw-r--r--  1 0 0    14032 Mar 10  2021 libcorosync_common.so.4.0.0
+lrwxrwxrwx  1 0 0       15 Mar 10  2021 libcpg.so.4 -> libcpg.so.4.1.0
+-rw-r--r--  1 0 0    26824 Mar 10  2021 libcpg.so.4.1.0
+lrwxrwxrwx  1 0 0       23 Dec  9  2020 libcrmcluster.so.29 -> libcrmcluster.so.29.0.3
+-rw-r--r--  1 0 0   104464 Dec  9  2020 libcrmcluster.so.29.0.3
+lrwxrwxrwx  1 0 0       22 Dec  9  2020 libcrmcommon.so.34 -> libcrmcommon.so.34.3.0
+-rw-r--r--  1 0 0   458208 Dec  9  2020 libcrmcommon.so.34.3.0
+lrwxrwxrwx  1 0 0       23 Dec  9  2020 libcrmservice.so.28 -> libcrmservice.so.28.2.0
+-rw-r--r--  1 0 0    96312 Dec  9  2020 libcrmservice.so.28.2.0
+-rw-r--r--  1 0 0   271570 Mar 10  2020 libcrypt.a
+lrwxrwxrwx  1 0 0       39 Mar 10  2020 libcrypt.so -> /lib/x86_64-linux-gnu/libcrypt.so.1.1.0
+lrwxrwxrwx  1 0 0       17 Mar 10  2020 libcrypt.so.1 -> libcrypt.so.1.1.0
+-rw-r--r--  1 0 0   202760 Mar 10  2020 libcrypt.so.1.1.0
+-rw-r--r--  1 0 0  5541876 Mar  9 12:12 libcrypto.a
+lrwxrwxrwx  1 0 0       16 Mar  9 12:12 libcrypto.so -> libcrypto.so.1.1
+-rw-r--r--  1 0 0  2954080 Mar  9 12:12 libcrypto.so.1.1
+lrwxrwxrwx  1 0 0       23 Jan 18 17:36 libcryptsetup.so.12 -> libcryptsetup.so.12.5.0
+-rw-r--r--  1 0 0   417328 Jan 18 17:36 libcryptsetup.so.12.5.0
+lrwxrwxrwx  1 0 0       21 Oct 20 11:09 libctf-nobfd.so.0 -> libctf-nobfd.so.0.0.0
+-rw-r--r--  1 0 0   117736 Oct 20 11:09 libctf-nobfd.so.0.0.0
+lrwxrwxrwx  1 0 0       15 Oct 20 11:09 libctf.so.0 -> libctf.so.0.0.0
+-rw-r--r--  1 0 0   117856 Oct 20 11:09 libctf.so.0.0.0
+lrwxrwxrwx  1 0 0       19 Sep 10  2021 libcurl-gnutls.so.3 -> libcurl-gnutls.so.4
+lrwxrwxrwx  1 0 0       23 Sep 10  2021 libcurl-gnutls.so.4 -> libcurl-gnutls.so.4.6.0
+-rw-r--r--  1 0 0   580216 Sep 10  2021 libcurl-gnutls.so.4.6.0
+lrwxrwxrwx  1 0 0       16 Sep 10  2021 libcurl.so.4 -> libcurl.so.4.6.0
+-rw-r--r--  1 0 0   588424 Sep 10  2021 libcurl.so.4.6.0
+-rw-r--r--  1 0 0  1760880 Mar 21  2020 libdb-5.3.so
+lrwxrwxrwx  1 0 0       20 Jun 11  2020 libdbus-1.so.3 -> libdbus-1.so.3.19.11
+-rw-r--r--  1 0 0   325944 Jun 11  2020 libdbus-1.so.3.19.11
+lrwxrwxrwx  1 0 0       23 Dec  9  2019 libdbus-glib-1.so.2 -> libdbus-glib-1.so.2.3.4
+-rw-r--r--  1 0 0   170064 Dec  9  2019 libdbus-glib-1.so.2.3.4
+lrwxrwxrwx  1 0 0       17 Mar 11  2020 libdconf.so.1 -> libdconf.so.1.0.0
+-rw-r--r--  1 0 0    67656 Mar 11  2020 libdconf.so.1.0.0
+lrwxrwxrwx  1 0 0       25 Feb  2  2020 libdebconfclient.so.0 -> libdebconfclient.so.0.0.0
+-rw-r--r--  1 0 0    14544 Feb  2  2020 libdebconfclient.so.0.0.0
+-rw-r--r--  1 0 0    14728 Feb 13  2020 libdevmapper-event-lvm2.so.2.03
+lrwxrwxrwx  1 0 0       46 Feb 13  2020 libdevmapper-event-lvm2mirror.so -> device-mapper/libdevmapper-event-lvm2mirror.so
+lrwxrwxrwx  1 0 0       44 Feb 13  2020 libdevmapper-event-lvm2raid.so -> device-mapper/libdevmapper-event-lvm2raid.so
+lrwxrwxrwx  1 0 0       48 Feb 13  2020 libdevmapper-event-lvm2snapshot.so -> device-mapper/libdevmapper-event-lvm2snapshot.so
+lrwxrwxrwx  1 0 0       44 Feb 13  2020 libdevmapper-event-lvm2thin.so -> device-mapper/libdevmapper-event-lvm2thin.so
+lrwxrwxrwx  1 0 0       43 Feb 13  2020 libdevmapper-event-lvm2vdo.so -> device-mapper/libdevmapper-event-lvm2vdo.so
+-rw-r--r--  1 0 0    31328 Feb 13  2020 libdevmapper-event.so.1.02.1
+-rw-r--r--  1 0 0   431472 Feb 13  2020 libdevmapper.so.1.02.1
+-rw-r--r--  1 0 0    18816 Feb 24 19:42 libdl-2.31.so
+-rw-r--r--  1 0 0    15034 Feb 24 19:42 libdl.a
+lrwxrwxrwx  1 0 0       32 Feb 24 19:42 libdl.so -> /lib/x86_64-linux-gnu/libdl.so.2
+lrwxrwxrwx  1 0 0       13 Feb 24 19:42 libdl.so.2 -> libdl-2.31.so
+lrwxrwxrwx  1 0 0       25 Aug 11  2020 libdns-export.so.1109 -> libdns-export.so.1109.0.1
+-rw-r--r--  1 0 0  2306384 Aug 11  2020 libdns-export.so.1109.0.1
+lrwxrwxrwx  1 0 0       18 Mar 15 14:11 libdns.so.1601 -> libdns.so.1601.0.0
+-rw-r--r--  1 0 0  2197992 Mar 15 14:11 libdns.so.1601.0.0
+lrwxrwxrwx  1 0 0       15 Mar  8 17:33 libdrm.so.2 -> libdrm.so.2.4.0
+-rw-r--r--  1 0 0    84600 Mar  8 17:33 libdrm.so.2.4.0
+lrwxrwxrwx  1 0 0       13 Feb 14  2020 libe2p.so.2 -> libe2p.so.2.3
+-rw-r--r--  1 0 0    40864 Feb 14  2020 libe2p.so.2.3
+lrwxrwxrwx  1 0 0       21 Oct 29  2018 libeatmydata.so -> libeatmydata.so.1.1.2
+lrwxrwxrwx  1 0 0       21 Oct 29  2018 libeatmydata.so.1 -> libeatmydata.so.1.1.2
+-rw-r--r--  1 0 0    14176 Oct 29  2018 libeatmydata.so.1.1.2
+lrwxrwxrwx  1 0 0       17 Jan  3  2020 libedit.so.2 -> libedit.so.2.0.63
+-rw-r--r--  1 0 0   208152 Jan  3  2020 libedit.so.2.0.63
+lrwxrwxrwx  1 0 0       18 Nov 17  2020 libefiboot.so.1 -> libefiboot.so.1.37
+-rw-r--r--  1 0 0   109696 Nov 17  2020 libefiboot.so.1.37
+lrwxrwxrwx  1 0 0       17 Nov 17  2020 libefivar.so.1 -> libefivar.so.1.37
+-rw-r--r--  1 0 0   154696 Nov 17  2020 libefivar.so.1.37
+-rw-r--r--  1 0 0   109200 Jan  6  2020 libelf-0.176.so
+lrwxrwxrwx  1 0 0       15 Jan  6  2020 libelf.so.1 -> libelf-0.176.so
+lrwxrwxrwx  1 0 0       16 Sep 24  2017 libestr.so.0 -> libestr.so.0.0.0
+-rw-r--r--  1 0 0    14344 Sep 24  2017 libestr.so.0.0.0
+lrwxrwxrwx  1 0 0       21 Nov 12  2019 libevent-2.1.so.7 -> libevent-2.1.so.7.0.0
+-rw-r--r--  1 0 0   346672 Nov 12  2019 libevent-2.1.so.7.0.0
+lrwxrwxrwx  1 0 0       26 Nov 12  2019 libevent_core-2.1.so.7 -> libevent_core-2.1.so.7.0.0
+-rw-r--r--  1 0 0   223400 Nov 12  2019 libevent_core-2.1.so.7.0.0
+lrwxrwxrwx  1 0 0       27 Nov 12  2019 libevent_extra-2.1.so.7 -> libevent_extra-2.1.so.7.0.0
+-rw-r--r--  1 0 0   141776 Nov 12  2019 libevent_extra-2.1.so.7.0.0
+lrwxrwxrwx  1 0 0       29 Nov 12  2019 libevent_openssl-2.1.so.7 -> libevent_openssl-2.1.so.7.0.0
+-rw-r--r--  1 0 0    30792 Nov 12  2019 libevent_openssl-2.1.so.7.0.0
+lrwxrwxrwx  1 0 0       30 Nov 12  2019 libevent_pthreads-2.1.so.7 -> libevent_pthreads-2.1.so.7.0.0
+-rw-r--r--  1 0 0    14256 Nov 12  2019 libevent_pthreads-2.1.so.7.0.0
+-rw-r--r--  1 0 0   327214 Feb 21 18:48 libexpat.a
+lrwxrwxrwx  1 0 0       40 Feb 21 18:48 libexpat.so -> /lib/x86_64-linux-gnu/libexpat.so.1.6.11
+lrwxrwxrwx  1 0 0       18 Feb 21 18:48 libexpat.so.1 -> libexpat.so.1.6.11
+-rw-r--r--  1 0 0   182560 Feb 21 18:48 libexpat.so.1.6.11
+-rw-r--r--  1 0 0   328126 Feb 21 18:48 libexpatw.a
+lrwxrwxrwx  1 0 0       19 Feb 21 18:48 libexpatw.so -> libexpatw.so.1.6.11
+lrwxrwxrwx  1 0 0       19 Feb 21 18:48 libexpatw.so.1 -> libexpatw.so.1.6.11
+-rw-r--r--  1 0 0   182560 Feb 21 18:48 libexpatw.so.1.6.11
+lrwxrwxrwx  1 0 0       18 Mar  4  2020 libexslt.so.0 -> libexslt.so.0.8.20
+-rw-r--r--  1 0 0    92320 Mar  4  2020 libexslt.so.0.8.20
+lrwxrwxrwx  1 0 0       16 Feb 14  2020 libext2fs.so.2 -> libext2fs.so.2.4
+-rw-r--r--  1 0 0   405968 Feb 14  2020 libext2fs.so.2.4
+drwxr-xr-x  2 0 0     4096 Mar 18 19:58 libfakeroot
+lrwxrwxrwx  1 0 0       20 Jan 14  2018 libfastjson.so.4 -> libfastjson.so.4.2.0
+-rw-r--r--  1 0 0    43720 Jan 14  2018 libfastjson.so.4.2.0
+lrwxrwxrwx  1 0 0       17 Feb  7 13:33 libfdisk.so.1 -> libfdisk.so.1.1.0
+-rw-r--r--  1 0 0   456632 Feb  7 13:33 libfdisk.so.1.1.0
+-rw-r--r--  1 0 0    63246 Mar 23  2020 libffi.a
+lrwxrwxrwx  1 0 0       15 Mar 23  2020 libffi.so -> libffi.so.7.1.0
+lrwxrwxrwx  1 0 0       15 Mar 23  2020 libffi.so.7 -> libffi.so.7.1.0
+-rw-r--r--  1 0 0    43416 Mar 23  2020 libffi.so.7.1.0
+-rw-r--r--  1 0 0    63102 Mar 23  2020 libffi_pic.a
+lrwxrwxrwx  1 0 0       17 Mar 27  2020 libfido2.so.1 -> libfido2.so.1.3.1
+-rw-r--r--  1 0 0   145472 Mar 27  2020 libfido2.so.1.3.1
+lrwxrwxrwx  1 0 0       14 Aug  6  2018 libfl.so.2 -> libfl.so.2.0.0
+-rw-r--r--  1 0 0    14104 Aug  6  2018 libfl.so.2.0.0
+lrwxrwxrwx  1 0 0       14 Feb 26  2020 libform.so.6 -> libform.so.6.2
+-rw-r--r--  1 0 0    73224 Feb 26  2020 libform.so.6.2
+lrwxrwxrwx  1 0 0       15 Feb 26  2020 libformw.so.6 -> libformw.so.6.2
+-rw-r--r--  1 0 0    81448 Feb 26  2020 libformw.so.6.2
+lrwxrwxrwx  1 0 0       18 Nov 29 12:15 libfreebl3.chk -> nss/libfreebl3.chk
+lrwxrwxrwx  1 0 0       17 Nov 29 12:15 libfreebl3.so -> nss/libfreebl3.so
+lrwxrwxrwx  1 0 0       22 Nov 29 12:15 libfreeblpriv3.chk -> nss/libfreeblpriv3.chk
+lrwxrwxrwx  1 0 0       21 Nov 29 12:15 libfreeblpriv3.so -> nss/libfreeblpriv3.so
+lrwxrwxrwx  1 0 0       21 Oct 20  2020 libfreetype.so.6 -> libfreetype.so.6.17.1
+-rw-r--r--  1 0 0   776264 Oct 20  2020 libfreetype.so.6.17.1
+lrwxrwxrwx  1 0 0       19 Dec 21  2019 libfribidi.so.0 -> libfribidi.so.0.4.0
+-rw-r--r--  1 0 0   112960 Dec 21  2019 libfribidi.so.0.4.0
+lrwxrwxrwx  1 0 0       16 Mar  7  2020 libfuse.so.2 -> libfuse.so.2.9.9
+-rw-r--r--  1 0 0   252184 Mar  7  2020 libfuse.so.2.9.9
+lrwxrwxrwx  1 0 0       17 Feb 21 03:06 libfwupd.so.2 -> libfwupd.so.2.0.0
+-rw-r--r--  1 0 0   329800 Feb 21 03:06 libfwupd.so.2.0.0
+lrwxrwxrwx  1 0 0       23 Jul 23  2021 libfwupdplugin.so.1 -> libfwupdplugin.so.1.0.0
+-rw-r--r--  1 0 0   391552 Jul 23  2021 libfwupdplugin.so.1.0.0
+lrwxrwxrwx  1 0 0       23 Feb 21 03:06 libfwupdplugin.so.5 -> libfwupdplugin.so.5.0.0
+-rw-r--r--  1 0 0   522752 Feb 21 03:06 libfwupdplugin.so.5.0.0
+-rw-r--r--  1 0 0     1330 Feb 24 19:42 libg.a
+lrwxrwxrwx  1 0 0       20 Jan  9  2020 libgcab-1.0.so.0 -> libgcab-1.0.so.0.1.0
+-rw-r--r--  1 0 0    80024 Jan  9  2020 libgcab-1.0.so.0.1.0
+-rw-r--r--  1 0 0   104984 May 29  2021 libgcc_s.so.1
+lrwxrwxrwx  1 0 0       19 Sep 14  2021 libgcrypt.so.20 -> libgcrypt.so.20.2.5
+-rw-r--r--  1 0 0  1168056 Sep 14  2021 libgcrypt.so.20.2.5
+lrwxrwxrwx  1 0 0       16 Aug 22  2019 libgdbm.so.6 -> libgdbm.so.6.0.0
+-rw-r--r--  1 0 0    59576 Aug 22  2019 libgdbm.so.6.0.0
+lrwxrwxrwx  1 0 0       23 Aug 22  2019 libgdbm_compat.so.4 -> libgdbm_compat.so.4.0.0
+-rw-r--r--  1 0 0    14256 Aug 22  2019 libgdbm_compat.so.4.0.0
+lrwxrwxrwx  1 0 0       22 Jul 12  2021 libgio-2.0.so.0 -> libgio-2.0.so.0.6400.6
+-rw-r--r--  1 0 0  1957200 Jul 12  2021 libgio-2.0.so.0.6400.6
+lrwxrwxrwx  1 0 0       28 May  4  2020 libgirepository-1.0.so.1 -> libgirepository-1.0.so.1.0.0
+-rw-r--r--  1 0 0   223424 May  4  2020 libgirepository-1.0.so.1.0.0
+lrwxrwxrwx  1 0 0       23 Jul 12  2021 libglib-2.0.so.0 -> libglib-2.0.so.0.6400.6
+-rw-r--r--  1 0 0  1207920 Jul 12  2021 libglib-2.0.so.0.6400.6
+lrwxrwxrwx  1 0 0       26 Jul 12  2021 libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.6400.6
+-rw-r--r--  1 0 0    18640 Jul 12  2021 libgmodule-2.0.so.0.6400.6
+lrwxrwxrwx  1 0 0       16 Feb 24  2020 libgmp.so.10 -> libgmp.so.10.4.0
+-rw-r--r--  1 0 0   534880 Feb 24  2020 libgmp.so.10.4.0
+lrwxrwxrwx  1 0 0       20 Aug  2  2021 libgnutls.so.30 -> libgnutls.so.30.27.0
+-rw-r--r--  1 0 0  1914336 Aug  2  2021 libgnutls.so.30.27.0
+lrwxrwxrwx  1 0 0       26 Jul 12  2021 libgobject-2.0.so.0 -> libgobject-2.0.so.0.6400.6
+-rw-r--r--  1 0 0   387448 Jul 12  2021 libgobject-2.0.so.0.6400.6
+lrwxrwxrwx  1 0 0       16 May 29  2021 libgomp.so.1 -> libgomp.so.1.0.0
+-rw-r--r--  1 0 0   265856 May 29  2021 libgomp.so.1.0.0
+lrwxrwxrwx  1 0 0       22 Feb 12  2020 libgpg-error.so.0 -> libgpg-error.so.0.28.0
+-rw-r--r--  1 0 0   137584 Feb 12  2020 libgpg-error.so.0.28.0
+lrwxrwxrwx  1 0 0       14 Mar 12  2020 libgpgme-pthread.so.11 -> libgpgme.so.11
+lrwxrwxrwx  1 0 0       19 Mar 12  2020 libgpgme.so.11 -> libgpgme.so.11.22.1
+-rw-r--r--  1 0 0   326976 Mar 12  2020 libgpgme.so.11.22.1
+-rw-r--r--  1 0 0    22456 Jan 30  2018 libgpm.so.2
+lrwxrwxrwx  1 0 0       18 Mar 30  2020 libgssapi.so.3 -> libgssapi.so.3.0.0
+-rw-r--r--  1 0 0   278160 Mar 30  2020 libgssapi.so.3.0.0
+lrwxrwxrwx  1 0 0       21 Nov 11  2020 libgssapi_krb5.so.2 -> libgssapi_krb5.so.2.2
+-rw-r--r--  1 0 0   309712 Nov 11  2020 libgssapi_krb5.so.2.2
+lrwxrwxrwx  1 0 0       26 Dec  9  2019 libgstbase-1.0.so.0 -> libgstbase-1.0.so.0.1602.0
+-rw-r--r--  1 0 0   513192 Dec  9  2019 libgstbase-1.0.so.0.1602.0
+lrwxrwxrwx  1 0 0       27 Dec  9  2019 libgstcheck-1.0.so.0 -> libgstcheck-1.0.so.0.1602.0
+-rw-r--r--  1 0 0   144112 Dec  9  2019 libgstcheck-1.0.so.0.1602.0
+lrwxrwxrwx  1 0 0       32 Dec  9  2019 libgstcontroller-1.0.so.0 -> libgstcontroller-1.0.so.0.1602.0
+-rw-r--r--  1 0 0    72600 Dec  9  2019 libgstcontroller-1.0.so.0.1602.0
+lrwxrwxrwx  1 0 0       25 Dec  9  2019 libgstnet-1.0.so.0 -> libgstnet-1.0.so.0.1602.0
+-rw-r--r--  1 0 0   106128 Dec  9  2019 libgstnet-1.0.so.0.1602.0
+lrwxrwxrwx  1 0 0       28 Dec  9  2019 libgstreamer-1.0.so.0 -> libgstreamer-1.0.so.0.1602.0
+-rw-r--r--  1 0 0  1329768 Dec  9  2019 libgstreamer-1.0.so.0.1602.0
+lrwxrwxrwx  1 0 0       26 Jul 12  2021 libgthread-2.0.so.0 -> libgthread-2.0.so.0.6400.6
+-rw-r--r--  1 0 0    14488 Jul 12  2021 libgthread-2.0.so.0.6400.6
+lrwxrwxrwx  1 0 0       21 Sep 18  2019 libgudev-1.0.so.0 -> libgudev-1.0.so.0.2.0
+-rw-r--r--  1 0 0    47176 Sep 18  2019 libgudev-1.0.so.0.2.0
+lrwxrwxrwx  1 0 0       28 Oct 12 05:53 libguestStoreClient.so.0 -> libguestStoreClient.so.0.0.0
+-rw-r--r--  1 0 0   308064 Oct 12 05:53 libguestStoreClient.so.0.0.0
+lrwxrwxrwx  1 0 0       20 Oct 12 05:53 libguestlib.so.0 -> libguestlib.so.0.0.0
+-rw-r--r--  1 0 0   365592 Oct 12 05:53 libguestlib.so.0.0.0
+lrwxrwxrwx  1 0 0       17 Mar 17  2020 libgusb.so.2 -> libgusb.so.2.0.10
+-rw-r--r--  1 0 0    67656 Mar 17  2020 libgusb.so.2.0.10
+lrwxrwxrwx  1 0 0       19 Mar 30  2020 libhcrypto.so.4 -> libhcrypto.so.4.1.0
+-rw-r--r--  1 0 0   221816 Mar 30  2020 libhcrypto.so.4.1.0
+lrwxrwxrwx  1 0 0       20 Mar 30  2020 libheimbase.so.1 -> libheimbase.so.1.0.0
+-rw-r--r--  1 0 0    68752 Mar 30  2020 libheimbase.so.1.0.0
+lrwxrwxrwx  1 0 0       20 Mar 30  2020 libheimntlm.so.0 -> libheimntlm.so.0.1.0
+-rw-r--r--  1 0 0    43712 Mar 30  2020 libheimntlm.so.0.1.0
+lrwxrwxrwx  1 0 0       16 Oct 12 05:53 libhgfs.so.0 -> libhgfs.so.0.0.0
+-rw-r--r--  1 0 0   171720 Oct 12 05:53 libhgfs.so.0.0.0
+lrwxrwxrwx  1 0 0       17 Sep  5  2019 libhistory.so.5 -> libhistory.so.5.2
+-rw-r--r--  1 0 0    35184 Sep  5  2019 libhistory.so.5.2
+lrwxrwxrwx  1 0 0       17 Feb 25  2020 libhistory.so.8 -> libhistory.so.8.0
+-rw-r--r--  1 0 0    51656 Feb 25  2020 libhistory.so.8.0
+lrwxrwxrwx  1 0 0       17 Jun 14  2021 libhogweed.so.5 -> libhogweed.so.5.0
+-rw-r--r--  1 0 0   219976 Jun 14  2021 libhogweed.so.5.0
+lrwxrwxrwx  1 0 0       17 Mar 30  2020 libhx509.so.5 -> libhx509.so.5.0.0
+-rw-r--r--  1 0 0   313336 Mar 30  2020 libhx509.so.5.0.0
+lrwxrwxrwx  1 0 0       18 Nov 23 14:50 libicudata.so.66 -> libicudata.so.66.1
+-rw-r--r--  1 0 0 28046896 Nov 23 14:50 libicudata.so.66.1
+lrwxrwxrwx  1 0 0       18 Nov 23 14:50 libicui18n.so.66 -> libicui18n.so.66.1
+-rw-r--r--  1 0 0  3132040 Nov 23 14:50 libicui18n.so.66.1
+lrwxrwxrwx  1 0 0       16 Nov 23 14:50 libicuio.so.66 -> libicuio.so.66.1
+-rw-r--r--  1 0 0    59704 Nov 23 14:50 libicuio.so.66.1
+lrwxrwxrwx  1 0 0       18 Nov 23 14:50 libicutest.so.66 -> libicutest.so.66.1
+-rw-r--r--  1 0 0    81552 Nov 23 14:50 libicutest.so.66.1
+lrwxrwxrwx  1 0 0       16 Nov 23 14:50 libicutu.so.66 -> libicutu.so.66.1
+-rw-r--r--  1 0 0   220232 Nov 23 14:50 libicutu.so.66.1
+lrwxrwxrwx  1 0 0       16 Nov 23 14:50 libicuuc.so.66 -> libicuuc.so.66.1
+-rw-r--r--  1 0 0  1976648 Nov 23 14:50 libicuuc.so.66.1
+lrwxrwxrwx  1 0 0       17 Mar 21  2019 libidn.so.11 -> libidn.so.11.6.16
+-rw-r--r--  1 0 0   210968 Mar 21  2019 libidn.so.11.6.16
+lrwxrwxrwx  1 0 0       16 Sep 11  2019 libidn2.so.0 -> libidn2.so.0.3.6
+-rw-r--r--  1 0 0   129096 Sep 11  2019 libidn2.so.0.3.6
+-rw-r--r--  1 0 0    59232 Feb  7  2019 libimagequant.so.0
+lrwxrwxrwx  1 0 0       17 Feb 28  2020 libip4tc.so.2 -> libip4tc.so.2.0.0
+-rw-r--r--  1 0 0    35440 Feb 28  2020 libip4tc.so.2.0.0
+lrwxrwxrwx  1 0 0       17 Feb 28  2020 libip6tc.so.2 -> libip6tc.so.2.0.0
+-rw-r--r--  1 0 0    35440 Feb 28  2020 libip6tc.so.2.0.0
+lrwxrwxrwx  1 0 0       18 Mar 15 14:11 libirs.so.1600 -> libirs.so.1600.0.1
+-rw-r--r--  1 0 0    47432 Mar 15 14:11 libirs.so.1600.0.1
+lrwxrwxrwx  1 0 0       25 Aug 11  2020 libisc-export.so.1105 -> libisc-export.so.1105.0.0
+-rw-r--r--  1 0 0   483960 Aug 11  2020 libisc-export.so.1105.0.0
+lrwxrwxrwx  1 0 0       18 Mar 15 14:11 libisc.so.1601 -> libisc.so.1601.0.0
+-rw-r--r--  1 0 0   470936 Mar 15 14:11 libisc.so.1601.0.0
+lrwxrwxrwx  1 0 0       20 Mar 15 14:11 libisccc.so.1600 -> libisccc.so.1600.0.1
+-rw-r--r--  1 0 0    39512 Mar 15 14:11 libisccc.so.1600.0.1
+lrwxrwxrwx  1 0 0       21 Mar 15 14:11 libisccfg.so.1600 -> libisccfg.so.1600.0.1
+-rw-r--r--  1 0 0   210528 Mar 15 14:11 libisccfg.so.1600.0.1
+lrwxrwxrwx  1 0 0       16 Feb 18  2020 libisl.so.22 -> libisl.so.22.0.1
+-rw-r--r--  1 0 0  1773112 Feb 18  2020 libisl.so.22.0.1
+-rw-r--r--  1 0 0   471728 Oct  7  2018 libisns-nocrypto.so.0
+-rw-r--r--  1 0 0   488112 Oct  7  2018 libisns.so.0
+lrwxrwxrwx  1 0 0       15 May 29  2021 libitm.so.1 -> libitm.so.1.0.0
+-rw-r--r--  1 0 0   100904 May 29  2021 libitm.so.1.0.0
+lrwxrwxrwx  1 0 0       20 Jan 12  2019 libjansson.so.4 -> libjansson.so.4.11.1
+-rw-r--r--  1 0 0    55608 Jan 12  2019 libjansson.so.4.11.1
+-rw-r--r--  1 0 0    58216 Apr  3  2018 libjbig.so.0
+lrwxrwxrwx  1 0 0       16 Feb 24 00:20 libjcat.so.1 -> libjcat.so.1.0.0
+-rw-r--r--  1 0 0    84040 Feb 24 00:20 libjcat.so.1.0.0
+lrwxrwxrwx  1 0 0       16 Jun  4  2020 libjpeg.so.8 -> libjpeg.so.8.2.2
+-rw-r--r--  1 0 0   539352 Jun  4  2020 libjpeg.so.8.2.2
+lrwxrwxrwx  1 0 0       18 May 25  2020 libjson-c.so.4 -> libjson-c.so.4.0.0
+-rw-r--r--  1 0 0    67912 May 25  2020 libjson-c.so.4.0.0
+lrwxrwxrwx  1 0 0       27 Apr  6  2020 libjson-glib-1.0.so.0 -> libjson-glib-1.0.so.0.400.4
+-rw-r--r--  1 0 0   170056 Apr  6  2020 libjson-glib-1.0.so.0.400.4
+lrwxrwxrwx  1 0 0       18 Nov 11  2020 libk5crypto.so.3 -> libk5crypto.so.3.1
+-rw-r--r--  1 0 0   191040 Nov 11  2020 libk5crypto.so.3.1
+lrwxrwxrwx  1 0 0       18 Oct 20  2019 libkeyutils.so.1 -> libkeyutils.so.1.8
+-rw-r--r--  1 0 0    22600 Oct 20  2019 libkeyutils.so.1.8
+lrwxrwxrwx  1 0 0       16 Mar 12  2020 libkmod.so.2 -> libkmod.so.2.3.5
+-rw-r--r--  1 0 0   104656 Mar 12  2020 libkmod.so.2.3.5
+lrwxrwxrwx  1 0 0       16 Mar 30  2020 libknet.so.1 -> libknet.so.1.3.0
+-rw-r--r--  1 0 0   164240 Mar 30  2020 libknet.so.1.3.0
+lrwxrwxrwx  1 0 0       17 Mar 30  2020 libkrb5.so.26 -> libkrb5.so.26.0.0
+-rw-r--r--  1 0 0   594104 Mar 30  2020 libkrb5.so.26.0.0
+lrwxrwxrwx  1 0 0       14 Nov 11  2020 libkrb5.so.3 -> libkrb5.so.3.3
+-rw-r--r--  1 0 0   902016 Nov 11  2020 libkrb5.so.3.3
+lrwxrwxrwx  1 0 0       21 Nov 11  2020 libkrb5support.so.0 -> libkrb5support.so.0.1
+-rw-r--r--  1 0 0    56096 Nov 11  2020 libkrb5support.so.0.1
+lrwxrwxrwx  1 0 0       17 Sep  3  2016 libksba.so.8 -> libksba.so.8.11.6
+-rw-r--r--  1 0 0   227344 Sep  3  2016 libksba.so.8.11.6
+lrwxrwxrwx  1 0 0       22 Apr  8  2021 liblber-2.4.so.2 -> liblber-2.4.so.2.10.12
+-rw-r--r--  1 0 0    63888 Apr  8  2021 liblber-2.4.so.2.10.12
+lrwxrwxrwx  1 0 0       17 Sep  9  2019 liblcms2.so.2 -> liblcms2.so.2.0.8
+-rw-r--r--  1 0 0   365568 Sep  9  2019 liblcms2.so.2.0.8
+lrwxrwxrwx  1 0 0       18 Apr  8  2021 libldap-2.4.so.2 -> libldap_r-2.4.so.2
+lrwxrwxrwx  1 0 0       24 Apr  8  2021 libldap_r-2.4.so.2 -> libldap_r-2.4.so.2.10.12
+-rw-r--r--  1 0 0   339472 Apr  8  2021 libldap_r-2.4.so.2.10.12
+lrwxrwxrwx  1 0 0       16 Mar 25  2020 liblmdb.so.0 -> liblmdb.so.0.0.0
+-rw-r--r--  1 0 0    92304 Mar 25  2020 liblmdb.so.0.0.0
+lrwxrwxrwx  1 0 0       17 Dec  9  2020 liblrmd.so.28 -> liblrmd.so.28.0.3
+-rw-r--r--  1 0 0    71728 Dec  9  2020 liblrmd.so.28.0.3
+lrwxrwxrwx  1 0 0       16 May 29  2021 liblsan.so.0 -> liblsan.so.0.0.0
+-rw-r--r--  1 0 0  3280328 May 29  2021 liblsan.so.0.0.0
+lrwxrwxrwx  1 0 0       16 Mar  2  2020 libltdl.so.7 -> libltdl.so.7.3.1
+-rw-r--r--  1 0 0    39368 Mar  2  2020 libltdl.so.7.3.1
+lrwxrwxrwx  1 0 0       22 Mar 22  2020 liblua5.2-c++.so.0 -> liblua5.2-c++.so.0.0.0
+-rw-r--r--  1 0 0   211992 Mar 22  2020 liblua5.2-c++.so.0.0.0
+lrwxrwxrwx  1 0 0       18 Mar 22  2020 liblua5.2.so.0 -> liblua5.2.so.0.0.0
+-rw-r--r--  1 0 0   211888 Mar 22  2020 liblua5.2.so.0.0.0
+lrwxrwxrwx  1 0 0       22 Mar 22  2020 liblua5.3-c++.so.0 -> liblua5.3-c++.so.0.0.0
+-rw-r--r--  1 0 0   236600 Mar 22  2020 liblua5.3-c++.so.0.0.0
+lrwxrwxrwx  1 0 0       18 Mar 22  2020 liblua5.3.so.0 -> liblua5.3.so.0.0.0
+-rw-r--r--  1 0 0   236496 Mar 22  2020 liblua5.3.so.0.0.0
+-rw-r--r--  1 0 0  2817592 Feb 13  2020 liblvm2cmd.so.2.03
+lrwxrwxrwx  1 0 0       15 May 20  2021 liblz4.so.1 -> liblz4.so.1.9.2
+-rw-r--r--  1 0 0   129248 May 20  2021 liblz4.so.1.9.2
+lrwxrwxrwx  1 0 0       16 Apr 20  2020 liblzma.so.5 -> liblzma.so.5.2.4
+-rw-r--r--  1 0 0   162264 Apr 20  2020 liblzma.so.5.2.4
+lrwxrwxrwx  1 0 0       16 Jan 22  2020 liblzo2.so.2 -> liblzo2.so.2.0.0
+-rw-r--r--  1 0 0   145480 Jan 22  2020 liblzo2.so.2.0.0
+-rw-r--r--  1 0 0  3258664 Feb 24 19:42 libm-2.31.a
+-rw-r--r--  1 0 0  1369352 Feb 24 19:42 libm-2.31.so
+-rw-r--r--  1 0 0      132 Feb 24 19:42 libm.a
+-rw-r--r--  1 0 0      140 Feb 24 19:42 libm.so
+lrwxrwxrwx  1 0 0       12 Feb 24 19:42 libm.so.6 -> libm-2.31.so
+lrwxrwxrwx  1 0 0       17 Jan 16  2020 libmagic.so.1 -> libmagic.so.1.0.0
+-rw-r--r--  1 0 0   158080 Jan 16  2020 libmagic.so.1.0.0
+lrwxrwxrwx  1 0 0       21 Nov 11  2020 libmaxminddb.so.0 -> libmaxminddb.so.0.0.7
+-rw-r--r--  1 0 0    22520 Nov 11  2020 libmaxminddb.so.0.0.7
+lrwxrwxrwx  1 0 0       21 Jul 14  2021 libmbim-glib.so.4 -> libmbim-glib.so.4.5.0
+-rw-r--r--  1 0 0   364280 Jul 14  2021 libmbim-glib.so.4.5.0
+-rw-r--r--  1 0 0     1672 Feb 24 19:42 libmcheck.a
+-rw-r--r--  1 0 0    18872 Feb 24 19:42 libmemusage.so
+lrwxrwxrwx  1 0 0       14 Feb 26  2020 libmenu.so.6 -> libmenu.so.6.2
+-rw-r--r--  1 0 0    43576 Feb 26  2020 libmenu.so.6.2
+lrwxrwxrwx  1 0 0       15 Feb 26  2020 libmenuw.so.6 -> libmenuw.so.6.2
+-rw-r--r--  1 0 0    43576 Feb 26  2020 libmenuw.so.6.2
+lrwxrwxrwx  1 0 0       19 Oct 21 02:29 libmm-glib.so.0 -> libmm-glib.so.0.7.0
+-rw-r--r--  1 0 0   938384 Oct 21 02:29 libmm-glib.so.0.7.0
+lrwxrwxrwx  1 0 0       15 Oct  5  2016 libmnl.so.0 -> libmnl.so.0.2.0
+-rw-r--r--  1 0 0    22520 Oct  5  2016 libmnl.so.0.2.0
+lrwxrwxrwx  1 0 0       17 Feb  7 13:33 libmount.so.1 -> libmount.so.1.1.0
+-rw-r--r--  1 0 0   387768 Feb  7 13:33 libmount.so.1.1.0
+lrwxrwxrwx  1 0 0       15 Jan 23  2018 libmpc.so.3 -> libmpc.so.3.1.0
+-rw-r--r--  1 0 0    97360 Jan 23  2018 libmpc.so.3.1.0
+lrwxrwxrwx  1 0 0       17 Feb 26  2020 libmpdec.so.2 -> libmpdec.so.2.4.2
+-rw-r--r--  1 0 0   224008 Feb 26  2020 libmpdec.so.2.4.2
+lrwxrwxrwx  1 0 0       16 Feb  1  2019 libmpfr.so.6 -> libmpfr.so.6.0.2
+-rw-r--r--  1 0 0   523280 Feb  1  2019 libmpfr.so.6.0.2
+lrwxrwxrwx  1 0 0       18 Feb  9  2020 libmspack.so.0 -> libmspack.so.0.1.0
+-rw-r--r--  1 0 0    80024 Feb  9  2020 libmspack.so.0.1.0
+-rw-r--r--  1 0 0   174616 Feb 24 19:42 libmvec-2.31.so
+-rw-r--r--  1 0 0   357822 Feb 24 19:42 libmvec.a
+lrwxrwxrwx  1 0 0       34 Feb 24 19:42 libmvec.so -> /lib/x86_64-linux-gnu/libmvec.so.1
+lrwxrwxrwx  1 0 0       15 Feb 24 19:42 libmvec.so.1 -> libmvec-2.31.so
+-rw-r--r--  1 0 0  9554146 Jan 28 19:36 libmysqlclient.a
+lrwxrwxrwx  1 0 0       20 Jan 28 19:36 libmysqlclient.so -> libmysqlclient.so.21
+lrwxrwxrwx  1 0 0       25 Jan 28 19:36 libmysqlclient.so.21 -> libmysqlclient.so.21.2.28
+-rw-r--r--  1 0 0  7526440 Jan 28 19:36 libmysqlclient.so.21.2.28
+-rw-r--r--  1 0 0    20278 Jan 28 19:36 libmysqlservices.a
+lrwxrwxrwx  1 0 0       17 Feb 26  2020 libncurses.so.6 -> libncurses.so.6.2
+-rw-r--r--  1 0 0   162024 Feb 26  2020 libncurses.so.6.2
+lrwxrwxrwx  1 0 0       18 Feb 26  2020 libncursesw.so.6 -> libncursesw.so.6.2
+-rw-r--r--  1 0 0   231504 Feb 26  2020 libncursesw.so.6.2
+lrwxrwxrwx  1 0 0       15 Sep  5  2019 libnet.so.1 -> libnet.so.1.7.0
+-rw-r--r--  1 0 0   100816 Sep  5  2019 libnet.so.1.7.0
+lrwxrwxrwx  1 0 0       31 Jul 11  2019 libnetfilter_conntrack.so.3 -> libnetfilter_conntrack.so.3.7.0
+-rw-r--r--  1 0 0   129296 Jul 11  2019 libnetfilter_conntrack.so.3.7.0
+-rw-r--r--  1 0 0   175624 Feb 25 09:03 libnetplan.so.0.0
+lrwxrwxrwx  1 0 0       20 Aug 17  2020 libnetsnmp.so.35 -> libnetsnmp.so.35.0.0
+-rw-r--r--  1 0 0   752488 Aug 17  2020 libnetsnmp.so.35.0.0
+lrwxrwxrwx  1 0 0       25 Aug 17  2020 libnetsnmpagent.so.35 -> libnetsnmpagent.so.35.0.0
+-rw-r--r--  1 0 0   465256 Aug 17  2020 libnetsnmpagent.so.35.0.0
+lrwxrwxrwx  1 0 0       27 Aug 17  2020 libnetsnmphelpers.so.35 -> libnetsnmphelpers.so.35.0.0
+-rw-r--r--  1 0 0    14112 Aug 17  2020 libnetsnmphelpers.so.35.0.0
+lrwxrwxrwx  1 0 0       24 Aug 17  2020 libnetsnmpmibs.so.35 -> libnetsnmpmibs.so.35.0.0
+-rw-r--r--  1 0 0  1423520 Aug 17  2020 libnetsnmpmibs.so.35.0.0
+lrwxrwxrwx  1 0 0       25 Aug 17  2020 libnetsnmptrapd.so.35 -> libnetsnmptrapd.so.35.0.0
+-rw-r--r--  1 0 0    63976 Aug 17  2020 libnetsnmptrapd.so.35.0.0
+lrwxrwxrwx  1 0 0       16 Jun 14  2021 libnettle.so.7 -> libnettle.so.7.0
+-rw-r--r--  1 0 0   231592 Jun 14  2021 libnettle.so.7.0
+lrwxrwxrwx  1 0 0       18 Feb 18  2020 libnewt.so.0.52 -> libnewt.so.0.52.21
+-rw-r--r--  1 0 0   101984 Feb 18  2020 libnewt.so.0.52.21
+lrwxrwxrwx  1 0 0       21 Sep  1  2019 libnfnetlink.so.0 -> libnfnetlink.so.0.2.0
+-rw-r--r--  1 0 0    34600 Sep  1  2019 libnfnetlink.so.0.2.0
+lrwxrwxrwx  1 0 0       18 Dec  3  2019 libnftnl.so.11 -> libnftnl.so.11.2.0
+-rw-r--r--  1 0 0   194008 Dec  3  2019 libnftnl.so.11.2.0
+lrwxrwxrwx  1 0 0       21 Mar 22  2020 libnghttp2.so.14 -> libnghttp2.so.14.19.0
+-rw-r--r--  1 0 0   162160 Mar 22  2020 libnghttp2.so.14.19.0
+lrwxrwxrwx  1 0 0       19 May 16  2018 libnl-3.so.200 -> libnl-3.so.200.26.0
+-rw-r--r--  1 0 0   137912 May 16  2018 libnl-3.so.200.26.0
+lrwxrwxrwx  1 0 0       25 May 16  2018 libnl-route-3.so.200 -> libnl-route-3.so.200.26.0
+-rw-r--r--  1 0 0   477584 May 16  2018 libnl-route-3.so.200.26.0
+lrwxrwxrwx  1 0 0       18 Mar 30  2020 libnozzle.so.1 -> libnozzle.so.1.0.0
+-rw-r--r--  1 0 0    26696 Mar 30  2020 libnozzle.so.1.0.0
+lrwxrwxrwx  1 0 0       16 Jul 17  2018 libnpth.so.0 -> libnpth.so.0.1.2
+-rw-r--r--  1 0 0    18816 Jul 17  2018 libnpth.so.0.1.2
+lrwxrwxrwx  1 0 0       17 Mar 15 14:11 libns.so.1601 -> libns.so.1601.0.0
+-rw-r--r--  1 0 0   299848 Mar 15 14:11 libns.so.1601.0.0
+-rw-r--r--  1 0 0   105528 Feb 24 19:42 libnsl-2.31.so
+-rw-r--r--  1 0 0   211652 Feb 24 19:42 libnsl.a
+lrwxrwxrwx  1 0 0       33 Feb 24 19:42 libnsl.so -> /lib/x86_64-linux-gnu/libnsl.so.1
+lrwxrwxrwx  1 0 0       14 Feb 24 19:42 libnsl.so.1 -> libnsl-2.31.so
+-rw-r--r--  1 0 0   247664 Mar 10  2020 libnspr4.so
+-rw-r--r--  1 0 0  1363376 Nov 29 12:15 libnss3.so
+-rw-r--r--  1 0 0    43968 Feb 24 19:42 libnss_compat-2.31.so
+lrwxrwxrwx  1 0 0       40 Feb 24 19:42 libnss_compat.so -> /lib/x86_64-linux-gnu/libnss_compat.so.2
+lrwxrwxrwx  1 0 0       21 Feb 24 19:42 libnss_compat.so.2 -> libnss_compat-2.31.so
+-rw-r--r--  1 0 0    27080 Feb 24 19:42 libnss_dns-2.31.so
+lrwxrwxrwx  1 0 0       37 Feb 24 19:42 libnss_dns.so -> /lib/x86_64-linux-gnu/libnss_dns.so.2
+lrwxrwxrwx  1 0 0       18 Feb 24 19:42 libnss_dns.so.2 -> libnss_dns-2.31.so
+-rw-r--r--  1 0 0    51832 Feb 24 19:42 libnss_files-2.31.so
+lrwxrwxrwx  1 0 0       39 Feb 24 19:42 libnss_files.so -> /lib/x86_64-linux-gnu/libnss_files.so.2
+lrwxrwxrwx  1 0 0       20 Feb 24 19:42 libnss_files.so.2 -> libnss_files-2.31.so
+-rw-r--r--  1 0 0    27136 Feb 24 19:42 libnss_hesiod-2.31.so
+lrwxrwxrwx  1 0 0       40 Feb 24 19:42 libnss_hesiod.so -> /lib/x86_64-linux-gnu/libnss_hesiod.so.2
+lrwxrwxrwx  1 0 0       21 Feb 24 19:42 libnss_hesiod.so.2 -> libnss_hesiod-2.31.so
+-rw-r--r--  1 0 0    51832 Feb 24 19:42 libnss_nis-2.31.so
+lrwxrwxrwx  1 0 0       37 Feb 24 19:42 libnss_nis.so -> /lib/x86_64-linux-gnu/libnss_nis.so.2
+lrwxrwxrwx  1 0 0       18 Feb 24 19:42 libnss_nis.so.2 -> libnss_nis-2.31.so
+-rw-r--r--  1 0 0    59992 Feb 24 19:42 libnss_nisplus-2.31.so
+lrwxrwxrwx  1 0 0       41 Feb 24 19:42 libnss_nisplus.so -> /lib/x86_64-linux-gnu/libnss_nisplus.so.2
+lrwxrwxrwx  1 0 0       22 Feb 24 19:42 libnss_nisplus.so.2 -> libnss_nisplus-2.31.so
+-rw-r--r--  1 0 0   239896 Jan 10 04:56 libnss_systemd.so.2
+-rw-r--r--  1 0 0   203808 Nov 29 12:15 libnssutil3.so
+lrwxrwxrwx  1 0 0       21 Aug 23  2021 libntfs-3g.so.883 -> libntfs-3g.so.883.0.0
+-rw-r--r--  1 0 0   338528 Aug 23  2021 libntfs-3g.so.883.0.0
+lrwxrwxrwx  1 0 0       16 Sep  8  2018 libnuma.so.1 -> libnuma.so.1.0.0
+-rw-r--r--  1 0 0    47960 Sep  8  2018 libnuma.so.1.0.0
+lrwxrwxrwx  1 0 0       15 Sep 16  2019 libogg.so.0 -> libogg.so.0.8.4
+-rw-r--r--  1 0 0    47064 Sep 16  2019 libogg.so.0.8.4
+-rw-r--r--  1 0 0  1426976 Oct 20 11:09 libopcodes-2.34-system.so
+lrwxrwxrwx  1 0 0       19 Jan  4  2021 libp11-kit.so.0 -> libp11-kit.so.0.3.0
+-rw-r--r--  1 0 0  1265624 Jan  4  2021 libp11-kit.so.0.3.0
+lrwxrwxrwx  1 0 0       21 Dec  9  2020 libpacemaker.so.1 -> libpacemaker.so.1.1.0
+-rw-r--r--  1 0 0   465720 Dec  9  2020 libpacemaker.so.1.1.0
+lrwxrwxrwx  1 0 0       29 Sep 23  2020 libpackagekit-glib2.so.18 -> libpackagekit-glib2.so.18.1.3
+-rw-r--r--  1 0 0   393512 Sep 23  2020 libpackagekit-glib2.so.18.1.3
+lrwxrwxrwx  1 0 0       16 Sep 17  2021 libpam.so.0 -> libpam.so.0.84.2
+-rw-r--r--  1 0 0    68320 Sep 17  2021 libpam.so.0.84.2
+lrwxrwxrwx  1 0 0       21 Sep 17  2021 libpam_misc.so.0 -> libpam_misc.so.0.82.1
+-rw-r--r--  1 0 0    14728 Sep 17  2021 libpam_misc.so.0.82.1
+lrwxrwxrwx  1 0 0       17 Sep 17  2021 libpamc.so.0 -> libpamc.so.0.82.1
+-rw-r--r--  1 0 0    18816 Sep 17  2021 libpamc.so.0.82.1
+lrwxrwxrwx  1 0 0       15 Feb 26  2020 libpanel.so.6 -> libpanel.so.6.2
+-rw-r--r--  1 0 0    22688 Feb 26  2020 libpanel.so.6.2
+lrwxrwxrwx  1 0 0       16 Feb 26  2020 libpanelw.so.6 -> libpanelw.so.6.2
+-rw-r--r--  1 0 0    22688 Feb 26  2020 libpanelw.so.6.2
+lrwxrwxrwx  1 0 0       17 Jun 25  2019 libpaper.so.1 -> libpaper.so.1.1.2
+-rw-r--r--  1 0 0    19944 Jun 25  2019 libpaper.so.1.1.2
+lrwxrwxrwx  1 0 0       28 Dec  1  2020 libparted-fs-resize.so.0 -> libparted-fs-resize.so.0.0.2
+-rw-r--r--  1 0 0   100424 Dec  1  2020 libparted-fs-resize.so.0.0.2
+lrwxrwxrwx  1 0 0       18 Dec  1  2020 libparted.so.2 -> libparted.so.2.0.2
+-rw-r--r--  1 0 0   393856 Dec  1  2020 libparted.so.2.0.2
+lrwxrwxrwx  1 0 0       16 Mar 23  2020 libpcap.so.0.8 -> libpcap.so.1.9.1
+-rw-r--r--  1 0 0   302424 Mar 23  2020 libpcap.so.1.9.1
+lrwxrwxrwx  1 0 0       15 Mar 31  2021 libpci.so.3 -> libpci.so.3.6.4
+-rw-r--r--  1 0 0    64280 Mar 31  2021 libpci.so.3.6.4
+-rw-r--r--  1 0 0    14584 Feb 24 19:42 libpcprofile.so
+lrwxrwxrwx  1 0 0       17 Mar 21  2020 libpcre.so.3 -> libpcre.so.3.13.3
+-rw-r--r--  1 0 0   465008 Mar 21  2020 libpcre.so.3.13.3
+lrwxrwxrwx  1 0 0       19 Dec  7  2019 libpcre2-8.so.0 -> libpcre2-8.so.0.9.0
+-rw-r--r--  1 0 0   584392 Dec  7  2019 libpcre2-8.so.0.9.0
+lrwxrwxrwx  1 0 0       22 Mar 21  2020 libpcreposix.so.3 -> libpcreposix.so.3.13.3
+-rw-r--r--  1 0 0    14408 Mar 21  2020 libpcreposix.so.3.13.3
+lrwxrwxrwx  1 0 0       21 Dec  9  2020 libpe_rules.so.26 -> libpe_rules.so.26.1.0
+-rw-r--r--  1 0 0    57040 Dec  9  2020 libpe_rules.so.26.1.0
+lrwxrwxrwx  1 0 0       22 Dec  9  2020 libpe_status.so.28 -> libpe_status.so.28.1.0
+-rw-r--r--  1 0 0   381296 Dec  9  2020 libpe_status.so.28.1.0
+lrwxrwxrwx  1 0 0       17 Oct 19  2020 libperl.so.5.30 -> libperl.so.5.30.0
+-rw-r--r--  1 0 0  3464048 Oct 19  2020 libperl.so.5.30.0
+lrwxrwxrwx  1 0 0       20 Feb  8  2020 libpipeline.so.1 -> libpipeline.so.1.5.2
+-rw-r--r--  1 0 0    63488 Feb  8  2020 libpipeline.so.1.5.2
+-rw-r--r--  1 0 0    22928 Mar 10  2020 libplc4.so
+-rw-r--r--  1 0 0    14640 Mar 10  2020 libplds4.so
+lrwxrwxrwx  1 0 0       27 Nov  2  2020 libply-boot-client.so.5 -> libply-boot-client.so.5.0.0
+-rw-r--r--  1 0 0    31104 Nov  2  2020 libply-boot-client.so.5.0.0
+lrwxrwxrwx  1 0 0       27 Nov  2  2020 libply-splash-core.so.5 -> libply-splash-core.so.5.0.0
+-rw-r--r--  1 0 0   138320 Nov  2  2020 libply-splash-core.so.5.0.0
+lrwxrwxrwx  1 0 0       31 Nov  2  2020 libply-splash-graphics.so.5 -> libply-splash-graphics.so.5.0.0
+-rw-r--r--  1 0 0    64304 Nov  2  2020 libply-splash-graphics.so.5.0.0
+lrwxrwxrwx  1 0 0       15 Nov  2  2020 libply.so.5 -> libply.so.5.0.0
+-rw-r--r--  1 0 0   113360 Nov  2  2020 libply.so.5.0.0
+lrwxrwxrwx  1 0 0       19 Feb  7  2020 libpng16.so.16 -> libpng16.so.16.37.0
+-rw-r--r--  1 0 0   223304 Feb  7  2020 libpng16.so.16.37.0
+lrwxrwxrwx  1 0 0       26 Feb 21 12:58 libpolkit-agent-1.so.0 -> libpolkit-agent-1.so.0.0.0
+-rw-r--r--  1 0 0    52576 Feb 21 12:58 libpolkit-agent-1.so.0.0.0
+lrwxrwxrwx  1 0 0       28 Feb 21 12:58 libpolkit-gobject-1.so.0 -> libpolkit-gobject-1.so.0.0.0
+-rw-r--r--  1 0 0   126472 Feb 21 12:58 libpolkit-gobject-1.so.0.0.0
+lrwxrwxrwx  1 0 0       16 Oct 21  2019 libpopt.so.0 -> libpopt.so.0.0.0
+-rw-r--r--  1 0 0    51808 Oct 21  2019 libpopt.so.0.0.0
+lrwxrwxrwx  1 0 0       18 Sep  9  2021 libprocps.so.8 -> libprocps.so.8.0.2
+-rw-r--r--  1 0 0    80072 Sep  9  2021 libprocps.so.8.0.2
+lrwxrwxrwx  1 0 0       21 Feb 26  2020 libprotobuf.so.17 -> libprotobuf.so.17.0.0
+-rw-r--r--  1 0 0  3101792 Feb 26  2020 libprotobuf.so.17.0.0
+lrwxrwxrwx  1 0 0       17 Dec  8  2020 libproxy.so.1 -> libproxy.so.1.0.0
+-rw-r--r--  1 0 0   133640 Dec  8  2020 libproxy.so.1.0.0
+lrwxrwxrwx  1 0 0       15 Mar 31  2020 libpsl.so.5 -> libpsl.so.5.3.2
+-rw-r--r--  1 0 0    71672 Mar 31  2020 libpsl.so.5.3.2
+-rwxr-xr-x  1 0 0   157224 Feb 24 19:42 libpthread-2.31.so
+-rw-r--r--  1 0 0  6588634 Feb 24 19:42 libpthread.a
+lrwxrwxrwx  1 0 0       37 Feb 24 19:42 libpthread.so -> /lib/x86_64-linux-gnu/libpthread.so.0
+lrwxrwxrwx  1 0 0       18 Feb 24 19:42 libpthread.so.0 -> libpthread-2.31.so
+lrwxrwxrwx  1 0 0       55 Nov 26 20:14 libpython3.8.a -> ../python3.8/config-3.8-x86_64-linux-gnu/libpython3.8.a
+lrwxrwxrwx  1 0 0       17 Nov 26 20:14 libpython3.8.so -> libpython3.8.so.1
+lrwxrwxrwx  1 0 0       19 Nov 26 20:14 libpython3.8.so.1 -> libpython3.8.so.1.0
+-rw-r--r--  1 0 0  5449112 Nov 26 20:14 libpython3.8.so.1.0
+-rw-r--r--  1 0 0     1404 Apr 26  2019 libqb.so
+lrwxrwxrwx  1 0 0       15 Apr 26  2019 libqb.so.0 -> libqb.so.0.19.2
+-rw-r--r--  1 0 0   159832 Apr 26  2019 libqb.so.0.19.2
+lrwxrwxrwx  1 0 0       20 Oct  5 12:39 libqmi-glib.so.5 -> libqmi-glib.so.5.7.0
+-rw-r--r--  1 0 0  3141792 Oct  5 12:39 libqmi-glib.so.5.7.0
+lrwxrwxrwx  1 0 0       20 May 29  2021 libquadmath.so.0 -> libquadmath.so.0.0.0
+-rw-r--r--  1 0 0   297784 May 29  2021 libquadmath.so.0.0.0
+lrwxrwxrwx  1 0 0       18 Mar 10  2021 libquorum.so.5 -> libquorum.so.5.0.0
+-rw-r--r--  1 0 0    14472 Mar 10  2021 libquorum.so.5.0.0
+lrwxrwxrwx  1 0 0       18 Sep  5  2019 libreadline.so.5 -> libreadline.so.5.2
+-rw-r--r--  1 0 0   253456 Sep  5  2019 libreadline.so.5.2
+lrwxrwxrwx  1 0 0       18 Feb 25  2020 libreadline.so.8 -> libreadline.so.8.0
+-rw-r--r--  1 0 0   319528 Feb 25  2020 libreadline.so.8.0
+-rw-r--r--  1 0 0   101320 Feb 24 19:42 libresolv-2.31.so
+-rw-r--r--  1 0 0   137690 Feb 24 19:42 libresolv.a
+lrwxrwxrwx  1 0 0       36 Feb 24 19:42 libresolv.so -> /lib/x86_64-linux-gnu/libresolv.so.2
+lrwxrwxrwx  1 0 0       17 Feb 24 19:42 libresolv.so.2 -> libresolv-2.31.so
+lrwxrwxrwx  1 0 0       18 Mar 30  2020 libroken.so.18 -> libroken.so.18.1.0
+-rw-r--r--  1 0 0    97024 Mar 30  2020 libroken.so.18.1.0
+-rw-r--r--  1 0 0    54982 Feb 24 19:42 librpcsvc.a
+-rw-r--r--  1 0 0    35928 Feb 24 19:42 librt-2.31.so
+-rw-r--r--  1 0 0    82090 Feb 24 19:42 librt.a
+lrwxrwxrwx  1 0 0       32 Feb 24 19:42 librt.so -> /lib/x86_64-linux-gnu/librt.so.1
+lrwxrwxrwx  1 0 0       13 Feb 24 19:42 librt.so.1 -> librt-2.31.so
+-rw-r--r--  1 0 0   125960 Oct 31  2019 librtmp.so.1
+lrwxrwxrwx  1 0 0       18 Feb 15 20:03 libsasl2.so.2 -> libsasl2.so.2.0.25
+-rw-r--r--  1 0 0   113552 Feb 15 20:03 libsasl2.so.2.0.25
+lrwxrwxrwx  1 0 0       19 Nov 19 11:48 libseccomp.so.2 -> libseccomp.so.2.5.1
+-rw-r--r--  1 0 0   133568 Nov 19 11:48 libseccomp.so.2.5.1
+-rw-r--r--  1 0 0   163200 Feb 26  2020 libselinux.so.1
+-rw-r--r--  1 0 0   268920 Feb 26  2020 libsemanage.so.1
+lrwxrwxrwx  1 0 0       19 Nov  6  2019 libsensors.so.5 -> libsensors.so.5.0.0
+-rw-r--r--  1 0 0    64024 Nov  6  2019 libsensors.so.5.0.0
+-rw-r--r--  1 0 0   717288 Dec 10  2019 libsepol.so.1
+lrwxrwxrwx  1 0 0       20 Feb 24  2020 libsgutils2.so.2 -> libsgutils2.so.2.0.0
+-rw-r--r--  1 0 0   255632 Feb 24  2020 libsgutils2.so.2.0.0
+lrwxrwxrwx  1 0 0       19 Apr 12  2018 libsigsegv.so.2 -> libsigsegv.so.2.0.5
+-rw-r--r--  1 0 0    14424 Apr 12  2018 libsigsegv.so.2.0.5
+lrwxrwxrwx  1 0 0       17 Jul 17  2019 libslang.so.2 -> libslang.so.2.3.2
+-rw-r--r--  1 0 0  1381920 Jul 17  2019 libslang.so.2.3.2
+lrwxrwxrwx  1 0 0       21 Feb  7 13:33 libsmartcols.so.1 -> libsmartcols.so.1.1.0
+-rw-r--r--  1 0 0   243992 Feb  7 13:33 libsmartcols.so.1.1.0
+lrwxrwxrwx  1 0 0       20 Feb  1  2020 libsmbios_c.so.2 -> libsmbios_c.so.2.2.1
+-rw-r--r--  1 0 0   276656 Feb  1  2020 libsmbios_c.so.2.2.1
+-rw-r--r--  1 0 0   193032 Nov 29 12:15 libsmime3.so
+lrwxrwxrwx  1 0 0       17 Aug 17  2020 libsnmp.so.35 -> libsnmp.so.35.0.0
+-rw-r--r--  1 0 0   752488 Aug 17  2020 libsnmp.so.35.0.0
+lrwxrwxrwx  1 0 0       19 Aug 18  2019 libsodium.so.23 -> libsodium.so.23.3.0
+-rw-r--r--  1 0 0   355016 Aug 18  2019 libsodium.so.23.3.0
+lrwxrwxrwx  1 0 0       20 Mar 11  2020 libsoup-2.4.so.1 -> libsoup-2.4.so.1.9.0
+-rw-r--r--  1 0 0   633560 Mar 11  2020 libsoup-2.4.so.1.9.0
+lrwxrwxrwx  1 0 0       19 Jul 23  2020 libsqlite3.so.0 -> libsqlite3.so.0.8.6
+-rw-r--r--  1 0 0  1212216 Jul 23  2020 libsqlite3.so.0.8.6
+lrwxrwxrwx  1 0 0       12 Feb 14  2020 libss.so.2 -> libss.so.2.0
+-rw-r--r--  1 0 0    30800 Feb 14  2020 libss.so.2.0
+lrwxrwxrwx  1 0 0       15 Aug 18  2021 libssh.so.4 -> libssh.so.4.8.4
+-rw-r--r--  1 0 0   445976 Aug 18  2021 libssh.so.4.8.4
+-rw-r--r--  1 0 0  1016494 Mar  9 12:12 libssl.a
+lrwxrwxrwx  1 0 0       13 Mar  9 12:12 libssl.so -> libssl.so.1.1
+-rw-r--r--  1 0 0   598104 Mar  9 12:12 libssl.so.1.1
+-rw-r--r--  1 0 0   382024 Nov 29 12:15 libssl3.so
+lrwxrwxrwx  1 0 0       21 Oct  5  2019 libstatgrab.so.10 -> libstatgrab.so.10.0.1
+-rw-r--r--  1 0 0    82168 Oct  5  2019 libstatgrab.so.10.0.1
+lrwxrwxrwx  1 0 0       19 May 29  2021 libstdc++.so.6 -> libstdc++.so.6.0.28
+-rw-r--r--  1 0 0  1956992 May 29  2021 libstdc++.so.6.0.28
+lrwxrwxrwx  1 0 0       20 Mar 10  2020 libstemmer.so.0d -> libstemmer.so.0d.0.0
+-rw-r--r--  1 0 0   334248 Mar 10  2020 libstemmer.so.0d.0.0
+lrwxrwxrwx  1 0 0       21 Dec  9  2020 libstonithd.so.26 -> libstonithd.so.26.3.0
+-rw-r--r--  1 0 0    80152 Dec  9  2020 libstonithd.so.26.3.0
+lrwxrwxrwx  1 0 0       20 Jan 10 04:56 libsystemd.so.0 -> libsystemd.so.0.28.0
+-rw-r--r--  1 0 0   709496 Jan 10 04:56 libsystemd.so.0.28.0
+lrwxrwxrwx  1 0 0       17 Feb 15  2020 libtasn1.so.6 -> libtasn1.so.6.6.0
+-rw-r--r--  1 0 0    84120 Feb 15  2020 libtasn1.so.6.6.0
+lrwxrwxrwx  1 0 0       15 Nov  1 18:10 libtdb.so.1 -> libtdb.so.1.4.3
+-rw-r--r--  1 0 0   100520 Nov  1 18:10 libtdb.so.1.4.3
+-rw-r--r--  1 0 0    39896 Feb 24 19:42 libthread_db-1.0.so
+lrwxrwxrwx  1 0 0       39 Feb 24 19:42 libthread_db.so -> /lib/x86_64-linux-gnu/libthread_db.so.1
+lrwxrwxrwx  1 0 0       19 Feb 24 19:42 libthread_db.so.1 -> libthread_db-1.0.so
+lrwxrwxrwx  1 0 0       13 Feb 26  2020 libtic.so.6 -> libtic.so.6.2
+-rw-r--r--  1 0 0    67896 Feb 26  2020 libtic.so.6.2
+lrwxrwxrwx  1 0 0       16 Sep 17 13:14 libtiff.so.5 -> libtiff.so.5.5.0
+-rw-r--r--  1 0 0   522936 Sep 17 13:14 libtiff.so.5.5.0
+lrwxrwxrwx  1 0 0       15 Feb 26  2020 libtinfo.so.6 -> libtinfo.so.6.2
+-rw-r--r--  1 0 0   192032 Feb 26  2020 libtinfo.so.6.2
+lrwxrwxrwx  1 0 0       16 May 29  2021 libtsan.so.0 -> libtsan.so.0.0.0
+-rw-r--r--  1 0 0  9094904 May 29  2021 libtsan.so.0.0.0
+-rw-r--r--  1 0 0     3960 May 29  2021 libtsan_preinit.o
+lrwxrwxrwx  1 0 0       21 Jan 19  2020 libtss2-esys.so.0 -> libtss2-esys.so.0.0.0
+-rw-r--r--  1 0 0   596672 Jan 19  2020 libtss2-esys.so.0.0.0
+lrwxrwxrwx  1 0 0       19 Jan 19  2020 libtss2-mu.so.0 -> libtss2-mu.so.0.0.0
+-rw-r--r--  1 0 0   285048 Jan 19  2020 libtss2-mu.so.0.0.0
+lrwxrwxrwx  1 0 0       19 Jan 19  2020 libtss2-rc.so.0 -> libtss2-rc.so.0.0.0
+-rw-r--r--  1 0 0    36080 Jan 19  2020 libtss2-rc.so.0.0.0
+lrwxrwxrwx  1 0 0       20 Jan 19  2020 libtss2-sys.so.0 -> libtss2-sys.so.0.0.0
+-rw-r--r--  1 0 0   133208 Jan 19  2020 libtss2-sys.so.0.0.0
+lrwxrwxrwx  1 0 0       28 Jan 19  2020 libtss2-tcti-device.so.0 -> libtss2-tcti-device.so.0.0.0
+-rw-r--r--  1 0 0    27024 Jan 19  2020 libtss2-tcti-device.so.0.0.0
+lrwxrwxrwx  1 0 0       27 Jan 19  2020 libtss2-tcti-mssim.so.0 -> libtss2-tcti-mssim.so.0.0.0
+-rw-r--r--  1 0 0    27040 Jan 19  2020 libtss2-tcti-mssim.so.0.0.0
+lrwxrwxrwx  1 0 0       24 Jan 19  2020 libtss2-tctildr.so.0 -> libtss2-tctildr.so.0.0.0
+-rw-r--r--  1 0 0    31304 Jan 19  2020 libtss2-tctildr.so.0.0.0
+lrwxrwxrwx  1 0 0       17 May 29  2021 libubsan.so.1 -> libubsan.so.1.0.0
+-rw-r--r--  1 0 0  3067240 May 29  2021 libubsan.so.1.0.0
+lrwxrwxrwx  1 0 0       20 Mar 21  2020 libuchardet.so.0 -> libuchardet.so.0.0.6
+-rw-r--r--  1 0 0   145568 Mar 21  2020 libuchardet.so.0.0.6
+lrwxrwxrwx  1 0 0       17 Jan 10 04:56 libudev.so.1 -> libudev.so.1.6.17
+-rw-r--r--  1 0 0   178528 Jan 10 04:56 libudev.so.1.6.17
+lrwxrwxrwx  1 0 0       19 Sep  6  2021 libudisks2.so.0 -> libudisks2.so.0.0.0
+-rw-r--r--  1 0 0   493640 Sep  6  2021 libudisks2.so.0.0.0
+lrwxrwxrwx  1 0 0       20 Mar  7  2020 libulockmgr.so.1 -> libulockmgr.so.1.0.1
+-rw-r--r--  1 0 0    14400 Mar  7  2020 libulockmgr.so.1.0.1
+lrwxrwxrwx  1 0 0       21 Jul 11  2019 libunistring.so.2 -> libunistring.so.2.1.0
+-rw-r--r--  1 0 0  1575112 Jul 11  2019 libunistring.so.2.1.0
+lrwxrwxrwx  1 0 0       27 Mar 22  2020 libunwind-coredump.so.0 -> libunwind-coredump.so.0.0.0
+-rw-r--r--  1 0 0    18280 Mar 22  2020 libunwind-coredump.so.0.0.0
+lrwxrwxrwx  1 0 0       25 Mar 22  2020 libunwind-ptrace.so.0 -> libunwind-ptrace.so.0.0.0
+-rw-r--r--  1 0 0    14680 Mar 22  2020 libunwind-ptrace.so.0.0.0
+lrwxrwxrwx  1 0 0       25 Mar 22  2020 libunwind-x86_64.so.8 -> libunwind-x86_64.so.8.0.1
+-rw-r--r--  1 0 0    76080 Mar 22  2020 libunwind-x86_64.so.8.0.1
+lrwxrwxrwx  1 0 0       18 Mar 22  2020 libunwind.so.8 -> libunwind.so.8.0.1
+-rw-r--r--  1 0 0    55480 Mar 22  2020 libunwind.so.8.0.1
+lrwxrwxrwx  1 0 0       19 Jul 31  2019 liburcu-bp.so.6 -> liburcu-bp.so.6.1.0
+-rw-r--r--  1 0 0    39368 Jul 31  2019 liburcu-bp.so.6.1.0
+lrwxrwxrwx  1 0 0       20 Jul 31  2019 liburcu-cds.so.6 -> liburcu-cds.so.6.1.0
+-rw-r--r--  1 0 0    43136 Jul 31  2019 liburcu-cds.so.6.1.0
+lrwxrwxrwx  1 0 0       23 Jul 31  2019 liburcu-common.so.6 -> liburcu-common.so.6.1.0
+-rw-r--r--  1 0 0    22520 Jul 31  2019 liburcu-common.so.6.1.0
+lrwxrwxrwx  1 0 0       19 Jul 31  2019 liburcu-mb.so.6 -> liburcu-mb.so.6.1.0
+-rw-r--r--  1 0 0    39480 Jul 31  2019 liburcu-mb.so.6.1.0
+lrwxrwxrwx  1 0 0       21 Jul 31  2019 liburcu-memb.so.6 -> liburcu-memb.so.6.1.0
+-rw-r--r--  1 0 0    39480 Jul 31  2019 liburcu-memb.so.6.1.0
+lrwxrwxrwx  1 0 0       21 Jul 31  2019 liburcu-qsbr.so.6 -> liburcu-qsbr.so.6.1.0
+-rw-r--r--  1 0 0    39480 Jul 31  2019 liburcu-qsbr.so.6.1.0
+lrwxrwxrwx  1 0 0       23 Jul 31  2019 liburcu-signal.so.6 -> liburcu-signal.so.6.1.0
+-rw-r--r--  1 0 0    39480 Jul 31  2019 liburcu-signal.so.6.1.0
+lrwxrwxrwx  1 0 0       16 Jul 31  2019 liburcu.so.6 -> liburcu.so.6.1.0
+-rw-r--r--  1 0 0    39480 Jul 31  2019 liburcu.so.6.1.0
+lrwxrwxrwx  1 0 0       19 Jan  7  2020 libusb-1.0.so.0 -> libusb-1.0.so.0.2.0
+-rw-r--r--  1 0 0   109440 Jan  7  2020 libusb-1.0.so.0.2.0
+lrwxrwxrwx  1 0 0       20 Sep 30  2019 libutempter.so.0 -> libutempter.so.1.1.6
+-rw-r--r--  1 0 0    14568 Sep 30  2019 libutempter.so.1.1.6
+-rw-r--r--  1 0 0    14848 Feb 24 19:42 libutil-2.31.so
+-rw-r--r--  1 0 0    15096 Feb 24 19:42 libutil.a
+lrwxrwxrwx  1 0 0       34 Feb 24 19:42 libutil.so -> /lib/x86_64-linux-gnu/libutil.so.1
+lrwxrwxrwx  1 0 0       15 Feb 24 19:42 libutil.so.1 -> libutil-2.31.so
+lrwxrwxrwx  1 0 0       16 Feb  7 13:33 libuuid.so.1 -> libuuid.so.1.3.0
+-rw-r--r--  1 0 0    30936 Feb  7 13:33 libuuid.so.1.3.0
+lrwxrwxrwx  1 0 0       14 Jul  5  2021 libuv.so.1 -> libuv.so.1.0.0
+-rw-r--r--  1 0 0   194648 Jul  5  2021 libuv.so.1.0.0
+lrwxrwxrwx  1 0 0       18 Oct 12 05:53 libvgauth.so.0 -> libvgauth.so.0.0.0
+-rw-r--r--  1 0 0    93688 Oct 12 05:53 libvgauth.so.0.0.0
+lrwxrwxrwx  1 0 0       19 Oct 12 05:53 libvmtools.so.0 -> libvmtools.so.0.0.0
+-rw-r--r--  1 0 0   673824 Oct 12 05:53 libvmtools.so.0.0.0
+lrwxrwxrwx  1 0 0       22 Mar 13  2020 libvolume_key.so.1 -> libvolume_key.so.1.2.3
+-rw-r--r--  1 0 0   108616 Mar 13  2020 libvolume_key.so.1.2.3
+lrwxrwxrwx  1 0 0       18 Dec  9  2019 libvorbis.so.0 -> libvorbis.so.0.4.8
+-rw-r--r--  1 0 0   182344 Dec  9  2019 libvorbis.so.0.4.8
+lrwxrwxrwx  1 0 0       22 Dec  9  2019 libvorbisfile.so.3 -> libvorbisfile.so.3.3.7
+-rw-r--r--  1 0 0    38904 Dec  9  2019 libvorbisfile.so.3.3.7
+lrwxrwxrwx  1 0 0       22 Mar 10  2021 libvotequorum.so.8 -> libvotequorum.so.8.0.0
+-rw-r--r--  1 0 0    18568 Mar 10  2021 libvotequorum.so.8.0.0
+lrwxrwxrwx  1 0 0       16 May 20  2021 libwebp.so.6 -> libwebp.so.6.0.2
+-rw-r--r--  1 0 0   420376 May 20  2021 libwebp.so.6.0.2
+lrwxrwxrwx  1 0 0       21 May 20  2021 libwebpdemux.so.2 -> libwebpdemux.so.2.0.3
+-rw-r--r--  1 0 0    18664 May 20  2021 libwebpdemux.so.2.0.3
+lrwxrwxrwx  1 0 0       19 May 20  2021 libwebpmux.so.3 -> libwebpmux.so.3.0.1
+-rw-r--r--  1 0 0    43336 May 20  2021 libwebpmux.so.3.0.1
+lrwxrwxrwx  1 0 0       16 Mar 30  2020 libwind.so.0 -> libwind.so.0.0.0
+-rw-r--r--  1 0 0   166040 Mar 30  2020 libwind.so.0.0.0
+lrwxrwxrwx  1 0 0       16 Nov 27  2019 libwrap.so.0 -> libwrap.so.0.7.6
+-rw-r--r--  1 0 0    44848 Nov 27  2019 libwrap.so.0.7.6
+lrwxrwxrwx  1 0 0       15 Mar 27  2020 libxcb.so.1 -> libxcb.so.1.1.0
+-rw-r--r--  1 0 0   166488 Mar 27  2020 libxcb.so.1.1.0
+lrwxrwxrwx  1 0 0       17 Mar 10 17:59 libxml2.so.2 -> libxml2.so.2.9.10
+-rw-r--r--  1 0 0  1799408 Mar 10 17:59 libxml2.so.2.9.10
+lrwxrwxrwx  1 0 0       16 Jan 25  2021 libxmlb.so.1 -> libxmlb.so.1.0.0
+-rw-r--r--  1 0 0   137288 Jan 25  2021 libxmlb.so.1.0.0
+lrwxrwxrwx  1 0 0       28 Jun 29  2019 libxmlsec1-openssl.so.1 -> libxmlsec1-openssl.so.1.2.28
+-rw-r--r--  1 0 0   283272 Jun 29  2019 libxmlsec1-openssl.so.1.2.28
+lrwxrwxrwx  1 0 0       20 Jun 29  2019 libxmlsec1.so.1 -> libxmlsec1.so.1.2.28
+-rw-r--r--  1 0 0   421152 Jun 29  2019 libxmlsec1.so.1.2.28
+lrwxrwxrwx  1 0 0       17 Mar  4  2020 libxslt.so.1 -> libxslt.so.1.1.34
+-rw-r--r--  1 0 0   264632 Mar  4  2020 libxslt.so.1.1.34
+lrwxrwxrwx  1 0 0       20 Feb 28  2020 libxtables.so.12 -> libxtables.so.12.2.0
+-rw-r--r--  1 0 0    59464 Feb 28  2020 libxtables.so.12.2.0
+lrwxrwxrwx  1 0 0       18 Sep 15  2019 libyaml-0.so.2 -> libyaml-0.so.2.0.6
+-rw-r--r--  1 0 0   133336 Sep 15  2019 libyaml-0.so.2.0.6
+-rw-r--r--  1 0 0   146214 Oct 15  2020 libz.a
+lrwxrwxrwx  1 0 0       36 Oct 15  2020 libz.so -> /lib/x86_64-linux-gnu/libz.so.1.2.11
+lrwxrwxrwx  1 0 0       14 Oct 15  2020 libz.so.1 -> libz.so.1.2.11
+-rw-r--r--  1 0 0   108936 Oct 15  2020 libz.so.1.2.11
+lrwxrwxrwx  1 0 0       16 Mar  3  2021 libzstd.so.1 -> libzstd.so.1.4.4
+-rw-r--r--  1 0 0   686160 Mar  3  2021 libzstd.so.1.4.4
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 nss
+drwxr-xr-x  3 0 0     4096 Mar 18 19:57 open-vm-tools
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 packagekit-backend
+drwxr-xr-x  5 0 0     4096 Mar 15 21:39 perl
+drwxr-xr-x 16 0 0     4096 Mar 15 21:39 perl-base
+drwxr-xr-x  3 0 0     4096 Mar 15 21:39 perl5
+drwxr-xr-x  2 0 0     4096 Mar 18 20:04 pkgconfig
+drwxr-xr-x  3 0 0     4096 Mar 15 21:39 plymouth
+-rw-r--r--  1 0 0     1912 Feb 24 19:42 rcrt1.o
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 rsyslog
+drwxr-xr-x  2 0 0     4096 Mar 15 21:40 sasl2
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 security
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 utempter
+drwxr-xr-x  2 0 0     4096 Mar 15 21:39 xtables
+
+/usr/lib/x86_64-linux-gnu/libfakeroot:
+total 156
+drwxr-xr-x  2 0 0  4096 Mar 18 19:58 .
+drwxr-xr-x 36 0 0 36864 Mar 18 20:05 ..
+lrwxrwxrwx  1 0 0    18 Sep  6  2019 libfakeroot-0.so -> libfakeroot-tcp.so
+-rw-r--r--  1 0 0 57240 Sep  6  2019 libfakeroot-sysv.so
+-rw-r--r--  1 0 0 57328 Sep  6  2019 libfakeroot-tcp.so

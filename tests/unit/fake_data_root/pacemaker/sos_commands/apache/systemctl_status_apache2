@@ -1,0 +1,24 @@
+* apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-03-18 20:23:45 UTC; 49min ago
+       Docs: https://httpd.apache.org/docs/2.4/
+   Main PID: 45230 (apache2)
+      Tasks: 63 (limit: 2339)
+     Memory: 145.9M
+     CGroup: /system.slice/apache2.service
+             |-45230 /usr/sbin/apache2 -k start
+             |-45232 (wsgi:placement)  -k start
+             |-45233 (wsgi:placement)  -k start
+             |-45234 /usr/sbin/apache2 -k start
+             `-45235 /usr/sbin/apache2 -k start
+
+Mar 18 21:09:02 juju-3f8d6e-o7ktest-21 placement-api[45232]: 2022-03-18 21:09:02.552 45232 DEBUG placement.requestlog [req-456ba981-4d79-40da-9c01-c0a26a8b6aab - - - - -] Starting request: 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/allocations" __call__ /usr/lib/python3/dist-packages/placement/requestlog.py:59
+Mar 18 21:09:02 juju-3f8d6e-o7ktest-21 placement-api[45232]: 2022-03-18 21:09:02.730 45232 INFO placement.requestlog [req-456ba981-4d79-40da-9c01-c0a26a8b6aab 7d6590c98ab14d2b9b3d53b7c3635ed9 a8f26db18b8b46b89e5f726f66b2fa29 - default default] 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/allocations" status: 200 len: 54 microversion: 1.0
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45233]: 2022-03-18 21:11:03.570 45233 DEBUG placement.requestlog [req-59817199-ed72-4a2b-b90f-bb532279d713 - - - - -] Starting request: 10.5.1.106 "GET /resource_providers?in_tree=30260577-c946-4408-be96-87156bb6c245" __call__ /usr/lib/python3/dist-packages/placement/requestlog.py:59
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45233]: 2022-03-18 21:11:03.584 45233 INFO placement.requestlog [req-59817199-ed72-4a2b-b90f-bb532279d713 7d6590c98ab14d2b9b3d53b7c3635ed9 a8f26db18b8b46b89e5f726f66b2fa29 - default default] 10.5.1.106 "GET /resource_providers?in_tree=30260577-c946-4408-be96-87156bb6c245" status: 200 len: 821 microversion: 1.14
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45232]: 2022-03-18 21:11:03.590 45232 DEBUG placement.requestlog [req-eea5420f-c700-4f4b-be26-842636893ea2 - - - - -] Starting request: 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/inventories" __call__ /usr/lib/python3/dist-packages/placement/requestlog.py:59
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45232]: 2022-03-18 21:11:03.612 45232 INFO placement.requestlog [req-eea5420f-c700-4f4b-be26-842636893ea2 7d6590c98ab14d2b9b3d53b7c3635ed9 a8f26db18b8b46b89e5f726f66b2fa29 - default default] 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/inventories" status: 200 len: 395 microversion: 1.0
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45233]: 2022-03-18 21:11:03.618 45233 DEBUG placement.requestlog [req-f64ad4a5-862f-428e-81ac-8e98bf369226 - - - - -] Starting request: 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/aggregates" __call__ /usr/lib/python3/dist-packages/placement/requestlog.py:59
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45233]: 2022-03-18 21:11:03.637 45233 INFO placement.requestlog [req-f64ad4a5-862f-428e-81ac-8e98bf369226 7d6590c98ab14d2b9b3d53b7c3635ed9 a8f26db18b8b46b89e5f726f66b2fa29 - default default] 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/aggregates" status: 200 len: 53 microversion: 1.19
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45232]: 2022-03-18 21:11:03.643 45232 DEBUG placement.requestlog [req-0c139f6a-6ff8-4ac0-8589-26a4c1bd15ed - - - - -] Starting request: 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/traits" __call__ /usr/lib/python3/dist-packages/placement/requestlog.py:59
+Mar 18 21:11:03 juju-3f8d6e-o7ktest-21 placement-api[45232]: 2022-03-18 21:11:03.718 45232 INFO placement.requestlog [req-0c139f6a-6ff8-4ac0-8589-26a4c1bd15ed 7d6590c98ab14d2b9b3d53b7c3635ed9 a8f26db18b8b46b89e5f726f66b2fa29 - default default] 10.5.1.106 "GET /resource_providers/30260577-c946-4408-be96-87156bb6c245/traits" status: 200 len: 1369 microversion: 1.6

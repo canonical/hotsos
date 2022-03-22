@@ -1,0 +1,117 @@
+{
+ "base64_encoded_keys": [
+  "ds/meta_data/random_seed"
+ ],
+ "ds": {
+  "_doc": "EXPERIMENTAL: The structure and format of content scoped under the 'ds' key may change in subsequent releases of cloud-init.",
+  "ec2_metadata": {
+   "ami-id": "ami-000002d5",
+   "ami-launch-index": "0",
+   "ami-manifest-path": "FIXME",
+   "block-device-mapping": {
+    "ami": "vda",
+    "root": "/dev/vda"
+   },
+   "hostname": "juju-3f8d6e-o7ktest-21.cloud.sts.",
+   "instance-action": "none",
+   "instance-id": "i-0005abc6",
+   "instance-type": "m1.small",
+   "local-hostname": "juju-3f8d6e-o7ktest-21.cloud.sts.",
+   "local-ipv4": "10.5.1.106",
+   "placement": {
+    "availability-zone": "nova"
+   },
+   "public-hostname": "juju-3f8d6e-o7ktest-21.cloud.sts.",
+   "public-ipv4": "",
+   "reservation-id": "r-5r2vfkz9",
+   "security-groups": ""
+  },
+  "meta_data": {
+   "availability_zone": "nova",
+   "devices": [],
+   "hostname": "juju-3f8d6e-o7ktest-21.cloud.sts.",
+   "instance-id": "2966b5f9-30f6-4092-90d1-be8c8ec61402",
+   "launch_index": 0,
+   "local-hostname": "juju-3f8d6e-o7ktest-21.cloud.sts.",
+   "meta": {
+    "juju-controller-uuid": "38568e97-a3a9-4e53-8256-f09a701141c4",
+    "juju-machine-id": "o7ktest-machine-21",
+    "juju-model-uuid": "d8815623-25fa-4764-8890-207c2a3f8d6e",
+    "juju-units-deployed": "placement/0"
+   },
+   "name": "juju-3f8d6e-o7ktest-21",
+   "project_id": "fb2db919f5d049f9b24b34140e43230f",
+   "random_seed": "77i38hJPyEjyJ/vSc1l3fbAktxjta1KM0Lvg8rcmT99rligK/IJ8xyPB1P0BYa5D1vI/meeRi8tn8cxFLafBfHa8H2LhnH3ndIqma5sPtRsZ278KIHdm19f3kT8l8DjnUfhVKB4IXPn2S+gt0MLYB037lCsql8zVnmM7bXiYJTECw9pKXH7bEHhuAq9N22YrnhjxtQyP6nyUaESzxewY1lRUa3DPCNWls5Hwx9+FgkG8KHi4bXFtIxUSPSpEuoSTn3al86trZHRRrcLCLh8HPCnFqD3RyFD8V3CBmt8RjgNV5XuQ4csjcw2AOgEzKx9CN2Oik4JmFCcGkkq3DS/fucb7YY4l+VWhRWohmNkM402/ulYQJVBtWN1oAHMW+kU/VmWa48+uDF23oNCGCFcPaW3c9INUPNdLaj0r/PxIjPeutpRG1K4X6gowYengMnpS1kzkatYw7IbGW8Yq0jFLinU3FwH1sx/yXDVLhR0jsWdJkYQnOYs/iA+bJyhYY527GrXEskL26b0MX1S+i3I9axkt6sT6RENw/dv3exKsBX6yTntcjbjwBhXmwtubUTi5RuBAxllgTGfKDX1HHTz1gu5Tp+4nMpAHPDz+aR02LI8hKL+uHR0LmzC7q40Wrnr5O9cjn7z8zc5AZeBfJk0UAV9VzgNZ50tiy96ADJlnkDk=",
+   "uuid": "2966b5f9-30f6-4092-90d1-be8c8ec61402"
+  },
+  "network_json": {
+   "links": [
+    {
+     "ethernet_mac_address": "fa:16:3e:5d:00:11",
+     "id": "tap002cff87-81",
+     "mtu": 8958,
+     "type": "ovs",
+     "vif_id": "002cff87-8127-4889-a492-45750e54ca03"
+    }
+   ],
+   "networks": [
+    {
+     "id": "network0",
+     "link": "tap002cff87-81",
+     "network_id": "e1cc68e1-6759-4b72-bbf1-bfa9b4ea25ec",
+     "type": "ipv4_dhcp"
+    }
+   ],
+   "services": []
+  }
+ },
+ "merged_cfg": "redacted for non-root user",
+ "sensitive_keys": [
+  "merged_cfg"
+ ],
+ "sys_info": {
+  "dist": [
+   "ubuntu",
+   "20.04",
+   "focal"
+  ],
+  "platform": "Linux-5.4.0-104-generic-x86_64-with-glibc2.29",
+  "python": "3.8.10",
+  "release": "5.4.0-104-generic",
+  "system": "Linux",
+  "uname": [
+   "Linux",
+   "ubuntu",
+   "5.4.0-104-generic",
+   "#118-Ubuntu SMP Wed Mar 2 19:02:41 UTC 2022",
+   "x86_64",
+   "x86_64"
+  ],
+  "variant": "ubuntu"
+ },
+ "v1": {
+  "_beta_keys": [
+   "subplatform"
+  ],
+  "availability-zone": "nova",
+  "availability_zone": "nova",
+  "cloud-name": "openstack",
+  "cloud_name": "openstack",
+  "distro": "ubuntu",
+  "distro_release": "focal",
+  "distro_version": "20.04",
+  "instance-id": "2966b5f9-30f6-4092-90d1-be8c8ec61402",
+  "instance_id": "2966b5f9-30f6-4092-90d1-be8c8ec61402",
+  "kernel_release": "5.4.0-104-generic",
+  "local-hostname": "juju-3f8d6e-o7ktest-21",
+  "local_hostname": "juju-3f8d6e-o7ktest-21",
+  "machine": "x86_64",
+  "platform": "openstack",
+  "public_ssh_keys": [],
+  "python_version": "3.8.10",
+  "region": null,
+  "subplatform": "metadata (http://169.254.169.254)",
+  "system_platform": "Linux-5.4.0-104-generic-x86_64-with-glibc2.29",
+  "variant": "ubuntu"
+ }
+}
