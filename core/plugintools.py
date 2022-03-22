@@ -143,15 +143,7 @@ def dump_all_parts():
     if not parts:
         return
 
-    plugin_master = {constants.PLUGIN_NAME: parts}
-    HOTSOSDumper.add_representer(
-        dict,
-        HOTSOSDumper.represent_dict_preserve_order)
-    out = yaml.dump(plugin_master, Dumper=HOTSOSDumper,
-                    default_flow_style=False).rstrip("\n")
-    with open(constants.MASTER_YAML_OUT, 'a') as fd:
-        fd.write(out)
-        fd.write('\n')
+    return {constants.PLUGIN_NAME: parts}
 
 
 def dump(data):
@@ -347,4 +339,4 @@ class PluginRunner(object):
         # all other parts have run).
         add_known_bugs_to_master_plugin()
         add_issues_to_master_plugin()
-        dump_all_parts()
+        return dump_all_parts()

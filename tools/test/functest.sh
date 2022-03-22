@@ -41,7 +41,8 @@ test_plugin ()
     echo -n "plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
     if [[ $type == short ]]; then
         args+=( --short )
-        args+=( "--user-summary $dtmp/$plugin" )
+        args+=( --user-summary )
+        data_root=$dtmp/$plugin
         label=".short"
     fi
     ${HOT_DIR}/hotsos.sh --${plugin} ${args[@]} $data_root 2>/dev/null| \

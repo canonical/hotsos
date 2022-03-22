@@ -8,20 +8,8 @@ class constants_properties(type):
     """
 
     @property
-    def HOTSOS_ROOT(cls):
-        return cls._HOTSOS_ROOT()
-
-    @property
     def DATA_ROOT(cls):
         return cls._DATA_ROOT()
-
-    @property
-    def MASTER_YAML_OUT(cls):
-        return cls._MASTER_YAML_OUT()
-
-    @property
-    def MASTER_YAML_OUT_ORIG(cls):
-        return cls._MASTER_YAML_OUT_ORIG()
 
     @property
     def PLUGIN_TMP_DIR(cls):
@@ -76,20 +64,8 @@ class constants(object, metaclass=constants_properties):
         return val
 
     @classmethod
-    def _HOTSOS_ROOT(cls):
-        return os.environ['HOTSOS_ROOT']
-
-    @classmethod
     def _DATA_ROOT(cls):
         return os.environ.get('DATA_ROOT', '/')
-
-    @classmethod
-    def _MASTER_YAML_OUT(cls):
-        return os.environ.get('MASTER_YAML_OUT')
-
-    @classmethod
-    def _MASTER_YAML_OUT_ORIG(cls):
-        return os.environ.get('MASTER_YAML_OUT_ORIG')
 
     @classmethod
     def _PLUGIN_TMP_DIR(cls):

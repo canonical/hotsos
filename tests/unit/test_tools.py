@@ -1,10 +1,8 @@
-import os
-import tempfile
-
-import yaml
+import json
 
 from tests.unit import utils
 
+from core.plugintools import dump
 from core import output_filter
 from core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
 from core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
@@ -35,17 +33,8 @@ class TestTools(utils.BaseTestCase):
 
     def test_output_filter_empty(self):
         issues = {}
-        with tempfile.NamedTemporaryFile() as ftmp:
-            os.environ['MASTER_YAML_OUT'] = ftmp.name
-            with open(ftmp.name, 'w') as fd:
-                fd.write(yaml.dump(issues))
-
-            output_filter.minimise_master_output(mode='short')
-
-            with open(ftmp.name) as fd:
-                result = yaml.load(fd, Loader=yaml.SafeLoader)
-
-            self.assertEqual(result, None)
+        filtered = output_filter.minimise_master_output(issues, mode='short')
+        self.assertEqual(filtered, {})
 
     def test_output_filter_mode_short_legacy(self):
         expected = {MASTER_YAML_ISSUES_FOUND_KEY: {
@@ -59,17 +48,10 @@ class TestTools(utils.BaseTestCase):
                             'id': '1234',
                             'desc': 'a msg',
                             'origin': 'testplugin.01part'}]}}
-        with tempfile.NamedTemporaryFile() as ftmp:
-            os.environ['MASTER_YAML_OUT'] = ftmp.name
-            with open(ftmp.name, 'w') as fd:
-                fd.write(yaml.dump(ISSUES_LEGACY_FORMAT))
 
-            output_filter.minimise_master_output(mode='short')
-
-            with open(ftmp.name) as fd:
-                result = yaml.load(fd, Loader=yaml.SafeLoader)
-
-            self.assertEqual(result, expected)
+        filtered = output_filter.minimise_master_output(ISSUES_LEGACY_FORMAT,
+                                                        mode='short')
+        self.assertEqual(filtered, expected)
 
     def test_output_filter_mode_short(self):
         expected = {MASTER_YAML_ISSUES_FOUND_KEY: {
@@ -81,17 +63,9 @@ class TestTools(utils.BaseTestCase):
                             'id': '1234',
                             'desc': 'a msg',
                             'origin': 'testplugin.01part'}]}}
-        with tempfile.NamedTemporaryFile() as ftmp:
-            os.environ['MASTER_YAML_OUT'] = ftmp.name
-            with open(ftmp.name, 'w') as fd:
-                fd.write(yaml.dump(ISSUES_NEW_FORMAT))
-
-            output_filter.minimise_master_output(mode='short')
-
-            with open(ftmp.name) as fd:
-                result = yaml.load(fd, Loader=yaml.SafeLoader)
-
-            self.assertEqual(result, expected)
+        filtered = output_filter.minimise_master_output(ISSUES_NEW_FORMAT,
+                                                        mode='short')
+        self.assertEqual(filtered, expected)
 
     def test_output_filter_mode_very_short_legacy(self):
         expected = {MASTER_YAML_ISSUES_FOUND_KEY: {
@@ -99,17 +73,9 @@ class TestTools(utils.BaseTestCase):
                             'MemoryWarning': 1}},
                     MASTER_YAML_KNOWN_BUGS_KEY: {
                         'testplugin': ['1234']}}
-        with tempfile.NamedTemporaryFile() as ftmp:
-            os.environ['MASTER_YAML_OUT'] = ftmp.name
-            with open(ftmp.name, 'w') as fd:
-                fd.write(yaml.dump(ISSUES_LEGACY_FORMAT))
-
-            output_filter.minimise_master_output(mode='very-short')
-
-            with open(ftmp.name) as fd:
-                result = yaml.load(fd, Loader=yaml.SafeLoader)
-
-            self.assertEqual(result, expected)
+        filtered = output_filter.minimise_master_output(ISSUES_LEGACY_FORMAT,
+                                                        mode='very-short')
+        self.assertEqual(filtered, expected)
 
     def test_output_filter_mode_very_short(self):
         expected = {MASTER_YAML_ISSUES_FOUND_KEY: {
@@ -117,14 +83,18 @@ class TestTools(utils.BaseTestCase):
                             'MemoryWarnings': 1}},
                     MASTER_YAML_KNOWN_BUGS_KEY: {
                         'testplugin': ['1234']}}
-        with tempfile.NamedTemporaryFile() as ftmp:
-            os.environ['MASTER_YAML_OUT'] = ftmp.name
-            with open(ftmp.name, 'w') as fd:
-                fd.write(yaml.dump(ISSUES_NEW_FORMAT))
 
-            output_filter.minimise_master_output(mode='very-short')
+        filtered = output_filter.minimise_master_output(ISSUES_NEW_FORMAT,
+                                                        mode='very-short')
+        self.assertEqual(filtered, expected)
 
-            with open(ftmp.name) as fd:
-                result = yaml.load(fd, Loader=yaml.SafeLoader)
+    def test_apply_output_formatting_defaults(self):
+        summary = {'opt': 'value'}
+        filtered = output_filter.apply_output_formatting(summary, 'yaml')
+        self.assertEqual(filtered, dump(summary))
 
-            self.assertEqual(result, expected)
+    def test_apply_output_formatting_json(self):
+        summary = {'opt': 'value'}
+        filtered = output_filter.apply_output_formatting(summary, 'json')
+        self.assertEqual(filtered, json.dumps(summary, indent=2,
+                                              sort_keys=True))

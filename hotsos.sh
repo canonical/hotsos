@@ -20,22 +20,15 @@
 #  - opentastic@gmail.com
 
 #================================= ENV =========================================
-# The following are made available to all plugins
-
-# Root of all data which will be either host / or sosreport root.
-export DATA_ROOT
-# Plugin args - prefix must be plugin name
-export AGENT_ERROR_KEY_BY_TIME=false
-# Path to the end product that plugins can see along the way.
-export MASTER_YAML_OUT=`mktemp`
-export MASTER_YAML_OUT_ORIG=`mktemp`
-# location if yaml defs of issues, bugs etc
-export PLUGIN_YAML_DEFS
-export HOTSOS_ROOT
+# The set in env for hotsos to consume
 export VERSION="${SNAP_REVISION:-development}"
 export REPO_INFO
 #===============================================================================
 
+# Plugin args - prefix must be plugin name
+AGENT_ERROR_KEY_BY_TIME=false
+
+HOTSOS_ROOT=
 MINIMAL_MODE=
 DEBUG_MODE=false
 OUTPUT_ENCODING=
@@ -78,19 +71,6 @@ declare -a PLUGIN_NAMES=(
     maas
     kernel
 )
-
-cleanup ()
-{
-    if [[ -n $MASTER_YAML_OUT_ORIG ]] && [[ -r $MASTER_YAML_OUT_ORIG ]]; then
-        rm $MASTER_YAML_OUT_ORIG
-    fi
-    if [[ -n $MASTER_YAML_OUT ]] && [[ -r $MASTER_YAML_OUT ]]; then
-        rm $MASTER_YAML_OUT
-    fi
-    exit
-}
-
-trap cleanup KILL INT EXIT
 
 usage ()
 {
@@ -290,6 +270,34 @@ get_git_rev_info ()
     popd &>/dev/null
 }
 
+get_extra_args ()
+{
+    local extra_args=()
+    if $DEBUG_MODE; then
+        extra_args+=( --debug )
+    fi
+    if $USE_ALL_LOGS; then
+        extra_args+=( --all-logs )
+    fi
+    if [[ -n $OUTPUT_ENCODING ]]; then
+        extra_args+=( --html-escape )
+    fi
+    if [[ -n $MINIMAL_MODE ]]; then
+        extra_args+=( --minimal-mode $MINIMAL_MODE )
+    fi
+    if $SAVE_OUTPUT; then
+        extra_args+=( --save )
+    fi
+    if $FULL_MODE_EXPLICIT; then
+        extra_args+=( --full-mode-explicit )
+    fi
+    if $AGENT_ERROR_KEY_BY_TIME; then
+        extra_args+=( --agent-error-key-by-time )
+    fi
+    extra_args+=( --defs-path "${HOTSOS_ROOT}/defs" )
+    extra_args+=( --format $OUTPUT_FORMAT )
+    echo ${extra_args[@]}
+}
 
 generate_summary ()
 {
@@ -298,22 +306,21 @@ generate_summary ()
 
     if [ "$data_root" = "/" ]; then
         echo -ne "INFO: analysing localhost  " 1>&2
-        DATA_ROOT=/
+        data_root=/
     else
         echo -ne "INFO: analysing sosreport $data_root  " 1>&2
-        DATA_ROOT=$data_root
     fi
 
     if $DEBUG_MODE; then
-        echo -e "Running plugins:\n" 1>&2
+        echo -e "\nRunning plugins:\n" 1>&2
     else
         show_progress &
         PROGRESS_PID=$!
     fi
 
-    if ! [ "${DATA_ROOT:(-1)}" = "/" ]; then
+    if ! [ "${data_root:(-1)}" = "/" ]; then
         # Ensure trailing slash
-        export DATA_ROOT="${DATA_ROOT}/"
+        data_root="${data_root}/"
     fi
 
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
@@ -322,38 +329,25 @@ generate_summary ()
         REPO_INFO=`get_git_rev_info` || REPO_INFO="unknown"
     fi
 
-    extra_args=()
+    args=()
     for plugin in ${PLUGIN_NAMES[@]}; do
         # skip this since not a real plugin
         [ "$plugin" = "all" ] && continue
         # is plugin enabled?
         ${PLUGINS[$plugin]} || continue
-        extra_args+=( --plugin $plugin )
+        args+=( --plugin $plugin )
     done
-    if ((${#extra_args[@]})); then
-        # setup plugin temp area
-        PLUGIN_YAML_DEFS="${HOTSOS_ROOT}/defs"
-
-        if $DEBUG_MODE; then
-            extra_args+=( --debug )
-        fi
-        if $USE_ALL_LOGS; then
-            extra_args+=( --all-logs )
-        fi
-        if [[ -n $OUTPUT_ENCODING ]]; then
-            extra_args+=( --html-escape )
-        fi
-        if [[ -n $MINIMAL_MODE ]]; then
-            extra_args+=( --minimal-mode )
-        fi
-
-        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --format $OUTPUT_FORMAT
+    if ((${#args[@]})); then
+        args+=( `get_extra_args` )
+        out="`${HOTSOS_ROOT}/cli.py ${args[@]} --data-root $data_root`"
     fi
 
     if [[ -n $PROGRESS_PID ]]; then
         kill -s HUP $PROGRESS_PID &>/dev/null
         wait &>/dev/null
     fi
+
+    echo -e "$out"
 }
 
 # Allow a summary to be piped in
@@ -364,50 +358,10 @@ generate_summary ()
 HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [[ -r $USER_PROVIDED_SUMMARY ]]; then
-        extra_args=()
-        if $DEBUG_MODE; then
-            extra_args+=( --debug )
-        fi
-        if [[ -n $OUTPUT_ENCODING ]]; then
-            extra_args+=( --html-escape )
-        fi
-        if [[ -n $MINIMAL_MODE ]]; then
-            extra_args+=( --minimal-mode $MINIMAL_MODE )
-        fi
-        ${HOTSOS_ROOT}/client.py ${extra_args[@]} --format $OUTPUT_FORMAT \
-                                        --user-summary $USER_PROVIDED_SUMMARY
+        args=( `get_extra_args` )
+        ${HOTSOS_ROOT}/cli.py ${args[@]} --user-summary \
+                                            --data-root $USER_PROVIDED_SUMMARY
     else
         generate_summary "$data_root"
-    fi
-
-    if $SAVE_OUTPUT; then
-        if [[ -r $USER_PROVIDED_SUMMARY ]]; then
-            output_name="`basename $USER_PROVIDED_SUMMARY`"
-            output_name=${output_name%%.*}
-        else
-            if [[ $data_root != "/" ]]; then
-                output_name=`basename $data_root`
-            else
-                output_name="hotsos-`hostname`"
-            fi
-        fi
-        if [[ -n $MINIMAL_MODE ]]; then
-            out=$output_name.short.summary
-            mv $MASTER_YAML_OUT $out
-            echo "INFO: short summary written to $out"
-            if $FULL_MODE_EXPLICIT; then
-                cp $MASTER_YAML_OUT_ORIG $MASTER_YAML_OUT
-            fi
-        fi
-        if [[ -z $MINIMAL_MODE ]] || $FULL_MODE_EXPLICIT; then
-            out=$output_name.summary
-            mv $MASTER_YAML_OUT $out
-            echo "INFO: full summary written to $out"
-        fi
-    else
-        $DEBUG_MODE && echo "Results:" 1>&2
-        cat $MASTER_YAML_OUT
-        echo "" 1>&2
-        rm $MASTER_YAML_OUT
     fi
 done

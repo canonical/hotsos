@@ -1,15 +1,11 @@
 #!/usr/bin/python3
 import html
 import json
-import yaml
 
+from core import plugintools
 from core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
 from core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
 from core.log import log
-from core import (
-    constants,
-    plugintools,
-)
 
 FILTER_SCHEMA = [MASTER_YAML_ISSUES_FOUND_KEY, MASTER_YAML_KNOWN_BUGS_KEY]
 
@@ -64,51 +60,40 @@ def _get_very_short_format(master_yaml):
     return filtered
 
 
-def minimise_master_output(mode):
+def minimise_master_output(summary_yaml, mode):
     """ Converts the master output to include issues and bugs. """
 
     log.debug("Minimising output (mode=%s).", mode)
-    with open(constants.MASTER_YAML_OUT) as fd:
-        master_yaml = yaml.safe_load(fd)
+    if not summary_yaml:
+        return summary_yaml
 
+    filtered = {}
     if mode == 'short':
-        filtered = _get_short_format(master_yaml)
+        filtered = _get_short_format(summary_yaml)
     elif mode == 'very-short':
-        filtered = _get_very_short_format(master_yaml)
+        filtered = _get_very_short_format(summary_yaml)
     else:
         log.debug("Unknown minimalmode '%s'", mode)
-        return
+        return summary_yaml
 
-    with open(constants.MASTER_YAML_OUT, 'w') as fd:
-        if filtered:
-            fd.write(plugintools.dump(filtered))
-        else:
-            fd.write("")
+    return filtered
 
 
-def convert_output_to_json():
-    """ Convert the default yaml output to json. """
-    with open(constants.MASTER_YAML_OUT, encoding='utf-8') as fd:
-        master_yaml = yaml.safe_load(fd)
-        with open(constants.MASTER_YAML_OUT, 'w', encoding='utf-8') as fd:
-            fd.write(json.dumps(master_yaml, indent=2, sort_keys=True))
+def apply_output_formatting(summary_yaml, format, html_escape=False,
+                            minimal_mode=None):
+    filtered = summary_yaml
 
-
-def encode_output_to_html():
-    with open(constants.MASTER_YAML_OUT, encoding='utf-8') as fd:
-        master_yaml = fd.read()
-        with open(constants.MASTER_YAML_OUT, 'w', encoding='utf-8') as fd:
-            fd.write(html.escape(master_yaml))
-
-
-def apply_output_formatting(format, html_escape=False, minimal_mode=None):
     if minimal_mode:
-        minimise_master_output(minimal_mode)
+        filtered = minimise_master_output(filtered, minimal_mode)
 
     if format == 'json':
         log.debug('Converting master yaml file to %s', format)
-        convert_output_to_json()
+        filtered = json.dumps(filtered, indent=2, sort_keys=True)
+    else:
+        filtered = plugintools.dump(filtered)
 
     if html_escape:
         log.debug('Encoding output file to html')
-        encode_output_to_html()
+        filtered = html.escape(filtered)
+
+    return filtered
