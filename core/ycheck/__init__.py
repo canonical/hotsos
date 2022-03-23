@@ -86,7 +86,8 @@ class PropertyCacheRefResolver(object):
     @property
     def reftype(self):
         """
-        These depict the type of property or subdef that can be referenced.
+        These depict the type of property or propertycollection that can be
+        referenced.
 
         Supported formats:
             @checks.<check_name>.<property_name>.<property_cache_key>[:func]
@@ -324,8 +325,19 @@ class YPropertyOverrideBase(abc.ABC, YAMLDefOverrideBase, YPropertyBase):
         """
 
 
+class YPropertyCollectionBase(YPropertyOverrideBase):
+
+    @abc.abstractproperty
+    def property_name(self):
+        """
+        Every property override must implement this. This name must be unique
+        across all properties and will be used to link the property in a
+        PropertyCacheRefResolver.
+        """
+
+
 @ydef_override
-class YPropertyChecks(YPropertyOverrideBase):
+class YPropertyChecks(YPropertyCollectionBase):
     KEYS = ['checks']
 
     @property
@@ -334,7 +346,7 @@ class YPropertyChecks(YPropertyOverrideBase):
 
 
 @ydef_override
-class YPropertyConclusions(YPropertyOverrideBase):
+class YPropertyConclusions(YPropertyCollectionBase):
     KEYS = ['conclusions']
 
     @property
@@ -546,7 +558,7 @@ class YPropertyInput(YPropertyOverrideBase):
 
     @property
     def options(self):
-        defaults = {'allow-all-logs': True,
+        defaults = {'disable-all-logs': False,
                     'args': [],
                     'kwargs': {},
                     'args-callback': None}
@@ -566,7 +578,8 @@ class YPropertyInput(YPropertyOverrideBase):
     def path(self):
         if self.fs_path:
             path = os.path.join(HotSOSConfig.DATA_ROOT, self.fs_path)
-            if HotSOSConfig.USE_ALL_LOGS and self.options['allow-all-logs']:
+            if (HotSOSConfig.USE_ALL_LOGS and not
+                    self.options['disable-all-logs']):
                 path = "{}*".format(path)
 
             return path

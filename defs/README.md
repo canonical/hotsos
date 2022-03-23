@@ -7,48 +7,46 @@ A number of different ways to define checks are supported. See
 
 ## Writing Checks in YAML
 
-First choose what [type](#handlers) of check you want to write and which plugin
-should be used to run the check.
+First choose what [type](#handlers) of check you want to write and in which
+plugin context the check should be run.
 
 Checks are organised beneath a directory that shares the name of the plugin
 that will run them. Files and directories are used to group checks with files
 containing one or more checks. All check definitions have the same basic
 structure, using a mixture of properties and, if defining a
-[scenario](#scenarios), [subdefs](#subdefs).
+[scenario](#scenarios), [PropertyCollection](#PropertyCollection).
 
 This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
 implementation and is achieved by using library/shared code (e.g.
 [core](../core/plugins)) as much as possible.
 
-The yaml definitions are loaded into a tree structure, with leaf nodes
-expressing the checks. This provides a means for property inheritance so that
+A handler loads yaml definitions as a tree structure, with leaf nodes
+expressing the checks. This structure supports property inheritance so that
 globals may be defined and superseded at any level. As a recap:
 
  * Top directory uses the name of the plugin the checks belong to e.g.
-   openstack.
+   [openstack](scenarios/openstack).
  * Sub levels contain definitions which can be organised using any
    combination of files and directories e.g. you could put all definitions in
    a single file or you could have one file per definition. You can then use
    directories to logically group your definitions or you can use a tree
    structure within any of the files.
- * This structure uses the format provided by
-   [ystruct](http://github.com/dosaboy/ystruct) i.e. a tree where each level
-   contains overrides properties and "content".
+ * This structure uses [ystruct](http://github.com/dosaboy/ystruct) i.e. a
+   tree where each level contains override properties and "content".
    Overrides follow an inheritance model so that they can be defined and
    superseded at any level. The content is always found at the leaf nodes of
    the tree.
- * It should always be possible to transpose the filesystem tree structure to
-   a single (file) yaml tree.
+ * It should always be possible to logically transpose the filesystem tree
+   structure to a single (file) yaml tree.
 
 TIP: to use a single quote ' inside a yaml string you need to replace it with
      two single quotes.
 
-## Overrides
+## Property Overrides
 
-Overrides are blocks of yaml with a pre-defined meaning. They are used to
-provide specific information or structure and must be supported by the
-associated [handler](#handlers).
+Property overrides are blocks of yaml with a pre-defined meaning that map to a
+Python class that is used by [handlers](#handlers).
 
 Overrides abide by rules of inheritance and can be defined at any level. They
 are accessed at leaf nodes and can be defined and overridden at any level.
@@ -64,20 +62,33 @@ pluginX/groupA/groupB
 ```
 
 Here groupA and groupB are directories and groupA.yaml defines overrides that
-apply to everything under groupA.
+apply to everything under groupA such that any properties defined in
+groupA.yaml will be avaiable in scenarioA.yaml, scenarioB.yaml and any
+definitions under groupB.
 
-### Properties
+#### Caching
 
-The following are property overrides available to all types of
-definitions provided that their handler supports them. The *format* section
-describes how they can be used in yaml definitions and the *usage* section
-describes how they are consumed by [handlers](#handlers).
+Every property class has a cache that it can use to store state. This is useful
+both within a property class e.g. to avoid re-execution of properties and
+between properties e.g. if one property wishes to reference a value within
+another property (see [raises](#raises)). Not all properties make use of their
+cache but those that do will expose cached fields under a ```CACHE_KEYS```
+section.  
 
+### List of Available Properties
+
+The following property overrides are available to all types of
+definitions provided that their [handlers](#handlers) supports them. The
+*format* subsection describes how they can be used in yaml definitions and the
+*usage* subsection describes how they are consumed by handlers.
 
 #### decision
-Defines a decision as a list of logical operators each associated with a list
-of one or more check labels as defined in a [checks](#checks) subdef. This
-property is typically used in a [conclusions](#conclusions) subdef.
+
+A list of logical operators each containing a list of one or more 
+check)[#checks] labels. This property is typically used in a
+[conclusions](#conclusions) PropertyGroup. The handler
+will iterate over the groups, extract their result of each check and apply the
+operator to get a final result as to whether the "decision" is True or False.
 
 format
 
@@ -93,31 +104,33 @@ usage
 ```
 
 #### input
-Defines a type of input. Currently we support a filesystem path or command.
-When a command is provided, the output of that command is written to a
-temporary file the path of which is returned by *input.path*. Supported
-commands are those provided by
-[core.cli_helpers.CLIHelper](../core/cli_helpers). Only one of *path* or
-*command* can be defined for a given input.
+
+Provides a common way to define input to other properties. Supports a
+filesystem path or [core.cli_helpers.CLIHelper](../core/cli_helpers.py)
+command. When a command is provided, its output is written to a
+temporary file and *input.path* returns the path to that file. Only one of
+*path* or *command* can be provided at once.
+
+This property is required by the [search](#search) property and
+allows a search pattern to be applied to the output of a command or the
+contents of a file(s) or directory.
 
 format
 
 ```
 input:
-  command: python import path for CLIHelpers command
+  command: core.cli_helpers.CLIHelpers command
   path: filesystem path (relative to DATA_ROOT)
   options: OPTIONS
 
 OPTIONS
-    This is a dictionary of options with the form key: value.
+    A dictionary of key: value pairs as follows:
 
-    allow-all-logs: True|False
-      Used in combination with *path* to override --all-logs. If this
-      is set to False when --all-logs is provided then it will behave
-      as if --all-logs was not provided. Defaults to True. This is
-      useful if you are defining a search that should never be run
-      against the full logrotated history of logs due to performance
-      reasons.
+    disable-all-logs: True
+      This is used to disable --all-logs for the input. By default
+      if --all-logs is provided to the hotsos client that will apply
+      to *path* but there may be cases where this is not desired and
+      this option allows disabling --all-logs.
 
     args: [arg1, ...]
       Used in combination with *command*. This is a list of args
@@ -141,7 +154,10 @@ input.path
 ```
 
 #### priority
-Defines an integer priority.
+
+Defines an integer priority. This is a very simple property that is typically
+used by (conclusions)[#conclusions] to associate a priority or precendence to
+conclusions. 
 
 format
 
@@ -157,9 +173,11 @@ int(priority)
 ```
 
 #### raises
-Defines the issue and message we want to raise. For example a check may want
-to raise an issue using type core.issues.Foo with a message that
-contains format fields that need to be populated with results.
+
+Defines an issue to raise along with the message displayed. For example a
+[check](#checks) may want to raise an issue using an
+[issue_types](../core/issues/issue_types.py) with a formatted message where
+format fields are filled using Python properties or search results.
 
 format
 
@@ -171,13 +189,32 @@ raises:
   search-result-format-groups: [<int>, ...]
 ```
 
-If the *message* string contains format fields these can be filled using either
-*format-dict* or *search-result-format-groups*. The former is simply a
-dictionary where the keys must match the names used in the format fields within
-the *message* string and the latter is a list of integer indexes representing
-search result group IDs from an *expr* search result. This is converted
-into a list of values and used to format the *message* string (so therefore
-fields do not need to be named when using this method). 
+If the *message* string contains format fields these can be filled
+using one of two methods:
+
+* format-dict - a dictionary of key/value pairs where *key* matches a
+format field in the message string and *value* is either a Python property
+import path or a ``PROPERTY_CACHE_REF``
+
+* search-result-format-groups - a list of integer indexes representing
+search result group IDs from an *expr* property search result. The group
+indexes refer to items in a core.searchtools.SearchResult.
+
+```
+PROPERTY_CACHE_REF
+  This is a reference to a property cache item and can take one of
+  two forms:
+  
+  '@<propertyname>.CACHE_KEY'
+
+  '@checks.<checkname>.<propertyname>.CACHE_KEY'
+
+  The latter is used if the property is within a checks PropertyGroup.
+
+CACHE_KEY
+  See individual property CACHE_KEYS for supported cache keys.
+```
+
 
 usage
 
@@ -189,7 +226,7 @@ raises.format_groups
 ```
 
 #### requires
-Defines a set of requirements with a pass/fail result.
+Defines a set of requirements to be executed with a pass/fail result.
 
 If the result is based on the outcome of more than one requirement they
 must be grouped using logical operators used to determine the result of each
@@ -289,6 +326,13 @@ APT_INFO
       max: 5.0
 
   NOTE: we currently only support a single package.
+
+CACHE_KEYS
+  value_actual
+  value_expected
+  op
+  key (only used by config TYPE)
+  passes
 ```
 
 usage
@@ -297,7 +341,8 @@ usage
 requires.passes
 ```
 
-### expr|hint|start|body|end
+### search
+
 Defines a search expression. There are different types of search expression
 that can be used depending on the data being searched and how the results will
 be interpreted. For example a "simple" search involves a single expression and
@@ -306,10 +351,10 @@ core.filesearcher.SequenceSearchDef to match (non-overlapping) sequences and
 then there is also support for analysis overlapping sequences with
 [core.analytics.LogEventStats](../core/analytics).
 
-An optional *passthrough-results* key is provided and used with events type
-definitions to indicate that search results should be passed to
-their handler as a raw core.searchtools.SearchResultsCollection. This is
-typically so that they can be parsed with core.analytics.LogEventStats.
+An optional *passthrough-results* key is provided and used with
+[event](#events) type definitions to indicate that search results should be
+passed to their handler as a raw core.searchtools.SearchResultsCollection. This
+is typically so that they can be parsed with core.analytics.LogEventStats.
 Defaults to False.
 
 format
@@ -337,34 +382,41 @@ If using keys start|body|end:
 Note that expressions can be a string or list of strings.
 ```
 
-### Subdefs
+### PropertyCollection
 
-Subdefs are groups of one or more property type and are used as a way to define
-a sub section/tree of definitions that are to be treated independently of the
-rest.
+These are groupings of properties of different types that are labelled to allow
+them to be accessed by name.
 
 #### checks
 
-This indicates that everything beneath is a set of one or more checks to be
-used by core.ycheck.scenarios. The contents of this override are defined as a
-dictionary of checks labelled with meaningful names that will be used to
-reference their outcome when defining [decision](#decision) overrides e.g.
-inside a [conclusions](#conclusions) subdef.
+A dictionary of labelled checks each of which is a grouping of properties (see
+Supported Properties). Eack check is executed independently and produces a
+boolean *result* of True or False.  
 
-A check can support any override as long as it is supported by the handler used
-to process them. See [scenarios](#scenarios) section for more info and examples.
+Checks are normally implemented in conjunction with [conclusions](#conclusions)
+as part of [scenarios](#scenarios).
+
+format
 
 ```
 checks:
   check1:
-    <content>
+    <property1>
+    <property2>
   check2:
-    <content>
+    <property3>
+    <property4>
   ... 
 ```
 
-Supported properties
-  * expr
+usage
+
+```
+<checkname>.result
+```
+
+Supported Properties
+  * [search](#search)
   * [requires](#requires)
   * [input](#input)
 
@@ -386,6 +438,8 @@ The message can optionally use format fields which, if used, require
 format-dict to be provided with required key/value pairs. The values must be
 an importable attribute, property or method. 
 
+format
+
 ```
 conclusions:
   <name>:
@@ -399,7 +453,16 @@ conclusions:
         <key>: <value>
 ```
 
-Supported properties
+usage
+
+```
+<conclusionname>.reached
+<conclusionname>.priority
+<conclusionname>.issue_message
+<conclusionname>.issue_type
+```
+
+Supported Properties
   * [priority](#priority)
   * [decision](#decision)
   * [raises](#raises)
@@ -432,10 +495,10 @@ raise if a conclusion is matched. Conclusions can be given
 [priorities](#priority) so that one can be selected in the event of multiple
 positives. This is helpful for defining fallback conclusions.
 
-Supported properties
+Supported Properties
   * none
   
-Supported subdefs
+Supported PropertyCollection
   * [checks](#checks)
   * [conclusions](#conclusions)
 
@@ -456,11 +519,11 @@ To define an event first create a file with the name of the check(s) you
 want to perform under the directory of the plugin you are using to handle the
 event callback.
 
-Supported properties
+Supported Properties
   * [input](#input)
-  * expr
+  * [search](#search)
   
-Supported subdefs
+Supported PropertyCollection
   * none
 
 Examples
@@ -520,14 +583,14 @@ contents of files, output of commands or versions of installed packages and can
 use any combination of these. If package version info is checked and the
 package is not installed, any other checks are skipped for that bug. 
 
-Supported properties
+Supported Properties
   * [requires](#requires) - this must "pass" for the bugcheck to complete
-  * [input](#input) - this is required by *expr*
-  * expr - optional pattern search in file or command (see [input](#input))
+  * [input](#input) - this is required by [search](#search)
+  * [search](#search) - optional pattern search in file or command (see [input](#input))
   * [raises](#raises) - used to define message displayed when bug identified. Note that
              *[raises](#raises).type* is ignored here since we are always
              raising a bug.
   
-Supported subdefs
+Supported PropertyCollection
   * none
 

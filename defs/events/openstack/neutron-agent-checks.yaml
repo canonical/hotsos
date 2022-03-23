@@ -5,7 +5,7 @@ neutron-ovs-agent:
       # Disabling all-logs for now since running against a long
       # history of logs can generate a very large amount of data that can
       # consume too much memory.
-      allow-all-logs: False
+      disable-all-logs: True
   # identify rpc_loop iterations and get stats and longest running loops.
   rpc-loop:
     start:
