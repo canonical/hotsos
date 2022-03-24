@@ -4,8 +4,8 @@ import mock
 
 from tests.unit import utils
 
-from core.config import setup_config, HotSOSConfig
-from core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from plugin_extensions.pacemaker import summary
 
 
@@ -57,10 +57,10 @@ class TestPacemakerSummary(TestPacemakerBase):
 
 
 class TestPacemakerScenarios(TestPacemakerBase):
-    @mock.patch('core.plugins.pacemaker.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.pacemaker.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('pacemaker_node1_found.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_node1_found(self, mock_add_issue, mock_helper):
         raised_issues = []
 

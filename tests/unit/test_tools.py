@@ -1,11 +1,11 @@
 import json
 
-from tests.unit import utils
+from . import utils
 
-from core.plugintools import dump
-from core import output_filter
-from core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
-from core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
+from hotsos.core.plugintools import dump
+from hotsos.core import output_filter
+from hotsos.core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
+from hotsos.core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
 
 ISSUES_LEGACY_FORMAT = {
     'testplugin': {

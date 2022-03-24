@@ -4,10 +4,10 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config, HotSOSConfig
-from core import cli_helpers
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core import cli_helpers
 
 
 class TestCLIHelpers(utils.BaseTestCase):
@@ -81,7 +81,7 @@ class TestCLIHelpers(utils.BaseTestCase):
                 raise subprocess.CalledProcessError(1, 'ofctl')
 
         setup_config(DATA_ROOT='/')
-        with mock.patch('core.cli_helpers.subprocess.check_output') as \
+        with mock.patch('hotsos.core.cli_helpers.subprocess.check_output') as \
                 mock_check_output:
             mock_check_output.side_effect = fake_check_output
 

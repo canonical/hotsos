@@ -3,13 +3,13 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
-from core import issues
-from plugin_extensions.juju import summary
+from hotsos.core.config import setup_config
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core import issues
+from hotsos.plugin_extensions.juju import summary
 
 JOURNALCTL_CAPPEDPOSITIONLOST = """
 Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)
@@ -57,7 +57,7 @@ class TestJujuSummary(JujuTestsBase):
         self.assertEqual(actual['version'], '2.9.22')
         self.assertEqual(actual['machine'], '1')
 
-    @mock.patch('core.plugins.juju.JujuMachine')
+    @mock.patch('hotsos.core.plugins.juju.JujuMachine')
     def test_get_lxd_machine_info(self, mock_machine):
         mock_machine.return_value = mock.MagicMock()
         mock_machine.return_value.id = '0-lxd-11'
@@ -84,9 +84,9 @@ class TestJujuSummary(JujuTestsBase):
 
 class TestJujuKnownBugs(JujuTestsBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core.yaml'))
-    @mock.patch('core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.CLIHelper')
     def test_1852502(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -108,7 +108,7 @@ class TestJujuKnownBugs(JujuTestsBase):
                       'origin': 'juju.01part'}]}
         self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core.yaml'))
     def test_1910958(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -132,10 +132,10 @@ class TestJujuKnownBugs(JujuTestsBase):
 
 class TestJujuScenarios(JujuTestsBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
-    @mock.patch('core.ycheck.ServiceChecksBase.processes', {})
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.processes', {})
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_jujud_checks(self, mock_add_issue):
         raised_issues = {}
 

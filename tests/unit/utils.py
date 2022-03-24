@@ -4,8 +4,8 @@ import shutil
 import tempfile
 import unittest
 
-from core.config import setup_config
-from core.log import setup_logging
+from hotsos.core.config import setup_config
+from hotsos.core.log import setup_logging
 
 
 # Must be set prior to other imports

@@ -3,14 +3,14 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.issues import RabbitMQWarning
-from core.config import setup_config, HotSOSConfig
-from core.plugins.rabbitmq import RabbitMQReport
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
-from plugin_extensions.rabbitmq import summary
+from hotsos.core.issues import RabbitMQWarning
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.plugins.rabbitmq import RabbitMQReport
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.plugin_extensions.rabbitmq import summary
 
 RABBITMQ_LOGS = """
 Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdown since no synchronised slave is available
@@ -88,7 +88,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(actual['config'],
                          {'cluster-partition-handling': 'ignore'})
 
-    @mock.patch('core.plugins.rabbitmq.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.CLIHelper')
     def test_summary_bionic(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
 
@@ -178,7 +178,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['resources'],
                          expected)
 
-    @mock.patch('core.plugins.rabbitmq.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.CLIHelper')
     def test_get_summary_no_report(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.rabbitmqctl_report.return_value = []
@@ -189,9 +189,9 @@ class TestRabbitmqSummary(TestRabbitmqBase):
 
 class TestRabbitmqBugChecks(TestRabbitmqBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('rabbitmq-server.yaml'))
-    @mock.patch('core.ycheck.bugs.add_known_bug')
+    @mock.patch('hotsos.core.ycheck.bugs.add_known_bug')
     def test_1943937(self, mock_add_known_bug):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -217,9 +217,9 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
 
 class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_cluster_config(self, mock_add_issue):
         raised_issues = {}
 
@@ -240,9 +240,9 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
         self.assertEqual(msg, raised_issues[RabbitMQWarning][0])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_resources.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_cluster_resources(self, mock_add_issue):
         raised_issues = {}
 
@@ -262,9 +262,9 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
         self.assertEqual(msg, raised_issues[RabbitMQWarning][0])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_cluster_logchecks(self, mock_add_issue):
         raised_issues = {}
 

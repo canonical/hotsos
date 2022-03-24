@@ -3,20 +3,20 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from plugin_extensions.kernel import (
+from hotsos.plugin_extensions.kernel import (
     summary,
     memory,
     log_event_checks,
 )
-from core.config import setup_config
-from core.plugins.kernel import SystemdConfig
-from core.ycheck.events import EventCheckResult
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.config import setup_config
+from hotsos.core.plugins.kernel import SystemdConfig
+from hotsos.core.ycheck.events import EventCheckResult
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 
-from core.host_helpers import NetworkPort
+from hotsos.core.host_helpers import NetworkPort
 
 
 EVENTS_KERN_LOG = r"""
@@ -95,7 +95,7 @@ class TestKernelInfo(TestKernelBase):
             self.assertEqual(SystemdConfig().get('CPUAffinity'),
                              '0 1 2 3 8 9 10 11')
 
-    @mock.patch('core.plugins.kernel.SystemdConfig.get',
+    @mock.patch('hotsos.core.plugins.kernel.SystemdConfig.get',
                 lambda *args, **kwargs: '0-7,32-39')
     def test_info(self):
         inst = summary.KernelSummary()
@@ -148,9 +148,10 @@ class TestKernelMemoryInfo(TestKernelBase):
 
 class TestKernelLogEventChecks(TestKernelBase):
 
-    @mock.patch('core.host_helpers.HostNetworkingHelper.host_interfaces_all',
+    @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
+                'host_interfaces_all',
                 [NetworkPort('tap0e778df8-ca', None, None, None, None)])
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_run_log_event_checks(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -207,7 +208,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 
 class TestKernelBugChecks(TestKernelBase):
 
-    @mock.patch('core.ycheck.bugs.add_known_bug')
+    @mock.patch('hotsos.core.ycheck.bugs.add_known_bug')
     def test_bug_checks(self, mock_add_known_bug):
         bugs = []
 
@@ -223,9 +224,9 @@ class TestKernelBugChecks(TestKernelBase):
 
 class TestKernelScenarioChecks(TestKernelBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_stacktraces(self, mock_add_issue):
         raised_issues = []
 
@@ -249,9 +250,9 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_oom_killer_invoked(self, mock_add_issue):
         raised_issues = []
 
@@ -275,9 +276,9 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_nf_conntrack_full(self, mock_add_issue):
         raised_issues = []
 

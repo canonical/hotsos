@@ -3,13 +3,13 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config
-import core.plugins.sosreport as sosreport_core
-from core.ycheck.scenarios import YScenarioChecker
-from plugin_extensions.sosreport import summary
-from core.issues import SOSReportWarning
+from hotsos.core.config import setup_config
+import hotsos.core.plugins.sosreport as sosreport_core
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.plugin_extensions.sosreport import summary
+from hotsos.core.issues import SOSReportWarning
 
 
 class TestSOSReportBase(utils.BaseTestCase):
@@ -60,14 +60,14 @@ class TestSOSReportGeneral(TestSOSReportBase):
 
 class TestSOSReportScenarioChecks(TestSOSReportBase):
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('plugin_timeouts.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_plugin_timeouts(self, mock_add_issue):
         raised_issues = {}
 

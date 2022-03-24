@@ -3,17 +3,17 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from .. import utils
 
-from core.config import setup_config
-from core import checks
-from core import issues
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
-from core.plugins.storage import (
+from hotsos.core.config import setup_config
+from hotsos.core import checks
+from hotsos.core import issues
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
-from plugin_extensions.storage import (
+from hotsos.plugin_extensions.storage import (
     ceph_summary,
     ceph_event_checks,
 )
@@ -189,9 +189,9 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
 
 class TestCephOSDBugChecks(StorageCephOSDTestsBase):
 
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph.yaml'))
     def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -214,13 +214,13 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
                         'origin': 'storage.01part'}]}
         self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.ycheck.ServiceChecksBase')
-    @mock.patch('core.plugins.storage.ceph.CephConfig')
-    @mock.patch('core.plugins.storage.bcache.CachesetsConfig')
-    @mock.patch('core.plugins.kernel.KernelChecksBase')
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
+    @mock.patch('hotsos.core.plugins.storage.bcache.CachesetsConfig')
+    @mock.patch('hotsos.core.plugins.kernel.KernelChecksBase')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bcache.yaml'))
     def test_bug_check_lp1936136(self, mocl_cli, mock_cephbase,
                                  mock_kernelbase, mock_cset_config,
@@ -259,11 +259,11 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
 
 class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
-    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+    @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_cpufreq(self, mock_add_issue):
         raised_issues = {}
 
@@ -288,9 +288,9 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                'ondemand systemd service in order for changes to persist.')
         self.assertEqual(msg, raised_issues[issues.CephWarning][0])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
-                    'ssd_osds_no_discard.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ssd_osds_no_discard.yaml'))
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ssd_osds_no_discard(self, mock_add_issue):
         self.skipTest("scenario currently disabled until fixed")
 
@@ -308,12 +308,12 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                  "enable discard true'.")]
         self.assertEqual([issue.msg for issue in raised_issues], msgs)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def', new=utils.is_def_filter(
-                    'filestore_to_bluestore_upgrade.yaml'))
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase.bluestore_enabled',
-                True)
-    @mock.patch('core.plugins.storage.ceph.CephConfig')
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('filestore_to_bluestore_upgrade.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
+                'bluestore_enabled', True)
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
                                             mock_ceph_config):
         raised_issues = []

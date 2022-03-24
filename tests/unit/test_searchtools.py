@@ -4,10 +4,10 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config, HotSOSConfig
-from core.searchtools import (
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.searchtools import (
     FileSearcher,
     FilterDef,
     SearchDef,

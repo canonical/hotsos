@@ -3,11 +3,11 @@ checks:
     requires:
       and:
         # can we actually see the setting
-        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: unknown
           op: ne
         # does it have the expected value
-        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: performance
           op: ne
   ceph_osd_installed:
@@ -25,7 +25,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - ceph_osd_installed
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         This node has Ceph OSDs running on it but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -33,7 +33,7 @@ conclusions:
         can install cpufrequtils, set "GOVERNOR=performance" in
         /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand:
     priority: 2
     decision:
@@ -42,7 +42,7 @@ conclusions:
         - ceph_osd_installed
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         This node has Ceph OSDs running on it but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -52,5 +52,5 @@ conclusions:
         will also need to stop and disable the ondemand systemd service in
         order for changes to persist.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
 

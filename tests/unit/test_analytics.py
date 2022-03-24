@@ -1,10 +1,10 @@
 import os
 import tempfile
 
-from tests.unit import utils
+from . import utils
 
-from core import analytics
-from core.searchtools import FileSearcher, SearchDef
+from hotsos.core import analytics
+from hotsos.core.searchtools import FileSearcher, SearchDef
 
 
 SEQ_TEST_1 = """2021-07-19 09:01:58.498 iteration:0 start

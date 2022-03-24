@@ -1,11 +1,11 @@
 checks:
   bcache_enabled:
     requires:
-      property: core.plugins.storage.bcache.BcacheBase.bcache_enabled
+      property: hotsos.core.plugins.storage.bcache.BcacheBase.bcache_enabled
   cset_has_invalid_config:
     requires:
       config:
-        handler: core.plugins.storage.bcache.CachesetsConfig
+        handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
         assertions:
           congested_read_threshold_us:
             value: 0
@@ -15,7 +15,7 @@ checks:
   cset_config_lp1900438_limit:
     requires:
       config:
-        handler: core.plugins.storage.bcache.CachesetsConfig
+        handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
         assertions:
           # The real limit is 30 but we go just above in case bcache is flapping
           # just above and below the limit.
@@ -29,7 +29,7 @@ conclusions:
         - bcache_enabled
         - cset_has_invalid_config
     raises:
-      type: core.issues.BcacheWarning
+      type: hotsos.core.issues.BcacheWarning
       message: >-
         bcache cacheset config {key} expected to be {op} {value_expected} but
         actual={value_actual}.
@@ -44,7 +44,7 @@ conclusions:
         - bcache_enabled
         - cset_config_lp1900438_limit
     raises:
-      type: core.issues.BcacheWarning
+      type: hotsos.core.issues.BcacheWarning
       message: >-
         bcache cache_available_percent is {actual} (i.e. approx. 30%) which
         implies this node could be suffering from bug LP 1900438 - please check

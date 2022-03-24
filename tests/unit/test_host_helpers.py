@@ -1,9 +1,9 @@
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.cli_helpers import CLIHelper
-from core.host_helpers import HostNetworkingHelper
+from hotsos.core.cli_helpers import CLIHelper
+from hotsos.core.host_helpers import HostNetworkingHelper
 
 
 class TestHostNetworkingHelper(utils.BaseTestCase):
@@ -52,7 +52,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         iface = helper.get_interface_with_addr('10.0.0.128')
         self.assertEqual(iface.to_dict(), expected)
 
-    @mock.patch('core.cli_helpers.CLIHelper')
+    @mock.patch('hotsos.core.cli_helpers.CLIHelper')
     def test_get_interface_with_speed_exists(self, mock_cli):
         cli = CLIHelper()
         orig_ip_addr = cli.ip_addr()

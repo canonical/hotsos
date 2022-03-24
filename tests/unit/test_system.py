@@ -4,14 +4,14 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config, HotSOSConfig
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
-from core.issues import SystemWarning
-from core.plugins.system import NUMAInfo
-from plugin_extensions.system import (
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.issues import SystemWarning
+from hotsos.core.plugins.system import NUMAInfo
+from hotsos.plugin_extensions.system import (
     checks,
     summary,
 )
@@ -57,7 +57,7 @@ class TestSystemSummary(SystemTestsBase):
 
 class TestNUMAInfo(SystemTestsBase):
 
-    @mock.patch('core.plugins.system.CLIHelper')
+    @mock.patch('hotsos.core.plugins.system.CLIHelper')
     def test_numainfo(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.numactl.return_value = NUMACTL
@@ -143,7 +143,7 @@ class TestSystemChecks(SystemTestsBase):
 
 class TestSystemBugChecks(SystemTestsBase):
 
-    @mock.patch('core.ycheck.bugs.add_known_bug')
+    @mock.patch('hotsos.core.ycheck.bugs.add_known_bug')
     def test_bug_checks(self, mock_add_known_bug):
         bugs = []
 
@@ -159,13 +159,13 @@ class TestSystemBugChecks(SystemTestsBase):
 
 class TestSystemScenarioChecks(SystemTestsBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('unattended_upgrades.yaml'))
-    @mock.patch('core.plugins.system.SystemBase.unattended_upgrades_enabled',
+    @mock.patch('hotsos.core.plugins.system.SystemBase.'
+                'unattended_upgrades_enabled', True)
+    @mock.patch('hotsos.core.plugins.system.SystemChecksBase.plugin_runnable',
                 True)
-    @mock.patch('core.plugins.system.SystemChecksBase.plugin_runnable',
-                True)
-    @mock.patch('core.ycheck.scenarios.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.scenarios.issues.utils.add_issue')
     def test_unattended_upgrades(self, mock_add_issue):
         raised_issues = {}
 

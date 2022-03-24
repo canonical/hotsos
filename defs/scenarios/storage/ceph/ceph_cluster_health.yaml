@@ -5,7 +5,7 @@ checks:
       value: enabled
   cluster_unhealthy:
     requires:
-      property: core.plugins.storage.ceph.CephCluster.health_status
+      property: hotsos.core.plugins.storage.ceph.CephCluster.health_status
       value: HEALTH_OK
       op: ne
 conclusions:
@@ -15,7 +15,7 @@ conclusions:
         - is_mon
         - cluster_unhealthy
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         Ceph cluster is in '{health_status}' state. Please check 'ceph status'
         for details.

@@ -4,19 +4,19 @@ import tempfile
 import mock
 import yaml
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config, HotSOSConfig
-from core import checks
-from core import ycheck
-from core.ycheck import (
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core import checks
+from hotsos.core import ycheck
+from hotsos.core.ycheck import (
     YDefsSection,
     YPropertyCheck,
     bugs,
     events,
     scenarios
 )
-from core.searchtools import FileSearcher, SearchDef
+from hotsos.core.searchtools import FileSearcher, SearchDef
 
 
 YAML_DEF_W_INPUT = """
@@ -166,7 +166,7 @@ myplugin:
         priority: 1
         decision: logmatch
         raises:
-          type: core.issues.SystemWarning
+          type: hotsos.core.issues.SystemWarning
           message: log matched {num} times
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -177,7 +177,7 @@ myplugin:
                 - logmatch
                 - snapexists
         raises:
-          type: core.issues.SystemWarning
+          type: hotsos.core.issues.SystemWarning
           message: log matched {num} times and snap exists
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -189,7 +189,7 @@ myplugin:
                 - snapexists
                 - serviceexists
         raises:
-          type: core.issues.SystemWarning
+          type: hotsos.core.issues.SystemWarning
           message: log matched {num} times, snap and service exists
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -248,7 +248,7 @@ class TestChecks(utils.BaseTestCase):
         obj = checks.SnapPackageChecksBase(["core20"])
         self.assertEqual(obj.all_formatted, expected)
 
-    @mock.patch('core.ycheck.APTPackageChecksBase')
+    @mock.patch('hotsos.core.ycheck.APTPackageChecksBase')
     @mock.patch.object(bugs, 'add_known_bug')
     def test_YBugChecker(self, mock_add_known_bug, mock_apt):
         bugs_found = []
@@ -397,7 +397,7 @@ class TestChecks(utils.BaseTestCase):
                               'my-standard-search',
                               'my-standard-search2'])
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
@@ -405,7 +405,7 @@ class TestChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_false(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
@@ -427,7 +427,7 @@ class TestChecks(utils.BaseTestCase):
 
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_requires(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
@@ -459,7 +459,7 @@ class TestChecks(utils.BaseTestCase):
 
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_yaml_def_scenario_checks_expr(self, mock_add_issue):
         issues = []
 
@@ -599,12 +599,15 @@ class TestChecks(utils.BaseTestCase):
             self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
                              expected)
 
-    @mock.patch('core.plugins.openstack.OpenstackChecksBase')
+    @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
     def test_requires_grouped(self, mock_plugin):
         mock_plugin.return_value = mock.MagicMock()
-        r1 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r1'}
-        r2 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r2'}
-        r3 = {'property': 'core.plugins.openstack.OpenstackChecksBase.r3'}
+        r1 = {'property':
+              'hotsos.core.plugins.openstack.OpenstackChecksBase.r1'}
+        r2 = {'property':
+              'hotsos.core.plugins.openstack.OpenstackChecksBase.r2'}
+        r3 = {'property':
+              'hotsos.core.plugins.openstack.OpenstackChecksBase.r3'}
         requires = {'requires': [{'or': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = False
@@ -688,7 +691,7 @@ class TestChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-    @mock.patch('core.ycheck.APTPackageChecksBase')
+    @mock.patch('hotsos.core.ycheck.APTPackageChecksBase')
     def test_yaml_def_requires_apt(self, mock_apt):
         tested = 0
         expected = {'2.0': False,

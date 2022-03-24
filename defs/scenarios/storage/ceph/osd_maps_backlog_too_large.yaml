@@ -6,14 +6,14 @@ checks:
     # increasing which can result in more disk utilization, possibly slower
     # mons, etc. See https://docs.ceph.com/en/latest/dev/mon-osdmap-prune/.
     requires:
-      property: core.plugins.storage.ceph.CephCluster.osdmaps_count
+      property: hotsos.core.plugins.storage.ceph.CephCluster.osdmaps_count
       value: 500  # mon_min_osdmap_epochs default
       op: gt
 conclusions:
   cluster-has-too-many-osdmaps:
     decision: cluster_has_too_many_osdmaps
     raises:
-      type: core.issues.CephMapsWarning
+      type: hotsos.core.issues.CephMapsWarning
       message: >-
         This Ceph cluster has {count} pinned osdmaps. This can affect ceph-mon
         performance and may also indicate bugs such as

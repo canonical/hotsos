@@ -3,11 +3,11 @@
 checks:
   bluestore_enabled:
     requires:
-      property: core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
+      property: hotsos.core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
   ceph_config_has_journal:
     requires:
       config:
-        handler: core.plugins.storage.ceph.CephConfig
+        handler: hotsos.core.plugins.storage.ceph.CephConfig
         assertions:
           osd_journal:
             value:
@@ -19,7 +19,7 @@ conclusions:
         - bluestore_enabled
         - ceph_config_has_journal
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         Ceph Bluestore is enabled yet there is a still a journal device
         configured in ceph.conf - please check

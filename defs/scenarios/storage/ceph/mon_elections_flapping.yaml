@@ -9,13 +9,13 @@ checks:
       search-period-hours: 24
   ceph_interfaces_have_errors:
     requires:
-      property: core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+      property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
 conclusions:
   cause-unknown:
     priority: 1
     decision: ceph_log_has_election_calls
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections but the cause
         is not known - please investigate.
@@ -26,11 +26,11 @@ conclusions:
         - ceph_log_has_election_calls
         - ceph_interfaces_have_errors
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         Ceph monitor is experiencing repeated re-elections. The network
         interface(s) ({interfaces}) used by the ceph-mon are showing
         errors - please investigate.
       format-dict:
-        interfaces: core.plugins.storage.ceph.CephChecksBase.bind_interface_names
+        interfaces: hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names
 

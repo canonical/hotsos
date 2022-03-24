@@ -1,8 +1,8 @@
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core import utils as core_utils
+from hotsos.core import utils as core_utils
 
 
 class TestUtils(utils.BaseTestCase):

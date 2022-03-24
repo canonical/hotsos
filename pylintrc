@@ -1,0 +1,58 @@
+[MASTER]
+jobs=0
+
+[FORMAT]
+max-line-length=79
+
+[REPORTS]
+#reports=yes
+score=yes
+
+[MESSAGES CONTROL]
+disable=
+ fixme,
+ invalid-name,
+ no-value-for-parameter,
+ no-member,
+ pointless-statement,
+ missing-module-docstring,
+ missing-class-docstring,
+ missing-function-docstring,
+ too-many-arguments,
+ too-many-locals,
+ too-many-branches,
+ too-many-instance-attributes,
+ too-many-ancestors,
+ too-many-public-methods,
+ too-many-lines,
+ too-many-nested-blocks,
+ too-many-statements,
+ signature-differs,
+ protected-access,
+ redefined-argument-from-local,
+ super-init-not-called,
+ undefined-loop-variable,
+ wrong-import-order,
+ duplicate-code,
+ useless-object-inheritance,
+ unidiomatic-typecheck,
+ unsubscriptable-object,
+ consider-using-set-comprehension,
+ use-a-generator,
+ useless-super-delegation,
+ inconsistent-return-statements,
+ redefined-builtin,
+ attribute-defined-outside-init,
+ too-few-public-methods,
+ abstract-method,
+ no-else-return,
+ no-self-use,
+ simplifiable-if-statement,
+ broad-except,
+ trailing-comma-tuple,
+ redefined-outer-name,
+ expression-not-assigned,
+ unnecessary-lambda,
+ pointless-string-statement,
+ arguments-differ,
+ no-name-in-module,

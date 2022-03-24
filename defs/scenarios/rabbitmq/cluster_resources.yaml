@@ -1,13 +1,13 @@
 checks:
   cluster_vhosts_unbalanced:
     requires:
-      property: core.plugins.rabbitmq.RabbitMQReport.skewed_nodes
+      property: hotsos.core.plugins.rabbitmq.RabbitMQReport.skewed_nodes
       op: length_hint
 conclusions:
   cluster-vhosts-unbalanced:
     decision: cluster_vhosts_unbalanced
     raises:
-      type: core.issues.RabbitMQWarning
+      type: hotsos.core.issues.RabbitMQWarning
       message: >-
         RabbitMQ node(s) "{skewed_nodes}" are holding more than 2/3 of queues
         for one or more vhosts.
