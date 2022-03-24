@@ -3,10 +3,10 @@ checks:
     input:
       path: var/log/ceph/ceph*.log
     expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
-    meta:
+    check-parameters:
       # i.e. must occur 5 times within same 24 hour period
-      min: 5
-      period: 24
+      min-results: 5
+      search-period-hours: 24
   ceph_interfaces_have_errors:
     requires:
       property: core.plugins.storage.ceph.CephChecksBase.has_interface_errors

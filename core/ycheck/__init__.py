@@ -6,6 +6,15 @@ import importlib
 import operator
 import yaml
 
+from datetime import (
+    datetime,
+    timedelta,
+)
+
+from core.searchtools import (
+    FileSearcher,
+    SearchDef,
+)
 from core.checks import (
     APTPackageChecksBase,
     DPKGVersionCompare,
@@ -44,12 +53,14 @@ class CallbackHelper(object):
         return callback_inner
 
 
-YOverridesCollection = []
+YPropertiesCatalog = []
 
 
-def ydef_override(c):
-    YOverridesCollection.append(c)
-    return c
+def add_to_property_catalog(c):
+    """
+    Add property implementation to the global catalog.
+    """
+    YPropertiesCatalog.append(c)
 
 
 class YDefsSection(YAMLDefSection):
@@ -59,7 +70,7 @@ class YDefsSection(YAMLDefSection):
         @param content: defs tree of type dict
         @param extra_overrides: optional extra overrides
         """
-        overrides = [] + YOverridesCollection
+        overrides = [] + YPropertiesCatalog
         if extra_overrides:
             overrides += extra_overrides
 
@@ -336,7 +347,167 @@ class YPropertyCollectionBase(YPropertyOverrideBase):
         """
 
 
-@ydef_override
+@add_to_property_catalog
+class YPropertyPriority(YPropertyOverrideBase):
+    KEYS = ['priority']
+
+    @property
+    def property_name(self):
+        return 'priority'
+
+    @property
+    def value(self):
+        return int(self.content or 1)
+
+
+@add_to_property_catalog
+class YPropertyCheckParameters(YPropertyOverrideBase):
+    KEYS = ['check-parameters']
+
+    @property
+    def property_name(self):
+        return 'check-parameters'
+
+    @property
+    def search_period_hours(self):
+        """
+        If min is provided this is used to determine the period within which
+        min applies. If period is unset, the period is infinite i.e. across all
+        available data.
+
+        Supported values:
+          <int> hours
+
+        """
+        return int(self.content.get('search-period-hours', 0))
+
+    @property
+    def min_results(self):
+        """
+        Minimum search matches required for result to be True (default is 1)
+        """
+        return int(self.content.get('min-results', 1))
+
+
+class YPropertyCheck(YPropertyBase):
+
+    def __init__(self, name, expr, input, requires, check_paramaters, *args,
+                 **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name = name
+        self.expr = expr
+        self.input = input
+        self.requires = requires
+        self.check_paramaters = check_paramaters
+
+    @classmethod
+    def get_datetime_from_result(cls, result):
+        ts = "{} {}".format(result.get(1), result.get(2))
+        return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S.%f")
+
+    @classmethod
+    def filter_by_period(cls, results, period_hours, min_results):
+        log.debug("applying search filter (period_hours=%s, min_results=%s)",
+                  period_hours, min_results)
+        if period_hours is None:
+            return results
+
+        _results = []
+        for r in results:
+            ts = cls.get_datetime_from_result(r)
+            _results.append((ts, r))
+
+        if period_hours is None:
+            results = _results
+        else:
+            results = []
+            last = None
+            prev = None
+            count = 0
+
+            for r in sorted(_results, key=lambda i: i[0], reverse=True):
+                if last is None:
+                    last = r[0]
+                elif r[0] < last - timedelta(hours=period_hours):
+                    last = prev
+                    prev = None
+                    # pop first element since it is now invalidated
+                    count -= 1
+                    results = results[1:]
+                elif prev is None:
+                    prev = r[0]
+
+                results.append(r)
+                count += 1
+                if count >= min_results:
+                    # we already have enough results so return
+                    break
+
+        if len(results) < min_results:
+            return []
+
+        return [r[1] for r in results]
+
+    @property
+    def _result(self):
+        if self.expr:
+            if self.cache.expr:
+                results = self.cache.expr.results
+                log.debug("check %s - using cached result=%s", self.name,
+                          results)
+            else:
+                s = FileSearcher()
+                s.add_search_term(SearchDef(self.expr.value, tag='all'),
+                                  self.input.path)
+                results = s.search()
+                self.expr.cache.set('results', results)
+                self.cache.set('expr', self.expr.cache)
+
+            if not results:
+                log.debug("check %s search has no matches so result=False",
+                          self.name)
+                return False
+
+            results = results.find_by_tag('all')
+            parameters = self.check_paramaters
+            if parameters:
+                period_hours = parameters.search_period_hours
+                count = len(self.filter_by_period(results, period_hours,
+                                                  parameters.min_results))
+                if count >= parameters.min_results:
+                    return True
+                else:
+                    log.debug("check %s does not have enough matches (%s) to "
+                              "satisfy min of %s", self.name, count,
+                              parameters.min_results)
+                    return False
+            else:
+                log.debug("no check paramaters provided")
+                return len(results) > 0
+
+        elif self.requires:
+            if self.cache.requires:
+                result = self.cache.requires.passes
+                log.debug("check %s - using cached result=%s", self.name,
+                          result)
+            else:
+                result = self.requires.passes
+                self.cache.set('requires', self.requires.cache)
+
+            return result
+        else:
+            raise Exception("no supported properties found in check {}".format(
+                            self.name))
+
+    @property
+    def result(self):
+        log.debug("executing check %s", self.name)
+        result = self._result
+        log.debug("check %s result=%s", self.name, result)
+        return result
+
+
+@add_to_property_catalog
 class YPropertyChecks(YPropertyCollectionBase):
     KEYS = ['checks']
 
@@ -344,8 +515,59 @@ class YPropertyChecks(YPropertyCollectionBase):
     def property_name(self):
         return 'checks'
 
+    def __iter__(self):
+        section = YDefsSection(self.property_name, self.content)
+        for c in section.leaf_sections:
+            yield YPropertyCheck(c.name, c.expr, c.input, c.requires,
+                                 c.check_parameters)
 
-@ydef_override
+
+class YPropertyConclusion(object):
+
+    def __init__(self, name, priority, decision=None, raises=None):
+        self.name = name
+        self.priority = priority
+        self.decision = decision
+        self.raises = raises
+        self.issue_message = None
+        self.issue_type = None
+
+    def get_check_result(self, name, checks):
+        result = None
+        if name in checks:
+            result = checks[name].result
+        else:
+            raise Exception("conclusion '{}' has unknown check '{}' in "
+                            "decision set".format(self.name, name))
+
+        return result
+
+    def _run_conclusion(self, checks):
+        if self.decision.is_singleton:
+            return self.get_check_result(self.decision.content, checks)
+        else:
+            for op, checknames in self.decision:
+                results = [self.get_check_result(c, checks) for c in
+                           checknames]
+                if op == 'and':
+                    return all(results)
+                elif op == 'or':
+                    return any(results)
+                else:
+                    log.debug("decision has unsupported operator '%s'", op)
+
+        return False
+
+    def reached(self, checks):
+        """ Return true if a conclusion has been reached. """
+        result = self._run_conclusion(checks)
+        message = self.raises.message_with_format_dict_applied(checks=checks)
+        self.issue_message = message
+        self.issue_type = self.raises.type
+        return result
+
+
+@add_to_property_catalog
 class YPropertyConclusions(YPropertyCollectionBase):
     KEYS = ['conclusions']
 
@@ -353,20 +575,13 @@ class YPropertyConclusions(YPropertyCollectionBase):
     def property_name(self):
         return 'conclusions'
 
-
-@ydef_override
-class YPropertyPriority(YPropertyOverrideBase):
-    KEYS = ['priority']
-
-    def __int__(self):
-        return int(self.content)
-
-    @property
-    def property_name(self):
-        return 'priority'
+    def __iter__(self):
+        section = YDefsSection(self.property_name, self.content)
+        for c in section.leaf_sections:
+            yield YPropertyConclusion(c.name, c.priority, c.decision, c.raises)
 
 
-@ydef_override
+@add_to_property_catalog
 class YPropertyDecision(YPropertyOverrideBase):
     KEYS = ['decision']
 
@@ -388,7 +603,7 @@ class YPropertyDecision(YPropertyOverrideBase):
             yield _bool, val
 
 
-@ydef_override
+@add_to_property_catalog
 class YPropertyExpr(YPropertyOverrideBase):
     """
     An expression can be a string or a list of strings and can be provided
@@ -445,7 +660,7 @@ class YPropertyExpr(YPropertyOverrideBase):
             return self.content
 
 
-@ydef_override
+@add_to_property_catalog
 class YPropertyRaises(YPropertyOverrideBase):
     KEYS = ['raises']
 
@@ -542,7 +757,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         return self.get_cls(self.content['type'])
 
 
-@ydef_override
+@add_to_property_catalog
 class YPropertyInput(YPropertyOverrideBase):
     KEYS = ['input']
     TYPE_COMMAND = 'command'
@@ -797,7 +1012,7 @@ class YRequirementObj(YPropertyBase):
             raise
 
 
-@ydef_override
+@add_to_property_catalog
 class YPropertyRequires(YPropertyOverrideBase):
     KEYS = ['requires']
     # these must be logical operators

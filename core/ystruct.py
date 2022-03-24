@@ -37,8 +37,10 @@ class YAMLDefOverrideBase(object):
 
 
 class YAMLDefBase(object):
-    # We want these to be global/common to all sections
-    _override_handlers = []
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._override_handlers = []
 
     def _find_leaf_sections(self, section):
         if section.is_leaf:
@@ -72,12 +74,13 @@ class YAMLDefBase(object):
                 return o
 
     def set_override_handlers(self, override_handlers):
-        self._override_handlers += override_handlers
+        self._override_handlers = override_handlers
 
 
 class YAMLDefSection(YAMLDefBase):
     def __init__(self, name, content, overrides=None, parent=None,
-                 override_handlers=None, root=None):
+                 override_handlers=None, root=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         if root is None:
             self.root = self
         else:
@@ -110,7 +113,9 @@ class YAMLDefSection(YAMLDefBase):
             if name in self.override_keys:
                 continue
 
-            s = YAMLDefSection(name, content, self.overrides, parent=self,
+            s = YAMLDefSection(name, content, self.overrides,
+                               override_handlers=self._override_handlers,
+                               parent=self,
                                root=self.root)
             self.sections.append(s)
 

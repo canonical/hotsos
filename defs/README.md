@@ -382,6 +382,27 @@ If using keys start|body|end:
 Note that expressions can be a string or list of strings.
 ```
 
+### check-parameters
+
+These are optional parameters used in a [checks](#checks) check defintion.
+
+format
+
+```
+search-period-hours: <int> - period of time within which we expect to
+                             find results. Default is infinite.
+min-results: <int> - minimum number of search results required. If a
+                     search period is defined, these must occur within
+                     that period. Default is 1.
+```
+
+usage
+
+```
+check-parameters.min
+check-parameters.period
+```
+
 ### PropertyCollection
 
 These are groupings of properties of different types that are labelled to allow
@@ -419,6 +440,7 @@ Supported Properties
   * [search](#search)
   * [requires](#requires)
   * [input](#input)
+  * [check-parameters](#check-parameters)
 
 #### conclusions
 

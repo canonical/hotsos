@@ -3,10 +3,10 @@ checks:
     input:
       path: var/log/ceph/ceph*.log
     expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ Slow OSD heartbeats on .+'
-    meta:
+    check-parameters:
       # i.e. must occur 10 times within an hour
-      min: 10
-      period: 1
+      min-results: 10
+      search-period-hours: 1
 conclusions:
   osd-slow-heartbeats:
     decision: osd_slow_heartbeats

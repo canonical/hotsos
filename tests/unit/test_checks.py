@@ -11,6 +11,7 @@ from core import checks
 from core import ycheck
 from core.ycheck import (
     YDefsSection,
+    YPropertyCheck,
     bugs,
     events,
     scenarios
@@ -141,9 +142,9 @@ myplugin:
         input:
           path: foo.log
         expr: '^([0-9-]+)\S* (\S+) .+'
-        meta:
-          min: 3
-          period: 24
+        check-parameters:
+          min-results: 3
+          search-period-hours: 24
       aptexists:
         requires:
           apt: nova-compute
@@ -511,10 +512,10 @@ class TestChecks(utils.BaseTestCase):
 
             contents = ['2021-04-01 00:01:00.000 an event\n']
             results = self._create_search_results(logfile, contents)
-            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 1)
+            result = YPropertyCheck.filter_by_period(results, 24, 1)
             self.assertEqual(len(result), 1)
 
-            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 2)
+            result = YPropertyCheck.filter_by_period(results, 24, 2)
             self.assertEqual(len(result), 0)
 
             contents = ['2021-04-01 00:01:00.000 an event\n',
@@ -522,7 +523,7 @@ class TestChecks(utils.BaseTestCase):
                         '2021-04-03 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 2)
+            result = YPropertyCheck.filter_by_period(results, 24, 2)
             self.assertEqual(len(result), 2)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -532,7 +533,7 @@ class TestChecks(utils.BaseTestCase):
                         '2021-04-02 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 4)
+            result = YPropertyCheck.filter_by_period(results, 24, 4)
             self.assertEqual(len(result), 4)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -541,7 +542,7 @@ class TestChecks(utils.BaseTestCase):
                         '2021-04-02 00:02:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 4)
+            result = YPropertyCheck.filter_by_period(results, 24, 4)
             self.assertEqual(len(result), 0)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -553,7 +554,7 @@ class TestChecks(utils.BaseTestCase):
                         '2021-04-06 01:00:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = scenarios.ScenarioCheck.filter_by_period(results, 24, 3)
+            result = YPropertyCheck.filter_by_period(results, 24, 3)
             self.assertEqual(len(result), 3)
 
     def test_fs_override_inheritance(self):
