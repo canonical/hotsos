@@ -11,7 +11,7 @@ conclusions:
   stacktraces:
     decision: has_stacktraces
     raises:
-      type: core.issues.KernelError
+      type: hotsos.core.issues.KernelError
       message: >-
         {numreports} reports of stacktraces in kern.log - please check.
       format-dict:
@@ -19,7 +19,7 @@ conclusions:
   oom-killer-invoked:   
     decision: has_oom_killer_invoked
     raises:
-      type: core.issues.MemoryWarning
+      type: hotsos.core.issues.MemoryWarning
       message: >-
         {numreports} reports of oom-killer invoked in kern.log - please check.
       format-dict:
@@ -27,7 +27,7 @@ conclusions:
   nf-conntrack-full:   
     decision: has_nf_conntrack_full
     raises:
-      type: core.issues.NetworkWarning
+      type: hotsos.core.issues.NetworkWarning
       message: >-
         {numreports} reports of 'nf_conntrack: table full' detected in
         kern.log - please check.

@@ -176,14 +176,14 @@ int(priority)
 
 Defines an issue to raise along with the message displayed. For example a
 [check](#checks) may want to raise an issue using an
-[issue_types](../core/issues/issue_types.py) with a formatted message where
+[issue_types](../hotsos/core/issues/issue_types.py) with a formatted message where
 format fields are filled using Python properties or search results.
 
 format
 
 ```
 raises:
-  type: core.issues.<type>
+  type: hotsos.core.issues.<type>
   message: <str>
   format-dict: <dict>
   search-result-format-groups: [<int>, ...]

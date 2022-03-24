@@ -5,7 +5,7 @@ checks:
     expr: '.+''message'': ''mon is allowing insecure global_id reclaim'''
   health_warning:
     requires:
-      property: core.plugins.storage.ceph.CephCluster.health_status
+      property: hotsos.core.plugins.storage.ceph.CephCluster.health_status
       value: HEALTH_WARN
 conclusions:
   insecure-auth-allowed:
@@ -14,7 +14,7 @@ conclusions:
         - insecure_auth_allowed
         - health_warning
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         The status of this Ceph cluster is HEALTH_WARN and the mon is
         configured to allow insecure global_id reclaim which means the status

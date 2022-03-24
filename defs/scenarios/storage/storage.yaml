@@ -2,5 +2,5 @@
 # directory including subdirectories.
 requires:
   or:
-    - property: core.plugins.storage.ceph.CephChecksBase.plugin_runnable
-    - property: core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable
+    - property: hotsos.core.plugins.storage.ceph.CephChecksBase.plugin_runnable
+    - property: hotsos.core.plugins.storage.bcache.BcacheChecksBase.plugin_runnable

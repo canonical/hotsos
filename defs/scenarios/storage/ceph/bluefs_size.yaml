@@ -1,14 +1,14 @@
 checks:
   bluefs_osds_have_oversize_metadata:
     requires:
-      property: core.plugins.storage.ceph.CephCluster.bluefs_oversized_metadata_osds
+      property: hotsos.core.plugins.storage.ceph.CephCluster.bluefs_oversized_metadata_osds
       # Non-zero == True
       op: length_hint
 conclusions:
   bluefs-osds-have-oversize-metadata:
     decision: bluefs_osds_have_oversize_metadata
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         Found {num_bad_meta_osds} Ceph OSDs with metadata size larger than 10G.
         This could be the result of a compaction failure/bug and this host may

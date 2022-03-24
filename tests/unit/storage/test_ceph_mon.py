@@ -4,14 +4,14 @@ import tempfile
 import mock
 import json
 
-from tests.unit import utils
+from .. import utils
 
-from core.config import setup_config, HotSOSConfig
-from core.ycheck.scenarios import YScenarioChecker
-from core.plugins.storage import (
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
-from plugin_extensions.storage import ceph_summary
+from hotsos.plugin_extensions.storage import ceph_summary
 
 MON_ELECTION_LOGS = """
 2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
@@ -275,7 +275,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertTrue(cluster.ceph_versions_aligned)
         self.assertTrue(cluster.mon_versions_aligned_with_cluster)
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_ceph_daemon_versions_unique_not(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.ceph_versions.return_value = \
@@ -290,7 +290,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertFalse(cluster.ceph_versions_aligned)
         self.assertFalse(cluster.mon_versions_aligned_with_cluster)
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_check_crushmap_non_equal_buckets(self, mock_helper):
         test_data_path = ('sos_commands/ceph_mon/json_output/'
                           'ceph_osd_crush_dump_--format_'
@@ -312,7 +312,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         buckets = cluster.crush_map.crushmap_equal_buckets
         self.assertEqual(buckets, [])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_crushmap_mixed_buckets(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\
@@ -386,9 +386,9 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         self.assertEqual(actual['crush-rules'], expected['crush-rules'])
         self.assertEqual(actual['versions'], expected['versions'])
 
-    @mock.patch('core.plugins.storage.ceph.CephCluster.pool_id_to_name',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.pool_id_to_name',
                 lambda *args: 'foo')
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_ceph_cluster_info_large_omap_pgs(self, mock_cli):
         expected = {'2.f': {
                         'pool': 'foo',
@@ -439,17 +439,17 @@ class TestMonCephSummary(StorageCephMonTestsBase):
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
             self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('mon_elections_flapping.yaml'))
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenario_mon_reelections(self, mock_add_issue, mock_cephbase):
         raised_issues = []
 
@@ -477,10 +477,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "showing errors - please investigate.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('osd_slow_heartbeats.yaml'))
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenario_osd_slow_heartbeats(self, mock_add_issue, mock_cephbase):
         raised_issues = []
 
@@ -507,12 +507,12 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "experiencing problems.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bluefs_spillover.yaml'))
-    @mock.patch('core.ycheck.CLIHelper')
-    @mock.patch('core.plugins.storage.ceph.CephCluster.health_status',
+    @mock.patch('hotsos.core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.health_status',
                 'HEALTH_WARN')
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenario_bluefs_spillover(self, mock_add_issue, mock_helper):
         raised_issues = []
 
@@ -533,11 +533,11 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'www.mail-archive.com/ceph-users@ceph.io/msg05782.html')
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                     'osd_maps_backlog_too_large.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenario_osd_maps_backlog_too_large(self, mock_add_issue,
                                                  mock_helper):
         raised_issues = []
@@ -558,12 +558,12 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "https://tracker.ceph.com/issues/47290.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CephCluster.require_osd_release',
-                'octopus')
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
+                'require_osd_release', 'octopus')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('required_osd_release_mismatch.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_required_osd_release(self, mock_add_issue, mock_helper):
         raised_issues = []
 
@@ -581,12 +581,12 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "but not all OSDs are on that version - please check.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CephCluster.require_osd_release',
-                'octopus')
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
+                'require_osd_release', 'octopus')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('laggy_pgs.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_laggy_pgs(self, mock_add_issue, mock_helper):
         raised_issues = []
 
@@ -604,13 +604,13 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'potential network or storage issue - please check.')
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.ycheck.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.services',
                 {'ceph-mon': 'enabled'})
-    @mock.patch('core.plugins.storage.ceph.CephCluster.health_status',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.health_status',
                 'HEALTH_WARN')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_cluster_health.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ceph_cluster_health(self, mock_add_issue):
         raised_issues = []
 
@@ -625,33 +625,33 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "'ceph status' for details.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.ycheck.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.services',
                 {'ceph-mon': 'enabled'})
-    @mock.patch('core.plugins.storage.ceph.CephCluster.health_status',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.health_status',
                 'HEALTH_OK')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_cluster_health.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ceph_cluster_health_ok(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.ycheck.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.services',
                 {'ceph-osd': 'enabled'})
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_cluster_health.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ceph_cluster_health_not_ceph_mon(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase.release_name',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.release_name',
                 'nautilus')
-    @mock.patch('core.plugins.storage.ceph.CephCluster.'
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
                 'cluster_osds_without_v2_messenger_protocol', ['osd.1'])
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('osd_messenger_v2_protocol.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_osd_messenger_v2_protocol(self, mock_add_issue):
         raised_issues = []
 
@@ -666,10 +666,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "should be resolved asap.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('large_omap_objects.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_large_omap_objects(self, mock_add_issue, mock_cli):
         raised_issues = []
 
@@ -691,11 +691,11 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "See full summary for more detail.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CephCluster.OSD_META_LIMIT_KB',
-                1024)
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
+                'OSD_META_LIMIT_KB', 1024)
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bluefs_size.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_bluefs_size(self, mock_add_issue):
         raised_issues = []
 
@@ -712,10 +712,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "'ceph-bluestore-tool'.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_versions_mismatch.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ceph_versions_mismatch_p1(self, mock_add_issue, mock_helper):
         raised_issues = []
 
@@ -734,10 +734,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'on the same version for ceph to function correctly.')
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph_versions_mismatch.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ceph_versions_mismatch_p2(self, mock_add_issue, mock_helper):
         raised_issues = []
 
@@ -756,10 +756,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'possible. Check full summary output for current versions.')
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('pg_imbalance.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_ceph_pg_imbalance(self, mock_add_issue, mock_helper):
         raised_issues = []
 
@@ -781,10 +781,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertEqual(len(msgs), 2)
         self.assertEqual(sorted(msgs), sorted([msg1, msg2]))
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('crushmap_bucket_checks.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_crushmap_bucket_checks_mixed_buckets(self, mock_add_issue,
                                                   mock_helper):
         raised_issues = []
@@ -806,10 +806,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertEqual(len(msgs), 1)
         self.assertEqual(msgs, [msg])
 
-    @mock.patch('core.plugins.storage.ceph.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('crushmap_bucket_checks.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_crushmap_bucket_checks_unbalanced_buckets(self, mock_add_issue,
                                                        mock_helper):
         raised_issues = []

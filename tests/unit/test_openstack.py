@@ -3,16 +3,16 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-import core.plugins.openstack as openstack_core
-from core import checks
-from core.config import setup_config, HotSOSConfig
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
-from core import issues
-from core.searchtools import FileSearcher
-from plugin_extensions.openstack import (
+import hotsos.core.plugins.openstack as openstack_core
+from hotsos.core import checks
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core import issues
+from hotsos.core.searchtools import FileSearcher
+from hotsos.plugin_extensions.openstack import (
     vm_info,
     nova_external_events,
     summary,
@@ -307,7 +307,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         _deps = {k: ost_base.apt_check.all[k] for k in _deps}
         self.assertEqual(_deps, deps)
 
-    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('hotsos.core.checks.CLIHelper')
     def test_plugin_not_runnable_clients_only(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \
@@ -320,7 +320,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         ost_base = openstack_core.OpenstackChecksBase()
         self.assertTrue(ost_base.plugin_runnable)
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_release_name_detect_multiples(self, mock_add_issue):
         raised_issues = []
 
@@ -375,10 +375,10 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["services"], expected)
 
-    @mock.patch('core.plugins.openstack.OSTProject.installed', True)
-    @mock.patch('core.plugins.openstack.OpenstackServiceChecksBase.'
+    @mock.patch('hotsos.core.plugins.openstack.OSTProject.installed', True)
+    @mock.patch('hotsos.core.plugins.openstack.OpenstackServiceChecksBase.'
                 'openstack_installed', True)
-    @mock.patch('core.checks.CLIHelper')
+    @mock.patch('hotsos.core.checks.CLIHelper')
     def test_get_summary_apache_service(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
@@ -403,7 +403,7 @@ class TestOpenstackSummary(TestOpenstackBase):
                           'w') as fd:
                     fd.write(APT_UCA.format(rel))
 
-            with mock.patch('core.plugins.openstack.OpenstackBase.'
+            with mock.patch('hotsos.core.plugins.openstack.OpenstackBase.'
                             'apt_source_path', dtmp):
                 inst = summary.OpenstackSummary()
                 actual = self.part_output_to_actual(inst.output)
@@ -491,7 +491,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["dpkg"], expected)
 
-    @mock.patch('core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
     def test_run_summary(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -499,7 +499,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         inst = openstack_core.NeutronServiceChecks()
         self.assertFalse(inst.ovs_cleanup_run_manually)
 
-    @mock.patch('core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
     def test_run_summary2(self, mock_helper):
         """
         Covers scenario where we had manual restart but not after last reboot.
@@ -510,7 +510,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         inst = openstack_core.NeutronServiceChecks()
         self.assertFalse(inst.ovs_cleanup_run_manually)
 
-    @mock.patch('core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
     def test_run_summary_w_issue(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -654,16 +654,16 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         ret = checks.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
-    @mock.patch('core.plugins.system.NUMAInfo.nodes',
+    @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
-    @mock.patch('core.plugins.system.SystemBase.num_cpus', 16)
-    @mock.patch('core.plugins.kernel.KernelConfig.get',
+    @mock.patch('hotsos.core.plugins.system.SystemBase.num_cpus', 16)
+    @mock.patch('hotsos.core.plugins.kernel.KernelConfig.get',
                 lambda *args, **kwargs: range(9, 16))
-    @mock.patch('core.plugins.kernel.SystemdConfig.get',
+    @mock.patch('hotsos.core.plugins.kernel.SystemdConfig.get',
                 lambda *args, **kwargs: range(2, 9))
     def test_nova_pinning_base(self):
-        with mock.patch('core.plugins.openstack.NovaCPUPinning.vcpu_pin_set',
-                        [0, 1, 2]):
+        with mock.patch('hotsos.core.plugins.openstack.NovaCPUPinning.'
+                        'vcpu_pin_set', [0, 1, 2]):
             inst = openstack_core.NovaCPUPinning()
             self.assertEqual(inst.cpu_dedicated_set_name, 'vcpu_pin_set')
 
@@ -679,7 +679,7 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         self.assertEqual(inst.unpinned_cpus_pcent, 12)
         self.assertEqual(inst.num_unpinned_cpus, 2)
         self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, False)
-        with mock.patch('core.plugins.openstack.NovaCPUPinning.'
+        with mock.patch('hotsos.core.plugins.openstack.NovaCPUPinning.'
                         'cpu_dedicated_set', [0, 1, 4]):
             self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, True)
 
@@ -863,7 +863,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
     def test_run_neutron_l3ha_checks_w_issue(self, mock_add_issue):
         setup_config(USE_ALL_LOGS=False)
@@ -929,7 +929,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
 class TestOpenstackBugChecks(TestOpenstackBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
     def test_1929832(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -949,7 +949,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'origin': 'openstack.01part'}]}
             self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
     def test_1896506(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -967,7 +967,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'origin': 'openstack.01part'}]}
             self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron.yaml'))
     def test_1928031(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -986,8 +986,8 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'origin': 'openstack.01part'}]}
             self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron.yaml'))
     def test_1927868(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -1005,8 +1005,8 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                       'origin': 'openstack.01part'}]}
         self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('octavia.yaml'))
     def test_2008099(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -1037,16 +1037,16 @@ class TestOpenstackBugChecks(TestOpenstackBase):
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):
 
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+    @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_cpufreq(self, mock_add_issue):
         raised_issues = {}
 
@@ -1071,14 +1071,14 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                'ondemand systemd service in order for changes to persist.')
         self.assertEqual(msg, raised_issues[issues.OpenstackWarning][0])
 
-    @mock.patch('core.plugins.system.NUMAInfo.nodes',
+    @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
-    @mock.patch('core.plugins.openstack.OpenstackConfig')
-    @mock.patch('core.plugins.openstack.OpenstackChecksBase.release_name',
-                'train')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.openstack.OpenstackConfig')
+    @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
+                'release_name', 'train')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova_cpu_pinning.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenario_pinning_invalid_config(self, mock_add_issue,
                                              mock_config):
         raised_issues = {}
@@ -1138,11 +1138,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(sorted(raised_issues[issues.OpenstackWarning]),
                          sorted([msg1, msg2]))
 
-    @mock.patch('core.plugins.openstack.OSTProject.installed', True)
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.openstack.OSTProject.installed', True)
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('systemd_masked_services.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenario_masked_services(self, mock_add_issue, mock_helper):
         raised_issues = {}
 
@@ -1169,10 +1169,10 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                'otherwise these services may be unavailable.')
         self.assertEqual(list(raised_issues.values())[0], [msg])
 
-    @mock.patch('core.plugins.openstack.CLIHelper')
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron_ovs_cleanup.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_neutron_ovs_cleanup(self, mock_add_issue, mock_helper):
         raised_issues = {}
 
@@ -1193,10 +1193,10 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                'side-effects.')
         self.assertEqual(list(raised_issues.values())[0], [msg])
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova_config_checks.yaml'))
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_nova_config_checks(self, mock_add_issue, mock_helper):
         raised_issues = []
 

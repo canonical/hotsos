@@ -2,15 +2,15 @@ import os
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config
-from core.issues import KubernetesWarning
-from core import checks, cli_helpers
-from core.plugins import kubernetes as kubernetes_core
-from core.ycheck.bugs import YBugChecker
-from core.ycheck.scenarios import YScenarioChecker
-from plugin_extensions.kubernetes import summary
+from hotsos.core.config import setup_config
+from hotsos.core.issues import KubernetesWarning
+from hotsos.core import checks, cli_helpers
+from hotsos.core.plugins import kubernetes as kubernetes_core
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.plugin_extensions.kubernetes import summary
 
 
 class KubernetesTestsBase(utils.BaseTestCase):
@@ -99,7 +99,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
 
 class TestKubernetesBugChecks(KubernetesTestsBase):
 
-    @mock.patch('core.ycheck.bugs.add_known_bug')
+    @mock.patch('hotsos.core.ycheck.bugs.add_known_bug')
     def test_bug_checks(self, mock_add_known_bug):
         bugs = []
 
@@ -115,16 +115,16 @@ class TestKubernetesBugChecks(KubernetesTestsBase):
 
 class TestKubernetesScenarioChecks(KubernetesTestsBase):
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('core.plugins.system.SystemBase.virtualisation_type',
+    @mock.patch('hotsos.core.plugins.system.SystemBase.virtualisation_type',
                 None)
-    @mock.patch('core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
+    @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
-    @mock.patch('core.plugins.kubernetes.KubernetesChecksBase.plugin_runnable',
-                True)
+    @mock.patch('hotsos.core.plugins.kubernetes.KubernetesChecksBase.'
+                'plugin_runnable', True)
     @mock.patch.object(checks, 'CLIHelper')
-    @mock.patch('core.ycheck.scenarios.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.scenarios.issues.utils.add_issue')
     def test_system_cpufreq_mode(self, mock_add_issue, mock_cli):
         raised_issue = {}
 

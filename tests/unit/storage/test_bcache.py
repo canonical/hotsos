@@ -3,12 +3,12 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from .. import utils
 
-from core.config import setup_config, HotSOSConfig
-from core.ycheck.scenarios import YScenarioChecker
-from core.plugins.storage import bcache as bcache_core
-from plugin_extensions.storage import bcache_summary
+from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.plugins.storage import bcache as bcache_core
+from hotsos.plugin_extensions.storage import bcache_summary
 
 
 class StorageBCacheTestsBase(utils.BaseTestCase):
@@ -115,11 +115,11 @@ class TestStorageBCache(StorageBCacheTestsBase):
 
 class TestBCacheScenarioChecks(StorageBCacheTestsBase):
 
-    @mock.patch('core.plugins.storage.ceph.CephChecksBase.'
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
                 'local_osds_use_bcache', True)
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_ceph_no_bcache_tuning.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_juju_ceph_no_bcache_tuning(self, mock_add_issue):
         raised_issues = []
 
@@ -137,9 +137,9 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
         actual = sorted([issue.msg for issue in raised_issues])
         self.assertEqual(actual, sorted(msgs))
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cacheset.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_cacheset(self, mock_add_issue):
         raised_issues = []
 
@@ -161,9 +161,9 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
             actual = sorted([issue.msg for issue in raised_issues])
             self.assertEqual(actual, sorted(msgs))
 
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bdev.yaml'))
-    @mock.patch('core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_bdev(self, mock_add_issue):
         raised_issues = []
 

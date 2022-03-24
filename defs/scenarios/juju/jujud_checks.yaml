@@ -1,7 +1,7 @@
 checks:
   jujud_not_found:
     requires:
-      property: core.plugins.juju.JujuServiceChecksBase.processes
+      property: hotsos.core.plugins.juju.JujuServiceChecksBase.processes
       op: contains
       value: jujud
       post-op: not_
@@ -9,7 +9,7 @@ conclusions:
   jujud-not-found:
     decision: jujud_not_found
     raises:
-      type: core.issues.JujuWarning
+      type: hotsos.core.issues.JujuWarning
       message: >-
         No jujud processes found running on this host but it seems there should
         be since Juju is installed.

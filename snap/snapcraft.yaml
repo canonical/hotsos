@@ -26,7 +26,7 @@ layout:
 
 apps:
   hotsos:
-    command: cli.py
+    command: scripts/hotsos
     environment:
       LD_PRELOAD: "$SNAP/libpreload-semaphores.so"
 parts:

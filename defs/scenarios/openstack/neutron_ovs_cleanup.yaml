@@ -5,7 +5,7 @@ checks:
       value: enabled  
   ovs_cleanup_run_manually:
     requires:
-      property: core.plugins.openstack.NeutronServiceChecks.ovs_cleanup_run_manually
+      property: hotsos.core.plugins.openstack.NeutronServiceChecks.ovs_cleanup_run_manually
 conclusions:
   ovs-cleanup-run-manually:
     decision:
@@ -13,7 +13,7 @@ conclusions:
         - ovs_cleanup_installed
         - ovs_cleanup_run_manually
     raises:
-      type: core.issues.OpenstackWarning
+      type: hotsos.core.issues.OpenstackWarning
       message: >-
         The neutron-ovs-cleanup systemd service has been manually run on this
         host. This is not recommended and can have unintended side-effects.

@@ -1,9 +1,9 @@
 import os
 
-from tests.unit import utils
+from . import utils
 
-from core.config import setup_config
-from plugin_extensions.vault import summary
+from hotsos.core.config import setup_config
+from hotsos.plugin_extensions.vault import summary
 
 
 class TestVaultPluginPartGeneral(utils.BaseTestCase):

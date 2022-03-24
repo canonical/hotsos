@@ -3,11 +3,11 @@ checks:
     requires:
       and:
         # can we actually see the setting
-        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: unknown
           op: ne
         # does it have the expected value
-        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: performance
           op: ne
   is_neutron_gateway:
@@ -31,7 +31,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - is_nova_compute
     raises:
-      type: core.issues.OpenstackWarning
+      type: hotsos.core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack hypervisor but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -39,7 +39,7 @@ conclusions:
         can install cpufrequtils, set "GOVERNOR=performance" in
         /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-n-gw:
     priority: 1
     decision:
@@ -47,7 +47,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - is_neutron_gateway
     raises:
-      type: core.issues.OpenstackWarning
+      type: hotsos.core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack Neutron Gateway but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -56,7 +56,7 @@ conclusions:
         /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
         NOTE: requires node reboot to take effect.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand-n-cpu:
     priority: 2
     decision:
@@ -65,7 +65,7 @@ conclusions:
         - is_nova_compute
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.OpenstackWarning
+      type: hotsos.core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack hypervisor but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -75,7 +75,7 @@ conclusions:
         will also need to stop and disable the ondemand systemd service in
         order for changes to persist.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand-n-gw:
     priority: 2
     decision:
@@ -84,7 +84,7 @@ conclusions:
         - is_neutron_gateway
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.OpenstackWarning
+      type: hotsos.core.issues.OpenstackWarning
       message: >-
         This node is used as an Openstack Neutron Gateway but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -94,4 +94,4 @@ conclusions:
         will also need to stop and disable the ondemand systemd service in
         order for changes to persist.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all

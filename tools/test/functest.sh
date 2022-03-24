@@ -47,7 +47,8 @@ test_plugin ()
         data_root=$dtmp/$plugin
         label=".short"
     fi
-    ${HOT_DIR}/cli.py --${plugin} ${args[@]} $data_root 2>/dev/null| \
+    export PYTHONPATH=.
+    ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
         egrep -v "repo-info:|date:" > $dtmp/$plugin$label
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
     egrep -v "repo-info:|date:" $litmus > $dtmp/$plugin.litmus

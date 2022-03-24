@@ -3,13 +3,13 @@ import tempfile
 
 import mock
 
-from tests.unit import utils
+from . import utils
 
-from core import issues
-from core.config import setup_config
-from core.plugins import openvswitch
-from core.ycheck.bugs import YBugChecker
-from plugin_extensions.openvswitch import (
+from hotsos.core import issues
+from hotsos.core.config import setup_config
+from hotsos.core.plugins import openvswitch
+from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.plugin_extensions.openvswitch import (
     event_checks,
     summary,
 )
@@ -103,9 +103,9 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
 class TestOpenvswitchBugChecks(TestOpenvswitchBase):
 
-    @mock.patch('core.plugins.openvswitch.OpenvSwitchChecksBase.'
+    @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
                 'plugin_runnable', True)
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn.yaml'))
     def test_1917475(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -122,10 +122,10 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
                           'origin': 'openvswitch.01part'}]}
             self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
-    @mock.patch('core.checks.CLIHelper')
-    @mock.patch('core.plugins.openvswitch.OpenvSwitchChecksBase.'
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
                 'plugin_runnable', True)
-    @mock.patch('core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('libc-bin.yaml'))
     def test_1839592(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
@@ -213,7 +213,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OpenvSwitchDaemonEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.CLIHelper')
     def test_dp_checks(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ovs_appctl_dpctl_show.return_value = \

@@ -3,11 +3,11 @@ checks:
     requires:
       and:
         # can we actually see the setting
-        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: unknown
           op: ne
         # does it have the expected value
-        - property: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
           value: performance
           op: ne
   kubernetes_installed:
@@ -15,7 +15,7 @@ checks:
       and:
         - snap: kubelet
         # ignore if not running on metal
-        - property: core.plugins.system.SystemBase.virtualisation_type
+        - property: hotsos.core.plugins.system.SystemBase.virtualisation_type
           value:
   ondemand_installed_and_enabled:
     requires:
@@ -29,7 +29,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - kubernetes_installed
     raises:
-      type: core.issues.KubernetesWarning
+      type: hotsos.core.issues.KubernetesWarning
       message: >-
         This node is used for Kubernetes but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -37,7 +37,7 @@ conclusions:
         can install cpufrequtils, set "GOVERNOR=performance" in
         /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand:
     priority: 2
     decision:
@@ -46,7 +46,7 @@ conclusions:
         - kubernetes_installed
         - ondemand_installed_and_enabled
     raises:
-      type: core.issues.KubernetesWarning
+      type: hotsos.core.issues.KubernetesWarning
       message: >-
         This node is used for Kubernetes but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -56,5 +56,5 @@ conclusions:
         will also need to stop and disable the ondemand systemd service in
         order for changes to persist.
       format-dict:
-        governor: core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
 

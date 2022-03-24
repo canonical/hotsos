@@ -2,12 +2,12 @@ checks:
   ceph_release_gt_mimic:
     requires:
       # v2 only available for >= Nautilus
-      property: core.plugins.storage.ceph.CephChecksBase.release_name
+      property: hotsos.core.plugins.storage.ceph.CephChecksBase.release_name
       value: mimic
       op: gt
   cluster_has_v1_only_osds:
     requires:
-      property: core.plugins.storage.ceph.CephCluster.cluster_osds_without_v2_messenger_protocol
+      property: hotsos.core.plugins.storage.ceph.CephCluster.cluster_osds_without_v2_messenger_protocol
       # non-zero == True
       op: length_hint
 conclusions:
@@ -17,7 +17,7 @@ conclusions:
         - ceph_release_gt_mimic
         - cluster_has_v1_only_osds
     raises:
-      type: core.issues.CephOSDWarning
+      type: hotsos.core.issues.CephOSDWarning
       message: >-
         This Ceph cluster has {num_v1_only_osds} OSD(s) that do not bind to a
         v2 messenger address. This will cause unexpected behaviour and should

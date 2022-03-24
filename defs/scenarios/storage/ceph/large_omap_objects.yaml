@@ -1,14 +1,14 @@
 checks:
   cluster_has_pgs_with_large_omap_objects:
     requires:
-      property: core.plugins.storage.ceph.CephCluster.large_omap_pgs
+      property: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs
       # Non-zero == True
       op: length_hint
 conclusions:
   large-omap-pgs:
     decision: cluster_has_pgs_with_large_omap_objects
     raises:
-      type: core.issues.CephWarning
+      type: hotsos.core.issues.CephWarning
       message: >-
         Large omap objects found in pgs '{large_omap_pgs}'.
         This is usually resolved by deep-scrubbing the pgs. Check config
@@ -16,5 +16,5 @@ conclusions:
         'osd_deep_scrub_large_omap_object_value_sum_threshold' to find whether
         the values of these keys are too high. See full summary for more detail.
       format-dict:
-        large_omap_pgs: core.plugins.storage.ceph.CephCluster.large_omap_pgs_str
+        large_omap_pgs: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs_str
 

@@ -2,9 +2,9 @@ import os
 
 import yaml
 
-from tests.unit import utils
+from . import utils
 
-from core import issues
+from hotsos.core import issues
 
 
 class TestIssuesUtils(utils.BaseTestCase):
