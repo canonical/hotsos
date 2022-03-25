@@ -452,7 +452,7 @@ class TestChecks(utils.BaseTestCase):
                         checked += 1
                         self.assertFalse(check.result)
 
-            self.assertEquals(checked, 4)
+            self.assertEqual(checked, 4)
 
             # now run the scenarios
             checker()

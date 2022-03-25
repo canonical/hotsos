@@ -32,7 +32,7 @@ class TestSOSReportCore(TestSOSReportBase):
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_timed_out_plugins(dtmp)
             c = sosreport_core.SOSReportChecksBase()
-            self.assertEquals(c.timed_out_plugins, ['networking', 'system'])
+            self.assertEqual(c.timed_out_plugins, ['networking', 'system'])
 
 
 class TestSOSReportGeneral(TestSOSReportBase):
@@ -54,8 +54,8 @@ class TestSOSReportGeneral(TestSOSReportBase):
             self.setup_timed_out_plugins(dtmp)
             inst = summary.SOSReportSummary()
             actual = self.part_output_to_actual(inst.output)
-            self.assertEquals(actual['plugin-timeouts'],
-                              ['networking', 'system'])
+            self.assertEqual(actual['plugin-timeouts'],
+                             ['networking', 'system'])
 
 
 class TestSOSReportScenarioChecks(TestSOSReportBase):

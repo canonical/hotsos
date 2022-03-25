@@ -25,12 +25,12 @@ class TestCLIHelpers(utils.BaseTestCase):
     def test_ns_ip_addr(self):
         ns = "qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5"
         out = self.helper.ns_ip_addr(namespace=ns)
-        self.assertEquals(type(out), list)
-        self.assertEquals(len(out), 18)
+        self.assertEqual(type(out), list)
+        self.assertEqual(len(out), 18)
 
     def test_udevadm_info_dev(self):
         out = self.helper.udevadm_info_dev(device='/dev/vdb')
-        self.assertEquals(out, [])
+        self.assertEqual(out, [])
 
     @mock.patch.object(cli_helpers, 'subprocess')
     def test_ps(self, mock_subprocess):
@@ -39,16 +39,16 @@ class TestCLIHelpers(utils.BaseTestCase):
             out = fd.readlines()
 
         ret = self.helper.ps()
-        self.assertEquals(ret, out)
+        self.assertEqual(ret, out)
         self.assertFalse(mock_subprocess.called)
 
     def test_get_date_local(self):
         setup_config(DATA_ROOT='/')
         helper = cli_helpers.CLIHelper()
-        self.assertEquals(type(helper.date()), str)
+        self.assertEqual(type(helper.date()), str)
 
     def test_get_date(self):
-        self.assertEquals(self.helper.date(), '1644509957')
+        self.assertEqual(self.helper.date(), '1644509957')
 
     def test_get_date_w_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -59,7 +59,7 @@ class TestCLIHelpers(utils.BaseTestCase):
                       'w') as fd:
                 fd.write("Thu Mar 25 10:55:05 UTC 2021")
 
-            self.assertEquals(helper.date(), '1616669705')
+            self.assertEqual(helper.date(), '1616669705')
 
     def test_get_date_w_invalid_tz(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -70,7 +70,7 @@ class TestCLIHelpers(utils.BaseTestCase):
                       'w') as fd:
                 fd.write("Thu Mar 25 10:55:05 123UTC 2021")
 
-            self.assertEquals(helper.date(), "")
+            self.assertEqual(helper.date(), "")
 
     def test_ovs_ofctl_bin_w_errors(self):
 

@@ -62,7 +62,7 @@ class TestBcacheBase(StorageBCacheTestsBase):
                             'sys/fs/bcache/d7696818-1be9-4dea-9991-'
                             'de95e24d7256')
         b = bcache_core.BcacheBase()
-        self.assertEquals(b.get_cachesets(), [path])
+        self.assertEqual(b.get_cachesets(), [path])
 
     def test_get_cacheset_bdevs(self):
         b = bcache_core.BcacheBase()

@@ -15,16 +15,16 @@ class TestIssuesUtils(utils.BaseTestCase):
             fd.write(yaml.dump(raised_issues))
 
         ret = issues.utils.get_plugin_issues()
-        self.assertEquals(ret, raised_issues)
+        self.assertEqual(ret, raised_issues)
 
     def test_add_issue(self):
         issues.utils.add_issue(issues.MemoryWarning("test"))
         ret = issues.utils.get_plugin_issues()
-        self.assertEquals(ret,
-                          {issues.utils.MASTER_YAML_ISSUES_FOUND_KEY:
-                           [{'type': 'MemoryWarning',
-                             'desc': 'test',
-                             'origin': 'testplugin.01part'}]})
+        self.assertEqual(ret,
+                         {issues.utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                          [{'type': 'MemoryWarning',
+                            'desc': 'test',
+                            'origin': 'testplugin.01part'}]})
 
 
 class TestKnownBugsUtils(utils.BaseTestCase):
@@ -39,21 +39,21 @@ class TestKnownBugsUtils(utils.BaseTestCase):
             fd.write(yaml.dump(known_bugs))
 
         ret = issues.bugs.get_known_bugs()
-        self.assertEquals(ret, known_bugs)
+        self.assertEqual(ret, known_bugs)
 
     def test_get_known_bugs_none(self):
         ret = issues.bugs.get_known_bugs()
-        self.assertEquals(ret, {})
+        self.assertEqual(ret, {})
 
     def test_add_known_bug_first(self):
         issues.bugs.add_known_bug(1)
         ret = issues.bugs.get_known_bugs()
-        self.assertEquals(ret,
-                          {issues.bugs.MASTER_YAML_KNOWN_BUGS_KEY:
-                           [{'id': 'https://bugs.launchpad.net/bugs/1',
-                             'desc': 'no description provided',
-                             'origin': 'testplugin.01part'}
-                            ]})
+        self.assertEqual(ret,
+                         {issues.bugs.MASTER_YAML_KNOWN_BUGS_KEY:
+                          [{'id': 'https://bugs.launchpad.net/bugs/1',
+                            'desc': 'no description provided',
+                            'origin': 'testplugin.01part'}
+                           ]})
 
     def test_add_known_bug(self):
         known_bugs = {issues.bugs.MASTER_YAML_KNOWN_BUGS_KEY:
@@ -73,4 +73,4 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                      {'id': 'https://bugs.launchpad.net/bugs/2',
                       'desc': 'no description provided',
                       'origin': 'testplugin.01part'}]}
-        self.assertEquals(ret, expected)
+        self.assertEqual(ret, expected)

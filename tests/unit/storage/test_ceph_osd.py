@@ -153,7 +153,7 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
                     'python3-rados 15.2.14-0ubuntu0.20.04.2',
                     'python3-rbd 15.2.14-0ubuntu0.20.04.2',
                     'radosgw 15.2.14-0ubuntu0.20.04.2']
-        self.assertEquals(actual["dpkg"], expected)
+        self.assertEqual(actual["dpkg"], expected)
 
     def test_ceph_base_interfaces(self):
         expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.128'],

@@ -348,7 +348,7 @@ class TestOpenstackSummary(TestOpenstackBase):
             ]
         inst = summary.OpenstackSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual["dpkg"], expected)
+        self.assertEqual(actual["dpkg"], expected)
 
     @mock.patch('core.plugins.openstack.CLIHelper')
     def test_run_summary(self, mock_helper):
@@ -381,7 +381,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         expected = {'backup': ['984c22fd-64b3-4fa1-8ddd-87090f401ce5']}
         inst = summary.OpenstackSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual['neutron-l3ha'], expected)
+        self.assertEqual(actual['neutron-l3ha'], expected)
 
 
 class TestOpenstackVmInfo(TestOpenstackBase):
@@ -400,7 +400,7 @@ class TestOpenstackVmInfo(TestOpenstackBase):
                     }
         inst = vm_info.OpenstackInstanceChecks()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual, expected)
+        self.assertEqual(actual, expected)
 
     def test_vm_migration_analysis(self):
         expected = {'nova-migrations': {
@@ -416,7 +416,7 @@ class TestOpenstackVmInfo(TestOpenstackBase):
                         }}}
         inst = vm_info.NovaServerMigrationAnalysis()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual, expected)
+        self.assertEqual(actual, expected)
 
 
 class TestOpenstackNovaExternalEvents(TestOpenstackBase):
@@ -432,7 +432,7 @@ class TestOpenstackNovaExternalEvents(TestOpenstackBase):
                    [{"instance": '359150c9-6f40-416e-b381-185bff09e974',
                      "port": "6a0486f9-823b-4dcf-91fb-8a4663d31855"}]}}
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual["os-server-external-events"], events)
+        self.assertEqual(actual["os-server-external-events"], events)
 
 
 class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
@@ -524,23 +524,23 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         with mock.patch('core.plugins.openstack.NovaCPUPinning.vcpu_pin_set',
                         [0, 1, 2]):
             inst = openstack_core.NovaCPUPinning()
-            self.assertEquals(inst.cpu_dedicated_set_name, 'vcpu_pin_set')
+            self.assertEqual(inst.cpu_dedicated_set_name, 'vcpu_pin_set')
 
         inst = openstack_core.NovaCPUPinning()
-        self.assertEquals(inst.cpu_shared_set, [])
-        self.assertEquals(inst.cpu_dedicated_set, [])
-        self.assertEquals(inst.vcpu_pin_set, [])
-        self.assertEquals(inst.cpu_dedicated_set_name, 'cpu_dedicated_set')
-        self.assertEquals(inst.cpu_dedicated_set_intersection_isolcpus, [])
-        self.assertEquals(inst.cpu_dedicated_set_intersection_cpuaffinity, [])
-        self.assertEquals(inst.cpu_shared_set_intersection_isolcpus, [])
-        self.assertEquals(inst.cpuaffinity_intersection_isolcpus, [])
-        self.assertEquals(inst.unpinned_cpus_pcent, 12)
-        self.assertEquals(inst.num_unpinned_cpus, 2)
-        self.assertEquals(inst.nova_pinning_from_multi_numa_nodes, False)
+        self.assertEqual(inst.cpu_shared_set, [])
+        self.assertEqual(inst.cpu_dedicated_set, [])
+        self.assertEqual(inst.vcpu_pin_set, [])
+        self.assertEqual(inst.cpu_dedicated_set_name, 'cpu_dedicated_set')
+        self.assertEqual(inst.cpu_dedicated_set_intersection_isolcpus, [])
+        self.assertEqual(inst.cpu_dedicated_set_intersection_cpuaffinity, [])
+        self.assertEqual(inst.cpu_shared_set_intersection_isolcpus, [])
+        self.assertEqual(inst.cpuaffinity_intersection_isolcpus, [])
+        self.assertEqual(inst.unpinned_cpus_pcent, 12)
+        self.assertEqual(inst.num_unpinned_cpus, 2)
+        self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, False)
         with mock.patch('core.plugins.openstack.NovaCPUPinning.'
                         'cpu_dedicated_set', [0, 1, 4]):
-            self.assertEquals(inst.nova_pinning_from_multi_numa_nodes, True)
+            self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, True)
 
 
 class TestOpenstackAgentEventChecks(TestOpenstackBase):
@@ -1070,4 +1070,4 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         # trigger the alert.
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
-        self.assertEquals(raised_issues, [issues.OpenstackWarning])
+        self.assertEqual(raised_issues, [issues.OpenstackWarning])

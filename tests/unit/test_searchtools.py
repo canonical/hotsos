@@ -86,14 +86,14 @@ class TestSearchTools(utils.BaseTestCase):
     def test_filesearcher_num_cpus_no_override(self, mock_cpu_count):
         mock_cpu_count.return_value = 3
         s = FileSearcher()
-        self.assertEquals(s.num_cpus, 3)
+        self.assertEqual(s.num_cpus, 3)
 
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
         setup_config(MAX_PARALLEL_TASKS=2)
         mock_cpu_count.return_value = 3
         s = FileSearcher()
-        self.assertEquals(s.num_cpus, 2)
+        self.assertEqual(s.num_cpus, 2)
 
     def test_filesearcher_logs(self):
         expected = {9891: '2022-02-09 22:50:18.131',
@@ -122,40 +122,40 @@ class TestSearchTools(utils.BaseTestCase):
         s.add_search_term(sd, globpath)
 
         results = s.search()
-        self.assertEquals(set(results.files), set([filepath, globpath]))
+        self.assertEqual(set(results.files), set([filepath, globpath]))
 
-        self.assertEquals(len(results.find_by_path(filepath)), 1220)
+        self.assertEqual(len(results.find_by_path(filepath)), 1220)
 
         tag_results = results.find_by_tag("T1", path=filepath)
-        self.assertEquals(len(tag_results), 2)
+        self.assertEqual(len(tag_results), 2)
         for result in tag_results:
             ln = result.linenumber
-            self.assertEquals(result.tag, "T1")
-            self.assertEquals(result.get(1), expected[ln])
+            self.assertEqual(result.tag, "T1")
+            self.assertEqual(result.get(1), expected[ln])
 
         tag_results = results.find_by_tag("T1")
-        self.assertEquals(len(tag_results), 2)
+        self.assertEqual(len(tag_results), 2)
         for result in tag_results:
             ln = result.linenumber
-            self.assertEquals(result.tag, "T1")
-            self.assertEquals(result.get(1), expected[ln])
+            self.assertEqual(result.tag, "T1")
+            self.assertEqual(result.get(1), expected[ln])
 
-        self.assertEquals(len(results.find_by_path(globpath_file1)), 1)
-        self.assertEquals(len(results.find_by_path(globpath_file2)), 0)
+        self.assertEqual(len(results.find_by_path(globpath_file1)), 1)
+        self.assertEqual(len(results.find_by_path(globpath_file2)), 0)
 
         # these files have the same content so expect same result from both
         expected = {5380: '2022-02-10 16:09:22.641'}
         path_results = results.find_by_path(globpath_file1)
         for result in path_results:
             ln = result.linenumber
-            self.assertEquals(result.tag, "T3")
-            self.assertEquals(result.get(1), expected[ln])
+            self.assertEqual(result.tag, "T3")
+            self.assertEqual(result.get(1), expected[ln])
 
         path_results = results.find_by_path(globpath_file2)
         for result in path_results:
             ln = result.linenumber
-            self.assertEquals(result.tag, "T3")
-            self.assertEquals(result.get(1), expected[ln])
+            self.assertEqual(result.tag, "T3")
+            self.assertEqual(result.get(1), expected[ln])
 
     def test_filesearcher_network_info(self):
         filepath = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands',
@@ -171,21 +171,21 @@ class TestSearchTools(utils.BaseTestCase):
         s.add_search_term(sd, filepath2)
 
         results = s.search()
-        self.assertEquals(set(results.files), set([filepath, filepath2]))
-        self.assertEquals(len(results.find_by_path(filepath)), 1)
-        self.assertEquals(len(results.find_by_path(filepath2)), 2)
+        self.assertEqual(set(results.files), set([filepath, filepath2]))
+        self.assertEqual(len(results.find_by_path(filepath)), 1)
+        self.assertEqual(len(results.find_by_path(filepath2)), 2)
 
-        self.assertEquals(results.find_by_path(filepath)[0].linenumber, 38)
+        self.assertEqual(results.find_by_path(filepath)[0].linenumber, 38)
         for result in results.find_by_path(filepath):
-            self.assertEquals(result.get(1), ip)
+            self.assertEqual(result.get(1), ip)
 
         expected = {52: mac,
                     141: mac}
 
         for result in results.find_by_path(filepath2):
             ln = result.linenumber
-            self.assertEquals(result.tag, None)
-            self.assertEquals(result.get(1), expected[ln])
+            self.assertEqual(result.tag, None)
+            self.assertEqual(result.get(1), expected[ln])
 
     def test_filesearcher_error(self):
         s = FileSearcher()

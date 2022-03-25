@@ -33,13 +33,13 @@ class TestJujuSummary(JujuTestsBase):
 
     def test_summary_keys(self):
         inst = summary.JujuSummary()
-        self.assertEquals(list(inst.output.keys()),
-                          ['charm-repo-info',
-                           'charms',
-                           'machine',
-                           'services',
-                           'units',
-                           'version'])
+        self.assertEqual(list(inst.output.keys()),
+                         ['charm-repo-info',
+                          'charms',
+                          'machine',
+                          'services',
+                          'units',
+                          'version'])
 
     def test_service_info(self):
         expected = {'ps': ['jujud (1)'],
@@ -47,15 +47,15 @@ class TestJujuSummary(JujuTestsBase):
                         'enabled': ['jujud-machine-1']}
                     }
         inst = summary.JujuSummary()
-        self.assertEquals(self.part_output_to_actual(inst.output)['services'],
-                          expected)
+        self.assertEqual(self.part_output_to_actual(inst.output)['services'],
+                         expected)
 
     def test_machine_info(self):
         inst = summary.JujuSummary()
         self.assertTrue(inst.plugin_runnable)
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual['version'], '2.9.22')
-        self.assertEquals(actual['machine'], '1')
+        self.assertEqual(actual['version'], '2.9.22')
+        self.assertEqual(actual['machine'], '1')
 
     @mock.patch('core.plugins.juju.JujuMachine')
     def test_get_lxd_machine_info(self, mock_machine):
@@ -64,22 +64,22 @@ class TestJujuSummary(JujuTestsBase):
         mock_machine.return_value.version = '2.9.9'
         inst = summary.JujuSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEquals(actual['version'], '2.9.9')
-        self.assertEquals(actual['machine'], '0-lxd-11')
+        self.assertEqual(actual['version'], '2.9.9')
+        self.assertEqual(actual['machine'], '0-lxd-11')
 
     def test_charm_versions(self):
         expected = ['ceph-osd-508', 'neutron-openvswitch-457',
                     'nova-compute-589']
         inst = summary.JujuSummary()
-        self.assertEquals(self.part_output_to_actual(inst.output)['charms'],
-                          expected)
+        self.assertEqual(self.part_output_to_actual(inst.output)['charms'],
+                         expected)
 
     def test_get_unit_info(self):
         expected = {'local': ['ceph-osd-0', 'neutron-openvswitch-1',
                               'nova-compute-0']}
         inst = summary.JujuSummary()
-        self.assertEquals(self.part_output_to_actual(inst.output)['units'],
-                          expected)
+        self.assertEqual(self.part_output_to_actual(inst.output)['units'],
+                         expected)
 
 
 class TestJujuKnownBugs(JujuTestsBase):
