@@ -49,7 +49,7 @@ CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 class CephConfig(checks.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/ceph/ceph.conf')
-        super().__init__(path=path, *args, **kwargs)
+        super().__init__(*args, path=path, **kwargs)
 
 
 class CephCrushMap(object):
@@ -1048,7 +1048,7 @@ class CephDaemonConfigShowAllOSDs(object):
 class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(service_exprs=CEPH_SERVICES_EXPRS, *args, **kwargs)
+        super().__init__(*args, service_exprs=CEPH_SERVICES_EXPRS, **kwargs)
 
 
 class CephEventChecksBase(CephChecksBase, YEventCheckerBase):

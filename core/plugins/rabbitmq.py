@@ -297,7 +297,7 @@ class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
 class RabbitMQServiceChecksBase(RabbitMQChecksBase, checks.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(service_exprs=RMQ_SERVICES_EXPRS, *args, **kwargs)
+        super().__init__(*args, service_exprs=RMQ_SERVICES_EXPRS, **kwargs)
 
 
 class RabbitMQEventChecksBase(RabbitMQChecksBase, YEventCheckerBase):

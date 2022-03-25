@@ -78,8 +78,8 @@ class YAMLDefBase(object):
 
 
 class YAMLDefSection(YAMLDefBase):
-    def __init__(self, name, content, overrides=None, parent=None,
-                 override_handlers=None, root=None, *args, **kwargs):
+    def __init__(self, name, content, *args, overrides=None, parent=None,
+                 override_handlers=None, root=None, **kwargs):
         super().__init__(*args, **kwargs)
         if root is None:
             self.root = self
@@ -113,9 +113,9 @@ class YAMLDefSection(YAMLDefBase):
             if name in self.override_keys:
                 continue
 
-            s = YAMLDefSection(name, content, self.overrides,
-                               override_handlers=self._override_handlers,
+            s = YAMLDefSection(name, content, overrides=self.overrides,
                                parent=self,
+                               override_handlers=self._override_handlers,
                                root=self.root)
             self.sections.append(s)
 

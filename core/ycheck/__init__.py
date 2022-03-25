@@ -810,8 +810,7 @@ class YPropertyInput(YPropertyOverrideBase):
                 kwargs = self.options['kwargs']
 
             # get command output
-            out = getattr(CLIHelper(), self.command)(*args,
-                                                     **kwargs)
+            out = getattr(CLIHelper(), self.command)(*args, **kwargs)
             # store in temp file to make it searchable
             # NOTE: we dont need to delete this at the the end since they are
             # created in the plugun tmp dir which is wiped at the end of the
