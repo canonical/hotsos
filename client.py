@@ -51,8 +51,116 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
     @property
     def summary(self):
-        return {'version': os.environ['VERSION'],
-                'repo-info': os.environ['REPO_INFO']}
+        return {'version': os.environ.get('HOTSOS_VERSION', 'unknown'),
+                'repo-info': os.environ.get('REPO_INFO', 'unknown')}
+
+
+# Ensure that plugins are always run in this order so as to get consistent
+# output.
+PLUGIN_RUN_ORDER = [
+    'hotsos',
+    'system',
+    'sosreport',
+    'openstack',
+    'openvswitch',
+    'rabbitmq',
+    'kubernetes',
+    'storage',
+    'vault',
+    'juju',
+    'maas',
+    'kernel',
+]
+
+
+PLUGIN_CATALOG = {'hotsos': {
+                    'summary': {
+                        'objects': [HotSOSSummary],
+                        'part_yaml_offset': 0}},
+                  'juju': {
+                     'summary': {
+                         'objects': [JujuSummary],
+                         'part_yaml_offset': 0}},
+                  'openstack': {
+                     'summary': {
+                         'objects': [ost_summary.OpenstackSummary],
+                         'part_yaml_offset': 0},
+                    'nova_external_events': {
+                        'objects': [
+                            nova_external_events.NovaExternalEventChecks],
+                        'part_yaml_offset': 1},
+                    'vm_info': {
+                        'objects': [vm_info.OpenstackInstanceChecks,
+                                    vm_info.NovaServerMigrationAnalysis],
+                        'part_yaml_offset': 2},
+                    'service_network_checks': {
+                        'objects': [
+                            service_network_checks.OpenstackNetworkChecks],
+                        'part_yaml_offset': 3},
+                    'service_features': {
+                        'objects': [service_features.ServiceFeatureChecks],
+                        'part_yaml_offset': 4},
+                    'agent_exceptions': {
+                        'objects': [agent_exceptions.AgentExceptionChecks],
+                        'part_yaml_offset': 5},
+                    'agent_event_checks': {
+                        'objects': [agent_event_checks.AgentEventChecks],
+                        'part_yaml_offset': 6}},
+                  'openvswitch': {
+                     'summary': {
+                         'objects': [ovs_summary.OpenvSwitchSummary],
+                         'part_yaml_offset': 0},
+                     'event_checks': {
+                         'objects': [event_checks.OpenvSwitchDaemonEventChecks,
+                                     event_checks.OpenvSwitchFlowEventChecks],
+                         'part_yaml_offset': 1}},
+                  'system': {
+                     'summary': {
+                         'objects': [SystemSummary],
+                         'part_yaml_offset': 0},
+                     'checks': {
+                         'objects': [SystemChecks],
+                         'part_yaml_offset': 1}},
+                  'maas': {
+                     'summary': {
+                         'objects': [MAASSummary],
+                         'part_yaml_offset': 0}},
+                  'kernel': {
+                     'summary': {
+                         'objects': [kern_summary.KernelSummary],
+                         'part_yaml_offset': 0},
+                     'memory': {
+                         'objects': [memory.KernelMemoryChecks],
+                         'part_yaml_offset': 1},
+                     'log_event_checks': {
+                         'objects': [log_event_checks.KernelLogEventChecks],
+                         'part_yaml_offset': 2}},
+                  'kubernetes': {
+                     'summary': {
+                         'objects': [KubernetesSummary],
+                         'part_yaml_offset': 0}},
+                  'rabbitmq': {
+                     'summary': {
+                         'objects': [RabbitMQSummary],
+                         'part_yaml_offset': 0}},
+                  'sosreport': {
+                     'summary': {
+                         'objects': [SOSReportSummary],
+                         'part_yaml_offset': 0}},
+                  'storage': {
+                     'ceph_summary': {
+                         'objects': [ceph_summary.CephSummary],
+                         'part_yaml_offset': 0},
+                     'ceph_event_checks': {
+                         'objects': [ceph_event_checks.CephDaemonLogChecks],
+                         'part_yaml_offset': 1},
+                     'bcache_summary': {
+                         'objects': [bcache_summary.BcacheSummary],
+                         'part_yaml_offset': 2}},
+                  'vault': {
+                     'summary': {
+                         'objects': [VaultSummary],
+                         'part_yaml_offset': 0}}}
 
 
 class HotSOSClient(object):
@@ -67,114 +175,33 @@ class HotSOSClient(object):
             log.debug("deleting plugin tmp dir")
             shutil.rmtree(HotSOSConfig.PLUGIN_TMP_DIR)
 
-    def _run(self):
-        log.debug("running plugin %s", HotSOSConfig.PLUGIN_NAME)
-        plugin_parts = {}
-        if HotSOSConfig.PLUGIN_NAME == 'hotsos':
-            plugin_parts['summary'] = {
-                'objects': [HotSOSSummary],
-                'part_yaml_offset': 0}
-        elif HotSOSConfig.PLUGIN_NAME == 'juju':
-            plugin_parts['summary'] = {
-                'objects': [JujuSummary],
-                'part_yaml_offset': 0}
-        elif HotSOSConfig.PLUGIN_NAME == 'openstack':
-            plugin_parts['summary'] = {
-                'objects': [ost_summary.OpenstackSummary],
-                'part_yaml_offset': 0}
-            plugin_parts['nova_external_events'] = {
-                'objects': [nova_external_events.NovaExternalEventChecks],
-                'part_yaml_offset': 1}
-            plugin_parts['vm_info'] = {
-                'objects': [vm_info.OpenstackInstanceChecks,
-                            vm_info.NovaServerMigrationAnalysis],
-                'part_yaml_offset': 2}
-            plugin_parts['service_network_checks'] = {
-                'objects': [service_network_checks.OpenstackNetworkChecks],
-                'part_yaml_offset': 3}
-            plugin_parts['service_features'] = {
-                'objects': [service_features.ServiceFeatureChecks],
-                'part_yaml_offset': 4}
-            plugin_parts['agent_exceptions'] = {
-                'objects': [agent_exceptions.AgentExceptionChecks],
-                'part_yaml_offset': 5}
-            plugin_parts['agent_event_checks'] = {
-                'objects': [agent_event_checks.AgentEventChecks],
-                'part_yaml_offset': 6}
-        elif HotSOSConfig.PLUGIN_NAME == 'openvswitch':
-            plugin_parts['summary'] = {
-                'objects': [ovs_summary.OpenvSwitchSummary],
-                'part_yaml_offset': 0}
-            plugin_parts['event_checks'] = {
-                'objects': [event_checks.OpenvSwitchDaemonEventChecks,
-                            event_checks.OpenvSwitchFlowEventChecks],
-                'part_yaml_offset': 1}
-        elif HotSOSConfig.PLUGIN_NAME == 'system':
-            plugin_parts['summary'] = {
-                'objects': [SystemSummary],
-                'part_yaml_offset': 0}
-            plugin_parts['checks'] = {
-                'objects': [SystemChecks],
-                'part_yaml_offset': 1}
-        elif HotSOSConfig.PLUGIN_NAME == 'maas':
-            plugin_parts['summary'] = {
-                'objects': [MAASSummary],
-                'part_yaml_offset': 0}
-        elif HotSOSConfig.PLUGIN_NAME == 'kernel':
-            plugin_parts['summary'] = {
-                'objects': [kern_summary.KernelSummary],
-                'part_yaml_offset': 0}
-            plugin_parts['memory'] = {
-                'objects': [memory.KernelMemoryChecks],
-                'part_yaml_offset': 1}
-            plugin_parts['log_event_checks'] = {
-                'objects': [log_event_checks.KernelLogEventChecks],
-                'part_yaml_offset': 2}
-        elif HotSOSConfig.PLUGIN_NAME == 'kubernetes':
-            plugin_parts['summary'] = {
-                'objects': [KubernetesSummary],
-                'part_yaml_offset': 0}
-        elif HotSOSConfig.PLUGIN_NAME == 'rabbitmq':
-            plugin_parts['summary'] = {
-                'objects': [RabbitMQSummary],
-                'part_yaml_offset': 0}
-        elif HotSOSConfig.PLUGIN_NAME == 'sosreport':
-            plugin_parts['summary'] = {
-                'objects': [SOSReportSummary],
-                'part_yaml_offset': 0}
-        elif HotSOSConfig.PLUGIN_NAME == 'storage':
-            plugin_parts['ceph_summary'] = {
-                'objects': [ceph_summary.CephSummary],
-                'part_yaml_offset': 0}
-            plugin_parts['ceph_event_checks'] = {
-                'objects': [ceph_event_checks.CephDaemonLogChecks],
-                'part_yaml_offset': 1}
-            plugin_parts['bcache_summary'] = {
-                'objects': [bcache_summary.BcacheSummary],
-                'part_yaml_offset': 2}
-        elif HotSOSConfig.PLUGIN_NAME == 'vault':
-            plugin_parts['summary'] = {
-                'objects': [VaultSummary],
-                'part_yaml_offset': 0}
-        else:
-            raise Exception("unknown plugin {}".
-                            format(HotSOSConfig.PLUGIN_NAME))
+    def _run(self, plugin):
+        log.debug("running plugin %s", plugin)
+        if plugin not in PLUGIN_CATALOG:
+            raise Exception("unknown plugin {}".format(plugin))
 
-        return plugintools.PluginRunner().run_parts(plugin_parts)
+        setup_config(PLUGIN_NAME=plugin)
+        parts = PLUGIN_CATALOG[plugin]
+        return plugintools.PluginRunner().run_parts(parts)
 
-    def run(self, plugin):
+    def run(self, plugins=None):
         """
-        Run the selected plugin. This will run the automatic (defs) checks as
+        Run the selected plugins. This will run the automatic (defs) checks as
         well as any extensions.
 
-        @param plugin: name of plugin to run
+        @param plugins: list of plugin names to run. If no plugins are provided
+        all will be run.
         """
-        setup_config(PLUGIN_NAME=plugin)
         out = {}
-        try:
-            self.setup_env()
-            out = self._run()
-        finally:
-            self.teardown_env()
+        if not plugins:
+            plugins = list(PLUGIN_CATALOG.keys())
+
+        for plugin in PLUGIN_RUN_ORDER:
+            if plugin in plugins:
+                try:
+                    self.setup_env()
+                    out.update(self._run(plugin) or {})
+                finally:
+                    self.teardown_env()
 
         return out

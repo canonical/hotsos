@@ -21,7 +21,7 @@
 
 #================================= ENV =========================================
 # The set in env for hotsos to consume
-export VERSION="${SNAP_REVISION:-development}"
+export HOTSOS_VERSION="${SNAP_REVISION:-development}"
 export REPO_INFO
 #===============================================================================
 
@@ -30,49 +30,19 @@ AGENT_ERROR_KEY_BY_TIME=false
 
 MAX_PARALLEL_TASKS=
 MAX_LOGROTATE_DEPTH=
-HOTSOS_ROOT=
 MINIMAL_MODE=
 DEBUG_MODE=false
 OUTPUT_ENCODING=
 USE_ALL_LOGS=false
-# Output format - default is yaml
-OUTPUT_FORMAT='yaml'
+OUTPUT_FORMAT=
 PROGRESS_PID=
 FULL_MODE_EXPLICIT=false
 USER_PROVIDED_SUMMARY=
 SAVE_OUTPUT=false
 declare -a SOS_PATHS=()
 override_all_default=false
-# Ordering is not important here since associative arrays do not respect order.
-declare -A PLUGINS=(
-    [openstack]=false
-    [openvswitch]=false
-    [kubernetes]=false
-    [storage]=false
-    [juju]=false
-    [kernel]=false
-    [maas]=false
-    [rabbitmq]=false
-    [sosreport]=false
-    [system]=true  # always do system by default
-    [vault]=false
-    [all]=false
-)
-# The order of the following list determines the order in which the plugins
-# output is presented in the summary.
-declare -a PLUGIN_NAMES=(
-    system
-    sosreport
-    openstack
-    openvswitch
-    rabbitmq
-    kubernetes
-    storage
-    vault
-    juju
-    maas
-    kernel
-)
+PLUGINS=()
+HOTSOS_ROOT=$(dirname `realpath $0`)
 
 usage ()
 {
@@ -150,6 +120,8 @@ SOSPATH
 EOF
 }
 
+readarray -t AVAILABLE_PLUGINS<<<`${HOTSOS_ROOT}/cli.py --list-plugins`
+
 while (($#)); do
     case $1 in
         --debug)
@@ -169,9 +141,7 @@ while (($#)); do
             ;;
 #######################
         --list-plugins)
-            echo "Available plugins:"
-            echo "${!PLUGINS[@]}"| tr ' ' '\n'| grep -v all| \
-                xargs -l -I{} echo " - {}"
+            ${HOTSOS_ROOT}/cli.py --list-plugins
             exit
             ;;
         --max-parallel-tasks)
@@ -191,9 +161,6 @@ while (($#)); do
         --html-escape)
             OUTPUT_ENCODING=html
             ;;
-        -a|--all)
-            PLUGINS[all]=true
-            ;;
         --full)
             FULL_MODE_EXPLICIT=true
             ;;
@@ -212,10 +179,9 @@ while (($#)); do
             ;;
         *)
             plugin_provided=false
-            for p in ${!PLUGINS[@]}; do
+            for p in ${AVAILABLE_PLUGINS[@]}; do
                 if [[ ${1#--} == $p ]]; then
-                    override_all_default=true
-                    PLUGINS[$p]=true
+                    PLUGINS+=( $p )
                     plugin_provided=true
                     break
                 fi
@@ -234,16 +200,6 @@ done
 
 if ((${#SOS_PATHS[@]}==0)); then
     SOS_PATHS=( / )
-fi
-
-if ! $override_all_default && ! ${PLUGINS[all]}; then
-    PLUGINS[all]=true
-fi
-
-if ${PLUGINS[all]}; then
-    for plugin in ${!PLUGINS[@]}; do
-        PLUGINS[$plugin]=true
-    done
 fi
 
 show_progress ()
@@ -302,8 +258,10 @@ get_extra_args ()
     if [[ -n $MAX_LOGROTATE_DEPTH ]]; then
         extra_args+=( --max-logrotate-depth $MAX_LOGROTATE_DEPTH )
     fi
+    if [[ -n $OUTPUT_FORMAT ]]; then
+        extra_args+=( --format $OUTPUT_FORMAT )
+    fi
     extra_args+=( --defs-path "${HOTSOS_ROOT}/defs" )
-    extra_args+=( --format $OUTPUT_FORMAT )
     echo ${extra_args[@]}
 }
 
@@ -314,7 +272,6 @@ generate_summary ()
 
     if [ "$data_root" = "/" ]; then
         echo -ne "INFO: analysing localhost  " 1>&2
-        data_root=/
     else
         echo -ne "INFO: analysing sosreport $data_root  " 1>&2
     fi
@@ -326,11 +283,6 @@ generate_summary ()
         PROGRESS_PID=$!
     fi
 
-    if ! [ "${data_root:(-1)}" = "/" ]; then
-        # Ensure trailing slash
-        data_root="${data_root}/"
-    fi
-
     if [[ -n ${REPO_INFO_PATH:-""} ]] && [[ -r $REPO_INFO_PATH ]]; then
         REPO_INFO=`cat $REPO_INFO_PATH`
     else
@@ -338,17 +290,11 @@ generate_summary ()
     fi
 
     args=()
-    for plugin in ${PLUGIN_NAMES[@]}; do
-        # skip this since not a real plugin
-        [ "$plugin" = "all" ] && continue
-        # is plugin enabled?
-        ${PLUGINS[$plugin]} || continue
+    for plugin in ${PLUGINS[@]}; do
         args+=( --plugin $plugin )
     done
-    if ((${#args[@]})); then
-        args+=( `get_extra_args` )
-        out="`${HOTSOS_ROOT}/cli.py ${args[@]} --data-root $data_root`"
-    fi
+    args+=( `get_extra_args` )
+    out="`${HOTSOS_ROOT}/cli.py ${args[@]} --data-root $data_root`"
 
     if [[ -n $PROGRESS_PID ]]; then
         kill -s HUP $PROGRESS_PID &>/dev/null
@@ -363,7 +309,6 @@ generate_summary ()
 #    USER_PROVIDED_SUMMARY=/dev/stdin
 #fi
 
-HOTSOS_ROOT=$(dirname `realpath $0`)
 for data_root in "${SOS_PATHS[@]}"; do
     if [[ -r $USER_PROVIDED_SUMMARY ]]; then
         args=( `get_extra_args` )

@@ -8,11 +8,12 @@ from core.config import setup_config
 from core.log import setup_logging, log
 from core import output_filter
 from core.cli_helpers import CLIHelper
-from client import HotSOSClient
+from client import HotSOSClient, PLUGIN_CATALOG
 
 
 if __name__ == '__main__':
     @click.command()
+    @click.option('--list-plugins', default=False, is_flag=True)
     @click.option('--max-parallel-tasks', default=8)
     @click.option('--max-logrotate-depth', default=7)
     @click.option('--agent-error-key-by-time', default=False, is_flag=True)
@@ -31,7 +32,15 @@ if __name__ == '__main__':
     @click.option('--data-root')
     def cli(data_root, defs_path, plugin, all_logs, debug, save, format,
             html_escape, user_summary, minimal_mode, full_mode_explicit,
-            agent_error_key_by_time, max_logrotate_depth, max_parallel_tasks):
+            agent_error_key_by_time, max_logrotate_depth, max_parallel_tasks,
+            list_plugins):
+
+        if not user_summary:
+            if not data_root or data_root == '/':
+                data_root = '/'
+            elif data_root[-1] != '/':
+                # Ensure trailing slash
+                data_root += '/'
 
         setup_config(USE_ALL_LOGS=all_logs, PLUGIN_YAML_DEFS=defs_path,
                      DATA_ROOT=data_root,
@@ -42,18 +51,26 @@ if __name__ == '__main__':
         if debug:
             setup_logging(debug)
 
+        if list_plugins:
+            sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))
+            sys.stdout.write('\n')
+            return
+
         if user_summary:
             log.debug("User summary provided in %s", data_root)
             with open(data_root) as fd:
-                summary_yaml = yaml.safe_load(fd)
+                summary = yaml.safe_load(fd)
         else:
-            summary_yaml = HotSOSClient().run('hotsos')
-            for _plugin in plugin:
-                _output = HotSOSClient().run(_plugin)
-                if _output:
-                    summary_yaml.update(_output)
+            if plugin:
+                plugin = list(plugin)
+                # always run these
+                plugin.append('hotsos')
+                if 'system' not in plugin:
+                    plugin.append('system')
 
-        formatted = output_filter.apply_output_formatting(summary_yaml,
+            summary = HotSOSClient().run(plugin)
+
+        formatted = output_filter.apply_output_formatting(summary,
                                                           format, html_escape,
                                                           minimal_mode)
         if save:
@@ -80,7 +97,7 @@ if __name__ == '__main__':
                                      format(out))
                 if full_mode_explicit:
                     formatted = output_filter.apply_output_formatting(
-                                                          summary_yaml, format,
+                                                          summary, format,
                                                           html_escape)
 
             if not minimal_mode or full_mode_explicit:
@@ -98,6 +115,6 @@ if __name__ == '__main__':
                 sys.stderr.write('Results:\n')
 
             if formatted:
-                sys.stdout.write(formatted)
+                sys.stdout.write("{}\n".format(formatted))
 
     cli()
