@@ -83,6 +83,10 @@ SOSPATH
 """  # noqa
 
 
+def get_hotsos_root():
+    return os.path.dirname(sys.argv[0])
+
+
 def get_version():
     return os.environ.get('SNAP_REVISION', 'development')
 
@@ -97,8 +101,12 @@ def get_repo_info():
         with open(repo_info) as fd:
             return fd.read().strip()
 
-    out = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])
-    if not out:
+    try:
+        out = subprocess.check_output(['git', '-C',  get_hotsos_root(),
+                                       'rev-parse', '--short', 'HEAD'])
+        if not out:
+            return "unknown"
+    except Exception:
         return "unknown"
 
     return out.decode().strip()
@@ -109,6 +117,10 @@ def set_plugin_options(f):
         click.option('--{}'.format(plugin), default=False, is_flag=True)(f)
 
     return f
+
+
+def get_defs_path():
+    return os.path.join(get_hotsos_root(), 'defs')
 
 
 if __name__ == '__main__':
@@ -129,7 +141,7 @@ if __name__ == '__main__':
     @click.option('--all-logs', default=False, is_flag=True,
                   help=("use the full history of logrotated logs as "
                         "opposed to just the most recent"))
-    @click.option('--defs-path', default='defs')
+    @click.option('--defs-path', default=get_defs_path())
     @click.option('--version', '-v', default=False, is_flag=True)
     @click.option('--help', '-h', default=False, is_flag=True)
     @click.argument('data_root', required=False, type=click.Path(exists=True))
@@ -191,12 +203,10 @@ if __name__ == '__main__':
 
         # start progress
         os.environ['PROGRESS_PID_PATH'] = tempfile.mktemp()
-        start_script = 'scripts/progress_start.sh'
-        stop_script = 'scripts/progress_stop.sh'
-        if os.environ.get('SNAP'):
-            start_script = os.path.join(os.environ.get('SNAP'), start_script)
-            stop_script = os.path.join(os.environ.get('SNAP'), stop_script)
-
+        start_script = os.path.join(get_hotsos_root(),
+                                    'scripts/progress_start.sh')
+        stop_script = os.path.join(get_hotsos_root(),
+                                   'scripts/progress_stop.sh')
         os.spawnle(os.P_NOWAIT, start_script, start_script, os.environ)
 
         try:
