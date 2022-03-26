@@ -51,8 +51,8 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
     @property
     def summary(self):
-        return {'version': os.environ.get('HOTSOS_VERSION', 'unknown'),
-                'repo-info': os.environ.get('REPO_INFO', 'unknown')}
+        return {'version': HotSOSConfig.HOTSOS_VERSION,
+                'repo-info': HotSOSConfig.REPO_INFO}
 
 
 # Ensure that plugins are always run in this order so as to get consistent

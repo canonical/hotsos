@@ -3,12 +3,12 @@ version: '1.0'
 summary: Collect application operational information.
 description:
   Collect information about specific applications and raise issues when
-  problems are detected. Can be run against host or sosreport.
+  problems are detected. Can be run against a host or sosreport.
   A number of application plugins are supported including Openstack, Ceph,
-  Kubernetes, Juju and more. The standard output is structured YAML format.
-  By default all plugins are run and only produce ouput if applicable. If you
-  want to run specific plugins you can choose from a selection
-  (--list-plugins). See --help for more options.
+  Kubernetes, Juju and more. The output is a summary from each plugin and uses
+  yaml format by default. By default all plugins are run and only produce ouput
+  if applicable. If you  want to run specific plugins you can choose from a
+  selection (--list-plugins). See --help for more options.
 confinement: classic
 grade: stable
 base: core20
@@ -26,15 +26,15 @@ layout:
 
 apps:
   hotsos:
-    command: hotsos.sh
-#    plugs: [home, removable-media]
+    command: cli.py
     environment:
       LD_PRELOAD: "$SNAP/libpreload-semaphores.so"
 parts:
   hotsos:
     source: .
     plugin: dump
-    stage-packages: [coreutils, bsdmainutils, jq, bc, systemd, dpkg]
+    stage-packages: [coreutils, bsdmainutils, systemd, dpkg, python3-yaml,
+                     python3-simplejson, python3-click]
     build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info
@@ -52,10 +52,6 @@ parts:
         - -lib/systemd/system/cryptdisks.service
     stage:
       - $exclude-systemd-files
-  hotsos-python:
-    source: .
-    plugin: python
-    stage-packages: [python3-yaml, python3-simplejson, python3-click]
   sem-open-preload:
     source: https://github.com/snapcore/snapcraft-preloads.git
     source-subdir: semaphores
