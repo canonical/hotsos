@@ -201,13 +201,14 @@ if __name__ == '__main__':
                              format(data_root))
             sys.stderr.flush()
 
-        # start progress
-        os.environ['PROGRESS_PID_PATH'] = tempfile.mktemp()
-        start_script = os.path.join(get_hotsos_root(),
-                                    'scripts/progress_start.sh')
-        stop_script = os.path.join(get_hotsos_root(),
-                                   'scripts/progress_stop.sh')
-        os.spawnle(os.P_NOWAIT, start_script, start_script, os.environ)
+        if not debug:
+            # start progress
+            os.environ['PROGRESS_PID_PATH'] = tempfile.mktemp()
+            start_script = os.path.join(get_hotsos_root(),
+                                        'scripts/progress_start.sh')
+            stop_script = os.path.join(get_hotsos_root(),
+                                       'scripts/progress_stop.sh')
+            os.spawnle(os.P_NOWAIT, start_script, start_script, os.environ)
 
         try:
             if user_summary:
@@ -228,8 +229,9 @@ if __name__ == '__main__':
 
                 summary = HotSOSClient().run(plugins)
         finally:
-            # stop progress spinner before producing output
-            os.spawnle(os.P_WAIT, stop_script, stop_script, os.environ)
+            if not debug:
+                # stop progress spinner before producing output
+                os.spawnle(os.P_WAIT, stop_script, stop_script, os.environ)
 
         formatted = output_filter.apply_output_formatting(summary,
                                                           format, html_escape,
