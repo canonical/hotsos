@@ -13,86 +13,12 @@ from core.cli_helpers import CLIHelper
 from client import HotSOSClient, PLUGIN_CATALOG
 
 
-HELP_MSG = """hotsos (version: {VERSION})
-
-USAGE: hotsos [OPTIONS] [SOSPATH]
-
-Run this tool on a host or against an unpacked sosreport to perform analysis of
-specific applications and the host itself. A summary of information about those
-applications is generated along with any issues or known bugs detected.
-Applications are defined as plugins and support currently includes Openstack,
-Kubernetes, Ceph and more (see --list-plugins). The standard output is yaml
-format to allow easy visual inspection and post-processing by other tools and
-other formats are also supported.
-
-OPTIONS
-    --all-logs
-        Some plugins may choose to only analyse the most recent version of a
-        log file by default since parsing the full history could take a lot
-        longer. This tells plugins that we wish to analyse
-        all available log history (see --max-logrotate-depth for limits).
-    --debug
-        Provide some debug output. Logs will be printed to stderr.
-    --full
-        This is the default and tells hotsos to generate a full summary. If you
-        want to save both a short and full summary you can specifiy this option
-        when doing --short.
-    -h|--help
-        This message.
-    --format yaml|json
-        Output format. Default is yaml.
-    --html-escape
-        Apply html escaping to the output so that it is safe to display in html.
-    --<plugin name>
-        Use the specified plugin.
-    --list-plugins
-        Show available plugins.
-    --max-parallel-tasks [INT]
-        The searchtools module will execute searches across files in parallel.
-        By default the number of cores used is limited to a maximum of 8 and
-        you can override that value with this option.
-    --max-logrotate-depth [INT]
-        Defaults to 7. This is maximum logrotate history that will be searched
-        for a given log. Only applies when --all-logs is provided.
-    --short
-        Filters the full summary so that it only includes plugin known-bugs
-        and potential-issues sections.
-    --very-short
-        Minimal version of --short where only issue types or bug ids are
-        displayed with count of each (issues only).
-    -s|--save
-        Save yaml output to a file.
-    --user-summary
-        Provide an existing summary so that it can be post-procesed e.g.
-        --format json.
-    --version
-        Show the version.
-
-PLUGIN OPTIONS
-  These options only apply to specific plugins.
-
-  openstack:
-    --agent-error-key-by-time
-        When displaying agent error counts, they will be grouped by date. This
-        option will result in grouping by date and time which may be more useful
-        for cross-referencing with other logs.
-
-SOSPATH
-    Path to an unpacked sosreport. Can be provided multiple times. If none
-    provided, will run against local host.
-"""  # noqa
-
-
 def get_hotsos_root():
     return os.path.dirname(sys.argv[0])
 
 
 def get_version():
     return os.environ.get('SNAP_REVISION', 'development')
-
-
-def usage():
-    print(HELP_MSG.format(**{'VERSION': get_version()}))
 
 
 def get_repo_info():
@@ -114,7 +40,8 @@ def get_repo_info():
 
 def set_plugin_options(f):
     for plugin in PLUGIN_CATALOG:
-        click.option('--{}'.format(plugin), default=False, is_flag=True)(f)
+        click.option('--{}'.format(plugin), default=False, is_flag=True,
+                     help=('Run the {} plugin.'.format(plugin)))(f)
 
     return f
 
@@ -124,31 +51,84 @@ def get_defs_path():
 
 
 if __name__ == '__main__':
-    @click.command()
-    @set_plugin_options
-    @click.option('--list-plugins', default=False, is_flag=True)
-    @click.option('--max-parallel-tasks', default=8)
-    @click.option('--max-logrotate-depth', default=7)
-    @click.option('--agent-error-key-by-time', default=False, is_flag=True)
-    @click.option('--full', default=False, is_flag=True)
-    @click.option('--very-short', default=False, is_flag=True)
-    @click.option('--short', default=False, is_flag=True)
-    @click.option('--user-summary', default=False, is_flag=True)
-    @click.option('--html-escape', default=False, is_flag=True)
-    @click.option('--format', default='yaml')
-    @click.option('--save', '-s', default=False, is_flag=True)
-    @click.option('--debug', default=False, is_flag=True)
+    @click.command(name='hotsos')
+    @click.option('--list-plugins', default=False, is_flag=True,
+                  help=('Show available plugins.'))
+    @click.option('--max-parallel-tasks', default=8,
+                  help=('The searchtools module will execute searches across '
+                        'files in parallel. By default the number of cores '
+                        'used is limited to a max of 8. You can '
+                        'override that value with this option.'))
+    @click.option('--max-logrotate-depth', default=7,
+                  help=('Searching all available logrotate history for a '
+                        'given log file can be costly so we cap the history '
+                        'to this value. Only applies when --all-logs is '
+                        'provided.'))
+    @click.option('--agent-error-key-by-time', default=False, is_flag=True,
+                  help=('When displaying agent error counts, they will be '
+                        'grouped by date. This option will result in '
+                        'grouping by date and time which may be more useful '
+                        'for cross-referencing with other logs.'))
+    @click.option('--full', default=False, is_flag=True,
+                  help=('This is the default and tells hotsos to generate a '
+                        'full summary. If you want to save both a short and '
+                        'full summary you can specifiy this option '
+                        'when doing --short.'))
+    @click.option('--very-short', default=False, is_flag=True,
+                  help=('Minimal version of --short where only issue types or '
+                        'bug ids are displayed with count of each (issues '
+                        'only).'))
+    @click.option('--short', default=False, is_flag=True,
+                  help=('Filters the full summary so that it only includes '
+                        'plugin known-bugs and potential-issues sections.'))
+    @click.option('--user-summary', default=False, is_flag=True,
+                  help=('Provide an existing summary so that it can be '
+                        'post-procesed e.g. --format json.'))
+    @click.option('--html-escape', default=False, is_flag=True,
+                  help=('Apply html escaping to the output so that it is safe '
+                        'to display in html.'))
+    @click.option('--format', default='yaml',
+                  help=('Output format. Default is yaml.'))
+    @click.option('--save', '-s', default=False, is_flag=True,
+                  help=('Save output to a file.'))
+    @click.option('--debug', default=False, is_flag=True,
+                  help=('Provide some debug output. Logs will be printed to '
+                        'stderr.'))
     @click.option('--all-logs', default=False, is_flag=True,
-                  help=("use the full history of logrotated logs as "
-                        "opposed to just the most recent"))
-    @click.option('--defs-path', default=get_defs_path())
-    @click.option('--version', '-v', default=False, is_flag=True)
-    @click.option('--help', '-h', default=False, is_flag=True)
+                  help=('Some plugins may choose to only analyse the most '
+                        'recent version of a log file by default since '
+                        'parsing the full history could take a lot '
+                        'longer. This tells plugins that we wish to analyse '
+                        'all available log history (see --max-logrotate-depth '
+                        'for limits).'))
+    @click.option('--defs-path', default=get_defs_path(),
+                  help=('Path to yaml definitions (ydefs).'))
+    @click.option('--version', '-v', default=False, is_flag=True,
+                  help=('Show the version.'))
+    @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(data_root, help, version, defs_path, all_logs, debug, save,
+    def cli(data_root, version, defs_path, all_logs, debug, save,
             format, html_escape, user_summary, short, very_short,
             full, agent_error_key_by_time, max_logrotate_depth,
             max_parallel_tasks, list_plugins, **kwargs):
+        """
+        Run this tool on a host or against an unpacked sosreport to perform
+        analysis of specific applications and the host itself. A summary of
+        information is generated along with any issues or known bugs detected.
+        Applications are defined as plugins and support currently includes
+        Openstack, Kubernetes, Ceph and more (see --list-plugins). The
+        standard output format is yaml to allow easy visual inspection and
+        post-processing by other tools. Other formats are also supported.
+
+        There a three main components to this tool; the core python library,
+        plugin extensions and a library of checks written in a high level
+        yaml-based language.
+
+        \b
+        DATA_ROOT
+            Path to an unpacked sosreport. Can be provided multiple times. If none
+            provided, will run against local host.
+        """  # noqa
 
         full_mode_explicit = full
         minimal_mode = None
@@ -166,10 +146,6 @@ if __name__ == '__main__':
 
         if version:
             print(_version)
-            return
-
-        if help:
-            usage()
             return
 
         if not user_summary:
