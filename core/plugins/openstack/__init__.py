@@ -188,13 +188,12 @@ class OSTProject(object):
                don't match the name of the project.
         """
         self.name = name
+        self.packages_deps = [self.PY_CLIENT_PREFIX.format(name)]
         self.packages_core = [name]
         if apt_core_alt:
             self.packages_core.extend(apt_core_alt)
             for c in apt_core_alt:
-                self.packages_core.append(self.PY_CLIENT_PREFIX.format(c))
-        else:
-            self.packages_core.append(self.PY_CLIENT_PREFIX.format(name))
+                self.packages_deps.append(self.PY_CLIENT_PREFIX.format(c))
 
         self.config = {}
         if config:
@@ -373,17 +372,20 @@ class OSTProjectCatalog(object):
         self._projects[name] = OSTProject(name, *args, **kwargs)
 
     @property
-    def packages_core(self):
-        # Set of packages we consider to be core for openstack
-        core = []
+    def packages_core_exprs(self):
+        core = set()
         for p in self.all.values():
-            core += p.packages_core
+            core.update(p.packages_core)
 
-        return core
+        return list(core)
 
     @property
-    def package_dependencies(self):
-        return self.APT_DEPS_COMMON
+    def packages_dep_exprs(self):
+        deps = set(self.APT_DEPS_COMMON)
+        for p in self.all.values():
+            deps.update(p.packages_deps)
+
+        return list(deps)
 
 
 class NovaInstance(object):
@@ -767,13 +769,13 @@ class OpenstackBase(object):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ost_projects = OSTProjectCatalog()
-        other_pkgs = self.ost_projects.package_dependencies
+        other_pkgs = self.ost_projects.packages_dep_exprs
         self.apt_check = checks.APTPackageChecksBase(
-                                  core_pkgs=self.ost_projects.packages_core,
-                                  other_pkgs=other_pkgs)
+                               core_pkgs=self.ost_projects.packages_core_exprs,
+                               other_pkgs=other_pkgs)
         self.docker_check = checks.DockerImageChecksBase(
-                             core_pkgs=self.ost_projects.packages_core,
-                             other_pkgs=self.ost_projects.package_dependencies)
+                               core_pkgs=self.ost_projects.packages_core_exprs,
+                               other_pkgs=self.ost_projects.packages_dep_exprs)
         self.nova = NovaBase()
         self.neutron = NeutronBase()
         self.octavia = OctaviaBase()

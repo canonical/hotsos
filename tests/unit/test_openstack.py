@@ -116,6 +116,10 @@ ii  nova-common                          2:21.2.1-0ubuntu1                      
 ii  neutron-common                       2:17.2.0-0ubuntu2                                    all          Neutron is a virtual network service for Openstack - common
 """  # noqa
 
+DPKG_L_CLIENTS_ONLY = """
+ii  python3-neutronclient                       2:17.2.0-0ubuntu2                                    all          Neutron is a virtual network service for Openstack - common
+"""  # noqa
+
 LP_1929832 = r"""
 2021-05-26 18:56:57.344 3457514 ERROR neutron.agent.l3.agent [-] Error while deleting router 8f14f808-c23a-422b-a3a8-7fb747e89676: neutron_lib.exceptions.ProcessExecutionError: Exit code: 99; Stdin: ; Stdout: ; Stderr: /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 365134 (no filter matched)
 """  # noqa
@@ -178,6 +182,143 @@ class TestOpenstackPluginCore(TestOpenstackBase):
     def test_release_name(self):
         base = openstack_core.OpenstackBase()
         self.assertEqual(base.release_name, 'ussuri')
+
+    def test_project_catalog_package_exprs(self):
+        c = openstack_core.OSTProjectCatalog()
+        core = ['ceilometer',
+                'octavia',
+                'placement',
+                'manila',
+                'designate',
+                'neutron',
+                'glance',
+                'masakari',
+                'amphora-\\S+',
+                'gnocchi',
+                'openstack-dashboard',
+                'horizon',
+                'keystone',
+                'swift',
+                'aodh',
+                'heat',
+                'nova',
+                'barbican',
+                'cinder']
+
+        deps = ['keepalived',
+                'python3?-amphora-\\S+\\S*',
+                'nfs--ganesha',
+                'python3?-openstack-dashboard\\S*',
+                'libvirt-bin',
+                'python3?-aodh\\S*',
+                'python3?-nova\\S*',
+                'python3?-swift\\S*',
+                'python3?-ceilometer\\S*',
+                'radvd',
+                'python3?-horizon\\S*',
+                'haproxy',
+                'python3?-masakari\\S*',
+                'python3?-barbican\\S*',
+                'python3?-cinder\\S*',
+                'python3?-oslo[.-]',
+                'python3?-manila\\S*',
+                'python3?-heat\\S*',
+                'python3?-keystone\\S*',
+                'mysql-?\\S+',
+                'python3?-neutron\\S*',
+                'python3?-gnocchi\\S*',
+                'qemu-kvm',
+                'conntrack',
+                'libvirt-daemon',
+                'python3?-placement\\S*',
+                'python3?-octavia\\S*',
+                'python3?-glance\\S*',
+                'dnsmasq',
+                'python3?-designate\\S*']
+
+        self.assertEqual(sorted(c.packages_core_exprs), sorted(core))
+        self.assertEqual(sorted(c.packages_dep_exprs), sorted(deps))
+
+    def test_project_catalog_packages(self):
+        ost_base = openstack_core.OpenstackBase()
+        core = {'keystone-common': '2:17.0.1-0ubuntu1',
+                'neutron-common': '2:16.4.1-0ubuntu2',
+                'neutron-dhcp-agent': '2:16.4.1-0ubuntu2',
+                'neutron-fwaas-common': '1:16.0.0-0ubuntu0.20.04.1',
+                'neutron-l3-agent': '2:16.4.1-0ubuntu2',
+                'neutron-metadata-agent': '2:16.4.1-0ubuntu2',
+                'neutron-openvswitch-agent': '2:16.4.1-0ubuntu2',
+                'nova-api-metadata': '2:21.2.3-0ubuntu1',
+                'nova-common': '2:21.2.3-0ubuntu1',
+                'nova-compute': '2:21.2.3-0ubuntu1',
+                'nova-compute-kvm': '2:21.2.3-0ubuntu1',
+                'nova-compute-libvirt': '2:21.2.3-0ubuntu1'}
+
+        deps = {'conntrack': '1:1.4.5-2',
+                'dnsmasq-base': '2.80-1.1ubuntu1.4',
+                'dnsmasq-utils': '2.80-1.1ubuntu1.4',
+                'haproxy': '2.0.13-2ubuntu0.3',
+                'keepalived': '1:2.0.19-2ubuntu0.1',
+                'libvirt-daemon': '6.0.0-0ubuntu8.15',
+                'libvirt-daemon-driver-qemu': '6.0.0-0ubuntu8.15',
+                'libvirt-daemon-driver-storage-rbd': '6.0.0-0ubuntu8.15',
+                'libvirt-daemon-system': '6.0.0-0ubuntu8.15',
+                'libvirt-daemon-system-systemd': '6.0.0-0ubuntu8.15',
+                'mysql-common': '5.8+1.0.5ubuntu2',
+                'python3-barbicanclient': '4.10.0-0ubuntu1',
+                'python3-cinderclient': '1:7.0.0-0ubuntu1',
+                'python3-designateclient': '2.11.0-0ubuntu2',
+                'python3-glanceclient': '1:3.1.1-0ubuntu1',
+                'python3-keystone': '2:17.0.1-0ubuntu1',
+                'python3-keystoneauth1': '4.0.0-0ubuntu1',
+                'python3-keystoneclient': '1:4.0.0-0ubuntu1',
+                'python3-keystonemiddleware': '9.0.0-0ubuntu1',
+                'python3-neutron': '2:16.4.1-0ubuntu2',
+                'python3-neutron-fwaas': '1:16.0.0-0ubuntu0.20.04.1',
+                'python3-neutron-lib': '2.3.0-0ubuntu1',
+                'python3-neutronclient': '1:7.1.1-0ubuntu1',
+                'python3-nova': '2:21.2.3-0ubuntu1',
+                'python3-novaclient': '2:17.0.0-0ubuntu1',
+                'python3-oslo.cache': '2.3.0-0ubuntu1',
+                'python3-oslo.concurrency': '4.0.2-0ubuntu1',
+                'python3-oslo.config': '1:8.0.2-0ubuntu1',
+                'python3-oslo.context': '1:3.0.2-0ubuntu1',
+                'python3-oslo.db': '8.1.0-0ubuntu1',
+                'python3-oslo.i18n': '4.0.1-0ubuntu1',
+                'python3-oslo.log': '4.1.1-0ubuntu1',
+                'python3-oslo.messaging': '12.1.6-0ubuntu1',
+                'python3-oslo.middleware': '4.0.2-0ubuntu1',
+                'python3-oslo.policy': '3.1.0-0ubuntu1.1',
+                'python3-oslo.privsep': '2.1.1-0ubuntu1',
+                'python3-oslo.reports': '2.0.1-0ubuntu1',
+                'python3-oslo.rootwrap': '6.0.2-0ubuntu1',
+                'python3-oslo.serialization': '3.1.1-0ubuntu1',
+                'python3-oslo.service': '2.1.1-0ubuntu1.1',
+                'python3-oslo.upgradecheck': '1.0.1-0ubuntu1',
+                'python3-oslo.utils': '4.1.1-0ubuntu1',
+                'python3-oslo.versionedobjects': '2.0.1-0ubuntu1',
+                'python3-oslo.vmware': '3.3.1-0ubuntu1',
+                'qemu-kvm': '1:4.2-3ubuntu6.19',
+                'radvd': '1:2.17-2'}
+
+        self.assertEqual(ost_base.apt_check.core, core)
+        _deps = set(ost_base.apt_check.all).symmetric_difference(
+                                                       ost_base.apt_check.core)
+        _deps = {k: ost_base.apt_check.all[k] for k in _deps}
+        self.assertEqual(_deps, deps)
+
+    @mock.patch('core.checks.CLIHelper')
+    def test_plugin_not_runnable_clients_only(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["{}\n".format(line) for line in DPKG_L_CLIENTS_ONLY.split('\n')]
+
+        ost_base = openstack_core.OpenstackChecksBase()
+        self.assertFalse(ost_base.plugin_runnable)
+
+    def test_plugin_runnable(self):
+        ost_base = openstack_core.OpenstackChecksBase()
+        self.assertTrue(ost_base.plugin_runnable)
 
     @mock.patch('core.issues.utils.add_issue')
     def test_release_name_detect_multiples(self, mock_add_issue):
