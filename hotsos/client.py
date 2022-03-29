@@ -38,8 +38,7 @@ from hotsos.plugin_extensions.storage import (
     bcache_summary,
 )
 from hotsos.plugin_extensions.vault.summary import VaultSummary
-
-from plugin_extensions.pacemaker.summary import PacemakerSummary
+from hotsos.plugin_extensions.pacemaker.summary import PacemakerSummary
 
 
 class HotSOSSummary(plugintools.PluginPartBase):

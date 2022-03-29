@@ -6,7 +6,7 @@ from tests.unit import utils
 
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
-from plugin_extensions.pacemaker import summary
+from hotsos.plugin_extensions.pacemaker import summary
 
 
 class TestPacemakerBase(utils.BaseTestCase):
