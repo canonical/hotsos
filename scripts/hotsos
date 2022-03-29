@@ -97,6 +97,9 @@ if __name__ == '__main__':
                   help=('Output format. Default is yaml.'))
     @click.option('--save', '-s', default=False, is_flag=True,
                   help=('Save output to a file.'))
+    @click.option('--quiet', default=False, is_flag=True,
+                  help=('Suppress normal stderr output, only errors will be '
+                        'printed.'))
     @click.option('--debug', default=False, is_flag=True,
                   help=('Provide some debug output. Logs will be printed to '
                         'stderr.'))
@@ -113,7 +116,7 @@ if __name__ == '__main__':
                   help=('Show the version.'))
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(data_root, version, defs_path, all_logs, debug, save,
+    def cli(data_root, version, defs_path, all_logs, quiet, debug, save,
             format, html_escape, user_summary, short, very_short,
             full, agent_error_key_by_time, max_logrotate_depth,
             max_parallel_tasks, list_plugins, **kwargs):
@@ -167,6 +170,10 @@ if __name__ == '__main__':
                      MAX_LOGROTATE_DEPTH=max_logrotate_depth,
                      MAX_PARALLEL_TASKS=max_parallel_tasks)
 
+        if debug and quiet:
+            sys.stderr.write('ERROR: cannot use --debug and --quiet together')
+            return
+
         if debug:
             setup_logging(debug)
 
@@ -175,15 +182,16 @@ if __name__ == '__main__':
             sys.stdout.write('\n')
             return
 
-        if data_root == '/':
-            sys.stderr.write('INFO: analysing localhost  ')
-            sys.stderr.flush()
-        else:
-            sys.stderr.write('INFO: analysing sosreport {}  '.
-                             format(data_root))
-            sys.stderr.flush()
+        if not quiet:
+            if data_root == '/':
+                sys.stderr.write('INFO: analysing localhost  ')
+                sys.stderr.flush()
+            else:
+                sys.stderr.write('INFO: analysing sosreport {}  '.
+                                 format(data_root))
+                sys.stderr.flush()
 
-        if not debug:
+        if not debug and not quiet:
             # start progress
             os.environ['PROGRESS_PID_PATH'] = tempfile.mktemp()
             start_script = os.path.join(get_hotsos_root(),
@@ -211,7 +219,7 @@ if __name__ == '__main__':
 
                 summary = HotSOSClient().run(plugins)
         finally:
-            if not debug:
+            if not debug and not quiet:
                 # stop progress spinner before producing output
                 os.spawnle(os.P_WAIT, stop_script, stop_script, os.environ)
 
