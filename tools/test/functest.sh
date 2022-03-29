@@ -12,6 +12,7 @@ declare -A PLUGIN_ROOTS=(
     [rabbitmq]=./tests/unit/fake_data_root/rabbitmq
     [storage]=./tests/unit/fake_data_root/storage/ceph-mon
     [vault]=./tests/unit/fake_data_root/vault
+    [pacemaker]=./tests/unit/fake_data_root/vault
 )
 PLUGINS=(
     openstack
@@ -25,6 +26,7 @@ PLUGINS=(
     sosreport
     system
     vault
+    pacemaker
 )
 result=true
 
