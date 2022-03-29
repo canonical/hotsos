@@ -256,4 +256,4 @@ if __name__ == '__main__':
             if formatted:
                 sys.stdout.write("{}\n".format(formatted))
 
-    cli()
+    cli(prog_name='hotsos')
