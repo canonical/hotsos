@@ -22,6 +22,16 @@ RABBITMQ_CHARM_LOGS = """
 """  # noqa
 
 
+UNIT_LEADERSHIP_ERROR = """
+2021-09-16 10:28:25 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2021-09-16 10:28:47 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2021-09-16 10:29:06 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2021-09-16 10:29:53 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2021-09-16 10:30:41 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+"""  # noqa
+
+
+
 class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
@@ -152,3 +162,41 @@ class TestJujuScenarios(JujuTestsBase):
         msg = ('No jujud processes found running on this host but it seems '
                'there should be since Juju is installed.')
         self.assertEqual(list(raised_issues.values())[0], [msg])
+
+    @mock.patch('hotsos.core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_unit_checks.yaml'))
+    @mock.patch('hotsos.core.issues.utils.add_issue')
+    def test_unit_checks(self, mock_add_issue, mock_cli):
+        raised_issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
+            else:
+                raised_issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+
+        mock_cli.return_value = mock.MagicMock()
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp,
+                                   'var/log/juju/unit-keystone-2.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(UNIT_LEADERSHIP_ERROR)
+
+            # first try outside age limit
+            mock_cli.return_value.date.return_value = "2021-09-25 00:00:00"
+            YScenarioChecker()()
+            self.assertEqual(len(raised_issues), 0)
+
+            # then within
+            mock_cli.return_value.date.return_value = "2021-09-17 00:00:00"
+            YScenarioChecker()()
+            self.assertEqual(len(raised_issues), 1)
+            msg = ("Juju unit(s) 'keystone' are showing leadership errors in "
+                   "their logs from the last 7 days. Please investigate.")
+            self.assertEqual(list(raised_issues.values())[0], [msg])

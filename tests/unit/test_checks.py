@@ -145,6 +145,7 @@ myplugin:
         check-parameters:
           min-results: 3
           search-period-hours: 24
+          search-result-age-hours: 48
       aptexists:
         requires:
           apt: nova-compute
@@ -459,12 +460,16 @@ class TestChecks(utils.BaseTestCase):
 
         self.assertFalse(mock_add_issue.called)
 
+    @mock.patch('hotsos.core.ycheck.CLIHelper')
     @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_yaml_def_scenario_checks_expr(self, mock_add_issue):
+    def test_yaml_def_scenario_checks_expr(self, mock_add_issue, mock_cli):
         issues = []
 
         def fake_add_issue(issue):
             issues.append(issue)
+
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
 
         mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
@@ -504,7 +509,29 @@ class TestChecks(utils.BaseTestCase):
         s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
         return s.search().find_by_tag('all')
 
-    def test_yaml_def_scenario_datetime(self):
+    @mock.patch('hotsos.core.ycheck.CLIHelper')
+    def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
+                         PLUGIN_NAME='myplugin')
+            logfile = os.path.join(dtmp, 'foo.log')
+
+            contents = ['2022-01-06 00:00:00.000 an event\n']
+            results = self._create_search_results(logfile, contents)
+
+            result = YPropertyCheck.filter_by_age(results, 48)
+            self.assertEqual(len(result), 1)
+
+            result = YPropertyCheck.filter_by_age(results, 24)
+            self.assertEqual(len(result), 1)
+
+            result = YPropertyCheck.filter_by_age(results, 23)
+            self.assertEqual(len(result), 0)
+
+    def test_yaml_def_scenario_result_filters_by_period(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
                          PLUGIN_NAME='myplugin')

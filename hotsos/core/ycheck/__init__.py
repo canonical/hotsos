@@ -382,6 +382,14 @@ class YPropertyCheckParameters(YPropertyOverrideBase):
         return int(self.content.get('search-period-hours', 0))
 
     @property
+    def search_result_age_hours(self):
+        """
+        Result muct have aoccured within search-result-age-hours from current
+        time (in the case of a sosreport would time sosreport was created).
+        """
+        return int(self.content.get('search-result-age-hours', 0))
+
+    @property
     def min_results(self):
         """
         Minimum search matches required for result to be True (default is 1)
@@ -403,45 +411,71 @@ class YPropertyCheck(YPropertyBase):
     @classmethod
     def get_datetime_from_result(cls, result):
         ts = "{} {}".format(result.get(1), result.get(2))
-        return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S.%f")
+        try:
+            return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S.%f")
+        except ValueError:
+            return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
+
+    @classmethod
+    def filter_by_age(cls, results, result_age_hours):
+        if not result_age_hours:
+            log.debug("result age filter not specified - skipping")
+            return results
+
+        current = CLIHelper().date(format='+%Y-%m-%d %H:%M:%S')
+        if not current:
+            log.warning("date() returned unexpected value '%s' - skipping "
+                        "filter by age", current)
+            return results
+
+        current = datetime.strptime(current, "%Y-%m-%d %H:%M:%S")
+        log.debug("applying search filter (result_age_hours=%s, "
+                  "current='%s')", result_age_hours, current)
+
+        _results = []
+        for r in results:
+            ts = cls.get_datetime_from_result(r)
+            if ts >= current - timedelta(hours=result_age_hours):
+                _results.append(r)
+
+        return _results
 
     @classmethod
     def filter_by_period(cls, results, period_hours, min_results):
+        if not period_hours:
+            log.debug("period filter not specified - skipping")
+            return results
+
         log.debug("applying search filter (period_hours=%s, min_results=%s)",
                   period_hours, min_results)
-        if period_hours is None:
-            return results
 
         _results = []
         for r in results:
             ts = cls.get_datetime_from_result(r)
             _results.append((ts, r))
 
-        if period_hours is None:
-            results = _results
-        else:
-            results = []
-            last = None
-            prev = None
-            count = 0
+        results = []
+        last = None
+        prev = None
+        count = 0
 
-            for r in sorted(_results, key=lambda i: i[0], reverse=True):
-                if last is None:
-                    last = r[0]
-                elif r[0] < last - timedelta(hours=period_hours):
-                    last = prev
-                    prev = None
-                    # pop first element since it is now invalidated
-                    count -= 1
-                    results = results[1:]
-                elif prev is None:
-                    prev = r[0]
+        for r in sorted(_results, key=lambda i: i[0], reverse=True):
+            if last is None:
+                last = r[0]
+            elif r[0] < last - timedelta(hours=period_hours):
+                last = prev
+                prev = None
+                # pop first element since it is now invalidated
+                count -= 1
+                results = results[1:]
+            elif prev is None:
+                prev = r[0]
 
-                results.append(r)
-                count += 1
-                if count >= min_results:
-                    # we already have enough results so return
-                    break
+            results.append(r)
+            count += 1
+            if count >= min_results:
+                # we already have enough results so return
+                break
 
         if len(results) < min_results:
             return []
@@ -461,6 +495,23 @@ class YPropertyCheck(YPropertyBase):
                                   self.input.path)
                 results = s.search()
                 self.expr.cache.set('results', results)
+
+                # The following aggregates results by group/index and stores in
+                # the property cache to make them accessible via
+                # PropertyCacheRefResolver.
+                results_by_idx = {}
+                for item in results:
+                    for _result in item[1]:
+                        for idx, value in enumerate(_result):
+                            if idx not in results_by_idx:
+                                results_by_idx[idx] = set()
+
+                            results_by_idx[idx].add(value)
+
+                for idx in results_by_idx:
+                    self.expr.cache.set('results_group_{}'.format(idx),
+                                        list(results_by_idx[idx]))
+
                 self.cache.set('expr', self.expr.cache)
 
             if not results:
@@ -471,9 +522,14 @@ class YPropertyCheck(YPropertyBase):
             results = results.find_by_tag('all')
             parameters = self.check_paramaters
             if parameters:
-                period_hours = parameters.search_period_hours
-                count = len(self.filter_by_period(results, period_hours,
-                                                  parameters.min_results))
+                result_age_hours = parameters.search_result_age_hours
+                results = self.filter_by_age(results, result_age_hours)
+                if results:
+                    period_hours = parameters.search_period_hours
+                    results = self.filter_by_period(results, period_hours,
+                                                    parameters.min_results)
+
+                count = len(results)
                 if count >= parameters.min_results:
                     return True
                 else:

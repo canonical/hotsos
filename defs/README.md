@@ -384,16 +384,28 @@ Note that expressions can be a string or list of strings.
 
 ### check-parameters
 
-These are optional parameters used in a [checks](#checks) check defintion.
+These are optional parameters used in a [checks](#checks) check defintion. They
+are typically used in conjunction with an [expr]([#expr]) property to apply
+constraints to search results.
 
 format
 
 ```
-search-period-hours: <int> - period of time within which we expect to
-                             find results. Default is infinite.
-min-results: <int> - minimum number of search results required. If a
-                     search period is defined, these must occur within
-                     that period. Default is 1.
+search-result-age-hours: <int>
+  Age from current date (CLIHelper.date()) that results must fall
+  within. Default is infinite. This is used in conjunction with the
+  expr property and requires the search pattern to contain a group at
+  the start (index 1) to match a timestamp of the form
+  YEAR-MONTH-DAY HOUR:MIN:SECS
+
+search-period-hours: <int>
+  Period of time within which we expect to find results. Default is
+  infinite. Like search-result-age-hours this also requires the search
+  pattern to match a datetime at index 1.
+
+min-results: <int>
+  Minimum number of search results required. If a search period is
+  defined, these must occur within that period. Default is 1.
 ```
 
 usage

@@ -194,6 +194,10 @@ class SearchResult(object):
 
         return self._parts[index].value
 
+    def __iter__(self):
+        for idx in sorted(self._parts.keys()):
+            yield self._parts[idx].value
+
 
 class SearchResultsCollection(object):
 
