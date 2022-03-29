@@ -126,8 +126,8 @@ if __name__ == '__main__':
 
         \b
         DATA_ROOT
-            Path to an unpacked sosreport. Can be provided multiple times. If none
-            provided, will run against local host.
+            Path to an unpacked sosreport. If none provided, will run against
+            local host.
         """  # noqa
 
         full_mode_explicit = full
