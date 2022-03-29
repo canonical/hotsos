@@ -684,7 +684,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         @params checks: optional dict of YPropertyChecks objects.
         """
         fdict = self.format_dict
-        if fdict is None:
+        if not fdict:
             return self.message
 
         for key, value in fdict.items():
