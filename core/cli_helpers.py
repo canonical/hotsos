@@ -639,6 +639,9 @@ class CLIHelper(object):
                          'ovs-ofctl_-O_OpenFlow10_show_{bridge}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-ofctl_show_{bridge}')],
+            'pacemaker_crm_status':
+                [BinCmd('crm status'),
+                 FileCmd('sos_commands/pacemaker/crm_status')],
             'ps':
                 [BinCmd('ps auxwww'),
                  FileCmd('ps')],

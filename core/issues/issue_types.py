@@ -94,3 +94,7 @@ class OpenstackError(IssueTypeBase):
 
 class KubernetesWarning(IssueTypeBase):
     pass
+
+
+class PacemakerWarning(IssueTypeBase):
+    pass

@@ -39,6 +39,8 @@ from plugin_extensions.storage import (
 )
 from plugin_extensions.vault.summary import VaultSummary
 
+from plugin_extensions.pacemaker.summary import PacemakerSummary
+
 
 class HotSOSSummary(plugintools.PluginPartBase):
     """
@@ -70,6 +72,7 @@ PLUGIN_RUN_ORDER = [
     'juju',
     'maas',
     'kernel',
+    'pacemaker',
 ]
 
 
@@ -160,6 +163,10 @@ PLUGIN_CATALOG = {'hotsos': {
                   'vault': {
                      'summary': {
                          'objects': [VaultSummary],
+                         'part_yaml_offset': 0}},
+                  'pacemaker': {
+                     'summary': {
+                         'objects': [PacemakerSummary],
                          'part_yaml_offset': 0}}}
 
 
