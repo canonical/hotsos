@@ -64,6 +64,7 @@ PLUGIN_RUN_ORDER = [
     'system',
     'sosreport',
     'openstack',
+    'pacemaker',
     'openvswitch',
     'rabbitmq',
     'kubernetes',
@@ -72,7 +73,6 @@ PLUGIN_RUN_ORDER = [
     'juju',
     'maas',
     'kernel',
-    'pacemaker',
 ]
 
 

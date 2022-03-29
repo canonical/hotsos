@@ -12,8 +12,6 @@ maas-proxy.service                                                              
 maas-rackd.service                                                                               loaded active running   MAAS Rack Controller                                                         
 maas-regiond.service                                                                             loaded active running   MAAS Region Controller                                                       
 maas-syslog.service                                                                              loaded active running   MAAS Syslog Service
-  corosync.service                                                                                 loaded active running   Corosync Cluster Engine                                                      
-  pacemaker.service                                                                                loaded active running   Pacemaker High Availability Cluster Manager
 """  # noqa
 
 SYSTEMD_UNIT_FILES = """
@@ -27,8 +25,6 @@ maas-regiond.service                   enabled
 maas-syslog.service                    enabled
 postgresql.service                     disabled       
 postgresql@.service                    disabled  
-pacemaker.service                      enabled
-corosync.service                      enabled
 """  # noqa
 
 MAAS_DPKG = """
@@ -75,15 +71,13 @@ class TestMAASGeneral(utils.BaseTestCase):
             expected = {'services': {
                             'ps': [],
                             'systemd': {'enabled': [
-                                            'corosync',
                                             'maas-dhcpd',
                                             'maas-dhcpd6',
                                             'maas-http',
                                             'maas-proxy',
                                             'maas-rackd',
                                             'maas-regiond',
-                                            'maas-syslog',
-                                            'pacemaker'],
+                                            'maas-syslog'],
                                         'disabled': [
                                             'postgresql',
                                             ]}}}

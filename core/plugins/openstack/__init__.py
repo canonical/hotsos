@@ -261,8 +261,6 @@ class OSTProjectCatalog(object):
                        'libvirt-daemon',
                        'libvirt-bin',
                        r'mysql-?\S+',
-                       'pacemaker',
-                       'corosync',
                        'nfs--ganesha',
                        r'python3?-oslo[.-]',
                        'qemu-kvm',

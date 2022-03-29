@@ -2,7 +2,7 @@ from core import checks
 from core.plugintools import PluginPartBase
 
 CORE_APT = ['maas', 'postgres']
-APT_DEPS = ['isc-dhcp', 'bind9', 'pacemaker', 'corosync']
+APT_DEPS = ['isc-dhcp', 'bind9']
 CORE_SNAPS = CORE_APT
 
 SERVICE_EXPRS = [s + '[A-Za-z0-9-]*' for s in CORE_APT + APT_DEPS]
