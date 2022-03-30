@@ -39,15 +39,15 @@ parts:
     organize:
       defs: etc/hotsos/defs
       scripts: etc/hotsos/scripts
+    build-packages: [git]
+    override-build: |
+      git rev-parse --short HEAD > repo-info
+      snapcraftctl build
   hotsos:
     plugin: python 
     source: .
     stage-packages: [coreutils, bsdmainutils, systemd, dpkg, python3-yaml,
                      python3-simplejson, python3-click]
-    build-packages: [git]
-    override-build: |
-      git rev-parse --short HEAD > repo-info
-      snapcraftctl build
     filesets:
       # need to exclude these files since they are dangling symlinks
       # that cause the snapstore to reject the upload.
