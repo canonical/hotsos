@@ -16,6 +16,8 @@ environment:
   REPO_INFO_PATH: $SNAP/repo-info
   LC_ALL: C.UTF-8
   LANG: C.UTF-8
+  PYTHONPATH: $SNAP/lib/python3.8/site-packages
+  LD_PRELOAD: $SNAP/libpreload-semaphores.so
 
 # dpkg won't work without this
 layout:
@@ -26,19 +28,25 @@ layout:
 
 apps:
   hotsos:
-    command: scripts/hotsos
-    environment:
-      LD_PRELOAD: "$SNAP/libpreload-semaphores.so"
+    command: bin/hotsos
 parts:
-  hotsos:
-    source: .
+  hotsos-cli:
     plugin: dump
+    source: .
+    override-build: |
+      rm -rf tests
+      snapcraftctl build
+    organize:
+      defs: etc/hotsos/defs
+      scripts: etc/hotsos/scripts
+  hotsos:
+    plugin: python 
+    source: .
     stage-packages: [coreutils, bsdmainutils, systemd, dpkg, python3-yaml,
                      python3-simplejson, python3-click]
     build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info
-      rm -rf tests
       snapcraftctl build
     filesets:
       # need to exclude these files since they are dangling symlinks
