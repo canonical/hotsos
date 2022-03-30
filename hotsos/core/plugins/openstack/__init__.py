@@ -837,7 +837,6 @@ class OpenstackBase(object):
         if relnames:
             relnames = sorted(list(relnames))
             if len(relnames) > 1:
-                relnames
                 msg = ("openstack packages from mixed releases found - {}".
                        format(relnames))
                 issue = issues.OpenstackWarning(msg)
