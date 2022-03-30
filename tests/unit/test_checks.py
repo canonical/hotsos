@@ -1,3 +1,4 @@
+import datetime
 import os
 import tempfile
 
@@ -508,6 +509,42 @@ class TestChecks(utils.BaseTestCase):
         s = FileSearcher()
         s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
         return s.search().find_by_tag('all')
+
+    def test_get_datetime_from_result(self):
+        result = mock.MagicMock()
+        result.get.side_effect = lambda idx: _result.get(idx)
+
+        _result = {1: '2022-01-06', 2: '12:34:56.123'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56, 123000))
+
+        _result = {1: '2022-01-06', 2: '12:34:56'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
+
+        _result = {1: '2022-01-06'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
+
+        _result = {1: '2022-01-06 12:34:56.123'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56, 123000))
+
+        _result = {1: '2022-01-06 12:34:56'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
+
+        _result = {1: '2022-01-06'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
+
+        _result = {1: '2022-01-06', 2: 'foo'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
+
+        _result = {1: 'foo'}
+        ts = YPropertyCheck.get_datetime_from_result(result)
+        self.assertEqual(ts, None)
 
     @mock.patch('hotsos.core.ycheck.CLIHelper')
     def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):

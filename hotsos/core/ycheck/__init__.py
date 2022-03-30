@@ -410,11 +410,33 @@ class YPropertyCheck(YPropertyBase):
 
     @classmethod
     def get_datetime_from_result(cls, result):
-        ts = "{} {}".format(result.get(1), result.get(2))
-        try:
-            return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S.%f")
-        except ValueError:
-            return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
+        """
+        This attempts to create a datetime object from a timestamp (usually
+        from a log file) extracted from a search result. If it is not able
+        to do so it will return None. The normal expectation is that two search
+        result groups be available at index 1 and 2 but if only 1 is valid it
+        will be used a fallback.
+        """
+        ts = result.get(1)
+        if result.get(2):
+            ts = "{} {}".format(ts, result.get(2))
+
+        ts_formats = ["%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"]
+        for format in ts_formats:
+            try:
+                return datetime.strptime(ts, format)
+            except ValueError:
+                continue
+
+        ts = result.get(1)
+        for format in ts_formats:
+            try:
+                return datetime.strptime(ts, format)
+            except ValueError:
+                continue
+
+        log.warning("failed to parse timestamp string 1='%s' 2='%s' - "
+                    "returning None", result.get(1), result.get(2))
 
     @classmethod
     def filter_by_age(cls, results, result_age_hours):
@@ -435,7 +457,7 @@ class YPropertyCheck(YPropertyBase):
         _results = []
         for r in results:
             ts = cls.get_datetime_from_result(r)
-            if ts >= current - timedelta(hours=result_age_hours):
+            if ts and ts >= current - timedelta(hours=result_age_hours):
                 _results.append(r)
 
         return _results
@@ -452,7 +474,8 @@ class YPropertyCheck(YPropertyBase):
         _results = []
         for r in results:
             ts = cls.get_datetime_from_result(r)
-            _results.append((ts, r))
+            if ts:
+                _results.append((ts, r))
 
         results = []
         last = None
