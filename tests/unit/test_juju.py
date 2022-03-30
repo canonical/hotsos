@@ -31,7 +31,6 @@ UNIT_LEADERSHIP_ERROR = """
 """  # noqa
 
 
-
 class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
