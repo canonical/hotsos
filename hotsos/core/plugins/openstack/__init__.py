@@ -138,9 +138,9 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'octavia-common': {
-        'yoga': '10.0.0',
-        'xena': '9.0.0',
-        'wallaby': '8.0.0',
+        'yoga': '1:10.0.0',
+        'xena': '1:9.0.0',
+        'wallaby': '1:8.0.0',
         'victoria': '7.0.0',
         'ussuri': '6.0.0',
         'train': '5.0.0',
