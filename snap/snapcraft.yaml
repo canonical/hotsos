@@ -38,7 +38,6 @@ parts:
       snapcraftctl build
     organize:
       defs: etc/hotsos/defs
-      scripts: etc/hotsos/scripts
     build-packages: [git]
     override-build: |
       git rev-parse --short HEAD > repo-info
