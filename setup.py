@@ -7,6 +7,7 @@ setup(
     install_requires=[
         'click',
         'pyyaml',
+        'progress',
         'simplejson',
     ],
     entry_points={

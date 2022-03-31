@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 import click
+import contextlib
 import os
-import tempfile
 import sys
 import subprocess
+import threading
 import yaml
+
+from progress.spinner import Spinner
 
 from hotsos.core.config import setup_config
 from hotsos.core.log import setup_logging, log
@@ -59,16 +62,26 @@ def get_defs_path():
     return defs
 
 
-def get_scripts_path():
-    scripts = os.path.join(get_hotsos_root(), '../scripts')
-    if not os.path.isdir(scripts):
-        root = os.environ.get('SNAP', '/')
-        scripts = os.path.join(root, 'etc/hotsos/scripts')
+def spinner(msg, done):
+    spinner = Spinner(msg)
+    while not done.is_set():
+        spinner.next()
+        done.wait(timeout=0.1)
+    spinner.finish()
 
-    if not os.path.exists(scripts):
-        raise Exception("scripts path {} not found".format(scripts))
 
-    return scripts
+@contextlib.contextmanager
+def progress_spinner(show_spinner, spinner_msg):
+    done = threading.Event()
+    if not show_spinner:
+        done.set()
+    thread = threading.Thread(target=spinner, args=(spinner_msg, done))
+    thread.start()
+    try:
+        yield thread
+    finally:
+        done.set()
+        thread.join()
 
 
 def main():
@@ -186,7 +199,7 @@ def main():
                      MAX_PARALLEL_TASKS=max_parallel_tasks)
 
         if debug and quiet:
-            sys.stderr.write('ERROR: cannot use --debug and --quiet together')
+            sys.stderr.write('ERROR: cannot use both --debug and --quiet\n')
             return
 
         if debug:
@@ -197,25 +210,19 @@ def main():
             sys.stdout.write('\n')
             return
 
-        if not quiet:
-            if data_root == '/':
-                sys.stderr.write('INFO: analysing localhost  ')
-                sys.stderr.flush()
-            else:
-                sys.stderr.write('INFO: analysing sosreport {}  '.
-                                 format(data_root))
-                sys.stderr.flush()
+        if data_root == '/':
+            analysis_target = 'localhost'
+        else:
+            analysis_target = 'sosreport {}'.format(data_root)
 
-        if not debug and not quiet:
-            # start progress
-            os.environ['PROGRESS_PID_PATH'] = tempfile.mktemp()
-            start_script = os.path.join(get_scripts_path(),
-                                        'progress_start.sh')
-            stop_script = os.path.join(get_scripts_path(),
-                                       'progress_stop.sh')
-            os.spawnle(os.P_NOWAIT, start_script, start_script, os.environ)
+        if quiet:
+            show_spinner = False
+            spinner_msg = ''
+        else:
+            show_spinner = not debug
+            spinner_msg = 'INFO: analysing {} '.format(analysis_target)
 
-        try:
+        with progress_spinner(show_spinner, spinner_msg):
             if user_summary:
                 log.debug("User summary provided in %s", data_root)
                 with open(data_root) as fd:
@@ -233,10 +240,6 @@ def main():
                         plugins.append('system')
 
                 summary = HotSOSClient().run(plugins)
-        finally:
-            if not debug and not quiet:
-                # stop progress spinner before producing output
-                os.spawnle(os.P_WAIT, stop_script, stop_script, os.environ)
 
         formatted = output_filter.apply_output_formatting(summary,
                                                           format, html_escape,
