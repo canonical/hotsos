@@ -35,14 +35,12 @@ parts:
     source: .
     override-build: |
       rm -rf tests
+      git rev-parse --short HEAD > repo-info
       snapcraftctl build
     organize:
       defs: etc/hotsos/defs
       scripts: etc/hotsos/scripts
     build-packages: [git]
-    override-build: |
-      git rev-parse --short HEAD > repo-info
-      snapcraftctl build
   hotsos:
     plugin: python 
     source: .
