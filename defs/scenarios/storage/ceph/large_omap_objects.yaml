@@ -1,9 +1,9 @@
 checks:
   cluster_has_pgs_with_large_omap_objects:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs
-      # Non-zero == True
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs
+        ops: [[length_hint], [gt, 0]]
 conclusions:
   large-omap-pgs:
     decision: cluster_has_pgs_with_large_omap_objects

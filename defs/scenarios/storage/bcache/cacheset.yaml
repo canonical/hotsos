@@ -6,12 +6,12 @@ checks:
     requires:
       config:
         handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
+        invert-result: True
         assertions:
           congested_read_threshold_us:
-            value: 0
+            ops: [[eq, 0]]
           congested_write_threshold_us:
-            value: 0
-      post-op: not_
+            ops: [[eq, 0]]
   cset_config_lp1900438_limit:
     requires:
       config:
@@ -20,8 +20,7 @@ checks:
           # The real limit is 30 but we go just above in case bcache is flapping
           # just above and below the limit.
           cache_available_percent:
-            value: 33
-            op: le
+            ops: [[le, 33]]
 conclusions:
   cset-has-invalid-config:
     decision:
@@ -31,12 +30,10 @@ conclusions:
     raises:
       type: hotsos.core.issues.BcacheWarning
       message: >-
-        bcache cacheset config {key} expected to be {op} {value_expected} but
-        actual={value_actual}.
+        bcache cacheset config {key} expected to be {op} but actual={value_actual}.
       format-dict:
         key: '@checks.cset_has_invalid_config.requires.key'
-        op: '@checks.cset_has_invalid_config.requires.op'
-        value_expected: '@checks.cset_has_invalid_config.requires.value_expected'
+        op: '@checks.cset_has_invalid_config.requires.ops'
         value_actual: '@checks.cset_has_invalid_config.requires.value_actual'
   bcache-bug-lp1900438:
     decision:
@@ -47,7 +44,7 @@ conclusions:
       type: hotsos.core.issues.BcacheWarning
       message: >-
         bcache cache_available_percent is {actual} (i.e. approx. 30%) which
-        implies this node could be suffering from bug LP 1900438 - please check
+        implies this node could be suffering from bug LP 1900438 - please check.
       format-dict:
         actual: '@checks.cset_config_lp1900438_limit.requires.value_actual'
 

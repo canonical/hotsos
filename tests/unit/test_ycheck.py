@@ -43,6 +43,13 @@ pluginX:
             max: '4.2'
           - min: '5.0'
             max: '5.2'
+        altpackage:
+          - min: '3.0'
+            max: '3.2'
+          - min: '4.0'
+            max: '4.2'
+          - min: '5.0'
+            max: '5.2'
 """
 
 YAML_DEF_REQUIRES_GROUPED = """
@@ -50,7 +57,10 @@ passdef1:
   requires:
     - apt: python3.8
     - and:
-        - apt: systemd
+        - apt:
+            systemd:
+              - min: '245.4-4ubuntu3.14'
+                max: '245.4-4ubuntu3.15'
       or:
         - apt: nova-compute
       not:
@@ -142,22 +152,32 @@ myplugin:
           min-results: 3
           search-period-hours: 24
           search-result-age-hours: 48
-      aptexists:
+      property_true_shortform:
+        requires:
+          property: hotsos.core.plugins.system.SystemBase.virtualisation_type
+      property_has_value_longform:
+        requires:
+          property:
+            path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+            ops: [[eq, kvm], [truth], [not_], [not_]]
+      apt_pkg_exists:
         requires:
           apt: nova-compute
-      snapexists:
+      snap_pkg_exists:
         requires:
           snap: core20
-      serviceexists:
+      service_exists_short:
         requires:
           systemd: nova-compute
-          value: enabled
-          op: eq
-      servicenotstatus:
+      service_exists_and_enabled:
         requires:
-          systemd: nova-compute
-          value: enabled
-          op: ne
+          systemd:
+            nova-compute: enabled
+      service_exists_not_enabled:
+        requires:
+          systemd:
+            nova-compute: enabled
+            op: ne
     conclusions:
       justlog:
         priority: 1
@@ -172,7 +192,7 @@ myplugin:
         decision:
             and:
                 - logmatch
-                - snapexists
+                - snap_pkg_exists
         raises:
           type: hotsos.core.issues.SystemWarning
           message: log matched {num} times and snap exists
@@ -183,8 +203,11 @@ myplugin:
         decision:
             and:
                 - logmatch
-                - snapexists
-                - serviceexists
+                - snap_pkg_exists
+                - service_exists_short
+                - service_exists_and_enabled
+                - property_true_shortform
+                - property_has_value_longform
         raises:
           type: hotsos.core.issues.SystemWarning
           message: log matched {num} times, snap and service exists
@@ -386,16 +409,16 @@ class TestYamlChecks(utils.BaseTestCase):
             checked = 0
             for scenario in checker.scenarios:
                 for check in scenario.checks.values():
-                    if check.name == 'aptexists':
+                    if check.name == 'apt_pkg_exists':
                         checked += 1
                         self.assertTrue(check.result)
-                    elif check.name == 'snapexists':
+                    elif check.name == 'snap_pkg_exists':
                         checked += 1
                         self.assertTrue(check.result)
-                    elif check.name == 'serviceexists':
+                    elif check.name == 'service_exists_and_enabled':
                         checked += 1
                         self.assertTrue(check.result)
-                    elif check.name == 'servicenotstatus':
+                    elif check.name == 'service_exists_not_enabled':
                         checked += 1
                         self.assertFalse(check.result)
 

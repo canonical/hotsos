@@ -155,8 +155,8 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
 
             msgs = [('bcache cache_available_percent is 33 (i.e. approx. 30%) '
                      'which implies this node could be suffering from bug LP '
-                     '1900438 - please check'),
-                    ('bcache cacheset config congested_read_threshold_us '
+                     '1900438 - please check.'),
+                    ('bcache cacheset config congested_write_threshold_us '
                      'expected to be eq 0 but actual=100.')]
             actual = sorted([issue.msg for issue in raised_issues])
             self.assertEqual(actual, sorted(msgs))
@@ -177,7 +177,7 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
             YScenarioChecker()()
             self.assertTrue(mock_add_issue.called)
 
-            msgs = [('bcache config writeback_percent expected to be ge 10 '
-                     'but actual=1.')]
+            msgs = [('bcache config writeback_percent expected to be ge '
+                     '10 but actual=1.')]
             actual = sorted([issue.msg for issue in raised_issues])
             self.assertEqual(actual, sorted(msgs))

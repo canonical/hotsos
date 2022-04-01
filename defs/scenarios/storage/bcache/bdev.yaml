@@ -6,15 +6,14 @@ checks:
     requires:
       config:
         handler: hotsos.core.plugins.storage.bcache.BdevsConfig
+        invert-result: True
         assertions:
           sequential_cutoff:
-            value: '0.0k'
+            ops: [[eq, '0.0k']]
           cache_mode:
-            value: 'writethrough [writeback] writearound none'
+            ops: [[eq, 'writethrough [writeback] writearound none']]
           writeback_percent:
-            value: 10
-            op: ge
-      post-op: not_
+            ops: [[ge, 10]]
 conclusions:
   invalid-bdev-config:
     decision:
@@ -24,10 +23,8 @@ conclusions:
     raises:
       type: hotsos.core.issues.BcacheWarning
       message: >-
-        bcache config {key} expected to be {op} {value_expected} but
-        actual={value_actual}.
+        bcache config {key} expected to be {op} but actual={value_actual}.
       format-dict:
         key: '@checks.has_invalid_bdev_config.requires.key'
-        op: '@checks.has_invalid_bdev_config.requires.op'
-        value_expected: '@checks.has_invalid_bdev_config.requires.value_expected'
+        op: '@checks.has_invalid_bdev_config.requires.ops'
         value_actual: '@checks.has_invalid_bdev_config.requires.value_actual'

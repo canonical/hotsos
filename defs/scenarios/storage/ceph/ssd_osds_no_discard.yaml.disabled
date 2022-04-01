@@ -1,21 +1,20 @@
 checks:
   node_running_ceph_osd:
     requires:
-      systemd: ceph-osd
-      value: enabled
+      systemd:
+        ceph-osd: enabled
   ssd_ceph_osds_exist:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
-      op: contains
-      value: ssd
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
+        ops: [[contains, ssd]]
   ceph_discard_not_enabled:
     requires:
       config:
         handler: hotsos.core.plugins.storage.ceph.CephConfig
         assertions:
           bdev enable_discard:
-            value: true
-            op: ne
+            ops: [[ne, 'true']]
             allow-unset: True
 conclusions:
   ceph-ssd-osds-no-discard:

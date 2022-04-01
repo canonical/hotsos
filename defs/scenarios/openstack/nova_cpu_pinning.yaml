@@ -8,66 +8,67 @@ checks:
         - property: hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled
   gte_train_release:
     requires:
-      property: hotsos.core.plugins.openstack.OpenstackChecksBase.release_name
-      value: train
-      op: ge
+      property:
+        path: hotsos.core.plugins.openstack.OpenstackChecksBase.release_name
+        ops: [[ge, train]]
   has_deprecated_pinset_config:
     # vcpu_pin_set is deprecated as of Train
     requires:
       and:
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.vcpu_pin_set
-          op: ne
-          value: []
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set
-          #  i.e. cpu_dedicated_set is not set
-          value: []
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.vcpu_pin_set
+            ops: [[ne, []]]
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set
+            #  i.e. cpu_dedicated_set is not set
+            ops: [[eq, []]]
   conflicting_pinset_config:
     # for Train and above, if vcpu_pin_set and cpu_dedicated_set are both
     # configured Nova will raise an Error.
     requires:
       and:
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.vcpu_pin_set
-          op: ne
-          value: []
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set
-          op: ne
-          value: []
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.vcpu_pin_set
+            ops: [[ne, []]]
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set
+            ops: [[ne, []]]
   nova_pinning_from_multi_numa_nodes:
     requires:
       property: hotsos.core.plugins.openstack.NovaCPUPinning.nova_pinning_from_multi_numa_nodes
   cpu_dedicated_set_mixed_sources:
     requires:
       and:
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_intersection_isolcpus
-          op: ne
-          value: []
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_intersection_cpuaffinity
-          op: ne
-          value: []
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_intersection_isolcpus
+            ops: [[ne, []]]
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_dedicated_set_intersection_cpuaffinity
+            ops: [[ne, []]]
   cpu_shared_set_has_isolcpus:
     requires:
-      property: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_shared_set_intersection_isolcpus
-      op: ne
-      value: []
+      property:
+        path: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_shared_set_intersection_isolcpus
+        ops: [[ne, []]]
   cpu_shared_set_and_cpu_dedicated_set_overlap:
     requires:
-      property: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_shared_set_intersection_cpu_dedicated_set
-      op: ne
-      value: []
+      property:
+        path: hotsos.core.plugins.openstack.NovaCPUPinning.cpu_shared_set_intersection_cpu_dedicated_set
+        ops: [[ne, []]]
   isolcpus_and_cpuaffinity_overlap:
     requires:
-      property: hotsos.core.plugins.openstack.NovaCPUPinning.cpuaffinity_intersection_isolcpus
-      op: ne
-      value: []
+      property:
+        path: hotsos.core.plugins.openstack.NovaCPUPinning.cpuaffinity_intersection_isolcpus
+        ops: [[ne, []]]
   insufficient_unpinned_cpus:
     requires:
       or:
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.unpinned_cpus_pcent
-          value: 5
-          op: lt
-        - property: hotsos.core.plugins.openstack.NovaCPUPinning.num_unpinned_cpus
-          value: 5
-          op: lt
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.unpinned_cpus_pcent
+            ops: [[lt, 5]]
+        - property:
+            path: hotsos.core.plugins.openstack.NovaCPUPinning.num_unpinned_cpus
+            ops: [[lt, 5]]
 conclusions:
   cpu-dedicated-set-mixed-sources:
     decision: cpu_dedicated_set_mixed_sources

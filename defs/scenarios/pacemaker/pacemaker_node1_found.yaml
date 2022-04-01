@@ -1,9 +1,9 @@
 checks:
   node1-found:
     requires:
-      property: hotsos.core.plugins.pacemaker.PacemakerBase.offline_nodes
-      op: contains
-      value: node1
+      property:
+        path: hotsos.core.plugins.pacemaker.PacemakerBase.offline_nodes
+        ops: [[contains, node1]]
 conclusions:
   node1-found-needs-removal:
     decision: node1-found

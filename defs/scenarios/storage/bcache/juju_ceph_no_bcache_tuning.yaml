@@ -1,15 +1,14 @@
 checks:
   juju_ceph_osd_charm_enabled:
     requires:
-      property: hotsos.core.plugins.juju.JujuBase.charm_names
-      op: contains
-      value: ceph-osd
+      property:
+        path: hotsos.core.plugins.juju.JujuBase.charm_names
+        ops: [[contains, ceph-osd]]
   juju_bcache_tuning_charm_not_enabled:
     requires:
-      property: hotsos.core.plugins.juju.JujuBase.charm_names
-      op: contains
-      value: bcache-tuning
-      post-op: not_
+      property:
+        path: hotsos.core.plugins.juju.JujuBase.charm_names
+        ops: [[contains, bcache-tuning], [not_]]
   local_osds_using_bcache:
     requires:
       property: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache

@@ -1,9 +1,9 @@
 checks:
   cluster_has_laggy_pgs:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.laggy_pgs
-      # non-zero == True
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.laggy_pgs
+        ops: [[length_hint], [gt, 0]]
 conclusions:
   cluster-has-laggy-pgs:
     decision: cluster_has_laggy_pgs

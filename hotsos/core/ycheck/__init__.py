@@ -905,27 +905,93 @@ class YPropertyInput(YPropertyOverrideBase):
             log.debug("no input provided")
 
 
-class YRequirementObj(YPropertyBase):
-    def __init__(self, apt, snap, systemd, property, config, value, py_op,
-                 post_py_op, *args, **kwargs):
+class YRequirementTypeBase(abc.ABC, YPropertyBase):
+
+    def __init__(self, settings, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt = apt
-        self.snap = snap
-        self.systemd = systemd
-        self.property = property
-        self.config = config
-        self.value = value
-        self.py_op = getattr(operator, py_op)
-        if post_py_op:
-            self.post_py_op = getattr(operator, post_py_op)
-        else:
-            self.post_py_op = None
+        self.settings = settings
+
+    def ops_to_str(self, ops):
+        """
+        Convert an ops list of tuples to a string. This is typically used when
+        printing in a msg or storing in the cache.
+        """
+        if not ops:
+            return ""
+
+        _result = []
+        for op in ops:
+            item = str(op[0])
+            if len(op) > 1:
+                item = "{} {}".format(item, op[1])
+
+            _result.append(item)
+
+        return ' -> '.join(_result)
+
+    def apply_op(self, op, input=None, expected=None, force_expected=False):
+        log.debug("op=%s, input=%s, expected=%s, force_expected=%s", op,
+                  input, expected, force_expected)
+        if expected is not None or force_expected:
+            return getattr(operator, op)(input, expected)
+
+        return getattr(operator, op)(input)
+
+    def apply_ops(self, ops, input=None, normalise_value_types=False):
+        """
+        Takes a list of operations and processes each one where each takes as
+        input the output of the previous.
+
+        @param ops: list of tuples of operations and optional args.
+        @param input: the value that is used as input to the first operation.
+        @param normalise_value_types: if an operation has an expected value and
+                                      and this is True, the type of the input
+                                      will be cast to that of the expectced
+                                      value.
+        """
+        log.debug("ops=%s, input=%s", ops, input)
+        if type(ops) != list:
+            raise Exception("Expected list of ops but got {}".
+                            format(ops))
+
+        for op in ops:
+            expected = None
+            force_expected = False
+            if len(op) > 1:
+                # if an expected value was provided we must use it regardless
+                # of what it is.
+                force_expected = True
+                expected = op[1]
+
+                if expected is not None and normalise_value_types:
+                    input = type(expected)(input)
+
+            input = self.apply_op(op[0], input=input, expected=expected,
+                                  force_expected=force_expected)
+
+        return input
+
+    @abc.abstractmethod
+    def handler(self):
+        """
+        Handler implementation for this type.
+        """
 
     @property
-    def is_valid(self):
-        # need at least one
-        return any([self.systemd, self.snap, self.apt, self.property,
-                    self.config])
+    def passes(self):
+        """ Assert whether the requirement is met.
+
+        Returns True if met otherwise False.
+        """
+        try:
+            return self.handler()
+        except Exception:
+            # display traceback here before it gets swallowed up.
+            log.exception("requires.passes raised the following")
+            raise
+
+
+class YRequirementTypeAPT(YRequirementTypeBase):
 
     def _package_version_within_ranges(self, pkg_version, versions):
         for item in sorted(versions, key=lambda i: i['max'],
@@ -948,146 +1014,152 @@ class YRequirementObj(YPropertyBase):
 
         return False
 
-    def _apt_handler(self):
-        versions = []
+    def handler(self):
         # Value can be a package name or dict that provides more
         # information about the package.
-        if type(self.apt) == dict:
-            # NOTE: we only support one package for now but done this way
-            # to make extensible.
-            for _name, _versions in self.apt.items():
-                pkg = _name
-                versions = _versions
-                self.cache.set('package', pkg)
+        if type(self.settings) != dict:
+            packages = {self.settings: None}
         else:
-            pkg = self.apt
-            self.cache.set('package', pkg)
+            packages = self.settings
 
-        apt_info = APTPackageChecksBase([pkg])
-        result = apt_info.is_installed(pkg)
-        if result:
-            if versions:
+        versions_actual = []
+        for pkg, versions in packages.items():
+            apt_info = APTPackageChecksBase([pkg])
+            result = apt_info.is_installed(pkg)
+            if result and versions:
                 pkg_ver = apt_info.get_version(pkg)
-                self.cache.set('version', pkg_ver)
+                versions_actual.append(pkg_ver)
                 result = self._package_version_within_ranges(pkg_ver,
                                                              versions)
                 log.debug("package %s=%s within version ranges %s "
                           "(result=%s)", pkg, pkg_ver, versions, result)
 
+            # bail at first failure
+            if not result:
+                break
+
+        self.cache.set('package', ', '.join(packages.keys()))
+        self.cache.set('version', ', '.join(versions_actual))
         log.debug('requirement check: apt %s (result=%s)', pkg, result)
         return result
 
-    def _snap_handler(self):
-        pkg = self.snap
+
+class YRequirementTypeSnap(YRequirementTypeBase):
+
+    def handler(self):
+        pkg = self.settings
         result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
         log.debug('requirement check: snap %s (result=%s)', pkg, result)
         self.cache.set('package', pkg)
         return result
 
-    def _systemd_handler(self):
-        service = self.systemd
-        svcs = ServiceChecksBase([service]).services
-        result = service in svcs
-        value = None
-        if result and self.value is not None:
-            value = svcs[service]
-            result = self.py_op(svcs[service], self.value)
 
-        log.debug('requirement check: systemd %s (result=%s)', service,
-                  result)
-        self.cache.set('service', service)
-        self.cache.set('state_expected', self.value)
-        self.cache.set('op', self.py_op)
-        self.cache.set('state_actual', value)
+class YRequirementTypeSystemd(YRequirementTypeBase):
+
+    def handler(self):
+        if type(self.settings) != dict:
+            services = {self.settings: None}
+            op = None
+        else:
+            services = self.settings
+            op = self.settings.get('op', 'eq')
+
+        actual = None
+        for svc, state in services.items():
+            svcinfo = ServiceChecksBase([svc]).services
+            self.cache.set('service', svc)
+            self.cache.set('state_expected', state)
+            self.cache.set('ops', op)
+            if svc not in svcinfo:
+                result = False
+                break
+
+            actual = svcinfo[svc]
+            self.cache.set('state_actual', actual)
+            if state is None:
+                result = True
+            else:
+                ops = [[op, actual]]
+                self.cache.set('ops', self.ops_to_str(ops))
+                result = self.apply_ops(ops, input=actual)
+
+        log.debug('requirement check: systemd %s (result=%s)',
+                  list(services.keys()), result)
         return result
 
-    def _property_handler(self):
-        actual = self.get_property(self.property)
-        result = self.py_op(actual, self.value)
-        log.debug('requirement check: property %s %s %s (result=%s)',
-                  self.property, self.py_op, self.value, result)
-        self.cache.set('value_expected', self.value)
-        self.cache.set('op', self.py_op)
+
+class YRequirementTypeProperty(YRequirementTypeBase):
+
+    def handler(self):
+        if type(self.settings) != dict:
+            path = self.settings
+            # default is get bool (True/False) for value
+            ops = [['truth']]
+        else:
+            path = self.settings['path']
+            ops = self.settings.get('ops')
+
+        actual = self.get_property(path)
+        result = self.apply_ops(ops, input=actual)
+        log.debug('requirement check: property %s %s (result=%s)',
+                  path, self.ops_to_str(ops), result)
+        self.cache.set('value_expected', 'TODO')
+        self.cache.set('ops', self.ops_to_str(ops))
         self.cache.set('value_actual', actual)
         return result
 
-    def _config_handler(self):
-        handler = self.config['handler']
+
+class YRequirementTypeConfig(YRequirementTypeBase):
+
+    def handler(self):
+        invert_result = self.settings.get('invert-result', False)
+        handler = self.settings['handler']
         obj = self.get_cls(handler)
-        path = self.config.get('path')
+        path = self.settings.get('path')
         if path:
             path = os.path.join(HotSOSConfig.DATA_ROOT, path)
             cfg = obj(path)
         else:
             cfg = obj()
 
-        for key, assertion in self.config['assertions'].items():
-            value = assertion.get('value')
-            op = assertion.get('op', 'eq')
+        results = []
+        for key, assertion in self.settings['assertions'].items():
+            ops = assertion.get('ops')
             section = assertion.get('section')
             if section:
                 actual = cfg.get(key, section=section)
             else:
                 actual = cfg.get(key)
 
-            log.debug("requirement check: config %s %s %s (actual=%s)", key,
-                      op, value, actual)
-            result = False
-            if value is not None:
+            log.debug("requirement check: config %s %s (actual=%s)", key,
+                      self.ops_to_str(ops), actual)
+
+            if ops:
                 if actual is None:
                     result = assertion.get('allow-unset', False)
                 else:
-                    if type(value) != type(actual):
-                        # Apply the type from the yaml to that of the
-                        # config.
-                        actual = type(value)(actual)
-
-                    result = getattr(operator, op)(actual, value)
+                    result = self.apply_ops(ops, input=actual,
+                                            normalise_value_types=True)
             else:
-                result = getattr(operator, op)(actual, value)
+                result = self.apply_ops([['ne', None]], input=actual)
 
             # This is a bit iffy since it only gives us the final config
             # assertion checked.
             self.cache.set('key', key)
-            self.cache.set('value_expected', value)
-            self.cache.set('op', op)
+            self.cache.set('value_expected', 'TODO')
+            self.cache.set('ops', self.ops_to_str(ops))
             self.cache.set('value_actual', actual)
 
             # return on first fail
-            if not result:
+            if not result and not invert_result:
                 return False
 
-        return True
+            results.append(result)
 
-    @property
-    def passes(self):
-        """ Assert whether the requirement is met.
+        if invert_result:
+            return not all(results)
 
-        Returns True if met otherwise False.
-        """
-        ret = False
-        try:
-            if self.apt:
-                ret = self._apt_handler()
-            elif self.snap:
-                ret = self._snap_handler()
-            elif self.systemd:
-                ret = self._systemd_handler()
-            elif self.property:
-                ret = self._property_handler()
-            elif self.config:
-                ret = self._config_handler()
-
-            if self.post_py_op:
-                ret = self.post_py_op(ret)
-                log.debug("applied post-op %s (result=%s)", self.post_py_op,
-                          ret)
-
-            return ret
-        except Exception:
-            # display traceback here before it gets swallowed up.
-            log.exception("requires.passes raised the following")
-            raise
+        return all(results)
 
 
 @add_to_property_catalog
@@ -1096,56 +1168,31 @@ class YPropertyRequires(YPropertyOverrideBase):
     # these must be logical operators
     VALID_GROUP_KEYS = ['and', 'or', 'not']
     FINAL_RESULT_OP = 'and'
-    DEFAULT_STD_OP = 'eq'
+    REQ_TYPES = {'apt': YRequirementTypeAPT,
+                 'snap': YRequirementTypeSnap,
+                 'config': YRequirementTypeConfig,
+                 'systemd': YRequirementTypeSystemd,
+                 'property': YRequirementTypeProperty}
 
     @property
     def property_name(self):
         return 'requires'
 
-    @property
-    def apt(self):
-        return self.content.get('apt', None)
-
-    @property
-    def snap(self):
-        return self.content.get('snap', None)
-
-    @property
-    def systemd(self):
-        return self.content.get('systemd', None)
-
-    @property
-    def config(self):
-        return self.content.get('config', None)
-
-    @property
-    def _property(self):
-        return self.content.get('property', None)
-
-    @property
-    def value(self):
-        """
-        An optional value to match against. If no value is provided this will
-        return True by default.
-        """
-        return self.content.get('value', True)
-
-    @property
-    def op(self):
-        return self.content.get('op', self.DEFAULT_STD_OP)
-
-    @property
-    def post_op(self):
-        return self.content.get('post-op')
-
-    def process_requirement(self, requirement, cache=False):
+    def process_requirement(self, item, cache=False):
         """ Process a single requirement and return its boolean result.
 
         @param requirement: a YRequirementObj object.
         @param cache: if set to True the cached info from the requirement will
         be saved locally. This can only be done for a single requirement.
         """
-        if requirement.is_valid:
+        # need at least one
+        if any(item.values()):
+            requirement = None
+            for name, handler in self.REQ_TYPES.items():
+                if item.get(name):
+                    requirement = handler(item[name])
+                    break
+
             result = requirement.passes
             # Caching a requires comprising of more than one requirement e.g.
             # lists or groups is not supported since there is no easy way to
@@ -1186,16 +1233,7 @@ class YPropertyRequires(YPropertyOverrideBase):
             log.debug("op=%s has %s requirement(s)", group_op,
                       len(group_items))
             for entry in group_items:
-                r_op = entry.get('op', self.DEFAULT_STD_OP)
-                post_op = entry.get('post-op')
-                requirement = YRequirementObj(entry.get('apt'),
-                                              entry.get('snap'),
-                                              entry.get('systemd'),
-                                              entry.get('property'),
-                                              entry.get('config'),
-                                              entry.get('value', True), r_op,
-                                              post_op)
-                result = self.process_requirement(requirement)
+                result = self.process_requirement(entry)
                 if group_op not in results:
                     results[group_op] = []
 
@@ -1221,16 +1259,7 @@ class YPropertyRequires(YPropertyOverrideBase):
 
                     results[group_op] += grp_op_results
             else:
-                r_op = item.get('op', self.DEFAULT_STD_OP)
-                post_op = item.get('post-op')
-                requirement = YRequirementObj(item.get('apt'),
-                                              item.get('snap'),
-                                              item.get('systemd'),
-                                              item.get('property'),
-                                              item.get('config'),
-                                              item.get('value', True),
-                                              r_op, post_op)
-                result = self.process_requirement(requirement)
+                result = self.process_requirement(item)
                 # final results always get anded.
                 op = self.FINAL_RESULT_OP
                 if op not in results:
@@ -1270,12 +1299,9 @@ class YPropertyRequires(YPropertyOverrideBase):
         if type(self.content) == dict:
             if not self._is_groups(self.content):
                 log.debug("single requirement provided")
-                requirement = YRequirementObj(self.apt, self.snap,
-                                              self.systemd, self._property,
-                                              self.config, self.value,
-                                              self.op, self.post_op)
+                item = {k: self.content.get(k) for k in self.REQ_TYPES}
                 results = {self.FINAL_RESULT_OP:
-                           [self.process_requirement(requirement, cache=True)]}
+                           [self.process_requirement(item, cache=True)]}
             else:
                 log.debug("requirement groups provided")
                 results = self.process_requirement_group(self.content)

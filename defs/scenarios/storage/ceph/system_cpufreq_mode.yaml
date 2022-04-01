@@ -3,20 +3,20 @@ checks:
     requires:
       and:
         # can we actually see the setting
-        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-          value: unknown
-          op: ne
+        - property:
+            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            ops: [[ne, unknown]]
         # does it have the expected value
-        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-          value: performance
-          op: ne
+        - property:
+            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            ops: [[ne, performance]]
   ceph_osd_installed:
     requires:
       apt: ceph-osd
   ondemand_installed_and_enabled:
     requires:
-      systemd: ondemand
-      value: enabled
+      systemd:
+        ondemand: enabled
 conclusions:
   cpufreq-not-performance:
     priority: 1

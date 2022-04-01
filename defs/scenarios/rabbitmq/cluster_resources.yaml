@@ -1,8 +1,9 @@
 checks:
   cluster_vhosts_unbalanced:
     requires:
-      property: hotsos.core.plugins.rabbitmq.RabbitMQReport.skewed_nodes
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.rabbitmq.RabbitMQReport.skewed_nodes
+        ops: [[length_hint], [gt, 0]]
 conclusions:
   cluster-vhosts-unbalanced:
     decision: cluster_vhosts_unbalanced

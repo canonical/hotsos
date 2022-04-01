@@ -1,8 +1,9 @@
 checks:
   partition_handling_is_ignore:
     requires:
-      property: hotsos.core.plugins.rabbitmq.RabbitMQReport.partition_handling
-      value: ignore
+      property:
+        path: hotsos.core.plugins.rabbitmq.RabbitMQReport.partition_handling
+        ops: [[eq, ignore]]
 conclusions:
   partition-handling-is-ignore:
     decision: partition_handling_is_ignore

@@ -14,7 +14,7 @@ Checks are organised beneath a directory that shares the name of the plugin
 that will run them. Files and directories are used to group checks with files
 containing one or more checks. All check definitions have the same basic
 structure, using a mixture of properties and, if defining a
-[scenario](#scenarios), [PropertyCollection](#PropertyCollection).
+[scenario](#scenarios), [PropertyCollection](#propertycollection).
 
 This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
@@ -73,7 +73,7 @@ both within a property class e.g. to avoid re-execution of properties and
 between properties e.g. if one property wishes to reference a value within
 another property (see [raises](#raises)). Not all properties make use of their
 cache but those that do will expose cached fields under a ```CACHE_KEYS```
-section.  
+section.
 
 ### List of Available Properties
 
@@ -229,9 +229,9 @@ raises.format_groups
 Defines a set of requirements to be executed with a pass/fail result.
 
 If the result is based on the outcome of more than one requirement they
-must be grouped using logical operators used to determine the result of each
-group. The result of all groups are ANDed together to get the final result for
-*passes*.
+must be grouped using logical operators (see REQ_GROUP) used to determine
+the result of each group. The result of all groups are ANDed together to
+get the final result for *passes*.
 
 format
 
@@ -242,25 +242,19 @@ requires:
 REQ_DEFS
   This must be one (and only one) of the following:
     * single REQ_DEF
-    * a single REQ_GROUP
-    * list of one or more REQ_GROUP and/or REQ_DEF
+    * a REQ_GROUP
+    * list containing a mix of REQ_GROUP/REQ_DEF
 
   The final result of a list is formed of AND applied to the
-  individual results.
+  individual results of each REQ_DEF or REQ_GROUP.
 
 REQ_DEF
-  A single requirement defined as a dictionary with the following
-  key/value pairs:
-
-  TYPE: INPUT
-  value: <value> (optional. Default is boolean True.)
-  op: <operator> [python standard operator](https://docs.python.org/3/library/operator.html) that will take the value returned by INPUT and value as input. Default is eq.
-  post-op: an optional secondary python operator that will be applied to the result before returning.
+  A single requirement REQ_TYPE.
 
 REQ_GROUP
-  Requirements can be grouped using a dictionary of LOGICAL_OPERATOR
-  keys whose values are lists of requirements to which the operator is
-  applied e.g.
+  A dictionary of lists of one or more REQ_DEF grouped by a
+  LOGICAL_OPERATOR which is applied to the set of REQ_DEF results
+  in the group e.g.
 
   and:
     - REQ_DEF1
@@ -270,51 +264,95 @@ REQ_GROUP
     - REQ_DEF3
     - ...
 
-  The final result of a group is formed of AND applied to the
-  result of each subgroup.
+  AND is then applied to the result of all groups to get the final result.
 
 LOGICAL_OPERATOR
   and|or|not
 
-TYPE
-  property
-    INPUT is a Python import path for a property that will be called
-    and optionally matched against a provided value. If no value is
-    provided a boolean value of True is results. 
+REQ_TYPE
+  PROPERTY
+    Calls a Python property and if provided, applies a set of
+    operators. If no operators are specified, the "truth" operator
+    is applied to get a True/False result.
+ 
+    Format:
 
-  apt
-    INPUT is an apt package name or APT_INFO. Returns True if package
-    exists and version is within ranges (if provided) otherwise False.
+    property: <import path to python property>
 
-  snap
-    INPUT is a snap package name. Returns True if package exists
-    otherwise False.
+    or
 
-  systemd
-    INPUT is a systemd service name. Returns True if service exists
-    and a service status can be optionally checked using value: in
-    which case a match is required to get True.
+    property:
+      path: <import path to python property>
+      ops: OPS_LIST
 
-  config
-    Defines a config checker where INPUT is CONFIG_INFO.
+  APT
+    Takes an apt package name or APT_INFO. Returns True if the package
+    exists and, if APT_INFO provided, version is within ranges.
+
+    Format:
+
+    apt: [package name|APT_INFO]
+  
+  SNAP
+    Takes an snap package name. Returns True if the package
+    exists.
+
+    Format:
+
+    snap: package name
+
+  SYSTEMD
+    Takes a systemd service and, optionally, state. Returns True if service
+    exists and, if provided, state matches. A short and long form are
+    supported as follows where the long form supports provided more than one
+    <service>: <state> pair and optionally an operator to be used instead of
+    the default 'eq' when comparing state.
+
+    Format:
+
+    systemd: <service name>
+
+    or
+
+    systemd:
+      <service name>: <service state>
+      op: <python operator>
+
+  CONFIG
+    A dictionary containing the information required to perform some
+    config checks. The handler is typically a .
+
+    Format:
+
+    handler: <path>
+      Import path to an implementation of core.checks.SectionalConfigBase.
+
+    path: <path>
+      Optional path (e.g. config file) to use as argument to handler.
+
+    invert-result: True|False
+      This can be used to invert the final assertions result e.g.
+      setting to False would be like doing not(and(assertions)).
+      Defaults to False (which is equiv. to and(assertions)).
+
+    assertions: <assertions>
+      A list of assertions where each item is a dicttionary containing:
     
-CONFIG_INFO
-  A dictionary containing the information required to perform some
-  config checks. The handler is typically a .
+      section: optional config file section name.
+      ops: OPS_LIST
+      value: expected value. Default is None.
+      allow-unset: whether the config key may be unset. Default is False.
 
-  handler: import path to plugins' implementation of
-           core.checks.SectionalConfigBase.
-  path: optional path to use as argument to handler.
-  assertions: CONFIG_ASSERTIONS
+OPS_LIST
+    List of tuples with the form (<operator>[,<arg2>]) i.e. each tuple has
+    at least one item, the operator and an optional second item which is
+    the second argument to the operator execution. The first argument is
+    always the output of the REQ_DEF or previous operator.
 
-CONFIG_ASSERTIONS
-  A list of assertions to be used with CONFIG_INFO where each item
-  contains:
+    Operators can be any supported [python operator](https://docs.python.org/3/library/operator.html).
 
-  section - optional config file section name.
-  op - [python operator](https://docs.python.org/3/library/operator.html) to apply. Default is eq.
-  value - expected value. Default is None.
-  allow-unset - whether the config may be unset. Default is False.
+    If more than one tuple is defined, the output of the first is the input
+    to the second.
 
 APT_INFO
   dictionary of package name and version ranges e.g.
@@ -329,9 +367,8 @@ APT_INFO
 
 CACHE_KEYS
   value_actual
-  value_expected
   op
-  key (only used by config TYPE)
+  key (only used by config REQ_TYPE)
   passes
 ```
 
@@ -424,7 +461,7 @@ them to be accessed by name.
 
 A dictionary of labelled checks each of which is a grouping of properties (see
 Supported Properties). Eack check is executed independently and produces a
-boolean *result* of True or False.  
+boolean *result* of True or False.
 
 Checks are normally implemented in conjunction with [conclusions](#conclusions)
 as part of [scenarios](#scenarios).
@@ -505,7 +542,7 @@ Supported Properties
 
 The following different ways of defining checks as yaml are provided, each
 implemented as a handler. The implementation of each can be found
-[here](../core/ycheck).  
+[here](../core/ycheck).
 
 ### Scenarios
 

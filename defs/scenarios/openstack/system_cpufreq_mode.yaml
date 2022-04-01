@@ -3,13 +3,13 @@ checks:
     requires:
       and:
         # can we actually see the setting
-        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-          value: unknown
-          op: ne
+        - property:
+            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            ops: [[ne, unknown]]
         # does it have the expected value
-        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-          value: performance
-          op: ne
+        - property:
+            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            ops: [[ne, performance]]
   is_neutron_gateway:
     # i.e. neutron-l3-agent but no nova == neutron gateway
     requires:
@@ -21,8 +21,8 @@ checks:
       apt: nova-compute
   ondemand_installed_and_enabled:
     requires:
-      systemd: ondemand
-      value: enabled
+      systemd:
+        ondemand: enabled
 conclusions:
   cpufreq-not-performance-n-cpu:
     priority: 1

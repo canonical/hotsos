@@ -3,24 +3,25 @@ checks:
     requires:
       and:
         # can we actually see the setting
-        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-          value: unknown
-          op: ne
+        - property:
+            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            ops: [[ne, unknown]]
         # does it have the expected value
-        - property: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
-          value: performance
-          op: ne
+        - property:
+            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            ops: [[ne, performance]]
   kubernetes_installed:
     requires:
       and:
         - snap: kubelet
         # ignore if not running on metal
-        - property: hotsos.core.plugins.system.SystemBase.virtualisation_type
-          value:
+        - property:
+            path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+            ops: [[eq, null]]
   ondemand_installed_and_enabled:
     requires:
-      systemd: ondemand
-      value: enabled
+      systemd:
+        ondemand: enabled
 conclusions:
   cpufreq-not-performance:
     priority: 1

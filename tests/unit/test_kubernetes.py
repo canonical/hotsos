@@ -137,6 +137,8 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.snap_list_all.return_value = \
             ['kubelet 1.2.3 123\n']
+        mock_cli.return_value.systemctl_list_unit_files.return_value = \
+            ['ondemand.service enabled\n']
 
         mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
@@ -147,5 +149,6 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                'performance degradation. To fix this you can install '
                'cpufrequtils, set "GOVERNOR=performance" in '
                '/etc/default/cpufrequtils and run systemctl restart '
-               'cpufrequtils.')
+               'cpufrequtils. You will also need to stop and disable the '
+               'ondemand systemd service in order for changes to persist.')
         self.assertEqual(raised_issue[KubernetesWarning], [msg])

@@ -201,58 +201,15 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
         mock_cephdaemon.return_value.bluestore_volume_selection_policy = \
             ['rocksdb_original']
         YBugChecker()()
+        msg = ('This host is vulnerable to known bug '
+               'https://tracker.ceph.com/issues/38745. RocksDB needs more '
+               'space than the leveled space available so it is using storage '
+               'from the data disk. Please set '
+               'bluestore_volume_selection_policy of all OSDs to '
+               'use_some_extra')
         expected = {'bugs-detected': [{
-                        'desc': (
-                            'Vulnerability to a known bug '
-                            'https://tracker.ceph.com/issues/38745. RocksDB '
-                            'needs more space than the leveled space '
-                            'available so it is using storage from the data '
-                            'disk. Please set '
-                            'bluestore_volume_selection_policy of all OSDs '
-                            'to use_some_extra'),
+                        'desc': msg,
                         'id': 'https://bugs.launchpad.net/bugs/1959649',
-                        'origin': 'storage.01part'}]}
-        self.assertEqual(issues.bugs.get_known_bugs(), expected)
-
-    @mock.patch('hotsos.core.ycheck.ServiceChecksBase')
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
-    @mock.patch('hotsos.core.plugins.storage.bcache.CachesetsConfig')
-    @mock.patch('hotsos.core.plugins.kernel.KernelChecksBase')
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('bcache.yaml'))
-    def test_bug_check_lp1936136(self, mocl_cli, mock_cephbase,
-                                 mock_kernelbase, mock_cset_config,
-                                 mock_ceph_config, mock_svc_check_base):
-        mocl_cli.return_value = mock.MagicMock()
-        mocl_cli.return_value.dpkg_l.return_value = \
-            ["ii  ceph-osd 14.2.22-0ubuntu0.20.04.2 amd64"]
-
-        mock_svc_check_base.return_value = mock.MagicMock()
-        mock_svc_check_base.return_value.services = \
-            {'ceph-osd': 'enabled'}
-
-        mock_cset_config.return_value = mock.MagicMock()
-        mock_cset_config.return_value.get.return_value = 69
-
-        mock_ceph_config.return_value = mock.MagicMock()
-        mock_ceph_config.return_value.bluefs_buffered_io.return_value = True
-
-        mock_cephbase.return_value = mock.MagicMock()
-        mock_cephbase.return_value.local_osds_use_bcache = True
-        mock_kernelbase.return_value = mock.MagicMock()
-        mock_kernelbase.return_value.version = '5.3'
-
-        YBugChecker()()
-        expected = {'bugs-detected': [{
-                        'desc': (
-                            'This host has Ceph OSDs using bcache block '
-                            'devices and may be vulnerable to bcache bug LP '
-                            '1936136. The current workaround is to set '
-                            'bluefs_buffered_io is set=False in Ceph or '
-                            'upgrade to a kernel >= 5.4.'),
-                        'id': 'https://bugs.launchpad.net/bugs/1936136',
                         'origin': 'storage.01part'}]}
         self.assertEqual(issues.bugs.get_known_bugs(), expected)
 
@@ -330,3 +287,55 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
                  "device configured in ceph.conf - please check")]
         self.assertEqual([issue.msg for issue in raised_issues], msgs)
+
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
+    @mock.patch('hotsos.core.plugins.storage.bcache.CachesetsConfig')
+    @mock.patch('hotsos.core.plugins.kernel.KernelChecksBase')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('lp1936136.yaml'))
+    @mock.patch('hotsos.core.issues.utils.add_issue')
+    def test_lp1936136(self, mock_add_issue, mocl_cli, mock_cephbase,
+                       mock_kernelbase, mock_cset_config, mock_ceph_config,
+                       mock_svc_check_base):
+        raised_issues = []
+
+        def fake_add_issue(issue):
+            raised_issues.append(issue)
+
+        def fake_ceph_config(key):
+            if key == 'bluefs_buffered_io':
+                return 'true'
+
+        mocl_cli.return_value = mock.MagicMock()
+        mocl_cli.return_value.dpkg_l.return_value = \
+            ["ii  ceph-osd 14.2.22-0ubuntu0.20.04.2 amd64"]
+
+        mock_svc_check_base.return_value = mock.MagicMock()
+        mock_svc_check_base.return_value.services = \
+            {'ceph-osd': 'enabled'}
+
+        mock_cset_config.return_value = mock.MagicMock()
+        mock_cset_config.return_value.get.return_value = 69
+
+        mock_ceph_config.return_value = mock.MagicMock()
+        mock_ceph_config.return_value.get.side_effect = fake_ceph_config
+
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.local_osds_use_bcache = True
+        mock_kernelbase.return_value = mock.MagicMock()
+        mock_kernelbase.return_value.version = '5.3'
+
+        mock_add_issue.side_effect = fake_add_issue
+        YScenarioChecker()()
+
+        msg = ('This host has Ceph OSDs using bcache block devices and may be '
+               'vulnerable to bcache bug LP 1936136 since '
+               'bcache cache_available_percent is lt 70 (actual=69). The '
+               'current workaround is to set bluefs_buffered_io=false in Ceph '
+               'or upgrade to a kernel >= 5.4.')
+
+        self.assertTrue(mock_add_issue.called)
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])

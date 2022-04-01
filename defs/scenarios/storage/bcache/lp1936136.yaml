@@ -1,0 +1,62 @@
+checks:
+  node_is_ceph_osd_and_has_version:
+    requires:
+      - systemd:
+          ceph-osd: enabled
+      # Get version of osd based on package installed. This is prone to
+      # inaccuracy since the daemon many not have been restarted after
+      # package update.
+      - apt:
+          ceph-osd:
+            - min: 13.0.2
+              max: 14.2.9
+            - min: 14.2.22
+              max: 15.2.1
+            - min: 15.2.13
+              max: 16.1.0
+            - min: 17.0.0
+              max: 17.0.0
+  node_has_osds_using_bcache:
+    requires:
+      property: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache
+  kernel_version_check:
+    requires:
+      property:
+        path: hotsos.core.plugins.kernel.KernelChecksBase.version
+        ops: [[lt, '5.4']]
+  bluefs_buffered_io_enabled:
+    requires:
+      config:
+        # We will need a better way to check the actual osd config
+        handler: hotsos.core.plugins.storage.ceph.CephConfig
+        assertions:
+          bluefs_buffered_io:
+            ops: [[eq, 'true']]
+  bcache_cache_available_percent_check:
+    requires:
+      config:
+        handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
+        assertions:
+          cache_available_percent:
+            ops: [[lt, 70]]
+conclusions:
+  node_affected_by_bug_1936136:
+    decision:
+      and:
+        - node_is_ceph_osd_and_has_version
+        - node_has_osds_using_bcache
+        - kernel_version_check
+        - bluefs_buffered_io_enabled
+        - bcache_cache_available_percent_check
+    raises:
+      type: hotsos.core.issues.CephCrushWarning
+      message: >-
+        This host has Ceph OSDs using bcache block devices and may be
+        vulnerable to bcache bug LP 1936136 since bcache
+        cache_available_percent is {op} (actual={actual}). The current
+        workaround is to set bluefs_buffered_io=false in Ceph or upgrade to a
+        kernel >= 5.4.
+      format-dict:
+        op: '@checks.bcache_cache_available_percent_check.requires.ops'
+        actual: '@checks.bcache_cache_available_percent_check.requires.value_actual'
+

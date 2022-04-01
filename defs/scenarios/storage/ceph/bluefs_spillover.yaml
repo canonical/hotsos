@@ -5,8 +5,9 @@ checks:
     expr: '.+experiencing BlueFS spillover'
   health_warning:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.health_status
-      value: HEALTH_WARN
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+        ops: [[eq, HEALTH_WARN]]
 conclusions:
   bluefs-spillover:
     decision:

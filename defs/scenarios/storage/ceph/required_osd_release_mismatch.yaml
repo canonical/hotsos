@@ -1,13 +1,14 @@
 checks:
   has_required_osd_release:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.require_osd_release
-      value:
-      op: ne
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.require_osd_release
+        ops: [[ne, null]]
   osd_versions_not_match_osd_required:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.osd_daemon_release_names_match_required
-      op: ne
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.osd_daemon_release_names_match_required
+        ops: [[not_]]
 conclusions:
   osd-versions-mismatch:
     decision:

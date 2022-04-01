@@ -1,8 +1,8 @@
 checks:
   ovs_cleanup_installed:
     requires:
-      systemd: neutron-ovs-cleanup
-      value: enabled  
+      systemd:
+        neutron-ovs-cleanup: enabled  
   ovs_cleanup_run_manually:
     requires:
       property: hotsos.core.plugins.openstack.NeutronServiceChecks.ovs_cleanup_run_manually

@@ -1,8 +1,9 @@
 checks:
   has_timed_out_plugins:
     requires:
-      property: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+        ops: [[length_hint], [gt, 0]]
 conclusions:
   has-timed-out-plugins:
     decision: has_timed_out_plugins

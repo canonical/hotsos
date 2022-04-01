@@ -466,6 +466,10 @@ class CephCluster(object):
 
     @property
     def osd_daemon_release_names_match_required(self):
+        """
+        Does the cluster have require_osd_release set to a specific release
+        name and if so, do all osds match that release name.
+        """
         required_rname = self.require_osd_release
         if not required_rname:
             return True

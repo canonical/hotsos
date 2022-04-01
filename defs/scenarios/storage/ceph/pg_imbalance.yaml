@@ -1,14 +1,14 @@
 checks:
   cluster_has_osds_with_pgs_above_max:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_above_max
-      # Non-zero == True
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_above_max
+        ops: [[length_hint], [gt, 0]]
   cluster_has_osds_with_suboptimal_pgs:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_suboptimal
-      # Non-zero == True
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_suboptimal
+        ops: [[length_hint], [gt, 0]]
 conclusions:
   cluster-osds-with-pgs-above-max:
     decision: cluster_has_osds_with_pgs_above_max

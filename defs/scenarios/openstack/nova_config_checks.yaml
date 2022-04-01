@@ -7,18 +7,16 @@ checks:
       config:
         handler: hotsos.core.plugins.openstack.OpenstackConfig
         path: etc/nova/nova.conf
+        invert-result: True
         assertions:
           rx_queue_size:
             section: libvirt
-            value: 1024
-            op: ge
+            ops: [[ge, 1024]]
             allow-unset: False
           tx_queue_size:
             section: libvirt
-            value: 1024
-            op: ge
+            ops: [[ge, 1024]]
             allow-unset: False
-      post-op: not_
 conclusions:
   nova-dpdk-config-not-valid:
     decision:

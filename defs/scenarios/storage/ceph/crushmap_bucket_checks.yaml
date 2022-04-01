@@ -1,14 +1,14 @@
 checks:
   crushmap_has_mixed_type_buckets:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_mixed_buckets
-      # Non-zero == True
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_mixed_buckets
+        ops: [[length_hint], [gt, 0]]
   crushmap_has_unequal_buckets:
     requires:
-      property: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets
-      # Non-zero == True
-      op: length_hint
+      property:
+        path: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets
+        ops: [[length_hint], [gt, 0]]
 conclusions:
   crushmap-mixed-buckets:
     decision: crushmap_has_mixed_type_buckets

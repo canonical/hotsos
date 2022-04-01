@@ -320,28 +320,6 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         ost_base = openstack_core.OpenstackChecksBase()
         self.assertTrue(ost_base.plugin_runnable)
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_release_name_detect_multiples(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
-
-        with mock.patch.object(checks, 'CLIHelper') as mock_cli:
-            mock_cli.return_value = mock.MagicMock()
-            mock_cli.return_value.dpkg_l.return_value = \
-                ["{}\n".format(line) for line in DPKG_L_MIX_RELS.split('\n')]
-
-            mock_add_issue.side_effect = fake_add_issue
-            base = openstack_core.OpenstackBase()
-            self.assertEqual(base.release_name, 'ussuri')
-            self.assertEqual(len(raised_issues), 1)
-            self.assertEqual(type(raised_issues[0]),
-                             issues.OpenstackWarning)
-            msg = ("openstack packages from mixed releases found - ['ussuri', "
-                   "'victoria']")
-            self.assertEqual(raised_issues[0].msg, msg)
-
 
 class TestOpenstackSummary(TestOpenstackBase):
 
@@ -1212,3 +1190,27 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
         self.assertEqual(raised_issues, [issues.OpenstackWarning])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('pkgs_from_mixed_releases_found.yaml'))
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
+    def test_pkgs_from_mixed_releases_found(self, mock_add_issue, mock_cli):
+        raised_issues = {}
+
+        def fake_add_issue(issue):
+            if type(issue) in raised_issues:
+                raised_issues[type(issue)].append(issue.msg)
+            else:
+                raised_issues[type(issue)] = [issue.msg]
+
+        mock_add_issue.side_effect = fake_add_issue
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["{}\n".format(line) for line in DPKG_L_MIX_RELS.split('\n')]
+
+        YScenarioChecker()()
+        self.assertTrue(mock_add_issue.called)
+        msg = ("Openstack packages from a more than one release identified: "
+               "ussuri, victoria.")
+        self.assertEqual(list(raised_issues.values())[0], [msg])

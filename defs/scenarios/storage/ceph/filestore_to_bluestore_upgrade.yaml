@@ -10,8 +10,7 @@ checks:
         handler: hotsos.core.plugins.storage.ceph.CephConfig
         assertions:
           osd_journal:
-            value:
-            op: ne
+            ops: [[ne, null]]
 conclusions:
   bluestore-using-filestore-journal:
     decision:

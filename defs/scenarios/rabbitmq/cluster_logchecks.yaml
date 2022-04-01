@@ -11,7 +11,6 @@ checks:
   discard:
     expr: 'Discarding message.+old incarnation'
     hint: 'Discarding'
-
 conclusions:
   cluster-has-had-partions:
     decision: cluster_partitions

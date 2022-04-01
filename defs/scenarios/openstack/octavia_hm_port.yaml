@@ -6,12 +6,14 @@ checks:
         - systemd: octavia-worker
   hm_port_packet_errors_drops:
     requires:
-      property: hotsos.core.plugins.openstack.OctaviaBase.hm_port_healthy
-      value: False
+      property:
+        path: hotsos.core.plugins.openstack.OctaviaBase.hm_port_healthy
+        ops: [[not_]]
   hm_port_address_check:
     requires:
-      property: hotsos.core.plugins.openstack.OctaviaBase.hm_port_has_address
-      value: False
+      property:
+        path: hotsos.core.plugins.openstack.OctaviaBase.hm_port_has_address
+        ops: [[not_]]
 conclusions:
   no-addr-or-noexist:
     priority: 1
