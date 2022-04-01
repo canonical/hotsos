@@ -83,6 +83,10 @@ def progress_spinner(show_spinner, spinner_msg):
         done.set()
         thread.join()
 
+    # Need this to ensure any following output starts on a new line
+    sys.stderr.write('\n')
+    sys.stderr.flush()
+
 
 def main():
     @click.command(name='hotsos')
