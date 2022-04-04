@@ -1065,10 +1065,9 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
             op = self.settings.get('op', 'eq')
 
         actual = None
+        ops_all = []
         for svc, state in services.items():
             svcinfo = ServiceChecksBase([svc]).services
-            self.cache.set('service', svc)
-            self.cache.set('state_expected', state)
             self.cache.set('ops', op)
             if svc not in svcinfo:
                 result = False
@@ -1079,10 +1078,15 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
             if state is None:
                 result = True
             else:
-                ops = [[op, actual]]
-                self.cache.set('ops', self.ops_to_str(ops))
+                ops = [[op, state]]
+                ops_all.extend(ops)
                 result = self.apply_ops(ops, input=actual)
+                if not result:
+                    # bail on first fail
+                    break
 
+        self.cache.set('ops', self.ops_to_str(ops_all))
+        self.cache.set('service', ', '.join(services.keys()))
         log.debug('requirement check: systemd %s (result=%s)',
                   list(services.keys()), result)
         return result
@@ -1103,7 +1107,6 @@ class YRequirementTypeProperty(YRequirementTypeBase):
         result = self.apply_ops(ops, input=actual)
         log.debug('requirement check: property %s %s (result=%s)',
                   path, self.ops_to_str(ops), result)
-        self.cache.set('value_expected', 'TODO')
         self.cache.set('ops', self.ops_to_str(ops))
         self.cache.set('value_actual', actual)
         return result
@@ -1146,7 +1149,6 @@ class YRequirementTypeConfig(YRequirementTypeBase):
             # This is a bit iffy since it only gives us the final config
             # assertion checked.
             self.cache.set('key', key)
-            self.cache.set('value_expected', 'TODO')
             self.cache.set('ops', self.ops_to_str(ops))
             self.cache.set('value_actual', actual)
 

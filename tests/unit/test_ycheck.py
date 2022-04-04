@@ -52,6 +52,25 @@ pluginX:
             max: '5.2'
 """
 
+
+YAML_DEF_REQUIRES_SYSTEMD_PASS = """
+pluginX:
+  groupA:
+    requires:
+      systemd:
+        ondemand: enabled
+        nova-compute: enabled
+"""
+
+YAML_DEF_REQUIRES_SYSTEMD_FAIL = """
+pluginX:
+  groupA:
+    requires:
+      systemd:
+        ondemand: enabled
+        nova-compute: disabled
+"""
+
 YAML_DEF_REQUIRES_GROUPED = """
 passdef1:
   requires:
@@ -745,3 +764,15 @@ class TestYamlChecks(utils.BaseTestCase):
                 self.assertEqual(entry.requires.passes, result)
 
         self.assertEqual(tested, len(expected))
+
+    def test_yaml_def_requires_systemd_pass(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS))
+        for entry in mydef.leaf_sections:
+            self.assertTrue(entry.requires.passes)
+
+    def test_yaml_def_requires_systemd_fail(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL))
+        for entry in mydef.leaf_sections:
+            self.assertFalse(entry.requires.passes)
