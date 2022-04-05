@@ -11,6 +11,7 @@
         path: hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
         ops: [[ne, []]]
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       This host is vulnerable to known bug https://tracker.ceph.com/issues/38745.
       RocksDB needs more space than the leveled space available so it is using

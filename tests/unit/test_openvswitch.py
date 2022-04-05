@@ -120,7 +120,7 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
                         [{'id': 'https://bugs.launchpad.net/bugs/1917475',
                           'desc': "known ovn bug identified - db rbac errors",
                           'origin': 'openvswitch.01part'}]}
-            self.assertEqual(issues.bugs.get_known_bugs(), expected)
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
@@ -140,7 +140,7 @@ class TestOpenvswitchBugChecks(TestOpenvswitchBase):
                               "causes ovs deadlocks. If this environment is "
                               "using OVS it should be upgraded asap.",
                       'origin': 'openvswitch.01part'}]}
-        self.assertEqual(issues.bugs.get_known_bugs(), expected)
+        self.assertEqual(issues.utils.get_known_bugs(), expected)
 
 
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):

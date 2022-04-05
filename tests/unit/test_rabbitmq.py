@@ -191,8 +191,14 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('rabbitmq-server.yaml'))
-    @mock.patch('hotsos.core.ycheck.bugs.add_known_bug')
-    def test_1943937(self, mock_add_known_bug):
+    @mock.patch('hotsos.core.ycheck.bugs.utils.add_issue')
+    def test_1943937(self, mock_add_issue):
+        issues = []
+
+        def fake_add_issue(issue):
+            issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
@@ -204,7 +210,7 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
                          "'nagios-rabbitmq-server-0' due to timeout")
 
             YBugChecker()()
-            self.assertTrue(mock_add_known_bug.called)
+            self.assertTrue(mock_add_issue.called)
             msg = ('Known RabbitMQ issue where queues get stuck and clients '
                    'trying to use them will just keep timing out. This stops '
                    'many services in the cloud from working correctly. '
@@ -212,7 +218,8 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
                    'before starting them all again at the same time. A '
                    'rolling restart or restarting them simultaneously will '
                    'not work. See bug for more detail.')
-            mock_add_known_bug.assert_has_calls([mock.call('1943937', msg)])
+            self.assertEqual([('1943937', msg)],
+                             [(b.id, b.msg) for b in issues])
 
 
 class TestRabbitmqScenarioChecks(TestRabbitmqBase):

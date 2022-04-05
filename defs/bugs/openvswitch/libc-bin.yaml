@@ -6,6 +6,7 @@
         - min: 2.23-0ubuntu3
           max: 2.27-3ubuntu1.2
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Installed package '{package}' with version {version} has a
       known critical bug which causes ovs deadlocks. If this environment is

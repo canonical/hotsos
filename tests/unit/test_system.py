@@ -143,18 +143,18 @@ class TestSystemChecks(SystemTestsBase):
 
 class TestSystemBugChecks(SystemTestsBase):
 
-    @mock.patch('hotsos.core.ycheck.bugs.add_known_bug')
-    def test_bug_checks(self, mock_add_known_bug):
-        bugs = []
+    @mock.patch('hotsos.core.ycheck.bugs.utils.add_issue')
+    def test_bug_checks(self, mock_add_issue):
+        issues = []
 
-        def fake_add_bug(*args, **kwargs):
-            bugs.append((args, kwargs))
+        def fake_add_issue(issue):
+            issues.append(issue)
 
-        mock_add_known_bug.side_effect = fake_add_bug
+        mock_add_issue.side_effect = fake_add_issue
         YBugChecker()()
         # This will need modifying once we have some storage bugs defined
-        self.assertFalse(mock_add_known_bug.called)
-        self.assertEqual(len(bugs), 0)
+        self.assertFalse(mock_add_issue.called)
+        self.assertEqual(len(issues), 0)
 
 
 class TestSystemScenarioChecks(SystemTestsBase):

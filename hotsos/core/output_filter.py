@@ -3,8 +3,10 @@ import html
 import json
 
 from hotsos.core import plugintools
-from hotsos.core.issues.utils import MASTER_YAML_ISSUES_FOUND_KEY
-from hotsos.core.issues.bugs import MASTER_YAML_KNOWN_BUGS_KEY
+from hotsos.core.issues.utils import (
+    MASTER_YAML_ISSUES_FOUND_KEY,
+    MASTER_YAML_KNOWN_BUGS_KEY,
+)
 from hotsos.core.log import log
 
 FILTER_SCHEMA = [MASTER_YAML_ISSUES_FOUND_KEY, MASTER_YAML_KNOWN_BUGS_KEY]

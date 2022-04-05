@@ -238,14 +238,16 @@ myplugin:
 class TestYamlChecks(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.ycheck.APTPackageChecksBase')
-    @mock.patch.object(bugs, 'add_known_bug')
-    def test_YBugChecker(self, mock_add_known_bug, mock_apt):
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('neutron.yaml'))
+    @mock.patch.object(bugs.utils, 'add_issue')
+    def test_YBugChecker(self, mock_add_issue, mock_apt):
         bugs_found = []
 
-        def fake_add_known_bug(id, _msg):
-            bugs_found.append(id)
+        def fake_add_issue(issue):
+            bugs_found.append(issue)
 
-        mock_add_known_bug.side_effect = fake_add_known_bug
+        mock_add_issue.side_effect = fake_add_issue
         setup_config(PLUGIN_NAME='openstack')
         mock_apt.return_value = mock.MagicMock()
         mock_apt.return_value.is_installed.return_value = True
@@ -255,7 +257,7 @@ class TestYamlChecks(utils.BaseTestCase):
         bugs_found = []
         obj = bugs.YBugChecker()
         obj()
-        self.assertFalse('1927868' in bugs_found)
+        self.assertEqual([], [bug.id for bug in bugs_found])
 
         mock_apt.return_value.get_version.return_value = \
             '2:16.4.0-0ubuntu2~cloud0'
@@ -263,7 +265,7 @@ class TestYamlChecks(utils.BaseTestCase):
         bugs_found = []
         obj = bugs.YBugChecker()
         obj()
-        self.assertTrue('1927868' in bugs_found)
+        self.assertEqual(['1927868'], [bug.id for bug in bugs_found])
 
         mock_apt.return_value.get_version.return_value = \
             '2:16.2.0-0ubuntu4~cloud0'
@@ -271,7 +273,7 @@ class TestYamlChecks(utils.BaseTestCase):
         bugs_found = []
         obj = bugs.YBugChecker()
         obj()
-        self.assertFalse('1927868' in bugs_found)
+        self.assertEqual([], [bug.id for bug in bugs_found])
 
     def test_yaml_def_group_input(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT).get('pluginX')

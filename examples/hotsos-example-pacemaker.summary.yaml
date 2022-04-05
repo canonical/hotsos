@@ -1,6 +1,6 @@
 hotsos:
   version: development
-  repo-info: 29c68372
+  repo-info: e73719be
 system:
   hostname: juju-04f1e3-0-lxd-5
   os: ubuntu focal
@@ -9,7 +9,7 @@ system:
   virtualisation: lxc
   rootfs: /dev/vda2        308585260 24171768 268668880   9% /
   unattended-upgrades: ENABLED
-  date: do 10 feb 2022 9:51:32 UTC
+  date: Thu 10 Feb 09:51:32 UTC 2022
   potential-issues:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
@@ -38,10 +38,11 @@ pacemaker:
       - juju-04f1e3-2-lxd-6
     offline:
       - node1
-  potential-issues:
-    PacemakerWarnings:
-      - 'A node with the hostname node1 is currently configured and enabled on pacemaker.
-        This is related to bug: https://bugs.launchpad.net/charm-hacluster/+bug/1874719.
-        You can remove the node by running the following command on the application-hacluster
-        leader: juju run-action <application>-hacluster/leaderdelete-node-from-ring
-        delete-node-from-ring node=node1 --wait (origin=pacemaker.auto_scenario_check)'
+  bugs-detected:
+    - desc: 'A node with the hostname node1 is currently configured and enabled on
+        pacemaker. This is caused by a known bug and you can remove the node by running
+        the following command on the application-hacluster leader: juju run-action
+        <application>-hacluster/leaderdelete-node-from-ring delete-node-from-ring
+        node=node1 --wait'
+      id: https://bugs.launchpad.net/bugs/1874719
+      origin: pacemaker.auto_scenario_check

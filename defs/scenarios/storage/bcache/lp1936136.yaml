@@ -49,7 +49,8 @@ conclusions:
         - bluefs_buffered_io_enabled
         - bcache_cache_available_percent_check
     raises:
-      type: hotsos.core.issues.CephCrushWarning
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1936136
       message: >-
         This host has Ceph OSDs using bcache block devices and may be
         vulnerable to bcache bug LP 1936136 since bcache

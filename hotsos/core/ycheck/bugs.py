@@ -1,6 +1,6 @@
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.issues.bugs import add_known_bug
+from hotsos.core.issues import utils, LaunchpadBug
 from hotsos.core.ycheck import (
     YDefsLoader,
     YDefsSection,
@@ -103,4 +103,10 @@ class YBugChecker(ChecksBase):
                 message = raises.message_with_format_dict_applied(
                                                 property=bugsearch['requires'])
 
-            add_known_bug(bug_id, message)
+            bug_type = raises.type
+            if not raises.type:
+                bug_type = LaunchpadBug
+                log.info("no type provided for bug check so assuming %s",
+                         bug_type)
+
+            utils.add_issue(raises.type(bug_id, message))

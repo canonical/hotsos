@@ -12,6 +12,7 @@
         - min: 1:10.0.0
           max: 1:10.1.0-0ubuntu1
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Installed package '{package}' with version {version} has a known bug that
       prevents cinder from creating encrypted volumes. To fix this you need to

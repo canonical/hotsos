@@ -41,7 +41,8 @@ conclusions:
         - bcache_enabled
         - cset_config_lp1900438_limit
     raises:
-      type: hotsos.core.issues.BcacheWarning
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1900438
       message: >-
         bcache cache_available_percent is {actual} (i.e. approx. 30%) which
         implies this node could be suffering from bug LP 1900438 - please check.

@@ -87,6 +87,6 @@ class YScenarioChecker(ChecksBase):
                 log.debug("selecting highest priority=%s conclusions (%s)",
                           highest, len(results[highest]))
                 for conc in results[highest]:
-                    issues.utils.add_issue(conc.issue_type(conc.issue_message))
+                    issues.utils.add_issue(conc.issue)
             else:
                 log.debug("no conclusions reached")

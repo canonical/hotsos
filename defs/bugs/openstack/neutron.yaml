@@ -6,6 +6,7 @@
   expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
   hint: 'OVS database'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Known neutron-ovn bug identified that impacts OVN db connections.
 1927868:
@@ -27,10 +28,12 @@
   #expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
   #hint: 'Gateway'
   #raises:
+  #type: hotsos.core.issues.LaunchpadBug
   #  message: >-
   #    known neutron l3-agent bug identified that impacts HA routers and can
   #    cause router updates to stall.
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Installed package '{package}' with version {version} has a
       known critical bug. If this environment is using Neutron ML2 OVS (i.e.
@@ -44,5 +47,6 @@
   expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
   hint: 'AttributeError'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Known neutron-ovn bug identified that impacts OVN sbdb connections.

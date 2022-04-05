@@ -211,7 +211,7 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
                         'desc': msg,
                         'id': 'https://bugs.launchpad.net/bugs/1959649',
                         'origin': 'storage.01part'}]}
-        self.assertEqual(issues.bugs.get_known_bugs(), expected)
+        self.assertEqual(issues.utils.get_known_bugs(), expected)
 
 
 class TestCephScenarioChecks(StorageCephOSDTestsBase):

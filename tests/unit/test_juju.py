@@ -115,7 +115,7 @@ class TestJujuKnownBugs(JujuTestsBase):
                     [{'id': 'https://bugs.launchpad.net/bugs/1852502',
                       'desc': msg_1852502,
                       'origin': 'juju.01part'}]}
-        self.assertEqual(issues.bugs.get_known_bugs(), expected)
+        self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core.yaml'))
@@ -136,7 +136,7 @@ class TestJujuKnownBugs(JujuTestsBase):
                            'to members in relation 236 that cannot be '
                            'removed.'),
                           'origin': 'juju.01part'}]}
-            self.assertEqual(issues.bugs.get_known_bugs(), expected)
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
 
 class TestJujuScenarios(JujuTestsBase):
