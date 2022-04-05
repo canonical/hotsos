@@ -13,6 +13,7 @@
         - min: 2:21.0.0
           max: 2:21.1.2-0ubuntu1
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: 'known nova bug identified'
 1944619:
   input:
@@ -20,6 +21,7 @@
   expr: '.+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
   hint: 'libvirtError'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: 'known nova bug identified'
 1860743:
   input:
@@ -27,4 +29,5 @@
   expr: '.+Live Migration failure: operation failed: Failed to connect to remote libvirt URI .+Cannot recv data: Host key verification failed\.: Connection reset by peer: libvirtError: operation failed: Failed to connect to remote libvirt URI.+Cannot recv data: Host key verification failed\.: Connection reset by peer'
   hint: 'libvirtError'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: 'known nova compute charm bug identified which affects live migrations with cached keys'

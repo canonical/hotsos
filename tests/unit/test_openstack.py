@@ -925,7 +925,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                    'that impacts deletion of neutron '
                                    'routers.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.bugs.get_known_bugs(), expected)
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
@@ -943,7 +943,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'desc': ('Known neutron l3-agent bug identified '
                                    'that critically impacts keepalived.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.bugs.get_known_bugs(), expected)
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron.yaml'))
@@ -962,7 +962,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                           'desc': ('Known neutron-ovn bug identified that '
                                    'impacts OVN sbdb connections.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.bugs.get_known_bugs(), expected)
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
@@ -981,7 +981,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                "using Neutron ML2 OVS (i.e. not OVN) it "
                                "should be upgraded asap."),
                       'origin': 'openstack.01part'}]}
-        self.assertEqual(issues.bugs.get_known_bugs(), expected)
+        self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
@@ -1001,16 +1001,16 @@ class TestOpenstackBugChecks(TestOpenstackBase):
 
             YBugChecker()()
             expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/2008099',
-                          'desc': ('known octavia bug identified '
-                                   'https://storyboard.openstack.org/#!/story'
-                                   '/2008099. Due to this bug, LB failover '
-                                   'fails when session persistence is set on'
-                                   ' a LB pool. The fix is available in '
+                        [{'id':
+                          'https://storyboard.openstack.org/#!/story/2008099',
+                          'desc': ('A known octavia bug has been identified. '
+                                   'Due to this bug, LB failover '
+                                   'fails when session persistence is set on '
+                                   'a LB pool. The fix is available in '
                                    'latest octavia packages in UCA ussuri '
                                    'and above.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.bugs.get_known_bugs(), expected)
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):

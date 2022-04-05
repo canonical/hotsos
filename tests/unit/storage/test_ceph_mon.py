@@ -526,11 +526,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
         YScenarioChecker()()
         self.assertTrue(mock_add_issue.called)
-        msg = ('Identified known Ceph bug '
-               'https://tracker.ceph.com/issues/38745. '
-               'RocksDB needs more space than the leveled '
-               'space available. See '
-               'www.mail-archive.com/ceph-users@ceph.io/msg05782.html')
+        msg = ('Identified known Ceph bug. RocksDB needs more space than the '
+               'leveled space available. See '
+               'www.mail-archive.com/ceph-users@ceph.io/msg05782.html '
+               'for more background information.')
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')

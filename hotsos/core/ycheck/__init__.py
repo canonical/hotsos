@@ -21,6 +21,7 @@ from hotsos.core.checks import (
     ServiceChecksBase,
     SnapPackageChecksBase,
 )
+from hotsos.core.issues.utils import issue_is_bug_type
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.cli_helpers import CLIHelper
 from hotsos.core.log import log
@@ -608,8 +609,7 @@ class YPropertyConclusion(object):
         self.priority = priority
         self.decision = decision
         self.raises = raises
-        self.issue_message = None
-        self.issue_type = None
+        self.issue = None
 
     def get_check_result(self, name, checks):
         result = None
@@ -641,8 +641,11 @@ class YPropertyConclusion(object):
         """ Return true if a conclusion has been reached. """
         result = self._run_conclusion(checks)
         message = self.raises.message_with_format_dict_applied(checks=checks)
-        self.issue_message = message
-        self.issue_type = self.raises.type
+        if issue_is_bug_type(self.raises.type):
+            self.issue = self.raises.type(self.raises.bug_id, message)
+        else:
+            self.issue = self.raises.type(message)
+
         return result
 
 

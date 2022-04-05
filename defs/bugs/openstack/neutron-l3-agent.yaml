@@ -4,12 +4,14 @@ input:
   expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
   hint: 'AttributeError'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Known neutron l3-agent bug identified that affects dvr floating ips.
 1929832:
   expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
   hint: 'ProcessExecutionError'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Known neutron l3-agent bug identified that impacts deletion of neutron routers.
 1896506:
@@ -18,6 +20,7 @@ input:
   expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
   hint: 'no_track'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Known neutron l3-agent bug identified that critically impacts
       keepalived.

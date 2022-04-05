@@ -13,7 +13,8 @@
   expr: '.+octavia.amphorae.drivers.haproxy.exceptions .+ Removing incomplete section ''peers'
   hint: octavia.amphorae.drivers.haproxy.exceptions
   raises:
+    type: hotsos.core.issues.StoryBoardBug
     message: >-
-      known octavia bug identified https://storyboard.openstack.org/#!/story/2008099.
-      Due to this bug, LB failover fails when session persistence is set on a LB pool.
-      The fix is available in latest octavia packages in UCA ussuri and above.
+      A known octavia bug has been identified. Due to this bug, LB failover
+      fails when session persistence is set on a LB pool. The fix is available
+      in latest octavia packages in UCA ussuri and above.

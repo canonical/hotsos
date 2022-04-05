@@ -4,6 +4,7 @@ input:
   expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
   hint: 'manifold worker returned unexpected error'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       Unit {} failed to start due to members in relation {} that cannot be
       removed.
@@ -12,6 +13,7 @@ input:
   expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
   hint: 'manifold worker returned unexpected error'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       post-series-upgrade failed, issues with unit {} - see LP bug for
       workaround.
@@ -25,6 +27,7 @@ input:
   expr: '.* CappedPositionLost: CollectionScan died due to position in capped collection being deleted'
   hint: 'CollectionScan died'
   raises:
+    type: hotsos.core.issues.LaunchpadBug
     message: >-
       known mongodb bug identified - https://jira.mongodb.org/browse/TOOLS-1636
       Workaround is to pass --no-logs to juju create-backup. This is an issue only with

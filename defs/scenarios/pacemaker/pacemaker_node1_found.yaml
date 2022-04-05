@@ -8,13 +8,11 @@ conclusions:
   node1-found-needs-removal:
     decision: node1-found
     raises:
-      type: hotsos.core.issues.PacemakerWarning
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1874719
       message: >-
        A node with the hostname node1 is currently configured and enabled on
-       pacemaker.
-       This is related to bug:
-       https://bugs.launchpad.net/charm-hacluster/+bug/1874719.
-       You can remove the node by running the following command on the
-       application-hacluster leader:
+       pacemaker. This is caused by a known bug and you can remove the node by
+       running the following command on the application-hacluster leader:
        juju run-action <application>-hacluster/leaderdelete-node-from-ring
        delete-node-from-ring node=node1 --wait

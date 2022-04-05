@@ -79,13 +79,13 @@ class TestPacemakerScenarios(TestPacemakerBase):
             YScenarioChecker()()
             self.assertTrue(mock_add_issue.called)
             msg = (
-                "A node with the hostname node1 is currently configured and "
-                "enabled on pacemaker. This is related to bug: "
-                "https://bugs.launchpad.net/charm-hacluster/+bug/1874719. "
-                "You can remove the node by running the following command on "
-                "the application-hacluster leader: juju run-action "
-                "<application>-hacluster/leaderdelete-node-from-ring "
-                "delete-node-from-ring node=node1 --wait")
+                'A node with the hostname node1 is currently configured and '
+                'enabled on pacemaker. This is caused by a known bug and you '
+                'can remove the node by running the following command on the '
+                'application-hacluster leader: '
+                'juju run-action '
+                '<application>-hacluster/leaderdelete-node-from-ring '
+                'delete-node-from-ring node=node1 --wait')
             msgs = [issue.msg for issue in raised_issues]
             self.assertEqual(len(msgs), 1)
             self.assertEqual(msgs, [msg])

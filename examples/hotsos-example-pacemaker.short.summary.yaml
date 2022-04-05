@@ -4,10 +4,12 @@ potential-issues:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades. (origin=system.auto_scenario_check)
+bugs-detected:
   pacemaker:
-    PacemakerWarnings:
-      - 'A node with the hostname node1 is currently configured and enabled on pacemaker.
-        This is related to bug: https://bugs.launchpad.net/charm-hacluster/+bug/1874719.
-        You can remove the node by running the following command on the application-hacluster
-        leader: juju run-action <application>-hacluster/leaderdelete-node-from-ring
-        delete-node-from-ring node=node1 --wait (origin=pacemaker.auto_scenario_check)'
+    - desc: 'A node with the hostname node1 is currently configured and enabled on
+        pacemaker. This is caused by a known bug and you can remove the node by running
+        the following command on the application-hacluster leader: juju run-action
+        <application>-hacluster/leaderdelete-node-from-ring delete-node-from-ring
+        node=node1 --wait'
+      id: https://bugs.launchpad.net/bugs/1874719
+      origin: pacemaker.auto_scenario_check

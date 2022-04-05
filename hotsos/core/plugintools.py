@@ -22,8 +22,8 @@ def add_known_bugs_to_master_plugin():
     Note that this can only be called once per plugin and is typically
     performed as a final part after all others have executed.
     """
-    bugs = issues.bugs.get_known_bugs()
-    if bugs and bugs.get(issues.bugs.MASTER_YAML_KNOWN_BUGS_KEY):
+    bugs = issues.utils.get_known_bugs()
+    if bugs and bugs.get(issues.utils.MASTER_YAML_KNOWN_BUGS_KEY):
         end = PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
         save_part(bugs, offset=end)
 
