@@ -1,0 +1,29 @@
+checks:
+  has_2008099_pt1:
+    requires:
+      apt:
+        octavia-common:
+          # ussuri
+          - min: 6.0.0
+            max: 6.2.0-0ubuntu1~cloud0~1
+          # victoria
+          - min: 7.0.0
+            max: 7.1.0-0ubuntu1~cloud0~1
+  has_2008099_pt2:
+    input:
+      path: 'var/log/octavia/octavia-worker.log'
+    expr: '.+octavia.amphorae.drivers.haproxy.exceptions .+ Removing incomplete section ''peers'
+    hint: octavia.amphorae.drivers.haproxy.exceptions
+conclusions:
+  2008099:
+    decision:
+      and:
+        - has_2008099_pt1
+        - has_2008099_pt2
+    raises:
+      type: hotsos.core.issues.StoryBoardBug
+      bug-id: 2008099
+      message: >-
+        A known octavia bug has been identified. Due to this bug, LB failover
+        fails when session persistence is set on a LB pool. The fix is available
+        in latest octavia packages in UCA ussuri and above.

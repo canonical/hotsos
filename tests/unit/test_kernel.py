@@ -13,7 +13,6 @@ from hotsos.plugin_extensions.kernel import (
 from hotsos.core.config import setup_config
 from hotsos.core.plugins.kernel import SystemdConfig
 from hotsos.core.ycheck.events import EventCheckResult
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 from hotsos.core.host_helpers import NetworkPort
@@ -204,22 +203,6 @@ class TestKernelLogEventChecks(TestKernelBase):
         ret = inst.over_mtu_dropped_packets(event)
         self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)
-
-
-class TestKernelBugChecks(TestKernelBase):
-
-    @mock.patch('hotsos.core.ycheck.bugs.utils.add_issue')
-    def test_bug_checks(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        YBugChecker()()
-        # This will need modifying once we have some storage bugs defined
-        self.assertFalse(mock_add_issue.called)
-        self.assertEqual(len(issues), 0)
 
 
 class TestKernelScenarioChecks(TestKernelBase):

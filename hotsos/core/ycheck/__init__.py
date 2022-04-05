@@ -515,7 +515,7 @@ class YPropertyCheck(YPropertyBase):
                           results)
             else:
                 s = FileSearcher()
-                s.add_search_term(SearchDef(self.expr.value, tag='all'),
+                s.add_search_term(SearchDef(self.expr.value, tag=self.name),
                                   self.input.path)
                 results = s.search()
                 self.expr.cache.set('results', results)
@@ -543,7 +543,7 @@ class YPropertyCheck(YPropertyBase):
                           self.name)
                 return False
 
-            results = results.find_by_tag('all')
+            results = results.find_by_tag(self.name)
             parameters = self.check_paramaters
             if parameters:
                 result_age_hours = parameters.search_result_age_hours
@@ -640,7 +640,26 @@ class YPropertyConclusion(object):
     def reached(self, checks):
         """ Return true if a conclusion has been reached. """
         result = self._run_conclusion(checks)
-        message = self.raises.message_with_format_dict_applied(checks=checks)
+        if self.raises.format_groups:
+            search_results = None
+            for name, check in checks.items():
+                if check.expr and check.expr.cache.results:
+                    search_results = check.expr.cache.results.find_by_tag(name)
+                    if not search_results:
+                        continue
+
+            if search_results:
+                # we only use the first result
+                message = self.raises.message_with_format_list_applied(
+                                                             search_results[0])
+            else:
+                message = self.raises.message
+                log.warning("no search results found so not applying format "
+                            "groups")
+        else:
+            message = self.raises.message_with_format_dict_applied(
+                                                                 checks=checks)
+
         if issue_is_bug_type(self.raises.type):
             self.issue = self.raises.type(self.raises.bug_id, message)
         else:
@@ -1323,6 +1342,7 @@ class YPropertyRequires(YPropertyOverrideBase):
 class YDefsLoader(object):
     def __init__(self, ytype):
         self.ytype = ytype
+        self.stats_num_files_loaded = 0
 
     def _is_def(self, path):
         return path.endswith('.yaml')
@@ -1343,11 +1363,13 @@ class YDefsLoader(object):
 
                 if self._get_yname(_path) == os.path.basename(path):
                     with open(_path) as fd:
+                        self.stats_num_files_loaded += 1
                         defs.update(yaml.safe_load(fd.read()) or {})
 
                     continue
 
                 with open(_path) as fd:
+                    self.stats_num_files_loaded += 1
                     _content = yaml.safe_load(fd.read()) or {}
                     defs[self._get_yname(_path)] = _content
 
@@ -1357,8 +1379,13 @@ class YDefsLoader(object):
     def plugin_defs(self):
         path = os.path.join(HotSOSConfig.PLUGIN_YAML_DEFS, self.ytype,
                             HotSOSConfig.PLUGIN_NAME)
+        # reset
+        self.stats_num_files_loaded = 0
         if os.path.isdir(path):
-            return self._get_defs_recursive(path)
+            _defs = self._get_defs_recursive(path)
+            log.debug("YDefsLoader: plugin %s loaded %s files",
+                      HotSOSConfig.PLUGIN_NAME, self.stats_num_files_loaded)
+            return _defs
 
     @property
     def plugin_defs_legacy(self):

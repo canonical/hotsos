@@ -8,7 +8,7 @@ from . import utils
 from hotsos.core import issues
 from hotsos.core.config import setup_config
 from hotsos.core.plugins import openvswitch
-from hotsos.core.ycheck.bugs import YBugChecker
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.openvswitch import (
     event_checks,
     summary,
@@ -101,48 +101,6 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                          expected)
 
 
-class TestOpenvswitchBugChecks(TestOpenvswitchBase):
-
-    @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
-                'plugin_runnable', True)
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn.yaml'))
-    def test_1917475(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/ovn/ovn-controller.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP1917475_LOG)
-
-            YBugChecker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1917475',
-                          'desc': "known ovn bug identified - db rbac errors",
-                          'origin': 'openvswitch.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
-
-    @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
-                'plugin_runnable', True)
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('libc-bin.yaml'))
-    def test_1839592(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = \
-            ["ii  libc-bin 2.26-3ubuntu1.3 amd64"]
-
-        YBugChecker()()
-        expected = {'bugs-detected':
-                    [{'id': 'https://bugs.launchpad.net/bugs/1839592',
-                      'desc': "Installed package 'libc-bin' with version "
-                              "2.26-3ubuntu1.3 has a known critical bug which "
-                              "causes ovs deadlocks. If this environment is "
-                              "using OVS it should be upgraded asap.",
-                      'origin': 'openvswitch.01part'}]}
-        self.assertEqual(issues.utils.get_known_bugs(), expected)
-
-
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     def test_common_checks(self):
@@ -226,3 +184,45 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                                 }}}}
         inst = event_checks.OpenvSwitchFlowEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+
+class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
+
+    @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
+                'plugin_runnable', True)
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn_bugs.yaml'))
+    def test_1917475(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, 'var/log/ovn/ovn-controller.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(LP1917475_LOG)
+
+            YScenarioChecker()()
+            expected = {'bugs-detected':
+                        [{'id': 'https://bugs.launchpad.net/bugs/1917475',
+                          'desc': "known ovn bug identified - db rbac errors",
+                          'origin': 'openvswitch.01part'}]}
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
+
+    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openvswitch.OpenvSwitchChecksBase.'
+                'plugin_runnable', True)
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovs_bugs.yaml'))
+    def test_1839592(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  libc-bin 2.26-3ubuntu1.3 amd64"]
+
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1839592',
+                      'desc': "Installed package 'libc-bin' with version "
+                              "2.26-3ubuntu1.3 has a known critical bug which "
+                              "causes ovs deadlocks. If this environment is "
+                              "using OVS it should be upgraded asap.",
+                      'origin': 'openvswitch.01part'}]}
+        self.assertEqual(issues.utils.get_known_bugs(), expected)

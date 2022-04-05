@@ -1,0 +1,71 @@
+checks:
+  isolcpus_enabled:
+    requires:
+      property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
+  has_1907686:
+    input:
+      path: 'var/log/neutron/neutron-openvswitch-agent.log'
+    expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
+  has_1927868:
+    requires:
+      apt:
+        neutron-common:
+          # wallaby
+          - min: 2:18.0.0
+            max: 2:18.1.0-0ubuntu1
+          # victoria
+          - min: 2:17.0.0
+            max: 2:17.2.0-0ubuntu0
+          # ussuri
+          - min: 2:16.3.0
+            max: 2:16.4.0-0ubuntu2
+          # train
+          - min: 2:15.3.3
+            max: 2:15.3.4-0ubuntu0
+  has_1965297:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
+  has_1928031:
+    input:
+      path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
+    expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
+    hint: 'AttributeError'
+conclusions:
+  lp1907686:
+    decision:
+      and:
+        - isolcpus_enabled
+        - has_1907686
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1907686
+      message: >-
+        Known neutron-ovn bug identified that impacts OVN db connections.
+  lp1927868:
+    decision: has_1927868
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1927868
+      message: >-
+        Installed package '{package}' with version {version} has a
+        known critical bug. If this environment is using Neutron ML2 OVS (i.e.
+        not OVN) it should be upgraded asap.
+      format-dict:
+        package: '@checks.has_1927868.requires.package'
+        version: '@checks.has_1927868.requires.version'
+  lp1928031:
+    decision: has_1928031
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1928031
+      message: >-
+        Known neutron-ovn bug identified that impacts OVN sbdb connections.
+  lp1965297:
+    decision: has_1965297
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1965297
+      message: >-
+        Known neutron-ovn bug identified that impacts OVN sbdb connections.
+

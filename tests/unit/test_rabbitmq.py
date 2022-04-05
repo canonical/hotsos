@@ -5,10 +5,9 @@ import mock
 
 from . import utils
 
-from hotsos.core.issues import RabbitMQWarning
+from hotsos.core import issues
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.plugins.rabbitmq import RabbitMQReport
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.rabbitmq import summary
 
@@ -187,18 +186,11 @@ class TestRabbitmqSummary(TestRabbitmqBase):
                         self.part_output_to_actual(inst.output))
 
 
-class TestRabbitmqBugChecks(TestRabbitmqBase):
+class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('rabbitmq-server.yaml'))
-    @mock.patch('hotsos.core.ycheck.bugs.utils.add_issue')
-    def test_1943937(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
+                new=utils.is_def_filter('rabbitmq_bugs.yaml'))
+    def test_1943937(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
@@ -209,8 +201,7 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
                          "'test_exchange_queue' in vhost "
                          "'nagios-rabbitmq-server-0' due to timeout")
 
-            YBugChecker()()
-            self.assertTrue(mock_add_issue.called)
+            YScenarioChecker()()
             msg = ('Known RabbitMQ issue where queues get stuck and clients '
                    'trying to use them will just keep timing out. This stops '
                    'many services in the cloud from working correctly. '
@@ -218,11 +209,12 @@ class TestRabbitmqBugChecks(TestRabbitmqBase):
                    'before starting them all again at the same time. A '
                    'rolling restart or restarting them simultaneously will '
                    'not work. See bug for more detail.')
-            self.assertEqual([('1943937', msg)],
-                             [(b.id, b.msg) for b in issues])
 
-
-class TestRabbitmqScenarioChecks(TestRabbitmqBase):
+            expected = {'bugs-detected':
+                        [{'id': 'https://bugs.launchpad.net/bugs/1943937',
+                          'desc': msg,
+                          'origin': 'rabbitmq.01part'}]}
+            self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
@@ -240,12 +232,12 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
         YScenarioChecker()()
         self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
                          1)
-        self.assertTrue(RabbitMQWarning in raised_issues)
+        self.assertTrue(issues.RabbitMQWarning in raised_issues)
         msg = ('Cluster partition handling is currently set to "ignore". This '
                'is potentially dangerous and a setting of '
                '"pause_minority" is recommended.')
 
-        self.assertEqual(msg, raised_issues[RabbitMQWarning][0])
+        self.assertEqual(msg, raised_issues[issues.RabbitMQWarning][0])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_resources.yaml'))
@@ -263,11 +255,11 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
         YScenarioChecker()()
         self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
                          1)
-        self.assertTrue(RabbitMQWarning in raised_issues)
+        self.assertTrue(issues.RabbitMQWarning in raised_issues)
         msg = ('RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding '
                'more than 2/3 of queues for one or more vhosts.')
 
-        self.assertEqual(msg, raised_issues[RabbitMQWarning][0])
+        self.assertEqual(msg, raised_issues[issues.RabbitMQWarning][0])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
@@ -292,7 +284,7 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
             YScenarioChecker()()
             self.assertEqual(sum([len(msgs)
                                   for msgs in raised_issues.values()]), 3)
-            self.assertTrue(RabbitMQWarning in raised_issues)
+            self.assertTrue(issues.RabbitMQWarning in raised_issues)
             msg1 = ('Messages were discarded because transient mirrored '
                     'classic queues are not syncronized. Please stop all '
                     'rabbitmq-server units and restart the cluster. '
@@ -304,5 +296,5 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                     'stop all rabbitmq-server units and restart the cluster. '
                     'Note that a rolling restart will not work.')
             expected = sorted([msg1, msg2, msg3])
-            actual = sorted(raised_issues[RabbitMQWarning])
+            actual = sorted(raised_issues[issues.RabbitMQWarning])
             self.assertEqual(actual, expected)

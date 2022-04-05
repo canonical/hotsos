@@ -7,7 +7,6 @@ import mock
 from . import utils
 
 from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.issues import SystemWarning
 from hotsos.core.plugins.system import NUMAInfo
@@ -139,22 +138,6 @@ class TestSystemChecks(SystemTestsBase):
             inst = checks.SystemChecks()
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual, expected)
-
-
-class TestSystemBugChecks(SystemTestsBase):
-
-    @mock.patch('hotsos.core.ycheck.bugs.utils.add_issue')
-    def test_bug_checks(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        YBugChecker()()
-        # This will need modifying once we have some storage bugs defined
-        self.assertFalse(mock_add_issue.called)
-        self.assertEqual(len(issues), 0)
 
 
 class TestSystemScenarioChecks(SystemTestsBase):

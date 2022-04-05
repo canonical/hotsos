@@ -646,26 +646,3 @@ myeventname:
   end:
     expr: <re.match pattern>
 ```
-
-
-### Bugs
-
-Bug checks run automatically and are implemented purely in YAML. See [existing
-definitions](bugs).
-
-Each plugin can have an associated set of bugs to identify based on the
-contents of files, output of commands or versions of installed packages and can
-use any combination of these. If package version info is checked and the
-package is not installed, any other checks are skipped for that bug. 
-
-Supported Properties
-  * [requires](#requires) - this must "pass" for the bugcheck to complete
-  * [input](#input) - this is required by [search](#search)
-  * [search](#search) - optional pattern search in file or command (see [input](#input))
-  * [raises](#raises) - used to define message displayed when bug identified. Note that
-             *[raises](#raises).type* is ignored here since we are always
-             raising a bug.
-  
-Supported PropertyCollection
-  * none
-

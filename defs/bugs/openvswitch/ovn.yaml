@@ -1,8 +1,0 @@
-input:
-  path: 'var/log/ovn/ovn-controller.log'
-1917475:
-  expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
-  hint: 'transaction error'
-  raises:
-    type: hotsos.core.issues.LaunchpadBug
-    message: known ovn bug identified - db rbac errors

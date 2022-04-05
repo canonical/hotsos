@@ -8,7 +8,6 @@ from .. import utils
 from hotsos.core.config import setup_config
 from hotsos.core import checks
 from hotsos.core import issues
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
@@ -187,12 +186,12 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
         self.assertEqual(actual, result)
 
 
-class TestCephOSDBugChecks(StorageCephOSDTestsBase):
+class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph.yaml'))
+                new=utils.is_def_filter('ceph_bugs.yaml'))
     def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -200,7 +199,7 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
         mock_cephdaemon.return_value = mock.MagicMock()
         mock_cephdaemon.return_value.bluestore_volume_selection_policy = \
             ['rocksdb_original']
-        YBugChecker()()
+        YScenarioChecker()()
         msg = ('This host is vulnerable to known bug '
                'https://tracker.ceph.com/issues/38745. RocksDB needs more '
                'space than the leveled space available so it is using storage '
@@ -212,9 +211,6 @@ class TestCephOSDBugChecks(StorageCephOSDTestsBase):
                         'id': 'https://bugs.launchpad.net/bugs/1959649',
                         'origin': 'storage.01part'}]}
         self.assertEqual(issues.utils.get_known_bugs(), expected)
-
-
-class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
     @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')

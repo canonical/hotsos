@@ -8,7 +8,6 @@ from hotsos.core.config import setup_config
 from hotsos.core.issues import KubernetesWarning
 from hotsos.core import checks, cli_helpers
 from hotsos.core.plugins import kubernetes as kubernetes_core
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.kubernetes import summary
 
@@ -95,22 +94,6 @@ class TestKubernetesSummary(KubernetesTestsBase):
         inst = summary.KubernetesSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['flannel'],
                          expected)
-
-
-class TestKubernetesBugChecks(KubernetesTestsBase):
-
-    @mock.patch('hotsos.core.ycheck.bugs.utils.add_issue')
-    def test_bug_checks(self, mock_add_issue):
-        issues = []
-
-        def fake_add_issue(issue):
-            issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-        YBugChecker()()
-        # This will need modifying once we have some storage bugs defined
-        self.assertFalse(mock_add_issue.called)
-        self.assertEqual(len(issues), 0)
 
 
 class TestKubernetesScenarioChecks(KubernetesTestsBase):

@@ -6,7 +6,6 @@ import mock
 from . import utils
 
 from hotsos.core.config import setup_config
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core import issues
 from hotsos.plugin_extensions.juju import summary
@@ -91,17 +90,17 @@ class TestJujuSummary(JujuTestsBase):
                          expected)
 
 
-class TestJujuKnownBugs(JujuTestsBase):
+class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('juju_core.yaml'))
+                new=utils.is_def_filter('juju_core_bugs.yaml'))
     @mock.patch('hotsos.core.ycheck.CLIHelper')
     def test_1852502(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_CAPPEDPOSITIONLOST.splitlines(keepends=True)
 
-        YBugChecker()()
+        YScenarioChecker()()
         mock_helper.return_value.journalctl.assert_called_with(
                                                             unit='juju-db')
         msg_1852502 = ('known mongodb bug identified - '
@@ -118,7 +117,7 @@ class TestJujuKnownBugs(JujuTestsBase):
         self.assertEqual(issues.utils.get_known_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('juju_core.yaml'))
+                new=utils.is_def_filter('juju_core_bugs.yaml'))
     def test_1910958(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -128,7 +127,7 @@ class TestJujuKnownBugs(JujuTestsBase):
             with open(logfile, 'w') as fd:
                 fd.write(RABBITMQ_CHARM_LOGS)
 
-            YBugChecker()()
+            YScenarioChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1910958',
                           'desc':
@@ -137,9 +136,6 @@ class TestJujuKnownBugs(JujuTestsBase):
                            'removed.'),
                           'origin': 'juju.01part'}]}
             self.assertEqual(issues.utils.get_known_bugs(), expected)
-
-
-class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))

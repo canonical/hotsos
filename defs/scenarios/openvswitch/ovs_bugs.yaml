@@ -1,0 +1,21 @@
+checks:
+  has_1839592:
+    requires:
+      apt:
+        libc-bin:
+          # queens
+          - min: 2.23-0ubuntu3
+            max: 2.27-3ubuntu1.2
+conclusions:
+  lp1839592:
+    decision: has_1839592
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1839592
+      message: >-
+        Installed package '{package}' with version {version} has a known
+        critical bug which causes ovs deadlocks. If this environment is
+        using OVS it should be upgraded asap.
+      format-dict:
+        package: '@checks.has_1839592.requires.package'
+        version: '@checks.has_1839592.requires.version'

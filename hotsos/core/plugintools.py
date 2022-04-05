@@ -4,7 +4,6 @@ import yaml
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core import issues
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 
@@ -273,8 +272,7 @@ class PluginRunner(object):
     def run_parts(self, parts, debug_mode=False):
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).
-        ALWAYS_RUN = {'auto_bug_check': YBugChecker,
-                      'auto_scenario_check': YScenarioChecker}
+        ALWAYS_RUN = {'auto_scenario_check': YScenarioChecker}
         for name, always_parts in ALWAYS_RUN.items():
             # update current env to reflect actual part being run
             setup_config(PART_NAME=name)

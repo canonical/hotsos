@@ -8,7 +8,6 @@ from . import utils
 import hotsos.core.plugins.openstack as openstack_core
 from hotsos.core import checks
 from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.ycheck.bugs import YBugChecker
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core import issues
 from hotsos.core.searchtools import FileSearcher
@@ -905,7 +904,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         self.assertEqual(actual['agent-exceptions'], expected)
 
 
-class TestOpenstackBugChecks(TestOpenstackBase):
+class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
@@ -918,7 +917,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             with open(logfile, 'w') as fd:
                 fd.write(LP_1929832)
 
-            YBugChecker()()
+            YScenarioChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1929832',
                           'desc': ('Known neutron l3-agent bug identified '
@@ -937,7 +936,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             with open(logfile, 'w') as fd:
                 fd.write(LP_1896506)
 
-            YBugChecker()()
+            YScenarioChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1896506',
                           'desc': ('Known neutron l3-agent bug identified '
@@ -956,7 +955,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             with open(logfile, 'w') as fd:
                 fd.write(LP_1928031)
 
-            YBugChecker()()
+            YScenarioChecker()()
             expected = {'bugs-detected':
                         [{'id': 'https://bugs.launchpad.net/bugs/1928031',
                           'desc': ('Known neutron-ovn bug identified that '
@@ -972,7 +971,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
         mock_helper.return_value.dpkg_l.return_value = \
             ["ii neutron-common 2:16.4.0-0ubuntu2 all"]
 
-        YBugChecker()()
+        YScenarioChecker()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1927868',
                       'desc': ("Installed package 'neutron-common' with "
@@ -999,7 +998,7 @@ class TestOpenstackBugChecks(TestOpenstackBase):
             with open(logfile, 'w') as fd:
                 fd.write(LP_2008099)
 
-            YBugChecker()()
+            YScenarioChecker()()
             expected = {'bugs-detected':
                         [{'id':
                           'https://storyboard.openstack.org/#!/story/2008099',
@@ -1011,9 +1010,6 @@ class TestOpenstackBugChecks(TestOpenstackBase):
                                    'and above.'),
                           'origin': 'openstack.01part'}]}
             self.assertEqual(issues.utils.get_known_bugs(), expected)
-
-
-class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.issues.utils.add_issue')
     def test_scenarios_none(self, mock_add_issue):
