@@ -214,15 +214,16 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                         [{'id': 'https://bugs.launchpad.net/bugs/1943937',
                           'desc': msg,
                           'origin': 'rabbitmq.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
+            self.assertEqual(issues.IssuesManager().load_bugs(),
+                             expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_cluster_config(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -241,11 +242,11 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_resources.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_cluster_resources(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -263,11 +264,11 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_cluster_logchecks(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:

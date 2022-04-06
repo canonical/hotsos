@@ -90,6 +90,8 @@ def progress_spinner(show_spinner, spinner_msg):
 
 def main():
     @click.command(name='hotsos')
+    @click.option('--machine-readable', default=False, is_flag=True,
+                  help=("Don't format output for humans."))
     @click.option('--list-plugins', default=False, is_flag=True,
                   help=('Show available plugins.'))
     @click.option('--max-parallel-tasks', default=8,
@@ -151,7 +153,7 @@ def main():
     def cli(data_root, version, defs_path, all_logs, quiet, debug, save,
             format, html_escape, user_summary, short, very_short,
             full, agent_error_key_by_time, max_logrotate_depth,
-            max_parallel_tasks, list_plugins, **kwargs):
+            max_parallel_tasks, list_plugins, machine_readable, **kwargs):
         """
         Run this tool on a host or against an unpacked sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -200,7 +202,8 @@ def main():
                      DATA_ROOT=data_root,
                      AGENT_ERROR_KEY_BY_TIME=agent_error_key_by_time,
                      MAX_LOGROTATE_DEPTH=max_logrotate_depth,
-                     MAX_PARALLEL_TASKS=max_parallel_tasks)
+                     MAX_PARALLEL_TASKS=max_parallel_tasks,
+                     MACHINE_READABLE=machine_readable)
 
         if debug and quiet:
             sys.stderr.write('ERROR: cannot use both --debug and --quiet\n')

@@ -1,123 +1,179 @@
+import abc
 import os
-import re
 import yaml
 
 from hotsos.core.log import log
-from hotsos.core.issues import BugTypeBase
 from hotsos.core.config import HotSOSConfig
-
-MASTER_YAML_ISSUES_FOUND_KEY = 'potential-issues'
-MASTER_YAML_KNOWN_BUGS_KEY = 'bugs-detected'
-KNOWN_BUGS = {MASTER_YAML_KNOWN_BUGS_KEY: []}
+from abc import abstractproperty, abstractmethod
 
 
-class IssueEntry(object):
-    def __init__(self, ref, desc, origin=None, key=None):
-        if key is None:
-            key = 'key'
+class IssueContext(object):
+    def __init__(self, **kwargs):
+        self.context = {}
+        self.set(**kwargs)
 
+    def set(self, **kwargs):
+        self.context.update(kwargs)
+
+    def __len__(self):
+        return len(self.context)
+
+    def to_dict(self):
+        return self.context
+
+
+class IssueEntryBase(abc.ABC):
+    def __init__(self, ref, description, key, context=None):
         self.key = key
+        self.context = context
         self.ref = ref
-        self.description = desc
-        if origin is None:
-            ret = re.compile("(.+).py$").match(HotSOSConfig.PART_NAME)
-            if ret:
-                part_name = ret.group(1)
-            else:
-                part_name = HotSOSConfig.PART_NAME
+        self.description = description
+        self.origin = "{}.{}".format(HotSOSConfig.PLUGIN_NAME,
+                                     HotSOSConfig.PART_NAME)
 
-            self.origin = "{}.{}".format(HotSOSConfig.PLUGIN_NAME, part_name)
-        else:
-            self.origin = origin
+    @abc.abstractproperty
+    def content(self):
+        """ The is the final representation of the object. """
+
+
+class IssueEntry(IssueEntryBase):
 
     @property
-    def data(self):
-        return {self.key: self.ref,
-                'desc': self.description,
-                'origin': self.origin}
+    def content(self):
+        _content = {self.key: self.ref,
+                    'desc': self.description,
+                    'origin': self.origin}
+        if HotSOSConfig.MACHINE_READABLE:
+            if len(self.context or {}):
+                _content['context'] = self.context.to_dict()
+
+        return _content
 
 
-def get_known_bugs():
-    """
-    Fetch the current plugin known_bugs.yaml if it exists and return its
-    contents or None if it doesn't exist yet.
-    """
-    if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
-        raise Exception("plugin tmp dir  '{}' not found".
-                        format(HotSOSConfig.PLUGIN_TMP_DIR))
+class IssuesStoreBase(abc.ABC):
 
-    known_bugs_yaml = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR,
-                                   'known_bugs.yaml')
-    if not os.path.exists(known_bugs_yaml):
+    def __init__(self):
+        if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
+            raise Exception("plugin tmp dir  '{}' not found".
+                            format(HotSOSConfig.PLUGIN_TMP_DIR))
+
+    @abstractproperty
+    def store_path(self):
+        pass
+
+    @abstractmethod
+    def load(self):
+        pass
+
+    @abstractmethod
+    def add(self):
+        pass
+
+
+class KnownBugsStore(IssuesStoreBase):
+
+    @property
+    def store_path(self):
+        return os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'known_bugs.yaml')
+
+    def load(self):
+        """
+        Fetch the current plugin known_bugs.yaml if it exists and return its
+        contents or None if it doesn't exist yet.
+        """
+        if not os.path.exists(self.store_path):
+            return {}
+
+        bugs = yaml.safe_load(open(self.store_path))
+        if bugs and IssuesManager.SUMMARY_OUT_BUGS_ROOT in bugs:
+            return bugs
+
         return {}
 
-    bugs = yaml.safe_load(open(known_bugs_yaml))
-    if bugs and bugs.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        return bugs
+    def add(self, issue, context=None):
+        entry = IssueEntry(issue.url, issue.msg, 'id', context=context)
+        current = self.load()
+        if current:
+            current[IssuesManager.SUMMARY_OUT_BUGS_ROOT].append(entry.content)
+        else:
+            current = {IssuesManager.SUMMARY_OUT_BUGS_ROOT: [entry.content]}
 
-    return {}
-
-
-def add_known_bug(issue):
-    entry = IssueEntry(issue.url, issue.msg, key='id')
-    current = get_known_bugs()
-    if current and current.get(MASTER_YAML_KNOWN_BUGS_KEY):
-        current[MASTER_YAML_KNOWN_BUGS_KEY].append(entry.data)
-    else:
-        current = {MASTER_YAML_KNOWN_BUGS_KEY: [entry.data]}
-
-    known_bugs_yaml = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR,
-                                   'known_bugs.yaml')
-    with open(known_bugs_yaml, 'w') as fd:
-        fd.write(yaml.dump(current))
+        with open(self.store_path, 'w') as fd:
+            fd.write(yaml.dump(current))
 
 
-def get_plugin_issues():
-    """
-    Fetch the current plugin issues.yaml if it exists and return its
-    contents or None if it doesn't exist yet.
-    """
-    if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
-        raise Exception("plugin tmp dir  '{}' not found".
-                        format(HotSOSConfig.PLUGIN_TMP_DIR))
+class IssuesStore(IssuesStoreBase):
 
-    issues_yaml = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'issues.yaml')
-    if not os.path.exists(issues_yaml):
+    @property
+    def store_path(self):
+        return os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'issues.yaml')
+
+    def load(self):
+        """
+        Fetch the current plugin issues.yaml if it exists and return its
+        contents or None if it doesn't exist yet.
+        """
+        if not os.path.exists(self.store_path):
+            return {}
+
+        issues = yaml.safe_load(open(self.store_path))
+        if issues and IssuesManager.SUMMARY_OUT_ISSUES_ROOT in issues:
+            return issues
+
         return {}
 
-    issues = yaml.safe_load(open(issues_yaml))
-    if issues and issues.get(MASTER_YAML_ISSUES_FOUND_KEY):
+    def add(self, issue, context=None):
+        """
+        Fetch the current plugin issues.yaml if it exists and add new issue
+        with description of the issue.
+        """
+        entry = IssueEntry(issue.name, issue.msg, 'type', context=context)
+        current = self.load()
+        key = IssuesManager.SUMMARY_OUT_ISSUES_ROOT
+        if current:
+            current[key].append(entry.content)
+        else:
+            current = {key: [entry.content]}
+
+        with open(self.store_path, 'w') as fd:
+            fd.write(yaml.dump(current))
+
+
+class IssuesManager(object):
+    SUMMARY_OUT_ISSUES_ROOT = 'potential-issues'
+    SUMMARY_OUT_BUGS_ROOT = 'bugs-detected'
+
+    def __init__(self):
+        self.bugstore = KnownBugsStore()
+        self.issuestore = IssuesStore()
+
+    def load_bugs(self):
+        return self.bugstore.load()
+
+    def load_issues(self):
+        issues = self.issuestore.load()
+        if issues and not HotSOSConfig.MACHINE_READABLE:
+            types = {}
+            for issue in issues[self.SUMMARY_OUT_ISSUES_ROOT]:
+                # pluralise the type for display purposes
+                issue_type = "{}s".format(issue['type'])
+                if issue_type not in types:
+                    types[issue_type] = []
+
+                msg = "{} (origin={})".format(issue['desc'], issue['origin'])
+                types[issue_type].append(msg)
+
+            # Sort them to enure consistency in output
+            for itype in types:
+                types[itype] = sorted(types[itype])
+
+            issues = {self.SUMMARY_OUT_ISSUES_ROOT: types}
+
         return issues
 
-    return issues
-
-
-def issue_is_bug_type(issue):
-    return issubclass(issue, BugTypeBase)
-
-
-def add_issue(issue):
-    """
-    Fetch the current plugin issues.yaml if it exists and add new issue with
-    description of the issue.
-    """
-    if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
-        raise Exception("plugin tmp dir  '{}' not found".
-                        format(HotSOSConfig.PLUGIN_TMP_DIR))
-
-    if issue_is_bug_type(issue.__class__):
-        log.debug("issue is a bug")
-        add_known_bug(issue)
-        return
-
-    log.debug("issue is not a bug")
-    entry = IssueEntry(issue.name, issue.msg, key='type')
-    current = get_plugin_issues()
-    if current and current.get(MASTER_YAML_ISSUES_FOUND_KEY):
-        current[MASTER_YAML_ISSUES_FOUND_KEY].append(entry.data)
-    else:
-        current = {MASTER_YAML_ISSUES_FOUND_KEY: [entry.data]}
-
-    issues_yaml = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'issues.yaml')
-    with open(issues_yaml, 'w') as fd:
-        fd.write(yaml.dump(current))
+    def add(self, issue, context=None):
+        if issue.ISSUE_TYPE == 'bug':
+            log.debug("issue is a bug")
+            self.bugstore.add(issue, context=context)
+        else:
+            self.issuestore.add(issue, context=context)

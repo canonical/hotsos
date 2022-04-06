@@ -114,7 +114,7 @@ class TestJujuScenarios(JujuTestsBase):
                     [{'id': 'https://bugs.launchpad.net/bugs/1852502',
                       'desc': msg_1852502,
                       'origin': 'juju.01part'}]}
-        self.assertEqual(issues.utils.get_known_bugs(), expected)
+        self.assertEqual(issues.IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
@@ -135,16 +135,17 @@ class TestJujuScenarios(JujuTestsBase):
                            'to members in relation 236 that cannot be '
                            'removed.'),
                           'origin': 'juju.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
+            self.assertEqual(issues.IssuesManager().load_bugs(),
+                             expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
     @mock.patch('hotsos.core.ycheck.ServiceChecksBase.processes', {})
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_jujud_checks(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -161,11 +162,11 @@ class TestJujuScenarios(JujuTestsBase):
     @mock.patch('hotsos.core.ycheck.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_unit_checks.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_unit_checks(self, mock_add_issue, mock_cli):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:

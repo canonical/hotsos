@@ -349,7 +349,7 @@ class TestYamlChecks(utils.BaseTestCase):
                               'my-standard-search',
                               'my-standard-search2'])
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     @mock.patch.object(ycheck, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check, add_issue):
         apt_check.is_installed.return_value = True
@@ -357,7 +357,7 @@ class TestYamlChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         self.assertFalse(add_issue.called)
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_yaml_def_scenario_checks_false(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
@@ -379,7 +379,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_yaml_def_scenario_checks_requires(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
@@ -412,11 +412,11 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertFalse(mock_add_issue.called)
 
     @mock.patch('hotsos.core.ycheck.CLIHelper')
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_yaml_def_scenario_checks_expr(self, mock_add_issue, mock_cli):
         issues = []
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             issues.append(issue)
 
         mock_cli.return_value = mock.MagicMock()

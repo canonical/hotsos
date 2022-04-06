@@ -1,7 +1,7 @@
 import os
 
 from hotsos.core.log import log
-from hotsos.core import issues
+from hotsos.core.issues import IssuesManager, MemoryWarning
 from hotsos.core.plugins.kernel import KernelChecksBase
 
 
@@ -113,10 +113,9 @@ class KernelMemoryChecks(KernelChecksBase):
             if success_count > 10000:
                 pcent = int(fail_count / (success_count / 100))
                 if pcent > 10:
-                    msg = ("failures are at {}% of successes (see {})."
-                           .format(pcent, self.vmstat_path))
-                    issue = issues.MemoryWarning("compaction " + msg)
-                    issues.utils.add_issue(issue)
+                    msg = ("compaction failures are at {}% of successes "
+                           "(see {}).".format(pcent, self.vmstat_path))
+                    IssuesManager().add(MemoryWarning(msg))
 
             top5 = self.get_slab_major_consumers()
             if top5:

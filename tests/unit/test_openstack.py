@@ -840,7 +840,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
     def test_run_neutron_l3ha_checks_w_issue(self, mock_add_issue):
         setup_config(USE_ALL_LOGS=False)
@@ -924,7 +924,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                                    'that impacts deletion of neutron '
                                    'routers.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
+            self.assertEqual(issues.IssuesManager().load_bugs(),
+                             expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron-l3-agent.yaml'))
@@ -942,7 +943,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                           'desc': ('Known neutron l3-agent bug identified '
                                    'that critically impacts keepalived.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
+            self.assertEqual(issues.IssuesManager().load_bugs(),
+                             expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron.yaml'))
@@ -961,7 +963,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                           'desc': ('Known neutron-ovn bug identified that '
                                    'impacts OVN sbdb connections.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
+            self.assertEqual(issues.IssuesManager().load_bugs(),
+                             expected)
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
@@ -980,7 +983,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                                "using Neutron ML2 OVS (i.e. not OVN) it "
                                "should be upgraded asap."),
                       'origin': 'openstack.01part'}]}
-        self.assertEqual(issues.utils.get_known_bugs(), expected)
+        self.assertEqual(issues.IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
@@ -1009,9 +1012,10 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                                    'latest octavia packages in UCA ussuri '
                                    'and above.'),
                           'origin': 'openstack.01part'}]}
-            self.assertEqual(issues.utils.get_known_bugs(), expected)
+            self.assertEqual(issues.IssuesManager().load_bugs(),
+                             expected)
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
@@ -1020,11 +1024,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 'powersave')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_cpufreq(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -1052,13 +1056,13 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 'release_name', 'train')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova_cpu_pinning.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenario_pinning_invalid_config(self, mock_add_issue,
                                              mock_config):
         raised_issues = {}
         config = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -1116,11 +1120,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('systemd_masked_services.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenario_masked_services(self, mock_add_issue, mock_helper):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -1146,11 +1150,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron_ovs_cleanup.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_neutron_ovs_cleanup(self, mock_add_issue, mock_helper):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:
@@ -1170,11 +1174,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova_config_checks.yaml'))
     @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_nova_config_checks(self, mock_add_issue, mock_helper):
         raised_issues = []
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             raised_issues.append(type(issue))
 
         mock_add_issue.side_effect = fake_add_issue
@@ -1190,11 +1194,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('pkgs_from_mixed_releases_found.yaml'))
     @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_pkgs_from_mixed_releases_found(self, mock_add_issue, mock_cli):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:

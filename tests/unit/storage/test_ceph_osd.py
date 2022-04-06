@@ -7,7 +7,7 @@ from .. import utils
 
 from hotsos.core.config import setup_config
 from hotsos.core import checks
-from hotsos.core import issues
+from hotsos.core.issues import IssuesManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
@@ -30,7 +30,7 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='storage')
+        setup_config(PLUGIN_NAME='storage', MACHINE_READABLE=True)
 
 
 class TestOSDCephChecksBase(StorageCephOSDTestsBase):
@@ -207,30 +207,18 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                'bluestore_volume_selection_policy of all OSDs to '
                'use_some_extra')
         expected = {'bugs-detected': [{
+                        'context': {'passes': True},
                         'desc': msg,
                         'id': 'https://bugs.launchpad.net/bugs/1959649',
                         'origin': 'storage.01part'}]}
-        self.assertEqual(issues.utils.get_known_bugs(), expected)
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_scenarios_cpufreq(self, mock_add_issue):
-        raised_issues = {}
-
-        def fake_add_issue(issue):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_scenarios_cpufreq(self):
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
-                         1)
-        self.assertTrue(issues.CephWarning in raised_issues)
         msg = ('This node has Ceph OSDs running on it but is not using '
                'cpufreq scaling_governor in "performance" mode '
                '(actual=powersave). This is not recommended and can result '
@@ -239,50 +227,34 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                '/etc/default/cpufrequtils and run systemctl restart '
                'cpufrequtils. You will also need to stop and disable the '
                'ondemand systemd service in order for changes to persist.')
-        self.assertEqual(msg, raised_issues[issues.CephWarning][0])
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ssd_osds_no_discard.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_ssd_osds_no_discard(self, mock_add_issue):
+    def test_ssd_osds_no_discard(self):
         self.skipTest("scenario currently disabled until fixed")
 
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertTrue(mock_add_issue.called)
-
         msgs = [("This host has osds with device_class 'ssd' but Bluestore "
                  "discard is not enabled. The recommendation is to set 'bdev "
                  "enable discard true'.")]
-        self.assertEqual([issue.msg for issue in raised_issues], msgs)
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], msgs)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('filestore_to_bluestore_upgrade.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
                 'bluestore_enabled', True)
     @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_filestore_to_bluestore_upgrade(self, mock_add_issue,
-                                            mock_ceph_config):
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
-
+    def test_filestore_to_bluestore_upgrade(self, mock_ceph_config):
         mock_ceph_config.return_value = mock.MagicMock()
         mock_ceph_config.return_value.get = lambda args: '/journal/path'
-        mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertTrue(mock_add_issue.called)
-
-        msgs = [("Ceph Bluestore is enabled yet there is a still a journal "
-                 "device configured in ceph.conf - please check")]
-        self.assertEqual([issue.msg for issue in raised_issues], msgs)
+        msg = ("Ceph Bluestore is enabled yet there is a still a journal "
+               "device configured in ceph.conf - please check")
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.ServiceChecksBase')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
@@ -292,14 +264,9 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('lp1936136.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_lp1936136(self, mock_add_issue, mocl_cli, mock_cephbase,
+    def test_lp1936136(self, mocl_cli, mock_cephbase,
                        mock_kernelbase, mock_cset_config, mock_ceph_config,
                        mock_svc_check_base):
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
 
         def fake_ceph_config(key):
             if key == 'bluefs_buffered_io':
@@ -324,7 +291,6 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         mock_kernelbase.return_value = mock.MagicMock()
         mock_kernelbase.return_value.version = '5.3'
 
-        mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
 
         msg = ('This host has Ceph OSDs using bcache block devices and may be '
@@ -333,5 +299,5 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                'current workaround is to set bluefs_buffered_io=false in Ceph '
                'or upgrade to a kernel >= 5.4.')
 
-        self.assertTrue(mock_add_issue.called)
-        self.assertEqual([issue.msg for issue in raised_issues], [msg])
+        issues = list(IssuesManager().load_bugs().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

@@ -21,7 +21,7 @@ from hotsos.core.checks import (
     ServiceChecksBase,
     SnapPackageChecksBase,
 )
-from hotsos.core.issues.utils import issue_is_bug_type
+from hotsos.core.issues import IssueContext
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.cli_helpers import CLIHelper
 from hotsos.core.log import log
@@ -610,6 +610,9 @@ class YPropertyConclusion(object):
         self.decision = decision
         self.raises = raises
         self.issue = None
+        # Use this to add any context to the issue. This context
+        # will be retrievable as machine readable output.
+        self.context = IssueContext()
 
     def get_check_result(self, name, checks):
         result = None
@@ -638,16 +641,27 @@ class YPropertyConclusion(object):
         return False
 
     def reached(self, checks):
-        """ Return true if a conclusion has been reached. """
+        """
+        Return True/False result of this conclusion and prepare issue info.
+        """
         result = self._run_conclusion(checks)
-        if self.raises.format_groups:
-            search_results = None
-            for name, check in checks.items():
-                if check.expr and check.expr.cache.results:
-                    search_results = check.expr.cache.results.find_by_tag(name)
-                    if not search_results:
-                        continue
+        if not result:
+            return False
 
+        search_results = None
+        for name, check in checks.items():
+            if check.expr and check.expr.cache.results:
+                search_results = check.expr.cache.results.find_by_tag(name)
+                if search_results:
+                    # Save some context for the issue
+                    self.context.set(**{r.source: r.linenumber
+                                        for r in search_results})
+            elif check.requires:
+                # Dump the requires cache into the context. We improve this
+                # later by addign more info.
+                self.context.set(**check.requires.cache.cache)
+
+        if self.raises.format_groups:
             if search_results:
                 # we only use the first result
                 message = self.raises.message_with_format_list_applied(
@@ -660,7 +674,7 @@ class YPropertyConclusion(object):
             message = self.raises.message_with_format_dict_applied(
                                                                  checks=checks)
 
-        if issue_is_bug_type(self.raises.type):
+        if self.raises.type.ISSUE_TYPE == 'bug':
             self.issue = self.raises.type(self.raises.bug_id, message)
         else:
             self.issue = self.raises.type(message)
@@ -1129,6 +1143,7 @@ class YRequirementTypeProperty(YRequirementTypeBase):
         result = self.apply_ops(ops, input=actual)
         log.debug('requirement check: property %s %s (result=%s)',
                   path, self.ops_to_str(ops), result)
+        self.cache.set('property', path)
         self.cache.set('ops', self.ops_to_str(ops))
         self.cache.set('value_actual', actual)
         return result

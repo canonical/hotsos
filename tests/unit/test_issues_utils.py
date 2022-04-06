@@ -4,37 +4,81 @@ import yaml
 
 from . import utils
 
+from hotsos.core.config import setup_config
 from hotsos.core.issues import (
-    utils as issues_utils,
     LaunchpadBug,
     MemoryWarning,
+    IssueContext,
+    IssuesManager,
 )
 
 
 class TestIssuesUtils(utils.BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        setup_config(MACHINE_READABLE=False)
 
     def test_get_issues(self):
         raised_issues = {}
         with open(os.path.join(self.plugin_tmp_dir, 'yaml'), 'w') as fd:
             fd.write(yaml.dump(raised_issues))
 
-        ret = issues_utils.get_plugin_issues()
+        mgr = IssuesManager()
+        ret = mgr.load_issues()
         self.assertEqual(ret, raised_issues)
 
-    def test_add_issue(self):
-        issues_utils.add_issue(MemoryWarning("test"))
-        ret = issues_utils.get_plugin_issues()
+    def test_issue_not_machine_readable(self):
+        mgr = IssuesManager()
+        mgr.add(MemoryWarning("test"))
+        ret = mgr.load_issues()
         self.assertEqual(ret,
-                         {issues_utils.MASTER_YAML_ISSUES_FOUND_KEY:
+                         {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
+                          {'MemoryWarnings':
+                           ['test (origin=testplugin.01part)']}})
+
+    def test_issue_machine_readable(self):
+        setup_config(MACHINE_READABLE=True)
+        mgr = IssuesManager()
+        mgr.add(MemoryWarning("test"))
+        ret = mgr.load_issues()
+        self.assertEqual(ret,
+                         {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           [{'type': 'MemoryWarning',
                             'desc': 'test',
+                            'origin': 'testplugin.01part'}]})
+
+    def test_add_issue_w_empty_context(self):
+        setup_config(MACHINE_READABLE=True)
+        ctxt = IssueContext()
+        mgr = IssuesManager()
+        mgr.add(MemoryWarning("test"), ctxt)
+        ret = mgr.load_issues()
+        self.assertEqual(ret,
+                         {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
+                          [{'type': 'MemoryWarning',
+                            'desc': 'test',
+                            'origin': 'testplugin.01part'}]})
+
+    def test_add_issue_empty_context(self):
+        setup_config(MACHINE_READABLE=True)
+        ctxt = IssueContext()
+        ctxt.set(linenumber=123, path='/foo/bar')
+        mgr = IssuesManager()
+        mgr.add(MemoryWarning("test"), ctxt)
+        ret = mgr.load_issues()
+        self.assertEqual(ret,
+                         {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
+                          [{'type': 'MemoryWarning',
+                            'desc': 'test',
+                            'context': {'path': '/foo/bar', 'linenumber': 123},
                             'origin': 'testplugin.01part'}]})
 
 
 class TestKnownBugsUtils(utils.BaseTestCase):
 
     def test_get_known_bugs(self):
-        known_bugs = {issues_utils.MASTER_YAML_KNOWN_BUGS_KEY:
+        known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
                         'desc': None,
                         'origin': 'testplugin.01part'}]}
@@ -42,25 +86,26 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                                'known_bugs.yaml'), 'w') as fd:
             fd.write(yaml.dump(known_bugs))
 
-        ret = issues_utils.get_known_bugs()
+        ret = IssuesManager().load_bugs()
         self.assertEqual(ret, known_bugs)
 
     def test_get_known_bugs_none(self):
-        ret = issues_utils.get_known_bugs()
+        ret = IssuesManager().load_bugs()
         self.assertEqual(ret, {})
 
     def test_add_issue_first(self):
-        issues_utils.add_issue(LaunchpadBug(1, None))
-        ret = issues_utils.get_known_bugs()
+        mgr = IssuesManager()
+        mgr.add(LaunchpadBug(1, None))
+        ret = mgr.load_bugs()
         self.assertEqual(ret,
-                         {issues_utils.MASTER_YAML_KNOWN_BUGS_KEY:
+                         {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                           [{'id': 'https://bugs.launchpad.net/bugs/1',
                             'desc': None,
                             'origin': 'testplugin.01part'}
                            ]})
 
     def test_add_issue(self):
-        known_bugs = {issues_utils.MASTER_YAML_KNOWN_BUGS_KEY:
+        known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
                         'desc': None,
                         'origin': 'testplugin.01part'}]}
@@ -68,9 +113,10 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                                'known_bugs.yaml'), 'w') as fd:
             fd.write(yaml.dump(known_bugs))
 
-        issues_utils.add_issue(LaunchpadBug(2, None))
-        ret = issues_utils.get_known_bugs()
-        expected = {issues_utils.MASTER_YAML_KNOWN_BUGS_KEY:
+        mgr = IssuesManager()
+        mgr.add(LaunchpadBug(2, None))
+        ret = mgr.load_bugs()
+        expected = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                     [{'id': 'https://bugs.launchpad.net/bugs/1',
                       'desc': None,
                       'origin': 'testplugin.01part'},
