@@ -148,11 +148,11 @@ class TestSystemScenarioChecks(SystemTestsBase):
                 'unattended_upgrades_enabled', True)
     @mock.patch('hotsos.core.plugins.system.SystemChecksBase.plugin_runnable',
                 True)
-    @mock.patch('hotsos.core.ycheck.scenarios.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.scenarios.IssuesManager.add')
     def test_unattended_upgrades(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:

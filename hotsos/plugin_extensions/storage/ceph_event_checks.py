@@ -1,6 +1,6 @@
 import re
 
-from hotsos.core import issues
+from hotsos.core.issues import IssuesManager, CephOSDError
 from hotsos.core.ycheck import CallbackHelper
 from hotsos.core.plugins.storage.ceph import CephEventChecksBase
 from hotsos.core.searchtools import FileSearcher
@@ -117,7 +117,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
                        "each within a 24hr period - please investigate".
                        format(len(osds_in_err), ','.join(osds_in_err),
                               osd_type, osd_err_max))
-                issues.utils.add_issue(issues.CephOSDError(msg))
+                IssuesManager().add(CephOSDError(msg))
 
             return ret
 
@@ -143,4 +143,4 @@ class CephDaemonLogChecks(CephEventChecksBase):
         msg = ('Detected superblock read errors which indicates an OSD disk '
                'failure or its likely failure in the near future. This '
                'drive needs to be inspected further using sar/smartctl.')
-        issues.utils.add_issue(issues.CephOSDError(msg))
+        IssuesManager().add(CephOSDError(msg))

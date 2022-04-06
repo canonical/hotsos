@@ -1,6 +1,6 @@
 hotsos:
   version: development
-  repo-info: 4c531585
+  repo-info: 29fe0a5d
 system:
   hostname: juju-04f1e3-1-lxd-5
   os: ubuntu focal
@@ -52,7 +52,7 @@ rabbitmq:
         nova-scheduler: 4
   potential-issues:
     RabbitMQWarnings:
-      - RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding more than 2/3 of
-        queues for one or more vhosts. (origin=rabbitmq.auto_scenario_check)
       - Cluster partition handling is currently set to "ignore". This is potentially
         dangerous and a setting of "pause_minority" is recommended. (origin=rabbitmq.auto_scenario_check)
+      - RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding more than 2/3 of
+        queues for one or more vhosts. (origin=rabbitmq.auto_scenario_check)

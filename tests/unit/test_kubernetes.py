@@ -107,11 +107,11 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
     @mock.patch('hotsos.core.plugins.kubernetes.KubernetesChecksBase.'
                 'plugin_runnable', True)
     @mock.patch.object(checks, 'CLIHelper')
-    @mock.patch('hotsos.core.ycheck.scenarios.issues.utils.add_issue')
+    @mock.patch('hotsos.core.ycheck.scenarios.IssuesManager.add')
     def test_system_cpufreq_mode(self, mock_add_issue, mock_cli):
         raised_issue = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issue:
                 raised_issue[type(issue)].append(issue.msg)
             else:

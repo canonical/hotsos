@@ -8,7 +8,9 @@ class HotSOSConfigMeta(type):
 class HotSOSConfig(object, metaclass=HotSOSConfigMeta):
     CONFIG = {'MAX_PARALLEL_TASKS': 8,
               'MAX_LOGROTATE_DEPTH': 7,
-              'USE_ALL_LOGS': False}
+              'USE_ALL_LOGS': False,
+              'MACHINE_READABLE': False,
+              }
 
     @classmethod
     def set(cls, key, val):

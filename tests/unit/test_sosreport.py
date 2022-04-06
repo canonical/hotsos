@@ -60,18 +60,18 @@ class TestSOSReportGeneral(TestSOSReportBase):
 
 class TestSOSReportScenarioChecks(TestSOSReportBase):
 
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_none(self, mock_add_issue):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('plugin_timeouts.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_plugin_timeouts(self, mock_add_issue):
         raised_issues = {}
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             if type(issue) in raised_issues:
                 raised_issues[type(issue)].append(issue.msg)
             else:

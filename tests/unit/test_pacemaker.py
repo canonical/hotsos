@@ -60,11 +60,11 @@ class TestPacemakerScenarios(TestPacemakerBase):
     @mock.patch('hotsos.core.plugins.pacemaker.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('pacemaker_node1_found.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_node1_found(self, mock_add_issue, mock_helper):
         raised_issues = []
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             raised_issues.append(issue)
 
         mock_helper.return_value = mock.MagicMock()

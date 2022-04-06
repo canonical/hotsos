@@ -1,7 +1,31 @@
+import abc
+
+
 class IssueTypeBase(object):
+    ISSUE_TYPE = 'issue'
+
     def __init__(self, msg):
-        self.name = self.__class__.__name__
         self.msg = msg
+
+    @property
+    def name(self):
+        return self.__class__.__name__
+
+
+class BugTypeBase(abc.ABC, IssueTypeBase):
+    ISSUE_TYPE = 'bug'
+
+    def __init__(self, id, msg):
+        self.id = id
+        self.msg = msg
+
+    @abc.abstractproperty
+    def base_url(self):
+        pass
+
+    @abc.abstractproperty
+    def url(self):
+        pass
 
 
 class SystemWarning(IssueTypeBase):
@@ -98,3 +122,36 @@ class KubernetesWarning(IssueTypeBase):
 
 class PacemakerWarning(IssueTypeBase):
     pass
+
+
+class LaunchpadBug(BugTypeBase):
+
+    @property
+    def base_url(self):
+        return 'https://bugs.launchpad.net/bugs/'
+
+    @property
+    def url(self):
+        return "{}{}".format(self.base_url, self.id)
+
+
+class StoryBoardBug(BugTypeBase):
+
+    @property
+    def base_url(self):
+        return 'https://storyboard.openstack.org/#!/story/'
+
+    @property
+    def url(self):
+        return "{}{}".format(self.base_url, self.id)
+
+
+class CephTrackerBug(BugTypeBase):
+
+    @property
+    def base_url(self):
+        return 'https://tracker.ceph.com/issues/'
+
+    @property
+    def url(self):
+        return "{}{}".format(self.base_url, self.id)

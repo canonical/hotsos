@@ -5,6 +5,7 @@ import mock
 
 from .. import utils
 
+from hotsos.core.issues import IssuesManager
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.plugins.storage import bcache as bcache_core
@@ -48,7 +49,7 @@ class StorageBCacheTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='storage')
+        setup_config(PLUGIN_NAME='storage', MACHINE_READABLE=True)
 
 
 class TestBcacheBase(StorageBCacheTestsBase):
@@ -119,65 +120,43 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
                 'local_osds_use_bcache', True)
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_ceph_no_bcache_tuning.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_juju_ceph_no_bcache_tuning(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_juju_ceph_no_bcache_tuning(self):
         YScenarioChecker()()
-        self.assertTrue(mock_add_issue.called)
-        msgs = [("This host is running Juju-managed Ceph OSDs that are "
-                 "using bcache devices yet the bcache-tuning charm was "
-                 "not detected. It is recommended to use the "
-                 "bcache-tuning charm to ensure optimal bcache "
-                 "configuration.")]
-        actual = sorted([issue.msg for issue in raised_issues])
-        self.assertEqual(actual, sorted(msgs))
+        msg = ("This host is running Juju-managed Ceph OSDs that are "
+               "using bcache devices yet the bcache-tuning charm was "
+               "not detected. It is recommended to use the "
+               "bcache-tuning charm to ensure optimal bcache "
+               "configuration.")
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cacheset.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_cacheset(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_cacheset(self):
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_bcachefs(dtmp, cacheset_error=True)
             setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
-            self.assertTrue(mock_add_issue.called)
-
-            msgs = [('bcache cache_available_percent is 33 (i.e. approx. 30%) '
-                     'which implies this node could be suffering from bug LP '
-                     '1900438 - please check.'),
-                    ('bcache cacheset config congested_write_threshold_us '
-                     'expected to be eq 0 but actual=100.')]
-            actual = sorted([issue.msg for issue in raised_issues])
-            self.assertEqual(actual, sorted(msgs))
+            bug_msg = (
+                'bcache cache_available_percent is 33 (i.e. approx. 30%) '
+                'which implies this node could be suffering from bug LP '
+                '1900438 - please check.')
+            issue_msg = (
+                'bcache cacheset config congested_write_threshold_us '
+                'expected to be eq 0 but actual=100.')
+            issues = list(IssuesManager().load_issues().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [issue_msg])
+            bugs = list(IssuesManager().load_bugs().values())[0]
+            self.assertEqual([issue['desc'] for issue in bugs], [bug_msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('bdev.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
-    def test_bdev(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_bdev(self):
         with tempfile.TemporaryDirectory() as dtmp:
             self.setup_bcachefs(dtmp, bdev_error=True)
             setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
-            self.assertTrue(mock_add_issue.called)
-
-            msgs = [('bcache config writeback_percent expected to be ge '
-                     '10 but actual=1.')]
-            actual = sorted([issue.msg for issue in raised_issues])
-            self.assertEqual(actual, sorted(msgs))
+            msg = ('bcache config writeback_percent expected to be ge '
+                   '10 but actual=1.')
+            issues = list(IssuesManager().load_issues().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])

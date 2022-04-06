@@ -150,7 +150,7 @@ class TestKernelLogEventChecks(TestKernelBase):
     @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
                 'host_interfaces_all',
                 [NetworkPort('tap0e778df8-ca', None, None, None, None)])
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_run_log_event_checks(self, mock_add_issue):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -161,7 +161,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 
             raised_issues = []
 
-            def fake_add_issue(issue):
+            def fake_add_issue(issue, **_kwargs):
                 raised_issues.append(issue)
 
             mock_add_issue.side_effect = fake_add_issue
@@ -209,11 +209,11 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_stacktraces(self, mock_add_issue):
         raised_issues = []
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
@@ -235,11 +235,11 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_oom_killer_invoked(self, mock_add_issue):
         raised_issues = []
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue
@@ -261,11 +261,11 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog.yaml'))
-    @mock.patch('hotsos.core.issues.utils.add_issue')
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_nf_conntrack_full(self, mock_add_issue):
         raised_issues = []
 
-        def fake_add_issue(issue):
+        def fake_add_issue(issue, **_kwargs):
             raised_issues.append(issue)
 
         mock_add_issue.side_effect = fake_add_issue

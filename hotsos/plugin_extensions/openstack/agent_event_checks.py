@@ -5,7 +5,12 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.analytics import LogEventStats, SearchResultIndices
 from hotsos.core.cli_helpers import CLIHelper
 from hotsos.core.ycheck import CallbackHelper
-from hotsos.core import issues
+from hotsos.core.issues import (
+    IssueContext,
+    IssuesManager,
+    NeutronL3HAWarning,
+    OpenstackWarning
+)
 from hotsos.core.log import log
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core import utils
@@ -30,6 +35,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
     def connection_refused(self, event):
         events = {}
         ports_max = {}
+        context = {}
         for result in event.results:
             month = datetime.datetime.strptime(result.get(1), '%b').month
             day = result.get(2)
@@ -37,8 +43,12 @@ class ApacheEventChecks(OpenstackEventChecksBase):
             ts_date = "{}-{}-{}".format(year, month, day)
             addr = result.get(4)
             port = result.get(5)
-
             addr = "{}:{}".format(addr, port)
+            if result.source in context:
+                context[result.source].append(result.linenumber)
+            else:
+                context[result.source] = [result.linenumber]
+
             if ts_date not in events:
                 events[ts_date] = {}
 
@@ -65,7 +75,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
                    'following ports which could mean some services are not '
                    'working properly - {} - please check.'.
                    format(','.join(ports_max.keys())))
-            issues.utils.add_issue(issues.OpenstackWarning(msg))
+            IssuesManager().add(OpenstackWarning(msg), IssueContext(**context))
 
         return sorted_dict(events)
 
@@ -290,7 +300,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
                    "(max={}) in the last 24 hours.".format(warn_count,
                                                            threshold,
                                                            max_transitions))
-            issues.utils.add_issue(issues.NeutronL3HAWarning(msg))
+            IssuesManager().add(NeutronL3HAWarning(msg))
 
     def journalctl_args(self):
         """ Args callback for event cli command """

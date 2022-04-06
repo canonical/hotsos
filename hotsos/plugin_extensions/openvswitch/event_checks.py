@@ -2,7 +2,7 @@ import re
 
 from hotsos.core.ycheck import CallbackHelper
 from hotsos.core.searchtools import FileSearcher
-from hotsos.core import issues
+from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
 from hotsos.core.plugins.openvswitch import (
     OpenvSwitchEventChecksBase,
 )
@@ -80,7 +80,7 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
                    "packets ({}) which implies that packets destined for "
                    "userspace (e.g. vm tap) are being dropped - see "
                    "ovs-appctl dpctl/show.".format(lost_packets))
-            issues.utils.add_issue(issues.OpenvSwitchWarning(msg))
+            IssuesManager().add(OpenvSwitchWarning(msg))
 
     @EVENTCALLBACKS.callback()
     def port_stats(self, event):
@@ -153,12 +153,12 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
             if all_dropped:
                 msg = ("found {} ovs interfaces with 100% dropped packets."
                        .format(len(all_dropped)))
-                issues.utils.add_issue(issues.OpenvSwitchWarning(msg))
+                IssuesManager().add(OpenvSwitchWarning(msg))
 
             if all_errors:
                 msg = ("found {} ovs interfaces with 100% packet errors."
                        .format(len(all_errors)))
-                issues.utils.add_issue(issues.OpenvSwitchWarning(msg))
+                IssuesManager().add(OpenvSwitchWarning(msg))
 
             stats_sorted = {}
             for k in sorted(stats):

@@ -3,13 +3,11 @@ import html
 import json
 
 from hotsos.core import plugintools
-from hotsos.core.issues.utils import (
-    MASTER_YAML_ISSUES_FOUND_KEY,
-    MASTER_YAML_KNOWN_BUGS_KEY,
-)
+from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 
-FILTER_SCHEMA = [MASTER_YAML_ISSUES_FOUND_KEY, MASTER_YAML_KNOWN_BUGS_KEY]
+FILTER_SCHEMA = [IssuesManager.SUMMARY_OUT_ISSUES_ROOT,
+                 IssuesManager.SUMMARY_OUT_BUGS_ROOT]
 
 
 def _get_short_format(master_yaml):
@@ -40,13 +38,13 @@ def _get_very_short_format(master_yaml):
                                              for key, val in items.items()}
                 else:
                     # support old format summaries
-                    if key == MASTER_YAML_ISSUES_FOUND_KEY:
+                    if key == IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                         aggr_info = {}
                     else:
                         aggr_info = []
 
                     for item in items:
-                        if key == MASTER_YAML_ISSUES_FOUND_KEY:
+                        if key == IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                             item_key = item['type']
                             if item_key not in aggr_info:
                                 aggr_info[item_key] = 1

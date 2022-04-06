@@ -1,4 +1,4 @@
-from hotsos.core import issues
+from hotsos.core.issues import IssuesManager, NetworkWarning
 from hotsos.core.ycheck import CallbackHelper
 from hotsos.core.cli_helpers import CLIHelper
 from hotsos.core.host_helpers import HostNetworkingHelper
@@ -44,8 +44,8 @@ class KernelLogEventChecks(KernelEventChecksBase):
             if interfaces_extant:
                 msg = ("kernel has reported over-mtu dropped packets for ({}) "
                        "interfaces.".format(len(interfaces_extant)))
-                issue = issues.NetworkWarning(msg)
-                issues.utils.add_issue(issue)
+                issue = NetworkWarning(msg)
+                IssuesManager().add(issue)
 
                 # sort by number of occurrences
                 sorted_dict = {}

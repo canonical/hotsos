@@ -1,5 +1,5 @@
 from hotsos.core.config import HotSOSConfig
-from hotsos.core import issues
+from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 from hotsos.core.ycheck import (
     YDefsLoader,
@@ -61,6 +61,7 @@ class YScenarioChecker(ChecksBase):
         return self._scenarios
 
     def run(self):
+        mgr = IssuesManager()
         for scenario in self.scenarios:
             results = {}
             log.debug("running scenario: %s", scenario.name)
@@ -87,6 +88,6 @@ class YScenarioChecker(ChecksBase):
                 log.debug("selecting highest priority=%s conclusions (%s)",
                           highest, len(results[highest]))
                 for conc in results[highest]:
-                    issues.utils.add_issue(conc.issue)
+                    mgr.add(conc.issue, context=conc.context)
             else:
                 log.debug("no conclusions reached")
