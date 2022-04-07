@@ -24,6 +24,7 @@ kernel:
   version: 5.4.0-97-generic
   boot: ro
   cpu:
+    vendor: genuineintel
     smt: disabled
     cpufreq-scaling-governor: unknown
   memory-checks: no issues found

@@ -12,6 +12,9 @@ class KernelSummary(KernelChecksBase):
     def cpu_info(self):
         cpu = CPU()
         info = {}
+        if cpu.vendor:
+            info['vendor'] = cpu.vendor
+
         if cpu.smt is not None:
             if cpu.smt:
                 info['smt'] = 'enabled'

@@ -100,7 +100,7 @@ class TestKernelInfo(TestKernelBase):
         inst = summary.KernelSummary()
         expected = {'boot': 'ro',
                     'cpu': {'cpufreq-scaling-governor': 'unknown',
-                            'smt': 'disabled'},
+                            'smt': 'disabled', 'vendor': 'genuineintel'},
                     'systemd': {'CPUAffinity': '0-7,32-39'},
                     'version': '5.4.0-97-generic'}
         self.assertTrue(inst.plugin_runnable)

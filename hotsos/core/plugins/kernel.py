@@ -32,7 +32,18 @@ class SYSFSBase(object):
 class CPU(SYSFSBase):
 
     @property
+    def vendor(self):
+        out = CLIHelper().lscpu()
+        if not out:
+            return
+
+        for line in out:
+            if line.startswith("Vendor ID:"):
+                return re.search(r'Vendor ID:\s+(.+)', line).group(1).lower()
+
+    @property
     def isolated(self):
+        """ This means that isolcpus is configured. """
         return self.get('devices/system/cpu/isolated')
 
     @property
