@@ -84,8 +84,12 @@ class TestPacemakerScenarios(TestPacemakerBase):
                 'can remove the node by running the following command on the '
                 'application-hacluster leader: '
                 'juju run-action '
-                '<application>-hacluster/leaderdelete-node-from-ring '
-                'delete-node-from-ring node=node1 --wait')
+                '<application>-hacluster/leader '
+                'delete-node-from-ring node=node1 --wait\n'
+                'If the above action is not available in the charm, you can '
+                'run the following command: '
+                'juju run --application <application>-hacluster -- '
+                'sudo crm_node -R node1 --force')
             msgs = [issue.msg for issue in raised_issues]
             self.assertEqual(len(msgs), 1)
             self.assertEqual(msgs, [msg])

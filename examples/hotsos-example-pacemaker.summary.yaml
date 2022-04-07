@@ -42,7 +42,10 @@ pacemaker:
     - desc: 'A node with the hostname node1 is currently configured and enabled on
         pacemaker. This is caused by a known bug and you can remove the node by running
         the following command on the application-hacluster leader: juju run-action
-        <application>-hacluster/leaderdelete-node-from-ring delete-node-from-ring
-        node=node1 --wait'
+        <application>-hacluster/leader delete-node-from-ring node=node1 --wait
+
+        If the above action is not available in the charm, you can run the following
+        command: juju run --application <application>-hacluster -- sudo crm_node -R
+        node1 --force'
       id: https://bugs.launchpad.net/bugs/1874719
       origin: pacemaker.auto_scenario_check
