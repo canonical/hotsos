@@ -1,0 +1,17 @@
+checks:
+  osd_slow_ops:
+    input:
+      path: var/log/ceph/ceph*.log
+    expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
+conclusions:
+  osd-slow-ops:
+    decision: osd_slow_ops
+    raises:
+      type: hotsos.core.issues.CephOSDError
+      message: >-
+        One or more Ceph OSDs has been experiencing slow ops.
+        Causes include network issues (could do connectivity checks via ping,
+        netstat/ip for packet drops), disk problems (check smartctl, sar,
+        dmesg for errors), or OSDs are too busy/hung. Also check if PGs are
+        in good state and can serve I/O (e.g. no inactive PGs).
+        Ensure 'ceph osd require-osd-release <release>' is set correctly.

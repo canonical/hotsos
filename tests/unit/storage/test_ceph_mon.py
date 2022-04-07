@@ -34,6 +34,18 @@ OSD_SLOW_HEARTBEATS = """
 2022-03-16T07:30:00.004861+0000 mon.USC01STMON002 (mon.0) 3887465 : cluster [WRN]     Slow OSD heartbeats on back from osd.355 [] to osd.81 [] 519784.959 msec
 """  # noqa
 
+OSD_SLOW_OPS = """
+2022-03-18T18:36:14.293172+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766581 : cluster [WRN] Health check update: 3 slow ops, oldest one blocked for 65 sec, daemons [osd.12,osd.22,osd.6] have slow ops. (SLOW_OPS)
+2022-03-18T18:36:19.295103+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766590 : cluster [WRN] Health check update: 0 slow ops, oldest one blocked for 41 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+2022-03-18T18:36:24.296782+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766593 : cluster [WRN] Health check update: 1 slow ops, oldest one blocked for 45 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+2022-03-18T18:36:29.298882+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766603 : cluster [WRN] Health check update: 2 slow ops, oldest one blocked for 51 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+"""  # noqa
+
+OSD_FLAPPING = """
+2022-03-16T05:16:05.663450+0000 7fa713903700  0 log_channel(cluster) log [WRN] : Monitor daemon marked osd.70 down, but it is still running
+2022-03-16T05:16:05.663454+0000 7fa713903700  0 log_channel(cluster) log [DBG] : map e319481 wrongly marked me down at e319481
+"""  # noqa
+
 CEPH_VERSIONS_MISMATCHED_MAJOR = """
 {
     "mon": {
@@ -505,6 +517,77 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "commonly a result of network issues between OSDs. Please "
                "check that the interfaces and network between OSDs is not "
                "experiencing problems.")
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd_slow_ops.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
+    def test_scenario_osd_slow_ops(self, mock_add_issue, mock_cephbase):
+        raised_issues = []
+
+        def fake_add_issue(issue):
+            raised_issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'var/log/ceph')
+            os.makedirs(path)
+            with open(os.path.join(path, 'ceph.log'), 'w') as fd:
+                fd.write(OSD_SLOW_OPS)
+
+            setup_config(DATA_ROOT=dtmp)
+            YScenarioChecker()()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ("One or more Ceph OSDs has been experiencing slow ops. "
+               "Causes include network issues (could do connectivity checks "
+               "via ping, netstat/ip for packet drops), disk problems (check "
+               "smartctl, sar, dmesg for errors), or OSDs are too busy/hung. "
+               "Also check if PGs are in good state and can serve I/O "
+               "(e.g. no inactive PGs). "
+               "Ensure 'ceph osd require-osd-release <release>' is set "
+               "correctly.")
+        self.assertEqual([issue.msg for issue in raised_issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd_flapping.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.issues.utils.add_issue')
+    def test_scenario_osd_flapping(self, mock_add_issue, mock_cephbase):
+        raised_issues = []
+
+        def fake_add_issue(issue):
+            raised_issues.append(issue)
+
+        mock_add_issue.side_effect = fake_add_issue
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'var/log/ceph')
+            os.makedirs(path)
+            with open(os.path.join(path, 'ceph.log'), 'w') as fd:
+                fd.write(OSD_FLAPPING)
+
+            setup_config(DATA_ROOT=dtmp)
+            YScenarioChecker()()
+
+        self.assertTrue(mock_add_issue.called)
+        msg = ("OSD flapping occurred. "
+               "Causes include network issues (could do connectivity checks "
+               "via ping, netstat/ip for packet drops), disk problems (check "
+               "smartctl, sar, dmesg for errors), or OSDs are too busy/hung. "
+               "Also check if PGs are in good state and can serve I/O (e.g. "
+               "no inactive PGs). Check if scrubbing and/or recovery is "
+               "taking long time. Check if the flapping OSDs belong to "
+               "specific nodes. Check if there OSDs can send heartbeat "
+               "messages to each other. ALL the OSDs in the same cluster "
+               "MUST be able to send/receive heartbeats to each other even "
+               "if they belong to different storage classes.")
         self.assertEqual([issue.msg for issue in raised_issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
