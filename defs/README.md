@@ -86,7 +86,7 @@ definitions provided that their [handlers](#handlers) supports them. The
 
 A list of logical operators each containing a list of one or more 
 check)[#checks] labels. This property is typically used in a
-[conclusions](#conclusions) PropertyGroup. The handler
+[conclusions](#conclusions) PropertyCollection. The handler
 will iterate over the groups, extract their result of each check and apply the
 operator to get a final result as to whether the "decision" is True or False.
 
@@ -213,7 +213,7 @@ PROPERTY_CACHE_REF
 
   '@checks.<checkname>.<propertyname>.CACHE_KEY'
 
-  The latter is used if the property is within a checks PropertyGroup.
+  The latter is used if the property is within a checks PropertyCollection.
 
 CACHE_KEY
   See individual property CACHE_KEYS for supported cache keys.
