@@ -1,0 +1,35 @@
+checks:
+  osd_slow_ops:
+    input:
+      path: var/log/ceph/ceph*.log
+    expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
+  ceph_interfaces_have_errors:
+    requires:
+      property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+conclusions:
+  cause-unknown:
+    priority: 1
+    decision: osd_slow_ops
+    raises:
+      type: hotsos.core.issues.CephOSDError
+      message: >-
+        Cluster is experiencing slow ops.
+        Causes include network issues (could do connectivity checks via ping,
+        netstat/ip for packet drops), disk problems (check smartctl, sar,
+        dmesg for errors), or OSDs are too busy/hung. Also check if PGs are
+        in good state and can serve I/O (e.g. no inactive PGs).
+        Ensure 'ceph osd require-osd-release <release>' is set correctly.
+  network:
+    priority: 2
+    decision:
+      and:
+        - osd_slow_ops
+        - ceph_interfaces_have_errors
+    raises:
+      type: hotsos.core.issues.CephWarning
+      message: >-
+        Cluster is experiencing slow ops. The network
+        interface(s) ({interfaces}) used by the Ceph are showing
+        errors - please investigate.
+      format-dict:
+        interfaces: hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names
