@@ -1,0 +1,39 @@
+checks:
+  osd_flapping:
+    input:
+      path: var/log/ceph/ceph*.log
+    expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ wrongly marked me down at .+'
+  ceph_interfaces_have_errors:
+    requires:
+      property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+conclusions:
+  cause-unknown:
+    priority: 1
+    decision: osd_flapping
+    raises:
+      type: hotsos.core.issues.CephOSDError
+      message: >-
+        Cluster is experiencing OSD flapping.
+        Causes include network issues (could do connectivity checks via ping,
+        netstat/ip for packet drops), disk problems (check smartctl, sar,
+        dmesg for errors), or OSDs are too busy/hung. Also check if PGs are
+        in good state and can serve I/O (e.g. no inactive PGs).
+        Check if scrubbing and/or recovery is taking long time. Check if the
+        flapping OSDs belong to specific nodes.
+        Check if there OSDs can send heartbeat messages to each other. ALL
+        the OSDs in the same cluster MUST be able to send/receive heartbeats
+        to each other even if they belong to different storage classes.
+  network:
+    priority: 2
+    decision:
+      and:
+        - osd_flapping
+        - ceph_interfaces_have_errors
+    raises:
+      type: hotsos.core.issues.CephWarning
+      message: >-
+        Cluster is experiencing OSD flapping. The network
+        interface(s) ({interfaces}) used by the Ceph are showing
+        errors - please investigate.
+      format-dict:
+        interfaces: hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names

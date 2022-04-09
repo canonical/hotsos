@@ -35,6 +35,18 @@ OSD_SLOW_HEARTBEATS = """
 2022-03-16T07:30:00.004861+0000 mon.USC01STMON002 (mon.0) 3887465 : cluster [WRN]     Slow OSD heartbeats on back from osd.355 [] to osd.81 [] 519784.959 msec
 """  # noqa
 
+OSD_SLOW_OPS = """
+2022-03-18T18:36:14.293172+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766581 : cluster [WRN] Health check update: 3 slow ops, oldest one blocked for 65 sec, daemons [osd.12,osd.22,osd.6] have slow ops. (SLOW_OPS)
+2022-03-18T18:36:19.295103+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766590 : cluster [WRN] Health check update: 0 slow ops, oldest one blocked for 41 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+2022-03-18T18:36:24.296782+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766593 : cluster [WRN] Health check update: 1 slow ops, oldest one blocked for 45 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+2022-03-18T18:36:29.298882+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766603 : cluster [WRN] Health check update: 2 slow ops, oldest one blocked for 51 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+"""  # noqa
+
+OSD_FLAPPING = """
+2022-03-16T05:16:05.663450+0000 7fa713903700  0 log_channel(cluster) log [WRN] : Monitor daemon marked osd.70 down, but it is still running
+2022-03-16T05:16:05.663454+0000 7fa713903700  0 log_channel(cluster) log [DBG] : map e319481 wrongly marked me down at e319481
+"""  # noqa
+
 CEPH_VERSIONS_MISMATCHED_MAJOR = """
 {
     "mon": {
@@ -524,6 +536,78 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                'for more background information.')
         issues = list(IssuesManager().load_bugs().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd_slow_ops.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    def test_scenario_osd_slow_ops(self, mock_cephbase):
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+        mock_cephbase.return_value.has_interface_errors = True
+        mock_cephbase.return_value.bind_interface_names = 'ethX'
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'var/log/ceph')
+            os.makedirs(path)
+            logpath = os.path.join(path, 'ceph.log')
+            with open(logpath, 'w') as fd:
+                fd.write(OSD_SLOW_OPS)
+
+            setup_config(DATA_ROOT=dtmp)
+            YScenarioChecker()()
+
+        msg = ("Cluster is experiencing slow ops. The network interface(s) "
+               "(ethX) used by the Ceph are showing errors - please "
+               "investigate.")
+
+        # Since we have enabled machine readable we should get some context so
+        # test that as well.
+        context = {logpath: 5,
+                   'ops': 'truth',
+                   'passes': True,
+                   'property': ('hotsos.core.plugins.storage.ceph.'
+                                'CephChecksBase.has_interface_errors'),
+                   'value_actual': True}
+
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        self.assertEqual([issue['context'] for issue in issues], [context])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd_flapping.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    def test_scenario_osd_flapping(self, mock_cephbase):
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+        mock_cephbase.return_value.has_interface_errors = True
+        mock_cephbase.return_value.bind_interface_names = 'ethX'
+
+        with tempfile.TemporaryDirectory() as dtmp:
+            path = os.path.join(dtmp, 'var/log/ceph')
+            os.makedirs(path)
+            logpath = os.path.join(path, 'ceph.log')
+            with open(logpath, 'w') as fd:
+                fd.write(OSD_FLAPPING)
+
+            setup_config(DATA_ROOT=dtmp)
+            YScenarioChecker()()
+
+        msg = ("Cluster is experiencing OSD flapping. The network "
+               "interface(s) (ethX) used by the Ceph are showing errors "
+               "- please investigate.")
+
+        # Since we have enabled machine readable we should get some context so
+        # test that as well.
+        context = {logpath: 3,
+                   'ops': 'truth',
+                   'passes': True,
+                   'property': ('hotsos.core.plugins.storage.ceph.'
+                                'CephChecksBase.has_interface_errors'),
+                   'value_actual': True}
+
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        self.assertEqual([issue['context'] for issue in issues], [context])
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
