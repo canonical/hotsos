@@ -5,6 +5,7 @@ import mock
 from . import utils
 
 from hotsos.core.config import setup_config
+from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.issues import KubernetesWarning
 from hotsos.core import checks, cli_helpers
 from hotsos.core.plugins import kubernetes as kubernetes_core
@@ -107,25 +108,14 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
     @mock.patch('hotsos.core.plugins.kubernetes.KubernetesChecksBase.'
                 'plugin_runnable', True)
     @mock.patch.object(checks, 'CLIHelper')
-    @mock.patch('hotsos.core.ycheck.scenarios.IssuesManager.add')
-    def test_system_cpufreq_mode(self, mock_add_issue, mock_cli):
-        raised_issue = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issue:
-                raised_issue[type(issue)].append(issue.msg)
-            else:
-                raised_issue[type(issue)] = [issue.msg]
-
+    def test_system_cpufreq_mode(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.snap_list_all.return_value = \
             ['kubelet 1.2.3 123\n']
         mock_cli.return_value.systemctl_list_unit_files.return_value = \
             ['ondemand.service enabled\n']
 
-        mock_add_issue.side_effect = fake_add_issue
         YScenarioChecker()()
-        self.assertTrue(mock_add_issue.called)
         msg = ('This node is used for Kubernetes but is not using '
                'cpufreq scaling_governor in "performance" mode '
                '(actual=powersave). This is not recommended and can result in '
@@ -134,4 +124,7 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                '/etc/default/cpufrequtils and run systemctl restart '
                'cpufrequtils. You will also need to stop and disable the '
                'ondemand systemd service in order for changes to persist.')
-        self.assertEqual(raised_issue[KubernetesWarning], [msg])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['type'] for issue in issues],
+                         [KubernetesWarning('').name])
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

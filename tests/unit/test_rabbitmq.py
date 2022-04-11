@@ -5,7 +5,8 @@ import mock
 
 from . import utils
 
-from hotsos.core import issues
+from hotsos.core.issues.utils import IssuesStore
+from hotsos.core.issues import IssuesManager
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.plugins.rabbitmq import RabbitMQReport
 from hotsos.core.ycheck.scenarios import YScenarioChecker
@@ -214,67 +215,30 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                         [{'id': 'https://bugs.launchpad.net/bugs/1943937',
                           'desc': msg,
                           'origin': 'rabbitmq.01part'}]}
-            self.assertEqual(issues.IssuesManager().load_bugs(),
-                             expected)
+            self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_scenarios_cluster_config(self, mock_add_issue):
-        raised_issues = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_scenarios_cluster_config(self):
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
-                         1)
-        self.assertTrue(issues.RabbitMQWarning in raised_issues)
         msg = ('Cluster partition handling is currently set to "ignore". This '
                'is potentially dangerous and a setting of '
                '"pause_minority" is recommended.')
-
-        self.assertEqual(msg, raised_issues[issues.RabbitMQWarning][0])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_resources.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_scenarios_cluster_resources(self, mock_add_issue):
-        raised_issues = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_scenarios_cluster_resources(self):
         YScenarioChecker()()
-        self.assertEqual(sum([len(msgs) for msgs in raised_issues.values()]),
-                         1)
-        self.assertTrue(issues.RabbitMQWarning in raised_issues)
         msg = ('RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding '
                'more than 2/3 of queues for one or more vhosts.')
-
-        self.assertEqual(msg, raised_issues[issues.RabbitMQWarning][0])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_scenarios_cluster_logchecks(self, mock_add_issue):
-        raised_issues = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_scenarios_cluster_logchecks(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
@@ -283,9 +247,6 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                 fd.write(RABBITMQ_LOGS)
 
             YScenarioChecker()()
-            self.assertEqual(sum([len(msgs)
-                                  for msgs in raised_issues.values()]), 3)
-            self.assertTrue(issues.RabbitMQWarning in raised_issues)
             msg1 = ('Messages were discarded because transient mirrored '
                     'classic queues are not syncronized. Please stop all '
                     'rabbitmq-server units and restart the cluster. '
@@ -296,6 +257,6 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                     'there are no replicas available for promotion. Please '
                     'stop all rabbitmq-server units and restart the cluster. '
                     'Note that a rolling restart will not work.')
-            expected = sorted([msg1, msg2, msg3])
-            actual = sorted(raised_issues[issues.RabbitMQWarning])
-            self.assertEqual(actual, expected)
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                             sorted([msg1, msg2, msg3]))

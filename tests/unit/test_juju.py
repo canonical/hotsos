@@ -7,7 +7,7 @@ from . import utils
 
 from hotsos.core.config import setup_config
 from hotsos.core.ycheck.scenarios import YScenarioChecker
-from hotsos.core import issues
+from hotsos.core.issues.utils import KnownBugsStore, IssuesStore
 from hotsos.plugin_extensions.juju import summary
 
 JOURNALCTL_CAPPEDPOSITIONLOST = """
@@ -114,7 +114,7 @@ class TestJujuScenarios(JujuTestsBase):
                     [{'id': 'https://bugs.launchpad.net/bugs/1852502',
                       'desc': msg_1852502,
                       'origin': 'juju.01part'}]}
-        self.assertEqual(issues.IssuesManager().load_bugs(), expected)
+        self.assertEqual(KnownBugsStore().load(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
@@ -135,45 +135,22 @@ class TestJujuScenarios(JujuTestsBase):
                            'to members in relation 236 that cannot be '
                            'removed.'),
                           'origin': 'juju.01part'}]}
-            self.assertEqual(issues.IssuesManager().load_bugs(),
-                             expected)
+            self.assertEqual(KnownBugsStore().load(), expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
     @mock.patch('hotsos.core.ycheck.ServiceChecksBase.processes', {})
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_jujud_checks(self, mock_add_issue):
-        raised_issues = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
-
+    def test_jujud_checks(self):
         YScenarioChecker()()
-        self.assertEqual(len(raised_issues), 1)
         msg = ('No jujud processes found running on this host but it seems '
                'there should be since Juju is installed.')
-        self.assertEqual(list(raised_issues.values())[0], [msg])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('charm_checks.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_unit_checks(self, mock_add_issue, mock_cli):
-        raised_issues = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
-
+    def test_unit_checks(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
 
         with tempfile.TemporaryDirectory() as dtmp:
@@ -187,12 +164,12 @@ class TestJujuScenarios(JujuTestsBase):
             # first try outside age limit
             mock_cli.return_value.date.return_value = "2021-09-25 00:00:00"
             YScenarioChecker()()
-            self.assertEqual(len(raised_issues), 0)
+            self.assertEqual(IssuesStore().load(), {})
 
             # then within
             mock_cli.return_value.date.return_value = "2021-09-17 00:00:00"
             YScenarioChecker()()
-            self.assertEqual(len(raised_issues), 1)
             msg = ("Juju unit(s) 'keystone' are showing leadership errors in "
                    "their logs from the last 7 days. Please investigate.")
-            self.assertEqual(list(raised_issues.values())[0], [msg])
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])

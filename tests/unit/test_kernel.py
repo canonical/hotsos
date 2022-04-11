@@ -11,6 +11,7 @@ from hotsos.plugin_extensions.kernel import (
     log_event_checks,
 )
 from hotsos.core.config import setup_config
+from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.plugins.kernel import SystemdConfig
 from hotsos.core.ycheck.events import EventCheckResult
 from hotsos.core.ycheck.scenarios import YScenarioChecker
@@ -150,8 +151,7 @@ class TestKernelLogEventChecks(TestKernelBase):
     @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
                 'host_interfaces_all',
                 [NetworkPort('tap0e778df8-ca', None, None, None, None)])
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_run_log_event_checks(self, mock_add_issue):
+    def test_run_log_event_checks(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             logfile = os.path.join(dtmp, ('var/log/kern.log'))
@@ -159,19 +159,15 @@ class TestKernelLogEventChecks(TestKernelBase):
             with open(logfile, 'w') as fd:
                 fd.write(EVENTS_KERN_LOG)
 
-            raised_issues = []
-
-            def fake_add_issue(issue, **_kwargs):
-                raised_issues.append(issue)
-
-            mock_add_issue.side_effect = fake_add_issue
             expected = {'over-mtu-dropped-packets':
                         {'tap0e778df8-ca': 5}}
             inst = log_event_checks.KernelLogEventChecks()
             # checks get run when we fetch the output so do that now
             actual = self.part_output_to_actual(inst.output)
-            self.assertTrue(mock_add_issue.called)
-            self.assertEqual(len(raised_issues), 1)
+            issues = list(IssuesStore().load().values())[0]
+            msg = ('kernel has reported over-mtu dropped packets for (1) '
+                   'interfaces.')
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
             self.assertTrue(inst.plugin_runnable)
             self.assertEqual(actual, expected)
 
@@ -209,15 +205,7 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_stacktraces(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue, **_kwargs):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-
+    def test_stacktraces(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'var/log'))
@@ -227,23 +215,13 @@ class TestKernelScenarioChecks(TestKernelBase):
 
             YScenarioChecker()()
 
-        self.assertTrue(mock_add_issue.called)
         msg = ('1 reports of stacktraces in kern.log - please check.')
-        msgs = [issue.msg for issue in raised_issues]
-        self.assertEqual(len(msgs), 1)
-        self.assertEqual(msgs, [msg])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_oom_killer_invoked(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue, **_kwargs):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-
+    def test_oom_killer_invoked(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'var/log'))
@@ -253,23 +231,13 @@ class TestKernelScenarioChecks(TestKernelBase):
 
             YScenarioChecker()()
 
-        self.assertTrue(mock_add_issue.called)
         msg = ('1 reports of oom-killer invoked in kern.log - please check.')
-        msgs = [issue.msg for issue in raised_issues]
-        self.assertEqual(len(msgs), 1)
-        self.assertEqual(msgs, [msg])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_nf_conntrack_full(self, mock_add_issue):
-        raised_issues = []
-
-        def fake_add_issue(issue, **_kwargs):
-            raised_issues.append(issue)
-
-        mock_add_issue.side_effect = fake_add_issue
-
+    def test_nf_conntrack_full(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
             os.makedirs(os.path.join(dtmp, 'var/log'))
@@ -279,9 +247,7 @@ class TestKernelScenarioChecks(TestKernelBase):
 
             YScenarioChecker()()
 
-        self.assertTrue(mock_add_issue.called)
         msg = ("1 reports of 'nf_conntrack: table full' detected in "
                "kern.log - please check.")
-        msgs = [issue.msg for issue in raised_issues]
-        self.assertEqual(len(msgs), 1)
-        self.assertEqual(msgs, [msg])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

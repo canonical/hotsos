@@ -4,6 +4,7 @@ import mock
 
 from tests.unit import utils
 
+from hotsos.core.issues.utils import KnownBugsStore
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.pacemaker import summary
@@ -60,13 +61,7 @@ class TestPacemakerScenarios(TestPacemakerBase):
     @mock.patch('hotsos.core.plugins.pacemaker.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('pacemaker/bugs.yaml'))
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_node1_found(self, mock_add_issue, mock_helper):
-        raised_issues = []
-
-        def fake_add_issue(issue, **_kwargs):
-            raised_issues.append(issue)
-
+    def test_node1_found(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         test_data_path = ('sos_commands/pacemaker/crm_status')
         crm_status_path = os.path.join(HotSOSConfig.DATA_ROOT,
@@ -75,9 +70,7 @@ class TestPacemakerScenarios(TestPacemakerBase):
             mock_helper.return_value.pacemaker_crm_status.\
                 return_value = crm_status
 
-            mock_add_issue.side_effect = fake_add_issue
             YScenarioChecker()()
-            self.assertTrue(mock_add_issue.called)
             msg = (
                 'A node with the hostname node1 is currently configured and '
                 'enabled on pacemaker. This is caused by a known bug and you '
@@ -90,6 +83,5 @@ class TestPacemakerScenarios(TestPacemakerBase):
                 'run the following command: '
                 'juju run --application <application>-hacluster -- '
                 'sudo crm_node -R node1 --force')
-            msgs = [issue.msg for issue in raised_issues]
-            self.assertEqual(len(msgs), 1)
-            self.assertEqual(msgs, [msg])
+            issues = list(KnownBugsStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])

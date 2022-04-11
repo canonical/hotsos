@@ -8,7 +8,7 @@ from . import utils
 
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
-from hotsos.core.issues import SystemWarning
+from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.plugins.system import NUMAInfo
 from hotsos.plugin_extensions.system import (
     checks,
@@ -148,21 +148,11 @@ class TestSystemScenarioChecks(SystemTestsBase):
                 'unattended_upgrades_enabled', True)
     @mock.patch('hotsos.core.plugins.system.SystemChecksBase.plugin_runnable',
                 True)
-    @mock.patch('hotsos.core.ycheck.scenarios.IssuesManager.add')
-    def test_unattended_upgrades(self, mock_add_issue):
-        raised_issues = {}
-
-        def fake_add_issue(issue, **_kwargs):
-            if type(issue) in raised_issues:
-                raised_issues[type(issue)].append(issue.msg)
-            else:
-                raised_issues[type(issue)] = [issue.msg]
-
-        mock_add_issue.side_effect = fake_add_issue
+    def test_unattended_upgrades(self):
         YScenarioChecker()()
-        self.assertTrue(mock_add_issue.called)
         msg = ('Unattended upgrades are enabled which can lead to '
                'uncontrolled changes to this environment. If maintenance '
                'windows are required please consider disabling unattended '
                'upgrades.')
-        self.assertEqual(raised_issues[SystemWarning], [msg])
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
