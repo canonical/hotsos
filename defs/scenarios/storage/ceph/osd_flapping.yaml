@@ -2,7 +2,7 @@ checks:
   osd_flapping:
     input:
       path: var/log/ceph/ceph*.log
-    expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ wrongly marked me down at .+'
+    expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ wrongly marked me down at .+'
   ceph_interfaces_have_errors:
     requires:
       property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
