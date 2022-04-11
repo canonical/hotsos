@@ -1,3 +1,5 @@
+import os
+
 import mock
 
 from . import utils
@@ -80,3 +82,38 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         helper = HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.128')
         self.assertEqual(iface.stats, expected)
+
+    def test_get_interfaces_cached(self):
+        helper = HostNetworkingHelper()
+        helper.host_interfaces_all
+        path = helper.cache_path_root
+        for path in [os.path.join(path, 'interfaces.json'),
+                     os.path.join(path, 'ns_interfaces.json')]:
+            self.assertTrue(os.path.exists(path))
+
+        addr = '10.0.0.128'
+        iface = helper.get_interface_with_addr(addr)
+        # do this to cache stats
+        iface.stats
+        helper = HostNetworkingHelper()
+        data = helper.cache_load()
+        iface_found = False
+        for _iface in data:
+            if _iface['name'] == iface.name:
+                iface_found = True
+                self.assertEqual(_iface['addresses'], [addr])
+
+        with mock.patch('hotsos.core.host_helpers.cli_helpers.CLIHelper') as \
+                mock_cli:
+            mock_cli.return_value = mock.MagicMock()
+            helper = HostNetworkingHelper()
+            iface = helper.get_interface_with_addr(addr)
+            self.assertEqual(iface.addresses, [addr])
+            # these should no longer be called
+            self.assertFalse(mock_cli.return_value.ip_addr.called)
+            self.assertFalse(mock_cli.return_value.ip_netns.called)
+            self.assertFalse(mock_cli.return_value.ns_ip_addr.called)
+            self.assertFalse(mock_cli.return_value.ip_link.called)
+            self.assertFalse(mock_cli.return_value.ethtool.called)
+
+        self.assertTrue(iface_found)
