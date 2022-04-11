@@ -116,20 +116,6 @@ class TestStorageBCache(StorageBCacheTestsBase):
 
 class TestBCacheScenarioChecks(StorageBCacheTestsBase):
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
-                'local_osds_use_bcache', True)
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('juju_ceph_no_bcache_tuning.yaml'))
-    def test_juju_ceph_no_bcache_tuning(self):
-        YScenarioChecker()()
-        msg = ("This host is running Juju-managed Ceph OSDs that are "
-               "using bcache devices yet the bcache-tuning charm was "
-               "not detected. It is recommended to use the "
-               "bcache-tuning charm to ensure optimal bcache "
-               "configuration.")
-        issues = list(IssuesManager().load_issues().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('cacheset.yaml'))
     def test_cacheset(self):

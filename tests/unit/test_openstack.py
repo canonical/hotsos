@@ -907,7 +907,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('neutron-l3-agent.yaml'))
+                new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1929832(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -928,7 +928,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                              expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('neutron-l3-agent.yaml'))
+                new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1896506(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -947,7 +947,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                              expected)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('neutron.yaml'))
+                new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1928031(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -968,7 +968,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('neutron.yaml'))
+                new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1927868(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -987,7 +987,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('octavia.yaml'))
+                new=utils.is_def_filter('octavia/bugs.yaml'))
     def test_2008099(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -1055,7 +1055,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
                 'release_name', 'train')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('nova_cpu_pinning.yaml'))
+                new=utils.is_def_filter('nova/cpu_pinning.yaml'))
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenario_pinning_invalid_config(self, mock_add_issue,
                                              mock_config):
@@ -1172,7 +1172,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(list(raised_issues.values())[0], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('nova_config_checks.yaml'))
+                new=utils.is_def_filter('nova/config_checks.yaml'))
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_nova_config_checks(self, mock_add_issue, mock_helper):

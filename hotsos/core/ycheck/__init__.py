@@ -1359,8 +1359,8 @@ class YDefsLoader(object):
         self.ytype = ytype
         self.stats_num_files_loaded = 0
 
-    def _is_def(self, path):
-        return path.endswith('.yaml')
+    def _is_def(self, abs_path):
+        return abs_path.endswith('.yaml')
 
     def _get_yname(self, path):
         return os.path.basename(path).partition('.yaml')[0]
@@ -1369,24 +1369,26 @@ class YDefsLoader(object):
         """ Recursively find all yaml/files beneath a directory. """
         defs = {}
         for entry in os.listdir(path):
-            _path = os.path.join(path, entry)
-            if os.path.isdir(_path):
-                defs[os.path.basename(_path)] = self._get_defs_recursive(_path)
+            abs_path = os.path.join(path, entry)
+            if os.path.isdir(abs_path):
+                subdefs = self._get_defs_recursive(abs_path)
+                defs[os.path.basename(abs_path)] = subdefs
             else:
-                if not self._is_def(entry):
+                if not self._is_def(abs_path):
                     continue
 
-                if self._get_yname(_path) == os.path.basename(path):
-                    with open(_path) as fd:
+                if self._get_yname(abs_path) == os.path.basename(path):
+                    with open(abs_path) as fd:
+                        log.debug("applying dir globals %s", entry)
                         self.stats_num_files_loaded += 1
                         defs.update(yaml.safe_load(fd.read()) or {})
 
                     continue
 
-                with open(_path) as fd:
+                with open(abs_path) as fd:
                     self.stats_num_files_loaded += 1
                     _content = yaml.safe_load(fd.read()) or {}
-                    defs[self._get_yname(_path)] = _content
+                    defs[self._get_yname(abs_path)] = _content
 
         return defs
 

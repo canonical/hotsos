@@ -14,4 +14,3 @@ conclusions:
         failed since the disk has an LVM header. If you are sure the disk is
         not in active use by LVM, you may run pvremove on it before using it as
         an OSD - see LP bug for details.
-

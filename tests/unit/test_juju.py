@@ -161,7 +161,7 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('juju_unit_checks.yaml'))
+                new=utils.is_def_filter('charm_checks.yaml'))
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_unit_checks(self, mock_add_issue, mock_cli):
         raised_issues = {}

@@ -208,7 +208,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog.yaml'))
+                new=utils.is_def_filter('kernlog_checks.yaml'))
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_stacktraces(self, mock_add_issue):
         raised_issues = []
@@ -234,7 +234,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual(msgs, [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog.yaml'))
+                new=utils.is_def_filter('kernlog_checks.yaml'))
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_oom_killer_invoked(self, mock_add_issue):
         raised_issues = []
@@ -260,7 +260,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual(msgs, [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog.yaml'))
+                new=utils.is_def_filter('kernlog_checks.yaml'))
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_nf_conntrack_full(self, mock_add_issue):
         raised_issues = []

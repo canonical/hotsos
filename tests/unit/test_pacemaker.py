@@ -59,7 +59,7 @@ class TestPacemakerSummary(TestPacemakerBase):
 class TestPacemakerScenarios(TestPacemakerBase):
     @mock.patch('hotsos.core.plugins.pacemaker.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('pacemaker_node1_found.yaml'))
+                new=utils.is_def_filter('pacemaker/bugs.yaml'))
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_node1_found(self, mock_add_issue, mock_helper):
         raised_issues = []

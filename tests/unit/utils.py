@@ -7,7 +7,6 @@ import unittest
 from hotsos.core.config import setup_config
 from hotsos.core.log import setup_logging
 
-
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
@@ -16,18 +15,30 @@ setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT))
 
 def is_def_filter(def_filename):
     """
-    This is used to filter core.ycheck.YDefsLoader._is_def to only match the
-    yaml def with the given filename so that e.g. a unit will only run that set
-    of checks so as to make it easier to know that the result is from a
-    specific check(s).
+    Filter hotsos.core.ycheck.YDefsLoader._is_def to only match a file with the
+    given name. This permits a unit test to only run the ydef checks that are
+    under test.
 
-    NOTE: this will omit directory-global defs e.g. for a dir foo containing
-    foo.yaml and mycheck.yaml, globals in foo.yaml will not be applied (unless
-    of course name=="foo.yaml")
+    Note that in order for directory globals to run def_filename must be a
+    relative path that includes the parent directory name e.g. foo/bar.yaml
+    where bar contains the checks and there is also a file called foo/foo.yaml
+    that contains directory globals.
     """
-    def inner(_inst, path):
+    def inner(_inst, abs_path):
+        # filename may optionally have a parent dir which allows us to permit
+        # directory globals to be run.
+        parent_dir = os.path.dirname(def_filename)
         """ Ensure we only load/run the yaml def with the given name. """
-        if os.path.basename(path) == def_filename:
+        if parent_dir:
+            # allow directory global to run
+            base_dir = os.path.basename(os.path.dirname(abs_path))
+            if base_dir != parent_dir:
+                return False
+
+            if os.path.basename(abs_path) == "{}.yaml".format(parent_dir):
+                return True
+
+        if abs_path.endswith(def_filename):
             return True
 
         return False
