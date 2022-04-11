@@ -2,7 +2,7 @@ checks:
   osd_slow_ops:
     input:
       path: var/log/ceph/ceph*.log
-    expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
+    expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
   ceph_interfaces_have_errors:
     requires:
       property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
