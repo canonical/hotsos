@@ -2,6 +2,16 @@ checks:
   isolcpus_enabled:
     requires:
       property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
+  has_1883089:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
+    hint: 'AttributeError'
+  has_1896506:
+    input:
+      path: 'var/log/syslog'
+    expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
+    hint: 'no_track'
   has_1907686:
     input:
       path: 'var/log/neutron/neutron-openvswitch-agent.log'
@@ -22,16 +32,36 @@ checks:
           # train
           - min: 2:15.3.3
             max: 2:15.3.4-0ubuntu0
-  has_1965297:
-    input:
-      path: 'var/log/neutron/neutron-l3-agent.log'
-    expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
   has_1928031:
     input:
       path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
     expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
     hint: 'AttributeError'
+  has_1929832:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
+    hint: 'ProcessExecutionError'
+  has_1965297:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
 conclusions:
+  lp1883089:
+    decision: has_1883089
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1883089
+      message: >-
+        Known neutron l3-agent bug identified that affects dvr floating ips.
+  lp1896506:
+    decision: has_1896506
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1896506
+      message: >-
+        Known neutron l3-agent bug identified that critically impacts
+        keepalived.
   lp1907686:
     decision:
       and:
@@ -61,6 +91,13 @@ conclusions:
       bug-id: 1928031
       message: >-
         Known neutron-ovn bug identified that impacts OVN sbdb connections.
+  lp1929832:
+    decision: has_1929832
+    raises:
+      type: hotsos.core.issues.LaunchpadBug
+      bug-id: 1929832
+      message: >-
+        Known neutron l3-agent bug identified that impacts deletion of neutron routers.
   lp1965297:
     decision: has_1965297
     raises:
@@ -68,4 +105,3 @@ conclusions:
       bug-id: 1965297
       message: >-
         Known neutron-ovn bug identified that impacts OVN sbdb connections.
-

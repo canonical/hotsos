@@ -43,4 +43,3 @@ conclusions:
         Workaround is to pass --no-logs to juju create-backup. This is an issue
         only with Mongo 3. Mongo 4 does not have this issue. Upstream is
         working on migrating to Mongo 4 in the Juju 3.0 release.
-

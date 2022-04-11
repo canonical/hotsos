@@ -188,10 +188,27 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
 
 class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
+                'local_osds_use_bcache', True)
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter(
+                                   'ceph-osd/juju_ceph_no_bcache_tuning.yaml'))
+    def test_juju_ceph_no_bcache_tuning(self):
+        YScenarioChecker()()
+        msg = ("This host is running Juju-managed Ceph OSDs that are "
+               "using bcache devices yet the bcache-tuning charm was "
+               "not detected. It is recommended to use the "
+               "bcache-tuning charm to ensure optimal bcache "
+               "configuration.")
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph_bugs.yaml'))
+                new=utils.is_def_filter('ceph-osd/bugs.yaml'))
+    @mock.patch('hotsos.core.checks.APTPackageChecksBase.all',
+                {'ceph-osd': '1.2.3'})
     def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -216,7 +233,7 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('system_cpufreq_mode.yaml'))
+                new=utils.is_def_filter('ceph-osd/system_cpufreq_mode.yaml'))
     def test_scenarios_cpufreq(self):
         YScenarioChecker()()
         msg = ('This node has Ceph OSDs running on it but is not using '
@@ -231,7 +248,7 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('ssd_osds_no_discard.yaml'))
+                new=utils.is_def_filter('ceph-osd/ssd_osds_no_discard.yaml'))
     def test_ssd_osds_no_discard(self):
         self.skipTest("scenario currently disabled until fixed")
 
@@ -243,7 +260,8 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         self.assertEqual([issue['desc'] for issue in issues], msgs)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('filestore_to_bluestore_upgrade.yaml'))
+                new=utils.is_def_filter(
+                               'ceph-osd/filestore_to_bluestore_upgrade.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
                 'bluestore_enabled', True)
     @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
@@ -263,7 +281,9 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('lp1936136.yaml'))
+                new=utils.is_def_filter('ceph-osd/bcache_lp1936136.yaml'))
+    @mock.patch('hotsos.core.checks.APTPackageChecksBase.all',
+                {'ceph-osd': '1.2.3'})
     def test_lp1936136(self, mocl_cli, mock_cephbase,
                        mock_kernelbase, mock_cset_config, mock_ceph_config,
                        mock_svc_check_base):
