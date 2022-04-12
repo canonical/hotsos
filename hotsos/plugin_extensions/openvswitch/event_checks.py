@@ -71,18 +71,6 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
         return ret, output_key
 
     @EVENTCALLBACKS.callback()
-    def lookups(self, event):
-        # expect one line/result
-        result = event.results[0]
-        lost_packets = int(result.get(3))
-        if lost_packets > 0:
-            msg = ("ovs datapath is reporting a non-zero amount of \"lost\" "
-                   "packets ({}) which implies that packets destined for "
-                   "userspace (e.g. vm tap) are being dropped - see "
-                   "ovs-appctl dpctl/show.".format(lost_packets))
-            IssuesManager().add(OpenvSwitchWarning(msg))
-
-    @EVENTCALLBACKS.callback()
     def port_stats(self, event):
         """
         Report on interfaces that are showing packet drops or errors.
