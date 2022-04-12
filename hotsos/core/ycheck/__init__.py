@@ -260,7 +260,11 @@ class YPropertyBase(object):
         log.debug("instantiating class %s", import_str)
         mod = import_str.rpartition('.')[0]
         class_name = import_str.rpartition('.')[2]
-        return getattr(importlib.import_module(mod), class_name)
+        try:
+            return getattr(importlib.import_module(mod), class_name)
+        except Exception:
+            log.exception("failed to import class %s from %s", mod, class_name)
+            raise
 
     def get_property(self, import_str):
         log.debug("calling property %s", import_str)
