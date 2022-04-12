@@ -64,6 +64,10 @@ class CephOSDWarning(IssueTypeBase):
     pass
 
 
+class CephMonWarning(IssueTypeBase):
+    pass
+
+
 class CephMapsWarning(IssueTypeBase):
     pass
 
