@@ -841,3 +841,38 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "check crush map.")
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph-mon/unresponsive_mon_mgr.yaml'))
+    @mock.patch('hotsos.core.plugins.sosreport.SOSReportChecksBase.'
+                'timed_out_plugins', ['ceph_mon'])
+    @mock.patch('hotsos.core.checks.APTPackageChecksBase.all',
+                {'ceph-mon': '1.2.3'})
+    def test_unresponsive_mgr_p1(self):
+        YScenarioChecker()()
+        msg = ("One or more sosreport ceph plugins contain incomplete data. "
+               "This usually indicates a problem with ceph mon/mgr. Please "
+               "check ceph-mon.log and retry commands to see if they are "
+               "still unresponsive. Restarting ceph-mon and ceph-mgr might "
+               "resolve this.")
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph-mon/unresponsive_mon_mgr.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree',
+                None)
+    @mock.patch('hotsos.core.plugins.sosreport.SOSReportChecksBase.'
+                'plugin_runnable', False)
+    @mock.patch('hotsos.core.checks.APTPackageChecksBase.all',
+                {'ceph-mon': '1.2.3'})
+    def test_unresponsive_mgr_p2(self):
+        YScenarioChecker()()
+        msg = ("Some ceph commands are returning incomplete data. This "
+               "usually indicates a problem with ceph mon/mgr. Please check "
+               "ceph-mon.log and retry commands to see if they are still "
+               "unresponsive. Restarting ceph-mon and ceph-mgr might "
+               "resolve this.")
+
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

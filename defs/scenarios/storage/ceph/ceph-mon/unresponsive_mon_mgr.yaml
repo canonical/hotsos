@@ -1,0 +1,75 @@
+checks:
+  # In older sosreports, the plugin is called 'ceph' (= mon + mgr + osd) and
+  # in the newer ones it's called 'ceph_mon'.
+  sosreport_hung_ceph_mon_old:
+    requires:
+      property:
+        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+        ops: [[contains, ceph]]
+  sosreport_hung_ceph_mon_new:
+    requires:
+      property:
+        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+        ops: [[contains, ceph_mon]]
+  sosreport_hung_ceph_mgr:
+    requires:
+      property:
+        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+        ops: [[contains, ceph_mgr]]
+  sosreport_ceph_osd_df_tree:
+    requires:
+      - property: hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable
+      - property:
+          path: hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree
+          ops: [[eq, null]]
+  ceph_osd_df_tree:
+    requires:
+      - property:
+          path: hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable
+          ops: [[not_]]
+      - property:
+          path: hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree
+          ops: [[eq, null]]
+  sosreport_ceph_pg_dump:
+    requires:
+      - property: hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable
+      - property:
+          path: hotsos.core.plugins.storage.ceph.CephCluster.pg_dump
+          ops: [[eq, null]]
+  ceph_pg_dump:
+    requires:
+      - property:
+          path: hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable
+          ops: [[not_]]
+      - property:
+          path: hotsos.core.plugins.storage.ceph.CephCluster.pg_dump
+          ops: [[eq, null]]
+conclusions:
+  ceph_mon_hung:
+    decision:
+      or:
+        - sosreport_hung_ceph_mon_old
+        - sosreport_hung_ceph_mon_new
+        - sosreport_hung_ceph_mgr
+        - sosreport_ceph_osd_df_tree
+        - sosreport_ceph_pg_dump
+    raises:
+      type: hotsos.core.issues.CephMonWarning
+      message: >-
+        One or more sosreport ceph plugins contain incomplete data. This
+        usually indicates a problem with ceph mon/mgr. Please check
+        ceph-mon.log and retry commands to see if they are still unresponsive.
+        Restarting ceph-mon and ceph-mgr might resolve this.
+  ceph_mon_hung_not_a_sosreport:
+    decision:
+      or:
+        - ceph_osd_df_tree
+        - ceph_pg_dump
+    raises:
+      type: hotsos.core.issues.CephMonWarning
+      message: >-
+        Some ceph commands are returning incomplete data. This usually
+        indicates a problem with ceph mon/mgr. Please check ceph-mon.log and
+        retry commands to see if they are still unresponsive. Restarting
+        ceph-mon and ceph-mgr might resolve this.
+
