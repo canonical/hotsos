@@ -207,8 +207,8 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-osd/bugs.yaml'))
-    @mock.patch('hotsos.core.checks.APTPackageChecksBase.all',
-                {'ceph-osd': '1.2.3'})
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.services',
+                {'ceph-osd': 'enabled'})
     def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -274,7 +274,6 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.ServiceChecksBase')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
     @mock.patch('hotsos.core.plugins.storage.bcache.CachesetsConfig')
     @mock.patch('hotsos.core.plugins.kernel.KernelChecksBase')
@@ -282,12 +281,10 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.checks.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-osd/bcache_lp1936136.yaml'))
-    @mock.patch('hotsos.core.checks.APTPackageChecksBase.all',
-                {'ceph-osd': '1.2.3'})
-    def test_lp1936136(self, mocl_cli, mock_cephbase,
-                       mock_kernelbase, mock_cset_config, mock_ceph_config,
-                       mock_svc_check_base):
-
+    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.services',
+                {'ceph-osd': 'enabled'})
+    def test_lp1936136(self, mocl_cli, mock_cephbase, mock_kernelbase,
+                       mock_cset_config, mock_ceph_config):
         def fake_ceph_config(key):
             if key == 'bluefs_buffered_io':
                 return 'true'
@@ -295,10 +292,6 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
         mocl_cli.return_value = mock.MagicMock()
         mocl_cli.return_value.dpkg_l.return_value = \
             ["ii  ceph-osd 14.2.22-0ubuntu0.20.04.2 amd64"]
-
-        mock_svc_check_base.return_value = mock.MagicMock()
-        mock_svc_check_base.return_value.services = \
-            {'ceph-osd': 'enabled'}
 
         mock_cset_config.return_value = mock.MagicMock()
         mock_cset_config.return_value.get.return_value = 69

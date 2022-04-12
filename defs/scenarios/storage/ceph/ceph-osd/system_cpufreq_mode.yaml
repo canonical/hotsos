@@ -10,9 +10,6 @@ checks:
         - property:
             path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
             ops: [[ne, performance]]
-  ceph_osd_installed:
-    requires:
-      apt: ceph-osd
   ondemand_installed_and_enabled:
     requires:
       systemd:
@@ -20,10 +17,7 @@ checks:
 conclusions:
   cpufreq-not-performance:
     priority: 1
-    decision:
-      and:
-        - cpufreq_governor_not_performance
-        - ceph_osd_installed
+    decision: cpufreq_governor_not_performance
     raises:
       type: hotsos.core.issues.CephWarning
       message: >-
@@ -39,7 +33,6 @@ conclusions:
     decision:
       and:
         - cpufreq_governor_not_performance
-        - ceph_osd_installed
         - ondemand_installed_and_enabled
     raises:
       type: hotsos.core.issues.CephWarning

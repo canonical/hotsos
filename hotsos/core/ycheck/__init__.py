@@ -1127,8 +1127,9 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
 
         self.cache.set('ops', self.ops_to_str(ops_all))
         self.cache.set('service', ', '.join(services.keys()))
-        log.debug('requirement check: systemd %s (result=%s)',
-                  list(services.keys()), result)
+        svcs = ["{}={}".format(svc, state) for svc, state in services.items()]
+        log.debug('requirement check: %s (result=%s)',
+                  ', '.join(svcs), result)
         return result
 
 

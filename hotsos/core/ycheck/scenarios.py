@@ -45,16 +45,20 @@ class YScenarioChecker(ChecksBase):
                   len(yscenarios.branch_sections),
                   len(yscenarios.leaf_sections))
 
+        to_skip = set()
         for scenario in yscenarios.leaf_sections:
-            if scenario.requires:
-                requires_passes = scenario.requires.passes
-            else:
-                requires_passes = True
+            # Only register scenarios if requirements are satisfied.
+            group_name = scenario.parent.name
+            if (group_name in to_skip or
+                    (scenario.requires and not scenario.requires.passes)):
+                log.debug("%s requirements not met - skipping scenario %s",
+                          group_name, scenario.name)
+                to_skip.add(group_name)
+                continue
 
-            if requires_passes:
-                self._scenarios.append(Scenario(scenario.name,
-                                                scenario.checks,
-                                                scenario.conclusions))
+            self._scenarios.append(Scenario(scenario.name,
+                                            scenario.checks,
+                                            scenario.conclusions))
 
     @property
     def scenarios(self):

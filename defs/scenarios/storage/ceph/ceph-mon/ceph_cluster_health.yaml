@@ -1,8 +1,4 @@
 checks:
-  is_mon:
-    requires:
-      systemd:
-        ceph-mon: enabled
   cluster_health_available:
     requires:
       property:
@@ -17,7 +13,6 @@ conclusions:
   cluster-health-not-ok:
     decision:
       and:
-        - is_mon
         - cluster_health_available
         - cluster_unhealthy
     raises:

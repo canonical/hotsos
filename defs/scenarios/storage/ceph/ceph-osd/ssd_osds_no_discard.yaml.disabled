@@ -1,8 +1,4 @@
 checks:
-  node_running_ceph_osd:
-    requires:
-      systemd:
-        ceph-osd: enabled
   ssd_ceph_osds_exist:
     requires:
       property:
@@ -20,7 +16,6 @@ conclusions:
   ceph-ssd-osds-no-discard:
     decision:
       and:
-        - node_running_ceph_osd
         - ssd_ceph_osds_exist
         - ceph_discard_not_enabled
     raises:

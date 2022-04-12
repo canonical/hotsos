@@ -1,21 +1,19 @@
 checks:
   node_is_ceph_osd_and_has_version:
     requires:
-      - systemd:
-          ceph-osd: enabled
       # Get version of osd based on package installed. This is prone to
       # inaccuracy since the daemon many not have been restarted after
       # package update.
-      - apt:
-          ceph-osd:
-            - min: 13.0.2
-              max: 14.2.9
-            - min: 14.2.22
-              max: 15.2.1
-            - min: 15.2.13
-              max: 16.1.0
-            - min: 17.0.0
-              max: 17.0.0
+      apt:
+        ceph-osd:
+          - min: 13.0.2
+            max: 14.2.9
+          - min: 14.2.22
+            max: 15.2.1
+          - min: 15.2.13
+            max: 16.1.0
+          - min: 17.0.0
+            max: 17.0.0
   node_has_osds_using_bcache:
     requires:
       property: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache
