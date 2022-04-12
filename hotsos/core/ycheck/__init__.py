@@ -263,7 +263,7 @@ class YPropertyBase(object):
         try:
             return getattr(importlib.import_module(mod), class_name)
         except Exception:
-            log.exception("failed to import class %s from %s", mod, class_name)
+            log.exception("failed to import class %s from %s", class_name, mod)
             raise
 
     def get_property(self, import_str):
