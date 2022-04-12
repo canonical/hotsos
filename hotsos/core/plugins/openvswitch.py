@@ -22,6 +22,24 @@ for pkg in OVS_PKGS_CORE:
     OVS_PKGS_DEPS.append(r"python3?-{}\S*".format(pkg))
 
 
+class OVSDPLookups(object):
+
+    def __init__(self):
+        out = CLIHelper().ovs_appctl_dpctl_show(datapath='system@ovs-system')
+        cexpr = re.compile(r'\s*lookups: hit:(\S+) missed:(\S+) lost:(\S+)')
+        self.fields = {'hit': 0, 'missed': 0, 'lost': 0}
+        for line in out:
+            ret = re.match(cexpr, line)
+            if ret:
+                self.fields['hit'] = int(ret.group(1))
+                self.fields['missed'] = int(ret.group(2))
+                self.fields['lost'] = int(ret.group(3))
+
+    def __getattr__(self, key):
+        if key in self.fields:
+            return self.fields[key]
+
+
 class OVSBridge(object):
 
     def __init__(self, name, nethelper):

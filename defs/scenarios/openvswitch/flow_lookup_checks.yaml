@@ -1,0 +1,46 @@
+checks:
+  dp_has_lost_packets:
+    requires:
+      property:
+        path: hotsos.core.plugins.openvswitch.OVSDPLookups.lost
+        ops: [[gt, 5]]  # allow a very small number
+  dpif_netlink_lost_packet_on_handler:
+    input:
+      path: var/log/openvswitch/ovs-vswitchd.log
+    expr:
+      '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
+    check-parameters:
+      min-results: 5  # allow a very small number
+      search-period-hours: 24
+conclusions:
+  has_lost_packets_no_cause:
+    priority: 1
+    decision: dp_has_lost_packets
+    raises:
+      type: hotsos.core.issues.OpenvSwitchWarning
+      message: >-
+        OVS datapath is reporting a non-zero amount of "lost" packets
+        (total={packets}) which implies that packets destined for userspace
+        (e.g. vm tap) are being dropped. Please check ovs-appctl dpctl/show to
+        see if the number of lost packets is still increasing.
+      format-dict:
+        packets: '@checks.dp_has_lost_packets.requires.value_actual'
+  has_lost_packets_dpif_lost_packets:
+    priority: 2
+    decision:
+      and:
+        - dp_has_lost_packets
+        - dpif_netlink_lost_packet_on_handler
+    raises:
+      type: hotsos.core.issues.OpenvSwitchWarning
+      message: >-
+        OVS datapath is reporting a non-zero amount of "lost" packets
+        (total={packets}) which implies that packets destined for userspace
+        (e.g. vm tap) are being dropped. ovs-vswitchd is also reporting large
+        numbers of dropped packets within a 24h period (look for
+        "system@ovs-system: lost packet on port channel"). This could be
+        caused by overloaded system cores blocking ovs threads from
+        delivering packets in time. Please check ovs-appctl dpctl/show to see
+        if the number of lost packets is still increasing.
+      format-dict:
+        packets: '@checks.dp_has_lost_packets.requires.value_actual'
