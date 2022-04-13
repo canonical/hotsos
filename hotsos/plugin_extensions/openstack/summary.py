@@ -59,3 +59,7 @@ class OpenstackSummary(OpenstackServiceChecksBase):
 
         if routers:
             return routers
+
+    @idx(6)
+    def __summary_ssl_enabled(self):
+        return self.ssl_enabled

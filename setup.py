@@ -9,6 +9,7 @@ setup(
         'pyyaml',
         'progress',
         'simplejson',
+        'cryptography',
     ],
     entry_points={
       'console_scripts': [

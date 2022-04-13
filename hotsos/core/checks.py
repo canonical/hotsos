@@ -766,3 +766,22 @@ class SnapPackageChecksBase(PackageChecksBase):
         # go fetch
         self.all
         return self._core_snaps
+
+
+class SSLCertificatesChecksBase(object):
+
+    def __init__(self, certificate, expire_days):
+        """
+        @param certificate: Expects an SSLCertificate object.
+        @param expire_days: Expect an int(expire_days), it is used to check the
+        days that remain until certificate expiration.
+        """
+        self.certificate = certificate
+        self.expire_days = expire_days
+
+    @property
+    def certificate_expires_soon(self):
+        """
+        Returns True if certificate expires in less than int(self.expire_days)
+        """
+        return self.certificate.certificate_days_to_expire <= self.expire_days
