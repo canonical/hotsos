@@ -34,6 +34,7 @@ CEPH_LOGS = "var/log/ceph/"
 
 CEPH_REL_INFO = {
     'ceph-common': {
+        'quincy': '17.0',
         'pacific': '16.0',
         'octopus': '15.0',
         'nautilus': '14.0',
