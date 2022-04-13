@@ -21,7 +21,7 @@ conclusions:
         - bcache_enabled
         - has_invalid_bdev_config
     raises:
-      type: hotsos.core.issues.BcacheWarning
+      type: BcacheWarning
       message: >-
         bcache config {key} expected to be {op} but actual={value_actual}.
       format-dict:

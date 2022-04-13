@@ -19,7 +19,7 @@ conclusions:
     priority: 1
     decision: cpufreq_governor_not_performance
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         This node has Ceph OSDs running on it but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -35,7 +35,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - ondemand_installed_and_enabled
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         This node has Ceph OSDs running on it but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not

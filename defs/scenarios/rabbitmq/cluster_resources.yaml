@@ -8,7 +8,7 @@ conclusions:
   cluster-vhosts-unbalanced:
     decision: cluster_vhosts_unbalanced
     raises:
-      type: hotsos.core.issues.RabbitMQWarning
+      type: RabbitMQWarning
       message: >-
         RabbitMQ node(s) "{skewed_nodes}" are holding more than 2/3 of queues
         for one or more vhosts.

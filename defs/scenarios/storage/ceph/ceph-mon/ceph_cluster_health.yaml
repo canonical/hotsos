@@ -16,7 +16,7 @@ conclusions:
         - cluster_health_available
         - cluster_unhealthy
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         Ceph cluster is in '{health_status}' state. Please check 'ceph status'
         for details.

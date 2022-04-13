@@ -8,7 +8,7 @@ conclusions:
   has-timed-out-plugins:
     decision: has_timed_out_plugins
     raises:
-      type: hotsos.core.issues.SOSReportWarning
+      type: SOSReportWarning
       message: >-
         The following sosreport plugins have have timed out and may have
         incomplete data: {timed_out_plugins}

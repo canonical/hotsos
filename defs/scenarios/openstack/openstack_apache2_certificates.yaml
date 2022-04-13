@@ -13,7 +13,7 @@ conclusions:
         - ssl_enabled
         - apache2_certificate_expiring
     raises:
-      type: hotsos.core.issues.OpenstackWarning
+      type: OpenstackWarning
       message: >-
         The following certificates will expire in less than {apache2-certificates-days-to-expire} days:
         {apache2-certificates-path}

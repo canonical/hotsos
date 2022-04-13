@@ -15,14 +15,14 @@ conclusions:
   cluster-has-had-partions:
     decision: cluster_partitions
     raises:
-      type: hotsos.core.issues.RabbitMQWarning
+      type: RabbitMQWarning
       message: >-
         This rabbitmq cluster either has or has had partitions - please check
         rabbtimqctl cluster_status.
   cluster-sync-issues:
     decision: no_sync
     raises:
-      type: hotsos.core.issues.RabbitMQWarning
+      type: RabbitMQWarning
       message: >-
         Transient mirrored classic queues are not deleted when there are no
         replicas available for promotion. Please stop all rabbitmq-server
@@ -31,7 +31,7 @@ conclusions:
   cluster-discard-messages:
     decision: discard
     raises:
-      type: hotsos.core.issues.RabbitMQWarning
+      type: RabbitMQWarning
       message: >-
         Messages were discarded because transient mirrored classic queues are
         not syncronized. Please stop all rabbitmq-server units and restart the

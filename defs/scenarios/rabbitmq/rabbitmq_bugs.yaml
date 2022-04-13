@@ -7,7 +7,7 @@ conclusions:
   lp1943937:
     decision: has_1943937
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1943937
       message: >-
         Known RabbitMQ issue where queues get stuck and clients trying to use

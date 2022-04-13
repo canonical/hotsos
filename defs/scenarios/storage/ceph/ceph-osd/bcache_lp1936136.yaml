@@ -47,7 +47,7 @@ conclusions:
         - bluefs_buffered_io_enabled
         - bcache_cache_available_percent_check
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1936136
       message: >-
         This host has Ceph OSDs using bcache block devices and may be

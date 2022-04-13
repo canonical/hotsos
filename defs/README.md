@@ -183,14 +183,14 @@ format
 
 ```
 raises:
-  type: hotsos.core.issues.<type>
+  type: <type>
   bug-id: <str>
   message: <str>
   format-dict: <dict>
   search-result-format-groups: [<int>, ...]
 ```
 
-If *type* is a [bug type](../hotsos/core/issues/bug_types.py) then a *bug-id*
+If *type* is a [bug type](../hotsos/core/issues/issue_types.py) then a *bug-id*
 must be provided.
 
 If the *message* string contains format fields these can be filled

@@ -7,6 +7,6 @@ conclusions:
   lp1917475:
     decision: has_1917475
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1917475
       message: known ovn bug identified - db rbac errors

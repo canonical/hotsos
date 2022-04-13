@@ -50,14 +50,14 @@ conclusions:
   lp1883089:
     decision: has_1883089
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1883089
       message: >-
         Known neutron l3-agent bug identified that affects dvr floating ips.
   lp1896506:
     decision: has_1896506
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1896506
       message: >-
         Known neutron l3-agent bug identified that critically impacts
@@ -68,14 +68,14 @@ conclusions:
         - isolcpus_enabled
         - has_1907686
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1907686
       message: >-
         Known neutron-ovn bug identified that impacts OVN db connections.
   lp1927868:
     decision: has_1927868
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1927868
       message: >-
         Installed package '{package}' with version {version} has a
@@ -87,21 +87,21 @@ conclusions:
   lp1928031:
     decision: has_1928031
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1928031
       message: >-
         Known neutron-ovn bug identified that impacts OVN sbdb connections.
   lp1929832:
     decision: has_1929832
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1929832
       message: >-
         Known neutron l3-agent bug identified that impacts deletion of neutron routers.
   lp1965297:
     decision: has_1965297
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1965297
       message: >-
         Known neutron-ovn bug identified that impacts OVN sbdb connections.

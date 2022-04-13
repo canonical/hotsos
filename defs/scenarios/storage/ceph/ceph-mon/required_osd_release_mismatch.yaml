@@ -16,7 +16,7 @@ conclusions:
         - has_required_osd_release
         - osd_versions_not_match_osd_required
     raises:
-      type: hotsos.core.issues.CephOSDError
+      type: CephOSDError
       message: >-
         Ceph cluster config 'require_osd_release' is set to '{require_osd_release}' but
         not all OSDs are on that version - please check.

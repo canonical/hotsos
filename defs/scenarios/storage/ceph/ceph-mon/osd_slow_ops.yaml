@@ -13,7 +13,7 @@ conclusions:
     priority: 1
     decision: osd_slow_ops
     raises:
-      type: hotsos.core.issues.CephOSDError
+      type: CephOSDError
       message: >-
         Cluster is experiencing slow ops.
         Causes include network issues (could do connectivity checks via ping,
@@ -28,7 +28,7 @@ conclusions:
         - osd_slow_ops
         - ceph_interfaces_have_errors
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         Cluster is experiencing slow ops. The network
         interface(s) ({interfaces}) used by the Ceph are showing

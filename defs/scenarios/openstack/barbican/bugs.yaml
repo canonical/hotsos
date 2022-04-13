@@ -16,7 +16,7 @@ conclusions:
   lp1946787:
     decision: has_1946787
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1946787
       message: >-
         Installed package '{package}' with version {version} has a known bug

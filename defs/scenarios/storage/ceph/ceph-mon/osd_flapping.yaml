@@ -13,7 +13,7 @@ conclusions:
     priority: 1
     decision: osd_flapping
     raises:
-      type: hotsos.core.issues.CephOSDError
+      type: CephOSDError
       message: >-
         Cluster is experiencing OSD flapping.
         Causes include network issues (could do connectivity checks via ping,
@@ -32,7 +32,7 @@ conclusions:
         - osd_flapping
         - ceph_interfaces_have_errors
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         Cluster is experiencing OSD flapping. The network
         interface(s) ({interfaces}) used by the Ceph are showing

@@ -8,7 +8,7 @@ conclusions:
   bluefs-osds-have-oversize-metadata:
     decision: bluefs_osds_have_oversize_metadata
     raises:
-      type: hotsos.core.issues.CephTrackerBug
+      type: CephTrackerBug
       bug-id: 45903
       message: >-
         Found {num_bad_meta_osds} Ceph OSDs with metadata size larger than 10G.

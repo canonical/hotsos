@@ -6,7 +6,7 @@ conclusions:
   unattended-upgrades-enabled:
     decision: is_enabled
     raises:
-      type: hotsos.core.issues.SystemWarning
+      type: SystemWarning
       message: >-
         Unattended upgrades are enabled which can lead to uncontrolled changes
         to this environment. If maintenance windows are required please

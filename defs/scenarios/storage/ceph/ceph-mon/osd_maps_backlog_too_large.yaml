@@ -14,7 +14,7 @@ conclusions:
   cluster-has-too-many-osdmaps:
     decision: cluster_has_too_many_osdmaps
     raises:
-      type: hotsos.core.issues.CephMapsWarning
+      type: CephMapsWarning
       message: >-
         This Ceph cluster has {count} pinned osdmaps. This can affect ceph-mon
         performance and may also indicate bugs such as

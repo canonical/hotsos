@@ -15,7 +15,7 @@ conclusions:
         - bluefs_spillover
         - health_warning
     raises:
-      type: hotsos.core.issues.CephTrackerBug
+      type: CephTrackerBug
       bug-id: 38745
       message: >-
         Identified known Ceph bug. RocksDB needs more space than the leveled

@@ -8,7 +8,7 @@ conclusions:
   node1-found-needs-removal:
     decision: node1-found
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1874719
       message: >-
        A node with the hostname node1 is currently configured and enabled on

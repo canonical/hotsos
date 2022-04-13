@@ -8,7 +8,7 @@ conclusions:
   large-omap-pgs:
     decision: cluster_has_pgs_with_large_omap_objects
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         Large omap objects found in pgs '{large_omap_pgs}'.
         This is usually resolved by deep-scrubbing the pgs. Check config

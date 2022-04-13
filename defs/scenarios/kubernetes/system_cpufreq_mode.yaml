@@ -30,7 +30,7 @@ conclusions:
         - cpufreq_governor_not_performance
         - kubernetes_installed
     raises:
-      type: hotsos.core.issues.KubernetesWarning
+      type: KubernetesWarning
       message: >-
         This node is used for Kubernetes but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not
@@ -47,7 +47,7 @@ conclusions:
         - kubernetes_installed
         - ondemand_installed_and_enabled
     raises:
-      type: hotsos.core.issues.KubernetesWarning
+      type: KubernetesWarning
       message: >-
         This node is used for Kubernetes but is not using cpufreq
         scaling_governor in "performance" mode (actual={governor}). This is not

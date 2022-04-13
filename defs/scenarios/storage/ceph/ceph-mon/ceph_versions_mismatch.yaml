@@ -14,7 +14,7 @@ conclusions:
     priority: 1
     decision: cluster_daemon_versions_not_aligned
     raises:
-      type: hotsos.core.issues.CephDaemonWarning
+      type: CephDaemonWarning
       message: >-
         Ceph daemon versions are not aligned across the cluster. This could be the result
         of an incomplete or failed cluster upgrade. All daemons, except the clients,
@@ -26,7 +26,7 @@ conclusions:
         - cluster_daemon_versions_not_aligned
         - mon_versions_not_aligned
     raises:
-      type: hotsos.core.issues.CephDaemonVersionsError
+      type: CephDaemonVersionsError
       message: >-
         One or more Ceph mons has a version lower than other daemons e.g.
         ceph-osd running in the cluster. This can cause unexpected behaviour

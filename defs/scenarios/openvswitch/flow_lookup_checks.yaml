@@ -17,7 +17,7 @@ conclusions:
     priority: 1
     decision: dp_has_lost_packets
     raises:
-      type: hotsos.core.issues.OpenvSwitchWarning
+      type: OpenvSwitchWarning
       message: >-
         OVS datapath is reporting a non-zero amount of "lost" packets
         (total={packets}) which implies that packets destined for userspace
@@ -32,7 +32,7 @@ conclusions:
         - dp_has_lost_packets
         - dpif_netlink_lost_packet_on_handler
     raises:
-      type: hotsos.core.issues.OpenvSwitchWarning
+      type: OpenvSwitchWarning
       message: >-
         OVS datapath is reporting a non-zero amount of "lost" packets
         (total={packets}) which implies that packets destined for userspace

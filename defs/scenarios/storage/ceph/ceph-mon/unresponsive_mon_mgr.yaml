@@ -54,7 +54,7 @@ conclusions:
         - sosreport_ceph_osd_df_tree
         - sosreport_ceph_pg_dump
     raises:
-      type: hotsos.core.issues.CephMonWarning
+      type: CephMonWarning
       message: >-
         One or more sosreport ceph plugins contain incomplete data. This
         usually indicates a problem with ceph mon/mgr. Please check
@@ -66,7 +66,7 @@ conclusions:
         - ceph_osd_df_tree
         - ceph_pg_dump
     raises:
-      type: hotsos.core.issues.CephMonWarning
+      type: CephMonWarning
       message: >-
         Some ceph commands are returning incomplete data. This usually
         indicates a problem with ceph mon/mgr. Please check ceph-mon.log and

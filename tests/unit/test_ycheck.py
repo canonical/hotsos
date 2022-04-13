@@ -17,8 +17,21 @@ from hotsos.core.ycheck import (
     YDefsSection,
     YPropertyCheck,
     events,
-    scenarios
+    scenarios,
+    YPropertyBase,
+    cached_yproperty_attr,
 )
+
+
+class TestProperty(YPropertyBase):
+
+    @cached_yproperty_attr
+    def myattr(self):
+        return '123'
+
+    @property
+    def myotherattr(self):
+        return '456'
 
 
 YAML_DEF_W_INPUT = """
@@ -203,7 +216,7 @@ myplugin:
         priority: 1
         decision: logmatch
         raises:
-          type: hotsos.core.issues.SystemWarning
+          type: SystemWarning
           message: log matched {num} times
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -214,7 +227,7 @@ myplugin:
                 - logmatch
                 - snap_pkg_exists
         raises:
-          type: hotsos.core.issues.SystemWarning
+          type: SystemWarning
           message: log matched {num} times and snap exists
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -229,7 +242,7 @@ myplugin:
                 - property_true_shortform
                 - property_has_value_longform
         raises:
-          type: hotsos.core.issues.SystemWarning
+          type: SystemWarning
           message: log matched {num} times, snap and service exists
           format-dict:
             num: '@checks.logmatch.expr.results:len'
@@ -237,6 +250,14 @@ myplugin:
 
 
 class TestYamlChecks(utils.BaseTestCase):
+
+    def test_yproperty_attr_cache(self):
+        p = TestProperty()
+        self.assertEqual(getattr(p.cache, '__yproperty_attr__myattr'), None)
+        self.assertEqual(p.myattr, '123')
+        self.assertEqual(getattr(p.cache, '__yproperty_attr__myattr'), '123')
+        self.assertEqual(p.myattr, '123')
+        self.assertEqual(p.myotherattr, '456')
 
     def test_yaml_def_group_input(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT).get('pluginX')

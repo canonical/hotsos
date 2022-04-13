@@ -8,7 +8,7 @@ conclusions:
   mixed-pkg-releases:
     decision: has_mixed_pkg_releases
     raises:
-      type: hotsos.core.issues.OpenstackWarning
+      type: OpenstackWarning
       message: >-
         Openstack packages from a more than one release identified: {releases}.
       format-dict:

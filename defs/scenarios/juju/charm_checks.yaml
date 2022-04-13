@@ -10,7 +10,7 @@ conclusions:
   units-have-leadership-errors:
     decision: units_have_leadership_errors
     raises:
-      type: hotsos.core.issues.JujuWarning
+      type: JujuWarning
       message: >-
         Juju unit(s) '{units}' are showing leadership errors in their logs from
         the last 7 days. Please investigate.

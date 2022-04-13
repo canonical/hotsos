@@ -18,7 +18,7 @@ conclusions:
   lp1910958:
     decision: has_lp1910958
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1910958
       message: >-
         Unit {} failed to start due to members in relation {} that cannot be
@@ -27,7 +27,7 @@ conclusions:
   lp1948906:
     decision: has_lp1948906
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1948906
       message: >-
         post-series-upgrade failed, issues with unit {} - see LP bug for
@@ -36,7 +36,7 @@ conclusions:
   lp1852502:
     decision: has_lp1852502
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1852502
       message: >-
         known mongodb bug identified - https://jira.mongodb.org/browse/TOOLS-1636

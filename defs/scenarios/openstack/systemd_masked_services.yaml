@@ -8,7 +8,7 @@ conclusions:
   has-unexpected-masked:
     decision: has_unexpected_masked
     raises:
-      type: hotsos.core.issues.OpenstackWarning
+      type: OpenstackWarning
       message: >-
         The following Openstack systemd services are masked: {masked}. Please
         ensure that this is intended otherwise these services may be

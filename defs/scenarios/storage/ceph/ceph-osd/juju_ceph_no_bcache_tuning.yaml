@@ -20,7 +20,7 @@ conclusions:
         - local_osds_using_bcache
         - juju_bcache_tuning_charm_not_enabled
     raises:
-      type: hotsos.core.issues.BcacheWarning
+      type: BcacheWarning
       message: >-
         This host is running Juju-managed Ceph OSDs that are using bcache
         devices yet the bcache-tuning charm was not detected. It is recommended

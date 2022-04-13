@@ -15,7 +15,7 @@ conclusions:
   lp1959649:
     decision: has_1959649
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1959649
       message: >-
         This host is vulnerable to known bug https://tracker.ceph.com/issues/38745.

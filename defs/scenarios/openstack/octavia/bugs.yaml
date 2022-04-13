@@ -21,7 +21,7 @@ conclusions:
         - has_2008099_pt1
         - has_2008099_pt2
     raises:
-      type: hotsos.core.issues.StoryBoardBug
+      type: StoryBoardBug
       bug-id: 2008099
       message: >-
         A known octavia bug has been identified. Due to this bug, LB failover

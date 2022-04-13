@@ -28,7 +28,7 @@ conclusions:
   lp1860743:
     decision: has_1860743
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1860743
       message: >-
         known nova compute charm bug identified which affects live migrations
@@ -39,12 +39,12 @@ conclusions:
         - has_1888395_pt1
         - has_1888395_pt2
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1888395
       message: known nova bug identified
   lp1944619:
     decision: has_1944619
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1944619
       message: known nova bug identified

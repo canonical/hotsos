@@ -11,7 +11,7 @@ conclusions:
   osd-slow-heartbeats:
     decision: osd_slow_heartbeats
     raises:
-      type: hotsos.core.issues.CephOSDError
+      type: CephOSDError
       message: >-
         One or more Ceph OSDs is showing slow heartbeats. This most commonly
         a result of network issues between OSDs. Please check that the

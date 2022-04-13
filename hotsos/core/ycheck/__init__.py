@@ -29,6 +29,27 @@ from hotsos.core.utils import mktemp_dump
 from hotsos.core.ystruct import YAMLDefOverrideBase, YAMLDefSection
 
 
+def cached_yproperty_attr(f):
+    """
+    This can be used to cache a yproperty attribute property e.g. to avoid
+    expensive re-execution of that property with successive calls.
+    """
+    @property
+    def _inner(inst):
+        # we prefix the keyname so as to avoid collisions with non attribute
+        # items added to the cache.
+        key = "__yproperty_attr__{}".format(f.__name__)
+        ret = getattr(inst.cache, key)
+        if ret is not None:
+            return ret
+
+        ret = f(inst)
+        inst.cache.set(key, ret)
+        return ret
+
+    return _inner
+
+
 class CallbackHelper(object):
 
     def __init__(self):
@@ -240,10 +261,8 @@ class PropertyCache(object):
     def __getattr__(self, key):
         log.debug("%s: fetching key=%s (exists=%s)", id(self), key,
                   key in self.cache)
-        if key not in self.cache:
-            return
-
-        return self.cache[key]
+        if key in self.cache:
+            return self.cache[key]
 
 
 class YPropertyBase(object):
@@ -360,7 +379,7 @@ class YPropertyPriority(YPropertyOverrideBase):
     def property_name(self):
         return 'priority'
 
-    @property
+    @cached_yproperty_attr
     def value(self):
         return int(self.content or 1)
 
@@ -373,7 +392,7 @@ class YPropertyCheckParameters(YPropertyOverrideBase):
     def property_name(self):
         return 'check-parameters'
 
-    @property
+    @cached_yproperty_attr
     def search_period_hours(self):
         """
         If min is provided this is used to determine the period within which
@@ -386,7 +405,7 @@ class YPropertyCheckParameters(YPropertyOverrideBase):
         """
         return int(self.content.get('search-period-hours', 0))
 
-    @property
+    @cached_yproperty_attr
     def search_result_age_hours(self):
         """
         Result muct have aoccured within search-result-age-hours from current
@@ -394,7 +413,7 @@ class YPropertyCheckParameters(YPropertyOverrideBase):
         """
         return int(self.content.get('search-result-age-hours', 0))
 
-    @property
+    @cached_yproperty_attr
     def min_results(self):
         """
         Minimum search matches required for result to be True (default is 1)
@@ -510,7 +529,6 @@ class YPropertyCheck(YPropertyBase):
 
         return [r[1] for r in results]
 
-    @property
     def _result(self):
         if self.expr:
             if self.cache.expr:
@@ -586,7 +604,7 @@ class YPropertyCheck(YPropertyBase):
     @property
     def result(self):
         log.debug("executing check %s", self.name)
-        result = self._result
+        result = self._result()
         log.debug("check %s result=%s", self.name, result)
         return result
 
@@ -757,7 +775,7 @@ class YPropertyExpr(YPropertyOverrideBase):
     def property_name(self):
         return 'expr'
 
-    @property
+    @cached_yproperty_attr
     def expr(self):
         """
         Subkey e.g for start.expr, body.expr. Expression defs that are just
@@ -841,7 +859,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         return message
 
-    @property
+    @cached_yproperty_attr
     def format_dict(self):
         """
         Optional dict of key/val pairs used to format the message string.
@@ -863,17 +881,17 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         return fdict
 
-    @property
+    @cached_yproperty_attr
     def format_groups(self):
         """ Optional """
         return self.content.get('search-result-format-groups')
 
-    @property
+    @cached_yproperty_attr
     def type(self):
-        """ This is a string import path to an implementation of
-        core.issues.IssueTypeBase and will be used to raise an
-        issue using message as argument. """
-        return self.get_cls(self.content['type'])
+        """ Name of core.issues.IssueTypeBase object and will be used to raise
+        an issue or bug using message as argument. """
+        _type = "hotsos.core.issues.{}".format(self.content['type'])
+        return self.get_cls(_type)
 
 
 @add_to_property_catalog
@@ -890,7 +908,7 @@ class YPropertyInput(YPropertyOverrideBase):
         super().__init__(*args, **kwargs)
         self.cmd_tmp_path = None
 
-    @property
+    @cached_yproperty_attr
     def options(self):
         defaults = {'disable-all-logs': False,
                     'args': [],
@@ -900,24 +918,25 @@ class YPropertyInput(YPropertyOverrideBase):
         defaults.update(_options)
         return defaults
 
-    @property
+    @cached_yproperty_attr
     def command(self):
         return self.content.get('command')
 
-    @property
+    @cached_yproperty_attr
     def fs_path(self):
         return self.content.get('path')
 
-    @property
+    @cached_yproperty_attr
     def path(self):
-        if self.fs_path:
+        if self.fs_path:  # pylint: disable=W0125
             path = os.path.join(HotSOSConfig.DATA_ROOT, self.fs_path)
             if (HotSOSConfig.USE_ALL_LOGS and not
                     self.options['disable-all-logs']):
                 path = "{}*".format(path)
 
             return path
-        elif self.command:
+
+        if self.command:  # pylint: disable=W0125
             if self.cmd_tmp_path:
                 return self.cmd_tmp_path
 
@@ -941,8 +960,8 @@ class YPropertyInput(YPropertyOverrideBase):
 
             self.cmd_tmp_path = mktemp_dump(out)
             return self.cmd_tmp_path
-        else:
-            log.debug("no input provided")
+
+        log.debug("no input provided")
 
 
 class YRequirementTypeBase(abc.ABC, YPropertyBase):

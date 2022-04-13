@@ -28,7 +28,7 @@ conclusions:
         - bcache_enabled
         - cset_has_invalid_config
     raises:
-      type: hotsos.core.issues.BcacheWarning
+      type: BcacheWarning
       message: >-
         bcache cacheset config {key} expected to be {op} but actual={value_actual}.
       format-dict:
@@ -41,7 +41,7 @@ conclusions:
         - bcache_enabled
         - cset_config_lp1900438_limit
     raises:
-      type: hotsos.core.issues.LaunchpadBug
+      type: LaunchpadBug
       bug-id: 1900438
       message: >-
         bcache cache_available_percent is {actual} (i.e. approx. 30%) which

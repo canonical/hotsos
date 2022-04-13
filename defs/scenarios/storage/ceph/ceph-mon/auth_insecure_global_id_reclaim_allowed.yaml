@@ -15,7 +15,7 @@ conclusions:
         - insecure_auth_allowed
         - health_warning
     raises:
-      type: hotsos.core.issues.CephWarning
+      type: CephWarning
       message: >-
         The status of this Ceph cluster is HEALTH_WARN and the mon is
         configured to allow insecure global_id reclaim which means the status
