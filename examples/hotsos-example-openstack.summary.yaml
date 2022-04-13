@@ -113,6 +113,7 @@ openstack:
   neutron-l3ha:
     backup:
       - 984c22fd-64b3-4fa1-8ddd-87090f401ce5
+  ssl-enabled: false
   os-server-external-events:
     network-changed:
       succeeded:

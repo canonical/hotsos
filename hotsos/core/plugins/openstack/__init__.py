@@ -11,6 +11,7 @@ from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.checks import DPKGVersionCompare
 from hotsos.core.log import log
 from hotsos.core.cli_helpers import CmdBase, CLIHelper
+from hotsos.core.ssl import SSLCertificate
 from hotsos.core.plugins.openstack.exceptions import (
     EXCEPTIONS_COMMON,
     BARBICAN_EXCEPTIONS,
@@ -781,6 +782,7 @@ class OpenstackBase(object):
         self.nova = NovaBase()
         self.neutron = NeutronBase()
         self.octavia = OctaviaBase()
+        self.certificate_expire_days = 60
 
     @property
     def apt_packages_all(self):
@@ -877,6 +879,59 @@ class OpenstackBase(object):
             return sorted(release_info['uca'], reverse=True)[0]
 
         return relname
+
+    @property
+    def apache2_ssl_config_file(self):
+        return os.path.join(HotSOSConfig.DATA_ROOT,
+                            'etc/apache2/sites-enabled',
+                            'openstack_https_frontend.conf')
+
+    @property
+    def ssl_enabled(self):
+        return os.path.exists(self.apache2_ssl_config_file)
+
+    @property
+    def apache2_certificates_list(self):
+        certificate_path_list = []
+        certificate_list = []
+        if self.ssl_enabled:
+            try:
+                with open(self.apache2_ssl_config_file) as fd:
+                    for line in fd:
+                        regex_match = re.search(r'SSLCertificateFile /(.*)',
+                                                line)
+                        if regex_match:
+                            certificate_path = os.path.join(
+                                               HotSOSConfig.DATA_ROOT,
+                                               regex_match.group(1))
+                            if certificate_path not in certificate_path_list:
+                                certificate_path_list.append(certificate_path)
+            except OSError:
+                log.debug("Unable to open apache2 configuration file %s",
+                          self.apache2_ssl_config_file)
+                return certificate_list
+
+        if len(certificate_path_list) > 0:
+            for certificate_path in certificate_path_list:
+                try:
+                    ssl_certificate = SSLCertificate(certificate_path)
+                    certificate_list.append(ssl_certificate)
+                except OSError:
+                    continue
+
+        return certificate_list
+
+    @property
+    def apache2_certificates_expiring(self):
+        apache2_certificates_expiring = []
+        certificate_list = self.apache2_certificates_list
+        for certificate in certificate_list:
+            ssl_checks = \
+                checks.SSLCertificatesChecksBase(certificate,
+                                                 self.certificate_expire_days)
+            if ssl_checks.certificate_expires_soon:
+                apache2_certificates_expiring.append(certificate.path)
+        return apache2_certificates_expiring
 
 
 class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
