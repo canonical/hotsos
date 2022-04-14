@@ -24,10 +24,10 @@ conclusions:
     raises:
       type: CephCrushWarning
       message: >-
-        Found one or more unbalanced crush buckets e.g. crush root '{root}' using
-        failure domain '{domain}' with rule id '{ruleid}'. This can cause
-        data distribution to become skewed - please check crush map.
+        Found one or more unbalanced buckets in the cluster's CRUSH map.
+        This can cause uneven data distribution or PG mapping issues in the cluster.
+        Verify that "ceph osd crush tree --show-shadow" conforms to the expected layout for the cluster.
+        Transient issues such as "out" OSDs, or cluster expansion/maintenance can trigger this warning.
+        Affected CRUSH tree(s) and bucket types are {affected}.
       format-dict:
-        root: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_head_root
-        domain: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_head_domain
-        ruleid: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_head_ruleid
+        affected: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_pretty
