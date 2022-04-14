@@ -1,4 +1,5 @@
 import builtins
+import copy
 import os
 
 import abc
@@ -646,27 +647,15 @@ class YPropertyConclusion(object):
 
         return result
 
-    def _run_conclusion(self, checks):
-        if self.decision.is_singleton:
-            return self.get_check_result(self.decision.content, checks)
-        else:
-            for op, checknames in self.decision:
-                results = [self.get_check_result(c, checks) for c in
-                           checknames]
-                if op == 'and':
-                    return all(results)
-                elif op == 'or':
-                    return any(results)
-                else:
-                    log.debug("decision has unsupported operator '%s'", op)
-
-        return False
-
     def reached(self, checks):
         """
         Return True/False result of this conclusion and prepare issue info.
         """
-        result = self._run_conclusion(checks)
+        log.debug("running conclusion %s", self.name)
+        logicmap = LogicalCollectionMap(self.decision.content,
+                                        {name: lambda name: checks[name]
+                                         for name in checks})
+        result = LogicalCollectionHandler(logicmap)()
         if not result:
             return False
 
@@ -715,7 +704,8 @@ class YPropertyConclusions(YPropertyCollectionBase):
     def __iter__(self):
         section = YDefsSection(self.property_name, self.content)
         for c in section.leaf_sections:
-            yield YPropertyConclusion(c.name, c.priority, c.decision, c.raises)
+            yield YPropertyConclusion(c.name, c.priority, decision=c.decision,
+                                      raises=c.raises)
 
 
 @add_to_property_catalog
@@ -828,8 +818,8 @@ class YPropertyRaises(YPropertyOverrideBase):
             if PropertyCacheRefResolver.is_valid_cache_ref(value):
                 rvalue = PropertyCacheRefResolver(value, property=property,
                                                   checks=checks).resolve()
-                log.debug("updating format-dict key=%s with cached %s",
-                          key, value)
+                log.debug("updating format-dict key=%s with cached %s (%s)",
+                          key, value, rvalue)
                 fdict[key] = rvalue
 
         message = self.message
@@ -1037,7 +1027,7 @@ class YRequirementTypeBase(abc.ABC, YPropertyBase):
         """
 
     @property
-    def passes(self):
+    def result(self):
         """ Assert whether the requirement is met.
 
         Returns True if met otherwise False.
@@ -1046,7 +1036,8 @@ class YRequirementTypeBase(abc.ABC, YPropertyBase):
             return self.handler()
         except Exception:
             # display traceback here before it gets swallowed up.
-            log.exception("requires.passes raised the following")
+            log.exception("requires.%s.result raised the following",
+                          self.__class__.__name__)
             raise
 
 
@@ -1155,13 +1146,14 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
 class YRequirementTypeProperty(YRequirementTypeBase):
 
     def handler(self):
+        default_ops = [['truth']]
         if type(self.settings) != dict:
             path = self.settings
             # default is get bool (True/False) for value
-            ops = [['truth']]
+            ops = default_ops
         else:
             path = self.settings['path']
-            ops = self.settings.get('ops')
+            ops = self.settings.get('ops', default_ops)
 
         actual = self.get_property(path)
         result = self.apply_ops(ops, input=actual)
@@ -1225,117 +1217,99 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         return all(results)
 
 
-@add_to_property_catalog
-class YPropertyRequires(YPropertyOverrideBase):
-    KEYS = ['requires']
-    # these must be logical operators
+class LogicalCollectionMap(object):
+
+    def __init__(self, raw, backend, cache=None):
+        self.raw = raw
+        self.backend = backend
+        self.cache = cache
+
+    def apply(self, item, copy_cache=False):
+        if type(item) != dict:
+            # i.e. it must be a string
+            key = value = item
+        else:
+            # dict should only have one key
+            key, value = copy.deepcopy(item).popitem()
+
+        ret = self.backend[key](value)
+        result = ret.result
+        if copy_cache and self.cache:
+            log.debug("merging cache with item of type %s",
+                      ret.__class__.__name__)
+            self.cache.merge(ret.cache)
+
+        return result
+
+
+class LogicalCollectionHandler(object):
     VALID_GROUP_KEYS = ['and', 'or', 'not']
     FINAL_RESULT_OP = 'and'
-    REQ_TYPES = {'apt': YRequirementTypeAPT,
-                 'snap': YRequirementTypeSnap,
-                 'config': YRequirementTypeConfig,
-                 'systemd': YRequirementTypeSystemd,
-                 'property': YRequirementTypeProperty}
 
-    @property
-    def property_name(self):
-        return 'requires'
+    def __init__(self, logicmap):
+        self.logicmap = logicmap
 
-    def process_requirement(self, item, cache=False):
-        """ Process a single requirement and return its boolean result.
-
-        @param requirement: a YRequirementObj object.
-        @param cache: if set to True the cached info from the requirement will
-        be saved locally. This can only be done for a single requirement.
-        """
-        # need at least one
-        if any(item.values()):
-            requirement = None
-            for name, handler in self.REQ_TYPES.items():
-                if item.get(name):
-                    requirement = handler(item[name])
-                    break
-
-            result = requirement.passes
-            # Caching a requires comprising of more than one requirement e.g.
-            # lists or groups is not supported since there is no easy way to
-            # make then uniquely identifiable so this should only be used when
-            # processing single requirements. Note that top-level attributes
-            # like the passes result will still be cached.
-            if cache:
-                self.cache.merge(requirement.cache)
-
-            return result
-
-        log.debug("invalid requirement: %s - fail", self.content)
-        return False
-
-    def _is_groups(self, item):
-        """ Return True if the dictionary item contains groups keys.
-
-        Note that the dictionary must *only* contain group keys.
-        """
+    def is_group(self, item):
         if set(list(item.keys())).intersection(self.VALID_GROUP_KEYS):
             return True
 
         return False
 
-    def process_requirement_group(self, item):
-        """
-        Process a requirements group (dict) which can contain one or more
-        groups each named by the boolean operator to apply to the results of
-        the list of requirements that it contains.
+    def process_single(self, item, copy_cache=False):
+        log.debug("SINGLE: %s", item)
+        return self.logicmap.apply(item, copy_cache=copy_cache)
 
-        @param item: dict of YRequirementObj objects keyed by bool opt.
-        """
+    def process_group(self, item):
         results = {}
-        for group_op, group_items in item.items():
-            if group_op not in results:
-                results[group_op] = []
+        for op, _items in item.items():
+            if op not in results:
+                results[op] = []
 
-            log.debug("op=%s has %s requirement(s)", group_op,
-                      len(group_items))
-            for entry in group_items:
-                result = self.process_requirement(entry)
-                if group_op not in results:
-                    results[group_op] = []
-
-                results[group_op].append(result)
+            log.debug("op=%s has %s items(s)", op, len(_items))
+            for _item in _items:
+                results[op].append(self.process_single(_item))
 
         return results
 
-    def process_multi_requirements_list(self, items):
-        """
-        If requirements are provided as a list, each item can be a requirement
-        or a group of requirements.
-
-        @param item: list of YRequirementObj objects or groups of objects.
-        """
-        log.debug("requirements provided as groups")
+    def process_list(self, items):
         results = {}
         for item in items:
-            if self._is_groups(item):
-                group_results = self.process_requirement_group(item)
-                for group_op, grp_op_results in group_results.items():
-                    if group_op not in results:
-                        results[group_op] = []
+            if self.is_group(item):
+                log.debug("list:group")
+                for op, _results in self.process_group(item).items():
+                    if op not in results:
+                        results[op] = []
 
-                    results[group_op] += grp_op_results
+                    results[op].extend(_results)
             else:
-                result = self.process_requirement(item)
+                log.debug("list:single")
                 # final results always get anded.
                 op = self.FINAL_RESULT_OP
                 if op not in results:
                     results[op] = []
 
-                results[op].append(result)
+                results[op].append(self.process_single(item))
 
         return results
 
-    def finalise_result(self, results):
-        """
-        Apply group ops to respective groups then AND all for the final result.
-        """
+    def __call__(self):
+        if type(self.logicmap.raw) == dict:
+            if self.is_group(self.logicmap.raw):
+                log.debug("items groups provided")
+                results = self.process_group(self.logicmap.raw)
+            else:
+                log.debug("single items provided")
+                results = {self.FINAL_RESULT_OP:
+                           [self.process_single(self.logicmap.raw,
+                                                copy_cache=True)]}
+        elif type(self.logicmap.raw) == list:
+            log.debug("list of %s items provided", len(self.logicmap.raw))
+            results = self.process_list(self.logicmap.raw)
+        else:
+            results = {self.FINAL_RESULT_OP:
+                       [self.process_single(self.logicmap.raw,
+                                            copy_cache=True)]}
+
         final_results = []
         for op in results:
             if op == 'and':
@@ -1352,6 +1326,21 @@ class YPropertyRequires(YPropertyOverrideBase):
         log.debug("final result=%s", result)
         return result
 
+
+@add_to_property_catalog
+class YPropertyRequires(YPropertyOverrideBase):
+    KEYS = ['requires']
+    # these must be logical operators
+    REQ_TYPES = {'apt': YRequirementTypeAPT,
+                 'snap': YRequirementTypeSnap,
+                 'config': YRequirementTypeConfig,
+                 'systemd': YRequirementTypeSystemd,
+                 'property': YRequirementTypeProperty}
+
+    @property
+    def property_name(self):
+        return 'requires'
+
     @property
     def passes(self):
         """
@@ -1359,21 +1348,10 @@ class YPropertyRequires(YPropertyOverrideBase):
         or list of requirements. List may contain individual requirements or
         groups.
         """
-        if type(self.content) == dict:
-            if not self._is_groups(self.content):
-                log.debug("single requirement provided")
-                item = {k: self.content.get(k) for k in self.REQ_TYPES}
-                results = {self.FINAL_RESULT_OP:
-                           [self.process_requirement(item, cache=True)]}
-            else:
-                log.debug("requirement groups provided")
-                results = self.process_requirement_group(self.content)
-
-        elif type(self.content) == list:
-            log.debug("list of requirements provided")
-            results = self.process_multi_requirements_list(self.content)
-
-        result = self.finalise_result(results)
+        log.debug("running requirement")
+        logicmap = LogicalCollectionMap(self.content, self.REQ_TYPES,
+                                        cache=self.cache)
+        result = LogicalCollectionHandler(logicmap)()
         self.cache.set('passes', result)
         return result
 
@@ -1443,7 +1421,7 @@ class YDefsLoader(object):
 
     def load_plugin_defs(self):
         log.debug('loading %s definitions for plugin=%s', self.ytype,
-                  HotSOSConfig.PLUGIN_NAME,)
+                  HotSOSConfig.PLUGIN_NAME)
 
         yaml_defs = self.plugin_defs
         if not yaml_defs:

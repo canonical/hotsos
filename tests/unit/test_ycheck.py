@@ -33,6 +33,75 @@ class TestProperty(YPropertyBase):
     def myotherattr(self):
         return '456'
 
+    @property
+    def always_true(self):
+        return True
+
+    @property
+    def always_false(self):
+        return False
+
+
+YDEF_NESTED_LOGIC = """
+checks:
+  isTrue:
+    requires:
+      and:
+        - property: tests.unit.test_ycheck.TestProperty.always_true
+        - property:
+            path: tests.unit.test_ycheck.TestProperty.always_false
+            ops: [[not_]]
+  isalsoTrue:
+    requires:
+      or:
+        - property: tests.unit.test_ycheck.TestProperty.always_true
+        - property: tests.unit.test_ycheck.TestProperty.always_false
+  isstillTrue:
+    requires:
+      and:
+        - property: tests.unit.test_ycheck.TestProperty.always_true
+      or:
+        - property: tests.unit.test_ycheck.TestProperty.always_true
+        - property: tests.unit.test_ycheck.TestProperty.always_false
+  isnotTrue:
+    requires:
+      and:
+        - property: tests.unit.test_ycheck.TestProperty.always_true
+      or:
+        - property: tests.unit.test_ycheck.TestProperty.always_false
+        - property: tests.unit.test_ycheck.TestProperty.always_false
+conclusions:
+  conc1:
+    decision:
+      and:
+        - isTrue
+        - isalsoTrue
+      or:
+        - isstillTrue
+    raises:
+      type: IssueTypeBase
+      message: conc1
+  conc2:
+    decision:
+      and:
+        - isTrue
+        - isnotTrue
+      or:
+        - isalsoTrue
+    raises:
+      type: IssueTypeBase
+      message: conc2
+  conc3:
+    decision:
+      not:
+        - isnotTrue
+      or:
+        - isalsoTrue
+    raises:
+      type: IssueTypeBase
+      message: conc3
+"""
+
 
 YAML_DEF_W_INPUT = """
 pluginX:
@@ -398,7 +467,7 @@ class TestYamlChecks(utils.BaseTestCase):
             # now run the scenarios
             checker()
 
-        self.assertEqual(IssuesManager().load_issues(), {})
+            self.assertEqual(IssuesManager().load_issues(), {})
 
     def test_yaml_def_scenario_checks_requires(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -751,3 +820,16 @@ class TestYamlChecks(utils.BaseTestCase):
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL))
         for entry in mydef.leaf_sections:
             self.assertFalse(entry.requires.passes)
+
+    def test_yaml_def_nested_logic(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp)
+            plugin_dir = os.path.join(dtmp, 'scenarios',
+                                      HotSOSConfig.PLUGIN_NAME)
+            os.makedirs(plugin_dir)
+            open(os.path.join(plugin_dir, 'scenarios.yaml'),
+                 'w').write(YDEF_NESTED_LOGIC)
+            scenarios.YScenarioChecker()()
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                             sorted(['conc1', 'conc3']))

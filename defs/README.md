@@ -2,8 +2,8 @@
 
 This directory contains the configuration for yaml-defined analysis.
 
-A number of different ways to define checks are supported. See
-[handlers](#handlers) for more information on supported types.
+Two different ways to define checks are supported. See [handlers](#handlers)
+for more information on this.
 
 ## Writing Checks in YAML
 
@@ -19,7 +19,7 @@ structure, using a mixture of properties and, if defining a
 This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
 implementation and is achieved by using library/shared code (e.g.
-[core](../core/plugins)) as much as possible.
+[core](../hotsos/core/plugins)) as much as possible.
 
 A handler loads yaml definitions as a tree structure, with leaf nodes
 expressing the checks. This structure supports property inheritance so that
@@ -37,16 +37,14 @@ globals may be defined and superseded at any level. As a recap:
    Overrides follow an inheritance model so that they can be defined and
    superseded at any level. The content is always found at the leaf nodes of
    the tree.
- * It should always be possible to logically transpose the filesystem tree
-   structure to a single (file) yaml tree.
 
 TIP: to use a single quote ' inside a yaml string you need to replace it with
      two single quotes.
 
 ## Property Overrides
 
-Property overrides are blocks of yaml with a pre-defined meaning that map to a
-Python class that is used by [handlers](#handlers).
+Property overrides are blocks of yaml that map to a Python class that is used
+by [handlers](#handlers).
 
 Overrides abide by rules of inheritance and can be defined at any level. They
 are accessed at leaf nodes and can be defined and overridden at any level.
@@ -55,16 +53,16 @@ requires a means for applying directory globals. To achieve this we put the
 overrides into a file that shares the name of the directory e.g.
 
 ```
-pluginX/groupA/groupA.yaml
-pluginX/groupA/scenarioA.yaml
-pluginX/groupA/scenarioB.yaml
-pluginX/groupA/groupB
+myplugin/mychecks/mychecks.yaml
+myplugin/mychecks/checkthis.yaml
+myplugin/mychecks/checkthat.yaml
+myplugin/mychecks/somemorechecks
 ```
 
-Here groupA and groupB are directories and groupA.yaml defines overrides that
-apply to everything under groupA such that any properties defined in
-groupA.yaml will be avaiable in scenarioA.yaml, scenarioB.yaml and any
-definitions under groupB.
+Here *mychecks* and *somemorechecks* are directories and *mychecks.yaml*
+defines overrides that apply to everything under *mychecks* such that any
+properties defined in *mychecks.yaml* will be available in *checkthis.yaml*,
+*checkthat.yaml* and any definitions under *somemorechecks*.
 
 #### Caching
 
@@ -74,6 +72,53 @@ between properties e.g. if one property wishes to reference a value within
 another property (see [raises](#raises)). Not all properties make use of their
 cache but those that do will expose cached fields under a ```CACHE_KEYS```
 section.
+
+#### LogicalCollection
+
+This provides a way for properties to make a decision based on a tree of items
+where the items may be a single item, list of items, one or more groups or a
+list of groups of items organised by logical operator that will be used to
+determine their collective result. For example:
+
+```
+and:
+  - C1
+  - C2
+or:
+  - C3
+  - C4
+not: C5
+```
+
+This would be the same as doing:
+
+```
+(C1 and C2) and (C3 or C4) and (not C5)
+```
+
+And this can be implemented as a list of dictionaries for a more complex
+operation e.g.
+
+```
+- and:
+    - C1
+    - C2
+  or:
+    - C3
+    - C4
+- not: C5
+  and: C6
+```
+
+Which is equivalent to:
+
+```
+((C1 and C2) and (C3 or C4)) and ((not C5) and C6)
+```
+
+Any property type can be used and which ones are used will
+depend on the property implementing the collection. The final result is
+always AND applied to all subresults.
 
 ### List of Available Properties
 
@@ -86,15 +131,15 @@ definitions provided that their [handlers](#handlers) supports them. The
 
 A list of logical operators each containing a list of one or more 
 check)[#checks] labels. This property is typically used in a
-[conclusions](#conclusions) PropertyCollection. The handler
-will iterate over the groups, extract their result of each check and apply the
-operator to get a final result as to whether the "decision" is True or False.
+[conclusions](#conclusions) PropertyCollection. CHECKS refers to a set of one
+or more [check](#checks) names organised using a
+[LogicalCollection](#logicalcollection) to make decision on the outcome of more
+checks.
 
 format
 
 ```
-decision:
-  and|or: [check1, ...]
+decision: CHECKS
 ```
 
 usage
@@ -106,7 +151,7 @@ usage
 #### input
 
 Provides a common way to define input to other properties. Supports a
-filesystem path or [core.cli_helpers.CLIHelper](../core/cli_helpers.py)
+filesystem path or [core.cli_helpers.CLIHelper](../hotsos/core/cli_helpers.py)
 command. When a command is provided, its output is written to a
 temporary file and *input.path* returns the path to that file. Only one of
 *path* or *command* can be provided at once.
@@ -210,7 +255,6 @@ PROPERTY_CACHE_REF
   two forms:
   
   '@<propertyname>.CACHE_KEY'
-
   '@checks.<checkname>.<propertyname>.CACHE_KEY'
 
   The latter is used if the property is within a checks PropertyCollection.
@@ -256,9 +300,7 @@ REQ_DEF
   A single requirement REQ_TYPE.
 
 REQ_GROUP
-  A dictionary of lists of one or more REQ_DEF grouped by a
-  LOGICAL_OPERATOR which is applied to the set of REQ_DEF results
-  in the group e.g.
+  A LOGICAL_COLLECTION or one or more REQ_DEF e.g.
 
   and:
     - REQ_DEF1
@@ -267,11 +309,6 @@ REQ_GROUP
   or:
     - REQ_DEF3
     - ...
-
-  AND is then applied to the result of all groups to get the final result.
-
-LOGICAL_OPERATOR
-  and|or|not
 
 REQ_TYPE
   PROPERTY
@@ -390,7 +427,7 @@ be interpreted. For example a "simple" search involves a single expression and
 is used to match single lines. A "sequence" search is using with
 core.filesearcher.SequenceSearchDef to match (non-overlapping) sequences and
 then there is also support for analysis overlapping sequences with
-[core.analytics.LogEventStats](../core/analytics).
+[core.analytics.LogEventStats](../hotsos/core/analytics).
 
 An optional *passthrough-results* key is provided and used with
 [event](#events) type definitions to indicate that search results should be
@@ -498,7 +535,7 @@ Supported Properties
 #### conclusions
 
 This indicates that everything beneath is a set of one or more conclusions to
-be used by [core.ycheck.scenarios](../core/ycheck/scenarios). The contents of
+be used by [core.ycheck.scenarios](../hotsos/core/ycheck/scenarios). The contents of
 this override are defined as a dictionary of conclusions labelled with
 meaningful names.
 
@@ -544,9 +581,9 @@ Supported Properties
 
 ## Handlers
 
-The following different ways of defining checks as yaml are provided, each
+The following ways of defining checks as yaml are provided, each
 implemented as a handler. The implementation of each can be found
-[here](../core/ycheck).
+[here](../hotsos/core/ycheck).
 
 ### Scenarios
 
@@ -554,16 +591,15 @@ Scenarios provide a way to define analysis in terms of [checks](#checks) and
 [conclusions](#conclusions) where the latter are derived from decisions based
 on the outcome of one or more checks.
 
-Scenarios run automatically and are implemented purely in YAML. See [existing
-definitions](scenarios).
-
-Definitions must be grouped by plugin at the top level and groupings beneath are
-purely logical i.e. for organisational purposes. A file may contain one or more
-scenario where a scenario must define its own set of [checks](#checks) and
-[conclusions](#conclusions).
+Scenarios run automatically and are written in YAML. See [existing
+definitions](scenarios) for examples. They grouped by plugin at the top level
+and groupings beneath are purely logical/organisational. A file may contain
+one or more scenario where a scenario must define its own set of
+[checks](#checks) and [conclusions](#conclusions). Typically they are
+implemented as a one scenario per file.
 
 Checks are implemented independently of each other and the results saved for
-subsequent [decision](#decision) when forming [conclusions](#conclusions).
+subsequent [decisions](#decision) when forming [conclusions](#conclusions).
 Conclusions are defined as a decision based on the outcome of one or more
 [checks](#checks) along with information such as the issue and message to
 raise if a conclusion is matched. Conclusions can be given

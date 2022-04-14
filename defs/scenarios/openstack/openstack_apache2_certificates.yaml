@@ -4,8 +4,9 @@ checks:
       property: hotsos.core.plugins.openstack.OpenstackBase.ssl_enabled
   apache2_certificate_expiring:
     requires:
-      property: hotsos.core.plugins.openstack.OpenstackBase.apache2_certificates_expiring
-      ops: [[ne, []]]
+      property:
+        path: hotsos.core.plugins.openstack.OpenstackBase.apache2_certificates_expiring
+        ops: [[ne, []]]
 conclusions:
   need-certificate-renewal:
     decision:
