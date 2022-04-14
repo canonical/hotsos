@@ -319,8 +319,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         cluster = ceph_core.CephCluster()
         buckets = cluster.crush_map.crushmap_equal_buckets
         self.assertEqual(buckets,
-                         [{'domain': 'rack', 'root': 'default',
-                           'ruleid': 0}])
+                         ['tree default at the rack level'])
 
     def test_crushmap_equal_buckets(self):
         cluster = ceph_core.CephCluster()
@@ -836,10 +835,14 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
             return_value = osd_crush_dump
 
         YScenarioChecker()()
-        msg = ("Found one or more unbalanced crush buckets e.g. crush root "
-               "'default' using failure domain 'rack' with rule id '0'. "
-               "This can cause data distribution to become skewed - please "
-               "check crush map.")
+        msg = ("Found one or more unbalanced buckets in the cluster's CRUSH "
+               'map. This can cause uneven data distribution or PG mapping '
+               'issues in the cluster. Verify that "ceph osd crush tree '
+               '--show-shadow" conforms to the expected layout for the '
+               'cluster. Transient issues such as "out" OSDs, or cluster '
+               'expansion/maintenance can trigger this warning. Affected '
+               'CRUSH tree(s) and bucket types are tree default at the rack '
+               'level.')
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 

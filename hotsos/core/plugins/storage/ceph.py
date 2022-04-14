@@ -196,12 +196,11 @@ class CephCrushMap(object):
     @property
     def crushmap_equal_buckets(self):
         """
-        Report when buckets of the failure domain type in a
-        CRUSH rule referenced tree are unbalanced.
+        Report when in-use failure domain buckets are unbalanced.
 
         Uses the trees and failure domains referenced in the
         CRUSH rules, and checks that all buckets of the failure
-        domain type in the referenced tree are equal.
+        domain type in the referenced tree are equal or of zero size.
         """
         if not self.osd_crush_dump:
             return []
@@ -222,33 +221,21 @@ class CephCrushMap(object):
                     taken = fdomain = 0
 
         unequal_buckets = []
-        for ruleid, tree, failure_domain in to_check:
+        for _, tree, failure_domain in to_check:
             unbalanced = \
                 self._is_bucket_imbalanced(buckets, tree, failure_domain)
             if unbalanced:
-                unequal_buckets.append({'root': buckets[tree]["name"],
-                                        'domain': failure_domain,
-                                        'ruleid': ruleid})
+                unequal_buckets.append(
+                    "tree {} at the {} level"
+                    .format(buckets[tree]["name"], failure_domain))
 
         return unequal_buckets
 
     @property
-    def crushmap_equal_buckets_head_root(self):
+    def crushmap_equal_buckets_pretty(self):
         unequal = self.crushmap_equal_buckets
         if unequal:
-            return unequal[0].get('root')
-
-    @property
-    def crushmap_equal_buckets_head_domain(self):
-        unequal = self.crushmap_equal_buckets
-        if unequal:
-            return unequal[0].get('domain')
-
-    @property
-    def crushmap_equal_buckets_head_ruleid(self):
-        unequal = self.crushmap_equal_buckets
-        if unequal:
-            return unequal[0].get('ruleid')
+            return ", ".join(unequal)
 
 
 class CephCluster(object):
