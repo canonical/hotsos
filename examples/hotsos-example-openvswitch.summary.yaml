@@ -1,6 +1,6 @@
 hotsos:
   version: development
-  repo-info: 16b4f1f9
+  repo-info: 00eebebe
 system:
   hostname: compute4
   os: ubuntu focal
@@ -51,33 +51,40 @@ openvswitch:
     br-tun:
       - vxlan-0a000072
       - vxlan-0a000085
-  daemon-checks:
+  ovs-checks:
     ovs-vswitchd:
       bridge-no-such-device:
         '2022-02-10':
           tap6a0486f9-82: 1
-    logs:
-      ovs-thread-unreasonably-long-poll-interval:
+      unreasonably-long-poll-interval:
         '2022-02-10': 3
-      ovn-controller-unreasonably-long-poll-interval:
-        '2022-02-17': 1
-      ovsdb-server-sb-inactivity-probe:
-        '2022-02-17':
-          10.130.11.110: 1
-          10.130.11.109: 1
-      ovsdb-server-sb-unreasonably-long-poll-interval:
-        '2022-02-17': 3
-      ovsdb-server-nb-inactivity-probe:
-        '2022-02-17':
-          10.130.11.115: 1
-      ovsdb-server-nb-unreasonably-long-poll-interval:
-        '2022-02-17': 1
+    errors-and-warnings:
       ovs-vswitchd:
         WARN:
           '2022-02-10': 12
       ovsdb-server:
         WARN:
           '2022-02-10': 4
+  ovn-checks:
+    ovn-controller:
+      unreasonably-long-poll-interval:
+        '2022-02-17': 1
+      bridge-not-found-for-port:
+        '2022-02-17': 16
+    ovsdb-server-sb:
+      inactivity-probe:
+        '2022-02-17':
+          10.130.11.110: 1
+          10.130.11.109: 1
+      unreasonably-long-poll-interval:
+        '2022-02-17': 3
+    ovsdb-server-nb:
+      inactivity-probe:
+        '2022-02-17':
+          10.130.11.115: 1
+      unreasonably-long-poll-interval:
+        '2022-02-17': 1
+    errors-and-warnings:
       ovsdb-server-sb:
         ERR:
           '2022-02-17': 2

@@ -73,6 +73,12 @@ class YEventCheckerBase(ChecksBase):
                       event.input.command is not None)
             log.debug("passthrough: %s", results_passthrough)
 
+            section_name = event.parent.name
+            # this is hopefully unique enough to allow two events from
+            # different sections to have the same name and not clobber each
+            # others results.
+            search_tag = "{}.{}".format(section_name, event.name)
+
             # if this is a multiline event (has a start and end), append
             # this to the tag so that it can be used with
             # core.analytics.LogEventStats.
@@ -85,7 +91,7 @@ class YEventCheckerBase(ChecksBase):
                     hint = event.hint.value
 
                 search_meta['searchdefs'].append(
-                    SearchDef(event.expr.value, tag=event.name, hint=hint))
+                    SearchDef(event.expr.value, tag=search_tag, hint=hint))
             elif event.start:
                 if (event.body or
                         (event.end and not results_passthrough)):
@@ -105,7 +111,7 @@ class YEventCheckerBase(ChecksBase):
                     sequence_def = SequenceSearchDef(start=sd_start,
                                                      body=sd_body,
                                                      end=sd_end,
-                                                     tag=event.name)
+                                                     tag=search_tag)
                     search_meta['searchdefs'].append(sequence_def)
                     search_meta['is_sequence'] = True
                 elif (results_passthrough and
@@ -113,11 +119,11 @@ class YEventCheckerBase(ChecksBase):
                     # start and end required for core.analytics.LogEventStats
                     search_meta['searchdefs'].append(
                         SearchDef(event.start.expr,
-                                  tag="{}-start".format(event.name),
+                                  tag="{}-start".format(search_tag),
                                   hint=event.start.hint))
                     search_meta['searchdefs'].append(
                         SearchDef(event.end.expr,
-                                  tag="{}-end".format(event.name),
+                                  tag="{}-end".format(search_tag),
                                   hint=event.end.hint))
                 else:
                     log.debug("unexpected search definition passthrough=%s "
@@ -130,7 +136,6 @@ class YEventCheckerBase(ChecksBase):
                 continue
 
             datasource = event.input.path
-            section_name = event.parent.name
             if section_name not in self.__event_defs:
                 self.__event_defs[section_name] = {}
 
@@ -188,6 +193,7 @@ class YEventCheckerBase(ChecksBase):
         info = {}
         for section_name, section in self.event_definitions.items():
             for event, event_meta in section.items():
+                search_tag = "{}.{}".format(section_name, event)
                 sequence_def = None
                 if event_meta.get('passthrough_results'):
                     # this is for implementations that have their own means of
@@ -201,7 +207,7 @@ class YEventCheckerBase(ChecksBase):
                         if search_results:
                             search_results = search_results.values()
                     else:
-                        search_results = results.find_by_tag(event)
+                        search_results = results.find_by_tag(search_tag)
 
                 if not search_results:
                     continue

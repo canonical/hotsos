@@ -94,8 +94,8 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='neutron-agent-checks', **kwargs)
 
-    def _get_event_stats(self, results, event_name, custom_idxs=None):
-        stats = LogEventStats(results, event_name, custom_idxs=custom_idxs)
+    def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
+        stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
         stats.run()
         top5 = stats.get_top_n_events_sorted(5)
         if not top5:
@@ -110,15 +110,16 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         sri = SearchResultIndices(event_id_idx=4,
                                   metadata_idx=3,
                                   metadata_key='router')
-        ret = self._get_event_stats(event.results, event.name,
-                                    custom_idxs=sri)
+        tag_prefix = "{}.{}".format(event.section, event.name)
+        ret = self._get_event_stats(event.results, tag_prefix, custom_idxs=sri)
         if ret:
             return {event.name: ret}, agent
 
     @EVENTCALLBACKS.callback('rpc-loop', 'router-spawn-events')
     def process_events(self, event):
         agent = event.section
-        ret = self._get_event_stats(event.results, event.name)
+        tag_prefix = "{}.{}".format(event.section, event.name)
+        ret = self._get_event_stats(event.results, tag_prefix)
         if ret:
             return {event.name: ret}, agent
 

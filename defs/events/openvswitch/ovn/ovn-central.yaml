@@ -1,0 +1,15 @@
+ovsdb-server-sb:
+  input:
+    path: 'var/log/ovn/ovsdb-server-sb.log'
+  inactivity-probe:
+    expr: '([0-9-]+)T[0-9:\.]+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
+  unreasonably-long-poll-interval:
+    expr: '([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\(([a-zA-Z]+)(\d+)\))?\|WARN\|Unreasonably long (\d+)ms poll interval'
+ovsdb-server-nb:
+  input:
+    path: 'var/log/ovn/ovsdb-server-nb.log'
+  inactivity-probe:
+    expr: '([0-9-]+)T[0-9:\.]+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
+  unreasonably-long-poll-interval:
+    expr: '([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\(([a-zA-Z]+)(\d+)\))?\|WARN\|Unreasonably long (\d+)ms poll interval'
+

@@ -10,16 +10,16 @@ from hotsos.core.plugins.openvswitch import (
 EVENTCALLBACKS = CallbackHelper()
 
 
-class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
+class OVSEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='daemon-checks',
+        super().__init__(yaml_defs_group='ovs',
                          searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
 
     @property
     def summary_subkey(self):
-        return 'daemon-checks'
+        return 'ovs-checks'
 
     @EVENTCALLBACKS.callback('bridge-no-such-device',
                              'netdev-linux-no-such-device')
@@ -29,40 +29,19 @@ class OpenvSwitchDaemonEventChecks(OpenvSwitchEventChecksBase):
             return {event.name: ret}, 'ovs-vswitchd'
 
     @EVENTCALLBACKS.callback('ovsdb-server', 'ovs-vswitchd',
-                             'ovsdb-server-nb', 'ovsdb-server-sb',
-                             'ovn-northd', 'ovn-controller',
                              'receive-tunnel-port-not-found',
                              'rx-packet-on-unassociated-datapath-port',
                              'dpif-netlink-lost-packet-on-handler',
-                             'ovs-thread-unreasonably-long-poll-interval',
-                             'ovn-controller-unreasonably-long-poll-interval',
-                             'ovsdb-server-nb-unreasonably-long-poll-interval',
-                             'ovsdb-server-sb-unreasonably-long-poll-interval',
-                             'ovsdb-server-nb-inactivity-probe',
-                             'ovsdb-server-sb-inactivity-probe')
+                             'unreasonably-long-poll-interval')
     def process_log_events(self, event):
         key_by_date = True
-        if event.name in [
-            'ovs-vswitchd', 'ovsdb-server', 'ovsdb-server-nb',
-            'ovsdb-server-sb', 'ovn-northd', 'ovn-controller'
-        ]:
+        if event.name in ['ovs-vswitchd', 'ovsdb-server']:
             key_by_date = False
 
         ret = self.get_results_stats(event.results, key_by_date=key_by_date)
         if ret:
-            return {event.name: ret}, 'logs'
-
-
-class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
-
-    def __init__(self):
-        super().__init__(yaml_defs_group='flow-checks',
-                         searchobj=FileSearcher(),
-                         callback_helper=EVENTCALLBACKS)
-
-    @property
-    def summary_subkey(self):
-        return 'flow-checks'
+            ret = {event.name: ret}
+            return ret, event.section
 
     @EVENTCALLBACKS.callback()
     def deferred_action_limit_reached(self, event):
@@ -154,3 +133,30 @@ class OpenvSwitchFlowEventChecks(OpenvSwitchEventChecksBase):
 
             output_key = "{}-port-stats".format(event.section)
             return stats_sorted, output_key
+
+
+class OVNEventChecks(OpenvSwitchEventChecksBase):
+
+    def __init__(self):
+        super().__init__(yaml_defs_group='ovn',
+                         searchobj=FileSearcher(),
+                         callback_helper=EVENTCALLBACKS)
+
+    @property
+    def summary_subkey(self):
+        return 'ovn-checks'
+
+    @EVENTCALLBACKS.callback('ovsdb-server-nb', 'ovsdb-server-sb',
+                             'ovn-northd', 'ovn-controller',
+                             'unreasonably-long-poll-interval',
+                             'inactivity-probe', 'bridge-not-found-for-port')
+    def process_log_events(self, event):
+        key_by_date = True
+        if event.name in ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
+                          'ovn-controller']:
+            key_by_date = False
+
+        ret = self.get_results_stats(event.results, key_by_date=key_by_date)
+        if ret:
+            ret = {event.name: ret}
+            return ret, event.section

@@ -1,0 +1,13 @@
+input:
+  command: ovs_appctl_dpctl_show
+  options:
+    kwargs:
+      datapath: 'system@ovs-system'
+port-stats:
+  start: '\s+port \d+: (\S+) .+'
+  body: '\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+)'
+deferred-action-limit-reached:
+  input:
+    path: 'var/log/kern.log'
+  expr: '(\S+\s+\d+\s+)\S+ .+ (\S+): deferred action limit reached, drop recirc action'
+  hint: openvswitch

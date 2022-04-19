@@ -1,0 +1,6 @@
+input:
+  path: 'var/log/ovn/ovn-controller.log'
+unreasonably-long-poll-interval:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\(([a-zA-Z]+)(\d+)\))?\|WARN\|Unreasonably long (\d+)ms poll interval'
+bridge-not-found-for-port:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|\S+|ERR|bridge not found for localnet port ''(\S+)'' with network name ''\S+'''

@@ -1,0 +1,9 @@
+hint: '(ERR|WARN)'
+expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
+ovs-vswitchd:
+  input:
+    path: 'var/log/openvswitch/ovs-vswitchd.log'
+ovsdb-server:
+  input:
+    path: 'var/log/openvswitch/ovsdb-server.log'
+

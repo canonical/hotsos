@@ -1,0 +1,15 @@
+input:
+  path: 'var/log/openvswitch/ovs-vswitchd.log'
+netdev-linux-no-such-device:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|(\S+): .+ \S+: No such device'
+bridge-no-such-device:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|could not open network device (\S+) \(No such device\)'
+unreasonably-long-poll-interval:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\(([a-zA-Z]+)(\d+)\))?\|WARN\|Unreasonably long (\d+)ms poll interval'
+rx-packet-on-unassociated-datapath-port:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|received packet on unassociated datapath port (\d+)'
+receive-tunnel-port-not-found:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|receive tunnel port not found \((\w+),'
+dpif-netlink-lost-packet-on-handler:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
+

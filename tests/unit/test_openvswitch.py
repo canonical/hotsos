@@ -113,35 +113,23 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
-    def test_common_checks(self):
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovs-vswitchd.yaml'))
+    def test_ovs_vswitchd_checks(self):
         expected = {
             'ovs-vswitchd': {
-               'bridge-no-such-device': {
-                    '2022-02-10': {'tap6a0486f9-82': 1}}},
-            'logs': {
-                'ovn-controller-unreasonably-long-poll-interval': {
-                    '2022-02-16': 1,
-                    '2022-02-17': 1},
-                'ovsdb-server-nb-inactivity-probe': {
-                    '2022-02-16': {
-                        '10.130.11.109': 1},
-                    '2022-02-17': {
-                        '10.130.11.115': 1}},
-                'ovsdb-server-nb-unreasonably-long-poll-interval': {
-                    '2022-02-16': 2,
-                    '2022-02-17': 1},
-                'ovsdb-server-sb-inactivity-probe': {
-                    '2022-02-16': {
-                        '10.130.11.109': 1,
-                        '10.130.11.110': 1},
-                    '2022-02-17': {
-                        '10.130.11.109': 1,
-                        '10.130.11.110': 1}},
-                'ovsdb-server-sb-unreasonably-long-poll-interval': {
-                    '2022-02-16': 2,
-                    '2022-02-17': 3},
-                'ovs-thread-unreasonably-long-poll-interval': {
-                    '2022-02-10': 3},
+                'unreasonably-long-poll-interval':
+                    {'2022-02-10': 3},
+                'bridge-no-such-device': {
+                    '2022-02-10': {'tap6a0486f9-82': 1}}}}
+        inst = event_checks.OVSEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('errors-and-warnings.yaml'))
+    def test_ovs_common_log_checks(self):
+        expected = {
+            'errors-and-warnings': {
                 'ovs-vswitchd': {
                     'WARN': {
                         '2022-02-04': 56,
@@ -151,48 +139,81 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                     'WARN': {
                         '2022-02-04': 6,
                         '2022-02-09': 2,
-                        '2022-02-10': 4}},
-                'ovn-controller': {
-                    'ERR': {'2022-02-16': 2},
-                    'WARN': {
-                        '2022-02-16': 4,
-                        '2022-02-17': 5}},
-                'ovn-northd': {
-                    'ERR': {
-                        '2022-02-16': 1,
-                        '2022-02-17': 1},
-                    'WARN': {
-                        '2022-02-16': 1,
-                        '2022-02-17': 1}},
-                'ovsdb-server-nb': {
-                    'ERR': {
-                        '2022-02-16': 1,
-                        '2022-02-17': 1},
-                    'WARN': {
-                        '2022-02-16': 12,
-                        '2022-02-17': 17}},
-                'ovsdb-server-sb': {
-                    'ERR': {
-                        '2022-02-16': 2,
-                        '2022-02-17': 2},
-                    'WARN': {
-                        '2022-02-16': 23,
-                        '2022-02-17': 23}}}}
-        inst = event_checks.OpenvSwitchDaemonEventChecks()
+                        '2022-02-10': 4}}}}
+        inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.CLIHelper')
-    def test_dp_checks(self, mock_helper):
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('datapath-checks.yaml'))
+    def test_ovs_dp_checks(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ovs_appctl_dpctl_show.return_value = \
             DPCTL_SHOW
-        expected = {'datapath-port-stats': {
+        expected = {'datapath-checks-port-stats': {
                         'qr-aa623763-fd': {
                             'RX': {
                                 'dropped': 1394875,
                                 'packets': 309
                                 }}}}
-        inst = event_checks.OpenvSwitchFlowEventChecks()
+        inst = event_checks.OVSEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn-central.yaml'))
+    def test_ovn_central_checks(self):
+        expected = {'ovsdb-server-sb': {
+                        'inactivity-probe': {
+                            '2022-02-16': {'10.130.11.109': 1,
+                                           '10.130.11.110': 1},
+                            '2022-02-17': {'10.130.11.109': 1,
+                                           '10.130.11.110': 1}},
+                        'unreasonably-long-poll-interval': {
+                            '2022-02-16': 2,
+                            '2022-02-17': 3}},
+                    'ovsdb-server-nb': {
+                        'inactivity-probe': {
+                            '2022-02-16': {'10.130.11.109': 1},
+                            '2022-02-17': {'10.130.11.115': 1}},
+                        'unreasonably-long-poll-interval': {
+                            '2022-02-16': 2,
+                            '2022-02-17': 1}
+                    }}
+
+        inst = event_checks.OVNEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn-controller.yaml'))
+    def test_ovn_controller_checks(self):
+        expected = {'ovn-controller':
+                    {'unreasonably-long-poll-interval': {
+                        '2022-02-16': 1,
+                        '2022-02-17': 1},
+                     'bridge-not-found-for-port': {
+                        '2022-02-16': 7,
+                        '2022-02-17': 16}}}
+        inst = event_checks.OVNEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('errors-and-warnings.yaml'))
+    def test_ovn_common_log_checks(self):
+        expected = {'errors-and-warnings': {
+                        'ovn-controller': {
+                            'ERR': {'2022-02-16': 2},
+                            'WARN': {'2022-02-16': 4, '2022-02-17': 5}},
+                        'ovn-northd': {
+                            'ERR': {'2022-02-16': 1, '2022-02-17': 1},
+                            'WARN': {'2022-02-16': 1, '2022-02-17': 1}},
+                        'ovsdb-server-nb': {
+                            'ERR': {'2022-02-16': 1, '2022-02-17': 1},
+                            'WARN': {'2022-02-16': 12, '2022-02-17': 17}},
+                        'ovsdb-server-sb': {
+                            'ERR': {'2022-02-16': 2, '2022-02-17': 2},
+                            'WARN': {'2022-02-16': 23, '2022-02-17': 23}}}}
+
+        inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
 

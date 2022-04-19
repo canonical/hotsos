@@ -1,0 +1,14 @@
+hint: '(ERR|WARN)'
+expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
+ovsdb-server-sb:
+  input:
+    path: 'var/log/ovn/ovsdb-server-sb.log'
+ovsdb-server-nb:
+  input:
+    path: 'var/log/ovn/ovsdb-server-nb.log'
+ovn-northd:
+  input:
+    path: 'var/log/ovn/ovn-northd.log'
+ovn-controller:
+  input:
+    path: 'var/log/ovn/ovn-controller.log'

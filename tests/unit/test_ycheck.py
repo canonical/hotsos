@@ -421,7 +421,7 @@ class TestYamlChecks(utils.BaseTestCase):
                 def my_standard_search(self, event):
                     # expected to be passthough results (i.e. raw)
                     callbacks_called[event.name] = True
-                    tag = 'my-standard-search-start'
+                    tag = '{}.my-standard-search-start'.format(event.section)
                     start_results = event.results.find_by_tag(tag)
                     test_self.assertEqual(start_results[0].get(0), 'hello')
 
