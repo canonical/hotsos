@@ -41,10 +41,19 @@ parts:
       defs: etc/hotsos/defs
     build-packages: [git]
   hotsos:
-    plugin: python 
+    plugin: python
     source: .
     stage-packages: [coreutils, bsdmainutils, systemd, dpkg, python3-yaml,
                      python3-simplejson, python3-click]
+    python-packages:
+      - cryptography==3.4.8
+      - wheel
+      - pip
+      - setuptools
+    requirements:
+      - requirements.txt
+    build-environment:
+      - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
     filesets:
       # need to exclude these files since they are dangling symlinks
       # that cause the snapstore to reject the upload.
