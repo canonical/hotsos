@@ -1250,6 +1250,9 @@ class LogicalCollectionHandler(object):
         self.logicmap = logicmap
 
     def is_group(self, item):
+        if type(item) != dict:
+            return False
+
         if set(list(item.keys())).intersection(self.VALID_GROUP_KEYS):
             return True
 
@@ -1265,9 +1268,12 @@ class LogicalCollectionHandler(object):
             if op not in results:
                 results[op] = []
 
-            log.debug("op=%s has %s items(s)", op, len(_items))
-            for _item in _items:
-                results[op].append(self.process_single(_item))
+            if type(_items) != list:
+                results[op].append(self.process_single(_items))
+            else:
+                log.debug("op=%s has %s items(s)", op, len(_items))
+                for _item in _items:
+                    results[op].append(self.process_single(_item))
 
         return results
 

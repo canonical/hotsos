@@ -1,24 +1,21 @@
 checks:
-  has_required_osd_release:
+  has_required_osd_release_cluster_config:
     requires:
       property:
         path: hotsos.core.plugins.storage.ceph.CephCluster.require_osd_release
         ops: [[ne, null]]
-  osd_versions_not_match_osd_required:
+  osd_versions_match_osd_required:
     requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.osd_daemon_release_names_match_required
-        ops: [[not_]]
+      property: hotsos.core.plugins.storage.ceph.CephCluster.osd_daemon_release_names_match_required
 conclusions:
   osd-versions-mismatch:
     decision:
-      and:
-        - has_required_osd_release
-        - osd_versions_not_match_osd_required
+      - has_required_osd_release_cluster_config
+      - not: osd_versions_match_osd_required
     raises:
       type: CephOSDError
       message: >-
         Ceph cluster config 'require_osd_release' is set to '{require_osd_release}' but
         not all OSDs are on that version - please check.
       format-dict:
-        require_osd_release: '@checks.has_required_osd_release.requires.value_actual'
+        require_osd_release: '@checks.has_required_osd_release_cluster_config.requires.value_actual'

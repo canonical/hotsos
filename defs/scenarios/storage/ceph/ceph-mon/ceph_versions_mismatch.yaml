@@ -1,18 +1,15 @@
 checks:
-  cluster_daemon_versions_not_aligned:
+  cluster_daemon_versions_aligned:
     requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.ceph_versions_aligned
-        ops: [[not_]]
-  mon_versions_not_aligned:
+      property: hotsos.core.plugins.storage.ceph.CephCluster.ceph_versions_aligned
+  mon_versions_aligned:
     requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.mon_versions_aligned_with_cluster
-        ops: [[not_]]
+      property: hotsos.core.plugins.storage.ceph.CephCluster.mon_versions_aligned_with_cluster
 conclusions:
   all-daemon-versions-not-aligned:
     priority: 1
-    decision: cluster_daemon_versions_not_aligned
+    decision:
+       not: cluster_daemon_versions_aligned
     raises:
       type: CephDaemonWarning
       message: >-
@@ -22,9 +19,8 @@ conclusions:
   mon-versions-not-aligned:
     priority: 2
     decision:
-      and:
-        - cluster_daemon_versions_not_aligned
-        - mon_versions_not_aligned
+      - not: cluster_daemon_versions_aligned
+      - not: mon_versions_aligned
     raises:
       type: CephDaemonVersionsError
       message: >-
