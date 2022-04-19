@@ -1,12 +1,6 @@
 from hotsos.core.log import log
-try:
-    from cryptography import x509
-    from cryptography.hazmat.backends import default_backend
-except ImportError:
-    # This is (hopefully temporary) fix for
-    # https://github.com/canonical/hotsos/issues/326
-    x509 = None
-    default_backend = None
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
 
 from datetime import datetime
 
@@ -36,8 +30,6 @@ class SSLCertificate(object):
         """
         Return datetime() of when the certificate expires
         """
-        if not x509:
-            return
 
         cert = x509.load_pem_x509_certificate(self.certificate,
                                               default_backend())
