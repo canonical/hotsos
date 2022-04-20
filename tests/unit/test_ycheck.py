@@ -145,13 +145,25 @@ pluginX:
         nova-compute: enabled
 """
 
-YAML_DEF_REQUIRES_SYSTEMD_FAIL = """
+YAML_DEF_REQUIRES_SYSTEMD_FAIL_1 = """
 pluginX:
   groupA:
     requires:
       systemd:
         ondemand: enabled
         nova-compute: disabled
+"""
+
+YAML_DEF_REQUIRES_SYSTEMD_FAIL_2 = """
+pluginX:
+  groupA:
+    requires:
+      systemd:
+        ondemand:
+          state: enabled
+        nova-compute:
+          state: disabled
+          op: eq
 """
 
 YAML_DEF_REQUIRES_GROUPED = """
@@ -278,8 +290,9 @@ myplugin:
       service_exists_not_enabled:
         requires:
           systemd:
-            nova-compute: enabled
-            op: ne
+            nova-compute:
+              state: enabled
+              op: ne
     conclusions:
       justlog:
         priority: 1
@@ -815,9 +828,15 @@ class TestYamlChecks(utils.BaseTestCase):
         for entry in mydef.leaf_sections:
             self.assertTrue(entry.requires.passes)
 
-    def test_yaml_def_requires_systemd_fail(self):
+    def test_yaml_def_requires_systemd_fail_1(self):
         mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL))
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_1))
+        for entry in mydef.leaf_sections:
+            self.assertFalse(entry.requires.passes)
+
+    def test_yaml_def_requires_systemd_fail_2(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_2))
         for entry in mydef.leaf_sections:
             self.assertFalse(entry.requires.passes)
 

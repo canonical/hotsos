@@ -1073,8 +1073,9 @@ class YRequirementTypeAPT(YRequirementTypeBase):
             packages = self.settings
 
         versions_actual = []
+        packages_under_test = list(packages.keys())
+        apt_info = APTPackageChecksBase(packages_under_test)
         for pkg, versions in packages.items():
-            apt_info = APTPackageChecksBase([pkg])
             result = apt_info.is_installed(pkg)
             if result and versions:
                 pkg_ver = apt_info.get_version(pkg)
@@ -1106,38 +1107,62 @@ class YRequirementTypeSnap(YRequirementTypeBase):
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
 
-    def handler(self):
-        if type(self.settings) != dict:
-            services = {self.settings: None}
-            op = None
-        else:
-            services = self.settings
-            op = self.settings.get('op', 'eq')
+    def check_service(self, ops, actual, started_after=None):
+        if started_after:
+            # leaving this here in preparation for issue 331.
+            pass
 
-        actual = None
-        ops_all = []
-        for svc, state in services.items():
-            svcinfo = ServiceChecksBase([svc]).services
-            self.cache.set('ops', op)
+        return self.apply_ops(ops, input=actual)
+
+    def handler(self):
+        default_op = 'eq'
+        result = True
+
+        if type(self.settings) != dict:
+            service_checks = {self.settings: None}
+        else:
+            service_checks = self.settings
+
+        services_under_test = list(service_checks.keys())
+        cache_info = {}
+        svcinfo = ServiceChecksBase(services_under_test).services
+        for svc, settings in service_checks.items():
             if svc not in svcinfo:
                 result = False
+                # bail on first fail
                 break
 
             actual = svcinfo[svc]
-            self.cache.set('state_actual', actual)
-            if state is None:
-                result = True
-            else:
-                ops = [[op, state]]
-                ops_all.extend(ops)
-                result = self.apply_ops(ops, input=actual)
-                if not result:
-                    # bail on first fail
-                    break
+            cache_info[svc] = {'actual': actual}
 
-        self.cache.set('ops', self.ops_to_str(ops_all))
-        self.cache.set('service', ', '.join(services.keys()))
-        svcs = ["{}={}".format(svc, state) for svc, state in services.items()]
+            # The service critera can be defined in three different ways;
+            # string svc name, dict of svc name: state and dict of svc name:
+            # dict of settings.
+            if settings is None:
+                continue
+
+            if type(settings) == str:
+                state = settings
+                started_after_svc = None
+                ops = [[default_op, state]]
+            else:
+                op = settings.get('op', default_op)
+                started_after_svc = settings.get('started_after')
+                if 'state' in settings:
+                    ops = [[op, settings.get('state')]]
+                else:
+                    ops = []
+
+            cache_info[svc]['ops'] = self.ops_to_str(ops)
+            result = self.check_service(ops, actual,
+                                        started_after=started_after_svc)
+            if not result:
+                # bail on first fail
+                break
+
+        self.cache.set('services', ', '.join(cache_info))
+        svcs = ["{}={}".format(svc, state)
+                for svc, state in service_checks.items()]
         log.debug('requirement check: %s (result=%s)',
                   ', '.join(svcs), result)
         return result
