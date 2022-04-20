@@ -145,7 +145,17 @@ OST_REL_INFO = {
         'ussuri': '6.0.0',
         'train': '5.0.0',
         'stein': '4.0.0',
-        'rocky': '3.0.0'}
+        'rocky': '3.0.0'},
+    'openstack-dashboard-common': {
+        'yoga': '4:22.0.0',
+        'xena': '4:20.0.0',
+        'wallaby': '4:19.0.0',
+        'victoria': '4:18.0.0',
+        'ussuri': '3:18.0.0',
+        'train': '3:16.0.0',
+        'stein': '3:15.0.0',
+        'rocky': '3:14.0.0',
+        'queens': '3:13.0.0'}
     }
 
 OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
