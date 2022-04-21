@@ -49,7 +49,6 @@ class YDefsSection(YAMLDefSection):
         if extra_overrides:
             overrides += extra_overrides
 
-        log.debug(len(overrides))
         super().__init__(name, content, override_handlers=overrides)
 
 
@@ -795,12 +794,19 @@ class YRequirementTypeSnap(YRequirementTypeBase):
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
 
-    def check_service(self, ops, actual, started_after=None):
-        if started_after:
-            # leaving this here in preparation for issue 331.
-            pass
+    def check_service(self, svc, ops, started_after_svc_obj=None):
+        if started_after_svc_obj:
+            a = svc.start_time
+            b = started_after_svc_obj.start_time
+            if a and b:
+                log.debug("%s started=%s, %s started=%s", svc.name,
+                          a, started_after_svc_obj.name, b)
+                if b > a:
+                    log.debug("svc %s started before %s", svc.name,
+                              started_after_svc_obj.name)
+                    return False
 
-        return self.apply_ops(ops, input=actual)
+        return self.apply_ops(ops, input=svc.state)
 
     def handler(self):
         default_op = 'eq'
@@ -812,16 +818,20 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
             service_checks = self.settings
 
         services_under_test = list(service_checks.keys())
-        cache_info = {}
+        for settings in service_checks.values():
+            if type(settings) == dict and 'started-after' in settings:
+                services_under_test.append(settings['started-after'])
+
         svcinfo = ServiceChecksBase(services_under_test).services
+        cache_info = {}
         for svc, settings in service_checks.items():
             if svc not in svcinfo:
                 result = False
                 # bail on first fail
                 break
 
-            actual = svcinfo[svc]
-            cache_info[svc] = {'actual': actual}
+            svc_obj = svcinfo[svc]
+            cache_info[svc] = {'actual': svc_obj.state}
 
             # The service critera can be defined in three different ways;
             # string svc name, dict of svc name: state and dict of svc name:
@@ -829,21 +839,25 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
             if settings is None:
                 continue
 
+            started_after_svc_obj = None
             if type(settings) == str:
                 state = settings
-                started_after_svc = None
                 ops = [[default_op, state]]
             else:
                 op = settings.get('op', default_op)
-                started_after_svc = settings.get('started_after')
+                started_after = settings.get('started-after')
+                if started_after:
+                    started_after_svc_obj = svcinfo.get(started_after)
+
                 if 'state' in settings:
                     ops = [[op, settings.get('state')]]
                 else:
                     ops = []
 
             cache_info[svc]['ops'] = self.ops_to_str(ops)
-            result = self.check_service(ops, actual,
-                                        started_after=started_after_svc)
+            result = self.check_service(
+                                   svc_obj, ops,
+                                   started_after_svc_obj=started_after_svc_obj)
             if not result:
                 # bail on first fail
                 break

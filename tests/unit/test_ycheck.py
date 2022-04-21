@@ -141,7 +141,7 @@ pluginX:
 """
 
 
-YAML_DEF_REQUIRES_SYSTEMD_PASS = """
+YAML_DEF_REQUIRES_SYSTEMD_PASS_1 = """
 pluginX:
   groupA:
     requires:
@@ -149,6 +149,18 @@ pluginX:
         ondemand: enabled
         nova-compute: enabled
 """
+
+
+YAML_DEF_REQUIRES_SYSTEMD_PASS_2 = """
+pluginX:
+  groupA:
+    requires:
+      systemd:
+        neutron-openvswitch-agent:
+          state: enabled
+          started-after: openvswitch-switch
+"""
+
 
 YAML_DEF_REQUIRES_SYSTEMD_FAIL_1 = """
 pluginX:
@@ -170,6 +182,18 @@ pluginX:
           state: disabled
           op: eq
 """
+
+
+YAML_DEF_REQUIRES_SYSTEMD_FAIL_3 = """
+pluginX:
+  groupA:
+    requires:
+      systemd:
+        openvswitch-switch:
+          state: enabled
+          started-after: neutron-openvswitch-agent
+"""
+
 
 YAML_DEF_REQUIRES_GROUPED = """
 passdef1:
@@ -829,19 +853,28 @@ class TestYamlChecks(utils.BaseTestCase):
 
     def test_yaml_def_requires_systemd_pass(self):
         mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS))
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS_1))
         for entry in mydef.leaf_sections:
             self.assertTrue(entry.requires.passes)
 
-    def test_yaml_def_requires_systemd_fail_1(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS_2))
+        for entry in mydef.leaf_sections:
+            self.assertTrue(entry.requires.passes)
+
+    def test_yaml_def_requires_systemd_fail(self):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_1))
         for entry in mydef.leaf_sections:
             self.assertFalse(entry.requires.passes)
 
-    def test_yaml_def_requires_systemd_fail_2(self):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_2))
+        for entry in mydef.leaf_sections:
+            self.assertFalse(entry.requires.passes)
+
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_3))
         for entry in mydef.leaf_sections:
             self.assertFalse(entry.requires.passes)
 
