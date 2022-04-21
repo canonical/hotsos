@@ -1,4 +1,4 @@
-from hotsos.core import checks
+from hotsos.core import host_helpers
 from hotsos.core.plugintools import PluginPartBase
 
 CORE_APT = ['maas', 'postgres']
@@ -12,9 +12,10 @@ class MAASChecksBase(PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.snap_check = checks.SnapPackageChecksBase(core_snaps=CORE_SNAPS)
-        self.apt_check = checks.APTPackageChecksBase(core_pkgs=CORE_APT,
-                                                     other_pkgs=APT_DEPS)
+        self.snap_check = host_helpers.SnapPackageChecksBase(
+                                                         core_snaps=CORE_SNAPS)
+        self.apt_check = host_helpers.APTPackageChecksBase(core_pkgs=CORE_APT,
+                                                           other_pkgs=APT_DEPS)
 
     @property
     def maas_installed(self):
@@ -28,5 +29,5 @@ class MAASChecksBase(PluginPartBase):
         return self.maas_installed
 
 
-class MAASServiceChecksBase(MAASChecksBase, checks.ServiceChecksBase):
+class MAASServiceChecksBase(MAASChecksBase, host_helpers.ServiceChecksBase):
     pass

@@ -61,7 +61,8 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
         self.assertFalse(enabled)
 
     def testBase_offload_enabled(self):
-        with mock.patch.object(openvswitch, 'CLIHelper') as mock_cli:
+        with mock.patch.object(openvswitch.host_helpers,
+                               'CLIHelper') as mock_cli:
             mock_cli.return_value = mock.MagicMock()
             f = mock_cli.return_value.ovs_vsctl_get_Open_vSwitch
             f.return_value = '{hw-offload="true", max-idle="30000"}'
@@ -113,7 +114,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
 class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs-vswitchd.yaml'))
     def test_ovs_vswitchd_checks(self):
         expected = {
@@ -125,7 +126,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml'))
     def test_ovs_common_log_checks(self):
         expected = {
@@ -143,8 +144,8 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('datapath-checks.yaml'))
     def test_ovs_dp_checks(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -159,7 +160,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn-central.yaml'))
     def test_ovn_central_checks(self):
         expected = {'ovsdb-server-sb': {
@@ -183,7 +184,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn-controller.yaml'))
     def test_ovn_controller_checks(self):
         expected = {'ovn-controller':
@@ -196,7 +197,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml'))
     def test_ovn_common_log_checks(self):
         expected = {'errors-and-warnings': {
@@ -219,7 +220,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
 class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn_bugs.yaml'))
     def test_1917475(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -237,8 +238,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
             self.assertEqual(issues.IssuesManager().load_bugs(),
                              expected)
 
-    @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs_bugs.yaml'))
     def test_1839592(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
@@ -255,8 +256,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                       'origin': 'openvswitch.01part'}]}
         self.assertEqual(issues.IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.plugins.openvswitch.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.openvswitch.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
     def test_flow_lookup_checks_p1(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
@@ -272,8 +273,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.openvswitch.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.openvswitch.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
     def test_flow_lookup_checks_p2(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()

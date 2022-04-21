@@ -1,8 +1,6 @@
-import subprocess
 import tempfile
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.cli_helpers import CLIHelper
 
 
 def sorted_dict(d, key=None, reverse=False):
@@ -24,18 +22,6 @@ def mktemp_dump(data):
         fd.write(data)
 
     return ftmp
-
-
-def get_date_secs(datestring=None):
-    if datestring:
-        cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
-        date_in_secs = subprocess.check_output(cmd)
-    else:
-        date_in_secs = CLIHelper().date() or 0
-        if date_in_secs:
-            date_in_secs = date_in_secs.strip()
-
-    return int(date_in_secs)
 
 
 def seconds_to_date(secs):

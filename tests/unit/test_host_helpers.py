@@ -4,8 +4,7 @@ import mock
 
 from . import utils
 
-from hotsos.core.cli_helpers import CLIHelper
-from hotsos.core.host_helpers import HostNetworkingHelper
+from hotsos.core import host_helpers
 
 
 class TestHostNetworkingHelper(utils.BaseTestCase):
@@ -18,7 +17,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                     'vethe7aaf6c3@if22', 'veth59e22e6f@if24',
                     'veth8aa19e05@if26', 'veth0d284c32@if28',
                     'vxlan_sys_4789', 'tap0e778df8-ca']
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         ifaces = helper.host_interfaces
         names = [iface.name for iface in ifaces]
         self.assertEqual(names, expected)
@@ -34,13 +33,13 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                     'fpr-984c22fd-6@if2', 'fg-c8dcce74-c4', 'lo',
                     'rfp-984c22fd-6@if2', 'qr-3a70b31c-3f', 'lo',
                     'ha-550dc175-c0', 'qg-14f81a43-69', 'sg-189f4c40-9d']
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         ifaces = helper.host_interfaces_all
         names = [iface.name for iface in ifaces]
         self.assertEqual(names, expected)
 
     def test_get_interface_with_addr_not_exists(self):
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         iface = helper.get_interface_with_addr('1.2.3.4')
         self.assertIsNone(iface)
 
@@ -50,13 +49,13 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                         'hwaddr': '22:c2:7b:1c:12:1b',
                         'state': 'UP',
                         'speed': 'unknown'}}
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.128')
         self.assertEqual(iface.to_dict(), expected)
 
-    @mock.patch('hotsos.core.cli_helpers.CLIHelper')
+    @mock.patch.object(host_helpers.network, 'CLIHelper')
     def test_get_interface_with_speed_exists(self, mock_cli):
-        cli = CLIHelper()
+        cli = host_helpers.CLIHelper()
         orig_ip_addr = cli.ip_addr()
         orig_ip_link = cli.ip_link()
         mock_cli.return_value = mock.MagicMock()
@@ -67,7 +66,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                                 'hwaddr': '22:c2:7b:1c:12:1b',
                                 'state': 'UP',
                                 'speed': '100000Mb/s'}}
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.128')
         self.assertEqual(iface.to_dict(), expected)
 
@@ -79,12 +78,12 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                     'tx': {'dropped': 0,
                            'errors': 0,
                            'packets': 1520974}}
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         iface = helper.get_interface_with_addr('10.0.0.128')
         self.assertEqual(iface.stats, expected)
 
     def test_get_interfaces_cached(self):
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         helper.host_interfaces_all
         path = helper.cache_path_root
         for path in [os.path.join(path, 'interfaces.json'),
@@ -95,7 +94,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         iface = helper.get_interface_with_addr(addr)
         # do this to cache stats
         iface.stats
-        helper = HostNetworkingHelper()
+        helper = host_helpers.HostNetworkingHelper()
         data = helper.cache_load()
         iface_found = False
         for _iface in data:
@@ -103,10 +102,9 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                 iface_found = True
                 self.assertEqual(_iface['addresses'], [addr])
 
-        with mock.patch('hotsos.core.host_helpers.cli_helpers.CLIHelper') as \
-                mock_cli:
+        with mock.patch.object(host_helpers.network, 'CLIHelper') as mock_cli:
             mock_cli.return_value = mock.MagicMock()
-            helper = HostNetworkingHelper()
+            helper = host_helpers.HostNetworkingHelper()
             iface = helper.get_interface_with_addr(addr)
             self.assertEqual(iface.addresses, [addr])
             # these should no longer be called

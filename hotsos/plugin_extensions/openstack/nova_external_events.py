@@ -1,4 +1,4 @@
-from hotsos.core.ycheck import CallbackHelper
+from hotsos.core.ycheck.engine import CallbackHelper
 from hotsos.core.searchtools import (
     SearchDef,
     FileSearcher,

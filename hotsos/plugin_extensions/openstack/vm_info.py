@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.ycheck import CallbackHelper
+from hotsos.core.ycheck.engine import CallbackHelper
 from hotsos.core.analytics import LogEventStats
 from hotsos.core.searchtools import (
     FileSearcher,

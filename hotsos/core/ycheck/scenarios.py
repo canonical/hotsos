@@ -1,7 +1,7 @@
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
-from hotsos.core.ycheck import (
+from hotsos.core.ycheck.engine import (
     YDefsLoader,
     YDefsSection,
     ChecksBase,

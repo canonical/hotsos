@@ -3,11 +3,10 @@ import re
 
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core import (
-    checks,
+    host_helpers,
     plugintools,
 )
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.cli_helpers import CLIHelper
 from hotsos.core.plugins.system import SystemBase
 
 
@@ -33,7 +32,7 @@ class CPU(SYSFSBase):
 
     @property
     def vendor(self):
-        out = CLIHelper().lscpu()
+        out = host_helpers.CLIHelper().lscpu()
         if not out:
             return
 
@@ -74,7 +73,7 @@ class CPU(SYSFSBase):
         return ','.join(list(governors))
 
 
-class KernelConfig(checks.ConfigBase):
+class KernelConfig(host_helpers.ConfigBase):
     """ Kernel configuration. """
 
     def __init__(self, *args, **kwargs):
@@ -108,7 +107,7 @@ class KernelConfig(checks.ConfigBase):
                     break
 
 
-class SystemdConfig(checks.SectionalConfigBase):
+class SystemdConfig(host_helpers.SectionalConfigBase):
     """Systemd configuration."""
 
     def __init__(self, *args, **kwargs):
@@ -146,7 +145,7 @@ class KernelBase(object):
     @property
     def version(self):
         """Returns string kernel version."""
-        uname = CLIHelper().uname()
+        uname = host_helpers.CLIHelper().uname()
         if uname:
             ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
             if ret:

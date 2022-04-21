@@ -3,8 +3,8 @@ import yaml
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.analytics import LogEventStats, SearchResultIndices
-from hotsos.core.cli_helpers import CLIHelper
-from hotsos.core.ycheck import CallbackHelper
+from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.ycheck.engine import CallbackHelper
 from hotsos.core.issues import (
     IssueContext,
     IssuesManager,

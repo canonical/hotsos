@@ -1,6 +1,6 @@
 import re
 
-from hotsos.core.cli_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.plugins.openstack import OpenstackChecksBase
 
 

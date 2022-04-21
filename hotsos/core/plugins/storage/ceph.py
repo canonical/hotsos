@@ -1,15 +1,14 @@
 import os
 import re
+import subprocess
 
 from hotsos.core import (
-    checks,
     host_helpers,
     utils,
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
-from hotsos.core.cli_helpers import get_ps_axo_flags_available
-from hotsos.core.cli_helpers import CLIHelper
+from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.plugins.storage.bcache import BcacheBase
 from hotsos.core.searchtools import (
@@ -47,7 +46,7 @@ CEPH_REL_INFO = {
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
 
-class CephConfig(checks.SectionalConfigBase):
+class CephConfig(host_helpers.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/ceph/ceph.conf')
         super().__init__(*args, path=path, **kwargs)
@@ -56,7 +55,7 @@ class CephConfig(checks.SectionalConfigBase):
 class CephCrushMap(object):
 
     def __init__(self):
-        self.cli = CLIHelper()
+        self.cli = host_helpers.CLIHelper()
         self._crush_rules = {}
         self._osd_crush_dump = None
         self._ceph_report = None
@@ -259,7 +258,7 @@ class CephCluster(object):
     OSD_PG_OPTIMAL_NUM_MIN = 50
 
     def __init__(self):
-        self.cli = CLIHelper()
+        self.cli = host_helpers.CLIHelper()
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_versions': self.cli.ceph_versions()}
         for cmd, output in self.cli_cache.items():
@@ -668,8 +667,8 @@ class CephDaemonBase(object):
 
     def __init__(self, daemon_type):
         self.daemon_type = daemon_type
-        self.cli = CLIHelper()
-        self.date_in_secs = utils.get_date_secs()
+        self.cli = host_helpers.CLIHelper()
+        self.date_in_secs = self.get_date_secs()
         self._version_info = None
         self._etime = None
         self._rss = None
@@ -683,6 +682,18 @@ class CephDaemonBase(object):
         for tmpfile in self.cli_cache.values():
             if os.path.exists(tmpfile):
                 os.unlink(tmpfile)
+
+    @classmethod
+    def get_date_secs(cls, datestring=None):
+        if datestring:
+            cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
+            date_in_secs = subprocess.check_output(cmd)
+        else:
+            date_in_secs = host_helpers.CLIHelper().date() or 0
+            if date_in_secs:
+                date_in_secs = date_in_secs.strip()
+
+        return int(date_in_secs)
 
     @property
     def rss(self):
@@ -727,7 +738,7 @@ class CephDaemonBase(object):
             if not ret:
                 continue
 
-            expt_tmplt = checks.SVC_EXPR_TEMPLATES["absolute"]
+            expt_tmplt = host_helpers.SVC_EXPR_TEMPLATES["absolute"]
             ret = re.compile(expt_tmplt.format(daemon)).search(line)
             if ret:
                 ps_info.append(ret.group(0))
@@ -740,7 +751,7 @@ class CephDaemonBase(object):
             if ret:
                 osd_start = ' '.join(cmd.split()[13:17])
                 if self.date_in_secs and osd_start:
-                    osd_start_secs = utils.get_date_secs(datestring=osd_start)
+                    osd_start_secs = self.get_date_secs(datestring=osd_start)
                     osd_uptime_secs = (self.date_in_secs - osd_start_secs)
                     osd_uptime_str = utils.seconds_to_date(osd_uptime_secs)
                     self._etime = osd_uptime_str
@@ -816,11 +827,11 @@ class CephChecksBase(StorageBase):
         self.ceph_config = CephConfig()
         self.bcache = BcacheBase()
         self._local_osds = None
-        self.apt_check = checks.APTPackageChecksBase(
+        self.apt_check = host_helpers.APTPackageChecksBase(
                                                 core_pkgs=CEPH_PKGS_CORE,
                                                 other_pkgs=CEPH_PKGS_OTHER)
         self.cluster = CephCluster()
-        self.cli = CLIHelper()
+        self.cli = host_helpers.CLIHelper()
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_volume_lvm_list':
                           self.cli.ceph_volume_lvm_list()}
@@ -854,7 +865,7 @@ class CephChecksBase(StorageBase):
             for rel, ver in sorted(CEPH_REL_INFO[pkg].items(),
                                    key=lambda i: i[1], reverse=True):
                 if self.apt_check.core[pkg] > \
-                        checks.DPKGVersionCompare(ver):
+                        host_helpers.DPKGVersionCompare(ver):
                     relname = rel
                     break
 
@@ -1011,7 +1022,7 @@ class CephDaemonConfigShow(object):
     """
 
     def __init__(self, osd_id):
-        self.cli = CLIHelper()
+        self.cli = host_helpers.CLIHelper()
         self.config = {}
         cexpr = re.compile(r'\s*"(\S+)":\s+"(\S+)".*')
         for line in self.cli.ceph_daemon_config_show(osd_id=osd_id):
@@ -1050,7 +1061,7 @@ class CephDaemonConfigShowAllOSDs(object):
         return list(vals)
 
 
-class CephServiceChecksBase(CephChecksBase, checks.ServiceChecksBase):
+class CephServiceChecksBase(CephChecksBase, host_helpers.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, service_exprs=CEPH_SERVICES_EXPRS, **kwargs)

@@ -6,7 +6,7 @@ import re
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from hotsos.core import cli_helpers
+from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.utils import mktemp_dump
 from hotsos.core.searchtools import (
     FileSearcher,
@@ -53,7 +53,7 @@ class NetworkPort(HostHelpersBase):
         self.hwaddr = hwaddr
         self.state = state
         self.encap_info = encap_info
-        self.cli_helper = cli_helpers.CLIHelper()
+        self.cli_helper = CLIHelper()
 
     @property
     def cache_path_root(self):
@@ -158,7 +158,7 @@ class HostNetworkingHelper(HostHelpersBase):
     def __init__(self):
         self._host_interfaces = None
         self._host_ns_interfaces = None
-        self.cli = cli_helpers.CLIHelper()
+        self.cli = CLIHelper()
 
     def cache_load(self, namespaces=False):
         if namespaces:

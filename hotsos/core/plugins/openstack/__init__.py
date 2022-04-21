@@ -2,16 +2,14 @@ import os
 import re
 
 from hotsos.core import (
-    checks,
     host_helpers,
     plugintools,
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
-from hotsos.core.checks import DPKGVersionCompare
+from hotsos.core.host_helpers import DPKGVersionCompare
 from hotsos.core.log import log
-from hotsos.core.cli_helpers import CmdBase, CLIHelper
-from hotsos.core.ssl import SSLCertificate
+from hotsos.core.host_helpers.cli import CmdBase
 from hotsos.core.plugins.openstack.exceptions import (
     EXCEPTIONS_COMMON,
     BARBICAN_EXCEPTIONS,
@@ -170,7 +168,7 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   }
 
 
-class OpenstackConfig(checks.SectionalConfigBase):
+class OpenstackConfig(host_helpers.SectionalConfigBase):
     pass
 
 
@@ -220,8 +218,8 @@ class OSTProject(object):
     @property
     def installed(self):
         """ Return True if the openstack service is installed. """
-        core_pkgs = self.packages_core
-        return bool(checks.APTPackageChecksBase(core_pkgs=core_pkgs).core)
+        return bool(host_helpers.APTPackageChecksBase(
+                                            core_pkgs=self.packages_core).core)
 
     @property
     def services_expr(self):
@@ -233,7 +231,7 @@ class OSTProject(object):
     @property
     def services(self):
         exprs = self.services_expr
-        info = checks.ServiceChecksBase(service_exprs=exprs)
+        info = host_helpers.ServiceChecksBase(service_exprs=exprs)
         return info.services
 
     @property
@@ -544,7 +542,7 @@ class NovaBase(OSTServiceBase):
             return self._instances
 
         instances = {}
-        for line in CLIHelper().ps():
+        for line in host_helpers.CLIHelper().ps():
             ret = re.compile('.+product=OpenStack Nova.+').match(line)
             if ret:
                 name = None
@@ -761,7 +759,7 @@ class NeutronServiceChecks(object):
         """ Allow one run on node boot/reboot but not after. """
         run_manually = False
         start_count = 0
-        cli = CLIHelper()
+        cli = host_helpers.CLIHelper()
         cexpr = re.compile(r"Started OpenStack Neutron OVS cleanup.")
         for line in cli.journalctl(unit="neutron-ovs-cleanup"):
             if re.compile("-- Reboot --").match(line):
@@ -783,10 +781,10 @@ class OpenstackBase(object):
         super().__init__(*args, **kwargs)
         self.ost_projects = OSTProjectCatalog()
         other_pkgs = self.ost_projects.packages_dep_exprs
-        self.apt_check = checks.APTPackageChecksBase(
+        self.apt_check = host_helpers.APTPackageChecksBase(
                                core_pkgs=self.ost_projects.packages_core_exprs,
                                other_pkgs=other_pkgs)
-        self.docker_check = checks.DockerImageChecksBase(
+        self.docker_check = host_helpers.DockerImageChecksBase(
                                core_pkgs=self.ost_projects.packages_core_exprs,
                                other_pkgs=self.ost_projects.packages_dep_exprs)
         self.nova = NovaBase()
@@ -924,7 +922,8 @@ class OpenstackBase(object):
         if len(certificate_path_list) > 0:
             for certificate_path in certificate_path_list:
                 try:
-                    ssl_certificate = SSLCertificate(certificate_path)
+                    ssl_certificate = host_helpers.SSLCertificate(
+                                                              certificate_path)
                     certificate_list.append(ssl_certificate)
                 except OSError:
                     continue
@@ -936,9 +935,9 @@ class OpenstackBase(object):
         apache2_certificates_expiring = []
         certificate_list = self.apache2_certificates_list
         for certificate in certificate_list:
-            ssl_checks = \
-                checks.SSLCertificatesChecksBase(certificate,
-                                                 self.certificate_expire_days)
+            ssl_checks = host_helpers.SSLCertificatesChecksBase(
+                                                  certificate,
+                                                  self.certificate_expire_days)
             if ssl_checks.certificate_expires_soon:
                 apache2_certificates_expiring.append(certificate.path)
         return apache2_certificates_expiring
@@ -970,7 +969,7 @@ class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
 
 
 class OpenstackServiceChecksBase(OpenstackChecksBase,
-                                 checks.ServiceChecksBase):
+                                 host_helpers.ServiceChecksBase):
     def __init__(self):
         service_exprs = OSTProjectCatalog().service_exprs
         super().__init__(service_exprs=service_exprs)

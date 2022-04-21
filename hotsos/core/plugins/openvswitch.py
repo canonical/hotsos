@@ -1,10 +1,8 @@
 import re
 
 from hotsos.core import plugintools
-from hotsos.core import checks
+from hotsos.core import host_helpers
 from hotsos.core.ycheck.events import YEventCheckerBase
-from hotsos.core.cli_helpers import CLIHelper
-from hotsos.core.host_helpers import HostNetworkingHelper
 
 
 OVS_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
@@ -25,7 +23,8 @@ for pkg in OVS_PKGS_CORE:
 class OVSDPLookups(object):
 
     def __init__(self):
-        out = CLIHelper().ovs_appctl_dpctl_show(datapath='system@ovs-system')
+        cli = host_helpers.CLIHelper()
+        out = cli.ovs_appctl_dpctl_show(datapath='system@ovs-system')
         cexpr = re.compile(r'\s*lookups: hit:(\S+) missed:(\S+) lost:(\S+)')
         self.fields = {'hit': 0, 'missed': 0, 'lost': 0}
         for line in out:
@@ -44,7 +43,7 @@ class OVSBridge(object):
 
     def __init__(self, name, nethelper):
         self.name = name
-        self.cli = CLIHelper()
+        self.cli = host_helpers.CLIHelper()
         self.nethelper = nethelper
 
     @property
@@ -67,8 +66,8 @@ class OpenvSwitchBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.cli = CLIHelper()
-        self.net_helper = HostNetworkingHelper()
+        self.cli = host_helpers.CLIHelper()
+        self.net_helper = host_helpers.HostNetworkingHelper()
 
     @property
     def bridges(self):
@@ -119,10 +118,12 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt_check = checks.APTPackageChecksBase(core_pkgs=OVS_PKGS_CORE,
-                                                     other_pkgs=OVS_PKGS_DEPS)
+        self.apt_check = host_helpers.APTPackageChecksBase(
+                                                      core_pkgs=OVS_PKGS_CORE,
+                                                      other_pkgs=OVS_PKGS_DEPS)
         svc_exprs = OVS_SERVICES_EXPRS
-        self.svc_check = checks.ServiceChecksBase(service_exprs=svc_exprs)
+        self.svc_check = host_helpers.ServiceChecksBase(
+                                                       service_exprs=svc_exprs)
 
     @property
     def apt_packages_all(self):

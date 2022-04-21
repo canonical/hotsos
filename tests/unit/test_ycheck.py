@@ -13,14 +13,19 @@ from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.searchtools import FileSearcher, SearchDef
 from hotsos.core import ycheck
 from hotsos.core.ycheck import (
-    CallbackHelper,
-    YDefsSection,
-    YPropertyCheck,
     events,
     scenarios,
+)
+from hotsos.core.ycheck.engine import (
+    CallbackHelper,
+    YDefsSection,
+    YDefsLoader,
+)
+from hotsos.core.ycheck.engine.properties_common import (
     YPropertyBase,
     cached_yproperty_attr,
 )
+from hotsos.core.ycheck.engine.properties import YPropertyCheck
 
 
 class TestProperty(YPropertyBase):
@@ -454,7 +459,7 @@ class TestYamlChecks(utils.BaseTestCase):
                               'my-standard-search',
                               'my-standard-search2'])
 
-    @mock.patch.object(ycheck, 'APTPackageChecksBase')
+    @mock.patch.object(ycheck.engine.properties, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check):
         apt_check.is_installed.return_value = True
         setup_config(PLUGIN_NAME='juju')
@@ -513,7 +518,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
             self.assertEqual(IssuesManager().load_issues(), {})
 
-    @mock.patch('hotsos.core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
     def test_yaml_def_scenario_checks_expr(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
@@ -590,7 +595,7 @@ class TestYamlChecks(utils.BaseTestCase):
         ts = YPropertyCheck.get_datetime_from_result(result)
         self.assertEqual(ts, None)
 
-    @mock.patch('hotsos.core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
     def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
@@ -690,7 +695,7 @@ class TestYamlChecks(utils.BaseTestCase):
                             'requires': {
                                 'property': 'foo'}},
                         'defs': {'foo': 'bar'}}
-            self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
+            self.assertEqual(YDefsLoader('mytype').load_plugin_defs(),
                              expected)
 
             with open(defs, 'a') as fd:
@@ -704,7 +709,7 @@ class TestYamlChecks(utils.BaseTestCase):
                             'foo': 'bar',
                             'requires': {
                                 'apt': 'apackage'}}}
-            self.assertEqual(ycheck.YDefsLoader('mytype').load_plugin_defs(),
+            self.assertEqual(YDefsLoader('mytype').load_plugin_defs(),
                              expected)
 
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
@@ -799,7 +804,7 @@ class TestYamlChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-    @mock.patch('hotsos.core.ycheck.APTPackageChecksBase')
+    @mock.patch('hotsos.core.ycheck.engine.properties.APTPackageChecksBase')
     def test_yaml_def_requires_apt(self, mock_apt):
         tested = 0
         expected = {'2.0': False,

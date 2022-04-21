@@ -16,7 +16,7 @@ from hotsos.core.plugins.kernel import SystemdConfig
 from hotsos.core.ycheck.events import EventCheckResult
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
-from hotsos.core.host_helpers import NetworkPort
+from hotsos.core.host_helpers.network import NetworkPort
 
 
 EVENTS_KERN_LOG = r"""
@@ -203,7 +203,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 
 class TestKernelScenarioChecks(TestKernelBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
     def test_stacktraces(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -219,7 +219,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
     def test_oom_killer_invoked(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -235,7 +235,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
     def test_nf_conntrack_full(self):
         with tempfile.TemporaryDirectory() as dtmp:

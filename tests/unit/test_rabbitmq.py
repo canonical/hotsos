@@ -88,7 +88,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(actual['config'],
                          {'cluster-partition-handling': 'ignore'})
 
-    @mock.patch('hotsos.core.plugins.rabbitmq.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.host_helpers.CLIHelper')
     def test_summary_bionic(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
 
@@ -178,7 +178,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['resources'],
                          expected)
 
-    @mock.patch('hotsos.core.plugins.rabbitmq.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.host_helpers.CLIHelper')
     def test_get_summary_no_report(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.rabbitmqctl_report.return_value = []
@@ -189,7 +189,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
 
 class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('rabbitmq_bugs.yaml'))
     def test_1943937(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -217,7 +217,7 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
                           'origin': 'rabbitmq.01part'}]}
             self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
     def test_scenarios_cluster_config(self):
         YScenarioChecker()()
@@ -227,7 +227,7 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_resources.yaml'))
     def test_scenarios_cluster_resources(self):
         YScenarioChecker()()
@@ -236,7 +236,7 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
     def test_scenarios_cluster_logchecks(self):
         with tempfile.TemporaryDirectory() as dtmp:

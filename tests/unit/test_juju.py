@@ -92,9 +92,9 @@ class TestJujuSummary(JujuTestsBase):
 
 class TestJujuScenarios(JujuTestsBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
-    @mock.patch('hotsos.core.ycheck.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
     def test_1852502(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -116,7 +116,7 @@ class TestJujuScenarios(JujuTestsBase):
                       'origin': 'juju.01part'}]}
         self.assertEqual(KnownBugsStore().load(), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
     def test_1910958(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -137,9 +137,10 @@ class TestJujuScenarios(JujuTestsBase):
                           'origin': 'juju.01part'}]}
             self.assertEqual(KnownBugsStore().load(), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
-    @mock.patch('hotsos.core.ycheck.ServiceChecksBase.processes', {})
+    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.processes',
+                {})
     def test_jujud_checks(self):
         YScenarioChecker()()
         msg = ('No jujud processes found running on this host but it seems '
@@ -147,8 +148,8 @@ class TestJujuScenarios(JujuTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('charm_checks.yaml'))
     def test_unit_checks(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()

@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.issues import IssuesManager, CephOSDError
-from hotsos.core.ycheck import CallbackHelper
+from hotsos.core.ycheck.engine import CallbackHelper
 from hotsos.core.plugins.storage.ceph import CephEventChecksBase
 from hotsos.core.searchtools import FileSearcher
 

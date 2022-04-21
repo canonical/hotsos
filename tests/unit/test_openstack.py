@@ -7,7 +7,7 @@ import mock
 from . import utils
 
 import hotsos.core.plugins.openstack as openstack_core
-from hotsos.core import checks
+from hotsos.core import host_helpers
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config, HotSOSConfig
@@ -437,7 +437,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         _deps = {k: ost_base.apt_check.all[k] for k in _deps}
         self.assertEqual(_deps, deps)
 
-    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     def test_plugin_not_runnable_clients_only(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \
@@ -486,7 +486,7 @@ class TestOpenstackSummary(TestOpenstackBase):
     @mock.patch('hotsos.core.plugins.openstack.OSTProject.installed', True)
     @mock.patch('hotsos.core.plugins.openstack.OpenstackServiceChecksBase.'
                 'openstack_installed', True)
-    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_get_summary_apache_service(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
@@ -599,7 +599,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["dpkg"], expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
     def test_run_summary(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -607,7 +607,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         inst = openstack_core.NeutronServiceChecks()
         self.assertFalse(inst.ovs_cleanup_run_manually)
 
-    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
     def test_run_summary2(self, mock_helper):
         """
         Covers scenario where we had manual restart but not after last reboot.
@@ -618,7 +618,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         inst = openstack_core.NeutronServiceChecks()
         self.assertFalse(inst.ovs_cleanup_run_manually)
 
-    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
     def test_run_summary_w_issue(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -759,7 +759,7 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
 class TestOpenstackCPUPinning(TestOpenstackBase):
 
     def test_cores_to_list(self):
-        ret = checks.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
+        ret = host_helpers.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
     @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
@@ -1039,7 +1039,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1929832(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -1059,7 +1059,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                           'origin': 'openstack.01part'}]}
             self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1896506(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -1077,7 +1077,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                           'origin': 'openstack.01part'}]}
             self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1928031(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -1096,8 +1096,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                           'origin': 'openstack.01part'}]}
             self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     def test_1927868(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -1115,8 +1115,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                       'origin': 'openstack.01part'}]}
         self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('octavia/bugs.yaml'))
     def test_2008099(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -1151,7 +1151,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
                 'powersave')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
     def test_scenarios_cpufreq(self):
         YScenarioChecker()()
@@ -1171,7 +1171,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.plugins.openstack.OpenstackConfig')
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
                 'release_name', 'train')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova/cpu_pinning.yaml'))
     def test_scenario_pinning_invalid_config(self, mock_config):
         config = {}
@@ -1220,8 +1220,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                          sorted([msg1, msg2]))
 
     @mock.patch('hotsos.core.plugins.openstack.OSTProject.installed', True)
-    @mock.patch('hotsos.core.checks.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('systemd_masked_services.yaml'))
     def test_scenario_masked_services(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -1238,8 +1238,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.openstack.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron_ovs_cleanup.yaml'))
     def test_neutron_ovs_cleanup(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -1252,9 +1252,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova/config_checks.yaml'))
-    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     def test_nova_config_checks(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -1267,9 +1267,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                'incorrectly in nova.conf (expect both to be >= 1024).')
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('pkgs_from_mixed_releases_found.yaml'))
-    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     def test_pkgs_from_mixed_releases_found(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \
@@ -1281,9 +1281,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('openstack_apache2_certificates.yaml'))
-    @mock.patch('hotsos.core.ssl.datetime')
+    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
     def test_apache2_ssl_certificate_expiring(self, mock_datetime):
         mocked_today = datetime(2023, 4, 12)
         mock_datetime.return_value = mock.MagicMock()
@@ -1338,7 +1338,7 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
             base = openstack_core.OpenstackBase()
             self.assertTrue(len(base.apache2_certificates_list), 1)
 
-    @mock.patch('hotsos.core.ssl.datetime')
+    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
     def test_ssl_expiration_false(self, mock_datetime):
         mocked_today = datetime(2022, 4, 12)
         mock_datetime.return_value = mock.MagicMock()
@@ -1356,7 +1356,7 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
             base = openstack_core.OpenstackBase()
             self.assertEqual(len(base.apache2_certificates_expiring), 0)
 
-    @mock.patch('hotsos.core.ssl.datetime')
+    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
     def test_ssl_expiration_true(self, mock_datetime):
         mocked_today = datetime(2023, 4, 12)
         mock_datetime.return_value = mock.MagicMock()

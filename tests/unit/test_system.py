@@ -142,7 +142,7 @@ class TestSystemChecks(SystemTestsBase):
 
 class TestSystemScenarioChecks(SystemTestsBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('unattended_upgrades.yaml'))
     @mock.patch('hotsos.core.plugins.system.SystemBase.'
                 'unattended_upgrades_enabled', True)

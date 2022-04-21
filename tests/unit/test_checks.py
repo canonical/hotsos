@@ -3,7 +3,7 @@ import tempfile
 
 from . import utils
 
-from hotsos.core import checks
+from hotsos.core import host_helpers
 from hotsos.core.config import setup_config
 
 
@@ -22,7 +22,7 @@ class TestChecks(utils.BaseTestCase):
                     'systemd-container': '245.4-4ubuntu3.15',
                     'systemd-sysv': '245.4-4ubuntu3.15',
                     'systemd-timesyncd': '245.4-4ubuntu3.15'}
-        obj = checks.APTPackageChecksBase(["systemd"])
+        obj = host_helpers.APTPackageChecksBase(["systemd"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
         self.assertEqual(obj.get_version("systemd"), "245.4-4ubuntu3.15")
@@ -35,7 +35,8 @@ class TestChecks(utils.BaseTestCase):
                     'systemd-container': '245.4-4ubuntu3.15',
                     'systemd-sysv': '245.4-4ubuntu3.15',
                     'systemd-timesyncd': '245.4-4ubuntu3.15'}
-        obj = checks.APTPackageChecksBase(["systemd"], ["python3?-systemd"])
+        obj = host_helpers.APTPackageChecksBase(["systemd"],
+                                                ["python3?-systemd"])
         self.assertEqual(obj.all, expected)
 
     def test_APTPackageChecksBase_formatted(self):
@@ -43,12 +44,12 @@ class TestChecks(utils.BaseTestCase):
                     'systemd-container 245.4-4ubuntu3.15',
                     'systemd-sysv 245.4-4ubuntu3.15',
                     'systemd-timesyncd 245.4-4ubuntu3.15']
-        obj = checks.APTPackageChecksBase(["systemd"])
+        obj = host_helpers.APTPackageChecksBase(["systemd"])
         self.assertEqual(obj.all_formatted, expected)
 
     def test_SnapPackageChecksBase(self):
         expected = {'core20': '20220114'}
-        obj = checks.SnapPackageChecksBase(["core20"])
+        obj = host_helpers.SnapPackageChecksBase(["core20"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
         self.assertEqual(obj.get_version("core20"), "20220114")
@@ -57,7 +58,7 @@ class TestChecks(utils.BaseTestCase):
 
     def test_SnapPackageChecksBase_formatted(self):
         expected = ['core20 20220114']
-        obj = checks.SnapPackageChecksBase(["core20"])
+        obj = host_helpers.SnapPackageChecksBase(["core20"])
         self.assertEqual(obj.all_formatted, expected)
 
     def test_sectionalconfig_base(self):
@@ -67,7 +68,7 @@ class TestChecks(utils.BaseTestCase):
             with open(conf, 'w') as fd:
                 fd.write(DUMMY_CONFIG)
 
-            cfg = checks.SectionalConfigBase(conf)
+            cfg = host_helpers.SectionalConfigBase(conf)
             self.assertTrue(cfg.exists)
             self.assertEqual(cfg.get('a-key'), '1023')
             self.assertEqual(cfg.get('a-key', section='a-section'), '1023')

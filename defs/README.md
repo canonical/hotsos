@@ -151,7 +151,7 @@ usage
 #### input
 
 Provides a common way to define input to other properties. Supports a
-filesystem path or [core.cli_helpers.CLIHelper](../hotsos/core/cli_helpers.py)
+filesystem path or [core.host_helpers.CLIHelper](../hotsos/core/host_helpers/cli.py)
 command. When a command is provided, its output is written to a
 temporary file and *input.path* returns the path to that file. Only one of
 *path* or *command* can be provided at once.
@@ -366,7 +366,7 @@ REQ_TYPE
     Format:
 
     handler: <path>
-      Import path to an implementation of core.checks.SectionalConfigBase.
+      Import path to an implementation of core.host_helpers.SectionalConfigBase.
 
     path: <path>
       Optional path (e.g. config file) to use as argument to handler.

@@ -1,7 +1,6 @@
 import os
 
 from hotsos.core import (
-    checks,
     host_helpers,
     plugintools,
 )
@@ -95,16 +94,18 @@ class KubernetesBase(object):
 
 
 class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase,
-                           checks.ServiceChecksBase):
+                           host_helpers.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, service_exprs=SERVICES, **kwargs)
         deps = K8S_PACKAGE_DEPS
         # Deployments can use snap or apt versions of packages so we check both
-        self.apt_check = checks.APTPackageChecksBase(core_pkgs=K8S_PACKAGES,
-                                                     other_pkgs=deps)
+        self.apt_check = host_helpers.APTPackageChecksBase(
+                                                        core_pkgs=K8S_PACKAGES,
+                                                        other_pkgs=deps)
         snap_deps = deps + K8S_PACKAGE_DEPS_SNAP
-        self.snap_check = checks.SnapPackageChecksBase(core_snaps=K8S_PACKAGES,
+        self.snap_check = host_helpers.SnapPackageChecksBase(
+                                                       core_snaps=K8S_PACKAGES,
                                                        other_snaps=snap_deps)
 
     @property

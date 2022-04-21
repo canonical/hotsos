@@ -1,7 +1,6 @@
 import os
 
 from hotsos.core.log import log
-from hotsos.core.cli_helpers import CLIHelper
 from hotsos.core.utils import mktemp_dump, sorted_dict
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.searchtools import (
@@ -10,7 +9,7 @@ from hotsos.core.searchtools import (
     FileSearcher,
 )
 from hotsos.core import (
-    checks,
+    host_helpers,
     plugintools,
 )
 
@@ -55,7 +54,8 @@ class RabbitMQReport(object):
     def __init__(self):
         self._property_cache = {}
         # save to file so we can search it later
-        self._f_report = mktemp_dump(''.join(CLIHelper().rabbitmqctl_report()))
+        cli = host_helpers.CLIHelper()
+        self._f_report = mktemp_dump(''.join(cli.rabbitmqctl_report()))
         searcher = FileSearcher()
         searcher.add_search_term(self.connections_searchdef, self._f_report)
         searcher.add_search_term(self.memory_searchdef, self._f_report)
@@ -284,7 +284,8 @@ class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt_check = checks.APTPackageChecksBase(core_pkgs=RMQ_PACKAGES)
+        self.apt_check = host_helpers.APTPackageChecksBase(
+                                                        core_pkgs=RMQ_PACKAGES)
 
     @property
     def plugin_runnable(self):
@@ -294,7 +295,8 @@ class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
         return False
 
 
-class RabbitMQServiceChecksBase(RabbitMQChecksBase, checks.ServiceChecksBase):
+class RabbitMQServiceChecksBase(RabbitMQChecksBase,
+                                host_helpers.ServiceChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, service_exprs=RMQ_SERVICES_EXPRS, **kwargs)

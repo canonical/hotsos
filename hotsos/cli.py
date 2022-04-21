@@ -12,7 +12,7 @@ from progress.spinner import Spinner
 from hotsos.core.config import setup_config
 from hotsos.core.log import setup_logging, log
 from hotsos.core import output_filter
-from hotsos.core.cli_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper
 from hotsos.client import HotSOSClient, PLUGIN_CATALOG
 
 

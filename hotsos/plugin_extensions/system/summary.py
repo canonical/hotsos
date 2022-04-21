@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.cli_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.plugins.system import SystemChecksBase
 
 

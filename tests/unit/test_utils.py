@@ -1,27 +1,9 @@
-import mock
-
 from . import utils
 
 from hotsos.core import utils as core_utils
 
 
 class TestUtils(utils.BaseTestCase):
-
-    @mock.patch.object(core_utils, 'CLIHelper')
-    def test_get_date_secs(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.date.return_value = "1234\n"
-        self.assertEqual(core_utils.get_date_secs(), 1234)
-
-    def test_get_date_secs_from_timestamp(self):
-        date_string = "Thu Mar 25 10:55:05 MDT 2021"
-        self.assertEqual(core_utils.get_date_secs(date_string),
-                         1616691305)
-
-    def test_get_date_secs_from_timestamp_w_tz(self):
-        date_string = "Thu Mar 25 10:55:05 UTC 2021"
-        self.assertEqual(core_utils.get_date_secs(date_string),
-                         1616669705)
 
     def test_sample_set_regressions(self):
         samples = [1, 2, 3]

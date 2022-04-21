@@ -6,12 +6,11 @@ import yaml
 
 from hotsos.core.log import log
 from hotsos.core import (
+    host_helpers,
     plugintools,
     utils,
 )
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.cli_helpers import CLIHelper
-from hotsos.core import checks
 
 
 class JujuMachine(object):
@@ -205,7 +204,7 @@ class JujuBase(object):
     def ps_units(self):
         """ Units identified from running processes. """
         units = set()
-        for line in CLIHelper().ps():
+        for line in host_helpers.CLIHelper().ps():
             if "unit-" in line:
                 ret = re.compile(r".+jujud-unit-(\S+)-(\d+).*").match(line)
                 if ret:
@@ -221,7 +220,7 @@ class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
         return os.path.exists(self.juju_lib_path)
 
 
-class JujuServiceChecksBase(JujuChecksBase, checks.ServiceChecksBase):
+class JujuServiceChecksBase(JujuChecksBase, host_helpers.ServiceChecksBase):
     SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
     JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
                       r'jujud{}'.format(SVC_VALID_SUFFIX),

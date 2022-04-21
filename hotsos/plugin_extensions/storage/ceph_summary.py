@@ -1,5 +1,5 @@
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.checks import APTPackageChecksBase
+from hotsos.core.host_helpers import APTPackageChecksBase
 from hotsos.core.plugins.storage.ceph import (
     CephServiceChecksBase,
     CEPH_PKGS_CORE,

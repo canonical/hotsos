@@ -58,8 +58,8 @@ class TestPacemakerSummary(TestPacemakerBase):
 
 
 class TestPacemakerScenarios(TestPacemakerBase):
-    @mock.patch('hotsos.core.plugins.pacemaker.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.plugins.pacemaker.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('pacemaker/bugs.yaml'))
     def test_node1_found(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()

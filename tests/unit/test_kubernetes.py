@@ -7,7 +7,7 @@ from . import utils
 from hotsos.core.config import setup_config
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.issues import KubernetesWarning
-from hotsos.core import checks, cli_helpers
+from hotsos.core import host_helpers
 from hotsos.core.plugins import kubernetes as kubernetes_core
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.kubernetes import summary
@@ -25,7 +25,7 @@ class KubernetesTestsBase(utils.BaseTestCase):
 class TestKubernetesSummary(KubernetesTestsBase):
 
     def setUp(self):
-        self.snaps_list = cli_helpers.CLIHelper().snap_list_all()
+        self.snaps_list = host_helpers.CLIHelper().snap_list_all()
         super().setUp()
 
     def test_get_service_info(self):
@@ -67,7 +67,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
                          result)
 
-    @mock.patch.object(checks, 'CLIHelper')
+    @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_get_snap_info_from_line_no_k8s(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         filterered_snaps = []
@@ -99,7 +99,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
 
 class TestKubernetesScenarioChecks(KubernetesTestsBase):
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
     @mock.patch('hotsos.core.plugins.system.SystemBase.virtualisation_type',
                 None)
@@ -107,7 +107,7 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                 'powersave')
     @mock.patch('hotsos.core.plugins.kubernetes.KubernetesChecksBase.'
                 'plugin_runnable', True)
-    @mock.patch.object(checks, 'CLIHelper')
+    @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_system_cpufreq_mode(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.snap_list_all.return_value = \

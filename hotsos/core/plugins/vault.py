@@ -1,4 +1,4 @@
-from hotsos.core import checks
+from hotsos.core import host_helpers
 from hotsos.core.plugintools import PluginPartBase
 
 CORE_SNAPS = ['vault']
@@ -9,7 +9,8 @@ class VaultChecksBase(PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.snap_check = checks.SnapPackageChecksBase(core_snaps=CORE_SNAPS)
+        self.snap_check = host_helpers.SnapPackageChecksBase(
+                                                         core_snaps=CORE_SNAPS)
 
     @property
     def vault_installed(self):
@@ -23,5 +24,5 @@ class VaultChecksBase(PluginPartBase):
         return self.vault_installed
 
 
-class VaultServiceChecksBase(VaultChecksBase, checks.ServiceChecksBase):
+class VaultServiceChecksBase(VaultChecksBase, host_helpers.ServiceChecksBase):
     pass

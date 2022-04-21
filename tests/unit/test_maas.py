@@ -44,7 +44,7 @@ ii  python3-maas-provisioningserver        2.7.3-8291-g.384e521e6         all   
 
 class TestMAASGeneral(utils.BaseTestCase):
 
-    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     def test_install(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -59,7 +59,7 @@ class TestMAASGeneral(utils.BaseTestCase):
                              'maas-region-controller 2.7.3-8291-g.384e521e6']}
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.checks.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_services(self, mock_helper):
         with mock.patch.object(summary.maas.MAASServiceChecksBase,
                                'maas_installed', lambda: True):

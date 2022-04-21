@@ -66,7 +66,7 @@ class TestSOSReportScenarioChecks(TestSOSReportBase):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('plugin_timeouts.yaml'))
     def test_plugin_timeouts(self):
         with tempfile.TemporaryDirectory() as dtmp:

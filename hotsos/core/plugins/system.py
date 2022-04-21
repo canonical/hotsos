@@ -2,7 +2,7 @@ import re
 import os
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.cli_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper
 from hotsos.core import plugintools
 
 

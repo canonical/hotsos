@@ -3,7 +3,7 @@ from hotsos.core.searchtools import (
     SearchDef,
     SequenceSearchDef,
 )
-from hotsos.core.ycheck import (
+from hotsos.core.ycheck.engine import (
     YDefsLoader,
     ChecksBase,
     YDefsSection,
