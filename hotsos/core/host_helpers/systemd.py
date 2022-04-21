@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import glob
 
@@ -5,7 +6,7 @@ import re
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.utils import sorted_dict
 
 SVC_EXPR_TEMPLATES = {
@@ -13,6 +14,37 @@ SVC_EXPR_TEMPLATES = {
     "snap": r".+\S+\d+/({})(?:\s+.+|$)",
     "relative": r".+\s({})(?:\s+.+|$)",
     }
+
+
+class SystemdService(object):
+
+    def __init__(self, name, state):
+        self.name = name
+        self.state = state
+        self._start_time = None
+
+    @property
+    def start_time(self):
+        """ Get most recent start time of this service unit.
+
+        @returns: datetime.datetime object or None if time not found.
+        """
+        if self._start_time:
+            return self._start_time
+
+        cexpr = re.compile(r"^(([0-9-]+)T[\d:]+\+[\d]+)\s+.+: "
+                           "(Started|Starting) .+")
+        journal = CLIHelper().journalctl(unit=self.name)
+        last = None
+        for line in journal:
+            ret = cexpr.search(line)
+            if ret:
+                last = ret.group(1)
+
+        if last:
+            self._start_time = datetime.strptime(last, "%Y-%m-%dT%H:%M:%S+%f")
+
+        return self._start_time
 
 
 class ServiceChecksBase(object):
@@ -90,7 +122,7 @@ class ServiceChecksBase(object):
 
                         indirect_svc_info[unit] = state
                     else:
-                        svc_info[unit] = state
+                        svc_info[unit] = SystemdService(unit, state)
 
         if indirect_svc_info:
             # Allow indirect unit info to override given certain conditions
@@ -99,7 +131,9 @@ class ServiceChecksBase(object):
                     if state == 'disabled' or svc_info[unit] == 'enabled':
                         continue
 
-                svc_info[unit] = state
+                    svc_info[unit].state = state
+                else:
+                    svc_info[unit] = SystemdService(unit, state)
 
         self._service_info = svc_info
         return self._service_info
@@ -205,7 +239,8 @@ class ServiceChecksBase(object):
     def service_info(self):
         """Return a dictionary of systemd services grouped by state. """
         info = {}
-        for svc, state in sorted_dict(self.services).items():
+        for svc, obj in sorted_dict(self.services).items():
+            state = obj.state
             if state not in info:
                 info[state] = []
 

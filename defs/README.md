@@ -343,21 +343,29 @@ REQ_TYPE
     snap: package name
 
   SYSTEMD
-    Takes a systemd service and, optionally, state. Returns True if service
-    exists and, if provided, state matches. A short and long form are
-    supported as follows where the long form supports provided more than one
-    <service>: <state> pair and optionally an operator to be used instead of
-    the default 'eq' when comparing state.
+    Takes a systemd service and optionally some parameters to check.
+    Returns True if service exists and, if provided, parameters match.
+    Short and long forms are supported as follows. If a service name
+    is provided using the started-after parameter, the start time of
+    that service (if it exists) must be less than the service under
+    test.
 
     Format:
 
-    systemd: <service name>
+    systemd: <service name>  (state is not checked here)
 
     or
 
     systemd:
-      <service name>: <service state>
-      op: <python operator>
+      <service name>: <service state>  (state is checked with default op 'eq')
+
+    or
+
+    systemd:
+      <service name>:
+        state: <service state>
+        op: <python operator>  (optional. default is 'eq')
+        started-after: <other service name>  (optional)
 
   CONFIG
     A dictionary containing the information required to perform some
