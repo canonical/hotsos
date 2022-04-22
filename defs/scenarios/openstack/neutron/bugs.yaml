@@ -2,6 +2,11 @@ checks:
   isolcpus_enabled:
     requires:
       property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
+  has_1794991:
+    requires:
+      systemd:
+        openvswitch-switch:
+          started-after: neutron-openvswitch-agent
   has_1883089:
     input:
       path: 'var/log/neutron/neutron-l3-agent.log'
@@ -47,6 +52,17 @@ checks:
       path: 'var/log/neutron/neutron-l3-agent.log'
     expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
 conclusions:
+  lp1794991:
+    decision: has_1794991
+    raises:
+      type: LaunchpadBug
+      bug-id: 1794991
+      message: >-
+        This host may be affected by a bug in Openstack Neutron ML2 whereby
+        if the neutron-openvswitch-agent service is not restarted after a
+        restart of openvswitch-switch this can lead to inconsistent l2pop
+        flows. If you think this node is impacted you can fix this with a
+        restart of neutron-openvswitch-agent.
   lp1883089:
     decision: has_1883089
     raises:

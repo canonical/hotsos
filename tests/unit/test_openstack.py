@@ -12,6 +12,7 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.searchtools import FileSearcher
 from hotsos.plugin_extensions.openstack import (
     vm_info,
@@ -110,6 +111,25 @@ Apr 29 17:52:39 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS 
 May 03 06:17:29 juju-9c28ce-ubuntu-11 systemd[1]: Stopped OpenStack Neutron OVS cleanup.
 May 04 10:05:56 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...
 May 04 10:06:20 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.
+"""  # noqa
+
+JOURNALCTL_NEUTRON_OPENVSWITCH_AGENT = """
+-- Unit neutron-openvswitch-agent.service has begun starting up.
+Feb 14 04:31:34 lcpip-hcosw002 systemd[1]: Started Openstack Neutron Open vSwitch Plugin Agent.
+-- Subject: Unit neutron-openvswitch-agent.service has finished start-up
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+--
+-- Unit neutron-openvswitch-agent.service has finished starting up.
+"""  # noqa
+
+JOURNALCTL_OPENVSWITCH_SWITCH = """
+Feb 21 02:28:15 lcpip-hcosw002 systemd[1]: Started Open vSwitch.
+-- Subject: Unit openvswitch-switch.service has finished start-up
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+--
+-- Unit openvswitch-switch.service has finished starting up.
 """  # noqa
 
 DPKG_L_MIX_RELS = """
@@ -1306,6 +1326,36 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                                       full_certificate_path))
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch(
+        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+            'neutron-openvswitch-agent':
+            SystemdService('neutron-openvswitch-agent', 'enabled'),
+            'openvswitch-switch':
+            SystemdService('openvswitch-switch', 'enabled')
+        })
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('neutron/bugs.yaml'))
+    @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
+    def test_1794991(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.journalctl.side_effect = [
+            JOURNALCTL_NEUTRON_OPENVSWITCH_AGENT.splitlines(keepends=True),
+            JOURNALCTL_OPENVSWITCH_SWITCH.splitlines(keepends=True)
+        ]
+
+        YScenarioChecker()()
+        msg = ('This host may be affected by a bug in Openstack Neutron ML2'
+               ' whereby if the neutron-openvswitch-agent service is not '
+               'restarted after a restart of openvswitch-switch this can '
+               'lead to inconsistent l2pop flows. If you think this node '
+               'is impacted you can fix this with a restart of '
+               'neutron-openvswitch-agent.')
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1794991',
+                      'desc': msg,
+                      'origin': 'openstack.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
 
 class TestOpenstackApache2SSL(TestOpenstackBase):
