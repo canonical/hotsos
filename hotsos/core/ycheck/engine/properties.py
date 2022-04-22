@@ -848,6 +848,11 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
                 started_after = settings.get('started-after')
                 if started_after:
                     started_after_svc_obj = svcinfo.get(started_after)
+                    if not started_after_svc_obj:
+                        # if a started-after service has been provided but
+                        # that service does not exist then we return False.
+                        result = False
+                        continue
 
                 if 'state' in settings:
                     ops = [[op, settings.get('state')]]
