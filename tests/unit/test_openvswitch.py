@@ -220,6 +220,32 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
 class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn_bugs.yaml'))
+    def test_1865127(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-common 20.12.0 amd64"]
+        YScenarioChecker()()
+        self.assertEqual(issues.IssuesManager().load_bugs(), {})
+
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-common 20.03.2-0ubuntu0.20.04.3 amd64"]
+        # we already have this bug in our logs so no need to mock it
+        YScenarioChecker()()
+        msg = ('The version of ovn on this node is affected by a known bug '
+               'where the ovn-controller logs are being spammed with error '
+               'messages containing "No bridge for localnet port ..." when '
+               'that is in fact not an error. Upgrading to a version >= '
+               '20.12.0 will fix the issue.')
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1865127',
+                      'desc': msg,
+                      'origin': 'openvswitch.01part'}]}
+        self.assertEqual(issues.IssuesManager().load_bugs(),
+                         expected)
+
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn_bugs.yaml'))
     def test_1917475(self):
