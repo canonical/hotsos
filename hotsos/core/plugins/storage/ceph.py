@@ -162,23 +162,20 @@ class CephCrushMap(object):
     def crushmap_mixed_buckets_str(self):
         return ','.join(self.crushmap_mixed_buckets)
 
-    def _is_bucket_imbalanced(self, buckets, start_bucket_id, failure_domain):
+    def _is_bucket_imbalanced(self, buckets, start_bucket_id, failure_domain,
+                              weight=-1):
         """Return whether a tree is unbalanced
 
         Recursively determine if a given tree (start_bucket_id) is
         balanced at the given failure domain (failure_domain) in the
         CRUSH tree(s) provided by the buckets parameter.
         """
-        unbalanced = False
-        weight = -1
 
         for item in buckets[start_bucket_id]["items"]:
             if buckets[item["id"]]["type_name"] != failure_domain:
-                unbalanced = self._is_bucket_imbalanced(buckets,
-                                                        item["id"],
-                                                        failure_domain)
-                if unbalanced:
-                    return unbalanced
+                if self._is_bucket_imbalanced(buckets, item["id"],
+                                              failure_domain, weight):
+                    return True
             # Handle items/buckets with 0 weight correctly, by
             # ignoring them.
             # These are excluded from placement consideration,
@@ -188,10 +185,9 @@ class CephCrushMap(object):
                     weight = item["weight"]
                 else:
                     if weight != item["weight"]:
-                        unbalanced = True
-                        return unbalanced
+                        return True
 
-        return unbalanced
+        return False
 
     @property
     def crushmap_equal_buckets(self):
@@ -222,9 +218,7 @@ class CephCrushMap(object):
 
         unequal_buckets = []
         for _, tree, failure_domain in to_check:
-            unbalanced = \
-                self._is_bucket_imbalanced(buckets, tree, failure_domain)
-            if unbalanced:
+            if self._is_bucket_imbalanced(buckets, tree, failure_domain):
                 unequal_buckets.append(
                     "tree {} at the {} level"
                     .format(buckets[tree]["name"], failure_domain))
