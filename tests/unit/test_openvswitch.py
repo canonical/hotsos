@@ -1,5 +1,6 @@
 import os
 import tempfile
+from datetime import datetime
 
 import mock
 
@@ -45,6 +46,30 @@ DPCTL_SHOW = r"""
     collisions:0
     RX bytes:7878 (7.7 KiB)  TX bytes:5026 (4.9 KiB)
 """  # noqa
+
+
+OVN_SSL_CERT = """-----BEGIN CERTIFICATE-----
+MIIDazCCAlOgAwIBAgIURnrIcMq1xz1IHx2w8qxRUReo0qEwDQYJKoZIhvcNAQEL
+BQAwPTE7MDkGA1UEAxMyVmF1bHQgUm9vdCBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkg
+KGNoYXJtLXBraS1sb2NhbCkwHhcNMjIwNDE0MTUwNjQ4WhcNMzIwNDExMTQwNzE3
+WjA9MTswOQYDVQQDEzJWYXVsdCBSb290IENlcnRpZmljYXRlIEF1dGhvcml0eSAo
+Y2hhcm0tcGtpLWxvY2FsKTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
+AKVsc8HPqanw5xpz9smsWfRydyMzg+aOFJUPYfeYgznym6VNGXkGCBNr4wYwhBZs
++4ECGHs3yxn66f0WWsXAVvLqdQGDk097AhIpqH14kFnGHRSYSd/KnQUDPS7HsLgO
+LLjvrdB6+lEsjDVmYRqFdnVADo0McbGznoiJqy589fDY5zaCeJYdLYGVd7Oho4Tp
+5f1dzSw6maUXoyXXynSQnrIaHNlBeUKKJSZHoWptRkQphBdxiX/f+T2gZpy7Y45D
+FbzD3Xzp/0LoCfXSBCa/MOn2QLGfzH5v+5EBArw43zSYzrLv9S64UDPiFAyRXvVv
+i+FpTMNCreTbXLp7un6i33MCAwEAAaNjMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1Ud
+EwEB/wQFMAMBAf8wHQYDVR0OBBYEFPfmQ0jJghDWSu2x2JuSgk8JH4bbMB8GA1Ud
+IwQYMBaAFPfmQ0jJghDWSu2x2JuSgk8JH4bbMA0GCSqGSIb3DQEBCwUAA4IBAQAK
+TCIR6CEhKYTn7YcnVss1K6ksBJfA3qNtcBigrYdgESj2xAPOjz4XEqQNVPln+p+P
+bv4M0zmQ0QgUoULT/wQChcFitaY9HEPD9R7Y4H+a84gqsxHBd1UMt2rOrPZr+vnI
+ZTJFCkpSLMMQWjCRqvzSGTP4U9SXMqJtzXZKCUpbS9Kufp3CKRFUx+b6QD1FUqQd
+6ZT2QCLxzA+u7YEFay9t2x2pY4ESrYhHp52Mbx4zckLHiVpHczatCgu4FPYk3P5s
+MKIxU/QYvaBrorsfe0U7z37EN6x2naODCEZrm8ipNn+axVZoT4RMMARpqgOuDFW1
+ASN0gL0njyv/jQVn0wcB
+-----END CERTIFICATE-----
+""" # noqa
 
 
 class TestOpenvswitchBase(utils.BaseTestCase):
@@ -327,5 +352,104 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                    'delivering packets in time. Please check ovs-appctl '
                    'dpctl/show to see if the number of lost packets is still '
                    'increasing.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+
+class TestOVNSSL(TestOpenvswitchBase):
+
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    def test_ssl_enabled(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-central 20.03.2-0ubuntu0.20.04.3  amd64 OVN central "
+             "components"]
+        with tempfile.TemporaryDirectory() as dtmp:
+            ssl_cert_path = "etc/ovn/ovn-central.crt"
+            os.makedirs(os.path.dirname(os.path.join(dtmp, ssl_cert_path)))
+            with open(os.path.join(dtmp, ssl_cert_path), 'w') as fd:
+                fd.write(OVN_SSL_CERT)
+            setup_config(DATA_ROOT=dtmp)
+            base = openvswitch.OVNChecksBase()
+            self.assertTrue(base.ssl_enabled)
+
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    def test_ssl_enabled_ovn_host(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-host 20.03.2-0ubuntu0.20.04.3  amd64 OVN host "
+             "components"]
+        with tempfile.TemporaryDirectory() as dtmp:
+            ssl_cert_path = "etc/ovn/ovn-chassis.crt"
+            os.makedirs(os.path.dirname(os.path.join(dtmp, ssl_cert_path)))
+            with open(os.path.join(dtmp, ssl_cert_path), 'w') as fd:
+                fd.write(OVN_SSL_CERT)
+            setup_config(DATA_ROOT=dtmp)
+            base = openvswitch.OVNChecksBase()
+            self.assertTrue(base.ssl_enabled)
+
+    def test_ssl_disabled(self):
+        base = openvswitch.OVNChecksBase()
+        self.assertFalse(base.ssl_enabled)
+
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
+    def test_ssl_expiration_false(self, mock_datetime, mock_cli):
+        mocked_today = datetime(2022, 5, 12)
+        mock_datetime.return_value = mock.MagicMock()
+        mock_datetime.today.return_value = mocked_today
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-host 20.03.2-0ubuntu0.20.04.3  amd64 OVN host "
+             "components"]
+        with tempfile.TemporaryDirectory() as dtmp:
+            ssl_cert_path = "etc/ovn/ovn-chassis.crt"
+            os.makedirs(os.path.dirname(os.path.join(dtmp, ssl_cert_path)))
+            with open(os.path.join(dtmp, ssl_cert_path), 'w') as fd:
+                fd.write(OVN_SSL_CERT)
+            setup_config(DATA_ROOT=dtmp)
+            base = openvswitch.OVNChecksBase()
+            self.assertFalse(base.ovn_certificate_expiring)
+
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
+    def test_ssl_expiration_true(self, mock_datetime, mock_cli):
+        mocked_today = datetime(2032, 5, 12)
+        mock_datetime.return_value = mock.MagicMock()
+        mock_datetime.today.return_value = mocked_today
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-host 20.03.2-0ubuntu0.20.04.3  amd64 OVN host "
+             "components"]
+        with tempfile.TemporaryDirectory() as dtmp:
+            ssl_cert_path = "etc/ovn/ovn-chassis.crt"
+            os.makedirs(os.path.dirname(os.path.join(dtmp, ssl_cert_path)))
+            with open(os.path.join(dtmp, ssl_cert_path), 'w') as fd:
+                fd.write(OVN_SSL_CERT)
+            setup_config(DATA_ROOT=dtmp)
+            base = openvswitch.OVNChecksBase()
+            self.assertTrue(base.ovn_certificate_expiring)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn_certificates.yaml'))
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
+    def test_ovn_ssl_expiring_scenario(self, mock_datetime, mock_cli):
+        mocked_today = datetime(2032, 5, 12)
+        mock_datetime.return_value = mock.MagicMock()
+        mock_datetime.today.return_value = mocked_today
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  ovn-host 20.03.2-0ubuntu0.20.04.3  amd64 OVN host "
+             "components"]
+        with tempfile.TemporaryDirectory() as dtmp:
+            ssl_cert_path = "etc/ovn/ovn-chassis.crt"
+            full_certificate_path = os.path.join(dtmp, ssl_cert_path)
+            os.makedirs(os.path.dirname(os.path.join(dtmp, ssl_cert_path)))
+            with open(os.path.join(dtmp, ssl_cert_path), 'w') as fd:
+                fd.write(OVN_SSL_CERT)
+            setup_config(DATA_ROOT=dtmp)
+            base = openvswitch.OVNChecksBase()
+            YScenarioChecker()()
+            msg = ("The following certificates will expire in less than {0} "
+                   "days: {1}".format(base.certificate_expire_days,
+                                      full_certificate_path))
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])

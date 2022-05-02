@@ -1,7 +1,9 @@
 import re
+import os
 
 from hotsos.core import plugintools
 from hotsos.core import host_helpers
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
 
 
@@ -204,3 +206,65 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
     def summary(self):
         # mainline all results into summary root
         return self.run_checks()
+
+
+class OVNChecksBase(OpenvSwitchChecksBase, plugintools.PluginPartBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ovn_package_names = ['ovn-central', 'ovn-host']
+        self.certificate_expire_days = 60
+
+    @property
+    def ovn_type(self):
+        """
+        returns None if the type is unknown, returns the ovn package name
+        unless the exception when the package name is 'ovn-host' which will
+        return 'ovn-chassis' in that case.
+        """
+        for ovn_package in self.ovn_package_names:
+            if ovn_package in self.apt_packages_all:
+                return 'ovn-chassis' if ovn_package == 'ovn-host' else \
+                  ovn_package
+        return None
+
+    @property
+    def ssl_certificate(self):
+        """
+        returns a certificate object if ovn_type is other than None and the
+        certificate is readable
+        """
+        if self.ovn_type:
+            certificate_name = self.ovn_type + '.crt'
+            certificate_path = os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'etc/ovn',
+                                            certificate_name)
+            if os.path.exists(certificate_path):
+                try:
+                    ssl_certificate = host_helpers.SSLCertificate(
+                                      certificate_path)
+                    return ssl_certificate
+                except OSError:
+                    pass
+        return None
+
+    @property
+    def ssl_certificate_path(self):
+        return self.ssl_certificate.path
+
+    @property
+    def ssl_enabled(self):
+        return bool(self.ssl_certificate)
+
+    @property
+    def ovn_certificate_expiring(self):
+        """
+        Returns a boolean based on the condition if the ovn certificate is
+        expiring
+        """
+        if self.ssl_enabled:
+            ssl_checks = host_helpers.SSLCertificatesChecksBase(
+                         self.ssl_certificate,
+                         self.certificate_expire_days)
+            return ssl_checks.certificate_expires_soon
+        return False

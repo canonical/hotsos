@@ -1,0 +1,22 @@
+checks:
+  ssl_enabled:
+    requires:
+      property: hotsos.core.plugins.openvswitch.OVNChecksBase.ssl_enabled
+  ovn_certificate_expiring:
+    requires:
+      property:
+        path: hotsos.core.plugins.openvswitch.OVNChecksBase.ovn_certificate_expiring
+conclusions:
+  need-certificate-renewal:
+    decision:
+      and:
+        - ssl_enabled
+        - ovn_certificate_expiring
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        The following certificates will expire in less than {ovn-certificates-days-to-expire} days:
+        {ovn-certificates-path}
+      format-dict:
+        ovn-certificates-path: 'hotsos.core.plugins.openvswitch.OVNChecksBase.ssl_certificate_path'
+        ovn-certificates-days-to-expire: 'hotsos.core.plugins.openvswitch.OVNChecksBase.certificate_expire_days'

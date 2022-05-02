@@ -110,7 +110,8 @@ PLUGIN_CATALOG = {'hotsos': {
                         'part_yaml_offset': 6}},
                   'openvswitch': {
                      'summary': {
-                         'objects': [ovs_summary.OpenvSwitchSummary],
+                         'objects': [ovs_summary.OpenvSwitchSummary,
+                                     ovs_summary.OVNSummary],
                          'part_yaml_offset': 0},
                      'event_checks': {
                          'objects': [event_checks.OVSEventChecks,
