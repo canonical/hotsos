@@ -5,7 +5,6 @@ import tempfile
 import unittest
 
 from hotsos.core.config import setup_config
-from hotsos.core.log import setup_logging
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
@@ -71,7 +70,6 @@ class BaseTestCase(unittest.TestCase):
                      GLOBAL_TMP_DIR=self.global_tmp_dir,
                      PLUGIN_TMP_DIR=self.plugin_tmp_dir,
                      USE_ALL_LOGS=True)
-        setup_logging(debug_mode=True)
 
     def tearDown(self):
         if os.path.isdir(self.plugin_tmp_dir):
