@@ -171,15 +171,22 @@ PLUGIN_CATALOG = {'hotsos': {
 
 class HotSOSClient(object):
 
-    def setup_env(self):
-        log.debug("setting up env")
-        setup_config(PLUGIN_TMP_DIR=tempfile.mkdtemp())
+    def setup_global_env(self):
+        """ State saved here persists across all plugin runs. """
+        log.debug("setting up global env")
+        setup_config(GLOBAL_TMP_DIR=tempfile.mkdtemp())
 
-    def teardown_env(self):
-        log.debug("tearing down env")
-        if os.path.exists(HotSOSConfig.PLUGIN_TMP_DIR):
-            log.debug("deleting plugin tmp dir")
-            shutil.rmtree(HotSOSConfig.PLUGIN_TMP_DIR)
+    def teardown_global_env(self):
+        log.debug("tearing down gloval env")
+        if os.path.exists(HotSOSConfig.GLOBAL_TMP_DIR):
+            shutil.rmtree(HotSOSConfig.GLOBAL_TMP_DIR)
+
+    def setup_plugin_env(self, plugin):
+        """ State saved here is specific to a plugin. """
+        log.debug("setting up plugin env")
+        global_tmp = HotSOSConfig.GLOBAL_TMP_DIR
+        setup_config(PLUGIN_TMP_DIR=tempfile.mkdtemp(prefix=plugin,
+                                                     dir=global_tmp))
 
     def _run(self, plugin):
         log.debug("running plugin %s", plugin)
@@ -202,12 +209,13 @@ class HotSOSClient(object):
         if not plugins:
             plugins = list(PLUGIN_CATALOG.keys())
 
-        for plugin in PLUGIN_RUN_ORDER:
-            if plugin in plugins:
-                try:
-                    self.setup_env()
+        try:
+            self.setup_global_env()
+            for plugin in PLUGIN_RUN_ORDER:
+                if plugin in plugins:
+                    self.setup_plugin_env(plugin)
                     out.update(self._run(plugin) or {})
-                finally:
-                    self.teardown_env()
+        finally:
+            self.teardown_global_env()
 
         return out

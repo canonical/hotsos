@@ -59,7 +59,8 @@ class BaseTestCase(unittest.TestCase):
         self.maxDiff = None
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
-        self.plugin_tmp_dir = tempfile.mkdtemp()
+        self.global_tmp_dir = tempfile.mkdtemp()
+        self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
         # Always reset env globals
         # If a test relies on loading info from defs yaml this needs to be set
         # to actual plugin name.
@@ -67,6 +68,7 @@ class BaseTestCase(unittest.TestCase):
                      PLUGIN_NAME="testplugin",
                      PLUGIN_YAML_DEFS=os.path.join(TESTS_DIR, "defs"),
                      PART_NAME="01part",
+                     GLOBAL_TMP_DIR=self.global_tmp_dir,
                      PLUGIN_TMP_DIR=self.plugin_tmp_dir,
                      USE_ALL_LOGS=True)
         setup_logging(debug_mode=True)

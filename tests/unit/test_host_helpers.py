@@ -85,7 +85,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
     def test_get_interfaces_cached(self):
         helper = host_helpers.HostNetworkingHelper()
         helper.host_interfaces_all
-        path = helper.cache_path_root
+        path = helper.global_cache_root
         for path in [os.path.join(path, 'interfaces.json'),
                      os.path.join(path, 'ns_interfaces.json')]:
             self.assertTrue(os.path.exists(path))

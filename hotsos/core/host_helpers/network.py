@@ -1,11 +1,10 @@
-import abc
 import copy
 import json
 import os
 import re
 
 from hotsos.core.log import log
-from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.common import HostHelpersBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.utils import mktemp_dump
 from hotsos.core.searchtools import (
@@ -26,29 +25,11 @@ IP_IFACE_VXLAN_INFO = r"\s+(vxlan) id (\d+) local (\S+) dev (\S+) .+"
 IP_EOF = r"^$"
 
 
-class HostHelpersBase(abc.ABC):
-
-    @property
-    def cache_path_root(self):
-        path = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'cache/host_helpers')
-        if not os.path.isdir(path):
-            os.makedirs(path)
-
-        return path
-
-    @abc.abstractmethod
-    def cache_load(self):
-        pass
-
-    @abc.abstractmethod
-    def cache_save(self):
-        pass
-
-
 class NetworkPort(HostHelpersBase):
 
     def __init__(self, name, addresses, hwaddr, state, encap_info):
         self.name = name
+        super().__init__()
         self.addresses = addresses
         self.hwaddr = hwaddr
         self.state = state
@@ -56,11 +37,13 @@ class NetworkPort(HostHelpersBase):
         self.cli_helper = CLIHelper()
 
     @property
-    def cache_path_root(self):
-        return os.path.join(super().cache_path_root, 'networkports', self.name)
+    def cache_name(self):
+        return "network-port-{}".format(self.name)
 
     def cache_load(self):
-        path = os.path.join(self.cache_path_root, 'stats.json')
+        # Always use plugin context here
+        cache_root = self.plugin_cache_root
+        path = os.path.join(cache_root, 'stats.json')
         if not os.path.exists(path):
             log.debug("network port %s not found in cache", self.name)
             return
@@ -73,11 +56,13 @@ class NetworkPort(HostHelpersBase):
                 log.warning("failed to load networkport from cache")
 
     def cache_save(self, data):
+        # Always use plugin context here
+        cache_root = self.plugin_cache_root
         log.debug("saving network port %s to cache", self.name)
-        if not os.path.isdir(self.cache_path_root):
-            os.makedirs(self.cache_path_root)
+        if not os.path.isdir(cache_root):
+            os.makedirs(cache_root)
 
-        path = os.path.join(self.cache_path_root, 'stats.json')
+        path = os.path.join(cache_root, 'stats.json')
         with open(path, 'w') as fd:
             fd.write(json.dumps(data))
 
@@ -103,7 +88,7 @@ class NetworkPort(HostHelpersBase):
     @property
     def stats(self):
         """ Get ip link info for the interface. """
-        counters = self.cache_load()
+        counters = self.cache_load() or {}
         if counters:
             return counters
 
@@ -130,7 +115,6 @@ class NetworkPort(HostHelpersBase):
             return {}
 
         # NOTE: we only expect one match
-        counters = {}
         for i, line in enumerate(stats_raw):
             ret = re.compile(r"\s+([RT]X):\s+.+").findall(line)
             if ret:
@@ -156,15 +140,22 @@ class NetworkPort(HostHelpersBase):
 class HostNetworkingHelper(HostHelpersBase):
 
     def __init__(self):
+        super().__init__()
         self._host_interfaces = None
         self._host_ns_interfaces = None
         self.cli = CLIHelper()
 
+    @property
+    def cache_name(self):
+        return 'network-helper'
+
     def cache_load(self, namespaces=False):
+        # Always use global context here
+        cache_root = self.global_cache_root
         if namespaces:
-            path = os.path.join(self.cache_path_root, 'ns_interfaces.json')
+            path = os.path.join(cache_root, 'ns_interfaces.json')
         else:
-            path = os.path.join(self.cache_path_root, 'interfaces.json')
+            path = os.path.join(cache_root, 'interfaces.json')
 
         if not os.path.exists(path):
             log.debug("network helper info not available in cache "
@@ -182,10 +173,12 @@ class HostNetworkingHelper(HostHelpersBase):
     def cache_save(self, data, namespaces=False):
         log.debug("saving network helper info to cache (namespaces=%s)",
                   namespaces)
+        # Always use global context here
+        cache_root = self.global_cache_root
         if namespaces:
-            path = os.path.join(self.cache_path_root, 'ns_interfaces.json')
+            path = os.path.join(cache_root, 'ns_interfaces.json')
         else:
-            path = os.path.join(self.cache_path_root, 'interfaces.json')
+            path = os.path.join(cache_root, 'interfaces.json')
 
         with open(path, 'w') as fd:
             fd.write(json.dumps(data))
@@ -200,14 +193,13 @@ class HostNetworkingHelper(HostHelpersBase):
         """
         interfaces = []
 
-        interfaces_raw = self.cache_load(namespaces=namespaces)
+        interfaces_raw = self.cache_load(namespaces=namespaces) or []
         if interfaces_raw:
             for iface in interfaces_raw:
                 interfaces.append(NetworkPort(**iface))
 
             return interfaces
 
-        interfaces_raw = []
         seq = SequenceSearchDef(start=SearchDef(IP_IFACE_NAME),
                                 body=SearchDef([IP_IFACE_V4_ADDR,
                                                 IP_IFACE_V6_ADDR,
