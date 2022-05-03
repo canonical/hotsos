@@ -2,7 +2,7 @@ import os
 import shutil
 import tempfile
 
-import mock
+from unittest import mock
 
 from . import utils
 
