@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-import mock
+from unittest import mock
 import json
 
 from .. import utils

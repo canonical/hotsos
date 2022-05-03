@@ -1,6 +1,6 @@
 import os
 
-import mock
+from unittest import mock
 
 from . import utils
 

@@ -2,7 +2,7 @@ import datetime
 import os
 import tempfile
 
-import mock
+from unittest import mock
 import yaml
 
 from . import utils
