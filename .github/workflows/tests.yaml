@@ -9,6 +9,10 @@ jobs:
         exclude:
           - os: ubuntu-18.04
             python-version: 3.9
+          - os: ubuntu-20.04
+            python-version: 3.6
+          - os: ubuntu-20.04
+            python-version: 3.8
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
