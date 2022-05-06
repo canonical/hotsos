@@ -4,7 +4,7 @@ import re
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.searchtools import SearchDef
-from hotsos.core.plugins.openstack import OpenstackEventChecksBase
+from hotsos.core.plugins.openstack.openstack import OpenstackEventChecksBase
 from hotsos.core.searchtools import FileSearcher
 
 

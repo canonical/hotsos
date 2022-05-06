@@ -7,6 +7,8 @@ from unittest import mock
 from . import utils
 
 import hotsos.core.plugins.openstack as openstack_core
+import hotsos.core.plugins.openstack.nova as nova_core
+import hotsos.core.plugins.openstack.neutron as neutron_core
 from hotsos.core import host_helpers
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
@@ -304,6 +306,17 @@ mTTs23LFXXqOTVxoncDqa0IY
 -----END CERTIFICATE-----"""  # noqa
 
 
+AA_MSGS = """
+Mar  3 22:57:11 compute4 kernel: [1381807.338196] audit: type=1400 audit(1646348231.139:38839): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-l3-agent" name="/proc/3178525/fd/" pid=3178525 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+Mar  3 22:57:11 compute4 kernel: [1381807.714508] audit: type=1400 audit(1646348231.515:38840): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-dhcp-agent" name="/proc/3178712/fd/" pid=3178712 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+Mar  3 22:57:11 compute4 kernel: [1381807.843795] audit: type=1400 audit(1646348231.643:38841): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-openvswitch-agent" name="/proc/3178790/fd/" pid=3178790 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+Mar  3 22:57:22 compute4 kernel: [1381818.448855] audit: type=1400 audit(1646348242.252:38857): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-openvswitch-agent" name="/proc/3181986/fd/" pid=3181986 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+Mar  3 22:57:23 compute4 kernel: [1381819.715713] audit: type=1400 audit(1646348243.520:38859): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-dhcp-agent" name="/proc/3182175/fd/" pid=3182175 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+Mar  3 22:57:24 compute4 kernel: [1381820.269384] audit: type=1400 audit(1646348244.072:38860): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-openvswitch-agent" name="/proc/3182207/fd/" pid=3182207 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+Mar  3 22:57:24 compute4 kernel: [1381820.499397] audit: type=1400 audit(1646348244.300:38861): apparmor="DENIED" operation="open" profile="/usr/bin/neutron-openvswitch-agent" name="/proc/3182352/fd/" pid=3182352 comm="/usr/bin/python" requested_mask="r" denied_mask="r" fsuid=118 ouid=118
+"""  # noqa
+
+
 class TestOpenstackBase(utils.BaseTestCase):
 
     IP_LINK_SHOW = None
@@ -318,7 +331,8 @@ class TestOpenstackBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        setup_config(PLUGIN_NAME='openstack')
+        setup_config(PLUGIN_NAME='openstack',
+                     AGENT_ERROR_KEY_BY_TIME=False)
 
         if self.IP_LINK_SHOW is None:
             path = os.path.join(HotSOSConfig.DATA_ROOT,
@@ -334,7 +348,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         self.assertEqual(base.release_name, 'ussuri')
 
     def test_project_catalog_package_exprs(self):
-        c = openstack_core.OSTProjectCatalog()
+        c = openstack_core.common.OSTProjectCatalog()
         core = ['ceilometer',
                 'octavia',
                 'placement',
@@ -503,7 +517,8 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["services"], expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.OSTProject.installed', True)
+    @mock.patch('hotsos.core.plugins.openstack.common.OSTProject.installed',
+                True)
     @mock.patch('hotsos.core.plugins.openstack.OpenstackServiceChecksBase.'
                 'openstack_installed', True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
@@ -619,15 +634,15 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["dpkg"], expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
+    @mock.patch.object(neutron_core, 'CLIHelper')
     def test_run_summary(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD.splitlines(keepends=True)
-        inst = openstack_core.NeutronServiceChecks()
+        inst = neutron_core.ServiceChecks()
         self.assertFalse(inst.ovs_cleanup_run_manually)
 
-    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
+    @mock.patch.object(neutron_core, 'CLIHelper')
     def test_run_summary2(self, mock_helper):
         """
         Covers scenario where we had manual restart but not after last reboot.
@@ -635,15 +650,15 @@ class TestOpenstackSummary(TestOpenstackBase):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_GOOD2.splitlines(keepends=True)
-        inst = openstack_core.NeutronServiceChecks()
+        inst = neutron_core.ServiceChecks()
         self.assertFalse(inst.ovs_cleanup_run_manually)
 
-    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
+    @mock.patch.object(neutron_core, 'CLIHelper')
     def test_run_summary_w_issue(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
             JOURNALCTL_OVS_CLEANUP_BAD.splitlines(keepends=True)
-        inst = openstack_core.NeutronServiceChecks()
+        inst = neutron_core.ServiceChecks()
         self.assertTrue(inst.ovs_cleanup_run_manually)
 
     def test_get_neutronl3ha_info(self):
@@ -790,12 +805,12 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
     @mock.patch('hotsos.core.plugins.kernel.SystemdConfig.get',
                 lambda *args, **kwargs: range(2, 9))
     def test_nova_pinning_base(self):
-        with mock.patch('hotsos.core.plugins.openstack.NovaCPUPinning.'
+        with mock.patch('hotsos.core.plugins.openstack.nova.CPUPinning.'
                         'vcpu_pin_set', [0, 1, 2]):
-            inst = openstack_core.NovaCPUPinning()
+            inst = nova_core.CPUPinning()
             self.assertEqual(inst.cpu_dedicated_set_name, 'vcpu_pin_set')
 
-        inst = openstack_core.NovaCPUPinning()
+        inst = nova_core.CPUPinning()
         self.assertEqual(inst.cpu_shared_set, [])
         self.assertEqual(inst.cpu_dedicated_set, [])
         self.assertEqual(inst.vcpu_pin_set, [])
@@ -807,7 +822,7 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         self.assertEqual(inst.unpinned_cpus_pcent, 12)
         self.assertEqual(inst.num_unpinned_cpus, 2)
         self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, False)
-        with mock.patch('hotsos.core.plugins.openstack.NovaCPUPinning.'
+        with mock.patch('hotsos.core.plugins.openstack.nova.CPUPinning.'
                         'cpu_dedicated_set', [0, 1, 4]):
             self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, True)
 
@@ -963,6 +978,50 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                 self.assertEqual(actual['apache'].get(section_key),
                                  expected.get(section_key))
 
+    def test_run_apparmor_checks(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, 'var/log/kern.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(AA_MSGS)
+
+            expected = {'denials': {
+                            'neutron': {
+                                '/usr/bin/neutron-dhcp-agent': {
+                                    'Mar 3': 2},
+                                '/usr/bin/neutron-l3-agent': {
+                                    'Mar 3': 1},
+                                '/usr/bin/neutron-openvswitch-agent': {
+                                    'Mar 3': 4}}}}
+            sobj = FileSearcher()
+            inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
+            inst.run_checks()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual['apparmor'], expected)
+
+            # now try with key by time
+            setup_config(AGENT_ERROR_KEY_BY_TIME=True)
+            expected = {'denials': {
+                            'neutron': {
+                                '/usr/bin/neutron-dhcp-agent': {
+                                    'Mar 3': {
+                                        '22:57:11': 1,
+                                        '22:57:23': 1}},
+                                '/usr/bin/neutron-l3-agent': {
+                                    'Mar 3': {
+                                        '22:57:11': 1}},
+                                '/usr/bin/neutron-openvswitch-agent': {
+                                    'Mar 3': {
+                                        '22:57:11': 1,
+                                        '22:57:22': 1,
+                                        '22:57:24': 2}}}}}
+            sobj = FileSearcher()
+            inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
+            inst.run_checks()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual['apparmor'], expected)
+
     def test_run_nova_checks(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -975,7 +1034,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                             '2021-09-17': {'0000:3b:0f.7': 1,
                                            '0000:3b:10.0': 1}}}
             sobj = FileSearcher()
-            inst = agent_event_checks.NovaAgentEventChecks(searchobj=sobj)
+            inst = agent_event_checks.NovaComputeEventChecks(searchobj=sobj)
             inst.run_checks()
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual["nova"], expected)
@@ -1188,7 +1247,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
-    @mock.patch('hotsos.core.plugins.openstack.OpenstackConfig')
+    @mock.patch('hotsos.core.plugins.openstack.nova.OpenstackConfig')
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
                 'release_name', 'train')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
@@ -1239,7 +1298,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted([msg1, msg2]))
 
-    @mock.patch('hotsos.core.plugins.openstack.OSTProject.installed', True)
+    @mock.patch('hotsos.core.plugins.openstack.common.OSTProject.installed',
+                True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('systemd_masked_services.yaml'))
@@ -1258,7 +1318,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.openstack.host_helpers.CLIHelper')
+    @mock.patch.object(neutron_core, 'CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron_ovs_cleanup.yaml'))
     def test_neutron_ovs_cleanup(self, mock_helper):

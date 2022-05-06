@@ -3,7 +3,7 @@ from hotsos.core.searchtools import (
     SearchDef,
     FileSearcher,
 )
-from hotsos.core.plugins.openstack import OpenstackEventChecksBase
+from hotsos.core.plugins.openstack.openstack import OpenstackEventChecksBase
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',
@@ -17,7 +17,7 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='nova-external-events',
+                         yaml_defs_group='nova.external-events',
                          searchobj=FileSearcher(),
                          **kwargs,)
 

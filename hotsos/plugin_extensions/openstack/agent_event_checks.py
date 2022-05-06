@@ -14,11 +14,11 @@ from hotsos.core.issues import (
 from hotsos.core.log import log
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core import utils
-from hotsos.core.plugins.openstack import (
-    NeutronHAInfo,
+from hotsos.core.plugins.openstack.openstack import (
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
+from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core.utils import sorted_dict
 
 EVENTCALLBACKS = CallbackHelper()
@@ -36,28 +36,25 @@ class ApacheEventChecks(OpenstackEventChecksBase):
         events = {}
         ports_max = {}
         context = {}
+
+        events = []
         for result in event.results:
-            month = datetime.datetime.strptime(result.get(1), '%b').month
-            day = result.get(2)
-            year = result.get(3)
-            ts_date = "{}-{}-{}".format(year, month, day)
-            addr = result.get(4)
-            port = result.get(5)
-            addr = "{}:{}".format(addr, port)
+            # save some context info
             if result.source in context:
                 context[result.source].append(result.linenumber)
             else:
                 context[result.source] = [result.linenumber]
 
-            if ts_date not in events:
-                events[ts_date] = {}
+            month = datetime.datetime.strptime(result.get(1), '%b').month
+            day = result.get(2)
+            year = result.get(3)
+            addr = result.get(4)
+            port = result.get(5)
+            events.append({'date': "{}-{}-{}".format(year, month, day),
+                           'key': "{}:{}".format(addr, port)})
 
-            if addr not in events[ts_date]:
-                events[ts_date][addr] = 1
-            else:
-                events[ts_date][addr] += 1
-
-        for addrs in events.values():
+        conns_refused = self.get_events_by_time(events, key_by_date=True)
+        for addrs in conns_refused.values():
             for addr, count in addrs.items():
                 port = addr.partition(':')[2]
                 # allow a small number of connection refused errors on a given
@@ -77,7 +74,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
                    format(','.join(ports_max.keys())))
             IssuesManager().add(OpenstackWarning(msg), IssueContext(**context))
 
-        return sorted_dict(events)
+        return sorted_dict(conns_refused)
 
     def __summary_apache(self):
         return self.final_event_results
@@ -92,7 +89,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='neutron-agent-checks', **kwargs)
+                         yaml_defs_group='neutron.agents', **kwargs)
 
     def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
         stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
@@ -136,64 +133,36 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='octavia-checks', **kwargs)
-
-    def _get_failover(self, result):
-        ts_date = result.get(1)
-        payload = yaml.safe_load(result.get(2))
-        lb_id = payload.get("load_balancer_id")
-        if lb_id is None:
-            return None, None
-
-        return ts_date, lb_id
-
-    def _get_failovers(self, results):
-        failovers = {}
-        for r in results:
-            ts_date, lb_id = self._get_failover(r)
-            if ts_date is None:
-                continue
-
-            if ts_date not in failovers:
-                failovers[ts_date] = {}
-
-            if lb_id not in failovers[ts_date]:
-                failovers[ts_date][lb_id] = 1
-            else:
-                failovers[ts_date][lb_id] += 1
-
-        return failovers
+                         yaml_defs_group='octavia', **kwargs)
 
     @EVENTCALLBACKS.callback('lb-failover-auto', 'lb-failover-manual')
     def lb_failovers(self, event):
-        ret = self._get_failovers(event.results)
+        events = []
+        for e in event.results:
+            payload = yaml.safe_load(e.get(2))
+            lb_id = payload.get('load_balancer_id')
+            if lb_id is None:
+                continue
+
+            events.append({'date': e.get(1), 'key': lb_id})
+
+        ret = self.get_events_by_time(events)
         if ret:
             failover_type = event.name.rpartition('-')[2]
             return {failover_type: ret}, 'lb-failovers'
 
     @EVENTCALLBACKS.callback()
     def amp_missed_heartbeats(self, event):
-        missed_heartbeats = {}
-        for r in event.results:
-            ts_date = r.get(1)
-            amp_id = r.get(2)
-
-            if ts_date not in missed_heartbeats:
-                missed_heartbeats[ts_date] = {}
-
-            if amp_id not in missed_heartbeats[ts_date]:
-                missed_heartbeats[ts_date][amp_id] = 1
-            else:
-                missed_heartbeats[ts_date][amp_id] += 1
+        events = [{'date': r.get(1), 'key': r.get(2)} for r in event.results]
+        missed_heartbeats = self.get_events_by_time(events)
+        if not missed_heartbeats:
+            return
 
         # sort each amp by occurences
         for ts_date, amps in missed_heartbeats.items():
             missed_heartbeats[ts_date] = utils.sorted_dict(amps,
                                                            key=lambda e: e[1],
                                                            reverse=True)
-
-        if not missed_heartbeats:
-            return
 
         # then sort by date
         return utils.sorted_dict(missed_heartbeats)
@@ -202,37 +171,20 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
         return self.final_event_results
 
 
-class NovaAgentEventChecks(OpenstackEventChecksBase):
+class NovaComputeEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='nova-checks', **kwargs)
+                         yaml_defs_group='nova.nova-compute', **kwargs)
 
     @EVENTCALLBACKS.callback()
     def pci_dev_not_found(self, event):
-        notfounds = {}
-        for result in event.results:
-            ts_date = result.get(1)
-            ts_time = result.get(2)
-            pci_dev = result.get(3)
-
-            if ts_date not in notfounds:
-                notfounds[ts_date] = {}
-
-            if self.agent_error_key_by_time:
-                if ts_time not in notfounds:
-                    notfounds[ts_date][ts_time] = {pci_dev: 1}
-                elif pci_dev not in notfounds[ts_date][ts_time]:
-                    notfounds[ts_date][ts_time][pci_dev] = 1
-                else:
-                    notfounds[ts_date][ts_time][pci_dev] += 1
-            else:
-                if pci_dev not in notfounds[ts_date]:
-                    notfounds[ts_date][pci_dev] = 1
-                else:
-                    notfounds[ts_date][pci_dev] += 1
-
-        return notfounds, 'PciDeviceNotFoundById'
+        events = [{'date': r.get(1),
+                   'time': r.get(2),
+                   'key': r.get(3)} for r in event.results]
+        ret = self.get_events_by_time(events, key_by_date=True)
+        if ret:
+            return ret, 'PciDeviceNotFoundById'
 
     def __summary_nova(self):
         return self.final_event_results
@@ -242,31 +194,18 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='apparmor-checks', **kwargs)
-
-    def _get_aa_stats(self, results, service):
-        info = {}
-        for r in results:
-            ts = r.get(1)
-            profile = r.get(2)
-            if service not in info:
-                info[service] = {}
-
-            if ts not in info[service]:
-                info[service][ts] = {}
-
-            if profile not in info[service][ts]:
-                info[service][ts][profile] = 1
-            else:
-                info[service][ts][profile] += 1
-
-        if info:
-            return info
+                         yaml_defs_group='apparmor', **kwargs)
 
     @EVENTCALLBACKS.callback('nova', 'neutron')
     def openstack_apparmor(self, event):
-        action = event.section
-        return self._get_aa_stats(event.results, event.name), action
+        events = [{'date': "{} {}".format(r.get(1), r.get(2)),
+                   'time': r.get(3),
+                   'key': r.get(4)} for r in event.results]
+        ret = self.get_events_by_time(events)
+        if ret:
+            # event.name must be the service name, event.section is the aa
+            # action.
+            return {event.name: ret}, event.section
 
     def __summary_apparmor(self):
         return self.final_event_results
@@ -276,7 +215,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='neutron-router-checks', **kwargs)
+                         yaml_defs_group='neutron.ml2-routers', **kwargs)
         self.cli = CLIHelper()
         self.ha_info = NeutronHAInfo()
 
@@ -314,23 +253,16 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback()
     def vrrp_transitions(self, event):
-        transitions = {}
+        events = []
         for r in event.results:
-            ts_date = r.get(1)
-            vr_id = r.get(2)
-            router = self.ha_info.find_router_with_vr_id(vr_id)
+            router = self.ha_info.find_router_with_vr_id(r.get(2))
             if not router:
-                log.debug("no router found with vr_id %s", vr_id)
+                log.debug("could not find router with vr_id %s", r.get(2))
                 continue
 
-            uuid = router.uuid
-            if uuid not in transitions:
-                transitions[uuid] = {ts_date: 1}
-            elif ts_date in transitions[uuid]:
-                transitions[uuid][ts_date] += 1
-            else:
-                transitions[uuid][ts_date] = 1
+            events.append({'date': r.get(1), 'key': router.uuid})
 
+        transitions = self.get_events_by_time(events)
         if transitions:
             # run checks
             self.check_vrrp_transitions(transitions)
@@ -353,7 +285,7 @@ class AgentEventChecks(OpenstackChecksBase):
                   ApacheEventChecks(searchobj=s),
                   NeutronL3HAEventChecks(searchobj=s),
                   NeutronAgentEventChecks(searchobj=s),
-                  NovaAgentEventChecks(searchobj=s),
+                  NovaComputeEventChecks(searchobj=s),
                   OctaviaAgentEventChecks(searchobj=s)]
         for check in checks:
             check.load()

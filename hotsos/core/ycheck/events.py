@@ -30,7 +30,50 @@ class EventCheckResult(object):
         self.sequence_def = sequence_def
 
 
-class YEventCheckerBase(ChecksBase):
+class EventProcessingUtils(object):
+
+    @classmethod
+    def get_events_by_time(cls, events, key_by_date=False, include_time=False):
+        """
+        Provides a generic way to categorise events. The default is to group
+        events by key which is typically some kind of resource id or event
+        label, beneath which the events are grouped by date. If a time value is
+        also available, events will be grouped by time beneath their date. It
+        may sometimes be useful to group events by date at the top level which
+        is also supported here.
+        """
+        info = {}
+        for e in events:
+            ts_time = e.get('time')
+            if key_by_date:
+                ts_date = e['key']
+                key = e['date']
+            else:
+                ts_date = e['date']
+                key = e['key']
+
+            if key not in info:
+                info[key] = {}
+
+            if ts_date not in info[key]:
+                if ts_time is not None and include_time:
+                    info[key][ts_date] = {}
+                else:
+                    info[key][ts_date] = 0
+
+            if ts_time is not None and include_time:
+                if ts_time not in info[key][ts_date]:
+                    info[key][ts_date][ts_time] = 1
+                else:
+                    info[key][ts_date][ts_time] += 1
+            else:
+                info[key][ts_date] += 1
+
+        if info:
+            return info
+
+
+class YEventCheckerBase(ChecksBase, EventProcessingUtils):
 
     def __init__(self, *args, callback_helper=None, **kwargs):
         """
@@ -60,7 +103,14 @@ class YEventCheckerBase(ChecksBase):
 
         group_name = self._yaml_defs_group
         log.debug("loading defs for subgroup=%s", group_name)
-        group_defs = plugin.get(group_name)
+        ytree = plugin
+        ypath = group_name.split('.')
+        for i, g in enumerate(ypath):
+            if i >= len(ypath) - 1:
+                group_defs = ytree.get(g)
+            else:
+                ytree = ytree.get(g)
+
         group = YDefsSection(group_name, group_defs)
         log.debug("sections=%s, events=%s",
                   len(group.branch_sections),

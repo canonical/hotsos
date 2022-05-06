@@ -2,14 +2,14 @@ checks:
   octavia_worker_installed:
     requires:
       and:
-        - property: hotsos.core.plugins.openstack.OctaviaBase.installed
+        - property: hotsos.core.plugins.openstack.octavia.OctaviaBase.installed
         - systemd: octavia-worker
   hm_port_has_no_packet_drops_or_errors:
     requires:
-      property: hotsos.core.plugins.openstack.OctaviaBase.hm_port_healthy
+      property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_healthy
   hm_port_address_check:
     requires:
-      property: hotsos.core.plugins.openstack.OctaviaBase.hm_port_has_address
+      property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_has_address
 conclusions:
   no-addr-or-noexist:
     priority: 1
@@ -24,7 +24,7 @@ conclusions:
         access to the lb-management network and therefore will not be able
         to communicate with Amphora VMs - please investigate.
       format-dict:
-        name: hotsos.core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME
+        name: hotsos.core.plugins.openstack.octavia.OCTAVIA_HM_PORT_NAME
   packet-drops-errors:
     priority: 2
     decision:
@@ -36,4 +36,4 @@ conclusions:
         Octavia health manager port {name} has some packets drops or errors -
         please investigate.
       format-dict:
-        name: hotsos.core.plugins.openstack.OctaviaBase.OCTAVIA_HM_PORT_NAME
+        name: hotsos.core.plugins.openstack.octavia.OCTAVIA_HM_PORT_NAME

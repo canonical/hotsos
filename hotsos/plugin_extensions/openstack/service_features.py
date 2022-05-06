@@ -1,6 +1,4 @@
-from hotsos.core.plugins.openstack import (
-    OpenstackChecksBase,
-)
+from hotsos.core.plugins.openstack.openstack import OpenstackChecksBase
 
 FEATURES = {'neutron': {'main': [
                             'availability_zone'],

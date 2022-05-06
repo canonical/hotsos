@@ -9,10 +9,10 @@ from hotsos.core.searchtools import (
     FileSearcher,
     SearchDef,
 )
-from hotsos.core.plugins.openstack import (
+from hotsos.core.plugins.openstack.common import OpenstackConfig
+from hotsos.core.plugins.openstack.openstack import (
     OpenstackChecksBase,
     OpenstackEventChecksBase,
-    OpenstackConfig,
 )
 from hotsos.core.plugins.system import SystemBase
 from hotsos.core.plugins.kernel import CPU
@@ -95,7 +95,7 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
-                         yaml_defs_group='nova-migrations',
+                         yaml_defs_group='nova.migrations',
                          searchobj=FileSearcher(),
                          **kwargs)
 

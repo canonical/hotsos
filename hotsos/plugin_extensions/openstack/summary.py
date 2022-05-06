@@ -1,8 +1,6 @@
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.plugins.openstack import (
-    NeutronHAInfo,
-    OpenstackServiceChecksBase,
-)
+from hotsos.core.plugins.openstack.openstack import OpenstackServiceChecksBase
+from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 
 
 class OpenstackSummary(OpenstackServiceChecksBase):

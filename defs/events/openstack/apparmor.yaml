@@ -1,0 +1,9 @@
+input:
+  path: 'var/log/kern.log'
+denials:
+  nova:
+    expr: '(\S+)\s+(\d+)\s+([\d+:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
+    hint: apparmor
+  neutron:
+    expr: '(\S+)\s+(\d+)\s+([\d+:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
+    hint: apparmor

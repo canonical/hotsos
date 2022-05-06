@@ -1,0 +1,117 @@
+import os
+import re
+
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.plugins.openstack.common import OSTServiceBase
+from hotsos.core.host_helpers import CLIHelper
+
+
+class NeutronBase(OSTServiceBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__('neutron', *args, **kwargs)
+        self.neutron_ovs_config = self.project.config['openvswitch-agent']
+
+    @property
+    def bind_interfaces(self):
+        """
+        Fetch interfaces used by Openstack Neutron. Returned dict is keyed by
+        config key used to identify interface.
+        """
+        local_ip = self.neutron_ovs_config.get('local_ip')
+
+        interfaces = {}
+        if not any([local_ip]):
+            return interfaces
+
+        if local_ip:
+            port = self.nethelp.get_interface_with_addr(local_ip)
+            # NOTE: local_ip can be an address or fqdn, we currently only
+            # support searching by address.
+            if port:
+                interfaces.update({'local_ip': port})
+
+        return interfaces
+
+
+class ServiceChecks(object):
+
+    @property
+    def ovs_cleanup_run_manually(self):
+        """ Allow one run on node boot/reboot but not after. """
+        run_manually = False
+        start_count = 0
+        cli = CLIHelper()
+        cexpr = re.compile(r"Started OpenStack Neutron OVS cleanup.")
+        for line in cli.journalctl(unit="neutron-ovs-cleanup"):
+            if re.compile("-- Reboot --").match(line):
+                # reset after reboot
+                run_manually = False
+                start_count = 0
+            elif cexpr.search(line):
+                if start_count:
+                    run_manually = True
+
+                start_count += 1
+
+        return run_manually
+
+
+class NeutronRouter(object):
+    def __init__(self, uuid, ha_state):
+        self.uuid = uuid
+        self.ha_state = ha_state
+        self.vr_id = None
+
+
+class NeutronHAInfo(object):
+
+    def __init__(self):
+        self._routers = []
+        self._get_neutron_ha_info()
+        self.vr_id = None
+
+    def _get_neutron_ha_info(self):
+        if not os.path.exists(self.state_path):
+            return
+
+        for entry in os.listdir(self.state_path):
+            entry = os.path.join(self.state_path, entry)
+            if not os.path.isdir(entry):
+                # if its not a directory then it is probably not a live router
+                # so we ignore it.
+                continue
+
+            state_path = os.path.join(entry, 'state')
+            if not os.path.exists(state_path):
+                continue
+
+            with open(state_path) as fd:
+                uuid = os.path.basename(entry)
+                state = fd.read().strip()
+                router = NeutronRouter(uuid, state)
+
+            keepalived_conf_path = os.path.join(entry, 'keepalived.conf')
+            if os.path.isfile(keepalived_conf_path):
+                with open(keepalived_conf_path) as fd:
+                    for line in fd:
+                        expr = r'.+ virtual_router_id (\d+)'
+                        ret = re.compile(expr).search(line)
+                        if ret:
+                            router.vr_id = ret.group(1)
+
+            self._routers.append(router)
+
+    def find_router_with_vr_id(self, id):
+        for r in self.ha_routers:
+            if r.vr_id == id:
+                return r
+
+    @property
+    def state_path(self):
+        ha_confs = 'var/lib/neutron/ha_confs'
+        return os.path.join(HotSOSConfig.DATA_ROOT, ha_confs)
+
+    @property
+    def ha_routers(self):
+        return self._routers

@@ -5,7 +5,7 @@ checks:
         neutron-ovs-cleanup: enabled  
   ovs_cleanup_run_manually:
     requires:
-      property: hotsos.core.plugins.openstack.NeutronServiceChecks.ovs_cleanup_run_manually
+      property: hotsos.core.plugins.openstack.neutron.ServiceChecks.ovs_cleanup_run_manually
 conclusions:
   ovs-cleanup-run-manually:
     decision:
