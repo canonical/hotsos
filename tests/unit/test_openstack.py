@@ -330,6 +330,24 @@ Mar  3 22:57:24 compute4 kernel: [1381820.499397] audit: type=1400 audit(1646348
 """  # noqa
 
 
+NEUTRON_HTTP = """
+2022-05-11 16:19:55.704 27285 INFO neutron.wsgi [req-4e357374-8d66-4a11-b13f-b073bae102da 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "POST /v2.0/floatingips HTTP/1.1" status: 201  len: 1022 time: 8.7183912
+2022-05-11 16:19:55.920 27285 INFO neutron.wsgi [req-fe7e1062-1d9e-4bd8-85be-18e592688ced 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "POST /v2.0/floatingips HTTP/1.1" status: 201  len: 1022 time: 8.3476303
+2022-05-11 16:19:56.119 27285 INFO neutron.wsgi [req-a621d456-8ce7-4bf4-b4b6-6fe8f2a4fb94 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "POST /v2.0/floatingips HTTP/1.1" status: 201  len: 1021 time: 7.9349949
+2022-05-11 16:19:58.795 27292 INFO neutron.wsgi [req-0b503592-92d9-4774-ac95-e6f8dd940fc5 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "POST /v2.0/floatingips HTTP/1.1" status: 201  len: 1022 time: 4.8702903
+2022-05-11 16:18:50.709 27285 INFO neutron.wsgi [req-074e20aa-4aa9-437a-a284-023954181cba 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "DELETE /v2.0/security-group-rules/6b1be7e7-d467-4fcb-8694-430505b76e09 HTTP/1.1" status: 204  len: 173 time: 0.0725079
+2022-05-11 16:18:50.784 27285 INFO neutron.wsgi [req-2f6a3185-c34c-4beb-aa5f-744a8f45edea 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "DELETE /v2.0/security-group-rules/f38bc751-3870-4ded-b089-6200c8adcc2b HTTP/1.1" status: 204  len: 173 time: 0.0680902
+2022-05-11 16:18:50.880 27285 INFO neutron.wsgi [req-a5126037-0914-4cab-bde5-c3bfa91000a7 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "DELETE /v2.0/security-groups/3bb35887-ca9f-4eb5-b87f-51c787b3ad39 HTTP/1.1" status: 204  len: 173 time: 0.0903349
+2022-05-11 16:18:56.660 27292 INFO neutron.wsgi [req-d3e7918d-4032-43f2-a09f-e6e42a42b7e0 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "DELETE /v2.0/networks/595f1f1d-c55c-4943-9957-d7f6d8eabd96 HTTP/1.1" status: 204  len: 173 time: 1.9860468
+2022-05-11 16:18:56.750 27285 INFO neutron.wsgi [req-354f29eb-f8ff-4ed7-9d68-f62e4d9d8e4a 0122338208ab123efa5f69ba30a470c41561d7d3438f8fbb46d09ba32211d99f 42774781002541059577441343bef15d - c13f73c6835d43b1b7572644e5b3ae72 c13f73c6835d43b1b7572644e5b3ae72] 10.55.12.152,127.0.0.1 "DELETE /v2.0/routers/14aa18e0-bd2d-407c-94ee-b3ddeb24a2f5 HTTP/1.1" status: 204  len: 173 time: 2.9382973
+2022-05-11 16:20:12.770 27288 INFO neutron.wsgi [req-ce744853-29bc-470d-b364-7e350fb995af b09bc7f6ea1a491ebefaef515aa41858 c80a5b62cfe6435ab44315de3d670b2f - 3ef3cedadd5a4331a11118211060834e 3ef3cedadd5a4331a11118211060834e] 10.55.12.152,127.0.0.1 "PUT /v2.0/ports/9f37b531-5e7c-46d7-ba59-3e5c806b7374 HTTP/1.1" status: 200  len: 1523 time: 1.4883997
+2022-05-11 16:20:13.213 27285 INFO neutron.wsgi [req-2d760321-3668-43e0-89b8-ce355437ee62 b09bc7f6ea1a491ebefaef515aa41858 c80a5b62cfe6435ab44315de3d670b2f - 3ef3cedadd5a4331a11118211060834e 3ef3cedadd5a4331a11118211060834e] 10.55.12.152,127.0.0.1 "PUT /v2.0/ports/5b5fdb5a-1403-4ddf-9bb5-296a6f419408 HTTP/1.1" status: 200  len: 1523 time: 2.4935267
+2022-05-11 16:20:15.852 27292 INFO neutron.wsgi [req-524ef875-14f7-4d0a-976e-75de19ddea22 b09bc7f6ea1a491ebefaef515aa41858 c80a5b62cfe6435ab44315de3d670b2f - 3ef3cedadd5a4331a11118211060834e 3ef3cedadd5a4331a11118211060834e] 10.55.12.152,127.0.0.1 "PUT /v2.0/ports/aec74f93-6844-4dd9-912d-8d652852a7a3 HTTP/1.1" status: 200  len: 1536 time: 2.0487440
+2022-05-11 18:03:04.042 27285 INFO neutron.wsgi [req-cf288f23-c933-4852-a9f9-aece83c9059f b09bc7f6ea1a491ebefaef515aa41858 c80a5b62cfe6435ab44315de3d670b2f - 3ef3cedadd5a4331a11118211060834e 3ef3cedadd5a4331a11118211060834e] 10.55.12.152,127.0.0.1 "GET /v2.0/ports?device_id=e4f6196e-ac55-440b-94cb-9b2af98ac5bd HTTP/1.1" status: 200  len: 1589 time: 0.0551665
+2022-05-11 18:03:04.079 27285 INFO neutron.wsgi [req-3817bf2e-b023-4f81-9223-bc75bb468a16 b09bc7f6ea1a491ebefaef515aa41858 c80a5b62cfe6435ab44315de3d670b2f - 3ef3cedadd5a4331a11118211060834e 3ef3cedadd5a4331a11118211060834e] 10.55.12.152,127.0.0.1 "GET /v2.0/security-groups?id=9146f70d-2882-4ddc-9d55-dd325ee3fb90&id=ab4ac2c0-93b9-4b9e-b241-4c121738a26a&id=513a6430-7941-4518-bc1b-04174895a375&id=2643b274-78f1-4a74-a551-ad8676e423be&fields=id&fields=name HTTP/1.1" status: 200  len: 578 time: 0.0304003
+"""  # noqa
+
+
 class TestOpenstackBase(utils.BaseTestCase):
 
     IP_LINK_SHOW = None
@@ -1076,6 +1094,25 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         msg = ('1 router(s) have had more than 0 vrrp transitions (max=1) in '
                'the last 24 hours.')
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    def test_api_events(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, 'var/log/neutron/neutron-server.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(NEUTRON_HTTP)
+
+            sobj = FileSearcher()
+            inst = agent_event_checks.APIEvents(searchobj=sobj)
+            inst.run_checks()
+            expected = {'http-requests': {'neutron': {
+                                            '2022-05-11': {'GET': 2,
+                                                           'PUT': 3,
+                                                           'POST': 4,
+                                                           'DELETE': 5}}}}
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual, expected)
 
 
 class TestOpenstackAgentExceptions(TestOpenstackBase):

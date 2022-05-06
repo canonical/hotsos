@@ -1,6 +1,7 @@
 import datetime
 import yaml
 
+from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.analytics import LogEventStats, SearchResultIndices
 from hotsos.core.host_helpers import CLIHelper
@@ -31,7 +32,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='apache', **kwargs)
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='apache')
     def connection_refused(self, event):
         ports_max = {}
         context = {}
@@ -79,6 +80,28 @@ class ApacheEventChecks(OpenstackEventChecksBase):
         return self.final_event_results
 
 
+class APIEvents(OpenstackEventChecksBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+                         yaml_defs_group='http-requests', **kwargs)
+
+    @EVENTCALLBACKS.callback(event_group='http-requests',
+                             event_names=['neutron'])
+    def http_requests(self, event):
+        results = [{'date': r.get(1),
+                    'time': r.get(2),
+                    'key': r.get(3)} for r in event.results]
+        ret = self.categorise_events(event, results=results)
+        if ret:
+            return ret
+
+    def __summary_http_requests(self):
+        out = self.final_event_results
+        if out:
+            return out
+
+
 class NeutronAgentEventChecks(OpenstackEventChecksBase):
     """
     Loads events we want to check from definitions yaml and executes them. The
@@ -100,7 +123,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         return {"top": top5,
                 "stats": stats.get_event_stats()}
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='neutron.agents')
     def router_updates(self, event):
         agent = event.section
         sri = SearchResultIndices(event_id_idx=4,
@@ -111,7 +134,8 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         if ret:
             return {event.name: ret}, agent
 
-    @EVENTCALLBACKS.callback('rpc-loop', 'router-spawn-events')
+    @EVENTCALLBACKS.callback(event_group='neutron.agents',
+                             event_names=['rpc-loop', 'router-spawn-events'])
     def process_events(self, event):
         agent = event.section
         ret = self._get_event_stats(event.results, event.search_tag)
@@ -133,7 +157,9 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='octavia', **kwargs)
 
-    @EVENTCALLBACKS.callback('lb-failover-auto', 'lb-failover-manual')
+    @EVENTCALLBACKS.callback(event_group='octavia',
+                             event_names=['lb-failover-auto',
+                                          'lb-failover-manual'])
     def lb_failovers(self, event):
         results = []
         for e in event.results:
@@ -149,7 +175,7 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
             failover_type = event.name.rpartition('-')[2]
             return {failover_type: ret}, 'lb-failovers'
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='octavia')
     def amp_missed_heartbeats(self, event):
         missed_heartbeats = self.categorise_events(event, key_by_date=False)
         if not missed_heartbeats:
@@ -174,7 +200,7 @@ class NovaComputeEventChecks(OpenstackEventChecksBase):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='nova.nova-compute', **kwargs)
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='nova.nova-compute')
     def pci_dev_not_found(self, event):
         ret = self.categorise_events(event)
         if ret:
@@ -190,7 +216,8 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
         super().__init__(*args, callback_helper=EVENTCALLBACKS,
                          yaml_defs_group='apparmor', **kwargs)
 
-    @EVENTCALLBACKS.callback('nova', 'neutron')
+    @EVENTCALLBACKS.callback(event_group='apparmor',
+                             event_names=['nova', 'neutron'])
     def openstack_apparmor(self, event):
         results = [{'date': "{} {}".format(r.get(1), r.get(2)),
                     'time': r.get(3),
@@ -246,7 +273,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
         return args, kwargs
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='neutron.ml2-routers')
     def vrrp_transitions(self, event):
         results = []
         for r in event.results:
@@ -271,28 +298,41 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
 class AgentEventChecks(OpenstackChecksBase):
 
-    def __summary_agent_checks(self):
+    def _run_checks(self, checks):
         # Only run if we think Openstack is installed.
         if not self.openstack_installed:
             return
 
         s = FileSearcher()
-        checks = [AgentApparmorChecks(searchobj=s),
-                  ApacheEventChecks(searchobj=s),
-                  NeutronL3HAEventChecks(searchobj=s),
-                  NeutronAgentEventChecks(searchobj=s),
-                  NovaComputeEventChecks(searchobj=s),
-                  OctaviaAgentEventChecks(searchobj=s)]
-        for check in checks:
+        check_objs = [c(searchobj=s) for c in checks]
+        for check in check_objs:
             check.load()
 
         results = s.search()
         _final_results = {}
-        for check in checks:
+        for check in check_objs:
             check.run(results)
             check_results = check.raw_output
             if check_results:
                 _final_results.update(check_results)
 
-        if _final_results:
-            return _final_results
+        return _final_results
+
+    @idx(1)
+    def __summary_api_info(self):
+        checks = [APIEvents]
+        results = self._run_checks(checks)
+        if results:
+            return results
+
+    @idx(2)
+    def __summary_agent_checks(self):
+        checks = [AgentApparmorChecks,
+                  ApacheEventChecks,
+                  NeutronL3HAEventChecks,
+                  NeutronAgentEventChecks,
+                  NovaComputeEventChecks,
+                  OctaviaAgentEventChecks]
+        results = self._run_checks(checks)
+        if results:
+            return results

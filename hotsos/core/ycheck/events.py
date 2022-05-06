@@ -250,7 +250,8 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
 
                 # We want this to throw an exception if the callback is not
                 # defined.
-                callback_name = event.replace('-', '_')
+                callback_name = '{}.{}'.format(self._yaml_defs_group,
+                                               event.replace('-', '_'))
                 callback = self.callback_helper.callbacks[callback_name]
                 event_results_obj = EventCheckResult(section_name, event,
                                                      search_results,

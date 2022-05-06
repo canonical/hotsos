@@ -10,18 +10,34 @@ class CallbackHelper(object):
     def __init__(self):
         self.callbacks = {}
 
-    def callback(self, *event_names):
+    def callback(self, event_group, event_names=None):
+        """
+        Register a method as a callback for a given event.
+
+        @param event_group: defs group containing these events. Needs to be
+                             for the current plugin.
+        @param event_names: optional list of event names. If none provided, the
+                            name of the decorated function is used.
+        """
         def callback_inner(f):
             def callback_inner2(*args, **kwargs):
                 return f(*args, **kwargs)
 
+            names = []
             if event_names:
                 for name in event_names:
                     # convert event name to valid method name
-                    name = name.replace('-', '_')
-                    self.callbacks[name] = callback_inner2
+                    names.append('{}.{}'.format(event_group,
+                                                name.replace('-', '_')))
             else:
-                self.callbacks[f.__name__] = callback_inner2
+                names.append('{}.{}'.format(event_group, f.__name__))
+
+            for name in names:
+                if name in self.callbacks:
+                    raise Exception("A callback has already been registered "
+                                    "with name {}".format(name))
+
+                self.callbacks[name] = callback_inner2
 
             return callback_inner2
 

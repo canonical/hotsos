@@ -28,7 +28,9 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
 
         return state
 
-    @EVENTCALLBACKS.callback('network-changed', 'network-vif-plugged')
+    @EVENTCALLBACKS.callback(event_group='nova.external-events',
+                             event_names=['network-changed',
+                                          'network-vif-plugged'])
     def process_events(self, event):
         ext_output = {}
         events = {}

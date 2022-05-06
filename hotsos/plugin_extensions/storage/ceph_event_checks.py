@@ -16,7 +16,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
                          searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def slow_requests(self, event):
         slow_requests = {}
         for result in sorted(event.results, key=lambda r: r.get(1)):
@@ -29,11 +29,11 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return slow_requests
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def osd_reported_failed(self, event):
         return self.categorise_events(event, key_by_date=False)
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def mon_elections_called(self, event):
         return self.categorise_events(event, key_by_date=False)
 
@@ -83,15 +83,15 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return ret
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def crc_err_bluestore(self, event):
         return self._get_crc_errors(event, 'bluestore')
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def crc_err_rocksdb(self, event):
         return self._get_crc_errors(event, 'rocksdb')
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def long_heartbeat_pings(self, event):
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
@@ -107,11 +107,11 @@ class CephDaemonLogChecks(CephEventChecksBase):
         return self.categorise_events(event, results=results,
                                       squash_if_none_keys=True)
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def heartbeat_no_reply(self, event):
         return self.categorise_events(event)
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ceph')
     def superblock_read_error(self, event):  # pylint: disable=W0613
         msg = ('Detected superblock read errors which indicates an OSD disk '
                'failure or its likely failure in the near future. This '

@@ -494,7 +494,7 @@ class TestYamlChecks(utils.BaseTestCase):
                                      searchobj=FileSearcher(),
                                      callback_helper=EVENTCALLBACKS)
 
-                @EVENTCALLBACKS.callback()
+                @EVENTCALLBACKS.callback(event_group='mygroup')
                 def my_sequence_search(self, event):
                     callbacks_called[event.name] = True
                     for section in event.results:
@@ -509,7 +509,7 @@ class TestYamlChecks(utils.BaseTestCase):
                                 match_count['count'] += 1
                                 test_self.assertEqual(result.get(0), 'world')
 
-                @EVENTCALLBACKS.callback()
+                @EVENTCALLBACKS.callback(event_group='mygroup')
                 def my_passthrough_search(self, event):
                     # expected to be passthough results (i.e. raw)
                     callbacks_called[event.name] = True
@@ -517,9 +517,10 @@ class TestYamlChecks(utils.BaseTestCase):
                     start_results = event.results.find_by_tag(tag)
                     test_self.assertEqual(start_results[0].get(0), 'hello')
 
-                @EVENTCALLBACKS.callback('my-pass-search',
-                                         'my-fail-search1',
-                                         'my-fail-search2')
+                @EVENTCALLBACKS.callback(event_group='mygroup',
+                                         event_names=['my-pass-search',
+                                                      'my-fail-search1',
+                                                      'my-fail-search2'])
                 def my_standard_search_common(self, event):
                     callbacks_called[event.name] = True
                     test_self.assertEqual(event.results[0].get(0), 'hello')

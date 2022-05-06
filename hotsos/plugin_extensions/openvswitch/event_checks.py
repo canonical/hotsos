@@ -21,18 +21,21 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
     def summary_subkey(self):
         return 'ovs-checks'
 
-    @EVENTCALLBACKS.callback('bridge-no-such-device',
-                             'netdev-linux-no-such-device')
+    @EVENTCALLBACKS.callback(event_group='ovs',
+                             event_names=['bridge-no-such-device',
+                                          'netdev-linux-no-such-device'])
     def process_vswitchd_events(self, event):
         ret = self.categorise_events(event)
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 
-    @EVENTCALLBACKS.callback('ovsdb-server', 'ovs-vswitchd',
-                             'receive-tunnel-port-not-found',
-                             'rx-packet-on-unassociated-datapath-port',
-                             'dpif-netlink-lost-packet-on-handler',
-                             'unreasonably-long-poll-interval')
+    @EVENTCALLBACKS.callback(event_group='ovs',
+                             event_names=[
+                                    'ovsdb-server', 'ovs-vswitchd',
+                                    'receive-tunnel-port-not-found',
+                                    'rx-packet-on-unassociated-datapath-port',
+                                    'dpif-netlink-lost-packet-on-handler',
+                                    'unreasonably-long-poll-interval'])
     def process_log_events(self, event):
         key_by_date = True
         if event.name in ['ovs-vswitchd', 'ovsdb-server']:
@@ -43,13 +46,13 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         if ret:
             return {event.name: ret}, event.section
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ovs')
     def deferred_action_limit_reached(self, event):
         ret = self.categorise_events(event, key_by_date=False)
         output_key = "{}-{}".format(event.section, event.name)
         return ret, output_key
 
-    @EVENTCALLBACKS.callback()
+    @EVENTCALLBACKS.callback(event_group='ovs')
     def port_stats(self, event):
         """
         Report on interfaces that are showing packet drops or errors.
@@ -146,10 +149,12 @@ class OVNEventChecks(OpenvSwitchEventChecksBase):
     def summary_subkey(self):
         return 'ovn-checks'
 
-    @EVENTCALLBACKS.callback('ovsdb-server-nb', 'ovsdb-server-sb',
-                             'ovn-northd', 'ovn-controller',
-                             'unreasonably-long-poll-interval',
-                             'inactivity-probe', 'bridge-not-found-for-port')
+    @EVENTCALLBACKS.callback(event_group='ovn',
+                             event_names=['ovsdb-server-nb', 'ovsdb-server-sb',
+                                          'ovn-northd', 'ovn-controller',
+                                          'unreasonably-long-poll-interval',
+                                          'inactivity-probe',
+                                          'bridge-not-found-for-port'])
     def process_log_events(self, event):
         key_by_date = True
         if event.name in ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
