@@ -3,6 +3,7 @@ import re
 from hotsos.core import plugintools
 from hotsos.core import host_helpers
 from hotsos.core.ycheck.events import YEventCheckerBase
+from hotsos.core.utils import sorted_dict
 
 
 OVS_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
@@ -203,4 +204,6 @@ class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
     @property
     def summary(self):
         # mainline all results into summary root
-        return self.run_checks()
+        ret = self.run_checks()
+        if ret:
+            return sorted_dict(ret)
