@@ -1,0 +1,35 @@
+checks:
+  has_1971565:
+    requires:
+      apt:
+        mysql-router:
+          # focal:
+          - min: 8.0.29-0ubuntu0.20.04.2
+            max: 8.0.29-0ubuntu0.20.04.2
+          # impish:
+          - min: 8.0.29-0ubuntu0.21.10.1
+            max: 8.0.29-0ubuntu0.21.10.1
+          # jammy:
+          - min: 8.0.29-0ubuntu0.22.04.1
+            max: 8.0.29-0ubuntu0.22.04.1
+  mysql_router_enabled:
+    requires:
+      systemd:
+        mysql-router: enabled
+
+conclusions:
+  lp1971565:
+    decision:
+      and:
+        - has_1971565
+        - mysql_router_enabled
+    raises:
+      type: LaunchpadBug
+      bug-id: 1971565
+      message: >-
+        Installed package '{package}' with version {version} has a known bug
+        that prevents mysql-router from starting. Please upgrade to the latest
+        version to fix this issue.
+      format-dict:
+        package: '@checks.has_1971565.requires.package'
+        version: '@checks.has_1971565.requires.version'
