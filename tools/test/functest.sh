@@ -13,6 +13,7 @@ declare -A PLUGIN_ROOTS=(
     [storage]=./tests/unit/fake_data_root/storage/ceph-mon
     [vault]=./tests/unit/fake_data_root/vault
     [pacemaker]=./tests/unit/fake_data_root/vault
+    [mysql]=./tests/unit/fake_data_root/vault
 )
 PLUGINS=(
     openstack
@@ -27,6 +28,7 @@ PLUGINS=(
     system
     vault
     pacemaker
+    mysql
 )
 result=true
 

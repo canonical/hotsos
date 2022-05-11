@@ -56,9 +56,12 @@ class YDefsLoader(object):
                 if self._get_yname(abs_path) == os.path.basename(path):
                     with open(abs_path) as fd:
                         log.debug("applying dir globals %s", entry)
-                        self.stats_num_files_loaded += 1
                         defs.update(yaml.safe_load(fd.read()) or {})
 
+                    # NOTE: these files do not count towards the total loaded
+                    # since they are only supposed to contain directory-level
+                    # globals that apply to other definitions in or below this
+                    # directory.
                     continue
 
                 with open(abs_path) as fd:
@@ -78,7 +81,9 @@ class YDefsLoader(object):
             _defs = self._get_defs_recursive(path)
             log.debug("YDefsLoader: plugin %s loaded %s files",
                       HotSOSConfig.PLUGIN_NAME, self.stats_num_files_loaded)
-            return _defs
+            # only return if we loaded actual definitions (not just globals)
+            if self.stats_num_files_loaded:
+                return _defs
 
     @property
     def plugin_defs_legacy(self):

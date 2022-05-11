@@ -7,6 +7,7 @@ from hotsos.core.log import log
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core import plugintools
 
+from hotsos.plugin_extensions.mysql.summary import MySQLSummary
 from hotsos.plugin_extensions.juju.summary import JujuSummary
 from hotsos.plugin_extensions.openstack import (
     summary as ost_summary,
@@ -62,6 +63,7 @@ PLUGIN_RUN_ORDER = [
     'hotsos',
     'system',
     'sosreport',
+    'mysql',
     'openstack',
     'pacemaker',
     'openvswitch',
@@ -83,6 +85,11 @@ PLUGIN_CATALOG = {'hotsos': {
                      'summary': {
                          'objects': [JujuSummary],
                          'part_yaml_offset': 0}},
+                  'mysql': {
+                     'summary': {
+                         'objects': [MySQLSummary],
+                         'part_yaml_offset': 0},
+                      },
                   'openstack': {
                      'summary': {
                          'objects': [ost_summary.OpenstackSummary],
