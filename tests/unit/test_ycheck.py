@@ -47,6 +47,24 @@ class TestProperty(YPropertyBase):
         return False
 
 
+class FakeServiceObjectManager(object):
+
+    def __init__(self, start_times):
+        self._start_times = start_times
+
+    def __call__(self, name, state):
+        return FakeServiceObject(name, state,
+                                 start_time=self._start_times[name])
+
+
+class FakeServiceObject(object):
+
+    def __init__(self, name, state, start_time):
+        self.name = name
+        self.state = state
+        self.start_time = start_time
+
+
 YDEF_NESTED_LOGIC = """
 checks:
   isTrue:
@@ -151,14 +169,14 @@ pluginX:
 """
 
 
-YAML_DEF_REQUIRES_SYSTEMD_PASS_2 = """
+YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER = """
 pluginX:
   groupA:
     requires:
       systemd:
-        neutron-openvswitch-agent:
+        openvswitch-switch:
           state: enabled
-          started-after: openvswitch-switch
+          started-after: neutron-openvswitch-agent
 """
 
 
@@ -181,17 +199,6 @@ pluginX:
         nova-compute:
           state: disabled
           op: eq
-"""
-
-
-YAML_DEF_REQUIRES_SYSTEMD_FAIL_3 = """
-pluginX:
-  groupA:
-    requires:
-      systemd:
-        openvswitch-switch:
-          state: enabled
-          started-after: neutron-openvswitch-agent
 """
 
 
@@ -857,11 +864,6 @@ class TestYamlChecks(utils.BaseTestCase):
         for entry in mydef.leaf_sections:
             self.assertTrue(entry.requires.passes)
 
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS_2))
-        for entry in mydef.leaf_sections:
-            self.assertTrue(entry.requires.passes)
-
     def test_yaml_def_requires_systemd_fail(self):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_1))
@@ -873,10 +875,40 @@ class TestYamlChecks(utils.BaseTestCase):
         for entry in mydef.leaf_sections:
             self.assertFalse(entry.requires.passes)
 
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_3))
-        for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
+    def test_yaml_def_requires_systemd_started_after_pass(self):
+        current = datetime.datetime.now()
+        with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
+                        FakeServiceObjectManager({
+                            'neutron-openvswitch-agent':
+                                current,
+                            'openvswitch-switch':
+                                current + datetime.timedelta(seconds=120)})):
+            content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
+            mydef = YDefsSection('mydef', content)
+            for entry in mydef.leaf_sections:
+                self.assertTrue(entry.requires.passes)
+
+    def test_yaml_def_requires_systemd_started_after_fail(self):
+        current = datetime.datetime.now()
+        with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
+                        FakeServiceObjectManager({'neutron-openvswitch-agent':
+                                                  current,
+                                                  'openvswitch-switch':
+                                                  current})):
+            content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
+            mydef = YDefsSection('mydef', content)
+            for entry in mydef.leaf_sections:
+                self.assertFalse(entry.requires.passes)
+
+        with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
+                        FakeServiceObjectManager({
+                            'neutron-openvswitch-agent': current,
+                            'openvswitch-switch':
+                                current + datetime.timedelta(seconds=119)})):
+            content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
+            mydef = YDefsSection('mydef', content)
+            for entry in mydef.leaf_sections:
+                self.assertFalse(entry.requires.passes)
 
     def test_yaml_def_nested_logic(self):
         with tempfile.TemporaryDirectory() as dtmp:

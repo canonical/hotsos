@@ -345,10 +345,13 @@ REQ_TYPE
   SYSTEMD
     Takes a systemd service and optionally some parameters to check.
     Returns True if service exists and, if provided, parameters match.
-    Short and long forms are supported as follows. If a service name
-    is provided using the started-after parameter, the start time of
-    that service (if it exists) must be less than the service under
-    test.
+    Short and long forms are supported as follows.
+    
+    If a service name is provided using the started-after parameter,
+    the start time of that service (if it exists) must be at least
+    120s behind the primary service. The grace period is to avoid
+    false-positives on boot where many services are often started at
+    once.
 
     Format:
 
