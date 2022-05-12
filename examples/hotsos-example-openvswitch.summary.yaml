@@ -68,15 +68,15 @@ openvswitch:
   ovn-checks:
     errors-and-warnings:
       ovsdb-server-sb:
-        ERR:
-          '2022-02-17': 2
         WARN:
           '2022-02-17': 23
-      ovsdb-server-nb:
         ERR:
-          '2022-02-17': 1
+          '2022-02-17': 2
+      ovsdb-server-nb:
         WARN:
           '2022-02-17': 17
+        ERR:
+          '2022-02-17': 1
       ovn-northd:
         WARN:
           '2022-02-17': 1

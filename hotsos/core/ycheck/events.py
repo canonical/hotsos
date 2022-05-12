@@ -1,4 +1,5 @@
 from hotsos.core.log import log
+from hotsos.core.utils import sorted_dict
 from hotsos.core.searchtools import (
     SearchDef,
     SequenceSearchDef,
@@ -33,7 +34,8 @@ class EventCheckResult(object):
 class EventProcessingUtils(object):
 
     @classmethod
-    def get_events_by_time(cls, events, key_by_date=False, include_time=False):
+    def categorise_events(cls, event, results=None, key_by_date=True,
+                          include_time=False, squash_if_none_keys=False):
         """
         Provides a generic way to categorise events. The default is to group
         events by key which is typically some kind of resource id or event
@@ -41,36 +43,84 @@ class EventProcessingUtils(object):
         also available, events will be grouped by time beneath their date. It
         may sometimes be useful to group events by date at the top level which
         is also supported here.
+
+        The date, time and key values are extracted from each event search
+        result and  are expected to be at indexes 1, 2 and 3 respectively. If
+        the search result only has two groups it is assumed that the second is
+        "key" i.e. no time is given. If the results argument is provided, this
+        will be used instead of event.results.
+
+        @param event: EventCheckResult object
+        @param results: optional list of results where each item is a dict with
+                        keys 'date', 'key' and optionally 'time'.
+        @param key_by_date: by default results are categorised by date but in
+                            situations where a small number of event types
+                            (keys) are spread across many dates/times it might
+                            make sense to categorise by event type.
+        @param include_time: If true events will be categorised by time beneath
+                             date to provide an extra level of granularity.
+        @param squash_if_none_keys: If true and any key is found to be None
+                                    (perhaps because a regex pattern did not
+                                    match properly) the results for each date
+                                    will be squashed to a number/count of
+                                    events.
         """
         info = {}
-        for e in events:
-            ts_time = e.get('time')
+        squash = False
+        if results is None:
+            # use raw
+            results = []
+            for r in event.results:
+                # the search expression used much ensure that tese are#
+                # available in order for this to work.
+                if len(r) > 2:
+                    results.append({'date': r.get(1), 'time': r.get(2),
+                                    'key': r.get(3)})
+                else:
+                    results.append({'date': r.get(1), 'key': r.get(2)})
+
+        for r in results:
+            if r['key'] is None and squash_if_none_keys:
+                squash = True
+
+            ts_time = r.get('time')
             if key_by_date:
-                ts_date = e['key']
-                key = e['date']
+                key = r['date']
+                value = r['key']
             else:
-                ts_date = e['date']
-                key = e['key']
+                key = r['key']
+                value = r['date']
 
             if key not in info:
                 info[key] = {}
 
-            if ts_date not in info[key]:
+            if value not in info[key]:
                 if ts_time is not None and include_time:
-                    info[key][ts_date] = {}
+                    info[key][value] = {}
                 else:
-                    info[key][ts_date] = 0
+                    info[key][value] = 0
 
             if ts_time is not None and include_time:
-                if ts_time not in info[key][ts_date]:
-                    info[key][ts_date][ts_time] = 1
+                if ts_time not in info[key][value]:
+                    info[key][value][ts_time] = 1
                 else:
-                    info[key][ts_date][ts_time] += 1
+                    info[key][value][ts_time] += 1
             else:
-                info[key][ts_date] += 1
+                info[key][value] += 1
 
         if info:
-            return info
+            if squash:
+                squashed = {}
+                for k, v in info.items():
+                    if k not in squashed:
+                        squashed[k] = 0
+
+                    for count in v.values():
+                        squashed[k] += count
+
+                info = squashed
+
+            return sorted_dict(info, reverse=True)
 
 
 class YEventCheckerBase(ChecksBase, EventProcessingUtils):

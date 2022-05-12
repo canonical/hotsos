@@ -24,7 +24,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
     @EVENTCALLBACKS.callback('bridge-no-such-device',
                              'netdev-linux-no-such-device')
     def process_vswitchd_events(self, event):
-        ret = self.get_results_stats(event.results)
+        ret = self.categorise_events(event)
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 
@@ -38,14 +38,14 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         if event.name in ['ovs-vswitchd', 'ovsdb-server']:
             key_by_date = False
 
-        ret = self.get_results_stats(event.results, key_by_date=key_by_date)
+        ret = self.categorise_events(event, key_by_date=key_by_date,
+                                     squash_if_none_keys=True)
         if ret:
-            ret = {event.name: ret}
-            return ret, event.section
+            return {event.name: ret}, event.section
 
     @EVENTCALLBACKS.callback()
     def deferred_action_limit_reached(self, event):
-        ret = self.get_results_stats(event.results, key_by_date=False)
+        ret = self.categorise_events(event, key_by_date=False)
         output_key = "{}-{}".format(event.section, event.name)
         return ret, output_key
 
@@ -156,7 +156,7 @@ class OVNEventChecks(OpenvSwitchEventChecksBase):
                           'ovn-controller']:
             key_by_date = False
 
-        ret = self.get_results_stats(event.results, key_by_date=key_by_date)
+        ret = self.categorise_events(event, key_by_date=key_by_date,
+                                     squash_if_none_keys=True)
         if ret:
-            ret = {event.name: ret}
-            return ret, event.section
+            return {event.name: ret}, event.section

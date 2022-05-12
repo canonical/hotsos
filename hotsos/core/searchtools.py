@@ -194,6 +194,9 @@ class SearchResult(object):
 
         return self._parts[index].value
 
+    def __len__(self):
+        return len(self._parts)
+
     def __iter__(self):
         for idx in sorted(self._parts.keys()):
             yield self._parts[idx].value

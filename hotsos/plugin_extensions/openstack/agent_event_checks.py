@@ -33,11 +33,10 @@ class ApacheEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback()
     def connection_refused(self, event):
-        events = {}
         ports_max = {}
         context = {}
 
-        events = []
+        results = []
         for result in event.results:
             # save some context info
             if result.source in context:
@@ -50,10 +49,10 @@ class ApacheEventChecks(OpenstackEventChecksBase):
             year = result.get(3)
             addr = result.get(4)
             port = result.get(5)
-            events.append({'date': "{}-{}-{}".format(year, month, day),
-                           'key': "{}:{}".format(addr, port)})
+            results.append({'date': "{}-{}-{}".format(year, month, day),
+                            'key': "{}:{}".format(addr, port)})
 
-        conns_refused = self.get_events_by_time(events, key_by_date=True)
+        conns_refused = self.categorise_events(event, results=results)
         for addrs in conns_refused.values():
             for addr, count in addrs.items():
                 port = addr.partition(':')[2]
@@ -137,24 +136,23 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback('lb-failover-auto', 'lb-failover-manual')
     def lb_failovers(self, event):
-        events = []
+        results = []
         for e in event.results:
             payload = yaml.safe_load(e.get(2))
             lb_id = payload.get('load_balancer_id')
             if lb_id is None:
                 continue
 
-            events.append({'date': e.get(1), 'key': lb_id})
+            results.append({'date': e.get(1), 'key': lb_id})
 
-        ret = self.get_events_by_time(events)
+        ret = self.categorise_events(event, results=results, key_by_date=False)
         if ret:
             failover_type = event.name.rpartition('-')[2]
             return {failover_type: ret}, 'lb-failovers'
 
     @EVENTCALLBACKS.callback()
     def amp_missed_heartbeats(self, event):
-        events = [{'date': r.get(1), 'key': r.get(2)} for r in event.results]
-        missed_heartbeats = self.get_events_by_time(events)
+        missed_heartbeats = self.categorise_events(event, key_by_date=False)
         if not missed_heartbeats:
             return
 
@@ -179,10 +177,7 @@ class NovaComputeEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback()
     def pci_dev_not_found(self, event):
-        events = [{'date': r.get(1),
-                   'time': r.get(2),
-                   'key': r.get(3)} for r in event.results]
-        ret = self.get_events_by_time(events, key_by_date=True)
+        ret = self.categorise_events(event)
         if ret:
             return ret, 'PciDeviceNotFoundById'
 
@@ -198,10 +193,11 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback('nova', 'neutron')
     def openstack_apparmor(self, event):
-        events = [{'date': "{} {}".format(r.get(1), r.get(2)),
-                   'time': r.get(3),
-                   'key': r.get(4)} for r in event.results]
-        ret = self.get_events_by_time(events)
+        results = [{'date': "{} {}".format(r.get(1), r.get(2)),
+                    'time': r.get(3),
+                    'key': r.get(4)} for r in event.results]
+        ret = self.categorise_events(event, results=results,
+                                     key_by_date=False)
         if ret:
             # event.name must be the service name, event.section is the aa
             # action.
@@ -253,16 +249,17 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
     @EVENTCALLBACKS.callback()
     def vrrp_transitions(self, event):
-        events = []
+        results = []
         for r in event.results:
             router = self.ha_info.find_router_with_vr_id(r.get(2))
             if not router:
                 log.debug("could not find router with vr_id %s", r.get(2))
                 continue
 
-            events.append({'date': r.get(1), 'key': router.uuid})
+            results.append({'date': r.get(1), 'key': router.uuid})
 
-        transitions = self.get_events_by_time(events)
+        transitions = self.categorise_events(event, results=results,
+                                             key_by_date=False)
         if transitions:
             # run checks
             self.check_vrrp_transitions(transitions)

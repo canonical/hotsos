@@ -214,11 +214,11 @@ class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
     do run() themselves so we defer.
     """
 
-    def get_events_by_time(self, *args, **kwargs):
+    def categorise_events(self, *args, **kwargs):
         if 'include_time' not in kwargs:
             kwargs['include_time'] = self.agent_error_key_by_time
 
-        return super().get_events_by_time(*args, **kwargs)
+        return super().categorise_events(*args, **kwargs)
 
 
 class OpenstackServiceChecksBase(OpenstackChecksBase, ServiceChecksBase):

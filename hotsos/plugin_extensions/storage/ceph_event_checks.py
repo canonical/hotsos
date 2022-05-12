@@ -6,6 +6,7 @@ from hotsos.core.plugins.storage.ceph import CephEventChecksBase
 from hotsos.core.searchtools import FileSearcher
 
 EVENTCALLBACKS = CallbackHelper()
+CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 
 
 class CephDaemonLogChecks(CephEventChecksBase):
@@ -14,57 +15,6 @@ class CephDaemonLogChecks(CephEventChecksBase):
         super().__init__(yaml_defs_group='ceph',
                          searchobj=FileSearcher(),
                          callback_helper=EVENTCALLBACKS)
-
-    def get_timings(self, results, group_by_resource=False,
-                    resource_osd_from_source=False):
-        """
-        @param results: list of search results. Each result must contain a
-        timestamp as the first group and optional a resource name as a
-        second group. If timestamp only we return a list with a count of number
-        of times an event occurred per timestamp. If resource is available we
-        provide per-resource counts for each timestamp.
-        @param group_by_resource: if resource is available group results by
-        resource instead of by timestamp.
-        @param resource_osd_from_source: extract osd id from search path and
-                                         use that as resource.
-        """
-        if not results:
-            return
-
-        info = {}
-        c_expr = re.compile(r'.+ceph-osd\.(\d+)\.log')
-        for result in sorted(results, key=lambda r: r.get(1)):
-            date = result.get(1)
-            resource = result.get(2)
-            if resource_osd_from_source:
-                ret = re.compile(c_expr).match(result.source)
-                if ret:
-                    resource = "osd.{}".format(ret.group(1))
-
-            if resource:
-                if group_by_resource:
-                    if resource not in info:
-                        info[resource] = {date: 1}
-                    else:
-                        if date in info[resource]:
-                            info[resource][date] += 1
-                        else:
-                            info[resource][date] = 1
-                else:
-                    if date not in info:
-                        info[date] = {resource: 1}
-                    else:
-                        if resource in info[date]:
-                            info[date][resource] += 1
-                        else:
-                            info[date][resource] = 1
-            else:
-                if date not in info:
-                    info[date] = 1
-                else:
-                    info[date] += 1
-
-        return info
 
     @EVENTCALLBACKS.callback()
     def slow_requests(self, event):
@@ -81,62 +31,85 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
     @EVENTCALLBACKS.callback()
     def osd_reported_failed(self, event):
-        return self.get_timings(event.results,
-                                group_by_resource=True)
+        return self.categorise_events(event, key_by_date=False)
 
     @EVENTCALLBACKS.callback()
     def mon_elections_called(self, event):
-        return self.get_timings(event.results,
-                                group_by_resource=True)
+        return self.categorise_events(event, key_by_date=False)
 
-    def _get_crc_errors(self, results, osd_type):
-        if results:
-            ret = self.get_timings(results, resource_osd_from_source=True)
+    def _get_crc_errors(self, event, osd_type):
+        if not event.results:
+            return
 
-            # If on any particular day there were > 3 crc errors for a
-            # particular osd we raise an issue since that indicates they are
-            # likely to reflect a real problem.
-            osds_in_err = set()
-            osd_err_max = 0
-            # ret is keyed by day
-            for osds in ret.values():
-                # If we were unable to glean the osd id from the search results
-                # this will not be a dict so skip.
-                if type(osds) != dict:
-                    continue
+        c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
+        results = []
+        for r in event.results:
+            ret = c_expr.match(r.source)
+            if ret:
+                key = "osd.{}".format(ret.group(1))
+            else:
+                key = None
 
-                for osd, num_errs in osds.items():
-                    if num_errs > 3:
-                        if num_errs > osd_err_max:
-                            osd_err_max = num_errs
+            results.append({'date': r.get(1), 'key': key})
 
-                        osds_in_err.add(osd)
+        ret = self.categorise_events(event, results=results,
+                                     squash_if_none_keys=True)
 
-            if osds_in_err:
-                msg = ("{} osds ({}) found with > 3 {} crc errors (max={}) "
-                       "each within a 24hr period - please investigate".
-                       format(len(osds_in_err), ','.join(osds_in_err),
-                              osd_type, osd_err_max))
-                IssuesManager().add(CephOSDError(msg))
+        # If on any particular day there were > 3 crc errors for a
+        # particular osd we raise an issue since that indicates they are
+        # likely to reflect a real problem.
+        osds_in_err = set()
+        osd_err_max = 0
+        # ret is keyed by day
+        for osds in ret.values():
+            # If we were unable to glean the osd id from the search results
+            # this will not be a dict so skip.
+            if type(osds) != dict:
+                continue
 
-            return ret
+            for osd, num_errs in osds.items():
+                if num_errs > 3:
+                    if num_errs > osd_err_max:
+                        osd_err_max = num_errs
+
+                    osds_in_err.add(osd)
+
+        if osds_in_err:
+            msg = ("{} osds ({}) found with > 3 {} crc errors (max={}) "
+                   "each within a 24hr period - please investigate".
+                   format(len(osds_in_err), ','.join(osds_in_err),
+                          osd_type, osd_err_max))
+            IssuesManager().add(CephOSDError(msg))
+
+        return ret
 
     @EVENTCALLBACKS.callback()
     def crc_err_bluestore(self, event):
-        return self._get_crc_errors(event.results, 'bluestore')
+        return self._get_crc_errors(event, 'bluestore')
 
     @EVENTCALLBACKS.callback()
     def crc_err_rocksdb(self, event):
-        return self._get_crc_errors(event.results, 'rocksdb')
+        return self._get_crc_errors(event, 'rocksdb')
 
     @EVENTCALLBACKS.callback()
     def long_heartbeat_pings(self, event):
-        return self.get_timings(event.results,
-                                resource_osd_from_source=True)
+        c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
+        results = []
+        for r in event.results:
+            ret = c_expr.match(r.source)
+            if ret:
+                key = "osd.{}".format(ret.group(1))
+            else:
+                key = None
+
+            results.append({'date': r.get(1), 'key': key})
+
+        return self.categorise_events(event, results=results,
+                                      squash_if_none_keys=True)
 
     @EVENTCALLBACKS.callback()
     def heartbeat_no_reply(self, event):
-        return self.get_timings(event.results)
+        return self.categorise_events(event)
 
     @EVENTCALLBACKS.callback()
     def superblock_read_error(self, event):  # pylint: disable=W0613
