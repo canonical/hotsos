@@ -1,0 +1,6 @@
+requires:
+  systemd:
+    # both mon and osd nodes will have a ceph-mon package and service installed
+    # but it will typically be disabled if not in used so we use that as a
+    # means of knowing what type of node it is.
+    ceph-mon: enabled
