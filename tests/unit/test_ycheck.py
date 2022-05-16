@@ -189,6 +189,17 @@ pluginX:
         nova-compute: disabled
 """
 
+YAML_DEF_REQUIRES_MAPPED = """
+myplugin:
+  myscenario:
+    checks:
+      is_exists_mapped:
+        systemd: nova-compute
+      is_exists_unmapped:
+        requires:
+          systemd: nova-compute
+"""
+
 YAML_DEF_REQUIRES_SYSTEMD_FAIL_2 = """
 pluginX:
   groupA:
@@ -341,9 +352,9 @@ myplugin:
       logandsnap:
         priority: 2
         decision:
-            and:
-                - logmatch
-                - snap_pkg_exists
+          and:
+            - logmatch
+            - snap_pkg_exists
         raises:
           type: SystemWarning
           message: log matched {num} times and snap exists
@@ -352,13 +363,13 @@ myplugin:
       logandsnapandservice:
         priority: 3
         decision:
-            and:
-                - logmatch
-                - snap_pkg_exists
-                - service_exists_short
-                - service_exists_and_enabled
-                - property_true_shortform
-                - property_has_value_longform
+          and:
+            - logmatch
+            - snap_pkg_exists
+            - service_exists_short
+            - service_exists_and_enabled
+            - property_true_shortform
+            - property_has_value_longform
         raises:
           type: SystemWarning
           message: log matched {num} times, snap and service exists
@@ -757,7 +768,22 @@ class TestYamlChecks(utils.BaseTestCase):
         mock_plugin.return_value.r1 = False
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
+
+        results = []
+        for leaf in group.leaf_sections:
+            self.assertEqual(len(leaf.requires), 1)
+            for _requires in leaf.requires:
+                for op in _requires:
+                    for item in op:
+                        for rtype in item:
+                            for entry in rtype:
+                                results.append(entry.result)
+
+            self.assertFalse(leaf.requires.passes)
+
         self.assertFalse(group.leaf_sections[0].requires.passes)
+        self.assertEqual(len(results), 2)
+        self.assertEqual(results, [False, False])
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
@@ -922,3 +948,16 @@ class TestYamlChecks(utils.BaseTestCase):
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(sorted([issue['desc'] for issue in issues]),
                              sorted(['conc1', 'conc3']))
+
+    def test_yaml_def_mapped_overrides(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
+            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
+                                                      YAML_DEF_REQUIRES_MAPPED)
+            checker = scenarios.YScenarioChecker()
+            checker.load()
+            self.assertEqual(len(checker.scenarios), 1)
+            for scenario in checker.scenarios:
+                self.assertEqual(len(scenario.checks), 2)
+                for check in scenario.checks.values():
+                    self.assertTrue(check.result)

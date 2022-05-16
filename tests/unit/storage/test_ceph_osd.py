@@ -240,8 +240,14 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                'from the data disk. Please set '
                'bluestore_volume_selection_policy of all OSDs to '
                'use_some_extra')
+        context = {'package': 'ceph-osd', 'version': '15.2.7-0ubuntu0.20.04.2',
+                   'property': ('hotsos.core.plugins.storage.ceph.'
+                                'CephDaemonConfigShowAllOSDs.'
+                                'bluestore_volume_selection_policy'),
+                   'ops': 'ne []', 'value_actual': ['rocksdb_original'],
+                   'passes': True}
         expected = {'bugs-detected': [{
-                        'context': {'passes': True},
+                        'context': context,
                         'desc': msg,
                         'id': 'https://bugs.launchpad.net/bugs/1959649',
                         'origin': 'storage.01part'}]}

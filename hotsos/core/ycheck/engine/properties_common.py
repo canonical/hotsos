@@ -1,10 +1,9 @@
 import abc
 import builtins
-import copy
 import importlib
 
 from hotsos.core.log import log
-from hotsos.core.ystruct import YAMLDefOverrideBase
+from hotsos.core.ystruct import YStructOverrideBase, YStructMappedOverrideBase
 
 
 def cached_yproperty_attr(f):
@@ -70,7 +69,7 @@ class PropertyCacheRefResolver(object):
         if self.reftype == 'checks':
             prefix = "@checks.{}.".format(self.check_name)
         else:
-            prefix = "@{}.".format(self.property.property_name)
+            prefix = "@{}.".format(self.property._override_name)
 
         return self.refstr.partition(prefix)[2]
 
@@ -102,7 +101,7 @@ class PropertyCacheRefResolver(object):
         if self.reftype == 'checks':
             return self._ref_body.partition('.')[0]
 
-        return self.property.property_name
+        return self.property._override_name
 
     @property
     def property_cache_key(self):
@@ -197,8 +196,9 @@ class PropertyCache(object):
 class YPropertyBase(object):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        log.debug("YPropertyBase %s %s (%s)", args, kwargs, self)
         self._cache = PropertyCache()
+        super().__init__(*args, **kwargs)
 
     @property
     def cache(self):
@@ -256,7 +256,7 @@ class YPropertyBase(object):
         except Exception as exc:
             log.exception("failed to get module attribute %s", import_str)
 
-            # ystruct.YAMLDefOverrideBase swallows AttributeError so need to
+            # ystruct.YStructOverrideBase swallows AttributeError so need to
             # convert to something else.
             if type(exc) == AttributeError:
                 raise ImportError from exc
@@ -278,139 +278,80 @@ class YPropertyBase(object):
         return self.get_attribute(import_str)
 
 
-class YPropertyOverrideBase(abc.ABC, YAMLDefOverrideBase, YPropertyBase):
-
-    @abc.abstractproperty
-    def property_name(self):
-        """
-        Every property override must implement this. This name must be unique
-        across all properties and will be used to link the property in a
-        PropertyCacheRefResolver.
-        """
+class YPropertyOverrideBase(YStructOverrideBase, YPropertyBase):
+    pass
 
 
-class YPropertyCollectionBase(YPropertyOverrideBase):
-
-    @abc.abstractproperty
-    def property_name(self):
-        """
-        Every property override must implement this. This name must be unique
-        across all properties and will be used to link the property in a
-        PropertyCacheRefResolver.
-        """
+class YPropertyMappedOverrideBase(YStructMappedOverrideBase, YPropertyBase):
+    pass
 
 
-class LogicalCollectionMap(object):
-
-    def __init__(self, raw, backend, cache=None):
-        self.raw = raw
-        self.backend = backend
-        self.cache = cache
-
-    def apply(self, item, copy_cache=False):
-        if type(item) != dict:
-            # i.e. it must be a string
-            key = value = item
-        else:
-            # dict should only have one key
-            key, value = copy.deepcopy(item).popitem()
-
-        ret = self.backend[key](value)
-        result = ret.result
-        if copy_cache and self.cache:
-            log.debug("merging cache with item of type %s",
-                      ret.__class__.__name__)
-            self.cache.merge(ret.cache)
-
-        return result
-
-
-class LogicalCollectionHandler(object):
+class LogicalCollectionHandler(abc.ABC):
     VALID_GROUP_KEYS = ['and', 'or', 'not']
     FINAL_RESULT_OP = 'and'
 
-    def __init__(self, logicmap):
-        self.logicmap = logicmap
+    @abc.abstractmethod
+    def run_single(self, item_list):
+        """ run a list i.e. ungrouped. """
 
-    def is_group(self, item):
-        if type(item) != dict:
-            return False
+    def get_item_result_callback(self, item):
+        """
+        Implement this if needed.
+        """
+        raise NotImplementedError
 
-        if set(list(item.keys())).intersection(self.VALID_GROUP_KEYS):
-            return True
+    def group_results(self, logical_op_group):
+        results = []
+        for item in logical_op_group.members:
+            for entry in item:
+                try:
+                    results.append(self.get_item_result_callback(entry))
+                except NotImplementedError:
+                    results.append(entry.result)
 
-        return False
-
-    def process_single(self, item, copy_cache=False):
-        log.debug("SINGLE: %s", item)
-        return self.logicmap.apply(item, copy_cache=copy_cache)
-
-    def process_group(self, item):
-        results = {}
-        for op, _items in item.items():
-            if op not in results:
-                results[op] = []
-
-            if type(_items) != list:
-                results[op].append(self.process_single(_items))
-            else:
-                log.debug("op=%s has %s items(s)", op, len(_items))
-                for _item in _items:
-                    results[op].append(self.process_single(_item))
-
+        log.debug("group results: %s", results)
         return results
 
-    def process_list(self, items):
-        results = {}
-        for item in items:
-            if self.is_group(item):
-                log.debug("list:group")
-                for op, _results in self.process_group(item).items():
-                    if op not in results:
-                        results[op] = []
-
-                    results[op].extend(_results)
-            else:
-                log.debug("list:single")
-                # final results always get anded.
-                op = self.FINAL_RESULT_OP
-                if op not in results:
-                    results[op] = []
-
-                results[op].append(self.process_single(item))
-
-        return results
-
-    def __call__(self):
-        if type(self.logicmap.raw) == dict:
-            if self.is_group(self.logicmap.raw):
-                log.debug("items groups provided")
-                results = self.process_group(self.logicmap.raw)
-            else:
-                log.debug("single items provided")
-                results = {self.FINAL_RESULT_OP:
-                           [self.process_single(self.logicmap.raw,
-                                                copy_cache=True)]}
-        elif type(self.logicmap.raw) == list:
-            log.debug("list of %s items provided", len(self.logicmap.raw))
-            results = self.process_list(self.logicmap.raw)
-        else:
-            results = {self.FINAL_RESULT_OP:
-                       [self.process_single(self.logicmap.raw,
-                                            copy_cache=True)]}
-
+    def run_level(self, level):
         final_results = []
-        for op in results:
-            if op == 'and':
-                final_results.append(all(results[op]))
-            elif op == 'or':
-                final_results.append(any(results[op]))
-            elif op == 'not':
-                # this is a NOR
-                final_results.append(not any(results[op]))
-            else:
-                log.debug("unknown operator '%s' found in requirement", op)
+        for item in level:
+            final_results.extend(self.run_op_groups(item))
+            for subitem in item:
+                if subitem._override_name not in self.VALID_GROUP_KEYS:
+                    final_results.extend(self.run_single(subitem))
 
-        result = all(final_results)
+        return final_results
+
+    def run_logical_op_group(self, logical_op_group):
+        if logical_op_group._override_name == 'and':
+            result = all(self.group_results(logical_op_group))
+        elif logical_op_group._override_name == 'or':
+            result = any(self.group_results(logical_op_group))
+        elif logical_op_group._override_name == 'not':
+            # this is a NOR
+            result = not any(self.group_results(logical_op_group))
+        else:
+            log.warning("unknown operator '%s' found",
+                        logical_op_group._override_name)
+
+        return result
+
+    def run_op_groups(self, item):
+        final_results = []
+        for op in self.VALID_GROUP_KEYS:
+            op_group = getattr(item, op)
+            if op_group:
+                result = self.run_logical_op_group(op_group)
+                if result is not None:
+                    final_results.append(result)
+
+        return final_results
+
+    def run_collection(self):
+        log.debug("run_collection:start (%s)", self._override_name)
+        all_results = self.run_level(self)
+        log.debug("all_results: %s", all_results)
+        result = all(all_results)
         log.debug("final result=%s", result)
+        log.debug("run_collection:end (%s)", self._override_name)
         return result

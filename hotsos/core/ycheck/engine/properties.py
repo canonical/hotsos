@@ -23,14 +23,13 @@ from hotsos.core.issues import IssueContext
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core.utils import mktemp_dump
-from hotsos.core.ystruct import YAMLDefSection
+from hotsos.core.ystruct import YStructSection
 from hotsos.core.ycheck.engine.properties_common import (
     cached_yproperty_attr,
     PropertyCacheRefResolver,
     YPropertyBase,
     YPropertyOverrideBase,
-    YPropertyCollectionBase,
-    LogicalCollectionMap,
+    YPropertyMappedOverrideBase,
     LogicalCollectionHandler,
 )
 
@@ -38,18 +37,14 @@ from hotsos.core.ycheck.engine.properties_common import (
 YPropertiesCatalog = []
 
 
-class YDefsSection(YAMLDefSection):
-    def __init__(self, name, content, extra_overrides=None):
+class YDefsSection(YStructSection):
+
+    def __init__(self, name, content):
         """
         @param name: name of defs group
         @param content: defs tree of type dict
-        @param extra_overrides: optional extra overrides
         """
-        overrides = [] + YPropertiesCatalog
-        if extra_overrides:
-            overrides += extra_overrides
-
-        super().__init__(name, content, override_handlers=overrides)
+        super().__init__(name, content, override_handlers=YPropertiesCatalog)
 
 
 def add_to_property_catalog(c):
@@ -57,15 +52,15 @@ def add_to_property_catalog(c):
     Add property implementation to the global catalog.
     """
     YPropertiesCatalog.append(c)
+    return c
 
 
 @add_to_property_catalog
 class YPropertyPriority(YPropertyOverrideBase):
-    KEYS = ['priority']
 
-    @property
-    def property_name(self):
-        return 'priority'
+    @classmethod
+    def _override_keys(cls):
+        return ['priority']
 
     @cached_yproperty_attr
     def value(self):
@@ -74,11 +69,10 @@ class YPropertyPriority(YPropertyOverrideBase):
 
 @add_to_property_catalog
 class YPropertyCheckParameters(YPropertyOverrideBase):
-    KEYS = ['check-parameters']
 
-    @property
-    def property_name(self):
-        return 'check-parameters'
+    @classmethod
+    def _override_keys(cls):
+        return ['check-parameters']
 
     @cached_yproperty_attr
     def search_period_hours(self):
@@ -298,18 +292,28 @@ class YPropertyCheck(YPropertyBase):
 
 
 @add_to_property_catalog
-class YPropertyChecks(YPropertyCollectionBase):
-    KEYS = ['checks']
+class YPropertyChecks(YPropertyOverrideBase):
 
-    @property
-    def property_name(self):
-        return 'checks'
+    @classmethod
+    def _override_keys(cls):
+        return ['checks']
+
+    @cached_yproperty_attr
+    def resolved_checks(self):
+        log.debug("parsing checks section")
+        checks = YDefsSection(self._override_name, self.content)
+        resolved = []
+        for c in checks.leaf_sections:
+            resolved.append(YPropertyCheck(c.name, c.expr, c.input, c.requires,
+                                           c.check_parameters))
+
+        return resolved
 
     def __iter__(self):
-        section = YDefsSection(self.property_name, self.content)
-        for c in section.leaf_sections:
-            yield YPropertyCheck(c.name, c.expr, c.input, c.requires,
-                                 c.check_parameters)
+        log.debug("iterating over checks")
+        for c in self.resolved_checks:
+            log.debug("returning check %s", c.name)
+            yield c
 
 
 class YPropertyConclusion(object):
@@ -324,25 +328,15 @@ class YPropertyConclusion(object):
         # will be retrievable as machine readable output.
         self.context = IssueContext()
 
-    def get_check_result(self, name, checks):
-        result = None
-        if name in checks:
-            result = checks[name].result
-        else:
-            raise Exception("conclusion '{}' has unknown check '{}' in "
-                            "decision set".format(self.name, name))
-
-        return result
-
     def reached(self, checks):
         """
         Return True/False result of this conclusion and prepare issue info.
         """
         log.debug("running conclusion %s", self.name)
-        logicmap = LogicalCollectionMap(self.decision.content,
-                                        {name: lambda name: checks[name]
-                                         for name in checks})
-        result = LogicalCollectionHandler(logicmap)()
+        self.decision.add_checks_instances(checks)
+        log.debug("decision:start")
+        result = self.decision.run_collection()
+        log.debug("decision:end")
         if not result:
             return False
 
@@ -381,40 +375,66 @@ class YPropertyConclusion(object):
 
 
 @add_to_property_catalog
-class YPropertyConclusions(YPropertyCollectionBase):
-    KEYS = ['conclusions']
+class YPropertyConclusions(YPropertyOverrideBase):
 
-    @property
-    def property_name(self):
-        return 'conclusions'
+    @classmethod
+    def _override_keys(cls):
+        return ['conclusions']
 
     def __iter__(self):
-        section = YDefsSection(self.property_name, self.content)
+        section = YDefsSection(self._override_name, self.content)
         for c in section.leaf_sections:
             yield YPropertyConclusion(c.name, c.priority, decision=c.decision,
                                       raises=c.raises)
 
 
+class YPropertyDecisionBase(YPropertyMappedOverrideBase,
+                            LogicalCollectionHandler):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.checks_instances = None
+
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return []
+
+    def add_checks_instances(self, checks):
+        self.checks_instances = checks
+
+    def get_item_result_callback(self, item):
+        name = str(item)
+        if name not in self.checks_instances:
+            raise Exception("no check found with name {}".format(name))
+
+        return self.checks_instances[name].result
+
+    def run_single(self, item):
+        final_results = []
+        for checkname in item:
+            final_results.append(self.get_item_result_callback(checkname))
+
+        return final_results
+
+
+class YPropertyDecisionLogicalGroupsExtension(YPropertyDecisionBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return LogicalCollectionHandler.VALID_GROUP_KEYS
+
+
 @add_to_property_catalog
-class YPropertyDecision(YPropertyOverrideBase):
-    KEYS = ['decision']
+class YPropertyDecision(YPropertyDecisionBase):
 
-    @property
-    def property_name(self):
-        return 'decision'
+    @classmethod
+    def _override_keys(cls):
+        return ['decision']
 
-    @property
-    def is_singleton(self):
-        """
-        A decision can be based off a single check or combinations of checks.
-        If the value is a string and not a dict then it is assumed to be a
-        single check with no boolean logic applied.
-        """
-        return type(self.content) is str
-
-    def __iter__(self):
-        for _bool, val in self.content.items():
-            yield _bool, val
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return super()._override_mapped_member_types() + \
+                    [YPropertyDecisionLogicalGroupsExtension]
 
 
 @add_to_property_catalog
@@ -446,10 +466,17 @@ class YPropertyExpr(YPropertyOverrideBase):
 
     Note that expressions can be a string or list of strings.
     """
-    KEYS = ['start', 'body', 'end', 'expr', 'hint', 'passthrough-results']
+
+    @classmethod
+    def _override_keys(cls):
+        return ['start', 'body', 'end', 'expr', 'hint', 'passthrough-results']
 
     @property
-    def property_name(self):
+    def _override_name(self):
+        """
+        We override the parent class here since we always want it to use the
+        same name.
+        """
         return 'expr'
 
     @cached_yproperty_attr
@@ -476,11 +503,10 @@ class YPropertyExpr(YPropertyOverrideBase):
 
 @add_to_property_catalog
 class YPropertyRaises(YPropertyOverrideBase):
-    KEYS = ['raises']
 
-    @property
-    def property_name(self):
-        return 'raises'
+    @classmethod
+    def _override_keys(cls):
+        return ['raises']
 
     @property
     def message(self):
@@ -573,17 +599,16 @@ class YPropertyRaises(YPropertyOverrideBase):
 
 @add_to_property_catalog
 class YPropertyInput(YPropertyOverrideBase):
-    KEYS = ['input']
     TYPE_COMMAND = 'command'
     TYPE_FILESYSTEM = 'filesystem'
-
-    @property
-    def property_name(self):
-        return 'input'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.cmd_tmp_path = None
+
+    @classmethod
+    def _override_keys(cls):
+        return ['input']
 
     @cached_yproperty_attr
     def options(self):
@@ -641,11 +666,7 @@ class YPropertyInput(YPropertyOverrideBase):
         log.debug("no input provided")
 
 
-class YRequirementTypeBase(abc.ABC, YPropertyBase):
-
-    def __init__(self, settings, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.settings = settings
+class YRequirementTypeBase(YPropertyOverrideBase):
 
     def ops_to_str(self, ops):
         """
@@ -730,6 +751,10 @@ class YRequirementTypeBase(abc.ABC, YPropertyBase):
 
 class YRequirementTypeAPT(YRequirementTypeBase):
 
+    @classmethod
+    def _override_keys(cls):
+        return ['apt']
+
     def _package_version_within_ranges(self, pkg_version, versions):
         for item in sorted(versions, key=lambda i: i['max'],
                            reverse=True):
@@ -754,16 +779,16 @@ class YRequirementTypeAPT(YRequirementTypeBase):
     def handler(self):
         # Value can be a package name or dict that provides more
         # information about the package.
-        if type(self.settings) != dict:
-            packages = {self.settings: None}
+        if type(self.content) != dict:
+            packages = {self.content: None}
         else:
-            packages = self.settings
+            packages = self.content
 
         versions_actual = []
         packages_under_test = list(packages.keys())
         apt_info = APTPackageChecksBase(packages_under_test)
         for pkg, versions in packages.items():
-            result = apt_info.is_installed(pkg)
+            result = apt_info.is_installed(pkg) or False
             if result and versions:
                 pkg_ver = apt_info.get_version(pkg)
                 versions_actual.append(pkg_ver)
@@ -784,8 +809,12 @@ class YRequirementTypeAPT(YRequirementTypeBase):
 
 class YRequirementTypeSnap(YRequirementTypeBase):
 
+    @classmethod
+    def _override_keys(cls):
+        return ['snap']
+
     def handler(self):
-        pkg = self.settings
+        pkg = self.content
         result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
         log.debug('requirement check: snap %s (result=%s)', pkg, result)
         self.cache.set('package', pkg)
@@ -793,6 +822,10 @@ class YRequirementTypeSnap(YRequirementTypeBase):
 
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return ['systemd']
 
     def check_service(self, svc, ops, started_after_svc_obj=None):
         if started_after_svc_obj:
@@ -833,10 +866,10 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
         default_op = 'eq'
         result = True
 
-        if type(self.settings) != dict:
-            service_checks = {self.settings: None}
+        if type(self.content) != dict:
+            service_checks = {self.content: None}
         else:
-            service_checks = self.settings
+            service_checks = self.content
 
         services_under_test = list(service_checks.keys())
         for settings in service_checks.values():
@@ -898,15 +931,19 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
 
 class YRequirementTypeProperty(YRequirementTypeBase):
 
+    @classmethod
+    def _override_keys(cls):
+        return ['property']
+
     def handler(self):
         default_ops = [['truth']]
-        if type(self.settings) != dict:
-            path = self.settings
+        if type(self.content) != dict:
+            path = self.content
             # default is get bool (True/False) for value
             ops = default_ops
         else:
-            path = self.settings['path']
-            ops = self.settings.get('ops', default_ops)
+            path = self.content['path']
+            ops = self.content.get('ops', default_ops)
 
         actual = self.get_property(path)
         result = self.apply_ops(ops, input=actual)
@@ -920,11 +957,15 @@ class YRequirementTypeProperty(YRequirementTypeBase):
 
 class YRequirementTypeConfig(YRequirementTypeBase):
 
+    @classmethod
+    def _override_keys(cls):
+        return ['config']
+
     def handler(self):
-        invert_result = self.settings.get('invert-result', False)
-        handler = self.settings['handler']
+        invert_result = self.content.get('invert-result', False)
+        handler = self.content['handler']
         obj = self.get_cls(handler)
-        path = self.settings.get('path')
+        path = self.content.get('path')
         if path:
             path = os.path.join(HotSOSConfig.DATA_ROOT, path)
             cfg = obj(path)
@@ -932,7 +973,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
             cfg = obj()
 
         results = []
-        for key, assertion in self.settings['assertions'].items():
+        for key, assertion in self.content['assertions'].items():
             ops = assertion.get('ops')
             section = assertion.get('section')
             if section:
@@ -970,19 +1011,33 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         return all(results)
 
 
-@add_to_property_catalog
-class YPropertyRequires(YPropertyOverrideBase):
-    KEYS = ['requires']
-    # these must be logical operators
-    REQ_TYPES = {'apt': YRequirementTypeAPT,
-                 'snap': YRequirementTypeSnap,
-                 'config': YRequirementTypeConfig,
-                 'systemd': YRequirementTypeSystemd,
-                 'property': YRequirementTypeProperty}
+class YPropertyRequiresBase(YPropertyMappedOverrideBase,
+                            LogicalCollectionHandler):
 
-    @property
-    def property_name(self):
-        return 'requires'
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return [YRequirementTypeAPT, YRequirementTypeSnap,
+                YRequirementTypeConfig, YRequirementTypeSystemd,
+                YRequirementTypeProperty]
+
+    def get_item_result_callback(self, item, copy_cache=False):
+        result = item.result
+        if copy_cache:
+            log.debug("merging cache with item of type %s",
+                      item.__class__.__name__)
+            self.cache.merge(item.cache)
+
+        return result
+
+    def run_single(self, item):
+        final_results = []
+        for rtype in item:
+            for entry in rtype:
+                result = self.get_item_result_callback(entry,
+                                                       copy_cache=True)
+                final_results.append(result)
+
+        return final_results
 
     @property
     def passes(self):
@@ -992,8 +1047,31 @@ class YPropertyRequires(YPropertyOverrideBase):
         groups.
         """
         log.debug("running requirement")
-        logicmap = LogicalCollectionMap(self.content, self.REQ_TYPES,
-                                        cache=self.cache)
-        result = LogicalCollectionHandler(logicmap)()
+        try:
+            result = self.run_collection()
+        except Exception:
+            log.exception("exception caught during run_collection:")
+            raise
+
         self.cache.set('passes', result)
         return result
+
+
+class YPropertyRequiresLogicalGroupsExtension(YPropertyRequiresBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return LogicalCollectionHandler.VALID_GROUP_KEYS
+
+
+@add_to_property_catalog
+class YPropertyRequires(YPropertyRequiresBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return ['requires']
+
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return super()._override_mapped_member_types() + \
+                    [YPropertyRequiresLogicalGroupsExtension]
