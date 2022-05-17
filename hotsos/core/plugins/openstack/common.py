@@ -235,7 +235,7 @@ class OSTProject(object):
 class OSTProjectCatalog(object):
     # Services that are not actually openstack projects but are used by them
     OST_SERVICES_DEPS = ['dnsmasq',
-                         'ganesha.nfsd',
+                         r'(?:nfs-)?ganesha\S*',
                          'haproxy',
                          r"keepalived{}".format(OSTProject.SVC_VALID_SUFFIX),
                          r"vault{}".format(OSTProject.SVC_VALID_SUFFIX),
@@ -250,7 +250,7 @@ class OSTProjectCatalog(object):
                        'keepalived',
                        'libvirt-daemon',
                        'libvirt-bin',
-                       'nfs--ganesha',
+                       r'nfs-ganesha\S*',
                        r'python3?-oslo[.-]',
                        'qemu-kvm',
                        'radvd',

@@ -371,7 +371,6 @@ class TestOpenstackPluginCore(TestOpenstackBase):
 
         deps = ['keepalived',
                 'python3?-amphora-\\S+\\S*',
-                'nfs--ganesha',
                 'python3?-openstack-dashboard\\S*',
                 'libvirt-bin',
                 'python3?-aodh\\S*',
@@ -393,6 +392,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
                 'qemu-kvm',
                 'conntrack',
                 'libvirt-daemon',
+                'nfs-ganesha\\S*',
                 'python3?-placement\\S*',
                 'python3?-octavia\\S*',
                 'python3?-glance\\S*',
