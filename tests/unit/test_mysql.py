@@ -39,6 +39,11 @@ DPKG_L_ROUTER = """
 ii  mysql-router                      8.0.29-0ubuntu0.21.10.1                        amd64        route connections from MySQL clients to MySQL servers
 """ # noqa
 
+FREE_BLOCKS_DIFFICULT = r"""
+Aug  3 08:32:23 [Note] InnoDB: Starting a batch to recover 9962 pages from redo log.
+Aug  3 08:32:23 [Warning] InnoDB: Difficult to find free blocks in the buffer pool (21 search iterations)! 21 failed attempts to flush a page! Consider increasing innodb_buffer_pool_size. Pending flushes (fsync) log: 0; buffer pool: 0. 582296 OS file reads, 504266 OS file writes, 2396 OS fsyncs.
+"""  # noqa
+
 
 class MySQLTestsBase(utils.BaseTestCase):
 
@@ -103,3 +108,65 @@ class TestMySQLScenarios(MySQLTestsBase):
             ]
         }
         self.assertEqual(IssuesManager().load_bugs(), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('mysql/bugs.yaml'))
+    def test_372017_invoked(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            os.makedirs(os.path.join(dtmp, 'var/log/mysql'))
+            klog = os.path.join(dtmp, 'var/log/mysql/error.log')
+            with open(klog, 'w') as fd:
+                fd.write(FREE_BLOCKS_DIFFICULT)
+
+            YScenarioChecker()()
+        expected = {
+            'bugs-detected': [
+                {'id': 'https://bugs.launchpad.net/bugs/372017',
+                 'desc': ("mariabackup ran out of innodb buffer pool. "
+                          "See https://jira.mariadb.org/browse/MDEV-26784"),
+                 'origin': 'mysql.01part'}
+            ]
+        }
+        self.assertEqual(IssuesManager().load_bugs(), expected)
+
+    @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('mysql/mysql_connections.yaml'))
+    def test_mysql_connections_nofile(self, mock_config):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+
+            def fake_get(key, **_kwargs):
+                return {'max_connections': '4191'}.get(key)
+
+            mock_config.return_value = mock.MagicMock()
+            mock_config.return_value.get.side_effect = fake_get
+
+            YScenarioChecker()()
+            expected = {'potential-issues': {'MySQLWarnings': [
+                'Max Connections is higher than 4190 but there is no'
+                ' charm-nofile.conf seen. (origin=mysql.01part)']}}
+            self.assertEqual(IssuesManager().load_issues(), expected)
+
+    @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('mysql/mysql_connections.yaml'))
+    def test_mysql_connections_w_file(self, mock_config):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            filenm = 'etc/systemd/system/mysql.service.d/charm-nofile.conf'
+            path = os.path.join(dtmp, filenm)
+            os.makedirs(os.path.dirname(path))
+            with open(path, 'w') as fd:
+                fd.write("")
+
+            def fake_get(key, **_kwargs):
+                return {'max_connections': '4191'}.get(key)
+
+            mock_config.return_value = mock.MagicMock()
+            mock_config.return_value.get.side_effect = fake_get
+
+            YScenarioChecker()()
+            expected = {}
+            self.assertEqual(IssuesManager().load_issues(), expected)

@@ -1,0 +1,22 @@
+checks:
+  max_connections_greater_than:
+    requires:
+      config:
+        handler: hotsos.core.plugins.mysql.MySQLConfig
+        assertions:
+          max_connections:
+            ops: [[gt, 4190]]
+  file_exists:
+    requires:
+      path: etc/systemd/system/mysql.service.d/charm-nofile.conf
+conclusions:
+  max_connections_problem:
+    decision:
+      and:
+        - max_connections_greater_than
+      not: file_exists
+    raises:
+      type: MySQLWarning
+      message: >-
+        Max Connections is higher than 4190 but there is no
+        charm-nofile.conf seen.

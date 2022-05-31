@@ -128,6 +128,10 @@ class PacemakerWarning(IssueTypeBase):
     pass
 
 
+class MySQLWarning(IssueTypeBase):
+    pass
+
+
 class LaunchpadBug(BugTypeBase):
 
     @property
