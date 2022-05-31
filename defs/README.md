@@ -165,8 +165,15 @@ format
 ```
 input:
   command: core.cli_helpers.CLIHelpers command
-  path: filesystem path (relative to DATA_ROOT)
+  path: FS_PATH
   options: OPTIONS
+
+or
+
+input: FS_PATH
+
+FS_PATH
+  This is a filesystem path that must be relative to DATA_ROOT.
 
 OPTIONS
     A dictionary of key: value pairs as follows:
@@ -311,6 +318,11 @@ REQ_GROUP
     - ...
 
 REQ_TYPE
+  PATH
+    This has the same format as the input property and is used to
+    assert if a path exists or not. Note that all-logs is not applied
+    to the path. 
+
   PROPERTY
     Calls a Python property and if provided, applies a set of
     operators. If no operators are specified, the "truth" operator

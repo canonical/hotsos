@@ -597,27 +597,23 @@ class YPropertyRaises(YPropertyOverrideBase):
         return self.get_cls(_type)
 
 
-@add_to_property_catalog
-class YPropertyInput(YPropertyOverrideBase):
-    TYPE_COMMAND = 'command'
-    TYPE_FILESYSTEM = 'filesystem'
+class YPropertyInputBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.cmd_tmp_path = None
 
-    @classmethod
-    def _override_keys(cls):
-        return ['input']
-
-    @cached_yproperty_attr
+    @property
     def options(self):
         defaults = {'disable-all-logs': False,
                     'args': [],
                     'kwargs': {},
                     'args-callback': None}
-        _options = self.content.get('options', defaults)
-        defaults.update(_options)
+
+        if type(self.content) == dict:
+            _options = self.content.get('options', defaults)
+            defaults.update(_options)
+
         return defaults
 
     @cached_yproperty_attr
@@ -626,6 +622,9 @@ class YPropertyInput(YPropertyOverrideBase):
 
     @cached_yproperty_attr
     def fs_path(self):
+        if type(self.content) == str:
+            return self.content
+
         return self.content.get('path')
 
     @cached_yproperty_attr
@@ -664,6 +663,14 @@ class YPropertyInput(YPropertyOverrideBase):
             return self.cmd_tmp_path
 
         log.debug("no input provided")
+
+
+@add_to_property_catalog
+class YPropertyInput(YPropertyOverrideBase, YPropertyInputBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return ['input']
 
 
 class YRequirementTypeBase(YPropertyOverrideBase):
@@ -1011,6 +1018,35 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         return all(results)
 
 
+class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
+
+    @classmethod
+    def _override_keys(cls):
+        # We can't use 'input' since that property is already used.
+        return ['path']
+
+    @property
+    def options(self):
+        """
+        Override this since we never want to have all-logs applied since
+        it is not relevant in checking if the path exists.
+        """
+        _options = super().options
+        _options['disable-all-logs'] = True
+        return _options
+
+    def handler(self):
+        result = False
+        # first try fs path in its raw format i.e. without ALL_LOGS applied. if
+        # that is not available try the parsed path which would be command.
+        if self.path and os.path.exists(self.path):
+            result = True
+
+        log.debug('requirement check: path %s (result=%s)', self.path, result)
+        self.cache.set('path', self.path)
+        return result
+
+
 class YPropertyRequiresBase(YPropertyMappedOverrideBase,
                             LogicalCollectionHandler):
 
@@ -1018,7 +1054,7 @@ class YPropertyRequiresBase(YPropertyMappedOverrideBase,
     def _override_mapped_member_types(cls):
         return [YRequirementTypeAPT, YRequirementTypeSnap,
                 YRequirementTypeConfig, YRequirementTypeSystemd,
-                YRequirementTypeProperty]
+                YRequirementTypeProperty, YRequirementTypePath]
 
     def get_item_result_callback(self, item, copy_cache=False):
         result = item.result

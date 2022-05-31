@@ -216,6 +216,9 @@ pluginX:
 YAML_DEF_REQUIRES_GROUPED = """
 passdef1:
   requires:
+    - path: sos_commands/networking
+    - not:
+        path: sos_commands/networking_foo
     - apt: python3.8
     - and:
         - apt:
@@ -236,6 +239,7 @@ passdef2:
       - apt: blah
 faildef1:
   requires:
+    - path: sos_commands/networking_foo
     - and:
         - apt: doo
         - apt: daa
