@@ -23,9 +23,9 @@ implementation and is achieved by using library/shared code (e.g.
 
 A handler loads yaml definitions as a tree structure, with leaf nodes
 expressing the checks. This structure supports property inheritance so that
-globals may be defined and superseded at any level. As a recap:
+globals may be defined and superseded at any level. In summary:
 
- * Top directory uses the name of the plugin the checks belong to e.g.
+ * Top directory shares its name with the plugin the checks belong to e.g.
    [openstack](scenarios/openstack).
  * Sub levels contain definitions which can be organised using any
    combination of files and directories e.g. you could put all definitions in
@@ -41,28 +41,51 @@ globals may be defined and superseded at any level. As a recap:
 TIP: to use a single quote ' inside a yaml string you need to replace it with
      two single quotes.
 
-## Property Overrides
+## Pre-requisites
 
-Property overrides are blocks of yaml that map to a Python class that is used
-by [handlers](#handlers).
-
-Overrides abide by rules of inheritance and can be defined at any level. They
-are accessed at leaf nodes and can be defined and overridden at any level.
-Since definitions can be organised using files and directories, the latter
-requires a means for applying directory globals. To achieve this we put the
-overrides into a file that shares the name of the directory e.g.
+If you want to gate running the contents of a directory on a pre-requisite you
+can do so by putting them in a file that shares the name of its parent directory.
+In the following example *mychecks.yaml* contains a [requires](#requires) and the rest of the
+directory will only be run if it returns True.
 
 ```
-myplugin/mychecks/mychecks.yaml
-myplugin/mychecks/checkthis.yaml
-myplugin/mychecks/checkthat.yaml
-myplugin/mychecks/somemorechecks
+$ ls myplugin/mychecks/
+mychecks.yaml myotherchecks.yaml
+$ cat myplugin/mychecks/mychecks.yaml
+requires:
+  or:
+    - property: hotsos.core.plugins.myplugin.mustbetrue
+    - path: file/that/must/exist
+```
+
+## Property Overrides
+
+Property overrides are blocks of yaml that map to a Python class used
+by [handlers](#handlers).
+
+### Property Globals
+
+Overrides abide by rules of inheritance. They are accessed at leaf nodes
+and can be defined and overridden at any level. Since definitions can be
+organised using files and directories, the latter requires a means for
+applying directory globals. Similar to pre-requisites, this is done by defining
+overrides in file that shares the name of the directory e.g.
+
+```
+myplugin/
+├── altchecks
+└── mychecks
+    ├── checkthat.yaml
+    ├── checkthis.yaml
+    ├── mychecks.yaml
+    └── someotherchecks
 ```
 
 Here *mychecks* and *somemorechecks* are directories and *mychecks.yaml*
 defines overrides that apply to everything under *mychecks* such that any
 properties defined in *mychecks.yaml* will be available in *checkthis.yaml*,
-*checkthat.yaml* and any definitions under *somemorechecks*.
+*checkthat.yaml* and any definitions under *somemorechecks* (but not
+*altchecks*).
 
 #### Caching
 
