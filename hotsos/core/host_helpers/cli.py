@@ -379,13 +379,14 @@ class CephJSONFileCmd(FileCmd):
     end of the file (typically from stderr) which causes it to be invalid json
     so we have to strip that final line before decoding the contents.
     """
-    def __init__(self, *args, last_line_filter=None,
+    def __init__(self, *args, first_line_filter=None, last_line_filter=None,
                  **kwargs):  # pylint: disable=W0613
         super().__init__(*args, **kwargs)
-        if last_line_filter:
+        if first_line_filter or last_line_filter:
             self.register_hook('pre-exec', self.format_json_contents)
             self.register_hook('post-exec', self.cleanup)
             self.orig_path = None
+            self.first_line_filter = first_line_filter
             self.last_line_filter = last_line_filter
 
     def format_json_contents(self, *args, **kwargs):  # pylint: disable=W0613
@@ -395,7 +396,12 @@ class CephJSONFileCmd(FileCmd):
         with open(self.path) as f:
             lines = f.readlines()
 
-        if lines and lines[-1].startswith(self.last_line_filter):
+        if self.first_line_filter:
+            line_filter = self.first_line_filter
+        else:
+            line_filter = self.last_line_filter
+
+        if lines and lines[-1].startswith(line_filter):
             lines = lines[:-1]
             with tempfile.NamedTemporaryFile(mode='w+t', delete=False) as tmp:
                 tmp.write(''.join(lines))
@@ -472,11 +478,13 @@ class CLIHelper(object):
                  CephJSONFileCmd('sos_commands/ceph/json_output/'
                                  'ceph_mon_dump_--format_json-pretty',
                                  json_decode=True,
+                                 first_line_filter='dumped monmap epoch',
                                  last_line_filter='dumped monmap epoch'),
                  # sosreport >= 4.2
                  CephJSONFileCmd('sos_commands/ceph_mon/json_output/'
                                  'ceph_mon_dump_--format_json-pretty',
                                  json_decode=True,
+                                 first_line_filter='dumped monmap epoch',
                                  last_line_filter='dumped monmap epoch')],
             'ceph_osd_dump_json_decoded':
                 [BinCmd('ceph osd dump --format json-pretty',
@@ -516,11 +524,13 @@ class CLIHelper(object):
                  CephJSONFileCmd('sos_commands/ceph/json_output/'
                                  'ceph_pg_dump_--format_json-pretty',
                                  json_decode=True,
+                                 first_line_filter='dumped all',
                                  last_line_filter='dumped all'),
                  # sosreport >= 4.2
                  CephJSONFileCmd('sos_commands/ceph_mon/json_output/'
                                  'ceph_pg_dump_--format_json-pretty',
                                  json_decode=True,
+                                 first_line_filter='dumped all',
                                  last_line_filter='dumped all')],
             'ceph_status_json_decoded':
                 [BinCmd('ceph status --format json-pretty', json_decode=True),
@@ -551,10 +561,14 @@ class CLIHelper(object):
                 [BinCmd('ceph report', json_decode=True),
                  # sosreport < 4.2
                  CephJSONFileCmd('sos_commands/ceph/ceph_report',
-                                 json_decode=True, last_line_filter='report'),
+                                 json_decode=True,
+                                 first_line_filter='report',
+                                 last_line_filter='report'),
                  # sosreport >= 4.2
                  CephJSONFileCmd('sos_commands/ceph_mon/ceph_report',
-                                 json_decode=True, last_line_filter='report'),
+                                 json_decode=True,
+                                 first_line_filter='report',
+                                 last_line_filter='report'),
                  ],
             'date':
                 [DateBinCmd('date', singleline=True),
