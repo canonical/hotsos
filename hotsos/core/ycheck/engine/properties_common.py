@@ -196,7 +196,8 @@ class PropertyCache(object):
 class YPropertyBase(object):
 
     def __init__(self, *args, **kwargs):
-        log.debug("YPropertyBase %s %s (%s)", args, kwargs, self)
+        whoami = self.__class__.__name__
+        log.debug("YPropertyBase %s %s (%s)", args, kwargs, whoami)
         self._cache = PropertyCache()
         super().__init__(*args, **kwargs)
 
@@ -278,11 +279,11 @@ class YPropertyBase(object):
         return self.get_attribute(import_str)
 
 
-class YPropertyOverrideBase(YStructOverrideBase, YPropertyBase):
+class YPropertyOverrideBase(YPropertyBase, YStructOverrideBase):
     pass
 
 
-class YPropertyMappedOverrideBase(YStructMappedOverrideBase, YPropertyBase):
+class YPropertyMappedOverrideBase(YPropertyBase, YStructMappedOverrideBase):
     pass
 
 

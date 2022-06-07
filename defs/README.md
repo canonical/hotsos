@@ -5,7 +5,7 @@ This directory contains the configuration for yaml-defined analysis.
 Two different ways to define checks are supported. See [handlers](#handlers)
 for more information on this.
 
-## Writing Checks in YAML
+## How to Add or Amend Checks
 
 First choose what [type](#handlers) of check you want to write and in which
 plugin context the check should be run.
@@ -18,21 +18,23 @@ structure, using a mixture of properties and, if defining a
 
 This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
-implementation and is achieved by using library/shared code (e.g.
-[core](../hotsos/core/plugins)) as much as possible.
+implementation. This is achieved by leveraging the properties provided along
+with library/shared code (e.g. [core](../hotsos/core/plugins)) as much as
+possible.
 
-A handler loads yaml definitions as a tree structure, with leaf nodes
-expressing the checks. This structure supports property inheritance so that
-globals may be defined and superseded at any level. In summary:
+The yaml definitions are loaded into a tree structure, with leaf nodes
+containing the consumable information such as checks. This structure supports
+property inheritance so that globals may be defined and superseded at any
+level.
+
+In summary:
 
  * Top directory shares its name with the plugin the checks belong to e.g.
    [openstack](scenarios/openstack).
  * Sub levels contain definitions which can be organised using any
-   combination of files and directories e.g. you could put all definitions in
-   a single file or you could have one file per definition. You can then use
-   directories to logically group your definitions or you can use a tree
-   structure within any of the files.
- * This structure uses [ystruct](http://github.com/dosaboy/ystruct) i.e. a
+   combination of files and directories. You can then use file or
+   directories to logically group your definitions.
+ * The backbone of this approach is based on [ystruct](http://github.com/dosaboy/ystruct) i.e. a
    tree where each level contains override properties and "content".
    Overrides follow an inheritance model so that they can be defined and
    superseded at any level. The content is always found at the leaf nodes of
@@ -46,7 +48,7 @@ TIP: to use a single quote ' inside a yaml string you need to replace it with
 If you want to gate running the contents of a directory on a pre-requisite you
 can do so by putting them in a file that shares the name of its parent directory.
 In the following example *mychecks.yaml* contains a [requires](#requires) and the rest of the
-directory will only be run if it returns True.
+directory will only be run if it resolves to *True*.
 
 ```
 $ ls myplugin/mychecks/
@@ -60,8 +62,8 @@ requires:
 
 ## Property Overrides
 
-Property overrides are blocks of yaml that map to a Python class used
-by [handlers](#handlers).
+Property overrides are blocks of yaml that map to Python classes that are
+consumed by [handlers](#handlers).
 
 ### Property Globals
 
@@ -86,6 +88,40 @@ defines overrides that apply to everything under *mychecks* such that any
 properties defined in *mychecks.yaml* will be available in *checkthis.yaml*,
 *checkthat.yaml* and any definitions under *somemorechecks* (but not
 *altchecks*).
+
+#### MappedProperties
+
+Some properties use the ystruct mapped properties feature meaning they are
+implemented as a root property with one or more "member" properties and the two
+map to each other. For example if we have a property *mprop* and it has two
+member properties *prop1* and *prop2* it can be defined with either of the
+following formats:
+
+```
+myleaf:
+  mprop:
+    prop1:
+      ...
+    prop2:
+      ...
+```
+
+or
+
+```
+myleaf:
+  prop1:
+    ...
+  prop2:
+    ...
+```
+
+and both formats will resolved and accessed in the same way.
+
+```
+myleaf.mprop.prop1
+myleaf.mprop.prop2
+```
 
 #### Caching
 
@@ -152,10 +188,8 @@ definitions provided that their [handlers](#handlers) supports them. The
 
 #### decision
 
-A list of logical operators each containing a list of one or more 
-check)[#checks] labels. This property is typically used in a
-[conclusions](#conclusions) PropertyCollection. CHECKS refers to a set of one
-or more [check](#checks) names organised using a
+This property is typically used in a [conclusions](#conclusions) PropertyCollection.
+CHECKS refers to a set of one or more [check](#checks) names organised as a
 [LogicalCollection](#logicalcollection) to make decision on the outcome of more
 checks.
 
@@ -179,15 +213,14 @@ command. When a command is provided, its output is written to a
 temporary file and *input.path* returns the path to that file. Only one of
 *path* or *command* can be provided at once.
 
-This property is required by the [search](#search) property and
-allows a search pattern to be applied to the output of a command or the
-contents of a file(s) or directory.
+This property is required by and used as input to the [search](#search)
+property.
 
 format
 
 ```
 input:
-  command: core.cli_helpers.CLIHelpers command
+  command: hotsos.core.cli_helpers.CLIHelpers command
   path: FS_PATH
   options: OPTIONS
 
@@ -199,13 +232,11 @@ FS_PATH
   This is a filesystem path that must be relative to DATA_ROOT.
 
 OPTIONS
-    A dictionary of key: value pairs as follows:
-
     disable-all-logs: True
-      This is used to disable --all-logs for the input. By default
+      Used to disable --all-logs for the input. By default
       if --all-logs is provided to the hotsos client that will apply
       to *path* but there may be cases where this is not desired and
-      this option allows disabling --all-logs.
+      this option supports disabling --all-logs.
 
     args: [arg1, ...]
       Used in combination with *command*. This is a list of args
@@ -218,8 +249,11 @@ OPTIONS
     args-callback: import.path.to.method
       Used in combination with *command*. This is the import path to
       a method that will be called and the return value must be a
-      tuple of the form <list>, <dict> where the list is used as args
+      tuple of the form (<list>, <dict>) where the list is used as args
       to the command and dict is kwargs.
+
+CACHE_KEYS
+  cmd_tmp_path
 ```
 
 usage
@@ -231,7 +265,7 @@ input.path
 #### priority
 
 Defines an integer priority. This is a very simple property that is typically
-used by (conclusions)[#conclusions] to associate a priority or precendence to
+used by [conclusions](#conclusions) to associate a priority or precedence to
 conclusions. 
 
 format
@@ -250,9 +284,9 @@ int(priority)
 #### raises
 
 Defines an issue to raise along with the message displayed. For example a
-[check](#checks) may want to raise an issue using an
-[issue_types](../hotsos/core/issues/issue_types.py) with a formatted message where
-format fields are filled using Python properties or search results.
+[check](#checks) may want to raise an [issue_types](../hotsos/core/issues/issue_types.py)
+with a formatted message where format fields are filled using Python properties
+or search results.
 
 format
 
@@ -276,13 +310,13 @@ format field in the message string and *value* is either a Python property
 import path or a ``PROPERTY_CACHE_REF``
 
 * search-result-format-groups - a list of integer indexes representing
-search result group IDs from an *expr* property search result. The group
-indexes refer to items in a core.searchtools.SearchResult.
+search result group IDs from an [search](#search) result. The group
+indexes refer to items in a core.searchtools.SearchResult and tie with those in
+the search pattern provided.
 
 ```
 PROPERTY_CACHE_REF
-  This is a reference to a property cache item and can take one of
-  two forms:
+  A reference to a property cache item that takes one of two forms:
   
   '@<propertyname>.CACHE_KEY'
   '@checks.<checkname>.<propertyname>.CACHE_KEY'
@@ -307,9 +341,11 @@ raises.format_groups
 Defines a set of requirements to be executed with a pass/fail result.
 
 If the result is based on the outcome of more than one requirement they
-must be grouped using logical operators (see REQ_GROUP) used to determine
-the result of each group. The result of all groups are ANDed together to
-get the final result for *passes*.
+must be grouped a [LogicalCollection](#logicalcollection) (see REQ_GROUP). The
+final results is either True/False for *passes*.
+
+NOTE: this property is implemented as a [MappedProperty](#mappedproperties)
+      meaning that the *requires* key is optional.
 
 format
 
@@ -346,6 +382,9 @@ REQ_TYPE
     assert if a path exists or not. Note that all-logs is not applied
     to the path. 
 
+    CACHE_KEYS
+      path
+
   PROPERTY
     Calls a Python property and if provided, applies a set of
     operators. If no operators are specified, the "truth" operator
@@ -361,6 +400,11 @@ REQ_TYPE
       path: <import path to python property>
       ops: OPS_LIST
 
+    CACHE_KEYS
+      property
+      ops
+      value_actual
+
   APT
     Takes an apt package name or APT_INFO. Returns True if the package
     exists and, if APT_INFO provided, version is within ranges.
@@ -368,7 +412,11 @@ REQ_TYPE
     Format:
 
     apt: [package name|APT_INFO]
-  
+
+    CACHE_KEYS
+      package
+      version
+
   SNAP
     Takes an snap package name. Returns True if the package
     exists.
@@ -376,6 +424,9 @@ REQ_TYPE
     Format:
 
     snap: package name
+
+    CACHE_KEYS
+      package
 
   SYSTEMD
     Takes a systemd service and optionally some parameters to check.
@@ -405,6 +456,9 @@ REQ_TYPE
         op: <python operator>  (optional. default is 'eq')
         started-after: <other service name>  (optional)
 
+    CACHE_KEYS
+      services
+
   CONFIG
     A dictionary containing the information required to perform some
     config checks. The handler is typically a .
@@ -430,6 +484,11 @@ REQ_TYPE
       value: expected value. Default is None.
       allow-unset: whether the config key may be unset. Default is False.
 
+    CACHE_KEYS
+      ops
+      key
+      value_actual
+
 OPS_LIST
     List of tuples with the form (<operator>[,<arg2>]) i.e. each tuple has
     at least one item, the operator and an optional second item which is
@@ -453,9 +512,6 @@ APT_INFO
   NOTE: we currently only support a single package.
 
 CACHE_KEYS
-  value_actual
-  op
-  key (only used by config REQ_TYPE)
   passes
 ```
 
@@ -465,32 +521,44 @@ usage
 requires.passes
 ```
 
-### search
+#### search
 
-Defines a search expression. There are different types of search expression
-that can be used depending on the data being searched and how the results will
-be interpreted. For example a "simple" search involves a single expression and
-is used to match single lines. A "sequence" search is using with
-core.filesearcher.SequenceSearchDef to match (non-overlapping) sequences and
-then there is also support for analysis overlapping sequences with
-[core.analytics.LogEventStats](../hotsos/core/analytics).
+Defines a search expression and its criteria. There are different types of
+search expression that can be used depending on the data being searched and how
+the results will be interpreted:
 
-An optional *passthrough-results* key is provided and used with
-[event](#events) type definitions to indicate that search results should be
-passed to their handler as a raw core.searchtools.SearchResultsCollection. This
-is typically so that they can be parsed with core.analytics.LogEventStats.
-Defaults to False.
+A "simple" search involves a single pattern and is used to match single lines.
+
+A "sequence" search uses hotsos.core.filesearcher.SequenceSearchDef to match
+(non-overlapping) sequences.
+
+A "passthrough sequence" is used for analysing overlapping sequences with
+[core.analytics.LogEventStats](../hotsos/core/analytics). This requires a
+callback method to be implemented to process the results and is designated using
+the optional *passthrough-results* option. Search results are passed
+to their handler as a raw core.searchtools.SearchResultsCollection.
+
+NOTE: this property is implemented as a [MappedProperty](#mappedproperties)
+      meaning that the *search* key is optional.
+
+NOTE: do not use global search properties. If you do this, the same search tag
+      will be used for all searches and it will not be possible to distinguish
+      results form more than one leaf node.
 
 format
 
 ```
-expr|hint: <str>
+search:
+  expr|hint: <str> (simple search)
+  start|body|end: (sequence search)
+    expr: <str>
+    hint: <str>
+  passthrough-results: True|False (turns sequence search into passthrough)
 
-start|body|end:
-  expr: <int>
-  hint: <int>
-
-passthrough-results: True|False
+CACHE_KEYS
+  simple_search
+  sequence_search
+  sequence_passthrough_search
 ```
 
 usage
@@ -506,7 +574,7 @@ If using keys start|body|end:
 Note that expressions can be a string or list of strings.
 ```
 
-### check-parameters
+#### check-parameters
 
 These are optional parameters used in a [checks](#checks) check defintion. They
 are typically used in conjunction with an [expr]([#expr]) property to apply
@@ -564,6 +632,10 @@ checks:
     <property3>
     <property4>
   ... 
+
+CACHE_KEYS
+  search
+  requires
 ```
 
 usage

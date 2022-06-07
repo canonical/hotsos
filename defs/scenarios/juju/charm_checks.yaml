@@ -15,4 +15,4 @@ conclusions:
         Juju unit(s) '{units}' are showing leadership errors in their logs from
         the last 7 days. Please investigate.
       format-dict:
-        units: '@checks.units_have_leadership_errors.expr.results_group_2:comma_join'
+        units: '@checks.units_have_leadership_errors.search.results_group_2:comma_join'

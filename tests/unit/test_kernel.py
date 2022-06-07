@@ -195,6 +195,7 @@ class TestKernelLogEventChecks(TestKernelBase):
 
         event = EventCheckResult(defs_section='section8',
                                  defs_event='over_mtu_dropped_packets',
+                                 search_tag='foo',
                                  search_results=[mock_result1, mock_result2])
         ret = inst.over_mtu_dropped_packets(event)
         self.assertTrue(inst.plugin_runnable)

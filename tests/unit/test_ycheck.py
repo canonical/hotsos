@@ -292,16 +292,19 @@ myplugin:
         start: '^hello'
         body: '^\S+'
         end: '^world'
-      my-standard-search:
+      my-passthrough-search:
         passthrough-results: True
         start: '^hello'
         end: '^world'
-      my-standard-search2:
+      my-pass-search:
         expr: '^hello'
         hint: '.+'
-      my-standard-search3:
+      my-fail-search1:
         expr: '^hello'
         hint: '^foo'
+      my-fail-search2:
+        expr: '^foo'
+        hint: '.+'
 """  # noqa
 
 
@@ -352,7 +355,7 @@ myplugin:
           type: SystemWarning
           message: log matched {num} times
           format-dict:
-            num: '@checks.logmatch.expr.results:len'
+            num: '@checks.logmatch.search.results:len'
       logandsnap:
         priority: 2
         decision:
@@ -363,7 +366,7 @@ myplugin:
           type: SystemWarning
           message: log matched {num} times and snap exists
           format-dict:
-            num: '@checks.logmatch.expr.results:len'
+            num: '@checks.logmatch.search.results:len'
       logandsnapandservice:
         priority: 3
         decision:
@@ -378,7 +381,7 @@ myplugin:
           type: SystemWarning
           message: log matched {num} times, snap and service exists
           format-dict:
-            num: '@checks.logmatch.expr.results:len'
+            num: '@checks.logmatch.search.results:len'
 """  # noqa
 
 
@@ -482,15 +485,16 @@ class TestYamlChecks(utils.BaseTestCase):
                                 test_self.assertEqual(result.get(0), 'world')
 
                 @EVENTCALLBACKS.callback()
-                def my_standard_search(self, event):
+                def my_passthrough_search(self, event):
                     # expected to be passthough results (i.e. raw)
                     callbacks_called[event.name] = True
-                    tag = '{}.my-standard-search-start'.format(event.section)
+                    tag = '{}-start'.format(event.search_tag)
                     start_results = event.results.find_by_tag(tag)
                     test_self.assertEqual(start_results[0].get(0), 'hello')
 
-                @EVENTCALLBACKS.callback('my-standard-search2',
-                                         'my-standard-search3')
+                @EVENTCALLBACKS.callback('my-pass-search',
+                                         'my-fail-search1',
+                                         'my-fail-search2')
                 def my_standard_search_common(self, event):
                     callbacks_called[event.name] = True
                     test_self.assertEqual(event.results[0].get(0), 'hello')
@@ -502,8 +506,8 @@ class TestYamlChecks(utils.BaseTestCase):
             self.assertEqual(match_count['count'], 3)
             self.assertEqual(list(callbacks_called.keys()),
                              ['my-sequence-search',
-                              'my-standard-search',
-                              'my-standard-search2'])
+                              'my-passthrough-search',
+                              'my-pass-search'])
 
     @mock.patch.object(ycheck.engine.properties, 'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check):

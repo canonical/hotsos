@@ -106,16 +106,15 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         sri = SearchResultIndices(event_id_idx=4,
                                   metadata_idx=3,
                                   metadata_key='router')
-        tag_prefix = "{}.{}".format(event.section, event.name)
-        ret = self._get_event_stats(event.results, tag_prefix, custom_idxs=sri)
+        ret = self._get_event_stats(event.results, event.search_tag,
+                                    custom_idxs=sri)
         if ret:
             return {event.name: ret}, agent
 
     @EVENTCALLBACKS.callback('rpc-loop', 'router-spawn-events')
     def process_events(self, event):
         agent = event.section
-        tag_prefix = "{}.{}".format(event.section, event.name)
-        ret = self._get_event_stats(event.results, tag_prefix)
+        ret = self._get_event_stats(event.results, event.search_tag)
         if ret:
             return {event.name: ret}, agent
 

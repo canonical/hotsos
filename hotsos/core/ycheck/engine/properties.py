@@ -1,7 +1,6 @@
-import os
-
 import abc
 import operator
+import os
 
 from datetime import (
     datetime,
@@ -11,6 +10,7 @@ from datetime import (
 from hotsos.core.searchtools import (
     FileSearcher,
     SearchDef,
+    SequenceSearchDef,
 )
 from hotsos.core.host_helpers import (
     APTPackageChecksBase,
@@ -105,11 +105,11 @@ class YPropertyCheckParameters(YPropertyOverrideBase):
 
 class YPropertyCheck(YPropertyBase):
 
-    def __init__(self, name, expr, input, requires, check_paramaters, *args,
+    def __init__(self, name, search, input, requires, check_paramaters, *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
         self.name = name
-        self.expr = expr
+        self.search = search
         self.input = input
         self.requires = requires
         self.check_paramaters = check_paramaters
@@ -212,42 +212,37 @@ class YPropertyCheck(YPropertyBase):
         return [r[1] for r in results]
 
     def _result(self):
-        if self.expr:
-            if self.cache.expr:
-                results = self.cache.expr.results
+        if self.search:
+            if self.cache.search:
+                results = self.cache.search.results
                 log.debug("check %s - using cached result=%s", self.name,
                           results)
             else:
-                s = FileSearcher()
-                s.add_search_term(SearchDef(self.expr.value, tag=self.name),
-                                  self.input.path)
-                results = s.search()
-                self.expr.cache.set('results', results)
+                results = self.search_results
+                self.search.cache.set('results', results)
 
                 # The following aggregates results by group/index and stores in
                 # the property cache to make them accessible via
                 # PropertyCacheRefResolver.
                 results_by_idx = {}
-                for item in results:
-                    for _result in item[1]:
-                        for idx, value in enumerate(_result):
-                            if idx not in results_by_idx:
-                                results_by_idx[idx] = set()
+                for result in results:
+                    for idx, value in enumerate(result):
+                        if idx not in results_by_idx:
+                            results_by_idx[idx] = set()
 
-                            results_by_idx[idx].add(value)
+                        results_by_idx[idx].add(value)
 
                 for idx in results_by_idx:
-                    self.expr.cache.set('results_group_{}'.format(idx),
-                                        list(results_by_idx[idx]))
+                    self.search.cache.set('results_group_{}'.format(idx),
+                                          list(results_by_idx[idx]))
 
-                self.cache.set('expr', self.expr.cache)
+                self.cache.set('search', self.search.cache)
 
             if not results:
                 log.debug("check %s search has no matches so result=False",
                           self.name)
                 return False
 
-            results = results.find_by_tag(self.name)
             parameters = self.check_paramaters
             if parameters:
                 result_age_hours = parameters.search_result_age_hours
@@ -294,19 +289,45 @@ class YPropertyCheck(YPropertyBase):
 @add_to_property_catalog
 class YPropertyChecks(YPropertyOverrideBase):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._resolved_checks = None
+
+        s = FileSearcher()
+        # first load all the search definitions into the searcher
+        log.debug("loading checks searchdefs into filesearcher")
+        for c in self.resolved_checks:
+            if c.search:
+                c.search.load_searcher(s, c.input.path)
+
+        log.debug("executing searches")
+        results = s.search()
+
+        # now extract each checks's set of results
+        log.debug("extracting search results")
+        for c in self.resolved_checks:
+            if c.search:
+                tag = c.search.unique_search_tag
+                c.search_results = results.find_by_tag(tag)
+
     @classmethod
     def _override_keys(cls):
         return ['checks']
 
     @cached_yproperty_attr
     def resolved_checks(self):
+        if self._resolved_checks:
+            return self._resolved_checks
+
         log.debug("parsing checks section")
         checks = YDefsSection(self._override_name, self.content)
         resolved = []
         for c in checks.leaf_sections:
-            resolved.append(YPropertyCheck(c.name, c.expr, c.input, c.requires,
+            resolved.append(YPropertyCheck(c.name, c.search, c.input,
+                                           c.requires,
                                            c.check_parameters))
 
+        self._resolved_checks = resolved
         return resolved
 
     def __iter__(self):
@@ -341,9 +362,9 @@ class YPropertyConclusion(object):
             return False
 
         search_results = None
-        for name, check in checks.items():
-            if check.expr and check.expr.cache.results:
-                search_results = check.expr.cache.results.find_by_tag(name)
+        for check in checks.values():
+            if check.search and check.search.cache.results:
+                search_results = check.search.cache.results
                 if search_results:
                     # Save some context for the issue
                     self.context.set(**{r.source: r.linenumber
@@ -437,68 +458,176 @@ class YPropertyDecision(YPropertyDecisionBase):
                     [YPropertyDecisionLogicalGroupsExtension]
 
 
-@add_to_property_catalog
-class YPropertyExpr(YPropertyOverrideBase):
-    """
-    An expression can be a string or a list of strings and can be provided
-    as a single value or dict (with keys start, body, end etc) e.g.
-
-    An optional passthrough-results key is provided and used with events type
-    defintions to indicate that search results should be passed to
-    their handler as a raw core.searchtools.SearchResultsCollection. This is
-    typically so that they can be parsed with core.analytics.LogEventStats.
-    Defaults to False.
-
-    params:
-      expr|hint:
-        <str>
-      start|body|end:
-        expr: <int>
-        hint: <int>
-
-    usage:
-      If value is a string:
-        str(expr|hint)
-
-      If using keys start|body|end:
-        <key>.expr
-        <key>.hint
-
-    Note that expressions can be a string or list of strings.
-    """
+class YPropertySearchOpt(YPropertyOverrideBase):
 
     @classmethod
     def _override_keys(cls):
-        return ['start', 'body', 'end', 'expr', 'hint', 'passthrough-results']
+        return ['expr', 'hint', 'passthrough-results']
+
+    def __bool__(self):
+        return bool(self.content)
+
+    def __str__(self):
+        # should use bool() for passthrough-results
+        invalid = 'passthrough-results'
+        valid = [k for k in self._override_keys() if k != invalid]
+        if self._override_name not in valid:
+            raise Exception("__str__ only valid for {} (not {})".
+                            format(','.join(valid),
+                                   self._override_name))
+
+        return self.content
+
+
+class YPropertySearchBase(YPropertyMappedOverrideBase):
+
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return [YPropertySearchOpt]
 
     @property
-    def _override_name(self):
-        """
-        We override the parent class here since we always want it to use the
-        same name.
-        """
-        return 'expr'
+    def unique_search_tag(self):
+        return self._override_path
 
-    @cached_yproperty_attr
-    def expr(self):
-        """
-        Subkey e.g for start.expr, body.expr. Expression defs that are just
-        a string or use subkey 'expr' will rely on __getattr__.
-        """
-        return self.content.get('expr', self.content)
+    @property
+    def passthrough_results_opt(self):
+        if self.passthrough_results is not None:
+            return bool(self.passthrough_results)
 
-    def __getattr__(self, name):
-        """
-        This is a fallback for when the value is not a key and we just want
-        to return the contents e.g. a string or list.
+        return False
 
-        If the value is a string or list you can use a non-existant key e.g.
-        'value' to retreive it.
-        """
-        if type(self.content) == dict:
-            return super().__getattr__(name)
+    @property
+    def search_pattern(self):
+        if self.expr:
+            return str(self.expr)
+
+        return str(self)
+
+    @property
+    def is_sequence_search(self):
+        seq_keys = YPropertySequencePart._override_keys()
+        return any([getattr(self, key) for key in seq_keys])
+
+    @property
+    def simple_search(self):
+        if (self.is_sequence_search or not self.search_pattern or
+                self.passthrough_results_opt):
+            return
+
+        sdef = self.cache.simple_search
+        if sdef:
+            return sdef
+
+        pattern = self.search_pattern
+        hint = None
+        if self.hint:
+            hint = str(self.hint)
+
+        sdef = SearchDef(pattern, tag=self.unique_search_tag, hint=hint)
+        self.cache.set('simple_search', sdef)
+        return sdef
+
+    @property
+    def sequence_search(self):
+        if not self.is_sequence_search or self.passthrough_results_opt:
+            return
+
+        sdef = self.cache.sequence_search
+        if sdef:
+            return sdef
+
+        seq_start = self.start
+        seq_body = self.body
+        seq_end = self.end
+
+        if (seq_body or (seq_end and not self.passthrough_results_opt)):
+            sd_start = SearchDef(seq_start.search_pattern)
+
+            sd_end = None
+            # explicit end is optional for sequence definition
+            if seq_end:
+                sd_end = SearchDef(seq_end.search_pattern)
+
+            sd_body = None
+            if seq_body:
+                sd_body = SearchDef(seq_body.search_pattern)
+
+            # NOTE: we don't use hints here
+            tag = self.unique_search_tag
+            sdef = SequenceSearchDef(start=sd_start, body=sd_body,
+                                     end=sd_end, tag=tag)
+            self.cache.set('sequence_search', sdef)
+            return sdef
         else:
-            return self.content
+            log.warning("invalid sequence definition passthrough=%s "
+                        "start=%s, body=%s, end=%s",
+                        self.passthrough_results_opt, seq_start, seq_body,
+                        seq_end)
+
+    @property
+    def sequence_passthrough_search(self):
+        if not self.is_sequence_search or not self.passthrough_results_opt:
+            return
+
+        sdef = self.cache.sequence_passthrough_search
+        if sdef:
+            return sdef
+
+        seq_start = self.start
+        seq_end = self.end
+
+        if self.passthrough_results_opt and all([seq_start, seq_end]):
+            # start and end required for core.analytics.LogEventStats
+            start_tag = "{}-start".format(self.unique_search_tag)
+            end_tag = "{}-end".format(self.unique_search_tag)
+            sdefs = [SearchDef(str(seq_start.search_pattern), tag=start_tag),
+                     SearchDef(str(seq_end.search_pattern), tag=end_tag)]
+            self.cache.set('sequence_passthrough_search', sdefs)
+            return sdefs
+
+    def load_searcher(self, searchobj, search_path):
+        """ Load search definitions into the given searcher object. """
+        sdef = self.simple_search
+        if sdef:
+            log.debug("loading simple search")
+            searchobj.add_search_term(sdef, search_path)
+            return
+
+        sdef = self.sequence_search
+        if sdef:
+            log.debug("loading sequence search")
+            searchobj.add_search_term(sdef, search_path)
+            return
+
+        sdef = self.sequence_passthrough_search
+        if sdef:
+            log.debug("loading sequence passthrough searches")
+            for _sdef in sdef:
+                searchobj.add_search_term(_sdef, search_path)
+
+
+class YPropertySequencePart(YPropertySearchBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return ['start', 'body', 'end']
+
+    def __str__(self):
+        for stack in self._stack.current.content.values():
+            return stack.current.content
+
+
+@add_to_property_catalog
+class YPropertySearch(YPropertySearchBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return ['search']
+
+    @classmethod
+    def _override_mapped_member_types(cls):
+        members = super()._override_mapped_member_types()
+        return members + [YPropertySequencePart]
 
 
 @add_to_property_catalog
@@ -599,10 +728,6 @@ class YPropertyRaises(YPropertyOverrideBase):
 
 class YPropertyInputBase(object):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.cmd_tmp_path = None
-
     @property
     def options(self):
         defaults = {'disable-all-logs': False,
@@ -638,8 +763,9 @@ class YPropertyInputBase(object):
             return path
 
         if self.command:  # pylint: disable=W0125
-            if self.cmd_tmp_path:
-                return self.cmd_tmp_path
+            cmd_tmp_path = self.cache.cmd_tmp_path
+            if cmd_tmp_path:
+                return cmd_tmp_path
 
             args_callback = self.options['args-callback']
             if args_callback:
@@ -659,8 +785,9 @@ class YPropertyInputBase(object):
             elif type(out) == dict:
                 out = str(out)
 
-            self.cmd_tmp_path = mktemp_dump(out)
-            return self.cmd_tmp_path
+            cmd_tmp_path = mktemp_dump(out)
+            self.cache.set('cmd_tmp_path', cmd_tmp_path)
+            return cmd_tmp_path
 
         log.debug("no input provided")
 

@@ -15,7 +15,7 @@ conclusions:
       message: >-
         {numreports} reports of stacktraces in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_stacktraces.expr.results:len'
+        numreports: '@checks.has_stacktraces.search.results:len'
   oom-killer-invoked:   
     decision: has_oom_killer_invoked
     raises:
@@ -23,7 +23,7 @@ conclusions:
       message: >-
         {numreports} reports of oom-killer invoked in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_oom_killer_invoked.expr.results:len'
+        numreports: '@checks.has_oom_killer_invoked.search.results:len'
   nf-conntrack-full:   
     decision: has_nf_conntrack_full
     raises:
@@ -32,4 +32,4 @@ conclusions:
         {numreports} reports of 'nf_conntrack: table full' detected in
         kern.log - please check.
       format-dict:
-        numreports: '@checks.has_nf_conntrack_full.expr.results:len'
+        numreports: '@checks.has_nf_conntrack_full.search.results:len'

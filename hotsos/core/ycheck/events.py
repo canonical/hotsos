@@ -1,9 +1,5 @@
 from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
-from hotsos.core.searchtools import (
-    SearchDef,
-    SequenceSearchDef,
-)
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
     ChecksBase,
@@ -14,12 +10,13 @@ from hotsos.core.ycheck.engine import (
 class EventCheckResult(object):
     """ This is passed to an event check callback when matches are found """
 
-    def __init__(self, defs_section, defs_event, search_results,
+    def __init__(self, defs_section, defs_event, search_results, search_tag,
                  sequence_def=None):
         """
         @param defs_section: section name from yaml
         @param defs_event: event label/name from yaml
         @param search_results: searchtools.SearchResultsCollection
+        @param search_tag: unique tag used to identify the results
         @param sequence_def: if set the search results are from a
                             searchtools.SequenceSearchDef and are therefore
                             grouped as sections of results rather than a single
@@ -27,6 +24,7 @@ class EventCheckResult(object):
         """
         self.section = defs_section
         self.name = defs_event
+        self.search_tag = search_tag
         self.results = search_results
         self.sequence_def = sequence_def
 
@@ -167,80 +165,19 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
                   len(group.leaf_sections))
 
         for event in group.leaf_sections:
-            results_passthrough = bool(event.passthrough_results)
             log.debug("event: %s", event.name)
             log.debug("input: %s (command=%s)", event.input.path,
                       event.input.command is not None)
-            log.debug("passthrough: %s", results_passthrough)
 
             section_name = event.parent.name
-            # this is hopefully unique enough to allow two events from
-            # different sections to have the same name and not clobber each
-            # others results.
-            search_tag = "{}.{}".format(section_name, event.name)
-
-            # if this is a multiline event (has a start and end), append
-            # this to the tag so that it can be used with
-            # core.analytics.LogEventStats.
-            search_meta = {'searchdefs': [], 'datasource': None,
-                           'passthrough_results': results_passthrough}
-
-            if event.expr:
-                hint = None
-                if event.hint:
-                    hint = event.hint.value
-
-                search_meta['searchdefs'].append(
-                    SearchDef(event.expr.value, tag=search_tag, hint=hint))
-            elif event.start:
-                if (event.body or
-                        (event.end and not results_passthrough)):
-                    log.debug("event '%s' search is a sequence", event.name)
-                    sd_start = SearchDef(event.start.expr)
-
-                    sd_end = None
-                    # explicit end is optional for sequence definition
-                    if event.end:
-                        sd_end = SearchDef(event.end.expr)
-
-                    sd_body = None
-                    if event.body:
-                        sd_body = SearchDef(event.body.expr)
-
-                    # NOTE: we don't use hints here
-                    sequence_def = SequenceSearchDef(start=sd_start,
-                                                     body=sd_body,
-                                                     end=sd_end,
-                                                     tag=search_tag)
-                    search_meta['searchdefs'].append(sequence_def)
-                    search_meta['is_sequence'] = True
-                elif (results_passthrough and
-                      (event.start and event.end)):
-                    # start and end required for core.analytics.LogEventStats
-                    search_meta['searchdefs'].append(
-                        SearchDef(event.start.expr,
-                                  tag="{}-start".format(search_tag),
-                                  hint=event.start.hint))
-                    search_meta['searchdefs'].append(
-                        SearchDef(event.end.expr,
-                                  tag="{}-end".format(search_tag),
-                                  hint=event.end.hint))
-                else:
-                    log.debug("unexpected search definition passthrough=%s "
-                              "body provided=%s, end provided=%s",
-                              results_passthrough, event.body is not None,
-                              event.end is not None)
-            else:
-                log.debug("invalid search definition for event '%s' in "
-                          "section '%s'", event, event.parent.name)
-                continue
-
-            datasource = event.input.path
             if section_name not in self.__event_defs:
                 self.__event_defs[section_name] = {}
 
-            search_meta['datasource'] = datasource
-            self.__event_defs[section_name][event.name] = search_meta
+            event.search.load_searcher(self.searchobj, event.input.path)
+            emeta = {'passthrough': event.search.passthrough_results_opt,
+                     'sequence': event.search.sequence_search,
+                     'tag': event.search.unique_search_tag}
+            self.__event_defs[section_name][event.name] = emeta
 
     @property
     def event_definitions(self):
@@ -255,16 +192,8 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
         return self.__event_defs
 
     def load(self):
-        """
-        Load and register the search definitions for all events.
-
-        @param root_key: events.yaml root key
-        """
-        for defs in self.event_definitions.values():
-            for label in defs:
-                event = defs[label]
-                for sd in event["searchdefs"]:
-                    self.searchobj.add_search_term(sd, event["datasource"])
+        """ preload """
+        self.event_definitions
 
     @property
     def final_event_results(self):
@@ -293,23 +222,24 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
         info = {}
         for section_name, section in self.event_definitions.items():
             for event, event_meta in section.items():
-                search_tag = "{}.{}".format(section_name, event)
-                sequence_def = None
-                if event_meta.get('passthrough_results'):
+                search_tag = event_meta['tag']
+                seq_def = None
+                if event_meta['passthrough']:
                     # this is for implementations that have their own means of
-                    # retreiving results.
+                    # retrieving results.
                     search_results = results
                 else:
-                    if event_meta.get('is_sequence'):
-                        sequence_def = event_meta['searchdefs'][0]
+                    seq_def = event_meta['sequence']
+                    if seq_def:
                         search_results = results.find_sequence_sections(
-                            sequence_def)
+                            seq_def)
                         if search_results:
                             search_results = search_results.values()
                     else:
                         search_results = results.find_by_tag(search_tag)
 
                 if not search_results:
+                    log.debug("event %s did not yield any results", event)
                     continue
 
                 # We want this to throw an exception if the callback is not
@@ -318,7 +248,8 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
                 callback = self.callback_helper.callbacks[callback_name]
                 event_results_obj = EventCheckResult(section_name, event,
                                                      search_results,
-                                                     sequence_def=sequence_def)
+                                                     search_tag,
+                                                     sequence_def=seq_def)
                 log.debug("executing event %s.%s callback '%s'",
                           event_results_obj.section, event,
                           callback_name)
