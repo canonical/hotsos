@@ -62,6 +62,14 @@ May  6 10:49:21 tututu kernel: [ 4965.415939] RIP: 0033:0x7fab36d717a9
 """  # noqa
 
 
+FAKE_AMD_LSCPU = r"""
+Vendor ID:                       AuthenticAMD
+CPU family:                      23
+Model:                           49
+Model name:                      AMD EPYC 7502 32-Core Processor
+"""  # noqa
+
+
 class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
@@ -252,3 +260,41 @@ class TestKernelScenarioChecks(TestKernelBase):
                "kern.log - please check.")
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
+    @mock.patch('hotsos.core.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('amd_iommu_pt.yaml'))
+    def test_amd_iommu_pt_fail(self, mock_cli, mock_kernel):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.lscpu.return_value = \
+            FAKE_AMD_LSCPU.splitlines(keepends=True)
+
+        mock_kernel.return_value = mock.MagicMock()
+        mock_kernel.return_value.boot_parameters = \
+            ['intel_iommu=on']
+
+        YScenarioChecker()()
+        msg = ('This host is using an AMD AMD EPYC 7502 32-Core Processor cpu '
+               'but is not using iommu passthrough mode (e.g. set iommu=pt in '
+               'boot parameters) which is recommended in order to get the '
+               'best performance e.g. for networking.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
+    @mock.patch('hotsos.core.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('amd_iommu_pt.yaml'))
+    def test_amd_iommu_pt_pass(self, mock_cli, mock_kernel):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.lscpu.return_value = \
+            FAKE_AMD_LSCPU.splitlines(keepends=True)
+
+        mock_kernel.return_value = mock.MagicMock()
+        mock_kernel.return_value.boot_parameters = \
+            ['intel_iommu=on', 'iommu=pt']
+
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(issues, [])
