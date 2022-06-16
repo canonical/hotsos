@@ -1,0 +1,23 @@
+checks:
+  cpu_vendor_is_amd:
+    property:
+      path: hotsos.core.plugins.kernel.sysfs.CPU.vendor
+      ops: [[eq, 'authenticamd']]
+  iommu_not_pt:
+    property:
+      path: hotsos.core.plugins.kernel.KernelBase.boot_parameters
+      ops: [[contains, 'iommu=pt'], [not_]]
+conclusions:
+  mixed-pkg-releases:
+    decision:
+      - cpu_vendor_is_amd
+      - iommu_not_pt
+    raises:
+      type: SystemWarning
+      message: >-
+        This host is using an AMD {cpu_model} cpu but is not using iommu
+        passthrough mode (e.g. set iommu=pt in boot parameters) which is
+        recommended in order to get the best performance e.g. for networking.
+      format-dict:
+        cpu_model: hotsos.core.plugins.kernel.sysfs.CPU.model
+

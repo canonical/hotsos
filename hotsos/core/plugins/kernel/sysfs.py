@@ -27,6 +27,16 @@ class SYSFSBase(object):
 class CPU(SYSFSBase):
 
     @property
+    def model(self):
+        out = host_helpers.CLIHelper().lscpu()
+        if not out:
+            return
+
+        for line in out:
+            if line.startswith("Model name:"):
+                return re.search(r'Model name:\s+(.+)', line).group(1)
+
+    @property
     def vendor(self):
         out = host_helpers.CLIHelper().lscpu()
         if not out:
