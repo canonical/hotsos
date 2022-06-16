@@ -28,6 +28,16 @@ DPIF_LOST_PACKETS_LOGS = """
 2022-03-25T01:58:42.750Z|05763|dpif_netlink(handler11)|WARN|system@ovs-system: lost packet on port channel 0 of handler 2
 """  # noqa
 
+BFD_STATE_CHANGES = """
+2022-04-21T21:00:{secs}.466Z|01221|bfd(monitor130)|INFO|ovn-ps5-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+"""  # noqa
+
+
+CR_LRP_CHANGES = """
+2022-04-21T14:03:{secs}.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+"""  # noqa
+
+
 DPCTL_SHOW = r"""
   port 6: br-int (internal)
     RX packets:0 errors:0 dropped:1887 overruns:0 frame:0
@@ -327,5 +337,54 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                    'delivering packets in time. Please check ovs-appctl '
                    'dpctl/show to see if the number of lost packets is still '
                    'increasing.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('bfd_flapping.yaml'))
+    def test_bfd_flapping_vswitchd_only(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.date.return_value = '2022-04-21 20:44:21'
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp,
+                                   'var/log/openvswitch/ovs-vswitchd.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                for i in range(0, 10):
+                    fd.write(BFD_STATE_CHANGES.format(secs='0{}'.format(i)))
+
+            YScenarioChecker()()
+            msg = ('The ovn-controller on this host has experienced 10 BFD '
+                   'state changes within an hour (and within the last 24 '
+                   'hours). This is unusual and could be an indication that '
+                   'something is wrong with the network between this node and '
+                   'one or more peer chassis nodes.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('bfd_flapping.yaml'))
+    def test_bfd_flapping_cr_lrp_changes(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.date.return_value = '2022-04-21 20:44:21'
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, 'var/log/ovn/ovn-controller.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                for i in range(0, 20):
+                    fd.write(CR_LRP_CHANGES.format(secs='0{}'.format(i)))
+
+            YScenarioChecker()()
+
+            msg = ('The ovn-controller on this host is showing 20 logical '
+                   'router port (lrp) chassis re-assignments within the last '
+                   '24 hours that do not appear to have resulted from BFD '
+                   'state changes. This could indicate that some operator '
+                   'activity is causing significant load in ovn which may or '
+                   'may not be expected.')
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])

@@ -465,6 +465,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         if not self.constraints:
             return results
 
+        count = len(results)
         result_age_hours = self.constraints.search_result_age_hours
         results = self.filter_by_age(results, result_age_hours)
         if results:
@@ -477,6 +478,8 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
                       "satisfy min of %s", count, self.constraints.min_results)
             return []
 
+        log.debug("applying search constraints reduced results from %s to %s",
+                  count, len(results))
         return results
 
     @property

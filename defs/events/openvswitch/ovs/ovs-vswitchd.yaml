@@ -12,4 +12,5 @@ receive-tunnel-port-not-found:
   expr: '([0-9-]+)T[0-9:\.]+Z.+\|receive tunnel port not found \((\w+),'
 dpif-netlink-lost-packet-on-handler:
   expr: '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
-
+inactivity-probe:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
