@@ -118,6 +118,12 @@ class EventProcessingUtils(object):
 
                 info = squashed
 
+            # If not using date as key we need to sort the values so that they
+            # will have the same order as if they were sorted by date key.
+            if not key_by_date:
+                for key in info:
+                    info[key] = sorted_dict(info[key])
+
             return sorted_dict(info, reverse=not key_by_date)
 
 
