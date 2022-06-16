@@ -118,7 +118,7 @@ class EventProcessingUtils(object):
 
                 info = squashed
 
-            return sorted_dict(info, reverse=True)
+            return sorted_dict(info, reverse=not key_by_date)
 
 
 class YEventCheckerBase(ChecksBase, EventProcessingUtils):
