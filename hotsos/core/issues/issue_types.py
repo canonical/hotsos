@@ -108,6 +108,10 @@ class OpenstackWarning(IssueTypeBase):
     pass
 
 
+class OVNWarning(IssueTypeBase):
+    pass
+
+
 class OpenvSwitchWarning(IssueTypeBase):
     pass
 
