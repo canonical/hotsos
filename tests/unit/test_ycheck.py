@@ -308,6 +308,31 @@ myplugin:
 """  # noqa
 
 
+SCENARIO_W_ERROR = r"""
+myplugin:
+  scenarioA:
+    checks:
+      property_no_error:
+        property: tests.unit.test_ycheck.TestProperty.always_true
+    conclusions:
+      c1:
+        decision: property_no_error
+        raises:
+          type: SystemWarning
+          message: foo
+  scenarioB:
+    checks:
+      property_w_error:
+        property: tests.unit.test_ycheck.TestProperty.i_dont_exist
+    conclusions:
+      c1:
+        decision: property_w_error
+        raises:
+          type: SystemWarning
+          message: foo
+"""  # noqa
+
+
 SCENARIO_CHECKS = r"""
 myplugin:
   myscenario:
@@ -969,3 +994,22 @@ class TestYamlChecks(utils.BaseTestCase):
                 self.assertEqual(len(scenario.checks), 2)
                 for check in scenario.checks.values():
                     self.assertTrue(check.result)
+
+    def test_failed_scenario_caught(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
+            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
+                                                      SCENARIO_W_ERROR)
+            scenarios.YScenarioChecker()()
+            issues = list(IssuesStore().load().values())
+            self.assertEqual(len(issues[0]), 2)
+            i_types = [i['type'] for i in issues[0]]
+            self.assertEqual(sorted(i_types),
+                             sorted(['SystemWarning',
+                                     'HotSOSScenariosWarning']))
+            for issue in issues[0]:
+                if issue['type'] == 'HotSOSScenariosWarning':
+                    msg = ("One or more scenarios failed to run (scenarioB) - "
+                           "run hotsos in debug mode (--debug) to get more "
+                           "detail")
+                    self.assertEqual(issue['desc'], msg)
