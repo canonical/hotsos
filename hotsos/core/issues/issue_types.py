@@ -28,6 +28,10 @@ class BugTypeBase(abc.ABC, IssueTypeBase):
         pass
 
 
+class HotSOSScenariosWarning(IssueTypeBase):
+    pass
+
+
 class SystemWarning(IssueTypeBase):
     pass
 
