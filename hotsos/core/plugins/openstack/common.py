@@ -17,6 +17,7 @@ from hotsos.core.plugins.openstack.exceptions import (
     NEUTRON_EXCEPTIONS,
     OCTAVIA_EXCEPTIONS,
     OVSDBAPP_EXCEPTIONS,
+    MASAKARI_EXCEPTIONS,
 )
 
 
@@ -145,6 +146,7 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'glance': GLANCE_EXCEPTIONS + GLANCE_STORE_EXCEPTIONS,
                   'keystone': KEYSTONE_EXCEPTIONS,
                   'manila': MANILA_EXCEPTIONS,
+                  'masakari': MASAKARI_EXCEPTIONS,
                   'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
                   'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS,
                   'octavia': OCTAVIA_EXCEPTIONS,
