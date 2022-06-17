@@ -9,6 +9,8 @@ hotsos is a framework for software-defined analysis. It provides a high-level la
   * Juju
   * MAAS
   * Vault
+  * MySQL
+  * RabbitMQ
   * and more
 
 There are a number of output options and formats. The default output is a yaml summary containing information specific to each application (plugin) type including issues and known bugs detected. Hotsos can be run against a host or [sosreport](https://github.com/sosreport/sos).
@@ -32,8 +34,18 @@ An example **short** (yaml) summary can be found [here](examples/hotsos-example-
 
 ## Install
 
-You can either run from source or install Ubuntu snap e.g.
+You can install as a snap e.g.
 
+```
 sudo snap install hotsos --classic
+```
 
 See https://snapcraft.io/hotsos for more info on usage.
+
+or run from source e.g.
+
+```
+$ git clone https://github.com/canonical/hotsos
+$ ./hotsos/scripts/hotsos
+```
+
