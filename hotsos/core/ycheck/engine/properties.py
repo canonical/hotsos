@@ -166,6 +166,7 @@ class YPropertyCheck(YPropertyBase):
             if ts and ts >= current - timedelta(hours=result_age_hours):
                 _results.append(r)
 
+        log.debug("%s results remain after applying filter", len(_results))
         return _results
 
     @classmethod
@@ -206,6 +207,7 @@ class YPropertyCheck(YPropertyBase):
                 # we already have enough results so return
                 break
 
+        log.debug("%s results remain after applying filter", len(results))
         if len(results) < min_results:
             return []
 
