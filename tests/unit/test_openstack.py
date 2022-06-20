@@ -156,6 +156,19 @@ LP_2008099 = r"""
 2022-02-28 22:43:06.269 2452 ERROR octavia.amphorae.drivers.haproxy.exceptions [req-517fc350-0d44-49d9-8c42-bf0ee08743cc - 77dd427b317c41bc92306aa341174958 - - -] Amphora agent returned unexpected result code 400 with response {'message': 'Invalid request', 'details': "[ALERT] 058/224306 (1748) : Proxy '2d4fb3e0-d743-48f6-a69a-c37e2c1246f2:8a692eba-7d40-4f8d-8a74-77d8c4f3dba8': unable to find local peer 'xFiQsE9fy1TMp7CDRHT-ClSZOEI' in peers section '3705f8d100144614a7475324946a3a5f_peers'.\n[WARNING] 058/224306 (1748) : Removing incomplete section 'peers 3705f8d100144614a7475324946a3a5f_peers' (no peer named 'xFiQsE9fy1TMp7CDRHT-ClSZOEI').\n[ALERT] 058/224306 (1748) : Fatal errors found in configuration.\n"}
 """ # noqa
 
+LP_1979089 = r"""
+2022-05-21 06:26:13.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:26:23.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:26:33.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:26:43.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:26:53.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:26:03.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:27:13.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:27:23.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:27:33.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+2022-05-21 06:27:43.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+"""  # noqa
+
 EVENT_PCIDEVNOTFOUND_LOG = r"""
 2021-09-17 13:49:47.257 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:10.0: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:10.0 not found
 2021-09-17 13:49:47.609 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:0f.7: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:0f.7 not found
@@ -1150,6 +1163,32 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                         [{'id': 'https://bugs.launchpad.net/bugs/1896506',
                           'desc': ('Known neutron l3-agent bug identified '
                                    'that critically impacts keepalived.'),
+                          'origin': 'openstack.01part'}]}
+            self.assertEqual(IssuesManager().load_bugs(), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('neutron/bugs.yaml'))
+    def test_1979089(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(
+                        dtmp, 'var/log/neutron/neutron-l3-agent.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(LP_1979089)
+
+            YScenarioChecker()()
+
+            msg = ("The neutron-l3-agent service on this node appears to be "
+                   "impacted by the mentioned bug whereby it is "
+                   "consumed by the task of continuously respawning "
+                   "haproxy for a router that has been deleted. To "
+                   "workaround this problem you can manually create "
+                   "the missing namespace to allow the operation to "
+                   "complete. See bug report for details.")
+            expected = {'bugs-detected':
+                        [{'id': 'https://bugs.launchpad.net/bugs/1979089',
+                          'desc': (msg),
                           'origin': 'openstack.01part'}]}
             self.assertEqual(IssuesManager().load_bugs(), expected)
 
