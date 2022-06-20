@@ -85,15 +85,25 @@ class TestSearchTools(utils.BaseTestCase):
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_no_override(self, mock_cpu_count):
         mock_cpu_count.return_value = 3
-        s = FileSearcher()
-        self.assertEqual(s.num_cpus, 3)
+        with mock.patch.object(FileSearcher, 'num_files_to_search', 4):
+            s = FileSearcher()
+            self.assertEqual(s.num_cpus, 3)
+
+    @mock.patch.object(os, "environ", {})
+    @mock.patch.object(os, "cpu_count")
+    def test_filesearcher_num_cpus_files_capped(self, mock_cpu_count):
+        mock_cpu_count.return_value = 3
+        with mock.patch.object(FileSearcher, 'num_files_to_search', 2):
+            s = FileSearcher()
+            self.assertEqual(s.num_cpus, 2)
 
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
         setup_config(MAX_PARALLEL_TASKS=2)
         mock_cpu_count.return_value = 3
-        s = FileSearcher()
-        self.assertEqual(s.num_cpus, 2)
+        with mock.patch.object(FileSearcher, 'num_files_to_search', 4):
+            s = FileSearcher()
+            self.assertEqual(s.num_cpus, 2)
 
     def test_filesearcher_logs(self):
         expected = {9891: '2022-02-09 22:50:18.131',

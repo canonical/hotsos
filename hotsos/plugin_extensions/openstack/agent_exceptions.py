@@ -60,11 +60,14 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         we might want to catch like warnings etc which may not be errors or
         exceptions.
         """
+        log.debug("loading exception search defs")
         for project in self.ost_projects.all.values():
             if not project.installed:
                 log.debug("%s is not installed - excluding from exception "
                           "checks", project.name)
                 continue
+
+            log.debug("%s is installed so adding to searches", project.name)
 
             # NOTE: services running under apache may have their logs (e.g.
             # barbican-api.log) prepended with apache/mod_wsgi info so do this
@@ -83,7 +86,9 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
             expr_template = (r"^{}([0-9\-]+) (\S+) .+\S+\s({}{{}})[\s:\.]".
                              format(prefix_match, exc_obj_full_path_match))
 
-            for agent, log_paths in project.log_paths:
+            # NOTE: don't check exceptions for deprecated services
+            for agent, log_paths in project.log_paths(
+                    include_deprecated_services=False):
                 for path in log_paths:
                     path = os.path.join(HotSOSConfig.DATA_ROOT, path)
                     if HotSOSConfig.USE_ALL_LOGS:
@@ -134,11 +139,14 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
 
     def run(self, results):
         """Process search results to see if we got any hits."""
+        log.debug("processing exception search results")
         _final_results = {}
         for name, info in self.ost_projects.all.items():
             for agent in info.services:
                 tag = "{}.{}".format(name, agent)
                 _results = results.find_by_tag(tag)
+                log.debug("processing project=%s agent=%s (results=%s)", name,
+                          agent, len(_results))
                 ret = self.get_exceptions_results(_results)
                 if ret:
                     if name not in _final_results:

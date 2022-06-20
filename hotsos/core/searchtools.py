@@ -182,6 +182,8 @@ class SearchResult(object):
             for i in range(1, num_groups + 1):
                 self._add(i, result.group(i))
         else:
+            log.debug("saving full search result which can lead to high "
+                      "memory usage")
             self._add(0, result.group(0))
 
     def _add(self, index, value):
@@ -301,7 +303,7 @@ class FileSearcher(object):
         else:
             cpus = min(HotSOSConfig.MAX_PARALLEL_TASKS, os.cpu_count())
 
-        return cpus
+        return min(self.num_files_to_search, cpus)
 
     def add_filter_term(self, filter, path):
         """Add a term to search for that will be used as a filter for the given
@@ -551,6 +553,19 @@ class FileSearcher(object):
 
         return dir_contents
 
+    @property
+    def num_files_to_search(self):
+        count = 0
+        for user_path in self.paths:
+            if os.path.isfile(user_path):
+                count += 1
+            elif os.path.isdir(user_path):
+                count += len(self.filtered_paths(user_path))
+            else:
+                count += len(self.filtered_paths(glob.glob(user_path)))
+
+        return count
+
     def search(self):
         """Execute all the search queries.
 
@@ -562,7 +577,11 @@ class FileSearcher(object):
             log.debug("no search terms registered so nothing to do")
             return self.results
 
-        log.debug("creating filesearcher with max=%d processes", self.num_cpus)
+        num_files = self.num_files_to_search
+        if not num_files:
+            log.debug("no files to search")
+            return self.results
+
         with multiprocessing.Pool(processes=self.num_cpus) as pool:
             jobs = {}
             for user_path in self.paths:
@@ -580,10 +599,11 @@ class FileSearcher(object):
                         job = self._job_wrapper(pool, user_path, path)
                         jobs[user_path].append((path, job))
 
-            total_paths = sum([len(jobs[p]) for p in jobs])
-            total_searches = sum([len(jobs[p]) * len(self.paths[p])
-                                  for p in jobs])
-            log.debug("files=%s searches=%s", total_paths, total_searches)
+            num_searches = sum([len(jobs[p]) * len(self.paths[p])
+                                for p in jobs])
+            log.debug("running filesearcher processes=%d files=%d "
+                      "searches=%d", self.num_cpus, num_files, num_searches)
+
             for user_path in jobs:
                 for fpath, job in jobs[user_path]:
                     try:
@@ -593,5 +613,5 @@ class FileSearcher(object):
                     except FileSearchException as e:
                         sys.stderr.write("{}\n".format(e.msg))
 
-        log.debug("completed searches (results=%s)", self.results.count)
+        log.debug("filesearcher completed (results=%s)", self.results.count)
         return self.results

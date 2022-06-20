@@ -163,7 +163,9 @@ class OSTProject(object):
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
     def __init__(self, name, config=None, apt_core_alt=None,
-                 systemd_masked_services=None, log_path_overrides=None,
+                 systemd_masked_services=None,
+                 systemd_deprecated_services=None,
+                 log_path_overrides=None,
                  systemd_extra_services=None):
         """
         @param name: name of this project
@@ -176,6 +178,9 @@ class OSTProject(object):
         @param systemd_masked_services: optional list of services that are
                expected to be masked in systemd e.g. if they are actually being
                run by apache.
+        @param systemd_deprecated_services: optional list of services that are
+               deprecated. This can be helpful if e.g. you want to skip checks
+               for resources related to these services.
         @param systemd_extra_services: optional list of systemd services that
                are used. This is useful e.g. if components are run under
                apache or if a package runs components using services whose name
@@ -197,6 +202,7 @@ class OSTProject(object):
 
         self.systemd_extra_services = systemd_extra_services
         self.systemd_masked_services = systemd_masked_services or []
+        self.systemd_deprecated_services = systemd_deprecated_services or []
         self.logs_path = os.path.join('var/log', name)
         self.log_path_overrides = log_path_overrides or {}
         self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
@@ -220,8 +226,7 @@ class OSTProject(object):
         info = host_helpers.ServiceChecksBase(service_exprs=exprs)
         return info.services
 
-    @property
-    def log_paths(self):
+    def log_paths(self, include_deprecated_services=True):
         """
         Returns tuples of daemon name, log path for each agent/daemon.
         """
@@ -229,6 +234,10 @@ class OSTProject(object):
         path = os.path.join('var/log', self.name, "{}.log".format(proj_manage))
         yield proj_manage, [path]
         for svc in self.services:
+            if (not include_deprecated_services and
+                    svc in self.systemd_deprecated_services):
+                continue
+
             path = os.path.join('var/log', self.name,
                                 "{}.log".format(svc))
             yield svc, self.log_path_overrides.get(svc, [path])
@@ -296,7 +305,10 @@ class OSTProjectCatalog(object):
                          'plugins/ml2/openvswitch_agent.ini',
                          'l3-agent': 'l3_agent.ini',
                          'dhcp-agent': 'dhcp_agent.ini'},
-                 systemd_masked_services=['nova-api-metadata']),
+                 systemd_masked_services=['nova-api-metadata'],
+                 systemd_deprecated_services=['neutron-lbaas-agent',
+                                              'neutron-lbaasv2-agent',
+                                              'neutron-fwaas-agent'])
         self.add('nova', config={'main': 'nova.conf'},
                  # See LP bug 1957760 for reason why neutron-server is added.
                  systemd_masked_services=['nova-api-os-compute',
