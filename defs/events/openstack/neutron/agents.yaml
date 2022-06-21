@@ -32,11 +32,12 @@ neutron-l3-agent:
   # identify HA router keepalived spawn events that took the longest to complete and report the longest updates.
   router-spawn-events:
     # router state_change_monitor + keepalived spawn
+    # NOTE: there are no logs that depict a router create so we use the state change monitor spawn as a start point.
     start:
       expr: '^([0-9-]+) (\S+) .+ Router (\S+) .+ spawn_state_change_monitor'
       hint: 'spawn_state_change'
     end:
-      expr: '^([0-9-]+) (\S+) .+ Keepalived spawned with config \S+/ha_confs/([0-9a-z-]+)/keepalived.conf .+'
+      expr: '^([0-9-]+) (\S+) .+ neutron.agent.linux.utils .+neutron-rootwrap.+''keepalived'',.+''/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf''.+ create_process'
       hint: 'Keepalived'
     # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
     passthrough-results: True

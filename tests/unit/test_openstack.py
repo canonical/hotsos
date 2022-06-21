@@ -879,18 +879,18 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
     def test_get_router_event_stats(self):
         expected = {'router-spawn-events': {
                         'stats': {
-                            'avg': 578.02,
-                            'max': 578.02,
-                            'min': 578.02,
+                            'avg': 72.09,
+                            'max': 72.09,
+                            'min': 72.09,
                             'samples': 1,
                             'stdev': 0.0},
                         'top': {
                             '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
-                                'duration': 578.02,
-                                'end': '2022-02-10 '
-                                       '16:19:00.697000',
+                                'duration': 72.09,
                                 'start': '2022-02-10 '
-                                         '16:09:22.679000'}}},
+                                         '16:09:22.679000',
+                                'end': '2022-02-10 '
+                                       '16:10:34.767000'}}},
                     'router-updates': {
                         'stats': {
                             'avg': 28.29,

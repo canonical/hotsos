@@ -130,13 +130,22 @@ class EventCollection(object):
         most recent start.
         """
         for event, info in self._events.items():
+            _prev_start = None
             for end_ts in info.get("tails", []):
                 start_item = self.find_most_recent_start(event, end_ts)
                 if not start_item:
                     # incomplete event
                     continue
 
-                etime = end_ts - start_item["start"]
+                new_start = start_item["start"]
+                if _prev_start is None:
+                    _prev_start = new_start
+                elif _prev_start == new_start:
+                    # If we have already closed a start/end loop, ignore any
+                    # further endings
+                    break
+
+                etime = end_ts - new_start
                 duration = round(float(etime.total_seconds()), 2)
                 start_item["duration"] = duration
                 start_item["end"] = end_ts

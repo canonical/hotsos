@@ -231,13 +231,13 @@ openstack:
         top:
           984c22fd-64b3-4fa1-8ddd-87090f401ce5:
             start: '2022-02-10 16:09:22.679000'
-            end: '2022-02-10 16:19:00.697000'
-            duration: 578.02
+            end: '2022-02-10 16:10:34.767000'
+            duration: 72.09
         stats:
-          min: 578.02
-          max: 578.02
+          min: 72.09
+          max: 72.09
           stdev: 0.0
-          avg: 578.02
+          avg: 72.09
           samples: 1
     neutron-ovs-agent:
       rpc-loop:
