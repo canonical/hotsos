@@ -2,28 +2,36 @@ checks:
   input:
     path: 'var/log/kern.log'
   has_stacktraces:
-    expr: '.*Call Trace:'
+    property:
+      path: hotsos.core.plugins.kernel.CallTrace.calltrace_anytype
+      ops: [[length_hint]]
   has_oom_killer_invoked:
-    expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) invoked oom-killer\:'
+    property:
+      path: hotsos.core.plugins.kernel.CallTrace.oom_killer
+      ops: [[length_hint]]
   has_nf_conntrack_full:
     expr: '.+ nf_conntrack: table full, dropping packet'
+  has_over_mtu_dropped_packets:
+    property: hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets
 conclusions:
   stacktraces:
+    priority: 1
     decision: has_stacktraces
     raises:
       type: KernelError
       message: >-
         {numreports} reports of stacktraces in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_stacktraces.search.results:len'
+        numreports: '@checks.has_stacktraces.requires.value_actual:len'
   oom-killer-invoked:   
+    priority: 2
     decision: has_oom_killer_invoked
     raises:
       type: MemoryWarning
       message: >-
         {numreports} reports of oom-killer invoked in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_oom_killer_invoked.search.results:len'
+        numreports: '@checks.has_oom_killer_invoked.requires.value_actual:len'
   nf-conntrack-full:   
     decision: has_nf_conntrack_full
     raises:
@@ -33,3 +41,13 @@ conclusions:
         kern.log - please check.
       format-dict:
         numreports: '@checks.has_nf_conntrack_full.search.results:len'
+  over-mtu-dropped-packets:
+    decision: has_over_mtu_dropped_packets
+    raises:
+      type: NetworkWarning
+      message: >-
+        This host is reporting over-mtu dropped packets for ({num_ifaces})
+        interfaces. See kern.log for full details.
+      format-dict:
+        num_ifaces: '@checks.has_over_mtu_dropped_packets.requires.value_actual:len'
+

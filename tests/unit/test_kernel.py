@@ -5,18 +5,20 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.plugin_extensions.kernel import (
-    summary,
-    memory,
-    log_event_checks,
-)
+from hotsos.plugin_extensions.kernel import summary
 from hotsos.core.config import setup_config
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.plugins.kernel.config import SystemdConfig
-from hotsos.core.ycheck.events import EventCheckResult
+from hotsos.core.plugins.kernel import CallTrace
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 from hotsos.core.host_helpers.network import NetworkPort
+from hotsos.core.plugins.kernel.memory import (
+    BuddyInfo,
+    SlabInfo,
+    MallocInfo,
+    MemoryChecks,
+)
 
 
 EVENTS_KERN_LOG = r"""
@@ -39,12 +41,6 @@ May  6 17:24:13 compute4 kernel: [13526370.730681] tape901c8af-fb: dropped over-
 
 KERNLOG_NF_CONNTRACK_FULL = r"""
 Jun  8 10:48:13 compute4 kernel: [1694413.621694] nf_conntrack: nf_conntrack: table full, dropping packet
-"""  # noqa
-
-KERNLOG_OOM = r"""
-Aug  3 10:31:24 compute4 kernel: [5490487.294657] Memory cgroup out of memory: Kill process 55438 (ruby) score 1116 or sacrifice child
-Aug  3 10:31:24 compute4 kernel: [5490487.297212] Killed process 55438 (ruby) total-vm:1771344kB, anon-rss:1469448kB, file-rss:4992kB
-Aug  3 08:32:23 compute4 kernel: [5489652.470650] nice invoked oom-killer: gfp_mask=0x24000c0, order=0, oom_score_adj=876
 """  # noqa
 
 KERNLOG_STACKTRACE = r"""
@@ -74,6 +70,29 @@ class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
         setup_config(PLUGIN_NAME='kernel')
+
+
+class TestKernelCallTrace(TestKernelBase):
+
+    def test_calltrace_handler(self):
+        for killer in CallTrace().oom_killer:
+            self.assertEqual(killer.procname, 'kworker/0:0')
+            self.assertEqual(killer.pid, '955')
+
+        heuristics = CallTrace().oom_killer.heuristics
+        # one per zone
+        self.assertEqual(len(heuristics), 3)
+        for h in heuristics:
+            if h.zone == 'DMA':
+                self.assertEqual(h(),
+                                 ['Node 0 zone DMA free pages 15908 below min '
+                                  '268'])
+            elif h.zone == 'Normal':
+                self.assertEqual(h(),
+                                 ['Node 0 zone Normal free pages 20564 below '
+                                  'low 20652'])
+            else:
+                self.assertEqual(h(), [])
 
 
 class TestKernelInfo(TestKernelBase):
@@ -120,94 +139,40 @@ class TestKernelInfo(TestKernelBase):
 class TestKernelMemoryInfo(TestKernelBase):
 
     def test_numa_nodes(self):
-        ret = memory.KernelMemoryChecks().numa_nodes
+        ret = BuddyInfo().nodes
         expected = [0]
         self.assertEqual(ret, expected)
 
     def test_get_node_zones(self):
-        inst = memory.KernelMemoryChecks()
-        ret = inst.get_node_zones("DMA32", 0)
+        ret = BuddyInfo().get_node_zones("DMA32", 0)
         expected = ("Node 0, zone DMA32 1127 453 112 65 27 7 13 6 5 30 48")
-        self.assertTrue(inst.plugin_runnable)
         self.assertEqual(ret, expected)
 
-    def test_check_mallocinfo(self):
-        inst = memory.KernelMemoryChecks()
-        ret = inst.check_mallocinfo(0, "Normal")
-        self.assertIsNone(ret)
+    def test_mallocinfo(self):
+        m = MallocInfo(0, "Normal")
+        self.assertEqual(m.empty_order_tally, 19)
+        self.assertEqual(m.high_order_seq, 2)
+        bsizes = {10: 0,
+                  9: 0,
+                  8: 2,
+                  7: 4,
+                  6: 14,
+                  5: 35,
+                  4: 222,
+                  3: 1135,
+                  2: 316,
+                  1: 101,
+                  0: 145}
+        self.assertEqual(m.block_sizes_available, bsizes)
 
-    def test_check_nodes_memory(self):
-        inst = memory.KernelMemoryChecks()
-        inst.check_nodes_memory("Normal")
-        expected = {'memory-checks': "no issues found"}
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
-
-    def test_get_slab_major_consumers(self):
-        inst = memory.KernelMemoryChecks()
-        top5 = inst.get_slab_major_consumers()
+    def test_slab_major_consumers(self):
+        top5 = SlabInfo(filter_names=[r"\S*kmalloc"]).major_consumers
         expected = ['buffer_head (87540.6796875k)',
                     'anon_vma_chain (9068.0k)',
                     'radix_tree_node (50253.65625k)',
                     'Acpi-State (5175.703125k)',
                     'vmap_area (2700.0k)']
         self.assertEqual(top5, expected)
-
-
-class TestKernelLogEventChecks(TestKernelBase):
-
-    @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
-                'host_interfaces_all',
-                [NetworkPort('tap0e778df8-ca', None, None, None, None)])
-    def test_run_log_event_checks(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, ('var/log/kern.log'))
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(EVENTS_KERN_LOG)
-
-            expected = {'over-mtu-dropped-packets':
-                        {'tap0e778df8-ca': 5}}
-            inst = log_event_checks.KernelLogEventChecks()
-            # checks get run when we fetch the output so do that now
-            actual = self.part_output_to_actual(inst.output)
-            issues = list(IssuesStore().load().values())[0]
-            msg = ('kernel has reported over-mtu dropped packets for (1) '
-                   'interfaces.')
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
-            self.assertTrue(inst.plugin_runnable)
-            self.assertEqual(actual, expected)
-
-    @mock.patch.object(log_event_checks, 'CLIHelper')
-    @mock.patch.object(log_event_checks, 'HostNetworkingHelper')
-    def test_over_mtu_dropped_packets(self, mock_nethelper, mock_clihelper):
-        mock_ch = mock.MagicMock()
-        mock_clihelper.return_value = mock_ch
-        # include trailing newline since cli would give that
-        mock_ch.ovs_vsctl_list_br.return_value = ['br-int\n']
-
-        mock_nh = mock.MagicMock()
-        mock_nethelper.return_value = mock_nh
-        p1 = NetworkPort('br-int', None, None, None, None)
-        p2 = NetworkPort('tap7e105503-64', None, None, None, None)
-        mock_nh.host_interfaces_all = [p1, p2]
-
-        expected = {'tap7e105503-64': 1}
-        inst = log_event_checks.KernelLogEventChecks()
-
-        mock_result1 = mock.MagicMock()
-        mock_result1.get.return_value = 'br-int'
-        mock_result2 = mock.MagicMock()
-        mock_result2.get.return_value = 'tap7e105503-64'
-
-        event = EventCheckResult(defs_section='section8',
-                                 defs_event='over_mtu_dropped_packets',
-                                 search_tag='foo',
-                                 search_results=[mock_result1, mock_result2])
-        ret = inst.over_mtu_dropped_packets(event)
-        self.assertTrue(inst.plugin_runnable)
-        self.assertEqual(ret, expected)
 
 
 class TestKernelScenarioChecks(TestKernelBase):
@@ -231,15 +196,7 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_checks.yaml'))
     def test_oom_killer_invoked(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            os.makedirs(os.path.join(dtmp, 'var/log'))
-            klog = os.path.join(dtmp, 'var/log/kern.log')
-            with open(klog, 'w') as fd:
-                fd.write(KERNLOG_OOM)
-
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ('1 reports of oom-killer invoked in kern.log - please check.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
@@ -298,3 +255,90 @@ class TestKernelScenarioChecks(TestKernelBase):
         YScenarioChecker()()
         issues = list(IssuesStore().load().values())
         self.assertEqual(issues, [])
+
+    @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
+                'host_interfaces_all',
+                [NetworkPort('tap0e778df8-ca', None, None, None, None)])
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('kernlog_checks.yaml'))
+    def test_over_mtu_dropped_packets(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, ('var/log/kern.log'))
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(EVENTS_KERN_LOG)
+
+            YScenarioChecker()()
+            msg = ('This host is reporting over-mtu dropped packets for (1) '
+                   'interfaces. See kern.log for full details.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.plugins.kernel.kernlog.log')
+    @mock.patch('hotsos.core.plugins.kernel.kernlog.CLIHelper')
+    @mock.patch('hotsos.core.plugins.kernel.kernlog.HostNetworkingHelper.'
+                'host_interfaces_all',
+                [NetworkPort('br-int', None, None, None, None),
+                 NetworkPort('tap0e778df8-ca', None, None, None, None)])
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('kernlog_checks.yaml'))
+    def test_over_mtu_dropped_packets_w_ovs_ports(self, mock_cli, mock_log):
+        mock_cli.return_value = mock.MagicMock()
+        # include trailing newline since cli would give that
+        mock_cli.return_value.ovs_vsctl_list_br.return_value = ['br-int\n']
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, ('var/log/kern.log'))
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(EVENTS_KERN_LOG)
+                ovs_port = EVENTS_KERN_LOG.splitlines(keepends=True)[-1]
+                # add one ovs-port line
+                fd.write(ovs_port.replace('tape901c8af-fb', 'br-int'))
+
+            YScenarioChecker()()
+            mock_log.assert_has_calls([mock.call.debug(
+                                        "excluding ovs bridge %s", 'br-int')])
+            msg = ('This host is reporting over-mtu dropped packets for (1) '
+                   'interfaces. See kern.log for full details.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch.object(MemoryChecks, 'max_contiguous_unavailable_block_sizes',
+                       1)
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('memory.yaml'))
+    def test_memory(self):
+        YScenarioChecker()()
+        msg = ('The following numa nodes have limited high order memory '
+               'available: node0-normal. At present the top 5 highest '
+               'consumers of memory are: buffer_head (87540.6796875k), '
+               'anon_vma_chain (9068.0k), radix_tree_node (50253.65625k), '
+               'Acpi-State (5175.703125k), vmap_area (2700.0k).')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.plugins.kernel.memory.VMStat')
+    @mock.patch.object(MemoryChecks, 'max_contiguous_unavailable_block_sizes',
+                       1)
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('memory.yaml'))
+    def test_memory_w_compaction_failures(self, mock_vmstat):
+        mock_vmstat.return_value = mock.MagicMock()
+        mock_vmstat.return_value.compact_success = 10001
+        mock_vmstat.return_value.compaction_failures_percent = 11
+        YScenarioChecker()()
+        msg1 = ('The following numa nodes have limited high order memory '
+                'available: node0-normal. At present the top 5 highest '
+                'consumers of memory are: buffer_head (87540.6796875k), '
+                'anon_vma_chain (9068.0k), radix_tree_node (50253.65625k), '
+                'Acpi-State (5175.703125k), vmap_area (2700.0k).')
+        msg2 = ('Memory compaction failures are at 11% of successes. This can '
+                'suggest that there are insufficient high-order memory blocks '
+                'available and the kernel is unable form larger blocks on '
+                'request which can slow things down. See vmstat output for '
+                'more detail.')
+        issues = list(IssuesStore().load().values())[0]
+        actual = sorted([issue['desc'] for issue in issues])
+        self.assertEqual(actual, sorted([msg1, msg2]))

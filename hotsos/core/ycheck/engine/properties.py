@@ -1,4 +1,5 @@
 import abc
+import builtins
 import operator
 import os
 
@@ -695,6 +696,16 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         return message
 
+    def apply_renderer_function(self, value, func):
+        if not func:
+            return value
+
+        if func == "comma_join":
+            # needless to say this will only work with lists, dicts etc.
+            return ', '.join(value)
+
+        return getattr(builtins, func)(value)
+
     @cached_yproperty_attr
     def format_dict(self):
         """
@@ -713,7 +724,10 @@ class YPropertyRaises(YPropertyOverrideBase):
                 # save string for later parsing/extraction
                 fdict[k] = v
             else:
-                fdict[k] = self.get_import(v)
+                func = v.partition(':')[2]
+                v = v.partition(':')[0]
+                fdict[k] = self.apply_renderer_function(self.get_import(v),
+                                                        func)
 
         return fdict
 

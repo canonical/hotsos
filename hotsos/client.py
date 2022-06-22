@@ -25,11 +25,7 @@ from hotsos.plugin_extensions.openvswitch import (
 from hotsos.plugin_extensions.system.summary import SystemSummary
 from hotsos.plugin_extensions.system.checks import SystemChecks
 from hotsos.plugin_extensions.maas.summary import MAASSummary
-from hotsos.plugin_extensions.kernel import (
-     summary as kern_summary,
-     memory,
-     log_event_checks,
-)
+from hotsos.plugin_extensions.kernel import summary as kern_summary
 from hotsos.plugin_extensions.kubernetes.summary import KubernetesSummary
 from hotsos.plugin_extensions.rabbitmq.summary import RabbitMQSummary
 from hotsos.plugin_extensions.sosreport.summary import SOSReportSummary
@@ -137,13 +133,7 @@ PLUGIN_CATALOG = {'hotsos': {
                   'kernel': {
                      'summary': {
                          'objects': [kern_summary.KernelSummary],
-                         'part_yaml_offset': 0},
-                     'memory': {
-                         'objects': [memory.KernelMemoryChecks],
-                         'part_yaml_offset': 1},
-                     'log_event_checks': {
-                         'objects': [log_event_checks.KernelLogEventChecks],
-                         'part_yaml_offset': 2}},
+                         'part_yaml_offset': 0}},
                   'kubernetes': {
                      'summary': {
                          'objects': [KubernetesSummary],

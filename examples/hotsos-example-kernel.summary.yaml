@@ -27,4 +27,6 @@ kernel:
     vendor: genuineintel
     smt: disabled
     cpufreq-scaling-governor: unknown
-  memory-checks: no issues found
+  potential-issues:
+    MemoryWarnings:
+      - 1 reports of oom-killer invoked in kern.log - please check. (origin=kernel.auto_scenario_check)

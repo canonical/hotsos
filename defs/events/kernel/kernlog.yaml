@@ -1,5 +1,0 @@
-input:
-  path: 'var/log/kern.log'
-over-mtu-dropped-packets:
-  expr: '.+\] (\S+): dropped over-mtu packet'
-  hint: 'dropped'
