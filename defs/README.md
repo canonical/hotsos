@@ -523,27 +523,28 @@ requires.passes
 
 #### search
 
-Defines a search expression and its criteria. There are different types of
+Used to define a search expression and its criteria. There are different types of
 search expression that can be used depending on the data being searched and how
 the results will be interpreted:
 
-A "simple" search involves a single pattern and is used to match single lines.
+A "simple" search ([SearchDef](../hotsos/core/searchtools)) involves a single pattern
+and is used to match single lines.
 
-A "sequence" search uses hotsos.core.filesearcher.SequenceSearchDef to match
+A "sequence" search ([SequenceSearchDef](../hotsos/core/searchtools)) to match
 (non-overlapping) sequences.
 
 A "passthrough sequence" is used for analysing overlapping sequences with
-[core.analytics.LogEventStats](../hotsos/core/analytics). This requires a
+[LogEventStats](../hotsos/core/analytics). This requires a
 callback method to be implemented to process the results and is designated using
 the optional *passthrough-results* option. Search results are passed
-to their handler as a raw core.searchtools.SearchResultsCollection.
+to their handler as a raw [SearchResultsCollection](../hotsos/core/searchtools).
 
 NOTE: this property is implemented as a [MappedProperty](#mappedproperties)
       meaning that the *search* key is optional.
 
-NOTE: do not use global search properties. If you do this, the same search tag
-      will be used for all searches and it will not be possible to distinguish
-      results form more than one leaf node.
+IMPORTANT: do not use global search properties. If you do this, the same search
+           tag will be used for all searches and it will not be possible to
+           distinguish results form more than one leaf node.
 
 format
 
@@ -554,6 +555,29 @@ search:
     expr: <str>
     hint: <str>
   passthrough-results: True|False (turns sequence search into passthrough)
+  constraints: CONSTRAINTS
+
+  NOTE: search expressions can be a string or list of strings.
+
+CONSTRAINTS:
+  Optional constraints that can be used to filter search results. This
+  is typically used in conjunction with [checks]([#checks]).
+
+  search-result-age-hours: <int>
+    Age from current date (CLIHelper.date()) that results must fall
+    within. Default is infinite. This is used in conjunction with the
+    expr property and requires the search pattern to contain a group at
+    the start (index 1) to match a timestamp of the form
+    YEAR-MONTH-DAY HOUR:MIN:SECS
+
+  search-period-hours: <int>
+    Period of time within which we expect to find results. Default is
+    infinite. Like search-result-age-hours this also requires the search
+    pattern to match a datetime at index 1.
+
+  min-results: <int>
+    Minimum number of search results required. If a search period is
+    defined, these must occur within that period. Default is 1.
 
 CACHE_KEYS
   simple_search
@@ -564,47 +588,27 @@ CACHE_KEYS
 usage
 
 ```
-If value is a string:
-  str(expr|hint)
+You can access each parameter individually:
 
-If using keys start|body|end:
-  <key>.expr
-  <key>.hint
+  search.expr
+  search.hint
 
-Note that expressions can be a string or list of strings.
-```
+or when using keys start|body|end:
 
-#### check-parameters
+  search.<key>.expr
+  search.<key>.hint
 
-These are optional parameters used in a [checks](#checks) check defintion. They
-are typically used in conjunction with an [expr]([#expr]) property to apply
-constraints to search results.
+Or you can access as a pre-prepared search type:
 
-format
+  search.simple_search
+  search.sequence_search
+  search.sequence_passthrough_search
 
-```
-search-result-age-hours: <int>
-  Age from current date (CLIHelper.date()) that results must fall
-  within. Default is infinite. This is used in conjunction with the
-  expr property and requires the search pattern to contain a group at
-  the start (index 1) to match a timestamp of the form
-  YEAR-MONTH-DAY HOUR:MIN:SECS
+Once results have been obtained they can be filtered using which will
+return a True/False value.
 
-search-period-hours: <int>
-  Period of time within which we expect to find results. Default is
-  infinite. Like search-result-age-hours this also requires the search
-  pattern to match a datetime at index 1.
+  search.apply_constraints(searchtools.SearchResultsCollection)
 
-min-results: <int>
-  Minimum number of search results required. If a search period is
-  defined, these must occur within that period. Default is 1.
-```
-
-usage
-
-```
-check-parameters.min
-check-parameters.period
 ```
 
 ### PropertyCollection
@@ -648,7 +652,6 @@ Supported Properties
   * [search](#search)
   * [requires](#requires)
   * [input](#input)
-  * [check-parameters](#check-parameters)
 
 #### conclusions
 

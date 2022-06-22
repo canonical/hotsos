@@ -7,11 +7,11 @@ checks:
   dpif_netlink_lost_packet_on_handler:
     input:
       path: var/log/openvswitch/ovs-vswitchd.log
-    expr:
-      '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
-    check-parameters:
-      min-results: 5  # allow a very small number
-      search-period-hours: 24
+    search:
+      expr: '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
+      constraints:
+        min-results: 5  # allow a very small number
+        search-period-hours: 24
 conclusions:
   has_lost_packets_no_cause:
     priority: 1

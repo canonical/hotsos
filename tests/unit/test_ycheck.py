@@ -25,7 +25,7 @@ from hotsos.core.ycheck.engine.properties_common import (
     YPropertyBase,
     cached_yproperty_attr,
 )
-from hotsos.core.ycheck.engine.properties import YPropertyCheck
+from hotsos.core.ycheck.engine.properties import YPropertySearch
 
 
 class TestProperty(YPropertyBase):
@@ -341,7 +341,7 @@ myplugin:
         input:
           path: foo.log
         expr: '^([0-9-]+)\S* (\S+) .+'
-        check-parameters:
+        constraints:
           min-results: 3
           search-period-hours: 24
           search-result-age-hours: 48
@@ -639,35 +639,35 @@ class TestYamlChecks(utils.BaseTestCase):
         result.get.side_effect = lambda idx: _result.get(idx)
 
         _result = {1: '2022-01-06', 2: '12:34:56.123'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56, 123000))
 
         _result = {1: '2022-01-06', 2: '12:34:56'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
 
         _result = {1: '2022-01-06 12:34:56.123'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56, 123000))
 
         _result = {1: '2022-01-06 12:34:56'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
 
         _result = {1: '2022-01-06', 2: 'foo'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
 
         _result = {1: 'foo'}
-        ts = YPropertyCheck.get_datetime_from_result(result)
+        ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, None)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
@@ -683,13 +683,13 @@ class TestYamlChecks(utils.BaseTestCase):
             contents = ['2022-01-06 00:00:00.000 an event\n']
             results = self._create_search_results(logfile, contents)
 
-            result = YPropertyCheck.filter_by_age(results, 48)
+            result = YPropertySearch.filter_by_age(results, 48)
             self.assertEqual(len(result), 1)
 
-            result = YPropertyCheck.filter_by_age(results, 24)
+            result = YPropertySearch.filter_by_age(results, 24)
             self.assertEqual(len(result), 1)
 
-            result = YPropertyCheck.filter_by_age(results, 23)
+            result = YPropertySearch.filter_by_age(results, 23)
             self.assertEqual(len(result), 0)
 
     def test_yaml_def_scenario_result_filters_by_period(self):
@@ -700,10 +700,10 @@ class TestYamlChecks(utils.BaseTestCase):
 
             contents = ['2021-04-01 00:01:00.000 an event\n']
             results = self._create_search_results(logfile, contents)
-            result = YPropertyCheck.filter_by_period(results, 24, 1)
+            result = YPropertySearch.filter_by_period(results, 24, 1)
             self.assertEqual(len(result), 1)
 
-            result = YPropertyCheck.filter_by_period(results, 24, 2)
+            result = YPropertySearch.filter_by_period(results, 24, 2)
             self.assertEqual(len(result), 0)
 
             contents = ['2021-04-01 00:01:00.000 an event\n',
@@ -711,7 +711,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-03 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertyCheck.filter_by_period(results, 24, 2)
+            result = YPropertySearch.filter_by_period(results, 24, 2)
             self.assertEqual(len(result), 2)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -721,7 +721,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-02 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertyCheck.filter_by_period(results, 24, 4)
+            result = YPropertySearch.filter_by_period(results, 24, 4)
             self.assertEqual(len(result), 4)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -730,7 +730,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-02 00:02:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertyCheck.filter_by_period(results, 24, 4)
+            result = YPropertySearch.filter_by_period(results, 24, 4)
             self.assertEqual(len(result), 0)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -742,7 +742,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-06 01:00:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertyCheck.filter_by_period(results, 24, 3)
+            result = YPropertySearch.filter_by_period(results, 24, 3)
             self.assertEqual(len(result), 3)
 
     def test_fs_override_inheritance(self):

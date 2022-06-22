@@ -67,151 +67,14 @@ class YPropertyPriority(YPropertyOverrideBase):
         return int(self.content or 1)
 
 
-@add_to_property_catalog
-class YPropertyCheckParameters(YPropertyOverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['check-parameters']
-
-    @cached_yproperty_attr
-    def search_period_hours(self):
-        """
-        If min is provided this is used to determine the period within which
-        min applies. If period is unset, the period is infinite i.e. across all
-        available data.
-
-        Supported values:
-          <int> hours
-
-        """
-        return int(self.content.get('search-period-hours', 0))
-
-    @cached_yproperty_attr
-    def search_result_age_hours(self):
-        """
-        Result muct have aoccured within search-result-age-hours from current
-        time (in the case of a sosreport would time sosreport was created).
-        """
-        return int(self.content.get('search-result-age-hours', 0))
-
-    @cached_yproperty_attr
-    def min_results(self):
-        """
-        Minimum search matches required for result to be True (default is 1)
-        """
-        return int(self.content.get('min-results', 1))
-
-
 class YPropertyCheck(YPropertyBase):
 
-    def __init__(self, name, search, input, requires, check_paramaters, *args,
-                 **kwargs):
+    def __init__(self, name, search, input, requires, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = name
         self.search = search
         self.input = input
         self.requires = requires
-        self.check_paramaters = check_paramaters
-
-    @classmethod
-    def get_datetime_from_result(cls, result):
-        """
-        This attempts to create a datetime object from a timestamp (usually
-        from a log file) extracted from a search result. If it is not able
-        to do so it will return None. The normal expectation is that two search
-        result groups be available at index 1 and 2 but if only 1 is valid it
-        will be used a fallback.
-        """
-        ts = result.get(1)
-        if result.get(2):
-            ts = "{} {}".format(ts, result.get(2))
-
-        ts_formats = ["%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"]
-        for format in ts_formats:
-            try:
-                return datetime.strptime(ts, format)
-            except ValueError:
-                continue
-
-        ts = result.get(1)
-        for format in ts_formats:
-            try:
-                return datetime.strptime(ts, format)
-            except ValueError:
-                continue
-
-        log.warning("failed to parse timestamp string 1='%s' 2='%s' - "
-                    "returning None", result.get(1), result.get(2))
-
-    @classmethod
-    def filter_by_age(cls, results, result_age_hours):
-        if not result_age_hours:
-            log.debug("result age filter not specified - skipping")
-            return results
-
-        current = CLIHelper().date(format='+%Y-%m-%d %H:%M:%S')
-        if not current:
-            log.warning("date() returned unexpected value '%s' - skipping "
-                        "filter by age", current)
-            return results
-
-        current = datetime.strptime(current, "%Y-%m-%d %H:%M:%S")
-        log.debug("applying search filter (result_age_hours=%s, "
-                  "current='%s')", result_age_hours, current)
-
-        _results = []
-        for r in results:
-            ts = cls.get_datetime_from_result(r)
-            if ts and ts >= current - timedelta(hours=result_age_hours):
-                _results.append(r)
-
-        log.debug("%s results remain after applying filter", len(_results))
-        return _results
-
-    @classmethod
-    def filter_by_period(cls, results, period_hours, min_results):
-        if not period_hours:
-            log.debug("period filter not specified - skipping")
-            return results
-
-        log.debug("applying search filter (period_hours=%s, min_results=%s)",
-                  period_hours, min_results)
-
-        _results = []
-        for r in results:
-            ts = cls.get_datetime_from_result(r)
-            if ts:
-                _results.append((ts, r))
-
-        results = []
-        last = None
-        prev = None
-        count = 0
-
-        for r in sorted(_results, key=lambda i: i[0], reverse=True):
-            if last is None:
-                last = r[0]
-            elif r[0] < last - timedelta(hours=period_hours):
-                last = prev
-                prev = None
-                # pop first element since it is now invalidated
-                count -= 1
-                results = results[1:]
-            elif prev is None:
-                prev = r[0]
-
-            results.append(r)
-            count += 1
-            if count >= min_results:
-                # we already have enough results so return
-                break
-
-        log.debug("%s results remain after applying filter", len(results))
-        if len(results) < min_results:
-            return []
-
-        return [r[1] for r in results]
 
     def _result(self):
         if self.search:
@@ -245,23 +108,8 @@ class YPropertyCheck(YPropertyBase):
                           self.name)
                 return False
 
-            parameters = self.check_paramaters
-            if parameters:
-                result_age_hours = parameters.search_result_age_hours
-                results = self.filter_by_age(results, result_age_hours)
-                if results:
-                    period_hours = parameters.search_period_hours
-                    results = self.filter_by_period(results, period_hours,
-                                                    parameters.min_results)
-
-                count = len(results)
-                if count >= parameters.min_results:
-                    return True
-                else:
-                    log.debug("check %s does not have enough matches (%s) to "
-                              "satisfy min of %s", self.name, count,
-                              parameters.min_results)
-                    return False
+            if self.search.constraints:
+                return self.search.apply_constraints(results)
             else:
                 log.debug("no check paramaters provided")
                 return len(results) > 0
@@ -326,8 +174,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         resolved = []
         for c in checks.leaf_sections:
             resolved.append(YPropertyCheck(c.name, c.search, c.input,
-                                           c.requires,
-                                           c.check_parameters))
+                                           c.requires))
 
         self._resolved_checks = resolved
         return resolved
@@ -460,6 +307,41 @@ class YPropertyDecision(YPropertyDecisionBase):
                     [YPropertyDecisionLogicalGroupsExtension]
 
 
+class YPropertySearchConstraints(YPropertyOverrideBase):
+
+    @classmethod
+    def _override_keys(cls):
+        return ['constraints']
+
+    @cached_yproperty_attr
+    def search_period_hours(self):
+        """
+        If min is provided this is used to determine the period within which
+        min applies. If period is unset, the period is infinite i.e. across all
+        available data.
+
+        Supported values:
+          <int> hours
+
+        """
+        return int(self.content.get('search-period-hours', 0))
+
+    @cached_yproperty_attr
+    def search_result_age_hours(self):
+        """
+        Result muct have aoccured within search-result-age-hours from current
+        time (in the case of a sosreport would time sosreport was created).
+        """
+        return int(self.content.get('search-result-age-hours', 0))
+
+    @cached_yproperty_attr
+    def min_results(self):
+        """
+        Minimum search matches required for result to be True (default is 1)
+        """
+        return int(self.content.get('min-results', 1))
+
+
 class YPropertySearchOpt(YPropertyOverrideBase):
 
     @classmethod
@@ -485,7 +367,125 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
     @classmethod
     def _override_mapped_member_types(cls):
-        return [YPropertySearchOpt]
+        return [YPropertySearchOpt, YPropertySearchConstraints]
+
+    @classmethod
+    def get_datetime_from_result(cls, result):
+        """
+        This attempts to create a datetime object from a timestamp (usually
+        from a log file) extracted from a search result. If it is not able
+        to do so it will return None. The normal expectation is that two search
+        result groups be available at index 1 and 2 but if only 1 is valid it
+        will be used a fallback.
+        """
+        ts = result.get(1)
+        if result.get(2):
+            ts = "{} {}".format(ts, result.get(2))
+
+        ts_formats = ["%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"]
+        for format in ts_formats:
+            try:
+                return datetime.strptime(ts, format)
+            except ValueError:
+                continue
+
+        ts = result.get(1)
+        for format in ts_formats:
+            try:
+                return datetime.strptime(ts, format)
+            except ValueError:
+                continue
+
+        log.warning("failed to parse timestamp string 1='%s' 2='%s' - "
+                    "returning None", result.get(1), result.get(2))
+
+    @classmethod
+    def filter_by_age(cls, results, result_age_hours):
+        if not result_age_hours:
+            log.debug("result age filter not specified - skipping")
+            return results
+
+        current = CLIHelper().date(format='+%Y-%m-%d %H:%M:%S')
+        if not current:
+            log.warning("date() returned unexpected value '%s' - skipping "
+                        "filter by age", current)
+            return results
+
+        current = datetime.strptime(current, "%Y-%m-%d %H:%M:%S")
+        log.debug("applying search filter (result_age_hours=%s, "
+                  "current='%s')", result_age_hours, current)
+
+        _results = []
+        for r in results:
+            ts = cls.get_datetime_from_result(r)
+            if ts and ts >= current - timedelta(hours=result_age_hours):
+                _results.append(r)
+
+        log.debug("%s results remain after applying filter", len(_results))
+        return _results
+
+    @classmethod
+    def filter_by_period(cls, results, period_hours, min_results):
+        if not period_hours:
+            log.debug("period filter not specified - skipping")
+            return results
+
+        log.debug("applying search filter (period_hours=%s, min_results=%s)",
+                  period_hours, min_results)
+
+        _results = []
+        for r in results:
+            ts = cls.get_datetime_from_result(r)
+            if ts:
+                _results.append((ts, r))
+
+        results = []
+        last = None
+        prev = None
+        count = 0
+
+        for r in sorted(_results, key=lambda i: i[0], reverse=True):
+            if last is None:
+                last = r[0]
+            elif r[0] < last - timedelta(hours=period_hours):
+                last = prev
+                prev = None
+                # pop first element since it is now invalidated
+                count -= 1
+                results = results[1:]
+            elif prev is None:
+                prev = r[0]
+
+            results.append(r)
+            count += 1
+            if count >= min_results:
+                # we already have enough results so return
+                break
+
+        log.debug("%s results remain after applying filter", len(results))
+        if len(results) < min_results:
+            return []
+
+        return [r[1] for r in results]
+
+    def apply_constraints(self, results):
+        if not self.constraints:
+            return True
+
+        result_age_hours = self.constraints.search_result_age_hours
+        results = self.filter_by_age(results, result_age_hours)
+        if results:
+            period_hours = self.constraints.search_period_hours
+            results = self.filter_by_period(results, period_hours,
+                                            self.constraints.min_results)
+
+        count = len(results)
+        if count < self.constraints.min_results:
+            log.debug("search does not have enough matches (%s) to "
+                      "satisfy min of %s", count, self.constraints.min_results)
+            return False
+
+        return True
 
     @property
     def unique_search_tag(self):

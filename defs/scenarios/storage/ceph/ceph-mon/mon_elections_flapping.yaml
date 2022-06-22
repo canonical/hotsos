@@ -2,11 +2,12 @@ checks:
   ceph_log_has_election_calls:
     input:
       path: var/log/ceph/ceph*.log
-    expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
-    check-parameters:
-      # i.e. must occur 5 times within same 24 hour period
-      min-results: 5
-      search-period-hours: 24
+    search:
+      expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
+      constraints:
+        # i.e. must occur 5 times within same 24 hour period
+        min-results: 5
+        search-period-hours: 24
   ceph_interfaces_have_errors:
     requires:
       property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
