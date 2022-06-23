@@ -27,6 +27,23 @@ def cached_yproperty_attr(f):
     return _inner
 
 
+class YDefsContext(object):
+    """
+    Provides a way to get/set arbitrary information used as context to a yaml
+    defs run. This object is typically passed to a YDefsSection and accessible
+    from all override properties as a property called "context".
+    """
+    def __init__(self):
+        self.context = {}
+
+    def set(self, key, value):
+        log.debug("adding key=%s to context with value=%s", key, value)
+        self.context[key] = value
+
+    def __getattr__(self, key):
+        return self.context.get(key)
+
+
 class PropertyCacheRefResolver(object):
     """
     This class is used to resolve string references to property cache entries.
@@ -205,31 +222,60 @@ class YPropertyBase(object):
     def cache(self):
         return self._cache
 
+    def get_from_ydefs_cache(self, key):
+        if not self.context:
+            return
+
+        return getattr(self.context, key)
+
+    def set_in_ydefs_cache(self, key, value):
+        if not self.context:
+            return
+
+        self.context.set(key, value)
+
     def get_cls(self, import_str):
-        log.debug("instantiating class %s", import_str)
+        ret = self.get_from_ydefs_cache(import_str)
+        if ret:
+            log.debug("instantiating class %s (from_cache=True)", import_str)
+            return ret
+
+        log.debug("instantiating class %s (from_cache=False)", import_str)
         mod = import_str.rpartition('.')[0]
         class_name = import_str.rpartition('.')[2]
         try:
-            return getattr(importlib.import_module(mod), class_name)
+            ret = getattr(importlib.import_module(mod), class_name)
         except Exception:
             log.exception("failed to import class %s from %s", class_name, mod)
             raise
 
+        self.set_in_ydefs_cache(import_str, ret)
+        return ret
+
     def get_property(self, import_str):
-        log.debug("calling property %s", import_str)
-        mod = import_str.rpartition('.')[0]
+        ret = self.get_from_ydefs_cache(import_str)
+        if ret:
+            log.debug("calling property %s (from_cache=True)", import_str)
+            return ret
+
+        log.debug("calling property %s (from_cache=False)", import_str)
+        cls = self.get_cls(import_str.rpartition('.')[0])
+        key = "{}.object".format(cls)
+        cls_inst = self.get_from_ydefs_cache(key)
+        if not cls_inst:
+            cls_inst = cls()
+            self.set_in_ydefs_cache(key, cls_inst)
+
         property = import_str.rpartition('.')[2]
-        class_name = mod.rpartition('.')[2]
-        mod = mod.rpartition('.')[0]
-        cls = getattr(importlib.import_module(mod), class_name)
         try:
-            ret = getattr(cls(), property)
+            ret = getattr(cls_inst, property)
         except Exception:
             log.exception("failed to import and call property %s",
                           import_str)
 
             raise
 
+        self.set_in_ydefs_cache(import_str, ret)
         return ret
 
     def get_method(self, import_str):

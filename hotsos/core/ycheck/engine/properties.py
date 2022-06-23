@@ -31,6 +31,7 @@ from hotsos.core.ycheck.engine.properties_common import (
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
     LogicalCollectionHandler,
+    YDefsContext,
 )
 
 
@@ -44,7 +45,8 @@ class YDefsSection(YStructSection):
         @param name: name of defs group
         @param content: defs tree of type dict
         """
-        super().__init__(name, content, override_handlers=YPropertiesCatalog)
+        super().__init__(name, content, override_handlers=YPropertiesCatalog,
+                         context=YDefsContext())
 
 
 def add_to_property_catalog(c):

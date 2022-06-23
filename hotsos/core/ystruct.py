@@ -104,8 +104,9 @@ class OverrideStack(object):
 
 class OverrideBase(abc.ABC):
 
-    def __init__(self, name, content, resolve_path, *args, **kwargs):
+    def __init__(self, name, content, context, resolve_path, *args, **kwargs):
         self._whoami = self.__class__.__name__
+        self._context = context
         super().__init__(*args, **kwargs)
         log("{}.__init__: {} {} {}".format(self._whoami, name, content,
                                            resolve_path))
@@ -132,6 +133,11 @@ class OverrideBase(abc.ABC):
         return self._override_resolve_path
 
     @property
+    def context(self):
+        # log("{}.context".format(self.__class__.__name__))
+        return self._context
+
+    @property
     def content(self):
         # log("{}.content ({})".format(self._whoami,
         #     len(self._stack)))
@@ -148,7 +154,7 @@ class OverrideBase(abc.ABC):
     def __iter__(self):
         log("{}.__iter__".format(self._whoami))
         for item in self._stack:
-            yield self.__class__(item.name, item.content,
+            yield self.__class__(item.name, item.content, self.context,
                                  self._override_resolve_path)
 
     @abc.abstractmethod
@@ -158,8 +164,8 @@ class OverrideBase(abc.ABC):
 
 class YStructOverrideBase(OverrideBase):
 
-    def __init__(self, name, content, resolve_path, *args, **kwargs):
-        super().__init__(name, content, resolve_path, *args, **kwargs)
+    def __init__(self, name, content, *args, **kwargs):
+        super().__init__(name, content, *args, **kwargs)
         self.add(name, content)
 
     def __getattr__(self, name):
@@ -178,8 +184,8 @@ class YStructOverrideSimpleString(OverrideBase):
     def _override_keys(cls):
         return ['__simple_string__']
 
-    def __init__(self, name, content, resolve_path, *args, **kwargs):
-        super().__init__(name, content, resolve_path, *args, **kwargs)
+    def __init__(self, name, content, *args, **kwargs):
+        super().__init__(name, content, *args, **kwargs)
         self.add(name, content)
 
     def __str__(self):
@@ -259,14 +265,13 @@ class MappedOverrideState(object):
 
 class YStructMappedOverrideBase(OverrideBase):
 
-    def __init__(self, name, content, resolve_path, *args, **kwargs):
+    def __init__(self, name, content, *args, **kwargs):
         if name in self._override_keys():
             principle_name = name
         else:
             principle_name = self._override_keys()[0]
 
-        super().__init__(principle_name, content, resolve_path, *args,
-                         **kwargs)
+        super().__init__(principle_name, content, *args, **kwargs)
         self._stack = OverrideStack(self)
         self._current = None
         self.add(name, content)
@@ -361,18 +366,20 @@ class YStructMappedOverrideBase(OverrideBase):
                                    YStructOverrideSimpleString.__name__)),
                 if type(content) == str:
                     obj = YStructOverrideSimpleString(content, content,
+                                                      self.context,
                                                       resolve_path)
                     state.add_member(content, obj)
                 else:
                     for item in content:
                         obj = YStructOverrideSimpleString(item, item,
+                                                          self.context,
                                                           resolve_path)
                         state.add_member(item, obj)
 
             self._stack.add(state)
         else:
             handler = self.get_member_with_key(name)
-            obj = handler(name, content, resolve_path)
+            obj = handler(name, content, self.context, resolve_path)
             state.add_member(name, obj)
             if not self._current:
                 self._current = state
@@ -396,16 +403,18 @@ class YStructMappedOverrideBase(OverrideBase):
 
 class YStructOverrideManager(object):
 
-    def __init__(self, handlers=None, manager=None):
+    def __init__(self, handlers=None, manager=None, context=None):
         self.allow_stacking = False
         self._resolved = {}
         self._resolved_mapped = {}
         if manager:
             # clone it
+            self._context = manager._context
             self._handlers = manager._handlers
             self._mappings = manager._mappings
             self._resolved.update(manager._resolved)
         else:
+            self._context = context
             self._handlers = []
             self._mappings = []
             for h in handlers:
@@ -465,6 +474,7 @@ class YStructOverrideManager(object):
             resolved_obj.add(name, content)
         else:
             self._resolved[resolved_name] = handler(name, content,
+                                                    self._context,
                                                     resolve_path)
 
     def resolve(self, name, content, resolve_path):
@@ -507,7 +517,7 @@ class YStructOverrideManager(object):
 class YStructSection(object):
     def __init__(self, name, content, parent=None, root=None,
                  override_handlers=None, override_manager=None,
-                 run_hooks=False, resolve_path=None):
+                 run_hooks=False, resolve_path=None, context=None):
         self.run_hooks = run_hooks
         if root is None:
             self.root = self
@@ -525,7 +535,8 @@ class YStructSection(object):
         if override_manager:
             self.manager = YStructOverrideManager(manager=override_manager)
         else:
-            self.manager = YStructOverrideManager(handlers=override_handlers)
+            self.manager = YStructOverrideManager(handlers=override_handlers,
+                                                  context=context)
 
         self.run()
 
