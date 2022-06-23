@@ -1517,6 +1517,9 @@ GLANCE_EXCEPTIONS = [
 #
 # neutron-lib:
 # sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' ./neutron_lib/exceptions/*
+#
+# neutron extras
+# sed -rn 's/\S+ (\S+)\(RuntimeError\):.*/    "\1",/p' ./neutron/privileged/agent/linux/ip_lib.py
 NEUTRON_EXCEPTIONS = [
     # repo:neutron
     "RevisionConflict",
@@ -1533,6 +1536,12 @@ NEUTRON_EXCEPTIONS = [
     "OVSFWPortNotFound",
     "OVSFWTagNotFound",
     "OVSFWPortNotHandled",
+    "NetworkNamespaceNotFound",
+    "NetworkInterfaceNotFound",
+    "InterfaceOperationNotSupported",
+    "InvalidArgument",
+    "IpAddressAlreadyExists",
+    "InterfaceAlreadyExists",
     # repo:neutron-lib
     "AddressGroupNotFound",
     "AddressGroupInUse",
