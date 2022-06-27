@@ -253,8 +253,8 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                         'origin': 'storage.01part'}]}
         self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
-                'powersave')
+    @mock.patch('hotsos.core.plugins.kernel.sysfs.CPU.'
+                'cpufreq_scaling_governor_all', 'powersave')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-osd/system_cpufreq_mode.yaml'))
     def test_scenarios_cpufreq(self):
@@ -299,7 +299,7 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
     @mock.patch('hotsos.core.plugins.storage.bcache.CachesetsConfig')
-    @mock.patch('hotsos.core.plugins.kernel.KernelChecksBase')
+    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',

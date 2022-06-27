@@ -12,7 +12,7 @@ from hotsos.plugin_extensions.kernel import (
 )
 from hotsos.core.config import setup_config
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.plugins.kernel import SystemdConfig
+from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.ycheck.events import EventCheckResult
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
@@ -95,7 +95,7 @@ class TestKernelInfo(TestKernelBase):
             self.assertEqual(SystemdConfig().get('CPUAffinity'),
                              '0 1 2 3 8 9 10 11')
 
-    @mock.patch('hotsos.core.plugins.kernel.SystemdConfig.get',
+    @mock.patch('hotsos.core.plugins.kernel.config.SystemdConfig.get',
                 lambda *args, **kwargs: '0-7,32-39')
     def test_info(self):
         inst = summary.KernelSummary()

@@ -20,7 +20,7 @@ checks:
   kernel_version_check:
     requires:
       property:
-        path: hotsos.core.plugins.kernel.KernelChecksBase.version
+        path: hotsos.core.plugins.kernel.KernelBase.version
         ops: [[lt, '5.4']]
   bluefs_buffered_io_enabled:
     requires:

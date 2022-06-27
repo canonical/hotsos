@@ -4,11 +4,11 @@ checks:
       and:
         # can we actually see the setting
         - property:
-            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            path: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
             ops: [[ne, unknown]]
         # does it have the expected value
         - property:
-            path: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+            path: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
             ops: [[ne, performance]]
   ondemand_installed_and_enabled:
     requires:
@@ -27,7 +27,7 @@ conclusions:
         can install cpufrequtils, set "GOVERNOR=performance" in
         /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
       format-dict:
-        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand:
     priority: 2
     decision:
@@ -45,5 +45,5 @@ conclusions:
         will also need to stop and disable the ondemand systemd service in
         order for changes to persist.
       format-dict:
-        governor: hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all
+        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
 

@@ -15,7 +15,7 @@ from hotsos.core.plugins.openstack.openstack import (
     OpenstackEventChecksBase,
 )
 from hotsos.core.plugins.system import SystemBase
-from hotsos.core.plugins.kernel import CPU
+from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.core import utils
 
 EVENTCALLBACKS = CallbackHelper()

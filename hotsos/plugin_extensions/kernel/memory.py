@@ -2,7 +2,7 @@ import os
 
 from hotsos.core.log import log
 from hotsos.core.issues import IssuesManager, MemoryWarning
-from hotsos.core.plugins.kernel import KernelChecksBase
+from hotsos.core.plugins.kernel.common import KernelChecksBase
 
 
 class KernelMemoryChecks(KernelChecksBase):

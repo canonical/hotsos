@@ -810,9 +810,9 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
     @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
     @mock.patch('hotsos.core.plugins.system.SystemBase.num_cpus', 16)
-    @mock.patch('hotsos.core.plugins.kernel.KernelConfig.get',
+    @mock.patch('hotsos.core.plugins.kernel.config.KernelConfig.get',
                 lambda *args, **kwargs: range(9, 16))
-    @mock.patch('hotsos.core.plugins.kernel.SystemdConfig.get',
+    @mock.patch('hotsos.core.plugins.kernel.config.SystemdConfig.get',
                 lambda *args, **kwargs: range(2, 9))
     def test_nova_pinning_base(self):
         with mock.patch('hotsos.core.plugins.openstack.nova.CPUPinning.'
@@ -1264,8 +1264,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         self.assertFalse(mock_add_issue.called)
 
-    @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
-                'powersave')
+    @mock.patch('hotsos.core.plugins.kernel.sysfs.CPU.'
+                'cpufreq_scaling_governor_all', 'powersave')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
     def test_scenarios_cpufreq(self):

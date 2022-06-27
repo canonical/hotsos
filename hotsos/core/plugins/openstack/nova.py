@@ -7,7 +7,7 @@ from hotsos.core.plugins.openstack.common import (
     OpenstackConfig,
 )
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core.plugins.kernel import (
+from hotsos.core.plugins.kernel.config import (
     KernelConfig,
     SystemdConfig,
 )

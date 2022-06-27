@@ -103,8 +103,8 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
     @mock.patch('hotsos.core.plugins.system.SystemBase.virtualisation_type',
                 None)
-    @mock.patch('hotsos.core.plugins.kernel.CPU.cpufreq_scaling_governor_all',
-                'powersave')
+    @mock.patch('hotsos.core.plugins.kernel.sysfs.CPU.'
+                'cpufreq_scaling_governor_all', 'powersave')
     @mock.patch('hotsos.core.plugins.kubernetes.KubernetesChecksBase.'
                 'plugin_runnable', True)
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')

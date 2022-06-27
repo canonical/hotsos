@@ -1,7 +1,7 @@
 from hotsos.core.issues import IssuesManager, NetworkWarning
 from hotsos.core.ycheck.engine import CallbackHelper
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
-from hotsos.core.plugins.kernel import KernelEventChecksBase
+from hotsos.core.plugins.kernel.common import KernelEventChecksBase
 from hotsos.core.searchtools import FileSearcher
 
 EVENTCALLBACKS = CallbackHelper()
