@@ -211,28 +211,6 @@ class MallocInfo(object):
         return count
 
 
-class MemoryChecksResults(object):
-
-    def __init__(self):
-        self.results = {}
-
-    def __len__(self):
-        return len(self.results)
-
-    def add(self, key, msg):
-        self.results[key] = msg
-
-    def __repr__(self):
-        s = ""
-        for k, v in self.results.items():
-            if s:
-                s += " "
-
-            s += "{}: {}.".format(k, v)
-
-        return s
-
-
 class MemoryChecks(object):
 
     @property
@@ -246,9 +224,13 @@ class MemoryChecks(object):
         return 5
 
     @property
-    def nodes_with_limited_high_order_memory(self):
+    def nodes_with_limited_high_order_memory_full(self):
+        """
+        Returns a dict of nodes and any of their zones that have limited
+        high-order blocks available.
+        """
         buddyinfo = BuddyInfo()
-        nodes = []
+        nodes = {}
         for zone in ['Normal', 'DMA32']:
             for node in buddyinfo.nodes:
                 zone_info = MallocInfo(node, zone)
@@ -257,6 +239,30 @@ class MemoryChecks(object):
                             self.max_unavailable_block_sizes) or
                         (zone_info.high_order_seq >
                             self.max_contiguous_unavailable_block_sizes)):
-                        nodes.append("node{}-{}".format(node, zone.lower()))
+                        availability = zone_info.block_sizes_available
+                        if node in nodes:
+                            nodes[node]['zones'][zone] = availability
+                        else:
+                            nodes[node] = {'zones': {zone: availability}}
+
+        if nodes:
+            nodes = {'nodes': nodes}
+
+        return nodes
+
+    @property
+    def nodes_with_limited_high_order_memory(self):
+        """
+        Returns a list if <node>-<zone> names for zones with limited high-order
+        blocks available.
+        """
+        nodes = []
+        _nodes = self.nodes_with_limited_high_order_memory_full
+        if not _nodes:
+            return
+
+        for node, zones in _nodes['nodes'].items():
+            for name in zones['zones']:
+                nodes.append("node{}-{}".format(node, name.lower()))
 
         return nodes

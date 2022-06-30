@@ -21,7 +21,8 @@ conclusions:
       type: MemoryWarning
       message: >-
         The following numa nodes have limited high order memory available: {nodes}.
-        At present the top 5 highest consumers of memory are: {top5}.
+        At present the top 5 highest consumers of memory are: {top5}. See summary
+        or /proc/buddyinfo for more info.
       format-dict:
         nodes: '@checks.low_free_high_order_mem_blocks.requires.value_actual:comma_join'
         top5: hotsos.core.plugins.kernel.memory.SlabInfo.major_consumers:comma_join

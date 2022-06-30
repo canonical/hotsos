@@ -315,7 +315,8 @@ class TestKernelScenarioChecks(TestKernelBase):
                'available: node0-normal. At present the top 5 highest '
                'consumers of memory are: buffer_head (87540.6796875k), '
                'anon_vma_chain (9068.0k), radix_tree_node (50253.65625k), '
-               'Acpi-State (5175.703125k), vmap_area (2700.0k).')
+               'Acpi-State (5175.703125k), vmap_area (2700.0k). See '
+               'summary or /proc/buddyinfo for more info.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
@@ -333,7 +334,8 @@ class TestKernelScenarioChecks(TestKernelBase):
                 'available: node0-normal. At present the top 5 highest '
                 'consumers of memory are: buffer_head (87540.6796875k), '
                 'anon_vma_chain (9068.0k), radix_tree_node (50253.65625k), '
-                'Acpi-State (5175.703125k), vmap_area (2700.0k).')
+                'Acpi-State (5175.703125k), vmap_area (2700.0k). See '
+                'summary or /proc/buddyinfo for more info.')
         msg2 = ('Memory compaction failures are at 11% of successes. This can '
                 'suggest that there are insufficient high-order memory blocks '
                 'available and the kernel is unable form larger blocks on '

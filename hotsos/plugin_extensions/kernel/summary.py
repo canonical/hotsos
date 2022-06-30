@@ -2,6 +2,7 @@ from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.plugins.kernel.common import KernelChecksBase
 from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel.sysfs import CPU
+from hotsos.core.plugins.kernel.memory import MemoryChecks
 
 
 class KernelSummary(KernelChecksBase):
@@ -48,3 +49,9 @@ class KernelSummary(KernelChecksBase):
         cpu_info = self.cpu_info
         if cpu_info:
             return cpu_info
+
+    @idx(4)
+    def __summary_memory(self):
+        nodes = MemoryChecks().nodes_with_limited_high_order_memory_full
+        if nodes:
+            return nodes
