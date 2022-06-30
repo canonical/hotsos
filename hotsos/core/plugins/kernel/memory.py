@@ -69,6 +69,9 @@ class SlabInfo(object):
 
         @param exclude_names: optional list of names to exclude.
         """
+        if not os.path.exists(self.path):
+            return self._slab_info
+
         for line in open(self.path):
             exclude = False
             for name in self._filter_names:
@@ -90,13 +93,14 @@ class SlabInfo(object):
 
     @property
     def major_consumers(self):
+        top5 = []
         top5_name = {}
         top5_num_objs = {}
         top5_objsize = {}
 
         # /proc/slabinfo may not exist in containers/VMs
         if not os.path.exists(self.path):
-            return
+            return top5
 
         for line in self.contents:
             name = line[0]
@@ -114,7 +118,6 @@ class SlabInfo(object):
                     top5_objsize[i] = objsize
                     break
 
-        top5 = []
         for i in range(5):
             if top5_name.get(i):
                 kbytes = top5_num_objs.get(i) * top5_objsize.get(i) / 1024
@@ -136,10 +139,7 @@ class BuddyInfo(object):
     def nodes(self):
         """Returns list of numa nodes."""
         # /proc/buddyinfo may not exist in containers/VMs
-        if not os.path.exists(self.path):
-            return self._numa_nodes
-
-        if self._numa_nodes:
+        if not os.path.exists(self.path) or self._numa_nodes:
             return self._numa_nodes
 
         nodes = set()

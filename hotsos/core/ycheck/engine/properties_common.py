@@ -320,7 +320,7 @@ class YPropertyBase(object):
         try:
             return self.get_property(import_str)
         except Exception:
-            pass
+            log.exception("get_property failed, trying get_attribute")
 
         return self.get_attribute(import_str)
 
