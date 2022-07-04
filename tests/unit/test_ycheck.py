@@ -606,8 +606,8 @@ class TestYamlChecks(utils.BaseTestCase):
             contents = ['2021-04-01 00:31:00.000 an event\n',
                         '2021-04-01 00:32:00.000 an event\n',
                         '2021-04-01 00:33:00.000 an event\n',
-                        '2021-04-02 00:36:00.000 an event\n',
                         '2021-04-02 00:00:00.000 an event\n',
+                        '2021-04-02 00:36:00.000 an event\n',
                         ]
             self._create_search_results(logfile, contents)
             checker = scenarios.YScenarioChecker()
@@ -621,7 +621,7 @@ class TestYamlChecks(utils.BaseTestCase):
             # now run the scenarios
             checker.run()
 
-        msg = ("log matched 5 times")
+        msg = ("log matched 4 times")
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
@@ -700,18 +700,15 @@ class TestYamlChecks(utils.BaseTestCase):
 
             contents = ['2021-04-01 00:01:00.000 an event\n']
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24, 1)
+            result = YPropertySearch.filter_by_period(results, 24)
             self.assertEqual(len(result), 1)
-
-            result = YPropertySearch.filter_by_period(results, 24, 2)
-            self.assertEqual(len(result), 0)
 
             contents = ['2021-04-01 00:01:00.000 an event\n',
                         '2021-04-01 00:02:00.000 an event\n',
                         '2021-04-03 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24, 2)
+            result = YPropertySearch.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -721,8 +718,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-02 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24, 4)
-            self.assertEqual(len(result), 4)
+            result = YPropertySearch.filter_by_period(results, 24)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
                         '2021-04-01 00:01:00.000 an event\n',
@@ -730,8 +726,8 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-02 00:02:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24, 4)
-            self.assertEqual(len(result), 0)
+            result = YPropertySearch.filter_by_period(results, 24)
+            self.assertEqual(len(result), 2)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
                         '2021-04-01 00:01:00.000 an event\n',
@@ -742,8 +738,8 @@ class TestYamlChecks(utils.BaseTestCase):
                         '2021-04-06 01:00:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24, 3)
-            self.assertEqual(len(result), 3)
+            result = YPropertySearch.filter_by_period(results, 24)
+            self.assertEqual(len(result), 4)
 
     def test_fs_override_inheritance(self):
         """

@@ -87,6 +87,10 @@ class YPropertyCheck(YPropertyBase):
                           results)
             else:
                 results = self.search_results
+                # save raw first
+                self.search.cache.set('results_raw', results)
+                # now save actual i.e. with constraints applied
+                results = self.search.apply_constraints(results)
                 self.search.cache.set('results', results)
 
                 # The following aggregates results by group/index and stores in
@@ -111,11 +115,7 @@ class YPropertyCheck(YPropertyBase):
                           self.name)
                 return False
 
-            if self.search.constraints:
-                return self.search.apply_constraints(results)
-            else:
-                log.debug("no check paramaters provided")
-                return len(results) > 0
+            return True
 
         elif self.requires:
             if self.cache.requires:
@@ -428,13 +428,12 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         return _results
 
     @classmethod
-    def filter_by_period(cls, results, period_hours, min_results):
+    def filter_by_period(cls, results, period_hours):
         if not period_hours:
             log.debug("period filter not specified - skipping")
             return results
 
-        log.debug("applying search filter (period_hours=%s, min_results=%s)",
-                  period_hours, min_results)
+        log.debug("applying search filter (period_hours=%s)", period_hours)
 
         _results = []
         for r in results:
@@ -445,7 +444,6 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         results = []
         last = None
         prev = None
-        count = 0
 
         for r in sorted(_results, key=lambda i: i[0], reverse=True):
             if last is None:
@@ -454,41 +452,32 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
                 last = prev
                 prev = None
                 # pop first element since it is now invalidated
-                count -= 1
                 results = results[1:]
             elif prev is None:
                 prev = r[0]
 
             results.append(r)
-            count += 1
-            if count >= min_results:
-                # we already have enough results so return
-                break
 
         log.debug("%s results remain after applying filter", len(results))
-        if len(results) < min_results:
-            return []
-
         return [r[1] for r in results]
 
     def apply_constraints(self, results):
         if not self.constraints:
-            return True
+            return results
 
         result_age_hours = self.constraints.search_result_age_hours
         results = self.filter_by_age(results, result_age_hours)
         if results:
             period_hours = self.constraints.search_period_hours
-            results = self.filter_by_period(results, period_hours,
-                                            self.constraints.min_results)
+            results = self.filter_by_period(results, period_hours)
 
         count = len(results)
         if count < self.constraints.min_results:
             log.debug("search does not have enough matches (%s) to "
                       "satisfy min of %s", count, self.constraints.min_results)
-            return False
+            return []
 
-        return True
+        return results
 
     @property
     def unique_search_tag(self):

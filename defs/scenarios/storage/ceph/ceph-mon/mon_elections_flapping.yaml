@@ -18,8 +18,10 @@ conclusions:
     raises:
       type: CephWarning
       message: >-
-        Ceph monitor is experiencing repeated re-elections but the cause
-        is not known - please investigate.
+        The Ceph monitor on this host has experienced {count} re-elections within a 24hr
+        period but the cause is not known - please investigate.
+      format-dict:
+        count: '@checks.ceph_log_has_election_calls.search.results:len'
   network:
     priority: 2
     decision:
@@ -29,9 +31,10 @@ conclusions:
     raises:
       type: CephWarning
       message: >-
-        Ceph monitor is experiencing repeated re-elections. The network
-        interface(s) ({interfaces}) used by the ceph-mon are showing
+        The Ceph monitor on this host has experienced {count} re-elections within a 24hr
+        period and the network interface(s) {interfaces} used by the ceph-mon are showing
         errors - please investigate.
       format-dict:
         interfaces: hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names
+        count: '@checks.ceph_log_has_election_calls.search.results:len'
 

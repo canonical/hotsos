@@ -16,6 +16,7 @@ from hotsos.core.plugins.storage import (
 from hotsos.plugin_extensions.storage import ceph_summary
 
 MON_ELECTION_LOGS = """
+2022-01-02 06:24:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
 2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
 2022-02-02 06:26:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
 2022-02-02 06:27:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
@@ -482,13 +483,13 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
             setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
 
-        msg = ("Ceph monitor is experiencing repeated re-elections. The "
-               "network interface(s) (ethX) used by the ceph-mon are "
-               "showing errors - please investigate.")
+        msg = ('The Ceph monitor on this host has experienced 5 re-elections '
+               'within a 24hr period and the network interface(s) ethX used '
+               'by the ceph-mon are showing errors - please investigate.')
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
-        context = {logpath: 6,
+        context = {logpath: 2,
                    'ops': 'truth',
                    'passes': True,
                    'property': ('hotsos.core.plugins.storage.ceph.'
