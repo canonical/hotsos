@@ -9,7 +9,7 @@ from hotsos.plugin_extensions.kernel import summary
 from hotsos.core.config import setup_config
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.plugins.kernel.config import SystemdConfig
-from hotsos.core.plugins.kernel import CallTrace
+from hotsos.core.plugins.kernel import CallTraceManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 from hotsos.core.host_helpers.network import NetworkPort
@@ -72,14 +72,14 @@ class TestKernelBase(utils.BaseTestCase):
         setup_config(PLUGIN_NAME='kernel')
 
 
-class TestKernelCallTrace(TestKernelBase):
+class TestKernelCallTraceManager(TestKernelBase):
 
-    def test_calltrace_handler(self):
-        for killer in CallTrace().oom_killer:
+    def test_CallTraceManager_handler(self):
+        for killer in CallTraceManager().oom_killer:
             self.assertEqual(killer.procname, 'kworker/0:0')
             self.assertEqual(killer.pid, '955')
 
-        heuristics = CallTrace().oom_killer.heuristics
+        heuristics = CallTraceManager().oom_killer.heuristics
         # one per zone
         self.assertEqual(len(heuristics), 3)
         for h in heuristics:
@@ -275,10 +275,10 @@ class TestKernelScenarioChecks(TestKernelBase):
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.kernel.kernlog.log')
-    @mock.patch('hotsos.core.plugins.kernel.kernlog.CLIHelper')
-    @mock.patch('hotsos.core.plugins.kernel.kernlog.HostNetworkingHelper.'
-                'host_interfaces_all',
+    @mock.patch('hotsos.core.plugins.kernel.kernlog.events.log')
+    @mock.patch('hotsos.core.plugins.kernel.kernlog.common.CLIHelper')
+    @mock.patch('hotsos.core.plugins.kernel.kernlog.common.'
+                'HostNetworkingHelper.host_interfaces_all',
                 [NetworkPort('br-int', None, None, None, None),
                  NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',

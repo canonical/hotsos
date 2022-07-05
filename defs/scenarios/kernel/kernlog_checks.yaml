@@ -3,11 +3,11 @@ checks:
     path: 'var/log/kern.log'
   has_stacktraces:
     property:
-      path: hotsos.core.plugins.kernel.CallTrace.calltrace_anytype
+      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_anytype
       ops: [[length_hint]]
   has_oom_killer_invoked:
     property:
-      path: hotsos.core.plugins.kernel.CallTrace.oom_killer
+      path: hotsos.core.plugins.kernel.CallTraceManager.oom_killer
       ops: [[length_hint]]
   has_nf_conntrack_full:
     expr: '.+ nf_conntrack: table full, dropping packet'
