@@ -9,6 +9,10 @@ checks:
     property:
       path: hotsos.core.plugins.kernel.CallTraceManager.oom_killer
       ops: [[length_hint]]
+  has_bcache_deadlock_invoked:
+    property:
+      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-bcache
+      ops: [[length_hint]]
 conclusions:
   stacktraces:
     # Give this one lowest priority so that if any other call trace types match they
@@ -30,3 +34,15 @@ conclusions:
         {numreports} reports of oom-killer invoked in kern.log - please check.
       format-dict:
         numreports: '@checks.has_oom_killer_invoked.requires.value_actual:len'
+  bcache-deadlock-invoked:   
+    priority: 2
+    decision: has_bcache_deadlock_invoked
+    raises:
+      type: MemoryWarning
+      message: >-
+        Bcache cache set registration deadlock has occurred. This is caused
+        by a bug that has been fixed in kernel 5.15.11 (current is {kver}).
+        See https://www.spinics.net/lists/stable/msg566639.html for full
+        detail.
+      format-dict:
+        kver: hotsos.core.plugins.kernel.KernelBase.version

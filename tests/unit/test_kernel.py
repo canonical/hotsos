@@ -57,6 +57,84 @@ May  6 10:49:21 tututu kernel: [ 4965.415937]  entry_SYSCALL_64_fastpath+0x1a/0x
 May  6 10:49:21 tututu kernel: [ 4965.415939] RIP: 0033:0x7fab36d717a9
 """  # noqa
 
+KERNLOG_BCACHE_DEADLOCK = r"""
+Jun 11 06:51:39 bronzor kernel: [  725.795102] INFO: task bcache-register:2330 blocked for more than 120 seconds.
+Jun 11 06:51:39 bronzor kernel: [  726.146000]       Not tainted 4.15.0-176-generic #185
+Jun 11 06:51:39 bronzor kernel: [  726.391338] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+Jun 11 06:51:39 bronzor kernel: [  726.771988] bcache-register D    0  2330   2328 0x00000320
+Jun 11 06:51:39 bronzor kernel: [  726.771991] Call Trace:
+Jun 11 06:51:39 bronzor kernel: [  726.771997]  __schedule+0x24e/0x890
+Jun 11 06:51:39 bronzor kernel: [  726.771999]  schedule+0x2c/0x80
+Jun 11 06:51:39 bronzor kernel: [  726.772024]  closure_sync+0x18/0x90 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772031]  bch_journal+0x123/0x380 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772036]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772042]  bch_journal_meta+0x47/0x70 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772045]  ? __switch_to+0x309/0x4e0
+Jun 11 06:51:39 bronzor kernel: [  726.772046]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772047]  ? __switch_to_asm+0x41/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772048]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772050]  ? __schedule+0x256/0x890
+Jun 11 06:51:39 bronzor kernel: [  726.772051]  ? _cond_resched+0x19/0x40
+Jun 11 06:51:39 bronzor kernel: [  726.772053]  ? mutex_lock+0x12/0x40
+Jun 11 06:51:39 bronzor kernel: [  726.772057]  bch_btree_set_root+0x1c2/0x1f0 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772074]  btree_split+0x69a/0x700 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772077]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772080]  ? __switch_to_asm+0x41/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772082]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772086]  ? __switch_to+0x309/0x4e0
+Jun 11 06:51:39 bronzor kernel: [  726.772089]  ? __switch_to+0x309/0x4e0
+Jun 11 06:51:39 bronzor kernel: [  726.772091]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772092]  ? __switch_to_asm+0x41/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772093]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772096]  bch_btree_insert_node+0x340/0x410 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772100]  btree_split+0x551/0x700 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772103]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772105]  ? __switch_to_asm+0x41/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772107]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772111]  ? __switch_to+0x309/0x4e0
+Jun 11 06:51:39 bronzor kernel: [  726.772114]  ? __switch_to+0x309/0x4e0
+Jun 11 06:51:39 bronzor kernel: [  726.772115]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772129]  ? __switch_to_asm+0x41/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772130]  ? __switch_to_asm+0x35/0x70
+Jun 11 06:51:39 bronzor kernel: [  726.772137]  bch_btree_insert_node+0x340/0x410 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772144]  btree_insert_fn+0x24/0x40 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772151]  bch_btree_map_nodes_recurse+0x54/0x190 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772159]  ? bch_btree_insert_check_key+0x1f0/0x1f0 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772164]  ? _cond_resched+0x19/0x40
+Jun 11 06:51:39 bronzor kernel: [  726.772167]  ? down_write+0x12/0x40
+Jun 11 06:51:39 bronzor kernel: [  726.772175]  ? bch_btree_node_get+0x80/0x260 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772179]  ? up_read+0x30/0x30
+Jun 11 06:51:39 bronzor kernel: [  726.772185]  bch_btree_map_nodes_recurse+0x112/0x190 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772190]  ? bch_btree_insert_check_key+0x1f0/0x1f0 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772198]  __bch_btree_map_nodes+0xf0/0x150 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772205]  ? bch_btree_insert_check_key+0x1f0/0x1f0 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772212]  bch_btree_insert+0xf9/0x170 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772215]  ? wait_woken+0x80/0x80
+Jun 11 06:51:39 bronzor kernel: [  726.772222]  bch_journal_replay+0x220/0x2f0 [bcache]
+Jun 11 06:51:39 bronzor kernel: [  726.772224]  ? try_to_wake_up+0x59/0x4b0
+Jun 11 06:51:39 bronzor kernel: [  726.772229]  ? kthread_create_on_node+0x46/0x70
+Jun 11 06:51:40 bronzor kernel: [  726.772238]  run_cache_set+0x5c6/0x970 [bcache]
+Jun 11 06:51:40 bronzor kernel: [  726.772246]  register_bcache+0xd04/0x1110 [bcache]
+Jun 11 06:51:40 bronzor kernel: [  726.772253]  ? register_bcache+0xd04/0x1110 [bcache]
+Jun 11 06:51:40 bronzor kernel: [  726.772256]  kobj_attr_store+0x12/0x20
+Jun 11 06:51:40 bronzor kernel: [  726.772257]  ? kobj_attr_store+0x12/0x20
+Jun 11 06:51:40 bronzor kernel: [  726.772259]  sysfs_kf_write+0x3c/0x50
+Jun 11 06:51:40 bronzor kernel: [  726.772261]  kernfs_fop_write+0x125/0x1a0
+Jun 11 06:51:40 bronzor kernel: [  726.772263]  __vfs_write+0x1b/0x40
+Jun 11 06:51:40 bronzor kernel: [  726.772265]  vfs_write+0xb1/0x1a0
+Jun 11 06:51:40 bronzor kernel: [  726.772267]  SyS_write+0x5c/0xe0
+Jun 11 06:51:40 bronzor kernel: [  726.772270]  do_syscall_64+0x73/0x130
+Jun 11 06:51:40 bronzor kernel: [  726.772273]  entry_SYSCALL_64_after_hwframe+0x41/0xa6
+Jun 11 06:51:40 bronzor kernel: [  726.772275] RIP: 0033:0x7efdb30af104
+Jun 11 06:51:40 bronzor kernel: [  726.772276] RSP: 002b:00007fff9649a2b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+Jun 11 06:51:40 bronzor kernel: [  726.772278] RAX: ffffffffffffffda RBX: 000000000000000b RCX: 00007efdb30af104
+Jun 11 06:51:40 bronzor kernel: [  726.772279] RDX: 000000000000000b RSI: 00005625a6c2c260 RDI: 0000000000000003
+Jun 11 06:51:40 bronzor kernel: [  726.772281] RBP: 00005625a6c2c260 R08: 0000000000000000 R09: 000000000000000a
+Jun 11 06:51:40 bronzor kernel: [  726.772282] R10: 00000000fffffff6 R11: 0000000000000246 R12: 00007fff9649a350
+Jun 11 06:51:40 bronzor kernel: [  726.772283] R13: 000000000000000b R14: 00007efdb33872a0 R15: 00007efdb3386760
+"""  # noqa
+
+
 
 FAKE_AMD_LSCPU = r"""
 Vendor ID:                       AuthenticAMD
@@ -190,6 +268,31 @@ class TestKernelScenarioChecks(TestKernelBase):
             YScenarioChecker()()
 
         msg = ('1 reports of stacktraces in kern.log - please check.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('kernlog_calltrace.yaml'))
+    def test_bcache_deadlock(self, mock_kernelbase):
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            os.makedirs(os.path.join(dtmp, 'var/log'))
+            klog = os.path.join(dtmp, 'var/log/kern.log')
+            with open(klog, 'w') as fd:
+                fd.write(KERNLOG_BCACHE_DEADLOCK)
+
+            mock_kernelbase.return_value = mock.MagicMock()
+            mock_kernelbase.return_value.version = '5.3'
+
+            YScenarioChecker()()
+
+        msg = ("Bcache cache set registration deadlock has occurred. "
+               "This is caused by a bug that has been fixed "
+               "in kernel 5.15.11 (current is 5.3). "
+               "See https://www.spinics.net/lists/stable/msg566639.html "
+               "for full detail.")
+
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 

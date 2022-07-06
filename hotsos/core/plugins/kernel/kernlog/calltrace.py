@@ -206,6 +206,56 @@ class MemFieldsNodeZoneMem(MemFieldsBase):
                 'local_pcp', 'free_cma']
 
 
+class BcacheDeadlockType(TraceTypeBase):
+
+    def __init__(self):
+        self._search_def = None
+        self.deadlocks = []
+
+    @property
+    def name(self):
+        return 'calltrace-bcache'
+
+    @property
+    def searchdef(self):
+        if self._search_def:
+            return self._search_def
+
+        start = SearchDef(r'{}.+\s+task bcache-register:(\d+) blocked for '
+                          r'more than (\d+) seconds.'.
+                          format(KERNLOG_PREFIX))
+        body = SearchDef(r'(\S+) schedule(\S+) closure_sync(\S+)'
+                         r' bch_journal_meta(\S+) bch_btree_set_root(\S+)'
+                         r' bch_journal_replay(\S+) register_bcache(\S+)')
+        end = SearchDef(r'{}.+\s+do_syscall_(\S+)'.format(KERNLOG_PREFIX))
+        self._search_def = SequenceSearchDef(start, tag='bcache', body=body,
+                                             end=end)
+        return self._search_def
+
+    def apply(self, result):
+        """
+        Run through the results.
+        @param results: list of searchtools.SearchResult objects.
+        """
+        if len(result) > 0:
+            # we have found at least one deadlock
+            self.deadlocks.append(True)
+
+    @property
+    def heuristics(self):
+        """
+        Register any heuristics we want to run here.
+        """
+        return []
+
+    def __len__(self):
+        return len(self.deadlocks)
+
+    def __iter__(self):
+        for deadlocks in self.deadlocks:
+            yield deadlocks
+
+
 class OOMKillerTraceType(TraceTypeBase):
 
     def __init__(self):
@@ -303,7 +353,8 @@ class CallTraceManager(KernLogBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # All trace types should be registered here.
-        self.tracetypes = [GenericTraceType(), OOMKillerTraceType()]
+        self.tracetypes = [GenericTraceType(), OOMKillerTraceType(),
+                           BcacheDeadlockType()]
         self.run()
 
     def run(self):
