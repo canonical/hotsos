@@ -178,7 +178,7 @@ class TestKernelMemoryInfo(TestKernelBase):
 class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog_checks.yaml'))
+                new=utils.is_def_filter('kernlog_calltrace.yaml'))
     def test_stacktraces(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -194,7 +194,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog_checks.yaml'))
+                new=utils.is_def_filter('kernlog_calltrace.yaml'))
     def test_oom_killer_invoked(self):
         YScenarioChecker()()
         msg = ('1 reports of oom-killer invoked in kern.log - please check.')
@@ -202,7 +202,7 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog_checks.yaml'))
+                new=utils.is_def_filter('network.yaml'))
     def test_nf_conntrack_full(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -260,7 +260,7 @@ class TestKernelScenarioChecks(TestKernelBase):
                 'host_interfaces_all',
                 [NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog_checks.yaml'))
+                new=utils.is_def_filter('network.yaml'))
     def test_over_mtu_dropped_packets(self):
         with tempfile.TemporaryDirectory() as dtmp:
             setup_config(DATA_ROOT=dtmp)
@@ -282,7 +282,7 @@ class TestKernelScenarioChecks(TestKernelBase):
                 [NetworkPort('br-int', None, None, None, None),
                  NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('kernlog_checks.yaml'))
+                new=utils.is_def_filter('network.yaml'))
     def test_over_mtu_dropped_packets_w_ovs_ports(self, mock_cli, mock_log):
         mock_cli.return_value = mock.MagicMock()
         # include trailing newline since cli would give that

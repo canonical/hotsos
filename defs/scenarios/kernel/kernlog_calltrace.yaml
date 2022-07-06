@@ -9,12 +9,10 @@ checks:
     property:
       path: hotsos.core.plugins.kernel.CallTraceManager.oom_killer
       ops: [[length_hint]]
-  has_nf_conntrack_full:
-    expr: '.+ nf_conntrack: table full, dropping packet'
-  has_over_mtu_dropped_packets:
-    property: hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets
 conclusions:
   stacktraces:
+    # Give this one lowest priority so that if any other call trace types match they
+    # take precedence.
     priority: 1
     decision: has_stacktraces
     raises:
@@ -32,22 +30,3 @@ conclusions:
         {numreports} reports of oom-killer invoked in kern.log - please check.
       format-dict:
         numreports: '@checks.has_oom_killer_invoked.requires.value_actual:len'
-  nf-conntrack-full:   
-    decision: has_nf_conntrack_full
-    raises:
-      type: NetworkWarning
-      message: >-
-        {numreports} reports of 'nf_conntrack: table full' detected in
-        kern.log - please check.
-      format-dict:
-        numreports: '@checks.has_nf_conntrack_full.search.results:len'
-  over-mtu-dropped-packets:
-    decision: has_over_mtu_dropped_packets
-    raises:
-      type: NetworkWarning
-      message: >-
-        This host is reporting over-mtu dropped packets for ({num_ifaces})
-        interfaces. See kern.log for full details.
-      format-dict:
-        num_ifaces: '@checks.has_over_mtu_dropped_packets.requires.value_actual:len'
-
