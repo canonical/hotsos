@@ -10,12 +10,17 @@ OVS_SERVICES_EXPRS = [r"ovsdb[a-zA-Z-]*",
                       r"ovs-vswitch[a-zA-Z-]*",
                       r"ovn[a-zA-Z-]*",
                       "openvswitch-switch"]
-OVS_PKGS_CORE = [r"openvswitch-switch",
-                 r"ovn",
+OVS_PKGS_CORE = ["openvswitch-switch",
+                 "ovn",
                  ]
-OVS_PKGS_DEPS = [r"libc-bin",
-                 r"openvswitch-switch-dpdk",
+OVS_PKGS_DEPS = ["libc-bin",
+                 "openvswitch",
+                 "ovsdbapp",
+                 "openssl",
+                 "openvswitch-switch-dpdk",
                  ]
+PY_CLIENT_PREFIX = r"python3?-{}\S*"
+
 # Add in clients/deps
 for pkg in OVS_PKGS_CORE:
     OVS_PKGS_DEPS.append(r"python3?-{}\S*".format(pkg))
@@ -119,9 +124,12 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt_check = host_helpers.APTPackageChecksBase(
-                                                      core_pkgs=OVS_PKGS_CORE,
-                                                      other_pkgs=OVS_PKGS_DEPS)
+        p_core = OVS_PKGS_CORE + [PY_CLIENT_PREFIX.format(p)
+                                  for p in OVS_PKGS_CORE]
+        p_deps = OVS_PKGS_DEPS + [PY_CLIENT_PREFIX.format(p)
+                                  for p in OVS_PKGS_DEPS]
+        self.apt_check = host_helpers.APTPackageChecksBase(core_pkgs=p_core,
+                                                           other_pkgs=p_deps)
         svc_exprs = OVS_SERVICES_EXPRS
         self.svc_check = host_helpers.ServiceChecksBase(
                                                        service_exprs=svc_exprs)

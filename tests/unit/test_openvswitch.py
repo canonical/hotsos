@@ -84,7 +84,12 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
     def test_get_package_checks(self):
         expected = ['libc-bin 2.31-0ubuntu9.2',
-                    'openvswitch-switch 2.13.3-0ubuntu0.20.04.2']
+                    'openssl 1.1.1f-1ubuntu2.10',
+                    'openvswitch-common 2.13.3-0ubuntu0.20.04.2',
+                    'openvswitch-switch 2.13.3-0ubuntu0.20.04.2',
+                    'python3-openssl 19.0.0-1build1',
+                    'python3-openvswitch 2.13.3-0ubuntu0.20.04.2',
+                    'python3-ovsdbapp 1.1.0-0ubuntu2']
         inst = summary.OpenvSwitchSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['dpkg'],
                          expected)

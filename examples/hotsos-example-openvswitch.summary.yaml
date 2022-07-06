@@ -33,7 +33,12 @@ openvswitch:
       - ovsdb-server (1)
   dpkg:
     - libc-bin 2.31-0ubuntu9.2
+    - openssl 1.1.1f-1ubuntu2.10
+    - openvswitch-common 2.13.3-0ubuntu0.20.04.2
     - openvswitch-switch 2.13.3-0ubuntu0.20.04.2
+    - python3-openssl 19.0.0-1build1
+    - python3-openvswitch 2.13.3-0ubuntu0.20.04.2
+    - python3-ovsdbapp 1.1.0-0ubuntu2
   config:
     external-ids:
       hostname: compute4.mylab.home
