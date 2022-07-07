@@ -2,13 +2,9 @@ name: hotsos
 version: '1.0'
 summary: Collect application operational information.
 description:
-  Collect information about specific applications and raise issues when
-  problems are detected. Can be run against a host or sosreport.
-  A number of application plugins are supported including Openstack, Ceph,
-  Kubernetes, Juju and more. The output is a summary from each plugin and uses
-  yaml format by default. By default all plugins are run and only produce ouput
-  if applicable. If you  want to run specific plugins you can choose from a
-  selection (--list-plugins). See --help for more options.
+  Software analysis toolkit. Define checks in high-level
+  language and leverage library to perform analysis of
+  common Cloud applications.
 confinement: classic
 grade: stable
 base: core20
