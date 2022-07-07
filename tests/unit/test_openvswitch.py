@@ -8,7 +8,7 @@ from . import utils
 from hotsos.core import issues
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config
-from hotsos.core.plugins import openvswitch
+from hotsos.core.plugins.openvswitch import OpenvSwitchBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.openvswitch import (
     event_checks,
@@ -67,16 +67,16 @@ class TestOpenvswitchBase(utils.BaseTestCase):
 class TestCoreOpenvSwitch(TestOpenvswitchBase):
 
     def testBase_offload_disabled(self):
-        enabled = openvswitch.OpenvSwitchBase().offload_enabled
+        enabled = OpenvSwitchBase().offload_enabled
         self.assertFalse(enabled)
 
     def testBase_offload_enabled(self):
-        with mock.patch.object(openvswitch.host_helpers,
-                               'CLIHelper') as mock_cli:
+        with mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper') as \
+                mock_cli:
             mock_cli.return_value = mock.MagicMock()
             f = mock_cli.return_value.ovs_vsctl_get_Open_vSwitch
             f.return_value = '{hw-offload="true", max-idle="30000"}'
-            enabled = openvswitch.OpenvSwitchBase().offload_enabled
+            enabled = OpenvSwitchBase().offload_enabled
             self.assertTrue(enabled)
 
 
@@ -297,7 +297,7 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                       'origin': 'openvswitch.01part'}]}
         self.assertEqual(issues.IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.plugins.openvswitch.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
     def test_flow_lookup_checks_p1(self, mock_cli):
@@ -314,7 +314,7 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.openvswitch.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
     def test_flow_lookup_checks_p2(self, mock_cli):

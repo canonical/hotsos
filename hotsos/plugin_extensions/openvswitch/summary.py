@@ -22,11 +22,11 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
         if self.offload_enabled:
             _config['offload'] = 'enabled'
 
-        if self.other_config:
-            _config['other-config'] = self.other_config
+        if self.ovsdb.other_config:
+            _config['other-config'] = self.ovsdb.other_config
 
-        if self.external_ids:
-            _config['external-ids'] = self.external_ids
+        if self.ovsdb.external_ids:
+            _config['external-ids'] = self.ovsdb.external_ids
 
         if _config:
             return _config

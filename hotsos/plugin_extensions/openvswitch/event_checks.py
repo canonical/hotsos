@@ -3,9 +3,7 @@ import re
 from hotsos.core.ycheck.engine import CallbackHelper
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
-from hotsos.core.plugins.openvswitch import (
-    OpenvSwitchEventChecksBase,
-)
+from hotsos.core.plugins.openvswitch.common import OpenvSwitchEventChecksBase
 
 EVENTCALLBACKS = CallbackHelper()
 
