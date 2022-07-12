@@ -463,8 +463,10 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
     def apply_constraints(self, results):
         if not self.constraints:
+            log.debug("no search constraints to apply")
             return results
 
+        log.debug("applying search constraints")
         count = len(results)
         result_age_hours = self.constraints.search_result_age_hours
         results = self.filter_by_age(results, result_age_hours)
