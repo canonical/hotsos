@@ -1,0 +1,29 @@
+checks:
+  using_mysql_router:
+    apt: mysql-router
+  client_ssl_mode:
+    config:
+      handler: hotsos.core.plugins.mysql.MySQLRouterConfig
+      assertions:
+        key: client_ssl_mode
+        ops: [[eq, PREFERRED]]
+  client_ssl_cert:
+    config:
+      handler: hotsos.core.plugins.mysql.MySQLRouterConfig
+      assertions:
+        key: client_ssl_cert
+        ops: [[ne, null]]
+conclusions:
+  client_ssl_cert_problem:
+    decision:
+      and: [ using_mysql_router, client_ssl_mode ]
+      not: client_ssl_cert
+    raises:
+      type: LaunchpadBug
+      bug-id: 1959861
+      message: >-
+          This host is running MySQL Router and
+          has client_ssl_mode configured
+          but client_ssl_cert is not set.
+          This will cause mysql-router to error
+          when restarted.

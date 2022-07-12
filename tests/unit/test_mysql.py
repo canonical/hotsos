@@ -157,3 +157,67 @@ class TestMySQLScenarios(MySQLTestsBase):
         YScenarioChecker()()
         expected = {}
         self.assertEqual(IssuesManager().load_issues(), expected)
+
+    @mock.patch(
+        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+            'mysql-router':
+            SystemdService('mysql-router', 'enabled')
+        })
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.plugins.mysql.MySQLRouterConfig')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('mysql/mysql_router.yaml'))
+    def test_mysql_router(self, mock_config, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            DPKG_L_ROUTER.splitlines()
+
+        def fake_get(key, **_kwargs):
+            return {'client_ssl_mode': 'PREFERRED'}.get(key)
+
+        mock_config.return_value = mock.MagicMock()
+        mock_config.return_value.get.side_effect = fake_get
+
+        YScenarioChecker()()
+        expected = {
+            'bugs-detected': [
+                {'id': 'https://bugs.launchpad.net/bugs/1959861',
+                 'desc': (
+                     'This host is running MySQL Router '
+                     'and has client_ssl_mode configured '
+                     'but client_ssl_cert is not set. '
+                     'This will cause mysql-router to error '
+                     'when restarted.'),
+                 'origin': 'mysql.01part'}
+            ]
+        }
+
+        self.assertEqual(IssuesManager().load_bugs(), expected)
+
+    @mock.patch(
+        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+            'mysql-router':
+            SystemdService('mysql-router', 'enabled')
+        })
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.plugins.mysql.MySQLRouterConfig')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('mysql/mysql_router.yaml'))
+    def test_mysql_router_not_affected(self, mock_config, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.dpkg_l.return_value = \
+            DPKG_L_ROUTER.splitlines()
+
+        def fake_get(key, **_kwargs):
+            return {
+                'client_ssl_mode': 'PREFERRED',
+                'client_ssl_cert': 'exist'
+            }.get(key)
+
+        mock_config.return_value = mock.MagicMock()
+        mock_config.return_value.get.side_effect = fake_get
+
+        YScenarioChecker()()
+        expected = {}
+
+        self.assertEqual(IssuesManager().load_bugs(), expected)

@@ -31,3 +31,10 @@ class MySQLConfig(host_helpers.SectionalConfigBase):
         path = os.path.join(HotSOSConfig.DATA_ROOT,
                             'etc/mysql/mysql.conf.d/mysqld.cnf')
         super().__init__(*args, path=path, **kwargs)
+
+
+class MySQLRouterConfig(host_helpers.SectionalConfigBase):
+    def __init__(self, *args, **kwargs):
+        path = os.path.join(HotSOSConfig.DATA_ROOT,
+                            'var/lib/mysql/mysql-router/mysqlrouter.conf')
+        super().__init__(*args, path=path, **kwargs)
