@@ -106,13 +106,9 @@ openstack:
     - python3-oslo.vmware 3.3.1-0ubuntu1
     - qemu-kvm 1:4.2-3ubuntu6.19
     - radvd 1:2.17-2
-  debug-logging-enabled:
-    neutron: true
-    nova: true
   neutron-l3ha:
     backup:
       - 984c22fd-64b3-4fa1-8ddd-87090f401ce5
-  ssl-enabled: false
   os-server-external-events:
     network-changed:
       succeeded:
@@ -173,6 +169,7 @@ openstack:
   features:
     neutron:
       main:
+        debug: true
         availability_zone: nova
       openvswitch-agent:
         l2_population: true
@@ -185,8 +182,10 @@ openstack:
         ovs_use_veth: false
     nova:
       main:
+        debug: true
         live_migration_permit_auto_converge: false
         live_migration_permit_post_copy: false
+    ssl: false
   agent-checks:
     neutron-l3ha:
       keepalived:

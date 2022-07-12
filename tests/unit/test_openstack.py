@@ -581,23 +581,6 @@ class TestOpenstackSummary(TestOpenstackBase):
                 actual = self.part_output_to_actual(inst.output)
                 self.assertEqual(actual["release"], "ussuri")
 
-    def test_get_debug_log_info(self):
-        expected = {'neutron': True, 'nova': True}
-        with tempfile.TemporaryDirectory() as dtmp:
-            for svc in ["nova", "neutron"]:
-                conf_path = "etc/{svc}/{svc}.conf".format(svc=svc)
-                os.makedirs(os.path.dirname(os.path.join(dtmp, conf_path)))
-                with open(os.path.join(dtmp, conf_path), 'w') as fd:
-                    fd.write(SVC_CONF)
-
-            setup_config(DATA_ROOT=dtmp)
-            inst = summary.OpenstackSummary()
-            # fake some core packages
-            inst.apt_check._core_packages = {"foo": 1}
-            actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual["debug-logging-enabled"],
-                             expected)
-
     def test_get_pkg_info(self):
         expected = [
             'conntrack 1:1.4.5-2',
@@ -808,13 +791,16 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                 'l3-agent': {
                                     'agent_mode': 'dvr_snat'},
                                 'main': {
+                                    'debug': True,
                                     'availability_zone': 'nova'},
                                 'openvswitch-agent': {
                                     'l2_population': True,
                                     'firewall_driver': 'openvswitch'}},
                     'nova': {'main': {
+                                'debug': True,
                                 'live_migration_permit_auto_converge': False,
-                                'live_migration_permit_post_copy': False}}}
+                                'live_migration_permit_post_copy': False}},
+                    'ssl': False}
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["features"], expected)
 

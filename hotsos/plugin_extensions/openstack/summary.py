@@ -31,20 +31,6 @@ class OpenstackSummary(OpenstackServiceChecksBase):
             return self.docker_check.all_formatted
 
     @idx(4)
-    def __summary_debug_logging_enabled(self):
-        """Return dictionary of OpenStack services and the value of the debug
-        setting in their configuration.
-        """
-        debug_enabled = {}
-        for name, info in self.ost_projects.all.items():
-            cfg = info.config.get('main')
-            if cfg and cfg.exists:
-                debug_enabled[name] = cfg.get("debug", section="DEFAULT")
-
-        if debug_enabled:
-            return debug_enabled
-
-    @idx(5)
     def __summary_neutron_l3ha(self):
         routers = {}
         ha_info = NeutronHAInfo()
@@ -57,7 +43,3 @@ class OpenstackSummary(OpenstackServiceChecksBase):
 
         if routers:
             return routers
-
-    @idx(6)
-    def __summary_ssl_enabled(self):
-        return self.ssl_enabled
