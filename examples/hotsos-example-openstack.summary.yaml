@@ -185,7 +185,7 @@ openstack:
         debug: true
         live_migration_permit_auto_converge: false
         live_migration_permit_post_copy: false
-    ssl: false
+    api-ssl: false
   agent-checks:
     neutron-l3ha:
       keepalived:

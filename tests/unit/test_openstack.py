@@ -800,7 +800,7 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                 'debug': True,
                                 'live_migration_permit_auto_converge': False,
                                 'live_migration_permit_post_copy': False}},
-                    'ssl': False}
+                    'api-ssl': False}
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["features"], expected)
 

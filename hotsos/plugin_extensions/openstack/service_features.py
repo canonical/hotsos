@@ -37,13 +37,13 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         _features = {}
         for service in FEATURES:
             svc_cfg = self.ost_projects.all[service].config
-            if service not in _features:
-                _features[service] = {}
-
-            if 'main' not in _features[service]:
-                _features[service]['main'] = {}
-
             if svc_cfg['main'].exists:
+                if service not in _features:
+                    _features[service] = {}
+
+                if 'default' not in _features[service]:
+                    _features[service]['main'] = {}
+
                 debug_enabled = svc_cfg['main'].get('debug',
                                                     section="DEFAULT") or False
                 _features[service]['main']['debug'] = debug_enabled
@@ -73,9 +73,9 @@ class ServiceFeatureChecks(OpenstackChecksBase):
                         _features[service][module] = module_features
 
         if self.ssl_enabled:
-            _features['ssl'] = True
+            _features['api-ssl'] = True
         else:
-            _features['ssl'] = False
+            _features['api-ssl'] = False
 
         if _features:
             return _features
