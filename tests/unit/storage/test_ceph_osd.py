@@ -56,6 +56,26 @@ class TestOSDCephChecksBase(StorageCephOSDTestsBase):
         release_name = ceph_core.CephChecksBase().release_name
         self.assertEqual(release_name, 'octopus')
 
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_release_eol(self, mock_date):
+        # 2030-04-30
+        mock_date.return_value = '1903748400'
+
+        base = ceph_core.CephChecksBase()
+
+        self.assertEqual(base.release_name, 'octopus')
+        self.assertLessEqual(base.days_to_eol, 0)
+
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_release_not_eol(self, mock_date):
+        # 2030-01-01
+        mock_date.return_value = '1893466800'
+
+        base = ceph_core.CephChecksBase()
+
+        self.assertEqual(base.release_name, 'octopus')
+        self.assertGreater(base.days_to_eol, 0)
+
     def test_bluestore_enabled(self):
         enabled = ceph_core.CephChecksBase().bluestore_enabled
         self.assertTrue(enabled)
@@ -120,10 +140,11 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
                                 'indirect': ['ceph-volume'],
                                 'generated': ['radosgw']},
                     'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
+        release_info = {'name': 'octopus', 'days-to-eol': 3000}
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['services'], svc_info)
-        self.assertEqual(actual['release'], 'octopus')
+        self.assertEqual(actual['release'], release_info)
 
     def test_get_network_info(self):
         expected = {'cluster': {
@@ -145,12 +166,14 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_get_service_info_unavailable(self, mock_helper):
+        release_info = {'name': 'unknown', 'days-to-eol': None}
+
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
         mock_helper.return_value.dpkg_l.return_value = []
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['release'], 'unknown')
+        self.assertEqual(actual['release'], release_info)
 
     def test_get_package_info(self):
         inst = ceph_summary.CephSummary()
@@ -337,3 +360,21 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
 
         issues = list(IssuesManager().load_bugs().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph-osd/eol.yaml'))
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_ceph_osd_eol(self, mock_date):
+        # 2030-04-30
+        mock_date.return_value = '1903748400'
+
+        YScenarioChecker()()
+        issues = list(IssuesManager().load_issues().values())[0]
+
+        expected = ('This node is running a version of Ceph that is '
+                    'End of Life (release=octopus) which means it '
+                    'has limited support and is likely not receiving '
+                    'updates anymore. Please consider upgrading to a '
+                    'newer release.')
+
+        self.assertEqual(issues[0]['desc'], expected)

@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 
 from hotsos.core import host_helpers
@@ -19,6 +20,20 @@ from hotsos.core.plugins.openstack.exceptions import (
     OVSDBAPP_EXCEPTIONS,
     MASAKARI_EXCEPTIONS,
 )
+
+# NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
+# versions page: https://ubuntu.com/openstack/docs/supported-versions
+OST_EOL_INFO = {
+    'xena': datetime(2023, 4, 30),
+    'wallaby': datetime(2024, 4, 30),
+    'victoria': datetime(2022, 4, 30),
+    'ussuri': datetime(2030, 4, 30),
+    'train': datetime(2021, 2, 28),
+    'stein': datetime(2022, 4, 30),
+    'rocky': datetime(2020, 2, 29),
+    'queens': datetime(2028, 4, 30),
+    'mitaka': datetime(2024, 4, 30)
+}
 
 
 OST_REL_INFO = {

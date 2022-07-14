@@ -7,7 +7,8 @@ class OpenstackSummary(OpenstackServiceChecksBase):
 
     @idx(0)
     def __summary_release(self):
-        return self.release_name
+        return {'name': self.release_name,
+                'days-to-eol': self.days_to_eol}
 
     @idx(1)
     def __summary_services(self):

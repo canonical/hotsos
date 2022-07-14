@@ -1,9 +1,11 @@
+from datetime import datetime
 import os
 import re
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.common import (
     OSTProjectCatalog,
+    OST_EOL_INFO,
     OST_REL_INFO,
 )
 from hotsos.core.log import log
@@ -12,7 +14,7 @@ from hotsos.core.plugins.openstack.nova import NovaBase
 from hotsos.core.plugins.openstack.neutron import NeutronBase
 from hotsos.core.plugins.openstack.octavia import OctaviaBase
 from hotsos.core.ycheck.events import YEventCheckerBase
-from hotsos.core.host_helpers.cli import CmdBase
+from hotsos.core.host_helpers.cli import CLIHelper, CmdBase
 from hotsos.core.host_helpers import (
     APTPackageChecksBase,
     DockerImageChecksBase,
@@ -135,6 +137,14 @@ class OpenstackBase(object):
             return sorted(release_info['uca'], reverse=True)[0]
 
         return relname
+
+    @property
+    def days_to_eol(self):
+        if self.release_name != 'unknown':
+            eol = OST_EOL_INFO[self.release_name]
+            today = datetime.fromtimestamp(int(CLIHelper().date()))
+            delta = (eol - today).days
+            return delta
 
     @property
     def apache2_ssl_config_file(self):

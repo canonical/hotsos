@@ -21,7 +21,9 @@ system:
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades. (origin=system.auto_scenario_check)
 openstack:
-  release: ussuri
+  release:
+    name: ussuri
+    days-to-eol: 3000
   services:
     systemd:
       enabled:

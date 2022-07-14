@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import re
 import subprocess
@@ -8,7 +9,7 @@ from hotsos.core import (
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
-from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
+from hotsos.core.host_helpers.cli import CLIHelper, get_ps_axo_flags_available
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.plugins.storage.bcache import BcacheBase
 from hotsos.core.searchtools import (
@@ -30,6 +31,19 @@ for pkg in CEPH_PKGS_CORE:
     CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(pkg))
 
 CEPH_LOGS = "var/log/ceph/"
+
+# NOTE(tpsilva): when updating this list, refer to the supported Ceph
+# versions for Ubuntu page:
+# https://ubuntu.com/ceph/docs/supported-ceph-versions
+CEPH_EOL_INFO = {
+    'quincy': datetime(2032, 4, 30),
+    'pacific': datetime(2024, 4, 30),
+    'octopus': datetime(2030, 4, 30),
+    'nautilus': datetime(2021, 2, 28),
+    'mimic': datetime(2022, 4, 30),
+    'luminous': datetime(2028, 4, 30),
+    'jewel': datetime(2024, 4, 30)
+}
 
 CEPH_REL_INFO = {
     'ceph-common': {
@@ -851,6 +865,14 @@ class CephChecksBase(StorageBase):
                     break
 
         return relname
+
+    @property
+    def days_to_eol(self):
+        if self.release_name != 'unknown':
+            eol = CEPH_EOL_INFO[self.release_name]
+            today = datetime.fromtimestamp(int(CLIHelper().date()))
+            delta = (eol - today).days
+            return delta
 
     def _get_bind_interfaces(self, type):
         """
