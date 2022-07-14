@@ -21,7 +21,9 @@ system:
         unattended upgrades. (origin=system.auto_scenario_check)
 storage:
   ceph:
-    release: octopus
+    release:
+      name: octopus
+      days-to-eol: 3000
     services:
       systemd:
         enabled:

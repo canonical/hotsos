@@ -359,10 +359,11 @@ class TestMonCephSummary(StorageCephMonTestsBase):
                                 'generated': ['radosgw'],
                                 'masked': ['ceph-create-keys']},
                     'ps': ['ceph-crash (1)', 'ceph-mgr (1)', 'ceph-mon (1)']}
+        release_info = {'name': 'octopus', 'days-to-eol': 3000}
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['services'], svc_info)
-        self.assertEqual(actual['release'], 'octopus')
+        self.assertEqual(actual['release'], release_info)
         self.assertEqual(actual['status'], 'HEALTH_WARN')
 
     def test_get_network_info(self):
@@ -881,3 +882,21 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph-mon/eol.yaml'))
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_ceph_mon_eol(self, mock_date):
+        # 2030-04-30
+        mock_date.return_value = '1903748400'
+
+        YScenarioChecker()()
+        issues = list(IssuesManager().load_issues().values())[0]
+
+        expected = ('This node is running a version of Ceph that is '
+                    'End of Life (release=octopus) which means it '
+                    'has limited support and is likely not receiving '
+                    'updates anymore. Please consider upgrading to a '
+                    'newer release.')
+
+        self.assertEqual(issues[0]['desc'], expected)

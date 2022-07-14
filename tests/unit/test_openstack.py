@@ -378,6 +378,26 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         base = openstack_core.OpenstackBase()
         self.assertEqual(base.release_name, 'ussuri')
 
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_get_release_eol(self, mock_date):
+        # 2030-04-30
+        mock_date.return_value = '1903748400'
+
+        inst = openstack_core.OpenstackBase()
+        self.assertEqual(inst.release_name, 'ussuri')
+
+        self.assertLessEqual(inst.days_to_eol, 0)
+
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_get_release_not_eol(self, mock_date):
+        # 2030-01-01
+        mock_date.return_value = '1893466800'
+
+        inst = openstack_core.OpenstackBase()
+        self.assertEqual(inst.release_name, 'ussuri')
+
+        self.assertGreater(inst.days_to_eol, 0)
+
     def test_project_catalog_package_exprs(self):
         c = openstack_core.common.OSTProjectCatalog()
         core = ['ceilometer',
@@ -568,6 +588,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         self.assertEqual(actual['services']['systemd'], expected)
 
     def test_get_release_info(self):
+        release_info = {'name': 'ussuri', 'days-to-eol': 3000}
         with tempfile.TemporaryDirectory() as dtmp:
             for rel in ["stein", "ussuri", "train"]:
                 with open(os.path.join(dtmp,
@@ -579,7 +600,7 @@ class TestOpenstackSummary(TestOpenstackBase):
                             'apt_source_path', dtmp):
                 inst = summary.OpenstackSummary()
                 actual = self.part_output_to_actual(inst.output)
-                self.assertEqual(actual["release"], "ussuri")
+                self.assertEqual(actual["release"], release_info)
 
     def test_get_pkg_info(self):
         expected = [
@@ -1475,6 +1496,27 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                       'desc': msg,
                       'origin': 'openstack.01part'}]}
         self.assertEqual(IssuesManager().load_bugs(), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('openstack/eol.yaml'))
+    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    def test_openstack_eol(self, mock_date):
+        # 2030-04-30
+        mock_date.return_value = '1903748400'
+
+        YScenarioChecker()()
+
+        msg = ('This node is running a version of Openstack that is '
+               'End of Life (release=ussuri) which means it has '
+               'limited support and is likely not receiving updates '
+               'anymore. Please consider upgrading to a newer '
+               'release. (origin=openstack.01part)')
+        expected = {
+            'potential-issues':
+            {'OpenstackWarnings':
+                [msg]}}
+
+        self.assertEqual(IssuesManager().load_issues(), expected)
 
 
 class TestOpenstackApache2SSL(TestOpenstackBase):

@@ -1,0 +1,18 @@
+checks:
+  is_eol:
+    requires:
+      property:
+        path: hotsos.core.plugins.openstack.OpenstackBase.days_to_eol
+        ops: [[le, 0]]
+conclusions:
+  is-eol:
+    decision: is_eol
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This node is running a version of Openstack that is
+        End of Life (release={release}) which means it has
+        limited support and is likely not receiving updates
+        anymore. Please consider upgrading to a newer release.
+      format-dict:
+        release: hotsos.core.plugins.openstack.OpenstackBase.release_name
