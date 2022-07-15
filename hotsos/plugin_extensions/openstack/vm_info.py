@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.ycheck.engine import CallbackHelper
+from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.analytics import LogEventStats
 from hotsos.core.searchtools import (
     FileSearcher,
@@ -94,7 +94,7 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
 class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='nova.migrations',
                          searchobj=FileSearcher(),
                          **kwargs)

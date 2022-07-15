@@ -220,12 +220,13 @@ class MappedOverrideState(object):
 
         return _content
 
-    def add_member(self, name, instance):
-        log("{}.add_member: {} {}".format(self._whoami, name, type(instance)))
+    def add_member(self, obj):
+        name = obj._override_name
+        log("{}.add_member: {} {}".format(self._whoami, name, type(obj)))
         if name not in self._member_stacks:
             self._member_stacks[name] = OverrideStack(self)
 
-        self._member_stacks[name].add(instance)
+        self._member_stacks[name].add(obj)
         info = "\nsize: {}\ncontents:\n{}\n".format(len(self), repr(self))
         log("{} stack info: {}".format(self._whoami, info))
 
@@ -253,7 +254,16 @@ class MappedOverrideState(object):
             if len(member) > 1:
                 return member
             else:
-                return member.current
+                m = member.current
+                try:
+                    # Allow overrides to define a property for non-simple
+                    # content to be returned as-is.
+                    return getattr(m, name)
+                except Exception:
+                    if type(m.content) not in [dict, list]:
+                        return m.content
+                    else:
+                        return m
 
         if _name in self._member_keys:
             # allow members to be empty
@@ -334,12 +344,16 @@ class YStructMappedOverrideBase(OverrideBase):
                 format(self._whoami, item.__class__.__name__, repr(item)))
             yield item
 
-    def add(self, name, content):
+    def add(self, name, content, flush_current=False):
+        """
+        @param flush_current: Flush the current state and start a new one.
+        """
         resolve_path = self._override_path
         log("{}.add: {} {} current={}".format(self._whoami, name,
                                               content, self._current))
-        if not self._current:
+        if not self._current or flush_current:
             state = MappedOverrideState(self, name, content, self.member_keys)
+            self._current = None
         else:
             state = self._current
 
@@ -355,10 +369,10 @@ class YStructMappedOverrideBase(OverrideBase):
                     if hasattr(s, name):
                         obj = getattr(s, name)
                         if obj is not None:
-                            state.add_member(name, obj)
+                            state.add_member(obj)
 
                 for obj in s.get_resolved_by_type(YStructOverrideSimpleString):
-                    state.add_member(obj._override_name, obj)
+                    state.add_member(obj)
             else:
                 log("{}.add: content type '{}' not parsable ({}) so treating "
                     "as {}".format(self._whoami, type(content),
@@ -368,19 +382,19 @@ class YStructMappedOverrideBase(OverrideBase):
                     obj = YStructOverrideSimpleString(content, content,
                                                       self.context,
                                                       resolve_path)
-                    state.add_member(content, obj)
+                    state.add_member(obj)
                 else:
                     for item in content:
                         obj = YStructOverrideSimpleString(item, item,
                                                           self.context,
                                                           resolve_path)
-                        state.add_member(item, obj)
+                        state.add_member(obj)
 
             self._stack.add(state)
         else:
             handler = self.get_member_with_key(name)
             obj = handler(name, content, self.context, resolve_path)
-            state.add_member(name, obj)
+            state.add_member(obj)
             if not self._current:
                 self._current = state
                 self._stack.add(state)
@@ -458,10 +472,15 @@ class YStructOverrideManager(object):
         return self._resolved.get(name)
 
     def add_resolved(self, name, content, handler, resolve_path,
-                     member_name=None):
-        log("{}.add_resolved: {} {} {} {} {}".
-            format(self.__class__.__name__, name, content, resolve_path,
-                   handler, member_name))
+                     member_name=None, flush_mapped=False):
+        """
+        @param flush_mapped: if True this tells a mapped override to flush it's
+        member states and start a new set.
+        """
+        log("{}.add_resolved: name={} content={} handler={} resolve_path={} "
+            "member_name={} flush_mapped={}".
+            format(self.__class__.__name__, name, content, handler,
+                   resolve_path, member_name, flush_mapped))
         resolved_obj = self._resolved.get(name)
         resolved_name = name
         add_member = False
@@ -471,15 +490,18 @@ class YStructOverrideManager(object):
                 add_member = True
 
         if resolved_obj and (self.allow_stacking or add_member):
-            resolved_obj.add(name, content)
+            if isinstance(resolved_obj, YStructMappedOverrideBase):
+                resolved_obj.add(name, content, flush_current=flush_mapped)
+            else:
+                resolved_obj.add(name, content)
         else:
-            self._resolved[resolved_name] = handler(name, content,
-                                                    self._context,
-                                                    resolve_path)
+            obj = handler(name, content, self._context, resolve_path)
+            self._resolved[resolved_name] = obj
 
-    def resolve(self, name, content, resolve_path):
-        log("{}.resolve: {} {} {}".format(self.__class__.__name__, name,
-                                          content, resolve_path))
+    def resolve(self, name, content, resolve_path, flush_mapped=False):
+        log("{}.resolve: {} {} {} {}".format(self.__class__.__name__, name,
+                                             content, resolve_path,
+                                             flush_mapped))
         if name == content:
             self.add_resolved(name, content, YStructOverrideSimpleString,
                               resolve_path)
@@ -499,7 +521,8 @@ class YStructOverrideManager(object):
             member_name = name
             name = mapping._override_keys()[0]
             self.add_resolved(name, content, mapping, resolve_path,
-                              member_name=member_name)
+                              member_name=member_name,
+                              flush_mapped=flush_mapped)
             self._resolved_mapped[member_name] = name
 
     @property
@@ -530,7 +553,10 @@ class YStructSection(object):
         self.parent = parent
         self.content = content
         self.sections = []
-        self.resolve_path = resolve_path
+        if resolve_path:
+            self.resolve_path = resolve_path
+        else:
+            self.resolve_path = name
 
         if override_manager:
             self.manager = YStructOverrideManager(manager=override_manager)
@@ -581,8 +607,11 @@ class YStructSection(object):
                 if type(item) == str:
                     self.manager.resolve(item, item, self.resolve_path)
                 else:
+                    flush_mapped = True
                     for name, content in item.items():
-                        self.manager.resolve(name, content, self.resolve_path)
+                        self.manager.resolve(name, content, self.resolve_path,
+                                             flush_mapped)
+                        flush_mapped = False
         else:
             if type(self.content) != dict:
                 raise YStructException("undefined override '{}'".
@@ -596,11 +625,7 @@ class YStructSection(object):
                 if name in self.manager.resolved:
                     continue
 
-                if self.resolve_path is None:
-                    rpath = "{}.{}".format(self.name, name)
-                else:
-                    rpath = "{}.{}".format(self.resolve_path, name)
-
+                rpath = "{}.{}".format(self.resolve_path, name)
                 s = YStructSection(name, content, parent=self, root=self.root,
                                    override_manager=self.manager,
                                    resolve_path=rpath)

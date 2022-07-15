@@ -4,8 +4,8 @@ checks:
       config:
         handler: hotsos.core.plugins.mysql.MySQLConfig
         assertions:
-          max_connections:
-            ops: [[gt, 4190]]
+          key: max_connections
+          ops: [[gt, 4190]]
   file_exists:
     requires:
       path: etc/systemd/system/mysql.service.d/charm-nofile.conf

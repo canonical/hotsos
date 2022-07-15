@@ -94,7 +94,7 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     def test_1852502(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.journalctl.return_value = \
@@ -148,7 +148,7 @@ class TestJujuScenarios(JujuTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('charm_checks.yaml'))
     def test_unit_checks(self, mock_cli):

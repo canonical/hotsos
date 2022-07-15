@@ -3,18 +3,15 @@ import re
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.searchtools import SearchDef
-from hotsos.core.plugins.openstack.openstack import OpenstackEventChecksBase
-from hotsos.core.searchtools import FileSearcher
+from hotsos.core.plugins.openstack.openstack import OpenstackChecksBase
+from hotsos.core.searchtools import FileSearcher, SearchDef
 
 
-class AgentExceptionChecks(OpenstackEventChecksBase):
+class AgentExceptionChecks(OpenstackChecksBase):
 
     def __init__(self):
-        # NOTE: we are OpenstackEventChecksBase to get the call structure but
-        # we dont currently use yaml to define out searches.
-        super().__init__(yaml_defs_group='agent-exceptions',
-                         searchobj=FileSearcher())
+        super().__init__()
+        self.searchobj = FileSearcher()
         # The following are expected to be WARNING
         self._agent_warnings = {
             'nova': ['MessagingTimeout',
@@ -157,6 +154,7 @@ class AgentExceptionChecks(OpenstackEventChecksBase):
         return _final_results
 
     def __summary_agent_exceptions(self):
-        out = self.run_checks()
-        if out:
-            return out
+        self.load()
+        ret = self.run(self.searchobj.search())
+        if ret:
+            return ret

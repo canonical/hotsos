@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.issues import IssuesManager, CephOSDError
-from hotsos.core.ycheck.engine import CallbackHelper
+from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.plugins.storage.ceph import CephEventChecksBase
 from hotsos.core.searchtools import FileSearcher
 
@@ -12,9 +12,8 @@ CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='ceph',
-                         searchobj=FileSearcher(),
-                         callback_helper=EVENTCALLBACKS)
+        super().__init__(EVENTCALLBACKS, yaml_defs_group='ceph',
+                         searchobj=FileSearcher())
 
     @EVENTCALLBACKS.callback(event_group='ceph')
     def slow_requests(self, event):

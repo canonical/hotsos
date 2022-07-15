@@ -1,6 +1,6 @@
 import re
 
-from hotsos.core.ycheck.engine import CallbackHelper
+from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
 from hotsos.core.plugins.openvswitch.common import OpenvSwitchEventChecksBase
@@ -11,9 +11,8 @@ EVENTCALLBACKS = CallbackHelper()
 class OVSEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='ovs',
-                         searchobj=FileSearcher(),
-                         callback_helper=EVENTCALLBACKS)
+        super().__init__(EVENTCALLBACKS, yaml_defs_group='ovs',
+                         searchobj=FileSearcher())
 
     @property
     def summary_subkey(self):
@@ -139,9 +138,8 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 class OVNEventChecks(OpenvSwitchEventChecksBase):
 
     def __init__(self):
-        super().__init__(yaml_defs_group='ovn',
-                         searchobj=FileSearcher(),
-                         callback_helper=EVENTCALLBACKS)
+        super().__init__(EVENTCALLBACKS, yaml_defs_group='ovn',
+                         searchobj=FileSearcher())
 
     @property
     def summary_subkey(self):

@@ -5,7 +5,7 @@ from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.analytics import LogEventStats, SearchResultIndices
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core.ycheck.engine import CallbackHelper
+from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.issues import (
     IssueContext,
     IssuesManager,
@@ -29,7 +29,7 @@ VRRP_TRANSITION_WARN_THRESHOLD = 8
 class ApacheEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='apache', **kwargs)
 
     @EVENTCALLBACKS.callback(event_group='apache')
@@ -83,7 +83,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
 class APIEvents(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='http-requests', **kwargs)
 
     @EVENTCALLBACKS.callback(event_group='http-requests',
@@ -110,7 +110,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='neutron.agents', **kwargs)
 
     def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
@@ -154,7 +154,7 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
 class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='octavia', **kwargs)
 
     @EVENTCALLBACKS.callback(event_group='octavia',
@@ -197,7 +197,7 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 class NovaComputeEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='nova.nova-compute', **kwargs)
 
     @EVENTCALLBACKS.callback(event_group='nova.nova-compute')
@@ -213,7 +213,7 @@ class NovaComputeEventChecks(OpenstackEventChecksBase):
 class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='apparmor', **kwargs)
 
     @EVENTCALLBACKS.callback(event_group='apparmor',
@@ -236,7 +236,7 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
 class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='neutron.ml2-routers', **kwargs)
         self.cli = CLIHelper()
         self.ha_info = NeutronHAInfo()

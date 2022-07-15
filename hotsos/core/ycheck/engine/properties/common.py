@@ -3,7 +3,33 @@ import builtins
 import importlib
 
 from hotsos.core.log import log
-from hotsos.core.ystruct import YStructOverrideBase, YStructMappedOverrideBase
+from hotsos.core.ystruct import (
+    YStructOverrideBase,
+    YStructMappedOverrideBase,
+    YStructSection,
+)
+
+
+YPropertiesCatalog = []
+
+
+class YDefsSection(YStructSection):
+
+    def __init__(self, name, content):
+        """
+        @param name: name of defs group
+        @param content: defs tree of type dict
+        """
+        super().__init__(name, content, override_handlers=YPropertiesCatalog,
+                         context=YDefsContext())
+
+
+def add_to_property_catalog(c):
+    """
+    Add property implementation to the global catalog.
+    """
+    YPropertiesCatalog.append(c)
+    return c
 
 
 def cached_yproperty_attr(f):
@@ -334,7 +360,7 @@ class YPropertyMappedOverrideBase(YPropertyBase, YStructMappedOverrideBase):
 
 
 class LogicalCollectionHandler(abc.ABC):
-    VALID_GROUP_KEYS = ['and', 'or', 'not']
+    VALID_GROUP_KEYS = ['and', 'or', 'nand', 'nor', 'xor', 'not']
     FINAL_RESULT_OP = 'and'
 
     @abc.abstractmethod
@@ -354,7 +380,7 @@ class LogicalCollectionHandler(abc.ABC):
                 try:
                     results.append(self.get_item_result_callback(entry))
                 except NotImplementedError:
-                    results.append(entry.result)
+                    results.append(entry())
 
         log.debug("group results: %s", results)
         return results
@@ -371,15 +397,24 @@ class LogicalCollectionHandler(abc.ABC):
 
     def run_logical_op_group(self, logical_op_group):
         if logical_op_group._override_name == 'and':
-            result = all(self.group_results(logical_op_group))
+            results = self.group_results(logical_op_group)
+            result = all(results)
+            log.debug("applied AND(%s) (result=%s)", results, result)
         elif logical_op_group._override_name == 'or':
-            result = any(self.group_results(logical_op_group))
-        elif logical_op_group._override_name == 'not':
-            # this is a NOR
-            result = not any(self.group_results(logical_op_group))
+            results = self.group_results(logical_op_group)
+            result = any(results)
+            log.debug("applied OR(%s) (result=%s)", results, result)
+        elif logical_op_group._override_name in ['nand', 'not']:
+            results = self.group_results(logical_op_group)
+            result = not all(results)
+            log.debug("applied NOT(AND((%s)) (result=%s)", results, result)
+        elif logical_op_group._override_name == 'nor':
+            results = self.group_results(logical_op_group)
+            result = not any(results)
+            log.debug("applied NOT(OR((%s)) (result=%s)", results, result)
         else:
-            log.warning("unknown operator '%s' found",
-                        logical_op_group._override_name)
+            raise Exception("unknown logical operator '{}' found".
+                            format(logical_op_group._override_name))
 
         return result
 
@@ -392,6 +427,7 @@ class LogicalCollectionHandler(abc.ABC):
                 if result is not None:
                     final_results.append(result)
 
+        log.debug("op groups result: %s", final_results)
         return final_results
 
     def run_collection(self):

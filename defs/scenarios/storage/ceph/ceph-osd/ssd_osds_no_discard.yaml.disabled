@@ -9,9 +9,9 @@ checks:
       config:
         handler: hotsos.core.plugins.storage.ceph.CephConfig
         assertions:
-          bdev enable_discard:
-            ops: [[ne, 'true']]
-            allow-unset: True
+          key: bdev enable_discard
+          ops: [[ne, 'true']]
+          allow-unset: True
 conclusions:
   ceph-ssd-osds-no-discard:
     decision:

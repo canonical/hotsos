@@ -159,7 +159,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('datapath-checks.yaml'))
     def test_ovs_dp_checks(self, mock_helper):
@@ -345,7 +345,7 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd_flapping.yaml'))
     def test_bfd_flapping_vswitchd_only(self, mock_cli):
@@ -369,7 +369,7 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd_flapping.yaml'))
     def test_bfd_flapping_cr_lrp_changes(self, mock_cli):

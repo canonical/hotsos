@@ -527,7 +527,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/bluefs_spillover.yaml'))
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.health_status',
                 'HEALTH_WARN')
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',

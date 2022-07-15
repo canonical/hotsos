@@ -140,31 +140,24 @@ list of groups of items organised by logical operator that will be used to
 determine their collective result. For example:
 
 ```
-and:
-  - C1
-  - C2
-or:
-  - C3
-  - C4
+and: [C1, C2]
+or: [C3, C4]
 not: C5
+nor: [C1, C5]
 ```
 
 This would be the same as doing:
 
 ```
-(C1 and C2) and (C3 or C4) and (not C5)
+(C1 and C2) and (C3 or C4) and (not C5) and not (C1 or C5)
 ```
 
 And this can be implemented as a list of dictionaries for a more complex
 operation e.g.
 
 ```
-- and:
-    - C1
-    - C2
-  or:
-    - C3
-    - C4
+- and: [C1, C2]
+  or: [C3, C4]
 - not: C5
   and: C6
 ```
@@ -363,10 +356,10 @@ REQ_DEFS
   individual results of each REQ_DEF or REQ_GROUP.
 
 REQ_DEF
-  A single requirement REQ_TYPE.
+  A single requirement (see Requirement Types).
 
 REQ_GROUP
-  A LOGICAL_COLLECTION or one or more REQ_DEF e.g.
+  A LOGICAL_COLLECTION of one or more REQ_DEF e.g.
 
   and:
     - REQ_DEF1
@@ -375,119 +368,6 @@ REQ_GROUP
   or:
     - REQ_DEF3
     - ...
-
-REQ_TYPE
-  PATH
-    This has the same format as the input property and is used to
-    assert if a path exists or not. Note that all-logs is not applied
-    to the path. 
-
-    CACHE_KEYS
-      path
-
-  PROPERTY
-    Calls a Python property and if provided, applies a set of
-    operators. If no operators are specified, the "truth" operator
-    is applied to get a True/False result.
- 
-    Format:
-
-    property: <import path to python property>
-
-    or
-
-    property:
-      path: <import path to python property>
-      ops: OPS_LIST
-
-    CACHE_KEYS
-      property
-      ops
-      value_actual
-
-  APT
-    Takes an apt package name or APT_INFO. Returns True if the package
-    exists and, if APT_INFO provided, version is within ranges.
-
-    Format:
-
-    apt: [package name|APT_INFO]
-
-    CACHE_KEYS
-      package
-      version
-
-  SNAP
-    Takes an snap package name. Returns True if the package
-    exists.
-
-    Format:
-
-    snap: package name
-
-    CACHE_KEYS
-      package
-
-  SYSTEMD
-    Takes a systemd service and optionally some parameters to check.
-    Returns True if service exists and, if provided, parameters match.
-    Short and long forms are supported as follows.
-    
-    If a service name is provided using the started-after parameter,
-    the start time of that service (if it exists) must be at least
-    120s behind the primary service. The grace period is to avoid
-    false-positives on boot where many services are often started at
-    once.
-
-    Format:
-
-    systemd: <service name>  (state is not checked here)
-
-    or
-
-    systemd:
-      <service name>: <service state>  (state is checked with default op 'eq')
-
-    or
-
-    systemd:
-      <service name>:
-        state: <service state>
-        op: <python operator>  (optional. default is 'eq')
-        started-after: <other service name>  (optional)
-
-    CACHE_KEYS
-      services
-
-  CONFIG
-    A dictionary containing the information required to perform some
-    config checks. The handler is typically a .
-
-    Format:
-
-    handler: <path>
-      Import path to an implementation of core.host_helpers.SectionalConfigBase.
-
-    path: <path>
-      Optional path (e.g. config file) to use as argument to handler.
-
-    invert-result: True|False
-      This can be used to invert the final assertions result e.g.
-      setting to False would be like doing not(and(assertions)).
-      Defaults to False (which is equiv. to and(assertions)).
-
-    assertions: <assertions>
-      A list of assertions where each item is a dicttionary containing:
-    
-      section: optional config file section name.
-      ops: OPS_LIST
-      value: expected value. Default is None.
-      allow-unset: whether the config key may be unset. Default is False.
-
-    CACHE_KEYS
-      ops
-      key
-      value_actual
 
 OPS_LIST
     List of tuples with the form (<operator>[,<arg2>]) i.e. each tuple has
@@ -499,20 +379,6 @@ OPS_LIST
 
     If more than one tuple is defined, the output of the first is the input
     to the second.
-
-APT_INFO
-  dictionary of package name and version ranges e.g.
-  
-  a-package-name:
-    - min: 0.0
-      max: 1.0
-    - min: 4.0
-      max: 5.0
-
-  NOTE: we currently only support a single package.
-
-CACHE_KEYS
-  passes
 ```
 
 usage
@@ -609,6 +475,160 @@ return a True/False value.
 
   search.apply_constraints(searchtools.SearchResultsCollection)
 
+```
+
+### Requirement Types
+
+#### path
+
+This has the same format as the input property and is used to
+assert if a path exists or not. Note that all-logs is not applied
+to the path. 
+
+format
+
+```
+path: <path>
+```
+
+```
+CACHE_KEYS
+  path
+```
+
+
+#### property
+Calls a Python property and if provided, applies a set of
+operators. If no operators are specified, the "truth" operator
+is applied to get a True/False result.
+
+format
+
+```
+property: <import path to python property>
+
+or
+
+property:
+  path: <import path to python property>
+  ops: OPS_LIST
+```
+
+```
+CACHE_KEYS
+  property
+  ops
+  value_actual
+```
+
+#### apt
+Takes an apt package name or APT_INFO. Returns True if the package
+exists and, if APT_INFO provided, version is within ranges.
+
+format
+
+```
+apt: [package name|APT_INFO]
+
+APT_INFO
+  dictionary of package name and version ranges e.g.
+  
+  mypackage:
+    - min: 0.0
+      max: 1.0
+    - min: 4.0
+      max: 5.0
+
+  NOTE: we currently only support a single package.
+```
+
+```
+CACHE_KEYS
+  package
+  version
+```
+
+#### snap
+Takes an snap package name. Returns True if the package
+exists.
+
+format
+
+```
+snap: package name
+```
+
+```
+CACHE_KEYS
+  package
+```
+
+#### systemd
+Takes a systemd service and optionally some parameters to check.
+Returns True if service exists and, if provided, parameters match.
+Short and long forms are supported as follows.
+
+If a service name is provided using the started-after parameter,
+the start time of that service (if it exists) must be at least
+120s behind the primary service. The grace period is to avoid
+false-positives on boot where many services are often started at
+once.
+
+format
+
+```
+systemd: <service name>  (state is not checked here)
+
+or
+
+systemd:
+  <service name>: <service state>  (state is checked with default op 'eq')
+
+or
+
+systemd:
+  <service name>:
+    state: <service state>
+    op: <python operator>  (optional. default is 'eq')
+    started-after: <other service name>  (optional)
+```
+
+```
+CACHE_KEYS
+  services
+```
+
+#### config
+A dictionary containing the information required to perform some
+config checks.
+
+format:
+
+```
+handler: <path>
+  Import path to an implementation of core.host_helpers.SectionalConfigBase.
+
+path: <path>
+  Optional path (e.g. config file) to use as argument to handler.
+
+assertions: ASSERTION
+  One or more ASSERTION can be defined and optionally grouped using
+  a [LogicalCollection](#logicalcollection). The
+  final result is either True/False for *passes*.
+
+ASSERTION
+  key: name of setting we want to check.    
+  section: optional config file section name.
+  value: expected value. Default is None.
+  ops: OPS_LIST
+  allow-unset: whether the config key may be unset. Default is False.
+```
+
+```
+CACHE_KEYS
+  ops
+  key
+  value_actual
 ```
 
 ### PropertyCollection

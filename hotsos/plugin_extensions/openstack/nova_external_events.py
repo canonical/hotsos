@@ -1,4 +1,4 @@
-from hotsos.core.ycheck.engine import CallbackHelper
+from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.searchtools import (
     SearchDef,
     FileSearcher,
@@ -16,7 +16,7 @@ EVENTCALLBACKS = CallbackHelper()
 class NovaExternalEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, callback_helper=EVENTCALLBACKS,
+        super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='nova.external-events',
                          searchobj=FileSearcher(),
                          **kwargs,)

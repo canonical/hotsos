@@ -4,7 +4,7 @@ from hotsos.core.log import log
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
     YDefsSection,
-    ChecksBase,
+    YHandlerBase,
 )
 
 
@@ -24,14 +24,14 @@ class Scenario(object):
         return {c.name: c for c in self._conclusions}
 
 
-class YScenarioChecker(ChecksBase):
+class YScenarioChecker(YHandlerBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._scenarios = []
 
     def load(self):
-        plugin_content = YDefsLoader('scenarios').load_plugin_defs()
+        plugin_content = YDefsLoader('scenarios').plugin_defs
         if not plugin_content:
             return
 

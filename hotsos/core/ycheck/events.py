@@ -2,9 +2,50 @@ from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
-    ChecksBase,
+    YHandlerBase,
     YDefsSection,
 )
+
+
+class CallbackHelper(object):
+
+    def __init__(self):
+        self.callbacks = {}
+
+    def callback(self, event_group, event_names=None):
+        """
+        Register a method as a callback for a given event.
+
+        @param event_group: defs group containing these events. Needs to be
+                             for the current plugin.
+        @param event_names: optional list of event names. If none provided, the
+                            name of the decorated function is used.
+        """
+        def callback_inner(f):
+            def callback_inner2(*args, **kwargs):
+                return f(*args, **kwargs)
+
+            names = []
+            if event_names:
+                for name in event_names:
+                    # convert event name to valid method name
+                    names.append('{}.{}'.format(event_group,
+                                                name.replace('-', '_')))
+            else:
+                names.append('{}.{}'.format(event_group, f.__name__))
+
+            for name in names:
+                if name in self.callbacks:
+                    raise Exception("A callback has already been registered "
+                                    "with name {}".format(name))
+
+                self.callbacks[name] = callback_inner2
+
+            return callback_inner2
+
+        # we don't need to return but we leave it so that we can unit test
+        # these methods.
+        return callback_inner
 
 
 class EventCheckResult(object):
@@ -127,14 +168,14 @@ class EventProcessingUtils(object):
             return sorted_dict(info, reverse=not key_by_date)
 
 
-class YEventCheckerBase(ChecksBase, EventProcessingUtils):
+class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
 
-    def __init__(self, *args, callback_helper=None, **kwargs):
+    def __init__(self, callback_helper, *args, **kwargs):
         """
-        @param callback_helper: optionally provide a callback helper. This is
-        used to "register" callbacks against events defined in the yaml so
-        that they are automatically called when corresponding events are
-        detected.
+        @param callback_helper: CallbackHelper object used to register
+        callbacks against events defined in the yaml. When an event has results
+        its associated callback with the same name is called to process the
+        results.
         """
         super().__init__(*args, **kwargs)
         self.callback_helper = callback_helper
@@ -151,7 +192,7 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
         Note that multi-line events can be overlapping hence why we don't use a
         SequenceSearchDef (we use core.analytics.LogEventStats).
         """
-        plugin = YDefsLoader('events').load_plugin_defs()
+        plugin = YDefsLoader('events').plugin_defs
         if not plugin:
             return
 
@@ -210,20 +251,16 @@ class YEventCheckerBase(ChecksBase, EventProcessingUtils):
 
     def run(self, results):
         """
-        Provide a default way for results to be processed. This requires a
-        CallbackHelper to have been provided and callbacks registered. If that
-        is not the case the method must be re-implemented with another means
-        of processing results.
+        Provide a default way for results to be processed.
 
         See defs/events.yaml for definitions.
         """
         if self.__final_event_results:
             return self.__final_event_results
 
-        if self.callback_helper is None or not self.callback_helper.callbacks:
-            # If there are no callbacks registered this method must be
-            # (re)implemented.
-            raise NotImplementedError
+        if not self.callback_helper.callbacks:
+            raise Exception("need to register at least one callback for "
+                            "event handler.")
 
         info = {}
         for section_name, section in self.event_definitions.items():

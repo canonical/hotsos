@@ -6,14 +6,14 @@ checks:
     requires:
       config:
         handler: hotsos.core.plugins.storage.bcache.BdevsConfig
-        invert-result: True
         assertions:
-          sequential_cutoff:
-            ops: [[eq, '0.0k']]
-          cache_mode:
-            ops: [[eq, 'writethrough [writeback] writearound none']]
-          writeback_percent:
-            ops: [[ge, 10]]
+          not:
+            - key: sequential_cutoff
+              ops: [[eq, '0.0k']]
+            - key: cache_mode
+              ops: [[eq, 'writethrough [writeback] writearound none']]
+            - key: writeback_percent
+              ops: [[ge, 10]]
 conclusions:
   invalid-bdev-config:
     decision:

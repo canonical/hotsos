@@ -5,50 +5,15 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 
 
-class CallbackHelper(object):
-
-    def __init__(self):
-        self.callbacks = {}
-
-    def callback(self, event_group, event_names=None):
-        """
-        Register a method as a callback for a given event.
-
-        @param event_group: defs group containing these events. Needs to be
-                             for the current plugin.
-        @param event_names: optional list of event names. If none provided, the
-                            name of the decorated function is used.
-        """
-        def callback_inner(f):
-            def callback_inner2(*args, **kwargs):
-                return f(*args, **kwargs)
-
-            names = []
-            if event_names:
-                for name in event_names:
-                    # convert event name to valid method name
-                    names.append('{}.{}'.format(event_group,
-                                                name.replace('-', '_')))
-            else:
-                names.append('{}.{}'.format(event_group, f.__name__))
-
-            for name in names:
-                if name in self.callbacks:
-                    raise Exception("A callback has already been registered "
-                                    "with name {}".format(name))
-
-                self.callbacks[name] = callback_inner2
-
-            return callback_inner2
-
-        # we don't need to return but we leave it so that we can unit test
-        # these methods.
-        return callback_inner
-
-
 class YDefsLoader(object):
+    """ Load yaml definitions. """
+
     def __init__(self, ytype):
+        """
+        @param ytype: the type of defs we are loading i.e. defs/<ytype>
+        """
         self.ytype = ytype
+        self._loaded_defs = None
         self.stats_num_files_loaded = 0
 
     def _is_def(self, abs_path):
@@ -89,43 +54,28 @@ class YDefsLoader(object):
 
     @property
     def plugin_defs(self):
+        """ Load yaml defs for the current plugin and type. """
+        log.debug('loading %s definitions for plugin=%s', self.ytype,
+                  HotSOSConfig.PLUGIN_NAME)
+
+        if self._loaded_defs:
+            return self._loaded_defs
+
         path = os.path.join(HotSOSConfig.PLUGIN_YAML_DEFS, self.ytype,
                             HotSOSConfig.PLUGIN_NAME)
         # reset
         self.stats_num_files_loaded = 0
         if os.path.isdir(path):
-            _defs = self._get_defs_recursive(path)
+            loaded = self._get_defs_recursive(path)
             log.debug("YDefsLoader: plugin %s loaded %s files",
                       HotSOSConfig.PLUGIN_NAME, self.stats_num_files_loaded)
             # only return if we loaded actual definitions (not just globals)
             if self.stats_num_files_loaded:
-                return _defs
-
-    @property
-    def plugin_defs_legacy(self):
-        path = os.path.join(HotSOSConfig.PLUGIN_YAML_DEFS,
-                            '{}.yaml'.format(self.ytype))
-        if not os.path.exists(path):
-            return {}
-
-        log.debug("using legacy defs path %s", path)
-        with open(path) as fd:
-            defs = yaml.safe_load(fd.read()) or {}
-
-        return defs.get(HotSOSConfig.PLUGIN_NAME, {})
-
-    def load_plugin_defs(self):
-        log.debug('loading %s definitions for plugin=%s', self.ytype,
-                  HotSOSConfig.PLUGIN_NAME)
-
-        yaml_defs = self.plugin_defs
-        if not yaml_defs:
-            yaml_defs = self.plugin_defs_legacy
-
-        return yaml_defs
+                self._loaded_defs = loaded
+                return loaded
 
 
-class ChecksBase(object):
+class YHandlerBase(object):
 
     def __init__(self, *args, yaml_defs_group=None, searchobj=None, **kwargs):
         """

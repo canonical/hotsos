@@ -28,15 +28,15 @@ checks:
         # We will need a better way to check the actual osd config
         handler: hotsos.core.plugins.storage.ceph.CephConfig
         assertions:
-          bluefs_buffered_io:
-            ops: [[eq, 'true']]
+          key: bluefs_buffered_io
+          ops: [[eq, 'true']]
   bcache_cache_available_percent_check:
     requires:
       config:
         handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
         assertions:
-          cache_available_percent:
-            ops: [[lt, 70]]
+          key: cache_available_percent
+          ops: [[lt, 70]]
 conclusions:
   node_affected_by_bug_1936136:
     decision:

@@ -6,12 +6,12 @@ checks:
     requires:
       config:
         handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
-        invert-result: True
         assertions:
-          congested_read_threshold_us:
-            ops: [[eq, 0]]
-          congested_write_threshold_us:
-            ops: [[eq, 0]]
+          not:
+            - key: congested_read_threshold_us
+              ops: [[eq, 0]]
+            - key: congested_write_threshold_us
+              ops: [[eq, 0]]
   cset_config_lp1900438_limit:
     requires:
       config:
@@ -19,8 +19,8 @@ checks:
         assertions:
           # The real limit is 30 but we go just above in case bcache is flapping
           # just above and below the limit.
-          cache_available_percent:
-            ops: [[le, 33]]
+          key: cache_available_percent
+          ops: [[le, 33]]
 conclusions:
   cset-has-invalid-config:
     decision:

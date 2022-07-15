@@ -11,21 +11,21 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.searchtools import FileSearcher, SearchDef
-from hotsos.core import ycheck
+from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.ycheck import (
     events,
     scenarios,
 )
 from hotsos.core.ycheck.engine import (
-    CallbackHelper,
     YDefsSection,
     YDefsLoader,
 )
-from hotsos.core.ycheck.engine.properties_common import (
+from hotsos.core.ycheck.events import CallbackHelper
+from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
     cached_yproperty_attr,
 )
-from hotsos.core.ycheck.engine.properties import YPropertySearch
+from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 
 
 class TestProperty(YPropertyBase):
@@ -47,6 +47,10 @@ class TestProperty(YPropertyBase):
         return False
 
 
+class TestConfig(SectionalConfigBase):
+    pass
+
+
 class FakeServiceObjectManager(object):
 
     def __init__(self, start_times):
@@ -63,6 +67,32 @@ class FakeServiceObject(object):
         self.name = name
         self.state = state
         self.start_time = start_time
+
+
+def init_test_scenario(yaml_contents, set_data_root=True):
+    """
+    Create a temporary defs path with a scenario yaml under it.
+
+    @param param yaml_contents: yaml contents of scenario def.
+    @param param set_data_root: by default the DATA_ROOT will point to a
+                                temporary dir. Some tests may want to keep
+                                the original one and can do that by setting
+                                this to False.
+    """
+    def init_test_scenario_inner1(f):
+        def init_test_scenario_inner2(*args, **kwargs):
+            with tempfile.TemporaryDirectory() as dtmp:
+                setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
+                if set_data_root:
+                    setup_config(DATA_ROOT=dtmp)
+                yroot = os.path.join(dtmp, 'scenarios', 'myplugin')
+                yfile = os.path.join(yroot, 'test.yaml')
+                os.makedirs(os.path.dirname(yfile))
+                open(yfile, 'w').write(yaml_contents)
+                return f(*args, **kwargs)
+
+        return init_test_scenario_inner2
+    return init_test_scenario_inner1
 
 
 YDEF_NESTED_LOGIC = """
@@ -190,14 +220,12 @@ pluginX:
 """
 
 YAML_DEF_REQUIRES_MAPPED = """
-myplugin:
-  myscenario:
-    checks:
-      is_exists_mapped:
-        systemd: nova-compute
-      is_exists_unmapped:
-        requires:
-          systemd: nova-compute
+checks:
+  is_exists_mapped:
+    systemd: nova-compute
+  is_exists_unmapped:
+    requires:
+      systemd: nova-compute
 """
 
 YAML_DEF_REQUIRES_SYSTEMD_FAIL_2 = """
@@ -309,105 +337,141 @@ myplugin:
 
 
 SCENARIO_W_ERROR = r"""
-myplugin:
-  scenarioA:
-    checks:
-      property_no_error:
-        property: tests.unit.test_ycheck.TestProperty.always_true
-    conclusions:
-      c1:
-        decision: property_no_error
-        raises:
-          type: SystemWarning
-          message: foo
-  scenarioB:
-    checks:
-      property_w_error:
-        property: tests.unit.test_ycheck.TestProperty.i_dont_exist
-    conclusions:
-      c1:
-        decision: property_w_error
-        raises:
-          type: SystemWarning
-          message: foo
+scenarioA:
+  checks:
+    property_no_error:
+      property: tests.unit.test_ycheck.TestProperty.always_true
+  conclusions:
+    c1:
+      decision: property_no_error
+      raises:
+        type: SystemWarning
+        message: foo
+scenarioB:
+  checks:
+    property_w_error:
+      property: tests.unit.test_ycheck.TestProperty.i_dont_exist
+  conclusions:
+    c1:
+      decision: property_w_error
+      raises:
+        type: SystemWarning
+        message: foo
 """  # noqa
 
 
 SCENARIO_CHECKS = r"""
-myplugin:
-  myscenario:
-    checks:
-      logmatch:
-        input:
-          path: foo.log
-        expr: '^([0-9-]+)\S* (\S+) .+'
-        constraints:
-          min-results: 3
-          search-period-hours: 24
-          search-result-age-hours: 48
-      property_true_shortform:
-        requires:
-          property: hotsos.core.plugins.system.SystemBase.virtualisation_type
-      property_has_value_longform:
-        requires:
-          property:
-            path: hotsos.core.plugins.system.SystemBase.virtualisation_type
-            ops: [[eq, kvm], [truth], [not_], [not_]]
-      apt_pkg_exists:
-        requires:
-          apt: nova-compute
-      snap_pkg_exists:
-        requires:
-          snap: core20
-      service_exists_short:
-        requires:
-          systemd: nova-compute
-      service_exists_and_enabled:
-        requires:
-          systemd:
-            nova-compute: enabled
-      service_exists_not_enabled:
-        requires:
-          systemd:
-            nova-compute:
-              state: enabled
-              op: ne
-    conclusions:
-      justlog:
-        priority: 1
-        decision: logmatch
-        raises:
-          type: SystemWarning
-          message: log matched {num} times
-          format-dict:
-            num: '@checks.logmatch.search.results:len'
-      logandsnap:
-        priority: 2
-        decision:
-          and:
-            - logmatch
-            - snap_pkg_exists
-        raises:
-          type: SystemWarning
-          message: log matched {num} times and snap exists
-          format-dict:
-            num: '@checks.logmatch.search.results:len'
-      logandsnapandservice:
-        priority: 3
-        decision:
-          and:
-            - logmatch
-            - snap_pkg_exists
-            - service_exists_short
-            - service_exists_and_enabled
-            - property_true_shortform
-            - property_has_value_longform
-        raises:
-          type: SystemWarning
-          message: log matched {num} times, snap and service exists
-          format-dict:
-            num: '@checks.logmatch.search.results:len'
+checks:
+  logmatch:
+    input:
+      path: foo.log
+    expr: '^([0-9-]+)\S* (\S+) .+'
+    constraints:
+      min-results: 3
+      search-period-hours: 24
+      search-result-age-hours: 48
+  property_true_shortform:
+    requires:
+      property: hotsos.core.plugins.system.SystemBase.virtualisation_type
+  property_has_value_longform:
+    requires:
+      property:
+        path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+        ops: [[eq, kvm], [truth], [not_], [not_]]
+  apt_pkg_exists:
+    requires:
+      apt: nova-compute
+  snap_pkg_exists:
+    requires:
+      snap: core20
+  service_exists_short:
+    requires:
+      systemd: nova-compute
+  service_exists_and_enabled:
+    requires:
+      systemd:
+        nova-compute: enabled
+  service_exists_not_enabled:
+    requires:
+      systemd:
+        nova-compute:
+          state: enabled
+          op: ne
+conclusions:
+  justlog:
+    priority: 1
+    decision: logmatch
+    raises:
+      type: SystemWarning
+      message: log matched {num} times
+      format-dict:
+        num: '@checks.logmatch.search.results:len'
+  logandsnap:
+    priority: 2
+    decision:
+      and:
+        - logmatch
+        - snap_pkg_exists
+    raises:
+      type: SystemWarning
+      message: log matched {num} times and snap exists
+      format-dict:
+        num: '@checks.logmatch.search.results:len'
+  logandsnapandservice:
+    priority: 3
+    decision:
+      and:
+        - logmatch
+        - snap_pkg_exists
+        - service_exists_short
+        - service_exists_and_enabled
+        - property_true_shortform
+        - property_has_value_longform
+    raises:
+      type: SystemWarning
+      message: log matched {num} times, snap and service exists
+      format-dict:
+        num: '@checks.logmatch.search.results:len'
 """  # noqa
+
+
+CONFIG_SCENARIO = """
+checks:
+  cfg_is_bad:
+    config:
+      handler: tests.unit.test_ycheck.TestConfig
+      path: test.conf
+      assertions:
+        - key: key1
+          section: DEFAULT
+          ops: [[lt, 102]]
+        - key: key1
+          section: DEFAULT
+          ops: [[gt, 100]]
+  cfg_is_bad2:
+    config:
+      handler: tests.unit.test_ycheck.TestConfig
+      path: test.conf
+      assertions:
+        not:
+          - key: key1
+            section: DEFAULT
+            ops: [[lt, 103]]
+          - key: key1
+            section: DEFAULT
+            ops: [[gt, 101]]
+conclusions:
+  cfg_is_bad:
+    decision: cfg_is_bad
+    raises:
+      type: SystemWarning
+      message: cfg is bad
+  cfg_is_bad2:
+    decision: cfg_is_bad2
+    raises:
+      type: SystemWarning
+      message: cfg is bad2
+"""
 
 
 class TestYamlChecks(utils.BaseTestCase):
@@ -473,7 +537,10 @@ class TestYamlChecks(utils.BaseTestCase):
             data_file = os.path.join(dtmp, 'data.txt')
             _yaml = YAML_DEF_EXPR_TYPES.format(
                                              path=os.path.basename(data_file))
-            open(os.path.join(dtmp, 'events.yaml'), 'w').write(_yaml)
+            yroot = os.path.join(dtmp, 'events', 'myplugin')
+            yfile = os.path.join(yroot, 'mygroup.yaml')
+            os.makedirs(os.path.dirname(yfile))
+            open(yfile, 'w').write(_yaml)
             open(data_file, 'w').write('hello\nbrave\nworld\n')
             plugin_checks = yaml.safe_load(_yaml).get('myplugin')
             for name, group in plugin_checks.items():
@@ -490,9 +557,9 @@ class TestYamlChecks(utils.BaseTestCase):
 
             class MyEventHandler(events.YEventCheckerBase):
                 def __init__(self):
-                    super().__init__(yaml_defs_group='mygroup',
-                                     searchobj=FileSearcher(),
-                                     callback_helper=EVENTCALLBACKS)
+                    super().__init__(EVENTCALLBACKS,
+                                     yaml_defs_group='mygroup',
+                                     searchobj=FileSearcher())
 
                 @EVENTCALLBACKS.callback(event_group='mygroup')
                 def my_sequence_search(self, event):
@@ -535,92 +602,82 @@ class TestYamlChecks(utils.BaseTestCase):
                               'my-passthrough-search',
                               'my-pass-search'])
 
-    @mock.patch.object(ycheck.engine.properties, 'APTPackageChecksBase')
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
+                'APTPackageChecksBase')
     def test_yaml_def_scenarios_no_issue(self, apt_check):
         apt_check.is_installed.return_value = True
         setup_config(PLUGIN_NAME='juju')
         scenarios.YScenarioChecker()()
         self.assertEqual(IssuesManager().load_issues(), {})
 
+    @init_test_scenario(SCENARIO_CHECKS)
     def test_yaml_def_scenario_checks_false(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
-                         PLUGIN_NAME='myplugin')
-            logfile = os.path.join(dtmp, 'foo.log')
-            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
-                                                               SCENARIO_CHECKS)
-            contents = ['2021-04-01 00:31:00.000 an event\n']
-            self._create_search_results(logfile, contents)
-            checker = scenarios.YScenarioChecker()
-            checker.load()
-            self.assertEqual(len(checker.scenarios), 1)
-            for scenario in checker.scenarios:
-                for check in scenario.checks.values():
+        logfile = os.path.join(HotSOSConfig.DATA_ROOT, 'foo.log')
+        contents = ['2021-04-01 00:31:00.000 an event\n']
+        self._create_search_results(logfile, contents)
+        checker = scenarios.YScenarioChecker()
+        checker.load()
+        self.assertEqual(len(checker.scenarios), 1)
+        for scenario in checker.scenarios:
+            for check in scenario.checks.values():
+                self.assertFalse(check.result)
+
+        # now run the scenarios
+        checker()
+
+        self.assertEqual(IssuesManager().load_issues(), {})
+
+    @init_test_scenario(SCENARIO_CHECKS, set_data_root=False)
+    def test_yaml_def_scenario_checks_requires(self):
+        checker = scenarios.YScenarioChecker()
+        checker.load()
+        self.assertEqual(len(checker.scenarios), 1)
+        checked = 0
+        for scenario in checker.scenarios:
+            for check in scenario.checks.values():
+                if check.name == 'apt_pkg_exists':
+                    checked += 1
+                    self.assertTrue(check.result)
+                elif check.name == 'snap_pkg_exists':
+                    checked += 1
+                    self.assertTrue(check.result)
+                elif check.name == 'service_exists_and_enabled':
+                    checked += 1
+                    self.assertTrue(check.result)
+                elif check.name == 'service_exists_not_enabled':
+                    checked += 1
                     self.assertFalse(check.result)
 
-            # now run the scenarios
-            checker()
+        self.assertEqual(checked, 4)
 
-            self.assertEqual(IssuesManager().load_issues(), {})
+        # now run the scenarios
+        checker()
 
-    def test_yaml_def_scenario_checks_requires(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
-            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
-                                                               SCENARIO_CHECKS)
-            checker = scenarios.YScenarioChecker()
-            checker.load()
-            self.assertEqual(len(checker.scenarios), 1)
-            checked = 0
-            for scenario in checker.scenarios:
-                for check in scenario.checks.values():
-                    if check.name == 'apt_pkg_exists':
-                        checked += 1
-                        self.assertTrue(check.result)
-                    elif check.name == 'snap_pkg_exists':
-                        checked += 1
-                        self.assertTrue(check.result)
-                    elif check.name == 'service_exists_and_enabled':
-                        checked += 1
-                        self.assertTrue(check.result)
-                    elif check.name == 'service_exists_not_enabled':
-                        checked += 1
-                        self.assertFalse(check.result)
+        self.assertEqual(IssuesManager().load_issues(), {})
 
-            self.assertEqual(checked, 4)
-
-            # now run the scenarios
-            checker()
-
-            self.assertEqual(IssuesManager().load_issues(), {})
-
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
+    @init_test_scenario(SCENARIO_CHECKS)
     def test_yaml_def_scenario_checks_expr(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
-                         PLUGIN_NAME='myplugin')
-            logfile = os.path.join(dtmp, 'foo.log')
-            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
-                                                               SCENARIO_CHECKS)
-            contents = ['2021-04-01 00:31:00.000 an event\n',
-                        '2021-04-01 00:32:00.000 an event\n',
-                        '2021-04-01 00:33:00.000 an event\n',
-                        '2021-04-02 00:00:00.000 an event\n',
-                        '2021-04-02 00:36:00.000 an event\n',
-                        ]
-            self._create_search_results(logfile, contents)
-            checker = scenarios.YScenarioChecker()
-            checker.load()
-            self.assertEqual(len(checker.scenarios), 1)
-            for scenario in checker.scenarios:
-                for check in scenario.checks.values():
-                    if check.name == 'logmatch':
-                        self.assertTrue(check.result)
+        logfile = os.path.join(HotSOSConfig.DATA_ROOT, 'foo.log')
+        contents = ['2021-04-01 00:31:00.000 an event\n',
+                    '2021-04-01 00:32:00.000 an event\n',
+                    '2021-04-01 00:33:00.000 an event\n',
+                    '2021-04-02 00:00:00.000 an event\n',
+                    '2021-04-02 00:36:00.000 an event\n',
+                    ]
+        self._create_search_results(logfile, contents)
+        checker = scenarios.YScenarioChecker()
+        checker.load()
+        self.assertEqual(len(checker.scenarios), 1)
+        for scenario in checker.scenarios:
+            for check in scenario.checks.values():
+                if check.name == 'logmatch':
+                    self.assertTrue(check.result)
 
-            # now run the scenarios
-            checker.run()
+        # now run the scenarios
+        checker.run()
 
         msg = ("log matched 4 times")
         issues = list(IssuesStore().load().values())[0]
@@ -671,7 +728,7 @@ class TestYamlChecks(utils.BaseTestCase):
         ts = YPropertySearch.get_datetime_from_result(result)
         self.assertEqual(ts, None)
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
@@ -767,7 +824,7 @@ class TestYamlChecks(utils.BaseTestCase):
                             'requires': {
                                 'property': 'foo'}},
                         'defs': {'foo': 'bar'}}
-            self.assertEqual(YDefsLoader('mytype').load_plugin_defs(),
+            self.assertEqual(YDefsLoader('mytype').plugin_defs,
                              expected)
 
             with open(defs, 'a') as fd:
@@ -781,7 +838,7 @@ class TestYamlChecks(utils.BaseTestCase):
                             'foo': 'bar',
                             'requires': {
                                 'apt': 'apackage'}}}
-            self.assertEqual(YDefsLoader('mytype').load_plugin_defs(),
+            self.assertEqual(YDefsLoader('mytype').plugin_defs,
                              expected)
 
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
@@ -807,7 +864,7 @@ class TestYamlChecks(utils.BaseTestCase):
                     for item in op:
                         for rtype in item:
                             for entry in rtype:
-                                results.append(entry.result)
+                                results.append(entry())
 
             self.assertFalse(leaf.requires.passes)
 
@@ -891,7 +948,8 @@ class TestYamlChecks(utils.BaseTestCase):
         group = YDefsSection('test', requires)
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.APTPackageChecksBase')
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
+                'APTPackageChecksBase')
     def test_yaml_def_requires_apt(self, mock_apt):
         tested = 0
         expected = {'2.0': False,
@@ -966,47 +1024,60 @@ class TestYamlChecks(utils.BaseTestCase):
             for entry in mydef.leaf_sections:
                 self.assertFalse(entry.requires.passes)
 
+    @init_test_scenario(YDEF_NESTED_LOGIC)
     def test_yaml_def_nested_logic(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp)
-            plugin_dir = os.path.join(dtmp, 'scenarios',
-                                      HotSOSConfig.PLUGIN_NAME)
-            os.makedirs(plugin_dir)
-            open(os.path.join(plugin_dir, 'scenarios.yaml'),
-                 'w').write(YDEF_NESTED_LOGIC)
-            scenarios.YScenarioChecker()()
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual(sorted([issue['desc'] for issue in issues]),
-                             sorted(['conc1', 'conc3']))
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(['conc1', 'conc3']))
 
+    @init_test_scenario(YAML_DEF_REQUIRES_MAPPED, set_data_root=False)
     def test_yaml_def_mapped_overrides(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
-            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
-                                                      YAML_DEF_REQUIRES_MAPPED)
-            checker = scenarios.YScenarioChecker()
-            checker.load()
-            self.assertEqual(len(checker.scenarios), 1)
-            for scenario in checker.scenarios:
-                self.assertEqual(len(scenario.checks), 2)
-                for check in scenario.checks.values():
-                    self.assertTrue(check.result)
+        checker = scenarios.YScenarioChecker()
+        checker.load()
+        self.assertEqual(len(checker.scenarios), 1)
+        for scenario in checker.scenarios:
+            self.assertEqual(len(scenario.checks), 2)
+            for check in scenario.checks.values():
+                self.assertTrue(check.result)
 
+    @init_test_scenario(SCENARIO_W_ERROR)
     def test_failed_scenario_caught(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
-            open(os.path.join(dtmp, 'scenarios.yaml'), 'w').write(
-                                                      SCENARIO_W_ERROR)
-            scenarios.YScenarioChecker()()
-            issues = list(IssuesStore().load().values())
-            self.assertEqual(len(issues[0]), 2)
-            i_types = [i['type'] for i in issues[0]]
-            self.assertEqual(sorted(i_types),
-                             sorted(['SystemWarning',
-                                     'HotSOSScenariosWarning']))
-            for issue in issues[0]:
-                if issue['type'] == 'HotSOSScenariosWarning':
-                    msg = ("One or more scenarios failed to run (scenarioB) - "
-                           "run hotsos in debug mode (--debug) to get more "
-                           "detail")
-                    self.assertEqual(issue['desc'], msg)
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 2)
+        i_types = [i['type'] for i in issues[0]]
+        self.assertEqual(sorted(i_types),
+                         sorted(['SystemWarning',
+                                 'HotSOSScenariosWarning']))
+        for issue in issues[0]:
+            if issue['type'] == 'HotSOSScenariosWarning':
+                msg = ("One or more scenarios failed to run (scenarioB) - "
+                       "run hotsos in debug mode (--debug) to get more "
+                       "detail")
+                self.assertEqual(issue['desc'], msg)
+
+    @init_test_scenario(CONFIG_SCENARIO)
+    def test_config_scenario_fail(self):
+        cfg = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
+        contents = ['[DEFAULT]\nkey1 = 101\n']
+        with open(cfg, 'w') as fd:
+            for line in contents:
+                fd.write(line)
+
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues],
+                         ['cfg is bad', 'cfg is bad2'])
+
+    @init_test_scenario(CONFIG_SCENARIO)
+    def test_config_scenario_pass(self):
+        cfg = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
+        contents = ['[DEFAULT]\nkey1 = 102\n']
+        with open(cfg, 'w') as fd:
+            for line in contents:
+                fd.write(line)
+
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
