@@ -2,7 +2,7 @@ checks:
   has_1865127:
     input:
       path: 'var/log/ovn/ovn-controller.log'
-    expr: '.+ERR|bridge not found for localnet port \S+ with network name'
+    expr: '.+ERR\|bridge not found for localnet port \S+ with network name'
   1865127_broken_package:
     requires:
       apt:

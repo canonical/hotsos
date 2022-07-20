@@ -93,8 +93,6 @@ openvswitch:
     ovn-controller:
       unreasonably-long-poll-interval:
         '2022-02-17': 1
-      bridge-not-found-for-port:
-        '2022-02-17': 16
     ovsdb-server-nb:
       inactivity-probe:
         '2022-02-17':

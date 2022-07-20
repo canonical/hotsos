@@ -35,6 +35,7 @@ BFD_STATE_CHANGES = """
 
 CR_LRP_CHANGES = """
 2022-04-21T14:03:{secs}.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+2022-04-21T15:03:{secs}.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
 """  # noqa
 
 
@@ -207,8 +208,9 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                         '2022-02-16': 1,
                         '2022-02-17': 1},
                      'bridge-not-found-for-port': {
-                        '2022-02-16': 7,
-                        '2022-02-17': 16}}}
+                        '2022-02-16':
+                            {'provnet-aa3a4fec-a788-42e6-a773-bf3a0cdb52c2':
+                             1}}}}
         inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
