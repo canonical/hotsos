@@ -63,6 +63,9 @@ class JujuMachine(object):
         units = []
         # requires >= 2.9.x
         _units = self.config.get("values", {}).get("deployed-units", "")
+        if not _units:
+            return units
+
         for unit in _units.split(','):
             app = unit.partition('/')[0]
             id = unit.partition('/')[2]
