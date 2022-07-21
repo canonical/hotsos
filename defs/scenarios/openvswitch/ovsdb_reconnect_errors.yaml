@@ -1,0 +1,33 @@
+checks:
+  has_ovsdb_reconnection_error_neutron_server:
+    input: var/log/neutron/neutron-server.log
+    expr: '.+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
+    hint: ERROR
+  has_ovsdb_reconnection_error_neutron_ovn_metadata_agent:
+    input: var/log/neutron/neutron-ovn-metadata-agent.log
+    expr: '.+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
+    hint: ERROR
+  has_pyovs_with_reconnection_bug:
+    apt:
+      python3-openvswitch:
+        - min: 2.17.0
+          max: 2.17.1
+conclusions:
+  has_pyovs_reconnection_bug:
+    decision:
+      - has_pyovs_with_reconnection_bug
+      - or:
+          - has_ovsdb_reconnection_error_neutron_server
+          - has_ovsdb_reconnection_error_neutron_ovn_metadata_agent
+    raises:
+      type: LaunchpadBug
+      bug-id: 1980211
+      message: >-
+        Installed package '{package}' with version {version} has a known
+        bug whereby if connections to the ovn southbound db are closed, the
+        client fails to reconnect. This is usually resolved with a service
+        restart and a fix is available as of openvswitch version 2.17.2.
+      format-dict:
+        package: '@checks.has_pyovs_with_reconnection_bug.requires.package'
+        version: '@checks.has_pyovs_with_reconnection_bug.requires.version'
+
