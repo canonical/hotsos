@@ -6,7 +6,7 @@ from unittest import mock
 from . import utils
 
 from hotsos.core import issues
-from hotsos.core.issues.utils import IssuesStore
+from hotsos.core.issues.utils import IssuesStore, KnownBugsStore
 from hotsos.core.config import setup_config
 from hotsos.core.plugins.openvswitch import OpenvSwitchBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
@@ -55,6 +55,10 @@ DPCTL_SHOW = r"""
     TX packets:51 errors:0 dropped:0 aborted:0 carrier:0
     collisions:0
     RX bytes:7878 (7.7 KiB)  TX bytes:5026 (4.9 KiB)
+"""  # noqa
+
+OVS_DB_RECONNECT_ERROR = """
+2022-07-04 20:03:32.405 2050177 ERROR ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send() on <class 'eventlet.green.ssl.GreenSSLSocket'>
 """  # noqa
 
 
@@ -394,4 +398,27 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                    'activity is causing significant load in ovn which may or '
                    'may not be expected.')
             issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovsdb_reconnect_errors.yaml'))
+    def test_ovsdb_reconnect_error(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ["ii  python3-openvswitch 2.17.0 amd64"]
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp, 'var/log/neutron/neutron-server.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(OVS_DB_RECONNECT_ERROR)
+
+            YScenarioChecker()()
+            msg = ("Installed package 'python3-openvswitch' with version "
+                   "2.17.0 has a known bug whereby if connections to the ovn "
+                   "southbound db are closed, the client fails to reconnect. "
+                   "This is usually resolved with a service restart and a "
+                   "fix is available as of openvswitch version 2.17.2.")
+            issues = list(KnownBugsStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
