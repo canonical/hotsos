@@ -375,7 +375,7 @@ class TestOpenstackBase(utils.BaseTestCase):
 class TestOpenstackPluginCore(TestOpenstackBase):
 
     def test_release_name(self):
-        base = openstack_core.OpenstackBase()
+        base = openstack_core.OpenstackChecksBase()
         self.assertEqual(base.release_name, 'ussuri')
 
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
@@ -383,7 +383,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         # 2030-04-30
         mock_date.return_value = '1903748400'
 
-        inst = openstack_core.OpenstackBase()
+        inst = openstack_core.OpenstackChecksBase()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertLessEqual(inst.days_to_eol, 0)
@@ -393,13 +393,13 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         # 2030-01-01
         mock_date.return_value = '1893466800'
 
-        inst = openstack_core.OpenstackBase()
+        inst = openstack_core.OpenstackChecksBase()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertGreater(inst.days_to_eol, 0)
 
     def test_project_catalog_package_exprs(self):
-        c = openstack_core.common.OSTProjectCatalog()
+        c = openstack_core.openstack.OSTProjectCatalog()
         core = ['ceilometer',
                 'octavia',
                 'placement',
@@ -454,7 +454,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         self.assertEqual(sorted(c.packages_dep_exprs), sorted(deps))
 
     def test_project_catalog_packages(self):
-        ost_base = openstack_core.OpenstackBase()
+        ost_base = openstack_core.OpenstackChecksBase()
         core = {'keystone-common': '2:17.0.1-0ubuntu1',
                 'neutron-common': '2:16.4.1-0ubuntu2',
                 'neutron-dhcp-agent': '2:16.4.1-0ubuntu2',
@@ -514,10 +514,9 @@ class TestOpenstackPluginCore(TestOpenstackBase):
                 'qemu-kvm': '1:4.2-3ubuntu6.19',
                 'radvd': '1:2.17-2'}
 
-        self.assertEqual(ost_base.apt_check.core, core)
-        _deps = set(ost_base.apt_check.all).symmetric_difference(
-                                                       ost_base.apt_check.core)
-        _deps = {k: ost_base.apt_check.all[k] for k in _deps}
+        self.assertEqual(ost_base.apt.core, core)
+        _deps = set(ost_base.apt.all).symmetric_difference(ost_base.apt.core)
+        _deps = {k: ost_base.apt.all[k] for k in _deps}
         self.assertEqual(_deps, deps)
 
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
@@ -566,9 +565,9 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["services"], expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.common.OSTProject.installed',
+    @mock.patch('hotsos.core.plugins.openstack.openstack.OSTProject.installed',
                 True)
-    @mock.patch('hotsos.core.plugins.openstack.OpenstackServiceChecksBase.'
+    @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
                 'openstack_installed', True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_get_summary_apache_service(self, mock_helper):
@@ -596,8 +595,8 @@ class TestOpenstackSummary(TestOpenstackBase):
                           'w') as fd:
                     fd.write(APT_UCA.format(rel))
 
-            with mock.patch('hotsos.core.plugins.openstack.OpenstackBase.'
-                            'apt_source_path', dtmp):
+            with mock.patch('hotsos.core.plugins.openstack.'
+                            'OpenstackChecksBase.apt_source_path', dtmp):
                 inst = summary.OpenstackSummary()
                 actual = self.part_output_to_actual(inst.output)
                 self.assertEqual(actual["release"], release_info)
@@ -832,9 +831,9 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         ret = host_helpers.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
 
-    @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
+    @mock.patch('hotsos.core.plugins.system.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
-    @mock.patch('hotsos.core.plugins.system.SystemBase.num_cpus', 16)
+    @mock.patch('hotsos.core.plugins.system.system.SystemBase.num_cpus', 16)
     @mock.patch('hotsos.core.plugins.kernel.config.KernelConfig.get',
                 lambda *args, **kwargs: range(9, 16))
     @mock.patch('hotsos.core.plugins.kernel.config.SystemdConfig.get',
@@ -1325,7 +1324,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.system.NUMAInfo.nodes',
+    @mock.patch('hotsos.core.plugins.system.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
     @mock.patch('hotsos.core.plugins.openstack.nova.OpenstackConfig')
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
@@ -1378,7 +1377,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted([msg1, msg2]))
 
-    @mock.patch('hotsos.core.plugins.openstack.common.OSTProject.installed',
+    @mock.patch('hotsos.core.plugins.openstack.openstack.OSTProject.installed',
                 True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',

@@ -9,7 +9,16 @@ from hotsos.core import (
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
-from hotsos.core.host_helpers.cli import CLIHelper, get_ps_axo_flags_available
+from hotsos.core.host_helpers import (
+    APTPackageChecksBase,
+    CLIHelper,
+    DPKGVersionCompare,
+    HostNetworkingHelper,
+    ServiceChecksBase,
+    SectionalConfigBase,
+    SVC_EXPR_TEMPLATES,
+)
+from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.plugins.storage.bcache import BcacheBase
 from hotsos.core.searchtools import (
@@ -60,7 +69,7 @@ CEPH_REL_INFO = {
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
 
-class CephConfig(host_helpers.SectionalConfigBase):
+class CephConfig(SectionalConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/ceph/ceph.conf')
         super().__init__(*args, path=path, **kwargs)
@@ -733,7 +742,7 @@ class CephDaemonBase(object):
             if not ret:
                 continue
 
-            expt_tmplt = host_helpers.SVC_EXPR_TEMPLATES["absolute"]
+            expt_tmplt = SVC_EXPR_TEMPLATES["absolute"]
             ret = re.compile(expt_tmplt.format(daemon)).search(line)
             if ret:
                 ps_info.append(ret.group(0))
@@ -822,11 +831,11 @@ class CephChecksBase(StorageBase):
         self.ceph_config = CephConfig()
         self.bcache = BcacheBase()
         self._local_osds = None
-        self.apt_check = host_helpers.APTPackageChecksBase(
-                                                core_pkgs=CEPH_PKGS_CORE,
-                                                other_pkgs=CEPH_PKGS_OTHER)
+        self.apt = APTPackageChecksBase(core_pkgs=CEPH_PKGS_CORE,
+                                        other_pkgs=CEPH_PKGS_OTHER)
+        self.systemd = ServiceChecksBase(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
-        self.cli = host_helpers.CLIHelper()
+        self.cli = CLIHelper()
         # create file-based caches of useful commands so they can be searched.
         self.cli_cache = {'ceph_volume_lvm_list':
                           self.cli.ceph_volume_lvm_list()}
@@ -845,7 +854,7 @@ class CephChecksBase(StorageBase):
 
     @property
     def plugin_runnable(self):
-        if self.apt_check.core:
+        if self.apt.core:
             return True
 
         return False
@@ -856,11 +865,10 @@ class CephChecksBase(StorageBase):
 
         # First try from package version (TODO: add more)
         pkg = 'ceph-common'
-        if pkg in self.apt_check.core:
+        if pkg in self.apt.core:
             for rel, ver in sorted(CEPH_REL_INFO[pkg].items(),
                                    key=lambda i: i[1], reverse=True):
-                if self.apt_check.core[pkg] > \
-                        host_helpers.DPKGVersionCompare(ver):
+                if self.apt.core[pkg] > DPKGVersionCompare(ver):
                     relname = rel
                     break
 
@@ -886,7 +894,7 @@ class CephChecksBase(StorageBase):
         if not any([net, addr]):
             return {}
 
-        nethelp = host_helpers.HostNetworkingHelper()
+        nethelp = HostNetworkingHelper()
         port = None
         if net:
             port = nethelp.get_interface_with_addr(net)
@@ -1025,7 +1033,7 @@ class CephDaemonConfigShow(object):
     """
 
     def __init__(self, osd_id):
-        self.cli = host_helpers.CLIHelper()
+        self.cli = CLIHelper()
         self.config = {}
         cexpr = re.compile(r'\s*"(\S+)":\s+"(\S+)".*')
         for line in self.cli.ceph_daemon_config_show(osd_id=osd_id):
@@ -1062,12 +1070,6 @@ class CephDaemonConfigShowAllOSDs(object):
                 vals.add(getattr(config, name))
 
         return list(vals)
-
-
-class CephServiceChecksBase(CephChecksBase, host_helpers.ServiceChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, service_exprs=CEPH_SERVICES_EXPRS, **kwargs)
 
 
 class CephEventChecksBase(CephChecksBase, YEventCheckerBase):

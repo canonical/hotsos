@@ -3,7 +3,7 @@ import re
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.openstack.openstack import OpenstackChecksBase
+from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 from hotsos.core.searchtools import FileSearcher, SearchDef
 
 
@@ -109,7 +109,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 agent_exceptions[exc_tag] = {}
 
             ts_date = result.get(1)
-            if self.agent_error_key_by_time:
+            if HotSOSConfig.AGENT_ERROR_KEY_BY_TIME:
                 # use hours and minutes only
                 ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
                 key = "{}_{}".format(ts_date, ts_time)

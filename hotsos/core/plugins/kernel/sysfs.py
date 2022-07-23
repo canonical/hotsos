@@ -3,7 +3,7 @@ import re
 
 from hotsos.core import host_helpers
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.system import SystemBase
+from hotsos.core.plugins.system.system import SystemBase
 
 
 class SYSFSBase(object):

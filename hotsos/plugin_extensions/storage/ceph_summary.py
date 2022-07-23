@@ -1,17 +1,9 @@
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.host_helpers import APTPackageChecksBase
-from hotsos.core.plugins.storage.ceph import (
-    CephServiceChecksBase,
-    CEPH_PKGS_CORE,
-    CEPH_PKGS_OTHER,
-)
+from hotsos.core.plugins.storage.ceph import CephChecksBase
 from hotsos.core.utils import sorted_dict
 
 
-class CephSummary(CephServiceChecksBase, APTPackageChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(core_pkgs=CEPH_PKGS_CORE, other_pkgs=CEPH_PKGS_OTHER)
+class CephSummary(CephChecksBase):
 
     @idx(0)
     def __summary_release(self):
@@ -21,16 +13,16 @@ class CephSummary(CephServiceChecksBase, APTPackageChecksBase):
     @idx(1)
     def __summary_services(self):
         """Get string info for running services."""
-        if self.services:
-            return {'systemd': self.service_info,
-                    'ps': self.process_info}
+        if self.systemd.services:
+            return {'systemd': self.systemd.service_info,
+                    'ps': self.systemd.process_info}
 
     @idx(2)
     def __summary_dpkg(self):
         # require at least one core package to be installed to include
         # this in the report.
-        if self.core:
-            return self.all_formatted
+        if self.apt.core:
+            return self.apt.all_formatted
 
     @idx(3)
     def __summary_status(self):

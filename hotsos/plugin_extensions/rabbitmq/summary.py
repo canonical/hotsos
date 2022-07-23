@@ -1,18 +1,18 @@
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.plugins.rabbitmq import RabbitMQServiceChecksBase
+from hotsos.core.plugins.rabbitmq import RabbitMQChecksBase
 
 
-class RabbitMQSummary(RabbitMQServiceChecksBase):
+class RabbitMQSummary(RabbitMQChecksBase):
 
     @idx(0)
     def __summary_services(self):
-        if self.services:
-            return {'systemd': self.service_info,
-                    'ps': self.process_info}
+        if self.systemd.services:
+            return {'systemd': self.systemd.service_info,
+                    'ps': self.systemd.process_info}
 
     @idx(1)
     def __summary_dpkg(self):
-        apt = self.apt_check.all_formatted
+        apt = self.apt.all_formatted
         if apt:
             return apt
 

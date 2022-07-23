@@ -6,18 +6,18 @@ class KubernetesSummary(KubernetesChecksBase):
 
     @idx(0)
     def __summary_services(self):
-        return {'systemd': self.service_info,
-                'ps': self.process_info}
+        return {'systemd': self.systemd.service_info,
+                'ps': self.systemd.process_info}
 
     @idx(1)
     def __summary_snaps(self):
-        snaps = self.snap_check.all_formatted
+        snaps = self.snaps.all_formatted
         if snaps:
             return snaps
 
     @idx(2)
     def __summary_dpkg(self):
-        dpkg = self.apt_check.all_formatted
+        dpkg = self.apt.all_formatted
         if dpkg:
             return dpkg
 

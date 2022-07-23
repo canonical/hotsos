@@ -9,12 +9,12 @@ from hotsos.core.searchtools import (
     FileSearcher,
     SearchDef,
 )
-from hotsos.core.plugins.openstack.common import OpenstackConfig
-from hotsos.core.plugins.openstack.openstack import (
+from hotsos.core.plugins.openstack.openstack import OpenstackConfig
+from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
-from hotsos.core.plugins.system import SystemBase
+from hotsos.core.plugins.system.system import SystemBase
 from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.core import utils
 

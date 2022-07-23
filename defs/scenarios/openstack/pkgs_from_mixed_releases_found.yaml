@@ -2,7 +2,7 @@ checks:
   has_mixed_pkg_releases:
     requires:
       property:
-        path: hotsos.core.plugins.openstack.OpenstackBase.installed_pkg_release_names
+        path: hotsos.core.plugins.openstack.OpenstackChecksBase.installed_pkg_release_names
         ops: [[length_hint], [gt, 1]]
 conclusions:
   mixed-pkg-releases:

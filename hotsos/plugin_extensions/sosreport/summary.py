@@ -11,8 +11,8 @@ class SOSReportSummary(SOSReportChecksBase):
 
     @idx(1)
     def __summary_dpkg(self):
-        if self.apt_check.core:
-            return self.apt_check.all_formatted
+        if self.apt.core:
+            return self.apt.all_formatted
 
     @idx(2)
     def __summary_plugin_timeouts(self):

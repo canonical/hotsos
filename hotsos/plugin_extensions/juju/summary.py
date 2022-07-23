@@ -1,14 +1,14 @@
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.plugins.juju import JujuServiceChecksBase
+from hotsos.core.plugins.juju import JujuChecksBase
 
 
-class JujuSummary(JujuServiceChecksBase):
+class JujuSummary(JujuChecksBase):
 
     @idx(0)
     def __summary_services(self):
-        if self.services:
-            return {'systemd': self.service_info,
-                    'ps': self.process_info}
+        if self.systemd.services:
+            return {'systemd': self.systemd.service_info,
+                    'ps': self.systemd.process_info}
 
     @idx(1)
     def __summary_version(self):

@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core.plugins.openstack.openstack import OpenstackChecksBase
+from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 
 
 class OpenstackNetworkChecks(OpenstackChecksBase):

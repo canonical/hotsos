@@ -7,7 +7,6 @@ import yaml
 from hotsos.core.log import log
 from hotsos.core import (
     host_helpers,
-    plugintools,
     utils,
 )
 from hotsos.core.config import HotSOSConfig
@@ -214,22 +213,3 @@ class JujuBase(object):
                     units.add(JujuUnit(ret[2], ret[1]))
 
         return units
-
-
-class JujuChecksBase(JujuBase, plugintools.PluginPartBase):
-
-    @property
-    def plugin_runnable(self):
-        return os.path.exists(self.juju_lib_path)
-
-
-class JujuServiceChecksBase(JujuChecksBase, host_helpers.ServiceChecksBase):
-    SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
-    JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
-                      r'jujud{}'.format(SVC_VALID_SUFFIX),
-                      # catch juju-db but filter out processes with juju-db in
-                      # their args list.
-                      r'(?:^|[^\s])juju-db{}'.format(SVC_VALID_SUFFIX)]
-
-    def __init__(self):
-        super().__init__(service_exprs=self.JUJU_SVC_EXPRS)

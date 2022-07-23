@@ -9,7 +9,7 @@ from . import utils
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.plugins.system import NUMAInfo
+from hotsos.core.plugins.system.system import NUMAInfo
 from hotsos.plugin_extensions.system import (
     checks,
     summary,
@@ -56,7 +56,7 @@ class TestSystemSummary(SystemTestsBase):
 
 class TestNUMAInfo(SystemTestsBase):
 
-    @mock.patch('hotsos.core.plugins.system.CLIHelper')
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
     def test_numainfo(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.numactl.return_value = NUMACTL
@@ -71,7 +71,7 @@ class TestNUMAInfo(SystemTestsBase):
         self.assertEqual(info.cores(), nodes[0] + nodes[1])
 
 
-class TestSystemChecks(SystemTestsBase):
+class TestSYSCtlChecks(SystemTestsBase):
 
     def test_sysctl_checks(self):
         expected = {'juju-charm-sysctl-mismatch': {
@@ -79,7 +79,7 @@ class TestSystemChecks(SystemTestsBase):
                             'conf': '50-ceph-osd-charm.conf',
                             'actual': '4194304',
                             'expected': '2097152'}}}
-        inst = checks.SystemChecks()
+        inst = checks.SYSCtlChecks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
 
@@ -135,7 +135,7 @@ class TestSystemChecks(SystemTestsBase):
                 fd.write("-kernel.pid_max\n")
                 fd.write("net.core.rmem_default = 1000000000\n")
 
-            inst = checks.SystemChecks()
+            inst = checks.SYSCtlChecks()
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual, expected)
 
@@ -144,7 +144,7 @@ class TestSystemScenarioChecks(SystemTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('unattended_upgrades.yaml'))
-    @mock.patch('hotsos.core.plugins.system.SystemBase.'
+    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
                 'unattended_upgrades_enabled', True)
     @mock.patch('hotsos.core.plugins.system.SystemChecksBase.plugin_runnable',
                 True)

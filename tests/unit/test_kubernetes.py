@@ -75,7 +75,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
             found = False
             for pkg in kubernetes_core.K8S_PACKAGES:
                 obj = summary.KubernetesSummary()
-                if obj.snap_check._get_snap_info_from_line(line, pkg):
+                if obj.snaps._get_snap_info_from_line(line, pkg):
                     found = True
                     break
 
@@ -101,8 +101,8 @@ class TestKubernetesScenarioChecks(KubernetesTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    @mock.patch('hotsos.core.plugins.system.SystemBase.virtualisation_type',
-                None)
+    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
+                'virtualisation_type', None)
     @mock.patch('hotsos.core.plugins.kernel.sysfs.CPU.'
                 'cpufreq_scaling_governor_all', 'powersave')
     @mock.patch('hotsos.core.plugins.kubernetes.KubernetesChecksBase.'

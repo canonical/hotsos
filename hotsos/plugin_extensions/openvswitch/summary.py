@@ -8,13 +8,13 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
     @idx(0)
     def __summary_services(self):
         """Get string info for running daemons."""
-        if self.svc_check.services:
-            return {'systemd': self.svc_check.service_info,
-                    'ps': self.svc_check.process_info}
+        if self.systemd.services:
+            return {'systemd': self.systemd.service_info,
+                    'ps': self.systemd.process_info}
 
     @idx(1)
     def __summary_dpkg(self):
-        return self.apt_check.all_formatted
+        return self.apt.all_formatted
 
     @idx(2)
     def __summary_config(self):

@@ -1,420 +1,244 @@
 from datetime import datetime
 import os
+import re
 
-from hotsos.core import host_helpers
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.openstack.exceptions import (
-    EXCEPTIONS_COMMON,
-    BARBICAN_EXCEPTIONS,
-    CASTELLAN_EXCEPTIONS,
-    CINDER_EXCEPTIONS,
-    GLANCE_EXCEPTIONS,
-    GLANCE_STORE_EXCEPTIONS,
-    KEYSTONE_EXCEPTIONS,
-    MANILA_EXCEPTIONS,
-    PLACEMENT_EXCEPTIONS,
-    PYTHON_LIBVIRT_EXCEPTIONS,
-    NOVA_EXCEPTIONS,
-    NEUTRON_EXCEPTIONS,
-    OCTAVIA_EXCEPTIONS,
-    OVSDBAPP_EXCEPTIONS,
-    MASAKARI_EXCEPTIONS,
+from hotsos.core.plugins.openstack.openstack import (
+    OSTProjectCatalog,
+    OST_EOL_INFO,
+    OST_REL_INFO,
+)
+from hotsos.core.log import log
+from hotsos.core import plugintools
+from hotsos.core.plugins.openstack.nova import NovaBase
+from hotsos.core.plugins.openstack.neutron import NeutronBase
+from hotsos.core.plugins.openstack.octavia import OctaviaBase
+from hotsos.core.ycheck.events import YEventCheckerBase
+from hotsos.core.host_helpers.cli import CLIHelper, CmdBase
+from hotsos.core.host_helpers import (
+    APTPackageChecksBase,
+    DockerImageChecksBase,
+    DPKGVersionCompare,
+    ServiceChecksBase,
+    SSLCertificate,
+    SSLCertificatesChecksBase,
 )
 
-# NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
-# versions page: https://ubuntu.com/openstack/docs/supported-versions
-OST_EOL_INFO = {
-    'xena': datetime(2023, 4, 30),
-    'wallaby': datetime(2024, 4, 30),
-    'victoria': datetime(2022, 4, 30),
-    'ussuri': datetime(2030, 4, 30),
-    'train': datetime(2021, 2, 28),
-    'stein': datetime(2022, 4, 30),
-    'rocky': datetime(2020, 2, 29),
-    'queens': datetime(2028, 4, 30),
-    'mitaka': datetime(2024, 4, 30)
-}
 
+class OpenstackBase(object):
 
-OST_REL_INFO = {
-    'barbican-common': {
-        'yoga': '1:14.0.0',
-        'xena': '1:13.0.0',
-        'wallaby': '1:12.0.0',
-        'victoria': '1:11.0.0',
-        'ussuri': '1:10.0.0',
-        'train': '1:9.0.0',
-        'stein': '1:8.0.0',
-        'rocky': '1:7.0.0',
-        'queens': '1:6.0.0'},
-    'cinder-common': {
-        'yoga': '2:20.0.0',
-        'xena': '2:19.0.0',
-        'wallaby': '2:18.0.0',
-        'victoria': '2:17.0.0',
-        'ussuri': '2:16.0.0',
-        'train': '2:15.0.0',
-        'stein': '2:14.0.0',
-        'rocky': '2:13.0.0',
-        'queens': '2:12.0.0'},
-    'designate-common': {
-        'yoga': '1:14.0.0',
-        'xena': '1:13.0.0',
-        'wallaby': '1:12.0.0',
-        'victoria': '1:11.0.0',
-        'ussuri': '1:10.0.0',
-        'train': '1:9.0.0',
-        'stein': '1:8.0.0',
-        'rocky': '1:7.0.0',
-        'queens': '1:6.0.0'},
-    'glance-common': {
-        'yoga': '2:24.0.0',
-        'xena': '2:23.0.0',
-        'wallaby': '2:22.0.0',
-        'victoria': '2:21.0.0',
-        'ussuri': '2:20.0.0',
-        'train': '2:19.0.0',
-        'stein': '2:18.0.0',
-        'rocky': '2:17.0.0',
-        'queens': '2:16.0.0'},
-    'heat-common': {
-        'yoga': '1:18.0.0',
-        'xena': '1:17.0.0',
-        'wallaby': '1:16.0.0',
-        'victoria': '1:15.0.0',
-        'ussuri': '1:14.0.0',
-        'train': '1:13.0.0',
-        'stein': '1:12.0.0',
-        'rocky': '1:11.0.0',
-        'queens': '1:10.0.0'},
-    'keystone': {
-        'yoga': '2:21.0.0',
-        'xena': '2:20.0.0',
-        'wallaby': '2:19.0.0',
-        'victoria': '2:18.0.0',
-        'ussuri': '2:17.0.0',
-        'train': '2:16.0.0',
-        'stein': '2:15.0.0',
-        'rocky': '2:14.0.0',
-        'queens': '2:13.0.0',
-        'pike': '2:12.0.0',
-        'ocata': '2:11.0.0'},
-    'nova-common': {
-        'yoga': '3:25.0.0',
-        'xena': '3:24.0.0',
-        'wallaby': '3:23.0.0',
-        'victoria': '2:22.0.0',
-        'ussuri': '2:21.0.0',
-        'train': '2:20.0.0',
-        'stein': '2:19.0.0',
-        'rocky': '2:18.0.0',
-        'queens': '2:17.0.0',
-        'pike': '2:16.0.0',
-        'ocata': '2:15.0.0',
-        'newton': '2:14.0.0',
-        'mitaka': '2:13.0.0',
-        'liberty': '2:12.0.0',
-        'kilo': '1:2015.1.0',
-        'juno': '1:2014.2.0',
-        'icehouse': '1:2014.1.0'},
-    'neutron-common': {
-        'yoga': '2:20.0.0',
-        'xena': '2:19.0.0',
-        'wallaby': '2:18.0.0',
-        'victoria': '2:17.0.0',
-        'ussuri': '2:16.0.0',
-        'train': '2:15.0.0',
-        'stein': '2:14.0.0',
-        'rocky': '2:13.0.0',
-        'queens': '2:12.0.0',
-        'pike': '2:11.0.0',
-        'ocata': '2:10.0.0',
-        'newton': '2:9.0.0',
-        'mitaka': '2:8.0.0',
-        'liberty': '2:7.0.0',
-        'kilo': '1:2015.1.0',
-        'juno': '1:2014.2.0',
-        'icehouse': '1:2014.1.0'},
-    'octavia-common': {
-        'yoga': '1:10.0.0',
-        'xena': '1:9.0.0',
-        'wallaby': '1:8.0.0',
-        'victoria': '7.0.0',
-        'ussuri': '6.0.0',
-        'train': '5.0.0',
-        'stein': '4.0.0',
-        'rocky': '3.0.0'},
-    'openstack-dashboard-common': {
-        'yoga': '4:22.0.0',
-        'xena': '4:20.0.0',
-        'wallaby': '4:19.0.0',
-        'victoria': '4:18.0.0',
-        'ussuri': '3:18.0.0',
-        'train': '3:16.0.0',
-        'stein': '3:15.0.0',
-        'rocky': '3:14.0.0',
-        'queens': '3:13.0.0'}
-    }
-
-OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
-                  'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
-                  'glance': GLANCE_EXCEPTIONS + GLANCE_STORE_EXCEPTIONS,
-                  'keystone': KEYSTONE_EXCEPTIONS,
-                  'manila': MANILA_EXCEPTIONS,
-                  'masakari': MASAKARI_EXCEPTIONS,
-                  'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
-                  'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS,
-                  'octavia': OCTAVIA_EXCEPTIONS,
-                  'placement': PLACEMENT_EXCEPTIONS,
-                  }
-
-
-class OpenstackConfig(host_helpers.SectionalConfigBase):
-    pass
-
-
-class OSTProject(object):
-    SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
-    PY_CLIENT_PREFIX = r"python3?-{}\S*"
-
-    def __init__(self, name, config=None, apt_core_alt=None,
-                 systemd_masked_services=None,
-                 systemd_deprecated_services=None,
-                 log_path_overrides=None,
-                 systemd_extra_services=None):
-        """
-        @param name: name of this project
-        @param config: dict of config files keyed by a label used to identify
-                       them. All projects should have a config file labelled
-                       'main'.
-        @param apt_core_alt: optional list of apt packages (regex) that are
-                             used by this project where the name of the project
-                             is not the same as the name used for its packages.
-        @param systemd_masked_services: optional list of services that are
-               expected to be masked in systemd e.g. if they are actually being
-               run by apache.
-        @param systemd_deprecated_services: optional list of services that are
-               deprecated. This can be helpful if e.g. you want to skip checks
-               for resources related to these services.
-        @param systemd_extra_services: optional list of systemd services that
-               are used. This is useful e.g. if components are run under
-               apache or if a package runs components using services whose name
-               don't match the name of the project.
-        """
-        self.name = name
-        self.packages_deps = [self.PY_CLIENT_PREFIX.format(name)]
-        self.packages_core = [name]
-        if apt_core_alt:
-            self.packages_core.extend(apt_core_alt)
-            for c in apt_core_alt:
-                self.packages_deps.append(self.PY_CLIENT_PREFIX.format(c))
-
-        self.config = {}
-        if config:
-            for label, path in config.items():
-                path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc', name, path)
-                self.config[label] = OpenstackConfig(path)
-
-        self.systemd_extra_services = systemd_extra_services
-        self.systemd_masked_services = systemd_masked_services or []
-        self.systemd_deprecated_services = systemd_deprecated_services or []
-        self.logs_path = os.path.join('var/log', name)
-        self.log_path_overrides = log_path_overrides or {}
-        self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
-
-    @property
-    def installed(self):
-        """ Return True if the openstack service is installed. """
-        return bool(host_helpers.APTPackageChecksBase(
-                                            core_pkgs=self.packages_core).core)
-
-    @property
-    def services_expr(self):
-        exprs = ['{}{}'.format(self.name, self.SVC_VALID_SUFFIX)]
-        if self.systemd_extra_services:
-            exprs += self.systemd_extra_services
-        return exprs
-
-    @property
-    def services(self):
-        exprs = self.services_expr
-        info = host_helpers.ServiceChecksBase(service_exprs=exprs)
-        return info.services
-
-    def log_paths(self, include_deprecated_services=True):
-        """
-        Returns tuples of daemon name, log path for each agent/daemon.
-        """
-        proj_manage = "{}-manage".format(self.name)
-        path = os.path.join('var/log', self.name, "{}.log".format(proj_manage))
-        yield proj_manage, [path]
-        for svc in self.services:
-            if (not include_deprecated_services and
-                    svc in self.systemd_deprecated_services):
-                continue
-
-            path = os.path.join('var/log', self.name,
-                                "{}.log".format(svc))
-            yield svc, self.log_path_overrides.get(svc, [path])
-
-
-class OSTProjectCatalog(object):
-    # Services that are not actually openstack projects but are used by them
-    OST_SERVICES_DEPS = ['dnsmasq',
-                         r'(?:nfs-)?ganesha\S*',
-                         'haproxy',
-                         r"keepalived{}".format(OSTProject.SVC_VALID_SUFFIX),
-                         r"vault{}".format(OSTProject.SVC_VALID_SUFFIX),
-                         r'qemu-system-\S+',
-                         'radvd',
-                         ]
-
-    # Set of packages that any project can depend on
-    APT_DEPS_COMMON = ['conntrack',
-                       'dnsmasq',
-                       'haproxy',
-                       'keepalived',
-                       'libvirt-daemon',
-                       'libvirt-bin',
-                       r'nfs-ganesha\S*',
-                       r'python3?-oslo[.-]',
-                       'qemu-kvm',
-                       'radvd',
-                       ]
-
-    def __init__(self):
-        self._projects = {}
-        self.add('aodh', config={'main': 'aodh.conf'},
-                 systemd_masked_services=['aodh-api'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/aodh/aodh-api.log']}),
-        self.add('barbican', config={'main': 'barbican.conf'},
-                 systemd_masked_services=['barbican-api'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/barbican/barbican-api.log']}),
-        self.add('ceilometer', config={'main': 'ceilometer.conf'},
-                 systemd_masked_services=['ceilometer-api']),
-        self.add('cinder', config={'main': 'cinder.conf'},
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/apache2/cinder_*.log']}),
-        self.add('designate', config={'main': 'designate.conf'}),
-        self.add('glance', config={'main': 'glance-api.conf'}),
-        self.add('gnocchi', config={'main': 'gnocchi.conf'},
-                 systemd_masked_services=['gnocchi-api'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/gnocchi/gnocchi-api.log']}),
-        self.add('heat', config={'main': 'heat.conf'}),
-        self.add('horizon', apt_core_alt=['openstack-dashboard']),
-        self.add('keystone', config={'main': 'keystone.conf'},
-                 systemd_masked_services=['keystone'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/keystone/keystone.log']}),
-        self.add('neutron',
-                 config={'main': 'neutron.conf',
-                         'openvswitch-agent':
-                         'plugins/ml2/openvswitch_agent.ini',
-                         'l3-agent': 'l3_agent.ini',
-                         'dhcp-agent': 'dhcp_agent.ini'},
-                 systemd_masked_services=['nova-api-metadata'],
-                 systemd_deprecated_services=['neutron-lbaas-agent',
-                                              'neutron-lbaasv2-agent',
-                                              'neutron-fwaas-agent'])
-        self.add('nova', config={'main': 'nova.conf'},
-                 # See LP bug 1957760 for reason why neutron-server is added.
-                 systemd_masked_services=['nova-api-os-compute',
-                                          'neutron-server'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/apache2/nova-*.log',
-                                      'var/log/nova/nova-api-wsgi.log']}),
-        self.add('manila', config={'main': 'manila.conf'},
-                 systemd_masked_services=['manila-api'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/manila/manila-api.log']}),
-        self.add('masakari', config={'main': 'masakari.conf'},
-                 systemd_masked_services=['masakari']),
-        self.add('octavia', config={'main': 'octavia.conf',
-                                    'amphora': 'amphora-agent.conf'},
-                 systemd_masked_services=['octavia-api'],
-                 apt_core_alt=[r'amphora-\S+'],
-                 systemd_extra_services=['apache2', 'amphora-agent'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/octavia/octavia-api.log']}),
-        self.add('placement', config={'main': 'placement.conf'},
-                 systemd_masked_services=['placement'],
-                 systemd_extra_services=['apache2'],
-                 log_path_overrides={'apache2':
-                                     ['var/log/apache2/*error.log']}),
-        self.add('swift', config={'main': 'swift-proxy.conf',
-                                  'proxy': 'swift-proxy.conf'}),
-
-    def __getitem__(self, name):
-        return self._projects[name]
-
-    def __getattr__(self, name):
-        return self._projects[name]
-
-    @property
-    def all(self):
-        return self._projects
-
-    @property
-    def service_exprs(self):
-        # Expressions used to match openstack systemd services for each project
-        exprs = []
-        for p in self.all.values():
-            if p.installed:
-                exprs.extend(p.services_expr)
-
-        exprs.extend(self.OST_SERVICES_DEPS)
-        return exprs
-
-    @property
-    def default_masked_services(self):
-        """
-        Returns a list of services that are expected to be marked as masked in
-        systemd.
-        """
-        masked = []
-        for p in self.all.values():
-            masked += p.systemd_masked_services
-
-        return masked
-
-    def add(self, name, *args, **kwargs):
-        self._projects[name] = OSTProject(name, *args, **kwargs)
-
-    @property
-    def packages_core_exprs(self):
-        core = set()
-        for p in self.all.values():
-            core.update(p.packages_core)
-
-        return list(core)
-
-    @property
-    def packages_dep_exprs(self):
-        deps = set(self.APT_DEPS_COMMON)
-        for p in self.all.values():
-            deps.update(p.packages_deps)
-
-        return list(deps)
-
-
-class OSTServiceBase(object):
-
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.nethelp = host_helpers.HostNetworkingHelper()
-        self.project = OSTProjectCatalog()[name]
+        self.nova = NovaBase()
+        self.neutron = NeutronBase()
+        self.octavia = OctaviaBase()
+        self.certificate_expire_days = 60
 
     @property
-    def installed(self):
-        """ Return True if the openstack service is installed. """
-        return self.project.installed
+    def apache2_ssl_config_file(self):
+        return os.path.join(HotSOSConfig.DATA_ROOT,
+                            'etc/apache2/sites-enabled',
+                            'openstack_https_frontend.conf')
+
+    @property
+    def ssl_enabled(self):
+        return os.path.exists(self.apache2_ssl_config_file)
+
+    @property
+    def apache2_certificates_list(self):
+        certificate_path_list = []
+        certificate_list = []
+        if self.ssl_enabled:
+            try:
+                with open(self.apache2_ssl_config_file) as fd:
+                    for line in fd:
+                        regex_match = re.search(r'SSLCertificateFile /(.*)',
+                                                line)
+                        if regex_match:
+                            certificate_path = os.path.join(
+                                               HotSOSConfig.DATA_ROOT,
+                                               regex_match.group(1))
+                            if certificate_path not in certificate_path_list:
+                                certificate_path_list.append(certificate_path)
+            except OSError:
+                log.debug("Unable to open apache2 configuration file %s",
+                          self.apache2_ssl_config_file)
+                return certificate_list
+
+        if len(certificate_path_list) > 0:
+            for certificate_path in certificate_path_list:
+                try:
+                    ssl_certificate = SSLCertificate(certificate_path)
+                    certificate_list.append(ssl_certificate)
+                except OSError:
+                    continue
+
+        return certificate_list
+
+    @property
+    def apache2_certificates_expiring(self):
+        apache2_certificates_expiring = []
+        certificate_list = self.apache2_certificates_list
+        for certificate in certificate_list:
+            ssl_checks = SSLCertificatesChecksBase(
+                                                  certificate,
+                                                  self.certificate_expire_days)
+            if ssl_checks.certificate_expires_soon:
+                apache2_certificates_expiring.append(certificate.path)
+        return apache2_certificates_expiring
+
+
+class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ost_projects = OSTProjectCatalog()
+        self.systemd = ServiceChecksBase(
+                           service_exprs=self.ost_projects.service_exprs)
+        self.apt = APTPackageChecksBase(
+                       core_pkgs=self.ost_projects.packages_core_exprs,
+                       other_pkgs=self.ost_projects.packages_dep_exprs)
+        self.docker = DockerImageChecksBase(
+                          core_pkgs=self.ost_projects.packages_core_exprs,
+                          other_pkgs=self.ost_projects.packages_dep_exprs)
+
+    @property
+    def apt_packages_all(self):
+        return self.apt.all
+
+    @property
+    def apt_source_path(self):
+        return os.path.join(HotSOSConfig.DATA_ROOT, 'etc/apt/sources.list.d')
+
+    @property
+    def installed_pkg_release_names(self):
+        """
+        Get release name for each installed package that we are tracking and
+        return as a list of names. The list should normally have length 1.
+        """
+        relnames = set()
+        for pkg in OST_REL_INFO:
+            if pkg in self.apt.core:
+                # Since the versions we match against will always match our
+                # version - 1 we use last known lt as current version.
+                v_lt = None
+                r_lt = None
+                pkg_ver = DPKGVersionCompare(self.apt.core[pkg])
+                for rel, ver in OST_REL_INFO[pkg].items():
+                    if pkg_ver > ver:
+                        if v_lt is None:
+                            v_lt = ver
+                            r_lt = rel
+                        elif ver > DPKGVersionCompare(v_lt):
+                            v_lt = ver
+                            r_lt = rel
+
+                if r_lt:
+                    relnames.add(r_lt)
+
+        log.debug("release name(s) found: %s", ','.join(relnames))
+        return list(relnames)
+
+    @property
+    def release_name(self):
+        relnames = self.installed_pkg_release_names
+        if relnames:
+            if len(relnames) > 1:
+                log.warning("Openstack packages from more than one release "
+                            "identified: %s", relnames)
+
+            # expect one, if there are more that should be covered by a
+            # scenario check.
+            return relnames[0]
+
+        relname = 'unknown'
+
+        # fallback to uca version if exists
+        if not os.path.exists(self.apt_source_path):
+            return relname
+
+        release_info = {}
+        for source in os.listdir(self.apt_source_path):
+            apt_path = os.path.join(self.apt_source_path, source)
+            for line in CmdBase.safe_readlines(apt_path):
+                rexpr = r'deb .+ubuntu-cloud.+ [a-z]+-([a-z]+)/([a-z]+) .+'
+                ret = re.compile(rexpr).match(line)
+                if ret:
+                    if 'uca' not in release_info:
+                        release_info['uca'] = set()
+
+                    if ret[1] != 'updates':
+                        release_info['uca'].add("{}-{}".format(ret[2], ret[1]))
+                    else:
+                        release_info['uca'].add(ret[2])
+
+        if release_info.get('uca'):
+            return sorted(release_info['uca'], reverse=True)[0]
+
+        return relname
+
+    @property
+    def days_to_eol(self):
+        if self.release_name != 'unknown':
+            eol = OST_EOL_INFO[self.release_name]
+            today = datetime.fromtimestamp(int(CLIHelper().date()))
+            delta = (eol - today).days
+            return delta
+
+    @property
+    def bind_interfaces(self):
+        """
+        Fetch interfaces used by Openstack services and return dict.
+        """
+        interfaces = {}
+
+        ifaces = self.nova.bind_interfaces
+        if ifaces:
+            interfaces.update(ifaces)
+
+        ifaces = self.neutron.bind_interfaces
+        if ifaces:
+            interfaces.update(ifaces)
+
+        ifaces = self.octavia.bind_interfaces
+        if ifaces:
+            interfaces.update(ifaces)
+
+        return interfaces
+
+    @property
+    def unexpected_masked_services(self):
+        """
+        Return a list of identified masked services with any services that we
+        expect to be masked filtered out.
+        """
+        masked = set(self.systemd.masked_services)
+        if not masked:
+            return []
+
+        expected_masked = self.ost_projects.default_masked_services
+        return list(masked.difference(expected_masked))
+
+    @property
+    def openstack_installed(self):
+        if self.apt.core:
+            return True
+
+        return False
+
+    @property
+    def plugin_runnable(self):
+        return self.openstack_installed
+
+
+class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
+    """
+    Normally we would call run_checks() here but the Openstack implementations
+    do run() themselves so we defer.
+    """
+
+    def categorise_events(self, *args, **kwargs):
+        if 'include_time' not in kwargs:
+            kwargs['include_time'] = HotSOSConfig.AGENT_ERROR_KEY_BY_TIME
+
+        return super().categorise_events(*args, **kwargs)

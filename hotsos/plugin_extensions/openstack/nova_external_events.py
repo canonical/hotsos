@@ -3,7 +3,7 @@ from hotsos.core.searchtools import (
     SearchDef,
     FileSearcher,
 )
-from hotsos.core.plugins.openstack.openstack import OpenstackEventChecksBase
+from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',

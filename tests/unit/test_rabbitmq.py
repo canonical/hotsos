@@ -88,7 +88,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(actual['config'],
                          {'cluster-partition-handling': 'ignore'})
 
-    @mock.patch('hotsos.core.plugins.rabbitmq.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelper')
     def test_summary_bionic(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
 
@@ -178,7 +178,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['resources'],
                          expected)
 
-    @mock.patch('hotsos.core.plugins.rabbitmq.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelper')
     def test_get_summary_no_report(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.rabbitmqctl_report.return_value = []

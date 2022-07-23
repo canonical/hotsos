@@ -1,4 +1,4 @@
-from hotsos.core.plugins.openstack.common import OSTServiceBase
+from hotsos.core.plugins.openstack.openstack import OSTServiceBase
 
 OCTAVIA_HM_PORT_NAME = 'o-hm0'
 

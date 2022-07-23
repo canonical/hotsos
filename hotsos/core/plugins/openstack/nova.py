@@ -2,7 +2,7 @@ import os
 import re
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.openstack.common import (
+from hotsos.core.plugins.openstack.openstack import (
     OSTServiceBase,
     OpenstackConfig,
 )
@@ -11,7 +11,7 @@ from hotsos.core.plugins.kernel.config import (
     KernelConfig,
     SystemdConfig,
 )
-from hotsos.core.plugins.system import (
+from hotsos.core.plugins.system.system import (
     NUMAInfo,
     SystemBase,
 )

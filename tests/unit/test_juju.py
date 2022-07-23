@@ -65,7 +65,7 @@ class TestJujuSummary(JujuTestsBase):
         self.assertEqual(actual['version'], '2.9.22')
         self.assertEqual(actual['machine'], '1')
 
-    @mock.patch('hotsos.core.plugins.juju.JujuMachine')
+    @mock.patch('hotsos.core.plugins.juju.resources.JujuMachine')
     def test_get_lxd_machine_info(self, mock_machine):
         mock_machine.return_value = mock.MagicMock()
         mock_machine.return_value.id = '0-lxd-11'

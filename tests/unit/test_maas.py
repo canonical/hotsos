@@ -61,13 +61,13 @@ class TestMAASGeneral(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_services(self, mock_helper):
-        with mock.patch.object(summary.maas.MAASServiceChecksBase,
-                               'maas_installed', lambda: True):
-            mock_helper.return_value = mock.MagicMock()
-            mock_helper.return_value.systemctl_list_unit_files.return_value = \
-                SYSTEMD_UNIT_FILES.splitlines(keepends=True)
-            mock_helper.return_value.systemctl_list_units.return_value = \
-                SYSTEMD_UNITS.splitlines(keepends=True)
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.systemctl_list_unit_files.return_value = \
+            SYSTEMD_UNIT_FILES.splitlines(keepends=True)
+        mock_helper.return_value.systemctl_list_units.return_value = \
+            SYSTEMD_UNITS.splitlines(keepends=True)
+        with mock.patch('hotsos.core.plugins.maas.MAASChecksBase',
+                        'maas_installed', lambda: True):
             expected = {'services': {
                             'ps': [],
                             'systemd': {'enabled': [

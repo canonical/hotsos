@@ -6,13 +6,13 @@ class PacemakerSummary(PacemakerChecksBase):
 
     @idx(0)
     def __summary_services(self):
-        if self.svc_check.services:
-            return {'systemd': self.svc_check.service_info,
-                    'ps': self.svc_check.process_info}
+        if self.systemd.services:
+            return {'systemd': self.systemd.service_info,
+                    'ps': self.systemd.process_info}
 
     @idx(1)
     def __summary_dpkg(self):
-        apt = self.apt_check.all_formatted
+        apt = self.apt.all_formatted
         if apt:
             return apt
 

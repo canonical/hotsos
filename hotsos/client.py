@@ -23,7 +23,7 @@ from hotsos.plugin_extensions.openvswitch import (
     event_checks,
 )
 from hotsos.plugin_extensions.system.summary import SystemSummary
-from hotsos.plugin_extensions.system.checks import SystemChecks
+from hotsos.plugin_extensions.system.checks import SYSCtlChecks
 from hotsos.plugin_extensions.maas.summary import MAASSummary
 from hotsos.plugin_extensions.kernel import summary as kern_summary
 from hotsos.plugin_extensions.kubernetes.summary import KubernetesSummary
@@ -124,7 +124,7 @@ PLUGIN_CATALOG = {'hotsos': {
                          'objects': [SystemSummary],
                          'part_yaml_offset': 0},
                      'checks': {
-                         'objects': [SystemChecks],
+                         'objects': [SYSCtlChecks],
                          'part_yaml_offset': 1}},
                   'maas': {
                      'summary': {

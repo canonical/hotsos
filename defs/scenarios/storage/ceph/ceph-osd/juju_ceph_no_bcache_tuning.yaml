@@ -2,12 +2,12 @@ checks:
   juju_ceph_osd_charm_enabled:
     requires:
       property:
-        path: hotsos.core.plugins.juju.JujuBase.charm_names
+        path: hotsos.core.plugins.juju.resources.JujuBase.charm_names
         ops: [[contains, ceph-osd]]
   juju_bcache_tuning_charm_enabled:
     requires:
       property:
-        path: hotsos.core.plugins.juju.JujuBase.charm_names
+        path: hotsos.core.plugins.juju.resources.JujuBase.charm_names
         ops: [[contains, bcache-tuning]]
   local_osds_using_bcache:
     requires:

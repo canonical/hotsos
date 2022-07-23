@@ -30,18 +30,17 @@ class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
                                   for p in OVS_PKGS_CORE]
         p_deps = OVS_PKGS_DEPS + [PY_CLIENT_PREFIX.format(p)
                                   for p in OVS_PKGS_DEPS]
-        self.apt_check = APTPackageChecksBase(core_pkgs=p_core,
-                                              other_pkgs=p_deps)
-        self.svc_check = ServiceChecksBase(service_exprs=OVS_SERVICES_EXPRS)
+        self.apt = APTPackageChecksBase(core_pkgs=p_core, other_pkgs=p_deps)
+        self.systemd = ServiceChecksBase(service_exprs=OVS_SERVICES_EXPRS)
 
     @property
     def apt_packages_all(self):
-        return self.apt_check.all
+        return self.apt.all
 
     @property
     def plugin_runnable(self):
         # require at least one core package to be installed to run this plugin.
-        return len(self.apt_check.core) > 0
+        return len(self.apt.core) > 0
 
 
 class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):

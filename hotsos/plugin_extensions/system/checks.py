@@ -1,10 +1,11 @@
 import os
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.system import SystemChecksBase, SYSCtlHelper
+from hotsos.core.plugins.system import SystemChecksBase
+from hotsos.core.plugins.system.system import SYSCtlHelper
 
 
-class SystemChecks(SystemChecksBase):
+class SYSCtlChecks(SystemChecksBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

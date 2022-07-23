@@ -1,6 +1,6 @@
 import os
 
-from hotsos.core import host_helpers
+from hotsos.core.host_helpers import APTPackageChecksBase
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.searchtools import (
@@ -15,7 +15,7 @@ class SOSReportChecksBase(PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt_check = host_helpers.APTPackageChecksBase(core_pkgs=CORE_APT)
+        self.apt = APTPackageChecksBase(core_pkgs=CORE_APT)
 
     @property
     def data_root_is_sosreport(self):

@@ -15,7 +15,7 @@ from hotsos.core.issues import (
 from hotsos.core.log import log
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core import utils
-from hotsos.core.plugins.openstack.openstack import (
+from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )

@@ -2,25 +2,12 @@ import os
 
 from hotsos.core.log import log
 from hotsos.core.utils import mktemp_dump, sorted_dict
-from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.searchtools import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,
 )
-from hotsos.core import (
-    host_helpers,
-    plugintools,
-)
-
-RMQ_SERVICES_EXPRS = [
-    r"beam.smp",
-    r"epmd",
-    r"rabbitmq-server",
-]
-RMQ_PACKAGES = [
-    r"rabbitmq-server",
-]
+from hotsos.core.host_helpers import CLIHelper
 
 
 def cached_property(f):
@@ -54,7 +41,7 @@ class RabbitMQReport(object):
     def __init__(self):
         self._property_cache = {}
         # save to file so we can search it later
-        cli = host_helpers.CLIHelper()
+        cli = CLIHelper()
         self._f_report = mktemp_dump(''.join(cli.rabbitmqctl_report()))
         searcher = FileSearcher()
         searcher.add_search_term(self.connections_searchdef, self._f_report)
@@ -271,40 +258,3 @@ class RabbitMQVhost(object):
                 dists[node] = {'queues': 0, 'pcent': 0}
 
         return dists
-
-
-class RabbitMQBase(object):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.report = RabbitMQReport()
-
-
-class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apt_check = host_helpers.APTPackageChecksBase(
-                                                        core_pkgs=RMQ_PACKAGES)
-
-    @property
-    def plugin_runnable(self):
-        if self.apt_check.core:
-            return True
-
-        return False
-
-
-class RabbitMQServiceChecksBase(RabbitMQChecksBase,
-                                host_helpers.ServiceChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, service_exprs=RMQ_SERVICES_EXPRS, **kwargs)
-
-
-class RabbitMQEventChecksBase(RabbitMQChecksBase, YEventCheckerBase):
-
-    @property
-    def summary(self):
-        # mainline all results into summary root
-        return self.run_checks()

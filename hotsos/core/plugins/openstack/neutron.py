@@ -2,7 +2,7 @@ import os
 import re
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.openstack.common import OSTServiceBase
+from hotsos.core.plugins.openstack.openstack import OSTServiceBase
 from hotsos.core.host_helpers import CLIHelper
 
 

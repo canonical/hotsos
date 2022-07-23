@@ -16,7 +16,7 @@ checks:
         - snap: kubelet
         # ignore if not running on metal
         - property:
-            path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+            path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
             ops: [[eq, null]]
   ondemand_installed_and_enabled:
     requires:

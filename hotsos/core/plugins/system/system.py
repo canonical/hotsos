@@ -3,7 +3,6 @@ import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core import plugintools
 
 
 class NUMAInfo(object):
@@ -120,7 +119,7 @@ class SYSCtlHelper(object):
         self._config['unset'] = unsetters
 
 
-class SystemBase(plugintools.PluginPartBase):
+class SystemBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -208,11 +207,3 @@ class SystemBase(plugintools.PluginPartBase):
 
         self._sysctl_all = actuals
         return self._sysctl_all
-
-
-class SystemChecksBase(SystemBase, plugintools.PluginPartBase):
-
-    @property
-    def plugin_runnable(self):
-        # Always run
-        return True

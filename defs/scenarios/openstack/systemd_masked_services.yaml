@@ -2,7 +2,7 @@ checks:
   has_unexpected_masked:
     requires:
       property:
-        path: hotsos.core.plugins.openstack.OpenstackServiceChecksBase.unexpected_masked_services
+        path: hotsos.core.plugins.openstack.OpenstackChecksBase.unexpected_masked_services
         ops: [[ne, []]]
 conclusions:
   has-unexpected-masked:

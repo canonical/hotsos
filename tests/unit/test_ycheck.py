@@ -372,11 +372,12 @@ checks:
       search-result-age-hours: 48
   property_true_shortform:
     requires:
-      property: hotsos.core.plugins.system.SystemBase.virtualisation_type
+      property:
+        path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
   property_has_value_longform:
     requires:
       property:
-        path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+        path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
         ops: [[eq, kvm], [truth], [not_], [not_]]
   apt_pkg_exists:
     requires:

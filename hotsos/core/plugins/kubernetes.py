@@ -1,10 +1,13 @@
 import os
 
-from hotsos.core import (
-    host_helpers,
-    plugintools,
-)
+from hotsos.core import plugintools
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import (
+    APTPackageChecksBase,
+    HostNetworkingHelper,
+    SnapPackageChecksBase,
+    ServiceChecksBase,
+)
 
 SERVICES = [r"etcd\S*",
             r"calico\S*",
@@ -41,7 +44,7 @@ class KubernetesBase(object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.nethelp = host_helpers.HostNetworkingHelper()
+        self.nethelp = HostNetworkingHelper()
         self._containers = []
         self._pods = []
 
@@ -93,24 +96,22 @@ class KubernetesBase(object):
         return self._containers
 
 
-class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase,
-                           host_helpers.ServiceChecksBase):
+class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, service_exprs=SERVICES, **kwargs)
+        super().__init__(*args, **kwargs)
         deps = K8S_PACKAGE_DEPS
         # Deployments can use snap or apt versions of packages so we check both
-        self.apt_check = host_helpers.APTPackageChecksBase(
-                                                        core_pkgs=K8S_PACKAGES,
-                                                        other_pkgs=deps)
+        self.apt = APTPackageChecksBase(core_pkgs=K8S_PACKAGES,
+                                        other_pkgs=deps)
         snap_deps = deps + K8S_PACKAGE_DEPS_SNAP
-        self.snap_check = host_helpers.SnapPackageChecksBase(
-                                                       core_snaps=K8S_PACKAGES,
-                                                       other_snaps=snap_deps)
+        self.snaps = SnapPackageChecksBase(core_snaps=K8S_PACKAGES,
+                                           other_snaps=snap_deps)
+        self.systemd = ServiceChecksBase(service_exprs=SERVICES)
 
     @property
     def plugin_runnable(self):
-        if self.apt_check.core or self.snap_check.core:
+        if self.apt.core or self.snaps.core:
             return True
 
         return False
