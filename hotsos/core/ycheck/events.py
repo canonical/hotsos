@@ -213,14 +213,16 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
 
         for event in group.leaf_sections:
             log.debug("event: %s", event.name)
-            log.debug("input: %s (command=%s)", event.input.path,
+            log.debug("input: %s (command=%s)", event.input.paths,
                       event.input.command is not None)
 
             section_name = event.parent.name
             if section_name not in self.__event_defs:
                 self.__event_defs[section_name] = {}
 
-            event.search.load_searcher(self.searchobj, event.input.path)
+            for path in event.input.paths:
+                event.search.load_searcher(self.searchobj, path)
+
             emeta = {'passthrough': event.search.passthrough_results_opt,
                      'sequence': event.search.sequence_search,
                      'tag': event.search.unique_search_tag}

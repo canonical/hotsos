@@ -213,7 +213,7 @@ format
 
 ```
 input:
-  command: hotsos.core.cli_helpers.CLIHelpers command
+  command: hotsos.core.host_helpers.CLIHelper command
   path: FS_PATH
   options: OPTIONS
 
@@ -222,7 +222,8 @@ or
 input: FS_PATH
 
 FS_PATH
-  This is a filesystem path that must be relative to DATA_ROOT.
+  This is either a single or list of filesystem paths that must be
+  relative to DATA_ROOT.
 
 OPTIONS
     disable-all-logs: True
@@ -252,7 +253,7 @@ CACHE_KEYS
 usage
 
 ```
-input.path
+input.paths
 ```
 
 #### priority
@@ -493,7 +494,8 @@ path: <path>
 
 ```
 CACHE_KEYS
-  path
+  path_not_found
+  paths
 ```
 
 

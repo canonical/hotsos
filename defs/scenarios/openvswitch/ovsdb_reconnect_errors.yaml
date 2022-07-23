@@ -1,10 +1,8 @@
 checks:
-  has_ovsdb_reconnection_error_neutron_server:
-    input: var/log/neutron/neutron-server.log
-    expr: '.+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
-    hint: ERROR
-  has_ovsdb_reconnection_error_neutron_ovn_metadata_agent:
-    input: var/log/neutron/neutron-ovn-metadata-agent.log
+  has_ovsdb_reconnection_errors:
+    input:
+      - var/log/neutron/neutron-server.log
+      - var/log/neutron/neutron-ovn-metadata-agent.log
     expr: '.+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
     hint: ERROR
   has_pyovs_with_reconnection_bug:
@@ -16,9 +14,7 @@ conclusions:
   has_pyovs_reconnection_bug:
     decision:
       - has_pyovs_with_reconnection_bug
-      - or:
-          - has_ovsdb_reconnection_error_neutron_server
-          - has_ovsdb_reconnection_error_neutron_ovn_metadata_agent
+      - has_ovsdb_reconnection_errors
     raises:
       type: LaunchpadBug
       bug-id: 1980211

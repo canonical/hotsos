@@ -26,31 +26,48 @@ class YPropertyInputBase(object):
 
         return defaults
 
-    @cached_yproperty_attr
+    @property
     def command(self):
         return self.content.get('command')
 
-    @cached_yproperty_attr
-    def fs_path(self):
-        if type(self.content) == str:
-            return self.content
-
-        return self.content.get('path')
-
-    @cached_yproperty_attr
-    def path(self):
-        if self.fs_path:  # pylint: disable=W0125
-            path = os.path.join(HotSOSConfig.DATA_ROOT, self.fs_path)
+    def expand_paths(self, paths):
+        _paths = []
+        for path in paths:
+            path = os.path.join(HotSOSConfig.DATA_ROOT, path)
             if (HotSOSConfig.USE_ALL_LOGS and not
                     self.options['disable-all-logs']):
                 path = "{}*".format(path)
 
-            return path
+            _paths.append(path)
 
-        if self.command:  # pylint: disable=W0125
+        return _paths
+
+    @property
+    def path(self):
+        raise Exception("do not call this directly")
+
+    @cached_yproperty_attr
+    def paths(self):
+        _paths = []
+        fs_path = None
+        if type(self.content) in [str, list]:
+            fs_path = self.content
+        else:
+            fs_path = self.content.get('path')
+
+        if fs_path:
+            if type(fs_path) == list:
+                for path in fs_path:
+                    _paths.append(path)
+            else:
+                _paths.append(fs_path)
+
+            return self.expand_paths(_paths)
+
+        if self.command:
             cmd_tmp_path = self.cache.cmd_tmp_path
             if cmd_tmp_path:
-                return cmd_tmp_path
+                return [cmd_tmp_path]
 
             args_callback = self.options['args-callback']
             if args_callback:
@@ -63,7 +80,7 @@ class YPropertyInputBase(object):
             out = getattr(CLIHelper(), self.command)(*args, **kwargs)
             # store in temp file to make it searchable
             # NOTE: we dont need to delete this at the the end since they are
-            # created in the plugun tmp dir which is wiped at the end of the
+            # created in the plugin tmp dir which is wiped at the end of the
             # plugin run.
             if type(out) == list:
                 out = ''.join(out)
@@ -72,7 +89,7 @@ class YPropertyInputBase(object):
 
             cmd_tmp_path = mktemp_dump(out)
             self.cache.set('cmd_tmp_path', cmd_tmp_path)
-            return cmd_tmp_path
+            return [cmd_tmp_path]
 
         log.debug("no input provided")
 

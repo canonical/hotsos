@@ -25,12 +25,16 @@ class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
 
     @property
     def _result(self):
-        _result = False
-        # first try fs path in its raw format i.e. without ALL_LOGS applied. if
-        # that is not available try the parsed path which would be command.
-        if self.path and os.path.exists(self.path):
-            _result = True
+        _result = True
+        not_found = None
+        for path in self.paths:
+            if not os.path.exists(path):
+                not_found = path
+                _result = False
+                break
 
-        log.debug('requirement check: path %s (result=%s)', self.path, _result)
-        self.cache.set('path', self.path)
+        log.debug('requirement check: path %s (result=%s)', not_found,
+                  _result)
+        self.cache.set('path_not_found', not_found)
+        self.cache.set('paths', self.paths)
         return _result

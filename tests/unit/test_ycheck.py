@@ -489,9 +489,9 @@ class TestYamlChecks(utils.BaseTestCase):
         for name, group in plugin_checks.items():
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.path,
-                                 os.path.join(HotSOSConfig.DATA_ROOT,
-                                              'foo/bar1*'))
+                self.assertEqual(entry.input.paths,
+                                 [os.path.join(HotSOSConfig.DATA_ROOT,
+                                               'foo/bar1*')])
 
     def test_yaml_def_requires_grouped(self):
         mydef = YDefsSection('mydef',
@@ -518,18 +518,18 @@ class TestYamlChecks(utils.BaseTestCase):
         for name, group in plugin_checks.get('pluginX').items():
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.path,
-                                 os.path.join(HotSOSConfig.DATA_ROOT,
-                                              'foo/bar2*'))
+                self.assertEqual(entry.input.paths,
+                                 [os.path.join(HotSOSConfig.DATA_ROOT,
+                                               'foo/bar2*')])
 
     def test_yaml_def_entry_input_override(self):
         plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED2)
         for name, group in plugin_checks.get('pluginX').items():
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.path,
-                                 os.path.join(HotSOSConfig.DATA_ROOT,
-                                              'foo/bar3*'))
+                self.assertEqual(entry.input.paths,
+                                 [os.path.join(HotSOSConfig.DATA_ROOT,
+                                               'foo/bar3*')])
 
     def test_yaml_def_entry_seq(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -546,8 +546,8 @@ class TestYamlChecks(utils.BaseTestCase):
             for name, group in plugin_checks.items():
                 group = YDefsSection(name, group)
                 for entry in group.leaf_sections:
-                    self.assertEqual(entry.input.path,
-                                     '{}*'.format(data_file))
+                    self.assertEqual(entry.input.paths,
+                                     ['{}*'.format(data_file)])
 
             test_self = self
             match_count = {'count': 0}

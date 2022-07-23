@@ -90,7 +90,8 @@ class YPropertyChecks(YPropertyOverrideBase):
         log.debug("loading checks searchdefs into filesearcher")
         for c in self.resolved_checks:
             if c.search:
-                c.search.load_searcher(s, c.input.path)
+                for path in c.input.paths:
+                    c.search.load_searcher(s, path)
 
         log.debug("executing searches")
         results = s.search()

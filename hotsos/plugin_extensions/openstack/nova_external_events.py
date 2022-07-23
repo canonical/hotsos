@@ -48,7 +48,8 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
                         ".+".
                         format(instance_id, stage, event.name, event_id))
                 tag = "{}_{}_{}".format(instance_id, event_id, stage)
-                sd = SearchDef(expr, tag, hint=event.name)
+                sd = SearchDef(expr, tag, hint=event.name,
+                               store_result_contents=False)
                 s.add_search_term(sd, result.source)
 
         results = s.search()

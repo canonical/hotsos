@@ -38,13 +38,18 @@ class FilterDef(object):
 
 class SearchDef(object):
 
-    def __init__(self, pattern, tag=None, hint=None):
+    def __init__(self, pattern, tag=None, hint=None,
+                 store_result_contents=True):
         """
         Add a search definition
 
         @param pattern: regex pattern or list of patterns to search for
         @param tag: optional user-friendly identifier for this search term
         @param hint: pre-search term to speed things up
+        @param store_result_contents: by default the content of a search result
+                                      is saved but if it is not needed this
+                                      can be set to False. This effectively
+                                      makes the result True/False.
         """
         if type(pattern) != list:
             self.patterns = [re.compile(pattern)]
@@ -53,6 +58,7 @@ class SearchDef(object):
             for _pattern in pattern:
                 self.patterns.append(re.compile(_pattern))
 
+        self.store_result_contents = store_result_contents
         self.tag = tag
         if hint:
             self.hint = re.compile(hint)
@@ -159,7 +165,7 @@ class SearchResultPart(object):
 class SearchResult(object):
 
     def __init__(self, linenumber, source, result, search_term_tag=None,
-                 section_id=None, sequence_obj_id=None):
+                 section_id=None, sequence_obj_id=None, store_contents=True):
         """
         @param linenumber: line number that produced a match
         @param source: data source (path)
@@ -174,6 +180,11 @@ class SearchResult(object):
         self._parts = {}
         self.sequence_obj_id = sequence_obj_id
         self.section_id = section_id
+
+        if not store_contents:
+            log.debug("store_contents is False - skipping save")
+            return
+
         num_groups = len(result.groups())
         # NOTE: this does not include group(0)
         if num_groups:
@@ -412,6 +423,7 @@ class FileSearcher(object):
                     section_id = None
                     sequence_obj_id = None
                     tag = s_term.tag
+                    store_contents = True
                     if type(s_term) == SequenceSearchDef:
                         if not s_term.started:
                             tag = s_term.start_tag
@@ -430,10 +442,12 @@ class FileSearcher(object):
                                 section_id = s_term.section_id
 
                         sequence_obj_id = s_term.id
+                    else:
+                        store_contents = s_term.store_result_contents
 
-                    r = SearchResult(ln, path, ret, tag,
-                                     section_id=section_id,
-                                     sequence_obj_id=sequence_obj_id)
+                    r = SearchResult(ln, path, ret, tag, section_id=section_id,
+                                     sequence_obj_id=sequence_obj_id,
+                                     store_contents=store_contents)
                     if type(s_term) == SequenceSearchDef:
                         if s_term.id not in sequence_results:
                             sequence_results[s_term.id] = [r]
