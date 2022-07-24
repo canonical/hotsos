@@ -30,6 +30,13 @@ UNIT_LEADERSHIP_ERROR = """
 """  # noqa
 
 
+UNKNOWN_RELATION_ERROR = """
+2022-03-15 09:03:38 ERROR juju.worker.uniter agent.go:31 resolver loop error: unknown relation: 24
+2022-03-15 09:03:38 INFO juju.worker.uniter uniter.go:309 unit "ams/0" shutting down: unknown relation: 24
+2022-03-15 09:03:38 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: unknown relation: 24
+"""  # noqa
+
+
 class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
@@ -173,4 +180,26 @@ class TestJujuScenarios(JujuTestsBase):
             msg = ("Juju unit(s) 'keystone' are showing leadership errors in "
                    "their logs from the last 7 days. Please investigate.")
             issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_core_bugs.yaml'))
+    def test_unknown_relation_bug(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        with tempfile.TemporaryDirectory() as dtmp:
+            setup_config(DATA_ROOT=dtmp)
+            logfile = os.path.join(dtmp,
+                                   'var/log/juju/unit-keystone-2.log')
+            os.makedirs(os.path.dirname(logfile))
+            with open(logfile, 'w') as fd:
+                fd.write(UNKNOWN_RELATION_ERROR)
+
+            # make sure we are within the date constraints
+            mock_cli.return_value.date.return_value = "2022-03-15 01:00:00"
+            YScenarioChecker()()
+            msg = ('One or more charms on this host has "unknown relation" '
+                   'errors which is an indication of this bug. Upgrading Juju '
+                   'to a version >= 2.9.13 should fix the problem.')
+            issues = list(KnownBugsStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
