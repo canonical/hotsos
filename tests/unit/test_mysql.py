@@ -114,10 +114,15 @@ class TestMySQLScenarios(MySQLTestsBase):
         }
         self.assertEqual(IssuesManager().load_bugs(), expected)
 
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/mysql_connections.yaml'))
-    def test_mysql_connections_nofile(self, mock_config):
+    def test_mysql_connections_missing_nofile(self, mock_config, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ['ii percona-xtradb-cluster-server 5.7.20-29.24-0ubuntu2.1 all']
+
         def fake_get(key, **_kwargs):
             return {'max_connections': '4191'}.get(key)
 
@@ -126,16 +131,23 @@ class TestMySQLScenarios(MySQLTestsBase):
 
         YScenarioChecker()()
         expected = {'potential-issues': {'MySQLWarnings': [
-            'Max Connections is higher than 4190 but there is no'
-            ' charm-nofile.conf seen. (origin=mysql.01part)']}}
+            'MySQL max_connections is higher than 4190 but there is no '
+            'charm-nofile.conf which means that the higher value is not '
+            'being honoured. See LP 1905366 for more information. '
+            '(origin=mysql.01part)']}}
         self.assertEqual(IssuesManager().load_issues(), expected)
 
+    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/mysql_connections.yaml'))
     @utils.create_test_files(
         {'etc/systemd/system/mysql.service.d/charm-nofile.conf': ''})
-    def test_mysql_connections_w_file(self, mock_config):
+    def test_mysql_connections_w_nofile(self, mock_config, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.dpkg_l.return_value = \
+            ['ii percona-xtradb-cluster-server 5.7.20-29.24-0ubuntu2.1 all']
+
         def fake_get(key, **_kwargs):
             return {'max_connections': '4191'}.get(key)
 
