@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 from unittest import mock
 
 from . import utils
@@ -54,30 +51,22 @@ class MySQLTestsBase(utils.BaseTestCase):
 
 class TestMySQLSummary(MySQLTestsBase):
 
+    @utils.create_test_files({'sos_commands/systemd/systemctl_list-units':
+                              SYSTEMD_UNITS,
+                              'sos_commands/systemd/systemctl_list-unit-files':
+                              SYSTEMD_UNIT_FILES,
+                              'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_summary(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            content = {'sos_commands/systemd/systemctl_list-units':
-                       SYSTEMD_UNITS,
-                       'sos_commands/systemd/systemctl_list-unit-files':
-                       SYSTEMD_UNIT_FILES,
-                       'sos_commands/dpkg/dpkg_-l': DPKG_L}
-            for path, data in content.items():
-                fpath = os.path.join(dtmp, path)
-                os.makedirs(os.path.dirname(fpath), exist_ok=True)
-                with open(fpath, 'w') as fd:
-                    fd.write(data)
-
-            expected = {'dpkg': [
-                            'mysql-client 5.7.36-0ubuntu0.18.04.1',
-                            'mysql-common 5.8+1.0.4'],
-                        'services': {
-                            'ps': [],
-                            'systemd': {
-                                'enabled': ['mysql']}}}
-            inst = summary.MySQLSummary()
-            self.assertEqual(self.part_output_to_actual(inst.output),
-                             expected)
+        expected = {'dpkg': [
+                        'mysql-client 5.7.36-0ubuntu0.18.04.1',
+                        'mysql-common 5.8+1.0.4'],
+                    'services': {
+                        'ps': [],
+                        'systemd': {
+                            'enabled': ['mysql']}}}
+        inst = summary.MySQLSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output),
+                         expected)
 
 
 class TestMySQLScenarios(MySQLTestsBase):
@@ -111,15 +100,10 @@ class TestMySQLScenarios(MySQLTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/bugs.yaml'))
+    @utils.create_test_files({'var/log/mysql/error.log':
+                              FREE_BLOCKS_DIFFICULT})
     def test_372017_invoked(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            os.makedirs(os.path.join(dtmp, 'var/log/mysql'))
-            klog = os.path.join(dtmp, 'var/log/mysql/error.log')
-            with open(klog, 'w') as fd:
-                fd.write(FREE_BLOCKS_DIFFICULT)
-
-            YScenarioChecker()()
+        YScenarioChecker()()
         expected = {
             'bugs-detected': [
                 {'id': 'https://bugs.launchpad.net/bugs/372017',
@@ -134,39 +118,30 @@ class TestMySQLScenarios(MySQLTestsBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/mysql_connections.yaml'))
     def test_mysql_connections_nofile(self, mock_config):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
+        def fake_get(key, **_kwargs):
+            return {'max_connections': '4191'}.get(key)
 
-            def fake_get(key, **_kwargs):
-                return {'max_connections': '4191'}.get(key)
+        mock_config.return_value = mock.MagicMock()
+        mock_config.return_value.get.side_effect = fake_get
 
-            mock_config.return_value = mock.MagicMock()
-            mock_config.return_value.get.side_effect = fake_get
-
-            YScenarioChecker()()
-            expected = {'potential-issues': {'MySQLWarnings': [
-                'Max Connections is higher than 4190 but there is no'
-                ' charm-nofile.conf seen. (origin=mysql.01part)']}}
-            self.assertEqual(IssuesManager().load_issues(), expected)
+        YScenarioChecker()()
+        expected = {'potential-issues': {'MySQLWarnings': [
+            'Max Connections is higher than 4190 but there is no'
+            ' charm-nofile.conf seen. (origin=mysql.01part)']}}
+        self.assertEqual(IssuesManager().load_issues(), expected)
 
     @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/mysql_connections.yaml'))
+    @utils.create_test_files(
+        {'etc/systemd/system/mysql.service.d/charm-nofile.conf': ''})
     def test_mysql_connections_w_file(self, mock_config):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            filenm = 'etc/systemd/system/mysql.service.d/charm-nofile.conf'
-            path = os.path.join(dtmp, filenm)
-            os.makedirs(os.path.dirname(path))
-            with open(path, 'w') as fd:
-                fd.write("")
+        def fake_get(key, **_kwargs):
+            return {'max_connections': '4191'}.get(key)
 
-            def fake_get(key, **_kwargs):
-                return {'max_connections': '4191'}.get(key)
+        mock_config.return_value = mock.MagicMock()
+        mock_config.return_value.get.side_effect = fake_get
 
-            mock_config.return_value = mock.MagicMock()
-            mock_config.return_value.get.side_effect = fake_get
-
-            YScenarioChecker()()
-            expected = {}
-            self.assertEqual(IssuesManager().load_issues(), expected)
+        YScenarioChecker()()
+        expected = {}
+        self.assertEqual(IssuesManager().load_issues(), expected)

@@ -532,76 +532,72 @@ class TestYamlChecks(utils.BaseTestCase):
                                  [os.path.join(HotSOSConfig.DATA_ROOT,
                                                'foo/bar3*')])
 
+    @utils.create_test_files({'data.txt': 'hello\nbrave\nworld\n',
+                              'events/myplugin/mygroup.yaml':
+                              YAML_DEF_EXPR_TYPES.format(path='data.txt')})
     def test_yaml_def_entry_seq(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            data_file = os.path.join(dtmp, 'data.txt')
-            _yaml = YAML_DEF_EXPR_TYPES.format(
-                                             path=os.path.basename(data_file))
-            yroot = os.path.join(dtmp, 'events', 'myplugin')
-            yfile = os.path.join(yroot, 'mygroup.yaml')
-            os.makedirs(os.path.dirname(yfile))
-            open(yfile, 'w').write(_yaml)
-            open(data_file, 'w').write('hello\nbrave\nworld\n')
-            plugin_checks = yaml.safe_load(_yaml).get('myplugin')
-            for name, group in plugin_checks.items():
-                group = YDefsSection(name, group)
-                for entry in group.leaf_sections:
-                    self.assertEqual(entry.input.paths,
-                                     ['{}*'.format(data_file)])
+        _yaml = YAML_DEF_EXPR_TYPES.format(path=os.path.basename('data.txt'))
+        plugin_checks = yaml.safe_load(_yaml).get('myplugin')
+        for name, group in plugin_checks.items():
+            group = YDefsSection(name, group)
+            data_file = os.path.join(HotSOSConfig.DATA_ROOT, 'data.txt')
+            for entry in group.leaf_sections:
+                self.assertEqual(entry.input.paths,
+                                 ['{}*'.format(data_file)])
 
-            test_self = self
-            match_count = {'count': 0}
-            callbacks_called = {}
-            setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
-            EVENTCALLBACKS = CallbackHelper()
+        test_self = self
+        match_count = {'count': 0}
+        callbacks_called = {}
+        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
+                     PLUGIN_NAME='myplugin')
+        EVENTCALLBACKS = CallbackHelper()
 
-            class MyEventHandler(events.YEventCheckerBase):
-                def __init__(self):
-                    super().__init__(EVENTCALLBACKS,
-                                     yaml_defs_group='mygroup',
-                                     searchobj=FileSearcher())
+        class MyEventHandler(events.YEventCheckerBase):
+            def __init__(self):
+                super().__init__(EVENTCALLBACKS,
+                                 yaml_defs_group='mygroup',
+                                 searchobj=FileSearcher())
 
-                @EVENTCALLBACKS.callback(event_group='mygroup')
-                def my_sequence_search(self, event):
-                    callbacks_called[event.name] = True
-                    for section in event.results:
-                        for result in section:
-                            if result.tag.endswith('-start'):
-                                match_count['count'] += 1
-                                test_self.assertEqual(result.get(0), 'hello')
-                            elif result.tag.endswith('-body'):
-                                match_count['count'] += 1
-                                test_self.assertEqual(result.get(0), 'brave')
-                            elif result.tag.endswith('-end'):
-                                match_count['count'] += 1
-                                test_self.assertEqual(result.get(0), 'world')
+            @EVENTCALLBACKS.callback(event_group='mygroup')
+            def my_sequence_search(self, event):
+                callbacks_called[event.name] = True
+                for section in event.results:
+                    for result in section:
+                        if result.tag.endswith('-start'):
+                            match_count['count'] += 1
+                            test_self.assertEqual(result.get(0), 'hello')
+                        elif result.tag.endswith('-body'):
+                            match_count['count'] += 1
+                            test_self.assertEqual(result.get(0), 'brave')
+                        elif result.tag.endswith('-end'):
+                            match_count['count'] += 1
+                            test_self.assertEqual(result.get(0), 'world')
 
-                @EVENTCALLBACKS.callback(event_group='mygroup')
-                def my_passthrough_search(self, event):
-                    # expected to be passthough results (i.e. raw)
-                    callbacks_called[event.name] = True
-                    tag = '{}-start'.format(event.search_tag)
-                    start_results = event.results.find_by_tag(tag)
-                    test_self.assertEqual(start_results[0].get(0), 'hello')
+            @EVENTCALLBACKS.callback(event_group='mygroup')
+            def my_passthrough_search(self, event):
+                # expected to be passthough results (i.e. raw)
+                callbacks_called[event.name] = True
+                tag = '{}-start'.format(event.search_tag)
+                start_results = event.results.find_by_tag(tag)
+                test_self.assertEqual(start_results[0].get(0), 'hello')
 
-                @EVENTCALLBACKS.callback(event_group='mygroup',
-                                         event_names=['my-pass-search',
-                                                      'my-fail-search1',
-                                                      'my-fail-search2'])
-                def my_standard_search_common(self, event):
-                    callbacks_called[event.name] = True
-                    test_self.assertEqual(event.results[0].get(0), 'hello')
+            @EVENTCALLBACKS.callback(event_group='mygroup',
+                                     event_names=['my-pass-search',
+                                                  'my-fail-search1',
+                                                  'my-fail-search2'])
+            def my_standard_search_common(self, event):
+                callbacks_called[event.name] = True
+                test_self.assertEqual(event.results[0].get(0), 'hello')
 
-                def __call__(self):
-                    self.run_checks()
+            def __call__(self):
+                self.run_checks()
 
-            MyEventHandler()()
-            self.assertEqual(match_count['count'], 3)
-            self.assertEqual(list(callbacks_called.keys()),
-                             ['my-sequence-search',
-                              'my-passthrough-search',
-                              'my-pass-search'])
+        MyEventHandler()()
+        self.assertEqual(match_count['count'], 3)
+        self.assertEqual(list(callbacks_called.keys()),
+                         ['my-sequence-search',
+                          'my-passthrough-search',
+                          'my-pass-search'])
 
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
                 'APTPackageChecksBase')
@@ -612,10 +608,8 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(IssuesManager().load_issues(), {})
 
     @init_test_scenario(SCENARIO_CHECKS)
+    @utils.create_test_files({'foo.log': '2021-04-01 00:31:00.000 an event\n'})
     def test_yaml_def_scenario_checks_false(self):
-        logfile = os.path.join(HotSOSConfig.DATA_ROOT, 'foo.log')
-        contents = ['2021-04-01 00:31:00.000 an event\n']
-        self._create_search_results(logfile, contents)
         checker = scenarios.YScenarioChecker()
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
@@ -658,17 +652,15 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @init_test_scenario(SCENARIO_CHECKS)
+    @utils.create_test_files({'foo.log':
+                              ('2021-04-01 00:31:00.000 an event\n'
+                               '2021-04-01 00:32:00.000 an event\n'
+                               '2021-04-01 00:33:00.000 an event\n'
+                               '2021-04-02 00:00:00.000 an event\n'
+                               '2021-04-02 00:36:00.000 an event\n')})
     def test_yaml_def_scenario_checks_expr(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
-        logfile = os.path.join(HotSOSConfig.DATA_ROOT, 'foo.log')
-        contents = ['2021-04-01 00:31:00.000 an event\n',
-                    '2021-04-01 00:32:00.000 an event\n',
-                    '2021-04-01 00:33:00.000 an event\n',
-                    '2021-04-02 00:00:00.000 an event\n',
-                    '2021-04-02 00:36:00.000 an event\n',
-                    ]
-        self._create_search_results(logfile, contents)
         checker = scenarios.YScenarioChecker()
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
@@ -684,10 +676,11 @@ class TestYamlChecks(utils.BaseTestCase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    def _create_search_results(self, path, contents):
-        with open(path, 'w') as fd:
-            for line in contents:
-                fd.write(line)
+    def _create_search_results(self, path, contents=None):
+        if contents:
+            with open(path, 'w') as fd:
+                for line in contents:
+                    fd.write(line)
 
         s = FileSearcher()
         s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
@@ -730,26 +723,26 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(ts, None)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
+    @utils.create_test_files({'foo.log': '2022-01-06 00:00:00.000 an event\n'})
     def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
+        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
+                     PLUGIN_NAME='myplugin')
 
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
-                         PLUGIN_NAME='myplugin')
-            logfile = os.path.join(dtmp, 'foo.log')
+        s = FileSearcher()
+        path = os.path.join(HotSOSConfig.DATA_ROOT, 'foo.log')
+        s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
+        results = s.search().find_by_tag('all')
 
-            contents = ['2022-01-06 00:00:00.000 an event\n']
-            results = self._create_search_results(logfile, contents)
+        result = YPropertySearch.filter_by_age(results, 48)
+        self.assertEqual(len(result), 1)
 
-            result = YPropertySearch.filter_by_age(results, 48)
-            self.assertEqual(len(result), 1)
+        result = YPropertySearch.filter_by_age(results, 24)
+        self.assertEqual(len(result), 1)
 
-            result = YPropertySearch.filter_by_age(results, 24)
-            self.assertEqual(len(result), 1)
-
-            result = YPropertySearch.filter_by_age(results, 23)
-            self.assertEqual(len(result), 0)
+        result = YPropertySearch.filter_by_age(results, 23)
+        self.assertEqual(len(result), 0)
 
     def test_yaml_def_scenario_result_filters_by_period(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -800,6 +793,10 @@ class TestYamlChecks(utils.BaseTestCase):
             result = YPropertySearch.filter_by_period(results, 24)
             self.assertEqual(len(result), 4)
 
+    @utils.create_test_files({'mytype/myplugin/defs.yaml':
+                              'foo: bar\n',
+                              'mytype/myplugin/mytype.yaml':
+                              'requires:\n  property: foo\n'})
     def test_fs_override_inheritance(self):
         """
         When a directory is used to group definitions and overrides are
@@ -807,40 +804,36 @@ class TestYamlChecks(utils.BaseTestCase):
         do not supersceded overrides of the same type used by definitions in
         the same directory.
         """
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
-                         PLUGIN_NAME='myplugin')
-            overrides = os.path.join(dtmp, 'mytype', 'myplugin', 'mytype.yaml')
-            defs = os.path.join(dtmp, 'mytype', 'myplugin', 'defs.yaml')
-            os.makedirs(os.path.dirname(overrides))
+        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
+                     PLUGIN_NAME='myplugin')
+        expected = {'mytype': {
+                        'requires': {
+                            'property': 'foo'}},
+                    'defs': {'foo': 'bar'}}
+        self.assertEqual(YDefsLoader('mytype').plugin_defs,
+                         expected)
 
-            with open(overrides, 'w') as fd:
-                fd.write("requires:\n")
-                fd.write("  property: foo\n")
-
-            with open(defs, 'w') as fd:
-                fd.write("foo: bar\n")
-
-            expected = {'mytype': {
-                            'requires': {
-                                'property': 'foo'}},
-                        'defs': {'foo': 'bar'}}
-            self.assertEqual(YDefsLoader('mytype').plugin_defs,
-                             expected)
-
-            with open(defs, 'a') as fd:
-                fd.write("requires:\n")
-                fd.write("  apt: apackage\n")
-
-            expected = {'mytype': {
-                            'requires': {
-                                'property': 'foo'}},
-                        'defs': {
-                            'foo': 'bar',
-                            'requires': {
-                                'apt': 'apackage'}}}
-            self.assertEqual(YDefsLoader('mytype').plugin_defs,
-                             expected)
+    @utils.create_test_files({'mytype/myplugin/defs.yaml':
+                              'requires:\n  apt: apackage\n',
+                              'mytype/myplugin/mytype.yaml':
+                              'requires:\n  property: foo\n'})
+    def test_fs_override_inheritance2(self):
+        """
+        When a directory is used to group definitions and overrides are
+        provided in a <dirname>.yaml file, we need to make sure those overrides
+        do not supersceded overrides of the same type used by definitions in
+        the same directory.
+        """
+        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
+                     PLUGIN_NAME='myplugin')
+        expected = {'mytype': {
+                        'requires': {
+                            'property': 'foo'}},
+                    'defs': {
+                        'requires': {
+                            'apt': 'apackage'}}}
+        self.assertEqual(YDefsLoader('mytype').plugin_defs,
+                         expected)
 
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
     def test_requires_grouped(self, mock_plugin):

@@ -47,6 +47,33 @@ def is_def_filter(def_filename):
     return inner
 
 
+def create_test_files(files_to_create):
+    """
+    Decorator helper to create any number of files with provided content within
+    a temporary DATA_ROOT.
+
+    @param files_to_create: a dictionary of <filename>: <contents> pairs.
+    """
+    def create_files_inner1(f):
+        def create_files_inner2(*args, **kwargs):
+            with tempfile.TemporaryDirectory() as dtmp:
+                setup_config(DATA_ROOT=dtmp)
+                for path, content in files_to_create.items():
+                    path = os.path.join(dtmp, path)
+                    if not os.path.exists(os.path.dirname(path)):
+                        os.makedirs(os.path.dirname(path))
+
+                    log.debug("creating test file %s", path)
+                    with open(path, 'w') as fd:
+                        fd.write(content)
+
+                return f(*args, **kwargs)
+
+        return create_files_inner2
+
+    return create_files_inner1
+
+
 class BaseTestCase(unittest.TestCase):
 
     def part_output_to_actual(self, output):

@@ -1,5 +1,4 @@
 import os
-import tempfile
 
 from unittest import mock
 
@@ -18,6 +17,10 @@ Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdo
 Discarding message {'$gen_call',{<0.753.0>,#Ref<0.989368845.173015041.56949>},{info,[name,pid,slave_pids,synchronised_slave_pids]}} from <0.753.0> to <0.943.0> in an old incarnation (3) of this node (1)
 
 2020-05-18 06:55:37.324 [error] <0.341.0> Mnesia(rabbit@warp10): ** ERROR ** mnesia_event got {inconsistent_database, running_partitioned_network, rabbit@hostname2}
+"""  # noqa
+
+LP_1943937 = """
+operation queue.declare caused a channel exception not_found: failed to perform operation on queue 'test_exchange_queue' in vhost 'nagios-rabbitmq-server-0' due to timeout
 """  # noqa
 
 
@@ -191,31 +194,23 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('rabbitmq_bugs.yaml'))
+    @utils.create_test_files({'var/log/rabbitmq/rabbit@test.log':
+                              LP_1943937})
     def test_1943937(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write("operation queue.declare caused a channel exception "
-                         "not_found: failed to perform operation on queue "
-                         "'test_exchange_queue' in vhost "
-                         "'nagios-rabbitmq-server-0' due to timeout")
+        YScenarioChecker()()
+        msg = ('Known RabbitMQ issue where queues get stuck and clients '
+               'trying to use them will just keep timing out. This stops '
+               'many services in the cloud from working correctly. '
+               'Resolution requires you to stop all RabbitMQ servers '
+               'before starting them all again at the same time. A '
+               'rolling restart or restarting them simultaneously will '
+               'not work. See bug for more detail.')
 
-            YScenarioChecker()()
-            msg = ('Known RabbitMQ issue where queues get stuck and clients '
-                   'trying to use them will just keep timing out. This stops '
-                   'many services in the cloud from working correctly. '
-                   'Resolution requires you to stop all RabbitMQ servers '
-                   'before starting them all again at the same time. A '
-                   'rolling restart or restarting them simultaneously will '
-                   'not work. See bug for more detail.')
-
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1943937',
-                          'desc': msg,
-                          'origin': 'rabbitmq.01part'}]}
-            self.assertEqual(IssuesManager().load_bugs(), expected)
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1943937',
+                      'desc': msg,
+                      'origin': 'rabbitmq.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_config.yaml'))
@@ -238,25 +233,20 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
+    @utils.create_test_files({'var/log/rabbitmq/rabbit@test.log':
+                              RABBITMQ_LOGS})
     def test_scenarios_cluster_logchecks(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/rabbitmq/rabbit@test.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(RABBITMQ_LOGS)
-
-            YScenarioChecker()()
-            msg1 = ('Messages were discarded because transient mirrored '
-                    'classic queues are not syncronized. Please stop all '
-                    'rabbitmq-server units and restart the cluster. '
-                    'Note that a rolling restart will not work.')
-            msg2 = ('This rabbitmq cluster either has or has had partitions - '
-                    'please check rabbtimqctl cluster_status.')
-            msg3 = ('Transient mirrored classic queues are not deleted when '
-                    'there are no replicas available for promotion. Please '
-                    'stop all rabbitmq-server units and restart the cluster. '
-                    'Note that a rolling restart will not work.')
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual(sorted([issue['desc'] for issue in issues]),
-                             sorted([msg1, msg2, msg3]))
+        YScenarioChecker()()
+        msg1 = ('Messages were discarded because transient mirrored '
+                'classic queues are not syncronized. Please stop all '
+                'rabbitmq-server units and restart the cluster. '
+                'Note that a rolling restart will not work.')
+        msg2 = ('This rabbitmq cluster either has or has had partitions - '
+                'please check rabbtimqctl cluster_status.')
+        msg3 = ('Transient mirrored classic queues are not deleted when '
+                'there are no replicas available for promotion. Please '
+                'stop all rabbitmq-server units and restart the cluster. '
+                'Note that a rolling restart will not work.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted([msg1, msg2, msg3]))

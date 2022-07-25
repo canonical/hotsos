@@ -1,5 +1,4 @@
 import os
-import tempfile
 from datetime import datetime
 
 from unittest import mock
@@ -61,6 +60,7 @@ neutron-openvswitch-agent.service      masked          enabled
 neutron-ovs-cleanup.service            enabled         enabled
 """  # noqa
 
+APT_SOURCE_PATH = 'etc/apt/sources.list.d/cloud-archive-{}.list'
 
 APT_UCA = """
 # Ubuntu Cloud Archive
@@ -586,20 +586,16 @@ class TestOpenstackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['services']['systemd'], expected)
 
+    @mock.patch('hotsos.core.plugins.openstack.common.OpenstackChecksBase.'
+                'days_to_eol', 3000)
+    @utils.create_test_files({os.path.join(APT_SOURCE_PATH.format(r)):
+                              APT_UCA.format(r) for r in
+                              ["stein", "ussuri", "train"]})
     def test_get_release_info(self):
         release_info = {'name': 'ussuri', 'days-to-eol': 3000}
-        with tempfile.TemporaryDirectory() as dtmp:
-            for rel in ["stein", "ussuri", "train"]:
-                with open(os.path.join(dtmp,
-                                       "cloud-archive-{}.list".format(rel)),
-                          'w') as fd:
-                    fd.write(APT_UCA.format(rel))
-
-            with mock.patch('hotsos.core.plugins.openstack.'
-                            'OpenstackChecksBase.apt_source_path', dtmp):
-                inst = summary.OpenstackSummary()
-                actual = self.part_output_to_actual(inst.output)
-                self.assertEqual(actual["release"], release_info)
+        inst = summary.OpenstackSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["release"], release_info)
 
     def test_get_pkg_info(self):
         expected = [
@@ -961,117 +957,95 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual.get(section_key), expected)
 
+    @utils.create_test_files({'var/log/octavia/octavia-health-manager.log':
+                              EVENT_OCTAVIA_CHECKS})
     def test_run_octavia_checks(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, ('var/log/octavia/'
-                                          'octavia-health-manager.log'))
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(EVENT_OCTAVIA_CHECKS)
-
-            expected = {'amp-missed-heartbeats': {
-                         '2021-06-01': {
-                          '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1,
-                          }},
-                        'lb-failovers': {
-                         'auto': {
-                          '2021-03-09': {
-                              '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
-                              '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
-                              '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
-                              'e9cb98af-9c21-4cf6-9661-709179ce5733': 1,
-                            }
-                          }
-                         }
+        expected = {'amp-missed-heartbeats': {
+                     '2021-06-01': {
+                      '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1,
+                      }},
+                    'lb-failovers': {
+                     'auto': {
+                      '2021-03-09': {
+                          '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
+                          '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
+                          '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
+                          'e9cb98af-9c21-4cf6-9661-709179ce5733': 1,
                         }
-            for section_key in ["octavia-worker", "octavia-health-manager"]:
-                sobj = FileSearcher()
-                inst = agent_event_checks.OctaviaAgentEventChecks(
-                                                                searchobj=sobj)
-                inst.run_checks()
-                actual = self.part_output_to_actual(inst.output)
-                self.assertEqual(actual["octavia"].get(section_key),
-                                 expected.get(section_key))
+                      }
+                     }
+                    }
+        for section_key in ["octavia-worker", "octavia-health-manager"]:
+            sobj = FileSearcher()
+            inst = agent_event_checks.OctaviaAgentEventChecks(
+                                                            searchobj=sobj)
+            inst.run_checks()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual["octavia"].get(section_key),
+                             expected.get(section_key))
 
+    @utils.create_test_files({'var/log/apache2/error.log':
+                              EVENT_APACHE_CONN_REFUSED_LOG})
     def test_run_apache_checks(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/apache2/error.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(EVENT_APACHE_CONN_REFUSED_LOG)
+        expected = {'connection-refused': {
+                        '2021-10-26': {'127.0.0.1:8981': 3}}}
+        for section_key in ['connection-refused']:
+            sobj = FileSearcher()
+            inst = agent_event_checks.ApacheEventChecks(searchobj=sobj)
+            inst.run_checks()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual['apache'].get(section_key),
+                             expected.get(section_key))
 
-            expected = {'connection-refused': {
-                            '2021-10-26': {'127.0.0.1:8981': 3}}}
-            for section_key in ['connection-refused']:
-                sobj = FileSearcher()
-                inst = agent_event_checks.ApacheEventChecks(searchobj=sobj)
-                inst.run_checks()
-                actual = self.part_output_to_actual(inst.output)
-                self.assertEqual(actual['apache'].get(section_key),
-                                 expected.get(section_key))
-
+    @utils.create_test_files({'var/log/kern.log': AA_MSGS})
     def test_run_apparmor_checks(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/kern.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(AA_MSGS)
+        expected = {'denials': {
+                        'neutron': {
+                            '/usr/bin/neutron-dhcp-agent': {
+                                'Mar 3': 2},
+                            '/usr/bin/neutron-l3-agent': {
+                                'Mar 3': 1},
+                            '/usr/bin/neutron-openvswitch-agent': {
+                                'Mar 3': 4}}}}
+        sobj = FileSearcher()
+        inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['apparmor'], expected)
 
-            expected = {'denials': {
-                            'neutron': {
-                                '/usr/bin/neutron-dhcp-agent': {
-                                    'Mar 3': 2},
-                                '/usr/bin/neutron-l3-agent': {
-                                    'Mar 3': 1},
-                                '/usr/bin/neutron-openvswitch-agent': {
-                                    'Mar 3': 4}}}}
-            sobj = FileSearcher()
-            inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
-            inst.run_checks()
-            actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual['apparmor'], expected)
+        # now try with key by time
+        setup_config(AGENT_ERROR_KEY_BY_TIME=True)
+        expected = {'denials': {
+                        'neutron': {
+                            '/usr/bin/neutron-dhcp-agent': {
+                                'Mar 3': {
+                                    '22:57:11': 1,
+                                    '22:57:23': 1}},
+                            '/usr/bin/neutron-l3-agent': {
+                                'Mar 3': {
+                                    '22:57:11': 1}},
+                            '/usr/bin/neutron-openvswitch-agent': {
+                                'Mar 3': {
+                                    '22:57:11': 1,
+                                    '22:57:22': 1,
+                                    '22:57:24': 2}}}}}
+        sobj = FileSearcher()
+        inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['apparmor'], expected)
 
-            # now try with key by time
-            setup_config(AGENT_ERROR_KEY_BY_TIME=True)
-            expected = {'denials': {
-                            'neutron': {
-                                '/usr/bin/neutron-dhcp-agent': {
-                                    'Mar 3': {
-                                        '22:57:11': 1,
-                                        '22:57:23': 1}},
-                                '/usr/bin/neutron-l3-agent': {
-                                    'Mar 3': {
-                                        '22:57:11': 1}},
-                                '/usr/bin/neutron-openvswitch-agent': {
-                                    'Mar 3': {
-                                        '22:57:11': 1,
-                                        '22:57:22': 1,
-                                        '22:57:24': 2}}}}}
-            sobj = FileSearcher()
-            inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
-            inst.run_checks()
-            actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual['apparmor'], expected)
-
+    @utils.create_test_files({'var/log/nova/nova-compute.log':
+                              EVENT_PCIDEVNOTFOUND_LOG})
     def test_run_nova_checks(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/nova/nova-compute.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(EVENT_PCIDEVNOTFOUND_LOG)
-
-            expected = {'PciDeviceNotFoundById': {
-                            '2021-09-17': {'0000:3b:0f.7': 1,
-                                           '0000:3b:10.0': 1}}}
-            sobj = FileSearcher()
-            inst = agent_event_checks.NovaComputeEventChecks(searchobj=sobj)
-            inst.run_checks()
-            actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual["nova"], expected)
+        expected = {'PciDeviceNotFoundById': {
+                        '2021-09-17': {'0000:3b:0f.7': 1,
+                                       '0000:3b:10.0': 1}}}
+        sobj = FileSearcher()
+        inst = agent_event_checks.NovaComputeEventChecks(searchobj=sobj)
+        inst.run_checks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["nova"], expected)
 
     def test_run_neutron_l3ha_checks(self):
         expected = {'keepalived': {
@@ -1101,24 +1075,19 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                'the last 24 hours.')
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
+    @utils.create_test_files({'var/log/neutron/neutron-server.log':
+                              NEUTRON_HTTP})
     def test_api_events(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/neutron/neutron-server.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(NEUTRON_HTTP)
-
-            sobj = FileSearcher()
-            inst = agent_event_checks.APIEvents(searchobj=sobj)
-            inst.run_checks()
-            expected = {'http-requests': {'neutron': {
-                                            '2022-05-11': {'GET': 2,
-                                                           'PUT': 3,
-                                                           'POST': 4,
-                                                           'DELETE': 5}}}}
-            actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual, expected)
+        sobj = FileSearcher()
+        inst = agent_event_checks.APIEvents(searchobj=sobj)
+        inst.run_checks()
+        expected = {'http-requests': {'neutron': {
+                                        '2022-05-11': {'GET': 2,
+                                                       'PUT': 3,
+                                                       'POST': 4,
+                                                       'DELETE': 5}}}}
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
 
 
 class TestOpenstackAgentExceptions(TestOpenstackBase):
@@ -1173,86 +1142,61 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
+    @utils.create_test_files({'var/log/neutron/neutron-l3-agent.log':
+                              LP_1929832})
     def test_1929832(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp,
-                                   'var/log/neutron/neutron-l3-agent.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP_1929832)
-
-            YScenarioChecker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1929832',
-                          'desc': ('Known neutron l3-agent bug identified '
-                                   'that impacts deletion of neutron '
-                                   'routers.'),
-                          'origin': 'openstack.01part'}]}
-            self.assertEqual(IssuesManager().load_bugs(), expected)
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1929832',
+                      'desc': ('Known neutron l3-agent bug identified '
+                               'that impacts deletion of neutron '
+                               'routers.'),
+                      'origin': 'openstack.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
+    @utils.create_test_files({'var/log/syslog': LP_1896506})
     def test_1896506(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/syslog')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP_1896506)
-
-            YScenarioChecker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1896506',
-                          'desc': ('Known neutron l3-agent bug identified '
-                                   'that critically impacts keepalived.'),
-                          'origin': 'openstack.01part'}]}
-            self.assertEqual(IssuesManager().load_bugs(), expected)
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1896506',
+                      'desc': ('Known neutron l3-agent bug identified '
+                               'that critically impacts keepalived.'),
+                      'origin': 'openstack.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
+    @utils.create_test_files({'var/log/neutron/neutron-l3-agent.log':
+                              LP_1979089})
     def test_1979089(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(
-                        dtmp, 'var/log/neutron/neutron-l3-agent.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP_1979089)
-
-            YScenarioChecker()()
-
-            msg = ("The neutron-l3-agent service on this node appears to be "
-                   "impacted by the mentioned bug whereby it is "
-                   "consumed by the task of continuously respawning "
-                   "haproxy for a router that has been deleted. To "
-                   "workaround this problem you can manually create "
-                   "the missing namespace to allow the operation to "
-                   "complete. See bug report for details.")
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1979089',
-                          'desc': (msg),
-                          'origin': 'openstack.01part'}]}
-            self.assertEqual(IssuesManager().load_bugs(), expected)
+        YScenarioChecker()()
+        msg = ("The neutron-l3-agent service on this node appears to be "
+               "impacted by the mentioned bug whereby it is "
+               "consumed by the task of continuously respawning "
+               "haproxy for a router that has been deleted. To "
+               "workaround this problem you can manually create "
+               "the missing namespace to allow the operation to "
+               "complete. See bug report for details.")
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1979089',
+                      'desc': (msg),
+                      'origin': 'openstack.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
+    @utils.create_test_files({'var/log/neutron/neutron-ovn-metadata-agent.log':
+                              LP_1928031})
     def test_1928031(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(
-                        dtmp, 'var/log/neutron/neutron-ovn-metadata-agent.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP_1928031)
-
-            YScenarioChecker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1928031',
-                          'desc': ('Known neutron-ovn bug identified that '
-                                   'impacts OVN sbdb connections.'),
-                          'origin': 'openstack.01part'}]}
-            self.assertEqual(IssuesManager().load_bugs(), expected)
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1928031',
+                      'desc': ('Known neutron-ovn bug identified that '
+                               'impacts OVN sbdb connections.'),
+                      'origin': 'openstack.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
@@ -1276,31 +1220,24 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('octavia/bugs.yaml'))
+    @utils.create_test_files({'var/log/octavia/octavia-worker.log':
+                              LP_2008099})
     def test_2008099(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
             ["ii octavia-common 6.1.0-0ubuntu1~cloud0 all"]
-
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(
-                        dtmp, 'var/log/octavia/octavia-worker.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP_2008099)
-
-            YScenarioChecker()()
-            expected = {'bugs-detected':
-                        [{'id':
-                          'https://storyboard.openstack.org/#!/story/2008099',
-                          'desc': ('A known octavia bug has been identified. '
-                                   'Due to this bug, LB failover '
-                                   'fails when session persistence is set on '
-                                   'a LB pool. The fix is available in '
-                                   'latest octavia packages in UCA ussuri '
-                                   'and above.'),
-                          'origin': 'openstack.01part'}]}
-            self.assertEqual(IssuesManager().load_bugs(), expected)
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id':
+                      'https://storyboard.openstack.org/#!/story/2008099',
+                      'desc': ('A known octavia bug has been identified. '
+                               'Due to this bug, LB failover '
+                               'fails when session persistence is set on '
+                               'a LB pool. The fix is available in '
+                               'latest octavia packages in UCA ussuri '
+                               'and above.'),
+                      'origin': 'openstack.01part'}]}
+        self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.issues.IssuesManager.add')
     def test_scenarios_none(self, mock_add_issue):
@@ -1443,28 +1380,24 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('openstack_apache2_certificates.yaml'))
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
+    @utils.create_test_files(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF,
+         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_apache2_ssl_certificate_expiring(self, mock_datetime):
         mocked_today = datetime(2023, 4, 12)
         mock_datetime.return_value = mock.MagicMock()
         mock_datetime.today.return_value = mocked_today
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            conf = "etc/apache2/sites-enabled/openstack_https_frontend.conf"
-            certificate_path = "etc/apache2/ssl/keystone/cert_10.5.100.2"
-            full_certificate_path = os.path.join(dtmp, certificate_path)
-            os.makedirs(os.path.dirname(os.path.join(dtmp, conf)))
-            os.makedirs(os.path.dirname(full_certificate_path))
-            with open(os.path.join(dtmp, conf), 'w') as fd:
-                fd.write(APACHE2_SSL_CONF)
-            with open(os.path.join(dtmp, certificate_path), 'w') as fd:
-                fd.write(CERTIFICATE_FILE)
-            base = openstack_core.OpenstackBase()
-            YScenarioChecker()()
-            msg = ("The following certificates will expire in less than {0} "
-                   "days: {1}".format(base.certificate_expire_days,
-                                      full_certificate_path))
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        base = openstack_core.OpenstackBase()
+        YScenarioChecker()()
+        full_cert_path = os.path.join(
+                                    HotSOSConfig.DATA_ROOT,
+                                    'etc/apache2/ssl/keystone/cert_10.5.100.2')
+        msg = ("The following certificates will expire in less than {0} "
+               "days: {1}".format(base.certificate_expire_days,
+                                  full_cert_path))
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch(
         'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
@@ -1502,9 +1435,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     def test_openstack_eol(self, mock_date):
         # 2030-04-30
         mock_date.return_value = '1903748400'
-
         YScenarioChecker()()
-
         msg = ('This node is running a version of Openstack that is '
                'End of Life (release=ussuri) which means it has '
                'limited support and is likely not receiving updates '
@@ -1520,66 +1451,45 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
 class TestOpenstackApache2SSL(TestOpenstackBase):
 
+    @utils.create_test_files(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF})
     def test_ssl_enabled(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            conf = "etc/apache2/sites-enabled/openstack_https_frontend.conf"
-            os.makedirs(os.path.dirname(os.path.join(dtmp, conf)))
-            with open(os.path.join(dtmp, conf), 'w') as fd:
-                fd.write(APACHE2_SSL_CONF)
-            setup_config(DATA_ROOT=dtmp)
-            base = openstack_core.OpenstackBase()
-            self.assertTrue(base.ssl_enabled)
+        base = openstack_core.OpenstackBase()
+        self.assertTrue(base.ssl_enabled)
 
     def test_ssl_disabled(self):
         base = openstack_core.OpenstackBase()
         self.assertFalse(base.ssl_enabled)
 
+    @utils.create_test_files(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF,
+         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_ssl_certificate_list(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            conf = "etc/apache2/sites-enabled/openstack_https_frontend.conf"
-            certificate_path = "etc/apache2/ssl/keystone/cert_10.5.100.2"
-            os.makedirs(os.path.dirname(os.path.join(dtmp, conf)))
-            os.makedirs(os.path.dirname(os.path.join(dtmp, certificate_path)))
-            with open(os.path.join(dtmp, conf), 'w') as fd:
-                fd.write(APACHE2_SSL_CONF)
-            with open(os.path.join(dtmp, certificate_path), 'w') as fd:
-                fd.write(CERTIFICATE_FILE)
-            base = openstack_core.OpenstackBase()
-            self.assertTrue(len(base.apache2_certificates_list), 1)
+        base = openstack_core.OpenstackBase()
+        self.assertTrue(len(base.apache2_certificates_list), 1)
 
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
+    @utils.create_test_files(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF,
+         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_ssl_expiration_false(self, mock_datetime):
         mocked_today = datetime(2022, 4, 12)
         mock_datetime.return_value = mock.MagicMock()
         mock_datetime.today.return_value = mocked_today
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            conf = "etc/apache2/sites-enabled/openstack_https_frontend.conf"
-            certificate_path = "etc/apache2/ssl/keystone/cert_10.5.100.2"
-            os.makedirs(os.path.dirname(os.path.join(dtmp, conf)))
-            os.makedirs(os.path.dirname(os.path.join(dtmp, certificate_path)))
-            with open(os.path.join(dtmp, conf), 'w') as fd:
-                fd.write(APACHE2_SSL_CONF)
-            with open(os.path.join(dtmp, certificate_path), 'w') as cfd:
-                cfd.write(CERTIFICATE_FILE)
-            base = openstack_core.OpenstackBase()
-            self.assertEqual(len(base.apache2_certificates_expiring), 0)
+        base = openstack_core.OpenstackBase()
+        self.assertEqual(len(base.apache2_certificates_expiring), 0)
 
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
+    @utils.create_test_files(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF,
+         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_ssl_expiration_true(self, mock_datetime):
         mocked_today = datetime(2023, 4, 12)
         mock_datetime.return_value = mock.MagicMock()
         mock_datetime.today.return_value = mocked_today
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            conf = "etc/apache2/sites-enabled/openstack_https_frontend.conf"
-            certificate_path = "etc/apache2/ssl/keystone/cert_10.5.100.2"
-            os.makedirs(os.path.dirname(os.path.join(dtmp, conf)))
-            os.makedirs(os.path.dirname(os.path.join(dtmp, certificate_path)))
-            with open(os.path.join(dtmp, conf), 'w') as fd:
-                fd.write(APACHE2_SSL_CONF)
-            with open(os.path.join(dtmp, certificate_path), 'w') as cfd:
-                cfd.write(CERTIFICATE_FILE)
-            base = openstack_core.OpenstackBase()
-            self.assertTrue(len(base.apache2_certificates_expiring), 1)
+        base = openstack_core.OpenstackBase()
+        self.assertTrue(len(base.apache2_certificates_expiring), 1)

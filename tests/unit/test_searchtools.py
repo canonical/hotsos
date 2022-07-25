@@ -211,7 +211,6 @@ class TestSearchTools(utils.BaseTestCase):
 
     def test_filesearch_filesort(self):
         ordered_contents = []
-        self.maxDiff = None
         with tempfile.TemporaryDirectory() as dtmp:
             os.mknod(os.path.join(dtmp, "my-test-agent.log"))
             ordered_contents.append("my-test-agent.log")
@@ -234,7 +233,6 @@ class TestSearchTools(utils.BaseTestCase):
 
     def test_filesearch_glob_filesort(self):
         dir_contents = []
-        self.maxDiff = None
         with tempfile.TemporaryDirectory() as dtmp:
             dir_contents.append(os.path.join(dtmp, "my-test-agent.0.log"))
             dir_contents.append(os.path.join(dtmp, "my-test-agent.1.log"))
@@ -278,125 +276,116 @@ class TestSearchTools(utils.BaseTestCase):
             act = sorted(FileSearcher().filtered_paths(glob.glob(path)))
             self.assertEqual(act, exp)
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_1})
     def test_sequence_searcher(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_1)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(
-                                                 r"^a\S* (start\S*) point\S*"),
-                                   body=SearchDef(r"leads to"),
-                                   end=SearchDef(r"^an (ending)$"),
-                                   tag="seq-search-test1")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 1)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        self.assertEqual(r.get(1), "start")
-                    elif r.tag == sd.end_tag:
-                        self.assertEqual(r.get(1), "ending")
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(
+                                             r"^a\S* (start\S*) point\S*"),
+                               body=SearchDef(r"leads to"),
+                               end=SearchDef(r"^an (ending)$"),
+                               tag="seq-search-test1")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 1)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    self.assertEqual(r.get(1), "start")
+                elif r.tag == sd.end_tag:
+                    self.assertEqual(r.get(1), "ending")
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': SEQ_TEST_2})
     def test_sequence_searcher_overlapping(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_2)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(
-                                               r"^(a\S*) (start\S*) point\S*"),
-                                   body=SearchDef(r"leads to"),
-                                   end=SearchDef(r"^an (ending)$"),
-                                   tag="seq-search-test2")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 1)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        self.assertEqual(r.get(1), "another")
-                    elif r.tag == sd.end_tag:
-                        self.assertEqual(r.get(1), "ending")
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(
+                                           r"^(a\S*) (start\S*) point\S*"),
+                               body=SearchDef(r"leads to"),
+                               end=SearchDef(r"^an (ending)$"),
+                               tag="seq-search-test2")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 1)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    self.assertEqual(r.get(1), "another")
+                elif r.tag == sd.end_tag:
+                    self.assertEqual(r.get(1), "ending")
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': SEQ_TEST_3})
     def test_sequence_searcher_overlapping_incomplete(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_3)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(
-                                               r"^(a\S*) (start\S*) point\S*"),
-                                   body=SearchDef(r"leads to"),
-                                   end=SearchDef(r"^an (ending)$"),
-                                   tag="seq-search-test3")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 1)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        self.assertEqual(r.get(1), "another")
-                    elif r.tag == sd.end_tag:
-                        self.assertEqual(r.get(1), "ending")
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(
+                                           r"^(a\S*) (start\S*) point\S*"),
+                               body=SearchDef(r"leads to"),
+                               end=SearchDef(r"^an (ending)$"),
+                               tag="seq-search-test3")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 1)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    self.assertEqual(r.get(1), "another")
+                elif r.tag == sd.end_tag:
+                    self.assertEqual(r.get(1), "ending")
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': SEQ_TEST_4})
     def test_sequence_searcher_incomplete_eof_match(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_4)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(
-                                               r"^(a\S*) (start\S*) point\S*"),
-                                   body=SearchDef(r"value is (\S+)"),
-                                   end=SearchDef(r"^$"),
-                                   tag="seq-search-test4")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 1)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        self.assertEqual(r.get(1), "another")
-                    elif r.tag == sd.body_tag:
-                        self.assertEqual(r.get(1), "3")
-                    elif r.tag == sd.end_tag:
-                        self.assertEqual(r.get(0), "")
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(
+                                           r"^(a\S*) (start\S*) point\S*"),
+                               body=SearchDef(r"value is (\S+)"),
+                               end=SearchDef(r"^$"),
+                               tag="seq-search-test4")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 1)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    self.assertEqual(r.get(1), "another")
+                elif r.tag == sd.body_tag:
+                    self.assertEqual(r.get(1), "3")
+                elif r.tag == sd.end_tag:
+                    self.assertEqual(r.get(0), "")
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': SEQ_TEST_5})
     def test_sequence_searcher_multiple_sections(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_5)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(
-                                               r"^(a\S*) (start\S*) point\S*"),
-                                   body=SearchDef(r"value is (\S+)"),
-                                   end=SearchDef(r"^$"),
-                                   tag="seq-search-test5")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 2)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        self.assertEqual(r.get(1), "another")
-                    elif r.tag == sd.body_tag:
-                        self.assertTrue(r.get(1) in ["3", "4"])
-                    elif r.tag == sd.end_tag:
-                        self.assertEqual(r.get(0), "")
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(
+                                           r"^(a\S*) (start\S*) point\S*"),
+                               body=SearchDef(r"value is (\S+)"),
+                               end=SearchDef(r"^$"),
+                               tag="seq-search-test5")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 2)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    self.assertEqual(r.get(1), "another")
+                elif r.tag == sd.body_tag:
+                    self.assertTrue(r.get(1) in ["3", "4"])
+                elif r.tag == sd.end_tag:
+                    self.assertEqual(r.get(0), "")
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': SEQ_TEST_6})
     def test_sequence_searcher_eof(self):
         """
         Test scenario:
@@ -405,30 +394,28 @@ class TestSearchTools(utils.BaseTestCase):
          * end def matches any start
          * file ends before start of next
         """
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_6)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(r"^section (\d+)"),
-                                   body=SearchDef(r"\d_\d"),
-                                   tag="seq-search-test6")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 2)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        section = r.get(1)
-                        self.assertTrue(r.get(1) in ["1", "2"])
-                    elif r.tag == sd.body_tag:
-                        if section == "1":
-                            self.assertTrue(r.get(0) in ["1_1", "1_2"])
-                        else:
-                            self.assertTrue(r.get(0) in ["2_1"])
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(r"^section (\d+)"),
+                               body=SearchDef(r"\d_\d"),
+                               tag="seq-search-test6")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 2)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    section = r.get(1)
+                    self.assertTrue(r.get(1) in ["1", "2"])
+                elif r.tag == sd.body_tag:
+                    if section == "1":
+                        self.assertTrue(r.get(0) in ["1_1", "1_2"])
+                    else:
+                        self.assertTrue(r.get(0) in ["2_1"])
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': SEQ_TEST_7})
     def test_sequence_searcher_section_start_end_same(self):
         """
         Test scenario:
@@ -436,28 +423,26 @@ class TestSearchTools(utils.BaseTestCase):
          * start def matches unique start
          * end def matches any start
         """
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_7)
-            ftmp.close()
-            s = FileSearcher()
-            sd = SequenceSearchDef(start=SearchDef(r"^section (2)"),
-                                   body=SearchDef(r"\d_\d"),
-                                   end=SearchDef(
-                                               r"^section (\d+)"),
-                                   tag="seq-search-test7")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sd)
-            self.assertEqual(len(sections), 1)
-            for id in sections:
-                for r in sections[id]:
-                    if r.tag == sd.start_tag:
-                        self.assertEqual(r.get(1), "2")
-                    elif r.tag == sd.body_tag:
-                        self.assertTrue(r.get(0) in ["2_1"])
+        s = FileSearcher()
+        sd = SequenceSearchDef(start=SearchDef(r"^section (2)"),
+                               body=SearchDef(r"\d_\d"),
+                               end=SearchDef(
+                                           r"^section (\d+)"),
+                               tag="seq-search-test7")
+        s.add_search_term(sd,
+                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                                            'atestfile'))
+        results = s.search()
+        sections = results.find_sequence_sections(sd)
+        self.assertEqual(len(sections), 1)
+        for id in sections:
+            for r in sections[id]:
+                if r.tag == sd.start_tag:
+                    self.assertEqual(r.get(1), "2")
+                elif r.tag == sd.body_tag:
+                    self.assertTrue(r.get(0) in ["2_1"])
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': MULTI_SEQ_TEST})
     def test_sequence_searcher_multi_sequence(self):
         """
         Test scenario:
@@ -465,57 +450,48 @@ class TestSearchTools(utils.BaseTestCase):
          * data containing 2 results of each where one is incomplete
          * test that single incomplete result gets removed
         """
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(MULTI_SEQ_TEST)
-            ftmp.close()
-            s = FileSearcher()
-            sdA = SequenceSearchDef(start=SearchDef(r"^sectionA (\d+)"),
-                                    body=SearchDef(r"\d_\d"),
-                                    end=SearchDef(
-                                                r"^section\S+ (\d+)"),
-                                    tag="seqA-search-test")
-            sdB = SequenceSearchDef(start=SearchDef(r"^sectionB (\d+)"),
-                                    body=SearchDef(r"\d_\d"),
-                                    end=SearchDef(
-                                                r"^section\S+ (\d+)"),
-                                    tag="seqB-search-test")
-            s.add_search_term(sdA, path=ftmp.name)
-            s.add_search_term(sdB, path=ftmp.name)
-            results = s.search()
-            sections = results.find_sequence_sections(sdA)
-            self.assertEqual(len(sections), 1)
-            sections = results.find_sequence_sections(sdB)
-            self.assertEqual(len(sections), 2)
-            os.remove(ftmp.name)
+        s = FileSearcher()
+        sdA = SequenceSearchDef(start=SearchDef(r"^sectionA (\d+)"),
+                                body=SearchDef(r"\d_\d"),
+                                end=SearchDef(
+                                            r"^section\S+ (\d+)"),
+                                tag="seqA-search-test")
+        sdB = SequenceSearchDef(start=SearchDef(r"^sectionB (\d+)"),
+                                body=SearchDef(r"\d_\d"),
+                                end=SearchDef(
+                                            r"^section\S+ (\d+)"),
+                                tag="seqB-search-test")
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sdA, path=fname)
+        s.add_search_term(sdB, path=fname)
+        results = s.search()
+        sections = results.find_sequence_sections(sdA)
+        self.assertEqual(len(sections), 1)
+        sections = results.find_sequence_sections(sdB)
+        self.assertEqual(len(sections), 2)
 
+    @utils.create_test_files({'atestfile': FILTER_TEST_1})
     def test_search_filter(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(FILTER_TEST_1)
-            ftmp.close()
-            s = FileSearcher()
-            fd = FilterDef(r" (INFO)")
-            s.add_filter_term(fd, path=ftmp.name)
-            sd = SearchDef(r".+ INFO (.+)")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search().find_by_path(ftmp.name)
-            self.assertEqual(len(results), 1)
-            for r in results:
-                self.assertEqual(r.get(1), "blah")
+        s = FileSearcher()
+        fd = FilterDef(r" (INFO)")
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_filter_term(fd, path=fname)
+        sd = SearchDef(r".+ INFO (.+)")
+        s.add_search_term(sd, path=fname)
+        results = s.search().find_by_path(fname)
+        self.assertEqual(len(results), 1)
+        for r in results:
+            self.assertEqual(r.get(1), "blah")
 
-            os.remove(ftmp.name)
-
+    @utils.create_test_files({'atestfile': FILTER_TEST_1})
     def test_search_filter_invert_match(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(FILTER_TEST_1)
-            ftmp.close()
-            s = FileSearcher()
-            fd = FilterDef(r" (ERROR)", invert_match=True)
-            s.add_filter_term(fd, path=ftmp.name)
-            sd = SearchDef(r".+ INFO (.+)")
-            s.add_search_term(sd, path=ftmp.name)
-            results = s.search().find_by_path(ftmp.name)
-            self.assertEqual(len(results), 1)
-            for r in results:
-                self.assertEqual(r.get(1), "blah")
-
-            os.remove(ftmp.name)
+        s = FileSearcher()
+        fd = FilterDef(r" (ERROR)", invert_match=True)
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_filter_term(fd, path=fname)
+        sd = SearchDef(r".+ INFO (.+)")
+        s.add_search_term(sd, path=fname)
+        results = s.search().find_by_path(fname)
+        self.assertEqual(len(results), 1)
+        for r in results:
+            self.assertEqual(r.get(1), "blah")

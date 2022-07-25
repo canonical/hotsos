@@ -1,6 +1,5 @@
 import os
 import subprocess
-import tempfile
 
 from unittest import mock
 
@@ -50,27 +49,17 @@ class TestCLIHelpers(utils.BaseTestCase):
     def test_get_date(self):
         self.assertEqual(self.helper.date(), '1644509957')
 
+    @utils.create_test_files({'sos_commands/date/date':
+                              'Thu Mar 25 10:55:05 UTC 2021'})
     def test_get_date_w_tz(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            helper = cli.CLIHelper()
-            os.makedirs(os.path.join(dtmp, "sos_commands/date"))
-            with open(os.path.join(dtmp, "sos_commands/date/date"),
-                      'w') as fd:
-                fd.write("Thu Mar 25 10:55:05 UTC 2021")
+        helper = cli.CLIHelper()
+        self.assertEqual(helper.date(), '1616669705')
 
-            self.assertEqual(helper.date(), '1616669705')
-
+    @utils.create_test_files({'sos_commands/date/date':
+                              'Thu Mar 25 10:55:05 123UTC 2021'})
     def test_get_date_w_invalid_tz(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            helper = cli.CLIHelper()
-            os.makedirs(os.path.join(dtmp, "sos_commands/date"))
-            with open(os.path.join(dtmp, "sos_commands/date/date"),
-                      'w') as fd:
-                fd.write("Thu Mar 25 10:55:05 123UTC 2021")
-
-            self.assertEqual(helper.date(), "")
+        helper = cli.CLIHelper()
+        self.assertEqual(helper.date(), "")
 
     def test_ovs_ofctl_bin_w_errors(self):
 

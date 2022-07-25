@@ -1,5 +1,4 @@
 import os
-import tempfile
 
 from unittest import mock
 import json
@@ -455,12 +454,11 @@ class TestMonCephSummary(StorageCephMonTestsBase):
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
+    @utils.create_test_files({})
     def test_scenarios_none(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-            issues = list(IssuesManager().load_issues().values())
-            self.assertEqual(len(issues), 0)
+        YScenarioChecker()()
+        issues = list(IssuesManager().load_issues().values())
+        self.assertEqual(len(issues), 0)
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
@@ -468,28 +466,20 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
+    @utils.create_test_files({'var/log/ceph/ceph.log': MON_ELECTION_LOGS})
     def test_scenario_mon_reelections(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
         mock_cephbase.return_value.has_interface_errors = True
         mock_cephbase.return_value.bind_interface_names = 'ethX'
-
-        with tempfile.TemporaryDirectory() as dtmp:
-            path = os.path.join(dtmp, 'var/log/ceph')
-            os.makedirs(path)
-            logpath = os.path.join(path, 'ceph.log')
-            with open(logpath, 'w') as fd:
-                fd.write(MON_ELECTION_LOGS)
-
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ('The Ceph monitor on this host has experienced 5 re-elections '
                'within a 24hr period and the network interface(s) ethX used '
                'by the ceph-mon are showing errors - please investigate.')
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
+        logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
         context = {logpath: 2,
                    'ops': 'truth',
                    'passes': True,
@@ -506,19 +496,11 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
+    @utils.create_test_files({'var/log/ceph/ceph.log': OSD_SLOW_HEARTBEATS})
     def test_scenario_osd_slow_heartbeats(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
-
-        with tempfile.TemporaryDirectory() as dtmp:
-            path = os.path.join(dtmp, 'var/log/ceph')
-            os.makedirs(path)
-            with open(os.path.join(path, 'ceph.log'), 'w') as fd:
-                fd.write(OSD_SLOW_HEARTBEATS)
-
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ("One or more Ceph OSDs is showing slow heartbeats. This most "
                "commonly a result of network issues between OSDs. Please "
                "check that the interfaces and network between OSDs is not "
@@ -551,28 +533,20 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
+    @utils.create_test_files({'var/log/ceph/ceph.log': OSD_SLOW_OPS})
     def test_scenario_osd_slow_ops(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
         mock_cephbase.return_value.has_interface_errors = True
         mock_cephbase.return_value.bind_interface_names = 'ethX'
-
-        with tempfile.TemporaryDirectory() as dtmp:
-            path = os.path.join(dtmp, 'var/log/ceph')
-            os.makedirs(path)
-            logpath = os.path.join(path, 'ceph.log')
-            with open(logpath, 'w') as fd:
-                fd.write(OSD_SLOW_OPS)
-
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ("Cluster is experiencing slow ops. The network interface(s) "
                "(ethX) used by the Ceph are showing errors - please "
                "investigate.")
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
+        logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
         context = {logpath: 5,
                    'ops': 'truth',
                    'passes': True,
@@ -589,28 +563,20 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
+    @utils.create_test_files({'var/log/ceph/ceph.log': OSD_FLAPPING})
     def test_scenario_osd_flapping(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
         mock_cephbase.return_value.has_interface_errors = True
         mock_cephbase.return_value.bind_interface_names = 'ethX'
-
-        with tempfile.TemporaryDirectory() as dtmp:
-            path = os.path.join(dtmp, 'var/log/ceph')
-            os.makedirs(path)
-            logpath = os.path.join(path, 'ceph.log')
-            with open(logpath, 'w') as fd:
-                fd.write(OSD_FLAPPING)
-
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ("Cluster is experiencing OSD flapping. The network "
                "interface(s) (ethX) used by the Ceph are showing errors "
                "- please investigate.")
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
+        logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
         context = {logpath: 3,
                    'ops': 'truth',
                    'passes': True,

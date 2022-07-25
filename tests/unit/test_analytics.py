@@ -1,9 +1,9 @@
 import os
-import tempfile
 
 from . import utils
 
 from hotsos.core import analytics
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.searchtools import FileSearcher, SearchDef
 
 
@@ -56,7 +56,9 @@ SEQ_TEST_6 = """2021-07-19 09:01:58.498 iteration:0 start
 
 class TestAnalytics(utils.BaseTestCase):
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_1})
     def test_ordered_complete(self):
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:01:58.498000'
         end0 = '2021-07-19 09:02:58.498000'
         start1 = '2021-07-19 09:03:58.498000'
@@ -64,19 +66,14 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_1)
-            ftmp.close()
-            s = FileSearcher()
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-            s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                              path=ftmp.name)
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-            s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                              path=ftmp.name)
-            events = analytics.LogEventStats(s.search(), "eventX")
-            os.remove(ftmp.name)
-
+        s = FileSearcher()
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
+        s.add_search_term(SearchDef(expr, tag="eventX-start"),
+                          path=fname)
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
+        s.add_search_term(SearchDef(expr, tag="eventX-end"),
+                          path=fname)
+        events = analytics.LogEventStats(s.search(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -85,7 +82,9 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_2})
     def test_unordered_complete(self):
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:03:58.498000'
         end0 = '2021-07-19 09:04:58.498000'
         start1 = '2021-07-19 09:01:58.498000'
@@ -93,19 +92,14 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_2)
-            ftmp.close()
-            s = FileSearcher()
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-            s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                              path=ftmp.name)
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-            s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                              path=ftmp.name)
-            events = analytics.LogEventStats(s.search(), "eventX")
-            os.remove(ftmp.name)
-
+        s = FileSearcher()
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
+        s.add_search_term(SearchDef(expr, tag="eventX-start"),
+                          path=fname)
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
+        s.add_search_term(SearchDef(expr, tag="eventX-end"),
+                          path=fname)
+        events = analytics.LogEventStats(s.search(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -114,7 +108,9 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_3})
     def test_ordered_complete_clobbered(self):
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:05:58.498000'
         end0 = '2021-07-19 09:06:58.498000'
         start1 = '2021-07-19 09:03:58.498000'
@@ -122,19 +118,14 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_3)
-            ftmp.close()
-            s = FileSearcher()
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-            s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                              path=ftmp.name)
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-            s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                              path=ftmp.name)
-            events = analytics.LogEventStats(s.search(), "eventX")
-            os.remove(ftmp.name)
-
+        s = FileSearcher()
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
+        s.add_search_term(SearchDef(expr, tag="eventX-start"),
+                          path=fname)
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
+        s.add_search_term(SearchDef(expr, tag="eventX-end"),
+                          path=fname)
+        events = analytics.LogEventStats(s.search(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -146,7 +137,9 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_4})
     def test_ordered_incomplete_clobbered(self):
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:06:58.498000'
         end0 = '2021-07-19 09:07:58.498000'
         start1 = '2021-07-19 09:03:58.498000'
@@ -154,19 +147,14 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_4)
-            ftmp.close()
-            s = FileSearcher()
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-            s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                              path=ftmp.name)
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-            s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                              path=ftmp.name)
-            events = analytics.LogEventStats(s.search(), "eventX")
-            os.remove(ftmp.name)
-
+        s = FileSearcher()
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
+        s.add_search_term(SearchDef(expr, tag="eventX-start"),
+                          path=fname)
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
+        s.add_search_term(SearchDef(expr, tag="eventX-end"),
+                          path=fname)
+        events = analytics.LogEventStats(s.search(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -179,7 +167,9 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_5})
     def test_ordered_incomplete_clobbered2(self):
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:05:58.498000'
         end0 = '2021-07-19 09:07:58.498000'
         start1 = '2021-07-19 09:03:58.498000'
@@ -187,19 +177,14 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 120.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_5)
-            ftmp.close()
-            s = FileSearcher()
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-            s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                              path=ftmp.name)
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-            s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                              path=ftmp.name)
-            events = analytics.LogEventStats(s.search(), "eventX")
-            os.remove(ftmp.name)
-
+        s = FileSearcher()
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
+        s.add_search_term(SearchDef(expr, tag="eventX-start"),
+                          path=fname)
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
+        s.add_search_term(SearchDef(expr, tag="eventX-end"),
+                          path=fname)
+        events = analytics.LogEventStats(s.search(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -208,7 +193,9 @@ class TestAnalytics(utils.BaseTestCase):
                     'samples': 2, 'stdev': 30.0}
         self.assertEqual(stats, expected)
 
+    @utils.create_test_files({'atestfile': SEQ_TEST_6})
     def test_ordered_multiple(self):
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:08:58.498000'
         end0 = '2021-07-19 09:09:58.498000'
         start1 = '2021-07-19 09:03:58.498000'
@@ -216,19 +203,14 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as ftmp:
-            ftmp.write(SEQ_TEST_6)
-            ftmp.close()
-            s = FileSearcher()
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-            s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                              path=ftmp.name)
-            expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-            s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                              path=ftmp.name)
-            events = analytics.LogEventStats(s.search(), "eventX")
-            os.remove(ftmp.name)
-
+        s = FileSearcher()
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
+        s.add_search_term(SearchDef(expr, tag="eventX-start"),
+                          path=fname)
+        expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
+        s.add_search_term(SearchDef(expr, tag="eventX-end"),
+                          path=fname)
+        events = analytics.LogEventStats(s.search(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)

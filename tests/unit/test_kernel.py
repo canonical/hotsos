@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 from unittest import mock
 
 from . import utils
@@ -38,6 +35,13 @@ May  6 17:24:13 compute4 kernel: [13526370.730634] tape901c8af-fb: dropped over-
 May  6 17:24:13 compute4 kernel: [13526370.730659] tape901c8af-fb: dropped over-mtu packet: 1460 > 1450
 May  6 17:24:13 compute4 kernel: [13526370.730681] tape901c8af-fb: dropped over-mtu packet: 1460 > 1450
 """  # noqa
+
+
+# add one ovs-port line
+EVENTS_KERN_LOG_W_OVS_PORTS = (EVENTS_KERN_LOG.splitlines(keepends=True)[-1].
+                               replace('tape901c8af-fb', 'br-int'))
+EVENTS_KERN_LOG_W_OVS_PORTS = EVENTS_KERN_LOG + EVENTS_KERN_LOG_W_OVS_PORTS
+
 
 KERNLOG_NF_CONNTRACK_FULL = r"""
 Jun  8 10:48:13 compute4 kernel: [1694413.621694] nf_conntrack: nf_conntrack: table full, dropping packet
@@ -175,30 +179,25 @@ class TestKernelCallTraceManager(TestKernelBase):
 
 class TestKernelInfo(TestKernelBase):
 
-    def test_systemd_config(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            path = os.path.join(dtmp, 'etc/systemd/system.conf')
-            os.makedirs(os.path.dirname(path))
-            with open(path, 'w') as fd:
-                fd.write("[Manager]\n")
-                fd.write("#CPUAffinity=1 2\n")
-                fd.write("CPUAffinity=0-7,32-39\n")
+    @utils.create_test_files({'etc/systemd/system.conf':
+                              ('[Manager]\n'
+                               '#CPUAffinity=1 2\n'
+                               'CPUAffinity=0-7,32-39\n')})
+    def test_systemd_config_ranges(self):
+        self.assertEqual(SystemdConfig().get('CPUAffinity'), '0-7,32-39')
+        self.assertEqual(SystemdConfig().get('CPUAffinity',
+                                             expand_to_list=True),
+                         [0, 1, 2, 3, 4, 5, 6, 7, 32, 33, 34, 35, 36, 37,
+                          38, 39])
+        self.assertTrue(SystemdConfig().cpuaffinity_enabled)
 
-            self.assertEqual(SystemdConfig().get('CPUAffinity'), '0-7,32-39')
-            self.assertEqual(SystemdConfig().get('CPUAffinity',
-                                                 expand_to_list=True),
-                             [0, 1, 2, 3, 4, 5, 6, 7, 32, 33, 34, 35, 36, 37,
-                              38, 39])
-            self.assertTrue(SystemdConfig().cpuaffinity_enabled)
-
-            with open(path, 'w') as fd:
-                fd.write("[Manager]\n")
-                fd.write("#CPUAffinity=1 2\n")
-                fd.write("CPUAffinity=0 1 2 3 8 9 10 11\n")
-
-            self.assertEqual(SystemdConfig().get('CPUAffinity'),
-                             '0 1 2 3 8 9 10 11')
+    @utils.create_test_files({'etc/systemd/system.conf':
+                              ('[Manager]\n'
+                               '#CPUAffinity=1 2\n'
+                               'CPUAffinity=0 1 2 3 8 9 10 11\n')})
+    def test_systemd_config_expanded(self):
+        self.assertEqual(SystemdConfig().get('CPUAffinity'),
+                         '0 1 2 3 8 9 10 11')
 
     @mock.patch('hotsos.core.plugins.kernel.config.SystemdConfig.get',
                 lambda *args, **kwargs: '0-7,32-39')
@@ -257,16 +256,9 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_calltrace.yaml'))
+    @utils.create_test_files({'var/log/kern.log': KERNLOG_STACKTRACE})
     def test_stacktraces(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            os.makedirs(os.path.join(dtmp, 'var/log'))
-            klog = os.path.join(dtmp, 'var/log/kern.log')
-            with open(klog, 'w') as fd:
-                fd.write(KERNLOG_STACKTRACE)
-
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ('1 reports of stacktraces in kern.log - please check.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
@@ -274,19 +266,11 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.plugins.kernel.KernelBase')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_calltrace.yaml'))
+    @utils.create_test_files({'var/log/kern.log': KERNLOG_BCACHE_DEADLOCK})
     def test_bcache_deadlock(self, mock_kernelbase):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            os.makedirs(os.path.join(dtmp, 'var/log'))
-            klog = os.path.join(dtmp, 'var/log/kern.log')
-            with open(klog, 'w') as fd:
-                fd.write(KERNLOG_BCACHE_DEADLOCK)
-
-            mock_kernelbase.return_value = mock.MagicMock()
-            mock_kernelbase.return_value.version = '5.3'
-
-            YScenarioChecker()()
-
+        mock_kernelbase.return_value = mock.MagicMock()
+        mock_kernelbase.return_value.version = '5.3'
+        YScenarioChecker()()
         msg = ("Bcache cache set registration deadlock has occurred. "
                "This is caused by a bug that has been fixed "
                "in kernel 5.15.11 (current is 5.3). "
@@ -306,16 +290,9 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
+    @utils.create_test_files({'var/log/kern.log': KERNLOG_NF_CONNTRACK_FULL})
     def test_nf_conntrack_full(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            os.makedirs(os.path.join(dtmp, 'var/log'))
-            klog = os.path.join(dtmp, 'var/log/kern.log')
-            with open(klog, 'w') as fd:
-                fd.write(KERNLOG_NF_CONNTRACK_FULL)
-
-            YScenarioChecker()()
-
+        YScenarioChecker()()
         msg = ("1 reports of 'nf_conntrack: table full' detected in "
                "kern.log - please check.")
         issues = list(IssuesStore().load().values())[0]
@@ -364,19 +341,13 @@ class TestKernelScenarioChecks(TestKernelBase):
                 [NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
+    @utils.create_test_files({'var/log/kern.log': EVENTS_KERN_LOG})
     def test_over_mtu_dropped_packets(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, ('var/log/kern.log'))
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(EVENTS_KERN_LOG)
-
-            YScenarioChecker()()
-            msg = ('This host is reporting over-mtu dropped packets for (1) '
-                   'interfaces. See kern.log for full details.')
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        YScenarioChecker()()
+        msg = ('This host is reporting over-mtu dropped packets for (1) '
+               'interfaces. See kern.log for full details.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.plugins.kernel.kernlog.events.log')
     @mock.patch('hotsos.core.plugins.kernel.kernlog.common.CLIHelper')
@@ -386,27 +357,18 @@ class TestKernelScenarioChecks(TestKernelBase):
                  NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
+    @utils.create_test_files({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS})
     def test_over_mtu_dropped_packets_w_ovs_ports(self, mock_cli, mock_log):
         mock_cli.return_value = mock.MagicMock()
         # include trailing newline since cli would give that
         mock_cli.return_value.ovs_vsctl_list_br.return_value = ['br-int\n']
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, ('var/log/kern.log'))
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(EVENTS_KERN_LOG)
-                ovs_port = EVENTS_KERN_LOG.splitlines(keepends=True)[-1]
-                # add one ovs-port line
-                fd.write(ovs_port.replace('tape901c8af-fb', 'br-int'))
-
-            YScenarioChecker()()
-            mock_log.assert_has_calls([mock.call.debug(
-                                        "excluding ovs bridge %s", 'br-int')])
-            msg = ('This host is reporting over-mtu dropped packets for (1) '
-                   'interfaces. See kern.log for full details.')
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        YScenarioChecker()()
+        mock_log.assert_has_calls([mock.call.debug(
+                                    "excluding ovs bridge %s", 'br-int')])
+        msg = ('This host is reporting over-mtu dropped packets for (1) '
+               'interfaces. See kern.log for full details.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch.object(MemoryChecks, 'max_contiguous_unavailable_block_sizes',
                        1)

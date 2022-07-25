@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 from unittest import mock
 
 from . import utils
@@ -125,24 +122,18 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
+    @utils.create_test_files({'var/log/juju/unit-rabbitmq-server-0.log':
+                              RABBITMQ_CHARM_LOGS})
     def test_1910958(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp,
-                                   'var/log/juju/unit-rabbitmq-server-0.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(RABBITMQ_CHARM_LOGS)
-
-            YScenarioChecker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1910958',
-                          'desc':
-                          ('Unit unit-rabbitmq-server-0 failed to start due '
-                           'to members in relation 236 that cannot be '
-                           'removed.'),
-                          'origin': 'juju.01part'}]}
-            self.assertEqual(KnownBugsStore().load(), expected)
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1910958',
+                      'desc':
+                      ('Unit unit-rabbitmq-server-0 failed to start due '
+                       'to members in relation 236 that cannot be '
+                       'removed.'),
+                      'origin': 'juju.01part'}]}
+        self.assertEqual(KnownBugsStore().load(), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
@@ -158,48 +149,35 @@ class TestJujuScenarios(JujuTestsBase):
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('charm_checks.yaml'))
+    @utils.create_test_files({'var/log/juju/unit-keystone-2.log':
+                              UNIT_LEADERSHIP_ERROR})
     def test_unit_checks(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
+        # first try outside age limit
+        mock_cli.return_value.date.return_value = "2021-09-25 00:00:00"
+        YScenarioChecker()()
+        self.assertEqual(IssuesStore().load(), {})
 
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp,
-                                   'var/log/juju/unit-keystone-2.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(UNIT_LEADERSHIP_ERROR)
-
-            # first try outside age limit
-            mock_cli.return_value.date.return_value = "2021-09-25 00:00:00"
-            YScenarioChecker()()
-            self.assertEqual(IssuesStore().load(), {})
-
-            # then within
-            mock_cli.return_value.date.return_value = "2021-09-17 00:00:00"
-            YScenarioChecker()()
-            msg = ("Juju unit(s) 'keystone' are showing leadership errors in "
-                   "their logs from the last 7 days. Please investigate.")
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        # then within
+        mock_cli.return_value.date.return_value = "2021-09-17 00:00:00"
+        YScenarioChecker()()
+        msg = ("Juju unit(s) 'keystone' are showing leadership errors in "
+               "their logs from the last 7 days. Please investigate.")
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
+    @utils.create_test_files({'var/log/juju/unit-keystone-2.log':
+                              UNKNOWN_RELATION_ERROR})
     def test_unknown_relation_bug(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp,
-                                   'var/log/juju/unit-keystone-2.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(UNKNOWN_RELATION_ERROR)
-
-            # make sure we are within the date constraints
-            mock_cli.return_value.date.return_value = "2022-03-15 01:00:00"
-            YScenarioChecker()()
-            msg = ('One or more charms on this host has "unknown relation" '
-                   'errors which is an indication of this bug. Upgrading Juju '
-                   'to a version >= 2.9.13 should fix the problem.')
-            issues = list(KnownBugsStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        # make sure we are within the date constraints
+        mock_cli.return_value.date.return_value = "2022-03-15 01:00:00"
+        YScenarioChecker()()
+        msg = ('One or more charms on this host has "unknown relation" '
+               'errors which is an indication of this bug. Upgrading Juju '
+               'to a version >= 2.9.13 should fix the problem.')
+        issues = list(KnownBugsStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

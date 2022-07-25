@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 from unittest import mock
 
 from .. import utils
@@ -80,16 +77,10 @@ class TestOSDCephChecksBase(StorageCephOSDTestsBase):
         enabled = ceph_core.CephChecksBase().bluestore_enabled
         self.assertTrue(enabled)
 
+    @utils.create_test_files({'etc/ceph/ceph.conf': CEPH_CONF_NO_BLUESTORE})
     def test_bluestore_not_enabled(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            path = os.path.join(dtmp, 'etc/ceph')
-            os.makedirs(path)
-            with open(os.path.join(path, 'ceph.conf'), 'w') as fd:
-                fd.write(CEPH_CONF_NO_BLUESTORE)
-
-            setup_config(DATA_ROOT=dtmp)
-            enabled = ceph_core.CephChecksBase().bluestore_enabled
-            self.assertFalse(enabled)
+        enabled = ceph_core.CephChecksBase().bluestore_enabled
+        self.assertFalse(enabled)
 
     def test_daemon_osd_config(self):
         config = ceph_core.CephDaemonConfigShow(osd_id=0)

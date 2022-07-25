@@ -1,10 +1,9 @@
 import os
-import tempfile
 
 from . import utils
 
 from hotsos.core import host_helpers
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 
 
 DUMMY_CONFIG = """
@@ -61,24 +60,20 @@ class TestChecks(utils.BaseTestCase):
         obj = host_helpers.SnapPackageChecksBase(["core20"])
         self.assertEqual(obj.all_formatted, expected)
 
+    @utils.create_test_files({'test.conf': DUMMY_CONFIG})
     def test_sectionalconfig_base(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            conf = os.path.join(dtmp, 'test.conf')
-            with open(conf, 'w') as fd:
-                fd.write(DUMMY_CONFIG)
+        conf = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
+        cfg = host_helpers.SectionalConfigBase(conf)
+        self.assertTrue(cfg.exists)
+        self.assertEqual(cfg.get('a-key'), '1023')
+        self.assertEqual(cfg.get('a-key', section='a-section'), '1023')
+        self.assertEqual(cfg.get('a-key', section='missing-section'), None)
+        self.assertEqual(cfg.get('a-key', expand_to_list=True), [1023])
 
-            cfg = host_helpers.SectionalConfigBase(conf)
-            self.assertTrue(cfg.exists)
-            self.assertEqual(cfg.get('a-key'), '1023')
-            self.assertEqual(cfg.get('a-key', section='a-section'), '1023')
-            self.assertEqual(cfg.get('a-key', section='missing-section'), None)
-            self.assertEqual(cfg.get('a-key', expand_to_list=True), [1023])
+        expanded = cfg.get('b-key', expand_to_list=True)
+        self.assertEqual(expanded, list(range(10, 24)))
+        self.assertEqual(cfg.squash_int_range(expanded), '10-23')
 
-            expanded = cfg.get('b-key', expand_to_list=True)
-            self.assertEqual(expanded, list(range(10, 24)))
-            self.assertEqual(cfg.squash_int_range(expanded), '10-23')
-
-            expanded = cfg.get('c-key', expand_to_list=True)
-            self.assertEqual(expanded, list(range(2, 9)) + list(range(10, 32)))
-            self.assertEqual(cfg.squash_int_range(expanded), '2-8,10-31')
+        expanded = cfg.get('c-key', expand_to_list=True)
+        self.assertEqual(expanded, list(range(2, 9)) + list(range(10, 32)))
+        self.assertEqual(cfg.squash_int_range(expanded), '2-8,10-31')

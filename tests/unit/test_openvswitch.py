@@ -269,21 +269,15 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn_bugs.yaml'))
+    @utils.create_test_files({'var/log/ovn/ovn-controller.log': LP1917475_LOG})
     def test_1917475(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/ovn/ovn-controller.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(LP1917475_LOG)
-
-            YScenarioChecker()()
-            expected = {'bugs-detected':
-                        [{'id': 'https://bugs.launchpad.net/bugs/1917475',
-                          'desc': "known ovn bug identified - db rbac errors",
-                          'origin': 'openvswitch.01part'}]}
-            self.assertEqual(issues.IssuesManager().load_bugs(),
-                             expected)
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1917475',
+                      'desc': "known ovn bug identified - db rbac errors",
+                      'origin': 'openvswitch.01part'}]}
+        self.assertEqual(issues.IssuesManager().load_bugs(),
+                         expected)
 
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
@@ -323,33 +317,26 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
     @mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
+    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
+                              DPIF_LOST_PACKETS_LOGS})
     def test_flow_lookup_checks_p2(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.ovs_appctl_dpctl_show.return_value = \
             ['lookups: hit:39017272903 missed:137481120 lost:54691089']
-
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp,
-                                   'var/log/openvswitch/ovs-vswitchd.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(DPIF_LOST_PACKETS_LOGS)
-
-            YScenarioChecker()()
-            msg = ('OVS datapath is reporting a non-zero amount of "lost" '
-                   'packets (total=54691089) which implies that packets '
-                   'destined for userspace (e.g. vm tap) are being dropped. '
-                   'ovs-vswitchd is also reporting large numbers of dropped '
-                   'packets within a 24h period (look for '
-                   '"system@ovs-system: lost packet on port channel"). '
-                   'This could be caused by '
-                   'overloaded system cores blocking ovs threads from '
-                   'delivering packets in time. Please check ovs-appctl '
-                   'dpctl/show to see if the number of lost packets is still '
-                   'increasing.')
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        YScenarioChecker()()
+        msg = ('OVS datapath is reporting a non-zero amount of "lost" '
+               'packets (total=54691089) which implies that packets '
+               'destined for userspace (e.g. vm tap) are being dropped. '
+               'ovs-vswitchd is also reporting large numbers of dropped '
+               'packets within a 24h period (look for '
+               '"system@ovs-system: lost packet on port channel"). '
+               'This could be caused by '
+               'overloaded system cores blocking ovs threads from '
+               'delivering packets in time. Please check ovs-appctl '
+               'dpctl/show to see if the number of lost packets is still '
+               'increasing.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
@@ -403,22 +390,17 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovsdb_reconnect_errors.yaml'))
+    @utils.create_test_files({'var/log/neutron/neutron-server.log':
+                              OVS_DB_RECONNECT_ERROR})
     def test_ovsdb_reconnect_error(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \
             ["ii  python3-openvswitch 2.17.0 amd64"]
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/neutron/neutron-server.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                fd.write(OVS_DB_RECONNECT_ERROR)
-
-            YScenarioChecker()()
-            msg = ("Installed package 'python3-openvswitch' with version "
-                   "2.17.0 has a known bug whereby if connections to the ovn "
-                   "southbound db are closed, the client fails to reconnect. "
-                   "This is usually resolved with a service restart and a "
-                   "fix is available as of openvswitch version 2.17.2.")
-            issues = list(KnownBugsStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+        YScenarioChecker()()
+        msg = ("Installed package 'python3-openvswitch' with version "
+               "2.17.0 has a known bug whereby if connections to the ovn "
+               "southbound db are closed, the client fails to reconnect. "
+               "This is usually resolved with a service restart and a "
+               "fix is available as of openvswitch version 2.17.2.")
+        issues = list(KnownBugsStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
