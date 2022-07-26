@@ -11,9 +11,8 @@ from progress.spinner import Spinner
 
 from hotsos.core.config import setup_config
 from hotsos.core.log import setup_logging, log
-from hotsos.core import output_filter
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.client import HotSOSClient, PLUGIN_CATALOG
+from hotsos.client import HotSOSClient, OutputManager, PLUGIN_CATALOG
 
 
 def get_hotsos_root():
@@ -72,9 +71,11 @@ def spinner(msg, done):
 
 @contextlib.contextmanager
 def progress_spinner(show_spinner, spinner_msg):
-    done = threading.Event()
     if not show_spinner:
-        done.set()
+        yield
+        return
+
+    done = threading.Event()
     thread = threading.Thread(target=spinner, args=(spinner_msg, done))
     thread.start()
     try:
@@ -83,13 +84,12 @@ def progress_spinner(show_spinner, spinner_msg):
         done.set()
         thread.join()
 
-    # Need this to ensure any following output starts on a new line
-    sys.stderr.write('\n')
-    sys.stderr.flush()
-
 
 def main():
     @click.command(name='hotsos')
+    @click.option('--output-path', default=None,
+                  help=('Optional path to use for saving output (with '
+                        '--save).'))
     @click.option('--machine-readable', default=False, is_flag=True,
                   help=("Don't format output for humans."))
     @click.option('--list-plugins', default=False, is_flag=True,
@@ -110,9 +110,9 @@ def main():
                         'grouping by date and time which may be more useful '
                         'for cross-referencing with other logs.'))
     @click.option('--full', default=False, is_flag=True,
-                  help=('This is the default and tells hotsos to generate a '
-                        'full summary. If you want to save both a short and '
-                        'full summary you can specifiy this option '
+                  help=('[DEPRECATED] This is the default and tells hotsos to '
+                        'generate a full summary. If you want to save both a '
+                        'short and full summary you can specifiy this option '
                         'when doing --short.'))
     @click.option('--very-short', default=False, is_flag=True,
                   help=('Minimal version of --short where only issue types or '
@@ -128,7 +128,8 @@ def main():
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
     @click.option('--format', default='yaml',
-                  help=('Output format. Default is yaml.'))
+                  help=('Output format. Supported formats are yaml and json. '
+                        'Default is yaml.'))
     @click.option('--save', '-s', default=False, is_flag=True,
                   help=('Save output to a file.'))
     @click.option('--quiet', default=False, is_flag=True,
@@ -153,7 +154,8 @@ def main():
     def cli(data_root, version, defs_path, all_logs, quiet, debug, save,
             format, html_escape, user_summary, short, very_short,
             full, agent_error_key_by_time, max_logrotate_depth,
-            max_parallel_tasks, list_plugins, machine_readable, **kwargs):
+            max_parallel_tasks, list_plugins, machine_readable, output_path,
+            **kwargs):
         """
         Run this tool on a host or against an unpacked sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -167,13 +169,20 @@ def main():
         plugin extensions and a library of checks written in a high level
         yaml-based language.
 
+        By default the output is printed to standard output. If saving to disk
+        (--save) a directory called "hotsos-output" is created beneath which
+        output is saved in all available formats e.g. yaml, json, short
+
         \b
         DATA_ROOT
             Path to an unpacked sosreport. If none provided, will run against
             local host.
         """  # noqa
 
-        full_mode_explicit = full
+        if full:
+            # deprecated
+            pass
+
         minimal_mode = None
         if short:
             minimal_mode = 'short'
@@ -233,7 +242,7 @@ def main():
             if user_summary:
                 log.debug("User summary provided in %s", data_root)
                 with open(data_root) as fd:
-                    summary = yaml.safe_load(fd)
+                    summary = OutputManager(yaml.safe_load(fd))
             else:
                 plugins = []
                 for k, v in kwargs.items():
@@ -246,54 +255,34 @@ def main():
                     if 'system' not in plugins:
                         plugins.append('system')
 
-                summary = HotSOSClient().run(plugins)
+                client = HotSOSClient(plugins)
+                client.run()
+                summary = client.summary
 
-        formatted = output_filter.apply_output_formatting(summary,
-                                                          format, html_escape,
-                                                          minimal_mode)
         if save:
             if user_summary:
-                output_name = os.path.basename(data_root)
-                output_name = output_name.rpartition('.')[0]
+                prefix = os.path.basename(data_root)
+                if 'summary' in prefix:
+                    prefix = prefix.rpartition('.summary')[0]
+                else:
+                    prefix = prefix.rpartition('.')[0]
             else:
                 if data_root != '/':
                     if data_root.endswith('/'):
                         data_root = data_root.rpartition('/')[0]
 
-                    output_name = os.path.basename(data_root)
+                    prefix = os.path.basename(data_root)
                 else:
-                    output_name = "hotsos-{}".format(CLIHelper().hostname())
+                    prefix = CLIHelper().hostname()
 
-            if minimal_mode:
-                if formatted:
-                    out = "{}.short.summary".format(output_name)
-                    with open(out, 'w', encoding='utf-8') as fd:
-                        fd.write(formatted)
-                        fd.write('\n')
-
-                    sys.stdout.write("INFO: short summary written to {}\n".
-                                     format(out))
-                if full_mode_explicit:
-                    formatted = output_filter.apply_output_formatting(
-                                                          summary, format,
-                                                          html_escape)
-
-            if not minimal_mode or full_mode_explicit:
-                if formatted:
-                    out = "{}.summary".format(output_name)
-                    with open(out, 'w', encoding='utf-8') as fd:
-                        fd.write(formatted)
-                        fd.write('\n')
-
-                    sys.stdout.write("INFO: full summary written to {}\n".
-                                     format(out))
-
+            path = summary.save(prefix, html_escape=html_escape,
+                                output_path=output_path)
+            sys.stdout.write("INFO: output saved to {}\n".format(path))
         else:
-            if debug:
-                sys.stderr.write('Results:\n')
-
-            if formatted:
-                sys.stdout.write("{}\n".format(formatted))
+            out = summary.get(format=format, html_escape=html_escape,
+                              minimal_mode=minimal_mode)
+            if out:
+                sys.stdout.write("{}\n".format(out))
 
     cli(prog_name='hotsos')
 

@@ -2,8 +2,8 @@ import json
 
 from . import utils
 
-from hotsos.core.plugintools import dump
-from hotsos.core import output_filter
+from hotsos.core import plugintools
+from hotsos.client import OutputManager
 from hotsos.core.issues import IssuesManager
 
 
@@ -31,12 +31,11 @@ ISSUES_NEW_FORMAT = {
 
 class TestTools(utils.BaseTestCase):
 
-    def test_output_filter_empty(self):
-        issues = {}
-        filtered = output_filter.minimise_master_output(issues, mode='short')
-        self.assertEqual(filtered, {})
+    def test_summary_empty(self):
+        filtered = OutputManager().get()
+        self.assertEqual(filtered, '{}')
 
-    def test_output_filter_mode_short_legacy(self):
+    def test_summary_mode_short_legacy(self):
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': [{
                             'type': 'MemoryWarning',
@@ -49,11 +48,11 @@ class TestTools(utils.BaseTestCase):
                             'desc': 'a msg',
                             'origin': 'testplugin.01part'}]}}
 
-        filtered = output_filter.minimise_master_output(ISSUES_LEGACY_FORMAT,
-                                                        mode='short')
+        filtered = OutputManager().minimise(ISSUES_LEGACY_FORMAT,
+                                            mode='short')
         self.assertEqual(filtered, expected)
 
-    def test_output_filter_mode_short(self):
+    def test_summary_mode_short(self):
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
                             'MemoryWarnings': [
@@ -63,38 +62,37 @@ class TestTools(utils.BaseTestCase):
                             'id': '1234',
                             'desc': 'a msg',
                             'origin': 'testplugin.01part'}]}}
-        filtered = output_filter.minimise_master_output(ISSUES_NEW_FORMAT,
-                                                        mode='short')
+        filtered = OutputManager().minimise(ISSUES_NEW_FORMAT, mode='short')
         self.assertEqual(filtered, expected)
 
-    def test_output_filter_mode_very_short_legacy(self):
+    def test_summary_mode_very_short_legacy(self):
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
                             'MemoryWarning': 1}},
                     IssuesManager.SUMMARY_OUT_BUGS_ROOT: {
                         'testplugin': ['1234']}}
-        filtered = output_filter.minimise_master_output(ISSUES_LEGACY_FORMAT,
-                                                        mode='very-short')
+        filtered = OutputManager().minimise(ISSUES_LEGACY_FORMAT,
+                                            mode='very-short')
         self.assertEqual(filtered, expected)
 
-    def test_output_filter_mode_very_short(self):
+    def test_summary_mode_very_short(self):
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
                             'MemoryWarnings': 1}},
                     IssuesManager.SUMMARY_OUT_BUGS_ROOT: {
                         'testplugin': ['1234']}}
 
-        filtered = output_filter.minimise_master_output(ISSUES_NEW_FORMAT,
-                                                        mode='very-short')
+        filtered = OutputManager().minimise(ISSUES_NEW_FORMAT,
+                                            mode='very-short')
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_defaults(self):
         summary = {'opt': 'value'}
-        filtered = output_filter.apply_output_formatting(summary, 'yaml')
-        self.assertEqual(filtered, dump(summary))
+        filtered = OutputManager(summary).get()
+        self.assertEqual(filtered, plugintools.yaml_dump(summary))
 
     def test_apply_output_formatting_json(self):
         summary = {'opt': 'value'}
-        filtered = output_filter.apply_output_formatting(summary, 'json')
+        filtered = OutputManager(summary).get(format='json')
         self.assertEqual(filtered, json.dumps(summary, indent=2,
                                               sort_keys=True))
