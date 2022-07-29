@@ -6,7 +6,7 @@ from unittest import mock
 from .. import utils
 
 from hotsos.core.issues import IssuesManager
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import setup_config
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.plugins.storage import bcache as bcache_core
 from hotsos.plugin_extensions.storage import bcache_summary
@@ -58,26 +58,19 @@ class TestBcacheBase(StorageBCacheTestsBase):
         b = bcache_core.BcacheBase()
         self.assertTrue(b.bcache_enabled)
 
-    def test_get_cachesets(self):
-        path = os.path.join(HotSOSConfig.DATA_ROOT,
-                            'sys/fs/bcache/d7696818-1be9-4dea-9991-'
-                            'de95e24d7256')
-        b = bcache_core.BcacheBase()
-        self.assertEqual(b.get_cachesets(), [path])
-
     def test_get_cacheset_bdevs(self):
         b = bcache_core.BcacheBase()
-        cset = b.get_cachesets()
-        bdev0 = os.path.join(cset[0], 'bdev0')
-        bdev1 = os.path.join(cset[0], 'bdev1')
-        result = sorted(b.get_cacheset_bdevs(cset[0]))
-        self.assertEqual(result, [bdev0, bdev1])
+        result = sorted([b.name for b in b.cachesets[0].bdevs])
+        self.assertEqual(result, ['bdev0', 'bdev1'])
 
-    def test_get_sysfs_cachesets(self):
+    def test_get_cachesets(self):
         b = bcache_core.BcacheBase()
         expected = [{'cache_available_percent': 99,
                      'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
-        self.assertEqual(b.get_sysfs_cachesets(), expected)
+        actual = [{'uuid': c.uuid,
+                   'cache_available_percent': int(c.cache_available_percent)}
+                  for c in b.cachesets]
+        self.assertEqual(actual, expected)
 
     def test_udev_bcache_devs(self):
         b = bcache_core.BcacheBase()
@@ -98,20 +91,28 @@ class TestBcacheBase(StorageBCacheTestsBase):
 
 class TestStorageBCache(StorageBCacheTestsBase):
 
-    def test_get_bcache_dev_info(self):
-        result = {'bcache': {'bcache0': {'dname': 'bcache1'},
-                             'bcache1': {'dname': 'bcache0'}}}
-        inst = bcache_summary.BcacheSummary()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['devices'], result)
+    def test_get_cacheset_info(self):
+        cachesets = {'d7696818-1be9-4dea-9991-de95e24d7256': {
+                       'cache_available_percent': 99,
+                       'bdevs': {
+                           'bdev1': {
+                               'dev': 'bcache1',
+                               'backing_dev': 'vdc',
+                               'dname': 'bcache0'},
+                           'bdev0': {
+                               'dev': 'bcache0',
+                               'backing_dev': 'vdd',
+                               'dname': 'bcache1'}}}}
 
-    def test_get_bcache_stats_checks(self):
-        self.maxDiff = None
-        expected = [{'cache_available_percent': 99,
-                     'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
         inst = bcache_summary.BcacheSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['cachesets'], expected)
+        self.assertEqual(actual['cachesets'], cachesets)
+
+    def test_resolve_bdev_from_dev(self):
+        inst = bcache_summary.BcacheSummary()
+        devpath = '/dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a'
+        bdev = inst.resolve_bdev_from_dev(devpath)
+        self.assertEqual(bdev.backing_dev_name, 'vdd')
 
 
 class TestBCacheScenarioChecks(StorageBCacheTestsBase):
