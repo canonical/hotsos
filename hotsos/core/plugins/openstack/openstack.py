@@ -117,6 +117,15 @@ OST_REL_INFO = {
         'kilo': '1:2015.1.0',
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
+    'masakari-common': {
+        'yoga': '13.0.0',
+        'xena': '12.0.0',
+        'wallaby': '11.0.0',
+        'victoria': '10.0.0',
+        'ussuri': '9.0.0',
+        'train': '8.0.0',
+        'stein': '7.0.0',
+        'rocky': '6.0.0'},
     'neutron-common': {
         'yoga': '2:20.0.0',
         'xena': '2:19.0.0',
