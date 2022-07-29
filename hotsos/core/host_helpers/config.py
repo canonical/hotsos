@@ -1,3 +1,4 @@
+import abc
 import os
 import re
 
@@ -72,8 +73,9 @@ class ConfigBase(object):
 
         return False
 
+    @abc.abstractmethod
     def get(self, key, section=None, expand_to_list=False):
-        raise NotImplementedError
+        """ Get a config value. """
 
 
 class SectionalConfigBase(ConfigBase):

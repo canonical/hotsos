@@ -5,7 +5,7 @@ checks:
   has_invalid_bdev_config:
     requires:
       config:
-        handler: hotsos.core.plugins.storage.bcache.BdevsConfig
+        handler: hotsos.core.plugins.storage.bcache.BDevsConfig
         assertions:
           not:
             - key: sequential_cutoff

@@ -1,36 +1,20 @@
-import re
-
-from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.plugins.storage.bcache import BcacheChecksBase
 
 
 class BcacheSummary(BcacheChecksBase):
 
     def __summary_cachesets(self):
-        csets = self.get_sysfs_cachesets()
-        if csets:
-            return csets
+        _state = {}
+        for cset in self.cachesets:
+            _cset = {'cache_available_percent':
+                     int(cset.cache_available_percent), 'bdevs': {}}
+            for bdev in cset.bdevs:
+                _cset['bdevs'][bdev.name] = {'dev': bdev.dev,
+                                             'backing_dev':
+                                             bdev.backing_dev_name}
+                if bdev.dev_to_dname:
+                    _cset['bdevs'][bdev.name]['dname'] = bdev.dev_to_dname
 
-    def __summary_devices(self):
-        devs = {}
-        for dev_type in ['bcache', 'nvme']:
-            for line in CLIHelper().ls_lanR_sys_block():
-                expr = r".+[0-9:]+\s+({}[0-9a-z]+)\s+.+".format(dev_type)
-                ret = re.compile(expr).match(line)
-                if ret:
-                    if dev_type not in devs:
-                        devs[dev_type] = {}
+            _state[cset.uuid] = _cset
 
-                    devname = ret[1]
-                    devs[dev_type][devname] = {}
-                    for line in CLIHelper().udevadm_info_dev(device=devname):
-                        expr = r'.+\s+disk/by-dname/(.+)'
-                        ret = re.compile(expr).match(line)
-                        if ret:
-                            devs[dev_type][devname]['dname'] = ret[1]
-                        elif 'dname' not in devs[dev_type][devname]:
-                            devs[dev_type][devname]['dname'] = \
-                                '<notfound>'
-
-        if devs:
-            return devs
+        return _state
