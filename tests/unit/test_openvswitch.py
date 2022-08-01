@@ -28,8 +28,8 @@ DPIF_LOST_PACKETS_LOGS = """
 2022-03-25T01:58:42.750Z|05763|dpif_netlink(handler11)|WARN|system@ovs-system: lost packet on port channel 0 of handler 2
 """  # noqa
 
-BFD_STATE_CHANGES = """
-2022-04-21T21:00:{secs}.466Z|01221|bfd(monitor130)|INFO|ovn-ps5-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+BFD_STATE_CHANGES_TMPLT = """
+2022-04-21T21:00:{secs}.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
 """  # noqa
 
 
@@ -59,6 +59,14 @@ DPCTL_SHOW = r"""
 
 OVS_DB_RECONNECT_ERROR = """
 2022-07-04 20:03:32.405 2050177 ERROR ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send() on <class 'eventlet.green.ssl.GreenSSLSocket'>
+"""  # noqa
+
+
+BFD_STATE_CHANGES = """
+2022-07-27T08:49:57.903Z|00007|bfd(handler7)|INFO|ovn-abc-xa-15: BFD state change: down->init "No Diagnostic"->"No Diagnostic".
+2022-07-27T08:49:58.323Z|00066|bfd(handler1)|INFO|ovn-abc-xb-0: BFD state change: down->up "No Diagnostic"->"No Diagnostic".
+2022-07-27T08:49:58.362Z|00069|bfd(handler1)|INFO|ovn-abc-xa-2: BFD state change: down->up "No Diagnostic"->"No Diagnostic".
+2022-07-27T08:49:58.844Z|00018|bfd(handler4)|INFO|ovn-abc-xa-15: BFD state change: init->up "No Diagnostic"->"No Diagnostic".
 """  # noqa
 
 
@@ -238,6 +246,24 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('bfd.yaml'))
+    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
+                              BFD_STATE_CHANGES})
+    def test_ovs_bfd_state_changes(self):
+        expected = {'ovs-vswitchd': {
+                    'bfd-state-changes': {
+                        '2022-07-27': {
+                            'ovn-abc-xa-15': [
+                                    'down->init',
+                                    'init->up'],
+                            'ovn-abc-xa-2': [
+                                'down->up'],
+                            'ovn-abc-xb-0': [
+                                'down->up']}}}}
+        inst = event_checks.OVSEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
 
 class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
@@ -351,7 +377,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
             os.makedirs(os.path.dirname(logfile))
             with open(logfile, 'w') as fd:
                 for i in range(0, 10):
-                    fd.write(BFD_STATE_CHANGES.format(secs='0{}'.format(i)))
+                    fd.write(BFD_STATE_CHANGES_TMPLT.
+                             format(secs='0{}'.format(i)))
 
             YScenarioChecker()()
             msg = ('The ovn-controller on this host has experienced 10 BFD '

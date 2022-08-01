@@ -134,6 +134,34 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
             output_key = "{}-port-stats".format(event.section)
             return stats_sorted, output_key
 
+    @EVENTCALLBACKS.callback(event_group='ovs')
+    def bfd_state_changes(self, event):
+        results = []
+        for r in event.results:
+            transinfo = "port={} transition={}".format(r.get(3), r.get(4))
+            results.append({'key': transinfo, 'date': r.get(1)})
+
+        # key needs to be hashable hence we do this way first
+        ret = self.categorise_events(event, results=results)
+
+        # now rebuild to aggregate transitions for each port
+        _ret = {}
+        for date, info in ret.items():
+            for state in info.keys():
+                ret = re.search(r'port=(\S+)\s+transition=(.+)', state)
+                port = ret.group(1)
+                trans = ret.group(2)
+                if date in _ret:
+                    if port in _ret[date]:
+                        _ret[date][port].append(trans)
+                    else:
+                        _ret[date][port] = [trans]
+                else:
+                    _ret[date] = {port: [trans]}
+
+        if _ret:
+            return {event.name: _ret}, 'ovs-vswitchd'
+
 
 class OVNEventChecks(OpenvSwitchEventChecksBase):
 

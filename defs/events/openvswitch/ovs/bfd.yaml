@@ -1,0 +1,4 @@
+input:
+  path: 'var/log/openvswitch/ovs-vswitchd.log'
+bfd-state-changes:
+  expr: '([0-9-]+)T([0-9:\.]+)Z.+\|bfd\(\S+\)\|\S+\|(\S+): BFD state change: (\S+)'
