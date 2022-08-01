@@ -1,6 +1,4 @@
 checks:
-  input:
-    path: 'var/log/kern.log'
   has_stacktraces:
     property:
       path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_anytype
