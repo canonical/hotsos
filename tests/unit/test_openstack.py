@@ -143,6 +143,14 @@ DPKG_L_CLIENTS_ONLY = """
 ii  python3-neutronclient                       2:17.2.0-0ubuntu2                                    all          Neutron is a virtual network service for Openstack - common
 """  # noqa
 
+LP_1904580 = r"""
+2022-08-03 19:02:58.275 29845 INFO nova.compute.manager [req-1ca6c5ea-839d-454a-a7ac-f1f7df882f95 ca1265ef24834623b3ff360f95bbec9b caadf4ef9ccb4eae8a2f6ca0cb142827 - 28c08ee9c0114334a269a1f56b1d6724 28c08ee9c0114334a269a1f56b1d6724] [instance: ba04a48c-1dff-4015-a4f1-625946a40611] Setting instance back to active after: Instance rollback performed due to: Resize error: not able to execute ssh command: Unexpected error while running command.
+Command: ssh -o BatchMode=yes 10.5.1.153 mkdir -p /var/lib/nova/instances/ba04a48c-1dff-4015-a4f1-625946a40611
+Exit code: 255
+Stdout: ''
+Stderr: '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @\r\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\nPermissions 0644 for \'/var/lib/nova/.ssh/id_rsa\' are too open.\r\nIt is required that your private key files are NOT accessible by others.\r\nThis private key will be ignored.\r\nLoad key "/var/lib/nova/.ssh/id_rsa": bad permissions\r\nnova@10.5.1.153: Permission denied (publickey).\r\n'
+""" # noqa
+
 LP_1929832 = r"""
 2021-05-26 18:56:57.344 3457514 ERROR neutron.agent.l3.agent [-] Error while deleting router 8f14f808-c23a-422b-a3a8-7fb747e89676: neutron_lib.exceptions.ProcessExecutionError: Exit code: 99; Stdin: ; Stdout: ; Stderr: /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 365134 (no filter matched)
 """  # noqa
@@ -1140,6 +1148,24 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
 
 class TestOpenstackScenarioChecks(TestOpenstackBase):
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova/bugs.yaml'))
+    @utils.create_test_files({'var/log/nova/nova-compute.log':
+                              LP_1904580})
+    def test_1904580(self):
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1904580',
+                      'desc': ('known nova compute package upgrade bug which '
+                               'affects private ssh key permissions. Change '
+                               'private key file '
+                               '\\\'/var/lib/nova/.ssh/id_rsa\\\''
+                               ' permission from 0644 to 0600 to fix the '
+                               'issue.'),
+                      'origin': 'openstack.01part'}]}
+        result = IssuesManager().load_bugs()
+        self.assertEqual(result, expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
