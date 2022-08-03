@@ -63,6 +63,7 @@ OVS_DB_RECONNECT_ERROR = """
 
 
 BFD_STATE_CHANGES = """
+2022-07-27T08:49:57.903Z|00007|bfd|INFO|ovn-abc-xa-15: BFD state change: admin_down->down "No Diagnostic"->"No Diagnostic".
 2022-07-27T08:49:57.903Z|00007|bfd(handler7)|INFO|ovn-abc-xa-15: BFD state change: down->init "No Diagnostic"->"No Diagnostic".
 2022-07-27T08:49:58.323Z|00066|bfd(handler1)|INFO|ovn-abc-xb-0: BFD state change: down->up "No Diagnostic"->"No Diagnostic".
 2022-07-27T08:49:58.362Z|00069|bfd(handler1)|INFO|ovn-abc-xa-2: BFD state change: down->up "No Diagnostic"->"No Diagnostic".
@@ -255,6 +256,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                     'bfd-state-changes': {
                         '2022-07-27': {
                             'ovn-abc-xa-15': [
+                                    'admin_down->down',
                                     'down->init',
                                     'init->up'],
                             'ovn-abc-xa-2': [
