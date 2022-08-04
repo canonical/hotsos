@@ -88,6 +88,13 @@ class BcacheBase(StorageBase):
 
         for entry in glob.glob(os.path.join(HotSOSConfig.DATA_ROOT,
                                'sys/fs/bcache/*')):
+            if not os.path.isdir(entry):
+                continue
+
+            if not os.path.exists(os.path.join(entry,
+                                               'cache_available_percent')):
+                continue
+
             self.cachesets.append(Cacheset(entry))
 
     @property
