@@ -36,6 +36,10 @@ May  6 17:24:13 compute4 kernel: [13526370.730659] tape901c8af-fb: dropped over-
 May  6 17:24:13 compute4 kernel: [13526370.730681] tape901c8af-fb: dropped over-mtu packet: 1460 > 1450
 """  # noqa
 
+DISK_FAILING_KERN_LOG = r"""
+Jun 11 06:51:39 bronzor kernel: [  725.797102] sd 0:0:9:0: [sdk] tag#915 CDB: Write(16) 8a 00 00 00 00 00 07 c8 fa cb 00 00 00 65 00 00
+Jun 11 06:51:39 bronzor kernel: [  725.995102] blk_update_request: critical medium error, dev sdk, sector 130611915 op 0x1:(WRITE) flags 0x0 phys_seg 13 prio class 0
+"""  # noqa
 
 # add one ovs-port line
 EVENTS_KERN_LOG_W_OVS_PORTS = (EVENTS_KERN_LOG.splitlines(keepends=True)[-1].
@@ -409,3 +413,14 @@ class TestKernelScenarioChecks(TestKernelBase):
         issues = list(IssuesStore().load().values())[0]
         actual = sorted([issue['desc'] for issue in issues])
         self.assertEqual(actual, sorted([msg1, msg2]))
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('disk_failure.yaml'))
+    @utils.create_test_files({'var/log/kern.log': DISK_FAILING_KERN_LOG})
+    def test_failing_disk(self):
+        YScenarioChecker()()
+        msg = ('critical medium error detected in '
+               'kern.log for device sdk. This implies '
+               'that this disk has a hardware issue!')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
