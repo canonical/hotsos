@@ -1,3 +1,4 @@
+import datetime
 import glob
 import json
 import os
@@ -249,7 +250,31 @@ class BinFileCmd(FileCmd):
         return output.decode('UTF-8').splitlines(keepends=True)
 
 
-class JournalctlBinCmd(BinCmd):
+class JournalctlBase(object):
+
+    @property
+    def since_date(self):
+        """
+        Returns a string datetime to be used with journalctl --since. This time
+        reflects the maximum depth of history we will search in the journal.
+
+        The datetime value returned takes into account config from HotSOSConfig
+        and has the format "YEAR-MONTH-DAY". It does not specify a time.
+        """
+        current = CLIHelper().date(format="--iso-8601")
+        ts = datetime.datetime.strptime(current, "%Y-%m-%d")
+        if not HotSOSConfig.ALL_LOGS:
+            ts = ts - datetime.timedelta(days=1)
+        else:
+            depth = HotSOSConfig.MAX_LOGROTATE_DEPTH
+            ts = ts - datetime.timedelta(days=depth)
+
+        ts = ts.strftime("%Y-%m-%d")
+        log.error("journalctl using --since=%s (current=%s)", ts, current)
+        return ts
+
+
+class JournalctlBinCmd(BinCmd, JournalctlBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -262,9 +287,11 @@ class JournalctlBinCmd(BinCmd):
 
         if kwargs.get("date"):
             self.cmd = "{} --since {}".format(self.cmd, kwargs.get("date"))
+        else:
+            self.cmd = "{} --since {}".format(self.cmd, self.since_date)
 
 
-class JournalctlBinFileCmd(BinFileCmd):
+class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -277,6 +304,8 @@ class JournalctlBinFileCmd(BinFileCmd):
 
         if kwargs.get("date"):
             self.path = "{} --since {}".format(self.path, kwargs.get("date"))
+        else:
+            self.path = "{} --since {}".format(self.path, self.since_date)
 
 
 class OVSDPCTLFileCmd(FileCmd):
