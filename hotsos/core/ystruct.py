@@ -364,7 +364,8 @@ class YStructMappedOverrideBase(OverrideBase):
                 mapping_members = self._override_mapped_member_types()
                 s = YStructSection(name, content,
                                    resolve_path=self._override_path,
-                                   override_handlers=mapping_members)
+                                   override_handlers=mapping_members,
+                                   context=self._context)
                 for name in self.member_keys:
                     if hasattr(s, name):
                         obj = getattr(s, name)
