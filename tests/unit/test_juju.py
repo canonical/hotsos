@@ -123,7 +123,9 @@ class TestJujuScenarios(JujuTestsBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
     @utils.create_test_files({'var/log/juju/unit-rabbitmq-server-0.log':
-                              RABBITMQ_CHARM_LOGS})
+                              RABBITMQ_CHARM_LOGS,
+                              'sos_commands/date/date':
+                              'Thu Feb 10 16:19:17 UTC 2022'})
     def test_1910958(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -166,15 +168,14 @@ class TestJujuScenarios(JujuTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
     @utils.create_test_files({'var/log/juju/unit-keystone-2.log':
-                              UNKNOWN_RELATION_ERROR})
-    def test_unknown_relation_bug(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        # make sure we are within the date constraints
-        mock_cli.return_value.date.return_value = "2022-03-15 01:00:00"
+                              UNKNOWN_RELATION_ERROR,
+                              # make sure we are within the date constraints
+                              'sos_commands/date/date':
+                              'Thu Mar 15 00:00:00 UTC 2022'})
+    def test_unknown_relation_bug(self):
         YScenarioChecker()()
         msg = ('One or more charms on this host has "unknown relation" '
                'errors which is an indication of this bug. Upgrading Juju '
