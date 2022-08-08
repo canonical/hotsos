@@ -33,7 +33,7 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
 
 class TestOSDCephChecksBase(StorageCephOSDTestsBase):
 
-    @mock.patch('hotsos.core.host_helpers.CLIHelper')
+    @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_date_secs(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.date.return_value = "1234\n"

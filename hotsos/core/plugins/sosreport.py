@@ -7,6 +7,7 @@ from hotsos.core.searchtools import (
     SearchDef,
     FileSearcher,
 )
+from hotsos.core.utils import cached_property
 
 CORE_APT = ['sosreport']
 
@@ -17,7 +18,7 @@ class SOSReportChecksBase(PluginPartBase):
         super().__init__(*args, **kwargs)
         self.apt = APTPackageChecksBase(core_pkgs=CORE_APT)
 
-    @property
+    @cached_property
     def data_root_is_sosreport(self):
         path = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands')
         if os.path.isdir(path):
@@ -25,7 +26,7 @@ class SOSReportChecksBase(PluginPartBase):
 
         return False
 
-    @property
+    @cached_property
     def version(self):
         if not self.data_root_is_sosreport:
             return
@@ -39,7 +40,7 @@ class SOSReportChecksBase(PluginPartBase):
                 if line.startswith('sosreport:'):
                     return line.partition(' ')[2].strip()
 
-    @property
+    @cached_property
     def timed_out_plugins(self):
         timeouts = []
         if not os.path.exists(os.path.join(HotSOSConfig.DATA_ROOT,

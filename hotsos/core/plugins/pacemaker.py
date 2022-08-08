@@ -6,6 +6,7 @@ from hotsos.core.host_helpers import (
     ServiceChecksBase,
 )
 from hotsos.core.plugintools import PluginPartBase
+from hotsos.core.utils import cached_property
 
 PACEMAKER_PKGS_CORE = ['pacemaker', 'crmsh', 'corosync']
 PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',
@@ -14,11 +15,11 @@ PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',
 
 class PacemakerBase(object):
 
-    @property
+    @cached_property
     def crm_status(self):
         return CLIHelper().pacemaker_crm_status
 
-    @property
+    @cached_property
     def offline_nodes(self):
         crm_status = self.crm_status()
         for line in crm_status:
@@ -28,7 +29,7 @@ class PacemakerBase(object):
                 return regex_match.group(1).split()
         return []
 
-    @property
+    @cached_property
     def online_nodes(self):
         crm_status = self.crm_status()
         for line in crm_status:
@@ -47,7 +48,7 @@ class PacemakerChecksBase(PacemakerBase, PluginPartBase):
         self.systemd = ServiceChecksBase(service_exprs=PACEMAKER_SVC_EXPR)
         self.pacemaker = PacemakerBase()
 
-    @property
+    @cached_property
     def apt_packages_all(self):
         return self.apt.all_formatted
 

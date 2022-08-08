@@ -7,7 +7,6 @@ from hotsos.core import (
     host_helpers,
     plugintools,
 )
-
 from hotsos.core.config import HotSOSConfig
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'

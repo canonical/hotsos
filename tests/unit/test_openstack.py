@@ -852,6 +852,7 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
         self.assertEqual(inst.unpinned_cpus_pcent, 12)
         self.assertEqual(inst.num_unpinned_cpus, 2)
         self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, False)
+        inst = nova_core.CPUPinning()
         with mock.patch('hotsos.core.plugins.openstack.nova.CPUPinning.'
                         'cpu_dedicated_set', [0, 1, 4]):
             self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, True)

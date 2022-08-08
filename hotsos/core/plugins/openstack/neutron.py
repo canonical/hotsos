@@ -4,6 +4,7 @@ import re
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.openstack import OSTServiceBase
 from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.utils import cached_property
 
 
 class NeutronBase(OSTServiceBase):
@@ -12,7 +13,7 @@ class NeutronBase(OSTServiceBase):
         super().__init__('neutron', *args, **kwargs)
         self.neutron_ovs_config = self.project.config['openvswitch-agent']
 
-    @property
+    @cached_property
     def bind_interfaces(self):
         """
         Fetch interfaces used by Openstack Neutron. Returned dict is keyed by
@@ -36,7 +37,7 @@ class NeutronBase(OSTServiceBase):
 
 class ServiceChecks(object):
 
-    @property
+    @cached_property
     def ovs_cleanup_run_manually(self):
         """ Allow one run on node boot/reboot but not after. """
         run_manually = False
@@ -58,6 +59,7 @@ class ServiceChecks(object):
 
 
 class NeutronRouter(object):
+
     def __init__(self, uuid, ha_state):
         self.uuid = uuid
         self.ha_state = ha_state
@@ -67,14 +69,19 @@ class NeutronRouter(object):
 class NeutronHAInfo(object):
 
     def __init__(self):
-        self._routers = []
-        self._get_neutron_ha_info()
         self.vr_id = None
 
-    def _get_neutron_ha_info(self):
-        if not os.path.exists(self.state_path):
-            return
+    @cached_property
+    def state_path(self):
+        ha_confs = 'var/lib/neutron/ha_confs'
+        return os.path.join(HotSOSConfig.DATA_ROOT, ha_confs)
 
+    @cached_property
+    def ha_routers(self):
+        if not os.path.exists(self.state_path):
+            return []
+
+        _routers = []
         for entry in os.listdir(self.state_path):
             entry = os.path.join(self.state_path, entry)
             if not os.path.isdir(entry):
@@ -100,18 +107,11 @@ class NeutronHAInfo(object):
                         if ret:
                             router.vr_id = ret.group(1)
 
-            self._routers.append(router)
+            _routers.append(router)
+
+        return _routers
 
     def find_router_with_vr_id(self, id):
         for r in self.ha_routers:
             if r.vr_id == id:
                 return r
-
-    @property
-    def state_path(self):
-        ha_confs = 'var/lib/neutron/ha_confs'
-        return os.path.join(HotSOSConfig.DATA_ROOT, ha_confs)
-
-    @property
-    def ha_routers(self):
-        return self._routers

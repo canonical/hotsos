@@ -4,6 +4,7 @@ from hotsos.core.host_helpers import (
     ServiceChecksBase,
 )
 from hotsos.core.plugintools import PluginPartBase
+from hotsos.core.utils import cached_property
 
 CORE_APT = ['maas', 'postgres']
 APT_DEPS = ['isc-dhcp', 'bind9']
@@ -22,7 +23,7 @@ class MAASChecksBase(PluginPartBase):
         self.systemd = ServiceChecksBase(service_exprs=SERVICE_EXPRS,
                                          ps_allow_relative=False)
 
-    @property
+    @cached_property
     def maas_installed(self):
         if self.apt.core or self.snaps.core:
             return True

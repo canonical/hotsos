@@ -1,6 +1,7 @@
 import re
 
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
+from hotsos.core.utils import cached_property
 
 
 class OVSDB(object):
@@ -59,7 +60,7 @@ class OVSBridge(object):
         self.cli = CLIHelper()
         self.nethelper = nethelper
 
-    @property
+    @cached_property
     def ports(self):
         ports = []
         for line in self.cli.ovs_ofctl_show(bridge=self.name):
@@ -83,12 +84,12 @@ class OpenvSwitchBase(object):
         self.net_helper = HostNetworkingHelper()
         self.ovsdb = OVSDB()
 
-    @property
+    @cached_property
     def bridges(self):
         bridges = self.cli.ovs_vsctl_list_br()
         return [OVSBridge(br.strip(), self.net_helper) for br in bridges]
 
-    @property
+    @cached_property
     def offload_enabled(self):
         config = self.ovsdb.other_config
         if not config:

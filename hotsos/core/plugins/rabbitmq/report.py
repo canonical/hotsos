@@ -1,28 +1,13 @@
 import os
 
 from hotsos.core.log import log
-from hotsos.core.utils import mktemp_dump, sorted_dict
+from hotsos.core.utils import mktemp_dump, sorted_dict, cached_property
 from hotsos.core.searchtools import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,
 )
 from hotsos.core.host_helpers import CLIHelper
-
-
-def cached_property(f):
-    @property
-    def _inner(inst):
-        if f.__name__ in inst._property_cache:
-            # log.debug("using cached value for %s", f.__name__)
-            return inst._property_cache[f.__name__]
-
-        # log.debug("using uncached value for %s", f.__name__)
-        ret = f(inst)
-        inst._property_cache[f.__name__] = ret
-        return ret
-
-    return _inner
 
 
 class RabbitMQReport(object):
@@ -39,7 +24,6 @@ class RabbitMQReport(object):
     """
 
     def __init__(self):
-        self._property_cache = {}
         # save to file so we can search it later
         cli = CLIHelper()
         self._f_report = mktemp_dump(''.join(cli.rabbitmqctl_report()))

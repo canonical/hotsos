@@ -1,6 +1,7 @@
 import os
 import re
 
+from hotsos.core.utils import cached_property
 from hotsos.core import host_helpers, plugintools
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.kernel.config import KernelConfig
@@ -13,7 +14,7 @@ class KernelBase(object):
         self._kernel_version = ""
         self._boot_parameters = []
 
-    @property
+    @cached_property
     def version(self):
         """Returns string kernel version."""
         uname = host_helpers.CLIHelper().uname()
@@ -24,11 +25,11 @@ class KernelBase(object):
 
         return self._kernel_version
 
-    @property
+    @cached_property
     def isolcpus_enabled(self):
         return KernelConfig().get('isolcpus') is not None
 
-    @property
+    @cached_property
     def boot_parameters(self):
         """Returns list of boot parameters."""
         parameters = []

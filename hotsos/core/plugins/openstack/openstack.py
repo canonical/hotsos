@@ -20,6 +20,8 @@ from hotsos.core.plugins.openstack.exceptions import (
     OVSDBAPP_EXCEPTIONS,
     MASAKARI_EXCEPTIONS,
 )
+from hotsos.core.utils import cached_property
+
 
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
 # versions page: https://ubuntu.com/openstack/docs/supported-versions
@@ -231,20 +233,20 @@ class OSTProject(object):
         self.log_path_overrides = log_path_overrides or {}
         self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
 
-    @property
+    @cached_property
     def installed(self):
         """ Return True if the openstack service is installed. """
         return bool(host_helpers.APTPackageChecksBase(
                                             core_pkgs=self.packages_core).core)
 
-    @property
+    @cached_property
     def services_expr(self):
         exprs = ['{}{}'.format(self.name, self.SVC_VALID_SUFFIX)]
         if self.systemd_extra_services:
             exprs += self.systemd_extra_services
         return exprs
 
-    @property
+    @cached_property
     def services(self):
         exprs = self.services_expr
         info = host_helpers.ServiceChecksBase(service_exprs=exprs)
@@ -367,13 +369,16 @@ class OSTProjectCatalog(object):
         return self._projects[name]
 
     def __getattr__(self, name):
-        return self._projects[name]
+        if name in self._projects:
+            return self._projects[name]
 
-    @property
+        raise AttributeError("project {} not found".format(name))
+
+    @cached_property
     def all(self):
         return self._projects
 
-    @property
+    @cached_property
     def service_exprs(self):
         # Expressions used to match openstack systemd services for each project
         exprs = []
@@ -384,7 +389,7 @@ class OSTProjectCatalog(object):
         exprs.extend(self.OST_SERVICES_DEPS)
         return exprs
 
-    @property
+    @cached_property
     def default_masked_services(self):
         """
         Returns a list of services that are expected to be marked as masked in
@@ -399,7 +404,7 @@ class OSTProjectCatalog(object):
     def add(self, name, *args, **kwargs):
         self._projects[name] = OSTProject(name, *args, **kwargs)
 
-    @property
+    @cached_property
     def packages_core_exprs(self):
         core = set()
         for p in self.all.values():
@@ -407,7 +412,7 @@ class OSTProjectCatalog(object):
 
         return list(core)
 
-    @property
+    @cached_property
     def packages_dep_exprs(self):
         deps = set(self.APT_DEPS_COMMON)
         for p in self.all.values():
@@ -423,7 +428,7 @@ class OSTServiceBase(object):
         self.nethelp = host_helpers.HostNetworkingHelper()
         self.project = OSTProjectCatalog()[name]
 
-    @property
+    @cached_property
     def installed(self):
         """ Return True if the openstack service is installed. """
         return self.project.installed

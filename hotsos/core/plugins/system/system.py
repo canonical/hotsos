@@ -3,6 +3,7 @@ import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.utils import cached_property
 
 
 class NUMAInfo(object):
@@ -16,7 +17,7 @@ class NUMAInfo(object):
 
         self._nodes = {}
 
-    @property
+    @cached_property
     def nodes(self):
         """Returns dictionary of numa nodes and their associated list of cpu
            cores.
@@ -125,15 +126,15 @@ class SystemBase(object):
         super().__init__(*args, **kwargs)
         self._sysctl_all = None
 
-    @property
+    @cached_property
     def date(self):
         return CLIHelper().date(no_format=True)
 
-    @property
+    @cached_property
     def hostname(self):
         return CLIHelper().hostname()
 
-    @property
+    @cached_property
     def os_release_name(self):
         data_source = os.path.join(HotSOSConfig.DATA_ROOT, "etc/lsb-release")
         if os.path.exists(data_source):
@@ -142,7 +143,7 @@ class SystemBase(object):
                 if ret:
                     return "ubuntu {}".format(ret[1])
 
-    @property
+    @cached_property
     def virtualisation_type(self):
         """
         @return: virt type e.g. kvm or lxc if host is virtualised otherwise
@@ -156,7 +157,7 @@ class SystemBase(object):
 
         return
 
-    @property
+    @cached_property
     def num_cpus(self):
         """ Return number of cpus or 0 if none found. """
         lscpu_output = CLIHelper().lscpu()
@@ -168,7 +169,7 @@ class SystemBase(object):
 
         return 0
 
-    @property
+    @cached_property
     def loadavg(self):
         uptime = CLIHelper().uptime()
         if uptime:
@@ -176,7 +177,7 @@ class SystemBase(object):
             if ret:
                 return ret[1]
 
-    @property
+    @cached_property
     def unattended_upgrades_enabled(self):
         apt_config_dump = CLIHelper().apt_config_dump()
         if not apt_config_dump:
@@ -193,7 +194,7 @@ class SystemBase(object):
 
         return False
 
-    @property
+    @cached_property
     def sysctl_all(self):
         if self._sysctl_all is not None:
             return self._sysctl_all

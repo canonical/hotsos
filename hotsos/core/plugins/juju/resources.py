@@ -24,7 +24,7 @@ class JujuMachine(object):
         if name:
             return name.partition("jujud-machine-")[2]
 
-    @property
+    @utils.cached_property
     def config(self):
         if not self.cfg:
             path = glob.glob(os.path.join(self.juju_lib_path,
@@ -49,15 +49,15 @@ class JujuMachine(object):
 
         return self.cfg
 
-    @property
+    @utils.cached_property
     def agent_service_name(self):
         return self.config.get("values", {}).get("AGENT_SERVICE_NAME")
 
-    @property
+    @utils.cached_property
     def version(self):
         return self.config.get("upgradedToVersion", "unknown")
 
-    @property
+    @utils.cached_property
     def deployed_units(self):
         units = []
         # requires >= 2.9.x
@@ -83,7 +83,7 @@ class JujuUnit(object):
         self.name = '{}-{}'.format(application, id)
         self.path = path
 
-    @property
+    @utils.cached_property
     def repo_info(self):
         """
         Some charms, e.g. the Openstack charms, provide a repo-info file that
@@ -123,7 +123,7 @@ class JujuBase(object):
     def juju_lib_path(self):
         return os.path.join(HotSOSConfig.DATA_ROOT, "var/lib/juju")
 
-    @property
+    @utils.cached_property
     def machine(self):
         machine = JujuMachine(self.juju_lib_path)
         if not machine.config:
@@ -132,7 +132,7 @@ class JujuBase(object):
 
         return machine
 
-    @property
+    @utils.cached_property
     def units(self):
         if not os.path.exists(self.juju_lib_path):
             return
@@ -155,7 +155,7 @@ class JujuBase(object):
 
         return self._units
 
-    @property
+    @utils.cached_property
     def nonlocal_units(self):
         """ These are units that may be running on the local host i.e.
         their associated jujud process is visible but inside containers.
@@ -175,7 +175,7 @@ class JujuBase(object):
         if units_nonlocal:
             return units_nonlocal
 
-    @property
+    @utils.cached_property
     def charms(self):
         if self._charms:
             return self._charms
@@ -195,14 +195,14 @@ class JujuBase(object):
 
         return self._charms
 
-    @property
+    @utils.cached_property
     def charm_names(self):
         if not self.charms:
             return []
 
         return [c.name for c in self.charms]
 
-    @property
+    @utils.cached_property
     def ps_units(self):
         """ Units identified from running processes. """
         units = set()

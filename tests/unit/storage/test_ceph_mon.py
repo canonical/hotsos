@@ -290,7 +290,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertTrue(cluster.ceph_versions_aligned)
         self.assertTrue(cluster.mon_versions_aligned_with_cluster)
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_ceph_daemon_versions_unique_not(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.ceph_versions.return_value = \
@@ -305,7 +305,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertFalse(cluster.ceph_versions_aligned)
         self.assertFalse(cluster.mon_versions_aligned_with_cluster)
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_check_crushmap_non_equal_buckets(self, mock_helper):
         test_data_path = ('sos_commands/ceph_mon/json_output/'
                           'ceph_osd_crush_dump_--format_'
@@ -326,7 +326,7 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         buckets = cluster.crush_map.crushmap_equal_buckets
         self.assertEqual(buckets, [])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_crushmap_mixed_buckets(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_crush_dump_json_decoded.\
@@ -403,7 +403,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.pool_id_to_name',
                 lambda *args: 'foo')
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     def test_ceph_cluster_info_large_omap_pgs(self, mock_cli):
         expected = {'2.f': {
                         'pool': 'foo',
@@ -416,7 +416,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['large-omap-pgs'], expected)
 
-    @mock.patch.object(ceph_core.host_helpers, 'CLIHelper')
+    @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance(self, mock_helper):
         result = self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
         inst = ceph_summary.CephSummary()
@@ -426,7 +426,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         self.assertEqual(actual['osd-pgs-near-limit'],
                          result['osd-pgs-near-limit'])
 
-    @mock.patch.object(ceph_core.host_helpers, 'CLIHelper')
+    @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_pg_imbalance_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_osd_df_tree.return_value = []
@@ -443,7 +443,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['versions'], result)
 
-    @mock.patch.object(ceph_core.host_helpers, 'CLIHelper')
+    @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_ceph_versions_unavailable(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_versions.return_value = []
@@ -588,7 +588,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
         self.assertEqual([issue['context'] for issue in issues], [context])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                     'ceph-mon/osd_maps_backlog_too_large.yaml'))
@@ -609,7 +609,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
                 'require_osd_release', 'octopus')
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                 'ceph-mon/required_osd_release_mismatch.yaml'))
@@ -628,7 +628,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
                 'require_osd_release', 'octopus')
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/laggy_pgs.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
@@ -679,7 +679,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/large_omap_objects.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
@@ -713,7 +713,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_bugs().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/ceph_versions_mismatch.yaml'))
@@ -731,7 +731,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/ceph_versions_mismatch.yaml'))
@@ -749,7 +749,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/pg_imbalance.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
@@ -767,7 +767,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg1, msg2])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/crushmap_bucket_checks.yaml'))
@@ -785,7 +785,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.host_helpers.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/crushmap_bucket_checks.yaml'))

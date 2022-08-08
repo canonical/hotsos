@@ -3,9 +3,11 @@ import os
 import re
 import subprocess
 
-from hotsos.core import (
-    host_helpers,
-    utils,
+from hotsos.core.utils import (
+    cached_property,
+    mktemp_dump,
+    sorted_dict,
+    seconds_to_date,
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
@@ -78,10 +80,7 @@ class CephConfig(SectionalConfigBase):
 class CephCrushMap(object):
 
     def __init__(self):
-        self.cli = host_helpers.CLIHelper()
-        self._crush_rules = {}
-        self._osd_crush_dump = None
-        self._ceph_report = None
+        self.cli = CLIHelper()
 
     def _filter_pools_by_rule(self, pools, crush_rule):
         res_pool = []
@@ -92,34 +91,21 @@ class CephCrushMap(object):
 
         return res_pool
 
-    @property
+    @cached_property
     def osd_crush_dump(self):
-        if self._osd_crush_dump:
-            return self._osd_crush_dump
+        return self.cli.ceph_osd_crush_dump_json_decoded() or {}
 
-        dump = self.cli.ceph_osd_crush_dump_json_decoded() or {}
-        self._osd_crush_dump = dump
-        return self._osd_crush_dump
-
-    @property
+    @cached_property
     def ceph_report(self):
-        if self._ceph_report:
-            return self._ceph_report
+        return self.cli.ceph_report_json_decoded() or {}
 
-        dump = self.cli.ceph_report_json_decoded() or {}
-        self._ceph_report = dump
-        return self._ceph_report
-
-    @property
+    @cached_property
     def rules(self):
         """
         Returns a list of crush rules, mapped to the respective pools.
         """
-        if self._crush_rules:
-            return self._crush_rules
-
         if not self.ceph_report:
-            return
+            return {}
 
         rule_to_pool = {}
         for rule in self.ceph_report['crushmap']['rules']:
@@ -131,8 +117,7 @@ class CephCrushMap(object):
                                                'type': CEPH_POOL_TYPE[rtype],
                                                'pools': pools}
 
-        self._crush_rules = rule_to_pool
-        return self._crush_rules
+        return rule_to_pool
 
     def _build_buckets_from_crushdump(self, crushdump):
         buckets = {}
@@ -150,7 +135,7 @@ class CephCrushMap(object):
 
         return buckets
 
-    @property
+    @cached_property
     def crushmap_mixed_buckets(self):
         """
         Report buckets that have mixed type of items,
@@ -181,7 +166,7 @@ class CephCrushMap(object):
 
         return bad_buckets
 
-    @property
+    @cached_property
     def crushmap_mixed_buckets_str(self):
         return ','.join(self.crushmap_mixed_buckets)
 
@@ -212,7 +197,7 @@ class CephCrushMap(object):
 
         return False
 
-    @property
+    @cached_property
     def crushmap_equal_buckets(self):
         """
         Report when in-use failure domain buckets are unbalanced.
@@ -248,7 +233,7 @@ class CephCrushMap(object):
 
         return unequal_buckets
 
-    @property
+    @cached_property
     def crushmap_equal_buckets_pretty(self):
         unequal = self.crushmap_equal_buckets
         if unequal:
@@ -262,30 +247,10 @@ class CephCluster(object):
     OSD_PG_OPTIMAL_NUM_MIN = 50
 
     def __init__(self):
-        self.cli = host_helpers.CLIHelper()
-        # create file-based caches of useful commands so they can be searched.
-        self.cli_cache = {'ceph_versions': self.cli.ceph_versions()}
-        for cmd, output in self.cli_cache.items():
-            self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
-
         self.crush_map = CephCrushMap()
-        self._large_omap_pgs = {}
-        self._bad_meta_osds = []
-        self._cluster_osds = []
-        self._cluster_mons = []
-        self._mon_dump = None
-        self._osd_dump = None
-        self._pg_dump = None
-        self._osd_df_tree = None
-        self._osds_pgs = {}
+        self.cli = CLIHelper()
 
-    def __del__(self):
-        """ Ensure temp files/dirs are deleted. """
-        for tmpfile in self.cli_cache.values():
-            if os.path.exists(tmpfile):
-                os.unlink(tmpfile)
-
-    @property
+    @cached_property
     def health_status(self):
         health = None
         status = self.cli.ceph_status_json_decoded()
@@ -294,61 +259,40 @@ class CephCluster(object):
 
         return health
 
-    @property
+    @cached_property
     def mon_dump(self):
-        if self._mon_dump:
-            return self._mon_dump
+        return self.cli.ceph_mon_dump_json_decoded() or {}
 
-        self._mon_dump = self.cli.ceph_mon_dump_json_decoded() or {}
-        return self._mon_dump
-
-    @property
+    @cached_property
     def osd_dump(self):
-        if self._osd_dump:
-            return self._osd_dump
+        return self.cli.ceph_osd_dump_json_decoded() or {}
 
-        self._osd_dump = self.cli.ceph_osd_dump_json_decoded() or {}
-        return self._osd_dump
-
-    @property
+    @cached_property
     def pg_dump(self):
-        if self._pg_dump:
-            return self._pg_dump
+        return self.cli.ceph_pg_dump_json_decoded() or {}
 
-        self._pg_dump = self.cli.ceph_pg_dump_json_decoded() or {}
-        return self._pg_dump
-
-    @property
+    @cached_property
     def mons(self):
-        if self._cluster_mons:
-            return self._cluster_mons
-
+        _mons = []
         for mon in self.mon_dump.get('mons', {}):
-            self._cluster_mons.append(CephMon(mon['name']))
+            _mons.append(CephMon(mon['name']))
 
-        return self._cluster_mons
+        return _mons
 
-    @property
+    @cached_property
     def osd_df_tree(self):
-        if self._osd_df_tree:
-            return self._osd_df_tree
+        return self.cli.ceph_osd_df_tree_json_decoded() or {}
 
-        self._osd_df_tree = self.cli.ceph_osd_df_tree_json_decoded() or {}
-        return self._osd_df_tree
-
-    @property
+    @cached_property
     def osds(self):
         """ Returns a list of CephOSD objects for all osds in the cluster. """
-        if self._cluster_osds:
-            return self._cluster_osds
-
+        _osds = []
         for osd in self.osd_dump.get('osds', {}):
-            self._cluster_osds.append(CephOSD(osd['osd'], osd['uuid'],
-                                              dump=osd))
+            _osds.append(CephOSD(osd['osd'], osd['uuid'], dump=osd))
 
-        return self._cluster_osds
+        return _osds
 
-    @property
+    @cached_property
     def cluster_osds_without_v2_messenger_protocol(self):
         v1_osds = []
         for osd in self.osds:
@@ -367,10 +311,11 @@ class CephCluster(object):
         the resulting dict is keyed by daemon type otherwise it is keyed by
         version (and only versions for that daemon type.)
         """
-        out = self.cli_cache['ceph_versions']
+        out = CLIHelper().ceph_versions()
         if not out:
             return
 
+        out_path = mktemp_dump('\n'.join(out))
         versions = {}
         s = FileSearcher()
         body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
@@ -385,7 +330,7 @@ class CephCluster(object):
                                    end=SearchDef(r"^\s+\"\S+\":\s+{"),
                                    tag='versions')
 
-        s.add_search_term(sd, path=self.cli_cache['ceph_versions'])
+        s.add_search_term(sd, path=out_path)
         for section in s.search().find_sequence_sections(sd).values():
             _versions = {}
             for result in section:
@@ -457,18 +402,18 @@ class CephCluster(object):
 
         return _releases
 
-    @property
+    @cached_property
     def osd_release_names(self):
         """
         Same as versions property but with release names instead of versions.
         """
         return self.cluster.daemon_release_names('osd')
 
-    @property
+    @cached_property
     def require_osd_release(self):
         return self.osd_dump.get('require_osd_release')
 
-    @property
+    @cached_property
     def osd_daemon_release_names_match_required(self):
         """
         Does the cluster have require_osd_release set to a specific release
@@ -481,7 +426,7 @@ class CephCluster(object):
         rnames = set(self.daemon_release_names('osd').keys())
         return len(rnames) == 1 and required_rname in rnames
 
-    @property
+    @cached_property
     def laggy_pgs(self):
         if not self.pg_dump:
             return []
@@ -504,40 +449,36 @@ class CephCluster(object):
             if pool['pool'] == int(id):
                 return pool['pool_name']
 
-    @property
+    @cached_property
     def large_omap_pgs(self):
-        if self._large_omap_pgs:
-            return self._large_omap_pgs
-
+        _large_omap_pgs = {}
         if not self.pg_dump:
-            return self._large_omap_pgs
+            return _large_omap_pgs
 
         for pg in self.pg_dump['pg_map']['pg_stats']:
             if pg['stat_sum']['num_large_omap_objects'] > 0:
                 pg_id = pg['pgid']
                 pg_pool_id = pg_id.partition('.')[0]
-                self._large_omap_pgs[pg['pgid']] = {
+                _large_omap_pgs[pg['pgid']] = {
                         'pool': self.pool_id_to_name(pg_pool_id),
                         'last_scrub_stamp': pg['last_scrub_stamp'],
                         'last_deep_scrub_stamp': pg['last_deep_scrub_stamp']
                         }
 
-        return self._large_omap_pgs
+        return _large_omap_pgs
 
-    @property
+    @cached_property
     def large_omap_pgs_str(self):
         if not self.large_omap_pgs:
             return
 
         return ', '.join(self.large_omap_pgs.keys())
 
-    @property
+    @cached_property
     def bluefs_oversized_metadata_osds(self):
-        if self._bad_meta_osds:
-            return self._bad_meta_osds
-
+        _bad_meta_osds = []
         if not self.osd_df_tree:
-            return self._bad_meta_osds
+            return _bad_meta_osds
 
         for device in self.osd_df_tree['nodes']:
             if device['id'] >= 0:
@@ -545,9 +486,9 @@ class CephCluster(object):
                 # Usually the meta data is expected to be in 0-4G range
                 # and we check if it's over 10G
                 if meta_kb > self.OSD_META_LIMIT_KB:
-                    self._bad_meta_osds.append(device['name'])
+                    _bad_meta_osds.append(device['name'])
 
-        return self._bad_meta_osds
+        return _bad_meta_osds
 
     @staticmethod
     def version_as_a_tuple(ver):
@@ -583,7 +524,7 @@ class CephCluster(object):
 
         return unique_versions
 
-    @property
+    @cached_property
     def ceph_versions_aligned(self):
         versions = self.ceph_daemon_versions_unique()
         if not versions:
@@ -598,7 +539,7 @@ class CephCluster(object):
 
         return len(gloval_vers) == 1
 
-    @property
+    @cached_property
     def mon_versions_aligned_with_cluster(self):
         """
         While it is not critical to have minor version mismatches across
@@ -620,7 +561,7 @@ class CephCluster(object):
 
         return True
 
-    @property
+    @cached_property
     def osdmaps_count(self):
         report = self.cli.ceph_report_json_decoded()
         if not report:
@@ -631,30 +572,28 @@ class CephCluster(object):
         except (ValueError, KeyError):
             return 0
 
-    @property
+    @cached_property
     def osds_pgs(self):
-        if self._osds_pgs:
-            return self._osds_pgs
-
+        _osds_pgs = {}
         if not self.osd_df_tree:
-            return self._osds_pgs
+            return _osds_pgs
 
         for device in self.osd_df_tree['nodes']:
             if device['id'] >= 0:
-                self._osds_pgs[device['name']] = device['pgs']
+                _osds_pgs[device['name']] = device['pgs']
 
-        return self._osds_pgs
+        return _osds_pgs
 
-    @property
+    @cached_property
     def osds_pgs_above_max(self):
         _osds_pgs = {}
         for osd, num_pgs in self.osds_pgs.items():
             if num_pgs > self.OSD_PG_MAX_LIMIT:
                 _osds_pgs[osd] = num_pgs
 
-        return utils.sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
+        return sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
 
-    @property
+    @cached_property
     def osds_pgs_suboptimal(self):
         _osds_pgs = {}
         for osd, num_pgs in self.osds_pgs.items():
@@ -664,28 +603,15 @@ class CephCluster(object):
             if margin_high < num_pgs or margin_low > num_pgs:
                 _osds_pgs[osd] = num_pgs
 
-        return utils.sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
+        return sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
 
 
 class CephDaemonBase(object):
 
     def __init__(self, daemon_type):
         self.daemon_type = daemon_type
-        self.cli = host_helpers.CLIHelper()
+        self.cli = CLIHelper()
         self.date_in_secs = self.get_date_secs()
-        self._version_info = None
-        self._etime = None
-        self._rss = None
-        # create file-based caches of useful commands so they can be searched.
-        self.cli_cache = {'ps': self.cli.ps()}
-        for cmd, output in self.cli_cache.items():
-            self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
-
-    def __del__(self):
-        """ Ensure temp files/dirs are deleted. """
-        for tmpfile in self.cli_cache.values():
-            if os.path.exists(tmpfile):
-                os.unlink(tmpfile)
 
     @classmethod
     def get_date_secs(cls, datestring=None):
@@ -693,45 +619,39 @@ class CephDaemonBase(object):
             cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
             date_in_secs = subprocess.check_output(cmd)
         else:
-            date_in_secs = host_helpers.CLIHelper().date() or 0
+            date_in_secs = CLIHelper().date() or 0
             if date_in_secs:
                 date_in_secs = date_in_secs.strip()
 
         return int(date_in_secs)
 
-    @property
+    @cached_property
     def rss(self):
         """Return memory RSS for a given daemon.
 
         NOTE: this assumes we have ps auxwwwm format.
         """
-        if self._rss:
-            return self._rss
-
         s = FileSearcher()
         # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
         sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+"
                        r".+--id\s+{}\s+.+".format(self.daemon_type, self.id))
-        s.add_search_term(sd, path=self.cli_cache['ps'])
+        ps_out = mktemp_dump('\n'.join(self.cli.ps()))
+        s.add_search_term(sd, path=ps_out)
         rss = 0
         # we only expect one result
-        for result in s.search().find_by_path(self.cli_cache['ps']):
+        for result in s.search().find_by_path(ps_out):
             rss = int(int(result.get(1)) / 1024)
             break
 
-        self._rss = "{}M".format(rss)
-        return self._rss
+        return "{}M".format(rss)
 
-    @property
+    @cached_property
     def etime(self):
         """Return process etime for a given daemon.
 
         To get etime we have to use ps_axo_flags rather than the default
         ps_auxww.
         """
-        if self._etime:
-            return self._etime
-
         if not get_ps_axo_flags_available():
             return
 
@@ -750,6 +670,7 @@ class CephDaemonBase(object):
         if not ps_info:
             return
 
+        _etime = None
         for cmd in ps_info:
             ret = re.compile(r".+\s+.+--id {}\s+.+".format(self.id)).match(cmd)
             if ret:
@@ -757,10 +678,10 @@ class CephDaemonBase(object):
                 if self.date_in_secs and osd_start:
                     osd_start_secs = self.get_date_secs(datestring=osd_start)
                     osd_uptime_secs = (self.date_in_secs - osd_start_secs)
-                    osd_uptime_str = utils.seconds_to_date(osd_uptime_secs)
-                    self._etime = osd_uptime_str
+                    osd_uptime_str = seconds_to_date(osd_uptime_secs)
+                    _etime = osd_uptime_str
 
-        return self._etime
+        return _etime
 
 
 class CephMon(CephDaemonBase):
@@ -808,7 +729,7 @@ class CephOSD(CephDaemonBase):
 
         return d
 
-    @property
+    @cached_property
     def devtype(self):
         if self._devtype:
             return self._devtype
@@ -836,17 +757,6 @@ class CephChecksBase(StorageBase):
         self.systemd = ServiceChecksBase(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
         self.cli = CLIHelper()
-        # create file-based caches of useful commands so they can be searched.
-        self.cli_cache = {'ceph_volume_lvm_list':
-                          self.cli.ceph_volume_lvm_list()}
-        for cmd, output in self.cli_cache.items():
-            self.cli_cache[cmd] = utils.mktemp_dump('\n'.join(output))
-
-    def __del__(self):
-        """ Ensure temp files/dirs are deleted. """
-        for tmpfile in self.cli_cache.values():
-            if os.path.exists(tmpfile):
-                os.unlink(tmpfile)
 
     @property
     def summary_subkey(self):
@@ -859,7 +769,7 @@ class CephChecksBase(StorageBase):
 
         return False
 
-    @property
+    @cached_property
     def release_name(self):
         relname = 'unknown'
 
@@ -874,7 +784,7 @@ class CephChecksBase(StorageBase):
 
         return relname
 
-    @property
+    @cached_property
     def days_to_eol(self):
         if self.release_name != 'unknown':
             eol = CEPH_EOL_INFO[self.release_name]
@@ -904,8 +814,8 @@ class CephChecksBase(StorageBase):
         if port:
             return {type: port}
 
-    @property
-    def bind_interfaces(self):
+    @cached_property
+    def _ceph_bind_interfaces(self):
         """
         Returns a dict of network interfaces used by Ceph daemons on this host.
         The dict has the form {<type>: [<port>, ...]}
@@ -919,6 +829,10 @@ class CephChecksBase(StorageBase):
         return interfaces
 
     @property
+    def bind_interfaces(self):
+        return self._ceph_bind_interfaces
+
+    @cached_property
     def bind_interface_names(self):
         """
         Returns a list of names for network interfaces used by Ceph daemons on
@@ -928,15 +842,17 @@ class CephChecksBase(StorageBase):
         return ', '.join(list(set(names)))
 
     def _get_local_osds(self):
-        if not self.cli_cache['ceph_volume_lvm_list']:
+        out = self.cli.ceph_volume_lvm_list()
+        if not out:
             return
 
+        out_path = mktemp_dump('\n'.join(out))
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
                                body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
-        s.add_search_term(sd, path=self.cli_cache['ceph_volume_lvm_list'])
+        s.add_search_term(sd, path=out_path)
         local_osds = []
         for results in s.search().find_sequence_sections(sd).values():
             id = None
@@ -955,7 +871,7 @@ class CephChecksBase(StorageBase):
 
         return local_osds
 
-    @property
+    @cached_property
     def local_osds_use_bcache(self):
         for osd in self.local_osds:
             if self.bcache.is_bcache_device(osd.device):
@@ -963,7 +879,7 @@ class CephChecksBase(StorageBase):
 
         return False
 
-    @property
+    @cached_property
     def local_osds(self):
         """
         Returns a list of CephOSD objects for osds found on the local host.
@@ -974,11 +890,11 @@ class CephChecksBase(StorageBase):
         self._local_osds = self._get_local_osds()
         return self._local_osds
 
-    @property
+    @cached_property
     def local_osds_devtypes(self):
         return [osd.devtype for osd in self.local_osds]
 
-    @property
+    @cached_property
     def bluestore_enabled(self):
         """
         If any of the following are enabled in ceph.conf (by the charm) it
@@ -1006,7 +922,7 @@ class CephChecksBase(StorageBase):
 
         return False
 
-    @property
+    @cached_property
     def has_interface_errors(self):
         """
         Checks if any network interfaces used by Ceph are showing packet
@@ -1042,10 +958,11 @@ class CephDaemonConfigShow(object):
                 self.config[ret.group(1)] = ret.group(2)
 
     def __getattr__(self, name):
-        if name not in self.config:
-            raise AttributeError(name)
+        if name in self.config:
+            return self.config[name]
 
-        return self.config[name]
+        raise AttributeError("{} not found in {}".
+                             format(name, self.__class__.__name__))
 
 
 class CephDaemonConfigShowAllOSDs(object):

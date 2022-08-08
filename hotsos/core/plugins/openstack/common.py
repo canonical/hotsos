@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import re
 
+from hotsos.core.utils import cached_property
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.openstack import (
     OSTProjectCatalog,
@@ -34,17 +35,17 @@ class OpenstackBase(object):
         self.octavia = OctaviaBase()
         self.certificate_expire_days = 60
 
-    @property
+    @cached_property
     def apache2_ssl_config_file(self):
         return os.path.join(HotSOSConfig.DATA_ROOT,
                             'etc/apache2/sites-enabled',
                             'openstack_https_frontend.conf')
 
-    @property
+    @cached_property
     def ssl_enabled(self):
         return os.path.exists(self.apache2_ssl_config_file)
 
-    @property
+    @cached_property
     def apache2_certificates_list(self):
         certificate_path_list = []
         certificate_list = []
@@ -75,7 +76,7 @@ class OpenstackBase(object):
 
         return certificate_list
 
-    @property
+    @cached_property
     def apache2_certificates_expiring(self):
         apache2_certificates_expiring = []
         certificate_list = self.apache2_certificates_list
@@ -102,15 +103,15 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
                           core_pkgs=self.ost_projects.packages_core_exprs,
                           other_pkgs=self.ost_projects.packages_dep_exprs)
 
-    @property
+    @cached_property
     def apt_packages_all(self):
         return self.apt.all
 
-    @property
+    @cached_property
     def apt_source_path(self):
         return os.path.join(HotSOSConfig.DATA_ROOT, 'etc/apt/sources.list.d')
 
-    @property
+    @cached_property
     def installed_pkg_release_names(self):
         """
         Get release name for each installed package that we are tracking and
@@ -139,7 +140,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
         log.debug("release name(s) found: %s", ','.join(relnames))
         return list(relnames)
 
-    @property
+    @cached_property
     def release_name(self):
         relnames = self.installed_pkg_release_names
         if relnames:
@@ -177,7 +178,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
         return relname
 
-    @property
+    @cached_property
     def days_to_eol(self):
         if self.release_name != 'unknown':
             eol = OST_EOL_INFO[self.release_name]
@@ -206,7 +207,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
         return interfaces
 
-    @property
+    @cached_property
     def unexpected_masked_services(self):
         """
         Return a list of identified masked services with any services that we
@@ -219,7 +220,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
         expected_masked = self.ost_projects.default_masked_services
         return list(masked.difference(expected_masked))
 
-    @property
+    @cached_property
     def openstack_installed(self):
         if self.apt.core:
             return True

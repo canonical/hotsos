@@ -11,7 +11,7 @@ from hotsos.core.searchtools import (
     SequenceSearchDef,
     SearchDef
 )
-from hotsos.core import utils
+from hotsos.core.utils import cached_property, mktemp_dump
 
 
 class BcacheConfig(ConfigBase):
@@ -46,7 +46,7 @@ class BDev(object):
         return os.path.basename(os.path.realpath(os.path.join(self.path,
                                                               'dev')))
 
-    @property
+    @cached_property
     def name(self):
         return os.path.basename(self.path)
 
@@ -55,6 +55,8 @@ class BDev(object):
         if os.path.exists(cfg):
             with open(cfg) as fd:
                 return fd.read().strip()
+
+        raise AttributeError("{} not found in bdev config".format(key))
 
 
 class Cacheset(object):
@@ -67,7 +69,7 @@ class Cacheset(object):
         for bdev in glob.glob(os.path.join(self.path, 'bdev*')):
             self.bdevs.append(BDev(bdev, self))
 
-    @property
+    @cached_property
     def cfg(self):
         return BcacheConfig(self.path)
 
@@ -76,6 +78,8 @@ class Cacheset(object):
         if os.path.exists(cfg):
             with open(cfg) as fd:
                 return fd.read().strip()
+
+        raise AttributeError("{} not found in cacheset config".format(key))
 
 
 class BcacheBase(StorageBase):
@@ -97,7 +101,7 @@ class BcacheBase(StorageBase):
 
             self.cachesets.append(Cacheset(entry))
 
-    @property
+    @cached_property
     def bcache_enabled(self):
         """ Return True if there are any backing devices configured. """
         if self.cachesets:
@@ -107,7 +111,7 @@ class BcacheBase(StorageBase):
 
         return False
 
-    @property
+    @cached_property
     def udev_bcache_devs(self):
         """ If bcache devices exist fetch information and return as a list. """
         if self._bcache_devs:
@@ -121,7 +125,7 @@ class BcacheBase(StorageBase):
         sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
                                  body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
                                  tag="bcacheinfo")
-        s.add_search_term(sdef, utils.mktemp_dump('\n'.join(udevadm_info)))
+        s.add_search_term(sdef, mktemp_dump('\n'.join(udevadm_info)))
         results = s.search()
         devs = []
         for section in results.find_sequence_sections(sdef).values():

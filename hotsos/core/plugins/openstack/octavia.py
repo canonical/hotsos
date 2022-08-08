@@ -1,4 +1,5 @@
 from hotsos.core.plugins.openstack.openstack import OSTServiceBase
+from hotsos.core.utils import cached_property
 
 OCTAVIA_HM_PORT_NAME = 'o-hm0'
 
@@ -29,7 +30,7 @@ class OctaviaBase(OSTServiceBase):
 
         return True
 
-    @property
+    @cached_property
     def hm_port_healthy(self):
         port = self.bind_interfaces.get(OCTAVIA_HM_PORT_NAME)
         if port is None:

@@ -7,7 +7,6 @@ from . import utils
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.issues import IssuesManager
 from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.plugins.rabbitmq import RabbitMQReport
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.rabbitmq import summary
 
@@ -31,44 +30,6 @@ class TestRabbitmqBase(utils.BaseTestCase):
         setup_config(PLUGIN_NAME='rabbitmq',
                      DATA_ROOT=os.path.join(utils.TESTS_DIR,
                                             'fake_data_root/rabbitmq'))
-
-
-class TestRabbitMQReport(TestRabbitmqBase):
-
-    def test_property_caching(self):
-        report = RabbitMQReport()
-        cached_props = ['connections_searchdef',
-                        'memory_searchdef',
-                        'cluster_partition_handling_searchdef',
-                        'queues_searchdef']
-        self.assertEqual(sorted(report._property_cache.keys()),
-                         sorted(cached_props))
-
-        vhosts = report.vhosts
-        self.assertEqual([v.name for v in vhosts], ['/', 'openstack'])
-        cached_props.append('vhosts')
-        self.assertEqual(sorted(report._property_cache.keys()),
-                         sorted(cached_props))
-
-        report.memory_used
-        cached_props.append('memory_used')
-        self.assertEqual(sorted(report._property_cache.keys()),
-                         sorted(cached_props))
-
-        report.connections
-        cached_props.append('connections')
-        self.assertEqual(sorted(report._property_cache.keys()),
-                         sorted(cached_props))
-
-        with mock.patch.object(report.results, 'find_sequence_sections') as \
-                mock_results:
-            self.assertEqual(report.skewed_nodes,
-                             {'rabbit@juju-04f1e3-1-lxd-5': 1})
-            cached_props.append('skewed_nodes')
-            self.assertEqual(sorted(report._property_cache.keys()),
-                             sorted(cached_props))
-            # we dont expect this to be called again
-            self.assertFalse(mock_results.called)
 
 
 class TestRabbitmqSummary(TestRabbitmqBase):

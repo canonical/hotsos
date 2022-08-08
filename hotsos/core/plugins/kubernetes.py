@@ -8,6 +8,7 @@ from hotsos.core.host_helpers import (
     SnapPackageChecksBase,
     ServiceChecksBase,
 )
+from hotsos.core.utils import cached_property
 
 SERVICES = [r"etcd\S*",
             r"calico\S*",
@@ -48,7 +49,7 @@ class KubernetesBase(object):
         self._containers = []
         self._pods = []
 
-    @property
+    @cached_property
     def flannel_ports(self):
         ports = []
         for port in self.nethelp.host_interfaces:
@@ -57,14 +58,14 @@ class KubernetesBase(object):
 
         return ports
 
-    @property
+    @cached_property
     def bind_interfaces(self):
         """
         Fetch interfaces used by Kubernetes.
         """
         return {'flannel': self.flannel_ports}
 
-    @property
+    @cached_property
     def pods(self):
         if self._pods:
             return self._pods
@@ -79,7 +80,7 @@ class KubernetesBase(object):
         self._pods = sorted(_pods)
         return self._pods
 
-    @property
+    @cached_property
     def containers(self):
         if self._containers:
             return self._containers

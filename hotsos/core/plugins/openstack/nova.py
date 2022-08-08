@@ -15,20 +15,17 @@ from hotsos.core.plugins.system.system import (
     NUMAInfo,
     SystemBase,
 )
+from hotsos.core.utils import cached_property
 
 
 class NovaBase(OSTServiceBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__('nova', *args, **kwargs)
-        self._instances = None
         self.nova_config = self.project.config['main']
 
-    @property
+    @cached_property
     def instances(self):
-        if self._instances is not None:
-            return self._instances
-
         instances = {}
         for line in CLIHelper().ps():
             ret = re.compile('.+product=OpenStack Nova.+').match(line)
@@ -65,11 +62,7 @@ class NovaBase(OSTServiceBase):
 
                 instances[uuid] = guest
 
-        if not instances:
-            return {}
-
-        self._instances = instances
-        return self._instances
+        return instances
 
     def get_nova_config_port(self, cfg_key):
         """
@@ -81,17 +74,17 @@ class NovaBase(OSTServiceBase):
 
         return self.nethelp.get_interface_with_addr(addr)
 
-    @property
+    @cached_property
     def my_ip_port(self):
         # NOTE: my_ip can be an address or fqdn, we currently only support
         # searching by address.
         return self.get_nova_config_port('my_ip')
 
-    @property
+    @cached_property
     def live_migration_inbound_addr_port(self):
         return self.get_nova_config_port('live_migration_inbound_addr')
 
-    @property
+    @cached_property
     def bind_interfaces(self):
         """
         Fetch interfaces used by Openstack Nova. Returned dict is keyed by
@@ -122,22 +115,22 @@ class CPUPinning(NovaBase):
         self.cpuaffinity = set(self.systemd.get('CPUAffinity',
                                                 expand_to_list=True) or [])
 
-    @property
+    @cached_property
     def cpu_dedicated_set(self):
         key = 'cpu_dedicated_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
-    @property
+    @cached_property
     def cpu_shared_set(self):
         key = 'cpu_shared_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
-    @property
+    @cached_property
     def vcpu_pin_set(self):
         key = 'vcpu_pin_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
-    @property
+    @cached_property
     def cpu_dedicated_set_name(self):
         """
         If the vcpu_pin_set option has a value, we use that option as the name.
@@ -147,7 +140,7 @@ class CPUPinning(NovaBase):
 
         return 'cpu_dedicated_set'
 
-    @property
+    @cached_property
     def cpu_dedicated_set_intersection_isolcpus(self):
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
@@ -156,7 +149,7 @@ class CPUPinning(NovaBase):
 
         return list(pinset.intersection(self.isolcpus))
 
-    @property
+    @cached_property
     def cpu_dedicated_set_intersection_cpuaffinity(self):
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
@@ -165,15 +158,15 @@ class CPUPinning(NovaBase):
 
         return list(pinset.intersection(self.cpuaffinity))
 
-    @property
+    @cached_property
     def cpu_shared_set_intersection_isolcpus(self):
         return list(set(self.cpu_shared_set).intersection(self.isolcpus))
 
-    @property
+    @cached_property
     def cpuaffinity_intersection_isolcpus(self):
         return list(self.cpuaffinity.intersection(self.isolcpus))
 
-    @property
+    @cached_property
     def cpu_shared_set_intersection_cpu_dedicated_set(self):
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
@@ -182,13 +175,13 @@ class CPUPinning(NovaBase):
 
         return list(set(self.cpu_shared_set).intersection(pinset))
 
-    @property
+    @cached_property
     def num_unpinned_cpus(self):
         num_cpus = SystemBase().num_cpus
         total_isolated = len(self.isolcpus.union(self.cpuaffinity))
         return num_cpus - total_isolated
 
-    @property
+    @cached_property
     def unpinned_cpus_pcent(self):
         num_cpus = SystemBase().num_cpus
         if num_cpus and self.num_unpinned_cpus:
@@ -196,7 +189,7 @@ class CPUPinning(NovaBase):
 
         return 0
 
-    @property
+    @cached_property
     def nova_pinning_from_multi_numa_nodes(self):
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
